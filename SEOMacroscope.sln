@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 5.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEOMacroscope", "SEOMacroscope.csproj", "{8283DF74-475A-44E4-83D4-7249E0D9AAFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8283DF74-475A-44E4-83D4-7249E0D9AAFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8283DF74-475A-44E4-83D4-7249E0D9AAFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8283DF74-475A-44E4-83D4-7249E0D9AAFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8283DF74-475A-44E4-83D4-7249E0D9AAFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
