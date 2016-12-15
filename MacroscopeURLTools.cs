@@ -4,9 +4,13 @@ using System.Text.RegularExpressions;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeURLTools
+	public class MacroscopeURLTools : Macroscope
 	{
 
+		/**************************************************************************/
+
+		static Macroscope ms = new Macroscope();
+		
 		/**************************************************************************/
 
 		public MacroscopeURLTools ()
@@ -41,9 +45,9 @@ namespace SEOMacroscope
 					);
 			   	
 				} catch (InvalidOperationException ex) {
-					debug_msg( ex.Message );
+					ms.debug_msg( ex.Message );
 				} catch (UriFormatException ex) {
-					debug_msg( ex.Message );
+					ms.debug_msg( ex.Message );
 				}
 				
 			} else if (reQuery.IsMatch( sURL )) {
@@ -60,9 +64,9 @@ namespace SEOMacroscope
 					);
 			   	
 				} catch (InvalidOperationException ex) {
-					debug_msg( ex.Message );
+					ms.debug_msg( ex.Message );
 				} catch (UriFormatException ex) {
-					debug_msg( ex.Message );
+					ms.debug_msg( ex.Message );
 				}
 
 			} else if (reHash.IsMatch( sURL )) {
@@ -83,9 +87,9 @@ namespace SEOMacroscope
 					);
 			   	
 				} catch (InvalidOperationException ex) {
-					debug_msg( ex.Message );
+					ms.debug_msg( ex.Message );
 				} catch (UriFormatException ex) {
-					debug_msg( ex.Message );
+					ms.debug_msg( ex.Message );
 				}
 
 			} else if (reHTTP.IsMatch( sURL )) {
@@ -93,9 +97,9 @@ namespace SEOMacroscope
 				try {
 					uNew = new Uri (sURL, UriKind.Absolute);
 				} catch (InvalidOperationException ex) {
-					debug_msg( ex.Message );
+					ms.debug_msg( ex.Message );
 				} catch (UriFormatException ex) {
-					debug_msg( ex.Message );
+					ms.debug_msg( ex.Message );
 				}
 
 			} else {
@@ -123,27 +127,27 @@ namespace SEOMacroscope
 			try {
 				uBase = new Uri (sBaseURL, UriKind.Absolute);
 			} catch (InvalidOperationException ex) {
-				debug_msg( ex.Message );
-				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
+				ms.debug_msg( ex.Message );
+				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
 			} catch (UriFormatException ex) {
-				debug_msg( ex.Message );
-				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
+				ms.debug_msg( ex.Message );
+				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
 			} catch (Exception ex) {
-				debug_msg( ex.Message );
-				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
+				ms.debug_msg( ex.Message );
+				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
 			}
 
 			try {
 				uNew = new Uri (sURL, UriKind.Absolute);
 			} catch (InvalidOperationException ex) {
-				debug_msg( ex.Message );
-				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
+				ms.debug_msg( ex.Message );
+				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
 			} catch (UriFormatException ex) {
-				debug_msg( ex.Message );
-				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
+				ms.debug_msg( ex.Message );
+				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
 			} catch (Exception ex) {
-				debug_msg( ex.Message );
-				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
+				ms.debug_msg( ex.Message );
+				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
 			}
 
 			try {
@@ -151,8 +155,8 @@ namespace SEOMacroscope
 					bSuccess = true;
 				}
 			} catch (UriFormatException ex) {
-				debug_msg( ex.Message );
-				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
+				ms.debug_msg( ex.Message );
+				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
 			}
 			
 			return( bSuccess );
@@ -169,9 +173,9 @@ namespace SEOMacroscope
 			try {
 				uURI = new Uri (sURL, UriKind.Absolute);
 			} catch (InvalidOperationException ex) {
-				debug_msg( ex.Message );
+				ms.debug_msg( ex.Message );
 			} catch (UriFormatException ex) {
-				debug_msg( ex.Message );
+				ms.debug_msg( ex.Message );
 			}
 
 			if (uURI != null) {
@@ -185,18 +189,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		static void debug_msg( String sMsg )
-		{
-			System.Diagnostics.Debug.WriteLine( sMsg );
-		}
-
-		static void debug_msg( String sMsg, int iOffset )
-		{
-			String sMsgPadded = new String (' ', iOffset * 2) + sMsg;
-			System.Diagnostics.Debug.WriteLine( sMsgPadded );
-		}
-
-		/**************************************************************************/
 	}
 	
 }

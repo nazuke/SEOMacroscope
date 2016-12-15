@@ -65,6 +65,12 @@
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PdfSharp">
+      <HintPath>packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting">
+      <HintPath>packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="RobotsTxt">
       <HintPath>packages\RobotsTxt.2014.02.19\lib\RobotsTxt.dll</HintPath>
     </Reference>
@@ -84,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeDocument.cs" />
     <Compile Include="MacroscopeExcelReports.cs" />
     <Compile Include="MacroscopeFetchJob.cs" />
@@ -91,6 +98,7 @@
     <Compile Include="MacroscopeJob.cs" />
     <Compile Include="MacroscopeLocaleTools.cs" />
     <Compile Include="MacroscopeLocker.cs" />
+    <Compile Include="MacroscopePDFTools.cs" />
     <Compile Include="MacroscopeRobots.cs" />
     <Compile Include="MacroscopeURLTools.cs" />
     <Compile Include="MainForm.cs" />

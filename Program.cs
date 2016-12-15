@@ -51,7 +51,7 @@ namespace SEOMacroscope
 		}
 
 		#endif
-		
+
 		static void debug_msg( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
