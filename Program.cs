@@ -15,10 +15,29 @@ namespace SEOMacroscope
 		{
 			debug_msg( "SEO Macroscope" );
 			MacroscopeJob msJob = new MacroscopeJob ();
+
+			string sPathExcelHrefLangs = Environment.GetEnvironmentVariable( "TEMP" ).ToString();
+
 			msJob.start_url = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" ).ToString();
-			msJob.depth = 2;
+			msJob.depth = 10;
+			msJob.page_limit = 10;
 			msJob.probe_hreflangs = false;
+
 			msJob.run();
+
+			msJob.list_results();
+
+			MacroscopeExcelReports msExcelReports = new MacroscopeExcelReports();
+			msExcelReports.write_xslx_file_hreflangs(
+				msJob,
+				string.Join(
+					"",
+					sPathExcelHrefLangs,
+					System.IO.Path.DirectorySeparatorChar,
+					"excel_hreflang"
+				)
+			);
+
 		}
 
 		#else
@@ -40,7 +59,7 @@ namespace SEOMacroscope
 
 		static void debug_msg( String sMsg, int iOffset )
 		{
-			String sMsgPadded = new String (' ', iOffset * 2) + sMsg;
+			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
 

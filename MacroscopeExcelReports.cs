@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Net;
-using HtmlAgilityPack;
 using ClosedXML.Excel;
-using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -20,29 +15,28 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-
 		
-		void write_xslx_file( string sOutputFilename )
+		public void write_xslx_file_hreflangs( MacroscopeJob msJob, string sOutputFilename )
 		{				
+			string sOutputPath = sOutputFilename + ".xlsx";
 			var wb = new XLWorkbook ();
-			//this.build_worksheet( wb, "Macroscope", false );
-			/*
-			foreach (string sLocaleBase in this.htBaseURLs.Keys) {
-				this.build_worksheet( wb, sLocaleBase, true );
-			}
-			*/
-			wb.SaveAs( sOutputFilename + ".xlsx" );
+			debug_msg( string.Format( "EXCEL sOutputPath: {0}", sOutputPath ), 1 );
+			this.build_worksheet_hreflangs( msJob, wb, "Macroscope", false );
+			wb.SaveAs( sOutputPath );
 		}
 
 		/**************************************************************************/
-/*
-		void build_worksheet( XLWorkbook wb, string sLocaleBase, Boolean bCheck )
+
+		void build_worksheet_hreflangs( MacroscopeJob msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
 		{				
-			var ws = wb.Worksheets.Add( sLocaleBase );
+			var ws = wb.Worksheets.Add( sWorksheetLabel );
 			
 			int iRow = 1;
 			int iCol = 1;
 			int iColMax = 1;
+
+			Hashtable htLocales = ( Hashtable )msJob.get_locales();
+			Hashtable htDocCollection = ( Hashtable )msJob.get_doc_collection();
 			
 			Hashtable htLocaleCols = new Hashtable ();
 			
@@ -51,22 +45,19 @@ namespace SEOMacroscope
 				ws.Cell( iRow, iCol ).Value = "Site Locale";
 				ws.Cell( iRow, iCol ).Style.Font.SetBold();
 				iCol++;
-				
-				ws.Cell( iRow, iCol ).Value = "Site Breadcrumb";
-				ws.Cell( iRow, iCol ).Style.Font.SetBold();
-				iCol++;
-				
-				ws.Cell( iRow, iCol ).Value = "Label";
+
+				ws.Cell( iRow, iCol ).Value = "Title";
 				ws.Cell( iRow, iCol ).Style.Font.SetBold();
 				iCol++;
 
-				foreach (string sLocale in this.htLocales.Keys) {
+				foreach( string sLocale in htLocales.Keys ) {
+					debug_msg( string.Format( "EXCEL sLocale: {0}", sLocale ), 2 );
 					htLocaleCols[ sLocale ] = iCol;
 					ws.Cell( iRow, iCol ).Value = sLocale;
 					ws.Cell( iRow, iCol ).Style.Font.SetBold();
 					iCol++;
 				}
-			
+
 			}
 			
 			iColMax = iCol;
@@ -74,61 +65,47 @@ namespace SEOMacroscope
 			iRow++;
 
 			{
-				foreach (string sHref in this.htMappedURLs.Keys) {
 				
-					MegaMenuMappedURL mURL = (MegaMenuMappedURL)this.htMappedURLs[ sHref ];
-				
+				foreach( string sKey in htDocCollection.Keys ) {
+
+					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKey ];
+					Hashtable htHrefLangs = ( Hashtable )msDoc.get_hreflangs();
+					
 					string sSiteLocale;
-					string sBreadcrumb;
-					string sLabel;
+					string sTitle;
 
-					if (bCheck && ( !mURL.locale.Equals( sLocaleBase ) )) {
-						continue;
-					}
-
-					if (mURL.locale == null) {
+					if( msDoc.locale == null ) {
 						sSiteLocale = "MISSING";
 					} else {
-						sSiteLocale = mURL.locale.ToString();
+						sSiteLocale = msDoc.locale;
 					}
 					
-					if (mURL.breadcrumb == null) {
-						sBreadcrumb = "MISSING";
+					if( msDoc.title == null ) {
+						sTitle = "MISSING";
 					} else {
-						sBreadcrumb = mURL.breadcrumb.ToString();
+						sTitle = msDoc.title;
 					}
-					
-					if (mURL.label == null) {
-						sLabel = "MISSING";
-					} else {
-						sLabel = mURL.label.ToString();
-					}
-				
+
 					ws.Cell( iRow, 1 ).Value = sSiteLocale;
-					if (sSiteLocale == "MISSING") {
+					if( sSiteLocale == "MISSING" ) {
 						ws.Cell( iRow, 1 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
 					}
 
-					ws.Cell( iRow, 2 ).Value = sBreadcrumb;
-					if (sBreadcrumb == "MISSING") {
-						ws.Cell( iRow, 2 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
-					}
-
-					ws.Cell( iRow, 3 ).Value = sLabel;
-					if (sLabel == "MISSING") {
+					ws.Cell( iRow, 2 ).Value = sTitle;
+					if( sTitle == "MISSING" ) {
 						ws.Cell( iRow, 3 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
 					}
 
-					ws.Cell( iRow, (int)htLocaleCols[ mURL.locale ] ).Value = mURL.href.ToString();
+					ws.Cell( iRow, ( int )htLocaleCols[ msDoc.locale ] ).Value = msDoc.get_url();
 
-					foreach (string sLocale in this.htLocales.Keys) {
-						if (mURL.alternates.ContainsKey( sLocale )) {
-							ws.Cell( iRow, (int)htLocaleCols[ sLocale ] ).Value = mURL.alternates[ sLocale ];
+					foreach( string sLocale in htLocales.Keys ) {
+						if( htHrefLangs.ContainsKey( sLocale ) ) {
+							MacroscopeHrefLang msHrefLang = (MacroscopeHrefLang)htHrefLangs[ sLocale ];
+							ws.Cell( iRow, ( int )htLocaleCols[ sLocale ] ).Value = msHrefLang.get_url();
 						} else {
-							ws.Cell( iRow, (int)htLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
-							ws.Cell( iRow, (int)htLocaleCols[ sLocale ] ).Value = "MISSING";					
+							ws.Cell( iRow, ( int )htLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+							ws.Cell( iRow, ( int )htLocaleCols[ sLocale ] ).Value = "MISSING";					
 						}
-
 					}
 
 					iRow++;
@@ -140,15 +117,25 @@ namespace SEOMacroscope
 			{
 				var rangeData = ws.Range( 1, 1, iRow - 1, iColMax - 1 );
 				var excelTable = rangeData.CreateTable();
-				//excelTable.Sort( "Site Locale", XLSortOrder.Ascending, false, true );				
+				excelTable.Sort( "Title", XLSortOrder.Ascending, false, true );				
 			}
-
-
 
 			ws.Columns().AdjustToContents();
 
 		}
-*/
+
+		/**************************************************************************/
+
+		void debug_msg( String sMsg )
+		{
+			System.Diagnostics.Debug.WriteLine( sMsg );
+		}
+
+		void debug_msg( String sMsg, int iOffset )
+		{
+			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
+			System.Diagnostics.Debug.WriteLine( sMsgPadded );
+		}
 
 		/**************************************************************************/
 		

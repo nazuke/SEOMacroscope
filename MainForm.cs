@@ -18,5 +18,13 @@ namespace SEOMacroscope
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 		}
+		void GenerateHrefLangExcelReportToolStripMenuItemClick( object sender, EventArgs e )
+		{
+	
+		}
+		void FlowLayoutPanel1Paint( object sender, PaintEventArgs e )
+		{
+	
+		}
 	}
 }

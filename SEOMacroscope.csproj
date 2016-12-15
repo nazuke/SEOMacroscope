@@ -30,7 +30,7 @@
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE,BUILD_TEXT_VERSION</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
   </PropertyGroup>
@@ -41,6 +41,16 @@
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug Text Only' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE,BUILD_TEXT_VERSION</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML">
@@ -77,7 +87,9 @@
     <Compile Include="MacroscopeDocument.cs" />
     <Compile Include="MacroscopeExcelReports.cs" />
     <Compile Include="MacroscopeFetchJob.cs" />
+    <Compile Include="MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeJob.cs" />
+    <Compile Include="MacroscopeLocaleTools.cs" />
     <Compile Include="MacroscopeLocker.cs" />
     <Compile Include="MacroscopeRobots.cs" />
     <Compile Include="MacroscopeURLTools.cs" />
@@ -91,6 +103,11 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
