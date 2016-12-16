@@ -121,8 +121,10 @@ namespace SEOMacroscope
 				{
 					string sLocale = msDoc.locale;
 					Hashtable htHrefLangs = ( Hashtable )msDoc.get_hreflangs();
-					if( !this.locales.ContainsKey( sLocale ) ) {
-						this.locales[ sLocale ] = sLocale;
+					if( sLocale != null ) {
+						if( !this.locales.ContainsKey( sLocale ) ) {
+							this.locales[ sLocale ] = sLocale;
+						}
 					}
 					foreach( string sKeyLocale in htHrefLangs.Keys ) {
 						if( !this.locales.ContainsKey( sKeyLocale ) ) {

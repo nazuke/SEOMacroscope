@@ -19,7 +19,8 @@ namespace SEOMacroscope
 			string sPathExcelHrefLangs = Environment.GetEnvironmentVariable( "TEMP" ).ToString();
 
 			msJob.start_url = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" ).ToString();
-			msJob.depth = 10;
+
+			msJob.depth = 5;
 			msJob.page_limit = 10;
 			msJob.probe_hreflangs = false;
 
@@ -28,7 +29,18 @@ namespace SEOMacroscope
 			msJob.list_results();
 
 			MacroscopeExcelReports msExcelReports = new MacroscopeExcelReports();
-			msExcelReports.write_xslx_file_hreflangs(
+
+			msExcelReports.write_xslx_file_overview(
+				msJob,
+				string.Join(
+					"",
+					sPathExcelHrefLangs,
+					System.IO.Path.DirectorySeparatorChar,
+					"excel_overview"
+				)
+			);
+
+			msExcelReports.write_xslx_file_hreflang(
 				msJob,
 				string.Join(
 					"",
