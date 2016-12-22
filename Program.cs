@@ -9,6 +9,15 @@ namespace SEOMacroscope
 	internal sealed class Program
 	{
 
+		static Boolean bExiting; // Set to true to indicate in Exiting mode
+		
+		public static void Exit () {
+			bExiting = true;
+			// do cleanup
+			debug_msg( "Exiting" );
+			Application.Exit();
+		}
+
 		#if BUILD_TEXT_VERSION
 		
 		public static void Main( string[] args )
@@ -57,9 +66,10 @@ namespace SEOMacroscope
 		[STAThread]
 		private static void Main( string[] args )
 		{
+			bExiting = false;
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault( false );
-			Application.Run( new MainForm () );
+			Application.Run( new MacroscopeMainForm () );
 		}
 
 		#endif

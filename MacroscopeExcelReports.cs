@@ -50,6 +50,9 @@ namespace SEOMacroscope
 				
 				ws.Cell( iRow, iCol ).Value = "Content-Type";
 				iCol++;
+				
+				ws.Cell( iRow, iCol ).Value = "Server Date";
+				iCol++;
 
 				ws.Cell( iRow, iCol ).Value = "Canonical";
 				iCol++;
@@ -78,6 +81,7 @@ namespace SEOMacroscope
 					string sStatusCode = format_if_missing( msDoc.get_status_code().ToString() );
 					string sSiteLocale = format_if_missing( msDoc.locale );	
 					string sMimeType = format_if_missing( msDoc.mime_type );	
+					string sDateServer = format_if_missing( msDoc.get_date_server() );
 					string sCanonical = format_if_missing( msDoc.canonical );
 					string sTitle = format_if_missing( msDoc.title );
 					
@@ -91,6 +95,9 @@ namespace SEOMacroscope
 					iCol++;
 
 					this.insert_and_format_content_cell( ws, iRow, iCol, sMimeType );
+					iCol++;	
+					
+					this.insert_and_format_content_cell( ws, iRow, iCol, sDateServer );
 					iCol++;	
 
 					this.insert_and_format_content_cell( ws, iRow, iCol, sCanonical );

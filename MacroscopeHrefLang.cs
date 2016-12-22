@@ -14,6 +14,7 @@ namespace SEOMacroscope
 		Boolean enable_probe;
 		string locale;
 		string url;
+		DateTime date_modified;
 		Boolean available;
 		
 		/**************************************************************************/

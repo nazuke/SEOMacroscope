@@ -98,13 +98,13 @@
     <Compile Include="MacroscopeJob.cs" />
     <Compile Include="MacroscopeLocaleTools.cs" />
     <Compile Include="MacroscopeLocker.cs" />
+    <Compile Include="MacroscopeMainForm.cs" />
+    <Compile Include="MacroscopeMainForm.Designer.cs">
+      <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopePDFTools.cs" />
     <Compile Include="MacroscopeRobots.cs" />
     <Compile Include="MacroscopeURLTools.cs" />
-    <Compile Include="MainForm.cs" />
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -113,8 +113,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="MacroscopeMainForm.resx">
+      <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

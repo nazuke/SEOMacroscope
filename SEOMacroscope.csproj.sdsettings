@@ -1,2 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Properties />
+<Properties>
+  <Properties key="CSharpFormatting">
+    <Property key="IndentationSize">2</Property>
+    <Property key="ConvertTabsToSpaces">False</Property>
+  </Properties>
+</Properties>
