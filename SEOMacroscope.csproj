@@ -91,9 +91,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Macroscope.cs" />
+    <Compile Include="MacroscopeDisplayHrefLang.cs" />
+    <Compile Include="MacroscopeDisplayStructure.cs" />
     <Compile Include="MacroscopeDocument.cs" />
     <Compile Include="MacroscopeExcelReports.cs" />
-    <Compile Include="MacroscopeFetchJob.cs" />
+    <Compile Include="MacroscopeJobThread.cs" />
     <Compile Include="MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeJob.cs" />
     <Compile Include="MacroscopeLocaleTools.cs" />

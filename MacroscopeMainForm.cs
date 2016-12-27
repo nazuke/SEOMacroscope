@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -10,76 +11,161 @@ namespace SEOMacroscope
 	{
 		
 		/**************************************************************************/
+
+		MacroscopeDisplayStructure msDisplayStructure;
+		MacroscopeDisplayHrefLang msDisplayHrefLang;
 				
+		Thread tScanningThread;
+		
 		/**************************************************************************/
 
-		public MacroscopeMainForm()
+		public MacroscopeMainForm ()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
+			InitializeComponent();// The InitializeComponent() call is required for Windows Forms designer support.
+
+			msDisplayStructure = new MacroscopeDisplayStructure ( this );
+			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this );
 			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
+			this.textBoxURL.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" ).ToString();
+
+			tScanningThread = new Thread ( new ThreadStart ( ScanningThread ) );
+
 		}
 		
 		/**************************************************************************/
-				
-		void CallbackFileExit(object sender, EventArgs e)
+
+		public DataGridView GetDisplayStructure()
 		{
-			Program.Exit();
+			return( this.dataGridStructure );
+		}
+
+		/**************************************************************************/
+
+		public DataGridView GetDisplayHrefLang()
+		{
+			return( this.dataGridHrefLang );
 		}
 
 		/**************************************************************************/
 				
-		void CallbackScanStart(object sender, EventArgs e)
+		public string GetURL()
 		{
-			this.UpdateDisplayStructure(); //dummy
+			return( this.textBoxURL.Text );
+		}
+
+		/**************************************************************************/
+
+		public void SetURL( string sURL )
+		{
+			this.textBoxURL.Text = sURL;
 		}
 
 		/**************************************************************************/
 				
-		void CallbackScanReset(object sender, EventArgs e)
-		{
-
-					
-		}
-
-		/**************************************************************************/
-		
-		/**************************************************************************/
-		
-		
-		void UpdateDisplayStructure()
+		void CallbackFileExit( object sender, EventArgs e )
 		{
 			
-			DataGrid dg = this.dataGridStructure;
-			DataSet ds = new DataSet();
-	
-
-
-			DataTable dt = new DataTable("Overview");
-			
-			DataColumn dcUrl = new DataColumn("URL", typeof(string));
-			
-			dt.Columns.Add(dcUrl);
-
-			ds.Tables.Add(dt);
-
-			DataRow dtRow;
-
-			for (int i = 0; i < 10; i++) {
-				dtRow = dt.NewRow();
-				dtRow["URL"] = "bongo";
-				dt.Rows.Add(dtRow);
+			if( this.tScanningThread.IsAlive ) {
+				this.tScanningThread.Abort();
 			}
 
-			//dg.SetDataBinding(ds, "Structure");
+			Program.Exit();
 
 		}
+
+		/**************************************************************************/
+				
+		void CallbackScanStart( object sender, EventArgs e )
+		{
+
+			if( !this.tScanningThread.IsAlive ) {
+				this.tScanningThread.Start();
+			}
+
+		}
+
+		/**************************************************************************/
+
+		void CallbackScanPause( object sender, EventArgs e )
+		{
+			if( this.tScanningThread.IsAlive ) {
+				;
+			}
+		}
+
+		/**************************************************************************/
+				
+		void CallbackScanReset( object sender, EventArgs e )
+		{
+
+			if( this.tScanningThread.IsAlive ) {
+				this.tScanningThread.Abort();
+			}
+					
+		}
 		
+		/**************************************************************************/
+
+		void CallbackDataError( object sender, DataGridViewDataErrorEventArgs e )
+		{
+			debug_msg( "EVENT: DataError" );
+		}
 		
+		/**************************************************************************/
+		
+		void CallbackRowsAdded( object sender, DataGridViewRowsAddedEventArgs e )
+		{
+			debug_msg( "EVENT: RowsAdded" );
+			this.Update();
+		}
+				
+		/**************************************************************************/
+
+		void ScanningThread()
+		{
+			debug_msg( "Scanning Thread: Started." );
+			MacroscopeJobThread msJob = new MacroscopeJobThread ( this );
+			msJob.Run();
+			debug_msg( "Scanning Thread: Done." );
+		}
+
+		/**************************************************************************/
+
+		public void UpdateDisplayStructure( MacroscopeJob msJob )
+		{
+
+			this.msDisplayStructure.RefreshData( msJob.get_doc_collection() );
+
+			this.msDisplayHrefLang.RefreshData( msJob.get_doc_collection(), msJob.get_locales() );
+
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate {
+							this.Refresh();
+							this.Update();
+						}
+					)
+				);
+			}
+
+		}
+
+		/**************************************************************************/
+	
+		static void debug_msg( String sMsg )
+		{
+			System.Diagnostics.Debug.WriteLine( sMsg );
+		}
+
+		static void debug_msg( String sMsg, int iOffset )
+		{
+			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
+			System.Diagnostics.Debug.WriteLine( sMsgPadded );
+		}
+
+		/**************************************************************************/
+			
 	}
+	
 }

@@ -27,11 +27,12 @@ namespace SEOMacroscope
 		Hashtable doc_collection;
 		Hashtable locales;
 		
+		MacroscopeJobThread msJobThread;
 		MacroscopeRobots robots;
 				
 		/**************************************************************************/
 
-		public MacroscopeJob ()
+		public MacroscopeJob ( MacroscopeJobThread msJobThreadNew )
 		{
 			depth = 10;
 			page_limit = -1;
@@ -41,6 +42,7 @@ namespace SEOMacroscope
 			history = new Hashtable ( 4096 );
 			doc_collection = new Hashtable ( 4096 );
 			locales = new Hashtable ( 32 );
+			msJobThread = msJobThreadNew;
 			robots = new MacroscopeRobots ();
 		}
 
@@ -161,6 +163,9 @@ namespace SEOMacroscope
 									debug_msg( string.Format( "RECURSING INTO: {0}", sOutlinkURL ), 2 );
 									this.pages_found++;
 									this.history.Add( sOutlinkURL, true );
+
+									this.msJobThread.Update();
+
 									this.recurse( sURL, sOutlinkURL, iDepth + 1 );
 								}
 
