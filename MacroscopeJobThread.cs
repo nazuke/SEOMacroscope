@@ -33,7 +33,7 @@ namespace SEOMacroscope
 			msJob.start_url = msMainForm.GetURL();
 			
 			msJob.depth = 5;
-			msJob.page_limit = 10;
+			msJob.page_limit = 1000;
 			msJob.probe_hreflangs = false;
 
 			msJob.run();
