@@ -14,7 +14,9 @@ namespace SEOMacroscope
 
 		MacroscopeDisplayStructure msDisplayStructure;
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
-				
+		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
+		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
+
 		Thread tScanningThread;
 		
 		/**************************************************************************/
@@ -23,48 +25,63 @@ namespace SEOMacroscope
 		{
 			InitializeComponent();// The InitializeComponent() call is required for Windows Forms designer support.
 
+			MacroscopePreferences.LoadPreferences();
+						
 			msDisplayStructure = new MacroscopeDisplayStructure ( this );
 			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this );
+			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this );
+			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this );
 			
 			this.textBoxURL.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" ).ToString();
 
-			//tScanningThread = new Thread ( new ThreadStart ( ScanningThread ) );
-			
 			this.ScanningEnableControls();
 
 		}
 		
 		/**************************************************************************/
 
-		public DataGridView GetDisplayStructure()
+		public DataGridView GetDisplayStructure ()
 		{
 			return( this.dataGridStructure );
 		}
 
 		/**************************************************************************/
 
-		public DataGridView GetDisplayHrefLang()
+		public DataGridView GetDisplayHrefLang ()
 		{
 			return( this.dataGridHrefLang );
 		}
 
 		/**************************************************************************/
+		
+		public DataGridView GetDisplayEmailAddresses ()
+		{
+			return( this.dataGridEmailAddresses );
+		}
+		
+		/**************************************************************************/
+		public DataGridView GetDisplayTelephoneNumbers ()
+		{
+			return( this.dataGridTelephoneNumbers );
+		}
+
+		/**************************************************************************/
 				
-		public string GetURL()
+		public string GetURL ()
 		{
 			return( this.textBoxURL.Text );
 		}
 
 		/**************************************************************************/
 
-		public void SetURL( string sURL )
+		public void SetURL ( string sURL )
 		{
 			this.textBoxURL.Text = sURL;
 		}
 
 		/**************************************************************************/
 				
-		void CallbackFileExit( object sender, EventArgs e )
+		void CallbackFileExit ( object sender, EventArgs e )
 		{
 			
 			if( this.tScanningThread.IsAlive ) {
@@ -77,8 +94,9 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		void CallbackScanStart( object sender, EventArgs e )
+		void CallbackScanStart ( object sender, EventArgs e )
 		{
+			MacroscopePreferences.SavePreferences();
 			this.ScanningDisableControls();
 			this.tScanningThread = new Thread ( new ThreadStart ( ScanningThread ) );
 			this.tScanningThread.Start();
@@ -86,7 +104,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void CallbackScanPause( object sender, EventArgs e )
+		void CallbackScanPause ( object sender, EventArgs e )
 		{
 			if( this.tScanningThread.IsAlive ) {
 				;
@@ -96,17 +114,23 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		void CallbackScanReset( object sender, EventArgs e )
+		void CallbackScanReset ( object sender, EventArgs e )
 		{
 			if( this.tScanningThread.IsAlive ) {
 				this.tScanningThread.Abort();
 			}
 			this.ScanningEnableControls();
+			
+			this.dataGridStructure.DataSource = null;
+			this.dataGridHrefLang.DataSource = null;
+			this.dataGridEmailAddresses.DataSource = null;
+			this.dataGridTelephoneNumbers.DataSource = null;
+			
 		}
 		
 		/**************************************************************************/
 		
-		public void CallbackScanComplete()
+		public void CallbackScanComplete ()
 		{
 			if( this.InvokeRequired ) {
 				this.Invoke(
@@ -121,21 +145,21 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		void CallbackDataError( object sender, DataGridViewDataErrorEventArgs e )
+		void CallbackDataError ( object sender, DataGridViewDataErrorEventArgs e )
 		{
 			debug_msg( "EVENT: DataError" );
 		}
 		
 		/**************************************************************************/
 		
-		void CallbackRowsAdded( object sender, DataGridViewRowsAddedEventArgs e )
+		void CallbackRowsAdded ( object sender, DataGridViewRowsAddedEventArgs e )
 		{
 			this.Update();
 		}
 		
 		/**************************************************************************/
 
-		void ScanningDisableControls()
+		void ScanningDisableControls ()
 		{
 			this.textBoxURL.Enabled = false;
 			this.buttonStart.Enabled = false;
@@ -145,7 +169,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void ScanningEnableControls()
+		void ScanningEnableControls ()
 		{
 			this.textBoxURL.Enabled = true;
 			this.buttonStart.Enabled = true;
@@ -155,7 +179,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		void ScanningThread()
+		void ScanningThread ()
 		{
 			debug_msg( "Scanning Thread: Started." );
 			MacroscopeJobThread msJob = new MacroscopeJobThread ( this );
@@ -165,13 +189,17 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void UpdateDisplayStructure( MacroscopeJob msJob )
+		public void UpdateDisplayStructure ( MacroscopeJob msJob )
 		{
 
 			this.msDisplayStructure.RefreshData( msJob.get_doc_collection() );
 
 			this.msDisplayHrefLang.RefreshData( msJob.get_doc_collection(), msJob.get_locales() );
 
+			this.msDisplayEmailAddresses.RefreshData( msJob.get_doc_collection() );
+						
+			this.msDisplayTelephoneNumbers.RefreshData( msJob.get_doc_collection() );
+						
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
@@ -187,7 +215,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		void CallbackDataBindingComplete( object sender, DataGridViewBindingCompleteEventArgs e )
+		void CallbackDataBindingComplete ( object sender, DataGridViewBindingCompleteEventArgs e )
 		{
 			DataGridView dgvGrid = ( DataGridView )sender;
 			dgvGrid.AutoResizeColumns();
@@ -195,15 +223,19 @@ namespace SEOMacroscope
 				
 		/**************************************************************************/
 	
-		static void debug_msg( String sMsg )
+		static void debug_msg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
 
-		static void debug_msg( String sMsg, int iOffset )
+		static void debug_msg ( String sMsg, int iOffset )
 		{
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
+		}
+		void PropertyGrid1Click ( object sender, EventArgs e )
+		{
+	
 		}
 
 

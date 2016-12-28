@@ -19,7 +19,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public static string make_url_absolute( string sBaseURL, string sURL )
+		public static string MakeUrlAbsolute( string sBaseURL, string sURL )
 		{
 
 			string sURLFixed;

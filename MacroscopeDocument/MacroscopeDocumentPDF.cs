@@ -24,9 +24,9 @@ namespace SEOMacroscope
 			Boolean bIs = false;
 			Regex reIs = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
 			try {
-				req = WebRequest.CreateHttp( this.url );
+				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
-				req.Timeout = this.timeout;
+				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				res = ( HttpWebResponse )req.GetResponse();
 				debug_msg( string.Format( "Status: {0}", res.StatusCode ), 2 );
@@ -52,14 +52,14 @@ namespace SEOMacroscope
 			HttpWebResponse res = null;
 
 			try {
-				req = WebRequest.CreateHttp( this.url );
+				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "GET";
-				req.Timeout = this.timeout;
+				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
 				debug_msg( string.Format( "ProcessPdfPage :: WebException: {0}", ex.Message ), 3 );
-				debug_msg( string.Format( "ProcessPdfPage :: WebException: {0}", this.url ), 3 );
+				debug_msg( string.Format( "ProcessPdfPage :: WebException: {0}", this.Url ), 3 );
 			}
 
 			if( res != null ) {
@@ -79,22 +79,22 @@ namespace SEOMacroscope
 						}
 					} while( sStream.CanRead );
 					aRawData = aRawDataList.ToArray();
-					this.content_length = aRawData.Length;
+					this.ContentLength = aRawData.Length;
 					pdfTools = new MacroscopePDFTools ( aRawData );
 				}
 
 				// Status Code
-				this.status_code = this.ProcessStatusCode( res.StatusCode );
-				debug_msg( string.Format( "Status: {0}", this.status_code ), 2 );
+				this.StatusCode = this.ProcessStatusCode( res.StatusCode );
+				debug_msg( string.Format( "Status: {0}", this.StatusCode ), 2 );
 
 				{ // Probe Locale
-					this.locale = "en"; // Implement locale probing
-					this.SetHreflang( this.locale, this.url );
+					this.Locale = "en"; // Implement locale probing
+					this.SetHreflang( this.Locale, this.Url );
 				}
 				
 				{ // Canonical
-					this.canonical = this.url;
-					debug_msg( string.Format( "CANONICAL: {0}", this.canonical ), 3 );
+					this.Canonical = this.Url;
+					debug_msg( string.Format( "CANONICAL: {0}", this.Canonical ), 3 );
 				}
 				
 				// Probe HTTP Headers
@@ -103,17 +103,17 @@ namespace SEOMacroscope
 				}
 
 				// Stash HTTP Headers
-				this.mime_type = res.ContentType;
-				this.content_length = res.ContentLength;
-				debug_msg( string.Format( "Content-Type: {0}", this.mime_type ), 3 );			
-				debug_msg( string.Format( "Content-Length: {0}", this.content_length.ToString() ), 3 );
+				this.MimeType = res.ContentType;
+				this.ContentLength = res.ContentLength;
+				debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );			
+				debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
 
 				{ // Title
 					if( pdfTools != null ) {
 						string sTitle = pdfTools.get_title();
 						if( sTitle != null ) {
-							this.title = sTitle;
-							debug_msg( string.Format( "TITLE: {0}", this.title ), 3 );
+							this.Title = sTitle;
+							debug_msg( string.Format( "TITLE: {0}", this.Title ), 3 );
 						} else {
 							debug_msg( string.Format( "TITLE: {0}", "MISSING" ), 3 );
 						}
@@ -123,7 +123,7 @@ namespace SEOMacroscope
 				res.Close();
 
 			} else {
-				this.status_code = 500;
+				this.StatusCode = 500;
 			}
 
 			return( true );

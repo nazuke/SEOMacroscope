@@ -31,11 +31,6 @@ namespace SEOMacroscope
 			//msJob.start_url = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" ).ToString();
 
 			msJob.start_url = msMainForm.GetURL();
-			
-			msJob.depth = 5;
-			msJob.page_limit = 5;
-			msJob.probe_hreflangs = false;
-
 			msJob.run();
 
 			this.msMainForm.CallbackScanComplete();

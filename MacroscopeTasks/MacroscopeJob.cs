@@ -13,7 +13,7 @@ namespace SEOMacroscope
 		/** BEGIN: Configuration **/
 		
 		public string start_url { get; set; }
-		public int depth { get; set; }
+		public uint depth { get; set; }
 		public int page_limit { get; set; }
 		int page_limit_count;
 		public Boolean same_site { get; set; }
@@ -34,10 +34,11 @@ namespace SEOMacroscope
 
 		public MacroscopeJob ( MacroscopeJobThread msJobThreadNew )
 		{
-			depth = 10;
-			page_limit = -1;
+			depth = MacroscopePreferences.GetDepth();
+			page_limit = MacroscopePreferences.GetPageLimit();
 			page_limit_count = 0;
-			same_site = true;
+			same_site = MacroscopePreferences.GetSameSite();
+			probe_hreflangs = MacroscopePreferences.GetProbeHreflangs();
 			pages_found = 0;
 			history = new Hashtable ( 4096 );
 			doc_collection = new Hashtable ( 4096 );
@@ -85,7 +86,7 @@ namespace SEOMacroscope
 		{
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sURL );
 
-			if( !robots.apply_robot_rule( sURL ) ) {
+			if( !robots.ApplyRobotRule( sURL ) ) {
 				debug_msg( string.Format( "Disallowed by robots.txt: {0}", sURL ), 1 );
 				return( false );
 			}
@@ -97,16 +98,16 @@ namespace SEOMacroscope
 								
 				msDoc = ( MacroscopeDocument )this.doc_collection[ sURL ];
 				if( msDoc != null ) {
-					msDoc.add_inhyperlink( sParentURL );
+					msDoc.AddHyperlinkIn( sParentURL );
 				}
 				return( true );
 
 			} else {
 				this.doc_collection.Add( sURL, msDoc );
-				msDoc.add_inhyperlink( sParentURL );
+				msDoc.AddHyperlinkIn( sParentURL );
 			}
 			
-			if( msDoc.depth > this.depth ) {
+			if( msDoc.Depth > this.depth ) {
 				//debug_msg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
 				this.doc_collection.Remove( sURL );
 				return( true );
@@ -121,8 +122,8 @@ namespace SEOMacroscope
 				this.page_limit_count++;
 
 				{
-					string sLocale = msDoc.locale;
-					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHreflangs();
+					string sLocale = msDoc.Locale;
+					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
 					if( sLocale != null ) {
 						if( !this.locales.ContainsKey( sLocale ) ) {
 							this.locales[ sLocale ] = sLocale;
@@ -135,7 +136,7 @@ namespace SEOMacroscope
 					}
 				}
 
-				Hashtable htOutlinks = msDoc.get_outlinks();
+				Hashtable htOutlinks = msDoc.GetOutlinks();
 
 				foreach( string sOutlinkKey in htOutlinks.Keys ) {
 					string sOutlinkURL = ( string )htOutlinks[ sOutlinkKey ];
@@ -201,39 +202,39 @@ namespace SEOMacroscope
 
 				MacroscopeDocument msDoc = ( MacroscopeDocument )this.doc_collection[ sKey ];
 
-				debug_msg( string.Format( "URL: {0}", msDoc.get_url() ), 3 );
-				debug_msg( string.Format( "Status: {0}", msDoc.status_code.ToString() ), 3 );
+				debug_msg( string.Format( "URL: {0}", msDoc.GetUrl() ), 3 );
+				debug_msg( string.Format( "Status: {0}", msDoc.StatusCode.ToString() ), 3 );
 
-				if( msDoc.mime_type != null ) {
-					debug_msg( string.Format( "MIME Type: {0}", msDoc.mime_type.ToString() ), 3 );
+				if( msDoc.MimeType != null ) {
+					debug_msg( string.Format( "MIME Type: {0}", msDoc.MimeType.ToString() ), 3 );
 				} else {
 					debug_msg( string.Format( "MIME Type: {0}", "ERROR" ), 3 );
 				}
 
-				if( msDoc.canonical != null ) {
-					debug_msg( string.Format( "Canonical: {0}", msDoc.canonical.ToString() ), 3 );
+				if( msDoc.Canonical != null ) {
+					debug_msg( string.Format( "Canonical: {0}", msDoc.Canonical.ToString() ), 3 );
 				} else {
 					debug_msg( string.Format( "Canonical: {0}", "ERROR" ), 3 );
 				}
 
-				if( msDoc.title != null ) {
-					debug_msg( string.Format( "Title: {0}", msDoc.title.ToString() ), 3 );
+				if( msDoc.Title != null ) {
+					debug_msg( string.Format( "Title: {0}", msDoc.Title.ToString() ), 3 );
 				} else {
 					debug_msg( string.Format( "Title: {0}", "ERROR" ), 3 );
 				}
 
-				Hashtable htInhyperlinks = ( Hashtable )msDoc.get_inhyperlinks();
+				Hashtable htInhyperlinks = ( Hashtable )msDoc.GetHyperlinksIn();
 				
 				foreach( string sKeyURL in htInhyperlinks.Keys ) {
 					debug_msg( string.Format( "Inlink: {0} :: {1}", htInhyperlinks[ sKeyURL ], sKeyURL ), 4 );
 				}
 				
-				Hashtable htHrefLangs = ( Hashtable )msDoc.GetHreflangs();
+				Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
 				
 				foreach( string sKeyLocale in htHrefLangs.Keys ) {
 					MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sKeyLocale ];
-					debug_msg( string.Format( "HrefLang: {0}", msHrefLang.get_locale() ), 4 );
-					debug_msg( string.Format( "URL: {0}", msHrefLang.get_url() ), 5 );
+					debug_msg( string.Format( "HrefLang: {0}", msHrefLang.GetLocale() ), 4 );
+					debug_msg( string.Format( "URL: {0}", msHrefLang.GetUrl() ), 5 );
 					debug_msg( string.Format( "Available: {0}", msHrefLang.IsAvailable() ), 5 );
 				}
 

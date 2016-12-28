@@ -91,28 +91,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Macroscope.cs" />
-    <Compile Include="MacroscopeDisplayHrefLang.cs" />
-    <Compile Include="MacroscopeDisplayStructure.cs" />
-    <Compile Include="MacroscopeDocument.cs" />
-    <Compile Include="MacroscopeDocument_Binary.cs" />
-    <Compile Include="MacroscopeDocument_CSS.cs" />
-    <Compile Include="MacroscopeDocument_HTML.cs" />
-    <Compile Include="MacroscopeDocument_Image.cs" />
-    <Compile Include="MacroscopeDocument_JS.cs" />
-    <Compile Include="MacroscopeDocument_PDF.cs" />
-    <Compile Include="MacroscopeExcelReports.cs" />
-    <Compile Include="MacroscopeJobThread.cs" />
-    <Compile Include="MacroscopeHrefLang.cs" />
-    <Compile Include="MacroscopeJob.cs" />
-    <Compile Include="MacroscopeLocaleTools.cs" />
-    <Compile Include="MacroscopeLocker.cs" />
-    <Compile Include="MacroscopeMainForm.cs" />
-    <Compile Include="MacroscopeMainForm.Designer.cs">
+    <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
+    <Compile Include="MacroscopeEnvironment\MacroscopePreferences.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHrefLang.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayStructure.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocumentBinary.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocumentCSS.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocumentHTML.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocumentImage.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocumentJS.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocumentPDF.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTelephoneNumbers.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm.Designer.cs">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MacroscopePDFTools.cs" />
-    <Compile Include="MacroscopeRobots.cs" />
-    <Compile Include="MacroscopeURLTools.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelReports.cs" />
+    <Compile Include="MacroscopeStandards\MacroscopeRobots.cs" />
+    <Compile Include="MacroscopeTasks\MacroscopeJob.cs" />
+    <Compile Include="MacroscopeTasks\MacroscopeJobThread.cs" />
+    <Compile Include="MacroscopeTasks\MacroscopeLocker.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeLocaleTools.cs" />
+    <Compile Include="MacroscopeTools\MacroscopePDFTools.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeURLTools.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -121,9 +124,20 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MacroscopeMainForm.resx">
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeMainForm.resx">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MacroscopeDocument" />
+    <Folder Include="MacroscopeReports" />
+    <Folder Include="MacroscopeForms\MacroscopeDisplay" />
+    <Folder Include="MacroscopeTools" />
+    <Folder Include="MacroscopeForms" />
+    <Folder Include="MacroscopeTasks" />
+    <Folder Include="MacroscopeStandards" />
+    <Folder Include="MacroscopeAnalysis" />
+    <Folder Include="MacroscopeEnvironment" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -22,7 +22,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Boolean apply_robot_rule( string sURL )
+		public Boolean ApplyRobotRule( string sURL )
 		{
 			Boolean bAllowed = false;
 			

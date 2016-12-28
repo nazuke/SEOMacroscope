@@ -16,18 +16,18 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void write_xslx_file_overview( MacroscopeJob msJob, string sOutputFilename )
+		public void WriteXslxFileOverview( MacroscopeJob msJob, string sOutputFilename )
 		{				
 			string sOutputPath = sOutputFilename + ".xlsx";
 			var wb = new XLWorkbook ();
 			debug_msg( string.Format( "EXCEL sOutputPath: {0}", sOutputPath ), 1 );
-			this.build_worksheet_overview( msJob, wb, "Macroscope Overview", false );
+			this.BuildWorksheetOverview( msJob, wb, "Macroscope Overview", false );
 			wb.SaveAs( sOutputPath );
 		}
 
 		/**************************************************************************/
 
-		void build_worksheet_overview( MacroscopeJob msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
+		void BuildWorksheetOverview( MacroscopeJob msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
 		{				
 			var ws = wb.Worksheets.Add( sWorksheetLabel );
 			
@@ -77,33 +77,33 @@ namespace SEOMacroscope
 					
 					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKey ];
 
-					string sURL = format_if_missing( msDoc.get_url() );
-					string sStatusCode = format_if_missing( msDoc.get_status_code().ToString() );
-					string sSiteLocale = format_if_missing( msDoc.locale );	
-					string sMimeType = format_if_missing( msDoc.mime_type );	
-					string sDateServer = format_if_missing( msDoc.get_date_server() );
-					string sCanonical = format_if_missing( msDoc.canonical );
-					string sTitle = format_if_missing( msDoc.title );
+					string sURL = this.FormatIfMissing( msDoc.GetUrl() );
+					string sStatusCode = this.FormatIfMissing( msDoc.GetStatusCode().ToString() );
+					string sSiteLocale = this.FormatIfMissing( msDoc.Locale );	
+					string sMimeType = this.FormatIfMissing( msDoc.MimeType );	
+					string sDateServer = this.FormatIfMissing( msDoc.GetDateServer() );
+					string sCanonical = this.FormatIfMissing( msDoc.Canonical );
+					string sTitle = this.FormatIfMissing( msDoc.Title );
 					
-					this.insert_and_format_content_cell( ws, iRow, iCol, sURL );
+					this.InsertAndFormatContentCell( ws, iRow, iCol, sURL );
 					iCol++;
 					
-					this.insert_and_format_content_cell( ws, iRow, iCol, sStatusCode );
+					this.InsertAndFormatContentCell( ws, iRow, iCol, sStatusCode );
 					iCol++;
 
-					this.insert_and_format_content_cell( ws, iRow, iCol, sSiteLocale );
+					this.InsertAndFormatContentCell( ws, iRow, iCol, sSiteLocale );
 					iCol++;
 
-					this.insert_and_format_content_cell( ws, iRow, iCol, sMimeType );
+					this.InsertAndFormatContentCell( ws, iRow, iCol, sMimeType );
 					iCol++;	
 					
-					this.insert_and_format_content_cell( ws, iRow, iCol, sDateServer );
+					this.InsertAndFormatContentCell( ws, iRow, iCol, sDateServer );
 					iCol++;	
 
-					this.insert_and_format_content_cell( ws, iRow, iCol, sCanonical );
+					this.InsertAndFormatContentCell( ws, iRow, iCol, sCanonical );
 					iCol++;
 
-					this.insert_and_format_content_cell( ws, iRow, iCol, sTitle );
+					this.InsertAndFormatContentCell( ws, iRow, iCol, sTitle );
 
 					iRow++;
 
@@ -123,18 +123,18 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void write_xslx_file_hreflang( MacroscopeJob msJob, string sOutputFilename )
+		public void WriteXslxFileHrefLang( MacroscopeJob msJob, string sOutputFilename )
 		{				
 			string sOutputPath = sOutputFilename + ".xlsx";
 			var wb = new XLWorkbook ();
 			debug_msg( string.Format( "EXCEL sOutputPath: {0}", sOutputPath ), 1 );
-			this.build_worksheet_hreflang( msJob, wb, "Macroscope HrefLang", false );
+			this.BuildWorksheetHrefLang( msJob, wb, "Macroscope HrefLang", false );
 			wb.SaveAs( sOutputPath );
 		}
 
 		/**************************************************************************/
 
-		void build_worksheet_hreflang( MacroscopeJob msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
+		void BuildWorksheetHrefLang( MacroscopeJob msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
 		{				
 			var ws = wb.Worksheets.Add( sWorksheetLabel );
 			
@@ -177,10 +177,10 @@ namespace SEOMacroscope
 				foreach( string sKey in htDocCollection.Keys ) {
 
 					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKey ];
-					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHreflangs();
+					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
 					
-					string sSiteLocale = format_if_missing( msDoc.locale );
-					string sTitle = format_if_missing( msDoc.title );
+					string sSiteLocale = this.FormatIfMissing( msDoc.Locale );
+					string sTitle = this.FormatIfMissing( msDoc.Title );
 
 					ws.Cell( iRow, 1 ).Value = sSiteLocale;
 					if( sSiteLocale == "MISSING" ) {
@@ -192,13 +192,13 @@ namespace SEOMacroscope
 						ws.Cell( iRow, 2 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
 					}
 
-					ws.Cell( iRow, ( int )htLocaleCols[ msDoc.locale ] ).Value = msDoc.get_url();
+					ws.Cell( iRow, ( int )htLocaleCols[ msDoc.Locale ] ).Value = msDoc.GetUrl();
 
 					foreach( string sLocale in htLocales.Keys ) {
 						if( sLocale != null ) {
 							if( htHrefLangs.ContainsKey( sLocale ) ) {
 								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
-								ws.Cell( iRow, ( int )htLocaleCols[ sLocale ] ).Value = msHrefLang.get_url();
+								ws.Cell( iRow, ( int )htLocaleCols[ sLocale ] ).Value = msHrefLang.GetUrl();
 							} else {
 								ws.Cell( iRow, ( int )htLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
 								ws.Cell( iRow, ( int )htLocaleCols[ sLocale ] ).Value = "MISSING";					
@@ -224,7 +224,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void insert_and_format_content_cell( IXLWorksheet ws, int iRow, int iCol, string sValue )
+		void InsertAndFormatContentCell( IXLWorksheet ws, int iRow, int iCol, string sValue )
 		{
 			ws.Cell( iRow, iCol ).Value = sValue;
 			if( sValue == "MISSING" ) {
@@ -234,7 +234,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		string format_if_missing( string sString )
+		string FormatIfMissing( string sString )
 		{
 			string sFormatted;
 			if( sString == null ) {

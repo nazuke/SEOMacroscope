@@ -17,56 +17,51 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean IsJavascriptPage()
+		Boolean IsBinaryPage()
 		{
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
 			Boolean bIs = false;
-			Regex reIs = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
 			try {
-				req = WebRequest.CreateHttp( this.url );
+				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
-				req.Timeout = this.timeout;
+				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				res = ( HttpWebResponse )req.GetResponse();
 				debug_msg( string.Format( "Status: {0}", res.StatusCode ), 2 );
 				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ), 2 );
-				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
-					bIs = true;
-				}
+				bIs = true;
 				res.Close();
-//			} catch( UriFormatException ex ) {
-//				debug_msg( string.Format( "IsJavascriptPage :: UriFormatException: {0}", ex.Message ), 2 );
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "IsJavascriptPage :: WebException: {0}", ex.Message ), 2 );
+				debug_msg( string.Format( "IsBinaryPage :: WebException: {0}", ex.Message ), 2 );
 			}
 			return( bIs );
 		}
 
 		/**************************************************************************/
 		
-		Boolean process_javascript_page()
+		Boolean ProcessBinaryPage()
 		{
 
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
 
 			try {
-				req = WebRequest.CreateHttp( this.url );
+				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
-				req.Timeout = this.timeout;
+				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "process_javascript_page :: WebException: {0}", ex.Message ), 3 );
-				debug_msg( string.Format( "process_javascript_page :: WebException: {0}", this.url ), 3 );
+				debug_msg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Message ), 3 );
+				debug_msg( string.Format( "ProcessBinaryPage :: WebException: {0}", this.Url ), 3 );
 			}
 
 			if( res != null ) {
 											
 				// Status Code
-				this.status_code = this.ProcessStatusCode( res.StatusCode );
-				debug_msg( string.Format( "Status: {0}", this.status_code ), 2 );
+				this.StatusCode = this.ProcessStatusCode( res.StatusCode );
+				debug_msg( string.Format( "Status: {0}", this.StatusCode ), 2 );
 
 				// Probe HTTP Headers
 				foreach( string sHeader in res.Headers ) {
@@ -74,23 +69,23 @@ namespace SEOMacroscope
 				}
 
 				// Stash HTTP Headers
-				this.mime_type = res.ContentType;
-				this.content_length = res.ContentLength;
-				debug_msg( string.Format( "Content-Type: {0}", this.mime_type ), 3 );			
-				debug_msg( string.Format( "Content-Length: {0}", this.content_length.ToString() ), 3 );
+				this.MimeType = res.ContentType;
+				this.ContentLength = res.ContentLength;
+				debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );			
+				debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
 
 				{ // Title
-					MatchCollection reMatches = Regex.Matches( this.url, "/([^/]+)$" );
+					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
 					string sTitle = null;
 					foreach( Match match in reMatches ) {
-						if( match.Groups[ 1 ].Value.Length > 0 ) {
-							sTitle = match.Groups[ 1 ].Value.ToString();
+						if( match.Groups[ 0 ].Value.Length > 0 ) {
+							sTitle = match.Groups[ 0 ].Value.ToString();
 							break;
 						}
 					}
 					if( sTitle != null ) {
-						this.title = sTitle;
-						debug_msg( string.Format( "TITLE: {0}", this.title ), 3 );
+						this.Title = sTitle;
+						debug_msg( string.Format( "TITLE: {0}", this.Title ), 3 );
 					} else {
 						debug_msg( string.Format( "TITLE: {0}", "MISSING" ), 3 );
 					}
@@ -99,11 +94,10 @@ namespace SEOMacroscope
 				res.Close();
 
 			} else {
-				this.status_code = 500;
+				this.StatusCode = 500;
 			}
 
 			return( true );
-			
 		}
 
 		/**************************************************************************/

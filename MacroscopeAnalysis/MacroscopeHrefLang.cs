@@ -11,50 +11,50 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Boolean enable_probe;
-		string locale;
-		string url;
-		DateTime date_modified;
-		Boolean available;
+		Boolean EnableProbe;
+		string Locale;
+		string Url;
+		DateTime DateModified;
+		Boolean Available;
 		
 		/**************************************************************************/
 
 		public MacroscopeHrefLang ( Boolean bProbe, string sLocale, string sURL )
 		{
-			enable_probe = bProbe;
-			locale = sLocale;	
-			url = sURL;
+			EnableProbe = bProbe;
+			Locale = sLocale;	
+			Url = sURL;
 			if( bProbe ) {
-				available = probe();
+				Available = Probe();
 			} else {
-				available = false;
+				Available = false;
 			}
 		}
 
 		/**************************************************************************/
 
-		public string get_locale()
+		public string GetLocale()
 		{
-			return( this.locale );
+			return( this.Locale );
 		}
 
 		/**************************************************************************/
 
-		public string get_url()
+		public string GetUrl()
 		{
-			return( this.url );
+			return( this.Url );
 		}
 
 		/**************************************************************************/
 		
 		public Boolean IsAvailable()
 		{
-			return( this.available );
+			return( this.Available );
 		}
 
 		/**************************************************************************/
 
-		Boolean probe()
+		Boolean Probe()
 		{
 
 			HttpWebRequest req = null;
@@ -63,7 +63,7 @@ namespace SEOMacroscope
 
 			try {
 
-				req = WebRequest.CreateHttp( this.url );
+				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
 				req.Timeout = 10000;
 				req.KeepAlive = false;
