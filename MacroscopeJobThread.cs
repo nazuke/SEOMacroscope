@@ -33,10 +33,12 @@ namespace SEOMacroscope
 			msJob.start_url = msMainForm.GetURL();
 			
 			msJob.depth = 5;
-			msJob.page_limit = 1000;
+			msJob.page_limit = 5;
 			msJob.probe_hreflangs = false;
 
 			msJob.run();
+
+			this.msMainForm.CallbackScanComplete();
 
 		}
 
@@ -47,19 +49,6 @@ namespace SEOMacroscope
 			this.msMainForm.UpdateDisplayStructure( this.msJob );
 		}
 
-		/**************************************************************************/
-		
-		static void debug_msg( String sMsg )
-		{
-			System.Diagnostics.Debug.WriteLine( sMsg );
-		}
-
-		static void debug_msg( String sMsg, int iOffset )
-		{
-			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
-			System.Diagnostics.Debug.WriteLine( sMsgPadded );
-		}
-		
 		/**************************************************************************/
 				
 	}

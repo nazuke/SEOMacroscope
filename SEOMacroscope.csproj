@@ -94,6 +94,12 @@
     <Compile Include="MacroscopeDisplayHrefLang.cs" />
     <Compile Include="MacroscopeDisplayStructure.cs" />
     <Compile Include="MacroscopeDocument.cs" />
+    <Compile Include="MacroscopeDocument_Binary.cs" />
+    <Compile Include="MacroscopeDocument_CSS.cs" />
+    <Compile Include="MacroscopeDocument_HTML.cs" />
+    <Compile Include="MacroscopeDocument_Image.cs" />
+    <Compile Include="MacroscopeDocument_JS.cs" />
+    <Compile Include="MacroscopeDocument_PDF.cs" />
     <Compile Include="MacroscopeExcelReports.cs" />
     <Compile Include="MacroscopeJobThread.cs" />
     <Compile Include="MacroscopeHrefLang.cs" />

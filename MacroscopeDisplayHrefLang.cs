@@ -53,7 +53,7 @@ namespace SEOMacroscope
 			foreach( string sKeyURL in htDocCollection.Keys ) {
 
 				MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKeyURL ];
-				Hashtable htHrefLangs = ( Hashtable )msDoc.get_hreflangs();
+				Hashtable htHrefLangs = ( Hashtable )msDoc.GetHreflangs();
 
 				DataRow dtRow = this.dtTable.NewRow();
 

@@ -16,14 +16,17 @@ namespace SEOMacroscope
 		DataTable dtTable;
 
 		const string constURL = "URL";
+		
 		const string constStatus = "Status";
+		const string constIsRedirect = "Redirect";
+				
 		const string constContentType = "Content Type";
-		const string constLocale = "Locale";
+		const string constLang = "Lang";
 		
 		const string constCanonical = "Canonical";
 		
-		const string constInlinks = "Inlinks";
-		const string constOutlinks = "Outlinks";
+		const string constInhyperlinks = "Links In";
+		const string constOuthyperlinks = "Links Out";
 		
 		const string constTitle = "Title";
 		const string constTitleLen = "Title Length";
@@ -40,20 +43,23 @@ namespace SEOMacroscope
 			dtTable = new DataTable ();
 			
 			dtTable.Columns.Add( constURL, typeof( string ) );
-			dtTable.Columns.Add( constStatus, typeof( string ) );			
-			dtTable.Columns.Add( constContentType, typeof( string ) );			
-			dtTable.Columns.Add( constLocale, typeof( string ) );	
+
+			dtTable.Columns.Add( constStatus, typeof( string ) );	
+			dtTable.Columns.Add( constIsRedirect, typeof( string ) );
+
+			dtTable.Columns.Add( constContentType, typeof( string ) );
+			dtTable.Columns.Add( constLang, typeof( string ) );	
 
 			dtTable.Columns.Add( constCanonical, typeof( string ) );
 
-			dtTable.Columns.Add( constInlinks, typeof( string ) );
-			dtTable.Columns.Add( constOutlinks, typeof( string ) );	
+			dtTable.Columns.Add( constInhyperlinks, typeof( string ) );
+			dtTable.Columns.Add( constOuthyperlinks, typeof( string ) );	
 
 			dtTable.Columns.Add( constTitle, typeof( string ) );	
 			dtTable.Columns.Add( constTitleLen, typeof( string ) );	
 			dtTable.Columns.Add( constDescription, typeof( string ) );	
 			dtTable.Columns.Add( constDescriptionLen, typeof( string ) );	
-												
+			
 			msMainForm.GetDisplayStructure().DataSource = dtTable;
 
 		}
@@ -62,7 +68,6 @@ namespace SEOMacroscope
 
 		public void RefreshData( Hashtable htDocCollection )
 		{
-
 			
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke( new MethodInvoker ( delegate {
@@ -83,13 +88,15 @@ namespace SEOMacroscope
 				dtRow.SetField( constURL, msDoc.get_url() );
 
 				dtRow.SetField( constStatus, msDoc.get_status_code() );
+				dtRow.SetField( constIsRedirect, msDoc.get_is_redirect() );
+
 				dtRow.SetField( constContentType, msDoc.get_mime_type() );
-				dtRow.SetField( constLocale, msDoc.get_locale() );
+				dtRow.SetField( constLang, msDoc.get_lang() );
 								
 				dtRow.SetField( constCanonical, msDoc.get_canonical() );
 
-				dtRow.SetField( constInlinks, msDoc.count_inlinks() );
-				dtRow.SetField( constOutlinks, msDoc.count_outlinks() );
+				dtRow.SetField( constInhyperlinks, msDoc.count_inhyperlinks() );
+				dtRow.SetField( constOuthyperlinks, msDoc.count_outhyperlinks() );
 												
 				dtRow.SetField( constTitle, msDoc.get_title() );
 				dtRow.SetField( constTitleLen, msDoc.get_title().Length );
@@ -101,7 +108,6 @@ namespace SEOMacroscope
 
 			}
 
-
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke( new MethodInvoker ( delegate {
 					msMainForm.GetDisplayStructure().DataSource = this.dtTable;
@@ -110,10 +116,7 @@ namespace SEOMacroscope
 			} else {
 				msMainForm.GetDisplayStructure().DataSource = this.dtTable;
 			}
-
-
-
-						
+			
 		}
 
 		/**************************************************************************/

@@ -97,13 +97,13 @@ namespace SEOMacroscope
 								
 				msDoc = ( MacroscopeDocument )this.doc_collection[ sURL ];
 				if( msDoc != null ) {
-					msDoc.add_inlink( sParentURL );
+					msDoc.add_inhyperlink( sParentURL );
 				}
 				return( true );
 
 			} else {
 				this.doc_collection.Add( sURL, msDoc );
-				msDoc.add_inlink( sParentURL );
+				msDoc.add_inhyperlink( sParentURL );
 			}
 			
 			if( msDoc.depth > this.depth ) {
@@ -116,13 +116,13 @@ namespace SEOMacroscope
 				msDoc.probe_hreflangs = true;
 			}
 
-			if( msDoc.execute() ) {
+			if( msDoc.Execute() ) {
 			
 				this.page_limit_count++;
 
 				{
 					string sLocale = msDoc.locale;
-					Hashtable htHrefLangs = ( Hashtable )msDoc.get_hreflangs();
+					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHreflangs();
 					if( sLocale != null ) {
 						if( !this.locales.ContainsKey( sLocale ) ) {
 							this.locales[ sLocale ] = sLocale;
@@ -222,19 +222,19 @@ namespace SEOMacroscope
 					debug_msg( string.Format( "Title: {0}", "ERROR" ), 3 );
 				}
 
-				Hashtable htInlinks = ( Hashtable )msDoc.get_inlinks();
+				Hashtable htInhyperlinks = ( Hashtable )msDoc.get_inhyperlinks();
 				
-				foreach( string sKeyURL in htInlinks.Keys ) {
-					debug_msg( string.Format( "Inlink: {0} :: {1}", htInlinks[ sKeyURL ], sKeyURL ), 4 );
+				foreach( string sKeyURL in htInhyperlinks.Keys ) {
+					debug_msg( string.Format( "Inlink: {0} :: {1}", htInhyperlinks[ sKeyURL ], sKeyURL ), 4 );
 				}
 				
-				Hashtable htHrefLangs = ( Hashtable )msDoc.get_hreflangs();
+				Hashtable htHrefLangs = ( Hashtable )msDoc.GetHreflangs();
 				
 				foreach( string sKeyLocale in htHrefLangs.Keys ) {
 					MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sKeyLocale ];
 					debug_msg( string.Format( "HrefLang: {0}", msHrefLang.get_locale() ), 4 );
 					debug_msg( string.Format( "URL: {0}", msHrefLang.get_url() ), 5 );
-					debug_msg( string.Format( "Available: {0}", msHrefLang.is_available() ), 5 );
+					debug_msg( string.Format( "Available: {0}", msHrefLang.IsAvailable() ), 5 );
 				}
 
 			}

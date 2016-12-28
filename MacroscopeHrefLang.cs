@@ -47,7 +47,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public Boolean is_available()
+		public Boolean IsAvailable()
 		{
 			return( this.available );
 		}
@@ -78,7 +78,7 @@ namespace SEOMacroscope
 				res.Close();
 
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "is_html_page :: WebException: {0}", ex.Message ), 2 );
+				debug_msg( string.Format( "IsHtmlPage :: WebException: {0}", ex.Message ), 2 );
 			}
 
 			return( bAvailable );

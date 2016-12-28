@@ -28,7 +28,9 @@ namespace SEOMacroscope
 			
 			this.textBoxURL.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" ).ToString();
 
-			tScanningThread = new Thread ( new ThreadStart ( ScanningThread ) );
+			//tScanningThread = new Thread ( new ThreadStart ( ScanningThread ) );
+			
+			this.ScanningEnableControls();
 
 		}
 		
@@ -77,11 +79,9 @@ namespace SEOMacroscope
 				
 		void CallbackScanStart( object sender, EventArgs e )
 		{
-
-			if( !this.tScanningThread.IsAlive ) {
-				this.tScanningThread.Start();
-			}
-
+			this.ScanningDisableControls();
+			this.tScanningThread = new Thread ( new ThreadStart ( ScanningThread ) );
+			this.tScanningThread.Start();
 		}
 
 		/**************************************************************************/
@@ -90,6 +90,7 @@ namespace SEOMacroscope
 		{
 			if( this.tScanningThread.IsAlive ) {
 				;
+				this.ScanningEnableControls();
 			}
 		}
 
@@ -97,11 +98,25 @@ namespace SEOMacroscope
 				
 		void CallbackScanReset( object sender, EventArgs e )
 		{
-
 			if( this.tScanningThread.IsAlive ) {
 				this.tScanningThread.Abort();
 			}
-					
+			this.ScanningEnableControls();
+		}
+		
+		/**************************************************************************/
+		
+		public void CallbackScanComplete()
+		{
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate {
+							this.ScanningEnableControls();
+						}
+					)
+				);
+			}
 		}
 		
 		/**************************************************************************/
@@ -115,10 +130,29 @@ namespace SEOMacroscope
 		
 		void CallbackRowsAdded( object sender, DataGridViewRowsAddedEventArgs e )
 		{
-			debug_msg( "EVENT: RowsAdded" );
 			this.Update();
 		}
-				
+		
+		/**************************************************************************/
+
+		void ScanningDisableControls()
+		{
+			this.textBoxURL.Enabled = false;
+			this.buttonStart.Enabled = false;
+			this.buttonPause.Enabled = true;
+			this.buttonReset.Enabled = false;
+		}
+
+		/**************************************************************************/
+
+		void ScanningEnableControls()
+		{
+			this.textBoxURL.Enabled = true;
+			this.buttonStart.Enabled = true;
+			this.buttonPause.Enabled = false;
+			this.buttonReset.Enabled = true;
+		}
+		
 		/**************************************************************************/
 
 		void ScanningThread()
@@ -152,6 +186,14 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+		
+		void CallbackDataBindingComplete( object sender, DataGridViewBindingCompleteEventArgs e )
+		{
+			DataGridView dgvGrid = ( DataGridView )sender;
+			dgvGrid.AutoResizeColumns();
+		}
+				
+		/**************************************************************************/
 	
 		static void debug_msg( String sMsg )
 		{
@@ -163,6 +205,7 @@ namespace SEOMacroscope
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
+
 
 		/**************************************************************************/
 			

@@ -177,7 +177,7 @@ namespace SEOMacroscope
 				foreach( string sKey in htDocCollection.Keys ) {
 
 					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKey ];
-					Hashtable htHrefLangs = ( Hashtable )msDoc.get_hreflangs();
+					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHreflangs();
 					
 					string sSiteLocale = format_if_missing( msDoc.locale );
 					string sTitle = format_if_missing( msDoc.title );
