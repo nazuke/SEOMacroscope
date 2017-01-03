@@ -110,7 +110,7 @@ namespace SEOMacroscope
 
 				{ // Title
 					if( pdfTools != null ) {
-						string sTitle = pdfTools.get_title();
+						string sTitle = pdfTools.GetTitle();
 						if( sTitle != null ) {
 							this.Title = sTitle;
 							debug_msg( string.Format( "TITLE: {0}", this.Title ), 3 );

@@ -118,7 +118,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public static Boolean verify_same_host( string sBaseURL, string sURL )
+		public static Boolean VerifySameHost( string sBaseURL, string sURL )
 		{
 			Boolean bSuccess = false;
 			Uri uBase = null;
@@ -164,7 +164,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public static int find_url_depth( string sURL )
+		public static int FindUrlDepth( string sURL )
 		{
 			
 			int iDepth = 0;

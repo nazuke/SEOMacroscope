@@ -16,7 +16,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void WriteXslxFileOverview( MacroscopeJob msJob, string sOutputFilename )
+		public void WriteXslxFileOverview( MacroscopeJobMaster msJob, string sOutputFilename )
 		{				
 			string sOutputPath = sOutputFilename + ".xlsx";
 			var wb = new XLWorkbook ();
@@ -27,7 +27,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void BuildWorksheetOverview( MacroscopeJob msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
+		void BuildWorksheetOverview( MacroscopeJobMaster msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
 		{				
 			var ws = wb.Worksheets.Add( sWorksheetLabel );
 			
@@ -35,7 +35,7 @@ namespace SEOMacroscope
 			int iCol = 1;
 			int iColMax = 1;
 
-			Hashtable htDocCollection = ( Hashtable )msJob.get_doc_collection();
+			Hashtable htDocCollection = ( Hashtable )msJob.GetDocCollection();
 
 			{
 			
@@ -123,7 +123,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void WriteXslxFileHrefLang( MacroscopeJob msJob, string sOutputFilename )
+		public void WriteXslxFileHrefLang( MacroscopeJobMaster msJob, string sOutputFilename )
 		{				
 			string sOutputPath = sOutputFilename + ".xlsx";
 			var wb = new XLWorkbook ();
@@ -134,7 +134,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void BuildWorksheetHrefLang( MacroscopeJob msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
+		void BuildWorksheetHrefLang( MacroscopeJobMaster msJob, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
 		{				
 			var ws = wb.Worksheets.Add( sWorksheetLabel );
 			
@@ -142,8 +142,8 @@ namespace SEOMacroscope
 			int iCol = 1;
 			int iColMax = 1;
 
-			Hashtable htLocales = ( Hashtable )msJob.get_locales();
-			Hashtable htDocCollection = ( Hashtable )msJob.get_doc_collection();
+			Hashtable htLocales = ( Hashtable )msJob.GetLocales();
+			Hashtable htDocCollection = ( Hashtable )msJob.GetDocCollection();
 			
 			Hashtable htLocaleCols = new Hashtable ();
 			

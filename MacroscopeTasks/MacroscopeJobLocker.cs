@@ -3,12 +3,12 @@
 namespace SEOMacroscope
 {
 
-	public class MacroscopeLocker : Macroscope
+	public class MacroscopeJobLocker : Macroscope
 	{
 
 		/**************************************************************************/
 
-		public MacroscopeLocker()
+		public MacroscopeJobLocker()
 		{
 		}
 

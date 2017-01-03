@@ -110,7 +110,7 @@ namespace SEOMacroscope
 
 					{ // Probe Locale
 						MacroscopeLocaleTools msLocale = new MacroscopeLocaleTools ();
-						this.Locale = msLocale.probe_locale( this.HtmlDoc );
+						this.Locale = msLocale.ProbeLocale( this.HtmlDoc );
 						this.SetHreflang( this.Locale, this.Url );
 					}
 
@@ -367,7 +367,7 @@ namespace SEOMacroscope
 							sLocale = this.Locale;
 						}
 						debug_msg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ), 3 );
-						MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( this.probe_hreflangs, sLocale, sHref );
+						MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( this.ProbeHrefLangs, sLocale, sHref );
 						this.HrefLang[sLocale] = msHrefLang;
 					}
 				}

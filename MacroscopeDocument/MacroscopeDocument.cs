@@ -18,7 +18,7 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		/** BEGIN: Configuration **/
-		public Boolean probe_hreflangs { get; set; }
+		public Boolean ProbeHrefLangs { get; set; }
 		/** END: Configuration **/
 		
 		string Url;
@@ -92,7 +92,7 @@ namespace SEOMacroscope
 			TelephoneNumbers = new Hashtable ();
 			Headings1 = new ArrayList ( 16 );
 			Headings2 = new ArrayList ( 16 );
-			Depth = MacroscopeURLTools.find_url_depth( Url );
+			Depth = MacroscopeURLTools.FindUrlDepth( Url );
 		}
 		
 		/**************************************************************************/

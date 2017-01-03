@@ -13,7 +13,7 @@ namespace SEOMacroscope
 	{
 		/**************************************************************************/
 
-		PdfDocument pdf;
+		PdfDocument Pdf;
 
 		/**************************************************************************/
 				
@@ -21,7 +21,7 @@ namespace SEOMacroscope
 		{
 			try {
 				using( MemoryStream ms = new MemoryStream ( aPDF ) ) {
-					pdf = PdfReader.Open( ms, PdfDocumentOpenMode.InformationOnly );
+					Pdf = PdfReader.Open( ms, PdfDocumentOpenMode.InformationOnly );
 				}
 			} catch( PdfReaderException ex ) {
 				debug_msg( string.Format( "PDF Exception: {0}", ex.Message ), 4 );
@@ -32,11 +32,11 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Hashtable get_metadata()
+		public Hashtable GetMetadata()
 		{
 			Hashtable htMetadata = new Hashtable ( 32 );
-			if( pdf != null ) {
-				PdfDocumentInformation pdfInfo = pdf.Info;
+			if( Pdf != null ) {
+				PdfDocumentInformation pdfInfo = Pdf.Info;
 				htMetadata[ "title" ] = pdfInfo.Title;
 			}
 			return( htMetadata );
@@ -44,9 +44,9 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public string get_title()
+		public string GetTitle()
 		{
-			Hashtable htMetadata = this.get_metadata();
+			Hashtable htMetadata = this.GetMetadata();
 			string sTitle = "";
 			if( htMetadata.ContainsKey( "title" ) ) {
 				sTitle = ( string )htMetadata[ "title" ].ToString();

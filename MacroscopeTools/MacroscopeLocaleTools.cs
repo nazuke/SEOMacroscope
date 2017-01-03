@@ -15,7 +15,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public string probe_locale( HtmlDocument doc )
+		public string ProbeLocale( HtmlDocument doc )
 		{
 
 			string sLocale = null;

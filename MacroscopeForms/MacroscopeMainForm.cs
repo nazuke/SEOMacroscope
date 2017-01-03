@@ -182,23 +182,24 @@ namespace SEOMacroscope
 		void ScanningThread ()
 		{
 			debug_msg( "Scanning Thread: Started." );
-			MacroscopeJobThread msJob = new MacroscopeJobThread ( this );
-			msJob.Run();
+			MacroscopeJobMaster msJobMaster = new MacroscopeJobMaster ( this );
+			msJobMaster.StartUrl = this.GetURL();
+			msJobMaster.Execute();
 			debug_msg( "Scanning Thread: Done." );
 		}
 
 		/**************************************************************************/
 
-		public void UpdateDisplayStructure ( MacroscopeJob msJob )
+		public void UpdateDisplayStructure ( MacroscopeJobMaster msJobMaster )
 		{
 
-			this.msDisplayStructure.RefreshData( msJob.get_doc_collection() );
+			this.msDisplayStructure.RefreshData( msJobMaster.GetDocCollection() );
 
-			this.msDisplayHrefLang.RefreshData( msJob.get_doc_collection(), msJob.get_locales() );
+			this.msDisplayHrefLang.RefreshData( msJobMaster.GetDocCollection(), msJobMaster.GetLocales() );
 
-			this.msDisplayEmailAddresses.RefreshData( msJob.get_doc_collection() );
+			this.msDisplayEmailAddresses.RefreshData( msJobMaster.GetDocCollection() );
 						
-			this.msDisplayTelephoneNumbers.RefreshData( msJob.get_doc_collection() );
+			this.msDisplayTelephoneNumbers.RefreshData( msJobMaster.GetDocCollection() );
 						
 			if( this.InvokeRequired ) {
 				this.Invoke(
