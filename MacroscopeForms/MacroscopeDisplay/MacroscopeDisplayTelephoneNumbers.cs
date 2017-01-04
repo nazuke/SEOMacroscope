@@ -51,6 +51,8 @@ namespace SEOMacroscope
 			this.dtTable.Columns.Add( constTelephoneNumber, typeof( string ) );
 			this.dtTable.Columns.Add( constURL, typeof( string ) );
 
+						lock( htDocCollection ) {
+			
 			foreach( string sKeyURL in htDocCollection.Keys ) {
 
 				MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[sKeyURL];
@@ -70,6 +72,8 @@ namespace SEOMacroscope
 
 			}
 
+			}
+				
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (

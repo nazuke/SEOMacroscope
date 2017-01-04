@@ -163,14 +163,14 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-				
+
 		void CallbackScanReset ( object sender, EventArgs e )
 		{
 
-			this.ScanningControlsReset( true );
-
 			if( this.msJobMaster.WorkersStopped() ) {
 
+				this.ScanningControlsReset( true );
+							
 				this.dataGridStructure.DataSource = null;
 				this.dataGridHrefLang.DataSource = null;
 				this.dataGridEmailAddresses.DataSource = null;
@@ -194,6 +194,8 @@ namespace SEOMacroscope
 						}
 					)
 				);
+			} else {
+				this.ScanningControlsReset( true );
 			}
 		}
 		
@@ -305,8 +307,30 @@ namespace SEOMacroscope
 						}
 					)
 				);
+			} else {
+				this.Refresh();
+				this.Update();
 			}
 
+		}
+
+		/**************************************************************************/
+
+		public void UpdateStatusBar ()
+		{
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate {
+							this.toolStripUrlCount.Text = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
+							this.toolStripThreads.Text = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
+						}
+					)
+				);
+			} else {
+				this.toolStripUrlCount.Text = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
+				this.toolStripThreads.Text = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
+			}
 		}
 
 		/**************************************************************************/

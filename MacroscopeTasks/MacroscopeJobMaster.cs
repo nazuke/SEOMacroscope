@@ -13,7 +13,12 @@ namespace SEOMacroscope
 	{
 
 		MacroscopeMainForm msMainForm;
-		public MacroscopeJobLocker msLocker;
+
+		public MacroscopeJobLocker DisplayLock;
+
+
+
+
 		
 		/** BEGIN: Configuration **/
 		
@@ -35,7 +40,8 @@ namespace SEOMacroscope
 		int PagesFound;
 
 		Queue<string> UrlQueue;
-
+		public MacroscopeJobLocker UrlQueueLock;
+		
 		Hashtable History;
 		Hashtable DocCollection;
 		Hashtable Locales;
@@ -48,9 +54,9 @@ namespace SEOMacroscope
 		{
 
 			msMainForm = msMainFormNew;
-			msLocker = new MacroscopeJobLocker ();
+			DisplayLock = new MacroscopeJobLocker ();
 
-			ThreadsMax = 16;
+			ThreadsMax = 4;
 			ThreadsRunning = 0;
 			ThreadsPaused = false;
 			ThreadsStop = false;
@@ -64,10 +70,13 @@ namespace SEOMacroscope
 			SameSite = MacroscopePreferences.GetSameSite();
 			ProbeHrefLangs = MacroscopePreferences.GetProbeHreflangs();
 			PagesFound = 0;
+
 			UrlQueue = new Queue<string> ( 4096 );
-			History = new Hashtable ( 4096 );
-			DocCollection = new Hashtable ( 4096 );
-			Locales = new Hashtable ( 32 );
+			UrlQueueLock = new MacroscopeJobLocker ();
+
+			History = Hashtable.Synchronized( new Hashtable ( 4096 ) );
+			DocCollection = Hashtable.Synchronized( new Hashtable ( 4096 ) );
+			Locales = Hashtable.Synchronized( new Hashtable ( 32 ) );
 			msRobots = new MacroscopeRobots ();
 
 		}
@@ -110,6 +119,8 @@ namespace SEOMacroscope
 
 				//debug_msg( string.Format( "this.ThreadsStop: {0}", this.ThreadsStop.ToString() ) );
 
+				this.UpdateStatusBar();
+
 				if( this.ThreadsStop == true ) {
 
 					debug_msg( string.Format( "WorkersSpawn: {0}", "STOPPING" ) );
@@ -124,9 +135,12 @@ namespace SEOMacroscope
 						Thread.Sleep( 1000 );
 
 					} else {
-				
-						Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.WorkerStart, null );
 
+						for( int i = 0; i < this.ThreadsMax; i++ ) {
+							Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.WorkerStart, null );
+							Thread.Sleep( 100 );
+						}
+						
 						Thread.Sleep( 1000 );
 
 						if( this.RunningThreadsCount() == 0 ) {
@@ -140,6 +154,8 @@ namespace SEOMacroscope
 				}
 			}
 			
+			this.UpdateStatusBar();
+							
 			debug_msg( string.Format( "WorkersSpawn: STOPPED" ) );
 
 		}
@@ -148,17 +164,12 @@ namespace SEOMacroscope
 		
 		void WorkerStart ( object thContext )
 		{
-
 			MacroscopeJobWorker msJobWorker = new MacroscopeJobWorker ( this );
-
 			string sURL = this.UrlQueueGet();
-			//debug_msg( string.Format( "sURL: {0}", sURL ) );
-
 			if( sURL != null ) {
 				this.RunningThreadsInc();
 				msJobWorker.Execute( sURL );
 			}
-
 		}
 
 		/**************************************************************************/
@@ -168,16 +179,15 @@ namespace SEOMacroscope
 			//debug_msg( string.Format( "WorkersNotifyDone: {0}", sURL ) );
 			this.RunningThreadsDec();
 			this.UpdateDisplay();
+			this.UpdateStatusBar();
 		}
 		
 		/**************************************************************************/
 
 		public void WorkersStop ()
 		{
-			lock( this.msLocker ) {
-				debug_msg( string.Format( "WorkersStop" ) );
-				this.ThreadsStop = true;
-			}
+			debug_msg( string.Format( "WorkersStop" ) );
+			this.ThreadsStop = true;
 		}
 
 		/**************************************************************************/
@@ -185,17 +195,21 @@ namespace SEOMacroscope
 		public Boolean WorkersStopped ()
 		{
 			Boolean bIsStopped = false;
-			lock( this.msLocker ) {
-				//debug_msg( string.Format( "WorkersStopped" ) );
 
-				int iThreadCount = this.RunningThreadsCount();
-				debug_msg( string.Format( "iThreadCount: {0}", iThreadCount.ToString() ) );
+			
+			//debug_msg( string.Format( "WorkersStopped" ) );
 
-				if( iThreadCount == 0 ) {
-					bIsStopped = true;
-				}
+			int iThreadCount = this.RunningThreadsCount();
+			debug_msg( string.Format( "iThreadCount: {0}", iThreadCount.ToString() ) );
 
+			if( iThreadCount == 0 ) {
+				bIsStopped = true;
 			}
+
+			
+
+			this.UpdateStatusBar();
+
 			return( bIsStopped );
 		}
 
@@ -203,10 +217,10 @@ namespace SEOMacroscope
 		
 		public Boolean WorkersPause ()
 		{
-			lock( this.msLocker ) {
-				debug_msg( string.Format( "WorkersPause" ) );
-				this.ThreadsPaused = true;
-			}
+
+			debug_msg( string.Format( "WorkersPause" ) );
+			this.ThreadsPaused = true;
+
 			return( this.ThreadsPaused );
 		}
 		
@@ -214,10 +228,10 @@ namespace SEOMacroscope
 
 		public void WorkersUnpause ()
 		{
-			lock( this.msLocker ) {
-				debug_msg( string.Format( "WorkersUnpause" ) );
-				this.ThreadsPaused = false;
-			}
+
+			debug_msg( string.Format( "WorkersUnpause" ) );
+			this.ThreadsPaused = false;
+
 		}
 		
 		/**************************************************************************/
@@ -231,37 +245,37 @@ namespace SEOMacroscope
 
 		void RunningThreadsInc ()
 		{
-			lock( this.msLocker ) {
-				int iThreadId = Thread.CurrentThread.ManagedThreadId;
-				this.ThreadsDict[ iThreadId ] = true;
-				//debug_msg( string.Format( "iThreadId: {0}", iThreadId.ToString() ) );
-				this.ThreadsRunning++;
-			}
+
+			int iThreadId = Thread.CurrentThread.ManagedThreadId;
+			this.ThreadsDict[ iThreadId ] = true;
+			//debug_msg( string.Format( "iThreadId: {0}", iThreadId.ToString() ) );
+			this.ThreadsRunning++;
+
 		}
 		
 		/**************************************************************************/
 
 		void RunningThreadsDec ()
 		{
-			lock( this.msLocker ) {
-				if( this.ThreadsRunning > 0 ) {
-					int iThreadId = Thread.CurrentThread.ManagedThreadId;
-					if( this.ThreadsDict.ContainsKey( iThreadId ) ) {
-						this.ThreadsDict.Remove( iThreadId );
-					}
-					this.ThreadsRunning--;
+
+			if( this.ThreadsRunning > 0 ) {
+				int iThreadId = Thread.CurrentThread.ManagedThreadId;
+				if( this.ThreadsDict.ContainsKey( iThreadId ) ) {
+					this.ThreadsDict.Remove( iThreadId );
 				}
+				this.ThreadsRunning--;
 			}
+
 		}
 		
 		/**************************************************************************/
 				
-		int RunningThreadsCount ()
+		public int RunningThreadsCount ()
 		{
 			int iRunningThreads = 0;
-			lock( this.msLocker ) {
-				iRunningThreads = this.ThreadsRunning;
-			}
+
+			iRunningThreads = this.ThreadsRunning;
+
 			return( iRunningThreads );
 		}
 
@@ -269,9 +283,11 @@ namespace SEOMacroscope
 		
 		public void UrlQueueAdd ( string sURL )
 		{
-			lock( msLocker ) {
+			lock( UrlQueueLock ) {
 				//debug_msg( string.Format( "AddUrlQueue: {0}", sURL ) );
-				this.UrlQueue.Enqueue( sURL );
+				if( !this.HistorySeen( sURL ) ) {
+					this.UrlQueue.Enqueue( sURL );
+				}
 			}
 		}
 		
@@ -280,7 +296,7 @@ namespace SEOMacroscope
 		public string UrlQueueGet ()
 		{
 			string sURL = null;
-			lock( msLocker ) {
+			lock( UrlQueueLock ) {
 				//debug_msg( string.Format( "GetUrlQueue: {0}", this.UrlQueue.Count.ToString() ) );
 				try {
 					if( this.UrlQueue.Count > 0 ) {
@@ -298,7 +314,7 @@ namespace SEOMacroscope
 		public Boolean UrlQueuePeek ()
 		{
 			Boolean bPeek = false;
-			lock( msLocker ) {
+			lock( UrlQueueLock ) {
 				//debug_msg( string.Format( "PeekUrlQueue: {0}", this.UrlQueue.Count.ToString() ) );
 				try {
 					if( this.UrlQueue.Count > 0 ) {
@@ -312,12 +328,40 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+		
+		public int UrlQueueCount ()
+		{
+			int iCount = 0;
+			lock( UrlQueueLock ) {
+				try {
+					if( this.UrlQueue.Count > 0 ) {
+						iCount = this.UrlQueue.Count;
+					}
+				} catch( InvalidOperationException ex ) {
+					debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				}
+			}
+			return( iCount );
+		}
+
+		/**************************************************************************/
 				
-		public void AddHistory ( string sURL )
+		public void HistoryAdd ( string sURL )
 		{
 			if( !this.History.ContainsKey( sURL ) ) {
 				this.History.Add( sURL, true );
 			}
+		}
+		
+		/**************************************************************************/
+				
+		public Boolean HistorySeen ( string sURL )
+		{
+			Boolean bSeen = false;
+			if( this.History.ContainsKey( sURL ) ) {
+				bSeen = ( Boolean )this.History[ sURL ];
+			}
+			return( bSeen );
 		}
 
 		/**************************************************************************/
@@ -357,7 +401,7 @@ namespace SEOMacroscope
 			if( this.ThreadsStop == true ) {
 				return;
 			}
-			lock( this.msLocker ) {
+			lock( this.DisplayLock ) {
 				try {
 					this.msMainForm.UpdateDisplayStructure( this );
 				} catch( ArgumentException ex ) {
@@ -365,7 +409,14 @@ namespace SEOMacroscope
 				}
 			}
 		}
-				
+
+		/**************************************************************************/
+
+		public void UpdateStatusBar ()
+		{
+			this.msMainForm.UpdateStatusBar();
+		}
+
 		/**************************************************************************/
 		
 		/*

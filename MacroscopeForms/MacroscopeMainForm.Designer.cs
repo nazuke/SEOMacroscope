@@ -22,7 +22,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem saveOverviewExcelReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem generateHrefLangExcelReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMainContainer;
 		private System.Windows.Forms.TabControl tabControlMain;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutStructure;
@@ -44,6 +44,9 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Button buttonPause;
 		private System.Windows.Forms.Button buttonStop;
 		private System.Windows.Forms.Button buttonResume;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		public System.Windows.Forms.ToolStripStatusLabel toolStripUrlCount;
+		public System.Windows.Forms.ToolStripStatusLabel toolStripThreads;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -79,7 +82,7 @@ namespace SEOMacroscope
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.tableLayoutPanelMainContainer = new System.Windows.Forms.TableLayoutPanel();
 			this.tabControlMain = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tableLayoutStructure = new System.Windows.Forms.TableLayoutPanel();
@@ -101,8 +104,11 @@ namespace SEOMacroscope
 			this.buttonStart = new System.Windows.Forms.Button();
 			this.buttonReset = new System.Windows.Forms.Button();
 			this.buttonPause = new System.Windows.Forms.Button();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.toolStripUrlCount = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripThreads = new System.Windows.Forms.ToolStripStatusLabel();
 			this.menuStrip1.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
+			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.tabControlMain.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tableLayoutStructure.SuspendLayout();
@@ -118,6 +124,7 @@ namespace SEOMacroscope
 			((System.ComponentModel.ISupportInitialize)(this.dataGridTelephoneNumbers)).BeginInit();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -181,20 +188,21 @@ namespace SEOMacroscope
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
 			// 
-			// tableLayoutPanel1
+			// tableLayoutPanelMainContainer
 			// 
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.tabControlMain, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 2;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 338);
-			this.tableLayoutPanel1.TabIndex = 2;
+			this.tableLayoutPanelMainContainer.ColumnCount = 1;
+			this.tableLayoutPanelMainContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelMainContainer.Controls.Add(this.tabControlMain, 0, 1);
+			this.tableLayoutPanelMainContainer.Controls.Add(this.tableLayoutPanel2, 0, 0);
+			this.tableLayoutPanelMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanelMainContainer.Location = new System.Drawing.Point(0, 24);
+			this.tableLayoutPanelMainContainer.Name = "tableLayoutPanelMainContainer";
+			this.tableLayoutPanelMainContainer.RowCount = 2;
+			this.tableLayoutPanelMainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.tableLayoutPanelMainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelMainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanelMainContainer.Size = new System.Drawing.Size(784, 338);
+			this.tableLayoutPanelMainContainer.TabIndex = 2;
 			// 
 			// tabControlMain
 			// 
@@ -244,6 +252,7 @@ namespace SEOMacroscope
 			this.dataGridStructure.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridStructure.Location = new System.Drawing.Point(0, 0);
 			this.dataGridStructure.Margin = new System.Windows.Forms.Padding(0);
+			this.dataGridStructure.MultiSelect = false;
 			this.dataGridStructure.Name = "dataGridStructure";
 			this.dataGridStructure.ReadOnly = true;
 			this.dataGridStructure.Size = new System.Drawing.Size(764, 125);
@@ -471,12 +480,36 @@ namespace SEOMacroscope
 			this.buttonPause.UseVisualStyleBackColor = true;
 			this.buttonPause.Click += new System.EventHandler(this.CallbackScanPause);
 			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripUrlCount,
+			this.toolStripThreads});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 340);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(784, 22);
+			this.statusStrip1.TabIndex = 3;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// toolStripUrlCount
+			// 
+			this.toolStripUrlCount.Name = "toolStripUrlCount";
+			this.toolStripUrlCount.Size = new System.Drawing.Size(33, 17);
+			this.toolStripUrlCount.Text = "URLs";
+			// 
+			// toolStripThreads
+			// 
+			this.toolStripThreads.Name = "toolStripThreads";
+			this.toolStripThreads.Size = new System.Drawing.Size(49, 17);
+			this.toolStripThreads.Text = "Threads";
+			// 
 			// MacroscopeMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 362);
-			this.Controls.Add(this.tableLayoutPanel1);
+			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.tableLayoutPanelMainContainer);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.MinimumSize = new System.Drawing.Size(800, 400);
@@ -484,7 +517,7 @@ namespace SEOMacroscope
 			this.Text = "MacroscopeMainForm";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanelMainContainer.ResumeLayout(false);
 			this.tabControlMain.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tableLayoutStructure.ResumeLayout(false);
@@ -501,6 +534,8 @@ namespace SEOMacroscope
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
 			this.tableLayoutPanel3.ResumeLayout(false);
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -40,32 +40,28 @@ namespace SEOMacroscope
 
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sURL );
 			Hashtable DocCollection = this.msJobMaster.GetDocCollection();
-			
-			
-			
-			
-			
+
 			/*
 			if( this.msJobMaster.GetRobots().ApplyRobotRule( sURL ) ) {
 				debug_msg( string.Format( "Disallowed by robots.txt: {0}", sURL ), 1 );
 				return;
 			}
-*/
+			*/
+
+			this.msJobMaster.HistoryAdd( sURL );
 
 			if( DocCollection.ContainsKey( sURL ) ) {
 				return;
 			} else {
 				DocCollection.Add( sURL, msDoc );
 			}
-			
-			/*
+
 			if( msDoc.Depth > this.msJobMaster.Depth ) {
 				//debug_msg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
 				DocCollection.Remove( sURL );
 				return;
 			}
-			*/
-			
+
 			if( this.msJobMaster.ProbeHrefLangs ) {
 				msDoc.ProbeHrefLangs = true;
 			}

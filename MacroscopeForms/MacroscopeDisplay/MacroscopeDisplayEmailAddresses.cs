@@ -51,25 +51,29 @@ namespace SEOMacroscope
 			this.dtTable.Columns.Add( constEmailAddress, typeof( string ) );
 			this.dtTable.Columns.Add( constURL, typeof( string ) );
 
-			foreach( string sKeyURL in htDocCollection.Keys ) {
+			lock( htDocCollection ) {
 
-				MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[sKeyURL];
+				foreach( string sKeyURL in htDocCollection.Keys ) {
 
-				if( msDoc.GetIsHtml() ) {
+					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKeyURL ];
+
+					if( msDoc.GetIsHtml() ) {
 				
-					Hashtable htEmailAddresses = ( Hashtable )msDoc.GetEmailAddresses();
+						Hashtable htEmailAddresses = ( Hashtable )msDoc.GetEmailAddresses();
 					
-					foreach( string sEmailAddress in htEmailAddresses.Keys ) {
-						DataRow dtRow = this.dtTable.NewRow();
-						dtRow.SetField( constEmailAddress, sEmailAddress );
-						dtRow.SetField( constURL, sKeyURL );
-						this.dtTable.Rows.Add( dtRow );
+						foreach( string sEmailAddress in htEmailAddresses.Keys ) {
+							DataRow dtRow = this.dtTable.NewRow();
+							dtRow.SetField( constEmailAddress, sEmailAddress );
+							dtRow.SetField( constURL, sKeyURL );
+							this.dtTable.Rows.Add( dtRow );
+						}
+
 					}
 
 				}
-
+			
 			}
-
+			
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (

@@ -30,10 +30,13 @@ namespace SEOMacroscope
 		{
 
 			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke( new MethodInvoker ( delegate {
-					msMainForm.GetDisplayHrefLang().DataSource = null;
-				}
-				) );
+				msMainForm.Invoke(
+					new MethodInvoker ( 
+						delegate {
+							msMainForm.GetDisplayHrefLang().DataSource = null;
+						}
+					) 
+				);
 			} else {
 				msMainForm.GetDisplayHrefLang().DataSource = null;
 			}
@@ -50,48 +53,53 @@ namespace SEOMacroscope
 				}
 			}
 
-			foreach( string sKeyURL in htDocCollection.Keys ) {
+			
+			lock( htDocCollection ) {
+			
+				foreach( string sKeyURL in htDocCollection.Keys ) {
 
-				MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[sKeyURL];
+					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKeyURL ];
 
-				if( msDoc.GetIsHtml() ) {
+					if( msDoc.GetIsHtml() ) {
 				
-					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
-					DataRow dtRow = this.dtTable.NewRow();
+						Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
+						DataRow dtRow = this.dtTable.NewRow();
 
-					dtRow.SetField( "Site Locale", msDoc.GetLocale() );
-					dtRow.SetField( "Title", msDoc.GetTitle() );
-					dtRow.SetField( msDoc.Locale, msDoc.GetUrl() );
+						dtRow.SetField( "Site Locale", msDoc.GetLocale() );
+						dtRow.SetField( "Title", msDoc.GetTitle() );
+						dtRow.SetField( msDoc.Locale, msDoc.GetUrl() );
 
-					foreach( string sLocale in htLocales.Keys ) {
-						if( sLocale != null ) {
-							if( htHrefLangs.ContainsKey( sLocale ) ) {
-								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[sLocale];
-								dtRow.SetField( sLocale, msHrefLang.GetUrl() );
-							} else {
-								dtRow.SetField( sLocale, "MISSSING" );
+						foreach( string sLocale in htLocales.Keys ) {
+							if( sLocale != null ) {
+								if( htHrefLangs.ContainsKey( sLocale ) ) {
+									MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
+									dtRow.SetField( sLocale, msHrefLang.GetUrl() );
+								} else {
+									dtRow.SetField( sLocale, "MISSSING" );
+								}
 							}
 						}
+
+						this.dtTable.Rows.Add( dtRow );
 					}
 
-					this.dtTable.Rows.Add( dtRow );
 				}
 
+			
 			}
-
+			
 			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke( new MethodInvoker ( delegate {
-					msMainForm.GetDisplayHrefLang().DataSource = this.dtTable;
-				}
-				) );
+				msMainForm.Invoke(
+					new MethodInvoker ( 
+						delegate {
+							msMainForm.GetDisplayHrefLang().DataSource = this.dtTable;
+						}
+					) 
+				);
 			} else {
 				msMainForm.GetDisplayHrefLang().DataSource = this.dtTable;
 			}
 
-			
-			
-
-			
 		}
 						
 		/**************************************************************************/

@@ -404,23 +404,33 @@ namespace SEOMacroscope
 
 			} else if( this.IsCssPage() ) {
 				debug_msg( string.Format( "IS CSS PAGE: {0}", this.Url ), 2 );
-				this.ProcessCssPage();
+				if( MacroscopePreferences.GetFetchStylesheets() ) {
+					this.ProcessCssPage();
+				}
 
 			} else if( this.IsImagePage() ) {
 				debug_msg( string.Format( "IS IMAGE PAGE: {0}", this.Url ), 2 );
-				this.ProcessImagePage();
+				if( MacroscopePreferences.GetFetchImages() ) {
+					this.ProcessImagePage();
+				}
 				
 			} else if( this.IsJavascriptPage() ) {
 				debug_msg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ), 2 );
-				this.process_javascript_page();
+				if( MacroscopePreferences.GetFetchJavascripts() ) {
+					this.process_javascript_page();
+				}
 
 			} else if( this.IsPdfPage() ) {
 				debug_msg( string.Format( "IS PDF PAGE: {0}", this.Url ), 2 );
-				this.ProcessPdfPage();
+				if( MacroscopePreferences.GetFetchPdfs() ) {
+					this.ProcessPdfPage();
+				}
 
 			} else if( this.IsBinaryPage() ) {
 				debug_msg( string.Format( "IS BINARY PAGE: {0}", this.Url ), 2 );
-				this.ProcessBinaryPage();
+				if( MacroscopePreferences.GetFetchBinaries() ) {
+					this.ProcessBinaryPage();
+				}
 
 			} else {
 				debug_msg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.Url ), 2 );
@@ -510,6 +520,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		/*
 		public void debug_msg ( String sMsg )
 		{
 		}
@@ -517,7 +528,8 @@ namespace SEOMacroscope
 		public void debug_msg ( String sMsg, int iOffset )
 		{
 		}
-
+		*/
+		
 		/**************************************************************************/
 
 	}
