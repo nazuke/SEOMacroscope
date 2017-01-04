@@ -33,7 +33,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Button buttonStart;
 		private System.Windows.Forms.Button buttonReset;
 		private System.Windows.Forms.DataGridView dataGridStructure;
-		private System.Windows.Forms.Button buttonPause;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
 		private System.Windows.Forms.DataGridView dataGridHrefLang;
 		private System.Windows.Forms.TabPage tabPage3;
@@ -42,6 +41,9 @@ namespace SEOMacroscope
 		private System.Windows.Forms.DataGridView dataGridEmailAddresses;
 		private System.Windows.Forms.DataGridView dataGridTelephoneNumbers;
 		private System.Windows.Forms.DataGridView dataGridViewRedirectsAudit;
+		private System.Windows.Forms.Button buttonPause;
+		private System.Windows.Forms.Button buttonStop;
+		private System.Windows.Forms.Button buttonResume;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -64,11 +66,11 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,9 +96,11 @@ namespace SEOMacroscope
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.textBoxURL = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-			this.buttonPause = new System.Windows.Forms.Button();
+			this.buttonResume = new System.Windows.Forms.Button();
+			this.buttonStop = new System.Windows.Forms.Button();
 			this.buttonStart = new System.Windows.Forms.Button();
 			this.buttonReset = new System.Windows.Forms.Button();
+			this.buttonPause = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tabControlMain.SuspendLayout();
@@ -125,7 +129,7 @@ namespace SEOMacroscope
 			this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(584, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(784, 24);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -189,7 +193,7 @@ namespace SEOMacroscope
 			this.tableLayoutPanel1.RowCount = 2;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(584, 338);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 338);
 			this.tableLayoutPanel1.TabIndex = 2;
 			// 
 			// tabControlMain
@@ -203,7 +207,7 @@ namespace SEOMacroscope
 			this.tabControlMain.Location = new System.Drawing.Point(3, 53);
 			this.tabControlMain.Name = "tabControlMain";
 			this.tabControlMain.SelectedIndex = 0;
-			this.tabControlMain.Size = new System.Drawing.Size(578, 282);
+			this.tabControlMain.Size = new System.Drawing.Size(778, 282);
 			this.tabControlMain.TabIndex = 3;
 			// 
 			// tabPage1
@@ -212,7 +216,7 @@ namespace SEOMacroscope
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(570, 256);
+			this.tabPage1.Size = new System.Drawing.Size(770, 256);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Structure Overview";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -228,21 +232,21 @@ namespace SEOMacroscope
 			this.tableLayoutStructure.RowCount = 2;
 			this.tableLayoutStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutStructure.Size = new System.Drawing.Size(564, 250);
+			this.tableLayoutStructure.Size = new System.Drawing.Size(764, 250);
 			this.tableLayoutStructure.TabIndex = 0;
 			// 
 			// dataGridStructure
 			// 
 			this.dataGridStructure.AllowUserToAddRows = false;
-			dataGridViewCellStyle11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridStructure.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
+			dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridStructure.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
 			this.dataGridStructure.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridStructure.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridStructure.Location = new System.Drawing.Point(0, 0);
 			this.dataGridStructure.Margin = new System.Windows.Forms.Padding(0);
 			this.dataGridStructure.Name = "dataGridStructure";
 			this.dataGridStructure.ReadOnly = true;
-			this.dataGridStructure.Size = new System.Drawing.Size(564, 125);
+			this.dataGridStructure.Size = new System.Drawing.Size(764, 125);
 			this.dataGridStructure.TabIndex = 0;
 			this.dataGridStructure.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.CallbackDataBindingComplete);
 			this.dataGridStructure.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.CallbackDataError);
@@ -254,7 +258,7 @@ namespace SEOMacroscope
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(570, 256);
+			this.tabPage2.Size = new System.Drawing.Size(770, 256);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "HrefLang Analysis";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -270,20 +274,20 @@ namespace SEOMacroscope
 			this.tableLayoutPanel4.RowCount = 2;
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel4.Size = new System.Drawing.Size(564, 250);
+			this.tableLayoutPanel4.Size = new System.Drawing.Size(764, 250);
 			this.tableLayoutPanel4.TabIndex = 0;
 			// 
 			// dataGridHrefLang
 			// 
 			this.dataGridHrefLang.AllowUserToAddRows = false;
-			dataGridViewCellStyle12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridHrefLang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridHrefLang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
 			this.dataGridHrefLang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridHrefLang.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridHrefLang.Location = new System.Drawing.Point(3, 3);
 			this.dataGridHrefLang.Name = "dataGridHrefLang";
 			this.dataGridHrefLang.ReadOnly = true;
-			this.dataGridHrefLang.Size = new System.Drawing.Size(558, 119);
+			this.dataGridHrefLang.Size = new System.Drawing.Size(758, 119);
 			this.dataGridHrefLang.TabIndex = 0;
 			this.dataGridHrefLang.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.CallbackDataBindingComplete);
 			// 
@@ -293,7 +297,7 @@ namespace SEOMacroscope
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(570, 256);
+			this.tabPage3.Size = new System.Drawing.Size(770, 256);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Redirects Audit";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -301,14 +305,14 @@ namespace SEOMacroscope
 			// dataGridViewRedirectsAudit
 			// 
 			this.dataGridViewRedirectsAudit.AllowUserToAddRows = false;
-			dataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
+			dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
 			this.dataGridViewRedirectsAudit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewRedirectsAudit.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridViewRedirectsAudit.Location = new System.Drawing.Point(3, 3);
 			this.dataGridViewRedirectsAudit.Name = "dataGridViewRedirectsAudit";
 			this.dataGridViewRedirectsAudit.ReadOnly = true;
-			this.dataGridViewRedirectsAudit.Size = new System.Drawing.Size(564, 250);
+			this.dataGridViewRedirectsAudit.Size = new System.Drawing.Size(764, 250);
 			this.dataGridViewRedirectsAudit.TabIndex = 0;
 			this.dataGridViewRedirectsAudit.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.CallbackDataBindingComplete);
 			// 
@@ -318,7 +322,7 @@ namespace SEOMacroscope
 			this.tabPage4.Location = new System.Drawing.Point(4, 22);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(570, 256);
+			this.tabPage4.Size = new System.Drawing.Size(770, 256);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "Email Addresses";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -326,14 +330,14 @@ namespace SEOMacroscope
 			// dataGridEmailAddresses
 			// 
 			this.dataGridEmailAddresses.AllowUserToAddRows = false;
-			dataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridEmailAddresses.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle14;
+			dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridEmailAddresses.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
 			this.dataGridEmailAddresses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridEmailAddresses.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridEmailAddresses.Location = new System.Drawing.Point(3, 3);
 			this.dataGridEmailAddresses.Name = "dataGridEmailAddresses";
 			this.dataGridEmailAddresses.ReadOnly = true;
-			this.dataGridEmailAddresses.Size = new System.Drawing.Size(564, 250);
+			this.dataGridEmailAddresses.Size = new System.Drawing.Size(764, 250);
 			this.dataGridEmailAddresses.TabIndex = 0;
 			this.dataGridEmailAddresses.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.CallbackDataBindingComplete);
 			// 
@@ -343,7 +347,7 @@ namespace SEOMacroscope
 			this.tabPage5.Location = new System.Drawing.Point(4, 22);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(570, 256);
+			this.tabPage5.Size = new System.Drawing.Size(770, 256);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "Telephone Numbers";
 			this.tabPage5.UseVisualStyleBackColor = true;
@@ -351,14 +355,14 @@ namespace SEOMacroscope
 			// dataGridTelephoneNumbers
 			// 
 			this.dataGridTelephoneNumbers.AllowUserToAddRows = false;
-			dataGridViewCellStyle15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridTelephoneNumbers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle15;
+			dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridTelephoneNumbers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
 			this.dataGridTelephoneNumbers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridTelephoneNumbers.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridTelephoneNumbers.Location = new System.Drawing.Point(3, 3);
 			this.dataGridTelephoneNumbers.Name = "dataGridTelephoneNumbers";
 			this.dataGridTelephoneNumbers.ReadOnly = true;
-			this.dataGridTelephoneNumbers.Size = new System.Drawing.Size(564, 250);
+			this.dataGridTelephoneNumbers.Size = new System.Drawing.Size(764, 250);
 			this.dataGridTelephoneNumbers.TabIndex = 0;
 			this.dataGridTelephoneNumbers.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.CallbackDataBindingComplete);
 			// 
@@ -366,7 +370,7 @@ namespace SEOMacroscope
 			// 
 			this.tableLayoutPanel2.ColumnCount = 2;
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.Controls.Add(this.textBoxURL, 0, 0);
 			this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -374,7 +378,7 @@ namespace SEOMacroscope
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 1;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(578, 44);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(778, 44);
 			this.tableLayoutPanel2.TabIndex = 4;
 			// 
 			// textBoxURL
@@ -382,38 +386,54 @@ namespace SEOMacroscope
 			this.textBoxURL.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.textBoxURL.Location = new System.Drawing.Point(3, 3);
 			this.textBoxURL.Name = "textBoxURL";
-			this.textBoxURL.Size = new System.Drawing.Size(322, 20);
+			this.textBoxURL.Size = new System.Drawing.Size(272, 20);
 			this.textBoxURL.TabIndex = 0;
 			// 
 			// tableLayoutPanel3
 			// 
-			this.tableLayoutPanel3.ColumnCount = 3;
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.tableLayoutPanel3.Controls.Add(this.buttonPause, 0, 0);
+			this.tableLayoutPanel3.ColumnCount = 5;
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tableLayoutPanel3.Controls.Add(this.buttonResume, 3, 0);
+			this.tableLayoutPanel3.Controls.Add(this.buttonStop, 1, 0);
 			this.tableLayoutPanel3.Controls.Add(this.buttonStart, 0, 0);
-			this.tableLayoutPanel3.Controls.Add(this.buttonReset, 2, 0);
+			this.tableLayoutPanel3.Controls.Add(this.buttonReset, 4, 0);
+			this.tableLayoutPanel3.Controls.Add(this.buttonPause, 2, 0);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel3.Location = new System.Drawing.Point(328, 0);
+			this.tableLayoutPanel3.Location = new System.Drawing.Point(278, 0);
 			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
 			this.tableLayoutPanel3.RowCount = 1;
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(250, 44);
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(500, 44);
 			this.tableLayoutPanel3.TabIndex = 1;
 			// 
-			// buttonPause
+			// buttonResume
 			// 
-			this.buttonPause.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.buttonResume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonPause.Location = new System.Drawing.Point(103, 3);
-			this.buttonPause.Name = "buttonPause";
-			this.buttonPause.Size = new System.Drawing.Size(69, 24);
-			this.buttonPause.TabIndex = 2;
-			this.buttonPause.Text = "Pause";
-			this.buttonPause.UseVisualStyleBackColor = true;
-			this.buttonPause.Click += new System.EventHandler(this.CallbackScanPause);
+			this.buttonResume.Location = new System.Drawing.Point(303, 3);
+			this.buttonResume.Name = "buttonResume";
+			this.buttonResume.Size = new System.Drawing.Size(94, 24);
+			this.buttonResume.TabIndex = 5;
+			this.buttonResume.Text = "Resume";
+			this.buttonResume.UseVisualStyleBackColor = true;
+			this.buttonResume.Click += new System.EventHandler(this.CallbackScanResume);
+			// 
+			// buttonStop
+			// 
+			this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonStop.Location = new System.Drawing.Point(103, 3);
+			this.buttonStop.Name = "buttonStop";
+			this.buttonStop.Size = new System.Drawing.Size(94, 24);
+			this.buttonStop.TabIndex = 4;
+			this.buttonStop.Text = "Stop";
+			this.buttonStop.UseVisualStyleBackColor = true;
+			this.buttonStop.Click += new System.EventHandler(this.CallbackScanStop);
 			// 
 			// buttonStart
 			// 
@@ -431,23 +451,35 @@ namespace SEOMacroscope
 			// 
 			this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonReset.Location = new System.Drawing.Point(178, 3);
+			this.buttonReset.Location = new System.Drawing.Point(403, 3);
 			this.buttonReset.Name = "buttonReset";
-			this.buttonReset.Size = new System.Drawing.Size(69, 24);
+			this.buttonReset.Size = new System.Drawing.Size(94, 24);
 			this.buttonReset.TabIndex = 1;
 			this.buttonReset.Text = "Reset";
 			this.buttonReset.UseVisualStyleBackColor = true;
 			this.buttonReset.Click += new System.EventHandler(this.CallbackScanReset);
 			// 
+			// buttonPause
+			// 
+			this.buttonPause.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonPause.Location = new System.Drawing.Point(203, 3);
+			this.buttonPause.Name = "buttonPause";
+			this.buttonPause.Size = new System.Drawing.Size(94, 24);
+			this.buttonPause.TabIndex = 3;
+			this.buttonPause.Text = "Pause";
+			this.buttonPause.UseVisualStyleBackColor = true;
+			this.buttonPause.Click += new System.EventHandler(this.CallbackScanPause);
+			// 
 			// MacroscopeMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(584, 362);
+			this.ClientSize = new System.Drawing.Size(784, 362);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
-			this.MinimumSize = new System.Drawing.Size(600, 400);
+			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "MacroscopeMainForm";
 			this.Text = "MacroscopeMainForm";
 			this.menuStrip1.ResumeLayout(false);
@@ -473,5 +505,5 @@ namespace SEOMacroscope
 			this.PerformLayout();
 
 		}
-	}
+		}
 }

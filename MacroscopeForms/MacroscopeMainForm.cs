@@ -18,7 +18,8 @@ namespace SEOMacroscope
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
 
 		Thread tScanningThread;
-		
+		MacroscopeJobMaster msJobMaster;
+			
 		/**************************************************************************/
 
 		public MacroscopeMainForm ()
@@ -34,7 +35,11 @@ namespace SEOMacroscope
 			
 			this.textBoxURL.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" ).ToString();
 
-			this.ScanningEnableControls();
+			msJobMaster = new MacroscopeJobMaster ( this );
+
+
+						
+			this.ScanningControlsEnable( true );
 
 		}
 		
@@ -96,19 +101,64 @@ namespace SEOMacroscope
 				
 		void CallbackScanStart ( object sender, EventArgs e )
 		{
+			this.ScanningControlsStart( true );
+
 			MacroscopePreferences.SavePreferences();
-			this.ScanningDisableControls();
-			this.tScanningThread = new Thread ( new ThreadStart ( ScanningThread ) );
+
+			this.tScanningThread = new Thread ( new ThreadStart ( this.ScanningThread ) );
 			this.tScanningThread.Start();
+
+		}
+
+		/**************************************************************************/
+		
+		void CallbackScanStop ( object sender, EventArgs e )
+		{
+
+			this.ScanningControlsStop( true );
+						
+			this.msJobMaster.WorkersPause();
+			this.msJobMaster.WorkersStop();
+
+			/*
+			while( !this.msJobMaster.WorkersStopped() ) {
+				debug_msg( "CallbackScanStop: WAITING" );
+				Thread.Sleep( 100 );
+			}
+			*/
+			
 		}
 
 		/**************************************************************************/
 
 		void CallbackScanPause ( object sender, EventArgs e )
 		{
+			
+			this.ScanningControlsPause( true );
+			
 			if( this.tScanningThread.IsAlive ) {
-				;
-				this.ScanningEnableControls();
+
+				while( !this.msJobMaster.WorkersPause() ) {
+					Thread.Sleep( 100 );
+				}
+
+				if( this.msJobMaster.WorkersPause() ) {
+					;
+				}
+
+			}
+
+		}
+		
+		/**************************************************************************/
+
+		void CallbackScanResume ( object sender, EventArgs e )
+		{
+			this.ScanningControlsResume( true );
+			if( this.tScanningThread.IsAlive ) {
+				if( this.msJobMaster.IsWorkersPaused() ) {
+					this.msJobMaster.WorkersUnpause();
+				}
 			}
 		}
 
@@ -116,15 +166,19 @@ namespace SEOMacroscope
 				
 		void CallbackScanReset ( object sender, EventArgs e )
 		{
-			if( this.tScanningThread.IsAlive ) {
-				this.tScanningThread.Abort();
+
+			this.ScanningControlsReset( true );
+
+			if( this.msJobMaster.WorkersStopped() ) {
+
+				this.dataGridStructure.DataSource = null;
+				this.dataGridHrefLang.DataSource = null;
+				this.dataGridEmailAddresses.DataSource = null;
+				this.dataGridTelephoneNumbers.DataSource = null;
+
+				this.msJobMaster = new MacroscopeJobMaster ( this );
+
 			}
-			this.ScanningEnableControls();
-			
-			this.dataGridStructure.DataSource = null;
-			this.dataGridHrefLang.DataSource = null;
-			this.dataGridEmailAddresses.DataSource = null;
-			this.dataGridTelephoneNumbers.DataSource = null;
 			
 		}
 		
@@ -136,7 +190,7 @@ namespace SEOMacroscope
 				this.Invoke(
 					new MethodInvoker (
 						delegate {
-							this.ScanningEnableControls();
+							this.ScanningControlsReset( true );
 						}
 					)
 				);
@@ -156,35 +210,76 @@ namespace SEOMacroscope
 		{
 			this.Update();
 		}
-		
+
 		/**************************************************************************/
 
-		void ScanningDisableControls ()
+		void ScanningControlsEnable ( Boolean bState )
+		{
+			this.textBoxURL.Enabled = true;
+			this.buttonStart.Enabled = true;
+			this.buttonStop.Enabled = false;
+			this.buttonPause.Enabled = false;
+			this.buttonResume.Enabled = false;
+			this.buttonReset.Enabled = false;
+		}
+
+		void ScanningControlsStart ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
 			this.buttonStart.Enabled = false;
+			this.buttonStop.Enabled = true;
 			this.buttonPause.Enabled = true;
+			this.buttonResume.Enabled = false;
+			this.buttonReset.Enabled = false;
+		}
+
+		void ScanningControlsStop ( Boolean bState )
+		{
+			this.textBoxURL.Enabled = true;
+			this.buttonStart.Enabled = true;
+			this.buttonStop.Enabled = false;
+			this.buttonPause.Enabled = false;
+			this.buttonResume.Enabled = false;
+			this.buttonReset.Enabled = true;
+		}
+
+		void ScanningControlsPause ( Boolean bState )
+		{
+			this.textBoxURL.Enabled = false;
+			this.buttonStart.Enabled = false;
+			this.buttonStop.Enabled = true;
+			this.buttonPause.Enabled = false;
+			this.buttonResume.Enabled = true;
+			this.buttonReset.Enabled = false;
+		}
+
+		void ScanningControlsResume ( Boolean bState )
+		{
+			this.textBoxURL.Enabled = false;
+			this.buttonStart.Enabled = false;
+			this.buttonStop.Enabled = true;
+			this.buttonPause.Enabled = true;
+			this.buttonResume.Enabled = false;
+			this.buttonReset.Enabled = false;
+		}
+
+		void ScanningControlsReset ( Boolean bState )
+		{
+			this.textBoxURL.Enabled = true;
+			this.buttonStart.Enabled = true;
+			this.buttonStop.Enabled = false;
+			this.buttonPause.Enabled = false;
+			this.buttonResume.Enabled = false;
 			this.buttonReset.Enabled = false;
 		}
 
 		/**************************************************************************/
 
-		void ScanningEnableControls ()
-		{
-			this.textBoxURL.Enabled = true;
-			this.buttonStart.Enabled = true;
-			this.buttonPause.Enabled = false;
-			this.buttonReset.Enabled = true;
-		}
-		
-		/**************************************************************************/
-
 		void ScanningThread ()
 		{
 			debug_msg( "Scanning Thread: Started." );
-			MacroscopeJobMaster msJobMaster = new MacroscopeJobMaster ( this );
-			msJobMaster.StartUrl = this.GetURL();
-			msJobMaster.Execute();
+			this.msJobMaster.StartUrl = this.GetURL();
+			this.msJobMaster.Execute();
 			debug_msg( "Scanning Thread: Done." );
 		}
 
@@ -234,10 +329,7 @@ namespace SEOMacroscope
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
-		void PropertyGrid1Click ( object sender, EventArgs e )
-		{
-	
-		}
+		
 
 
 		/**************************************************************************/

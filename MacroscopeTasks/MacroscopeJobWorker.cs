@@ -89,7 +89,7 @@ namespace SEOMacroscope
 
 				foreach( string sOutlinkKey in htOutlinks.Keys ) {
 					
-					string sOutlinkURL = ( string )htOutlinks[sOutlinkKey];
+					string sOutlinkURL = ( string )htOutlinks[ sOutlinkKey ];
 					//debug_msg( string.Format( "Outlink: {0}", sOutlinkURL ), 2 );
 
 					if( sOutlinkURL != null ) {
@@ -112,7 +112,7 @@ namespace SEOMacroscope
 						if( bProceed ) {
 							
 							if( MacroscopeURLTools.VerifySameHost( this.msJobMaster.StartUrl, sOutlinkURL ) ) {
-								this.msJobMaster.AddUrlQueue( sOutlinkURL );
+								this.msJobMaster.UrlQueueAdd( sOutlinkURL );
 							} else {
 								//debug_msg( string.Format( "FOREIGN HOST: {0}", sOutlinkURL ), 2 );
 							}
@@ -132,7 +132,16 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-				
+
+		public void debug_msg ( String sMsg )
+		{
+		}
+
+		public void debug_msg ( String sMsg, int iOffset )
+		{
+		}
+		
+		/**************************************************************************/
 	}
 	
 }

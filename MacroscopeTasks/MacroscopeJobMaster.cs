@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using RobotsTxt;
 using System.Threading;
+using System.Diagnostics;
 
 namespace SEOMacroscope
 {
@@ -16,8 +17,12 @@ namespace SEOMacroscope
 		
 		/** BEGIN: Configuration **/
 		
-		int MaxThreads;
-
+		int ThreadsMax;
+		int ThreadsRunning;
+		Boolean ThreadsPaused;
+		Boolean ThreadsStop;
+		Dictionary<int,Boolean> ThreadsDict;
+		
 		public string StartUrl { get; set; }
 		public uint Depth { get; set; }
 		public int PageLimit { get; set; }
@@ -41,11 +46,18 @@ namespace SEOMacroscope
 
 		public MacroscopeJobMaster ( MacroscopeMainForm msMainFormNew )
 		{
+
 			msMainForm = msMainFormNew;
 			msLocker = new MacroscopeJobLocker ();
-			
-			MaxThreads = 8;
 
+			ThreadsMax = 16;
+			ThreadsRunning = 0;
+			ThreadsPaused = false;
+			ThreadsStop = false;
+			ThreadsDict = new Dictionary<int,Boolean> ( ThreadsMax );
+
+			ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
+						
 			Depth = MacroscopePreferences.GetDepth();
 			PageLimit = MacroscopePreferences.GetPageLimit();
 			PageLimitCount = 0;
@@ -57,6 +69,7 @@ namespace SEOMacroscope
 			DocCollection = new Hashtable ( 4096 );
 			Locales = new Hashtable ( 32 );
 			msRobots = new MacroscopeRobots ();
+
 		}
 
 		/**************************************************************************/
@@ -68,28 +81,22 @@ namespace SEOMacroscope
 
 			debug_msg( string.Format( "Start URL: {0}", this.StartUrl ), 1 );
 
-			//this.PageLimitCount = 0;
-			//this.Recurse( StartUrl, StartUrl, 0 );
-
-			this.AddUrlQueue( this.StartUrl );
-			
-			this.WorkersSeedStartUrl();
+			this.ThreadsPaused = false;
+			this.ThreadsStop = false;
+			 							
+			if( !this.UrlQueuePeek() ) {
+				this.UrlQueueAdd( this.StartUrl );
+			}
 			
 			this.WorkersSpawn();
 			
 			debug_msg( string.Format( "Pages Found: {0}", this.PagesFound ), 1 );
 
 			debug_msg( "Done", 1 );
+			
 			//this.msMainForm.CallbackScanComplete();
+			
 			return( true );
-		}
-
-		/**************************************************************************/
-		
-		void WorkersSeedStartUrl ()
-		{
-			MacroscopeJobWorker msJobWorker = new MacroscopeJobWorker ( this );
-			msJobWorker.Execute( this.GetUrlQueue() );			
 		}
 
 		/**************************************************************************/
@@ -98,33 +105,57 @@ namespace SEOMacroscope
 		{
 
 			Boolean bDoRun = true;
-			
-			ThreadPool.SetMaxThreads( this.MaxThreads, this.MaxThreads );
-			
-			while( bDoRun == true ) {
-					
-				ThreadPool.QueueUserWorkItem( this.WorkerStart, null );
-				
-				Thread.Sleep( 1000 );
-				
-				bDoRun = this.PeekUrlQueue();
 
+			while( bDoRun == true ) {
+
+				//debug_msg( string.Format( "this.ThreadsStop: {0}", this.ThreadsStop.ToString() ) );
+
+				if( this.ThreadsStop == true ) {
+
+					debug_msg( string.Format( "WorkersSpawn: {0}", "STOPPING" ) );
+					bDoRun = false;
+					break;
+
+				} else {
+
+					if( this.ThreadsPaused == true ) {
+
+						debug_msg( string.Format( "WorkersSpawn: {0}", "PAUSED" ) );
+						Thread.Sleep( 1000 );
+
+					} else {
+				
+						Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.WorkerStart, null );
+
+						Thread.Sleep( 1000 );
+
+						if( this.RunningThreadsCount() == 0 ) {
+							if( !this.UrlQueuePeek() ) {
+								bDoRun = false;
+							}
+						}
+
+					}
+				
+				}
 			}
 			
+			debug_msg( string.Format( "WorkersSpawn: STOPPED" ) );
+
 		}
 		
 		/**************************************************************************/
 		
-		void WorkerStart ( object ThreadContext )
+		void WorkerStart ( object thContext )
 		{
 
 			MacroscopeJobWorker msJobWorker = new MacroscopeJobWorker ( this );
 
-			string sURL = this.GetUrlQueue();
-
-			debug_msg( string.Format( "sURL: {0}", sURL ) );
+			string sURL = this.UrlQueueGet();
+			//debug_msg( string.Format( "sURL: {0}", sURL ) );
 
 			if( sURL != null ) {
+				this.RunningThreadsInc();
 				msJobWorker.Execute( sURL );
 			}
 
@@ -134,34 +165,129 @@ namespace SEOMacroscope
 
 		public void WorkersNotifyDone ( string sURL )
 		{
-			debug_msg( string.Format( "WorkersNotifyDone: {0}", sURL ) );
+			//debug_msg( string.Format( "WorkersNotifyDone: {0}", sURL ) );
+			this.RunningThreadsDec();
 			this.UpdateDisplay();
 		}
 		
 		/**************************************************************************/
 
-
-
+		public void WorkersStop ()
+		{
+			lock( this.msLocker ) {
+				debug_msg( string.Format( "WorkersStop" ) );
+				this.ThreadsStop = true;
+			}
+		}
 
 		/**************************************************************************/
 		
-		public void AddUrlQueue ( string sURL )
+		public Boolean WorkersStopped ()
+		{
+			Boolean bIsStopped = false;
+			lock( this.msLocker ) {
+				//debug_msg( string.Format( "WorkersStopped" ) );
+
+				int iThreadCount = this.RunningThreadsCount();
+				debug_msg( string.Format( "iThreadCount: {0}", iThreadCount.ToString() ) );
+
+				if( iThreadCount == 0 ) {
+					bIsStopped = true;
+				}
+
+			}
+			return( bIsStopped );
+		}
+
+		/**************************************************************************/
+		
+		public Boolean WorkersPause ()
+		{
+			lock( this.msLocker ) {
+				debug_msg( string.Format( "WorkersPause" ) );
+				this.ThreadsPaused = true;
+			}
+			return( this.ThreadsPaused );
+		}
+		
+		/**************************************************************************/
+
+		public void WorkersUnpause ()
+		{
+			lock( this.msLocker ) {
+				debug_msg( string.Format( "WorkersUnpause" ) );
+				this.ThreadsPaused = false;
+			}
+		}
+		
+		/**************************************************************************/
+
+		public Boolean IsWorkersPaused ()
+		{
+			return( this.ThreadsPaused );
+		}
+		
+		/**************************************************************************/
+
+		void RunningThreadsInc ()
+		{
+			lock( this.msLocker ) {
+				int iThreadId = Thread.CurrentThread.ManagedThreadId;
+				this.ThreadsDict[ iThreadId ] = true;
+				//debug_msg( string.Format( "iThreadId: {0}", iThreadId.ToString() ) );
+				this.ThreadsRunning++;
+			}
+		}
+		
+		/**************************************************************************/
+
+		void RunningThreadsDec ()
+		{
+			lock( this.msLocker ) {
+				if( this.ThreadsRunning > 0 ) {
+					int iThreadId = Thread.CurrentThread.ManagedThreadId;
+					if( this.ThreadsDict.ContainsKey( iThreadId ) ) {
+						this.ThreadsDict.Remove( iThreadId );
+					}
+					this.ThreadsRunning--;
+				}
+			}
+		}
+		
+		/**************************************************************************/
+				
+		int RunningThreadsCount ()
+		{
+			int iRunningThreads = 0;
+			lock( this.msLocker ) {
+				iRunningThreads = this.ThreadsRunning;
+			}
+			return( iRunningThreads );
+		}
+
+		/**************************************************************************/
+		
+		public void UrlQueueAdd ( string sURL )
 		{
 			lock( msLocker ) {
-				debug_msg( string.Format( "AddUrlQueue: {0}", sURL ) );
+				//debug_msg( string.Format( "AddUrlQueue: {0}", sURL ) );
 				this.UrlQueue.Enqueue( sURL );
 			}
 		}
 		
 		/**************************************************************************/
 		
-		public string GetUrlQueue ()
+		public string UrlQueueGet ()
 		{
 			string sURL = null;
 			lock( msLocker ) {
-				debug_msg( string.Format( "GetUrlQueue: {0}", this.UrlQueue.Count.ToString() ) );
-				if( this.UrlQueue.Count > 0 ) {
-					sURL = this.UrlQueue.Dequeue();
+				//debug_msg( string.Format( "GetUrlQueue: {0}", this.UrlQueue.Count.ToString() ) );
+				try {
+					if( this.UrlQueue.Count > 0 ) {
+						sURL = this.UrlQueue.Dequeue();
+					}
+				} catch( InvalidOperationException ex ) {
+					debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 				}
 			}
 			return( sURL );
@@ -169,16 +295,17 @@ namespace SEOMacroscope
 	
 		/**************************************************************************/
 				
-		public Boolean PeekUrlQueue ()
+		public Boolean UrlQueuePeek ()
 		{
 			Boolean bPeek = false;
 			lock( msLocker ) {
-				debug_msg( string.Format( "PeekUrlQueue: {0}", this.UrlQueue.Count.ToString() ) );
-				//if( this.UrlQueue.Count < this.MaxThreads ) {
-				//	Thread.Sleep( 3000 );
-				//}
-				if( this.UrlQueue.Count > 0 ) {
-					bPeek = true;
+				//debug_msg( string.Format( "PeekUrlQueue: {0}", this.UrlQueue.Count.ToString() ) );
+				try {
+					if( this.UrlQueue.Count > 0 ) {
+						bPeek = true;
+					}
+				} catch( InvalidOperationException ex ) {
+					debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 				}
 			}
 			return( bPeek );
@@ -212,7 +339,7 @@ namespace SEOMacroscope
 		public void AddLocales ( string sLocale )
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
-				this.Locales[sLocale] = sLocale;
+				this.Locales[ sLocale ] = sLocale;
 			}
 		}
 
@@ -224,12 +351,18 @@ namespace SEOMacroscope
 		}
 		
 		/**************************************************************************/
-		
-		
+
 		public void UpdateDisplay ()
 		{
+			if( this.ThreadsStop == true ) {
+				return;
+			}
 			lock( this.msLocker ) {
-				this.msMainForm.UpdateDisplayStructure( this );
+				try {
+					this.msMainForm.UpdateDisplayStructure( this );
+				} catch( ArgumentException ex ) {
+					debug_msg( string.Format( "UpdateDisplay: {0}", ex.Message ), 1 );
+				}
 			}
 		}
 				

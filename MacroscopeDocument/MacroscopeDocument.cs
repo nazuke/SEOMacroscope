@@ -126,7 +126,7 @@ namespace SEOMacroscope
 			} else {
 				MatchCollection matches = Regex.Matches( this.MimeType, "^([^\\s;/]+)/([^\\s;/]+)" );
 				foreach( Match match in matches ) {
-					sMimeType = String.Format( "{0}/{1}", match.Groups[1].Value, match.Groups[2].Value );
+					sMimeType = String.Format( "{0}/{1}", match.Groups[ 1 ].Value, match.Groups[ 2 ].Value );
 				}
 				if( sMimeType == null ) {
 					sMimeType = this.MimeType;
@@ -197,8 +197,8 @@ namespace SEOMacroscope
 		public Hashtable AddHyperlinkIn ( string sURL )
 		{
 			if( this.HyperlinksIn.ContainsKey( sURL ) ) {
-				int count = ( int )this.HyperlinksIn[sURL] + 1;
-				this.HyperlinksIn[sURL] = count;
+				int count = ( int )this.HyperlinksIn[ sURL ] + 1;
+				this.HyperlinksIn[ sURL ] = count;
 			} else {
 				this.HyperlinksIn.Add( sURL, 1 );
 			}
@@ -241,7 +241,7 @@ namespace SEOMacroscope
 		{
 			debug_msg( string.Format( "AddEmailAddress: {0}", sString ) );
 			if( this.EmailAddresses.ContainsKey( sString ) ) {
-				this.EmailAddresses[sString] = this.GetUrl();
+				this.EmailAddresses[ sString ] = this.GetUrl();
 			} else {
 				this.EmailAddresses.Add( sString, this.GetUrl() );
 			}
@@ -261,7 +261,7 @@ namespace SEOMacroscope
 		{
 			debug_msg( string.Format( "AddTelephoneNumber: {0}", sString ) );
 			if( this.TelephoneNumbers.ContainsKey( sString ) ) {
-				this.TelephoneNumbers[sString] = this.GetUrl();
+				this.TelephoneNumbers[ sString ] = this.GetUrl();
 			} else {
 				this.TelephoneNumbers.Add( sString, this.GetUrl() );
 			}
@@ -350,7 +350,7 @@ namespace SEOMacroscope
 		void SetHreflang ( string sLocale, string sURL )
 		{
 			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( false, sLocale, sURL );
-			this.HrefLang[sLocale] = msHrefLang;
+			this.HrefLang[ sLocale ] = msHrefLang;
 		}
 
 		/**************************************************************************/
@@ -506,6 +506,16 @@ namespace SEOMacroscope
 					break;
 			}
 			return( iStatus );
+		}
+
+		/**************************************************************************/
+
+		public void debug_msg ( String sMsg )
+		{
+		}
+
+		public void debug_msg ( String sMsg, int iOffset )
+		{
 		}
 
 		/**************************************************************************/

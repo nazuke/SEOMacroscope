@@ -57,7 +57,6 @@ namespace SEOMacroscope
 				if( msDoc.GetIsHtml() ) {
 				
 					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
-
 					DataRow dtRow = this.dtTable.NewRow();
 
 					dtRow.SetField( "Site Locale", msDoc.GetLocale() );
