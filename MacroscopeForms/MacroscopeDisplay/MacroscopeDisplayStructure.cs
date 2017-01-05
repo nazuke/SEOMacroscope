@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -81,98 +82,98 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void RefreshData ( Hashtable htDocCollection )
+		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
 		{
 
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate {
+							//msMainForm.GetDisplayStructure().SuspendLayout();
+							msMainForm.SuspendLayout();
 							msMainForm.GetDisplayStructure().DataSource = null;
 						}
 					) 
 				);
 			} else {
+				//msMainForm.GetDisplayStructure().SuspendLayout();
+				msMainForm.SuspendLayout();
 				msMainForm.GetDisplayStructure().DataSource = null;
 			}
 
 			dtTable.Rows.Clear();
 
-			
-			lock( htDocCollection ) {
-			
-			
-				foreach( string sKeyURL in htDocCollection.Keys ) {
+			foreach( string sKeyURL in htDocCollection.Keys() ) {
 
-					DataRow dtRow = dtTable.NewRow();
-					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKeyURL ];
+				DataRow dtRow = dtTable.NewRow();
+				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
 
-					dtRow.SetField( constURL, msDoc.GetUrl() );
+				dtRow.SetField( constURL, msDoc.GetUrl() );
 
-					dtRow.SetField( constStatus, msDoc.GetStatusCode() );
-					dtRow.SetField( constIsRedirect, msDoc.GetIsRedirect() );
+				dtRow.SetField( constStatus, msDoc.GetStatusCode() );
+				dtRow.SetField( constIsRedirect, msDoc.GetIsRedirect() );
 
-					dtRow.SetField( constContentType, msDoc.GetMimeType() );
+				dtRow.SetField( constContentType, msDoc.GetMimeType() );
 
-					{
-						string sLang = msDoc.GetLang();
-						if( sLang == null ) {
-							sLang = "";
-						}
-						dtRow.SetField( constLang, sLang );
+				{
+					string sLang = msDoc.GetLang();
+					if( sLang == null ) {
+						sLang = "";
 					}
+					dtRow.SetField( constLang, sLang );
+				}
 								
-					dtRow.SetField( constCanonical, msDoc.GetCanonical() );
+				dtRow.SetField( constCanonical, msDoc.GetCanonical() );
 
-					dtRow.SetField( constInhyperlinks, msDoc.CountHyperlinksIn() );
-					dtRow.SetField( constOuthyperlinks, msDoc.CountHyperlinksOut() );
+				dtRow.SetField( constInhyperlinks, msDoc.CountHyperlinksIn() );
+				dtRow.SetField( constOuthyperlinks, msDoc.CountHyperlinksOut() );
 												
-					dtRow.SetField( constTitle, msDoc.GetTitle() );
-					dtRow.SetField( constTitleLen, msDoc.GetTitleLength() );
+				dtRow.SetField( constTitle, msDoc.GetTitle() );
+				dtRow.SetField( constTitleLen, msDoc.GetTitleLength() );
 
-					dtRow.SetField( constDescription, msDoc.GetDescription() );
-					dtRow.SetField( constDescriptionLen, msDoc.GetDescriptionLength() );
+				dtRow.SetField( constDescription, msDoc.GetDescription() );
+				dtRow.SetField( constDescriptionLen, msDoc.GetDescriptionLength() );
 				
-					dtRow.SetField( constKeywords, msDoc.GetKeywords() );
-					dtRow.SetField( constKeywordsLen, msDoc.GetKeywordsLength() );
-					dtRow.SetField( constKeywordsCount, msDoc.GetKeywordsCount() );
+				dtRow.SetField( constKeywords, msDoc.GetKeywords() );
+				dtRow.SetField( constKeywordsLen, msDoc.GetKeywordsLength() );
+				dtRow.SetField( constKeywordsCount, msDoc.GetKeywordsCount() );
 
-					{
-						ArrayList aHeadings = msDoc.GetHeadings1();
-						string sText = "";
-						if( aHeadings.Count > 0 ) {
-							sText = ( string )aHeadings[ 0 ];
-						}
-						dtRow.SetField( constH1, sText );
+				{
+					ArrayList aHeadings = msDoc.GetHeadings1();
+					string sText = "";
+					if( aHeadings.Count > 0 ) {
+						sText = ( string )aHeadings[ 0 ];
 					}
+					dtRow.SetField( constH1, sText );
+				}
 				
-					{
-						ArrayList aHeadings = msDoc.GetHeadings2();
-						string sText = "";
-						if( aHeadings.Count > 0 ) {
-							sText = ( string )aHeadings[ 0 ];
-						}
-						dtRow.SetField( constH2, sText );
+				{
+					ArrayList aHeadings = msDoc.GetHeadings2();
+					string sText = "";
+					if( aHeadings.Count > 0 ) {
+						sText = ( string )aHeadings[ 0 ];
 					}
-
-					dtTable.Rows.Add( dtRow );
-
+					dtRow.SetField( constH2, sText );
 				}
 
-			
+				dtTable.Rows.Add( dtRow );
+
 			}
-			
-			
+
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke( 
 					new MethodInvoker ( 
 						delegate {
 							msMainForm.GetDisplayStructure().DataSource = this.dtTable;
+							msMainForm.ResumeLayout();
+							//msMainForm.GetDisplayStructure().ResumeLayout();
 						}
 					) 
 				);
 			} else {
 				msMainForm.GetDisplayStructure().DataSource = this.dtTable;
+				msMainForm.ResumeLayout();
+				//msMainForm.GetDisplayStructure().ResumeLayout();
 			}
 
 		}

@@ -59,6 +59,9 @@
     <Reference Include="DocumentFormat.OpenXml">
       <HintPath>packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
+    <Reference Include="ExCSS">
+      <HintPath>packages\ExCSS.2.0.6\lib\net40\ExCSS.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -75,6 +78,7 @@
       <HintPath>packages\RobotsTxt.2014.02.19\lib\RobotsTxt.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -83,6 +87,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
@@ -92,6 +97,7 @@
   <ItemGroup>
     <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
+    <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferences.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHrefLang.cs" />
@@ -108,6 +114,8 @@
     <Compile Include="MacroscopeForms\MacroscopeMainForm.Designer.cs">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeReports\MacroscopeExcelHrefLangReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelOverviewReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports.cs" />
     <Compile Include="MacroscopeStandards\MacroscopeRobots.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobMaster.cs" />
@@ -138,6 +146,7 @@
     <Folder Include="MacroscopeStandards" />
     <Folder Include="MacroscopeAnalysis" />
     <Folder Include="MacroscopeEnvironment" />
+    <Folder Include="MacroscopeDocumentCollection" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

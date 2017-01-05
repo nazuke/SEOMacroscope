@@ -39,27 +39,27 @@ namespace SEOMacroscope
 		{
 
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sURL );
-			Hashtable DocCollection = this.msJobMaster.GetDocCollection();
+			MacroscopeDocumentCollection DocCollection = this.msJobMaster.GetDocCollection();
 
-			/*
-			if( this.msJobMaster.GetRobots().ApplyRobotRule( sURL ) ) {
+			if( ! this.msJobMaster.GetRobots().ApplyRobotRule( sURL ) ) {
 				debug_msg( string.Format( "Disallowed by robots.txt: {0}", sURL ), 1 );
 				return;
 			}
-			*/
 
 			this.msJobMaster.HistoryAdd( sURL );
 
-			if( DocCollection.ContainsKey( sURL ) ) {
+			if( DocCollection.Contains( sURL ) ) {
 				return;
 			} else {
 				DocCollection.Add( sURL, msDoc );
 			}
 
-			if( msDoc.Depth > this.msJobMaster.Depth ) {
-				//debug_msg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
-				DocCollection.Remove( sURL );
-				return;
+			if( this.msJobMaster.Depth > 0 ) {
+				if( msDoc.Depth > this.msJobMaster.Depth ) {
+					//debug_msg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
+					DocCollection.Remove( sURL );
+					return;
+				}
 			}
 
 			if( this.msJobMaster.ProbeHrefLangs ) {
@@ -86,15 +86,15 @@ namespace SEOMacroscope
 				foreach( string sOutlinkKey in htOutlinks.Keys ) {
 					
 					string sOutlinkURL = ( string )htOutlinks[ sOutlinkKey ];
-					//debug_msg( string.Format( "Outlink: {0}", sOutlinkURL ), 2 );
 
 					if( sOutlinkURL != null ) {
 
 						Boolean bProceed = true;
 
-						/*
 						if( this.msJobMaster.PageLimit < 0 ) {
+
 							bProceed = true;
+
 						} else if( this.msJobMaster.PageLimit > -1 ) {
 						
 							if( this.msJobMaster.PageLimitCount >= this.msJobMaster.PageLimit ) {
@@ -103,7 +103,6 @@ namespace SEOMacroscope
 							}
 							
 						}
-						*/
 						
 						if( bProceed ) {
 							
@@ -129,6 +128,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		/*
 		public void debug_msg ( String sMsg )
 		{
 		}
@@ -136,6 +136,7 @@ namespace SEOMacroscope
 		public void debug_msg ( String sMsg, int iOffset )
 		{
 		}
+		*/
 		
 		/**************************************************************************/
 	}

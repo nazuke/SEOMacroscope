@@ -12,10 +12,14 @@ namespace SEOMacroscope
 		static string HomeDirectory;
 		static string PrefsDirectory;
 
-		static uint Depth;
+		static int Depth;
 		static int PageLimit;
+
 		static Boolean SameSite;
 		static Boolean ProbeHreflangs;
+
+		static Boolean FollowRobotsProtocol;
+		static Boolean FollowNoFollow;
 
 		static Boolean FetchStylesheets;
 		static Boolean FetchJavascripts;
@@ -27,14 +31,21 @@ namespace SEOMacroscope
 		
 		static MacroscopePreferences ()
 		{
-			Depth = 10;
+
+			Depth = -1;
 			PageLimit = -1;
+
 			SameSite = true;
 			ProbeHreflangs = false;
-			FetchStylesheets = false;
+			
+			FollowRobotsProtocol = false;
+			FollowNoFollow = true;
+
+			FetchStylesheets = true;
 			FetchJavascripts = false;
 			FetchImages = false;
 			FetchPdfs = false;
+
 		}
 		
 		/**************************************************************************/
@@ -92,7 +103,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public static uint GetDepth ()
+		public static int GetDepth ()
 		{
 			return( Depth );
 		}
@@ -116,6 +127,30 @@ namespace SEOMacroscope
 		public static Boolean GetProbeHreflangs ()
 		{
 			return( ProbeHreflangs );
+		}
+
+		/**************************************************************************/
+		
+		public static Boolean GetFollowRobotsProtocol ()
+		{
+			return( FollowRobotsProtocol );
+		}
+
+		public static void SetFollowRobotsProtocol ( Boolean bState )
+		{
+			FollowRobotsProtocol = bState;
+		}
+
+		/**************************************************************************/
+		
+		public static Boolean GetFollowNoFollow ()
+		{
+			return( FollowNoFollow );
+		}
+
+		public static void SetFollowNoFollow ( Boolean bState )
+		{
+			FollowNoFollow = bState;
 		}
 
 		/**************************************************************************/

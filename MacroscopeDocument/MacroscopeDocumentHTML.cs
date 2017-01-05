@@ -91,13 +91,19 @@ namespace SEOMacroscope
 				debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
 
 				// Get Response Body
-				debug_msg( string.Format( "MIME TYPE: {0}", this.MimeType ), 3 );
-				Stream sStream = res.GetResponseStream();
-				StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
-				sRawData = srRead.ReadToEnd();
-				this.ContentLength = sRawData.Length; // May need to find bytes length
-				//debug_msg( string.Format( "sRawData: {0}", sRawData ), 3 );
-
+				try {
+					debug_msg( string.Format( "MIME TYPE: {0}", this.MimeType ), 3 );
+					Stream sStream = res.GetResponseStream();
+					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
+					sRawData = srRead.ReadToEnd();
+					this.ContentLength = sRawData.Length; // May need to find bytes length
+					//debug_msg( string.Format( "sRawData: {0}", sRawData ), 3 );
+				} catch( WebException ex ) {
+					this.StatusCode = 500;
+					sRawData = "";
+					this.ContentLength = 0;
+				}
+				
 				if( sRawData.Length > 0 ) {
 					this.HtmlDoc = new HtmlDocument ();
 					this.HtmlDoc.LoadHtml( sRawData );
@@ -326,7 +332,7 @@ namespace SEOMacroscope
 					if( Regex.IsMatch( sLinkURL, "^mailto:" ) ) {
 						MatchCollection reMatches = Regex.Matches( sLinkURL, "^mailto:([^?]+)" );
 						foreach( Match reMatch in reMatches ) {
-							this.AddEmailAddress( reMatch.Groups[1].Value.ToString() );
+							this.AddEmailAddress( reMatch.Groups[ 1 ].Value.ToString() );
 						}
 					}
 				}			
@@ -344,7 +350,7 @@ namespace SEOMacroscope
 					if( Regex.IsMatch( sLinkURL, "^tel:" ) ) {
 						MatchCollection reMatches = Regex.Matches( sLinkURL, "^tel:(.+)" );
 						foreach( Match reMatch in reMatches ) {
-							this.AddTelephoneNumber( reMatch.Groups[1].Value.ToString() );
+							this.AddTelephoneNumber( reMatch.Groups[ 1 ].Value.ToString() );
 						}
 					}
 				}			
@@ -352,6 +358,7 @@ namespace SEOMacroscope
 		}
 		
 		/**************************************************************************/
+		
 		void ProbeHrefLangAlternates ()
 		{
 			HtmlNodeCollection nlNodeList = this.HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
@@ -368,7 +375,7 @@ namespace SEOMacroscope
 						}
 						debug_msg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ), 3 );
 						MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( this.ProbeHrefLangs, sLocale, sHref );
-						this.HrefLang[sLocale] = msHrefLang;
+						this.HrefLang[ sLocale ] = msHrefLang;
 					}
 				}
 			}

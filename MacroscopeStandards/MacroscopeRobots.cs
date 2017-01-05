@@ -17,16 +17,21 @@ namespace SEOMacroscope
 
 		public MacroscopeRobots ()
 		{
-			htRobots = new Hashtable (32);
+			htRobots = new Hashtable ( 32 );
 		}
 
 		/**************************************************************************/
 
-		public Boolean ApplyRobotRule( string sURL )
+		public Boolean ApplyRobotRule ( string sURL )
 		{
 			Boolean bAllowed = false;
-			
-			Uri uBase = new Uri (sURL, UriKind.Absolute);
+
+			if( !MacroscopePreferences.GetFollowRobotsProtocol() ) {
+				debug_msg( string.Format( "ROBOTS Disabled: {0}", sURL ), 2 );
+				return( true );
+			}
+
+			Uri uBase = new Uri ( sURL, UriKind.Absolute );
 			Uri uNew = null;
 			string sRobotsTxtURL = null;
 			
@@ -43,36 +48,40 @@ namespace SEOMacroscope
 			   	
 				sRobotsTxtURL = uNew.ToString();
 				
-			} catch (InvalidOperationException ex) {
+			} catch( InvalidOperationException ex ) {
 				debug_msg( ex.Message );
-			} catch (UriFormatException ex) {
+			} catch( UriFormatException ex ) {
 				debug_msg( ex.Message );
 			}
 			
-			if (sRobotsTxtURL != null) {
+			if( sRobotsTxtURL != null ) {
 				
 				Robots robot = null;
 				
-				if (this.htRobots.ContainsKey( sRobotsTxtURL )) {
-					robot = (Robots)this.htRobots[ sRobotsTxtURL ];
+				if( this.htRobots.ContainsKey( sRobotsTxtURL ) ) {
+					robot = ( Robots )this.htRobots[ sRobotsTxtURL ];
 				} else {
 					try {
-						using (WebClient wc = new WebClient ()) {
+						using( WebClient wc = new WebClient () ) {
 							String sRobotsText = wc.DownloadString( sRobotsTxtURL );
-							robot = new Robots (sRobotsText);
+
+							debug_msg( string.Format( "ROBOTS sRobotsText: {0}", sRobotsText ), 2 );
+
+							robot = new Robots ( sRobotsText );
 							this.htRobots.Add( sRobotsTxtURL, robot );
 						}
-					} catch (Exception ex) {
+					} catch( Exception ex ) {
 						debug_msg( ex.Message );
 					}					
 				}
 				
-				if (robot != null) {
-					if (uBase != null) {
-						if (robot.IsPathAllowed( "*", uBase.AbsolutePath )) {
+				if( robot != null ) {
+					if( uBase != null ) {
+						if( robot.IsPathAllowed( "*", uBase.AbsolutePath ) ) {
 							bAllowed = true;
 						} else {
 							debug_msg( string.Format( "ROBOTS Disallowed: {0}", sURL ), 2 );
+							debug_msg( string.Format( "ROBOTS AbsolutePath: {0}", uBase.AbsolutePath ), 2 );
 						}
 					}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -26,18 +27,20 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		public void RefreshData ( Hashtable htDocCollection, Hashtable htLocales )
+		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, Hashtable htLocales )
 		{
 
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker ( 
 						delegate {
+							msMainForm.GetDisplayHrefLang().SuspendLayout();
 							msMainForm.GetDisplayHrefLang().DataSource = null;
 						}
 					) 
 				);
 			} else {
+				msMainForm.GetDisplayHrefLang().SuspendLayout();
 				msMainForm.GetDisplayHrefLang().DataSource = null;
 			}
 
@@ -52,40 +55,34 @@ namespace SEOMacroscope
 					this.dtTable.Columns.Add( sLocale, typeof( string ) );
 				}
 			}
-
 			
-			lock( htDocCollection ) {
-			
-				foreach( string sKeyURL in htDocCollection.Keys ) {
+			foreach( string sKeyURL in htDocCollection.Keys() ) {
 
-					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKeyURL ];
+				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
 
-					if( msDoc.GetIsHtml() ) {
+				if( msDoc.GetIsHtml() ) {
 				
-						Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
-						DataRow dtRow = this.dtTable.NewRow();
+					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
+					DataRow dtRow = this.dtTable.NewRow();
 
-						dtRow.SetField( "Site Locale", msDoc.GetLocale() );
-						dtRow.SetField( "Title", msDoc.GetTitle() );
-						dtRow.SetField( msDoc.Locale, msDoc.GetUrl() );
+					dtRow.SetField( "Site Locale", msDoc.GetLocale() );
+					dtRow.SetField( "Title", msDoc.GetTitle() );
+					dtRow.SetField( msDoc.Locale, msDoc.GetUrl() );
 
-						foreach( string sLocale in htLocales.Keys ) {
-							if( sLocale != null ) {
-								if( htHrefLangs.ContainsKey( sLocale ) ) {
-									MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
-									dtRow.SetField( sLocale, msHrefLang.GetUrl() );
-								} else {
-									dtRow.SetField( sLocale, "MISSSING" );
-								}
+					foreach( string sLocale in htLocales.Keys ) {
+						if( sLocale != null ) {
+							if( htHrefLangs.ContainsKey( sLocale ) ) {
+								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
+								dtRow.SetField( sLocale, msHrefLang.GetUrl() );
+							} else {
+								dtRow.SetField( sLocale, "MISSSING" );
 							}
 						}
-
-						this.dtTable.Rows.Add( dtRow );
 					}
 
+					this.dtTable.Rows.Add( dtRow );
 				}
-
-			
+		
 			}
 			
 			if( msMainForm.InvokeRequired ) {
@@ -93,11 +90,13 @@ namespace SEOMacroscope
 					new MethodInvoker ( 
 						delegate {
 							msMainForm.GetDisplayHrefLang().DataSource = this.dtTable;
+							msMainForm.GetDisplayHrefLang().ResumeLayout();
 						}
 					) 
 				);
 			} else {
 				msMainForm.GetDisplayHrefLang().DataSource = this.dtTable;
+				msMainForm.GetDisplayHrefLang().ResumeLayout();
 			}
 
 		}

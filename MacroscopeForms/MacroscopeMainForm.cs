@@ -190,11 +190,13 @@ namespace SEOMacroscope
 				this.Invoke(
 					new MethodInvoker (
 						delegate {
+							this.UpdateStatusBar();
 							this.ScanningControlsReset( true );
 						}
 					)
 				);
 			} else {
+				this.UpdateStatusBar();
 				this.ScanningControlsReset( true );
 			}
 		}
@@ -318,19 +320,27 @@ namespace SEOMacroscope
 
 		public void UpdateStatusBar ()
 		{
+
+			string sThreads = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
+			string sUrlCount = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
+			string sUrlsFound = string.Format( "URLs Found: {0}", this.msJobMaster.GetDocCollection().Count() );
+
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
 						delegate {
-							this.toolStripUrlCount.Text = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
-							this.toolStripThreads.Text = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
+							this.toolStripThreads.Text = sThreads;
+							this.toolStripUrlCount.Text = sUrlCount;
+							this.toolStripFound.Text = sUrlsFound;
 						}
 					)
 				);
 			} else {
-				this.toolStripUrlCount.Text = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
-				this.toolStripThreads.Text = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
+				this.toolStripThreads.Text = sThreads;
+				this.toolStripUrlCount.Text = sUrlCount;
+				this.toolStripFound.Text = sUrlsFound;
 			}
+			
 		}
 
 		/**************************************************************************/
@@ -341,6 +351,42 @@ namespace SEOMacroscope
 			dgvGrid.AutoResizeColumns();
 		}
 				
+		/**************************************************************************/
+		
+		void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
+		{
+			SaveFileDialog Dialog = new SaveFileDialog ();
+			Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+			Dialog.FilterIndex = 2;
+			Dialog.RestoreDirectory = true;
+			Dialog.DefaultExt = "xlsx";
+			Dialog.AddExtension = true;
+			if( Dialog.ShowDialog() == DialogResult.OK ) {
+				string sPath = Dialog.FileName;
+				MacroscopeExcelOverviewReport msExcelReport = new MacroscopeExcelOverviewReport ();
+				msExcelReport.WriteXslx( this.msJobMaster, sPath );
+			}
+			Dialog.Dispose();
+		}
+		
+		/**************************************************************************/
+				
+		void CallbackSaveHrefLangExcelReport ( object sender, EventArgs e )
+		{
+			SaveFileDialog Dialog = new SaveFileDialog ();
+			Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+			Dialog.FilterIndex = 2;
+			Dialog.RestoreDirectory = true;
+			Dialog.DefaultExt = "xlsx";
+			Dialog.AddExtension = true;
+			if( Dialog.ShowDialog() == DialogResult.OK ) {
+				string sPath = Dialog.FileName;
+				MacroscopeExcelHrefLangReport msExcelReport = new MacroscopeExcelHrefLangReport ();
+				msExcelReport.WriteXslx( this.msJobMaster, sPath );
+			}
+			Dialog.Dispose();
+		}
+
 		/**************************************************************************/
 	
 		static void debug_msg ( String sMsg )
@@ -353,8 +399,6 @@ namespace SEOMacroscope
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
-		
-
 
 		/**************************************************************************/
 			

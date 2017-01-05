@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -29,18 +30,20 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		public void RefreshData ( Hashtable htDocCollection )
+		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
 		{
 
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate {
+							msMainForm.GetDisplayTelephoneNumbers().SuspendLayout();
 							msMainForm.GetDisplayTelephoneNumbers().DataSource = null;
 						}
 					)
 				);
 			} else {
+				msMainForm.GetDisplayTelephoneNumbers().SuspendLayout();
 				msMainForm.GetDisplayTelephoneNumbers().DataSource = null;
 			}
 
@@ -51,11 +54,9 @@ namespace SEOMacroscope
 			this.dtTable.Columns.Add( constTelephoneNumber, typeof( string ) );
 			this.dtTable.Columns.Add( constURL, typeof( string ) );
 
-						lock( htDocCollection ) {
-			
-			foreach( string sKeyURL in htDocCollection.Keys ) {
+			foreach( string sKeyURL in htDocCollection.Keys() ) {
 
-				MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[sKeyURL];
+				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
 
 				if( msDoc.GetIsHtml() ) {
 				
@@ -71,19 +72,19 @@ namespace SEOMacroscope
 				}
 
 			}
-
-			}
 				
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate {
 							msMainForm.GetDisplayTelephoneNumbers().DataSource = this.dtTable;
+							msMainForm.GetDisplayTelephoneNumbers().ResumeLayout();
 						}
 					)
 				);
 			} else {
 				msMainForm.GetDisplayTelephoneNumbers().DataSource = this.dtTable;
+				msMainForm.GetDisplayTelephoneNumbers().ResumeLayout();
 			}
 
 		}

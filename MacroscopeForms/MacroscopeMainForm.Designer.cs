@@ -47,6 +47,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripUrlCount;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripThreads;
+		public System.Windows.Forms.ToolStripStatusLabel toolStripFound;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -69,11 +70,10 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,8 +105,9 @@ namespace SEOMacroscope
 			this.buttonReset = new System.Windows.Forms.Button();
 			this.buttonPause = new System.Windows.Forms.Button();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-			this.toolStripUrlCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripThreads = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripUrlCount = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripFound = new System.Windows.Forms.ToolStripStatusLabel();
 			this.menuStrip1.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.tabControlMain.SuspendLayout();
@@ -175,12 +176,14 @@ namespace SEOMacroscope
 			this.saveOverviewExcelReportToolStripMenuItem.Name = "saveOverviewExcelReportToolStripMenuItem";
 			this.saveOverviewExcelReportToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.saveOverviewExcelReportToolStripMenuItem.Text = "Save Overview Excel Report";
+			this.saveOverviewExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveOverviewExcelReport);
 			// 
 			// generateHrefLangExcelReportToolStripMenuItem
 			// 
 			this.generateHrefLangExcelReportToolStripMenuItem.Name = "generateHrefLangExcelReportToolStripMenuItem";
 			this.generateHrefLangExcelReportToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.generateHrefLangExcelReportToolStripMenuItem.Text = "Save HrefLang Excel Report";
+			this.generateHrefLangExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveHrefLangExcelReport);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -246,8 +249,6 @@ namespace SEOMacroscope
 			// dataGridStructure
 			// 
 			this.dataGridStructure.AllowUserToAddRows = false;
-			dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridStructure.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
 			this.dataGridStructure.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridStructure.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridStructure.Location = new System.Drawing.Point(0, 0);
@@ -289,8 +290,8 @@ namespace SEOMacroscope
 			// dataGridHrefLang
 			// 
 			this.dataGridHrefLang.AllowUserToAddRows = false;
-			dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridHrefLang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridHrefLang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
 			this.dataGridHrefLang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridHrefLang.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridHrefLang.Location = new System.Drawing.Point(3, 3);
@@ -314,8 +315,8 @@ namespace SEOMacroscope
 			// dataGridViewRedirectsAudit
 			// 
 			this.dataGridViewRedirectsAudit.AllowUserToAddRows = false;
-			dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
 			this.dataGridViewRedirectsAudit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewRedirectsAudit.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridViewRedirectsAudit.Location = new System.Drawing.Point(3, 3);
@@ -339,8 +340,8 @@ namespace SEOMacroscope
 			// dataGridEmailAddresses
 			// 
 			this.dataGridEmailAddresses.AllowUserToAddRows = false;
-			dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridEmailAddresses.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridEmailAddresses.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
 			this.dataGridEmailAddresses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridEmailAddresses.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridEmailAddresses.Location = new System.Drawing.Point(3, 3);
@@ -364,8 +365,8 @@ namespace SEOMacroscope
 			// dataGridTelephoneNumbers
 			// 
 			this.dataGridTelephoneNumbers.AllowUserToAddRows = false;
-			dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridTelephoneNumbers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+			dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridTelephoneNumbers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
 			this.dataGridTelephoneNumbers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridTelephoneNumbers.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridTelephoneNumbers.Location = new System.Drawing.Point(3, 3);
@@ -483,13 +484,20 @@ namespace SEOMacroscope
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripThreads,
 			this.toolStripUrlCount,
-			this.toolStripThreads});
+			this.toolStripFound});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 340);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(784, 22);
 			this.statusStrip1.TabIndex = 3;
 			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// toolStripThreads
+			// 
+			this.toolStripThreads.Name = "toolStripThreads";
+			this.toolStripThreads.Size = new System.Drawing.Size(49, 17);
+			this.toolStripThreads.Text = "Threads";
 			// 
 			// toolStripUrlCount
 			// 
@@ -497,11 +505,10 @@ namespace SEOMacroscope
 			this.toolStripUrlCount.Size = new System.Drawing.Size(33, 17);
 			this.toolStripUrlCount.Text = "URLs";
 			// 
-			// toolStripThreads
+			// toolStripFound
 			// 
-			this.toolStripThreads.Name = "toolStripThreads";
-			this.toolStripThreads.Size = new System.Drawing.Size(49, 17);
-			this.toolStripThreads.Text = "Threads";
+			this.toolStripFound.Name = "toolStripFound";
+			this.toolStripFound.Size = new System.Drawing.Size(0, 17);
 			// 
 			// MacroscopeMainForm
 			// 

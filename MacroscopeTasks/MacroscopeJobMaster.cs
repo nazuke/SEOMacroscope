@@ -15,10 +15,6 @@ namespace SEOMacroscope
 		MacroscopeMainForm msMainForm;
 
 		public MacroscopeJobLocker DisplayLock;
-
-
-
-
 		
 		/** BEGIN: Configuration **/
 		
@@ -29,7 +25,7 @@ namespace SEOMacroscope
 		Dictionary<int,Boolean> ThreadsDict;
 		
 		public string StartUrl { get; set; }
-		public uint Depth { get; set; }
+		public int Depth { get; set; }
 		public int PageLimit { get; set; }
 		public int PageLimitCount { get; set; }
 		public Boolean SameSite { get; set; }
@@ -43,7 +39,9 @@ namespace SEOMacroscope
 		public MacroscopeJobLocker UrlQueueLock;
 		
 		Hashtable History;
-		Hashtable DocCollection;
+
+		MacroscopeDocumentCollection msDocCollection;
+		
 		Hashtable Locales;
 
 		MacroscopeRobots msRobots;
@@ -60,7 +58,7 @@ namespace SEOMacroscope
 			ThreadsRunning = 0;
 			ThreadsPaused = false;
 			ThreadsStop = false;
-			ThreadsDict = new Dictionary<int,Boolean> ( ThreadsMax );
+			ThreadsDict = new Dictionary<int,Boolean> ();
 
 			ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
 						
@@ -75,7 +73,9 @@ namespace SEOMacroscope
 			UrlQueueLock = new MacroscopeJobLocker ();
 
 			History = Hashtable.Synchronized( new Hashtable ( 4096 ) );
-			DocCollection = Hashtable.Synchronized( new Hashtable ( 4096 ) );
+
+			msDocCollection = new MacroscopeDocumentCollection ();
+			
 			Locales = Hashtable.Synchronized( new Hashtable ( 32 ) );
 			msRobots = new MacroscopeRobots ();
 
@@ -96,15 +96,15 @@ namespace SEOMacroscope
 			if( !this.UrlQueuePeek() ) {
 				this.UrlQueueAdd( this.StartUrl );
 			}
-			
+
 			this.WorkersSpawn();
 			
 			debug_msg( string.Format( "Pages Found: {0}", this.PagesFound ), 1 );
 
 			debug_msg( "Done", 1 );
-			
-			//this.msMainForm.CallbackScanComplete();
-			
+								
+			this.msMainForm.CallbackScanComplete();
+
 			return( true );
 		}
 
@@ -366,9 +366,9 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Hashtable GetDocCollection ()
+		public MacroscopeDocumentCollection GetDocCollection ()
 		{
-			return( this.DocCollection );
+			return( this.msDocCollection );
 		}
 		
 		/**************************************************************************/

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -29,18 +30,20 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		public void RefreshData ( Hashtable htDocCollection )
+		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
 		{
 
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate {
+							msMainForm.GetDisplayEmailAddresses().SuspendLayout();
 							msMainForm.GetDisplayEmailAddresses().DataSource = null;
 						}
 					)
 				);
 			} else {
+				msMainForm.GetDisplayEmailAddresses().SuspendLayout();
 				msMainForm.GetDisplayEmailAddresses().DataSource = null;
 			}
 
@@ -51,27 +54,23 @@ namespace SEOMacroscope
 			this.dtTable.Columns.Add( constEmailAddress, typeof( string ) );
 			this.dtTable.Columns.Add( constURL, typeof( string ) );
 
-			lock( htDocCollection ) {
+			foreach( string sKeyURL in htDocCollection.Keys() ) {
 
-				foreach( string sKeyURL in htDocCollection.Keys ) {
+				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
 
-					MacroscopeDocument msDoc = ( MacroscopeDocument )htDocCollection[ sKeyURL ];
-
-					if( msDoc.GetIsHtml() ) {
+				if( msDoc.GetIsHtml() ) {
 				
-						Hashtable htEmailAddresses = ( Hashtable )msDoc.GetEmailAddresses();
+					Hashtable htEmailAddresses = ( Hashtable )msDoc.GetEmailAddresses();
 					
-						foreach( string sEmailAddress in htEmailAddresses.Keys ) {
-							DataRow dtRow = this.dtTable.NewRow();
-							dtRow.SetField( constEmailAddress, sEmailAddress );
-							dtRow.SetField( constURL, sKeyURL );
-							this.dtTable.Rows.Add( dtRow );
-						}
-
+					foreach( string sEmailAddress in htEmailAddresses.Keys ) {
+						DataRow dtRow = this.dtTable.NewRow();
+						dtRow.SetField( constEmailAddress, sEmailAddress );
+						dtRow.SetField( constURL, sKeyURL );
+						this.dtTable.Rows.Add( dtRow );
 					}
 
 				}
-			
+
 			}
 			
 			if( msMainForm.InvokeRequired ) {
@@ -79,11 +78,13 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate {
 							msMainForm.GetDisplayEmailAddresses().DataSource = this.dtTable;
+							msMainForm.GetDisplayEmailAddresses().ResumeLayout();
 						}
 					)
 				);
 			} else {
 				msMainForm.GetDisplayEmailAddresses().DataSource = this.dtTable;
+				msMainForm.GetDisplayEmailAddresses().ResumeLayout();
 			}
 			
 		}

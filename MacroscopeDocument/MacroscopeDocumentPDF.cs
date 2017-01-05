@@ -17,7 +17,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Boolean IsPdfPage()
+		Boolean IsPdfPage ()
 		{
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
@@ -45,7 +45,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean ProcessPdfPage()
+		Boolean ProcessPdfPage ()
 		{
 
 			HttpWebRequest req = null;
@@ -67,20 +67,26 @@ namespace SEOMacroscope
 				MacroscopePDFTools pdfTools;
 				
 				{ // Get Response Body
-					Stream sStream = res.GetResponseStream();
-					List<byte> aRawDataList = new List<byte> ();
-					byte[] aRawData;
-					do {
-						int buf = sStream.ReadByte();
-						if( buf > -1 ) {
-							aRawDataList.Add( ( byte )buf );
-						} else {
-							break;
-						}
-					} while( sStream.CanRead );
-					aRawData = aRawDataList.ToArray();
-					this.ContentLength = aRawData.Length;
-					pdfTools = new MacroscopePDFTools ( aRawData );
+					try {
+						Stream sStream = res.GetResponseStream();
+						List<byte> aRawDataList = new List<byte> ();
+						byte[] aRawData;
+						do {
+							int buf = sStream.ReadByte();
+							if( buf > -1 ) {
+								aRawDataList.Add( ( byte )buf );
+							} else {
+								break;
+							}
+						} while( sStream.CanRead );
+						aRawData = aRawDataList.ToArray();
+						this.ContentLength = aRawData.Length;
+						pdfTools = new MacroscopePDFTools ( aRawData );
+					} catch( WebException ex ) {
+						pdfTools = null;
+						this.StatusCode = 500;
+						this.ContentLength = 0;
+					}
 				}
 
 				// Status Code

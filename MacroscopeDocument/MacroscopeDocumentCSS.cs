@@ -8,6 +8,7 @@ using System.Text;
 using System.Net;
 using HtmlAgilityPack;
 using System.Threading;
+using ExCSS;
 
 namespace SEOMacroscope
 {
@@ -17,7 +18,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean IsCssPage()
+		Boolean IsCssPage ()
 		{
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
@@ -45,15 +46,18 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean ProcessCssPage()
+		Boolean ProcessCssPage ()
 		{
 
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
 
+			
+			debug_msg( string.Format( "ProcessCssPage: {0}", "" ), 0 );
+			
 			try {
 				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
+				req.Method = "GET";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				res = ( HttpWebResponse )req.GetResponse();
@@ -63,11 +67,14 @@ namespace SEOMacroscope
 			}
 
 			if( res != null ) {
-											
+				
+				string sRawData = "";
+
+
 				// Status Code
 				this.StatusCode = this.ProcessStatusCode( res.StatusCode );
 				debug_msg( string.Format( "Status: {0}", this.StatusCode ), 2 );
-
+			
 				// Probe HTTP Headers
 				foreach( string sHeader in res.Headers ) {
 					debug_msg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ), 3 );
@@ -78,6 +85,31 @@ namespace SEOMacroscope
 				this.ContentLength = res.ContentLength;
 				debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );			
 				debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
+
+				// Get Response Body
+				try {
+					debug_msg( string.Format( "MIME TYPE: {0}", this.MimeType ), 3 );
+					Stream sStream = res.GetResponseStream();
+					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
+					sRawData = srRead.ReadToEnd();
+					this.ContentLength = sRawData.Length; // May need to find bytes length
+					//debug_msg( string.Format( "sRawData: {0}", sRawData ), 3 );
+				} catch( WebException ex ) {
+					this.StatusCode = 500;
+					sRawData = "";
+					this.ContentLength = 0;
+				}
+
+				if( sRawData.Length > 0 ) {
+					ExCSS.Parser ExCssParser = new  ExCSS.Parser ();
+					ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( sRawData );
+
+
+
+
+					this.ProcessCssHyperlinksOut( ExCssStylesheet );
+
+				}
 
 				{ // Title
 					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
@@ -104,6 +136,43 @@ namespace SEOMacroscope
 
 			return( true );
 			
+		}
+
+		/**************************************************************************/
+
+		void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
+		{
+
+			foreach( var rRule in ExCssStylesheet.StyleRules ) {
+						
+				int iRule = ExCssStylesheet.StyleRules.IndexOf( rRule );
+
+				foreach( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties ) {
+
+					if( pProp.Name.Equals( "background-image" ) ) {
+
+						string sBackgroundImageUrl = pProp.Term.ToString();
+						string sLinkURLAbs;
+
+						sBackgroundImageUrl = MacroscopeURLTools.CleanUrlCss( sBackgroundImageUrl );
+						sLinkURLAbs = MacroscopeURLTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
+
+						debug_msg( string.Format( "sBackgroundImageUrl: {0}", sBackgroundImageUrl ) );
+						debug_msg( string.Format( "sLinkURLAbs: {0}", sLinkURLAbs ) );
+
+						if( this.HyperlinksOut.ContainsKey( sBackgroundImageUrl ) ) {
+							this.HyperlinksOut.Remove( sBackgroundImageUrl );
+							this.HyperlinksOut.Add( sBackgroundImageUrl, sLinkURLAbs );
+						} else {
+							this.HyperlinksOut.Add( sBackgroundImageUrl, sLinkURLAbs );
+						}
+
+					}
+
+				}
+
+			}
+
 		}
 
 		/**************************************************************************/
