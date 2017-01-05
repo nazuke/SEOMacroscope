@@ -23,14 +23,9 @@ namespace SEOMacroscope
 		
 		public void Execute ( string sURL )
 		{
-			debug_msg( Thread.CurrentContext.ContextID.ToString() );
-			
-			Thread.Sleep( 100 );
-			
+			//Thread.Sleep( 100 );
 			this.Fetch( sURL );
-
 			msJobMaster.WorkersNotifyDone( sURL );
-
 		}
 
 		/**************************************************************************/

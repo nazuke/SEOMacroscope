@@ -157,8 +157,11 @@ namespace SEOMacroscope
 						sBackgroundImageUrl = MacroscopeURLTools.CleanUrlCss( sBackgroundImageUrl );
 						sLinkURLAbs = MacroscopeURLTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
 
+						debug_msg("");
 						debug_msg( string.Format( "sBackgroundImageUrl: {0}", sBackgroundImageUrl ) );
-						debug_msg( string.Format( "sLinkURLAbs: {0}", sLinkURLAbs ) );
+						debug_msg( string.Format( "sBackgroundImageUrl this.Url: {0}", this.Url ) );
+						debug_msg( string.Format( "sBackgroundImageUrl sLinkURLAbs: {0}", sLinkURLAbs ) );
+						debug_msg("");
 
 						if( this.HyperlinksOut.ContainsKey( sBackgroundImageUrl ) ) {
 							this.HyperlinksOut.Remove( sBackgroundImageUrl );

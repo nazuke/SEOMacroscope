@@ -31,7 +31,8 @@ namespace SEOMacroscope
 			Regex reQuery = new Regex ( "^\\?" );
 			Regex reHash = new Regex ( "^#" );
 			Regex reHTTP = new Regex ( "^http" );
-
+			Regex reUnsupportedScheme = new Regex ( "^[a-z0-9]+:" );
+			
 			if( reDoubleSlash.IsMatch( sURL ) ) {
 
 				try {
@@ -121,8 +122,39 @@ namespace SEOMacroscope
 					ms.debug_msg( ex.Message );
 				}
 
-			} else {
+			} else if( reUnsupportedScheme.IsMatch( sURL ) ) {
+
 				; // NO-OP, for now.
+
+			} else {
+
+				
+				ms.debug_msg( string.Format( "RELATIVE URL 1: {0}", sURL ) );
+
+				string sBasePath = Regex.Replace( uBase.AbsolutePath, "/[^/]+$", "/" );
+				string sNewPath = string.Join( "", sBasePath, sURL );
+				
+				ms.debug_msg( string.Format( "RELATIVE URL 2: {0}", sBasePath ) );
+				ms.debug_msg( string.Format( "RELATIVE URL 3: {0}", sNewPath ) );
+				
+				
+				try {
+					uNew = new Uri (
+						string.Format(
+							"{0}://{1}{2}",
+							uBase.Scheme,
+							uBase.Host,
+							sNewPath
+						),
+						UriKind.Absolute
+					);
+			   	
+				} catch( InvalidOperationException ex ) {
+					ms.debug_msg( ex.Message );
+				} catch( UriFormatException ex ) {
+					ms.debug_msg( ex.Message );
+				}
+
 			}
 
 			if( uNew != null ) {

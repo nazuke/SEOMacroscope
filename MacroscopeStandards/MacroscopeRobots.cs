@@ -49,9 +49,9 @@ namespace SEOMacroscope
 				sRobotsTxtURL = uNew.ToString();
 				
 			} catch( InvalidOperationException ex ) {
-				debug_msg( ex.Message );
+				debug_msg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
 			} catch( UriFormatException ex ) {
-				debug_msg( ex.Message );
+				debug_msg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
 			}
 			
 			if( sRobotsTxtURL != null ) {
@@ -64,14 +64,11 @@ namespace SEOMacroscope
 					try {
 						using( WebClient wc = new WebClient () ) {
 							String sRobotsText = wc.DownloadString( sRobotsTxtURL );
-
-							debug_msg( string.Format( "ROBOTS sRobotsText: {0}", sRobotsText ), 2 );
-
 							robot = new Robots ( sRobotsText );
 							this.htRobots.Add( sRobotsTxtURL, robot );
 						}
 					} catch( Exception ex ) {
-						debug_msg( ex.Message );
+						debug_msg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
 					}					
 				}
 				

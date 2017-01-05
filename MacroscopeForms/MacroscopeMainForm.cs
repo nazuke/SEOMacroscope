@@ -37,8 +37,6 @@ namespace SEOMacroscope
 
 			msJobMaster = new MacroscopeJobMaster ( this );
 
-
-						
 			this.ScanningControlsEnable( true );
 
 		}
@@ -191,13 +189,13 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate {
 							this.UpdateStatusBar();
-							this.ScanningControlsReset( true );
+							this.ScanningControlsComplete( true );
 						}
 					)
 				);
 			} else {
 				this.UpdateStatusBar();
-				this.ScanningControlsReset( true );
+				this.ScanningControlsComplete( true );
 			}
 		}
 		
@@ -275,6 +273,16 @@ namespace SEOMacroscope
 			this.buttonPause.Enabled = false;
 			this.buttonResume.Enabled = false;
 			this.buttonReset.Enabled = false;
+		}
+		
+		void ScanningControlsComplete( Boolean bState )
+		{
+			this.textBoxURL.Enabled = true;
+			this.buttonStart.Enabled = true;
+			this.buttonStop.Enabled = false;
+			this.buttonPause.Enabled = false;
+			this.buttonResume.Enabled = false;
+			this.buttonReset.Enabled = true;
 		}
 
 		/**************************************************************************/

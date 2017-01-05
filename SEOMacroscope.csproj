@@ -68,6 +68,9 @@
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="NUnit.Framework">
+      <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="PdfSharp">
       <HintPath>packages\PDFsharp.1.50.4000-beta3b\lib\net20\PdfSharp.dll</HintPath>
     </Reference>
@@ -124,6 +127,7 @@
     <Compile Include="MacroscopeTools\MacroscopeLocaleTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopePDFTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeURLTools.cs" />
+    <Compile Include="MacroscopeTools\t\TestMacroscopeURLTools.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -147,6 +151,7 @@
     <Folder Include="MacroscopeAnalysis" />
     <Folder Include="MacroscopeEnvironment" />
     <Folder Include="MacroscopeDocumentCollection" />
+    <Folder Include="MacroscopeTools\t" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

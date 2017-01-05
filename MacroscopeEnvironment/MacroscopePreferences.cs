@@ -38,7 +38,7 @@ namespace SEOMacroscope
 			SameSite = true;
 			ProbeHreflangs = false;
 			
-			FollowRobotsProtocol = false;
+			FollowRobotsProtocol = true;
 			FollowNoFollow = true;
 
 			FetchStylesheets = true;
