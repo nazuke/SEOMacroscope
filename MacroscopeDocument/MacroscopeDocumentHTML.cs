@@ -123,10 +123,10 @@ namespace SEOMacroscope
 					{ // Canonical
 						HtmlNode nNode = this.HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/link[@rel='canonical']" );
 						if( nNode != null ) {
-							this.Canonical = nNode.GetAttributeValue( "href", null );
+							this.Canonical = nNode.GetAttributeValue( "href", "" );
 							debug_msg( string.Format( "CANONICAL: {0}", this.Canonical ), 3 );
 						} else {
-							this.Canonical = null;		
+							this.Canonical = "";		
 							debug_msg( string.Format( "CANONICAL: {0}", "MISSING" ), 3 );
 						}
 					}

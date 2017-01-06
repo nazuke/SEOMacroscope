@@ -16,7 +16,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void InsertAndFormatContentCell( IXLWorksheet ws, int iRow, int iCol, string sValue )
+		public void InsertAndFormatContentCell ( IXLWorksheet ws, int iRow, int iCol, string sValue )
 		{
 			ws.Cell( iRow, iCol ).Value = sValue;
 			if( sValue == "MISSING" ) {
@@ -26,10 +26,12 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		public string FormatIfMissing( string sString )
+		public string FormatIfMissing ( string sString )
 		{
 			string sFormatted;
 			if( sString == null ) {
+				sFormatted = "MISSING";
+			} else if( sString.Length == 0 ) {
 				sFormatted = "MISSING";
 			} else {
 				sFormatted = sString;

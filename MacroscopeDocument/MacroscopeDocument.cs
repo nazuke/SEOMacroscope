@@ -44,6 +44,7 @@ namespace SEOMacroscope
 		public Boolean IsHtml;
 		public string ContentEncoding;
 		public string Locale;
+
 		public DateTime DateServer;
 		public DateTime DateModified;
 
@@ -75,24 +76,42 @@ namespace SEOMacroscope
 
 		public MacroscopeDocument ( string sURL )
 		{
+
 			Url = sURL;
 			Timeout = 10000;
 			IsRedirect = false;
+			UrlRedirectFrom = "";
+			
 			StatusCode = 0;
-			MimeType = null;
+			ContentLength = 0;
+			
+			MimeType = "";
 			IsHtml = false;
-			Locale = "null";
+			ContentEncoding = "";
+			Locale = "unknown";
+
 			DateServer = new DateTime ();
 			DateModified = new DateTime ();
+
+			Canonical = "";
 			HrefLang = new Hashtable ();
+
 			Outlinks = new Hashtable ();
 			HyperlinksIn = new Hashtable ();
 			HyperlinksOut = new Hashtable ();
+
 			EmailAddresses = new Hashtable ();
 			TelephoneNumbers = new Hashtable ();
+
+			Title = "";
+			Description = "";
+			Keywords = "";
+			
 			Headings1 = new ArrayList ( 16 );
 			Headings2 = new ArrayList ( 16 );
+
 			Depth = MacroscopeURLTools.FindUrlDepth( Url );
+			
 		}
 		
 		/**************************************************************************/
@@ -472,15 +491,7 @@ namespace SEOMacroscope
 					this.UrlRedirectFrom = sOriginalURL;
 
 
-
 					//this.url = MacroscopeURLTools.make_url_absolute( this.url, this.UrlRedirectFrom );
-
-
-
-
-
-
-
 
 
 				}
@@ -491,6 +502,71 @@ namespace SEOMacroscope
 			}
 
 			return( bIsRedirect );
+		}
+
+		/**************************************************************************/
+		
+		public List<KeyValuePair<string,string>> DetailDocumentDetails ()
+		{
+
+			List<KeyValuePair<string,string>> slDetails = new List<KeyValuePair<string,string>> ();
+
+			slDetails.Add( new KeyValuePair<string,string> ( "URL", this.GetUrl() ) );
+
+			slDetails.Add( new KeyValuePair<string,string> ( "Status Code", this.GetStatusCode().ToString() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Content Type", this.GetMimeType() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Content Length", this.ContentLength.ToString() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Encoding", this.ContentEncoding ) );
+
+			slDetails.Add( new KeyValuePair<string,string> ( "Date Server", this.GetDateServer() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
+				
+			slDetails.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
+
+			slDetails.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Redirected From", this.UrlRedirectFrom ) );
+
+			slDetails.Add( new KeyValuePair<string,string> ( "Links In Count", this.CountHyperlinksIn().ToString() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Links Out Count", this.CountHyperlinksOut().ToString() ) );
+
+			slDetails.Add( new KeyValuePair<string,string> ( "HrefLang Count", this.GetHrefLangs().Count.ToString() ) );
+				
+			slDetails.Add( new KeyValuePair<string,string> ( "Title", this.GetTitle() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Title Length", this.GetTitleLength().ToString() ) );
+
+			slDetails.Add( new KeyValuePair<string,string> ( "Description", this.GetDescription() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Description Length", this.GetDescriptionLength().ToString() ) );
+
+			slDetails.Add( new KeyValuePair<string,string> ( "Keywords", this.GetKeywords() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
+
+			{
+				string sHeading;
+				if( this.GetHeadings1().Count > 0 ) {
+					sHeading = this.GetHeadings1()[ 0 ].ToString();
+				} else {
+					sHeading = "";
+				}
+				slDetails.Add( new KeyValuePair<string,string> ( "H1", sHeading ) );
+				slDetails.Add( new KeyValuePair<string,string> ( "H1 Length", sHeading.Length.ToString() ) );
+			}
+
+			{
+				string sHeading;
+				if( this.GetHeadings2().Count > 0 ) {
+					sHeading = this.GetHeadings2()[ 0 ].ToString();
+				} else {
+					sHeading = "";
+				}
+				slDetails.Add( new KeyValuePair<string,string> ( "H2", sHeading ) );
+				slDetails.Add( new KeyValuePair<string,string> ( "H2 Length", sHeading.Length.ToString() ) );
+			}
+				
+			slDetails.Add( new KeyValuePair<string,string> ( "Page Depth", this.Depth.ToString() ) );
+
+			return( slDetails );
+
 		}
 
 		/**************************************************************************/

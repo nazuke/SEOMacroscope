@@ -416,7 +416,35 @@ namespace SEOMacroscope
 			DataGridView dgvGrid = ( DataGridView )sender;
 			dgvGrid.AutoResizeColumns();
 		}
-				
+
+		/**************************************************************************/
+
+		void CallbackListViewClick ( object sender, EventArgs e )
+		{
+
+			debug_msg( string.Format( "CallbackListViewClick: {0}", "" ) );
+			
+			ListView lvListView = ( ListView )sender;
+						
+			debug_msg( string.Format( "CallbackListViewClick: {0}", lvListView.SelectedItems.ToString() ) );
+			
+			lock( lvListView ) {
+
+				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
+
+					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
+					
+					debug_msg( string.Format( "CallbackListViewClick: {0}", sURL ) );
+					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
+
+				}
+
+			}
+
+			debug_msg( string.Format( "" ) );
+			
+		}
+
 		/**************************************************************************/
 		
 		void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )

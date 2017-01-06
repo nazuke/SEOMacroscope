@@ -59,6 +59,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader EmailAddressesUrl;
 		private System.Windows.Forms.ColumnHeader QueueUrl;
 		private System.Windows.Forms.ListView listViewStructure;
+		private SEOMacroscope.MacroscopeDocumentDetails macroscopeDocumentDetailsMain;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -81,8 +82,8 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,6 +101,7 @@ namespace SEOMacroscope
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tableLayoutStructure = new System.Windows.Forms.TableLayoutPanel();
 			this.listViewStructure = new System.Windows.Forms.ListView();
+			this.macroscopeDocumentDetailsMain = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this.dataGridHrefLang = new System.Windows.Forms.DataGridView();
@@ -289,6 +291,7 @@ namespace SEOMacroscope
 			this.tableLayoutStructure.ColumnCount = 1;
 			this.tableLayoutStructure.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutStructure.Controls.Add(this.listViewStructure, 0, 0);
+			this.tableLayoutStructure.Controls.Add(this.macroscopeDocumentDetailsMain, 0, 1);
 			this.tableLayoutStructure.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutStructure.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutStructure.Name = "tableLayoutStructure";
@@ -312,6 +315,15 @@ namespace SEOMacroscope
 			this.listViewStructure.TabIndex = 0;
 			this.listViewStructure.UseCompatibleStateImageBehavior = false;
 			this.listViewStructure.View = System.Windows.Forms.View.Details;
+			this.listViewStructure.Click += new System.EventHandler(this.CallbackListViewClick);
+			// 
+			// macroscopeDocumentDetailsMain
+			// 
+			this.macroscopeDocumentDetailsMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.macroscopeDocumentDetailsMain.Location = new System.Drawing.Point(3, 163);
+			this.macroscopeDocumentDetailsMain.Name = "macroscopeDocumentDetailsMain";
+			this.macroscopeDocumentDetailsMain.Size = new System.Drawing.Size(758, 154);
+			this.macroscopeDocumentDetailsMain.TabIndex = 1;
 			// 
 			// tabPage2
 			// 
@@ -341,8 +353,8 @@ namespace SEOMacroscope
 			// dataGridHrefLang
 			// 
 			this.dataGridHrefLang.AllowUserToAddRows = false;
-			dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridHrefLang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridHrefLang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
 			this.dataGridHrefLang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridHrefLang.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridHrefLang.Location = new System.Drawing.Point(3, 3);
@@ -366,8 +378,8 @@ namespace SEOMacroscope
 			// dataGridViewRedirectsAudit
 			// 
 			this.dataGridViewRedirectsAudit.AllowUserToAddRows = false;
-			dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
 			this.dataGridViewRedirectsAudit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewRedirectsAudit.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridViewRedirectsAudit.Location = new System.Drawing.Point(3, 3);
