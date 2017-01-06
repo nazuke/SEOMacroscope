@@ -34,8 +34,8 @@ namespace SEOMacroscope
 			int iCol = 1;
 			int iColMax = 1;
 
-			Hashtable htLocales = ( Hashtable )msJobMaster.GetLocales();
-			MacroscopeDocumentCollection htDocCollection = msJobMaster.GetDocCollection();
+			Hashtable htLocales = ( Hashtable )msJobMaster.LocalesGet();
+			MacroscopeDocumentCollection htDocCollection = msJobMaster.DocCollectionGet();
 			
 			Hashtable htLocaleCols = new Hashtable ();
 			

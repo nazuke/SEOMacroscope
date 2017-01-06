@@ -14,7 +14,8 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		MacroscopeMainForm msMainForm;
-		DataTable dtTable;
+
+		static Boolean ListViewConfigured = false;
 
 		const string constURL = "URL";
 		
@@ -48,95 +49,150 @@ namespace SEOMacroscope
 		{
 			
 			msMainForm = msMainFormNew;
-			dtTable = new DataTable ();
+
+			if( msMainForm.InvokeRequired ) {
+				msMainForm.Invoke(
+					new MethodInvoker (
+						delegate {
+							ListView lvListView = msMainForm.GetDisplayStructure();
+							ConfigureListView( lvListView );
+						}
+					)
+				);
+			} else {
+				ListView lvListView = msMainForm.GetDisplayStructure();
+				ConfigureListView( lvListView );
+			}
+
+		}
+
+		/**************************************************************************/
+
+		static void ConfigureListView ( ListView lvListView )
+		{
 			
-			dtTable.Columns.Add( constURL, typeof( string ) );
-
-			dtTable.Columns.Add( constStatus, typeof( string ) );	
-			dtTable.Columns.Add( constIsRedirect, typeof( string ) );
-
-			dtTable.Columns.Add( constContentType, typeof( string ) );
-			dtTable.Columns.Add( constLang, typeof( string ) );	
-
-			dtTable.Columns.Add( constCanonical, typeof( string ) );
-
-			dtTable.Columns.Add( constInhyperlinks, typeof( string ) );
-			dtTable.Columns.Add( constOuthyperlinks, typeof( string ) );	
-
-			dtTable.Columns.Add( constTitle, typeof( string ) );	
-			dtTable.Columns.Add( constTitleLen, typeof( string ) );	
+			if( !ListViewConfigured ) {
 			
-			dtTable.Columns.Add( constDescription, typeof( string ) );	
-			dtTable.Columns.Add( constDescriptionLen, typeof( string ) );	
+				lvListView.Columns.Add( constURL, constURL );
+				lvListView.Columns.Add( constStatus, constStatus );
+				lvListView.Columns.Add( constIsRedirect, constIsRedirect );
+				lvListView.Columns.Add( constContentType, constContentType );
+				lvListView.Columns.Add( constLang, constLang );
+				lvListView.Columns.Add( constCanonical, constCanonical );
+				lvListView.Columns.Add( constInhyperlinks, constInhyperlinks );
+				lvListView.Columns.Add( constOuthyperlinks, constOuthyperlinks );
+				lvListView.Columns.Add( constTitle, constTitle );
+				lvListView.Columns.Add( constTitleLen, constTitleLen );
+				lvListView.Columns.Add( constDescription, constDescription );
+				lvListView.Columns.Add( constDescriptionLen, constDescriptionLen );
+				lvListView.Columns.Add( constKeywords, constKeywords );
+				lvListView.Columns.Add( constKeywordsLen, constKeywordsLen );
+				lvListView.Columns.Add( constKeywordsCount, constKeywordsCount );
+				lvListView.Columns.Add( constH1, constH1 );
+				lvListView.Columns.Add( constH2, constH2 );
 			
-			dtTable.Columns.Add( constKeywords, typeof( string ) );
-			dtTable.Columns.Add( constKeywordsLen, typeof( string ) );	
-			dtTable.Columns.Add( constKeywordsCount, typeof( string ) );	
+				lvListView.Sorting = SortOrder.Ascending;
+
+				lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
+
+				lvListView.Columns[ constURL ].Width = 300;
+				lvListView.Columns[ constTitle ].Width = 150;
+
+				ListViewConfigured = true;
 			
-			dtTable.Columns.Add( constH1, typeof( string ) );	
-			dtTable.Columns.Add( constH2, typeof( string ) );	
-
-			msMainForm.GetDisplayStructure().DataSource = dtTable;
-
+			}
+			
 		}
 
 		/**************************************************************************/
 
 		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
 		{
-
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( this.msMainForm.InvokeRequired ) {
+				this.msMainForm.Invoke(
 					new MethodInvoker (
 						delegate {
-							//msMainForm.GetDisplayStructure().SuspendLayout();
-							msMainForm.SuspendLayout();
-							msMainForm.GetDisplayStructure().DataSource = null;
+							ListView lvListView = this.msMainForm.GetDisplayStructure();
+							this.RenderListView( lvListView, htDocCollection );
 						}
-					) 
+					)
 				);
 			} else {
-				//msMainForm.GetDisplayStructure().SuspendLayout();
-				msMainForm.SuspendLayout();
-				msMainForm.GetDisplayStructure().DataSource = null;
+				ListView lvListView = this.msMainForm.GetDisplayStructure();
+				this.RenderListView( lvListView, htDocCollection );
 			}
+		}
 
-			dtTable.Rows.Clear();
+		/**************************************************************************/
 
+		public void RefreshDataSingle ( MacroscopeDocument msDoc, string sURL )
+		{
+			if( this.msMainForm.InvokeRequired ) {
+				this.msMainForm.Invoke(
+					new MethodInvoker (
+						delegate {
+							ListView lvListView = this.msMainForm.GetDisplayStructure();
+							this.RenderListViewSingle( lvListView, msDoc, sURL );
+						}
+					)
+				);
+			} else {
+				ListView lvListView = this.msMainForm.GetDisplayStructure();
+				this.RenderListViewSingle( lvListView, msDoc, sURL );
+			}
+		}
+
+		/**************************************************************************/
+
+		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
+		{
 			foreach( string sKeyURL in htDocCollection.Keys() ) {
-
-				DataRow dtRow = dtTable.NewRow();
 				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
+				this.RenderListViewSingle( lvListView, msDoc, sKeyURL );
+			}
+		}
 
-				dtRow.SetField( constURL, msDoc.GetUrl() );
+		/**************************************************************************/
 
-				dtRow.SetField( constStatus, msDoc.GetStatusCode() );
-				dtRow.SetField( constIsRedirect, msDoc.GetIsRedirect() );
+		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
+		{
 
-				dtRow.SetField( constContentType, msDoc.GetMimeType() );
+			lock( lvListView ) {
+
+				lvListView.SuspendLayout();
+
+				Hashtable htItems = new Hashtable ();
+				ListViewItem lvItem = null;
+				
+				htItems[ constURL ] = msDoc.GetUrl();
+
+				htItems[ constStatus ] = msDoc.GetStatusCode();
+				htItems[ constIsRedirect ] = msDoc.GetIsRedirect();
+
+				htItems[ constContentType ] = msDoc.GetMimeType();
 
 				{
 					string sLang = msDoc.GetLang();
 					if( sLang == null ) {
 						sLang = "";
 					}
-					dtRow.SetField( constLang, sLang );
+					htItems[ constLang ] = sLang;
 				}
 								
-				dtRow.SetField( constCanonical, msDoc.GetCanonical() );
+				htItems[ constCanonical ] = msDoc.GetCanonical();
 
-				dtRow.SetField( constInhyperlinks, msDoc.CountHyperlinksIn() );
-				dtRow.SetField( constOuthyperlinks, msDoc.CountHyperlinksOut() );
+				htItems[ constInhyperlinks ] = msDoc.CountHyperlinksIn();
+				htItems[ constOuthyperlinks ] = msDoc.CountHyperlinksOut();
 												
-				dtRow.SetField( constTitle, msDoc.GetTitle() );
-				dtRow.SetField( constTitleLen, msDoc.GetTitleLength() );
+				htItems[ constTitle ] = msDoc.GetTitle();
+				htItems[ constTitleLen ] = msDoc.GetTitleLength();
 
-				dtRow.SetField( constDescription, msDoc.GetDescription() );
-				dtRow.SetField( constDescriptionLen, msDoc.GetDescriptionLength() );
+				htItems[ constDescription ] = msDoc.GetDescription();
+				htItems[ constDescriptionLen ] = msDoc.GetDescriptionLength();
 				
-				dtRow.SetField( constKeywords, msDoc.GetKeywords() );
-				dtRow.SetField( constKeywordsLen, msDoc.GetKeywordsLength() );
-				dtRow.SetField( constKeywordsCount, msDoc.GetKeywordsCount() );
+				htItems[ constKeywords ] = msDoc.GetKeywords();
+				htItems[ constKeywordsLen ] = msDoc.GetKeywordsLength();
+				htItems[ constKeywordsCount ] = msDoc.GetKeywordsCount();
 
 				{
 					ArrayList aHeadings = msDoc.GetHeadings1();
@@ -144,7 +200,7 @@ namespace SEOMacroscope
 					if( aHeadings.Count > 0 ) {
 						sText = ( string )aHeadings[ 0 ];
 					}
-					dtRow.SetField( constH1, sText );
+					htItems[ constH1 ] = sText;
 				}
 				
 				{
@@ -153,29 +209,48 @@ namespace SEOMacroscope
 					if( aHeadings.Count > 0 ) {
 						sText = ( string )aHeadings[ 0 ];
 					}
-					dtRow.SetField( constH2, sText );
+					htItems[ constH2 ] = sText;
 				}
 
-				dtTable.Rows.Add( dtRow );
+				if( lvListView.Items.ContainsKey( sKeyURL ) ) {
 
-			}
+					lvItem = lvListView.Items[ sKeyURL ];
 
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke( 
-					new MethodInvoker ( 
-						delegate {
-							msMainForm.GetDisplayStructure().DataSource = this.dtTable;
-							msMainForm.ResumeLayout();
-							//msMainForm.GetDisplayStructure().ResumeLayout();
+				} else {
+
+					lvItem = new ListViewItem ( sKeyURL );
+					lvItem.Name = sKeyURL;
+
+					foreach( string sKey in htItems.Keys ) {
+						lvItem.SubItems.Add( sKey );
+					}
+
+					lvListView.Items.Add( lvItem );
+
+				}
+
+				if( lvItem != null ) {
+
+					foreach( string sKey in htItems.Keys ) {
+
+						int iColIndex = lvListView.Columns.IndexOfKey( sKey );
+
+						if( htItems[ sKey ] != null ) {
+							lvItem.SubItems[ iColIndex ].Text = htItems[ sKey ].ToString();
+						} else {
+							lvItem.SubItems[ iColIndex ].Text = "";
 						}
-					) 
-				);
-			} else {
-				msMainForm.GetDisplayStructure().DataSource = this.dtTable;
-				msMainForm.ResumeLayout();
-				//msMainForm.GetDisplayStructure().ResumeLayout();
-			}
 
+					}
+
+				} else {
+					debug_msg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
+				}
+
+				lvListView.ResumeLayout();
+			
+			}
+			
 		}
 
 		/**************************************************************************/

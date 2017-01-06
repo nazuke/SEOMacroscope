@@ -103,6 +103,7 @@
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferences.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHistory.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHrefLang.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayStructure.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument.cs" />
@@ -113,6 +114,10 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocumentJS.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentPDF.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTelephoneNumbers.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.Designer.cs">
+      <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopeMainForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm.Designer.cs">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
@@ -128,6 +133,7 @@
     <Compile Include="MacroscopeTools\MacroscopePDFTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeURLTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeURLTools.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeUserControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -136,12 +142,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.resx">
+      <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeMainForm.resx">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MacroscopeDocument" />
+    <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay" />
     <Folder Include="MacroscopeTools" />
@@ -152,6 +162,7 @@
     <Folder Include="MacroscopeEnvironment" />
     <Folder Include="MacroscopeDocumentCollection" />
     <Folder Include="MacroscopeTools\t" />
+    <Folder Include="MacroscopeUserControls" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

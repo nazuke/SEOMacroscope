@@ -34,7 +34,7 @@ namespace SEOMacroscope
 			int iCol = 1;
 			int iColMax = 1;
 
-			MacroscopeDocumentCollection htDocCollection = msJobMaster.GetDocCollection();
+			MacroscopeDocumentCollection htDocCollection = msJobMaster.DocCollectionGet();
 
 			{
 			

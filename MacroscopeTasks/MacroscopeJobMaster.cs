@@ -172,19 +172,25 @@ namespace SEOMacroscope
 
 		public void WorkersNotifyDone ( string sURL )
 		{
+
 			debug_msg( string.Format( "WorkersNotifyDone: {0}", sURL ) );
+
 			this.RunningThreadsDec();
+
+			this.UpdateDisplaySingle( sURL );
+			
 			this.UpdateDisplay();
+			
 			this.UpdateStatusBar();
+
 		}
 		
 		/**************************************************************************/
 
 		public void WorkersStop ()
 		{
-			debug_msg( string.Format( "WorkersStop" ) );
+			//debug_msg( string.Format( "WorkersStop" ) );
 			this.ThreadsStop = true;
-			this.DumpHistory();
 		}
 
 		/**************************************************************************/
@@ -197,7 +203,6 @@ namespace SEOMacroscope
 				bIsStopped = true;
 			}
 			this.UpdateStatusBar();
-			this.DumpHistory();
 			return( bIsStopped );
 		}
 
@@ -206,10 +211,12 @@ namespace SEOMacroscope
 		public Boolean WorkersPause ()
 		{
 
-			debug_msg( string.Format( "WorkersPause" ) );
+			//debug_msg( string.Format( "WorkersPause" ) );
+
 			this.ThreadsPaused = true;
-			this.DumpHistory();
+
 			return( this.ThreadsPaused );
+
 		}
 		
 		/**************************************************************************/
@@ -222,7 +229,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public Boolean IsWorkersPaused ()
+		public Boolean WorkersArePaused ()
 		{
 			return( this.ThreadsPaused );
 		}
@@ -347,15 +354,35 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+				
+		public Hashtable HistoryGet ()
+		{
+			Hashtable HistoryCopy;
+			lock( this.History ) {
+				HistoryCopy = ( Hashtable )this.History.Clone();
+			}
+			return( HistoryCopy );
+		}
+		
+		/**************************************************************************/
+		
+		public void HistoryClear ()
+		{
+			lock( this.History ) {
+				this.History.Clear();
+			}
+		}
+		
+		/**************************************************************************/
 
-		public MacroscopeDocumentCollection GetDocCollection ()
+		public MacroscopeDocumentCollection DocCollectionGet ()
 		{
 			return( this.msDocCollection );
 		}
 		
 		/**************************************************************************/
 		
-		public Hashtable GetLocales ()
+		public Hashtable LocalesGet ()
 		{
 			return( this.Locales );
 		}
@@ -373,7 +400,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public MacroscopeRobots GetRobots ()
+		public MacroscopeRobots RobotsGet ()
 		{
 			return( this.msRobots );
 		}
@@ -387,9 +414,32 @@ namespace SEOMacroscope
 			}
 			lock( this.DisplayLock ) {
 				try {
-					this.msMainForm.UpdateDisplayStructure( this );
+					//this.msMainForm.UpdateDisplay( this );
+					
+					
+					this.msMainForm.UpdateDisplayHrefLang( this );
+					
+					
+					
+					
 				} catch( ArgumentException ex ) {
 					debug_msg( string.Format( "UpdateDisplay: {0}", ex.Message ), 1 );
+				}
+			}
+		}
+
+		/**************************************************************************/
+		
+		public void UpdateDisplaySingle ( string sURL )
+		{
+			if( this.ThreadsStop == true ) {
+				return;
+			}
+			lock( this.DisplayLock ) {
+				try {
+					this.msMainForm.UpdateDisplaySingle( this, sURL );
+				} catch( ArgumentException ex ) {
+					debug_msg( string.Format( "UpdateDisplaySingle: {0}", ex.Message ), 1 );
 				}
 			}
 		}

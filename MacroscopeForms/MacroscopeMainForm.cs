@@ -16,7 +16,8 @@ namespace SEOMacroscope
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
-
+		MacroscopeDisplayHistory msDisplayHistory;
+		
 		Thread tScanningThread;
 		MacroscopeJobMaster msJobMaster;
 			
@@ -24,6 +25,7 @@ namespace SEOMacroscope
 
 		public MacroscopeMainForm ()
 		{
+			
 			InitializeComponent();// The InitializeComponent() call is required for Windows Forms designer support.
 
 			MacroscopePreferences.LoadPreferences();
@@ -32,7 +34,8 @@ namespace SEOMacroscope
 			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this );
 			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this );
 			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this );
-			
+			msDisplayHistory = new MacroscopeDisplayHistory ( this );
+						
 			this.textBoxURL.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" ).ToString();
 
 			msJobMaster = new MacroscopeJobMaster ( this );
@@ -43,9 +46,9 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public DataGridView GetDisplayStructure ()
+		public ListView GetDisplayStructure ()
 		{
-			return( this.dataGridStructure );
+			return( this.listViewStructure );
 		}
 
 		/**************************************************************************/
@@ -57,15 +60,23 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public DataGridView GetDisplayEmailAddresses ()
+		public ListView GetDisplayEmailAddresses ()
 		{
-			return( this.dataGridEmailAddresses );
+			return( this.listViewEmailAddresses );
 		}
 		
 		/**************************************************************************/
-		public DataGridView GetDisplayTelephoneNumbers ()
+
+		public ListView GetDisplayTelephoneNumbers ()
 		{
-			return( this.dataGridTelephoneNumbers );
+			return( this.listViewTelephoneNumbers );
+		}
+
+		/**************************************************************************/
+
+		public ListView GetDisplayHistory ()
+		{
+			return( this.listViewHistory );
 		}
 
 		/**************************************************************************/
@@ -154,7 +165,7 @@ namespace SEOMacroscope
 		{
 			this.ScanningControlsResume( true );
 			if( this.tScanningThread.IsAlive ) {
-				if( this.msJobMaster.IsWorkersPaused() ) {
+				if( this.msJobMaster.WorkersArePaused() ) {
 					this.msJobMaster.WorkersUnpause();
 				}
 			}
@@ -169,11 +180,10 @@ namespace SEOMacroscope
 
 				this.ScanningControlsReset( true );
 							
-				this.dataGridStructure.DataSource = null;
 				this.dataGridHrefLang.DataSource = null;
-				this.dataGridEmailAddresses.DataSource = null;
-				this.dataGridTelephoneNumbers.DataSource = null;
 
+				this.msJobMaster.HistoryClear();
+				
 				this.msJobMaster = new MacroscopeJobMaster ( this );
 
 			}
@@ -275,7 +285,7 @@ namespace SEOMacroscope
 			this.buttonReset.Enabled = false;
 		}
 		
-		void ScanningControlsComplete( Boolean bState )
+		void ScanningControlsComplete ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
 			this.buttonStart.Enabled = true;
@@ -297,17 +307,65 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void UpdateDisplayStructure ( MacroscopeJobMaster msJobMaster )
+		public void UpdateDisplay ( MacroscopeJobMaster msJobMaster )
 		{
 
-			this.msDisplayStructure.RefreshData( msJobMaster.GetDocCollection() );
+			this.msDisplayStructure.RefreshData( msJobMaster.DocCollectionGet() );
 
-			this.msDisplayHrefLang.RefreshData( msJobMaster.GetDocCollection(), msJobMaster.GetLocales() );
+			this.msDisplayHrefLang.RefreshData( msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
 
-			this.msDisplayEmailAddresses.RefreshData( msJobMaster.GetDocCollection() );
+			this.msDisplayEmailAddresses.RefreshData( msJobMaster.DocCollectionGet() );
 						
-			this.msDisplayTelephoneNumbers.RefreshData( msJobMaster.GetDocCollection() );
+			this.msDisplayTelephoneNumbers.RefreshData( msJobMaster.DocCollectionGet() );
 						
+			this.msDisplayHistory.RefreshData( msJobMaster.HistoryGet() );
+						
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate {
+							this.Refresh();
+							this.Update();
+						}
+					)
+				);
+			} else {
+				this.Refresh();
+				this.Update();
+			}
+
+		}
+
+		/**************************************************************************/
+
+		public void UpdateDisplaySingle ( MacroscopeJobMaster msJobMaster, string sURL )
+		{
+
+			this.msDisplayStructure.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate {
+							this.Refresh();
+							this.Update();
+						}
+					)
+				);
+			} else {
+				this.Refresh();
+				this.Update();
+			}
+
+		}
+
+		/**************************************************************************/
+
+		public void UpdateDisplayHrefLang ( MacroscopeJobMaster msJobMaster )
+		{
+
+			this.msDisplayHrefLang.RefreshData( msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
@@ -331,7 +389,7 @@ namespace SEOMacroscope
 
 			string sThreads = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
 			string sUrlCount = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
-			string sUrlsFound = string.Format( "URLs Found: {0}", this.msJobMaster.GetDocCollection().Count() );
+			string sUrlsFound = string.Format( "URLs Found: {0}", this.msJobMaster.DocCollectionGet().Count() );
 
 			if( this.InvokeRequired ) {
 				this.Invoke(
@@ -407,6 +465,11 @@ namespace SEOMacroscope
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
+
+		
+
+		
+
 
 		/**************************************************************************/
 			

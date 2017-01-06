@@ -14,81 +14,93 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		MacroscopeMainForm msMainForm;
-		DataTable dtTable;
-		
-		const string constEmailAddress = "Email Address";
-		const string constURL = "URL";
 
 		/**************************************************************************/
 
 		public MacroscopeDisplayEmailAddresses ( MacroscopeMainForm msMainFormNew )
 		{
 			msMainForm = msMainFormNew;
-			dtTable = new DataTable ();
-			msMainForm.GetDisplayEmailAddresses().DataSource = null;
 		}
 
 		/**************************************************************************/
 				
 		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
 		{
-
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( this.msMainForm.InvokeRequired ) {
+				this.msMainForm.Invoke(
 					new MethodInvoker (
 						delegate {
-							msMainForm.GetDisplayEmailAddresses().SuspendLayout();
-							msMainForm.GetDisplayEmailAddresses().DataSource = null;
+							ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
+							this.RenderListView( lvListView, htDocCollection );
 						}
 					)
 				);
 			} else {
-				msMainForm.GetDisplayEmailAddresses().SuspendLayout();
-				msMainForm.GetDisplayEmailAddresses().DataSource = null;
+				ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
+				this.RenderListView( lvListView, htDocCollection );
 			}
+		}
 
-			this.dtTable.Rows.Clear();
-			this.dtTable.Columns.Clear();
-			this.dtTable.Clear();
+		/**************************************************************************/
 
-			this.dtTable.Columns.Add( constEmailAddress, typeof( string ) );
-			this.dtTable.Columns.Add( constURL, typeof( string ) );
+		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
+		{
 
-			foreach( string sKeyURL in htDocCollection.Keys() ) {
+			lvListView.SuspendLayout();
+			lvListView.Sorting = SortOrder.Ascending;
 
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
+			foreach( string sURL in htDocCollection.Keys() ) {
+
+				MacroscopeDocument msDoc = htDocCollection.Get( sURL );
 
 				if( msDoc.GetIsHtml() ) {
 				
 					Hashtable htEmailAddresses = ( Hashtable )msDoc.GetEmailAddresses();
-					
-					foreach( string sEmailAddress in htEmailAddresses.Keys ) {
-						DataRow dtRow = this.dtTable.NewRow();
-						dtRow.SetField( constEmailAddress, sEmailAddress );
-						dtRow.SetField( constURL, sKeyURL );
-						this.dtTable.Rows.Add( dtRow );
-					}
 
+					foreach( string sEmailAddress in htEmailAddresses.Keys ) {
+
+						string sPairKey = string.Join( "", sEmailAddress, sURL );
+
+						if( lvListView.Items.ContainsKey( sPairKey ) ) {
+							
+							try {
+
+								ListViewItem lvItem = lvListView.Items[ sPairKey ];
+								lvItem.SubItems[ 0 ].Text = sEmailAddress;
+								lvItem.SubItems[ 1 ].Text = sURL;
+
+							} catch( Exception ex ) {
+								debug_msg( string.Format( "MacroscopeDisplayEmailAddresses 1: {0}", ex.Message ) );
+							}
+
+						} else {
+							
+							try {
+
+								ListViewItem lvItem = new ListViewItem ( sPairKey );
+
+								lvItem.Name = sPairKey;
+
+								lvItem.SubItems[ 0 ].Text = sEmailAddress;
+								lvItem.SubItems.Add( sURL );
+
+								lvListView.Items.Add( lvItem );
+
+							} catch( Exception ex ) {
+								debug_msg( string.Format( "MacroscopeDisplayEmailAddresses 2: {0}", ex.Message ) );
+							}
+
+						}
+						
+					}
+					
 				}
 
 			}
 			
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
-					new MethodInvoker (
-						delegate {
-							msMainForm.GetDisplayEmailAddresses().DataSource = this.dtTable;
-							msMainForm.GetDisplayEmailAddresses().ResumeLayout();
-						}
-					)
-				);
-			} else {
-				msMainForm.GetDisplayEmailAddresses().DataSource = this.dtTable;
-				msMainForm.GetDisplayEmailAddresses().ResumeLayout();
-			}
-			
+			lvListView.ResumeLayout();
 		}
-						
+		
 		/**************************************************************************/
 
 	}

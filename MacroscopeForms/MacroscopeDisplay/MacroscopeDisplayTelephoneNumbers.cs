@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Data;
 using System.Collections;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -14,81 +11,93 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		MacroscopeMainForm msMainForm;
-		DataTable dtTable;
-
-		const string constTelephoneNumber = "Telephone Number";
-		const string constURL = "URL";
 
 		/**************************************************************************/
 
 		public MacroscopeDisplayTelephoneNumbers ( MacroscopeMainForm msMainFormNew )
 		{
 			msMainForm = msMainFormNew;
-			dtTable = new DataTable ();
-			msMainForm.GetDisplayTelephoneNumbers().DataSource = null;
 		}
 
 		/**************************************************************************/
 				
 		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
 		{
-
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( this.msMainForm.InvokeRequired ) {
+				this.msMainForm.Invoke(
 					new MethodInvoker (
 						delegate {
-							msMainForm.GetDisplayTelephoneNumbers().SuspendLayout();
-							msMainForm.GetDisplayTelephoneNumbers().DataSource = null;
+							ListView lvListView = this.msMainForm.GetDisplayTelephoneNumbers();
+							this.RenderListView( lvListView, htDocCollection );
 						}
 					)
 				);
 			} else {
-				msMainForm.GetDisplayTelephoneNumbers().SuspendLayout();
-				msMainForm.GetDisplayTelephoneNumbers().DataSource = null;
+				ListView lvListView = this.msMainForm.GetDisplayTelephoneNumbers();
+				this.RenderListView( lvListView, htDocCollection );
 			}
+		}
 
-			this.dtTable.Rows.Clear();
-			this.dtTable.Columns.Clear();
-			this.dtTable.Clear();
+		/**************************************************************************/
 
-			this.dtTable.Columns.Add( constTelephoneNumber, typeof( string ) );
-			this.dtTable.Columns.Add( constURL, typeof( string ) );
+		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
+		{
 
-			foreach( string sKeyURL in htDocCollection.Keys() ) {
+			lvListView.SuspendLayout();
+			lvListView.Sorting = SortOrder.Ascending;
 
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
+			foreach( string sURL in htDocCollection.Keys() ) {
+
+				MacroscopeDocument msDoc = htDocCollection.Get( sURL );
 
 				if( msDoc.GetIsHtml() ) {
 				
 					Hashtable htTelephoneNumbers = ( Hashtable )msDoc.GetTelephoneNumbers();
 
 					foreach( string sTelephoneNumber in htTelephoneNumbers.Keys ) {
-						DataRow dtRow = this.dtTable.NewRow();
-						dtRow.SetField( constTelephoneNumber, sTelephoneNumber );
-						dtRow.SetField( constURL, sKeyURL );
-						this.dtTable.Rows.Add( dtRow );
-					}
 
+						string sPairKey = string.Join( "", sTelephoneNumber, sURL );
+
+						if( lvListView.Items.ContainsKey( sPairKey ) ) {
+							
+							try {
+
+								ListViewItem lvItem = lvListView.Items[ sPairKey ];
+								lvItem.SubItems[ 0 ].Text = sTelephoneNumber;
+								lvItem.SubItems[ 1 ].Text = sURL;
+
+							} catch( Exception ex ) {
+								debug_msg( string.Format( "MacroscopeDisplayTelephoneNumbers 1: {0}", ex.Message ) );
+							}
+
+						} else {
+							
+							try {
+
+								ListViewItem lvItem = new ListViewItem ( sPairKey );
+
+								lvItem.Name = sPairKey;
+
+								lvItem.SubItems[ 0 ].Text = sTelephoneNumber;
+								lvItem.SubItems.Add( sURL );
+
+								lvListView.Items.Add( lvItem );
+
+							} catch( Exception ex ) {
+								debug_msg( string.Format( "MacroscopeDisplayTelephoneNumbers 2: {0}", ex.Message ) );
+							}
+
+						}
+						
+					}
+					
 				}
 
 			}
-				
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
-					new MethodInvoker (
-						delegate {
-							msMainForm.GetDisplayTelephoneNumbers().DataSource = this.dtTable;
-							msMainForm.GetDisplayTelephoneNumbers().ResumeLayout();
-						}
-					)
-				);
-			} else {
-				msMainForm.GetDisplayTelephoneNumbers().DataSource = this.dtTable;
-				msMainForm.GetDisplayTelephoneNumbers().ResumeLayout();
-			}
-
+			
+			lvListView.ResumeLayout();
 		}
-						
+
 		/**************************************************************************/
 
 	}

@@ -34,9 +34,9 @@ namespace SEOMacroscope
 		{
 
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sURL );
-			MacroscopeDocumentCollection DocCollection = this.msJobMaster.GetDocCollection();
+			MacroscopeDocumentCollection DocCollection = this.msJobMaster.DocCollectionGet();
 
-			if( ! this.msJobMaster.GetRobots().ApplyRobotRule( sURL ) ) {
+			if( ! this.msJobMaster.RobotsGet().ApplyRobotRule( sURL ) ) {
 				debug_msg( string.Format( "Disallowed by robots.txt: {0}", sURL ), 1 );
 				return;
 			}
