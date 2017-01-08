@@ -149,51 +149,17 @@ namespace SEOMacroscope
 		void CallbackScanStop ( object sender, EventArgs e )
 		{
 
-			this.ScanningControlsStop( true );
-						
-			this.msJobMaster.WorkersPause();
+			this.ScanningControlsStopping( true );
+			
 			this.msJobMaster.WorkersStop();
 
-			/*
-			while( !this.msJobMaster.WorkersStopped() ) {
+			while( this.msJobMaster.RunningThreadsCount() > 0 ) {
 				debug_msg( "CallbackScanStop: WAITING" );
 				Thread.Sleep( 100 );
 			}
-			*/
 			
-		}
-
-		/**************************************************************************/
-
-		void CallbackScanPause ( object sender, EventArgs e )
-		{
-			
-			this.ScanningControlsPause( true );
-			
-			if( this.tScanningThread.IsAlive ) {
-
-				while( !this.msJobMaster.WorkersPause() ) {
-					Thread.Sleep( 100 );
-				}
-
-				if( this.msJobMaster.WorkersPause() ) {
-					;
-				}
-
-			}
-
-		}
-		
-		/**************************************************************************/
-
-		void CallbackScanResume ( object sender, EventArgs e )
-		{
-			this.ScanningControlsResume( true );
-			if( this.tScanningThread.IsAlive ) {
-				if( this.msJobMaster.WorkersArePaused() ) {
-					this.msJobMaster.WorkersUnpause();
-				}
-			}
+			this.ScanningControlsStopped( true );
+	
 		}
 
 		/**************************************************************************/
@@ -206,11 +172,11 @@ namespace SEOMacroscope
 				this.ScanningControlsReset( true );
 							
 				this.dataGridHrefLang.DataSource = null;
-
-				this.msJobMaster.HistoryClear();
 				
 				this.msJobMaster = new MacroscopeJobMaster ( this );
 
+				this.ClearDisplay();
+				
 			}
 			
 		}
@@ -255,8 +221,6 @@ namespace SEOMacroscope
 			this.textBoxURL.Enabled = true;
 			this.buttonStart.Enabled = true;
 			this.buttonStop.Enabled = false;
-			this.buttonPause.Enabled = false;
-			this.buttonResume.Enabled = false;
 			this.buttonReset.Enabled = false;
 		}
 
@@ -265,18 +229,22 @@ namespace SEOMacroscope
 			this.textBoxURL.Enabled = false;
 			this.buttonStart.Enabled = false;
 			this.buttonStop.Enabled = true;
-			this.buttonPause.Enabled = true;
-			this.buttonResume.Enabled = false;
 			this.buttonReset.Enabled = false;
 		}
 
-		void ScanningControlsStop ( Boolean bState )
+		void ScanningControlsStopping ( Boolean bState )
+		{
+			this.textBoxURL.Enabled = false;
+			this.buttonStart.Enabled = false;
+			this.buttonStop.Enabled = false;
+			this.buttonReset.Enabled = false;
+		}
+
+		void ScanningControlsStopped ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
 			this.buttonStart.Enabled = true;
 			this.buttonStop.Enabled = false;
-			this.buttonPause.Enabled = false;
-			this.buttonResume.Enabled = false;
 			this.buttonReset.Enabled = true;
 		}
 
@@ -285,8 +253,6 @@ namespace SEOMacroscope
 			this.textBoxURL.Enabled = false;
 			this.buttonStart.Enabled = false;
 			this.buttonStop.Enabled = true;
-			this.buttonPause.Enabled = false;
-			this.buttonResume.Enabled = true;
 			this.buttonReset.Enabled = false;
 		}
 
@@ -295,8 +261,6 @@ namespace SEOMacroscope
 			this.textBoxURL.Enabled = false;
 			this.buttonStart.Enabled = false;
 			this.buttonStop.Enabled = true;
-			this.buttonPause.Enabled = true;
-			this.buttonResume.Enabled = false;
 			this.buttonReset.Enabled = false;
 		}
 
@@ -305,8 +269,6 @@ namespace SEOMacroscope
 			this.textBoxURL.Enabled = true;
 			this.buttonStart.Enabled = true;
 			this.buttonStop.Enabled = false;
-			this.buttonPause.Enabled = false;
-			this.buttonResume.Enabled = false;
 			this.buttonReset.Enabled = false;
 		}
 		
@@ -315,8 +277,6 @@ namespace SEOMacroscope
 			this.textBoxURL.Enabled = true;
 			this.buttonStart.Enabled = true;
 			this.buttonStop.Enabled = false;
-			this.buttonPause.Enabled = false;
-			this.buttonResume.Enabled = false;
 			this.buttonReset.Enabled = true;
 		}
 
@@ -332,18 +292,45 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void UpdateDisplay ( MacroscopeJobMaster msJobMaster )
+		public void ClearDisplay ()
 		{
 
-			this.msDisplayStructure.RefreshData( msJobMaster.DocCollectionGet() );
+			this.msDisplayStructure.ClearData();
+			this.msDisplayHrefLang.ClearData();
+			this.msDisplayEmailAddresses.ClearData();
+			this.msDisplayTelephoneNumbers.ClearData();
+			this.msDisplayHistory.ClearData();
 
-			this.msDisplayHrefLang.RefreshData( msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate {
+							this.Refresh();
+							this.Update();
+						}
+					)
+				);
+			} else {
+				this.Refresh();
+				this.Update();
+			}
 
-			this.msDisplayEmailAddresses.RefreshData( msJobMaster.DocCollectionGet() );
+		}
+
+		/**************************************************************************/
+		
+		public void UpdateDisplay ()
+		{
+
+			this.msDisplayStructure.RefreshData( this.msJobMaster.DocCollectionGet() );
+
+			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+
+			this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.DocCollectionGet() );
 						
-			this.msDisplayTelephoneNumbers.RefreshData( msJobMaster.DocCollectionGet() );
+			this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.DocCollectionGet() );
 						
-			this.msDisplayHistory.RefreshData( msJobMaster.HistoryGet() );
+			this.msDisplayHistory.RefreshData( this.msJobMaster.HistoryGet() );
 						
 			if( this.InvokeRequired ) {
 				this.Invoke(
@@ -368,6 +355,12 @@ namespace SEOMacroscope
 
 			this.msDisplayStructure.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 
+			//this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+
+			this.msDisplayEmailAddresses.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+						
+			this.msDisplayTelephoneNumbers.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
@@ -386,10 +379,10 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void UpdateDisplayHrefLang ( MacroscopeJobMaster msJobMaster )
+		public void UpdateDisplayHrefLang ()
 		{
 
-			this.msDisplayHrefLang.RefreshData( msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), this.msJobMaster.LocalesGet() );
 
 			if( this.InvokeRequired ) {
 				this.Invoke(
@@ -457,7 +450,7 @@ namespace SEOMacroscope
 
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
 
-					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
+					string sURL = lvItem.SubItems[0].Text.ToString();
 					
 					debug_msg( string.Format( "CallbackListViewClick: {0}", sURL ) );
 					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );

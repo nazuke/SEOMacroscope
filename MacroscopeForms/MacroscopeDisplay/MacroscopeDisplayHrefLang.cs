@@ -51,7 +51,24 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-				
+
+		public void ClearData ()
+		{
+			if( this.msMainForm.InvokeRequired ) {
+				this.msMainForm.Invoke(
+					new MethodInvoker (
+						delegate {
+							;
+						}
+					)
+				);
+			} else {
+				;
+			}
+		}
+
+		/**************************************************************************/
+		
 		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, Hashtable htLocales )
 		{
 
@@ -97,7 +114,7 @@ namespace SEOMacroscope
 					foreach( string sLocale in htLocales.Keys ) {
 						if( sLocale != null ) {
 							if( htHrefLangs.ContainsKey( sLocale ) ) {
-								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
+								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[sLocale];
 								dtRow.SetField( sLocale, msHrefLang.GetUrl() );
 							} else {
 								dtRow.SetField( sLocale, "MISSSING" );

@@ -55,9 +55,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPage4;
 		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.DataGridView dataGridViewRedirectsAudit;
-		private System.Windows.Forms.Button buttonPause;
 		private System.Windows.Forms.Button buttonStop;
-		private System.Windows.Forms.Button buttonResume;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripUrlCount;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripThreads;
@@ -142,11 +140,9 @@ namespace SEOMacroscope
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.textBoxURL = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-			this.buttonResume = new System.Windows.Forms.Button();
 			this.buttonStop = new System.Windows.Forms.Button();
 			this.buttonStart = new System.Windows.Forms.Button();
 			this.buttonReset = new System.Windows.Forms.Button();
-			this.buttonPause = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
@@ -564,52 +560,40 @@ namespace SEOMacroscope
 			// textBoxURL
 			// 
 			this.textBoxURL.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxURL.Location = new System.Drawing.Point(3, 3);
+			this.textBoxURL.Location = new System.Drawing.Point(2, 4);
+			this.textBoxURL.Margin = new System.Windows.Forms.Padding(2, 4, 2, 2);
 			this.textBoxURL.Name = "textBoxURL";
-			this.textBoxURL.Size = new System.Drawing.Size(272, 20);
+			this.textBoxURL.Size = new System.Drawing.Size(524, 20);
 			this.textBoxURL.TabIndex = 0;
 			// 
 			// tableLayoutPanel3
 			// 
-			this.tableLayoutPanel3.ColumnCount = 5;
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanel3.Controls.Add(this.buttonResume, 3, 0);
+			this.tableLayoutPanel3.ColumnCount = 3;
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel3.Controls.Add(this.buttonStop, 1, 0);
 			this.tableLayoutPanel3.Controls.Add(this.buttonStart, 0, 0);
-			this.tableLayoutPanel3.Controls.Add(this.buttonReset, 4, 0);
-			this.tableLayoutPanel3.Controls.Add(this.buttonPause, 2, 0);
+			this.tableLayoutPanel3.Controls.Add(this.buttonReset, 2, 0);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel3.Location = new System.Drawing.Point(278, 0);
+			this.tableLayoutPanel3.Location = new System.Drawing.Point(528, 0);
 			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
 			this.tableLayoutPanel3.RowCount = 1;
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(500, 44);
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(250, 44);
 			this.tableLayoutPanel3.TabIndex = 1;
-			// 
-			// buttonResume
-			// 
-			this.buttonResume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonResume.Location = new System.Drawing.Point(303, 3);
-			this.buttonResume.Name = "buttonResume";
-			this.buttonResume.Size = new System.Drawing.Size(94, 24);
-			this.buttonResume.TabIndex = 5;
-			this.buttonResume.Text = "Resume";
-			this.buttonResume.UseVisualStyleBackColor = true;
-			this.buttonResume.Click += new System.EventHandler(this.CallbackScanResume);
 			// 
 			// buttonStop
 			// 
 			this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonStop.Location = new System.Drawing.Point(103, 3);
+			this.buttonStop.Location = new System.Drawing.Point(85, 2);
+			this.buttonStop.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonStop.Name = "buttonStop";
-			this.buttonStop.Size = new System.Drawing.Size(94, 24);
+			this.buttonStop.Size = new System.Drawing.Size(79, 24);
 			this.buttonStop.TabIndex = 4;
 			this.buttonStop.Text = "Stop";
 			this.buttonStop.UseVisualStyleBackColor = true;
@@ -619,9 +603,10 @@ namespace SEOMacroscope
 			// 
 			this.buttonStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonStart.Location = new System.Drawing.Point(3, 3);
+			this.buttonStart.Location = new System.Drawing.Point(2, 2);
+			this.buttonStart.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonStart.Name = "buttonStart";
-			this.buttonStart.Size = new System.Drawing.Size(94, 24);
+			this.buttonStart.Size = new System.Drawing.Size(79, 24);
 			this.buttonStart.TabIndex = 0;
 			this.buttonStart.Text = "Start";
 			this.buttonStart.UseVisualStyleBackColor = true;
@@ -631,25 +616,14 @@ namespace SEOMacroscope
 			// 
 			this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonReset.Location = new System.Drawing.Point(403, 3);
+			this.buttonReset.Location = new System.Drawing.Point(168, 2);
+			this.buttonReset.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonReset.Name = "buttonReset";
-			this.buttonReset.Size = new System.Drawing.Size(94, 24);
+			this.buttonReset.Size = new System.Drawing.Size(80, 24);
 			this.buttonReset.TabIndex = 1;
 			this.buttonReset.Text = "Reset";
 			this.buttonReset.UseVisualStyleBackColor = true;
 			this.buttonReset.Click += new System.EventHandler(this.CallbackScanReset);
-			// 
-			// buttonPause
-			// 
-			this.buttonPause.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonPause.Location = new System.Drawing.Point(203, 3);
-			this.buttonPause.Name = "buttonPause";
-			this.buttonPause.Size = new System.Drawing.Size(94, 24);
-			this.buttonPause.TabIndex = 3;
-			this.buttonPause.Text = "Pause";
-			this.buttonPause.UseVisualStyleBackColor = true;
-			this.buttonPause.Click += new System.EventHandler(this.CallbackScanPause);
 			// 
 			// MacroscopeMainForm
 			// 

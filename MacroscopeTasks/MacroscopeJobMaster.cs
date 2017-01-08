@@ -46,7 +46,6 @@ namespace SEOMacroscope
 		
 		int ThreadsMax;
 		int ThreadsRunning;
-		Boolean ThreadsPaused;
 		Boolean ThreadsStop;
 		Dictionary<int,Boolean> ThreadsDict;
 		
@@ -80,7 +79,6 @@ namespace SEOMacroscope
 
 			ThreadsMax = 4;
 			ThreadsRunning = 0;
-			ThreadsPaused = false;
 			ThreadsStop = false;
 			ThreadsDict = new Dictionary<int,Boolean> ();
 
@@ -111,7 +109,6 @@ namespace SEOMacroscope
 
 			debug_msg( string.Format( "Start URL: {0}", this.StartUrl ), 1 );
 
-			this.ThreadsPaused = false;
 			this.ThreadsStop = false;
 			 							
 			if( !this.UrlQueuePeek() ) {
@@ -148,34 +145,27 @@ namespace SEOMacroscope
 
 				} else {
 
-					if( this.ThreadsPaused == true ) {
-
-						debug_msg( string.Format( "WorkersSpawn: {0}", "PAUSED" ) );
-						Thread.Sleep( 1000 );
-
-					} else {
-
-						for( int i = 0; i < this.ThreadsMax; i++ ) {
-							Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.WorkerStart, null );
-							Thread.Sleep( 100 );
-						}
-						
-						Thread.Sleep( 1000 );
-
-						if( this.RunningThreadsCount() == 0 ) {
-							if( !this.UrlQueuePeek() ) {
-								bDoRun = false;
-							}
-						}
-
+					for( int i = 0; i < this.ThreadsMax; i++ ) {
+						Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.WorkerStart, null );
+						Thread.Sleep( 100 );
 					}
-				
+						
+					Thread.Sleep( 1000 );
+
+					if( this.RunningThreadsCount() == 0 ) {
+						if( !this.UrlQueuePeek() ) {
+							bDoRun = false;
+						}
+					}
+
 				}
 			}
 			
+			this.DocCollectionGet().RecalculateLinksIn();
+						
+			this.UpdateDisplay();
+						
 			this.UpdateStatusBar();
-
-			this.DumpHistory();
 
 			debug_msg( string.Format( "WorkersSpawn: STOPPED" ) );
 
@@ -202,6 +192,8 @@ namespace SEOMacroscope
 
 			this.RunningThreadsDec();
 
+			this.DocCollectionGet().RecalculateLinksIn();
+			
 			this.UpdateDisplaySingle( sURL );
 			
 			this.UpdateDisplay();
@@ -214,7 +206,6 @@ namespace SEOMacroscope
 
 		public void WorkersStop ()
 		{
-			//debug_msg( string.Format( "WorkersStop" ) );
 			this.ThreadsStop = true;
 		}
 
@@ -231,34 +222,6 @@ namespace SEOMacroscope
 			return( bIsStopped );
 		}
 
-		/**************************************************************************/
-		
-		public Boolean WorkersPause ()
-		{
-
-			//debug_msg( string.Format( "WorkersPause" ) );
-
-			this.ThreadsPaused = true;
-
-			return( this.ThreadsPaused );
-
-		}
-		
-		/**************************************************************************/
-
-		public void WorkersUnpause ()
-		{
-			debug_msg( string.Format( "WorkersUnpause" ) );
-			this.ThreadsPaused = false;
-		}
-		
-		/**************************************************************************/
-
-		public Boolean WorkersArePaused ()
-		{
-			return( this.ThreadsPaused );
-		}
-		
 		/**************************************************************************/
 
 		void RunningThreadsInc ()
@@ -439,10 +402,11 @@ namespace SEOMacroscope
 			}
 			lock( this.DisplayLock ) {
 				try {
-					//this.msMainForm.UpdateDisplay( this );
+					
+					this.msMainForm.UpdateDisplay(  );
 					
 					
-					this.msMainForm.UpdateDisplayHrefLang( this );
+					//this.msMainForm.UpdateDisplayHrefLang( this );
 					
 					
 					

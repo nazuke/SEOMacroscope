@@ -73,11 +73,22 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		public Boolean Exists ( string sKey )
+		{
+			Boolean bExists = false;
+			if( this.DocCollection.ContainsKey( sKey ) ) {
+				bExists = true;
+			}
+			return( bExists );
+		}
+
+		/**************************************************************************/
+
 		public MacroscopeDocument Get ( string sKey )
 		{
 			MacroscopeDocument msDoc = null;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
-				msDoc = ( MacroscopeDocument )this.DocCollection[ sKey ];
+				msDoc = ( MacroscopeDocument )this.DocCollection[sKey];
 			}
 			return( msDoc );
 		}
@@ -104,6 +115,23 @@ namespace SEOMacroscope
 				}
 			}
 			return( lKeys );
+		}
+
+		/**************************************************************************/
+
+		public void RecalculateLinksIn ()
+		{
+			lock( this.DocCollection ) {
+				foreach( string sURL in this.DocCollection.Keys ) {
+					MacroscopeDocument msDoc = this.Get( sURL );
+					foreach( string sLinkOut in  msDoc.GetOutlinks().Keys ) {
+						if( this.Exists( sLinkOut ) ) {
+							MacroscopeDocument msDocLinked = this.Get( sLinkOut );
+							msDocLinked.AddHyperlinkIn( sURL );
+						}
+					}
+				}
+			}
 		}
 
 		/**************************************************************************/
