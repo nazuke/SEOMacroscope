@@ -1,4 +1,29 @@
-﻿using System;
+﻿/*
+	
+	This file is part of SEOMacroscope.
+	
+	Copyright 2017 Jason Holland.
+	
+	The GitHub repository may be found at:
+	
+		https://github.com/nazuke/SEOMacroscope
+	
+	Foobar is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	Foobar is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Collections.Generic;
@@ -58,23 +83,10 @@ namespace SEOMacroscope
 			}
 
 			if( res != null ) {
-											
-				// Status Code
-				this.StatusCode = this.ProcessStatusCode( res.StatusCode );
-				debug_msg( string.Format( "Status: {0}", this.StatusCode ), 2 );
+									
+				this.ProcessHttpHeaders( req, res );
 
-				// Probe HTTP Headers
-				foreach( string sHeader in res.Headers ) {
-					debug_msg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ), 3 );
-				}
-
-				// Stash HTTP Headers
-				this.MimeType = res.ContentType;
-				this.ContentLength = res.ContentLength;
-				debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );			
-				debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
-
-				{ // Title
+ 				{ // Title
 					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
 					string sTitle = null;
 					foreach( Match match in reMatches ) {

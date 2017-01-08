@@ -1,4 +1,29 @@
-﻿using System;
+﻿/*
+	
+	This file is part of SEOMacroscope.
+	
+	Copyright 2017 Jason Holland.
+	
+	The GitHub repository may be found at:
+	
+		https://github.com/nazuke/SEOMacroscope
+	
+	Foobar is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	Foobar is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Collections.Generic;
@@ -29,6 +54,11 @@ namespace SEOMacroscope
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				res = ( HttpWebResponse )req.GetResponse();
+				
+				if( res != null ) {
+					this.ProcessHttpHeaders( req, res );
+				}
+				
 				debug_msg( string.Format( "Status: {0}", res.StatusCode ), 2 );
 				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ), 2 );
 				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
@@ -72,23 +102,7 @@ namespace SEOMacroscope
 				
 				string sRawData = "";
 							
-				// Status Code
-				this.StatusCode = this.ProcessStatusCode( res.StatusCode );
-				debug_msg( string.Format( "Status: {0}", this.StatusCode ), 2 );
-
-				// Probe HTTP Headers
-				foreach( string sHeader in res.Headers ) {
-					debug_msg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ), 3 );
-					if( sHeader.Equals( "Date" ) ) {
-						this.DateServer = DateTime.Parse( res.GetResponseHeader( sHeader ) );
-					}
-				}
-
-				// Stash HTTP Headers
-				this.MimeType = res.ContentType;
-				this.ContentLength = res.ContentLength;
-				debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );
-				debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
+				this.ProcessHttpHeaders( req, res );
 
 				// Get Response Body
 				try {
@@ -99,6 +113,7 @@ namespace SEOMacroscope
 					this.ContentLength = sRawData.Length; // May need to find bytes length
 					//debug_msg( string.Format( "sRawData: {0}", sRawData ), 3 );
 				} catch( WebException ex ) {
+					debug_msg( string.Format( "WebException", ex.Message ), 3 );
 					this.StatusCode = 500;
 					sRawData = "";
 					this.ContentLength = 0;
@@ -332,7 +347,7 @@ namespace SEOMacroscope
 					if( Regex.IsMatch( sLinkURL, "^mailto:" ) ) {
 						MatchCollection reMatches = Regex.Matches( sLinkURL, "^mailto:([^?]+)" );
 						foreach( Match reMatch in reMatches ) {
-							this.AddEmailAddress( reMatch.Groups[ 1 ].Value.ToString() );
+							this.AddEmailAddress( reMatch.Groups[1].Value.ToString() );
 						}
 					}
 				}			
@@ -350,7 +365,7 @@ namespace SEOMacroscope
 					if( Regex.IsMatch( sLinkURL, "^tel:" ) ) {
 						MatchCollection reMatches = Regex.Matches( sLinkURL, "^tel:(.+)" );
 						foreach( Match reMatch in reMatches ) {
-							this.AddTelephoneNumber( reMatch.Groups[ 1 ].Value.ToString() );
+							this.AddTelephoneNumber( reMatch.Groups[1].Value.ToString() );
 						}
 					}
 				}			
@@ -375,7 +390,7 @@ namespace SEOMacroscope
 						}
 						debug_msg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ), 3 );
 						MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( this.ProbeHrefLangs, sLocale, sHref );
-						this.HrefLang[ sLocale ] = msHrefLang;
+						this.HrefLang[sLocale] = msHrefLang;
 					}
 				}
 			}

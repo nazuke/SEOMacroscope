@@ -128,7 +128,6 @@
     <Compile Include="MacroscopeStandards\MacroscopeRobots.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobWorker.cs" />
-    <Compile Include="MacroscopeTasks\MacroscopeJobLocker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeLocaleTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopePDFTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeURLTools.cs" />

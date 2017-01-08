@@ -1,4 +1,29 @@
-﻿using System;
+﻿/*
+	
+	This file is part of SEOMacroscope.
+	
+	Copyright 2017 Jason Holland.
+	
+	The GitHub repository may be found at:
+	
+		https://github.com/nazuke/SEOMacroscope
+	
+	Foobar is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	Foobar is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Collections.Generic;
@@ -145,7 +170,7 @@ namespace SEOMacroscope
 			} else {
 				MatchCollection matches = Regex.Matches( this.MimeType, "^([^\\s;/]+)/([^\\s;/]+)" );
 				foreach( Match match in matches ) {
-					sMimeType = String.Format( "{0}/{1}", match.Groups[ 1 ].Value, match.Groups[ 2 ].Value );
+					sMimeType = String.Format( "{0}/{1}", match.Groups[1].Value, match.Groups[2].Value );
 				}
 				if( sMimeType == null ) {
 					sMimeType = this.MimeType;
@@ -216,8 +241,8 @@ namespace SEOMacroscope
 		public Hashtable AddHyperlinkIn ( string sURL )
 		{
 			if( this.HyperlinksIn.ContainsKey( sURL ) ) {
-				int count = ( int )this.HyperlinksIn[ sURL ] + 1;
-				this.HyperlinksIn[ sURL ] = count;
+				int count = ( int )this.HyperlinksIn[sURL] + 1;
+				this.HyperlinksIn[sURL] = count;
 			} else {
 				this.HyperlinksIn.Add( sURL, 1 );
 			}
@@ -260,7 +285,7 @@ namespace SEOMacroscope
 		{
 			debug_msg( string.Format( "AddEmailAddress: {0}", sString ) );
 			if( this.EmailAddresses.ContainsKey( sString ) ) {
-				this.EmailAddresses[ sString ] = this.GetUrl();
+				this.EmailAddresses[sString] = this.GetUrl();
 			} else {
 				this.EmailAddresses.Add( sString, this.GetUrl() );
 			}
@@ -280,7 +305,7 @@ namespace SEOMacroscope
 		{
 			debug_msg( string.Format( "AddTelephoneNumber: {0}", sString ) );
 			if( this.TelephoneNumbers.ContainsKey( sString ) ) {
-				this.TelephoneNumbers[ sString ] = this.GetUrl();
+				this.TelephoneNumbers[sString] = this.GetUrl();
 			} else {
 				this.TelephoneNumbers.Add( sString, this.GetUrl() );
 			}
@@ -369,7 +394,7 @@ namespace SEOMacroscope
 		void SetHreflang ( string sLocale, string sURL )
 		{
 			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( false, sLocale, sURL );
-			this.HrefLang[ sLocale ] = msHrefLang;
+			this.HrefLang[sLocale] = msHrefLang;
 		}
 
 		/**************************************************************************/
@@ -504,6 +529,33 @@ namespace SEOMacroscope
 			return( bIsRedirect );
 		}
 
+		
+		/**************************************************************************/
+		
+		
+		void ProcessHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
+		{
+			
+			// Status Code
+			this.StatusCode = this.ProcessStatusCode( res.StatusCode );
+			debug_msg( string.Format( "Status: {0}", this.StatusCode ), 2 );
+
+			// Probe HTTP Headers
+			foreach( string sHeader in res.Headers ) {
+				debug_msg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ), 3 );
+				if( sHeader.Equals( "Date" ) ) {
+					this.DateServer = DateTime.Parse( res.GetResponseHeader( sHeader ) );
+				}
+			}
+
+			// Stash HTTP Headers
+			this.MimeType = res.ContentType;
+			this.ContentLength = res.ContentLength;
+			debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );
+			debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
+
+		}
+		
 		/**************************************************************************/
 		
 		public List<KeyValuePair<string,string>> DetailDocumentDetails ()
@@ -544,7 +596,7 @@ namespace SEOMacroscope
 			{
 				string sHeading;
 				if( this.GetHeadings1().Count > 0 ) {
-					sHeading = this.GetHeadings1()[ 0 ].ToString();
+					sHeading = this.GetHeadings1()[0].ToString();
 				} else {
 					sHeading = "";
 				}
@@ -555,7 +607,7 @@ namespace SEOMacroscope
 			{
 				string sHeading;
 				if( this.GetHeadings2().Count > 0 ) {
-					sHeading = this.GetHeadings2()[ 0 ].ToString();
+					sHeading = this.GetHeadings2()[0].ToString();
 				} else {
 					sHeading = "";
 				}

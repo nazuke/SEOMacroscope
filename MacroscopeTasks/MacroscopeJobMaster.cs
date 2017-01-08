@@ -1,4 +1,29 @@
-﻿using System;
+﻿/*
+	
+	This file is part of SEOMacroscope.
+	
+	Copyright 2017 Jason Holland.
+	
+	The GitHub repository may be found at:
+	
+		https://github.com/nazuke/SEOMacroscope
+	
+	Foobar is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	Foobar is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +40,7 @@ namespace SEOMacroscope
 		MacroscopeMainForm msMainForm;
 		MacroscopeDocumentCollection msDocCollection;
 		
-		public MacroscopeJobLocker DisplayLock;
+		Object DisplayLock;
 		
 		/** BEGIN: Configuration **/
 		
@@ -51,7 +76,7 @@ namespace SEOMacroscope
 			msMainForm = msMainFormNew;
 			msDocCollection = new MacroscopeDocumentCollection ();
 			
-			DisplayLock = new MacroscopeJobLocker ();
+			DisplayLock = new Object ();
 
 			ThreadsMax = 4;
 			ThreadsRunning = 0;
@@ -240,7 +265,7 @@ namespace SEOMacroscope
 		{
 
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[ iThreadId ] = true;
+			this.ThreadsDict[iThreadId] = true;
 			this.ThreadsRunning++;
 
 		}
@@ -348,7 +373,7 @@ namespace SEOMacroscope
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sURL ) ) {
-				bSeen = ( Boolean )this.History[ sURL ];
+				bSeen = ( Boolean )this.History[sURL];
 			}
 			return( bSeen );
 		}
@@ -393,7 +418,7 @@ namespace SEOMacroscope
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[ sLocale ] = sLocale;
+					this.Locales[sLocale] = sLocale;
 				}
 			}
 		}
@@ -459,7 +484,7 @@ namespace SEOMacroscope
 				debug_msg( "" );
 				debug_msg( "DUMPING HISTORY:" );
 				foreach( string sKey in this.History.Keys ) {
-					debug_msg( string.Format( "DumpHistory: {0} => {1}", sKey, this.History[ sKey ].ToString() ) );
+					debug_msg( string.Format( "DumpHistory: {0} => {1}", sKey, this.History[sKey].ToString() ) );
 				}
 				debug_msg( "HISTORY DUMP COMPLETE." );
 				debug_msg( "" );
