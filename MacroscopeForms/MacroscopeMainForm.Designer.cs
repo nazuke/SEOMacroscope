@@ -57,8 +57,6 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ToolStripStatusLabel toolStripFound;
 		private System.Windows.Forms.TabPage tabPageHistory;
 		private System.Windows.Forms.ListView listViewHistory;
-		private System.Windows.Forms.TabPage tabPageQueue;
-		private System.Windows.Forms.ListView listViewQueue;
 		private System.Windows.Forms.ColumnHeader HistoryUrl;
 		private System.Windows.Forms.ColumnHeader HistoryVisited;
 		private System.Windows.Forms.ListView listViewTelephoneNumbers;
@@ -67,7 +65,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ListView listViewEmailAddresses;
 		private System.Windows.Forms.ColumnHeader EmailAddressesEmail;
 		private System.Windows.Forms.ColumnHeader EmailAddressesUrl;
-		private System.Windows.Forms.ColumnHeader QueueUrl;
 		private System.Windows.Forms.ListView listViewStructure;
 		private SEOMacroscope.MacroscopeDocumentDetails macroscopeDocumentDetailsMain;
 		private System.Windows.Forms.ToolStrip toolStripViewControls;
@@ -149,9 +146,6 @@ namespace SEOMacroscope
 			this.listViewTelephoneNumbers = new System.Windows.Forms.ListView();
 			this.TelTel = new System.Windows.Forms.ColumnHeader();
 			this.TelUrl = new System.Windows.Forms.ColumnHeader();
-			this.tabPageQueue = new System.Windows.Forms.TabPage();
-			this.listViewQueue = new System.Windows.Forms.ListView();
-			this.QueueUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHistory = new System.Windows.Forms.TabPage();
 			this.listViewHistory = new System.Windows.Forms.ListView();
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
@@ -186,7 +180,6 @@ namespace SEOMacroscope
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewRedirectsAudit)).BeginInit();
 			this.tabPageEmailAddresses.SuspendLayout();
 			this.tabPageTelephoneNumbers.SuspendLayout();
-			this.tabPageQueue.SuspendLayout();
 			this.tabPageHistory.SuspendLayout();
 			this.toolStripViewControls.SuspendLayout();
 			this.toolStripExecuteControls.SuspendLayout();
@@ -312,7 +305,6 @@ namespace SEOMacroscope
 			this.tabControlMain.Controls.Add(this.tabPageRedirectsAudit);
 			this.tabControlMain.Controls.Add(this.tabPageEmailAddresses);
 			this.tabControlMain.Controls.Add(this.tabPageTelephoneNumbers);
-			this.tabControlMain.Controls.Add(this.tabPageQueue);
 			this.tabControlMain.Controls.Add(this.tabPageHistory);
 			this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlMain.Location = new System.Drawing.Point(3, 63);
@@ -546,36 +538,6 @@ namespace SEOMacroscope
 			this.TelUrl.Text = "URL";
 			this.TelUrl.Width = 500;
 			// 
-			// tabPageQueue
-			// 
-			this.tabPageQueue.Controls.Add(this.listViewQueue);
-			this.tabPageQueue.Location = new System.Drawing.Point(4, 22);
-			this.tabPageQueue.Name = "tabPageQueue";
-			this.tabPageQueue.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageQueue.Size = new System.Drawing.Size(770, 316);
-			this.tabPageQueue.TabIndex = 6;
-			this.tabPageQueue.Text = "Queue";
-			this.tabPageQueue.UseVisualStyleBackColor = true;
-			// 
-			// listViewQueue
-			// 
-			this.listViewQueue.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.QueueUrl});
-			this.listViewQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listViewQueue.FullRowSelect = true;
-			this.listViewQueue.GridLines = true;
-			this.listViewQueue.Location = new System.Drawing.Point(3, 3);
-			this.listViewQueue.Name = "listViewQueue";
-			this.listViewQueue.Size = new System.Drawing.Size(764, 310);
-			this.listViewQueue.TabIndex = 0;
-			this.listViewQueue.UseCompatibleStateImageBehavior = false;
-			this.listViewQueue.View = System.Windows.Forms.View.Details;
-			// 
-			// QueueUrl
-			// 
-			this.QueueUrl.Text = "URL";
-			this.QueueUrl.Width = 500;
-			// 
 			// tabPageHistory
 			// 
 			this.tabPageHistory.Controls.Add(this.listViewHistory);
@@ -780,7 +742,6 @@ namespace SEOMacroscope
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewRedirectsAudit)).EndInit();
 			this.tabPageEmailAddresses.ResumeLayout(false);
 			this.tabPageTelephoneNumbers.ResumeLayout(false);
-			this.tabPageQueue.ResumeLayout(false);
 			this.tabPageHistory.ResumeLayout(false);
 			this.toolStripViewControls.ResumeLayout(false);
 			this.toolStripViewControls.PerformLayout();
