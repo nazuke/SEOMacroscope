@@ -215,69 +215,93 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+		
+		void CallbackHrefLangAnalysisClick ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackHrefLangAnalysisClick" );
+
+			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate {
+							this.Refresh();
+							this.Update();
+						}
+					)
+				);
+			} else {
+				this.Refresh();
+				this.Update();
+			}
+		
+		}
+
+		/**************************************************************************/
 
 		void ScanningControlsEnable ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
-			this.buttonStart.Enabled = true;
-			this.buttonStop.Enabled = false;
-			this.buttonReset.Enabled = false;
+			this.ButtonStart.Enabled = true;
+			this.ButtonStop.Enabled = false;
+			this.ButtonReset.Enabled = false;
 		}
 
 		void ScanningControlsStart ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
-			this.buttonStart.Enabled = false;
-			this.buttonStop.Enabled = true;
-			this.buttonReset.Enabled = false;
+			this.ButtonStart.Enabled = false;
+			this.ButtonStop.Enabled = true;
+			this.ButtonReset.Enabled = false;
 		}
 
 		void ScanningControlsStopping ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
-			this.buttonStart.Enabled = false;
-			this.buttonStop.Enabled = false;
-			this.buttonReset.Enabled = false;
+			this.ButtonStart.Enabled = false;
+			this.ButtonStop.Enabled = false;
+			this.ButtonReset.Enabled = false;
 		}
 
 		void ScanningControlsStopped ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
-			this.buttonStart.Enabled = true;
-			this.buttonStop.Enabled = false;
-			this.buttonReset.Enabled = true;
+			this.ButtonStart.Enabled = true;
+			this.ButtonStop.Enabled = false;
+			this.ButtonReset.Enabled = true;
 		}
 
 		void ScanningControlsPause ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
-			this.buttonStart.Enabled = false;
-			this.buttonStop.Enabled = true;
-			this.buttonReset.Enabled = false;
+			this.ButtonStart.Enabled = false;
+			this.ButtonStop.Enabled = true;
+			this.ButtonReset.Enabled = false;
 		}
 
 		void ScanningControlsResume ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
-			this.buttonStart.Enabled = false;
-			this.buttonStop.Enabled = true;
-			this.buttonReset.Enabled = false;
+			this.ButtonStart.Enabled = false;
+			this.ButtonStop.Enabled = true;
+			this.ButtonReset.Enabled = false;
 		}
 
 		void ScanningControlsReset ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
-			this.buttonStart.Enabled = true;
-			this.buttonStop.Enabled = false;
-			this.buttonReset.Enabled = false;
+			this.ButtonStart.Enabled = true;
+			this.ButtonStop.Enabled = false;
+			this.ButtonReset.Enabled = false;
 		}
 		
 		void ScanningControlsComplete ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
-			this.buttonStart.Enabled = true;
-			this.buttonStop.Enabled = false;
-			this.buttonReset.Enabled = true;
+			this.ButtonStart.Enabled = true;
+			this.ButtonStop.Enabled = false;
+			this.ButtonReset.Enabled = true;
 		}
 
 		/**************************************************************************/
@@ -510,6 +534,20 @@ namespace SEOMacroscope
 		{
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
+		}
+
+		
+		void ToolStripDropDownButton1Click ( object sender, EventArgs e )
+		{
+	
+		}
+		void JPEGToolStripMenuItemClick ( object sender, EventArgs e )
+		{
+	
+		}
+		void TabPageCanonicalsAuditClick ( object sender, EventArgs e )
+		{
+	
 		}
 
 		
