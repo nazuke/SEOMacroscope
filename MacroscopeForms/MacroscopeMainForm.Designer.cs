@@ -45,8 +45,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TableLayoutPanel tableLayoutStructure;
 		private System.Windows.Forms.TabPage tabPageHrefLangAnalysis;
 		public System.Windows.Forms.ToolStripTextBox textBoxURL;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-		private System.Windows.Forms.DataGridView dataGridHrefLang;
 		private System.Windows.Forms.TabPage tabPageRedirectsAudit;
 		private System.Windows.Forms.TabPage tabPageEmailAddresses;
 		private System.Windows.Forms.TabPage tabPageTelephoneNumbers;
@@ -86,6 +84,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ListView listViewCanonicalAnalysis;
 		private System.Windows.Forms.ColumnHeader CanonicalAnalysisUrl;
 		private System.Windows.Forms.ColumnHeader CanonicalAnalysisCanonical;
+		public System.Windows.Forms.ListView listViewHrefLang;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -109,7 +108,6 @@ namespace SEOMacroscope
 		private void InitializeComponent()
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroscopeMainForm));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,8 +132,7 @@ namespace SEOMacroscope
 			this.CanonicalAnalysisUrl = new System.Windows.Forms.ColumnHeader();
 			this.CanonicalAnalysisCanonical = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHrefLangAnalysis = new System.Windows.Forms.TabPage();
-			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-			this.dataGridHrefLang = new System.Windows.Forms.DataGridView();
+			this.listViewHrefLang = new System.Windows.Forms.ListView();
 			this.tabPageRedirectsAudit = new System.Windows.Forms.TabPage();
 			this.dataGridViewRedirectsAudit = new System.Windows.Forms.DataGridView();
 			this.tabPageEmailAddresses = new System.Windows.Forms.TabPage();
@@ -174,8 +171,6 @@ namespace SEOMacroscope
 			this.tableLayoutStructure.SuspendLayout();
 			this.tabPageCanonicalAnalysis.SuspendLayout();
 			this.tabPageHrefLangAnalysis.SuspendLayout();
-			this.tableLayoutPanel4.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridHrefLang)).BeginInit();
 			this.tabPageRedirectsAudit.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewRedirectsAudit)).BeginInit();
 			this.tabPageEmailAddresses.SuspendLayout();
@@ -402,7 +397,7 @@ namespace SEOMacroscope
 			// 
 			// tabPageHrefLangAnalysis
 			// 
-			this.tabPageHrefLangAnalysis.Controls.Add(this.tableLayoutPanel4);
+			this.tabPageHrefLangAnalysis.Controls.Add(this.listViewHrefLang);
 			this.tabPageHrefLangAnalysis.Location = new System.Drawing.Point(4, 22);
 			this.tabPageHrefLangAnalysis.Name = "tabPageHrefLangAnalysis";
 			this.tabPageHrefLangAnalysis.Padding = new System.Windows.Forms.Padding(3);
@@ -411,33 +406,17 @@ namespace SEOMacroscope
 			this.tabPageHrefLangAnalysis.Text = "HrefLang Analysis";
 			this.tabPageHrefLangAnalysis.UseVisualStyleBackColor = true;
 			// 
-			// tableLayoutPanel4
+			// listViewHrefLang
 			// 
-			this.tableLayoutPanel4.ColumnCount = 1;
-			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel4.Controls.Add(this.dataGridHrefLang, 0, 0);
-			this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
-			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-			this.tableLayoutPanel4.RowCount = 2;
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel4.Size = new System.Drawing.Size(764, 310);
-			this.tableLayoutPanel4.TabIndex = 0;
-			// 
-			// dataGridHrefLang
-			// 
-			this.dataGridHrefLang.AllowUserToAddRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridHrefLang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-			this.dataGridHrefLang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridHrefLang.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridHrefLang.Location = new System.Drawing.Point(3, 3);
-			this.dataGridHrefLang.Name = "dataGridHrefLang";
-			this.dataGridHrefLang.ReadOnly = true;
-			this.dataGridHrefLang.Size = new System.Drawing.Size(758, 149);
-			this.dataGridHrefLang.TabIndex = 0;
-			this.dataGridHrefLang.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.CallbackDataBindingComplete);
+			this.listViewHrefLang.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listViewHrefLang.FullRowSelect = true;
+			this.listViewHrefLang.GridLines = true;
+			this.listViewHrefLang.Location = new System.Drawing.Point(3, 3);
+			this.listViewHrefLang.Name = "listViewHrefLang";
+			this.listViewHrefLang.Size = new System.Drawing.Size(764, 310);
+			this.listViewHrefLang.TabIndex = 0;
+			this.listViewHrefLang.UseCompatibleStateImageBehavior = false;
+			this.listViewHrefLang.View = System.Windows.Forms.View.Details;
 			// 
 			// tabPageRedirectsAudit
 			// 
@@ -453,8 +432,8 @@ namespace SEOMacroscope
 			// dataGridViewRedirectsAudit
 			// 
 			this.dataGridViewRedirectsAudit.AllowUserToAddRows = false;
-			dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridViewRedirectsAudit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewRedirectsAudit.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridViewRedirectsAudit.Location = new System.Drawing.Point(3, 3);
@@ -736,8 +715,6 @@ namespace SEOMacroscope
 			this.tableLayoutStructure.ResumeLayout(false);
 			this.tabPageCanonicalAnalysis.ResumeLayout(false);
 			this.tabPageHrefLangAnalysis.ResumeLayout(false);
-			this.tableLayoutPanel4.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridHrefLang)).EndInit();
 			this.tabPageRedirectsAudit.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewRedirectsAudit)).EndInit();
 			this.tabPageEmailAddresses.ResumeLayout(false);

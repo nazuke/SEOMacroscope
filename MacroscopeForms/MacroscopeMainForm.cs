@@ -87,9 +87,9 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public DataGridView GetDisplayHrefLang ()
+		public ListView GetDisplayHrefLang ()
 		{
-			return( this.dataGridHrefLang );
+			return( this.listViewHrefLang );
 		}
 
 		/**************************************************************************/
@@ -181,8 +181,6 @@ namespace SEOMacroscope
 			if( this.msJobMaster.WorkersStopped() ) {
 
 				this.ScanningControlsReset( true );
-							
-				this.dataGridHrefLang.DataSource = null;
 				
 				this.msJobMaster = new MacroscopeJobMaster ( this );
 

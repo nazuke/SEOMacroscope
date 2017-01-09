@@ -39,15 +39,14 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		MacroscopeMainForm msMainForm;
-		DataTable dtTable;
 
 		/**************************************************************************/
 
 		public MacroscopeDisplayHrefLang ( MacroscopeMainForm msMainFormNew )
 		{
+			
 			msMainForm = msMainFormNew;
-			dtTable = new DataTable ();
-			msMainForm.GetDisplayHrefLang().DataSource = null;
+
 		}
 
 		/**************************************************************************/
@@ -72,32 +71,40 @@ namespace SEOMacroscope
 		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, Hashtable htLocales )
 		{
 
-			if( msMainForm.InvokeRequired ) {
+			if( this.msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker ( 
 						delegate {
-							msMainForm.GetDisplayHrefLang().SuspendLayout();
-							msMainForm.GetDisplayHrefLang().DataSource = null;
+							ListView lvListView = this.msMainForm.GetDisplayHrefLang();
+							this.RenderListView( lvListView, htDocCollection, htLocales );
 						}
 					) 
 				);
 			} else {
-				msMainForm.GetDisplayHrefLang().SuspendLayout();
-				msMainForm.GetDisplayHrefLang().DataSource = null;
+				ListView lvListView = this.msMainForm.GetDisplayHrefLang();
+				this.RenderListView( lvListView, htDocCollection, htLocales );
 			}
 
-			this.dtTable.Rows.Clear();
-			this.dtTable.Columns.Clear();
-			this.dtTable.Clear();
+		}
+
+		/**************************************************************************/
+		
+		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, Hashtable htLocales )
+		{
+
+			lvListView.SuspendLayout();
+
+			lvListView.Items.Clear();
+			lvListView.Columns.Clear();
 
 			{
-				this.dtTable.Columns.Add( "Site Locale", typeof( string ) );
-				this.dtTable.Columns.Add( "Title", typeof( string ) );
+				lvListView.Columns.Add( "Site Locale", "Site Locale" );
+				lvListView.Columns.Add( "Title", "Title" );
 				foreach( string sLocale in htLocales.Keys ) {
-					this.dtTable.Columns.Add( sLocale, typeof( string ) );
+					lvListView.Columns.Add( sLocale, sLocale );
 				}
 			}
-			
+
 			foreach( string sKeyURL in htDocCollection.Keys() ) {
 
 				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
@@ -105,8 +112,9 @@ namespace SEOMacroscope
 				if( msDoc.GetIsHtml() ) {
 				
 					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
-					DataRow dtRow = this.dtTable.NewRow();
 
+					
+/*
 					dtRow.SetField( "Site Locale", msDoc.GetLocale() );
 					dtRow.SetField( "Title", msDoc.GetTitle() );
 					dtRow.SetField( msDoc.Locale, msDoc.GetUrl() );
@@ -122,27 +130,87 @@ namespace SEOMacroscope
 						}
 					}
 
-					this.dtTable.Rows.Add( dtRow );
+					*/
+					
+					
+					
+					
+
+
+					if( lvListView.Items.ContainsKey( sKeyURL ) ) {
+							
+						try {
+
+							ListViewItem lvItem = lvListView.Items[sKeyURL];
+
+							lvItem.SubItems[0].Text = msDoc.GetLocale();
+							lvItem.SubItems[1].Text = msDoc.GetTitle();
+							lvItem.SubItems[2].Text = msDoc.GetUrl();
+
+							foreach( string sLocale in htLocales.Keys ) {
+								if( sLocale != null ) {
+									if( htHrefLangs.ContainsKey( sLocale ) ) {
+										MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[sLocale];
+										lvItem.SubItems[sLocale].Text = msHrefLang.GetUrl();
+									} else {
+										lvItem.SubItems[sLocale].Text = "MISSSING";
+									}
+								}
+							}
+
+						} catch( Exception ex ) {
+							debug_msg( string.Format( "MacroscopeDisplayHrefLang 1: {0}", ex.Message ) );
+						}
+
+					} else {
+							
+						try {
+
+							ListViewItem lvItem = new ListViewItem ( sKeyURL );
+
+							lvItem.Name = sKeyURL;
+
+							lvItem.SubItems[0].Text = msDoc.GetLocale();
+							lvItem.SubItems.Add( msDoc.GetTitle() );
+							lvItem.SubItems.Add( msDoc.GetUrl() );
+
+							foreach( string sLocale in htLocales.Keys ) {
+								if( sLocale != null ) {
+									if( htHrefLangs.ContainsKey( sLocale ) ) {
+										MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[sLocale];
+										lvItem.SubItems[sLocale].Text = msHrefLang.GetUrl();
+									} else {
+										lvItem.SubItems[sLocale].Text = "MISSSING";
+									}
+								}
+							}
+							
+							lvListView.Items.Add( lvItem );
+
+						} catch( Exception ex ) {
+							debug_msg( string.Format( "MacroscopeDisplayHrefLang 2: {0}", ex.Message ) );
+						}
+
+					}
+
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+
 				}
 		
 			}
 			
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
-					new MethodInvoker ( 
-						delegate {
-							msMainForm.GetDisplayHrefLang().DataSource = this.dtTable;
-							msMainForm.GetDisplayHrefLang().ResumeLayout();
-						}
-					) 
-				);
-			} else {
-				msMainForm.GetDisplayHrefLang().DataSource = this.dtTable;
-				msMainForm.GetDisplayHrefLang().ResumeLayout();
-			}
-
+			lvListView.ResumeLayout();
 		}
-						
+
 		/**************************************************************************/
 
 	}
