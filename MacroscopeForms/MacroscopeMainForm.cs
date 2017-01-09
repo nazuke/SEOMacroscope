@@ -38,6 +38,7 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		MacroscopeDisplayStructure msDisplayStructure;
+		MacroscopeDisplayCanonical msDisplayCanonical;
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
@@ -56,6 +57,7 @@ namespace SEOMacroscope
 			MacroscopePreferences.LoadPreferences();
 						
 			msDisplayStructure = new MacroscopeDisplayStructure ( this );
+			msDisplayCanonical = new MacroscopeDisplayCanonical ( this );
 			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this );
 			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this );
 			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this );
@@ -74,6 +76,13 @@ namespace SEOMacroscope
 		public ListView GetDisplayStructure ()
 		{
 			return( this.listViewStructure );
+		}
+
+		/**************************************************************************/
+				
+		public ListView GetDisplayCanonicalAnalysis ()
+		{
+			return( this.listViewCanonicalAnalysis );
 		}
 
 		/**************************************************************************/
@@ -217,7 +226,31 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+
+		void CallbackCanonicalAnalysisClick ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackCanonicalAnalysisClick" );
+
+			this.msDisplayCanonical.RefreshData( this.msJobMaster.DocCollectionGet() );
+
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate {
+							this.Refresh();
+							this.Update();
+						}
+					)
+				);
+			} else {
+				this.Refresh();
+				this.Update();
+			}
 		
+		}
+		
+		/**************************************************************************/
+
 		void CallbackHrefLangAnalysisClick ( object sender, EventArgs e )
 		{
 			debug_msg( "EVENT: CallbackHrefLangAnalysisClick" );
@@ -322,6 +355,7 @@ namespace SEOMacroscope
 		{
 
 			this.msDisplayStructure.ClearData();
+			this.msDisplayCanonical.ClearData();
 			this.msDisplayHrefLang.ClearData();
 			this.msDisplayEmailAddresses.ClearData();
 			this.msDisplayTelephoneNumbers.ClearData();
@@ -381,6 +415,8 @@ namespace SEOMacroscope
 
 			this.msDisplayStructure.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 
+			this.msDisplayCanonical.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+						
 			//this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
 
 			this.msDisplayEmailAddresses.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );

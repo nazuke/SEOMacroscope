@@ -67,6 +67,8 @@ namespace SEOMacroscope
 		public long ContentLength;
 		public string MimeType;
 		public Boolean IsHtml;
+		public Boolean IsCompressed;
+		public string CompressionMethod;
 		public string ContentEncoding;
 		public string Locale;
 
@@ -554,6 +556,12 @@ namespace SEOMacroscope
 			debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );
 			debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
 
+			
+			// TODO: Link: <http://www.example.com/downloads/white-paper.pdf>; rel="canonical"
+			
+			
+			
+			
 		}
 		
 		/**************************************************************************/

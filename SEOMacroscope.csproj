@@ -102,6 +102,7 @@
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferences.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayCanonical.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHistory.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHrefLang.cs" />
