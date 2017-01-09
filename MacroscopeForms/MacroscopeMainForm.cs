@@ -123,10 +123,12 @@ namespace SEOMacroscope
 		void CallbackFileExit ( object sender, EventArgs e )
 		{
 			
-			if( this.tScanningThread.IsAlive ) {
-				this.tScanningThread.Abort();
+			if( this.tScanningThread != null ) {
+				if( this.tScanningThread.IsAlive ) {
+					this.tScanningThread.Abort();
+				}
 			}
-
+			
 			Program.Exit();
 
 		}
