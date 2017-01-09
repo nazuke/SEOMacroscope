@@ -403,7 +403,7 @@ namespace SEOMacroscope
 			lock( this.DisplayLock ) {
 				try {
 					
-					this.msMainForm.UpdateDisplay(  );
+					this.msMainForm.UpdateDisplay();
 					
 					
 					//this.msMainForm.UpdateDisplayHrefLang( this );
