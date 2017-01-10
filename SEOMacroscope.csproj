@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SEOMacroscope</RootNamespace>
     <AssemblyName>SEOMacroscope</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <NoWin32Manifest>False</NoWin32Manifest>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
@@ -16,6 +16,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -101,6 +102,9 @@
     <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinkIn.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferences.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayCanonical.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
@@ -151,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MacroscopeDocument" />
+    <Folder Include="MacroscopeDocument\MacroscopeHyperlinks" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay" />

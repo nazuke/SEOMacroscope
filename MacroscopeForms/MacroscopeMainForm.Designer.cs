@@ -379,6 +379,7 @@ namespace SEOMacroscope
 			this.listViewCanonicalAnalysis.FullRowSelect = true;
 			this.listViewCanonicalAnalysis.GridLines = true;
 			this.listViewCanonicalAnalysis.Location = new System.Drawing.Point(3, 3);
+			this.listViewCanonicalAnalysis.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewCanonicalAnalysis.Name = "listViewCanonicalAnalysis";
 			this.listViewCanonicalAnalysis.Size = new System.Drawing.Size(764, 310);
 			this.listViewCanonicalAnalysis.TabIndex = 0;
@@ -585,43 +586,43 @@ namespace SEOMacroscope
 			// allDocumentTypesToolStripMenuItem
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
 			// 
 			// hTMLToolStripMenuItem
 			// 
 			this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-			this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.hTMLToolStripMenuItem.Text = "HTML";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.imagesToolStripMenuItem.Text = "Images";
 			// 
 			// pDFsToolStripMenuItem
 			// 
 			this.pDFsToolStripMenuItem.Name = "pDFsToolStripMenuItem";
-			this.pDFsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.pDFsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.pDFsToolStripMenuItem.Text = "PDFs";
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
 			// 
 			// toolStripExecuteControls

@@ -178,6 +178,18 @@
     <SerializedObject key="SpacesWithinParentheses">
       <x:Boolean xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">True</x:Boolean>
     </SerializedObject>
+    <SerializedObject key="EnumBraceStyle">
+      <BraceStyle xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NextLine</BraceStyle>
+    </SerializedObject>
+    <SerializedObject key="AllowOneLinedArrayInitialziers">
+      <x:Boolean xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">True</x:Boolean>
+    </SerializedObject>
+    <SerializedObject key="StructBraceStyle">
+      <BraceStyle xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NextLine</BraceStyle>
+    </SerializedObject>
+    <SerializedObject key="AnonymousMethodBraceStyle">
+      <BraceStyle xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NextLine</BraceStyle>
+    </SerializedObject>
     <Property key="IndentationSize">2</Property>
     <Property key="ConvertTabsToSpaces">False</Property>
   </Properties>

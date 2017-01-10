@@ -88,7 +88,7 @@ namespace SEOMacroscope
 		{
 			MacroscopeDocument msDoc = null;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
-				msDoc = ( MacroscopeDocument )this.DocCollection[sKey];
+				msDoc = ( MacroscopeDocument )this.DocCollection[ sKey ];
 			}
 			return( msDoc );
 		}
@@ -122,12 +122,13 @@ namespace SEOMacroscope
 		public void RecalculateLinksIn ()
 		{
 			lock( this.DocCollection ) {
-				foreach( string sURL in this.DocCollection.Keys ) {
-					MacroscopeDocument msDoc = this.Get( sURL );
-					foreach( string sLinkOut in  msDoc.GetOutlinks().Keys ) {
-						if( this.Exists( sLinkOut ) ) {
-							MacroscopeDocument msDocLinked = this.Get( sLinkOut );
-							msDocLinked.AddHyperlinkIn( sURL );
+				foreach( string sUrlTarget in this.DocCollection.Keys ) {
+					MacroscopeDocument msDoc = this.Get( sUrlTarget );
+					msDoc.HyperlinksInClear();
+					foreach( string sUrlOrigin in  msDoc.GetOutlinks().Keys ) {
+						if( this.Exists( sUrlOrigin ) ) {
+							MacroscopeDocument msDocLinked = this.Get( sUrlOrigin );
+							msDocLinked.AddHyperlinkIn( "", "", MacroscopeHyperlinkIn.LINKTEXT, sUrlOrigin, sUrlTarget, "", "" );
 						}
 					}
 				}

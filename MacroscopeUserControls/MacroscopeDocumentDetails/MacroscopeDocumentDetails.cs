@@ -71,13 +71,16 @@ namespace SEOMacroscope
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							this.RenderDocumentDetails( msDoc );
+							this.RenderListViewHyperlinksIn( msDoc );
 						}
 					)
 				);
 			} else {
 				this.RenderDocumentDetails( msDoc );
+				this.RenderListViewHyperlinksIn( msDoc );
 			}
 
 		}
@@ -113,6 +116,67 @@ namespace SEOMacroscope
 
 			lvListView.ResumeLayout();
 
+		}
+
+		/**************************************************************************/
+
+		void RenderListViewHyperlinksIn ( MacroscopeDocument msDoc )
+		{
+
+			ListView lvListView = this.listViewLinksIn;
+			MacroscopeHyperlinksIn hlHyperlinksIn = ( MacroscopeHyperlinksIn )msDoc.GetHyperlinksIn();
+
+			lvListView.SuspendLayout();
+
+			foreach( string sUrlOrigin in hlHyperlinksIn.Keys() ) {
+
+				foreach( MacroscopeHyperlinkIn hlHyperlinkIn in hlHyperlinksIn.GetLinks( sUrlOrigin ) ) {
+
+					string sPairKey = string.Join( "::", sUrlOrigin, hlHyperlinkIn.GetLinkId().ToString() );
+
+					if( lvListView.Items.ContainsKey( sPairKey ) ) {
+							
+						try {
+
+							ListViewItem lvItem = lvListView.Items[ sPairKey ];
+							lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetLinkClass();
+							lvItem.SubItems[ 1 ].Text = hlHyperlinkIn.GetUrlOrigin();
+							lvItem.SubItems[ 2 ].Text = hlHyperlinkIn.GetUrlTarget();
+							lvItem.SubItems[ 3 ].Text = hlHyperlinkIn.GetLinkText();
+							lvItem.SubItems[ 4 ].Text = hlHyperlinkIn.GetAltText();
+
+						} catch( Exception ex ) {
+							debug_msg( string.Format( "RenderListViewHyperlinksIn 1: {0}", ex.Message ) );
+						}
+
+					} else {
+							
+						try {
+
+							ListViewItem lvItem = new ListViewItem ( sPairKey );
+
+							lvItem.Name = sPairKey;
+
+							lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetLinkClass();
+							lvItem.SubItems.Add( hlHyperlinkIn.GetUrlOrigin() );						
+							lvItem.SubItems.Add( hlHyperlinkIn.GetUrlTarget() );
+							lvItem.SubItems.Add( hlHyperlinkIn.GetLinkText() );
+							lvItem.SubItems.Add( hlHyperlinkIn.GetAltText() );
+
+							lvListView.Items.Add( lvItem );
+
+						} catch( Exception ex ) {
+							debug_msg( string.Format( "RenderListViewHyperlinksIn 2: {0}", ex.Message ) );
+						}
+
+					}
+
+				}
+
+			}
+
+			lvListView.ResumeLayout();
+					
 		}
 
 		/**************************************************************************/
