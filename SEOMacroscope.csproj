@@ -102,9 +102,11 @@
     <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkClass.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferences.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayCanonical.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
@@ -156,6 +158,7 @@
   <ItemGroup>
     <Folder Include="MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks" />
+    <Folder Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay" />
@@ -168,6 +171,10 @@
     <Folder Include="MacroscopeDocumentCollection" />
     <Folder Include="MacroscopeTools\t" />
     <Folder Include="MacroscopeUserControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ProfilingSessions\Session20170110_173949.sdps" />
+    <Content Include="ProfilingSessions\Session20170110_174113.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

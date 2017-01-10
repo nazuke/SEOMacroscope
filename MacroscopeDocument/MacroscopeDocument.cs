@@ -90,7 +90,7 @@ namespace SEOMacroscope
 		public MacroscopeHyperlinksIn HyperlinksIn;
 
 		// Outbound hypertext links
-		public Hashtable HyperlinksOut;
+		public MacroscopeHyperlinksOut HyperlinksOut;
 
 		public Hashtable EmailAddresses;
 		public Hashtable TelephoneNumbers;
@@ -130,7 +130,7 @@ namespace SEOMacroscope
 
 			Outlinks = new Hashtable ();
 			HyperlinksIn = new MacroscopeHyperlinksIn ();
-			HyperlinksOut = new Hashtable ();
+			HyperlinksOut = new MacroscopeHyperlinksOut ();
 
 			EmailAddresses = new Hashtable ();
 			TelephoneNumbers = new Hashtable ();
@@ -230,11 +230,24 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-
-		public void HyperlinksInClear ()
+		public Hashtable GetOutlinks ()
 		{
-			this.HyperlinksIn.Clear();
+			return( this.Outlinks );
 		}
+		
+		/**************************************************************************/
+		
+		public int CountOutlinks ()
+		{
+			int iCount = this.GetOutlinks().Count;
+			return( iCount );
+		}
+		
+		/**************************************************************************/
+
+
+
+
 
 		/**************************************************************************/
 
@@ -260,6 +273,13 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		public void ClearHyperlinksIn ()
+		{
+			this.HyperlinksIn.Clear();
+		}
+
+		/**************************************************************************/
+
 		public int CountHyperlinksIn ()
 		{
 			return( this.HyperlinksIn.Count() );
@@ -278,38 +298,20 @@ namespace SEOMacroscope
 
 
 		
+
+
 		/**************************************************************************/
 
-		public Hashtable GetOutlinks ()
-		{
-			return( this.Outlinks );
-		}
-		
-		/**************************************************************************/
-		
-		public int CountOutlinks ()
-		{
-			int iCount = this.GetOutlinks().Count;
-			return( iCount );
-		}
-
-		/**************************************************************************/
-				
-
-
-
-		public Hashtable GetHyperlinksOut ()
+		public MacroscopeHyperlinksOut GetHyperlinksOut ()
 		{
 			return( this.HyperlinksOut );
 		}
-		
 
-		
 		/**************************************************************************/
 		
 		public int CountHyperlinksOut ()
 		{
-			int iCount = this.GetHyperlinksOut().Count;
+			int iCount = this.HyperlinksOut.Count();
 			return( iCount );
 		}
 

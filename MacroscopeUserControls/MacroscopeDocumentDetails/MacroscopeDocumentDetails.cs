@@ -74,13 +74,15 @@ namespace SEOMacroscope
 						delegate
 						{
 							this.RenderDocumentDetails( msDoc );
-							this.RenderListViewHyperlinksIn( msDoc );
+							//this.RenderListViewHyperlinksIn( msDoc );
+							this.RenderListViewHyperlinksOut( msDoc );
 						}
 					)
 				);
 			} else {
 				this.RenderDocumentDetails( msDoc );
-				this.RenderListViewHyperlinksIn( msDoc );
+				//this.RenderListViewHyperlinksIn( msDoc );
+				this.RenderListViewHyperlinksOut( msDoc );
 			}
 
 		}
@@ -92,7 +94,6 @@ namespace SEOMacroscope
 
 			ListView lvListView = this.listViewDocumentInfo;
 
-			lvListView.SuspendLayout();
 			lvListView.Items.Clear();
 
 			List<KeyValuePair<string,string>> lItems = msDoc.DetailDocumentDetails();
@@ -114,8 +115,6 @@ namespace SEOMacroscope
 				
 			}
 
-			lvListView.ResumeLayout();
-
 		}
 
 		/**************************************************************************/
@@ -126,8 +125,8 @@ namespace SEOMacroscope
 			ListView lvListView = this.listViewLinksIn;
 			MacroscopeHyperlinksIn hlHyperlinksIn = ( MacroscopeHyperlinksIn )msDoc.GetHyperlinksIn();
 
-			lvListView.SuspendLayout();
-
+			lvListView.Items.Clear();
+			
 			foreach( string sUrlOrigin in hlHyperlinksIn.Keys() ) {
 
 				foreach( MacroscopeHyperlinkIn hlHyperlinkIn in hlHyperlinksIn.GetLinks( sUrlOrigin ) ) {
@@ -175,10 +174,71 @@ namespace SEOMacroscope
 
 			}
 
-			lvListView.ResumeLayout();
-					
 		}
 
+		/**************************************************************************/
+
+		void RenderListViewHyperlinksOut ( MacroscopeDocument msDoc )
+		{
+
+			ListView lvListView = this.listViewLinksOut;
+			MacroscopeHyperlinksOut hlHyperlinksOut = ( MacroscopeHyperlinksOut )msDoc.GetHyperlinksOut();
+
+			lvListView.Items.Clear();
+
+			foreach( string sUrlOrigin in hlHyperlinksOut.Keys() ) {
+
+				foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.GetLinks( sUrlOrigin ) ) {
+
+					string sKey = hlHyperlinkOut.GetGuid();
+
+					debug_msg( string.Format( "RenderListViewHyperlinksOut sKey: {0} :: {1}", sKey, hlHyperlinkOut.GetUrlTarget() ) );
+
+					if( lvListView.Items.ContainsKey( sKey ) ) {
+							
+						try {
+
+							ListViewItem lvItem = lvListView.Items[ sKey ];
+							lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetLinkClass();
+							lvItem.SubItems[ 1 ].Text = hlHyperlinkOut.GetUrlOrigin();
+							lvItem.SubItems[ 2 ].Text = hlHyperlinkOut.GetUrlTarget();
+							lvItem.SubItems[ 3 ].Text = hlHyperlinkOut.GetLinkText();
+							lvItem.SubItems[ 4 ].Text = hlHyperlinkOut.GetAltText();
+							lvItem.SubItems[ 5 ].Text = hlHyperlinkOut.GetFollow().ToString();
+
+						} catch( Exception ex ) {
+							debug_msg( string.Format( "RenderListViewHyperlinksOut 1: {0}", ex.Message ) );
+						}
+
+					} else {
+							
+						try {
+
+							ListViewItem lvItem = new ListViewItem ( sKey );
+
+							lvItem.Name = sKey;
+
+							lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetLinkClass();
+							lvItem.SubItems.Add( hlHyperlinkOut.GetUrlOrigin() );						
+							lvItem.SubItems.Add( hlHyperlinkOut.GetUrlTarget() );
+							lvItem.SubItems.Add( hlHyperlinkOut.GetLinkText() );
+							lvItem.SubItems.Add( hlHyperlinkOut.GetAltText() );						
+							lvItem.SubItems.Add( hlHyperlinkOut.GetFollow().ToString() );
+
+							lvListView.Items.Add( lvItem );
+
+						} catch( Exception ex ) {
+							debug_msg( string.Format( "RenderListViewHyperlinksOut 2: {0}", ex.Message ) );
+						}
+
+					}
+
+				}
+
+			}
+		
+		}
+		
 		/**************************************************************************/
 
 	}

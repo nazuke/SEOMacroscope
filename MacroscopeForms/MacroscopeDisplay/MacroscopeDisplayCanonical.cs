@@ -52,7 +52,8 @@ namespace SEOMacroscope
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
 							ConfigureListView( lvListView );
 						}
@@ -81,7 +82,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
 							lvListView.Items.Clear();
 						}
@@ -100,7 +102,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
 							this.RenderListView( lvListView, htDocCollection );
 						}
@@ -119,7 +122,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
 							this.RenderListViewSingle( lvListView, msDoc, sURL );
 						}
@@ -148,8 +152,6 @@ namespace SEOMacroscope
 		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
 		{
 
-			lvListView.SuspendLayout();
-
 			if( msDoc.GetIsHtml() ) {
 				
 				string sCanonical = msDoc.GetCanonical();
@@ -158,9 +160,9 @@ namespace SEOMacroscope
 							
 					try {
 
-						ListViewItem lvItem = lvListView.Items[sKeyURL];
-						lvItem.SubItems[0].Text = sKeyURL;
-						lvItem.SubItems[1].Text = sCanonical;
+						ListViewItem lvItem = lvListView.Items[ sKeyURL ];
+						lvItem.SubItems[ 0 ].Text = sKeyURL;
+						lvItem.SubItems[ 1 ].Text = sCanonical;
 
 					} catch( Exception ex ) {
 						debug_msg( string.Format( "MacroscopeDisplayCanonical 1: {0}", ex.Message ) );
@@ -174,7 +176,7 @@ namespace SEOMacroscope
 
 						lvItem.Name = sKeyURL;
 
-						lvItem.SubItems[0].Text = sKeyURL;
+						lvItem.SubItems[ 0 ].Text = sKeyURL;
 						lvItem.SubItems.Add( sCanonical );
 
 						lvListView.Items.Add( lvItem );
@@ -186,9 +188,7 @@ namespace SEOMacroscope
 				}
 	
 			}
-
-			lvListView.ResumeLayout();	
-					
+			
 		}
 
 		/**************************************************************************/

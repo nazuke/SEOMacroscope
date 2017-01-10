@@ -55,7 +55,8 @@ namespace SEOMacroscope
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayHistory();
 							ConfigureListView( lvListView );
 						}
@@ -84,7 +85,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayHistory();
 							lvListView.Items.Clear();
 						}
@@ -103,7 +105,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayHistory();
 							lock( lvListView ) {
 								this.RenderListView( lvListView, htHistory );
@@ -123,18 +126,16 @@ namespace SEOMacroscope
 							
 		void RenderListView ( ListView lvListView, Hashtable htHistory )
 		{
-			
-			lvListView.SuspendLayout();
 
 			foreach( string sURL in htHistory.Keys ) {
 			
-				string sVisited = htHistory[sURL].ToString();
+				string sVisited = htHistory[ sURL ].ToString();
 			
 				if( lvListView.Items.ContainsKey( sURL ) ) {
 			
 					try {
-						ListViewItem lvItem = lvListView.Items[sURL];
-						lvItem.SubItems[1].Text = sVisited;
+						ListViewItem lvItem = lvListView.Items[ sURL ];
+						lvItem.SubItems[ 1 ].Text = sVisited;
 					} catch( Exception ex ) {
 						debug_msg( string.Format( "RenderListView 1: {0}", ex.Message ) );
 					}
@@ -153,8 +154,6 @@ namespace SEOMacroscope
 				}
 			
 			}
-			
-			lvListView.ResumeLayout();
 		
 		}
 

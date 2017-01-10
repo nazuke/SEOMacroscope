@@ -203,8 +203,6 @@ namespace SEOMacroscope
 
 			lock( lvListView ) {
 
-				lvListView.SuspendLayout();
-
 				Hashtable htItems = new Hashtable ();
 				ListViewItem lvItem = null;
 				
@@ -291,8 +289,6 @@ namespace SEOMacroscope
 					debug_msg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
 				}
 
-				lvListView.ResumeLayout();
-			
 			}
 			
 		}

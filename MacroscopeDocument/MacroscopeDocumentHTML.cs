@@ -212,6 +212,8 @@ namespace SEOMacroscope
 		void ProcessHtmlHyperlinksOut ()
 		{
 
+			// TODO: Add image links
+				
 			HtmlNodeCollection nOutlinks = this.HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
 			if( nOutlinks != null ) {
@@ -221,13 +223,26 @@ namespace SEOMacroscope
 					string sLinkURL = nLink.GetAttributeValue( "href", null );
 					string sLinkURLAbs = MacroscopeURLTools.MakeUrlAbsolute( this.Url, sLinkURL );
 
-					if( this.HyperlinksOut.ContainsKey( sLinkURL ) ) {
-						this.HyperlinksOut.Remove( sLinkURL );
-						this.HyperlinksOut.Add( sLinkURL, sLinkURLAbs );
-					} else {
-						this.HyperlinksOut.Add( sLinkURL, sLinkURLAbs );
+					MacroscopeHyperlinkOut hlHyperlinkOut = this.HyperlinksOut.Add( this.Url, sLinkURLAbs );
+
+					{
+						string sFollow = nLink.GetAttributeValue( "rel", null );
+						if( sFollow != null ) {
+							if( sFollow.ToLower().Equals( "nofollow" ) ) {
+								hlHyperlinkOut.SetFollow( false );
+							}
+						} 
 					}
 
+					{
+						string sLinkText = nLink.InnerText;
+						if( sLinkText != null ) {
+							if( sLinkText.Length > 0 ) {
+								hlHyperlinkOut.SetLinkText( sLinkText );
+							}
+						}
+					}
+					
 				}
 							
 			}
@@ -347,7 +362,7 @@ namespace SEOMacroscope
 					if( Regex.IsMatch( sLinkURL, "^mailto:" ) ) {
 						MatchCollection reMatches = Regex.Matches( sLinkURL, "^mailto:([^?]+)" );
 						foreach( Match reMatch in reMatches ) {
-							this.AddEmailAddress( reMatch.Groups[1].Value.ToString() );
+							this.AddEmailAddress( reMatch.Groups[ 1 ].Value.ToString() );
 						}
 					}
 				}			
@@ -365,7 +380,7 @@ namespace SEOMacroscope
 					if( Regex.IsMatch( sLinkURL, "^tel:" ) ) {
 						MatchCollection reMatches = Regex.Matches( sLinkURL, "^tel:(.+)" );
 						foreach( Match reMatch in reMatches ) {
-							this.AddTelephoneNumber( reMatch.Groups[1].Value.ToString() );
+							this.AddTelephoneNumber( reMatch.Groups[ 1 ].Value.ToString() );
 						}
 					}
 				}			
@@ -390,7 +405,7 @@ namespace SEOMacroscope
 						}
 						debug_msg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ), 3 );
 						MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( this.ProbeHrefLangs, sLocale, sHref );
-						this.HrefLang[sLocale] = msHrefLang;
+						this.HrefLang[ sLocale ] = msHrefLang;
 					}
 				}
 			}

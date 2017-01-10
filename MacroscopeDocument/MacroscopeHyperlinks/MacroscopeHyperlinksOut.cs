@@ -24,6 +24,8 @@
 */
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
@@ -35,10 +37,116 @@ namespace SEOMacroscope
 	public class MacroscopeHyperlinksOut
 	{
 	
-		public MacroscopeHyperlinksOut()
+		/**************************************************************************/
+				
+		object Locker = new object ();
+		Dictionary<string,List<MacroscopeHyperlinkOut>> Links;
+
+		/**************************************************************************/
+						
+		public MacroscopeHyperlinksOut ()
 		{
+			
+			Links = new Dictionary<string,List<MacroscopeHyperlinkOut>> ( 256 );
+
 		}
 	
+		/**************************************************************************/
+
+		public void Clear ()
+		{
+			this.Links.Clear();
+		}
+		
+		/**************************************************************************/
+				
+		public MacroscopeHyperlinkOut Add ( string sUrlOrigin, string sUrlTarget )
+		{
+
+			MacroscopeHyperlinkOut hlHyperlinkOut = new MacroscopeHyperlinkOut ();
+			List<MacroscopeHyperlinkOut> lLinkList;
+	
+			hlHyperlinkOut.SetUrlOrigin( sUrlOrigin );
+			hlHyperlinkOut.SetUrlTarget( sUrlTarget );
+
+			lock( this.Locker ) {
+
+				if( this.Links.ContainsKey( sUrlOrigin ) ) {
+
+					lLinkList = ( List<MacroscopeHyperlinkOut> )this.Links[ sUrlOrigin ];
+					lLinkList.Add( hlHyperlinkOut );
+
+				} else {
+
+					lLinkList = new List<MacroscopeHyperlinkOut> ( 256 );
+					lLinkList.Add( hlHyperlinkOut );
+					this.Links.Add( sUrlOrigin, lLinkList );
+
+				}
+
+			}
+
+			return( hlHyperlinkOut );
+			
+		}
+
+		/**************************************************************************/
+
+		public void Remove ( string sUrlOrigin )
+		{
+			if( this.Links.ContainsKey( sUrlOrigin ) ) {
+				this.Links.Remove( sUrlOrigin );
+			}
+		}
+
+		/**************************************************************************/
+		
+		public Boolean ContainsKey ( string sUrlOrigin )
+		{
+			return( this.Links.ContainsKey( sUrlOrigin ) );
+		}
+
+		/**************************************************************************/
+
+		public Dictionary<string,List<MacroscopeHyperlinkOut>>.KeyCollection Keys ()
+		{
+					
+			return( this.Links.Keys );
+		}
+
+		/**************************************************************************/
+
+		public List<MacroscopeHyperlinkOut> GetLinks ( string sUrlOrigin )
+		{
+
+			List<MacroscopeHyperlinkOut> lLinksOut;
+
+			if( this.Links.ContainsKey( sUrlOrigin ) ) {
+				lLinksOut = ( List<MacroscopeHyperlinkOut> )this.Links[ sUrlOrigin ];
+			} else {
+				lLinksOut = new List<MacroscopeHyperlinkOut> ();
+			}
+
+			return( lLinksOut );
+
+		}
+
+		/**************************************************************************/
+
+		public int Count ()
+		{
+			int iCount = 0;
+			if( this.Links.Count > 0 ) {
+				foreach( string sUrl in this.Links.Keys ) {
+					List<MacroscopeHyperlinkOut> lLinkList = ( List<MacroscopeHyperlinkOut> )this.Links[ sUrl ];
+					iCount += lLinkList.Count;
+				}
+			}
+			return( iCount );
+		}
+
+		/**************************************************************************/
+				
 	}
 
 }

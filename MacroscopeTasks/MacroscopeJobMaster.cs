@@ -77,7 +77,7 @@ namespace SEOMacroscope
 			
 			DisplayLock = new Object ();
 
-			ThreadsMax = 4;
+			ThreadsMax = 16;
 			ThreadsRunning = 0;
 			ThreadsStop = false;
 			ThreadsDict = new Dictionary<int,Boolean> ();
@@ -161,7 +161,7 @@ namespace SEOMacroscope
 				}
 			}
 			
-			this.DocCollectionGet().RecalculateLinksIn();
+			//this.DocCollectionGet().RecalculateLinksIn();
 						
 			this.UpdateDisplay();
 						
@@ -192,7 +192,7 @@ namespace SEOMacroscope
 
 			this.RunningThreadsDec();
 
-			this.DocCollectionGet().RecalculateLinksIn();
+			//this.DocCollectionGet().RecalculateLinksIn();
 			
 			this.UpdateDisplaySingle( sURL );
 			

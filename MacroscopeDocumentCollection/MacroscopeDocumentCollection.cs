@@ -124,7 +124,7 @@ namespace SEOMacroscope
 			lock( this.DocCollection ) {
 				foreach( string sUrlTarget in this.DocCollection.Keys ) {
 					MacroscopeDocument msDoc = this.Get( sUrlTarget );
-					msDoc.HyperlinksInClear();
+					msDoc.ClearHyperlinksIn();
 					foreach( string sUrlOrigin in  msDoc.GetOutlinks().Keys ) {
 						if( this.Exists( sUrlOrigin ) ) {
 							MacroscopeDocument msDocLinked = this.Get( sUrlOrigin );

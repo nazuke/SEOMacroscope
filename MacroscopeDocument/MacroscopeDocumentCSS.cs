@@ -132,8 +132,8 @@ namespace SEOMacroscope
 					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
 					string sTitle = null;
 					foreach( Match match in reMatches ) {
-						if( match.Groups[1].Value.Length > 0 ) {
-							sTitle = match.Groups[1].Value.ToString();
+						if( match.Groups[ 1 ].Value.Length > 0 ) {
+							sTitle = match.Groups[ 1 ].Value.ToString();
 							break;
 						}
 					}
@@ -180,12 +180,14 @@ namespace SEOMacroscope
 						debug_msg( string.Format( "sBackgroundImageUrl sLinkURLAbs: {0}", sLinkURLAbs ) );
 						debug_msg( "" );
 
-						if( this.HyperlinksOut.ContainsKey( sBackgroundImageUrl ) ) {
-							this.HyperlinksOut.Remove( sBackgroundImageUrl );
-							this.HyperlinksOut.Add( sBackgroundImageUrl, sLinkURLAbs );
-						} else {
-							this.HyperlinksOut.Add( sBackgroundImageUrl, sLinkURLAbs );
-						}
+
+
+						// TODO: Verify that this actually works:
+						this.HyperlinksOut.Add( this.Url, sLinkURLAbs );
+						
+						
+						
+
 
 					}
 

@@ -49,7 +49,8 @@ namespace SEOMacroscope
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayTelephoneNumbers();
 							ConfigureListView( lvListView );
 						}
@@ -78,7 +79,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayTelephoneNumbers();
 							lvListView.Items.Clear();
 						}
@@ -97,7 +99,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayTelephoneNumbers();
 							this.RenderListView( lvListView, htDocCollection );
 						}
@@ -116,7 +119,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayTelephoneNumbers();
 							this.RenderListViewSingle( lvListView, msDoc, sURL );
 						}
@@ -144,8 +148,6 @@ namespace SEOMacroscope
 
 		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
 		{
-					
-			lvListView.SuspendLayout();
 
 			if( msDoc.GetIsHtml() ) {
 				
@@ -159,9 +161,9 @@ namespace SEOMacroscope
 							
 						try {
 
-							ListViewItem lvItem = lvListView.Items[sPairKey];
-							lvItem.SubItems[0].Text = sTelephoneNumber;
-							lvItem.SubItems[1].Text = sKeyURL;
+							ListViewItem lvItem = lvListView.Items[ sPairKey ];
+							lvItem.SubItems[ 0 ].Text = sTelephoneNumber;
+							lvItem.SubItems[ 1 ].Text = sKeyURL;
 
 						} catch( Exception ex ) {
 							debug_msg( string.Format( "MacroscopeDisplayTelephoneNumbers 1: {0}", ex.Message ) );
@@ -175,7 +177,7 @@ namespace SEOMacroscope
 
 							lvItem.Name = sPairKey;
 
-							lvItem.SubItems[0].Text = sTelephoneNumber;
+							lvItem.SubItems[ 0 ].Text = sTelephoneNumber;
 							lvItem.SubItems.Add( sKeyURL );
 
 							lvListView.Items.Add( lvItem );
@@ -189,8 +191,6 @@ namespace SEOMacroscope
 				}
 					
 			}
-
-			lvListView.ResumeLayout();
 
 		}
 		
