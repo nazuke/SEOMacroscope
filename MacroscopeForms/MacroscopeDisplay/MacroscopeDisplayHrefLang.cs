@@ -94,15 +94,24 @@ namespace SEOMacroscope
 		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, Hashtable htLocales )
 		{
 
+			Hashtable htLocaleCols = new Hashtable ();
+
 			lvListView.Items.Clear();
 			lvListView.Columns.Clear();
 
 			{
+
+				int iLocaleColCount = 2;
+
 				lvListView.Columns.Add( "Site Locale", "Site Locale" );
 				lvListView.Columns.Add( "Title", "Title" );
+
 				foreach( string sLocale in htLocales.Keys ) {
 					lvListView.Columns.Add( sLocale, sLocale );
+					htLocaleCols[ sLocale ] = iLocaleColCount;
+					iLocaleColCount++;
 				}
+
 			}
 
 			foreach( string sKeyURL in htDocCollection.Keys() ) {
@@ -110,99 +119,103 @@ namespace SEOMacroscope
 				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
 
 				if( msDoc.GetIsHtml() ) {
-				
+
 					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
 
-					
-/*
-					dtRow.SetField( "Site Locale", msDoc.GetLocale() );
-					dtRow.SetField( "Title", msDoc.GetTitle() );
-					dtRow.SetField( msDoc.Locale, msDoc.GetUrl() );
-
-					foreach( string sLocale in htLocales.Keys ) {
-						if( sLocale != null ) {
-							if( htHrefLangs.ContainsKey( sLocale ) ) {
-								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[sLocale];
-								dtRow.SetField( sLocale, msHrefLang.GetUrl() );
-							} else {
-								dtRow.SetField( sLocale, "MISSSING" );
-							}
-						}
-					}
-
-					*/
-					
-					
-					
-					
-
-
-					if( lvListView.Items.ContainsKey( sKeyURL ) ) {
+					if( htHrefLangs != null ) {
+						
+						string sDocLocale = msDoc.GetLocale();
+						string sDocTitle = msDoc.GetTitle();
+						string sDocUrl = msDoc.GetUrl();
+				
+						if( lvListView.Items.ContainsKey( sKeyURL ) ) {
 							
-						try {
+							try {
 
-							ListViewItem lvItem = lvListView.Items[ sKeyURL ];
+								ListViewItem lvItem = lvListView.Items[ sKeyURL ];
+								
+								lvItem.SubItems[ 0 ].Text = sDocLocale;
+								lvItem.SubItems[ 1 ].Text = sDocTitle;
+								lvItem.SubItems[ 2 ].Text = sDocUrl;
 
-							lvItem.SubItems[ 0 ].Text = msDoc.GetLocale();
-							lvItem.SubItems[ 1 ].Text = msDoc.GetTitle();
-							lvItem.SubItems[ 2 ].Text = msDoc.GetUrl();
+								foreach( string sLocale in htLocales.Keys ) {
 
-							foreach( string sLocale in htLocales.Keys ) {
-								if( sLocale != null ) {
-									if( htHrefLangs.ContainsKey( sLocale ) ) {
-										MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
-										lvItem.SubItems[ sLocale ].Text = msHrefLang.GetUrl();
-									} else {
-										lvItem.SubItems[ sLocale ].Text = "MISSSING";
+									if( sLocale != null ) {
+
+										if( htHrefLangs.ContainsKey( sLocale ) ) {
+
+											MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
+
+											if( msHrefLang != null ) {
+												string sHrefLangUrl = msHrefLang.GetUrl(); 
+												if( sHrefLangUrl != null ) {
+													lvItem.SubItems[ ( int )htLocaleCols[ sLocale ] ].Text = sHrefLangUrl;
+												} else {
+													lvItem.SubItems[ ( int )htLocaleCols[ sLocale ] ].Text = "MISSSING";
+												}
+											} else {
+												lvItem.SubItems[ ( int )htLocaleCols[ sLocale ] ].Text = "MISSSING";
+											}
+
+										} else {
+											lvItem.SubItems[ ( int )htLocaleCols[ sLocale ] ].Text = "MISSSING";
+										}
+
 									}
+								
 								}
+
+							} catch( Exception ex ) {
+								debug_msg( string.Format( "MacroscopeDisplayHrefLang 1: {0}", ex.Message ) );
 							}
 
-						} catch( Exception ex ) {
-							debug_msg( string.Format( "MacroscopeDisplayHrefLang 1: {0}", ex.Message ) );
-						}
-
-					} else {
+						} else {
 							
-						try {
+							try {
 
-							ListViewItem lvItem = new ListViewItem ( sKeyURL );
+								ListViewItem lvItem = new ListViewItem ( sKeyURL );
 
-							lvItem.Name = sKeyURL;
+								lvItem.Name = sKeyURL;
 
-							lvItem.SubItems[ 0 ].Text = msDoc.GetLocale();
-							lvItem.SubItems.Add( msDoc.GetTitle() );
-							lvItem.SubItems.Add( msDoc.GetUrl() );
+								lvItem.SubItems[ 0 ].Text = sDocLocale;
+								lvItem.SubItems.Add( sDocTitle );
+								lvItem.SubItems.Add( sDocUrl );
 
-							foreach( string sLocale in htLocales.Keys ) {
-								if( sLocale != null ) {
-									if( htHrefLangs.ContainsKey( sLocale ) ) {
-										MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
-										lvItem.SubItems[ sLocale ].Text = msHrefLang.GetUrl();
-									} else {
-										lvItem.SubItems[ sLocale ].Text = "MISSSING";
+								foreach( string sLocale in htLocales.Keys ) {
+									if( sLocale != null ) {
+
+										if( htHrefLangs.ContainsKey( sLocale ) ) {
+
+											MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
+
+											if( msHrefLang != null ) {
+												string sHrefLangUrl = msHrefLang.GetUrl(); 
+												if( sHrefLangUrl != null ) {
+													lvItem.SubItems[ ( int )htLocaleCols[ sLocale ] ].Text = sHrefLangUrl;
+												} else {
+													lvItem.SubItems[ ( int )htLocaleCols[ sLocale ] ].Text = "MISSSING";
+												}
+											} else {
+												lvItem.SubItems[ ( int )htLocaleCols[ sLocale ] ].Text = "MISSSING";
+											}
+
+										} else {
+											lvItem.SubItems[ ( int )htLocaleCols[ sLocale ] ].Text = "MISSSING";
+										}
+
 									}
+								
 								}
-							}
 							
-							lvListView.Items.Add( lvItem );
+								lvListView.Items.Add( lvItem );
 
-						} catch( Exception ex ) {
-							debug_msg( string.Format( "MacroscopeDisplayHrefLang 2: {0}", ex.Message ) );
+							} catch( Exception ex ) {
+								debug_msg( string.Format( "MacroscopeDisplayHrefLang 2: {0}", ex.Message ) );
+							}
+
 						}
 
 					}
-
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
 
 				}
 		

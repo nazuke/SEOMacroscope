@@ -308,7 +308,6 @@ namespace SEOMacroscope
 			this.tabControlMain.SelectedIndex = 0;
 			this.tabControlMain.Size = new System.Drawing.Size(784, 348);
 			this.tabControlMain.TabIndex = 3;
-			this.tabControlMain.Click += new System.EventHandler(this.CallbackCanonicalAnalysisClick);
 			// 
 			// tabPageStructureOverview
 			// 
@@ -371,6 +370,7 @@ namespace SEOMacroscope
 			this.tabPageCanonicalAnalysis.TabIndex = 7;
 			this.tabPageCanonicalAnalysis.Text = "Canonical Analysis";
 			this.tabPageCanonicalAnalysis.UseVisualStyleBackColor = true;
+			this.tabPageCanonicalAnalysis.Enter += new System.EventHandler(this.CallbackCanonicalAnalysisClick);
 			// 
 			// listViewCanonicalAnalysis
 			// 
@@ -408,6 +408,7 @@ namespace SEOMacroscope
 			this.tabPageHrefLangAnalysis.TabIndex = 1;
 			this.tabPageHrefLangAnalysis.Text = "HrefLang Analysis";
 			this.tabPageHrefLangAnalysis.UseVisualStyleBackColor = true;
+			this.tabPageHrefLangAnalysis.Enter += new System.EventHandler(this.CallbackHrefLangAnalysisClick);
 			// 
 			// listViewHrefLang
 			// 

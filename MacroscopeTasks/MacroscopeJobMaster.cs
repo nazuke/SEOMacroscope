@@ -159,10 +159,11 @@ namespace SEOMacroscope
 					}
 
 				}
+				
+				Thread.Sleep( 100 );
+										
 			}
-			
-			//this.DocCollectionGet().RecalculateLinksIn();
-						
+
 			this.UpdateDisplay();
 						
 			this.UpdateStatusBar();
@@ -175,11 +176,13 @@ namespace SEOMacroscope
 		
 		void WorkerStart ( object thContext )
 		{
-			MacroscopeJobWorker msJobWorker = new MacroscopeJobWorker ( this );
-			string sURL = this.UrlQueueGet();
-			if( sURL != null ) {
-				this.RunningThreadsInc();
-				msJobWorker.Execute( sURL );
+			if( !this.ThreadsStop ) {
+				MacroscopeJobWorker msJobWorker = new MacroscopeJobWorker ( this );
+				string sURL = this.UrlQueueGet();
+				if( sURL != null ) {
+					this.RunningThreadsInc();
+					msJobWorker.Execute( sURL );
+				}
 			}
 		}
 
@@ -228,7 +231,7 @@ namespace SEOMacroscope
 		{
 
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[iThreadId] = true;
+			this.ThreadsDict[ iThreadId ] = true;
 			this.ThreadsRunning++;
 
 		}
@@ -336,7 +339,7 @@ namespace SEOMacroscope
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sURL ) ) {
-				bSeen = ( Boolean )this.History[sURL];
+				bSeen = ( Boolean )this.History[ sURL ];
 			}
 			return( bSeen );
 		}
@@ -381,7 +384,7 @@ namespace SEOMacroscope
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[sLocale] = sLocale;
+					this.Locales[ sLocale ] = sLocale;
 				}
 			}
 		}
@@ -448,7 +451,7 @@ namespace SEOMacroscope
 				debug_msg( "" );
 				debug_msg( "DUMPING HISTORY:" );
 				foreach( string sKey in this.History.Keys ) {
-					debug_msg( string.Format( "DumpHistory: {0} => {1}", sKey, this.History[sKey].ToString() ) );
+					debug_msg( string.Format( "DumpHistory: {0} => {1}", sKey, this.History[ sKey ].ToString() ) );
 				}
 				debug_msg( "HISTORY DUMP COMPLETE." );
 				debug_msg( "" );

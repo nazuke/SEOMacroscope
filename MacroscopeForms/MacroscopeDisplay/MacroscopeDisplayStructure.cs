@@ -78,7 +78,8 @@ namespace SEOMacroscope
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = msMainForm.GetDisplayStructure();
 							ConfigureListView( lvListView );
 						}
@@ -120,8 +121,8 @@ namespace SEOMacroscope
 
 				lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
 
-				lvListView.Columns[constURL].Width = 300;
-				lvListView.Columns[constTitle].Width = 150;
+				lvListView.Columns[ constURL ].Width = 300;
+				lvListView.Columns[ constTitle ].Width = 150;
 
 				ListViewConfigured = true;
 			
@@ -136,7 +137,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayStructure();
 							lvListView.Items.Clear();
 						}
@@ -155,7 +157,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayStructure();
 							this.RenderListView( lvListView, htDocCollection );
 						}
@@ -174,7 +177,8 @@ namespace SEOMacroscope
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							ListView lvListView = this.msMainForm.GetDisplayStructure();
 							this.RenderListViewSingle( lvListView, msDoc, sURL );
 						}
@@ -206,57 +210,57 @@ namespace SEOMacroscope
 				Hashtable htItems = new Hashtable ();
 				ListViewItem lvItem = null;
 				
-				htItems[constURL] = msDoc.GetUrl();
+				htItems[ constURL ] = msDoc.GetUrl();
 
-				htItems[constStatus] = msDoc.GetStatusCode();
-				htItems[constIsRedirect] = msDoc.GetIsRedirect();
+				htItems[ constStatus ] = msDoc.GetStatusCode();
+				htItems[ constIsRedirect ] = msDoc.GetIsRedirect();
 
-				htItems[constContentType] = msDoc.GetMimeType();
+				htItems[ constContentType ] = msDoc.GetMimeType();
 
 				{
 					string sLang = msDoc.GetLang();
 					if( sLang == null ) {
 						sLang = "";
 					}
-					htItems[constLang] = sLang;
+					htItems[ constLang ] = sLang;
 				}
 								
-				htItems[constCanonical] = msDoc.GetCanonical();
+				htItems[ constCanonical ] = msDoc.GetCanonical();
 
-				htItems[constInhyperlinks] = msDoc.CountHyperlinksIn();
-				htItems[constOuthyperlinks] = msDoc.CountHyperlinksOut();
+				htItems[ constInhyperlinks ] = msDoc.CountHyperlinksIn();
+				htItems[ constOuthyperlinks ] = msDoc.CountHyperlinksOut();
 												
-				htItems[constTitle] = msDoc.GetTitle();
-				htItems[constTitleLen] = msDoc.GetTitleLength();
+				htItems[ constTitle ] = msDoc.GetTitle();
+				htItems[ constTitleLen ] = msDoc.GetTitleLength();
 
-				htItems[constDescription] = msDoc.GetDescription();
-				htItems[constDescriptionLen] = msDoc.GetDescriptionLength();
+				htItems[ constDescription ] = msDoc.GetDescription();
+				htItems[ constDescriptionLen ] = msDoc.GetDescriptionLength();
 				
-				htItems[constKeywords] = msDoc.GetKeywords();
-				htItems[constKeywordsLen] = msDoc.GetKeywordsLength();
-				htItems[constKeywordsCount] = msDoc.GetKeywordsCount();
+				htItems[ constKeywords ] = msDoc.GetKeywords();
+				htItems[ constKeywordsLen ] = msDoc.GetKeywordsLength();
+				htItems[ constKeywordsCount ] = msDoc.GetKeywordsCount();
 
 				{
 					ArrayList aHeadings = msDoc.GetHeadings1();
 					string sText = "";
 					if( aHeadings.Count > 0 ) {
-						sText = ( string )aHeadings[0];
+						sText = ( string )aHeadings[ 0 ];
 					}
-					htItems[constH1] = sText;
+					htItems[ constH1 ] = sText;
 				}
 				
 				{
 					ArrayList aHeadings = msDoc.GetHeadings2();
 					string sText = "";
 					if( aHeadings.Count > 0 ) {
-						sText = ( string )aHeadings[0];
+						sText = ( string )aHeadings[ 0 ];
 					}
-					htItems[constH2] = sText;
+					htItems[ constH2 ] = sText;
 				}
 
 				if( lvListView.Items.ContainsKey( sKeyURL ) ) {
 
-					lvItem = lvListView.Items[sKeyURL];
+					lvItem = lvListView.Items[ sKeyURL ];
 
 				} else {
 
@@ -277,10 +281,10 @@ namespace SEOMacroscope
 
 						int iColIndex = lvListView.Columns.IndexOfKey( sKey );
 
-						if( htItems[sKey] != null ) {
-							lvItem.SubItems[iColIndex].Text = htItems[sKey].ToString();
+						if( htItems[ sKey ] != null ) {
+							lvItem.SubItems[ iColIndex ].Text = htItems[ sKey ].ToString();
 						} else {
-							lvItem.SubItems[iColIndex].Text = "";
+							lvItem.SubItems[ iColIndex ].Text = "";
 						}
 
 					}

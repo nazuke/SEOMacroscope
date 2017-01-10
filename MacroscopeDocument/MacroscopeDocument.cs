@@ -120,7 +120,7 @@ namespace SEOMacroscope
 			MimeType = "";
 			IsHtml = false;
 			ContentEncoding = "";
-			Locale = "unknown";
+			Locale = null;
 
 			DateServer = new DateTime ();
 			DateModified = new DateTime ();

@@ -384,7 +384,7 @@ namespace SEOMacroscope
 
 			this.msDisplayStructure.RefreshData( this.msJobMaster.DocCollectionGet() );
 
-			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+			//this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
 
 			this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.DocCollectionGet() );
 						
@@ -575,20 +575,7 @@ namespace SEOMacroscope
 		}
 
 		
-		void ToolStripDropDownButton1Click( object sender, EventArgs e )
-		{
-	
-		}
-		void JPEGToolStripMenuItemClick( object sender, EventArgs e )
-		{
-	
-		}
-		void TabPageCanonicalsAuditClick( object sender, EventArgs e )
-		{
-	
-		}
 
-		
 
 		
 
