@@ -4,7 +4,7 @@ SetCompressor /SOLID lzma
 Unicode true
 
 
-LicenseData LICENSE
+LicenseData ..\LICENSE
 
 InstallDir $DESKTOP\QA
 #InstallDir $PROGRAMFILES
