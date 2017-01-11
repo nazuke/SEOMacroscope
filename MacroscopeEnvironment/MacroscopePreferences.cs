@@ -37,6 +37,9 @@ namespace SEOMacroscope
 		static string HomeDirectory;
 		static string PrefsDirectory;
 
+		static string HttpProxyUrl;
+		static string HttpsProxyUrl;
+
 		static int Depth;
 		static int PageLimit;
 
@@ -57,6 +60,9 @@ namespace SEOMacroscope
 		static MacroscopePreferences ()
 		{
 
+			HttpProxyUrl = "";
+			HttpsProxyUrl = "";
+			
 			Depth = -1;
 			PageLimit = -1;
 
@@ -66,9 +72,9 @@ namespace SEOMacroscope
 			FollowRobotsProtocol = true;
 			FollowNoFollow = true;
 
-			FetchStylesheets = false;
-			FetchJavascripts = false;
-			FetchImages = false;
+			FetchStylesheets = true;
+			FetchJavascripts = true;
+			FetchImages = true;
 			FetchPdfs = false;
 
 		}

@@ -68,17 +68,9 @@ namespace SEOMacroscope
 
 			List<MacroscopeHyperlinkIn> lLinkList;
 
-			
-			
-			debug_msg( string.Format( "MacroscopeHyperlinksIn Add sUrlOrigin: {0}", sUrlOrigin ) );
-			debug_msg( string.Format( "MacroscopeHyperlinksIn Add sUrlTarget: {0}", sUrlTarget ) );
-			
-			
-			
-			
-			
-			
-			
+			//debug_msg( string.Format( "MacroscopeHyperlinksIn Add sUrlOrigin: {0}", sUrlOrigin ) );
+			//debug_msg( string.Format( "MacroscopeHyperlinksIn Add sUrlTarget: {0}", sUrlTarget ) );
+
 			lock( this.Locker ) {
 
 				if( this.Links.ContainsKey( sUrlOrigin ) ) {
@@ -138,8 +130,11 @@ namespace SEOMacroscope
 						List<MacroscopeHyperlinkIn> lLinksList = this.Links[ sUrlOrigin ];
 
 						for( int i = 0; i < lLinksList.Count; i++ ) {
-							debug_msg( string.Format( "MacroscopeHyperlinksIn : GetLinks: {0}", i ) );
+
+							//debug_msg( string.Format( "MacroscopeHyperlinksIn : GetLinks: {0}", i ) );
+
 							lLinkList.Add( lLinksList[ i ] );
+
 						}
 					
 					}

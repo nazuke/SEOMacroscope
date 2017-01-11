@@ -79,11 +79,8 @@ namespace SEOMacroscope
 
 		~MacroscopeMainForm ()
 		{
-
 			debug_msg( "MacroscopeMainForm DESTRUCTOR CALLED" );
-
 			this.Cleanup();
-
 		}
 		
 		/**************************************************************************/
@@ -185,6 +182,7 @@ namespace SEOMacroscope
 				
 		void CallbackScanStart ( object sender, EventArgs e )
 		{
+
 			this.ScanningControlsStart( true );
 
 			MacroscopePreferences.SavePreferences();
@@ -250,47 +248,63 @@ namespace SEOMacroscope
 				this.ScanningControlsComplete( true );
 			}
 		}
-		
-		/**************************************************************************/
 
-		void CallbackDataError ( object sender, DataGridViewDataErrorEventArgs e )
+		/** TAB PAGES *************************************************************/
+
+		void CallbackTabPageStructureOverviewShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: DataError" );
-		}
-		
-		/**************************************************************************/
-		
-		void CallbackRowsAdded ( object sender, DataGridViewRowsAddedEventArgs e )
-		{
-			this.Update();
+			debug_msg( "EVENT: CallbackTabPageStructureOverviewShow" );
+			this.macroscopeDocumentDetailsMain.ClearData();
+			this.msDisplayStructure.RefreshData( this.msJobMaster.DocCollectionGet() );
 		}
 
-		/**************************************************************************/
-
-		void CallbackCanonicalAnalysisClick ( object sender, EventArgs e )
+		void CallbackListViewStructureOverviewClick ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackCanonicalAnalysisClick" );
-
-			this.msDisplayCanonical.RefreshData( this.msJobMaster.DocCollectionGet() );
-
-			if( this.InvokeRequired ) {
-				this.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.Refresh();
-							this.Update();
-						}
-					)
-				);
-			} else {
-				this.Refresh();
-				this.Update();
+			ListView lvListView = ( ListView )sender;
+			lock( lvListView ) {
+				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
+					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
+					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
+				}
 			}
-		
 		}
-		
-		/**************************************************************************/
+
+		void CallbackTabPageCanonicalAnalysisShow ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackTabPageCanonicalAnalysisShow" );
+			this.msDisplayCanonical.RefreshData( this.msJobMaster.DocCollectionGet() );
+		}
+
+		void CallbackTabPageHrefLangAnalysisShow ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackTabPageHrefLangAnalysisShow" );
+			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+		}
+
+		void CallbackTabPageRedirectsAuditShow ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackTabPageRedirectsAuditShow" );
+		}
+
+		void CallbackTabPageEmailAddressesShow ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackTabPageEmailAddressesShow" );
+			this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.DocCollectionGet() );
+		}
+
+		void CallbackTabPageTelephoneNumbersShow ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackTabPageTelephoneNumbersShow" );
+			this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.DocCollectionGet() );
+		}
+
+		void CallbackTabPageHistoryShow ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackTabPageHistoryShow" );
+			this.msDisplayHistory.RefreshData( this.msJobMaster.HistoryGet() );
+		}
+
+		/** Scanning Controls *****************************************************/
 
 		void ScanningControlsEnable ( Boolean bState )
 		{
@@ -372,58 +386,18 @@ namespace SEOMacroscope
 		{
 
 			this.msDisplayStructure.ClearData();
+			
 			this.msDisplayCanonical.ClearData();
+			
 			this.msDisplayHrefLang.ClearData();
+			
 			this.msDisplayEmailAddresses.ClearData();
+			
 			this.msDisplayTelephoneNumbers.ClearData();
+			
 			this.msDisplayHistory.ClearData();
 
-			if( this.InvokeRequired ) {
-				this.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.Refresh();
-							this.Update();
-						}
-					)
-				);
-			} else {
-				this.Refresh();
-				this.Update();
-			}
-
-		}
-
-		/**************************************************************************/
-		
-		public void UpdateDisplay ()
-		{
-
-			this.msDisplayStructure.RefreshData( this.msJobMaster.DocCollectionGet() );
-
-			//this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
-
-			this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.DocCollectionGet() );
-						
-			this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.DocCollectionGet() );
-						
-			this.msDisplayHistory.RefreshData( this.msJobMaster.HistoryGet() );
-						
-			if( this.InvokeRequired ) {
-				this.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.Refresh();
-							this.Update();
-						}
-					)
-				);
-			} else {
-				this.Refresh();
-				this.Update();
-			}
+			this.macroscopeDocumentDetailsMain.ClearData();
 
 		}
 
@@ -443,21 +417,6 @@ namespace SEOMacroscope
 				this.msDisplayEmailAddresses.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 						
 				this.msDisplayTelephoneNumbers.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
-
-				if( this.InvokeRequired ) {
-					this.Invoke(
-						new MethodInvoker (
-							delegate
-							{
-								this.Refresh();
-								this.Update();
-							}
-						)
-					);
-				} else {
-					this.Refresh();
-					this.Update();
-				}
 
 			}
 			
@@ -533,34 +492,6 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-
-		void CallbackListViewClick ( object sender, EventArgs e )
-		{
-
-			debug_msg( string.Format( "CallbackListViewClick: {0}", "" ) );
-			
-			ListView lvListView = ( ListView )sender;
-						
-			debug_msg( string.Format( "CallbackListViewClick: {0}", lvListView.SelectedItems.ToString() ) );
-			
-			lock( lvListView ) {
-
-				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-
-					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
-					
-					debug_msg( string.Format( "CallbackListViewClick: {0}", sURL ) );
-					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
-
-				}
-
-			}
-
-			debug_msg( string.Format( "" ) );
-			
-		}
-
-		/**************************************************************************/
 		
 		void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
 		{
@@ -610,6 +541,7 @@ namespace SEOMacroscope
 		}
 
 		
+
 
 
 		

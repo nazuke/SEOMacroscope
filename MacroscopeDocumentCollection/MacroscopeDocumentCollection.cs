@@ -26,6 +26,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -37,11 +38,23 @@ namespace SEOMacroscope
 
 		Hashtable DocCollection;
 
+		Thread ThreadRecalculateLinksIn = null;
+		Boolean ThreadRecalculateLinksInStop = false;
+		Queue<int> ThreadRecalculateLinksInQueue;
+		
 		/**************************************************************************/
 
 		public MacroscopeDocumentCollection ()
 		{
+
 			DocCollection = Hashtable.Synchronized( new Hashtable ( 4096 ) );
+
+			{
+				ThreadRecalculateLinksInQueue = new Queue<int> ( 4096 );
+				ThreadRecalculateLinksIn = new Thread ( new ThreadStart ( this.WorkerRecalculateLinksIn ) );
+				ThreadRecalculateLinksIn.Start();
+			}
+
 		}
 
 		/**************************************************************************/
@@ -122,9 +135,94 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		void WorkerRecalculateLinksIn ()
+		{
+
+			Boolean bDoRun = true;
+			
+			do {
+
+				if( this.WorkerRecalculateLinksInQueuePeek() ) {
+
+					{
+						int iDrainQueue = this.WorkerRecalculateLinksInQueueGet();
+						do {
+							iDrainQueue = this.WorkerRecalculateLinksInQueueGet();
+						} while( iDrainQueue != -1 );
+					}
+
+					this.RecalculateLinksIn();
+
+				}
+
+				Thread.Sleep( 5000 );
+
+				if( this.ThreadRecalculateLinksInStop == true ) {
+					bDoRun = false;
+				}
+
+			} while( bDoRun == true );
+
+		}
+
+		/**************************************************************************/
+				
+		public void WorkerRecalculateLinksInShutdown ()
+		{
+			debug_msg( "WorkerRecalculateLinksInShutdown Called" );
+			this.ThreadRecalculateLinksInStop = true;
+		}
+
+		/**************************************************************************/
+
+		public void WorkerRecalculateLinksInQueueAdd ( int iValue )
+		{
+			lock( this.ThreadRecalculateLinksInQueue ) {
+				this.ThreadRecalculateLinksInQueue.Enqueue( iValue );
+			}
+		}
+		
+		/**************************************************************************/
+		
+		public int WorkerRecalculateLinksInQueueGet ()
+		{
+			int iValue = -1;
+			try {
+				if( this.ThreadRecalculateLinksInQueue.Count > 0 ) {
+					lock( this.ThreadRecalculateLinksInQueue ) {
+						iValue = this.ThreadRecalculateLinksInQueue.Dequeue();
+					}
+				}
+			} catch( InvalidOperationException ex ) {
+				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+			}
+			return( iValue );
+		}
+	
+		/**************************************************************************/
+				
+		public Boolean WorkerRecalculateLinksInQueuePeek ()
+		{
+			Boolean bPeek = false;
+			try {
+				lock( this.ThreadRecalculateLinksInQueue ) {
+					if( this.ThreadRecalculateLinksInQueue.Count > 0 ) {
+						bPeek = true;
+					}
+				}
+			} catch( InvalidOperationException ex ) {
+				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+			}
+			return( bPeek );
+		}
+
+		/**************************************************************************/
+		
 		public void RecalculateLinksIn ()
 		{
 
+			debug_msg( string.Format( "RecalculateLinksIn: CALLED" ), 1 );
+									
 			lock( this.DocCollection ) {
 
 				foreach( string sUrlTarget in this.DocCollection.Keys ) {

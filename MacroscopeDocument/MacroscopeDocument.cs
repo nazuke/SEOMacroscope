@@ -242,12 +242,6 @@ namespace SEOMacroscope
 			int iCount = this.GetOutlinks().Count;
 			return( iCount );
 		}
-		
-		/**************************************************************************/
-
-
-
-
 
 		/**************************************************************************/
 
@@ -284,21 +278,6 @@ namespace SEOMacroscope
 		{
 			return( this.HyperlinksIn.Count() );
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
-
 
 		/**************************************************************************/
 
@@ -690,6 +669,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		/*
 		public void debug_msg ( String sMsg )
 		{
 		}
@@ -697,6 +677,7 @@ namespace SEOMacroscope
 		public void debug_msg ( String sMsg, int iOffset )
 		{
 		}
+		*/
 		
 		/**************************************************************************/
 

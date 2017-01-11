@@ -319,6 +319,7 @@ namespace SEOMacroscope
 			this.tabPageStructureOverview.TabIndex = 0;
 			this.tabPageStructureOverview.Text = "Structure Overview";
 			this.tabPageStructureOverview.UseVisualStyleBackColor = true;
+			this.tabPageStructureOverview.Enter += new System.EventHandler(this.CallbackTabPageStructureOverviewShow);
 			// 
 			// tableLayoutStructure
 			// 
@@ -349,7 +350,7 @@ namespace SEOMacroscope
 			this.listViewStructure.TabIndex = 0;
 			this.listViewStructure.UseCompatibleStateImageBehavior = false;
 			this.listViewStructure.View = System.Windows.Forms.View.Details;
-			this.listViewStructure.Click += new System.EventHandler(this.CallbackListViewClick);
+			this.listViewStructure.Click += new System.EventHandler(this.CallbackListViewStructureOverviewClick);
 			// 
 			// macroscopeDocumentDetailsMain
 			// 
@@ -370,7 +371,7 @@ namespace SEOMacroscope
 			this.tabPageCanonicalAnalysis.TabIndex = 7;
 			this.tabPageCanonicalAnalysis.Text = "Canonical Analysis";
 			this.tabPageCanonicalAnalysis.UseVisualStyleBackColor = true;
-			this.tabPageCanonicalAnalysis.Enter += new System.EventHandler(this.CallbackCanonicalAnalysisClick);
+			this.tabPageCanonicalAnalysis.Enter += new System.EventHandler(this.CallbackTabPageCanonicalAnalysisShow);
 			// 
 			// listViewCanonicalAnalysis
 			// 
@@ -408,6 +409,7 @@ namespace SEOMacroscope
 			this.tabPageHrefLangAnalysis.TabIndex = 1;
 			this.tabPageHrefLangAnalysis.Text = "HrefLang Analysis";
 			this.tabPageHrefLangAnalysis.UseVisualStyleBackColor = true;
+			this.tabPageHrefLangAnalysis.Enter += new System.EventHandler(this.CallbackTabPageHrefLangAnalysisShow);
 			// 
 			// listViewHrefLang
 			// 
@@ -431,6 +433,7 @@ namespace SEOMacroscope
 			this.tabPageRedirectsAudit.TabIndex = 2;
 			this.tabPageRedirectsAudit.Text = "Redirects Audit";
 			this.tabPageRedirectsAudit.UseVisualStyleBackColor = true;
+			this.tabPageRedirectsAudit.Enter += new System.EventHandler(this.CallbackTabPageRedirectsAuditShow);
 			// 
 			// dataGridViewRedirectsAudit
 			// 
@@ -456,6 +459,7 @@ namespace SEOMacroscope
 			this.tabPageEmailAddresses.TabIndex = 3;
 			this.tabPageEmailAddresses.Text = "Email Addresses";
 			this.tabPageEmailAddresses.UseVisualStyleBackColor = true;
+			this.tabPageEmailAddresses.Enter += new System.EventHandler(this.CallbackTabPageEmailAddressesShow);
 			// 
 			// listViewEmailAddresses
 			// 
@@ -493,6 +497,7 @@ namespace SEOMacroscope
 			this.tabPageTelephoneNumbers.TabIndex = 4;
 			this.tabPageTelephoneNumbers.Text = "Telephone Numbers";
 			this.tabPageTelephoneNumbers.UseVisualStyleBackColor = true;
+			this.tabPageTelephoneNumbers.Enter += new System.EventHandler(this.CallbackTabPageTelephoneNumbersShow);
 			// 
 			// listViewTelephoneNumbers
 			// 
@@ -530,6 +535,7 @@ namespace SEOMacroscope
 			this.tabPageHistory.TabIndex = 5;
 			this.tabPageHistory.Text = "History";
 			this.tabPageHistory.UseVisualStyleBackColor = true;
+			this.tabPageHistory.Enter += new System.EventHandler(this.CallbackTabPageHistoryShow);
 			// 
 			// listViewHistory
 			// 

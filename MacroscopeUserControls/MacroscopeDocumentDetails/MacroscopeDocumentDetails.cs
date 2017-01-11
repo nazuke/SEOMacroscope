@@ -60,6 +60,27 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		public void ClearData ()
+		{
+
+			this.listViewDocumentInfo.Items.Clear();
+
+			this.listViewHrefLang.Items.Clear();
+			
+			this.listViewImages.Items.Clear();
+			
+			this.listViewJavascripts.Items.Clear();
+			
+			this.listViewLinksIn.Items.Clear();
+			
+			this.listViewLinksOut.Items.Clear();
+			
+			this.listViewStylesheets.Items.Clear();
+
+		}
+
+		/**************************************************************************/
+
 		public void UpdateDisplay ( MacroscopeJobMaster msJobMaster, string sURL )
 		{
 
