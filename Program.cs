@@ -35,7 +35,7 @@ namespace SEOMacroscope
 	{
 
 		/**************************************************************************/
-				
+
 		public static void Exit ()
 		{
 			debug_msg( "Exiting" );

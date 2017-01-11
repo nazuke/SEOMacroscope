@@ -690,7 +690,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		/*
 		public void debug_msg ( String sMsg )
 		{
 		}
@@ -698,7 +697,6 @@ namespace SEOMacroscope
 		public void debug_msg ( String sMsg, int iOffset )
 		{
 		}
-		*/
 		
 		/**************************************************************************/
 

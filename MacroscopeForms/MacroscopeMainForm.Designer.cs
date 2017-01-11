@@ -408,7 +408,6 @@ namespace SEOMacroscope
 			this.tabPageHrefLangAnalysis.TabIndex = 1;
 			this.tabPageHrefLangAnalysis.Text = "HrefLang Analysis";
 			this.tabPageHrefLangAnalysis.UseVisualStyleBackColor = true;
-			this.tabPageHrefLangAnalysis.Enter += new System.EventHandler(this.CallbackHrefLangAnalysisClick);
 			// 
 			// listViewHrefLang
 			// 
@@ -658,6 +657,7 @@ namespace SEOMacroscope
 			this.textBoxURL.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
 			this.textBoxURL.Size = new System.Drawing.Size(300, 30);
 			this.textBoxURL.ToolTipText = "Enter a URL to begin scanning from";
+			this.textBoxURL.TextChanged += new System.EventHandler(this.CallbackScanReset);
 			// 
 			// toolStripSeparator1
 			// 
@@ -708,6 +708,7 @@ namespace SEOMacroscope
 			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "MacroscopeMainForm";
 			this.Text = "MacroscopeMainForm";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CallbackFormClosing);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.tableLayoutPanelMainContainer.ResumeLayout(false);

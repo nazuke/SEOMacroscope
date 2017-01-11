@@ -183,7 +183,7 @@ namespace SEOMacroscope
 
 
 						// TODO: Verify that this actually works:
-						this.HyperlinksOut.Add( this.Url, sLinkURLAbs );
+						//this.HyperlinksOut.Add( this.Url, sLinkURLAbs );
 						
 						
 						

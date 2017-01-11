@@ -66,6 +66,9 @@ namespace SEOMacroscope
 				
 		public void Add ( string sKey, MacroscopeDocument msDoc )
 		{
+			if( this.DocCollection.ContainsKey( sKey ) ) {
+				this.Remove( sKey );
+			}
 			lock( this.DocCollection ) {
 				this.DocCollection.Add( sKey, msDoc );
 			}
@@ -121,18 +124,43 @@ namespace SEOMacroscope
 
 		public void RecalculateLinksIn ()
 		{
+
 			lock( this.DocCollection ) {
+
 				foreach( string sUrlTarget in this.DocCollection.Keys ) {
+
 					MacroscopeDocument msDoc = this.Get( sUrlTarget );
+
 					msDoc.ClearHyperlinksIn();
-					foreach( string sUrlOrigin in  msDoc.GetOutlinks().Keys ) {
-						if( this.Exists( sUrlOrigin ) ) {
-							MacroscopeDocument msDocLinked = this.Get( sUrlOrigin );
-							msDocLinked.AddHyperlinkIn( "", "", MacroscopeHyperlinkIn.LINKTEXT, sUrlOrigin, sUrlTarget, "", "" );
+
+					//debug_msg( string.Format( "RecalculateLinksIn sUrlTarget: {0}", sUrlTarget ), 0 );
+
+					foreach( string sUrlOrigin in this.DocCollection.Keys ) {
+
+						//debug_msg( string.Format( "RecalculateLinksIn sUrlOrigin: {0}", sUrlOrigin ), 1 );
+
+						List<MacroscopeHyperlinkOut> lHyperlinksOut = msDoc.GetHyperlinksOut().GetLinks( sUrlTarget );
+
+						for( int i = 0; i < lHyperlinksOut.Count; i++ ) {
+
+							MacroscopeHyperlinkOut HyperlinkOut = ( MacroscopeHyperlinkOut )lHyperlinksOut[ i ];
+
+							if( sUrlTarget == HyperlinkOut.GetUrlTarget() ) {
+
+								//debug_msg( string.Format( "RecalculateLinksIn lHyperlinksOut: {0} :: {1}", i, sUrlTarget ), 2 );
+
+								msDoc.AddHyperlinkIn( "", "", MacroscopeHyperlinkIn.LINKTEXT, sUrlOrigin, sUrlTarget, "", "" );
+
+							}
+
 						}
+
 					}
+
 				}
+				
 			}
+
 		}
 
 		/**************************************************************************/

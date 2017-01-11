@@ -26,10 +26,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using RobotsTxt;
 using System.Threading;
-using System.Diagnostics;
 
 namespace SEOMacroscope
 {
@@ -48,6 +45,10 @@ namespace SEOMacroscope
 		int ThreadsRunning;
 		Boolean ThreadsStop;
 		Dictionary<int,Boolean> ThreadsDict;
+
+		Thread ThreadUpdateDisplay = null;
+		Boolean ThreadUpdateDisplayStop = false;
+		Queue<string> UpdateDisplayQueue;
 		
 		public string StartUrl { get; set; }
 		public int Depth { get; set; }
@@ -77,7 +78,7 @@ namespace SEOMacroscope
 			
 			DisplayLock = new Object ();
 
-			ThreadsMax = 16;
+			ThreadsMax = 2;
 			ThreadsRunning = 0;
 			ThreadsStop = false;
 			ThreadsDict = new Dictionary<int,Boolean> ();
@@ -97,6 +98,24 @@ namespace SEOMacroscope
 
 			Locales = Hashtable.Synchronized( new Hashtable ( 32 ) );
 			msRobots = new MacroscopeRobots ();
+
+			{
+				UpdateDisplayQueue = new Queue<string> ( 4096 );
+				ThreadUpdateDisplay = new Thread ( new ThreadStart ( this.WorkerUpdateDisplay ) );
+				ThreadUpdateDisplay.Start();
+			}
+
+		}
+
+		/**************************************************************************/
+
+		~MacroscopeJobMaster ()
+		{
+
+			debug_msg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ), 0 );
+
+
+			this.WorkerUpdateDisplayShutdown();
 
 		}
 
@@ -119,8 +138,6 @@ namespace SEOMacroscope
 			
 			debug_msg( string.Format( "Pages Found: {0}", this.PagesFound ), 1 );
 
-			debug_msg( "Done", 1 );
-								
 			this.msMainForm.CallbackScanComplete();
 
 			return( true );
@@ -135,8 +152,6 @@ namespace SEOMacroscope
 
 			while( bDoRun == true ) {
 
-				this.UpdateStatusBar();
-
 				if( this.ThreadsStop == true ) {
 
 					debug_msg( string.Format( "WorkersSpawn: {0}", "STOPPING" ) );
@@ -146,7 +161,9 @@ namespace SEOMacroscope
 				} else {
 
 					for( int i = 0; i < this.ThreadsMax; i++ ) {
-						Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.WorkerStart, null );
+						if( this.RunningThreadsCount() < this.ThreadsMax ) {
+							Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.WorkerStart, null );
+						}
 						Thread.Sleep( 100 );
 					}
 						
@@ -163,10 +180,6 @@ namespace SEOMacroscope
 				Thread.Sleep( 100 );
 										
 			}
-
-			this.UpdateDisplay();
-						
-			this.UpdateStatusBar();
 
 			debug_msg( string.Format( "WorkersSpawn: STOPPED" ) );
 
@@ -190,19 +203,8 @@ namespace SEOMacroscope
 
 		public void WorkersNotifyDone ( string sURL )
 		{
-
-			debug_msg( string.Format( "WorkersNotifyDone: {0}", sURL ) );
-
 			this.RunningThreadsDec();
-
-			//this.DocCollectionGet().RecalculateLinksIn();
-			
-			this.UpdateDisplaySingle( sURL );
-			
-			this.UpdateDisplay();
-			
-			this.UpdateStatusBar();
-
+			this.UpdateDisplayQueueAdd( sURL );
 		}
 		
 		/**************************************************************************/
@@ -227,13 +229,70 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void RunningThreadsInc ()
+		public void WorkerUpdateDisplayShutdown ()
+		{
+			debug_msg( "WorkerUpdateDisplayShutdown Called" );
+			this.ThreadUpdateDisplayStop = true;
+		}
+		
+		/**************************************************************************/
+
+		void WorkerUpdateDisplay ()
 		{
 
+			Boolean bDoUpdateDisplay = true;
+			
+			do {
+
+				if( this.UpdateDisplayQueuePeek() ) {
+
+					List<string> lUrls = new List<string> ();
+
+					//this.DocCollectionGet().RecalculateLinksIn();
+
+					//this.msMainForm.UpdateDisplayHrefLang();
+					
+					{
+						string sUrl = this.UpdateDisplayQueueGet();
+						do {
+							if( sUrl != null ) {
+								lUrls.Add( sUrl );
+							}
+							sUrl = this.UpdateDisplayQueueGet();
+						} while( sUrl != null );
+					}
+					
+					if( lUrls.Count > 0 ) {
+						foreach( string sUrl in lUrls ) {
+							if( this.DocCollectionGet().Contains( sUrl ) ) {
+								this.UpdateDisplaySingle( sUrl );
+							} else {
+								this.UpdateDisplayQueueAdd( sUrl );
+							}
+						}
+					}
+					
+				}
+
+				this.UpdateStatusBar();
+
+				Thread.Sleep( 5000 );
+
+				if( this.ThreadUpdateDisplayStop == true ) {
+					bDoUpdateDisplay = false;
+				}
+
+			} while( bDoUpdateDisplay == true );
+
+		}
+
+		/**************************************************************************/
+
+		void RunningThreadsInc ()
+		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
 			this.ThreadsDict[ iThreadId ] = true;
 			this.ThreadsRunning++;
-
 		}
 		
 		/**************************************************************************/
@@ -261,7 +320,50 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+
+		public void UpdateDisplayQueueAdd ( string sURL )
+		{
+			lock( this.UpdateDisplayQueue ) {
+				this.UpdateDisplayQueue.Enqueue( sURL );
+			}
+		}
 		
+		/**************************************************************************/
+		
+		public string UpdateDisplayQueueGet ()
+		{
+			string sURL = null;
+			try {
+				if( this.UpdateDisplayQueue.Count > 0 ) {
+					lock( this.UpdateDisplayQueue ) {
+						sURL = this.UpdateDisplayQueue.Dequeue();
+					}
+				}
+			} catch( InvalidOperationException ex ) {
+				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+			}
+			return( sURL );
+		}
+	
+		/**************************************************************************/
+				
+		public Boolean UpdateDisplayQueuePeek ()
+		{
+			Boolean bPeek = false;
+			try {
+				lock( this.UpdateDisplayQueue ) {
+					if( this.UpdateDisplayQueue.Count > 0 ) {
+						bPeek = true;
+					}
+				}
+			} catch( InvalidOperationException ex ) {
+				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+			}
+			return( bPeek );
+		}
+
+		/**************************************************************************/
+
 		public void UrlQueueAdd ( string sURL )
 		{
 			if( !this.HistorySeen( sURL ) ) {
@@ -407,13 +509,9 @@ namespace SEOMacroscope
 				try {
 					
 					this.msMainForm.UpdateDisplay();
-					
-					
+
 					//this.msMainForm.UpdateDisplayHrefLang( this );
-					
-					
-					
-					
+
 				} catch( ArgumentException ex ) {
 					debug_msg( string.Format( "UpdateDisplay: {0}", ex.Message ), 1 );
 				}
@@ -429,7 +527,7 @@ namespace SEOMacroscope
 			}
 			lock( this.DisplayLock ) {
 				try {
-					this.msMainForm.UpdateDisplaySingle( this, sURL );
+					this.msMainForm.UpdateDisplaySingle( sURL );
 				} catch( ArgumentException ex ) {
 					debug_msg( string.Format( "UpdateDisplaySingle: {0}", ex.Message ), 1 );
 				}

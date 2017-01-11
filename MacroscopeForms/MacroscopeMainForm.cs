@@ -37,15 +37,17 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
+		Thread ThreadScanner;
+
+		MacroscopeJobMaster msJobMaster;
+
 		MacroscopeDisplayStructure msDisplayStructure;
 		MacroscopeDisplayCanonical msDisplayCanonical;
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
 		MacroscopeDisplayHistory msDisplayHistory;
-		
-		Thread tScanningThread;
-		MacroscopeJobMaster msJobMaster;
+
 			
 		/**************************************************************************/
 
@@ -56,6 +58,8 @@ namespace SEOMacroscope
 
 			MacroscopePreferences.LoadPreferences();
 						
+			msJobMaster = new MacroscopeJobMaster ( this );
+
 			msDisplayStructure = new MacroscopeDisplayStructure ( this );
 			msDisplayCanonical = new MacroscopeDisplayCanonical ( this );
 			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this );
@@ -66,8 +70,6 @@ namespace SEOMacroscope
 			#if DEBUG
 			this.textBoxURL.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
 			#endif
-			
-			msJobMaster = new MacroscopeJobMaster ( this );
 
 			this.ScanningControlsEnable( true );
 
@@ -75,91 +77,126 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public ListView GetDisplayStructure()
+		~MacroscopeMainForm ()
+		{
+
+			debug_msg( "MacroscopeMainForm DESTRUCTOR CALLED" );
+
+			this.Cleanup();
+
+		}
+		
+		/**************************************************************************/
+
+		void Cleanup ()
+		{
+			
+			debug_msg( "MacroscopeMainForm Cleanup CALLED" );
+						
+			if( this.ThreadScanner != null ) {
+				debug_msg( "Cleaning up ThreadScanner" );
+				this.ThreadScanner.Abort();
+			}
+
+			if( this.msJobMaster != null ) {
+				this.msJobMaster.WorkerUpdateDisplayShutdown();
+				this.msJobMaster = null;
+			}
+
+		}
+
+		/**************************************************************************/
+
+		public ListView GetDisplayStructure ()
 		{
 			return( this.listViewStructure );
 		}
 
 		/**************************************************************************/
 				
-		public ListView GetDisplayCanonicalAnalysis()
+		public ListView GetDisplayCanonicalAnalysis ()
 		{
 			return( this.listViewCanonicalAnalysis );
 		}
 
 		/**************************************************************************/
 
-		public ListView GetDisplayHrefLang()
+		public ListView GetDisplayHrefLang ()
 		{
 			return( this.listViewHrefLang );
 		}
 
 		/**************************************************************************/
 		
-		public ListView GetDisplayEmailAddresses()
+		public ListView GetDisplayEmailAddresses ()
 		{
 			return( this.listViewEmailAddresses );
 		}
 		
 		/**************************************************************************/
 
-		public ListView GetDisplayTelephoneNumbers()
+		public ListView GetDisplayTelephoneNumbers ()
 		{
 			return( this.listViewTelephoneNumbers );
 		}
 
 		/**************************************************************************/
 
-		public ListView GetDisplayHistory()
+		public ListView GetDisplayHistory ()
 		{
 			return( this.listViewHistory );
 		}
 
 		/**************************************************************************/
 				
-		public string GetURL()
+		public string GetURL ()
 		{
 			return( this.textBoxURL.Text );
 		}
 
 		/**************************************************************************/
 
-		public void SetURL( string sURL )
+		public void SetURL ( string sURL )
 		{
 			this.textBoxURL.Text = sURL;
 		}
 
 		/**************************************************************************/
-				
-		void CallbackFileExit( object sender, EventArgs e )
+
+		void CallbackFormClosing ( object sender, FormClosingEventArgs e )
 		{
-			
-			if( this.tScanningThread != null ) {
-				if( this.tScanningThread.IsAlive ) {
-					this.tScanningThread.Abort();
-				}
-			}
-			
+			this.Cleanup();
+		}
+
+		/**************************************************************************/
+
+		void CallbackFileExit ( object sender, EventArgs e )
+		{
+
+			debug_msg( "CallbackFileExit Called" );
+
+			this.Cleanup();
+
 			Program.Exit();
 
 		}
 
 		/**************************************************************************/
 				
-		void CallbackScanStart( object sender, EventArgs e )
+		void CallbackScanStart ( object sender, EventArgs e )
 		{
 			this.ScanningControlsStart( true );
 
 			MacroscopePreferences.SavePreferences();
 
-			this.tScanningThread = new Thread ( new ThreadStart ( this.ScanningThread ) );
-			this.tScanningThread.Start();
+			this.ThreadScanner = new Thread ( new ThreadStart ( this.ScanningThread ) );
+			this.ThreadScanner.Start();
 
 		}
 
 		/**************************************************************************/
 		
-		void CallbackScanStop( object sender, EventArgs e )
+		void CallbackScanStop ( object sender, EventArgs e )
 		{
 
 			this.ScanningControlsStopping( true );
@@ -177,13 +214,15 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void CallbackScanReset( object sender, EventArgs e )
+		void CallbackScanReset ( object sender, EventArgs e )
 		{
 
 			if( this.msJobMaster.WorkersStopped() ) {
 
 				this.ScanningControlsReset( true );
-				
+
+				this.msJobMaster.WorkerUpdateDisplayShutdown();
+
 				this.msJobMaster = new MacroscopeJobMaster ( this );
 
 				this.ClearDisplay();
@@ -194,12 +233,13 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		public void CallbackScanComplete()
+		public void CallbackScanComplete ()
 		{
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							this.UpdateStatusBar();
 							this.ScanningControlsComplete( true );
 						}
@@ -213,21 +253,21 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		void CallbackDataError( object sender, DataGridViewDataErrorEventArgs e )
+		void CallbackDataError ( object sender, DataGridViewDataErrorEventArgs e )
 		{
 			debug_msg( "EVENT: DataError" );
 		}
 		
 		/**************************************************************************/
 		
-		void CallbackRowsAdded( object sender, DataGridViewRowsAddedEventArgs e )
+		void CallbackRowsAdded ( object sender, DataGridViewRowsAddedEventArgs e )
 		{
 			this.Update();
 		}
 
 		/**************************************************************************/
 
-		void CallbackCanonicalAnalysisClick( object sender, EventArgs e )
+		void CallbackCanonicalAnalysisClick ( object sender, EventArgs e )
 		{
 			debug_msg( "EVENT: CallbackCanonicalAnalysisClick" );
 
@@ -236,7 +276,8 @@ namespace SEOMacroscope
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							this.Refresh();
 							this.Update();
 						}
@@ -251,31 +292,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		void CallbackHrefLangAnalysisClick( object sender, EventArgs e )
-		{
-			debug_msg( "EVENT: CallbackHrefLangAnalysisClick" );
-
-			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
-
-			if( this.InvokeRequired ) {
-				this.Invoke(
-					new MethodInvoker (
-						delegate {
-							this.Refresh();
-							this.Update();
-						}
-					)
-				);
-			} else {
-				this.Refresh();
-				this.Update();
-			}
-		
-		}
-
-		/**************************************************************************/
-
-		void ScanningControlsEnable( Boolean bState )
+		void ScanningControlsEnable ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
 			this.ButtonStart.Enabled = true;
@@ -283,7 +300,7 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = false;
 		}
 
-		void ScanningControlsStart( Boolean bState )
+		void ScanningControlsStart ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
 			this.ButtonStart.Enabled = false;
@@ -291,7 +308,7 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = false;
 		}
 
-		void ScanningControlsStopping( Boolean bState )
+		void ScanningControlsStopping ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
 			this.ButtonStart.Enabled = false;
@@ -299,7 +316,7 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = false;
 		}
 
-		void ScanningControlsStopped( Boolean bState )
+		void ScanningControlsStopped ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
 			this.ButtonStart.Enabled = true;
@@ -307,7 +324,7 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = true;
 		}
 
-		void ScanningControlsPause( Boolean bState )
+		void ScanningControlsPause ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
 			this.ButtonStart.Enabled = false;
@@ -315,7 +332,7 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = false;
 		}
 
-		void ScanningControlsResume( Boolean bState )
+		void ScanningControlsResume ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = false;
 			this.ButtonStart.Enabled = false;
@@ -323,7 +340,7 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = false;
 		}
 
-		void ScanningControlsReset( Boolean bState )
+		void ScanningControlsReset ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
 			this.ButtonStart.Enabled = true;
@@ -331,7 +348,7 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = false;
 		}
 		
-		void ScanningControlsComplete( Boolean bState )
+		void ScanningControlsComplete ( Boolean bState )
 		{
 			this.textBoxURL.Enabled = true;
 			this.ButtonStart.Enabled = true;
@@ -341,7 +358,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void ScanningThread()
+		void ScanningThread ()
 		{
 			debug_msg( "Scanning Thread: Started." );
 			this.msJobMaster.StartUrl = this.GetURL();
@@ -351,7 +368,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void ClearDisplay()
+		public void ClearDisplay ()
 		{
 
 			this.msDisplayStructure.ClearData();
@@ -364,7 +381,8 @@ namespace SEOMacroscope
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							this.Refresh();
 							this.Update();
 						}
@@ -379,7 +397,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public void UpdateDisplay()
+		public void UpdateDisplay ()
 		{
 
 			this.msDisplayStructure.RefreshData( this.msJobMaster.DocCollectionGet() );
@@ -395,7 +413,8 @@ namespace SEOMacroscope
 			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
-						delegate {
+						delegate
+						{
 							this.Refresh();
 							this.Update();
 						}
@@ -410,88 +429,104 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void UpdateDisplaySingle( MacroscopeJobMaster msJobMaster, string sURL )
+		public void UpdateDisplaySingle ( string sURL )
 		{
 
-			this.msDisplayStructure.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+			if( this.msJobMaster != null ) {
+				
+				this.msDisplayStructure.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 
-			this.msDisplayCanonical.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+				this.msDisplayCanonical.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 						
-			//this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+				//this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
 
-			this.msDisplayEmailAddresses.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+				this.msDisplayEmailAddresses.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 						
-			this.msDisplayTelephoneNumbers.RefreshDataSingle( msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+				this.msDisplayTelephoneNumbers.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 
-			if( this.InvokeRequired ) {
-				this.Invoke(
-					new MethodInvoker (
-						delegate {
-							this.Refresh();
-							this.Update();
-						}
-					)
-				);
-			} else {
-				this.Refresh();
-				this.Update();
+				if( this.InvokeRequired ) {
+					this.Invoke(
+						new MethodInvoker (
+							delegate
+							{
+								this.Refresh();
+								this.Update();
+							}
+						)
+					);
+				} else {
+					this.Refresh();
+					this.Update();
+				}
+
 			}
-
+			
 		}
 
 		/**************************************************************************/
 
-		public void UpdateDisplayHrefLang()
+		public void UpdateDisplayHrefLang ()
 		{
 
-			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), this.msJobMaster.LocalesGet() );
+			debug_msg( string.Format( "UpdateDisplayHrefLang: {0}", "CALLED" ) );
 
-			if( this.InvokeRequired ) {
-				this.Invoke(
-					new MethodInvoker (
-						delegate {
-							this.Refresh();
-							this.Update();
-						}
-					)
-				);
-			} else {
-				this.Refresh();
-				this.Update();
+			if( this.msJobMaster != null ) {
+			
+				this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), this.msJobMaster.LocalesGet() );
+
+				if( this.InvokeRequired ) {
+					this.Invoke(
+						new MethodInvoker (
+							delegate
+							{
+								this.Refresh();
+								this.Update();
+							}
+						)
+					);
+				} else {
+					this.Refresh();
+					this.Update();
+				}
+
 			}
-
+			
 		}
 
 		/**************************************************************************/
 
-		public void UpdateStatusBar()
+		public void UpdateStatusBar ()
 		{
+			if( this.msJobMaster != null ) {
 
-			string sThreads = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
-			string sUrlCount = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
-			string sUrlsFound = string.Format( "URLs Found: {0}", this.msJobMaster.DocCollectionGet().Count() );
+				string sThreads = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
+				string sUrlCount = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
+				string sUrlsFound = string.Format( "URLs Found: {0}", this.msJobMaster.DocCollectionGet().Count() );
 
-			if( this.InvokeRequired ) {
-				this.Invoke(
-					new MethodInvoker (
-						delegate {
-							this.toolStripThreads.Text = sThreads;
-							this.toolStripUrlCount.Text = sUrlCount;
-							this.toolStripFound.Text = sUrlsFound;
-						}
-					)
-				);
-			} else {
-				this.toolStripThreads.Text = sThreads;
-				this.toolStripUrlCount.Text = sUrlCount;
-				this.toolStripFound.Text = sUrlsFound;
+				if( this.InvokeRequired ) {
+					this.Invoke(
+						new MethodInvoker (
+							delegate
+							{
+								this.toolStripThreads.Text = sThreads;
+								this.toolStripUrlCount.Text = sUrlCount;
+								this.toolStripFound.Text = sUrlsFound;
+							}
+						)
+					);
+				} else {
+					this.toolStripThreads.Text = sThreads;
+					this.toolStripUrlCount.Text = sUrlCount;
+					this.toolStripFound.Text = sUrlsFound;
+				}
+			
 			}
 			
 		}
 
 		/**************************************************************************/
 		
-		void CallbackDataBindingComplete( object sender, DataGridViewBindingCompleteEventArgs e )
+		void CallbackDataBindingComplete ( object sender, DataGridViewBindingCompleteEventArgs e )
 		{
 			DataGridView dgvGrid = ( DataGridView )sender;
 			dgvGrid.AutoResizeColumns();
@@ -499,7 +534,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void CallbackListViewClick( object sender, EventArgs e )
+		void CallbackListViewClick ( object sender, EventArgs e )
 		{
 
 			debug_msg( string.Format( "CallbackListViewClick: {0}", "" ) );
@@ -527,7 +562,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		void CallbackSaveOverviewExcelReport( object sender, EventArgs e )
+		void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
 		{
 			SaveFileDialog Dialog = new SaveFileDialog ();
 			Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
@@ -545,7 +580,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 				
-		void CallbackSaveHrefLangExcelReport( object sender, EventArgs e )
+		void CallbackSaveHrefLangExcelReport ( object sender, EventArgs e )
 		{
 			SaveFileDialog Dialog = new SaveFileDialog ();
 			Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
@@ -563,12 +598,12 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 	
-		static void debug_msg( String sMsg )
+		static void debug_msg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
 
-		static void debug_msg( String sMsg, int iOffset )
+		static void debug_msg ( String sMsg, int iOffset )
 		{
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );

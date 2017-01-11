@@ -66,7 +66,7 @@ namespace SEOMacroscope
 			FollowRobotsProtocol = true;
 			FollowNoFollow = true;
 
-			FetchStylesheets = true;
+			FetchStylesheets = false;
 			FetchJavascripts = false;
 			FetchImages = false;
 			FetchPdfs = false;

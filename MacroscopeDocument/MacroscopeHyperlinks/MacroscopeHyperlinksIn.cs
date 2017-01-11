@@ -25,10 +25,7 @@
 
 using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Text;
 
 namespace SEOMacroscope
 {
@@ -71,6 +68,17 @@ namespace SEOMacroscope
 
 			List<MacroscopeHyperlinkIn> lLinkList;
 
+			
+			
+			debug_msg( string.Format( "MacroscopeHyperlinksIn Add sUrlOrigin: {0}", sUrlOrigin ) );
+			debug_msg( string.Format( "MacroscopeHyperlinksIn Add sUrlTarget: {0}", sUrlTarget ) );
+			
+			
+			
+			
+			
+			
+			
 			lock( this.Locker ) {
 
 				if( this.Links.ContainsKey( sUrlOrigin ) ) {
@@ -119,10 +127,25 @@ namespace SEOMacroscope
 		public List<MacroscopeHyperlinkIn> GetLinks ( string sUrlOrigin )
 		{
 
-			List<MacroscopeHyperlinkIn> lLinkList = null;
-			
+			List<MacroscopeHyperlinkIn> lLinkList = new List<MacroscopeHyperlinkIn> ( this.Links.Count );
+
 			if( this.Links.ContainsKey( sUrlOrigin ) ) {
-				lLinkList = ( List<MacroscopeHyperlinkIn> )this.Links[ sUrlOrigin ];
+
+				lock( this.Locker ) {
+				
+					lock( this.Links ) {
+
+						List<MacroscopeHyperlinkIn> lLinksList = this.Links[ sUrlOrigin ];
+
+						for( int i = 0; i < lLinksList.Count; i++ ) {
+							debug_msg( string.Format( "MacroscopeHyperlinksIn : GetLinks: {0}", i ) );
+							lLinkList.Add( lLinksList[ i ] );
+						}
+					
+					}
+				
+				}
+
 			}
 
 			return( lLinkList );

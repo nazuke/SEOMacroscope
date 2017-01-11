@@ -34,7 +34,7 @@ namespace SEOMacroscope
 	/// Description of MacroscopeHyperlinksOut.
 	/// </summary>
 	
-	public class MacroscopeHyperlinksOut
+	public class MacroscopeHyperlinksOut : Macroscope
 	{
 	
 		/**************************************************************************/
@@ -62,6 +62,9 @@ namespace SEOMacroscope
 				
 		public MacroscopeHyperlinkOut Add ( string sUrlOrigin, string sUrlTarget )
 		{
+
+			//debug_msg( string.Format( "MacroscopeHyperlinkOut sUrlOrigin: {0}", sUrlOrigin ), 1 );
+			//debug_msg( string.Format( "MacroscopeHyperlinkOut sUrlTarget: {0}", sUrlTarget ), 1 );	
 
 			MacroscopeHyperlinkOut hlHyperlinkOut = new MacroscopeHyperlinkOut ();
 			List<MacroscopeHyperlinkOut> lLinkList;
@@ -110,24 +113,36 @@ namespace SEOMacroscope
 
 		public Dictionary<string,List<MacroscopeHyperlinkOut>>.KeyCollection Keys ()
 		{
-					
 			return( this.Links.Keys );
 		}
 
 		/**************************************************************************/
 
-		public List<MacroscopeHyperlinkOut> GetLinks ( string sUrlOrigin )
+		public List<MacroscopeHyperlinkOut> GetLinks ( string sUrl )
 		{
 
-			List<MacroscopeHyperlinkOut> lLinksOut;
+			List<MacroscopeHyperlinkOut> lHyperlinks = new List<MacroscopeHyperlinkOut> ( this.Links.Count );
 
-			if( this.Links.ContainsKey( sUrlOrigin ) ) {
-				lLinksOut = ( List<MacroscopeHyperlinkOut> )this.Links[ sUrlOrigin ];
-			} else {
-				lLinksOut = new List<MacroscopeHyperlinkOut> ();
+			if( this.Links.ContainsKey( sUrl ) ) {
+
+				lock( this.Locker ) {
+				
+					lock( this.Links ) {
+
+						List<MacroscopeHyperlinkOut> lLinksList = this.Links[ sUrl ];
+
+						for( int i = 0; i < lLinksList.Count; i++ ) {
+							//debug_msg( string.Format( "MacroscopeHyperlinksOut : GetLinks: {0}", i ) );
+							lHyperlinks.Add( lLinksList[ i ] );
+						}
+					
+					}
+				
+				}
+
 			}
 
-			return( lLinksOut );
+			return( lHyperlinks );
 
 		}
 
