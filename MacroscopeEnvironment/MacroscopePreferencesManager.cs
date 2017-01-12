@@ -25,6 +25,7 @@
 
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -108,6 +109,24 @@ namespace SEOMacroscope
 				
 			}
 
+			if( StartUrl.Length > 0 ) {
+				StartUrl = Regex.Replace( StartUrl, "^\\s+", "" );
+				StartUrl = Regex.Replace( StartUrl, "\\s+$", "" );
+			}
+
+			if( Depth <= 0 ) {
+				Depth = -1;
+			}
+
+			if( PageLimit <= 0 ) {
+				PageLimit = -1;
+			}
+
+			debug_msg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
+			debug_msg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
+			debug_msg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
+			
+			
 		}
 		
 		/**************************************************************************/

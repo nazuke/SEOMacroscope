@@ -69,7 +69,7 @@ namespace SEOMacroscope
 			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this );
 			msDisplayHistory = new MacroscopeDisplayHistory ( this );
 
-			this.textBoxStartUrl.Text = MacroscopePreferencesManager.GetStartUrl();
+			this.SetURL( MacroscopePreferencesManager.GetStartUrl() );
 
 			#if DEBUG
 			//this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
@@ -184,19 +184,22 @@ namespace SEOMacroscope
 
 		}
 
-		/**************************************************************************/
+		/** Edit Menu *************************************************************/
 
 		void CallbackEditPreferencesClick ( object sender, EventArgs e )
 		{
-			// TODO: Implement this
-			
 			debug_msg( "CallbackEditPreferencesClick Called" );
-			
-			Form fPreferencesForm = new Form ();
-			
-			
-			fPreferencesForm.Show();
-			
+			MacroscopePrefsForm fPreferencesForm = new MacroscopePrefsForm ();
+			fPreferencesForm.ShowDialog();
+		}
+
+		/** Help Menu *************************************************************/
+		
+		void CallbackHelpAboutClick ( object sender, EventArgs e )
+		{
+			debug_msg( "CallbackHelpAboutClick Called" );
+			MacroscopeAboutForm fAboutForm = new MacroscopeAboutForm ();
+			fAboutForm.ShowDialog();
 		}
 
 		/** DIALOGUE BOXES ********************************************************/
@@ -222,7 +225,7 @@ namespace SEOMacroscope
 		void CallbackStartUrlTextChanged ( object sender, EventArgs e )
 		{
 
-			string sStartUrl = this.textBoxStartUrl.Text;
+			string sStartUrl = this.GetURL();
 			StartUrlDirty = true;
 
 			if( MacroscopeURLTools.ValidateUrl( sStartUrl ) ) {
@@ -236,7 +239,7 @@ namespace SEOMacroscope
 		void CallbackScanStart ( object sender, EventArgs e )
 		{
 
-			string sStartUrl = this.textBoxStartUrl.Text;
+			string sStartUrl = this.GetURL();
 						
 			if( MacroscopeURLTools.ValidateUrl( sStartUrl ) ) {
 
@@ -335,7 +338,7 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
+					string sURL = lvItem.SubItems[0].Text.ToString();
 					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
 				}
 			}

@@ -108,6 +108,10 @@
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkClass.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferencesManager.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.Designer.cs">
+      <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayCanonical.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHistory.cs" />
@@ -121,6 +125,10 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocumentJS.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentPDF.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTelephoneNumbers.cs" />
+    <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.Designer.cs">
+      <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -160,6 +168,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.resx">
+      <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.resx">
+      <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.resx">
       <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,6 +188,8 @@
     <Folder Include="MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink" />
+    <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
+    <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay" />

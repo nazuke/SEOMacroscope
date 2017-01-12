@@ -24,43 +24,43 @@
 */
 
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SEOMacroscope.MacroscopeUserControls.MacroscopePrefsControl
+namespace SEOMacroscope
 {
-
+	
 	/// <summary>
-	/// Description of MacroscopePrefsControl.
+	/// Description of MacroscopePrefsForm.
 	/// </summary>
-
-	public partial class MacroscopePrefsControl : UserControl
+	
+	public partial class MacroscopePrefsForm : Form
 	{
-
+	
 		/**************************************************************************/
-				
-		public MacroscopePrefsControl ()
+
+		public MacroscopePrefsForm ()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-		}
 
-		/**************************************************************************/
-				
-		void Label1Click ( object sender, EventArgs e )
+		}
+		void GroupBox1Enter ( object sender, EventArgs e )
 		{
 	
 		}
-
+		void CheckBox1CheckedChanged ( object sender, EventArgs e )
+		{
+	
+		}
+	
+	
 		/**************************************************************************/
-				
+	
+		/**************************************************************************/
+						
 	}
 
 }

@@ -54,8 +54,8 @@ namespace SEOMacroscope
 			{
 				ThreadRecalculateLinksInQueue = new Queue<int> ( 4096 );
 				ThreadRecalculateLinksIn = new Thread ( new ThreadStart ( this.WorkerRecalculateLinksIn ) );
-				ThreadRecalculateLinksIn.Start();
 				ThreadRecalculateLinksInSemaphone = new Semaphore ( 0, 1 );
+				ThreadRecalculateLinksIn.Start();
 			}
 
 		}

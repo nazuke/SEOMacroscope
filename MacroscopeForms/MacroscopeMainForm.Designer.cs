@@ -31,7 +31,7 @@ namespace SEOMacroscope
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.MenuStrip menuStripMain;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
@@ -48,7 +48,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageRedirectsAudit;
 		private System.Windows.Forms.TabPage tabPageEmailAddresses;
 		private System.Windows.Forms.TabPage tabPageTelephoneNumbers;
-		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.StatusStrip statusStripMain;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripUrlCount;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripThreads;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripFound;
@@ -89,6 +89,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader RedirectsAuditStatusCode;
 		private System.Windows.Forms.ColumnHeader RedirectsAuditDestinationUrl;
 		private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutSEOMacroscopeToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -112,16 +113,17 @@ namespace SEOMacroscope
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroscopeMainForm));
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.menuStripMain = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanelMainContainer = new System.Windows.Forms.TableLayoutPanel();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.statusStripMain = new System.Windows.Forms.StatusStrip();
 			this.toolStripThreads = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripUrlCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripFound = new System.Windows.Forms.ToolStripStatusLabel();
@@ -169,10 +171,10 @@ namespace SEOMacroscope
 			this.ButtonStart = new System.Windows.Forms.ToolStripButton();
 			this.ButtonStop = new System.Windows.Forms.ToolStripButton();
 			this.ButtonReset = new System.Windows.Forms.ToolStripButton();
-			this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuStrip1.SuspendLayout();
+			this.aboutSEOMacroscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
-			this.statusStrip1.SuspendLayout();
+			this.statusStripMain.SuspendLayout();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutStructure.SuspendLayout();
@@ -186,18 +188,18 @@ namespace SEOMacroscope
 			this.toolStripExecuteControls.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// menuStrip1
+			// menuStripMain
 			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.fileToolStripMenuItem,
 			this.editToolStripMenuItem,
 			this.reportsToolStripMenuItem,
 			this.helpToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(784, 24);
-			this.menuStrip1.TabIndex = 1;
-			this.menuStrip1.Text = "menuStrip1";
+			this.menuStripMain.Location = new System.Drawing.Point(0, 0);
+			this.menuStripMain.Name = "menuStripMain";
+			this.menuStripMain.Size = new System.Drawing.Size(784, 24);
+			this.menuStripMain.TabIndex = 1;
+			this.menuStripMain.Text = "menuStripMain";
 			// 
 			// fileToolStripMenuItem
 			// 
@@ -221,6 +223,13 @@ namespace SEOMacroscope
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "Edit";
+			// 
+			// preferencesToolStripMenuItem
+			// 
+			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+			this.preferencesToolStripMenuItem.Text = "Preferences";
+			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.CallbackEditPreferencesClick);
 			// 
 			// reportsToolStripMenuItem
 			// 
@@ -247,6 +256,8 @@ namespace SEOMacroscope
 			// 
 			// helpToolStripMenuItem
 			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.aboutSEOMacroscopeToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
@@ -255,7 +266,7 @@ namespace SEOMacroscope
 			// 
 			this.tableLayoutPanelMainContainer.ColumnCount = 1;
 			this.tableLayoutPanelMainContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelMainContainer.Controls.Add(this.statusStrip1, 0, 3);
+			this.tableLayoutPanelMainContainer.Controls.Add(this.statusStripMain, 0, 3);
 			this.tableLayoutPanelMainContainer.Controls.Add(this.tabControlMain, 0, 2);
 			this.tableLayoutPanelMainContainer.Controls.Add(this.toolStripViewControls, 0, 1);
 			this.tableLayoutPanelMainContainer.Controls.Add(this.toolStripExecuteControls, 0, 0);
@@ -270,18 +281,18 @@ namespace SEOMacroscope
 			this.tableLayoutPanelMainContainer.Size = new System.Drawing.Size(784, 438);
 			this.tableLayoutPanelMainContainer.TabIndex = 2;
 			// 
-			// statusStrip1
+			// statusStripMain
 			// 
-			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.statusStripMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripThreads,
 			this.toolStripUrlCount,
 			this.toolStripFound});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 408);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(784, 30);
-			this.statusStrip1.TabIndex = 3;
-			this.statusStrip1.Text = "statusStrip1";
+			this.statusStripMain.Location = new System.Drawing.Point(0, 408);
+			this.statusStripMain.Name = "statusStripMain";
+			this.statusStripMain.Size = new System.Drawing.Size(784, 30);
+			this.statusStripMain.TabIndex = 3;
+			this.statusStripMain.Text = "statusStrip1";
 			// 
 			// toolStripThreads
 			// 
@@ -619,43 +630,43 @@ namespace SEOMacroscope
 			// allDocumentTypesToolStripMenuItem
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
 			// 
 			// hTMLToolStripMenuItem
 			// 
 			this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-			this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hTMLToolStripMenuItem.Text = "HTML";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.imagesToolStripMenuItem.Text = "Images";
 			// 
 			// pDFsToolStripMenuItem
 			// 
 			this.pDFsToolStripMenuItem.Name = "pDFsToolStripMenuItem";
-			this.pDFsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.pDFsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.pDFsToolStripMenuItem.Text = "PDFs";
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
 			// 
 			// toolStripExecuteControls
@@ -728,12 +739,12 @@ namespace SEOMacroscope
 			this.ButtonReset.ToolTipText = "Reset all scan results";
 			this.ButtonReset.Click += new System.EventHandler(this.CallbackScanReset);
 			// 
-			// preferencesToolStripMenuItem
+			// aboutSEOMacroscopeToolStripMenuItem
 			// 
-			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.preferencesToolStripMenuItem.Text = "Preferences";
-			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.CallbackEditPreferencesClick);
+			this.aboutSEOMacroscopeToolStripMenuItem.Name = "aboutSEOMacroscopeToolStripMenuItem";
+			this.aboutSEOMacroscopeToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+			this.aboutSEOMacroscopeToolStripMenuItem.Text = "About SEO Macroscope";
+			this.aboutSEOMacroscopeToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpAboutClick);
 			// 
 			// MacroscopeMainForm
 			// 
@@ -741,18 +752,19 @@ namespace SEOMacroscope
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 462);
 			this.Controls.Add(this.tableLayoutPanelMainContainer);
-			this.Controls.Add(this.menuStrip1);
-			this.MainMenuStrip = this.menuStrip1;
+			this.Controls.Add(this.menuStripMain);
+			this.DoubleBuffered = true;
+			this.MainMenuStrip = this.menuStripMain;
 			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "MacroscopeMainForm";
 			this.Text = "MacroscopeMainForm";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CallbackFormClosing);
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
+			this.menuStripMain.ResumeLayout(false);
+			this.menuStripMain.PerformLayout();
 			this.tableLayoutPanelMainContainer.ResumeLayout(false);
 			this.tableLayoutPanelMainContainer.PerformLayout();
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
+			this.statusStripMain.ResumeLayout(false);
+			this.statusStripMain.PerformLayout();
 			this.tabControlMain.ResumeLayout(false);
 			this.tabPageStructureOverview.ResumeLayout(false);
 			this.tableLayoutStructure.ResumeLayout(false);
