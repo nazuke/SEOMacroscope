@@ -29,16 +29,20 @@ using System.IO;
 namespace SEOMacroscope
 {
 
-	public static class MacroscopePreferences
+	public static class MacroscopePreferencesManager
 	{
 
 		/**************************************************************************/
-		
+
+		static MacroscopePreferences Preferences;
+
 		static string HomeDirectory;
 		static string PrefsDirectory;
 
 		static string HttpProxyUrl;
 		static string HttpsProxyUrl;
+
+		static string StartUrl;
 
 		static int Depth;
 		static int PageLimit;
@@ -57,17 +61,21 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		static MacroscopePreferences ()
+		static MacroscopePreferencesManager ()
 		{
+
+			Preferences = new MacroscopePreferences ();
 
 			HttpProxyUrl = "";
 			HttpsProxyUrl = "";
+
+			StartUrl = "";
 			
 			Depth = -1;
 			PageLimit = -1;
 
 			SameSite = true;
-			ProbeHreflangs = false;
+			ProbeHreflangs = true;
 			
 			FollowRobotsProtocol = true;
 			FollowNoFollow = true;
@@ -76,6 +84,29 @@ namespace SEOMacroscope
 			FetchJavascripts = true;
 			FetchImages = true;
 			FetchPdfs = false;
+
+			if( Preferences != null ) {
+				
+				HttpProxyUrl = Preferences.HttpProxyUrl;
+				HttpsProxyUrl = Preferences.HttpsProxyUrl;
+
+				StartUrl = Preferences.StartUrl;
+			
+				Depth = Preferences.Depth;
+				PageLimit = Preferences.PageLimit;
+
+				SameSite = Preferences.SameSite;
+				ProbeHreflangs = Preferences.ProbeHreflangs;
+			
+				FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
+				FollowNoFollow = Preferences.FollowNoFollow;
+
+				FetchStylesheets = Preferences.FetchStylesheets;
+				FetchJavascripts = Preferences.FetchJavascripts;
+				FetchImages = Preferences.FetchImages;
+				FetchPdfs = Preferences.FetchPdfs;
+				
+			}
 
 		}
 		
@@ -123,6 +154,32 @@ namespace SEOMacroscope
 		
 		public static void SavePreferences ()
 		{
+
+			if( Preferences != null ) {
+				
+				Preferences.HttpProxyUrl = HttpProxyUrl;
+				Preferences.HttpsProxyUrl = HttpsProxyUrl;
+
+				Preferences.StartUrl = StartUrl;
+			
+				Preferences.Depth = Depth;
+				Preferences.PageLimit = PageLimit;
+
+				Preferences.SameSite = SameSite;
+				Preferences.ProbeHreflangs = ProbeHreflangs;
+			
+				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
+				Preferences.FollowNoFollow = FollowNoFollow;
+
+				Preferences.FetchStylesheets = FetchStylesheets;
+				Preferences.FetchJavascripts = FetchJavascripts;
+				Preferences.FetchImages = FetchImages;
+				Preferences.FetchPdfs = FetchPdfs;
+				
+				Preferences.Save();
+
+			}
+
 		}
 		
 		/**************************************************************************/
@@ -133,7 +190,19 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+
+		public static string GetStartUrl ()
+		{
+			return( StartUrl );
+		}
 		
+		public static void SetStartUrl ( string sStartUrl )
+		{
+			StartUrl = sStartUrl;
+		}
+
+		/**************************************************************************/
+
 		public static int GetDepth ()
 		{
 			return( Depth );

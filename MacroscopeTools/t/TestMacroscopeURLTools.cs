@@ -34,11 +34,27 @@ namespace SEOMacroscope
 	public class TestMacroscopeURLTools
 	{
 
-		static Hashtable htUrls = new Hashtable ();
-
+		/**************************************************************************/
+				
 		[Test]
-		public void TestMethod ()
+		public void TestMakeUrlAbsoluteUrls ()
 		{
+			
+			Hashtable htUrls = new Hashtable ()
+			{
+				{
+					"path/to/images/picture.gif",
+					"http://www.host.com/path/to/page/path/to/images/picture.gif"
+				},
+				{
+					"../path/to/images/picture.gif" ,
+					"http://www.host.com/path/to/path/to/images/picture.gif"
+				},
+				{
+					"../../path/to/images/picture.gif" ,
+					"http://www.host.com/path/path/to/images/picture.gif"
+				}
+			};
 
 			string sBaseUrl = "http://www.host.com/path/to/page/";
 			string sFilename = "index.html";
@@ -51,19 +67,63 @@ namespace SEOMacroscope
 
 		}
 		
+		/**************************************************************************/
+		
+		[Test]
+		public void TestValidateUrls ()
+		{
+			
+			Hashtable htUrls = new Hashtable ()
+			{
+				{
+					"http://www.host.com/",
+					true
+				},
+				{
+					"http://www.host.com/index.html",
+					true
+				},
+				{
+					"http://www.host.com/path/path/to/images/picture.gif",
+					true
+				},
+				{
+					"http://www.host.com/??",
+					true
+				},
+				{
+					"http://www.host.com/ ",
+					true
+				},
+				{
+					"http://   www.host.com/",
+					false
+				}
+			};
+
+			foreach( string sUrl in htUrls.Keys ) {
+				Boolean bIsValid = MacroscopeURLTools.ValidateUrl( sUrl );
+				Assert.AreEqual( htUrls[ sUrl ], bIsValid, string.Format( "NOT VALID: {0}", sUrl ) );
+			}
+
+		}
+		
+		/**************************************************************************/
+
 		[TestFixtureSetUp]
 		public void Init ()
 		{
-			htUrls[ "path/to/images/picture.gif" ] = "http://www.host.com/path/to/page/path/to/images/picture.gif";
-			htUrls[ "../path/to/images/picture.gif" ] = "http://www.host.com/path/to/path/to/images/picture.gif";
-			htUrls[ "../../path/to/images/picture.gif" ] = "http://www.host.com/path/path/to/images/picture.gif";
 		}
 		
+		/**************************************************************************/
+				
 		[TestFixtureTearDown]
 		public void Dispose ()
 		{
 		}
 		
+		/**************************************************************************/
+				
 	}
 	
 }

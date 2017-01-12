@@ -34,14 +34,35 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		static Macroscope ms = new Macroscope ();
-		
-		/**************************************************************************/
-
 		public MacroscopeURLTools ()
 		{
 		}
 
+		/**************************************************************************/
+
+		public static Boolean ValidateUrl ( string sURL )
+		{
+
+			Boolean bIsValid = false;
+
+			try {
+
+				Uri uUri = new Uri ( sURL, UriKind.Absolute );
+
+				if( uUri != null ) {
+					bIsValid = true;
+				}
+
+			} catch( UriFormatException ex ) {
+
+				debug_msg( string.Format( "ValidateUrl: {0}", ex.Message ) );
+
+			}
+
+			return( bIsValid );
+
+		}
+		
 		/**************************************************************************/
 
 		public static string MakeUrlAbsolute ( string sBaseURL, string sURL )
@@ -71,9 +92,9 @@ namespace SEOMacroscope
 					);
 			   	
 				} catch( InvalidOperationException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				} catch( UriFormatException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				}
 
 			} else if( reSlash.IsMatch( sURL ) ) {
@@ -90,9 +111,9 @@ namespace SEOMacroscope
 					);
 			   	
 				} catch( InvalidOperationException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				} catch( UriFormatException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				}
 				
 			} else if( reQuery.IsMatch( sURL ) ) {
@@ -109,9 +130,9 @@ namespace SEOMacroscope
 					);
 			   	
 				} catch( InvalidOperationException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				} catch( UriFormatException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				}
 
 			} else if( reHash.IsMatch( sURL ) ) {
@@ -132,9 +153,9 @@ namespace SEOMacroscope
 					);
 			   	
 				} catch( InvalidOperationException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				} catch( UriFormatException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				}
 
 			} else if( reHTTP.IsMatch( sURL ) ) {
@@ -142,9 +163,9 @@ namespace SEOMacroscope
 				try {
 					uNew = new Uri ( sURL, UriKind.Absolute );
 				} catch( InvalidOperationException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				} catch( UriFormatException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				}
 
 			} else if( reUnsupportedScheme.IsMatch( sURL ) ) {
@@ -154,13 +175,13 @@ namespace SEOMacroscope
 			} else {
 
 				
-				ms.debug_msg( string.Format( "RELATIVE URL 1: {0}", sURL ) );
+				debug_msg( string.Format( "RELATIVE URL 1: {0}", sURL ) );
 
 				string sBasePath = Regex.Replace( uBase.AbsolutePath, "/[^/]+$", "/" );
 				string sNewPath = string.Join( "", sBasePath, sURL );
 				
-				ms.debug_msg( string.Format( "RELATIVE URL 2: {0}", sBasePath ) );
-				ms.debug_msg( string.Format( "RELATIVE URL 3: {0}", sNewPath ) );
+				debug_msg( string.Format( "RELATIVE URL 2: {0}", sBasePath ) );
+				debug_msg( string.Format( "RELATIVE URL 3: {0}", sNewPath ) );
 				
 				
 				try {
@@ -175,9 +196,9 @@ namespace SEOMacroscope
 					);
 			   	
 				} catch( InvalidOperationException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				} catch( UriFormatException ex ) {
-					ms.debug_msg( ex.Message );
+					debug_msg( ex.Message );
 				}
 
 			}
@@ -203,27 +224,27 @@ namespace SEOMacroscope
 			try {
 				uBase = new Uri ( sBaseURL, UriKind.Absolute );
 			} catch( InvalidOperationException ex ) {
-				ms.debug_msg( ex.Message );
-				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
+				debug_msg( ex.Message );
+				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
 			} catch( UriFormatException ex ) {
-				ms.debug_msg( ex.Message );
-				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
+				debug_msg( ex.Message );
+				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
 			} catch( Exception ex ) {
-				ms.debug_msg( ex.Message );
-				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
+				debug_msg( ex.Message );
+				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ) );
 			}
 
 			try {
 				uNew = new Uri ( sURL, UriKind.Absolute );
 			} catch( InvalidOperationException ex ) {
-				ms.debug_msg( ex.Message );
-				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
+				debug_msg( ex.Message );
+				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
 			} catch( UriFormatException ex ) {
-				ms.debug_msg( ex.Message );
-				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
+				debug_msg( ex.Message );
+				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
 			} catch( Exception ex ) {
-				ms.debug_msg( ex.Message );
-				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
+				debug_msg( ex.Message );
+				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
 			}
 
 			try {
@@ -231,8 +252,8 @@ namespace SEOMacroscope
 					bSuccess = true;
 				}
 			} catch( UriFormatException ex ) {
-				ms.debug_msg( ex.Message );
-				ms.debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
+				debug_msg( ex.Message );
+				debug_msg( string.Format( "FAILED TO VERIFY: {0}", sURL ) );
 			}
 			
 			return( bSuccess );
@@ -249,9 +270,9 @@ namespace SEOMacroscope
 			try {
 				uURI = new Uri ( sURL, UriKind.Absolute );
 			} catch( InvalidOperationException ex ) {
-				ms.debug_msg( ex.Message );
+				debug_msg( ex.Message );
 			} catch( UriFormatException ex ) {
-				ms.debug_msg( ex.Message );
+				debug_msg( ex.Message );
 			}
 
 			if( uURI != null ) {

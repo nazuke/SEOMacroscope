@@ -136,6 +136,7 @@ namespace SEOMacroscope
 
 				lvListView.Columns.Add( "Site Locale", "Site Locale" );
 				lvListView.Columns.Add( "Title", "Title" );
+				lvListView.Columns.Add( "URL", "URL" );
 
 				foreach( string sLocale in htLocales.Keys ) {
 					lvListView.Columns.Add( sLocale, sLocale );
@@ -240,6 +241,7 @@ namespace SEOMacroscope
 
 			lvListView.Columns[ "Site Locale" ].Width = 100;
 			lvListView.Columns[ "Title" ].Width = 300;
+			lvListView.Columns[ "URL" ].Width = 300;
 
 		}
 

@@ -44,7 +44,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageStructureOverview;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutStructure;
 		private System.Windows.Forms.TabPage tabPageHrefLangAnalysis;
-		public System.Windows.Forms.ToolStripTextBox textBoxURL;
+		public System.Windows.Forms.ToolStripTextBox textBoxStartUrl;
 		private System.Windows.Forms.TabPage tabPageRedirectsAudit;
 		private System.Windows.Forms.TabPage tabPageEmailAddresses;
 		private System.Windows.Forms.TabPage tabPageTelephoneNumbers;
@@ -158,7 +158,7 @@ namespace SEOMacroscope
 			this.miscellaneousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripExecuteControls = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabelStartUrl = new System.Windows.Forms.ToolStripLabel();
-			this.textBoxURL = new System.Windows.Forms.ToolStripTextBox();
+			this.textBoxStartUrl = new System.Windows.Forms.ToolStripTextBox();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.ButtonStart = new System.Windows.Forms.ToolStripButton();
 			this.ButtonStop = new System.Windows.Forms.ToolStripButton();
@@ -638,7 +638,7 @@ namespace SEOMacroscope
 			this.toolStripExecuteControls.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripExecuteControls.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripLabelStartUrl,
-			this.textBoxURL,
+			this.textBoxStartUrl,
 			this.toolStripSeparator1,
 			this.ButtonStart,
 			this.ButtonStop,
@@ -657,13 +657,13 @@ namespace SEOMacroscope
 			this.toolStripLabelStartUrl.Size = new System.Drawing.Size(64, 27);
 			this.toolStripLabelStartUrl.Text = "Start URL:";
 			// 
-			// textBoxURL
+			// textBoxStartUrl
 			// 
-			this.textBoxURL.Name = "textBoxURL";
-			this.textBoxURL.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-			this.textBoxURL.Size = new System.Drawing.Size(300, 30);
-			this.textBoxURL.ToolTipText = "Enter a URL to begin scanning from";
-			this.textBoxURL.TextChanged += new System.EventHandler(this.CallbackScanReset);
+			this.textBoxStartUrl.Name = "textBoxStartUrl";
+			this.textBoxStartUrl.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+			this.textBoxStartUrl.Size = new System.Drawing.Size(300, 30);
+			this.textBoxStartUrl.ToolTipText = "Enter a URL to begin scanning from";
+			this.textBoxStartUrl.TextChanged += new System.EventHandler(this.CallbackStartUrlTextChanged);
 			// 
 			// toolStripSeparator1
 			// 

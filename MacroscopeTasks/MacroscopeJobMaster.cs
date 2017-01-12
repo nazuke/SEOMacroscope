@@ -85,11 +85,11 @@ namespace SEOMacroscope
 
 			ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
 						
-			Depth = MacroscopePreferences.GetDepth();
-			PageLimit = MacroscopePreferences.GetPageLimit();
+			Depth = MacroscopePreferencesManager.GetDepth();
+			PageLimit = MacroscopePreferencesManager.GetPageLimit();
 			PageLimitCount = 0;
-			SameSite = MacroscopePreferences.GetSameSite();
-			ProbeHrefLangs = MacroscopePreferences.GetProbeHreflangs();
+			SameSite = MacroscopePreferencesManager.GetSameSite();
+			ProbeHrefLangs = MacroscopePreferencesManager.GetProbeHreflangs();
 			PagesFound = 0;
 
 			UrlQueue = new Queue<string> ( 4096 );

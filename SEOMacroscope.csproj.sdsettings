@@ -182,7 +182,7 @@
       <BraceStyle xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">EndOfLine</BraceStyle>
     </SerializedObject>
     <SerializedObject key="AllowOneLinedArrayInitialziers">
-      <x:Boolean xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">True</x:Boolean>
+      <x:Boolean xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">False</x:Boolean>
     </SerializedObject>
     <SerializedObject key="StructBraceStyle">
       <BraceStyle xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NextLine</BraceStyle>
@@ -197,6 +197,12 @@
       <BraceStyle xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NextLine</BraceStyle>
     </SerializedObject>
     <SerializedObject key="ClassBraceStyle">
+      <BraceStyle xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NextLine</BraceStyle>
+    </SerializedObject>
+    <SerializedObject key="ArrayInitializerWrapping">
+      <Wrapping xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">WrapAlways</Wrapping>
+    </SerializedObject>
+    <SerializedObject key="ArrayInitializerBraceStyle">
       <BraceStyle xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NextLine</BraceStyle>
     </SerializedObject>
     <Property key="IndentationSize">2</Property>

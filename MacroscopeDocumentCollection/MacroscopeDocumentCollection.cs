@@ -41,7 +41,9 @@ namespace SEOMacroscope
 		Thread ThreadRecalculateLinksIn = null;
 		Boolean ThreadRecalculateLinksInStop = false;
 		Queue<int> ThreadRecalculateLinksInQueue;
-		
+
+		Semaphore ThreadRecalculateLinksInSemaphone;
+
 		/**************************************************************************/
 
 		public MacroscopeDocumentCollection ()
@@ -53,6 +55,7 @@ namespace SEOMacroscope
 				ThreadRecalculateLinksInQueue = new Queue<int> ( 4096 );
 				ThreadRecalculateLinksIn = new Thread ( new ThreadStart ( this.WorkerRecalculateLinksIn ) );
 				ThreadRecalculateLinksIn.Start();
+				ThreadRecalculateLinksInSemaphone = new Semaphore ( 0, 1 );
 			}
 
 		}
@@ -140,6 +143,8 @@ namespace SEOMacroscope
 
 			Boolean bDoRun = true;
 			
+			ThreadRecalculateLinksInSemaphone.Release( 1 );
+			
 			do {
 
 				if( this.WorkerRecalculateLinksInQueuePeek() ) {
@@ -222,7 +227,9 @@ namespace SEOMacroscope
 		{
 
 			debug_msg( string.Format( "RecalculateLinksIn: CALLED" ), 1 );
-									
+
+			ThreadRecalculateLinksInSemaphone.WaitOne();
+
 			lock( this.DocCollection ) {
 
 				foreach( string sUrlTarget in this.DocCollection.Keys ) {
@@ -237,15 +244,9 @@ namespace SEOMacroscope
 
 						//debug_msg( string.Format( "RecalculateLinksIn sUrlOrigin: {0}", sUrlOrigin ), 1 );
 
-						List<MacroscopeHyperlinkOut> lHyperlinksOut = msDoc.GetHyperlinksOut().GetLinks( sUrlTarget );
-
-						for( int i = 0; i < lHyperlinksOut.Count; i++ ) {
-
-							MacroscopeHyperlinkOut HyperlinkOut = ( MacroscopeHyperlinkOut )lHyperlinksOut[ i ];
+						foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks( sUrlTarget ) ) {
 
 							if( sUrlTarget == HyperlinkOut.GetUrlTarget() ) {
-
-								//debug_msg( string.Format( "RecalculateLinksIn lHyperlinksOut: {0} :: {1}", i, sUrlTarget ), 2 );
 
 								msDoc.AddHyperlinkIn( "", "", MacroscopeHyperlinkIn.LINKTEXT, sUrlOrigin, sUrlTarget, "", "" );
 
@@ -258,6 +259,8 @@ namespace SEOMacroscope
 				}
 				
 			}
+			
+			ThreadRecalculateLinksInSemaphone.Release();
 
 		}
 

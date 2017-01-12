@@ -72,7 +72,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 		public void debug_msg ( String sMsg )
 		{
 		}

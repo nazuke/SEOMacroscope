@@ -65,8 +65,7 @@ namespace SEOMacroscope
 		const string constKeywordsLen = "Keywords Length";
 		const string constKeywordsCount = "Keywords Count";
 		
-		const string constH1 = "First H1";
-		const string constH2 = "First H2";
+		const string constHn = "First H{0}";
 				
 		/**************************************************************************/
 
@@ -114,8 +113,11 @@ namespace SEOMacroscope
 				lvListView.Columns.Add( constKeywords, constKeywords );
 				lvListView.Columns.Add( constKeywordsLen, constKeywordsLen );
 				lvListView.Columns.Add( constKeywordsCount, constKeywordsCount );
-				lvListView.Columns.Add( constH1, constH1 );
-				lvListView.Columns.Add( constH2, constH2 );
+
+				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
+					string sHeadingLevel = string.Format( constHn, iLevel );
+					lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
+				}
 			
 				//lvListView.Sorting = SortOrder.Ascending;
 
@@ -240,22 +242,20 @@ namespace SEOMacroscope
 				htItems[ constKeywordsLen ] = msDoc.GetKeywordsLength();
 				htItems[ constKeywordsCount ] = msDoc.GetKeywordsCount();
 
-				{
-					ArrayList aHeadings = msDoc.GetHeadings1();
-					string sText = "";
-					if( aHeadings.Count > 0 ) {
-						sText = ( string )aHeadings[ 0 ];
-					}
-					htItems[ constH1 ] = sText;
-				}
 				
-				{
-					ArrayList aHeadings = msDoc.GetHeadings2();
+				
+				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
+
+					ArrayList aHeadings = msDoc.GetHeadings( iLevel );
+
 					string sText = "";
+
 					if( aHeadings.Count > 0 ) {
 						sText = ( string )aHeadings[ 0 ];
 					}
-					htItems[ constH2 ] = sText;
+
+					htItems[ string.Format( constHn, iLevel ) ] = sText;
+					
 				}
 
 				if( lvListView.Items.ContainsKey( sKeyURL ) ) {

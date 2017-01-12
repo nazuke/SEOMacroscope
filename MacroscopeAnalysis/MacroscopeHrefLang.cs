@@ -24,8 +24,6 @@
 */
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Net;
 
 namespace SEOMacroscope
@@ -58,28 +56,28 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public string GetLocale()
+		public string GetLocale ()
 		{
 			return( this.Locale );
 		}
 
 		/**************************************************************************/
 
-		public string GetUrl()
+		public string GetUrl ()
 		{
 			return( this.Url );
 		}
 
 		/**************************************************************************/
 		
-		public Boolean IsAvailable()
+		public Boolean IsAvailable ()
 		{
 			return( this.Available );
 		}
 
 		/**************************************************************************/
 
-		Boolean Probe()
+		Boolean Probe ()
 		{
 
 			HttpWebRequest req = null;
@@ -94,7 +92,7 @@ namespace SEOMacroscope
 				req.KeepAlive = false;
 				res = ( HttpWebResponse )req.GetResponse();
 
-				debug_msg( string.Format( "HrefLang Status: {0}", res.StatusCode ), 2 );
+				debug_msg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ), 2 );
 
 				if( res.StatusCode == HttpStatusCode.OK ) {
 					bAvailable = true;
@@ -103,7 +101,7 @@ namespace SEOMacroscope
 				res.Close();
 
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "IsHtmlPage :: WebException: {0}", ex.Message ), 2 );
+				debug_msg( string.Format( "MacroscopeHrefLang WebException: {0}", ex.Message ), 2 );
 			}
 
 			return( bAvailable );

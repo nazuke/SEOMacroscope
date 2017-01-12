@@ -99,8 +99,7 @@ namespace SEOMacroscope
 		public string Description;
 		public string Keywords;
 
-		public ArrayList Headings1;
-		public ArrayList Headings2;
+		public Dictionary<ushort,ArrayList> Headings;
 
 		public int Depth;
 		
@@ -138,9 +137,15 @@ namespace SEOMacroscope
 			Title = "";
 			Description = "";
 			Keywords = "";
-			
-			Headings1 = new ArrayList ( 16 );
-			Headings2 = new ArrayList ( 16 );
+
+			Headings = new Dictionary<ushort,ArrayList> () {
+				{ 1, new ArrayList ( 16 ) },
+				{ 2, new ArrayList ( 16 ) },
+				{ 3, new ArrayList ( 16 ) },
+				{ 4, new ArrayList ( 16 ) },
+				{ 5, new ArrayList ( 16 ) },
+				{ 6, new ArrayList ( 16 ) }
+			};
 
 			Depth = MacroscopeURLTools.FindUrlDepth( Url );
 			
@@ -421,30 +426,23 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void AddHeading1 ( string sString )
+		public void AddHeading ( ushort iLevel, string sString )
 		{
-			this.Headings1.Add( sString );
-		}
-		
-		/**************************************************************************/
-				
-		public ArrayList GetHeadings1 ()
-		{
-			return( this.Headings1 );
+			if( this.Headings.ContainsKey( iLevel ) ) {
+				ArrayList alHeadings = this.Headings[ iLevel ];
+				alHeadings.Add( sString );
+			}
 		}
 
 		/**************************************************************************/
-
-		public void AddHeading2 ( string sString )
-		{
-			this.Headings2.Add( sString );
-		}
-		
-		/**************************************************************************/
 				
-		public ArrayList GetHeadings2 ()
+		public ArrayList GetHeadings ( ushort iLevel )
 		{
-			return( this.Headings2 );
+			ArrayList alHeadings = new ArrayList ();
+			if( this.Headings.ContainsKey( iLevel ) ) {
+				alHeadings = this.Headings[ iLevel ];
+			}
+			return( alHeadings );
 		}
 
 		/**************************************************************************/
@@ -452,6 +450,8 @@ namespace SEOMacroscope
 		public Boolean Execute ()
 		{
 
+			// TODO: validate this.Url
+			
 			if( this.IsRedirectPage() ) {
 				debug_msg( string.Format( "IS REDIRECT: {0}", this.Url ), 2 );
 				this.IsRedirect = true;
@@ -463,31 +463,31 @@ namespace SEOMacroscope
 
 			} else if( this.IsCssPage() ) {
 				debug_msg( string.Format( "IS CSS PAGE: {0}", this.Url ), 2 );
-				if( MacroscopePreferences.GetFetchStylesheets() ) {
+				if( MacroscopePreferencesManager.GetFetchStylesheets() ) {
 					this.ProcessCssPage();
 				}
 
 			} else if( this.IsImagePage() ) {
 				debug_msg( string.Format( "IS IMAGE PAGE: {0}", this.Url ), 2 );
-				if( MacroscopePreferences.GetFetchImages() ) {
+				if( MacroscopePreferencesManager.GetFetchImages() ) {
 					this.ProcessImagePage();
 				}
 				
 			} else if( this.IsJavascriptPage() ) {
 				debug_msg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ), 2 );
-				if( MacroscopePreferences.GetFetchJavascripts() ) {
+				if( MacroscopePreferencesManager.GetFetchJavascripts() ) {
 					this.process_javascript_page();
 				}
 
 			} else if( this.IsPdfPage() ) {
 				debug_msg( string.Format( "IS PDF PAGE: {0}", this.Url ), 2 );
-				if( MacroscopePreferences.GetFetchPdfs() ) {
+				if( MacroscopePreferencesManager.GetFetchPdfs() ) {
 					this.ProcessPdfPage();
 				}
 
 			} else if( this.IsBinaryPage() ) {
 				debug_msg( string.Format( "IS BINARY PAGE: {0}", this.Url ), 2 );
-				if( MacroscopePreferences.GetFetchBinaries() ) {
+				if( MacroscopePreferencesManager.GetFetchBinaries() ) {
 					this.ProcessBinaryPage();
 				}
 
@@ -614,28 +614,19 @@ namespace SEOMacroscope
 			slDetails.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
 
-			{
+			for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
 				string sHeading;
-				if( this.GetHeadings1().Count > 0 ) {
-					sHeading = this.GetHeadings1()[ 0 ].ToString();
+				if( this.GetHeadings( iLevel ).Count > 0 ) {
+					sHeading = this.GetHeadings( iLevel )[ 0 ].ToString();
 				} else {
-					sHeading = "";
+					sHeading = null;
 				}
-				slDetails.Add( new KeyValuePair<string,string> ( "H1", sHeading ) );
-				slDetails.Add( new KeyValuePair<string,string> ( "H1 Length", sHeading.Length.ToString() ) );
+				if( sHeading != null ) {
+					slDetails.Add( new KeyValuePair<string,string> ( string.Format( "H{0}", iLevel ), sHeading ) );
+					slDetails.Add( new KeyValuePair<string,string> ( string.Format( "H{0} Length", iLevel ), sHeading.Length.ToString() ) );
+				}
 			}
 
-			{
-				string sHeading;
-				if( this.GetHeadings2().Count > 0 ) {
-					sHeading = this.GetHeadings2()[ 0 ].ToString();
-				} else {
-					sHeading = "";
-				}
-				slDetails.Add( new KeyValuePair<string,string> ( "H2", sHeading ) );
-				slDetails.Add( new KeyValuePair<string,string> ( "H2 Length", sHeading.Length.ToString() ) );
-			}
-				
 			slDetails.Add( new KeyValuePair<string,string> ( "Page Depth", this.Depth.ToString() ) );
 
 			return( slDetails );

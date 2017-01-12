@@ -324,91 +324,123 @@ namespace SEOMacroscope
 
 		void ExtractHtmlHeadings ()
 		{
-			
-			{
-				HtmlNodeCollection nNodes = this.HtmlDoc.DocumentNode.SelectNodes( "//h1" );
+
+			for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
+				
+				HtmlNodeCollection nNodes = this.HtmlDoc.DocumentNode.SelectNodes( string.Format( "//h{0}", iLevel ) );
+
 				if( nNodes != null ) {
+				
 					foreach( HtmlNode nNode in nNodes ) {
+				
 						string sText = nNode.InnerText;
+				
 						if( sText != null ) {
-							this.AddHeading1( sText );
+							this.AddHeading( iLevel, sText );
 						}
-					}			
+				
+					}
+				
 				}
+				
 			}
-			
-			{
-				HtmlNodeCollection nNodes = this.HtmlDoc.DocumentNode.SelectNodes( "//h2" );
-				if( nNodes != null ) {
-					foreach( HtmlNode nNode in nNodes ) {
-						string sText = nNode.InnerText;
-						if( sText != null ) {
-							this.AddHeading2( sText );
-						}
-					}			
-				}
-			}
-			
+
 		}
 
 		/**************************************************************************/
 				
 		void ExtractHtmlEmailAddresses ()
 		{
+
 			HtmlNodeCollection nNodes = this.HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
+
 			if( nNodes != null ) {
+
 				foreach( HtmlNode nLink in nNodes ) {
+
 					string sLinkURL = nLink.GetAttributeValue( "href", null );
+
 					if( Regex.IsMatch( sLinkURL, "^mailto:" ) ) {
+
 						MatchCollection reMatches = Regex.Matches( sLinkURL, "^mailto:([^?]+)" );
+
 						foreach( Match reMatch in reMatches ) {
 							this.AddEmailAddress( reMatch.Groups[ 1 ].Value.ToString() );
 						}
+
 					}
-				}			
+
+				}
+
 			}
+
 		}
 			
 		/**************************************************************************/
 
 		void ExtractHtmlTelephoneNumbers ()
 		{
+
 			HtmlNodeCollection nNodes = this.HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
+
 			if( nNodes != null ) {
+
 				foreach( HtmlNode nLink in nNodes ) {
+
 					string sLinkURL = nLink.GetAttributeValue( "href", null );
+
 					if( Regex.IsMatch( sLinkURL, "^tel:" ) ) {
+
 						MatchCollection reMatches = Regex.Matches( sLinkURL, "^tel:(.+)" );
+
 						foreach( Match reMatch in reMatches ) {
 							this.AddTelephoneNumber( reMatch.Groups[ 1 ].Value.ToString() );
 						}
+
 					}
-				}			
+
+				}
+
 			}
+
 		}
 		
 		/**************************************************************************/
 		
 		void ProbeHrefLangAlternates ()
 		{
+
 			HtmlNodeCollection nlNodeList = this.HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
+
 			if( nlNodeList != null ) {
+
 				foreach( HtmlNode nNode in nlNodeList ) {
+
+					MacroscopeHrefLang msHrefLang;
 					string sRel = nNode.GetAttributeValue( "rel", "" );
 					string sLocale = nNode.GetAttributeValue( "hreflang", "" );
 					string sHref = nNode.GetAttributeValue( "href", "" );
+
 					if( sLocale == "" ) {
 						continue;
 					} else {
+
 						if( this.Url == sHref ) {
 							sLocale = this.Locale;
 						}
+						
 						debug_msg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ), 3 );
-						MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( this.ProbeHrefLangs, sLocale, sHref );
+						
+						msHrefLang = new MacroscopeHrefLang ( this.ProbeHrefLangs, sLocale, sHref );
+						
 						this.HrefLang[ sLocale ] = msHrefLang;
+
 					}
+
 				}
+
 			}
+
 		}
 
 		/**************************************************************************/

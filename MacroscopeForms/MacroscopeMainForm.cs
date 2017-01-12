@@ -41,6 +41,8 @@ namespace SEOMacroscope
 
 		MacroscopeJobMaster msJobMaster;
 
+		Boolean StartUrlDirty;
+
 		MacroscopeDisplayStructure msDisplayStructure;
 		MacroscopeDisplayCanonical msDisplayCanonical;
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
@@ -56,19 +58,23 @@ namespace SEOMacroscope
 			
 			InitializeComponent();// The InitializeComponent() call is required for Windows Forms designer support.
 
-			MacroscopePreferences.LoadPreferences();
+			MacroscopePreferencesManager.LoadPreferences();
 						
 			msJobMaster = new MacroscopeJobMaster ( this );
 
+			StartUrlDirty = false;
+			
 			msDisplayStructure = new MacroscopeDisplayStructure ( this );
 			msDisplayCanonical = new MacroscopeDisplayCanonical ( this );
 			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this );
 			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this );
 			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this );
 			msDisplayHistory = new MacroscopeDisplayHistory ( this );
-						
+
+			this.textBoxStartUrl.Text = MacroscopePreferencesManager.GetStartUrl();
+
 			#if DEBUG
-			this.textBoxURL.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
+			//this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
 			#endif
 
 			this.ScanningControlsEnable( true );
@@ -89,6 +95,8 @@ namespace SEOMacroscope
 		{
 			
 			debug_msg( "MacroscopeMainForm Cleanup CALLED" );
+						
+			MacroscopePreferencesManager.SavePreferences();
 						
 			if( this.ThreadScanner != null ) {
 				debug_msg( "Cleaning up ThreadScanner" );
@@ -148,14 +156,14 @@ namespace SEOMacroscope
 				
 		public string GetURL ()
 		{
-			return( this.textBoxURL.Text );
+			return( this.textBoxStartUrl.Text );
 		}
 
 		/**************************************************************************/
 
 		public void SetURL ( string sURL )
 		{
-			this.textBoxURL.Text = sURL;
+			this.textBoxStartUrl.Text = sURL;
 		}
 
 		/**************************************************************************/
@@ -178,17 +186,59 @@ namespace SEOMacroscope
 
 		}
 
+		/** DIALOGUE BOXES ********************************************************/
+		
+		void DialogueBoxError ( string sTitle, string sMessage )
+		{
+			MessageBox.Show(
+				sMessage,
+				sTitle,
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Error,
+				MessageBoxDefaultButton.Button1
+			);
+		}
+
+		void DialogueBoxStartUrlInvalid ()
+		{
+			DialogueBoxError( "Error", "Please enter a valid URL" );
+		}
+
+		/** MAIN CONTROL STRIP CALLBACKS ******************************************/
+				
+		void CallbackStartUrlTextChanged ( object sender, EventArgs e )
+		{
+			StartUrlDirty = true;
+		}
+
 		/**************************************************************************/
 				
 		void CallbackScanStart ( object sender, EventArgs e )
 		{
 
-			this.ScanningControlsStart( true );
+			string sStartUrl = this.textBoxStartUrl.Text;
+						
+			if( MacroscopeURLTools.ValidateUrl( sStartUrl ) ) {
 
-			MacroscopePreferences.SavePreferences();
+				this.ScanningControlsStart( true );
 
-			this.ThreadScanner = new Thread ( new ThreadStart ( this.ScanningThread ) );
-			this.ThreadScanner.Start();
+				if( StartUrlDirty ) {
+					this.msJobMaster.WorkerUpdateDisplayShutdown();
+					this.msJobMaster = new MacroscopeJobMaster ( this );
+					this.ClearDisplay();
+					StartUrlDirty = false;
+				}
+							
+				MacroscopePreferencesManager.SavePreferences();
+
+				this.ThreadScanner = new Thread ( new ThreadStart ( this.ScanningThread ) );
+				this.ThreadScanner.Start();
+
+			} else {
+				
+				DialogueBoxStartUrlInvalid();
+				
+			}
 
 		}
 
@@ -308,7 +358,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsEnable ( Boolean bState )
 		{
-			this.textBoxURL.Enabled = true;
+			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = false;
@@ -316,7 +366,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsStart ( Boolean bState )
 		{
-			this.textBoxURL.Enabled = false;
+			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = true;
 			this.ButtonReset.Enabled = false;
@@ -324,7 +374,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsStopping ( Boolean bState )
 		{
-			this.textBoxURL.Enabled = false;
+			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = false;
@@ -332,7 +382,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsStopped ( Boolean bState )
 		{
-			this.textBoxURL.Enabled = true;
+			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = true;
@@ -340,7 +390,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsPause ( Boolean bState )
 		{
-			this.textBoxURL.Enabled = false;
+			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = true;
 			this.ButtonReset.Enabled = false;
@@ -348,7 +398,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsResume ( Boolean bState )
 		{
-			this.textBoxURL.Enabled = false;
+			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = true;
 			this.ButtonReset.Enabled = false;
@@ -356,7 +406,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsReset ( Boolean bState )
 		{
-			this.textBoxURL.Enabled = true;
+			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = false;
@@ -364,7 +414,7 @@ namespace SEOMacroscope
 		
 		void ScanningControlsComplete ( Boolean bState )
 		{
-			this.textBoxURL.Enabled = true;
+			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = true;
@@ -412,8 +462,6 @@ namespace SEOMacroscope
 
 				this.msDisplayCanonical.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 						
-				//this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
-
 				this.msDisplayEmailAddresses.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
 						
 				this.msDisplayTelephoneNumbers.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );

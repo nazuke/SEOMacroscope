@@ -51,7 +51,7 @@ namespace SEOMacroscope
 		{
 			Boolean bAllowed = false;
 
-			if( !MacroscopePreferences.GetFollowRobotsProtocol() ) {
+			if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() ) {
 				debug_msg( string.Format( "ROBOTS Disabled: {0}", sURL ), 2 );
 				return( true );
 			}

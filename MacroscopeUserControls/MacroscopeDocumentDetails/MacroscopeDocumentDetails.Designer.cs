@@ -258,12 +258,12 @@ namespace SEOMacroscope
 			// 
 			// LinksInOrigin
 			// 
-			this.LinksInOrigin.Text = "Origin";
+			this.LinksInOrigin.Text = "Origin URL";
 			this.LinksInOrigin.Width = 300;
 			// 
 			// LinksInUrl
 			// 
-			this.LinksInUrl.Text = "URL";
+			this.LinksInUrl.Text = "Destination URL";
 			this.LinksInUrl.Width = 300;
 			// 
 			// LinksInLinkText
@@ -316,12 +316,12 @@ namespace SEOMacroscope
 			// 
 			// columnHeader2
 			// 
-			this.columnHeader2.Text = "Origin";
+			this.columnHeader2.Text = "Origin URL";
 			this.columnHeader2.Width = 300;
 			// 
 			// columnHeader9
 			// 
-			this.columnHeader9.Text = "URL";
+			this.columnHeader9.Text = "Destination URL";
 			this.columnHeader9.Width = 300;
 			// 
 			// columnHeader10

@@ -95,6 +95,7 @@ namespace SEOMacroscope
 						delegate
 						{
 							this.RenderDocumentDetails( msDoc );
+							this.RenderDocumentHrefLang( msDoc, msJobMaster.LocalesGet(), msJobMaster.DocCollectionGet() );
 							this.RenderListViewHyperlinksIn( msDoc );
 							this.RenderListViewHyperlinksOut( msDoc );
 						}
@@ -102,6 +103,7 @@ namespace SEOMacroscope
 				);
 			} else {
 				this.RenderDocumentDetails( msDoc );
+				this.RenderDocumentHrefLang( msDoc, msJobMaster.LocalesGet(), msJobMaster.DocCollectionGet() );
 				this.RenderListViewHyperlinksIn( msDoc );
 				this.RenderListViewHyperlinksOut( msDoc );
 			}
@@ -123,7 +125,7 @@ namespace SEOMacroscope
 
 				KeyValuePair<string,string> kvItem = lItems[ i ];
 
-				debug_msg( string.Format( "RenderDocumentDetails: {0} => {1}", kvItem.Key, kvItem.Value ) );
+				//debug_msg( string.Format( "RenderDocumentDetails: {0} => {1}", kvItem.Key, kvItem.Value ) );
 				
 				try {
 					ListViewItem lvItem = new ListViewItem ( kvItem.Key );
@@ -140,6 +142,116 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Hashtable htLocales, MacroscopeDocumentCollection msDocCollection )
+		{
+
+			ListView lvListView = this.listViewHrefLang;
+
+			lvListView.Items.Clear();
+			lvListView.Columns.Clear();
+
+			{
+
+				lvListView.Columns.Add( "Site Locale", "Site Locale" );
+				lvListView.Columns.Add( "Title", "Title" );
+				lvListView.Columns.Add( "URL", "URL" );
+
+			}
+
+			string sKeyURL = msDoc.GetUrl();
+
+			if( msDoc.GetIsHtml() ) {
+
+				Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
+
+				if( htHrefLangs != null ) {
+
+					{
+
+						ListViewItem lvItem = new ListViewItem ( sKeyURL );
+
+						lvItem.Name = sKeyURL;
+								
+						lvItem.SubItems.Add( "" );
+						lvItem.SubItems.Add( "" );
+						lvItem.SubItems.Add( "" );
+
+						lvItem.SubItems[ 0 ].Text = msDoc.GetLocale();
+						lvItem.SubItems[ 1 ].Text = msDoc.GetTitle();
+						lvItem.SubItems[ 2 ].Text = msDoc.GetUrl();
+								
+						lvListView.Items.Add( lvItem );
+
+					}
+
+					foreach( string sLocale in htLocales.Keys ) {
+
+
+						if( sLocale != null ) {
+
+							if( sLocale == msDoc.GetLocale() ) {
+								continue;
+							}
+
+							string sHrefLangUrl = null;
+							string sTitle = "";
+							
+							ListViewItem lvItem = new ListViewItem ( sLocale );
+							
+							lvItem.Name = sLocale;
+													
+							lvItem.SubItems.Add( "" );
+							lvItem.SubItems.Add( "" );
+							lvItem.SubItems.Add( "" );
+							
+							if( htHrefLangs.ContainsKey( sLocale ) ) {
+
+								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
+
+								if( msHrefLang != null ) {
+
+									sHrefLangUrl = msHrefLang.GetUrl();
+
+									if( msDocCollection.Exists( sHrefLangUrl ) ) {
+										sTitle = msDocCollection.Get( sHrefLangUrl ).GetTitle();
+									}
+
+								}
+
+							}
+
+							lvItem.SubItems[ 0 ].Text = sLocale;
+							lvItem.SubItems[ 1 ].Text = sTitle;
+
+							if( sHrefLangUrl != null ) {
+								lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
+								lvItem.SubItems[ 2 ].Text = sHrefLangUrl;
+							} else {
+								lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+								lvItem.SubItems[ 2 ].Text = "MISSSING";
+
+							}
+
+							lvListView.Items.Add( lvItem );
+							
+						}
+								
+					}
+
+				}
+
+				lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
+
+				lvListView.Columns[ "Site Locale" ].Width = 100;
+				lvListView.Columns[ "Title" ].Width = 300;
+				lvListView.Columns[ "URL" ].Width = 300;
+
+			}
+
+		}
+
+		/**************************************************************************/
+
 		void RenderListViewHyperlinksIn ( MacroscopeDocument msDoc )
 		{
 
@@ -148,9 +260,9 @@ namespace SEOMacroscope
 
 			lvListView.Items.Clear();
 
-			foreach( string sUrlOrigin in hlHyperlinksIn.Keys() ) {
+			foreach( string sUrlOrigin in hlHyperlinksIn.IterateKeys() ) {
 
-				foreach( MacroscopeHyperlinkIn hlHyperlinkIn in hlHyperlinksIn.GetLinks( sUrlOrigin ) ) {
+				foreach( MacroscopeHyperlinkIn hlHyperlinkIn in hlHyperlinksIn.IterateLinks( sUrlOrigin ) ) {
 
 					string sPairKey = string.Join( "::", sUrlOrigin, hlHyperlinkIn.GetLinkId().ToString() );
 
@@ -209,10 +321,17 @@ namespace SEOMacroscope
 
 			lock( hlHyperlinksOut ) {
 				
-				foreach( string sUrlOrigin in hlHyperlinksOut.Keys() ) {
+				foreach( string sUrlOrigin in hlHyperlinksOut.IterateKeys() ) {
 
-					foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.GetLinks( sUrlOrigin ) ) {
+					//foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.GetLinks( sUrlOrigin ) ) {
 
+						
+					foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.IterateLinks( sUrlOrigin ) ) {
+						
+						
+						
+						
+						
 						string sKey = hlHyperlinkOut.GetGuid();
 
 						//debug_msg( string.Format( "RenderListViewHyperlinksOut sKey: {0} :: {1}", sKey, hlHyperlinkOut.GetUrlTarget() ) );
