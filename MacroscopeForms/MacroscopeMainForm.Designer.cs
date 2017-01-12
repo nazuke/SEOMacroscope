@@ -48,7 +48,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageRedirectsAudit;
 		private System.Windows.Forms.TabPage tabPageEmailAddresses;
 		private System.Windows.Forms.TabPage tabPageTelephoneNumbers;
-		private System.Windows.Forms.DataGridView dataGridViewRedirectsAudit;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripUrlCount;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripThreads;
@@ -85,6 +84,11 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader CanonicalAnalysisUrl;
 		private System.Windows.Forms.ColumnHeader CanonicalAnalysisCanonical;
 		public System.Windows.Forms.ListView listViewHrefLang;
+		private System.Windows.Forms.ListView listView1;
+		private System.Windows.Forms.ColumnHeader RedirectsAuditOriginUrl;
+		private System.Windows.Forms.ColumnHeader RedirectsAuditStatusCode;
+		private System.Windows.Forms.ColumnHeader RedirectsAuditDestinationUrl;
+		private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -107,7 +111,6 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroscopeMainForm));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,7 +137,10 @@ namespace SEOMacroscope
 			this.tabPageHrefLangAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewHrefLang = new System.Windows.Forms.ListView();
 			this.tabPageRedirectsAudit = new System.Windows.Forms.TabPage();
-			this.dataGridViewRedirectsAudit = new System.Windows.Forms.DataGridView();
+			this.listView1 = new System.Windows.Forms.ListView();
+			this.RedirectsAuditOriginUrl = new System.Windows.Forms.ColumnHeader();
+			this.RedirectsAuditStatusCode = new System.Windows.Forms.ColumnHeader();
+			this.RedirectsAuditDestinationUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageEmailAddresses = new System.Windows.Forms.TabPage();
 			this.listViewEmailAddresses = new System.Windows.Forms.ListView();
 			this.EmailAddressesEmail = new System.Windows.Forms.ColumnHeader();
@@ -163,6 +169,7 @@ namespace SEOMacroscope
 			this.ButtonStart = new System.Windows.Forms.ToolStripButton();
 			this.ButtonStop = new System.Windows.Forms.ToolStripButton();
 			this.ButtonReset = new System.Windows.Forms.ToolStripButton();
+			this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
@@ -172,7 +179,6 @@ namespace SEOMacroscope
 			this.tabPageCanonicalAnalysis.SuspendLayout();
 			this.tabPageHrefLangAnalysis.SuspendLayout();
 			this.tabPageRedirectsAudit.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewRedirectsAudit)).BeginInit();
 			this.tabPageEmailAddresses.SuspendLayout();
 			this.tabPageTelephoneNumbers.SuspendLayout();
 			this.tabPageHistory.SuspendLayout();
@@ -210,6 +216,8 @@ namespace SEOMacroscope
 			// 
 			// editToolStripMenuItem
 			// 
+			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.preferencesToolStripMenuItem});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "Edit";
@@ -425,7 +433,7 @@ namespace SEOMacroscope
 			// 
 			// tabPageRedirectsAudit
 			// 
-			this.tabPageRedirectsAudit.Controls.Add(this.dataGridViewRedirectsAudit);
+			this.tabPageRedirectsAudit.Controls.Add(this.listView1);
 			this.tabPageRedirectsAudit.Location = new System.Drawing.Point(4, 22);
 			this.tabPageRedirectsAudit.Name = "tabPageRedirectsAudit";
 			this.tabPageRedirectsAudit.Padding = new System.Windows.Forms.Padding(3);
@@ -435,19 +443,36 @@ namespace SEOMacroscope
 			this.tabPageRedirectsAudit.UseVisualStyleBackColor = true;
 			this.tabPageRedirectsAudit.Enter += new System.EventHandler(this.CallbackTabPageRedirectsAuditShow);
 			// 
-			// dataGridViewRedirectsAudit
+			// listView1
 			// 
-			this.dataGridViewRedirectsAudit.AllowUserToAddRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.dataGridViewRedirectsAudit.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-			this.dataGridViewRedirectsAudit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewRedirectsAudit.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridViewRedirectsAudit.Location = new System.Drawing.Point(3, 3);
-			this.dataGridViewRedirectsAudit.Name = "dataGridViewRedirectsAudit";
-			this.dataGridViewRedirectsAudit.ReadOnly = true;
-			this.dataGridViewRedirectsAudit.Size = new System.Drawing.Size(770, 316);
-			this.dataGridViewRedirectsAudit.TabIndex = 0;
-			this.dataGridViewRedirectsAudit.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.CallbackDataBindingComplete);
+			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.RedirectsAuditOriginUrl,
+			this.RedirectsAuditStatusCode,
+			this.RedirectsAuditDestinationUrl});
+			this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listView1.FullRowSelect = true;
+			this.listView1.GridLines = true;
+			this.listView1.Location = new System.Drawing.Point(3, 3);
+			this.listView1.Name = "listView1";
+			this.listView1.Size = new System.Drawing.Size(770, 316);
+			this.listView1.TabIndex = 0;
+			this.listView1.UseCompatibleStateImageBehavior = false;
+			this.listView1.View = System.Windows.Forms.View.Details;
+			// 
+			// RedirectsAuditOriginUrl
+			// 
+			this.RedirectsAuditOriginUrl.Text = "Origin URL";
+			this.RedirectsAuditOriginUrl.Width = 300;
+			// 
+			// RedirectsAuditStatusCode
+			// 
+			this.RedirectsAuditStatusCode.Text = "Status Code";
+			this.RedirectsAuditStatusCode.Width = 100;
+			// 
+			// RedirectsAuditDestinationUrl
+			// 
+			this.RedirectsAuditDestinationUrl.Text = "Destination URL";
+			this.RedirectsAuditDestinationUrl.Width = 300;
 			// 
 			// tabPageEmailAddresses
 			// 
@@ -703,6 +728,13 @@ namespace SEOMacroscope
 			this.ButtonReset.ToolTipText = "Reset all scan results";
 			this.ButtonReset.Click += new System.EventHandler(this.CallbackScanReset);
 			// 
+			// preferencesToolStripMenuItem
+			// 
+			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.preferencesToolStripMenuItem.Text = "Preferences";
+			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.CallbackEditPreferencesClick);
+			// 
 			// MacroscopeMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -727,7 +759,6 @@ namespace SEOMacroscope
 			this.tabPageCanonicalAnalysis.ResumeLayout(false);
 			this.tabPageHrefLangAnalysis.ResumeLayout(false);
 			this.tabPageRedirectsAudit.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewRedirectsAudit)).EndInit();
 			this.tabPageEmailAddresses.ResumeLayout(false);
 			this.tabPageTelephoneNumbers.ResumeLayout(false);
 			this.tabPageHistory.ResumeLayout(false);

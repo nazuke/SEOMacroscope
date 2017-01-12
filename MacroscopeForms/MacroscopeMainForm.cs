@@ -24,8 +24,6 @@
 */
 
 using System;
-using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -173,7 +171,7 @@ namespace SEOMacroscope
 			this.Cleanup();
 		}
 
-		/**************************************************************************/
+		/** MAIN MENU *************************************************************/
 
 		void CallbackFileExit ( object sender, EventArgs e )
 		{
@@ -184,6 +182,21 @@ namespace SEOMacroscope
 
 			Program.Exit();
 
+		}
+
+		/**************************************************************************/
+
+		void CallbackEditPreferencesClick ( object sender, EventArgs e )
+		{
+			// TODO: Implement this
+			
+			debug_msg( "CallbackEditPreferencesClick Called" );
+			
+			Form fPreferencesForm = new Form ();
+			
+			
+			fPreferencesForm.Show();
+			
 		}
 
 		/** DIALOGUE BOXES ********************************************************/
@@ -208,7 +221,14 @@ namespace SEOMacroscope
 				
 		void CallbackStartUrlTextChanged ( object sender, EventArgs e )
 		{
+
+			string sStartUrl = this.textBoxStartUrl.Text;
 			StartUrlDirty = true;
+
+			if( MacroscopeURLTools.ValidateUrl( sStartUrl ) ) {
+				MacroscopePreferencesManager.SetStartUrl( sStartUrl );
+			}
+
 		}
 
 		/**************************************************************************/
@@ -228,7 +248,9 @@ namespace SEOMacroscope
 					this.ClearDisplay();
 					StartUrlDirty = false;
 				}
-							
+
+				MacroscopePreferencesManager.SetStartUrl( sStartUrl );
+
 				MacroscopePreferencesManager.SavePreferences();
 
 				this.ThreadScanner = new Thread ( new ThreadStart ( this.ScanningThread ) );
@@ -533,14 +555,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		void CallbackDataBindingComplete ( object sender, DataGridViewBindingCompleteEventArgs e )
-		{
-			DataGridView dgvGrid = ( DataGridView )sender;
-			dgvGrid.AutoResizeColumns();
-		}
-
-		/**************************************************************************/
-		
 		void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
 		{
 			SaveFileDialog Dialog = new SaveFileDialog ();
@@ -587,6 +601,8 @@ namespace SEOMacroscope
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
+
+		
 
 		
 

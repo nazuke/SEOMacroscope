@@ -143,6 +143,10 @@
     <Compile Include="MacroscopeTools\MacroscopePDFTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeURLTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeURLTools.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.Designer.cs">
+      <DependentUpon>MacroscopePrefsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeUserControls\MacroscopeUserControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,6 +166,9 @@
     <EmbeddedResource Include="MacroscopeForms\MacroscopeMainForm.resx">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.resx">
+      <DependentUpon>MacroscopePrefsControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MacroscopeDocument" />
@@ -179,6 +186,7 @@
     <Folder Include="MacroscopeDocumentCollection" />
     <Folder Include="MacroscopeTools\t" />
     <Folder Include="MacroscopeUserControls" />
+    <Folder Include="MacroscopeUserControls\MacroscopePrefsControl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProfilingSessions\Session20170110_173949.sdps" />
