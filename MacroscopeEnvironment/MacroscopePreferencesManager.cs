@@ -26,6 +26,7 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace SEOMacroscope
 {
@@ -36,29 +37,47 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		static MacroscopePreferences Preferences;
-
+		static WebProxy wpProxy = null;
+		
 		static string HomeDirectory;
 		static string PrefsDirectory;
 
-		static string HttpProxyUrl;
-		static string HttpsProxyUrl;
+		// WebProxy Options
+		static string HttpProxyHost;
+		static int HttpProxyPort;
+		//static string HttpProxyUsername;
+		//static string HttpProxyPassword;
 
+		static string HttpsProxyHost;
+		static int HttpsProxyPort;
+		//static string HttpsProxyUsername;
+		//static string HttpsProxyPassword;
+
+		// Spidering Control
 		static string StartUrl;
-
 		static int Depth;
 		static int PageLimit;
-
 		static Boolean SameSite;
-		static Boolean ProbeHreflangs;
-
 		static Boolean FollowRobotsProtocol;
 		static Boolean FollowNoFollow;
-
 		static Boolean FetchStylesheets;
 		static Boolean FetchJavascripts;
 		static Boolean FetchImages;
 		static Boolean FetchPdfs;
 		static Boolean FetchBinaries;
+
+		// Analysis Options
+		static Boolean ProbeHreflangs;
+		
+		// SEO Options
+		static int TitleMinLen;
+		static int TitleMaxLen;
+		static int TitleMinWords;
+		static int TitleMaxWords;
+		static int DescriptionMinLen;
+		static int DescriptionMaxLen;
+		static int DescriptionMinWords;
+		static int DescriptionMaxWords;
 
 		/**************************************************************************/
 		
@@ -67,47 +86,95 @@ namespace SEOMacroscope
 
 			Preferences = new MacroscopePreferences ();
 
-			HttpProxyUrl = "";
-			HttpsProxyUrl = "";
+			SetDefaultValues();
 
-			StartUrl = "";
+			if( Preferences != null ) {
+
+				if( Preferences.FirstRun == true ) {
+
+					SetDefaultValues();
+					Preferences.FirstRun = false;
+					Preferences.Save();
+				
+				} else {
+
+					HttpProxyHost = Preferences.HttpProxyHost;
+					HttpProxyPort = Preferences.HttpProxyPort;
+					HttpsProxyHost = Preferences.HttpsProxyHost;
+					HttpsProxyPort = Preferences.HttpsProxyPort;
+
+					StartUrl = Preferences.StartUrl;
 			
+					Depth = Preferences.Depth;
+					PageLimit = Preferences.PageLimit;
+
+					SameSite = Preferences.SameSite;
+					ProbeHreflangs = Preferences.ProbeHreflangs;
+			
+					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
+					FollowNoFollow = Preferences.FollowNoFollow;
+
+					FetchStylesheets = Preferences.FetchStylesheets;
+					FetchJavascripts = Preferences.FetchJavascripts;
+					FetchImages = Preferences.FetchImages;
+					FetchPdfs = Preferences.FetchPdfs;
+
+				}
+
+			}
+
+			SanitizeValues();
+
+			ConfigureHttpProxy();
+			
+			debug_msg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
+			debug_msg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
+			debug_msg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
+
+		}
+
+		/**************************************************************************/
+
+		static void SetDefaultValues ()
+		{
+
+			// WebProxy Options
+			HttpProxyHost = "";
+			HttpProxyPort = 0;
+			HttpsProxyHost = "";
+			HttpsProxyPort = 0;
+
+			// Spidering Control
+			StartUrl = "";
 			Depth = -1;
 			PageLimit = -1;
-
 			SameSite = true;
-			ProbeHreflangs = true;
-			
 			FollowRobotsProtocol = true;
 			FollowNoFollow = true;
-
 			FetchStylesheets = true;
 			FetchJavascripts = true;
 			FetchImages = true;
 			FetchPdfs = false;
 
-			if( Preferences != null ) {
-				
-				HttpProxyUrl = Preferences.HttpProxyUrl;
-				HttpsProxyUrl = Preferences.HttpsProxyUrl;
-
-				StartUrl = Preferences.StartUrl;
+			// Analysis Options
+			ProbeHreflangs = true;
 			
-				Depth = Preferences.Depth;
-				PageLimit = Preferences.PageLimit;
+			// SEO Options
+			TitleMinLen = 10;
+			TitleMaxLen = 70;
+			TitleMinWords = 3;
+			TitleMaxWords = 10;
+			DescriptionMinLen = 10;
+			DescriptionMaxLen = 100;
+			DescriptionMinWords = 3;
+			DescriptionMaxWords = 10;
 
-				SameSite = Preferences.SameSite;
-				ProbeHreflangs = Preferences.ProbeHreflangs;
-			
-				FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
-				FollowNoFollow = Preferences.FollowNoFollow;
+		}
 
-				FetchStylesheets = Preferences.FetchStylesheets;
-				FetchJavascripts = Preferences.FetchJavascripts;
-				FetchImages = Preferences.FetchImages;
-				FetchPdfs = Preferences.FetchPdfs;
+		/**************************************************************************/
 				
-			}
+		static void SanitizeValues ()
+		{
 
 			if( StartUrl.Length > 0 ) {
 				StartUrl = Regex.Replace( StartUrl, "^\\s+", "" );
@@ -122,13 +189,35 @@ namespace SEOMacroscope
 				PageLimit = -1;
 			}
 
-			debug_msg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
-			debug_msg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
-			debug_msg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
-			
+			SavePreferences();
 			
 		}
-		
+
+
+		/**************************************************************************/
+
+		static void ConfigureHttpProxy ()
+		{
+			
+			string sHttpProxyHost;
+			int iHttpProxyPort;
+
+			if( HttpProxyHost.Length > 0 ) {
+
+				sHttpProxyHost = HttpProxyHost;
+
+				if( HttpProxyPort > 0 ) {
+					iHttpProxyPort = HttpProxyPort;
+				} else {
+					iHttpProxyPort = 80;
+				}
+
+				wpProxy = new WebProxy ( sHttpProxyHost, iHttpProxyPort );
+
+			}
+
+		}
+
 		/**************************************************************************/
 		
 		public static void LoadPreferences ()
@@ -176,8 +265,10 @@ namespace SEOMacroscope
 
 			if( Preferences != null ) {
 				
-				Preferences.HttpProxyUrl = HttpProxyUrl;
-				Preferences.HttpsProxyUrl = HttpsProxyUrl;
+				Preferences.HttpProxyHost = HttpProxyHost;
+				Preferences.HttpProxyPort = HttpProxyPort;
+				Preferences.HttpsProxyHost = HttpsProxyHost;
+				Preferences.HttpsProxyPort = HttpsProxyPort;
 
 				Preferences.StartUrl = StartUrl;
 			
@@ -208,6 +299,22 @@ namespace SEOMacroscope
 			return( HomeDirectory );
 		}
 
+		/**************************************************************************/
+
+		public static WebProxy GetHttpProxy ()
+		{
+			return( wpProxy );
+		}
+
+		/**************************************************************************/
+				
+		public static void EnableHttpProxy ( WebRequest req )
+		{
+			if( wpProxy != null ) {
+				req.Proxy = wpProxy;
+			}
+		}
+				
 		/**************************************************************************/
 
 		public static string GetStartUrl ()

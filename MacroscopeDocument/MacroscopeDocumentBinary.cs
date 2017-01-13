@@ -42,7 +42,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean IsBinaryPage()
+		Boolean IsBinaryPage ()
 		{
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
@@ -52,6 +52,7 @@ namespace SEOMacroscope
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 				debug_msg( string.Format( "Status: {0}", res.StatusCode ), 2 );
 				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ), 2 );
@@ -65,7 +66,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean ProcessBinaryPage()
+		void ProcessBinaryPage ()
 		{
 
 			HttpWebRequest req = null;
@@ -76,6 +77,7 @@ namespace SEOMacroscope
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
 				debug_msg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Message ), 3 );
@@ -86,21 +88,27 @@ namespace SEOMacroscope
 									
 				this.ProcessHttpHeaders( req, res );
 
- 				{ // Title
+				{ // Title
+
 					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
 					string sTitle = null;
+
 					foreach( Match match in reMatches ) {
+
 						if( match.Groups[ 0 ].Value.Length > 0 ) {
 							sTitle = match.Groups[ 0 ].Value.ToString();
 							break;
 						}
+
 					}
+
 					if( sTitle != null ) {
 						this.Title = sTitle;
 						debug_msg( string.Format( "TITLE: {0}", this.Title ), 3 );
 					} else {
 						debug_msg( string.Format( "TITLE: {0}", "MISSING" ), 3 );
 					}
+
 				}
 
 				res.Close();
@@ -109,7 +117,6 @@ namespace SEOMacroscope
 				this.StatusCode = 500;
 			}
 
-			return( true );
 		}
 
 		/**************************************************************************/

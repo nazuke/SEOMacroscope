@@ -54,6 +54,7 @@ namespace SEOMacroscope
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 				
 				if( res != null ) {
@@ -76,7 +77,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean ProcessCssPage ()
+		void ProcessCssPage ()
 		{
 
 			HttpWebRequest req = null;
@@ -90,6 +91,7 @@ namespace SEOMacroscope
 				req.Method = "GET";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
 				debug_msg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Message ), 3 );
@@ -151,8 +153,6 @@ namespace SEOMacroscope
 				this.StatusCode = 500;
 			}
 
-			return( true );
-			
 		}
 
 		/**************************************************************************/

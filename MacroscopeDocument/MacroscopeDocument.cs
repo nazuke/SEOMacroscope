@@ -31,8 +31,10 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Text;
 using System.Net;
-using HtmlAgilityPack;
 using System.Threading;
+using System.Diagnostics;
+
+using HtmlAgilityPack;
 
 namespace SEOMacroscope
 {
@@ -75,6 +77,8 @@ namespace SEOMacroscope
 		public string CompressionMethod;
 		public string ContentEncoding;
 		public string Locale;
+		
+		public long Duration;
 
 		public DateTime DateServer;
 		public DateTime DateModified;
@@ -103,6 +107,9 @@ namespace SEOMacroscope
 
 		public int Depth;
 		
+		// Delegate Functions
+		delegate void TimeDuration( Action ProcessMethod );
+
 		/**************************************************************************/
 
 		public MacroscopeDocument ( string sURL )
@@ -138,13 +145,32 @@ namespace SEOMacroscope
 			Description = "";
 			Keywords = "";
 
-			Headings = new Dictionary<ushort,ArrayList> () {
-				{ 1, new ArrayList ( 16 ) },
-				{ 2, new ArrayList ( 16 ) },
-				{ 3, new ArrayList ( 16 ) },
-				{ 4, new ArrayList ( 16 ) },
-				{ 5, new ArrayList ( 16 ) },
-				{ 6, new ArrayList ( 16 ) }
+			Headings = new Dictionary<ushort,ArrayList> ()
+			{
+				{
+					1,
+					new ArrayList ( 16 )
+				},
+				{
+					2,
+					new ArrayList ( 16 )
+				},
+				{
+					3,
+					new ArrayList ( 16 )
+				},
+				{
+					4,
+					new ArrayList ( 16 )
+				},
+				{
+					5,
+					new ArrayList ( 16 )
+				},
+				{
+					6,
+					new ArrayList ( 16 )
+				}
 			};
 
 			Depth = MacroscopeURLTools.FindUrlDepth( Url );
@@ -447,6 +473,36 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		public void SetDuration ( long lDuration )
+		{
+			this.Duration = lDuration;
+		}
+		
+		/**************************************************************************/
+				
+		public long GetDuration ()
+		{
+			//debug_msg( string.Format( "GetDuration: {0}", this.Duration ), 0 );
+			return( this.Duration );
+		}
+
+		public decimal GetDurationInSeconds ()
+		{
+			decimal dDuration = ( decimal )( ( decimal )this.GetDuration() / ( decimal )1000 );
+			//debug_msg( string.Format( "GetDurationInSeconds: {0}", dDuration ), 0 );
+			return( dDuration );
+		}
+
+		public string GetDurationInSecondsFormatted ()
+		{
+			decimal dDuration = this.GetDurationInSeconds();
+			string sDuration = dDuration.ToString( "0.00" );
+			//debug_msg( string.Format( "GetDurationInSecondsFormatted: {0}", sDuration ), 0 );
+			return( sDuration );
+		}
+
+		/**************************************************************************/
+
 		public Boolean Execute ()
 		{
 
@@ -457,38 +513,58 @@ namespace SEOMacroscope
 				this.IsRedirect = true;
 			} 
 
+			TimeDuration fTimeDuration = delegate( Action ProcessMethod )
+			{
+				Stopwatch swDuration = new Stopwatch ();
+				long lDuration;
+				swDuration.Start();
+				try {
+					ProcessMethod();
+				} catch( MacroscopeDocumentException ex ) {
+					debug_msg( string.Format( "fTimeDuration: {0}", ex.Message ), 2 );
+				}
+				swDuration.Stop();
+				lDuration = swDuration.ElapsedMilliseconds;
+				if( lDuration > 0 ) {
+					this.Duration = lDuration;
+				} else {
+					this.Duration = 0;
+				}
+				debug_msg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ), 2 );
+			};
+
 			if( this.IsHtmlPage() ) {
 				debug_msg( string.Format( "IS HTML PAGE: {0}", this.Url ), 2 );
-				this.ProcessHtmlPage();
+				fTimeDuration( this.ProcessHtmlPage );
 
 			} else if( this.IsCssPage() ) {
 				debug_msg( string.Format( "IS CSS PAGE: {0}", this.Url ), 2 );
 				if( MacroscopePreferencesManager.GetFetchStylesheets() ) {
-					this.ProcessCssPage();
+					fTimeDuration( this.ProcessCssPage );
 				}
 
 			} else if( this.IsImagePage() ) {
 				debug_msg( string.Format( "IS IMAGE PAGE: {0}", this.Url ), 2 );
 				if( MacroscopePreferencesManager.GetFetchImages() ) {
-					this.ProcessImagePage();
+					fTimeDuration( this.ProcessImagePage );
 				}
 				
 			} else if( this.IsJavascriptPage() ) {
 				debug_msg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ), 2 );
 				if( MacroscopePreferencesManager.GetFetchJavascripts() ) {
-					this.process_javascript_page();
+					fTimeDuration( this.ProcessJavascriptPage );
 				}
 
 			} else if( this.IsPdfPage() ) {
 				debug_msg( string.Format( "IS PDF PAGE: {0}", this.Url ), 2 );
 				if( MacroscopePreferencesManager.GetFetchPdfs() ) {
-					this.ProcessPdfPage();
+					fTimeDuration( this.ProcessPdfPage );
 				}
 
 			} else if( this.IsBinaryPage() ) {
 				debug_msg( string.Format( "IS BINARY PAGE: {0}", this.Url ), 2 );
 				if( MacroscopePreferencesManager.GetFetchBinaries() ) {
-					this.ProcessBinaryPage();
+					fTimeDuration( this.ProcessBinaryPage );
 				}
 
 			} else {
@@ -515,6 +591,7 @@ namespace SEOMacroscope
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				req.AllowAutoRedirect = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 
 				debug_msg( string.Format( "Status: {0}", res.StatusCode ), 2 );
@@ -544,28 +621,51 @@ namespace SEOMacroscope
 			return( bIsRedirect );
 		}
 
-		
 		/**************************************************************************/
-		
-		
+
 		void ProcessHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
 		{
 			
 			// Status Code
+
 			this.StatusCode = this.ProcessStatusCode( res.StatusCode );
+
 			debug_msg( string.Format( "Status: {0}", this.StatusCode ), 2 );
 
 			// Probe HTTP Headers
+
 			foreach( string sHeader in res.Headers ) {
+
 				debug_msg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ), 3 );
-				if( sHeader.Equals( "Date" ) ) {
+
+				if( sHeader.ToLower().Equals( "date" ) ) {
 					this.DateServer = DateTime.Parse( res.GetResponseHeader( sHeader ) );
 				}
+
+				if( sHeader.ToLower().Equals( "last-modified" ) ) {
+					this.DateModified = DateTime.Parse( res.GetResponseHeader( sHeader ) );
+				}
+
 			}
 
+			// Process Dates
+			{
+			
+				if( this.DateServer.Date == new DateTime ().Date ) {
+					this.DateServer = new DateTime ();
+				}
+			
+				if( this.DateModified.Date == new DateTime ().Date ) {
+					this.DateModified = this.DateServer;
+				}
+				
+			}
+			
 			// Stash HTTP Headers
+
 			this.MimeType = res.ContentType;
 			this.ContentLength = res.ContentLength;
+
 			debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );
 			debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
 
@@ -587,13 +687,18 @@ namespace SEOMacroscope
 			slDetails.Add( new KeyValuePair<string,string> ( "URL", this.GetUrl() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Status Code", this.GetStatusCode().ToString() ) );
+
+			slDetails.Add( new KeyValuePair<string,string> ( "Duration (seconds)", this.GetDurationInSecondsFormatted() ) );
+						
 			slDetails.Add( new KeyValuePair<string,string> ( "Content Type", this.GetMimeType() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Content Length", this.ContentLength.ToString() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Encoding", this.ContentEncoding ) );
 
-			slDetails.Add( new KeyValuePair<string,string> ( "Date Server", this.GetDateServer() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Date", this.GetDateServer() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
-				
+
+			slDetails.Add( new KeyValuePair<string,string> ( "Language", this.GetLang() ) );
+
 			slDetails.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect() ) );

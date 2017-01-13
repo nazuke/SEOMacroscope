@@ -18,16 +18,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.TabControl tabControlPreferences;
-		private System.Windows.Forms.TabPage tabPageSpideringControl;
-		private System.Windows.Forms.TabPage tabPageNetworkSettings;
-		private System.Windows.Forms.TabPage tabPageAnalysisOptions;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.CheckBox checkBoxFetchStylesheets;
-		private System.Windows.Forms.CheckBox checkBoxFetchPdfs;
-		private System.Windows.Forms.CheckBox checkBoxFetchImages;
-		private System.Windows.Forms.CheckBox checkBoxFetchJavascripts;
-		private System.Windows.Forms.CheckBox checkBoxFetchBinaries;
+		private SEOMacroscope.MacroscopePrefsControl macroscopePrefsControlInstance;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -54,21 +45,9 @@ namespace SEOMacroscope
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.button1 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
-			this.tabControlPreferences = new System.Windows.Forms.TabControl();
-			this.tabPageSpideringControl = new System.Windows.Forms.TabPage();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.checkBoxFetchStylesheets = new System.Windows.Forms.CheckBox();
-			this.tabPageAnalysisOptions = new System.Windows.Forms.TabPage();
-			this.tabPageNetworkSettings = new System.Windows.Forms.TabPage();
-			this.checkBoxFetchJavascripts = new System.Windows.Forms.CheckBox();
-			this.checkBoxFetchImages = new System.Windows.Forms.CheckBox();
-			this.checkBoxFetchPdfs = new System.Windows.Forms.CheckBox();
-			this.checkBoxFetchBinaries = new System.Windows.Forms.CheckBox();
+			this.macroscopePrefsControlInstance = new SEOMacroscope.MacroscopePrefsControl();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
-			this.tabControlPreferences.SuspendLayout();
-			this.tabPageSpideringControl.SuspendLayout();
-			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -76,7 +55,7 @@ namespace SEOMacroscope
 			this.tableLayoutPanel1.ColumnCount = 1;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.tabControlPreferences, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.macroscopePrefsControlInstance, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -118,109 +97,12 @@ namespace SEOMacroscope
 			this.button2.Text = "OK";
 			this.button2.UseVisualStyleBackColor = true;
 			// 
-			// tabControlPreferences
+			// macroscopePrefsControlInstance
 			// 
-			this.tabControlPreferences.Controls.Add(this.tabPageSpideringControl);
-			this.tabControlPreferences.Controls.Add(this.tabPageAnalysisOptions);
-			this.tabControlPreferences.Controls.Add(this.tabPageNetworkSettings);
-			this.tabControlPreferences.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControlPreferences.Location = new System.Drawing.Point(3, 3);
-			this.tabControlPreferences.Name = "tabControlPreferences";
-			this.tabControlPreferences.SelectedIndex = 0;
-			this.tabControlPreferences.Size = new System.Drawing.Size(578, 395);
-			this.tabControlPreferences.TabIndex = 1;
-			// 
-			// tabPageSpideringControl
-			// 
-			this.tabPageSpideringControl.Controls.Add(this.groupBox1);
-			this.tabPageSpideringControl.Location = new System.Drawing.Point(4, 22);
-			this.tabPageSpideringControl.Name = "tabPageSpideringControl";
-			this.tabPageSpideringControl.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageSpideringControl.Size = new System.Drawing.Size(570, 369);
-			this.tabPageSpideringControl.TabIndex = 0;
-			this.tabPageSpideringControl.Text = "Spidering Control";
-			this.tabPageSpideringControl.UseVisualStyleBackColor = true;
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.checkBoxFetchBinaries);
-			this.groupBox1.Controls.Add(this.checkBoxFetchPdfs);
-			this.groupBox1.Controls.Add(this.checkBoxFetchImages);
-			this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
-			this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
-			this.groupBox1.Location = new System.Drawing.Point(6, 6);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(180, 180);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Spider Document Types";
-			this.groupBox1.Enter += new System.EventHandler(this.GroupBox1Enter);
-			// 
-			// checkBoxFetchStylesheets
-			// 
-			this.checkBoxFetchStylesheets.Location = new System.Drawing.Point(6, 19);
-			this.checkBoxFetchStylesheets.Name = "checkBoxFetchStylesheets";
-			this.checkBoxFetchStylesheets.Size = new System.Drawing.Size(104, 24);
-			this.checkBoxFetchStylesheets.TabIndex = 0;
-			this.checkBoxFetchStylesheets.Text = "CSS Stylesheets";
-			this.checkBoxFetchStylesheets.UseVisualStyleBackColor = true;
-			this.checkBoxFetchStylesheets.CheckedChanged += new System.EventHandler(this.CheckBox1CheckedChanged);
-			// 
-			// tabPageAnalysisOptions
-			// 
-			this.tabPageAnalysisOptions.Location = new System.Drawing.Point(4, 22);
-			this.tabPageAnalysisOptions.Name = "tabPageAnalysisOptions";
-			this.tabPageAnalysisOptions.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageAnalysisOptions.Size = new System.Drawing.Size(570, 369);
-			this.tabPageAnalysisOptions.TabIndex = 2;
-			this.tabPageAnalysisOptions.Text = "Analysis Options";
-			this.tabPageAnalysisOptions.UseVisualStyleBackColor = true;
-			// 
-			// tabPageNetworkSettings
-			// 
-			this.tabPageNetworkSettings.Location = new System.Drawing.Point(4, 22);
-			this.tabPageNetworkSettings.Name = "tabPageNetworkSettings";
-			this.tabPageNetworkSettings.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageNetworkSettings.Size = new System.Drawing.Size(570, 369);
-			this.tabPageNetworkSettings.TabIndex = 1;
-			this.tabPageNetworkSettings.Text = "Network Settings";
-			this.tabPageNetworkSettings.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxFetchJavascripts
-			// 
-			this.checkBoxFetchJavascripts.Location = new System.Drawing.Point(6, 49);
-			this.checkBoxFetchJavascripts.Name = "checkBoxFetchJavascripts";
-			this.checkBoxFetchJavascripts.Size = new System.Drawing.Size(104, 24);
-			this.checkBoxFetchJavascripts.TabIndex = 1;
-			this.checkBoxFetchJavascripts.Text = "Javascripts";
-			this.checkBoxFetchJavascripts.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxFetchImages
-			// 
-			this.checkBoxFetchImages.Location = new System.Drawing.Point(6, 79);
-			this.checkBoxFetchImages.Name = "checkBoxFetchImages";
-			this.checkBoxFetchImages.Size = new System.Drawing.Size(104, 24);
-			this.checkBoxFetchImages.TabIndex = 2;
-			this.checkBoxFetchImages.Text = "Images";
-			this.checkBoxFetchImages.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxFetchPdfs
-			// 
-			this.checkBoxFetchPdfs.Location = new System.Drawing.Point(6, 109);
-			this.checkBoxFetchPdfs.Name = "checkBoxFetchPdfs";
-			this.checkBoxFetchPdfs.Size = new System.Drawing.Size(104, 24);
-			this.checkBoxFetchPdfs.TabIndex = 3;
-			this.checkBoxFetchPdfs.Text = "PDFs";
-			this.checkBoxFetchPdfs.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxFetchBinaries
-			// 
-			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(6, 139);
-			this.checkBoxFetchBinaries.Name = "checkBoxFetchBinaries";
-			this.checkBoxFetchBinaries.Size = new System.Drawing.Size(104, 24);
-			this.checkBoxFetchBinaries.TabIndex = 4;
-			this.checkBoxFetchBinaries.Text = "Binary Files";
-			this.checkBoxFetchBinaries.UseVisualStyleBackColor = true;
+			this.macroscopePrefsControlInstance.Location = new System.Drawing.Point(3, 3);
+			this.macroscopePrefsControlInstance.Name = "macroscopePrefsControlInstance";
+			this.macroscopePrefsControlInstance.Size = new System.Drawing.Size(578, 395);
+			this.macroscopePrefsControlInstance.TabIndex = 1;
 			// 
 			// MacroscopePrefsForm
 			// 
@@ -238,11 +120,10 @@ namespace SEOMacroscope
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SEO Macroscope Preferences";
 			this.TopMost = true;
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CallbackFormClosing);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CallbackFormClosed);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
-			this.tabControlPreferences.ResumeLayout(false);
-			this.tabPageSpideringControl.ResumeLayout(false);
-			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

@@ -46,6 +46,11 @@ namespace SEOMacroscope
 		const string constStatus = "Status";
 		const string constIsRedirect = "Redirect";
 				
+		const string constDuration = "Duration (seconds)";
+
+		const string constDateServer = "Date";
+		const string constDateModified = "Last Modified";
+		
 		const string constContentType = "Content Type";
 		const string constLang = "Lang";
 		
@@ -65,7 +70,9 @@ namespace SEOMacroscope
 		const string constKeywordsCount = "Keywords Count";
 		
 		const string constHn = "First H{0}";
-				
+
+
+
 		/**************************************************************************/
 
 		public MacroscopeDisplayStructure ( MacroscopeMainForm msMainFormNew )
@@ -100,6 +107,12 @@ namespace SEOMacroscope
 				lvListView.Columns.Add( constURL, constURL );
 				lvListView.Columns.Add( constStatus, constStatus );
 				lvListView.Columns.Add( constIsRedirect, constIsRedirect );
+
+				lvListView.Columns.Add( constDuration, constDuration );
+
+				lvListView.Columns.Add( constDateServer, constDateServer );
+				lvListView.Columns.Add( constDateModified, constDateModified );
+				
 				lvListView.Columns.Add( constContentType, constContentType );
 				lvListView.Columns.Add( constLang, constLang );
 				lvListView.Columns.Add( constCanonical, constCanonical );
@@ -117,13 +130,10 @@ namespace SEOMacroscope
 					string sHeadingLevel = string.Format( constHn, iLevel );
 					lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
 				}
-			
-				//lvListView.Sorting = SortOrder.Ascending;
 
-				lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
+				lvListView.Sorting = SortOrder.Ascending;
 
-				lvListView.Columns[ constURL ].Width = 300;
-				lvListView.Columns[ constTitle ].Width = 150;
+				ListViewResizeColumnsInitial( lvListView );
 
 				ListViewConfigured = true;
 			
@@ -162,12 +172,14 @@ namespace SEOMacroscope
 						{
 							ListView lvListView = this.msMainForm.GetDisplayStructure();
 							this.RenderListView( lvListView, htDocCollection );
+							//this.ListViewResizeColumns( lvListView );
 						}
 					)
 				);
 			} else {
 				ListView lvListView = this.msMainForm.GetDisplayStructure();
 				this.RenderListView( lvListView, htDocCollection );
+				//this.ListViewResizeColumns( lvListView );
 			}
 		}
 
@@ -182,12 +194,14 @@ namespace SEOMacroscope
 						{
 							ListView lvListView = this.msMainForm.GetDisplayStructure();
 							this.RenderListViewSingle( lvListView, msDoc, sURL );
+							//this.ListViewResizeColumns( lvListView );
 						}
 					)
 				);
 			} else {
 				ListView lvListView = this.msMainForm.GetDisplayStructure();
 				this.RenderListViewSingle( lvListView, msDoc, sURL );
+				//this.ListViewResizeColumns( lvListView );
 			}
 		}
 
@@ -216,6 +230,8 @@ namespace SEOMacroscope
 				htItems[ constStatus ] = msDoc.GetStatusCode();
 				htItems[ constIsRedirect ] = msDoc.GetIsRedirect();
 
+				htItems[ constDuration ] = msDoc.GetDurationInSecondsFormatted();
+								
 				htItems[ constContentType ] = msDoc.GetMimeType();
 
 				{
@@ -226,6 +242,9 @@ namespace SEOMacroscope
 					htItems[ constLang ] = sLang;
 				}
 								
+				htItems[ constDateServer ] = msDoc.GetDateServer();
+				htItems[ constDateModified ] = msDoc.GetDateModified();
+
 				htItems[ constCanonical ] = msDoc.GetCanonical();
 
 				htItems[ constInhyperlinks ] = msDoc.CountHyperlinksIn();
@@ -241,8 +260,6 @@ namespace SEOMacroscope
 				htItems[ constKeywordsLen ] = msDoc.GetKeywordsLength();
 				htItems[ constKeywordsCount ] = msDoc.GetKeywordsCount();
 
-				
-				
 				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
 
 					ArrayList aHeadings = msDoc.GetHeadings( iLevel );
@@ -256,6 +273,7 @@ namespace SEOMacroscope
 					htItems[ string.Format( constHn, iLevel ) ] = sText;
 					
 				}
+				
 
 				if( lvListView.Items.ContainsKey( sKeyURL ) ) {
 
@@ -293,7 +311,62 @@ namespace SEOMacroscope
 				}
 
 			}
+
+		}
+
+		/**************************************************************************/
+
+		static void ListViewResizeColumnsInitial ( ListView lvListView )
+		{
+
+			Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> ()
+			{
+				{
+					constURL,
+					300
+				},
+				{
+					constTitle,
+					300
+				}
+			};
 			
+			for( int iColIndex = 0; iColIndex < lvListView.Columns.Count; iColIndex++ ) {
+				lvListView.AutoResizeColumn( iColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
+			}
+
+			foreach( string sColName in lColExplicitWidth.Keys ) {
+				lvListView.Columns[ sColName ].Width = lColExplicitWidth[ sColName ];
+			}
+
+		}
+				
+		/**************************************************************************/
+		
+		void ListViewResizeColumns ( ListView lvListView )
+		{
+
+			List<string> lColDataWidth = new List<string> ()
+			{
+				constURL,
+				constDateServer,
+				constDateModified,
+				constTitle
+			};
+			
+			List<string> lColHeaderWidth = new List<string> ()
+			{
+				constDateModified
+			};
+
+			foreach( string sColName in lColDataWidth ) {
+				lvListView.AutoResizeColumn( lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.ColumnContent );
+			}
+			
+			foreach( string sColName in lColHeaderWidth ) {
+				lvListView.AutoResizeColumn( lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.HeaderSize );
+			}
+
 		}
 
 		/**************************************************************************/

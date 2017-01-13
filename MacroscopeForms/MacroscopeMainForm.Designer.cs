@@ -122,6 +122,7 @@ namespace SEOMacroscope
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutSEOMacroscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanelMainContainer = new System.Windows.Forms.TableLayoutPanel();
 			this.statusStripMain = new System.Windows.Forms.StatusStrip();
 			this.toolStripThreads = new System.Windows.Forms.ToolStripStatusLabel();
@@ -171,7 +172,6 @@ namespace SEOMacroscope
 			this.ButtonStart = new System.Windows.Forms.ToolStripButton();
 			this.ButtonStop = new System.Windows.Forms.ToolStripButton();
 			this.ButtonReset = new System.Windows.Forms.ToolStripButton();
-			this.aboutSEOMacroscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -262,6 +262,13 @@ namespace SEOMacroscope
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
 			// 
+			// aboutSEOMacroscopeToolStripMenuItem
+			// 
+			this.aboutSEOMacroscopeToolStripMenuItem.Name = "aboutSEOMacroscopeToolStripMenuItem";
+			this.aboutSEOMacroscopeToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+			this.aboutSEOMacroscopeToolStripMenuItem.Text = "About SEO Macroscope";
+			this.aboutSEOMacroscopeToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpAboutClick);
+			// 
 			// tableLayoutPanelMainContainer
 			// 
 			this.tableLayoutPanelMainContainer.ColumnCount = 1;
@@ -297,19 +304,20 @@ namespace SEOMacroscope
 			// toolStripThreads
 			// 
 			this.toolStripThreads.Name = "toolStripThreads";
-			this.toolStripThreads.Size = new System.Drawing.Size(49, 25);
-			this.toolStripThreads.Text = "Threads";
+			this.toolStripThreads.Size = new System.Drawing.Size(61, 25);
+			this.toolStripThreads.Text = "Threads: 0";
 			// 
 			// toolStripUrlCount
 			// 
 			this.toolStripUrlCount.Name = "toolStripUrlCount";
-			this.toolStripUrlCount.Size = new System.Drawing.Size(33, 25);
-			this.toolStripUrlCount.Text = "URLs";
+			this.toolStripUrlCount.Size = new System.Drawing.Size(96, 25);
+			this.toolStripUrlCount.Text = "URLs in Queue: 0";
 			// 
 			// toolStripFound
 			// 
 			this.toolStripFound.Name = "toolStripFound";
-			this.toolStripFound.Size = new System.Drawing.Size(0, 25);
+			this.toolStripFound.Size = new System.Drawing.Size(82, 25);
+			this.toolStripFound.Text = "URLs Found: 0";
 			// 
 			// tabControlMain
 			// 
@@ -630,43 +638,43 @@ namespace SEOMacroscope
 			// allDocumentTypesToolStripMenuItem
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
 			// 
 			// hTMLToolStripMenuItem
 			// 
 			this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-			this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.hTMLToolStripMenuItem.Text = "HTML";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.imagesToolStripMenuItem.Text = "Images";
 			// 
 			// pDFsToolStripMenuItem
 			// 
 			this.pDFsToolStripMenuItem.Name = "pDFsToolStripMenuItem";
-			this.pDFsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.pDFsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.pDFsToolStripMenuItem.Text = "PDFs";
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
 			// 
 			// toolStripExecuteControls
@@ -738,13 +746,6 @@ namespace SEOMacroscope
 			this.ButtonReset.Text = "Reset";
 			this.ButtonReset.ToolTipText = "Reset all scan results";
 			this.ButtonReset.Click += new System.EventHandler(this.CallbackScanReset);
-			// 
-			// aboutSEOMacroscopeToolStripMenuItem
-			// 
-			this.aboutSEOMacroscopeToolStripMenuItem.Name = "aboutSEOMacroscopeToolStripMenuItem";
-			this.aboutSEOMacroscopeToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-			this.aboutSEOMacroscopeToolStripMenuItem.Text = "About SEO Macroscope";
-			this.aboutSEOMacroscopeToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpAboutClick);
 			// 
 			// MacroscopeMainForm
 			// 

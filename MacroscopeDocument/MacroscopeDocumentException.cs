@@ -24,42 +24,48 @@
 */
 
 using System;
-using System.Drawing;
-using System.Windows.Forms;
+using System.Runtime.Serialization;
 
 namespace SEOMacroscope
 {
 	
 	/// <summary>
-	/// Description of MacroscopePrefsForm.
+	/// Description of MacroscopeDocumentException.
 	/// </summary>
 	
-	public partial class MacroscopePrefsForm : Form
+	public class MacroscopeDocumentException : Exception, ISerializable
 	{
 	
 		/**************************************************************************/
-
-		public MacroscopePrefsForm ()
+				
+		public MacroscopeDocumentException ()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-
-		}
-		void CallbackFormClosing ( object sender, FormClosingEventArgs e )
-		{
-	
-		}
-		void CallbackFormClosed ( object sender, FormClosedEventArgs e )
-		{
-	
 		}
 
 		/**************************************************************************/
+				
+		public MacroscopeDocumentException ( string message )
+			: base( message )
+		{
+		}
+
+		/**************************************************************************/
+	 			
+		public MacroscopeDocumentException ( string message, Exception innerException )
+			: base( message, innerException )
+		{
+		}
+
+		/**************************************************************************/
+				
+		// This constructor is needed for serialization.
+		protected MacroscopeDocumentException ( SerializationInfo info, StreamingContext context )
+			: base( info, context )
+		{
+		}
 	
 		/**************************************************************************/
-						
+				
 	}
 
 }

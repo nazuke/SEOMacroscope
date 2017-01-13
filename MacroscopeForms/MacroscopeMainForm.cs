@@ -72,7 +72,7 @@ namespace SEOMacroscope
 			this.SetURL( MacroscopePreferencesManager.GetStartUrl() );
 
 			#if DEBUG
-			//this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
+			this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
 			#endif
 
 			this.ScanningControlsEnable( true );
@@ -189,8 +189,14 @@ namespace SEOMacroscope
 		void CallbackEditPreferencesClick ( object sender, EventArgs e )
 		{
 			debug_msg( "CallbackEditPreferencesClick Called" );
+			
 			MacroscopePrefsForm fPreferencesForm = new MacroscopePrefsForm ();
-			fPreferencesForm.ShowDialog();
+			
+			DialogResult fPreferencsResult = fPreferencesForm.ShowDialog();
+			
+			
+			
+			
 		}
 
 		/** Help Menu *************************************************************/
@@ -338,7 +344,7 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sURL = lvItem.SubItems[0].Text.ToString();
+					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
 					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
 				}
 			}

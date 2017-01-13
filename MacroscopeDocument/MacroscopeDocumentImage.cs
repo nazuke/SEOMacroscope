@@ -53,6 +53,7 @@ namespace SEOMacroscope
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 				
 				if( res != null ) {
@@ -75,7 +76,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean ProcessImagePage ()
+		void ProcessImagePage ()
 		{
 
 			HttpWebRequest req = null;
@@ -86,6 +87,7 @@ namespace SEOMacroscope
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
 				debug_msg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ), 3 );
@@ -100,8 +102,8 @@ namespace SEOMacroscope
 					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
 					string sTitle = null;
 					foreach( Match match in reMatches ) {
-						if( match.Groups[1].Value.Length > 0 ) {
-							sTitle = match.Groups[1].Value.ToString();
+						if( match.Groups[ 1 ].Value.Length > 0 ) {
+							sTitle = match.Groups[ 1 ].Value.ToString();
 							break;
 						}
 					}
@@ -119,8 +121,6 @@ namespace SEOMacroscope
 				this.StatusCode = 500;
 			}
 
-			return( true );
-			
 		}
 
 		/**************************************************************************/

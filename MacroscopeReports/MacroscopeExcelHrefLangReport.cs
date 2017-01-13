@@ -96,8 +96,8 @@ namespace SEOMacroscope
 					MacroscopeDocument msDoc = htDocCollection.Get( sKey );
 					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
 					
-					string sSiteLocale = this.FormatIfMissing( msDoc.Locale );
-					string sTitle = this.FormatIfMissing( msDoc.Title );
+					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
+					string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
 
 					ws.Cell( iRow, 1 ).Value = sSiteLocale;
 					if( sSiteLocale == "MISSING" ) {
@@ -108,8 +108,8 @@ namespace SEOMacroscope
 					if( sTitle == "MISSING" ) {
 						ws.Cell( iRow, 2 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
 					}
-
-					ws.Cell( iRow, ( int )htLocaleCols[ msDoc.Locale ] ).Value = msDoc.GetUrl();
+					
+					ws.Cell( iRow, ( int )htLocaleCols[ msDoc.GetLocale() ] ).Value = msDoc.GetUrl();
 
 					foreach( string sLocale in htLocales.Keys ) {
 						if( sLocale != null ) {

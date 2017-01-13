@@ -25,7 +25,7 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("0")]
+		[global::System.Configuration.DefaultSettingValueAttribute("-1")]
 		public int Depth {
 			get {
 				return ((int)(this["Depth"]));
@@ -37,7 +37,7 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FetchImages {
 			get {
 				return ((bool)(this["FetchImages"]));
@@ -49,7 +49,7 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FetchJavascripts {
 			get {
 				return ((bool)(this["FetchJavascripts"]));
@@ -73,13 +73,25 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FetchStylesheets {
 			get {
 				return ((bool)(this["FetchStylesheets"]));
 			}
 			set {
 				this["FetchStylesheets"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool FirstRun {
+			get {
+				return ((bool)(this["FirstRun"]));
+			}
+			set {
+				this["FirstRun"] = value;
 			}
 		}
 		
@@ -97,7 +109,7 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FollowRobotsProtocol {
 			get {
 				return ((bool)(this["FollowRobotsProtocol"]));
@@ -110,30 +122,54 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
-		public string HttpProxyUrl {
+		public string HttpProxyHost {
 			get {
-				return ((string)(this["HttpProxyUrl"]));
+				return ((string)(this["HttpProxyHost"]));
 			}
 			set {
-				this["HttpProxyUrl"] = value;
-			}
-		}
-		
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("")]
-		public string HttpsProxyUrl {
-			get {
-				return ((string)(this["HttpsProxyUrl"]));
-			}
-			set {
-				this["HttpsProxyUrl"] = value;
+				this["HttpProxyHost"] = value;
 			}
 		}
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("0")]
+		public int HttpProxyPort {
+			get {
+				return ((int)(this["HttpProxyPort"]));
+			}
+			set {
+				this["HttpProxyPort"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("")]
+		public string HttpsProxyHost {
+			get {
+				return ((string)(this["HttpsProxyHost"]));
+			}
+			set {
+				this["HttpsProxyHost"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("0")]
+		public int HttpsProxyPort {
+			get {
+				return ((int)(this["HttpsProxyPort"]));
+			}
+			set {
+				this["HttpsProxyPort"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("-1")]
 		public int PageLimit {
 			get {
 				return ((int)(this["PageLimit"]));

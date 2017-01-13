@@ -106,6 +106,7 @@
     <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
@@ -207,11 +208,6 @@
     <Folder Include="MacroscopeTools\t" />
     <Folder Include="MacroscopeUserControls" />
     <Folder Include="MacroscopeUserControls\MacroscopePrefsControl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ProfilingSessions\Session20170110_173949.sdps" />
-    <Content Include="ProfilingSessions\Session20170110_174113.sdps" />
-    <Content Include="ProfilingSessions\Session20170110_190829.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
