@@ -73,11 +73,11 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void debug_msg ( String sMsg )
+		public new void debug_msg ( String sMsg )
 		{
 		}
 
-		public void debug_msg ( String sMsg, int iOffset )
+		public new void debug_msg ( String sMsg, int iOffset )
 		{
 		}
 		
