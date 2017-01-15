@@ -55,6 +55,7 @@ namespace SEOMacroscope
 
 		// Spidering Control
 		static string StartUrl;
+		static int MaxThreads;
 		static int Depth;
 		static int PageLimit;
 		static Boolean SameSite;
@@ -105,6 +106,8 @@ namespace SEOMacroscope
 
 					StartUrl = Preferences.StartUrl;
 			
+					MaxThreads = Preferences.MaxThreads;
+					
 					Depth = Preferences.Depth;
 					PageLimit = Preferences.PageLimit;
 
@@ -146,6 +149,7 @@ namespace SEOMacroscope
 
 			// Spidering Control
 			StartUrl = "";
+			MaxThreads = 4;
 			Depth = -1;
 			PageLimit = -1;
 			SameSite = true;
@@ -272,6 +276,8 @@ namespace SEOMacroscope
 
 				Preferences.StartUrl = StartUrl;
 			
+				Preferences.MaxThreads = MaxThreads;
+									
 				Preferences.Depth = Depth;
 				Preferences.PageLimit = PageLimit;
 
@@ -325,6 +331,18 @@ namespace SEOMacroscope
 		public static void SetStartUrl ( string sStartUrl )
 		{
 			StartUrl = sStartUrl;
+		}
+		
+		/**************************************************************************/
+				
+		public static int GetMaxThreads ()
+		{
+			return( MaxThreads );
+		}
+		
+		public static void SetMaxThreads ( int iMaxThreads )
+		{
+			MaxThreads = iMaxThreads;
 		}
 
 		/**************************************************************************/

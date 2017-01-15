@@ -52,7 +52,7 @@ namespace SEOMacroscope
 			Boolean bAllowed = false;
 
 			if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() ) {
-				debug_msg( string.Format( "ROBOTS Disabled: {0}", sURL ), 2 );
+				debug_msg( string.Format( "ROBOTS Disabled: {0}", sURL ) );
 				return( true );
 			}
 
@@ -102,8 +102,8 @@ namespace SEOMacroscope
 						if( robot.IsPathAllowed( "*", uBase.AbsolutePath ) ) {
 							bAllowed = true;
 						} else {
-							debug_msg( string.Format( "ROBOTS Disallowed: {0}", sURL ), 2 );
-							debug_msg( string.Format( "ROBOTS AbsolutePath: {0}", uBase.AbsolutePath ), 2 );
+							debug_msg( string.Format( "ROBOTS Disallowed: {0}", sURL ) );
+							debug_msg( string.Format( "ROBOTS AbsolutePath: {0}", uBase.AbsolutePath ) );
 						}
 					}
 

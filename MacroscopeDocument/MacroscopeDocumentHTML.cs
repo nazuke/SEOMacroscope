@@ -60,17 +60,17 @@ namespace SEOMacroscope
 					this.ProcessHttpHeaders( req, res );
 				}
 				
-				debug_msg( string.Format( "Status: {0}", res.StatusCode ), 2 );
-				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ), 2 );
+				debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
+				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
 				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
 					bIs = true;
 					this.IsHtml = true;
 				}
 				res.Close();
 //			} catch( UriFormatException ex ) {
-//				debug_msg( string.Format( "IsHtmlPage :: UriFormatException: {0}", ex.Message ), 2 );
+//				debug_msg( string.Format( "IsHtmlPage :: UriFormatException: {0}", ex.Message ) );
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "IsHtmlPage :: WebException: {0}", ex.Message ), 2 );
+				debug_msg( string.Format( "IsHtmlPage :: WebException: {0}", ex.Message ) );
 			}
 			return( bIs );
 		}
@@ -96,8 +96,8 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "ProcessHtmlPage :: WebException: {0}", ex.Message ), 3 );
-				debug_msg( string.Format( "ProcessHtmlPage :: WebException: {0}", this.Url ), 3 );
+				debug_msg( string.Format( "ProcessHtmlPage :: WebException: {0}", ex.Message ) );
+				debug_msg( string.Format( "ProcessHtmlPage :: WebException: {0}", this.Url ) );
 			}
 
 			if( res != null ) {
@@ -108,14 +108,14 @@ namespace SEOMacroscope
 
 				// Get Response Body
 				try {
-					debug_msg( string.Format( "MIME TYPE: {0}", this.MimeType ), 3 );
+					debug_msg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 					Stream sStream = res.GetResponseStream();
 					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
 					sRawData = srRead.ReadToEnd();
 					this.ContentLength = sRawData.Length; // May need to find bytes length
-					//debug_msg( string.Format( "sRawData: {0}", sRawData ), 3 );
+					//debug_msg( string.Format( "sRawData: {0}", sRawData ) );
 				} catch( WebException ex ) {
-					debug_msg( string.Format( "WebException", ex.Message ), 3 );
+					debug_msg( string.Format( "WebException", ex.Message ) );
 					this.StatusCode = 500;
 					sRawData = "";
 					this.ContentLength = 0;
@@ -124,9 +124,9 @@ namespace SEOMacroscope
 				if( sRawData.Length > 0 ) {
 					this.HtmlDoc = new HtmlDocument ();
 					this.HtmlDoc.LoadHtml( sRawData );
-					debug_msg( string.Format( "htmlDoc: {0}", this.HtmlDoc ), 3 );
+					debug_msg( string.Format( "htmlDoc: {0}", this.HtmlDoc ) );
 				} else {
-					debug_msg( string.Format( "sRawData: {0}", "EMPTY" ), 3 );
+					debug_msg( string.Format( "sRawData: {0}", "EMPTY" ) );
 				}
 
 				if( this.HtmlDoc != null ) {
@@ -141,10 +141,10 @@ namespace SEOMacroscope
 						HtmlNode nNode = this.HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/link[@rel='canonical']" );
 						if( nNode != null ) {
 							this.Canonical = nNode.GetAttributeValue( "href", "" );
-							debug_msg( string.Format( "CANONICAL: {0}", this.Canonical ), 3 );
+							debug_msg( string.Format( "CANONICAL: {0}", this.Canonical ) );
 						} else {
 							this.Canonical = "";		
-							debug_msg( string.Format( "CANONICAL: {0}", "MISSING" ), 3 );
+							debug_msg( string.Format( "CANONICAL: {0}", "MISSING" ) );
 						}
 					}
 
@@ -152,9 +152,9 @@ namespace SEOMacroscope
 						HtmlNode nNode = this.HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/title" );
 						if( nNode != null ) {
 							this.Title = nNode.InnerText;
-							debug_msg( string.Format( "TITLE: {0}", this.Title ), 3 );
+							debug_msg( string.Format( "TITLE: {0}", this.Title ) );
 						} else {
-							debug_msg( string.Format( "TITLE: {0}", "MISSING" ), 3 );
+							debug_msg( string.Format( "TITLE: {0}", "MISSING" ) );
 						}
 					}
 
@@ -162,10 +162,10 @@ namespace SEOMacroscope
 						HtmlNode nNode = this.HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@name='description']" );
 						if( nNode != null ) {
 							this.Description = nNode.GetAttributeValue( "content", null );
-							debug_msg( string.Format( "DESCRIPTION: {0}", this.Description ), 3 );
+							debug_msg( string.Format( "DESCRIPTION: {0}", this.Description ) );
 						} else {
 							this.Description = null;		
-							debug_msg( string.Format( "DESCRIPTION: {0}", "MISSING" ), 3 );
+							debug_msg( string.Format( "DESCRIPTION: {0}", "MISSING" ) );
 						}
 					}
 						
@@ -173,10 +173,10 @@ namespace SEOMacroscope
 						HtmlNode nNode = this.HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@name='keywords']" );
 						if( nNode != null ) {
 							this.Keywords = nNode.GetAttributeValue( "content", null );
-							debug_msg( string.Format( "KEYWORDS: {0}", this.Keywords ), 3 );
+							debug_msg( string.Format( "KEYWORDS: {0}", this.Keywords ) );
 						} else {
 							this.Keywords = null;		
-							debug_msg( string.Format( "KEYWORDS: {0}", "MISSING" ), 3 );
+							debug_msg( string.Format( "KEYWORDS: {0}", "MISSING" ) );
 						}
 					}
 
@@ -430,7 +430,7 @@ namespace SEOMacroscope
 							sLocale = this.Locale;
 						}
 						
-						debug_msg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ), 3 );
+						debug_msg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ) );
 						
 						msHrefLang = new MacroscopeHrefLang ( this.ProbeHrefLangs, sLocale, sHref );
 						

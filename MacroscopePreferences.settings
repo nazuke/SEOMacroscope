@@ -40,6 +40,9 @@
     <Setting Name="HttpsProxyPort" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="MaxThreads" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
     <Setting Name="PageLimit" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">-1</Value>
     </Setting>

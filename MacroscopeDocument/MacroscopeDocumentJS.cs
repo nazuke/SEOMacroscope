@@ -60,16 +60,16 @@ namespace SEOMacroscope
 					this.ProcessHttpHeaders( req, res );
 				}
 				
-				debug_msg( string.Format( "Status: {0}", res.StatusCode ), 2 );
-				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ), 2 );
+				debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
+				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
 				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
 					bIs = true;
 				}
 				res.Close();
 //			} catch( UriFormatException ex ) {
-//				debug_msg( string.Format( "IsJavascriptPage :: UriFormatException: {0}", ex.Message ), 2 );
+//				debug_msg( string.Format( "IsJavascriptPage :: UriFormatException: {0}", ex.Message ) );
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "IsJavascriptPage :: WebException: {0}", ex.Message ), 2 );
+				debug_msg( string.Format( "IsJavascriptPage :: WebException: {0}", ex.Message ) );
 			}
 			return( bIs );
 		}
@@ -90,8 +90,8 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "process_javascript_page :: WebException: {0}", ex.Message ), 3 );
-				debug_msg( string.Format( "process_javascript_page :: WebException: {0}", this.Url ), 3 );
+				debug_msg( string.Format( "process_javascript_page :: WebException: {0}", ex.Message ) );
+				debug_msg( string.Format( "process_javascript_page :: WebException: {0}", this.Url ) );
 			}
 
 			if( res != null ) {
@@ -109,9 +109,9 @@ namespace SEOMacroscope
 					}
 					if( sTitle != null ) {
 						this.Title = sTitle;
-						debug_msg( string.Format( "TITLE: {0}", this.Title ), 3 );
+						debug_msg( string.Format( "TITLE: {0}", this.Title ) );
 					} else {
-						debug_msg( string.Format( "TITLE: {0}", "MISSING" ), 3 );
+						debug_msg( string.Format( "TITLE: {0}", "MISSING" ) );
 					}
 				}
 

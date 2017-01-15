@@ -62,7 +62,7 @@ namespace SEOMacroscope
 			MacroscopeDocumentCollection DocCollection = this.msJobMaster.DocCollectionGet();
 
 			if( ! this.msJobMaster.RobotsGet().ApplyRobotRule( sURL ) ) {
-				debug_msg( string.Format( "Disallowed by robots.txt: {0}", sURL ), 1 );
+				debug_msg( string.Format( "Disallowed by robots.txt: {0}", sURL ) );
 				return;
 			}
 
@@ -118,7 +118,7 @@ namespace SEOMacroscope
 						} else if( this.msJobMaster.PageLimit > -1 ) {
 						
 							if( this.msJobMaster.PageLimitCount >= this.msJobMaster.PageLimit ) {
-								debug_msg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.msJobMaster.PageLimit, this.msJobMaster.PageLimitCount ), 2 );
+								debug_msg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.msJobMaster.PageLimit, this.msJobMaster.PageLimitCount ) );
 								bProceed = false;
 							}
 							
@@ -141,7 +141,7 @@ namespace SEOMacroscope
 				}
 
 			} else {
-				debug_msg( string.Format( "EXECUTE FAILED: {0}", sURL ), 2 );
+				debug_msg( string.Format( "EXECUTE FAILED: {0}", sURL ) );
 			}
 
 		}

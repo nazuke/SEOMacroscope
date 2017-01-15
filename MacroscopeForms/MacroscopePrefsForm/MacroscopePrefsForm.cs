@@ -47,17 +47,14 @@ namespace SEOMacroscope
 			InitializeComponent();
 
 		}
-		void CallbackFormClosing ( object sender, FormClosingEventArgs e )
-		{
-	
-		}
-		void CallbackFormClosed ( object sender, FormClosedEventArgs e )
-		{
-	
-		}
 
 		/**************************************************************************/
-	
+
+		static void debug_msg ( String sMsg )
+		{
+			System.Diagnostics.Debug.WriteLine( sMsg );
+		}
+
 		/**************************************************************************/
 						
 	}

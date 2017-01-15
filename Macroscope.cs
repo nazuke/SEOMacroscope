@@ -44,11 +44,13 @@ namespace SEOMacroscope
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
 
+		/*
 		public static void debug_msg ( String sMsg, int iOffset )
 		{
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
+		*/
 		
 		/**************************************************************************/
 

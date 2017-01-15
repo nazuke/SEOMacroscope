@@ -226,7 +226,7 @@ namespace SEOMacroscope
 		public void RecalculateLinksIn ()
 		{
 
-			debug_msg( string.Format( "RecalculateLinksIn: CALLED" ), 1 );
+			debug_msg( string.Format( "RecalculateLinksIn: CALLED" ) );
 
 			ThreadRecalculateLinksInSemaphone.WaitOne();
 

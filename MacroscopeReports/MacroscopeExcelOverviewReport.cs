@@ -44,7 +44,7 @@ namespace SEOMacroscope
 		public void WriteXslx( MacroscopeJobMaster msJobMaster, string sOutputFilename )
 		{				
 			var wb = new XLWorkbook ();
-			debug_msg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ), 1 );
+			debug_msg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
 			this.BuildWorksheet( msJobMaster, wb, "Macroscope Overview", false );
 			wb.SaveAs( sOutputFilename );
 		}

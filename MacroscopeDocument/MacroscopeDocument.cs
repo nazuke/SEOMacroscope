@@ -509,7 +509,7 @@ namespace SEOMacroscope
 			// TODO: validate this.Url
 			
 			if( this.IsRedirectPage() ) {
-				debug_msg( string.Format( "IS REDIRECT: {0}", this.Url ), 2 );
+				debug_msg( string.Format( "IS REDIRECT: {0}", this.Url ) );
 				this.IsRedirect = true;
 			} 
 
@@ -521,7 +521,7 @@ namespace SEOMacroscope
 				try {
 					ProcessMethod();
 				} catch( MacroscopeDocumentException ex ) {
-					debug_msg( string.Format( "fTimeDuration: {0}", ex.Message ), 2 );
+					debug_msg( string.Format( "fTimeDuration: {0}", ex.Message ) );
 				}
 				swDuration.Stop();
 				lDuration = swDuration.ElapsedMilliseconds;
@@ -530,45 +530,45 @@ namespace SEOMacroscope
 				} else {
 					this.Duration = 0;
 				}
-				debug_msg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ), 2 );
+				debug_msg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
 			};
 
 			if( this.IsHtmlPage() ) {
-				debug_msg( string.Format( "IS HTML PAGE: {0}", this.Url ), 2 );
+				debug_msg( string.Format( "IS HTML PAGE: {0}", this.Url ) );
 				fTimeDuration( this.ProcessHtmlPage );
 
 			} else if( this.IsCssPage() ) {
-				debug_msg( string.Format( "IS CSS PAGE: {0}", this.Url ), 2 );
+				debug_msg( string.Format( "IS CSS PAGE: {0}", this.Url ) );
 				if( MacroscopePreferencesManager.GetFetchStylesheets() ) {
 					fTimeDuration( this.ProcessCssPage );
 				}
 
 			} else if( this.IsImagePage() ) {
-				debug_msg( string.Format( "IS IMAGE PAGE: {0}", this.Url ), 2 );
+				debug_msg( string.Format( "IS IMAGE PAGE: {0}", this.Url ) );
 				if( MacroscopePreferencesManager.GetFetchImages() ) {
 					fTimeDuration( this.ProcessImagePage );
 				}
 				
 			} else if( this.IsJavascriptPage() ) {
-				debug_msg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ), 2 );
+				debug_msg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ) );
 				if( MacroscopePreferencesManager.GetFetchJavascripts() ) {
 					fTimeDuration( this.ProcessJavascriptPage );
 				}
 
 			} else if( this.IsPdfPage() ) {
-				debug_msg( string.Format( "IS PDF PAGE: {0}", this.Url ), 2 );
+				debug_msg( string.Format( "IS PDF PAGE: {0}", this.Url ) );
 				if( MacroscopePreferencesManager.GetFetchPdfs() ) {
 					fTimeDuration( this.ProcessPdfPage );
 				}
 
 			} else if( this.IsBinaryPage() ) {
-				debug_msg( string.Format( "IS BINARY PAGE: {0}", this.Url ), 2 );
+				debug_msg( string.Format( "IS BINARY PAGE: {0}", this.Url ) );
 				if( MacroscopePreferencesManager.GetFetchBinaries() ) {
 					fTimeDuration( this.ProcessBinaryPage );
 				}
 
 			} else {
-				debug_msg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.Url ), 2 );
+				debug_msg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.Url ) );
 			}
 			
 			return( true );
@@ -594,7 +594,7 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 
-				debug_msg( string.Format( "Status: {0}", res.StatusCode ), 2 );
+				debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
 
 				if( res.StatusCode == HttpStatusCode.Moved ) {
 					bIsRedirect = true;
@@ -615,7 +615,7 @@ namespace SEOMacroscope
 				res.Close();
 
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "is_redirect :: WebException: {0}", ex.Message ), 2 );
+				debug_msg( string.Format( "is_redirect :: WebException: {0}", ex.Message ) );
 			}
 
 			return( bIsRedirect );
@@ -630,13 +630,13 @@ namespace SEOMacroscope
 
 			this.StatusCode = this.ProcessStatusCode( res.StatusCode );
 
-			debug_msg( string.Format( "Status: {0}", this.StatusCode ), 2 );
+			debug_msg( string.Format( "Status: {0}", this.StatusCode ) );
 
 			// Probe HTTP Headers
 
 			foreach( string sHeader in res.Headers ) {
 
-				debug_msg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ), 3 );
+				debug_msg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ) );
 
 				if( sHeader.ToLower().Equals( "date" ) ) {
 					this.DateServer = DateTime.Parse( res.GetResponseHeader( sHeader ) );
@@ -666,8 +666,8 @@ namespace SEOMacroscope
 			this.MimeType = res.ContentType;
 			this.ContentLength = res.ContentLength;
 
-			debug_msg( string.Format( "Content-Type: {0}", this.MimeType ), 3 );
-			debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ), 3 );
+			debug_msg( string.Format( "Content-Type: {0}", this.MimeType ) );
+			debug_msg( string.Format( "Content-Length: {0}", this.ContentLength.ToString() ) );
 
 			
 			// TODO: Link: <http://www.example.com/downloads/white-paper.pdf>; rel="canonical"

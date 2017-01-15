@@ -189,14 +189,26 @@ namespace SEOMacroscope
 		void CallbackEditPreferencesClick ( object sender, EventArgs e )
 		{
 			debug_msg( "CallbackEditPreferencesClick Called" );
-			
 			MacroscopePrefsForm fPreferencesForm = new MacroscopePrefsForm ();
-			
+			MacroscopePrefsControl PrefsControl = fPreferencesForm.macroscopePrefsControlInstance;
+
+			{
+				PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
+				PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
+			}
+
 			DialogResult fPreferencsResult = fPreferencesForm.ShowDialog();
 			
-			
-			
-			
+			debug_msg( string.Format( "CallbackEditPreferencesClick: {0}", fPreferencsResult ) );
+
+			if( fPreferencsResult == DialogResult.OK ) {
+
+				PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
+
+				PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
+
+			}
+
 		}
 
 		/** Help Menu *************************************************************/
@@ -344,7 +356,7 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
+					string sURL = lvItem.SubItems[0].Text.ToString();
 					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
 				}
 			}
@@ -605,14 +617,9 @@ namespace SEOMacroscope
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
 
-		static void debug_msg ( String sMsg, int iOffset )
-		{
-			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
-			System.Diagnostics.Debug.WriteLine( sMsgPadded );
-		}
+		/**************************************************************************/
 
 		
-
 		
 
 

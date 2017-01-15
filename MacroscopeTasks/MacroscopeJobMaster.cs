@@ -78,7 +78,7 @@ namespace SEOMacroscope
 			
 			DisplayLock = new Object ();
 
-			ThreadsMax = 8;
+			ThreadsMax = MacroscopePreferencesManager.GetMaxThreads();
 			ThreadsRunning = 0;
 			ThreadsStop = false;
 			ThreadsDict = new Dictionary<int,Boolean> ();
@@ -112,7 +112,7 @@ namespace SEOMacroscope
 		~MacroscopeJobMaster ()
 		{
 
-			debug_msg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ), 0 );
+			debug_msg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
 
 			this.WorkerUpdateDisplayShutdown();
 
@@ -123,7 +123,7 @@ namespace SEOMacroscope
 		public Boolean Execute ()
 		{
 
-			debug_msg( string.Format( "Start URL: {0}", this.StartUrl ), 1 );
+			debug_msg( string.Format( "Start URL: {0}", this.StartUrl ) );
 
 			this.ThreadsStop = false;
 			 							
@@ -133,7 +133,7 @@ namespace SEOMacroscope
 
 			this.WorkersSpawn();
 			
-			debug_msg( string.Format( "Pages Found: {0}", this.PagesFound ), 1 );
+			debug_msg( string.Format( "Pages Found: {0}", this.PagesFound ) );
 
 			this.msMainForm.CallbackScanComplete();
 
@@ -511,7 +511,7 @@ namespace SEOMacroscope
 				try {
 					this.msMainForm.UpdateDisplaySingle( sURL );
 				} catch( ArgumentException ex ) {
-					debug_msg( string.Format( "UpdateDisplaySingle: {0}", ex.Message ), 1 );
+					debug_msg( string.Format( "UpdateDisplaySingle: {0}", ex.Message ) );
 				}
 			}
 		}

@@ -44,7 +44,7 @@ namespace SEOMacroscope
 		public void WriteXslx( MacroscopeJobMaster msJobMaster, string sOutputFilename )
 		{				
 			var wb = new XLWorkbook ();
-			debug_msg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ), 1 );
+			debug_msg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
 			this.BuildWorksheet( msJobMaster, wb, "Macroscope HrefLang", false );
 			wb.SaveAs( sOutputFilename );
 		}
@@ -73,7 +73,7 @@ namespace SEOMacroscope
 				iCol++;
 
 				foreach( string sLocale in htLocales.Keys ) {
-					debug_msg( string.Format( "EXCEL sLocale: {0}", sLocale ), 2 );
+					debug_msg( string.Format( "EXCEL sLocale: {0}", sLocale ) );
 					htLocaleCols[ sLocale ] = iCol;
 					ws.Cell( iRow, iCol ).Value = sLocale;
 					iCol++;
