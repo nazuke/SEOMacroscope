@@ -44,33 +44,58 @@ namespace SEOMacroscope
 		
 		Boolean IsImagePage ()
 		{
+			
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
 			Boolean bIs = false;
 			Regex reIs = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
+			string sErrorCondition = null;
+						
 			try {
+
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
-				
+
+				try {
+					res = ( HttpWebResponse )req.GetResponse();
+				} catch( WebException ex ) {
+					debug_msg( string.Format( "IsImagePage :: WebException: {0}", ex.Message ) );
+					debug_msg( string.Format( "IsImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+					sErrorCondition = ex.Status.ToString();
+				}
+
 				if( res != null ) {
+
 					this.ProcessHttpHeaders( req, res );
+
+					debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
+					debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
+
+					if( reIs.IsMatch( res.ContentType.ToString() ) ) {
+						bIs = true;
+					}
+
+					res.Close();
+
 				}
-				
-				debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
-				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
-				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
-					bIs = true;
-				}
-				res.Close();
+
 //			} catch( UriFormatException ex ) {
 //				debug_msg( string.Format( "IsImagePage :: UriFormatException: {0}", ex.Message ) );
+
 			} catch( WebException ex ) {
 				debug_msg( string.Format( "IsImagePage :: WebException: {0}", ex.Message ) );
+				debug_msg( string.Format( "IsImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+				sErrorCondition = ex.Status.ToString();
 			}
+			
+			if( sErrorCondition != null ) {
+				this.StatusCode = 500;
+				this.ErrorCondition = sErrorCondition;
+			}
+			
 			return( bIs );
 		}
 
@@ -81,6 +106,7 @@ namespace SEOMacroscope
 
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
+			string sErrorCondition = null;
 
 			try {
 				req = WebRequest.CreateHttp( this.Url );
@@ -88,10 +114,19 @@ namespace SEOMacroscope
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
+
+				try {
+					res = ( HttpWebResponse )req.GetResponse();
+				} catch( WebException ex ) {
+					debug_msg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
+					debug_msg( string.Format( "ProcessImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+					sErrorCondition = ex.Status.ToString();
+				}
+
 			} catch( WebException ex ) {
 				debug_msg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
-				debug_msg( string.Format( "ProcessImagePage :: WebException: {0}", this.Url ) );
+				debug_msg( string.Format( "ProcessImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+				sErrorCondition = ex.Status.ToString();
 			}
 
 			if( res != null ) {
@@ -99,20 +134,24 @@ namespace SEOMacroscope
 				this.ProcessHttpHeaders( req, res );
 
 				{ // Title
+
 					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
 					string sTitle = null;
+
 					foreach( Match match in reMatches ) {
 						if( match.Groups[ 1 ].Value.Length > 0 ) {
 							sTitle = match.Groups[ 1 ].Value.ToString();
 							break;
 						}
 					}
+
 					if( sTitle != null ) {
 						this.Title = sTitle;
 						debug_msg( string.Format( "TITLE: {0}", this.Title ) );
 					} else {
 						debug_msg( string.Format( "TITLE: {0}", "MISSING" ) );
 					}
+
 				}
 
 				res.Close();
@@ -121,6 +160,11 @@ namespace SEOMacroscope
 				this.StatusCode = 500;
 			}
 
+			if( sErrorCondition != null ) {
+				this.StatusCode = 500;
+				this.ErrorCondition = sErrorCondition;
+			}
+			
 		}
 
 		/**************************************************************************/

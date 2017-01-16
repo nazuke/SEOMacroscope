@@ -83,7 +83,7 @@ namespace SEOMacroscope
 			this.button1.Location = new System.Drawing.Point(490, 13);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 0;
+			this.button1.TabIndex = 101;
 			this.button1.Text = "Cancel";
 			this.button1.UseVisualStyleBackColor = true;
 			// 
@@ -93,7 +93,7 @@ namespace SEOMacroscope
 			this.button2.Location = new System.Drawing.Point(409, 13);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 2;
+			this.button2.TabIndex = 100;
 			this.button2.Text = "OK";
 			this.button2.UseVisualStyleBackColor = true;
 			// 
@@ -103,7 +103,7 @@ namespace SEOMacroscope
 			this.macroscopePrefsControlInstance.Location = new System.Drawing.Point(3, 3);
 			this.macroscopePrefsControlInstance.Name = "macroscopePrefsControlInstance";
 			this.macroscopePrefsControlInstance.Size = new System.Drawing.Size(578, 495);
-			this.macroscopePrefsControlInstance.TabIndex = 1;
+			this.macroscopePrefsControlInstance.TabIndex = 0;
 			// 
 			// MacroscopePrefsForm
 			// 
@@ -120,7 +120,6 @@ namespace SEOMacroscope
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SEO Macroscope Preferences";
-			this.TopMost = true;
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);

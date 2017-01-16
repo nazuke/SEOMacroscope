@@ -70,8 +70,8 @@ namespace SEOMacroscope
 		const string constKeywordsCount = "Keywords Count";
 		
 		const string constHn = "First H{0}";
-
-
+		
+		const string constErrorCondition = "Error Condition";
 
 		/**************************************************************************/
 
@@ -104,6 +104,8 @@ namespace SEOMacroscope
 			
 			if( !ListViewConfigured ) {
 			
+				// BEGIN: Columns
+								
 				lvListView.Columns.Add( constURL, constURL );
 				lvListView.Columns.Add( constStatus, constStatus );
 				lvListView.Columns.Add( constIsRedirect, constIsRedirect );
@@ -131,6 +133,10 @@ namespace SEOMacroscope
 					lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
 				}
 
+				lvListView.Columns.Add( constErrorCondition, constErrorCondition );
+								
+				// END: Columns
+								
 				lvListView.Sorting = SortOrder.Ascending;
 
 				ListViewResizeColumnsInitial( lvListView );
@@ -225,6 +231,8 @@ namespace SEOMacroscope
 				Hashtable htItems = new Hashtable ();
 				ListViewItem lvItem = null;
 				
+				// BEGIN: Columns
+				
 				htItems[ constURL ] = msDoc.GetUrl();
 
 				htItems[ constStatus ] = msDoc.GetStatusCode();
@@ -261,19 +269,17 @@ namespace SEOMacroscope
 				htItems[ constKeywordsCount ] = msDoc.GetKeywordsCount();
 
 				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
-
 					ArrayList aHeadings = msDoc.GetHeadings( iLevel );
-
 					string sText = "";
-
 					if( aHeadings.Count > 0 ) {
 						sText = ( string )aHeadings[ 0 ];
 					}
-
 					htItems[ string.Format( constHn, iLevel ) ] = sText;
-					
 				}
-				
+
+				htItems[ constErrorCondition ] = msDoc.GetErrorCondition();
+								
+				// END: Columns				
 
 				if( lvListView.Items.ContainsKey( sKeyURL ) ) {
 
@@ -348,15 +354,15 @@ namespace SEOMacroscope
 
 			List<string> lColDataWidth = new List<string> ()
 			{
-				constURL,
-				constDateServer,
-				constDateModified,
-				constTitle
+					constURL,
+					constDateServer,
+					constDateModified,
+					constTitle
 			};
 			
 			List<string> lColHeaderWidth = new List<string> ()
 			{
-				constDateModified
+					constDateModified
 			};
 
 			foreach( string sColName in lColDataWidth ) {

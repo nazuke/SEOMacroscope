@@ -78,12 +78,12 @@ namespace SEOMacroscope
 			
 			DisplayLock = new Object ();
 
-			ThreadsMax = MacroscopePreferencesManager.GetMaxThreads();
+			this.AdjustThreadsMax();
 			ThreadsRunning = 0;
 			ThreadsStop = false;
 			ThreadsDict = new Dictionary<int,Boolean> ();
 
-			ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
+			//ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
 						
 			Depth = MacroscopePreferencesManager.GetDepth();
 			PageLimit = MacroscopePreferencesManager.GetPageLimit();
@@ -111,11 +111,8 @@ namespace SEOMacroscope
 
 		~MacroscopeJobMaster ()
 		{
-
 			debug_msg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
-
 			this.WorkerUpdateDisplayShutdown();
-
 		}
 
 		/**************************************************************************/
@@ -166,7 +163,9 @@ namespace SEOMacroscope
 					}
 						
 					Thread.Sleep( 2000 );
-
+					
+					this.AdjustThreadsMax();
+					
 					if(
 						( this.RunningThreadsCount() == 0 )
 						&& ( !this.UrlQueuePeek() ) ) {
@@ -290,6 +289,14 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		void AdjustThreadsMax ()
+		{
+			ThreadsMax = MacroscopePreferencesManager.GetMaxThreads();
+			//ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
+		}
+		
+		/**************************************************************************/
+		
 		void RunningThreadsInc ()
 		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;

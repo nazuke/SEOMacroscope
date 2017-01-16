@@ -109,6 +109,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool FollowRedirects {
+			get {
+				return ((bool)(this["FollowRedirects"]));
+			}
+			set {
+				this["FollowRedirects"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FollowRobotsProtocol {
 			get {
@@ -140,30 +152,6 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["HttpProxyPort"] = value;
-			}
-		}
-		
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("")]
-		public string HttpsProxyHost {
-			get {
-				return ((string)(this["HttpsProxyHost"]));
-			}
-			set {
-				this["HttpsProxyHost"] = value;
-			}
-		}
-		
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("0")]
-		public int HttpsProxyPort {
-			get {
-				return ((int)(this["HttpsProxyPort"]));
-			}
-			set {
-				this["HttpsProxyPort"] = value;
 			}
 		}
 		

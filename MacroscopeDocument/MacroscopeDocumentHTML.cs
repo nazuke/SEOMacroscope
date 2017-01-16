@@ -44,34 +44,58 @@ namespace SEOMacroscope
 
 		Boolean IsHtmlPage ()
 		{
+			
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
 			Boolean bIs = false;
 			Regex reIs = new Regex ( "^text/html", RegexOptions.IgnoreCase );
+			string sErrorCondition = null;
+						
 			try {
+				
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
-				
+
+				try {
+					res = ( HttpWebResponse )req.GetResponse();
+				} catch( WebException ex ) {
+					debug_msg( string.Format( "IsHtmlPage :: WebException: {0}", ex.Message ) );
+					debug_msg( string.Format( "IsHtmlPage :: WebExceptionStatus: {0}", ex.Status ) );
+					sErrorCondition = ex.Status.ToString();
+				}
+
 				if( res != null ) {
 					this.ProcessHttpHeaders( req, res );
+
+					debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
+					debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
+
+					if( reIs.IsMatch( res.ContentType.ToString() ) ) {
+						bIs = true;
+						this.IsHtml = true;
+					}
+
+					res.Close();
+
 				}
-				
-				debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
-				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
-				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
-					bIs = true;
-					this.IsHtml = true;
-				}
-				res.Close();
+
 //			} catch( UriFormatException ex ) {
 //				debug_msg( string.Format( "IsHtmlPage :: UriFormatException: {0}", ex.Message ) );
+			
 			} catch( WebException ex ) {
 				debug_msg( string.Format( "IsHtmlPage :: WebException: {0}", ex.Message ) );
+				debug_msg( string.Format( "IsHtmlPage :: WebExceptionStatus: {0}", ex.Status ) );
+				sErrorCondition = ex.Status.ToString();
 			}
+
+			if( sErrorCondition != null ) {
+				this.StatusCode = 500;
+				this.ErrorCondition = sErrorCondition;
+			}
+
 			return( bIs );
 		}
 
@@ -87,17 +111,22 @@ namespace SEOMacroscope
 		
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
-
+			string sErrorCondition = null;
+			
 			try {
+				
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "GET";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
+
 			} catch( WebException ex ) {
 				debug_msg( string.Format( "ProcessHtmlPage :: WebException: {0}", ex.Message ) );
 				debug_msg( string.Format( "ProcessHtmlPage :: WebException: {0}", this.Url ) );
+				debug_msg( string.Format( "IsRedirectPage :: WebExceptionStatus: {0}", ex.Status ) );
+				sErrorCondition = ex.Status.ToString();
 			}
 
 			if( res != null ) {
@@ -206,6 +235,11 @@ namespace SEOMacroscope
 				this.StatusCode = 500;
 			}
 
+			if( sErrorCondition != null ) {
+				this.StatusCode = 500;
+				this.ErrorCondition = sErrorCondition;
+			}
+			
 		}
 
 		/**************************************************************************/

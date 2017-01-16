@@ -70,6 +70,7 @@ namespace SEOMacroscope
 		public string QueryString;
 
 		public int StatusCode;
+		public string ErrorCondition;
 		public long ContentLength;
 		public string MimeType;
 		public Boolean IsHtml;
@@ -121,6 +122,7 @@ namespace SEOMacroscope
 			UrlRedirectFrom = "";
 			
 			StatusCode = 0;
+			ErrorCondition = "";
 			ContentLength = 0;
 			
 			MimeType = "";
@@ -196,6 +198,13 @@ namespace SEOMacroscope
 		public int GetStatusCode ()
 		{
 			return( this.StatusCode );
+		}
+		
+		/**************************************************************************/
+
+		public string GetErrorCondition ()
+		{
+			return( this.ErrorCondition );
 		}
 
 		/**************************************************************************/
@@ -583,7 +592,8 @@ namespace SEOMacroscope
 			HttpWebResponse res = null;
 			Boolean bIsRedirect = false;
 			string sOriginalURL = this.Url;
-
+			string sErrorCondition = null;
+			
 			try {
 
 				req = WebRequest.CreateHttp( this.Url );
@@ -592,30 +602,48 @@ namespace SEOMacroscope
 				req.KeepAlive = false;
 				req.AllowAutoRedirect = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
 
-				debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
-
-				if( res.StatusCode == HttpStatusCode.Moved ) {
-					bIsRedirect = true;
-				} else if( res.StatusCode == HttpStatusCode.MovedPermanently ) {
-					bIsRedirect = true;
+				try {
+					res = ( HttpWebResponse )req.GetResponse();
+				} catch( WebException ex ) {
+					debug_msg( string.Format( "IsRedirectPage :: WebException: {0}", ex.Message ) );
+					debug_msg( string.Format( "IsRedirectPage :: WebExceptionStatus: {0}", ex.Status ) );
+					sErrorCondition = ex.Status.ToString();
 				}
+
+				if( res != null ) {
+				
+					debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
+
+					if( res.StatusCode == HttpStatusCode.Moved ) {
+						bIsRedirect = true;
+					} else if( res.StatusCode == HttpStatusCode.MovedPermanently ) {
+						bIsRedirect = true;
+					}
 			
-				if( bIsRedirect ) {
-					this.IsRedirect = true;
-					this.Url = res.GetResponseHeader( "Location" );
-					this.UrlRedirectFrom = sOriginalURL;
+					if( bIsRedirect ) {
+						this.IsRedirect = true;
+						this.Url = res.GetResponseHeader( "Location" );
+						this.UrlRedirectFrom = sOriginalURL;
 
 
-					//this.url = MacroscopeURLTools.make_url_absolute( this.url, this.UrlRedirectFrom );
+						//this.url = MacroscopeURLTools.make_url_absolute( this.url, this.UrlRedirectFrom );
 
+
+					}
+					res.Close();
 
 				}
-				res.Close();
-
+				
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "is_redirect :: WebException: {0}", ex.Message ) );
+				debug_msg( string.Format( "IsRedirectPage :: WebException: {0}", ex.Message ) );
+				debug_msg( string.Format( "IsRedirectPage :: WebExceptionStatus: {0}", ex.Status ) );
+				sErrorCondition = ex.Status.ToString();
+			}
+
+			if( sErrorCondition != null ) {
+				this.StatusCode = 500;
+				this.ErrorCondition = sErrorCondition;
 			}
 
 			return( bIsRedirect );
@@ -733,6 +761,8 @@ namespace SEOMacroscope
 			}
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Page Depth", this.Depth.ToString() ) );
+			
+			slDetails.Add( new KeyValuePair<string,string> ( "Error Condition", this.GetErrorCondition() ) );
 
 			return( slDetails );
 

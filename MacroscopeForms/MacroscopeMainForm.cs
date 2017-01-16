@@ -56,8 +56,6 @@ namespace SEOMacroscope
 			
 			InitializeComponent();// The InitializeComponent() call is required for Windows Forms designer support.
 
-			MacroscopePreferencesManager.LoadPreferences();
-						
 			msJobMaster = new MacroscopeJobMaster ( this );
 
 			StartUrlDirty = false;
@@ -193,8 +191,38 @@ namespace SEOMacroscope
 			MacroscopePrefsControl PrefsControl = fPreferencesForm.macroscopePrefsControlInstance;
 
 			{
-				PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
+
+				// WebProxy Options
+				PrefsControl.textBoxHttpProxyHost.Text = MacroscopePreferencesManager.GetHttpProxyHost();
+				PrefsControl.numericUpDownHttpProxyPort.Value = MacroscopePreferencesManager.GetHttpProxyPort();
+
+				// Spidering Control
 				PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
+				PrefsControl.numericUpDownDepth.Value = MacroscopePreferencesManager.GetDepth();
+				PrefsControl.numericUpDownPageLimit.Value = MacroscopePreferencesManager.GetPageLimit();
+				PrefsControl.checkBoxSameSite.Checked = MacroscopePreferencesManager.GetSameSite();
+				PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
+				PrefsControl.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
+				PrefsControl.checkBoxFollowNoFollow.Checked = MacroscopePreferencesManager.GetFollowNoFollow();
+				PrefsControl.checkBoxFetchStylesheets.Checked = MacroscopePreferencesManager.GetFetchStylesheets();
+				PrefsControl.checkBoxFetchJavascripts.Checked = MacroscopePreferencesManager.GetFetchImages();
+				PrefsControl.checkBoxFetchImages.Checked = MacroscopePreferencesManager.GetFetchImages();
+				PrefsControl.checkBoxFetchPdfs.Checked = MacroscopePreferencesManager.GetFetchPdfs();
+				PrefsControl.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
+
+				// Analysis Options
+				PrefsControl.checkBoxProbeHreflangs.Checked = MacroscopePreferencesManager.GetProbeHreflangs();
+			
+				// SEO Options
+				PrefsControl.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
+				PrefsControl.numericUpDownTitleMaxLen.Value = MacroscopePreferencesManager.GetTitleMaxLen();
+				PrefsControl.numericUpDownTitleMinWords.Value = MacroscopePreferencesManager.GetTitleMinWords();
+				PrefsControl.numericUpDownTitleMaxWords.Value = MacroscopePreferencesManager.GetTitleMaxWords();
+				PrefsControl.numericUpDownDescriptionMinLen.Value = MacroscopePreferencesManager.GetDescriptionMinLen();
+				PrefsControl.numericUpDownDescriptionMaxLen.Value = MacroscopePreferencesManager.GetDescriptionMaxLen();
+				PrefsControl.numericUpDownDescriptionMinWords.Value = MacroscopePreferencesManager.GetDescriptionMinWords();
+				PrefsControl.numericUpDownDescriptionMaxWords.Value = MacroscopePreferencesManager.GetDescriptionMaxWords();
+
 			}
 
 			DialogResult fPreferencsResult = fPreferencesForm.ShowDialog();
@@ -203,10 +231,41 @@ namespace SEOMacroscope
 
 			if( fPreferencsResult == DialogResult.OK ) {
 
-				PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
+				// WebProxy Options
+				MacroscopePreferencesManager.SetHttpProxyHost( PrefsControl.textBoxHttpProxyHost.Text );
+				MacroscopePreferencesManager.SetHttpProxyPort( ( int )PrefsControl.numericUpDownHttpProxyPort.Value );
 
-				PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
+				// Spidering Control
+				MacroscopePreferencesManager.SetMaxThreads( ( int )PrefsControl.numericUpDownMaxThreads.Value );
+				MacroscopePreferencesManager.SetDepth( ( int )PrefsControl.numericUpDownDepth.Value );
+				MacroscopePreferencesManager.SetPageLimit( ( int )PrefsControl.numericUpDownPageLimit.Value );
+				MacroscopePreferencesManager.SetSameSite( PrefsControl.checkBoxSameSite.Checked );
+				MacroscopePreferencesManager.SetFollowRobotsProtocol( PrefsControl.checkBoxFollowRobotsProtocol.Checked );
+				MacroscopePreferencesManager.SetFollowRedirects( PrefsControl.checkBoxFollowRedirects.Checked );
+				MacroscopePreferencesManager.SetFollowNoFollow( PrefsControl.checkBoxFollowNoFollow.Checked );
+				MacroscopePreferencesManager.SetFetchStylesheets( PrefsControl.checkBoxFetchStylesheets.Checked );
+				MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchJavascripts.Checked );
+				MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchImages.Checked );
+				MacroscopePreferencesManager.SetFetchPdfs( PrefsControl.checkBoxFetchPdfs.Checked );
+				MacroscopePreferencesManager.SetFetchBinaries( PrefsControl.checkBoxFetchBinaries.Checked );
 
+				// Analysis Options
+				MacroscopePreferencesManager.SetProbeHreflangs( PrefsControl.checkBoxProbeHreflangs.Checked );
+			
+				// SEO Options
+				MacroscopePreferencesManager.SetTitleMinLen( ( int )PrefsControl.numericUpDownTitleMinLen.Value );
+				MacroscopePreferencesManager.SetTitleMaxLen( ( int )PrefsControl.numericUpDownTitleMaxLen.Value );
+				MacroscopePreferencesManager.SetTitleMinWords( ( int )PrefsControl.numericUpDownTitleMinWords.Value );
+				MacroscopePreferencesManager.SetTitleMaxWords( ( int )PrefsControl.numericUpDownTitleMaxWords.Value );
+				MacroscopePreferencesManager.SetDescriptionMinLen( ( int )PrefsControl.numericUpDownDescriptionMinLen.Value );
+				MacroscopePreferencesManager.SetDescriptionMaxLen( ( int )PrefsControl.numericUpDownDescriptionMaxLen.Value );
+				MacroscopePreferencesManager.SetDescriptionMinWords( ( int )PrefsControl.numericUpDownDescriptionMinWords.Value );
+				MacroscopePreferencesManager.SetDescriptionMaxWords( ( int )PrefsControl.numericUpDownDescriptionMaxWords.Value );
+
+				MacroscopePreferencesManager.SavePreferences();
+
+				MacroscopePreferencesManager.ConfigureHttpProxy();
+				
 			}
 
 		}
@@ -356,7 +415,7 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sURL = lvItem.SubItems[0].Text.ToString();
+					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
 					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
 				}
 			}
@@ -401,6 +460,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsEnable ( Boolean bState )
 		{
+			this.reportsToolStripMenuItem.Enabled = true;
 			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
@@ -409,6 +469,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsStart ( Boolean bState )
 		{
+			this.reportsToolStripMenuItem.Enabled = false;
 			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = true;
@@ -417,6 +478,7 @@ namespace SEOMacroscope
 
 		void ScanningControlsStopping ( Boolean bState )
 		{
+			this.reportsToolStripMenuItem.Enabled = false;
 			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = false;
@@ -425,14 +487,17 @@ namespace SEOMacroscope
 
 		void ScanningControlsStopped ( Boolean bState )
 		{
+			this.reportsToolStripMenuItem.Enabled = true;
 			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = true;
 		}
 
+		/*
 		void ScanningControlsPause ( Boolean bState )
 		{
+			this.reportsToolStripMenuItem.Enabled = false;
 			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = true;
@@ -441,14 +506,17 @@ namespace SEOMacroscope
 
 		void ScanningControlsResume ( Boolean bState )
 		{
+			this.reportsToolStripMenuItem.Enabled = false;
 			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = true;
 			this.ButtonReset.Enabled = false;
 		}
-
+		*/
+		
 		void ScanningControlsReset ( Boolean bState )
 		{
+			this.reportsToolStripMenuItem.Enabled = true;
 			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
@@ -457,6 +525,7 @@ namespace SEOMacroscope
 		
 		void ScanningControlsComplete ( Boolean bState )
 		{
+			this.reportsToolStripMenuItem.Enabled = true;
 			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;

@@ -38,20 +38,12 @@ namespace SEOMacroscope
 
 		static MacroscopePreferences Preferences;
 		static WebProxy wpProxy = null;
-		
-		static string HomeDirectory;
-		static string PrefsDirectory;
 
 		// WebProxy Options
 		static string HttpProxyHost;
 		static int HttpProxyPort;
 		//static string HttpProxyUsername;
 		//static string HttpProxyPassword;
-
-		static string HttpsProxyHost;
-		static int HttpsProxyPort;
-		//static string HttpsProxyUsername;
-		//static string HttpsProxyPassword;
 
 		// Spidering Control
 		static string StartUrl;
@@ -60,6 +52,7 @@ namespace SEOMacroscope
 		static int PageLimit;
 		static Boolean SameSite;
 		static Boolean FollowRobotsProtocol;
+		static Boolean FollowRedirects;
 		static Boolean FollowNoFollow;
 		static Boolean FetchStylesheets;
 		static Boolean FetchJavascripts;
@@ -101,8 +94,6 @@ namespace SEOMacroscope
 
 					HttpProxyHost = Preferences.HttpProxyHost;
 					HttpProxyPort = Preferences.HttpProxyPort;
-					HttpsProxyHost = Preferences.HttpsProxyHost;
-					HttpsProxyPort = Preferences.HttpsProxyPort;
 
 					StartUrl = Preferences.StartUrl;
 			
@@ -115,6 +106,7 @@ namespace SEOMacroscope
 					ProbeHreflangs = Preferences.ProbeHreflangs;
 			
 					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
+					FollowRedirects = Preferences.FollowRedirects;			
 					FollowNoFollow = Preferences.FollowNoFollow;
 
 					FetchStylesheets = Preferences.FetchStylesheets;
@@ -144,8 +136,6 @@ namespace SEOMacroscope
 			// WebProxy Options
 			HttpProxyHost = "";
 			HttpProxyPort = 0;
-			HttpsProxyHost = "";
-			HttpsProxyPort = 0;
 
 			// Spidering Control
 			StartUrl = "";
@@ -154,6 +144,7 @@ namespace SEOMacroscope
 			PageLimit = -1;
 			SameSite = true;
 			FollowRobotsProtocol = true;
+			FollowRedirects = false;
 			FollowNoFollow = true;
 			FetchStylesheets = true;
 			FetchJavascripts = true;
@@ -197,71 +188,6 @@ namespace SEOMacroscope
 			
 		}
 
-
-		/**************************************************************************/
-
-		static void ConfigureHttpProxy ()
-		{
-			
-			string sHttpProxyHost;
-			int iHttpProxyPort;
-
-			if( HttpProxyHost.Length > 0 ) {
-
-				sHttpProxyHost = HttpProxyHost;
-
-				if( HttpProxyPort > 0 ) {
-					iHttpProxyPort = HttpProxyPort;
-				} else {
-					iHttpProxyPort = 80;
-				}
-
-				wpProxy = new WebProxy ( sHttpProxyHost, iHttpProxyPort );
-
-			}
-
-		}
-
-		/**************************************************************************/
-		
-		public static void LoadPreferences ()
-		{
-			
-			{
-				string sHomeDir = null;
-				if( Environment.OSVersion.Platform == PlatformID.Unix ) {
-					sHomeDir = Environment.GetEnvironmentVariable( "HOME" );
-				} else {
-					sHomeDir = Environment.ExpandEnvironmentVariables( "%HOMEDRIVE%%HOMEPATH%" );
-				}
-				if( sHomeDir == null ) {
-					throw new Exception ( "Cannot determine home directory." );
-				} else {
-					HomeDirectory = sHomeDir;
-				}
-				debug_msg( string.Format( "HomeDirectory: {0}", HomeDirectory ) );
-			}
-			
-			{
-				PrefsDirectory = string.Join( Path.DirectorySeparatorChar.ToString(), HomeDirectory, ".seomacroscope" );
-				debug_msg( string.Format( "PrefsDirectory: {0}", PrefsDirectory ) );
-				if( Directory.Exists( PrefsDirectory ) ) {
-					debug_msg( string.Format( "PrefsDirectory Exists: {0}", PrefsDirectory ) );
-				} else {
-					debug_msg( string.Format( "PrefsDirectory Not Exists: {0}", PrefsDirectory ) );
-					try {
-						DirectoryInfo diPrefs = Directory.CreateDirectory( PrefsDirectory );
-						if( Directory.Exists( PrefsDirectory ) ) {
-							diPrefs.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
-						}
-					} catch( IOException ) {
-						throw new Exception ( "Cannot create preferences directory." );
-					}
-				}
-			}
-
-		}
-				
 		/**************************************************************************/
 		
 		public static void SavePreferences ()
@@ -271,8 +197,6 @@ namespace SEOMacroscope
 				
 				Preferences.HttpProxyHost = HttpProxyHost;
 				Preferences.HttpProxyPort = HttpProxyPort;
-				Preferences.HttpsProxyHost = HttpsProxyHost;
-				Preferences.HttpsProxyPort = HttpsProxyPort;
 
 				Preferences.StartUrl = StartUrl;
 			
@@ -285,6 +209,7 @@ namespace SEOMacroscope
 				Preferences.ProbeHreflangs = ProbeHreflangs;
 			
 				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
+				Preferences.FollowRedirects = FollowRedirects;
 				Preferences.FollowNoFollow = FollowNoFollow;
 
 				Preferences.FetchStylesheets = FetchStylesheets;
@@ -297,23 +222,64 @@ namespace SEOMacroscope
 			}
 
 		}
-		
-		/**************************************************************************/
-				
-		public static string GetHomeDirectory ()
+
+		/** HTTP Proxy ************************************************************/
+
+		public static string GetHttpProxyHost ()
 		{
-			return( HomeDirectory );
+			return( HttpProxyHost );
+		}
+		
+		public static void SetHttpProxyHost ( string sValue )
+		{
+			HttpProxyHost = sValue;
 		}
 
-		/**************************************************************************/
+		public static int GetHttpProxyPort ()
+		{
+			return( HttpProxyPort );
+		}
+		
+		public static void SetHttpProxyPort ( int iValue )
+		{
+			HttpProxyPort = iValue;
+		}
+
+		public static void ConfigureHttpProxy ()
+		{
+			
+			string sHttpProxyHost;
+			int iHttpProxyPort;
+
+			if( HttpProxyHost.Length > 0 ) {
+
+				sHttpProxyHost = HttpProxyHost;
+
+				if( HttpProxyPort >= 0 ) {
+					iHttpProxyPort = HttpProxyPort;
+				} else {
+					iHttpProxyPort = 80;
+				}
+
+				debug_msg( string.Format( "ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort ) );
+				
+				wpProxy = new WebProxy ( sHttpProxyHost, iHttpProxyPort );
+
+			} else {
+				
+				debug_msg( string.Format( "ConfigureHttpProxy: NOT USED" ) );
+				
+				wpProxy = null;
+				
+			}
+
+		}
 
 		public static WebProxy GetHttpProxy ()
 		{
 			return( wpProxy );
 		}
-
-		/**************************************************************************/
-				
+	
 		public static void EnableHttpProxy ( WebRequest req )
 		{
 			if( wpProxy != null ) {
@@ -352,6 +318,11 @@ namespace SEOMacroscope
 			return( Depth );
 		}
 		
+		public static void SetDepth ( int iValue )
+		{
+			Depth = iValue;
+		}
+		
 		/**************************************************************************/
 		
 		public static int GetPageLimit ()
@@ -359,6 +330,11 @@ namespace SEOMacroscope
 			return( PageLimit );
 		}
 		
+		public static void SetPageLimit ( int iValue )
+		{
+			PageLimit = iValue;
+		}
+
 		/**************************************************************************/
 		
 		public static Boolean GetSameSite ()
@@ -366,11 +342,21 @@ namespace SEOMacroscope
 			return( SameSite );
 		}
 		
+		public static void SetSameSite ( Boolean bValue )
+		{
+			SameSite = bValue;
+		}
+		
 		/**************************************************************************/
 		
 		public static Boolean GetProbeHreflangs ()
 		{
 			return( ProbeHreflangs );
+		}
+		
+		public static void SetProbeHreflangs ( Boolean bValue )
+		{
+			ProbeHreflangs = bValue;
 		}
 
 		/**************************************************************************/
@@ -387,6 +373,18 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
+		public static Boolean GetFollowRedirects ()
+		{
+			return( FollowRedirects );
+		}
+
+		public static void SetFollowRedirects ( Boolean bState )
+		{
+			FollowRedirects = bState;
+		}
+		
+		/**************************************************************************/
+
 		public static Boolean GetFollowNoFollow ()
 		{
 			return( FollowNoFollow );
@@ -457,17 +455,93 @@ namespace SEOMacroscope
 			FetchBinaries = bState;
 		}
 
+		/** SEO Options ***********************************************************/
+
+		public static int GetTitleMinLen ()
+		{
+			return( TitleMinLen );
+		}
+		
+		public static void SetTitleMinLen ( int iValue )
+		{
+			TitleMinLen = iValue;
+		}
+
+		public static int GetTitleMaxLen ()
+		{
+			return( TitleMaxLen );
+		}
+		
+		public static void SetTitleMaxLen ( int iValue )
+		{
+			TitleMaxLen = iValue;
+		}
+
+		public static int GetTitleMinWords ()
+		{
+			return( TitleMinWords );
+		}
+		
+		public static void SetTitleMinWords ( int iValue )
+		{
+			TitleMinWords = iValue;
+		}
+
+		public static int GetTitleMaxWords ()
+		{
+			return( TitleMaxWords );
+		}
+		
+		public static void SetTitleMaxWords ( int iValue )
+		{
+			TitleMaxWords = iValue;
+		}
+
+		public static int GetDescriptionMinLen ()
+		{
+			return( DescriptionMinLen );
+		}
+		
+		public static void SetDescriptionMinLen ( int iValue )
+		{
+			DescriptionMinLen = iValue;
+		}
+
+		public static int GetDescriptionMaxLen ()
+		{
+			return( DescriptionMaxLen );
+		}
+		
+		public static void SetDescriptionMaxLen ( int iValue )
+		{
+			DescriptionMaxLen = iValue;
+		}
+
+		public static int GetDescriptionMinWords ()
+		{
+			return( DescriptionMinWords );
+		}
+		
+		public static void SetDescriptionMinWords ( int iValue )
+		{
+			DescriptionMinWords = iValue;
+		}
+
+		public static int GetDescriptionMaxWords ()
+		{
+			return( DescriptionMaxWords );
+		}
+		
+		public static void SetDescriptionMaxWords ( int iValue )
+		{
+			DescriptionMaxWords = iValue;
+		}
+
 		/**************************************************************************/
 		
 		static void debug_msg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
-		}
-
-		static void debug_msg ( String sMsg, int iOffset )
-		{
-			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
-			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
 
 		/**************************************************************************/

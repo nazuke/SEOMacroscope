@@ -17,11 +17,11 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabControl tabControlPreferences;
 		private System.Windows.Forms.TabPage tabPageSpideringControl;
 		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.CheckBox checkBoxFetchBinaries;
-		private System.Windows.Forms.CheckBox checkBoxFetchPdfs;
-		private System.Windows.Forms.CheckBox checkBoxFetchImages;
-		private System.Windows.Forms.CheckBox checkBoxFetchJavascripts;
-		private System.Windows.Forms.CheckBox checkBoxFetchStylesheets;
+		public System.Windows.Forms.CheckBox checkBoxFetchBinaries;
+		public System.Windows.Forms.CheckBox checkBoxFetchPdfs;
+		public System.Windows.Forms.CheckBox checkBoxFetchImages;
+		public System.Windows.Forms.CheckBox checkBoxFetchJavascripts;
+		public System.Windows.Forms.CheckBox checkBoxFetchStylesheets;
 		private System.Windows.Forms.TabPage tabPageAnalysisOptions;
 		private System.Windows.Forms.TabPage tabPageNetworkSettings;
 		private System.Windows.Forms.TabPage tabPageSeo;
@@ -48,22 +48,22 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Label label12;
 		public System.Windows.Forms.NumericUpDown numericUpDownPageLimit;
 		public System.Windows.Forms.NumericUpDown numericUpDownDepth;
-		private System.Windows.Forms.CheckBox checkBoxSameSite;
+		public System.Windows.Forms.CheckBox checkBoxSameSite;
 		private System.Windows.Forms.GroupBox groupBox5;
 		public System.Windows.Forms.CheckBox checkBoxFollowRobotsProtocol;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
 		private System.Windows.Forms.GroupBox groupBox6;
-		private System.Windows.Forms.CheckBox checkBoxProbeHreflangs;
+		public System.Windows.Forms.CheckBox checkBoxProbeHreflangs;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
 		private System.Windows.Forms.GroupBox groupBox8;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.Label label10;
 		public System.Windows.Forms.NumericUpDown numericUpDownHttpProxyPort;
-		private System.Windows.Forms.TextBox textBoxHttpProxyHost;
+		public System.Windows.Forms.TextBox textBoxHttpProxyHost;
 		private System.Windows.Forms.Label label13;
 		public System.Windows.Forms.NumericUpDown numericUpDownMaxThreads;
+		public System.Windows.Forms.CheckBox checkBoxFollowNoFollow;
+		public System.Windows.Forms.CheckBox checkBoxFollowRedirects;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -86,10 +86,14 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.Label label9;
+			System.Windows.Forms.Label label10;
 			this.tabControlPreferences = new System.Windows.Forms.TabControl();
 			this.tabPageSpideringControl = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.checkBoxFollowRedirects = new System.Windows.Forms.CheckBox();
+			this.checkBoxFollowNoFollow = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowRobotsProtocol = new System.Windows.Forms.CheckBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.label13 = new System.Windows.Forms.Label();
@@ -132,10 +136,10 @@ namespace SEOMacroscope
 			this.tabPageNetworkSettings = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
-			this.label9 = new System.Windows.Forms.Label();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
-			this.label10 = new System.Windows.Forms.Label();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
+			label9 = new System.Windows.Forms.Label();
+			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
 			this.tabPageSpideringControl.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -177,7 +181,7 @@ namespace SEOMacroscope
 			this.tabControlPreferences.Name = "tabControlPreferences";
 			this.tabControlPreferences.SelectedIndex = 0;
 			this.tabControlPreferences.Size = new System.Drawing.Size(600, 600);
-			this.tabControlPreferences.TabIndex = 2;
+			this.tabControlPreferences.TabIndex = 0;
 			// 
 			// tabPageSpideringControl
 			// 
@@ -209,22 +213,42 @@ namespace SEOMacroscope
 			// groupBox5
 			// 
 			this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox5.Controls.Add(this.checkBoxFollowRedirects);
+			this.groupBox5.Controls.Add(this.checkBoxFollowNoFollow);
 			this.groupBox5.Controls.Add(this.checkBoxFollowRobotsProtocol);
 			this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox5.Location = new System.Drawing.Point(10, 10);
 			this.groupBox5.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(500, 60);
-			this.groupBox5.TabIndex = 5;
+			this.groupBox5.Size = new System.Drawing.Size(500, 120);
+			this.groupBox5.TabIndex = 1;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Standards";
+			// 
+			// checkBoxFollowRedirects
+			// 
+			this.checkBoxFollowRedirects.Location = new System.Drawing.Point(20, 50);
+			this.checkBoxFollowRedirects.Name = "checkBoxFollowRedirects";
+			this.checkBoxFollowRedirects.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxFollowRedirects.TabIndex = 2;
+			this.checkBoxFollowRedirects.Text = "Follow Redirects";
+			this.checkBoxFollowRedirects.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxFollowNoFollow
+			// 
+			this.checkBoxFollowNoFollow.Location = new System.Drawing.Point(20, 80);
+			this.checkBoxFollowNoFollow.Name = "checkBoxFollowNoFollow";
+			this.checkBoxFollowNoFollow.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxFollowNoFollow.TabIndex = 3;
+			this.checkBoxFollowNoFollow.Text = "Follow rel=\"nofollow\" Links";
+			this.checkBoxFollowNoFollow.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxFollowRobotsProtocol
 			// 
 			this.checkBoxFollowRobotsProtocol.Location = new System.Drawing.Point(20, 20);
 			this.checkBoxFollowRobotsProtocol.Name = "checkBoxFollowRobotsProtocol";
 			this.checkBoxFollowRobotsProtocol.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxFollowRobotsProtocol.TabIndex = 0;
+			this.checkBoxFollowRobotsProtocol.TabIndex = 1;
 			this.checkBoxFollowRobotsProtocol.Text = "Follow Robots Protocol";
 			this.checkBoxFollowRobotsProtocol.UseVisualStyleBackColor = true;
 			// 
@@ -239,11 +263,11 @@ namespace SEOMacroscope
 			this.groupBox4.Controls.Add(this.numericUpDownPageLimit);
 			this.groupBox4.Controls.Add(this.numericUpDownDepth);
 			this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox4.Location = new System.Drawing.Point(10, 80);
+			this.groupBox4.Location = new System.Drawing.Point(10, 140);
 			this.groupBox4.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(500, 150);
-			this.groupBox4.TabIndex = 1;
+			this.groupBox4.TabIndex = 4;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Spidering Limits";
 			// 
@@ -271,7 +295,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownMaxThreads.Name = "numericUpDownMaxThreads";
 			this.numericUpDownMaxThreads.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownMaxThreads.TabIndex = 8;
+			this.numericUpDownMaxThreads.TabIndex = 4;
 			this.numericUpDownMaxThreads.Value = new decimal(new int[] {
 			4,
 			0,
@@ -283,7 +307,7 @@ namespace SEOMacroscope
 			this.checkBoxSameSite.Location = new System.Drawing.Point(20, 50);
 			this.checkBoxSameSite.Name = "checkBoxSameSite";
 			this.checkBoxSameSite.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxSameSite.TabIndex = 7;
+			this.checkBoxSameSite.TabIndex = 5;
 			this.checkBoxSameSite.Text = "Stay on same website";
 			this.checkBoxSameSite.UseVisualStyleBackColor = true;
 			// 
@@ -306,16 +330,21 @@ namespace SEOMacroscope
 			// numericUpDownPageLimit
 			// 
 			this.numericUpDownPageLimit.Location = new System.Drawing.Point(20, 110);
+			this.numericUpDownPageLimit.Maximum = new decimal(new int[] {
+			1000000000,
+			0,
+			0,
+			0});
 			this.numericUpDownPageLimit.Minimum = new decimal(new int[] {
 			1,
 			0,
 			0,
-			0});
+			-2147483648});
 			this.numericUpDownPageLimit.Name = "numericUpDownPageLimit";
 			this.numericUpDownPageLimit.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownPageLimit.TabIndex = 1;
+			this.numericUpDownPageLimit.TabIndex = 7;
 			this.numericUpDownPageLimit.Value = new decimal(new int[] {
-			1,
+			10000,
 			0,
 			0,
 			0});
@@ -332,12 +361,12 @@ namespace SEOMacroscope
 			1,
 			0,
 			0,
-			0});
+			-2147483648});
 			this.numericUpDownDepth.Name = "numericUpDownDepth";
 			this.numericUpDownDepth.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownDepth.TabIndex = 0;
+			this.numericUpDownDepth.TabIndex = 6;
 			this.numericUpDownDepth.Value = new decimal(new int[] {
-			1,
+			100,
 			0,
 			0,
 			0});
@@ -351,29 +380,29 @@ namespace SEOMacroscope
 			this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
 			this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox1.Location = new System.Drawing.Point(10, 240);
+			this.groupBox1.Location = new System.Drawing.Point(10, 300);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(500, 180);
-			this.groupBox1.TabIndex = 0;
+			this.groupBox1.Size = new System.Drawing.Size(500, 120);
+			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Spider Document Types";
+			this.groupBox1.Text = "Fetch Document Types";
 			// 
 			// checkBoxFetchBinaries
 			// 
-			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(20, 140);
+			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(146, 50);
 			this.checkBoxFetchBinaries.Name = "checkBoxFetchBinaries";
-			this.checkBoxFetchBinaries.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxFetchBinaries.TabIndex = 4;
+			this.checkBoxFetchBinaries.Size = new System.Drawing.Size(110, 24);
+			this.checkBoxFetchBinaries.TabIndex = 12;
 			this.checkBoxFetchBinaries.Text = "Binary Files";
 			this.checkBoxFetchBinaries.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxFetchPdfs
 			// 
-			this.checkBoxFetchPdfs.Location = new System.Drawing.Point(20, 110);
+			this.checkBoxFetchPdfs.Location = new System.Drawing.Point(146, 20);
 			this.checkBoxFetchPdfs.Name = "checkBoxFetchPdfs";
-			this.checkBoxFetchPdfs.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxFetchPdfs.TabIndex = 3;
+			this.checkBoxFetchPdfs.Size = new System.Drawing.Size(110, 24);
+			this.checkBoxFetchPdfs.TabIndex = 11;
 			this.checkBoxFetchPdfs.Text = "PDFs";
 			this.checkBoxFetchPdfs.UseVisualStyleBackColor = true;
 			// 
@@ -381,8 +410,8 @@ namespace SEOMacroscope
 			// 
 			this.checkBoxFetchImages.Location = new System.Drawing.Point(20, 80);
 			this.checkBoxFetchImages.Name = "checkBoxFetchImages";
-			this.checkBoxFetchImages.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxFetchImages.TabIndex = 2;
+			this.checkBoxFetchImages.Size = new System.Drawing.Size(110, 24);
+			this.checkBoxFetchImages.TabIndex = 10;
 			this.checkBoxFetchImages.Text = "Images";
 			this.checkBoxFetchImages.UseVisualStyleBackColor = true;
 			// 
@@ -390,8 +419,8 @@ namespace SEOMacroscope
 			// 
 			this.checkBoxFetchJavascripts.Location = new System.Drawing.Point(20, 50);
 			this.checkBoxFetchJavascripts.Name = "checkBoxFetchJavascripts";
-			this.checkBoxFetchJavascripts.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxFetchJavascripts.TabIndex = 1;
+			this.checkBoxFetchJavascripts.Size = new System.Drawing.Size(110, 24);
+			this.checkBoxFetchJavascripts.TabIndex = 9;
 			this.checkBoxFetchJavascripts.Text = "Javascripts";
 			this.checkBoxFetchJavascripts.UseVisualStyleBackColor = true;
 			// 
@@ -399,8 +428,8 @@ namespace SEOMacroscope
 			// 
 			this.checkBoxFetchStylesheets.Location = new System.Drawing.Point(20, 20);
 			this.checkBoxFetchStylesheets.Name = "checkBoxFetchStylesheets";
-			this.checkBoxFetchStylesheets.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxFetchStylesheets.TabIndex = 0;
+			this.checkBoxFetchStylesheets.Size = new System.Drawing.Size(110, 24);
+			this.checkBoxFetchStylesheets.TabIndex = 8;
 			this.checkBoxFetchStylesheets.Text = "CSS Stylesheets";
 			this.checkBoxFetchStylesheets.UseVisualStyleBackColor = true;
 			// 
@@ -437,7 +466,7 @@ namespace SEOMacroscope
 			this.groupBox6.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox6.Name = "groupBox6";
 			this.groupBox6.Size = new System.Drawing.Size(500, 60);
-			this.groupBox6.TabIndex = 5;
+			this.groupBox6.TabIndex = 1;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Localized Pages";
 			// 
@@ -446,7 +475,7 @@ namespace SEOMacroscope
 			this.checkBoxProbeHreflangs.Location = new System.Drawing.Point(20, 20);
 			this.checkBoxProbeHreflangs.Name = "checkBoxProbeHreflangs";
 			this.checkBoxProbeHreflangs.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxProbeHreflangs.TabIndex = 0;
+			this.checkBoxProbeHreflangs.TabIndex = 1;
 			this.checkBoxProbeHreflangs.Text = "Probe Linked HrefLang Pages";
 			this.checkBoxProbeHreflangs.UseVisualStyleBackColor = true;
 			// 
@@ -488,7 +517,7 @@ namespace SEOMacroscope
 			this.groupBox2.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(500, 160);
-			this.groupBox2.TabIndex = 0;
+			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Page Title Policies";
 			// 
@@ -534,7 +563,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownTitleMaxWords.Name = "numericUpDownTitleMaxWords";
 			this.numericUpDownTitleMaxWords.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownTitleMaxWords.TabIndex = 3;
+			this.numericUpDownTitleMaxWords.TabIndex = 4;
 			this.numericUpDownTitleMaxWords.Value = new decimal(new int[] {
 			1,
 			0,
@@ -551,7 +580,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownTitleMinWords.Name = "numericUpDownTitleMinWords";
 			this.numericUpDownTitleMinWords.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownTitleMinWords.TabIndex = 2;
+			this.numericUpDownTitleMinWords.TabIndex = 3;
 			this.numericUpDownTitleMinWords.Value = new decimal(new int[] {
 			1,
 			0,
@@ -568,7 +597,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownTitleMaxLen.Name = "numericUpDownTitleMaxLen";
 			this.numericUpDownTitleMaxLen.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownTitleMaxLen.TabIndex = 1;
+			this.numericUpDownTitleMaxLen.TabIndex = 2;
 			this.numericUpDownTitleMaxLen.Value = new decimal(new int[] {
 			1,
 			0,
@@ -585,7 +614,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownTitleMinLen.Name = "numericUpDownTitleMinLen";
 			this.numericUpDownTitleMinLen.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownTitleMinLen.TabIndex = 0;
+			this.numericUpDownTitleMinLen.TabIndex = 1;
 			this.numericUpDownTitleMinLen.Value = new decimal(new int[] {
 			1,
 			0,
@@ -606,7 +635,7 @@ namespace SEOMacroscope
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(500, 160);
-			this.groupBox3.TabIndex = 1;
+			this.groupBox3.TabIndex = 5;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Page Description Policies";
 			// 
@@ -652,7 +681,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownDescriptionMaxWords.Name = "numericUpDownDescriptionMaxWords";
 			this.numericUpDownDescriptionMaxWords.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownDescriptionMaxWords.TabIndex = 11;
+			this.numericUpDownDescriptionMaxWords.TabIndex = 8;
 			this.numericUpDownDescriptionMaxWords.Value = new decimal(new int[] {
 			1,
 			0,
@@ -669,7 +698,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownDescriptionMinWords.Name = "numericUpDownDescriptionMinWords";
 			this.numericUpDownDescriptionMinWords.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownDescriptionMinWords.TabIndex = 10;
+			this.numericUpDownDescriptionMinWords.TabIndex = 7;
 			this.numericUpDownDescriptionMinWords.Value = new decimal(new int[] {
 			1,
 			0,
@@ -686,7 +715,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownDescriptionMaxLen.Name = "numericUpDownDescriptionMaxLen";
 			this.numericUpDownDescriptionMaxLen.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownDescriptionMaxLen.TabIndex = 9;
+			this.numericUpDownDescriptionMaxLen.TabIndex = 6;
 			this.numericUpDownDescriptionMaxLen.Value = new decimal(new int[] {
 			1,
 			0,
@@ -703,7 +732,7 @@ namespace SEOMacroscope
 			0});
 			this.numericUpDownDescriptionMinLen.Name = "numericUpDownDescriptionMinLen";
 			this.numericUpDownDescriptionMinLen.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownDescriptionMinLen.TabIndex = 8;
+			this.numericUpDownDescriptionMinLen.TabIndex = 5;
 			this.numericUpDownDescriptionMinLen.Value = new decimal(new int[] {
 			1,
 			0,
@@ -737,9 +766,9 @@ namespace SEOMacroscope
 			// groupBox8
 			// 
 			this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox8.Controls.Add(this.label9);
+			this.groupBox8.Controls.Add(label9);
 			this.groupBox8.Controls.Add(this.textBoxHttpProxyHost);
-			this.groupBox8.Controls.Add(this.label10);
+			this.groupBox8.Controls.Add(label10);
 			this.groupBox8.Controls.Add(this.numericUpDownHttpProxyPort);
 			this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox8.Location = new System.Drawing.Point(10, 10);
@@ -752,11 +781,11 @@ namespace SEOMacroscope
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(223, 23);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(210, 23);
-			this.label9.TabIndex = 6;
-			this.label9.Text = "HTTP Proxy Hostname";
+			label9.Location = new System.Drawing.Point(223, 23);
+			label9.Name = "label9";
+			label9.Size = new System.Drawing.Size(210, 23);
+			label9.TabIndex = 0;
+			label9.Text = "HTTP Proxy Hostname";
 			// 
 			// textBoxHttpProxyHost
 			// 
@@ -764,16 +793,16 @@ namespace SEOMacroscope
 			this.textBoxHttpProxyHost.MaxLength = 256;
 			this.textBoxHttpProxyHost.Name = "textBoxHttpProxyHost";
 			this.textBoxHttpProxyHost.Size = new System.Drawing.Size(200, 20);
-			this.textBoxHttpProxyHost.TabIndex = 5;
+			this.textBoxHttpProxyHost.TabIndex = 1;
 			this.textBoxHttpProxyHost.WordWrap = false;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(223, 52);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(200, 23);
-			this.label10.TabIndex = 4;
-			this.label10.Text = "HTTP Proxy Port";
+			label10.Location = new System.Drawing.Point(223, 52);
+			label10.Name = "label10";
+			label10.Size = new System.Drawing.Size(200, 23);
+			label10.TabIndex = 4;
+			label10.Text = "HTTP Proxy Port";
 			// 
 			// numericUpDownHttpProxyPort
 			// 
@@ -783,14 +812,9 @@ namespace SEOMacroscope
 			0,
 			0,
 			0});
-			this.numericUpDownHttpProxyPort.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
 			this.numericUpDownHttpProxyPort.Name = "numericUpDownHttpProxyPort";
 			this.numericUpDownHttpProxyPort.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownHttpProxyPort.TabIndex = 0;
+			this.numericUpDownHttpProxyPort.TabIndex = 2;
 			this.numericUpDownHttpProxyPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.numericUpDownHttpProxyPort.Value = new decimal(new int[] {
 			1,

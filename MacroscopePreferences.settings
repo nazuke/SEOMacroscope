@@ -25,6 +25,9 @@
     <Setting Name="FollowNoFollow" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="FollowRedirects" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="FollowRobotsProtocol" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -32,12 +35,6 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="HttpProxyPort" Type="System.Int32" Scope="User" Roaming="false">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="HttpsProxyHost" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="HttpsProxyPort" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="MaxThreads" Type="System.Int32" Scope="User" Roaming="false">
