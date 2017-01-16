@@ -136,12 +136,10 @@ namespace SEOMacroscope
 
 		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
 		{
-
 			foreach( string sKeyURL in htDocCollection.Keys() ) {
 				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
 				this.RenderListViewSingle( lvListView, msDoc, sKeyURL );
 			}
-
 		}
 
 		/**************************************************************************/
