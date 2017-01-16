@@ -403,6 +403,15 @@ namespace SEOMacroscope
 
 		/** TAB PAGES *************************************************************/
 
+		void CallbackTabControlDisplaySelectedIndexChanged ( object sender, EventArgs e )
+		{
+
+			TabControl tcDisplay = this.tabControlMain;
+
+			debug_msg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", tcDisplay.TabPages[ tcDisplay.SelectedIndex ] ) );
+
+		}
+
 		void CallbackTabPageStructureOverviewShow ( object sender, EventArgs e )
 		{
 			debug_msg( "EVENT: CallbackTabPageStructureOverviewShow" );
@@ -494,26 +503,6 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = true;
 		}
 
-		/*
-		void ScanningControlsPause ( Boolean bState )
-		{
-			this.reportsToolStripMenuItem.Enabled = false;
-			this.textBoxStartUrl.Enabled = false;
-			this.ButtonStart.Enabled = false;
-			this.ButtonStop.Enabled = true;
-			this.ButtonReset.Enabled = false;
-		}
-
-		void ScanningControlsResume ( Boolean bState )
-		{
-			this.reportsToolStripMenuItem.Enabled = false;
-			this.textBoxStartUrl.Enabled = false;
-			this.ButtonStart.Enabled = false;
-			this.ButtonStop.Enabled = true;
-			this.ButtonReset.Enabled = false;
-		}
-		*/
-		
 		void ScanningControlsReset ( Boolean bState )
 		{
 			this.reportsToolStripMenuItem.Enabled = true;
@@ -644,6 +633,20 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+
+		void CallbackRetryBrokenLinksClick ( object sender, EventArgs e )
+		{
+			debug_msg( string.Format( "CallbackRetryBrokenLinksClick: {0}", "CALLED" ) );
+		}
+
+		/**************************************************************************/
+
+		void CopyTextToClipboard ( string sText )
+		{
+			Clipboard.SetText( sText );
+		}
+
+		/**************************************************************************/
 		
 		void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
 		{
@@ -687,14 +690,6 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-
-		
-		
-
-
-
-		
-
 
 		/**************************************************************************/
 			

@@ -39,7 +39,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.TabPage tabPage6;
 		private System.Windows.Forms.TabPage tabPage7;
-		private System.Windows.Forms.ListView listViewDocumentInfo;
+		public System.Windows.Forms.ListView listViewDocumentInfo;
 		public System.Windows.Forms.ColumnHeader DocDetailsDetail;
 		private System.Windows.Forms.ColumnHeader DocDetailsValue;
 		private System.Windows.Forms.ListView listViewHrefLang;
@@ -67,6 +67,8 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeader10;
 		private System.Windows.Forms.ColumnHeader columnHeader11;
 		private System.Windows.Forms.ColumnHeader columnHeader12;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripTextDocumentDetails;
+		public System.Windows.Forms.ToolStripMenuItem copyTextToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -89,11 +91,14 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.listViewDocumentInfo = new System.Windows.Forms.ListView();
 			this.DocDetailsDetail = new System.Windows.Forms.ColumnHeader();
 			this.DocDetailsValue = new System.Windows.Forms.ColumnHeader();
+			this.contextMenuStripTextDocumentDetails = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.listViewHrefLang = new System.Windows.Forms.ListView();
 			this.HrefLangUrl = new System.Windows.Forms.ColumnHeader();
@@ -127,6 +132,7 @@ namespace SEOMacroscope
 			this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
+			this.contextMenuStripTextDocumentDetails.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			this.tabPage4.SuspendLayout();
@@ -168,6 +174,7 @@ namespace SEOMacroscope
 			this.listViewDocumentInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.DocDetailsDetail,
 			this.DocDetailsValue});
+			this.listViewDocumentInfo.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
 			this.listViewDocumentInfo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewDocumentInfo.FullRowSelect = true;
 			this.listViewDocumentInfo.GridLines = true;
@@ -188,6 +195,20 @@ namespace SEOMacroscope
 			// 
 			this.DocDetailsValue.Text = "Value";
 			this.DocDetailsValue.Width = 400;
+			// 
+			// contextMenuStripTextDocumentDetails
+			// 
+			this.contextMenuStripTextDocumentDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.copyTextToolStripMenuItem});
+			this.contextMenuStripTextDocumentDetails.Name = "contextMenuStripTextCopy";
+			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(153, 48);
+			// 
+			// copyTextToolStripMenuItem
+			// 
+			this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
+			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.copyTextToolStripMenuItem.Text = "Copy Text";
+			this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyClick);
 			// 
 			// tabPage2
 			// 
@@ -457,6 +478,7 @@ namespace SEOMacroscope
 			this.Load += new System.EventHandler(this.MacroscopeDocumentDetailsLoad);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
+			this.contextMenuStripTextDocumentDetails.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage4.ResumeLayout(false);

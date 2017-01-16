@@ -24,8 +24,6 @@
 */
 
 using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -38,6 +36,28 @@ namespace SEOMacroscope
 						
 		public MacroscopeUserControl ()
 		{
+		}
+
+		/**************************************************************************/
+
+		public void CopyListViewTextToClipboard ( ListView lvListView )
+		{
+			string sTextToCopy = "";
+			foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
+				sTextToCopy += lvItem.Text;
+				for( int i = 1; i < lvItem.SubItems.Count; i++ ) {
+					sTextToCopy += "\t" + lvItem.SubItems[ i ].Text;
+				}
+				sTextToCopy += "\n";
+			}
+			this.CopyTextToClipboard( sTextToCopy );
+		}
+
+		/**************************************************************************/
+
+		public void CopyTextToClipboard ( string sText )
+		{
+			Clipboard.SetText( sText );
 		}
 
 		/**************************************************************************/

@@ -141,6 +141,13 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+		
+		void CallbackDocumentDetailsContextMenuStripCopyClick ( object sender, EventArgs e )
+		{
+			this.CopyListViewTextToClipboard ( this.listViewDocumentInfo );
+		}
+
+		/**************************************************************************/
 
 		void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Hashtable htLocales, MacroscopeDocumentCollection msDocCollection )
 		{
@@ -382,7 +389,7 @@ namespace SEOMacroscope
 			}
 		
 		}
-		
+
 		/**************************************************************************/
 
 	}
