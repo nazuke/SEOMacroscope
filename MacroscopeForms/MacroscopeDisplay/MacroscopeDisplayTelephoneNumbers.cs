@@ -24,7 +24,7 @@
 */
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -149,7 +149,7 @@ namespace SEOMacroscope
 
 			if( msDoc.GetIsHtml() ) {
 				
-				Hashtable htTelephoneNumbers = ( Hashtable )msDoc.GetTelephoneNumbers();
+				Dictionary<string,string> htTelephoneNumbers = msDoc.GetTelephoneNumbers();
 
 				foreach( string sTelephoneNumber in htTelephoneNumbers.Keys ) {
 

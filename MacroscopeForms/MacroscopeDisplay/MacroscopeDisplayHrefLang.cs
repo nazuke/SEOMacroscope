@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -152,7 +153,7 @@ namespace SEOMacroscope
 
 				if( msDoc.GetIsHtml() ) {
 
-					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
+					Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 
 					if( htHrefLangs != null ) {
 						

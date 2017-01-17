@@ -57,56 +57,55 @@ namespace SEOMacroscope
 
 		HtmlDocument HtmlDoc;
 		
-		public MacroscopeDocument parent;
+		MacroscopeDocument parent;
 
-		public string Scheme;
-		public string Hostname;
-		public int Port;
-		public string Path;
-		public string Fragment;
-		public string QueryString;
+		string Scheme;
+		string Hostname;
+		int Port;
+		string Path;
+		string Fragment;
+		string QueryString;
 
-		public int StatusCode;
-		public string ErrorCondition;
-		public long ContentLength;
-		public string MimeType;
-		public Boolean IsHtml;
-		public Boolean IsCompressed;
-		public string CompressionMethod;
-		public string ContentEncoding;
-		public string Locale;
+		int StatusCode;
+		string ErrorCondition;
+		long ContentLength;
+		string MimeType;
+		Boolean IsHtml;
+		Boolean IsCompressed;
+		string CompressionMethod;
+		string ContentEncoding;
+		string Locale;
 		
-		public long Duration;
+		long Duration;
 
-		public DateTime DateServer;
-		public DateTime DateModified;
+		DateTime DateServer;
+		DateTime DateModified;
 
-		public string Canonical;
-		public Hashtable HrefLang;
+		string Canonical;
+		Dictionary<string,MacroscopeHrefLang> HrefLang;
 
 		// Outbound links to pages and linked assets to follow
-		public Hashtable Outlinks;
+		Dictionary<string,string> Outlinks;
 
 		// Inbound links from other pages in the scanned collection
-		//public Hashtable HyperlinksIn;
-		public MacroscopeHyperlinksIn HyperlinksIn;
+		MacroscopeHyperlinksIn HyperlinksIn;
 
 		// Outbound hypertext links
-		public MacroscopeHyperlinksOut HyperlinksOut;
+		MacroscopeHyperlinksOut HyperlinksOut;
 
-		public Hashtable EmailAddresses;
-		public Hashtable TelephoneNumbers;
+		Dictionary<string,string> EmailAddresses;
+		Dictionary<string,string> TelephoneNumbers;
 		
-		public string Title;
-		public string Description;
-		public string Keywords;
+		string Title;
+		string Description;
+		string Keywords;
 
-		public Dictionary<ushort,ArrayList> Headings;
+		Dictionary<ushort,ArrayList> Headings;
 
-		public int Depth;
+		int Depth;
 		
 		// Delegate Functions
-		delegate void TimeDuration( Action ProcessMethod );
+		delegate void TimeDuration(Action ProcessMethod);
 
 		/**************************************************************************/
 
@@ -133,14 +132,14 @@ namespace SEOMacroscope
 			DateModified = new DateTime ();
 
 			Canonical = "";
-			HrefLang = new Hashtable ();
+			HrefLang = new Dictionary<string,MacroscopeHrefLang> (1024);
 
-			Outlinks = new Hashtable ();
+			Outlinks = new Dictionary<string,string> (128);
 			HyperlinksIn = new MacroscopeHyperlinksIn ();
 			HyperlinksOut = new MacroscopeHyperlinksOut ();
 
-			EmailAddresses = new Hashtable ();
-			TelephoneNumbers = new Hashtable ();
+			EmailAddresses = new Dictionary<string,string> ( 256 );
+			TelephoneNumbers = new Dictionary<string,string> ( 256 );
 
 			Title = "";
 			Description = "";
@@ -227,7 +226,7 @@ namespace SEOMacroscope
 			} else {
 				MatchCollection matches = Regex.Matches( this.MimeType, "^([^\\s;/]+)/([^\\s;/]+)" );
 				foreach( Match match in matches ) {
-					sMimeType = String.Format( "{0}/{1}", match.Groups[ 1 ].Value, match.Groups[ 2 ].Value );
+					sMimeType = String.Format( "{0}/{1}", match.Groups[1].Value, match.Groups[2].Value );
 				}
 				if( sMimeType == null ) {
 					sMimeType = this.MimeType;
@@ -241,6 +240,18 @@ namespace SEOMacroscope
 		public Boolean GetIsHtml ()
 		{
 			return( this.IsHtml );
+		}
+
+		/**************************************************************************/
+
+		public Boolean GetIsCompressed ()
+		{
+			return( this.IsCompressed );
+		}
+
+		public string GetCompressionMethod ()
+		{
+			return( this.CompressionMethod );
 		}
 
 		/**************************************************************************/
@@ -280,7 +291,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Hashtable GetOutlinks ()
+		public Dictionary<string,string> GetOutlinks ()
 		{
 			return( this.Outlinks );
 		}
@@ -346,40 +357,38 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Hashtable AddEmailAddress ( string sString )
+		public void AddEmailAddress ( string sString )
 		{
 			debug_msg( string.Format( "AddEmailAddress: {0}", sString ) );
 			if( this.EmailAddresses.ContainsKey( sString ) ) {
-				this.EmailAddresses[ sString ] = this.GetUrl();
+				this.EmailAddresses[sString] = this.GetUrl();
 			} else {
 				this.EmailAddresses.Add( sString, this.GetUrl() );
 			}
-			return( this.EmailAddresses );
 		}
 
 		/**************************************************************************/
 
-		public Hashtable GetEmailAddresses ()
+		public Dictionary<string,string> GetEmailAddresses ()
 		{
 			return( this.EmailAddresses );
 		}
 
 		/**************************************************************************/
 
-		public Hashtable AddTelephoneNumber ( string sString )
+		public void AddTelephoneNumber ( string sString )
 		{
 			debug_msg( string.Format( "AddTelephoneNumber: {0}", sString ) );
 			if( this.TelephoneNumbers.ContainsKey( sString ) ) {
-				this.TelephoneNumbers[ sString ] = this.GetUrl();
+				this.TelephoneNumbers[sString] = this.GetUrl();
 			} else {
 				this.TelephoneNumbers.Add( sString, this.GetUrl() );
 			}
-			return( this.TelephoneNumbers );
 		}
 
 		/**************************************************************************/
 
-		public Hashtable GetTelephoneNumbers ()
+		public Dictionary<string,string> GetTelephoneNumbers ()
 		{
 			return( this.TelephoneNumbers );
 		}
@@ -459,12 +468,12 @@ namespace SEOMacroscope
 		void SetHreflang ( string sLocale, string sURL )
 		{
 			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( false, sLocale, sURL );
-			this.HrefLang[ sLocale ] = msHrefLang;
+			this.HrefLang[sLocale] = msHrefLang;
 		}
 
 		/**************************************************************************/
 
-		public Hashtable GetHrefLangs ()
+		public Dictionary<string,MacroscopeHrefLang> GetHrefLangs ()
 		{
 			return( this.HrefLang );
 		}
@@ -474,7 +483,7 @@ namespace SEOMacroscope
 		public void AddHeading ( ushort iLevel, string sString )
 		{
 			if( this.Headings.ContainsKey( iLevel ) ) {
-				ArrayList alHeadings = this.Headings[ iLevel ];
+				ArrayList alHeadings = this.Headings[iLevel];
 				alHeadings.Add( sString );
 			}
 		}
@@ -485,7 +494,7 @@ namespace SEOMacroscope
 		{
 			ArrayList alHeadings = new ArrayList ();
 			if( this.Headings.ContainsKey( iLevel ) ) {
-				alHeadings = this.Headings[ iLevel ];
+				alHeadings = this.Headings[iLevel];
 			}
 			return( alHeadings );
 		}
@@ -518,6 +527,13 @@ namespace SEOMacroscope
 			string sDuration = dDuration.ToString( "0.00" );
 			//debug_msg( string.Format( "GetDurationInSecondsFormatted: {0}", sDuration ), 0 );
 			return( sDuration );
+		}
+
+		/**************************************************************************/
+
+		public int GetDepth ()
+		{
+			return( this.Depth );
 		}
 
 		/**************************************************************************/
@@ -665,13 +681,10 @@ namespace SEOMacroscope
 		{
 			
 			// Status Code
-
 			this.StatusCode = this.ProcessStatusCode( res.StatusCode );
-
 			debug_msg( string.Format( "Status: {0}", this.StatusCode ) );
 
 			// Probe HTTP Headers
-
 			foreach( string sHeader in res.Headers ) {
 
 				debug_msg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ) );
@@ -684,23 +697,24 @@ namespace SEOMacroscope
 					this.DateModified = DateTime.Parse( res.GetResponseHeader( sHeader ) );
 				}
 
+				if( sHeader.ToLower().Equals( "content-encoding" ) ) {
+					this.IsCompressed = true;
+					this.CompressionMethod = res.GetResponseHeader( sHeader );
+				}
+
 			}
 
 			// Process Dates
 			{
-			
 				if( this.DateServer.Date == new DateTime ().Date ) {
 					this.DateServer = new DateTime ();
 				}
-			
 				if( this.DateModified.Date == new DateTime ().Date ) {
 					this.DateModified = this.DateServer;
 				}
-				
 			}
 			
 			// Stash HTTP Headers
-
 			this.MimeType = res.ContentType;
 			this.ContentLength = res.ContentLength;
 
@@ -732,6 +746,9 @@ namespace SEOMacroscope
 			slDetails.Add( new KeyValuePair<string,string> ( "Content Length", this.ContentLength.ToString() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Encoding", this.ContentEncoding ) );
 
+			slDetails.Add( new KeyValuePair<string,string> ( "Compressed", this.GetIsCompressed().ToString() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Compression Method", this.GetCompressionMethod() ) );
+									
 			slDetails.Add( new KeyValuePair<string,string> ( "Date", this.GetDateServer() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
 
@@ -760,7 +777,7 @@ namespace SEOMacroscope
 			for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
 				string sHeading;
 				if( this.GetHeadings( iLevel ).Count > 0 ) {
-					sHeading = this.GetHeadings( iLevel )[ 0 ].ToString();
+					sHeading = this.GetHeadings( iLevel )[0].ToString();
 				} else {
 					sHeading = null;
 				}

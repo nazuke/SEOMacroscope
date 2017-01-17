@@ -102,11 +102,11 @@ namespace SEOMacroscope
 
 					string sURL = this.FormatIfMissing( msDoc.GetUrl() );
 					string sStatusCode = this.FormatIfMissing( msDoc.GetStatusCode().ToString() );
-					string sSiteLocale = this.FormatIfMissing( msDoc.Locale );	
-					string sMimeType = this.FormatIfMissing( msDoc.MimeType );	
+					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
+					string sMimeType = this.FormatIfMissing( msDoc.GetMimeType() );
 					string sDateServer = this.FormatIfMissing( msDoc.GetDateServer() );
-					string sCanonical = this.FormatIfMissing( msDoc.Canonical );
-					string sTitle = this.FormatIfMissing( msDoc.Title );
+					string sCanonical = this.FormatIfMissing( msDoc.GetCanonical() );
+					string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
 					
 					this.InsertAndFormatContentCell( ws, iRow, iCol, sURL );
 					iCol++;

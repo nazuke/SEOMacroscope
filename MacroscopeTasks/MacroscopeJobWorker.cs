@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
@@ -74,7 +75,7 @@ namespace SEOMacroscope
 			}
 
 			if( this.msJobMaster.Depth > 0 ) {
-				if( msDoc.Depth > this.msJobMaster.Depth ) {
+				if( msDoc.GetDepth() > this.msJobMaster.Depth ) {
 					//debug_msg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
 					DocCollection.Remove( sURL );
 					return;
@@ -95,8 +96,8 @@ namespace SEOMacroscope
 				}
 
 				{
-					string sLocale = msDoc.Locale;
-					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
+					string sLocale = msDoc.GetLocale();
+					Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 					if( sLocale != null ) {
 						this.msJobMaster.AddLocales( sLocale );
 					}
@@ -105,11 +106,11 @@ namespace SEOMacroscope
 					}
 				}
 
-				Hashtable htOutlinks = msDoc.GetOutlinks();
+				Dictionary<string,string> htOutlinks = msDoc.GetOutlinks();
 
 				foreach( string sOutlinkKey in htOutlinks.Keys ) {
 					
-					string sOutlinkURL = ( string )htOutlinks[ sOutlinkKey ];
+					string sOutlinkURL = htOutlinks[ sOutlinkKey ];
 
 					if( sOutlinkURL != null ) {
 

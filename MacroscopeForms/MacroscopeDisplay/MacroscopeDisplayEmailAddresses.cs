@@ -24,7 +24,7 @@
 */
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -151,7 +151,7 @@ namespace SEOMacroscope
 
 			if( msDoc.GetIsHtml() ) {
 				
-				Hashtable htEmailAddresses = ( Hashtable )msDoc.GetEmailAddresses();
+				Dictionary<string,string> htEmailAddresses = msDoc.GetEmailAddresses();
 
 				foreach( string sEmailAddress in htEmailAddresses.Keys ) {
 

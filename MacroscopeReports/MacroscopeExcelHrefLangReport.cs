@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
@@ -94,7 +95,7 @@ namespace SEOMacroscope
 				foreach( string sKey in htDocCollection.Keys() ) {
 
 					MacroscopeDocument msDoc = htDocCollection.Get( sKey );
-					Hashtable htHrefLangs = ( Hashtable )msDoc.GetHrefLangs();
+					Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 					
 					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
 					string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
