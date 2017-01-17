@@ -44,6 +44,7 @@ namespace SEOMacroscope
 		MacroscopeDisplayStructure msDisplayStructure;
 		MacroscopeDisplayCanonical msDisplayCanonical;
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
+		MacroscopeDisplayTitles msDisplayTitles;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
 		MacroscopeDisplayHistory msDisplayHistory;
@@ -63,6 +64,7 @@ namespace SEOMacroscope
 			msDisplayStructure = new MacroscopeDisplayStructure ( this );
 			msDisplayCanonical = new MacroscopeDisplayCanonical ( this );
 			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this );
+			msDisplayTitles = new MacroscopeDisplayTitles ( this );
 			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this );
 			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this );
 			msDisplayHistory = new MacroscopeDisplayHistory ( this );
@@ -107,6 +109,13 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+				
+		public MacroscopeJobMaster GetJobMaster ()
+		{
+			return( msJobMaster );
+		}
+
+		/**************************************************************************/
 
 		public ListView GetDisplayStructure ()
 		{
@@ -128,7 +137,14 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
+		public ListView GetDisplayTitles ()
+		{
+			return( this.listViewPageTitles );
+		}
+
+		/**************************************************************************/
+
 		public ListView GetDisplayEmailAddresses ()
 		{
 			return( this.listViewEmailAddresses );
@@ -445,6 +461,12 @@ namespace SEOMacroscope
 		void CallbackTabPageRedirectsAuditShow ( object sender, EventArgs e )
 		{
 			debug_msg( "EVENT: CallbackTabPageRedirectsAuditShow" );
+		}
+
+		void CallbackTabPageTitlesShow ( object sender, EventArgs e )
+		{
+			debug_msg( "EVENT: CallbackTabPageTitlesShow" );
+			this.msDisplayTitles.RefreshData( this.msJobMaster.DocCollectionGet() );
 		}
 
 		void CallbackTabPageEmailAddressesShow ( object sender, EventArgs e )

@@ -24,15 +24,8 @@
 */
 
 using System;
-using System.Collections;
-using System.Collections.Specialized;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.IO;
-using System.Text;
 using System.Net;
-using HtmlAgilityPack;
-using System.Threading;
 
 namespace SEOMacroscope
 {

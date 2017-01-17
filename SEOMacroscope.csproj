@@ -129,7 +129,9 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocumentImage.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentJS.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentPDF.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayStructureOverview.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTelephoneNumbers.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTitles.cs" />
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.Designer.cs">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>

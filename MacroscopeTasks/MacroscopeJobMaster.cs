@@ -178,7 +178,7 @@ namespace SEOMacroscope
 
 			}
 
-			this.DocCollectionGet().RecalculateLinksIn();
+			this.DocCollectionGet().RecalculateDocCollection();
 			
 			debug_msg( string.Format( "WorkersSpawn: STOPPED" ) );
 
@@ -222,7 +222,7 @@ namespace SEOMacroscope
 			if( iThreadCount == 0 ) {
 				bIsStopped = true;
 			}
-			this.DocCollectionGet().RecalculateLinksIn();
+			this.DocCollectionGet().RecalculateDocCollection();
 			this.UpdateStatusBar();
 			return( bIsStopped );
 		}
@@ -232,7 +232,7 @@ namespace SEOMacroscope
 		public void WorkerUpdateDisplayShutdown ()
 		{
 			debug_msg( "WorkerUpdateDisplayShutdown Called" );
-			this.DocCollectionGet().WorkerRecalculateLinksInShutdown();
+			this.DocCollectionGet().WorkerRecalculateDocCollectionShutdown();
 			this.ThreadUpdateDisplayStop = true;
 		}
 		
@@ -269,7 +269,7 @@ namespace SEOMacroscope
 							}
 						}
 
-						this.DocCollectionGet().WorkerRecalculateLinksInQueueAdd( 1 );
+						this.DocCollectionGet().WorkerRecalculateDocCollectionQueueAdd( 1 );
 
 					}
 					

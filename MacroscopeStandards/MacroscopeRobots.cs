@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using RobotsTxt;
@@ -35,14 +34,16 @@ namespace SEOMacroscope
 	
 	public class MacroscopeRobots : Macroscope
 	{
-	
-		Hashtable htRobots;
-		
+
+		/**************************************************************************/
+
+		Dictionary<string,Robots> dicRobots;
+
 		/**************************************************************************/
 
 		public MacroscopeRobots ()
 		{
-			htRobots = new Hashtable ( 32 );
+			dicRobots = new Dictionary<string,Robots>(32);
 		}
 
 		/**************************************************************************/
@@ -83,14 +84,14 @@ namespace SEOMacroscope
 				
 				Robots robot = null;
 				
-				if( this.htRobots.ContainsKey( sRobotsTxtURL ) ) {
-					robot = ( Robots )this.htRobots[ sRobotsTxtURL ];
+				if( this.dicRobots.ContainsKey( sRobotsTxtURL ) ) {
+					robot = this.dicRobots[ sRobotsTxtURL ];
 				} else {
 					try {
 						using( WebClient wc = new WebClient () ) {
 							String sRobotsText = wc.DownloadString( sRobotsTxtURL );
 							robot = new Robots ( sRobotsText );
-							this.htRobots.Add( sRobotsTxtURL, robot );
+							this.dicRobots.Add( sRobotsTxtURL, robot );
 						}
 					} catch( Exception ex ) {
 						debug_msg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );

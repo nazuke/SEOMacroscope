@@ -29,7 +29,7 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayCanonical : Macroscope
+	public class MacroscopeDisplayTitles : Macroscope
 	{
 		
 		/**************************************************************************/
@@ -40,7 +40,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayCanonical ( MacroscopeMainForm msMainFormNew )
+		public MacroscopeDisplayTitles ( MacroscopeMainForm msMainFormNew )
 		{
 			
 			msMainForm = msMainFormNew;
@@ -50,13 +50,13 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
+							ListView lvListView = this.msMainForm.GetDisplayTitles();
 							ConfigureListView( lvListView );
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
+				ListView lvListView = this.msMainForm.GetDisplayTitles();
 				ConfigureListView( lvListView );
 			}
 
@@ -80,13 +80,13 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
+							ListView lvListView = this.msMainForm.GetDisplayTitles();
 							lvListView.Items.Clear();
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
+				ListView lvListView = this.msMainForm.GetDisplayTitles();
 				lvListView.Items.Clear();
 			}
 		}
@@ -100,13 +100,13 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
+							ListView lvListView = this.msMainForm.GetDisplayTitles();
 							this.RenderListView( lvListView, htDocCollection );
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
+				ListView lvListView = this.msMainForm.GetDisplayTitles();
 				this.RenderListView( lvListView, htDocCollection );
 			}
 		}
@@ -115,20 +115,27 @@ namespace SEOMacroscope
 				
 		public void RefreshDataSingle ( MacroscopeDocument msDoc, string sURL )
 		{
+
+			MacroscopeDocumentCollection htDocCollection = this.msMainForm.GetJobMaster().DocCollectionGet();
+			
+			string sTitle = msDoc.GetTitle();
+			int iCount = htDocCollection.GetTitleCount( sTitle );
+
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-							this.RenderListViewSingle( lvListView, msDoc, sURL );
+							ListView lvListView = this.msMainForm.GetDisplayTitles();
+							this.RenderListViewSingle( lvListView, msDoc, sURL, sTitle, iCount );
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-				this.RenderListViewSingle( lvListView, msDoc, sURL );
+				ListView lvListView = this.msMainForm.GetDisplayTitles();
+				this.RenderListViewSingle( lvListView, msDoc, sURL, sTitle, iCount );
 			}
+			
 		}
 
 		/**************************************************************************/
@@ -137,54 +144,65 @@ namespace SEOMacroscope
 		{
 
 			foreach( string sKeyURL in htDocCollection.Keys() ) {
+
 				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListViewSingle( lvListView, msDoc, sKeyURL );
+
+				string sTitle = msDoc.GetTitle();
+				int iCount = htDocCollection.GetTitleCount( sTitle );
+
+				this.RenderListViewSingle( lvListView, msDoc, sKeyURL, sTitle, iCount );
+
 			}
 
 		}
 		
 		/**************************************************************************/
 
-		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
+		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL, string sTitle, int iCount )
 		{
 
 			if( msDoc.GetIsHtml() ) {
-				
-				string sCanonical = msDoc.GetCanonical();
 
-				if( lvListView.Items.ContainsKey( sKeyURL ) ) {
+				string sPairKey = string.Join( "", sKeyURL, sTitle );
+				string sTitleLength = sTitle.Length.ToString();
+
+				if( lvListView.Items.ContainsKey( sPairKey ) ) {
 							
 					try {
 
-						ListViewItem lvItem = lvListView.Items[ sKeyURL ];
+						ListViewItem lvItem = lvListView.Items[ sPairKey ];
 						lvItem.SubItems[ 0 ].Text = sKeyURL;
-						lvItem.SubItems[ 1 ].Text = sCanonical;
+						lvItem.SubItems[ 1 ].Text = iCount.ToString();
+						lvItem.SubItems[ 2 ].Text = sTitle;
+						lvItem.SubItems[ 3 ].Text = sTitleLength;
 
 					} catch( Exception ex ) {
-						debug_msg( string.Format( "MacroscopeDisplayCanonical 1: {0}", ex.Message ) );
+						debug_msg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
 					}
 
 				} else {
 							
 					try {
 
-						ListViewItem lvItem = new ListViewItem ( sKeyURL );
+						ListViewItem lvItem = new ListViewItem ( sPairKey );
 
-						lvItem.Name = sKeyURL;
+						lvItem.Name = sPairKey;
 
 						lvItem.SubItems[ 0 ].Text = sKeyURL;
-						lvItem.SubItems.Add( sCanonical );
+						lvItem.SubItems.Add( iCount.ToString() );
+						lvItem.SubItems.Add( sTitle );
+						lvItem.SubItems.Add( sTitleLength );
 
 						lvListView.Items.Add( lvItem );
 
 					} catch( Exception ex ) {
-						debug_msg( string.Format( "MacroscopeDisplayCanonical 2: {0}", ex.Message ) );
+						debug_msg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
 					}
-				
+
 				}
-	
+						
 			}
-			
+
 		}
 
 		/**************************************************************************/

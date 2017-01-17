@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope

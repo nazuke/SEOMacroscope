@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections;
-using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -61,7 +60,7 @@ namespace SEOMacroscope
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sURL );
 			MacroscopeDocumentCollection DocCollection = this.msJobMaster.DocCollectionGet();
 
-			if( ! this.msJobMaster.RobotsGet().ApplyRobotRule( sURL ) ) {
+			if( !this.msJobMaster.RobotsGet().ApplyRobotRule( sURL ) ) {
 				debug_msg( string.Format( "Disallowed by robots.txt: {0}", sURL ) );
 				return;
 			}
@@ -89,6 +88,11 @@ namespace SEOMacroscope
 			if( msDoc.Execute() ) {
 			
 				this.msJobMaster.PageLimitCount++;
+
+				if( msDoc.GetIsRedirect() ) {
+					debug_msg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
+					this.msJobMaster.UrlQueueAdd( msDoc.GetUrlRedirectTo() );
+				}
 
 				{
 					string sLocale = msDoc.Locale;
@@ -129,7 +133,7 @@ namespace SEOMacroscope
 							if( MacroscopeURLTools.VerifySameHost( this.msJobMaster.StartUrl, sOutlinkURL ) ) {
 								this.msJobMaster.UrlQueueAdd( sOutlinkURL );
 							} else {
-								//debug_msg( string.Format( "FOREIGN HOST: {0}", sOutlinkURL ), 2 );
+								debug_msg( string.Format( "FOREIGN HOST: {0}", sOutlinkURL ) );
 							}
 							
 						} else {

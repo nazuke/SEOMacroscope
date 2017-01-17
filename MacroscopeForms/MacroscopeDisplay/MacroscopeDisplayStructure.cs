@@ -27,7 +27,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -177,15 +176,19 @@ namespace SEOMacroscope
 						delegate
 						{
 							ListView lvListView = this.msMainForm.GetDisplayStructure();
+							lvListView.BeginUpdate();
 							this.RenderListView( lvListView, htDocCollection );
 							//this.ListViewResizeColumns( lvListView );
+							lvListView.EndUpdate();
 						}
 					)
 				);
 			} else {
 				ListView lvListView = this.msMainForm.GetDisplayStructure();
+				lvListView.BeginUpdate();
 				this.RenderListView( lvListView, htDocCollection );
 				//this.ListViewResizeColumns( lvListView );
+				lvListView.EndUpdate();
 			}
 		}
 
@@ -199,15 +202,19 @@ namespace SEOMacroscope
 						delegate
 						{
 							ListView lvListView = this.msMainForm.GetDisplayStructure();
+							lvListView.BeginUpdate();
 							this.RenderListViewSingle( lvListView, msDoc, sURL );
 							//this.ListViewResizeColumns( lvListView );
+							lvListView.EndUpdate();
 						}
 					)
 				);
 			} else {
 				ListView lvListView = this.msMainForm.GetDisplayStructure();
+				lvListView.BeginUpdate();
 				this.RenderListViewSingle( lvListView, msDoc, sURL );
 				//this.ListViewResizeColumns( lvListView );
+				lvListView.EndUpdate();
 			}
 		}
 

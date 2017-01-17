@@ -38,11 +38,12 @@ namespace SEOMacroscope
 
 		Hashtable DocCollection;
 
-		Thread ThreadRecalculateLinksIn = null;
-		Boolean ThreadRecalculateLinksInStop = false;
-		Queue<int> ThreadRecalculateLinksInQueue;
+		Thread ThreadRecalculateDocCollection = null;
+		Boolean ThreadRecalculateDocCollectionStop = false;
+		Queue<int> ThreadRecalculateDocCollectionQueue;
+		Semaphore ThreadRecalculateDocCollectionSemaphore;
 
-		Semaphore ThreadRecalculateLinksInSemaphone;
+		Dictionary<string,int> StatsTitles;
 
 		/**************************************************************************/
 
@@ -52,11 +53,13 @@ namespace SEOMacroscope
 			DocCollection = Hashtable.Synchronized( new Hashtable ( 4096 ) );
 
 			{
-				ThreadRecalculateLinksInQueue = new Queue<int> ( 4096 );
-				ThreadRecalculateLinksIn = new Thread ( new ThreadStart ( this.WorkerRecalculateLinksIn ) );
-				ThreadRecalculateLinksInSemaphone = new Semaphore ( 0, 1 );
-				ThreadRecalculateLinksIn.Start();
+				ThreadRecalculateDocCollectionQueue = new Queue<int> ( 4096 );
+				ThreadRecalculateDocCollection = new Thread ( new ThreadStart ( this.WorkerRecalculateDocCollection ) );
+				ThreadRecalculateDocCollectionSemaphore = new Semaphore ( 0, 1 );
+				ThreadRecalculateDocCollection.Start();
 			}
+
+			StatsTitles = new Dictionary<string,int> ();
 
 		}
 
@@ -138,31 +141,31 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void WorkerRecalculateLinksIn ()
+		void WorkerRecalculateDocCollection ()
 		{
 
 			Boolean bDoRun = true;
 			
-			ThreadRecalculateLinksInSemaphone.Release( 1 );
+			ThreadRecalculateDocCollectionSemaphore.Release( 1 );
 			
 			do {
 
-				if( this.WorkerRecalculateLinksInQueuePeek() ) {
+				if( this.WorkerRecalculateDocCollectionQueuePeek() ) {
 
 					{
-						int iDrainQueue = this.WorkerRecalculateLinksInQueueGet();
+						int iDrainQueue = this.WorkerRecalculateDocCollectionQueueGet();
 						do {
-							iDrainQueue = this.WorkerRecalculateLinksInQueueGet();
+							iDrainQueue = this.WorkerRecalculateDocCollectionQueueGet();
 						} while( iDrainQueue != -1 );
 					}
 
-					this.RecalculateLinksIn();
+					this.RecalculateDocCollection();
 
 				}
 
 				Thread.Sleep( 5000 );
 
-				if( this.ThreadRecalculateLinksInStop == true ) {
+				if( this.ThreadRecalculateDocCollectionStop == true ) {
 					bDoRun = false;
 				}
 
@@ -172,30 +175,30 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		public void WorkerRecalculateLinksInShutdown ()
+		public void WorkerRecalculateDocCollectionShutdown ()
 		{
 			debug_msg( "WorkerRecalculateLinksInShutdown Called" );
-			this.ThreadRecalculateLinksInStop = true;
+			this.ThreadRecalculateDocCollectionStop = true;
 		}
 
 		/**************************************************************************/
 
-		public void WorkerRecalculateLinksInQueueAdd ( int iValue )
+		public void WorkerRecalculateDocCollectionQueueAdd ( int iValue )
 		{
-			lock( this.ThreadRecalculateLinksInQueue ) {
-				this.ThreadRecalculateLinksInQueue.Enqueue( iValue );
+			lock( this.ThreadRecalculateDocCollectionQueue ) {
+				this.ThreadRecalculateDocCollectionQueue.Enqueue( iValue );
 			}
 		}
 		
 		/**************************************************************************/
 		
-		public int WorkerRecalculateLinksInQueueGet ()
+		public int WorkerRecalculateDocCollectionQueueGet ()
 		{
 			int iValue = -1;
 			try {
-				if( this.ThreadRecalculateLinksInQueue.Count > 0 ) {
-					lock( this.ThreadRecalculateLinksInQueue ) {
-						iValue = this.ThreadRecalculateLinksInQueue.Dequeue();
+				if( this.ThreadRecalculateDocCollectionQueue.Count > 0 ) {
+					lock( this.ThreadRecalculateDocCollectionQueue ) {
+						iValue = this.ThreadRecalculateDocCollectionQueue.Dequeue();
 					}
 				}
 			} catch( InvalidOperationException ex ) {
@@ -206,12 +209,12 @@ namespace SEOMacroscope
 	
 		/**************************************************************************/
 				
-		public Boolean WorkerRecalculateLinksInQueuePeek ()
+		public Boolean WorkerRecalculateDocCollectionQueuePeek ()
 		{
 			Boolean bPeek = false;
 			try {
-				lock( this.ThreadRecalculateLinksInQueue ) {
-					if( this.ThreadRecalculateLinksInQueue.Count > 0 ) {
+				lock( this.ThreadRecalculateDocCollectionQueue ) {
+					if( this.ThreadRecalculateDocCollectionQueue.Count > 0 ) {
 						bPeek = true;
 					}
 				}
@@ -222,45 +225,78 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
-		public void RecalculateLinksIn ()
+
+		public void RecalculateDocCollection ()
 		{
 
-			debug_msg( string.Format( "RecalculateLinksIn: CALLED" ) );
+			debug_msg( string.Format( "RecalculateDocCollection: CALLED" ) );
 
-			ThreadRecalculateLinksInSemaphone.WaitOne();
+			ThreadRecalculateDocCollectionSemaphore.WaitOne();
 
 			lock( this.DocCollection ) {
 
+				this.ClearTitles();
+				
 				foreach( string sUrlTarget in this.DocCollection.Keys ) {
 
 					MacroscopeDocument msDoc = this.Get( sUrlTarget );
 
-					msDoc.ClearHyperlinksIn();
+					this.RecalculateTitles( msDoc );
 
-					//debug_msg( string.Format( "RecalculateLinksIn sUrlTarget: {0}", sUrlTarget ), 0 );
-
-					foreach( string sUrlOrigin in this.DocCollection.Keys ) {
-
-						//debug_msg( string.Format( "RecalculateLinksIn sUrlOrigin: {0}", sUrlOrigin ), 1 );
-
-						foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks( sUrlTarget ) ) {
-
-							if( sUrlTarget == HyperlinkOut.GetUrlTarget() ) {
-
-								msDoc.AddHyperlinkIn( "", "", MacroscopeHyperlinkIn.LINKTEXT, sUrlOrigin, sUrlTarget, "", "" );
-
-							}
-
-						}
-
-					}
+					this.RecalculateLinksIn( sUrlTarget, msDoc );
 
 				}
 				
 			}
 			
-			ThreadRecalculateLinksInSemaphone.Release();
+			ThreadRecalculateDocCollectionSemaphore.Release();
+
+		}
+
+		/**************************************************************************/
+
+		void ClearTitles ()
+		{
+			StatsTitles.Clear();
+		}
+
+		public int GetTitleCount ( string sTitle )
+		{
+			int iValue = 0;
+			if( this.StatsTitles.ContainsKey( sTitle ) ) {
+				iValue = this.StatsTitles[ sTitle ];
+			}
+			return( iValue );
+		}
+
+		void RecalculateTitles ( MacroscopeDocument msDoc )
+		{
+			string sTitle = msDoc.GetTitle();
+			if( this.StatsTitles.ContainsKey( sTitle ) ) {
+				this.StatsTitles[ sTitle ] = this.StatsTitles[ sTitle ] + 1;
+			} else {
+				this.StatsTitles.Add( sTitle, 1 );
+			}
+		}
+
+		/**************************************************************************/
+
+		void RecalculateLinksIn ( string sUrlTarget, MacroscopeDocument msDoc )
+		{
+
+			msDoc.ClearHyperlinksIn();
+
+			foreach( string sUrlOrigin in this.DocCollection.Keys ) {
+
+				foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks( sUrlTarget ) ) {
+
+					if( sUrlTarget == HyperlinkOut.GetUrlTarget() ) {
+						msDoc.AddHyperlinkIn( "", "", MacroscopeHyperlinkIn.LINKTEXT, sUrlOrigin, sUrlTarget, "", "" );
+					}
+
+				}
+
+			}
 
 		}
 

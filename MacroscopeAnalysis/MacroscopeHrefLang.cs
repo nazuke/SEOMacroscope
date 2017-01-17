@@ -91,6 +91,7 @@ namespace SEOMacroscope
 				req.Timeout = 10000;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
+
 				res = ( HttpWebResponse )req.GetResponse();
 
 				debug_msg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ) );

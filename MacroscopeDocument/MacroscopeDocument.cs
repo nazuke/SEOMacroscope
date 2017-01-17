@@ -25,13 +25,9 @@
 
 using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.IO;
-using System.Text;
 using System.Net;
-using System.Threading;
 using System.Diagnostics;
 
 using HtmlAgilityPack;
@@ -57,6 +53,7 @@ namespace SEOMacroscope
 
 		Boolean IsRedirect;
 		string UrlRedirectFrom;
+		string UrlRedirectTo;
 
 		HtmlDocument HtmlDoc;
 		
@@ -118,8 +115,10 @@ namespace SEOMacroscope
 
 			Url = sURL;
 			Timeout = 10000;
+			
 			IsRedirect = false;
-			UrlRedirectFrom = "";
+			UrlRedirectFrom = "";			
+			UrlRedirectTo = "";
 			
 			StatusCode = 0;
 			ErrorCondition = "";
@@ -188,9 +187,20 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public string GetIsRedirect ()
+		public Boolean GetIsRedirect ()
 		{
-			return( this.IsRedirect.ToString() );
+			return( this.IsRedirect );
+		}
+
+		public string GetUrlRedirectFrom ()
+		{
+			return( this.UrlRedirectFrom );
+			
+		}
+
+		public string GetUrlRedirectTo ()
+		{
+			return( this.UrlRedirectTo );
 		}
 
 		/**************************************************************************/
@@ -623,8 +633,8 @@ namespace SEOMacroscope
 			
 					if( bIsRedirect ) {
 						this.IsRedirect = true;
-						this.Url = res.GetResponseHeader( "Location" );
-						this.UrlRedirectFrom = sOriginalURL;
+						//this.UrlRedirectFrom = sOriginalURL;				
+						this.UrlRedirectTo = res.GetResponseHeader( "Location" );
 
 
 						//this.url = MacroscopeURLTools.make_url_absolute( this.url, this.UrlRedirectFrom );
@@ -729,7 +739,7 @@ namespace SEOMacroscope
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
 
-			slDetails.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect().ToString() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Redirected From", this.UrlRedirectFrom ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Links In Count", this.CountHyperlinksIn().ToString() ) );

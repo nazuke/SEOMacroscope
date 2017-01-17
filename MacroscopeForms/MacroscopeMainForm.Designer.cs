@@ -41,24 +41,24 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMainContainer;
 		private System.Windows.Forms.TabControl tabControlMain;
-		private System.Windows.Forms.TabPage tabPageStructureOverview;
-		private System.Windows.Forms.TabPage tabPageHrefLangAnalysis;
+		public System.Windows.Forms.TabPage tabPageStructureOverview;
+		public System.Windows.Forms.TabPage tabPageHrefLangAnalysis;
 		public System.Windows.Forms.ToolStripTextBox textBoxStartUrl;
-		private System.Windows.Forms.TabPage tabPageRedirectsAudit;
-		private System.Windows.Forms.TabPage tabPageEmailAddresses;
-		private System.Windows.Forms.TabPage tabPageTelephoneNumbers;
+		public System.Windows.Forms.TabPage tabPageRedirectsAudit;
+		public System.Windows.Forms.TabPage tabPageEmailAddresses;
+		public System.Windows.Forms.TabPage tabPageTelephoneNumbers;
 		private System.Windows.Forms.StatusStrip statusStripMain;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripUrlCount;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripThreads;
 		public System.Windows.Forms.ToolStripStatusLabel toolStripFound;
-		private System.Windows.Forms.TabPage tabPageHistory;
+		public System.Windows.Forms.TabPage tabPageHistory;
 		private System.Windows.Forms.ListView listViewHistory;
 		private System.Windows.Forms.ColumnHeader HistoryUrl;
 		private System.Windows.Forms.ColumnHeader HistoryVisited;
 		private System.Windows.Forms.ListView listViewTelephoneNumbers;
 		private System.Windows.Forms.ColumnHeader TelTel;
 		private System.Windows.Forms.ColumnHeader TelUrl;
-		private System.Windows.Forms.ListView listViewEmailAddresses;
+		public System.Windows.Forms.ListView listViewEmailAddresses;
 		private System.Windows.Forms.ColumnHeader EmailAddressesEmail;
 		private System.Windows.Forms.ColumnHeader EmailAddressesUrl;
 		private System.Windows.Forms.ListView listViewStructure;
@@ -78,7 +78,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem imagesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pDFsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem miscellaneousToolStripMenuItem;
-		private System.Windows.Forms.TabPage tabPageCanonicalAnalysis;
+		public System.Windows.Forms.TabPage tabPageCanonicalAnalysis;
 		public System.Windows.Forms.ListView listViewCanonicalAnalysis;
 		private System.Windows.Forms.ColumnHeader CanonicalAnalysisUrl;
 		private System.Windows.Forms.ColumnHeader CanonicalAnalysisCanonical;
@@ -89,12 +89,12 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader RedirectsAuditDestinationUrl;
 		private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutSEOMacroscopeToolStripMenuItem;
-		private System.Windows.Forms.TabPage tabPageHierarchy;
-		private System.Windows.Forms.TabPage tabPageUriAnalysis;
-		private System.Windows.Forms.TabPage tabPagePageTitles;
-		private System.Windows.Forms.TabPage tabPagePageDescription;
-		private System.Windows.Forms.TabPage tabPagePageKeywords;
-		private System.Windows.Forms.TabPage tabPagePageHeadings;
+		public System.Windows.Forms.TabPage tabPageHierarchy;
+		public System.Windows.Forms.TabPage tabPageUriAnalysis;
+		public System.Windows.Forms.TabPage tabPagePageTitles;
+		public System.Windows.Forms.TabPage tabPagePageDescription;
+		public System.Windows.Forms.TabPage tabPagePageKeywords;
+		public System.Windows.Forms.TabPage tabPagePageHeadings;
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.SplitContainer splitContainerHierarchy;
@@ -104,6 +104,12 @@ namespace SEOMacroscope
 		private System.Windows.Forms.SplitContainer splitContainerStructureDetail;
 		private System.Windows.Forms.SplitContainer splitContainerSiteOverview;
 		private System.Windows.Forms.TreeView treeViewSiteOverview;
+		public System.Windows.Forms.ListView listViewPageTitles;
+		private System.Windows.Forms.ColumnHeader columnHeaderUrl;
+		private System.Windows.Forms.ColumnHeader columnHeaderCount;
+		private System.Windows.Forms.ColumnHeader columnHeaderPageTitle;
+		private System.Windows.Forms.ColumnHeader columnHeaderLength;
+		private System.Windows.Forms.ColumnHeader columnHeaderPixelWidth;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -183,6 +189,12 @@ namespace SEOMacroscope
 			this.RedirectsAuditDestinationUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageUriAnalysis = new System.Windows.Forms.TabPage();
 			this.tabPagePageTitles = new System.Windows.Forms.TabPage();
+			this.listViewPageTitles = new System.Windows.Forms.ListView();
+			this.columnHeaderUrl = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderCount = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderPageTitle = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderLength = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderPixelWidth = new System.Windows.Forms.ColumnHeader();
 			this.tabPagePageDescription = new System.Windows.Forms.TabPage();
 			this.tabPagePageKeywords = new System.Windows.Forms.TabPage();
 			this.tabPagePageHeadings = new System.Windows.Forms.TabPage();
@@ -223,6 +235,7 @@ namespace SEOMacroscope
 			this.tabPageCanonicalAnalysis.SuspendLayout();
 			this.tabPageHrefLangAnalysis.SuspendLayout();
 			this.tabPageRedirectsAudit.SuspendLayout();
+			this.tabPagePageTitles.SuspendLayout();
 			this.tabPageEmailAddresses.SuspendLayout();
 			this.tabPageTelephoneNumbers.SuspendLayout();
 			this.tabPageHistory.SuspendLayout();
@@ -784,12 +797,54 @@ namespace SEOMacroscope
 			// 
 			// tabPagePageTitles
 			// 
+			this.tabPagePageTitles.Controls.Add(this.listViewPageTitles);
 			this.tabPagePageTitles.Location = new System.Drawing.Point(4, 22);
 			this.tabPagePageTitles.Name = "tabPagePageTitles";
 			this.tabPagePageTitles.Size = new System.Drawing.Size(525, 416);
 			this.tabPagePageTitles.TabIndex = 10;
 			this.tabPagePageTitles.Text = "Page Titles";
 			this.tabPagePageTitles.UseVisualStyleBackColor = true;
+			this.tabPagePageTitles.Enter += new System.EventHandler(this.CallbackTabPageTitlesShow);
+			// 
+			// listViewPageTitles
+			// 
+			this.listViewPageTitles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderUrl,
+			this.columnHeaderCount,
+			this.columnHeaderPageTitle,
+			this.columnHeaderLength,
+			this.columnHeaderPixelWidth});
+			this.listViewPageTitles.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listViewPageTitles.FullRowSelect = true;
+			this.listViewPageTitles.GridLines = true;
+			this.listViewPageTitles.Location = new System.Drawing.Point(0, 0);
+			this.listViewPageTitles.Name = "listViewPageTitles";
+			this.listViewPageTitles.Size = new System.Drawing.Size(525, 416);
+			this.listViewPageTitles.TabIndex = 0;
+			this.listViewPageTitles.UseCompatibleStateImageBehavior = false;
+			this.listViewPageTitles.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeaderUrl
+			// 
+			this.columnHeaderUrl.Text = "URL";
+			this.columnHeaderUrl.Width = 300;
+			// 
+			// columnHeaderCount
+			// 
+			this.columnHeaderCount.Text = "Count";
+			// 
+			// columnHeaderPageTitle
+			// 
+			this.columnHeaderPageTitle.Text = "Page Title";
+			this.columnHeaderPageTitle.Width = 150;
+			// 
+			// columnHeaderLength
+			// 
+			this.columnHeaderLength.Text = "Length";
+			// 
+			// columnHeaderPixelWidth
+			// 
+			this.columnHeaderPixelWidth.Text = "Pixel Width";
 			// 
 			// tabPagePageDescription
 			// 
@@ -996,6 +1051,7 @@ namespace SEOMacroscope
 			this.tabPageCanonicalAnalysis.ResumeLayout(false);
 			this.tabPageHrefLangAnalysis.ResumeLayout(false);
 			this.tabPageRedirectsAudit.ResumeLayout(false);
+			this.tabPagePageTitles.ResumeLayout(false);
 			this.tabPageEmailAddresses.ResumeLayout(false);
 			this.tabPageTelephoneNumbers.ResumeLayout(false);
 			this.tabPageHistory.ResumeLayout(false);
