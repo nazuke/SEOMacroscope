@@ -99,7 +99,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, Hashtable htLocales )
+		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, Dictionary<string,string> htLocales )
 		{
 
 			debug_msg( string.Format( "MacroscopeDisplayHrefLang: {0}", "RefreshData" ) );
@@ -123,7 +123,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, Hashtable htLocales )
+		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, Dictionary<string,string> htLocales )
 		{
 
 			Hashtable htLocaleCols = new Hashtable ();

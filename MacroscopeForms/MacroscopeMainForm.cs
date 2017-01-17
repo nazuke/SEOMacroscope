@@ -24,8 +24,10 @@
 */
 
 using System;
+using System.Timers;
 using System.Windows.Forms;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -49,6 +51,7 @@ namespace SEOMacroscope
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
 		MacroscopeDisplayHistory msDisplayHistory;
 
+		System.Timers.Timer TimerTabPages;
 			
 		/**************************************************************************/
 
@@ -69,14 +72,16 @@ namespace SEOMacroscope
 			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this );
 			msDisplayHistory = new MacroscopeDisplayHistory ( this );
 
-			this.SetURL( MacroscopePreferencesManager.GetStartUrl() );
+			SetURL( MacroscopePreferencesManager.GetStartUrl() );
 
 			#if DEBUG
-			this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
+			textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
 			#endif
 
-			this.ScanningControlsEnable( true );
+			ScanningControlsEnable( true );
 
+			StartTabPageTimer();
+			
 		}
 		
 		/**************************************************************************/
@@ -84,6 +89,7 @@ namespace SEOMacroscope
 		~MacroscopeMainForm ()
 		{
 			debug_msg( "MacroscopeMainForm DESTRUCTOR CALLED" );
+			
 			this.Cleanup();
 		}
 		
@@ -419,13 +425,84 @@ namespace SEOMacroscope
 
 		/** TAB PAGES *************************************************************/
 
-		void CallbackTabControlDisplaySelectedIndexChanged ( object sender, EventArgs e )
+		void StartTabPageTimer ()
+		{
+			this.TimerTabPages = new System.Timers.Timer ( 5000 );
+			this.TimerTabPages.Elapsed += this.CallbackTabPageTimer;
+			this.TimerTabPages.AutoReset = true;
+			this.TimerTabPages.Enabled = true;
+			this.TimerTabPages.Start();
+		}
+
+		void StopTabPageTimer ()
+		{
+			this.TimerTabPages.Stop();
+			this.TimerTabPages.Dispose();
+		}
+		
+		void CallbackTabPageTimer ( Object self, ElapsedEventArgs e )
 		{
 
 			TabControl tcDisplay = this.tabControlMain;
 
-			debug_msg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", tcDisplay.TabPages[ tcDisplay.SelectedIndex ] ) );
+			debug_msg( string.Format( "CallbackTabPageTimer: {0}", "CALLED" ) );
 
+			this.Invoke(
+				new MethodInvoker (
+					delegate
+					{
+						
+						debug_msg( string.Format( "CallbackTabPageTimer tcDisplay: {0}", tcDisplay.TabPages[tcDisplay.SelectedIndex].Name ) );
+					
+						// TODO: Finish this structure
+
+						switch( tcDisplay.TabPages[tcDisplay.SelectedIndex].Name ) {
+							case "tabPageStructureOverview":
+								break;
+							case "tabPageHierarchy":
+								break;
+							case "tabPageCanonicalAnalysis":
+								this.msDisplayCanonical.RefreshData( this.msJobMaster.DocCollectionGet() );
+								break;
+							case "tabPageHrefLangAnalysis":
+								this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
+								break;
+							case "tabPageRedirectsAudit":
+								break;
+							case "tabPageUriAnalysis":
+								break;
+							case "tabPagePageTitles":
+								this.msDisplayTitles.RefreshData( this.msJobMaster.DocCollectionGet() );
+								break;
+							case "tabPagePageDescription":
+								break;
+							case "tabPagePageKeywords":
+								break;
+							case "tabPagePageHeadings":
+								break;
+							case "tabPageEmailAddresses":
+								this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.DocCollectionGet() );
+								break;
+							case "tabPageTelephoneNumbers":
+								this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.DocCollectionGet() );
+								break;
+							case "tabPageHistory":
+								this.msDisplayHistory.RefreshData( this.msJobMaster.HistoryGet() );
+								break;
+							default:
+								break;
+						}
+
+					}
+				)
+			);
+
+		}
+
+		void CallbackTabControlDisplaySelectedIndexChanged ( object sender, EventArgs e )
+		{
+			TabControl tcDisplay = this.tabControlMain;
+			debug_msg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", tcDisplay.TabPages[tcDisplay.SelectedIndex] ) );
 		}
 
 		void CallbackTabPageStructureOverviewShow ( object sender, EventArgs e )
@@ -440,7 +517,7 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
+					string sURL = lvItem.SubItems[0].Text.ToString();
 					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
 				}
 			}
@@ -487,6 +564,10 @@ namespace SEOMacroscope
 			this.msDisplayHistory.RefreshData( this.msJobMaster.HistoryGet() );
 		}
 
+		
+		
+		
+		
 		/** Scanning Controls *****************************************************/
 
 		void ScanningControlsEnable ( Boolean bState )

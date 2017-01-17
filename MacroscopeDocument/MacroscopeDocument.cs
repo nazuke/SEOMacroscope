@@ -132,9 +132,9 @@ namespace SEOMacroscope
 			DateModified = new DateTime ();
 
 			Canonical = "";
-			HrefLang = new Dictionary<string,MacroscopeHrefLang> (1024);
+			HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
-			Outlinks = new Dictionary<string,string> (128);
+			Outlinks = new Dictionary<string,string> ( 128 );
 			HyperlinksIn = new MacroscopeHyperlinksIn ();
 			HyperlinksOut = new MacroscopeHyperlinksOut ();
 

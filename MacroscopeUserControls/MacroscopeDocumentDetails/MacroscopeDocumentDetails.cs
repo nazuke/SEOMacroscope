@@ -149,7 +149,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Hashtable htLocales, MacroscopeDocumentCollection msDocCollection )
+		void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Dictionary<string,string> htLocales, MacroscopeDocumentCollection msDocCollection )
 		{
 
 			ListView lvListView = this.listViewHrefLang;

@@ -64,7 +64,7 @@ namespace SEOMacroscope
 		Queue<string> UrlQueue;
 		
 		Hashtable History;
-		Hashtable Locales;
+		Dictionary<string,string> Locales;
 
 		MacroscopeRobots msRobots;
 				
@@ -96,7 +96,7 @@ namespace SEOMacroscope
 
 			History = Hashtable.Synchronized( new Hashtable ( 4096 ) );
 
-			Locales = Hashtable.Synchronized( new Hashtable ( 32 ) );
+			Locales = new Dictionary<string,string> ( 32 );
 			msRobots = new MacroscopeRobots ();
 
 			{
@@ -300,7 +300,7 @@ namespace SEOMacroscope
 		void RunningThreadsInc ()
 		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[ iThreadId ] = true;
+			this.ThreadsDict[iThreadId] = true;
 			this.ThreadsRunning++;
 		}
 		
@@ -450,7 +450,7 @@ namespace SEOMacroscope
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sURL ) ) {
-				bSeen = ( Boolean )this.History[ sURL ];
+				bSeen = ( Boolean )this.History[sURL];
 			}
 			return( bSeen );
 		}
@@ -484,7 +484,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		public Hashtable LocalesGet ()
+		public Dictionary<string,string> LocalesGet ()
 		{
 			return( this.Locales );
 		}
@@ -495,7 +495,7 @@ namespace SEOMacroscope
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[ sLocale ] = sLocale;
+					this.Locales[sLocale] = sLocale;
 				}
 			}
 		}

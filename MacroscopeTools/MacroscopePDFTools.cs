@@ -24,10 +24,9 @@
 */
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using PdfSharp;
-using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 
@@ -57,24 +56,24 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Hashtable GetMetadata()
+		public Dictionary<string,string> GetMetadata()
 		{
-			Hashtable htMetadata = new Hashtable ( 32 );
+			Dictionary<string,string> dicMetadata = new Dictionary<string,string> ( 32 );
 			if( Pdf != null ) {
 				PdfDocumentInformation pdfInfo = Pdf.Info;
-				htMetadata[ "title" ] = pdfInfo.Title;
+				dicMetadata.Add( "title", pdfInfo.Title );
 			}
-			return( htMetadata );
+			return( dicMetadata );
 		}
 		
 		/**************************************************************************/
 
 		public string GetTitle()
 		{
-			Hashtable htMetadata = this.GetMetadata();
+			Dictionary<string,string> dicMetadata = this.GetMetadata();
 			string sTitle = "";
-			if( htMetadata.ContainsKey( "title" ) ) {
-				sTitle = ( string )htMetadata[ "title" ].ToString();
+			if( dicMetadata.ContainsKey( "title" ) ) {
+				sTitle = dicMetadata[ "title" ];
 			}
 			return( sTitle );
 		}

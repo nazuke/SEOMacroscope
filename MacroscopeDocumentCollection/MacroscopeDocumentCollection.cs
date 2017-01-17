@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -36,7 +35,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Hashtable DocCollection;
+		Dictionary<string,MacroscopeDocument> DocCollection;
 
 		Thread ThreadRecalculateDocCollection = null;
 		Boolean ThreadRecalculateDocCollectionStop = false;
@@ -50,7 +49,7 @@ namespace SEOMacroscope
 		public MacroscopeDocumentCollection ()
 		{
 
-			DocCollection = Hashtable.Synchronized( new Hashtable ( 4096 ) );
+			DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
 
 			{
 				ThreadRecalculateDocCollectionQueue = new Queue<int> ( 4096 );
@@ -110,7 +109,7 @@ namespace SEOMacroscope
 		{
 			MacroscopeDocument msDoc = null;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
-				msDoc = ( MacroscopeDocument )this.DocCollection[ sKey ];
+				msDoc = ( MacroscopeDocument )this.DocCollection[sKey];
 			}
 			return( msDoc );
 		}
@@ -264,7 +263,7 @@ namespace SEOMacroscope
 		{
 			int iValue = 0;
 			if( this.StatsTitles.ContainsKey( sTitle ) ) {
-				iValue = this.StatsTitles[ sTitle ];
+				iValue = this.StatsTitles[sTitle];
 			}
 			return( iValue );
 		}
@@ -273,7 +272,7 @@ namespace SEOMacroscope
 		{
 			string sTitle = msDoc.GetTitle();
 			if( this.StatsTitles.ContainsKey( sTitle ) ) {
-				this.StatsTitles[ sTitle ] = this.StatsTitles[ sTitle ] + 1;
+				this.StatsTitles[sTitle] = this.StatsTitles[sTitle] + 1;
 			} else {
 				this.StatsTitles.Add( sTitle, 1 );
 			}
