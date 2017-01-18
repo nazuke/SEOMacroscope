@@ -112,7 +112,7 @@ namespace SEOMacroscope
 			}
 
 			if( this.msJobMaster != null ) {
-				this.msJobMaster.ShutdownWorkerUpdateDisplay();
+				//this.msJobMaster.ShutdownWorkerUpdateDisplay();
 				this.msJobMaster = null;
 			}
 
@@ -351,7 +351,7 @@ namespace SEOMacroscope
 				this.ScanningControlsStart( true );
 
 				if( StartUrlDirty ) {
-					this.msJobMaster.ShutdownWorkerUpdateDisplay();
+					//this.msJobMaster.ShutdownWorkerUpdateDisplay();
 					this.msJobMaster = new MacroscopeJobMaster ( this );
 					this.ClearDisplay();
 					StartUrlDirty = false;
@@ -399,7 +399,7 @@ namespace SEOMacroscope
 
 				this.ScanningControlsReset( true );
 
-				this.msJobMaster.ShutdownWorkerUpdateDisplay();
+				//this.msJobMaster.ShutdownWorkerUpdateDisplay();
 
 				this.msJobMaster = new MacroscopeJobMaster ( this );
 
@@ -659,6 +659,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		/*
 		public void UpdateDisplayHrefLang ()
 		{
 
@@ -686,7 +687,8 @@ namespace SEOMacroscope
 			}
 			
 		}
-
+		*/
+		
 		/**************************************************************************/
 
 		public void UpdateStatusBar ()

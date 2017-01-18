@@ -47,8 +47,8 @@ namespace SEOMacroscope
 		Boolean ThreadsStop;
 		Dictionary<int,Boolean> ThreadsDict;
 
-		Thread ThreadUpdateDisplay = null;
-		Boolean ThreadUpdateDisplayStop = false;
+		//Thread ThreadUpdateDisplay = null;
+		//Boolean ThreadUpdateDisplayStop = false;
 		Queue<string> UpdateDisplayQueue;
 		
 		string StartUrl;
@@ -63,7 +63,6 @@ namespace SEOMacroscope
 		int PagesFound;
 
 		Queue<string> UrlQueue;
-		Dictionary<string,Boolean> UrlQueueDic;
 		
 		Hashtable History;
 		Dictionary<string,string> Locales;
@@ -103,7 +102,7 @@ namespace SEOMacroscope
 
 			{
 				UpdateDisplayQueue = new Queue<string> ( 4096 );
-				ThreadUpdateDisplay = new Thread ( new ThreadStart ( this.ThreadWorkerUpdateDisplay ) );
+				//ThreadUpdateDisplay = new Thread ( new ThreadStart ( this.ThreadWorkerUpdateDisplay ) );
 				//ThreadUpdateDisplay.Start();
 			}
 
@@ -114,7 +113,7 @@ namespace SEOMacroscope
 		~MacroscopeJobMaster ()
 		{
 			DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
-			this.ShutdownWorkerUpdateDisplay();
+			//this.ShutdownWorkerUpdateDisplay();
 		}
 
 		/**************************************************************************/
@@ -233,16 +232,19 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		/*
 		public void ShutdownWorkerUpdateDisplay ()
 		{
 			DebugMsg( "WorkerUpdateDisplayShutdown Called" );
 			this.GetDocCollection().ShutdownWorkerRecalculateDocCollection();
 			this.ThreadUpdateDisplayStop = true;
 		}
+		*/
 
 		/**************************************************************************/
 
 		// TODO: retire this approach
+		/*
 		void ThreadWorkerUpdateDisplay ()
 		{
 
@@ -261,6 +263,7 @@ namespace SEOMacroscope
 			} while( bDoUpdateDisplay == true );
 
 		}
+		*/
 		
 		/**************************************************************************/
 
@@ -314,7 +317,7 @@ namespace SEOMacroscope
 		void IncRunningThreads ()
 		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[ iThreadId ] = true;
+			this.ThreadsDict[iThreadId] = true;
 			this.ThreadsRunning++;
 		}
 		
@@ -342,7 +345,7 @@ namespace SEOMacroscope
 			return( iRunningThreads );
 		}
 
-		/**************************************************************************/
+		/** Display Queue *********************************************************/
 
 		public void AddUpdateDisplayQueue ( string sURL )
 		{
@@ -350,8 +353,6 @@ namespace SEOMacroscope
 				this.UpdateDisplayQueue.Enqueue( sURL );
 			}
 		}
-		
-		/**************************************************************************/
 		
 		public string GetUpdateDisplayQueue ()
 		{
@@ -367,8 +368,6 @@ namespace SEOMacroscope
 			}
 			return( sURL );
 		}
-	
-		/**************************************************************************/
 				
 		public Boolean PeekUpdateDisplayQueue ()
 		{
@@ -393,7 +392,6 @@ namespace SEOMacroscope
 			lock( this.UrlQueue ) {
 				foreach( string sUrl in this.UrlQueue ) {
 					DebugMsg( string.Format( "GetQueue: {0}", sUrl ) );
-
 					QueueCopy.Add( sUrl );
 				}
 			}
@@ -529,7 +527,7 @@ namespace SEOMacroscope
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sURL ) ) {
-				bSeen = ( Boolean )this.History[ sURL ];
+				bSeen = ( Boolean )this.History[sURL];
 			}
 			return( bSeen );
 		}
@@ -577,7 +575,7 @@ namespace SEOMacroscope
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[ sLocale ] = sLocale;
+					this.Locales[sLocale] = sLocale;
 				}
 			}
 		}
