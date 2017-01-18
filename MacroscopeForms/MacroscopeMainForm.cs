@@ -49,6 +49,8 @@ namespace SEOMacroscope
 		MacroscopeDisplayTitles msDisplayTitles;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
+		//MacroscopeDisplayHostnames msDisplayHostnames;
+		MacroscopeDisplayQueue msDisplayQueue;
 		MacroscopeDisplayHistory msDisplayHistory;
 
 		System.Timers.Timer TimerTabPages;
@@ -70,6 +72,8 @@ namespace SEOMacroscope
 			msDisplayTitles = new MacroscopeDisplayTitles ( this );
 			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this );
 			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this );
+			//msDisplayHostnames = new MacroscopeDisplayHostnames(this) ;
+			msDisplayQueue = new MacroscopeDisplayQueue ( this );
 			msDisplayHistory = new MacroscopeDisplayHistory ( this );
 
 			SetURL( MacroscopePreferencesManager.GetStartUrl() );
@@ -108,7 +112,7 @@ namespace SEOMacroscope
 			}
 
 			if( this.msJobMaster != null ) {
-				this.msJobMaster.WorkerUpdateDisplayShutdown();
+				this.msJobMaster.ShutdownWorkerUpdateDisplay();
 				this.msJobMaster = null;
 			}
 
@@ -121,50 +125,48 @@ namespace SEOMacroscope
 			return( msJobMaster );
 		}
 
-		/**************************************************************************/
+		/** Displays **************************************************************/
 
 		public ListView GetDisplayStructure ()
 		{
 			return( this.listViewStructure );
 		}
 
-		/**************************************************************************/
-				
 		public ListView GetDisplayCanonicalAnalysis ()
 		{
 			return( this.listViewCanonicalAnalysis );
 		}
-
-		/**************************************************************************/
 
 		public ListView GetDisplayHrefLang ()
 		{
 			return( this.listViewHrefLang );
 		}
 
-		/**************************************************************************/
-
 		public ListView GetDisplayTitles ()
 		{
 			return( this.listViewPageTitles );
 		}
-
-		/**************************************************************************/
 
 		public ListView GetDisplayEmailAddresses ()
 		{
 			return( this.listViewEmailAddresses );
 		}
 		
-		/**************************************************************************/
-
 		public ListView GetDisplayTelephoneNumbers ()
 		{
 			return( this.listViewTelephoneNumbers );
 		}
 
-		/**************************************************************************/
-
+		public ListView GetDisplayHostnames ()
+		{
+			return( this.listViewHostnames );
+		}
+		
+		public ListView GetDisplayQueue ()
+		{
+			return( this.listViewQueue );
+		}
+		
 		public ListView GetDisplayHistory ()
 		{
 			return( this.listViewHistory );
@@ -349,7 +351,7 @@ namespace SEOMacroscope
 				this.ScanningControlsStart( true );
 
 				if( StartUrlDirty ) {
-					this.msJobMaster.WorkerUpdateDisplayShutdown();
+					this.msJobMaster.ShutdownWorkerUpdateDisplay();
 					this.msJobMaster = new MacroscopeJobMaster ( this );
 					this.ClearDisplay();
 					StartUrlDirty = false;
@@ -377,9 +379,9 @@ namespace SEOMacroscope
 
 			this.ScanningControlsStopping( true );
 			
-			this.msJobMaster.WorkersStop();
+			this.msJobMaster.StopWorkers();
 
-			while( this.msJobMaster.RunningThreadsCount() > 0 ) {
+			while( this.msJobMaster.CountRunningThreads() > 0 ) {
 				DebugMsg( "CallbackScanStop: WAITING" );
 				Thread.Sleep( 100 );
 			}
@@ -397,7 +399,7 @@ namespace SEOMacroscope
 
 				this.ScanningControlsReset( true );
 
-				this.msJobMaster.WorkerUpdateDisplayShutdown();
+				this.msJobMaster.ShutdownWorkerUpdateDisplay();
 
 				this.msJobMaster = new MacroscopeJobMaster ( this );
 
@@ -451,69 +453,91 @@ namespace SEOMacroscope
 
 			DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CALLED" ) );
 
-			this.Invoke(
-				new MethodInvoker (
-					delegate
-					{
+			this.UpdateStatusBar();
+			
+			if( this.msJobMaster.CountRunningThreads() > 1 ) {
+
+				this.Invoke(
+					new MethodInvoker (
+						delegate
+						{
 						
-						DebugMsg( string.Format( "CallbackTabPageTimer tcDisplay: {0}", tcDisplay.TabPages[tcDisplay.SelectedIndex].Name ) );
+							DebugMsg( string.Format( "CallbackTabPageTimer tcDisplay: {0}", tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name ) );
 					
-						// TODO: Finish this structure
+							// TODO: Finish this structure
 
-						switch( tcDisplay.TabPages[tcDisplay.SelectedIndex].Name ) {
-							case "tabPageStructureOverview":
-								break;
-							case "tabPageHierarchy":
-								break;
-							case "tabPageCanonicalAnalysis":
-								this.msDisplayCanonical.RefreshData( this.msJobMaster.DocCollectionGet() );
-								break;
-							case "tabPageHrefLangAnalysis":
-								this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
-								break;
-							case "tabPageRedirectsAudit":
-								break;
-							case "tabPageUriAnalysis":
-								break;
-							case "tabPagePageTitles":
-								this.msDisplayTitles.RefreshData( this.msJobMaster.DocCollectionGet() );
-								break;
-							case "tabPagePageDescription":
-								break;
-							case "tabPagePageKeywords":
-								break;
-							case "tabPagePageHeadings":
-								break;
-							case "tabPageEmailAddresses":
-								this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.DocCollectionGet() );
-								break;
-							case "tabPageTelephoneNumbers":
-								this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.DocCollectionGet() );
-								break;
-							case "tabPageHistory":
-								this.msDisplayHistory.RefreshData( this.msJobMaster.HistoryGet() );
-								break;
-							default:
-								break;
+							switch( tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name ) {
+
+								case "tabPageStructureOverview":
+									//this.msJobMaster.WorkerUpdateDisplay();
+									this.msDisplayStructure.RefreshData( this.msJobMaster.GetDocCollection() );
+									break;
+
+								case "tabPageHierarchy":
+									break;
+
+								case "tabPageCanonicalAnalysis":
+									this.msDisplayCanonical.RefreshData( this.msJobMaster.GetDocCollection() );
+									break;
+									
+								case "tabPageHrefLangAnalysis":
+									this.msDisplayHrefLang.RefreshData( this.msJobMaster.GetDocCollection(), msJobMaster.GetLocales() );
+									break;
+									
+								case "tabPageRedirectsAudit":
+									break;
+									
+								case "tabPageUriAnalysis":
+									break;
+									
+								case "tabPagePageTitles":
+									this.msDisplayTitles.RefreshData( this.msJobMaster.GetDocCollection() );
+									break;
+									
+								case "tabPagePageDescription":
+									break;
+									
+								case "tabPagePageKeywords":
+									break;
+									
+								case "tabPagePageHeadings":
+									break;
+									
+								case "tabPageEmailAddresses":
+									this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.GetDocCollection() );
+									break;
+									
+								case "tabPageTelephoneNumbers":
+									this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.GetDocCollection() );
+									break;
+
+								case "tabPageQueue":
+									this.msDisplayQueue.RefreshData( this.msJobMaster.GetQueue() );
+									break;
+								
+								case "tabPageHistory":
+									this.msDisplayHistory.RefreshData( this.msJobMaster.GetHistory() );
+									break;
+								
+								default:
+									break;
+								
+							}
+
 						}
+					)
+				);
 
-					}
-				)
-			);
+			} else {
+				DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "STOPPED" ) );
+			}
 
 		}
 
 		void CallbackTabControlDisplaySelectedIndexChanged ( object sender, EventArgs e )
 		{
 			TabControl tcDisplay = this.tabControlMain;
-			DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", tcDisplay.TabPages[tcDisplay.SelectedIndex] ) );
-		}
-
-		void CallbackTabPageStructureOverviewShow ( object sender, EventArgs e )
-		{
-			DebugMsg( "EVENT: CallbackTabPageStructureOverviewShow" );
-			this.macroscopeDocumentDetailsMain.ClearData();
-			this.msDisplayStructure.RefreshData( this.msJobMaster.DocCollectionGet() );
+			DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", tcDisplay.TabPages[ tcDisplay.SelectedIndex ] ) );
 		}
 
 		void CallbackListViewStructureOverviewClick ( object sender, EventArgs e )
@@ -521,57 +545,12 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sURL = lvItem.SubItems[0].Text.ToString();
+					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
 					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
 				}
 			}
 		}
 
-		void CallbackTabPageCanonicalAnalysisShow ( object sender, EventArgs e )
-		{
-			DebugMsg( "EVENT: CallbackTabPageCanonicalAnalysisShow" );
-			this.msDisplayCanonical.RefreshData( this.msJobMaster.DocCollectionGet() );
-		}
-
-		void CallbackTabPageHrefLangAnalysisShow ( object sender, EventArgs e )
-		{
-			DebugMsg( "EVENT: CallbackTabPageHrefLangAnalysisShow" );
-			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
-		}
-
-		void CallbackTabPageRedirectsAuditShow ( object sender, EventArgs e )
-		{
-			DebugMsg( "EVENT: CallbackTabPageRedirectsAuditShow" );
-		}
-
-		void CallbackTabPageTitlesShow ( object sender, EventArgs e )
-		{
-			DebugMsg( "EVENT: CallbackTabPageTitlesShow" );
-			this.msDisplayTitles.RefreshData( this.msJobMaster.DocCollectionGet() );
-		}
-
-		void CallbackTabPageEmailAddressesShow ( object sender, EventArgs e )
-		{
-			DebugMsg( "EVENT: CallbackTabPageEmailAddressesShow" );
-			this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.DocCollectionGet() );
-		}
-
-		void CallbackTabPageTelephoneNumbersShow ( object sender, EventArgs e )
-		{
-			DebugMsg( "EVENT: CallbackTabPageTelephoneNumbersShow" );
-			this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.DocCollectionGet() );
-		}
-
-		void CallbackTabPageHistoryShow ( object sender, EventArgs e )
-		{
-			DebugMsg( "EVENT: CallbackTabPageHistoryShow" );
-			this.msDisplayHistory.RefreshData( this.msJobMaster.HistoryGet() );
-		}
-
-		
-		
-		
-		
 		/** Scanning Controls *****************************************************/
 
 		void ScanningControlsEnable ( Boolean bState )
@@ -666,13 +645,13 @@ namespace SEOMacroscope
 
 			if( this.msJobMaster != null ) {
 				
-				this.msDisplayStructure.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+				this.msDisplayStructure.RefreshDataSingle( this.msJobMaster.GetDocCollection().Get( sURL ), sURL );
 
-				this.msDisplayCanonical.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+				this.msDisplayCanonical.RefreshDataSingle( this.msJobMaster.GetDocCollection().Get( sURL ), sURL );
 						
-				this.msDisplayEmailAddresses.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+				this.msDisplayEmailAddresses.RefreshDataSingle( this.msJobMaster.GetDocCollection().Get( sURL ), sURL );
 						
-				this.msDisplayTelephoneNumbers.RefreshDataSingle( this.msJobMaster.DocCollectionGet().Get( sURL ), sURL );
+				this.msDisplayTelephoneNumbers.RefreshDataSingle( this.msJobMaster.GetDocCollection().Get( sURL ), sURL );
 
 			}
 			
@@ -687,7 +666,7 @@ namespace SEOMacroscope
 
 			if( this.msJobMaster != null ) {
 			
-				this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), this.msJobMaster.LocalesGet() );
+				this.msDisplayHrefLang.RefreshData( this.msJobMaster.GetDocCollection(), this.msJobMaster.GetLocales() );
 
 				if( this.InvokeRequired ) {
 					this.Invoke(
@@ -714,9 +693,9 @@ namespace SEOMacroscope
 		{
 			if( this.msJobMaster != null ) {
 
-				string sThreads = string.Format( "Threads: {0}", this.msJobMaster.RunningThreadsCount().ToString() );
-				string sUrlCount = string.Format( "URLs in Queue: {0}", this.msJobMaster.UrlQueueCount().ToString() );
-				string sUrlsFound = string.Format( "URLs Found: {0}", this.msJobMaster.DocCollectionGet().Count() );
+				string sThreads = string.Format( "Threads: {0}", this.msJobMaster.CountRunningThreads() );
+				string sUrlCount = string.Format( "URLs in Queue: {0}", this.msJobMaster.CountUrlQueue() );
+				string sUrlsFound = string.Format( "URLs Found: {0}", this.msJobMaster.GetDocCollection().Count() );
 
 				if( this.InvokeRequired ) {
 					this.Invoke(
@@ -795,8 +774,6 @@ namespace SEOMacroscope
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
-
-		/**************************************************************************/
 
 		/**************************************************************************/
 			

@@ -110,6 +110,13 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeaderPageTitle;
 		private System.Windows.Forms.ColumnHeader columnHeaderLength;
 		private System.Windows.Forms.ColumnHeader columnHeaderPixelWidth;
+		public System.Windows.Forms.TabPage tabPageQueue;
+		public System.Windows.Forms.TabPage tabPageHostnames;
+		public System.Windows.Forms.ListView listViewQueue;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
+		public System.Windows.Forms.ListView listViewHostnames;
+		private System.Windows.Forms.ColumnHeader columnHeaderHostname;
+		private System.Windows.Forms.ColumnHeader columnHeader2;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -206,6 +213,13 @@ namespace SEOMacroscope
 			this.listViewTelephoneNumbers = new System.Windows.Forms.ListView();
 			this.TelTel = new System.Windows.Forms.ColumnHeader();
 			this.TelUrl = new System.Windows.Forms.ColumnHeader();
+			this.tabPageHostnames = new System.Windows.Forms.TabPage();
+			this.listViewHostnames = new System.Windows.Forms.ListView();
+			this.columnHeaderHostname = new System.Windows.Forms.ColumnHeader();
+			this.tabPageQueue = new System.Windows.Forms.TabPage();
+			this.listViewQueue = new System.Windows.Forms.ListView();
+			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHistory = new System.Windows.Forms.TabPage();
 			this.listViewHistory = new System.Windows.Forms.ListView();
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
@@ -238,6 +252,8 @@ namespace SEOMacroscope
 			this.tabPagePageTitles.SuspendLayout();
 			this.tabPageEmailAddresses.SuspendLayout();
 			this.tabPageTelephoneNumbers.SuspendLayout();
+			this.tabPageHostnames.SuspendLayout();
+			this.tabPageQueue.SuspendLayout();
 			this.tabPageHistory.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).BeginInit();
 			this.splitContainerSiteOverview.Panel1.SuspendLayout();
@@ -409,43 +425,43 @@ namespace SEOMacroscope
 			// allDocumentTypesToolStripMenuItem
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
 			// 
 			// hTMLToolStripMenuItem
 			// 
 			this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-			this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.hTMLToolStripMenuItem.Text = "HTML";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.imagesToolStripMenuItem.Text = "Images";
 			// 
 			// pDFsToolStripMenuItem
 			// 
 			this.pDFsToolStripMenuItem.Name = "pDFsToolStripMenuItem";
-			this.pDFsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.pDFsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.pDFsToolStripMenuItem.Text = "PDFs";
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
 			// 
 			// toolStripSeparator2
@@ -567,6 +583,8 @@ namespace SEOMacroscope
 			this.tabControlMain.Controls.Add(this.tabPagePageHeadings);
 			this.tabControlMain.Controls.Add(this.tabPageEmailAddresses);
 			this.tabControlMain.Controls.Add(this.tabPageTelephoneNumbers);
+			this.tabControlMain.Controls.Add(this.tabPageHostnames);
+			this.tabControlMain.Controls.Add(this.tabPageQueue);
 			this.tabControlMain.Controls.Add(this.tabPageHistory);
 			this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlMain.Location = new System.Drawing.Point(0, 0);
@@ -942,6 +960,72 @@ namespace SEOMacroscope
 			this.TelUrl.Text = "URL";
 			this.TelUrl.Width = 500;
 			// 
+			// tabPageHostnames
+			// 
+			this.tabPageHostnames.Controls.Add(this.listViewHostnames);
+			this.tabPageHostnames.Location = new System.Drawing.Point(4, 22);
+			this.tabPageHostnames.Name = "tabPageHostnames";
+			this.tabPageHostnames.Size = new System.Drawing.Size(525, 416);
+			this.tabPageHostnames.TabIndex = 15;
+			this.tabPageHostnames.Text = "Hostnames";
+			this.tabPageHostnames.UseVisualStyleBackColor = true;
+			// 
+			// listViewHostnames
+			// 
+			this.listViewHostnames.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderHostname});
+			this.listViewHostnames.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listViewHostnames.GridLines = true;
+			this.listViewHostnames.Location = new System.Drawing.Point(0, 0);
+			this.listViewHostnames.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewHostnames.Name = "listViewHostnames";
+			this.listViewHostnames.Size = new System.Drawing.Size(525, 416);
+			this.listViewHostnames.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			this.listViewHostnames.TabIndex = 2;
+			this.listViewHostnames.UseCompatibleStateImageBehavior = false;
+			this.listViewHostnames.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeaderHostname
+			// 
+			this.columnHeaderHostname.Text = "Hostname";
+			this.columnHeaderHostname.Width = 400;
+			// 
+			// tabPageQueue
+			// 
+			this.tabPageQueue.Controls.Add(this.listViewQueue);
+			this.tabPageQueue.Location = new System.Drawing.Point(4, 22);
+			this.tabPageQueue.Name = "tabPageQueue";
+			this.tabPageQueue.Size = new System.Drawing.Size(525, 416);
+			this.tabPageQueue.TabIndex = 14;
+			this.tabPageQueue.Text = "Queue";
+			this.tabPageQueue.UseVisualStyleBackColor = true;
+			// 
+			// listViewQueue
+			// 
+			this.listViewQueue.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader2,
+			this.columnHeader1});
+			this.listViewQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listViewQueue.GridLines = true;
+			this.listViewQueue.Location = new System.Drawing.Point(0, 0);
+			this.listViewQueue.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewQueue.Name = "listViewQueue";
+			this.listViewQueue.Size = new System.Drawing.Size(525, 416);
+			this.listViewQueue.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			this.listViewQueue.TabIndex = 1;
+			this.listViewQueue.UseCompatibleStateImageBehavior = false;
+			this.listViewQueue.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "No.";
+			this.columnHeader2.Width = 50;
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "URL";
+			this.columnHeader1.Width = 400;
+			// 
 			// tabPageHistory
 			// 
 			this.tabPageHistory.Controls.Add(this.listViewHistory);
@@ -1046,6 +1130,8 @@ namespace SEOMacroscope
 			this.tabPagePageTitles.ResumeLayout(false);
 			this.tabPageEmailAddresses.ResumeLayout(false);
 			this.tabPageTelephoneNumbers.ResumeLayout(false);
+			this.tabPageHostnames.ResumeLayout(false);
+			this.tabPageQueue.ResumeLayout(false);
 			this.tabPageHistory.ResumeLayout(false);
 			this.splitContainerSiteOverview.Panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).EndInit();

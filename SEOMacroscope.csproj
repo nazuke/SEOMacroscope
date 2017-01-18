@@ -121,6 +121,7 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHistory.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHrefLang.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayQueue.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayStructure.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentBinary.cs" />

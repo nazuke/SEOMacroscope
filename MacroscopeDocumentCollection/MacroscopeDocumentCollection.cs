@@ -149,12 +149,12 @@ namespace SEOMacroscope
 			
 			do {
 
-				if( this.WorkerRecalculateDocCollectionQueuePeek() ) {
+				if( this.PeekWorkerRecalculateDocCollectionQueue() ) {
 
 					{
-						int iDrainQueue = this.WorkerRecalculateDocCollectionQueueGet();
+						int iDrainQueue = this.GetWorkerRecalculateDocCollectionQueue();
 						do {
-							iDrainQueue = this.WorkerRecalculateDocCollectionQueueGet();
+							iDrainQueue = this.GetWorkerRecalculateDocCollectionQueue();
 						} while( iDrainQueue != -1 );
 					}
 
@@ -174,7 +174,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		public void WorkerRecalculateDocCollectionShutdown ()
+		public void ShutdownWorkerRecalculateDocCollection ()
 		{
 			DebugMsg( "WorkerRecalculateLinksInShutdown Called" );
 			this.ThreadRecalculateDocCollectionStop = true;
@@ -182,7 +182,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void WorkerRecalculateDocCollectionQueueAdd ( int iValue )
+		public void AddWorkerRecalculateDocCollectionQueue ( int iValue )
 		{
 			lock( this.ThreadRecalculateDocCollectionQueue ) {
 				this.ThreadRecalculateDocCollectionQueue.Enqueue( iValue );
@@ -191,7 +191,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		public int WorkerRecalculateDocCollectionQueueGet ()
+		public int GetWorkerRecalculateDocCollectionQueue ()
 		{
 			int iValue = -1;
 			try {
@@ -208,7 +208,7 @@ namespace SEOMacroscope
 	
 		/**************************************************************************/
 				
-		public Boolean WorkerRecalculateDocCollectionQueuePeek ()
+		public Boolean PeekWorkerRecalculateDocCollectionQueue ()
 		{
 			Boolean bPeek = false;
 			try {

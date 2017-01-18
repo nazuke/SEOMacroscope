@@ -86,7 +86,7 @@ namespace SEOMacroscope
 
 			// TODO: This blows up if the page is from a redirect. Probably need to use the original URL
 
-			MacroscopeDocumentCollection msDocCollection = msJobMaster.DocCollectionGet();
+			MacroscopeDocumentCollection msDocCollection = msJobMaster.GetDocCollection();
 			MacroscopeDocument msDoc = msDocCollection.Get( sURL );
 
 			if( this.InvokeRequired ) {
@@ -95,7 +95,7 @@ namespace SEOMacroscope
 						delegate
 						{
 							this.RenderDocumentDetails( msDoc );
-							this.RenderDocumentHrefLang( msDoc, msJobMaster.LocalesGet(), msJobMaster.DocCollectionGet() );
+							this.RenderDocumentHrefLang( msDoc, msJobMaster.GetLocales(), msJobMaster.GetDocCollection() );
 							this.RenderListViewHyperlinksIn( msDoc );
 							this.RenderListViewHyperlinksOut( msDoc );
 						}
@@ -103,7 +103,7 @@ namespace SEOMacroscope
 				);
 			} else {
 				this.RenderDocumentDetails( msDoc );
-				this.RenderDocumentHrefLang( msDoc, msJobMaster.LocalesGet(), msJobMaster.DocCollectionGet() );
+				this.RenderDocumentHrefLang( msDoc, msJobMaster.GetLocales(), msJobMaster.GetDocCollection() );
 				this.RenderListViewHyperlinksIn( msDoc );
 				this.RenderListViewHyperlinksOut( msDoc );
 			}

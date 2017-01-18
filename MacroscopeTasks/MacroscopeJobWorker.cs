@@ -51,7 +51,7 @@ namespace SEOMacroscope
 		{
 			//Thread.Sleep( 100 );
 			this.Fetch( sURL );
-			msJobMaster.WorkersNotifyDone( sURL );
+			msJobMaster.NotifyWorkersDone( sURL );
 		}
 
 		/**************************************************************************/
@@ -60,15 +60,15 @@ namespace SEOMacroscope
 		{
 
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sURL );
-			MacroscopeDocumentCollection DocCollection = this.msJobMaster.DocCollectionGet();
+			MacroscopeDocumentCollection DocCollection = this.msJobMaster.GetDocCollection();
 			MacroscopeAllowedHosts msAllowedHosts = this.msJobMaster.GetAllowedHosts();
 
-			if( !this.msJobMaster.RobotsGet().ApplyRobotRule( sURL ) ) {
+			if( !this.msJobMaster.GetRobots().ApplyRobotRule( sURL ) ) {
 				DebugMsg( string.Format( "Disallowed by robots.txt: {0}", sURL ) );
 				return;
 			}
 
-			this.msJobMaster.HistoryAdd( sURL );
+			this.msJobMaster.AddHistory( sURL );
 
 			if( DocCollection.Contains( sURL ) ) {
 				return;
@@ -94,7 +94,7 @@ namespace SEOMacroscope
 
 				if( msDoc.GetIsRedirect() ) {
 					DebugMsg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
-					this.msJobMaster.UrlQueueAdd( msDoc.GetUrlRedirectTo() );
+					this.msJobMaster.AddUrlQueue( msDoc.GetUrlRedirectTo() );
 				}
 
 				{
@@ -108,9 +108,9 @@ namespace SEOMacroscope
 						{
 							string sHrefLangUrl = htHrefLangs[ sKeyLocale ].GetUrl();
 							if( ( sHrefLangUrl != null ) && ( sHrefLangUrl.Length > 0 ) ) {
-								if( !this.msJobMaster.HistorySeen( sHrefLangUrl ) ) {
+								if( !this.msJobMaster.SeenHistory( sHrefLangUrl ) ) {
 									msAllowedHosts.AddFromUrl( sHrefLangUrl );
-									this.msJobMaster.UrlQueueAdd( sHrefLangUrl );
+									this.msJobMaster.AddUrlQueue( sHrefLangUrl );
 								}
 							}
 						}
@@ -120,9 +120,9 @@ namespace SEOMacroscope
 				if( MacroscopePreferencesManager.GetFollowCanonicalLinks() ) {
 					string sCanonicalUrl = msDoc.GetCanonical();
 					if( ( sCanonicalUrl != null ) && ( sCanonicalUrl.Length > 0 ) ) {
-						if( !this.msJobMaster.HistorySeen( sCanonicalUrl ) ) {
+						if( !this.msJobMaster.SeenHistory( sCanonicalUrl ) ) {
 							msAllowedHosts.AddFromUrl( sCanonicalUrl );
-							this.msJobMaster.UrlQueueAdd( sCanonicalUrl );
+							this.msJobMaster.AddUrlQueue( sCanonicalUrl );
 						}
 					}
 				}
@@ -152,9 +152,9 @@ namespace SEOMacroscope
 						
 						if( bProceed ) {
 							
-							if( !this.msJobMaster.HistorySeen( sOutlinkURL ) ) {
+							if( !this.msJobMaster.SeenHistory( sOutlinkURL ) ) {
 								if( msAllowedHosts.IsAllowedFromUrl( sOutlinkURL ) ) {
-									this.msJobMaster.UrlQueueAdd( sOutlinkURL );
+									this.msJobMaster.AddUrlQueue( sOutlinkURL );
 								} else {
 									DebugMsg( string.Format( "FOREIGN HOST: {0}", sOutlinkURL ) );
 								}

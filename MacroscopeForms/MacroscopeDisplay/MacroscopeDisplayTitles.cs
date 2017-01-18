@@ -116,7 +116,7 @@ namespace SEOMacroscope
 		public void RefreshDataSingle ( MacroscopeDocument msDoc, string sURL )
 		{
 
-			MacroscopeDocumentCollection htDocCollection = this.msMainForm.GetJobMaster().DocCollectionGet();
+			MacroscopeDocumentCollection htDocCollection = this.msMainForm.GetJobMaster().GetDocCollection();
 			
 			string sTitle = msDoc.GetTitle();
 			int iCount = htDocCollection.GetTitleCount( sTitle );
