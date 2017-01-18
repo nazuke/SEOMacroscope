@@ -134,7 +134,7 @@ namespace SEOMacroscope
 						ListViewItem lvItem = lvListView.Items[ sURL ];
 						lvItem.SubItems[ 1 ].Text = sVisited;
 					} catch( Exception ex ) {
-						debug_msg( string.Format( "RenderListView 1: {0}", ex.Message ) );
+						DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
 					}
 			
 				} else {
@@ -145,7 +145,7 @@ namespace SEOMacroscope
 						lvItem.SubItems.Add( sVisited );
 						lvListView.Items.Add( lvItem );
 					} catch( Exception ex ) {
-						debug_msg( string.Format( "RenderListView 2: {0}", ex.Message ) );
+						DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
 					}
 			
 				}

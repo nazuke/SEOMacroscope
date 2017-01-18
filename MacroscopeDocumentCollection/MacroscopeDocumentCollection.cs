@@ -176,7 +176,7 @@ namespace SEOMacroscope
 				
 		public void WorkerRecalculateDocCollectionShutdown ()
 		{
-			debug_msg( "WorkerRecalculateLinksInShutdown Called" );
+			DebugMsg( "WorkerRecalculateLinksInShutdown Called" );
 			this.ThreadRecalculateDocCollectionStop = true;
 		}
 
@@ -201,7 +201,7 @@ namespace SEOMacroscope
 					}
 				}
 			} catch( InvalidOperationException ex ) {
-				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 			}
 			return( iValue );
 		}
@@ -218,7 +218,7 @@ namespace SEOMacroscope
 					}
 				}
 			} catch( InvalidOperationException ex ) {
-				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 			}
 			return( bPeek );
 		}
@@ -228,7 +228,7 @@ namespace SEOMacroscope
 		public void RecalculateDocCollection ()
 		{
 
-			debug_msg( string.Format( "RecalculateDocCollection: CALLED" ) );
+			DebugMsg( string.Format( "RecalculateDocCollection: CALLED" ) );
 
 			ThreadRecalculateDocCollectionSemaphore.WaitOne();
 

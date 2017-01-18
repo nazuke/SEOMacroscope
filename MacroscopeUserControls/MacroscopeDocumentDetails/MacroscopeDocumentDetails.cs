@@ -55,7 +55,7 @@ namespace SEOMacroscope
 		
 		void MacroscopeDocumentDetailsLoad ( object sender, EventArgs e )
 		{
-			debug_msg( string.Format( "MacroscopeDocumentDetailsLoad: {0}", "initialize" ) );
+			DebugMsg( string.Format( "MacroscopeDocumentDetailsLoad: {0}", "initialize" ) );
 		}
 
 		/**************************************************************************/
@@ -125,7 +125,7 @@ namespace SEOMacroscope
 
 				KeyValuePair<string,string> kvItem = lItems[ i ];
 
-				//debug_msg( string.Format( "RenderDocumentDetails: {0} => {1}", kvItem.Key, kvItem.Value ) );
+				//DebugMsg( string.Format( "RenderDocumentDetails: {0} => {1}", kvItem.Key, kvItem.Value ) );
 				
 				try {
 					ListViewItem lvItem = new ListViewItem ( kvItem.Key );
@@ -133,7 +133,7 @@ namespace SEOMacroscope
 					lvItem.SubItems.Add( kvItem.Value );
 					lvListView.Items.Add( lvItem );
 				} catch( Exception ex ) {
-					debug_msg( string.Format( "RenderDocumentDetails: {0}", ex.Message ) );
+					DebugMsg( string.Format( "RenderDocumentDetails: {0}", ex.Message ) );
 				}
 				
 			}
@@ -285,7 +285,7 @@ namespace SEOMacroscope
 							lvItem.SubItems[ 4 ].Text = hlHyperlinkIn.GetAltText();
 
 						} catch( Exception ex ) {
-							debug_msg( string.Format( "RenderListViewHyperlinksIn 1: {0}", ex.Message ) );
+							DebugMsg( string.Format( "RenderListViewHyperlinksIn 1: {0}", ex.Message ) );
 						}
 
 					} else {
@@ -305,7 +305,7 @@ namespace SEOMacroscope
 							lvListView.Items.Add( lvItem );
 
 						} catch( Exception ex ) {
-							debug_msg( string.Format( "RenderListViewHyperlinksIn 2: {0}", ex.Message ) );
+							DebugMsg( string.Format( "RenderListViewHyperlinksIn 2: {0}", ex.Message ) );
 						}
 
 					}
@@ -341,7 +341,7 @@ namespace SEOMacroscope
 						
 						string sKey = hlHyperlinkOut.GetGuid();
 
-						//debug_msg( string.Format( "RenderListViewHyperlinksOut sKey: {0} :: {1}", sKey, hlHyperlinkOut.GetUrlTarget() ) );
+						//DebugMsg( string.Format( "RenderListViewHyperlinksOut sKey: {0} :: {1}", sKey, hlHyperlinkOut.GetUrlTarget() ) );
 
 						if( lvListView.Items.ContainsKey( sKey ) ) {
 							
@@ -356,7 +356,7 @@ namespace SEOMacroscope
 								lvItem.SubItems[ 5 ].Text = hlHyperlinkOut.GetFollow().ToString();
 
 							} catch( Exception ex ) {
-								debug_msg( string.Format( "RenderListViewHyperlinksOut 1: {0}", ex.Message ) );
+								DebugMsg( string.Format( "RenderListViewHyperlinksOut 1: {0}", ex.Message ) );
 							}
 
 						} else {
@@ -377,7 +377,7 @@ namespace SEOMacroscope
 								lvListView.Items.Add( lvItem );
 
 							} catch( Exception ex ) {
-								debug_msg( string.Format( "RenderListViewHyperlinksOut 2: {0}", ex.Message ) );
+								DebugMsg( string.Format( "RenderListViewHyperlinksOut 2: {0}", ex.Message ) );
 							}
 
 						}

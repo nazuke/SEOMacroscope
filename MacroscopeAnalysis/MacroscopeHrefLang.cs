@@ -94,7 +94,7 @@ namespace SEOMacroscope
 
 				res = ( HttpWebResponse )req.GetResponse();
 
-				debug_msg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ) );
+				DebugMsg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ) );
 
 				if( res.StatusCode == HttpStatusCode.OK ) {
 					bAvailable = true;
@@ -103,7 +103,7 @@ namespace SEOMacroscope
 				res.Close();
 
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "MacroscopeHrefLang WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "MacroscopeHrefLang WebException: {0}", ex.Message ) );
 			}
 
 			return( bAvailable );

@@ -38,7 +38,7 @@ namespace SEOMacroscope
 
 		public static void Exit ()
 		{
-			debug_msg( "Exiting" );
+			DebugMsg( "Exiting" );
 			Application.Exit();
 		}
 
@@ -54,12 +54,12 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		static void debug_msg ( String sMsg )
+		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
 
-		static void debug_msg ( String sMsg, int iOffset )
+		static void DebugMsg ( String sMsg, int iOffset )
 		{
 			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
 			System.Diagnostics.Debug.WriteLine( sMsgPadded );

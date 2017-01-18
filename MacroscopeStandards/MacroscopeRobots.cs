@@ -53,7 +53,7 @@ namespace SEOMacroscope
 			Boolean bAllowed = false;
 
 			if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() ) {
-				debug_msg( string.Format( "ROBOTS Disabled: {0}", sURL ) );
+				DebugMsg( string.Format( "ROBOTS Disabled: {0}", sURL ) );
 				return( true );
 			}
 
@@ -75,9 +75,9 @@ namespace SEOMacroscope
 				sRobotsTxtURL = uNew.ToString();
 				
 			} catch( InvalidOperationException ex ) {
-				debug_msg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+				DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
 			} catch( UriFormatException ex ) {
-				debug_msg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+				DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
 			}
 			
 			if( sRobotsTxtURL != null ) {
@@ -94,7 +94,7 @@ namespace SEOMacroscope
 							this.dicRobots.Add( sRobotsTxtURL, robot );
 						}
 					} catch( Exception ex ) {
-						debug_msg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+						DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
 					}					
 				}
 				
@@ -103,8 +103,8 @@ namespace SEOMacroscope
 						if( robot.IsPathAllowed( "*", uBase.AbsolutePath ) ) {
 							bAllowed = true;
 						} else {
-							debug_msg( string.Format( "ROBOTS Disallowed: {0}", sURL ) );
-							debug_msg( string.Format( "ROBOTS AbsolutePath: {0}", uBase.AbsolutePath ) );
+							DebugMsg( string.Format( "ROBOTS Disallowed: {0}", sURL ) );
+							DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", uBase.AbsolutePath ) );
 						}
 					}
 

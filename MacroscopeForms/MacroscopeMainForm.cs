@@ -88,7 +88,7 @@ namespace SEOMacroscope
 
 		~MacroscopeMainForm ()
 		{
-			debug_msg( "MacroscopeMainForm DESTRUCTOR CALLED" );
+			DebugMsg( "MacroscopeMainForm DESTRUCTOR CALLED" );
 			
 			this.Cleanup();
 		}
@@ -98,12 +98,12 @@ namespace SEOMacroscope
 		void Cleanup ()
 		{
 			
-			debug_msg( "MacroscopeMainForm Cleanup CALLED" );
+			DebugMsg( "MacroscopeMainForm Cleanup CALLED" );
 						
 			MacroscopePreferencesManager.SavePreferences();
 						
 			if( this.ThreadScanner != null ) {
-				debug_msg( "Cleaning up ThreadScanner" );
+				DebugMsg( "Cleaning up ThreadScanner" );
 				this.ThreadScanner.Abort();
 			}
 
@@ -196,7 +196,7 @@ namespace SEOMacroscope
 		void CallbackFileExit ( object sender, EventArgs e )
 		{
 
-			debug_msg( "CallbackFileExit Called" );
+			DebugMsg( "CallbackFileExit Called" );
 
 			this.Cleanup();
 
@@ -208,7 +208,7 @@ namespace SEOMacroscope
 
 		void CallbackEditPreferencesClick ( object sender, EventArgs e )
 		{
-			debug_msg( "CallbackEditPreferencesClick Called" );
+			DebugMsg( "CallbackEditPreferencesClick Called" );
 			MacroscopePrefsForm fPreferencesForm = new MacroscopePrefsForm ();
 			MacroscopePrefsControl PrefsControl = fPreferencesForm.macroscopePrefsControlInstance;
 
@@ -226,6 +226,8 @@ namespace SEOMacroscope
 				PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
 				PrefsControl.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
 				PrefsControl.checkBoxFollowNoFollow.Checked = MacroscopePreferencesManager.GetFollowNoFollow();
+				PrefsControl.checkBoxFollowCanonicalLinks.Checked = MacroscopePreferencesManager.GetFollowCanonicalLinks();
+				PrefsControl.checkBoxFollowHrefLangLinks.Checked = MacroscopePreferencesManager.GetFollowHrefLangLinks();
 				PrefsControl.checkBoxFetchStylesheets.Checked = MacroscopePreferencesManager.GetFetchStylesheets();
 				PrefsControl.checkBoxFetchJavascripts.Checked = MacroscopePreferencesManager.GetFetchImages();
 				PrefsControl.checkBoxFetchImages.Checked = MacroscopePreferencesManager.GetFetchImages();
@@ -249,7 +251,7 @@ namespace SEOMacroscope
 
 			DialogResult fPreferencsResult = fPreferencesForm.ShowDialog();
 			
-			debug_msg( string.Format( "CallbackEditPreferencesClick: {0}", fPreferencsResult ) );
+			DebugMsg( string.Format( "CallbackEditPreferencesClick: {0}", fPreferencsResult ) );
 
 			if( fPreferencsResult == DialogResult.OK ) {
 
@@ -265,6 +267,8 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.SetFollowRobotsProtocol( PrefsControl.checkBoxFollowRobotsProtocol.Checked );
 				MacroscopePreferencesManager.SetFollowRedirects( PrefsControl.checkBoxFollowRedirects.Checked );
 				MacroscopePreferencesManager.SetFollowNoFollow( PrefsControl.checkBoxFollowNoFollow.Checked );
+				MacroscopePreferencesManager.SetFollowCanonicalLinks( PrefsControl.checkBoxFollowCanonicalLinks.Checked );
+				MacroscopePreferencesManager.SetFollowHrefLangLinks( PrefsControl.checkBoxFollowHrefLangLinks.Checked );
 				MacroscopePreferencesManager.SetFetchStylesheets( PrefsControl.checkBoxFetchStylesheets.Checked );
 				MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchJavascripts.Checked );
 				MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchImages.Checked );
@@ -296,7 +300,7 @@ namespace SEOMacroscope
 		
 		void CallbackHelpAboutClick ( object sender, EventArgs e )
 		{
-			debug_msg( "CallbackHelpAboutClick Called" );
+			DebugMsg( "CallbackHelpAboutClick Called" );
 			MacroscopeAboutForm fAboutForm = new MacroscopeAboutForm ();
 			fAboutForm.ShowDialog();
 		}
@@ -376,7 +380,7 @@ namespace SEOMacroscope
 			this.msJobMaster.WorkersStop();
 
 			while( this.msJobMaster.RunningThreadsCount() > 0 ) {
-				debug_msg( "CallbackScanStop: WAITING" );
+				DebugMsg( "CallbackScanStop: WAITING" );
 				Thread.Sleep( 100 );
 			}
 			
@@ -445,14 +449,14 @@ namespace SEOMacroscope
 
 			TabControl tcDisplay = this.tabControlMain;
 
-			debug_msg( string.Format( "CallbackTabPageTimer: {0}", "CALLED" ) );
+			DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CALLED" ) );
 
 			this.Invoke(
 				new MethodInvoker (
 					delegate
 					{
 						
-						debug_msg( string.Format( "CallbackTabPageTimer tcDisplay: {0}", tcDisplay.TabPages[tcDisplay.SelectedIndex].Name ) );
+						DebugMsg( string.Format( "CallbackTabPageTimer tcDisplay: {0}", tcDisplay.TabPages[tcDisplay.SelectedIndex].Name ) );
 					
 						// TODO: Finish this structure
 
@@ -502,12 +506,12 @@ namespace SEOMacroscope
 		void CallbackTabControlDisplaySelectedIndexChanged ( object sender, EventArgs e )
 		{
 			TabControl tcDisplay = this.tabControlMain;
-			debug_msg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", tcDisplay.TabPages[tcDisplay.SelectedIndex] ) );
+			DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", tcDisplay.TabPages[tcDisplay.SelectedIndex] ) );
 		}
 
 		void CallbackTabPageStructureOverviewShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackTabPageStructureOverviewShow" );
+			DebugMsg( "EVENT: CallbackTabPageStructureOverviewShow" );
 			this.macroscopeDocumentDetailsMain.ClearData();
 			this.msDisplayStructure.RefreshData( this.msJobMaster.DocCollectionGet() );
 		}
@@ -525,42 +529,42 @@ namespace SEOMacroscope
 
 		void CallbackTabPageCanonicalAnalysisShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackTabPageCanonicalAnalysisShow" );
+			DebugMsg( "EVENT: CallbackTabPageCanonicalAnalysisShow" );
 			this.msDisplayCanonical.RefreshData( this.msJobMaster.DocCollectionGet() );
 		}
 
 		void CallbackTabPageHrefLangAnalysisShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackTabPageHrefLangAnalysisShow" );
+			DebugMsg( "EVENT: CallbackTabPageHrefLangAnalysisShow" );
 			this.msDisplayHrefLang.RefreshData( this.msJobMaster.DocCollectionGet(), msJobMaster.LocalesGet() );
 		}
 
 		void CallbackTabPageRedirectsAuditShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackTabPageRedirectsAuditShow" );
+			DebugMsg( "EVENT: CallbackTabPageRedirectsAuditShow" );
 		}
 
 		void CallbackTabPageTitlesShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackTabPageTitlesShow" );
+			DebugMsg( "EVENT: CallbackTabPageTitlesShow" );
 			this.msDisplayTitles.RefreshData( this.msJobMaster.DocCollectionGet() );
 		}
 
 		void CallbackTabPageEmailAddressesShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackTabPageEmailAddressesShow" );
+			DebugMsg( "EVENT: CallbackTabPageEmailAddressesShow" );
 			this.msDisplayEmailAddresses.RefreshData( this.msJobMaster.DocCollectionGet() );
 		}
 
 		void CallbackTabPageTelephoneNumbersShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackTabPageTelephoneNumbersShow" );
+			DebugMsg( "EVENT: CallbackTabPageTelephoneNumbersShow" );
 			this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.DocCollectionGet() );
 		}
 
 		void CallbackTabPageHistoryShow ( object sender, EventArgs e )
 		{
-			debug_msg( "EVENT: CallbackTabPageHistoryShow" );
+			DebugMsg( "EVENT: CallbackTabPageHistoryShow" );
 			this.msDisplayHistory.RefreshData( this.msJobMaster.HistoryGet() );
 		}
 
@@ -628,10 +632,10 @@ namespace SEOMacroscope
 
 		void ScanningThread ()
 		{
-			debug_msg( "Scanning Thread: Started." );
-			this.msJobMaster.StartUrl = this.GetURL();
+			DebugMsg( "Scanning Thread: Started." );
+			this.msJobMaster.SetStartUrl( this.GetURL() );
 			this.msJobMaster.Execute();
-			debug_msg( "Scanning Thread: Done." );
+			DebugMsg( "Scanning Thread: Done." );
 		}
 
 		/**************************************************************************/
@@ -679,7 +683,7 @@ namespace SEOMacroscope
 		public void UpdateDisplayHrefLang ()
 		{
 
-			debug_msg( string.Format( "UpdateDisplayHrefLang: {0}", "CALLED" ) );
+			DebugMsg( string.Format( "UpdateDisplayHrefLang: {0}", "CALLED" ) );
 
 			if( this.msJobMaster != null ) {
 			
@@ -739,7 +743,7 @@ namespace SEOMacroscope
 
 		void CallbackRetryBrokenLinksClick ( object sender, EventArgs e )
 		{
-			debug_msg( string.Format( "CallbackRetryBrokenLinksClick: {0}", "CALLED" ) );
+			DebugMsg( string.Format( "CallbackRetryBrokenLinksClick: {0}", "CALLED" ) );
 		}
 
 		/**************************************************************************/
@@ -787,7 +791,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 	
-		static void debug_msg ( String sMsg )
+		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}

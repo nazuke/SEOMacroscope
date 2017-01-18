@@ -47,12 +47,12 @@ namespace SEOMacroscope
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
-				debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
-				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
+				DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
+				DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
 				bIs = true;
 				res.Close();
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "IsBinaryPage :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "IsBinaryPage :: WebException: {0}", ex.Message ) );
 			}
 			return( bIs );
 		}
@@ -73,8 +73,8 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Message ) );
-				debug_msg( string.Format( "ProcessBinaryPage :: WebException: {0}", this.Url ) );
+				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", this.Url ) );
 			}
 
 			if( res != null ) {
@@ -97,9 +97,9 @@ namespace SEOMacroscope
 
 					if( sTitle != null ) {
 						this.Title = sTitle;
-						debug_msg( string.Format( "TITLE: {0}", this.Title ) );
+						DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
 					} else {
-						debug_msg( string.Format( "TITLE: {0}", "MISSING" ) );
+						DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
 					}
 
 				}

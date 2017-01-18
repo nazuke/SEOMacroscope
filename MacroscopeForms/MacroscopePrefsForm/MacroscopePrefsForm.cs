@@ -49,7 +49,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		static void debug_msg ( String sMsg )
+		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}

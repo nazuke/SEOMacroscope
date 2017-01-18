@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Net;
 
@@ -50,10 +49,15 @@ namespace SEOMacroscope
 		static int MaxThreads;
 		static int Depth;
 		static int PageLimit;
+		
 		static Boolean SameSite;
+		
 		static Boolean FollowRobotsProtocol;
 		static Boolean FollowRedirects;
 		static Boolean FollowNoFollow;
+		static Boolean FollowCanonicalLinks;
+		static Boolean FollowHrefLangLinks;
+		
 		static Boolean FetchStylesheets;
 		static Boolean FetchJavascripts;
 		static Boolean FetchImages;
@@ -108,7 +112,9 @@ namespace SEOMacroscope
 					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
 					FollowRedirects = Preferences.FollowRedirects;			
 					FollowNoFollow = Preferences.FollowNoFollow;
-
+					FollowCanonicalLinks = Preferences.FollowCanonicalLinks;			
+					FollowHrefLangLinks = Preferences.FollowHrefLangLinks;
+	
 					FetchStylesheets = Preferences.FetchStylesheets;
 					FetchJavascripts = Preferences.FetchJavascripts;
 					FetchImages = Preferences.FetchImages;
@@ -122,9 +128,9 @@ namespace SEOMacroscope
 
 			ConfigureHttpProxy();
 			
-			debug_msg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
-			debug_msg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
-			debug_msg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
+			DebugMsg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
+			DebugMsg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
+			DebugMsg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
 
 		}
 
@@ -142,10 +148,15 @@ namespace SEOMacroscope
 			MaxThreads = 4;
 			Depth = -1;
 			PageLimit = -1;
+			
 			SameSite = true;
+			
 			FollowRobotsProtocol = true;
 			FollowRedirects = false;
 			FollowNoFollow = true;
+			FollowCanonicalLinks = true;			
+			FollowHrefLangLinks = false;
+
 			FetchStylesheets = true;
 			FetchJavascripts = true;
 			FetchImages = true;
@@ -211,6 +222,8 @@ namespace SEOMacroscope
 				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
 				Preferences.FollowRedirects = FollowRedirects;
 				Preferences.FollowNoFollow = FollowNoFollow;
+				Preferences.FollowCanonicalLinks = FollowCanonicalLinks;			
+				Preferences.FollowHrefLangLinks = FollowHrefLangLinks;
 
 				Preferences.FetchStylesheets = FetchStylesheets;
 				Preferences.FetchJavascripts = FetchJavascripts;
@@ -261,13 +274,13 @@ namespace SEOMacroscope
 					iHttpProxyPort = 80;
 				}
 
-				debug_msg( string.Format( "ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort ) );
+				DebugMsg( string.Format( "ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort ) );
 				
 				wpProxy = new WebProxy ( sHttpProxyHost, iHttpProxyPort );
 
 			} else {
 				
-				debug_msg( string.Format( "ConfigureHttpProxy: NOT USED" ) );
+				DebugMsg( string.Format( "ConfigureHttpProxy: NOT USED" ) );
 				
 				wpProxy = null;
 				
@@ -393,6 +406,30 @@ namespace SEOMacroscope
 		public static void SetFollowNoFollow ( Boolean bState )
 		{
 			FollowNoFollow = bState;
+		}
+
+		/**************************************************************************/
+		
+		public static Boolean GetFollowCanonicalLinks ()
+		{
+			return( FollowCanonicalLinks );
+		}
+
+		public static void SetFollowCanonicalLinks ( Boolean bState )
+		{
+			FollowCanonicalLinks = bState;
+		}
+		
+		/**************************************************************************/
+
+		public static Boolean GetFollowHrefLangLinks ()
+		{
+			return( FollowHrefLangLinks );
+		}
+
+		public static void SetFollowHrefLangLinks ( Boolean bState )
+		{
+			FollowHrefLangLinks = bState;
 		}
 
 		/**************************************************************************/
@@ -539,7 +576,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		static void debug_msg ( String sMsg )
+		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}

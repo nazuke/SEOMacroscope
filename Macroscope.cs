@@ -33,25 +33,39 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		public static Boolean SuppressStaticDebugMsg;
+
+		public Boolean SuppressDebugMsg;
+		
+		/**************************************************************************/
+
+		static Macroscope ()
+		{
+			SuppressStaticDebugMsg = false;
+		}
+
 		public Macroscope ()
 		{
+			SuppressDebugMsg = false;
 		}
 
 		/**************************************************************************/
 		
-		public static void debug_msg ( String sMsg )
+		public static Boolean DebugMsg ( String sMsg, Boolean bFlag )
 		{
-			System.Diagnostics.Debug.WriteLine( sMsg );
+			if( !SuppressStaticDebugMsg ) {
+				System.Diagnostics.Debug.WriteLine( sMsg );
+			}
+			return( bFlag );
+		}
+		
+		public void DebugMsg ( String sMsg )
+		{
+			if( !this.SuppressDebugMsg ) {
+				DebugMsg( sMsg, true );
+			}
 		}
 
-		/*
-		public static void debug_msg ( String sMsg, int iOffset )
-		{
-			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
-			System.Diagnostics.Debug.WriteLine( sMsgPadded );
-		}
-		*/
-		
 		/**************************************************************************/
 
 	}

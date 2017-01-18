@@ -55,8 +55,8 @@ namespace SEOMacroscope
 				try {
 					res = ( HttpWebResponse )req.GetResponse();
 				} catch( WebException ex ) {
-					debug_msg( string.Format( "IsImagePage :: WebException: {0}", ex.Message ) );
-					debug_msg( string.Format( "IsImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+					DebugMsg( string.Format( "IsImagePage :: WebException: {0}", ex.Message ) );
+					DebugMsg( string.Format( "IsImagePage :: WebExceptionStatus: {0}", ex.Status ) );
 					sErrorCondition = ex.Status.ToString();
 				}
 
@@ -64,8 +64,8 @@ namespace SEOMacroscope
 
 					this.ProcessHttpHeaders( req, res );
 
-					debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
-					debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
+					DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
+					DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
 
 					if( reIs.IsMatch( res.ContentType.ToString() ) ) {
 						bIs = true;
@@ -76,11 +76,11 @@ namespace SEOMacroscope
 				}
 
 //			} catch( UriFormatException ex ) {
-//				debug_msg( string.Format( "IsImagePage :: UriFormatException: {0}", ex.Message ) );
+//				DebugMsg( string.Format( "IsImagePage :: UriFormatException: {0}", ex.Message ) );
 
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "IsImagePage :: WebException: {0}", ex.Message ) );
-				debug_msg( string.Format( "IsImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+				DebugMsg( string.Format( "IsImagePage :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "IsImagePage :: WebExceptionStatus: {0}", ex.Status ) );
 				sErrorCondition = ex.Status.ToString();
 			}
 			
@@ -111,14 +111,14 @@ namespace SEOMacroscope
 				try {
 					res = ( HttpWebResponse )req.GetResponse();
 				} catch( WebException ex ) {
-					debug_msg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
-					debug_msg( string.Format( "ProcessImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+					DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
+					DebugMsg( string.Format( "ProcessImagePage :: WebExceptionStatus: {0}", ex.Status ) );
 					sErrorCondition = ex.Status.ToString();
 				}
 
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
-				debug_msg( string.Format( "ProcessImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "ProcessImagePage :: WebExceptionStatus: {0}", ex.Status ) );
 				sErrorCondition = ex.Status.ToString();
 			}
 
@@ -140,9 +140,9 @@ namespace SEOMacroscope
 
 					if( sTitle != null ) {
 						this.Title = sTitle;
-						debug_msg( string.Format( "TITLE: {0}", this.Title ) );
+						DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
 					} else {
-						debug_msg( string.Format( "TITLE: {0}", "MISSING" ) );
+						DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
 					}
 
 				}

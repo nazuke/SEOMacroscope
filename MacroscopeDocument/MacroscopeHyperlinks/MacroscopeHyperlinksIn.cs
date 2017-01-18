@@ -68,8 +68,8 @@ namespace SEOMacroscope
 
 			List<MacroscopeHyperlinkIn> lLinkList;
 
-			//debug_msg( string.Format( "MacroscopeHyperlinksIn Add sUrlOrigin: {0}", sUrlOrigin ) );
-			//debug_msg( string.Format( "MacroscopeHyperlinksIn Add sUrlTarget: {0}", sUrlTarget ) );
+			//DebugMsg( string.Format( "MacroscopeHyperlinksIn Add sUrlOrigin: {0}", sUrlOrigin ) );
+			//DebugMsg( string.Format( "MacroscopeHyperlinksIn Add sUrlTarget: {0}", sUrlTarget ) );
 
 			if( this.Links.ContainsKey( sUrlOrigin ) ) {
 

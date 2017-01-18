@@ -36,6 +36,7 @@ namespace SEOMacroscope
 
 		MacroscopeMainForm msMainForm;
 		MacroscopeDocumentCollection msDocCollection;
+		MacroscopeAllowedHosts msAllowedHosts;
 		
 		Object DisplayLock;
 		
@@ -50,12 +51,12 @@ namespace SEOMacroscope
 		Boolean ThreadUpdateDisplayStop = false;
 		Queue<string> UpdateDisplayQueue;
 		
-		public string StartUrl { get; set; }
-		public int Depth { get; set; }
-		public int PageLimit { get; set; }
-		public int PageLimitCount { get; set; }
-		public Boolean SameSite { get; set; }
-		public Boolean ProbeHrefLangs { get; set; }
+		string StartUrl;
+		int Depth;
+		int PageLimit;
+		int PageLimitCount;
+		Boolean SameSite;
+		Boolean ProbeHrefLangs;
 
 		/** END: Configuration **/
 
@@ -75,6 +76,7 @@ namespace SEOMacroscope
 
 			msMainForm = msMainFormNew;
 			msDocCollection = new MacroscopeDocumentCollection ();
+			msAllowedHosts = new MacroscopeAllowedHosts ();
 			
 			DisplayLock = new Object ();
 
@@ -111,7 +113,7 @@ namespace SEOMacroscope
 
 		~MacroscopeJobMaster ()
 		{
-			debug_msg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
+			DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
 			this.WorkerUpdateDisplayShutdown();
 		}
 
@@ -120,17 +122,19 @@ namespace SEOMacroscope
 		public Boolean Execute ()
 		{
 
-			debug_msg( string.Format( "Start URL: {0}", this.StartUrl ) );
+			DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
 
 			this.ThreadsStop = false;
-			 							
+
+			this.msAllowedHosts.AddFromUrl( this.StartUrl );
+
 			if( !this.UrlQueuePeek() ) {
 				this.UrlQueueAdd( this.StartUrl );
 			}
 
 			this.WorkersSpawn();
 			
-			debug_msg( string.Format( "Pages Found: {0}", this.PagesFound ) );
+			DebugMsg( string.Format( "Pages Found: {0}", this.PagesFound ) );
 
 			this.msMainForm.CallbackScanComplete();
 
@@ -149,7 +153,7 @@ namespace SEOMacroscope
 
 				if( this.ThreadsStop == true ) {
 
-					debug_msg( string.Format( "WorkersSpawn: {0}", "STOPPING" ) );
+					DebugMsg( string.Format( "WorkersSpawn: {0}", "STOPPING" ) );
 					bDoRun = false;
 					break;
 
@@ -180,7 +184,7 @@ namespace SEOMacroscope
 
 			this.DocCollectionGet().RecalculateDocCollection();
 			
-			debug_msg( string.Format( "WorkersSpawn: STOPPED" ) );
+			DebugMsg( string.Format( "WorkersSpawn: STOPPED" ) );
 
 		}
 		
@@ -231,7 +235,7 @@ namespace SEOMacroscope
 
 		public void WorkerUpdateDisplayShutdown ()
 		{
-			debug_msg( "WorkerUpdateDisplayShutdown Called" );
+			DebugMsg( "WorkerUpdateDisplayShutdown Called" );
 			this.DocCollectionGet().WorkerRecalculateDocCollectionShutdown();
 			this.ThreadUpdateDisplayStop = true;
 		}
@@ -292,7 +296,7 @@ namespace SEOMacroscope
 		void AdjustThreadsMax ()
 		{
 			ThreadsMax = MacroscopePreferencesManager.GetMaxThreads();
-			//ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
+			ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
 		}
 		
 		/**************************************************************************/
@@ -300,7 +304,7 @@ namespace SEOMacroscope
 		void RunningThreadsInc ()
 		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[iThreadId] = true;
+			this.ThreadsDict[ iThreadId ] = true;
 			this.ThreadsRunning++;
 		}
 		
@@ -349,7 +353,7 @@ namespace SEOMacroscope
 					}
 				}
 			} catch( InvalidOperationException ex ) {
-				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 			}
 			return( sURL );
 		}
@@ -366,7 +370,7 @@ namespace SEOMacroscope
 					}
 				}
 			} catch( InvalidOperationException ex ) {
-				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 			}
 			return( bPeek );
 		}
@@ -394,7 +398,7 @@ namespace SEOMacroscope
 					}
 				}
 			} catch( InvalidOperationException ex ) {
-				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 			}
 			return( sURL );
 		}
@@ -411,7 +415,7 @@ namespace SEOMacroscope
 					}
 				}
 			} catch( InvalidOperationException ex ) {
-				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 			}
 			return( bPeek );
 		}
@@ -428,13 +432,73 @@ namespace SEOMacroscope
 					}
 				}
 			} catch( InvalidOperationException ex ) {
-				debug_msg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
 			}
 			return( iCount );
 		}
 
 		/**************************************************************************/
-				
+
+		public void SetStartUrl ( string sUrl )
+		{
+			this.StartUrl = sUrl;
+		}
+		
+		public string GetStartUrl ()
+		{
+			return( this.StartUrl );
+		}
+
+		/**************************************************************************/
+
+		public int GetDepth ()
+		{
+			return( this.Depth );
+		}
+
+		public void SetGetDepth ( int iValue )
+		{
+			this.Depth = iValue;
+		}
+
+		/**************************************************************************/
+
+		public int GetPageLimit ()
+		{
+			return( this.PageLimit );
+		}
+
+		/**************************************************************************/
+
+		public int GetPageLimitCount ()
+		{
+			return( this.PageLimitCount );
+		}
+
+		public void IncPageLimitCount ()
+		{
+			this.PageLimitCount++;
+		}
+
+		public void SetPageLimitCount ( int iValue )
+		{
+			this.PageLimitCount = iValue;
+		}
+
+		/**************************************************************************/
+
+		public Boolean GetProbeHrefLangs ()
+		{
+			return( this.ProbeHrefLangs );
+		}
+
+		public void SetProbeHrefLangs ( Boolean bState )
+		{
+			this.ProbeHrefLangs = bState;
+		}
+
+		/**************************************************************************/
+
 		public void HistoryAdd ( string sURL )
 		{
 			if( !this.History.ContainsKey( sURL ) ) {
@@ -443,20 +507,16 @@ namespace SEOMacroscope
 				}
 			}
 		}
-		
-		/**************************************************************************/
-				
+
 		public Boolean HistorySeen ( string sURL )
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sURL ) ) {
-				bSeen = ( Boolean )this.History[sURL];
+				bSeen = ( Boolean )this.History[ sURL ];
 			}
 			return( bSeen );
 		}
 
-		/**************************************************************************/
-				
 		public Hashtable HistoryGet ()
 		{
 			Hashtable HistoryCopy;
@@ -465,9 +525,7 @@ namespace SEOMacroscope
 			}
 			return( HistoryCopy );
 		}
-		
-		/**************************************************************************/
-		
+
 		public void HistoryClear ()
 		{
 			lock( this.History ) {
@@ -483,6 +541,13 @@ namespace SEOMacroscope
 		}
 		
 		/**************************************************************************/
+
+		public MacroscopeAllowedHosts GetAllowedHosts ()
+		{
+			return( this.msAllowedHosts );
+		}
+
+		/**************************************************************************/
 		
 		public Dictionary<string,string> LocalesGet ()
 		{
@@ -495,7 +560,7 @@ namespace SEOMacroscope
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[sLocale] = sLocale;
+					this.Locales[ sLocale ] = sLocale;
 				}
 			}
 		}
@@ -518,7 +583,7 @@ namespace SEOMacroscope
 				try {
 					this.msMainForm.UpdateDisplaySingle( sURL );
 				} catch( ArgumentException ex ) {
-					debug_msg( string.Format( "UpdateDisplaySingle: {0}", ex.Message ) );
+					DebugMsg( string.Format( "UpdateDisplaySingle: {0}", ex.Message ) );
 				}
 			}
 		}

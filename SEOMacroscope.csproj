@@ -136,6 +136,7 @@
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.Designer.cs">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeHosts\MacroscopeAllowedHosts.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -210,6 +211,7 @@
     <Folder Include="MacroscopeTools\t" />
     <Folder Include="MacroscopeUserControls" />
     <Folder Include="MacroscopeUserControls\MacroscopePrefsControl" />
+    <Folder Include="MacroscopeHosts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

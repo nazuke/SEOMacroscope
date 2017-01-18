@@ -97,6 +97,30 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool FollowCanonicalLinks {
+			get {
+				return ((bool)(this["FollowCanonicalLinks"]));
+			}
+			set {
+				this["FollowCanonicalLinks"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool FollowHrefLangLinks {
+			get {
+				return ((bool)(this["FollowHrefLangLinks"]));
+			}
+			set {
+				this["FollowHrefLangLinks"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
 		public bool FollowNoFollow {
 			get {

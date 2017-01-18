@@ -48,9 +48,9 @@ namespace SEOMacroscope
 					Pdf = PdfReader.Open( ms, PdfDocumentOpenMode.InformationOnly );
 				}
 			} catch( PdfReaderException ex ) {
-				debug_msg( string.Format( "PDF Exception: {0}", ex.Message ) );
+				DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
 			} catch( PdfSharpException ex ) {
-				debug_msg( string.Format( "PDF Exception: {0}", ex.Message ) );
+				DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
 			}
 		}
 

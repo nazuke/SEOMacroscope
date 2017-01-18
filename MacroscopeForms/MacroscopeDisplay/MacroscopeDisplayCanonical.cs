@@ -161,7 +161,7 @@ namespace SEOMacroscope
 						lvItem.SubItems[ 1 ].Text = sCanonical;
 
 					} catch( Exception ex ) {
-						debug_msg( string.Format( "MacroscopeDisplayCanonical 1: {0}", ex.Message ) );
+						DebugMsg( string.Format( "MacroscopeDisplayCanonical 1: {0}", ex.Message ) );
 					}
 
 				} else {
@@ -178,7 +178,7 @@ namespace SEOMacroscope
 						lvListView.Items.Add( lvItem );
 
 					} catch( Exception ex ) {
-						debug_msg( string.Format( "MacroscopeDisplayCanonical 2: {0}", ex.Message ) );
+						DebugMsg( string.Format( "MacroscopeDisplayCanonical 2: {0}", ex.Message ) );
 					}
 				
 				}

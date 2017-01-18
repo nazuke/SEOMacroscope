@@ -102,7 +102,7 @@ namespace SEOMacroscope
 		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, Dictionary<string,string> htLocales )
 		{
 
-			debug_msg( string.Format( "MacroscopeDisplayHrefLang: {0}", "RefreshData" ) );
+			DebugMsg( string.Format( "MacroscopeDisplayHrefLang: {0}", "RefreshData" ) );
 						
 			if( this.msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
@@ -223,12 +223,12 @@ namespace SEOMacroscope
 									}
 
 								} catch( Exception ex ) {
-									debug_msg( string.Format( "MacroscopeDisplayHrefLang: {0}", ex.Message ) );
-									debug_msg( string.Format( "MacroscopeDisplayHrefLang: {0}", ex.StackTrace ) );
+									DebugMsg( string.Format( "MacroscopeDisplayHrefLang: {0}", ex.Message ) );
+									DebugMsg( string.Format( "MacroscopeDisplayHrefLang: {0}", ex.StackTrace ) );
 								}
 
 							} else {
-								debug_msg( string.Format( "MacroscopeDisplayHrefLang MISSING: {0}", sKeyURL ) );
+								DebugMsg( string.Format( "MacroscopeDisplayHrefLang MISSING: {0}", sKeyURL ) );
 							}
 
 						}

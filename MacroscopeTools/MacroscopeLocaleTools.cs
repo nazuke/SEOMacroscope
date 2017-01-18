@@ -49,10 +49,10 @@ namespace SEOMacroscope
 				HtmlNode nNode = doc.DocumentNode.SelectSingleNode( "/html[@lang]" );
 				if( nNode != null ) {
 					sLocale = nNode.GetAttributeValue( "lang", null );
-					debug_msg( string.Format( "HTML@LANG: {0}", sLocale ) );
+					DebugMsg( string.Format( "HTML@LANG: {0}", sLocale ) );
 				} else {
 					sLocale = null;		
-					debug_msg( string.Format( "HTML@LANG: {0}", "MISSING" ) );
+					DebugMsg( string.Format( "HTML@LANG: {0}", "MISSING" ) );
 				}
 			}
 
@@ -60,10 +60,10 @@ namespace SEOMacroscope
 				HtmlNode nNode = doc.DocumentNode.SelectSingleNode( "/html/head/meta[@http-equiv='Content-Language']" );
 				if( nNode != null ) {
 					sLocale = nNode.GetAttributeValue( "content", null );
-					debug_msg( string.Format( "HTML@LANG: {0}", sLocale ) );
+					DebugMsg( string.Format( "HTML@LANG: {0}", sLocale ) );
 				} else {
 					sLocale = null;		
-					debug_msg( string.Format( "HTML@LANG: {0}", "MISSING" ) );
+					DebugMsg( string.Format( "HTML@LANG: {0}", "MISSING" ) );
 				}
 			}
 
@@ -73,10 +73,12 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public new void debug_msg ( String sMsg )
+		/*
+		public new void DebugMsg ( String sMsg )
 		{
 		}
-
+		*/
+		
 		/**************************************************************************/
 	
 	}

@@ -63,8 +63,8 @@ namespace SEOMacroscope
 		public MacroscopeHyperlinkOut Add ( string sUrlOrigin, string sUrlTarget )
 		{
 
-			//debug_msg( string.Format( "MacroscopeHyperlinkOut sUrlOrigin: {0}", sUrlOrigin ), 1 );
-			//debug_msg( string.Format( "MacroscopeHyperlinkOut sUrlTarget: {0}", sUrlTarget ), 1 );	
+			//DebugMsg( string.Format( "MacroscopeHyperlinkOut sUrlOrigin: {0}", sUrlOrigin ), 1 );
+			//DebugMsg( string.Format( "MacroscopeHyperlinkOut sUrlTarget: {0}", sUrlTarget ), 1 );	
 
 			MacroscopeHyperlinkOut hlHyperlinkOut = new MacroscopeHyperlinkOut ();
 			List<MacroscopeHyperlinkOut> lLinkList;

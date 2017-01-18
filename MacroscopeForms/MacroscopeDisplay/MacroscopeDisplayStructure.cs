@@ -320,7 +320,7 @@ namespace SEOMacroscope
 					}
 
 				} else {
-					debug_msg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
+					DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
 				}
 
 			}

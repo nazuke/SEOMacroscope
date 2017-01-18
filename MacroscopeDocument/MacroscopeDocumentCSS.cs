@@ -56,16 +56,16 @@ namespace SEOMacroscope
 					this.ProcessHttpHeaders( req, res );
 				}
 				
-				debug_msg( string.Format( "Status: {0}", res.StatusCode ) );
-				debug_msg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
+				DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
+				DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
 				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
 					bIs = true;
 				}
 				res.Close();
 //			} catch( UriFormatException ex ) {
-//				debug_msg( string.Format( "IsCssPage :: UriFormatException: {0}", ex.Message ), 2 );
+//				DebugMsg( string.Format( "IsCssPage :: UriFormatException: {0}", ex.Message ), 2 );
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "IsCssPage :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "IsCssPage :: WebException: {0}", ex.Message ) );
 			}
 			return( bIs );
 		}
@@ -79,7 +79,7 @@ namespace SEOMacroscope
 			HttpWebResponse res = null;
 
 			
-			debug_msg( string.Format( "ProcessCssPage: {0}", "" ) );
+			DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 			
 			try {
 				req = WebRequest.CreateHttp( this.Url );
@@ -89,8 +89,8 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 			} catch( WebException ex ) {
-				debug_msg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Message ) );
-				debug_msg( string.Format( "ProcessCssPage :: WebException: {0}", this.Url ) );
+				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", this.Url ) );
 			}
 
 			if( res != null ) {
@@ -101,14 +101,14 @@ namespace SEOMacroscope
 
 				// Get Response Body
 				try {
-					debug_msg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
+					DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 					Stream sStream = res.GetResponseStream();
 					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
 					sRawData = srRead.ReadToEnd();
 					this.ContentLength = sRawData.Length; // May need to find bytes length
-					//debug_msg( string.Format( "sRawData: {0}", sRawData ) );
+					//DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
 				} catch( WebException ex ) {
-					debug_msg( string.Format( "WebException", ex.Message ) );
+					DebugMsg( string.Format( "WebException", ex.Message ) );
 					this.StatusCode = 500;
 					sRawData = "";
 					this.ContentLength = 0;
@@ -136,9 +136,9 @@ namespace SEOMacroscope
 					}
 					if( sTitle != null ) {
 						this.Title = sTitle;
-						debug_msg( string.Format( "TITLE: {0}", this.Title ) );
+						DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
 					} else {
-						debug_msg( string.Format( "TITLE: {0}", "MISSING" ) );
+						DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
 					}
 				}
 
@@ -169,11 +169,11 @@ namespace SEOMacroscope
 						sBackgroundImageUrl = MacroscopeURLTools.CleanUrlCss( sBackgroundImageUrl );
 						sLinkURLAbs = MacroscopeURLTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
 
-						debug_msg( "" );
-						debug_msg( string.Format( "sBackgroundImageUrl: {0}", sBackgroundImageUrl ) );
-						debug_msg( string.Format( "sBackgroundImageUrl this.Url: {0}", this.Url ) );
-						debug_msg( string.Format( "sBackgroundImageUrl sLinkURLAbs: {0}", sLinkURLAbs ) );
-						debug_msg( "" );
+						DebugMsg( "" );
+						DebugMsg( string.Format( "sBackgroundImageUrl: {0}", sBackgroundImageUrl ) );
+						DebugMsg( string.Format( "sBackgroundImageUrl this.Url: {0}", this.Url ) );
+						DebugMsg( string.Format( "sBackgroundImageUrl sLinkURLAbs: {0}", sLinkURLAbs ) );
+						DebugMsg( "" );
 
 
 

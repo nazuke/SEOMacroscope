@@ -41,6 +41,7 @@ namespace SEOMacroscope
 
 		public MacroscopeJobWorker ( MacroscopeJobMaster msJobMasterNew )
 		{
+			SuppressDebugMsg = true;
 			msJobMaster = msJobMasterNew;
 		}
 
@@ -60,9 +61,10 @@ namespace SEOMacroscope
 
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sURL );
 			MacroscopeDocumentCollection DocCollection = this.msJobMaster.DocCollectionGet();
+			MacroscopeAllowedHosts msAllowedHosts = this.msJobMaster.GetAllowedHosts();
 
 			if( !this.msJobMaster.RobotsGet().ApplyRobotRule( sURL ) ) {
-				debug_msg( string.Format( "Disallowed by robots.txt: {0}", sURL ) );
+				DebugMsg( string.Format( "Disallowed by robots.txt: {0}", sURL ) );
 				return;
 			}
 
@@ -74,24 +76,24 @@ namespace SEOMacroscope
 				DocCollection.Add( sURL, msDoc );
 			}
 
-			if( this.msJobMaster.Depth > 0 ) {
-				if( msDoc.GetDepth() > this.msJobMaster.Depth ) {
-					//debug_msg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
+			if( this.msJobMaster.GetDepth() > 0 ) {
+				if( msDoc.GetDepth() > this.msJobMaster.GetDepth() ) {
+					//DebugMsg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
 					DocCollection.Remove( sURL );
 					return;
 				}
 			}
 
-			if( this.msJobMaster.ProbeHrefLangs ) {
+			if( this.msJobMaster.GetProbeHrefLangs() ) {
 				msDoc.ProbeHrefLangs = true;
 			}
 
 			if( msDoc.Execute() ) {
 			
-				this.msJobMaster.PageLimitCount++;
+				this.msJobMaster.IncPageLimitCount();
 
 				if( msDoc.GetIsRedirect() ) {
-					debug_msg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
+					DebugMsg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
 					this.msJobMaster.UrlQueueAdd( msDoc.GetUrlRedirectTo() );
 				}
 
@@ -103,6 +105,25 @@ namespace SEOMacroscope
 					}
 					foreach( string sKeyLocale in htHrefLangs.Keys ) {
 						this.msJobMaster.AddLocales( sKeyLocale );
+						{
+							string sHrefLangUrl = htHrefLangs[ sKeyLocale ].GetUrl();
+							if( ( sHrefLangUrl != null ) && ( sHrefLangUrl.Length > 0 ) ) {
+								if( !this.msJobMaster.HistorySeen( sHrefLangUrl ) ) {
+									msAllowedHosts.AddFromUrl( sHrefLangUrl );
+									this.msJobMaster.UrlQueueAdd( sHrefLangUrl );
+								}
+							}
+						}
+					}
+				}
+
+				if( MacroscopePreferencesManager.GetFollowCanonicalLinks() ) {
+					string sCanonicalUrl = msDoc.GetCanonical();
+					if( ( sCanonicalUrl != null ) && ( sCanonicalUrl.Length > 0 ) ) {
+						if( !this.msJobMaster.HistorySeen( sCanonicalUrl ) ) {
+							msAllowedHosts.AddFromUrl( sCanonicalUrl );
+							this.msJobMaster.UrlQueueAdd( sCanonicalUrl );
+						}
 					}
 				}
 
@@ -116,14 +137,14 @@ namespace SEOMacroscope
 
 						Boolean bProceed = true;
 
-						if( this.msJobMaster.PageLimit < 0 ) {
+						if( this.msJobMaster.GetPageLimit() < 0 ) {
 
 							bProceed = true;
 
-						} else if( this.msJobMaster.PageLimit > -1 ) {
+						} else if( this.msJobMaster.GetPageLimit() > -1 ) {
 						
-							if( this.msJobMaster.PageLimitCount >= this.msJobMaster.PageLimit ) {
-								debug_msg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.msJobMaster.PageLimit, this.msJobMaster.PageLimitCount ) );
+							if( this.msJobMaster.GetPageLimitCount() >= this.msJobMaster.GetPageLimit() ) {
+								DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.msJobMaster.GetPageLimit(), this.msJobMaster.GetPageLimitCount() ) );
 								bProceed = false;
 							}
 							
@@ -131,10 +152,12 @@ namespace SEOMacroscope
 						
 						if( bProceed ) {
 							
-							if( MacroscopeURLTools.VerifySameHost( this.msJobMaster.StartUrl, sOutlinkURL ) ) {
-								this.msJobMaster.UrlQueueAdd( sOutlinkURL );
-							} else {
-								debug_msg( string.Format( "FOREIGN HOST: {0}", sOutlinkURL ) );
+							if( !this.msJobMaster.HistorySeen( sOutlinkURL ) ) {
+								if( msAllowedHosts.IsAllowedFromUrl( sOutlinkURL ) ) {
+									this.msJobMaster.UrlQueueAdd( sOutlinkURL );
+								} else {
+									DebugMsg( string.Format( "FOREIGN HOST: {0}", sOutlinkURL ) );
+								}
 							}
 							
 						} else {
@@ -146,24 +169,13 @@ namespace SEOMacroscope
 				}
 
 			} else {
-				debug_msg( string.Format( "EXECUTE FAILED: {0}", sURL ) );
+				DebugMsg( string.Format( "EXECUTE FAILED: {0}", sURL ) );
 			}
 
 		}
 
 		/**************************************************************************/
 
-		/*
-		public void debug_msg ( String sMsg )
-		{
-		}
-
-		public void debug_msg ( String sMsg, int iOffset )
-		{
-		}
-		*/
-		
-		/**************************************************************************/
 	}
 	
 }

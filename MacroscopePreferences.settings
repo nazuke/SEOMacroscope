@@ -22,6 +22,12 @@
     <Setting Name="FirstRun" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="FollowCanonicalLinks" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FollowHrefLangLinks" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="FollowNoFollow" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>
