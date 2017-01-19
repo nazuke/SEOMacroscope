@@ -27,7 +27,6 @@ using System;
 using System.Timers;
 using System.Windows.Forms;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -54,6 +53,7 @@ namespace SEOMacroscope
 		MacroscopeDisplayHistory msDisplayHistory;
 
 		System.Timers.Timer TimerTabPages;
+		System.Timers.Timer TimerStatusBar;
 			
 		/**************************************************************************/
 
@@ -85,6 +85,7 @@ namespace SEOMacroscope
 			ScanningControlsEnable( true );
 
 			StartTabPageTimer();
+			StartStatusBarTimer();
 			
 		}
 		
@@ -101,21 +102,16 @@ namespace SEOMacroscope
 
 		void Cleanup ()
 		{
-			
-			DebugMsg( "MacroscopeMainForm Cleanup CALLED" );
-						
+			DebugMsg( string.Format( "MacroscopeMainForm Cleanup: CALLED..." ) );
 			MacroscopePreferencesManager.SavePreferences();
-						
 			if( this.ThreadScanner != null ) {
 				DebugMsg( "Cleaning up ThreadScanner" );
 				this.ThreadScanner.Abort();
 			}
-
-			if( this.msJobMaster != null ) {
-				//this.msJobMaster.ShutdownWorkerUpdateDisplay();
-				this.msJobMaster = null;
-			}
-
+			this.StopTabPageTimer();
+			this.StopStatusBarTimer();
+			this.msJobMaster = null;
+			DebugMsg( string.Format( "MacroscopeMainForm Cleanup: DONE." ) );
 		}
 
 		/**************************************************************************/
@@ -418,13 +414,11 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							this.UpdateStatusBar();
 							this.ScanningControlsComplete( true );
 						}
 					)
 				);
 			} else {
-				this.UpdateStatusBar();
 				this.ScanningControlsComplete( true );
 			}
 		}
@@ -433,7 +427,7 @@ namespace SEOMacroscope
 
 		void StartTabPageTimer ()
 		{
-			this.TimerTabPages = new System.Timers.Timer ( 5000 );
+			this.TimerTabPages = new System.Timers.Timer ( 2000 );
 			this.TimerTabPages.Elapsed += this.CallbackTabPageTimer;
 			this.TimerTabPages.AutoReset = true;
 			this.TimerTabPages.Enabled = true;
@@ -442,8 +436,12 @@ namespace SEOMacroscope
 
 		void StopTabPageTimer ()
 		{
-			this.TimerTabPages.Stop();
-			this.TimerTabPages.Dispose();
+			try {
+				this.TimerTabPages.Stop();
+				this.TimerTabPages.Dispose();
+			} catch( Exception ex ) {
+				DebugMsg( string.Format( "StopStatusBarTimer: {0}", ex.Message ) );
+			}
 		}
 		
 		void CallbackTabPageTimer ( Object self, ElapsedEventArgs e )
@@ -452,9 +450,7 @@ namespace SEOMacroscope
 			TabControl tcDisplay = this.tabControlMain;
 
 			DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CALLED" ) );
-
-			this.UpdateStatusBar();
-			
+		
 			if( this.msJobMaster.CountRunningThreads() > 1 ) {
 
 				this.Invoke(
@@ -469,8 +465,10 @@ namespace SEOMacroscope
 							switch( tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name ) {
 
 								case "tabPageStructureOverview":
-									//this.msJobMaster.WorkerUpdateDisplay();
-									this.msDisplayStructure.RefreshData( this.msJobMaster.GetDocCollection() );
+									this.msDisplayStructure.RefreshData(
+										this.msJobMaster.GetDocCollection(),
+										this.msJobMaster.DrainDisplayQueueAsList( MacroscopeJobMaster.NamedQueueDisplayStructure )
+									);
 									break;
 
 								case "tabPageHierarchy":
@@ -512,7 +510,7 @@ namespace SEOMacroscope
 									break;
 
 								case "tabPageQueue":
-									this.msDisplayQueue.RefreshData( this.msJobMaster.GetQueue() );
+									this.msDisplayQueue.RefreshData( this.msJobMaster.GetUrlQueueAsList() );
 									break;
 								
 								case "tabPageHistory":
@@ -640,6 +638,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		/*
 		public void UpdateDisplaySingle ( string sURL )
 		{
 
@@ -656,68 +655,41 @@ namespace SEOMacroscope
 			}
 			
 		}
-
-		/**************************************************************************/
-
-		/*
-		public void UpdateDisplayHrefLang ()
-		{
-
-			DebugMsg( string.Format( "UpdateDisplayHrefLang: {0}", "CALLED" ) );
-
-			if( this.msJobMaster != null ) {
-			
-				this.msDisplayHrefLang.RefreshData( this.msJobMaster.GetDocCollection(), this.msJobMaster.GetLocales() );
-
-				if( this.InvokeRequired ) {
-					this.Invoke(
-						new MethodInvoker (
-							delegate
-							{
-								this.Refresh();
-								this.Update();
-							}
-						)
-					);
-				} else {
-					this.Refresh();
-					this.Update();
-				}
-
-			}
-			
-		}
 		*/
-		
-		/**************************************************************************/
 
-		public void UpdateStatusBar ()
+		/** Status Bar ************************************************************/
+
+		void StartStatusBarTimer ()
+		{
+			this.TimerStatusBar = new System.Timers.Timer ( 2000 );
+			this.TimerStatusBar.Elapsed += this.CallbackStatusBarTimer;
+			this.TimerStatusBar.AutoReset = true;
+			this.TimerStatusBar.Enabled = true;
+			this.TimerStatusBar.Start();
+		}
+
+		void StopStatusBarTimer ()
+		{
+			try {
+				this.TimerStatusBar.Stop();
+				this.TimerStatusBar.Dispose();
+			} catch( Exception ex ) {
+				DebugMsg( string.Format( "StopStatusBarTimer: {0}", ex.Message ) );
+			}
+		}
+		
+		void CallbackStatusBarTimer ( Object self, ElapsedEventArgs e )
+		{
+			this.UpdateStatusBar();
+		}
+			
+		void UpdateStatusBar ()
 		{
 			if( this.msJobMaster != null ) {
-
-				string sThreads = string.Format( "Threads: {0}", this.msJobMaster.CountRunningThreads() );
-				string sUrlCount = string.Format( "URLs in Queue: {0}", this.msJobMaster.CountUrlQueue() );
-				string sUrlsFound = string.Format( "URLs Found: {0}", this.msJobMaster.GetDocCollection().Count() );
-
-				if( this.InvokeRequired ) {
-					this.Invoke(
-						new MethodInvoker (
-							delegate
-							{
-								this.toolStripThreads.Text = sThreads;
-								this.toolStripUrlCount.Text = sUrlCount;
-								this.toolStripFound.Text = sUrlsFound;
-							}
-						)
-					);
-				} else {
-					this.toolStripThreads.Text = sThreads;
-					this.toolStripUrlCount.Text = sUrlCount;
-					this.toolStripFound.Text = sUrlsFound;
-				}
-			
+				this.toolStripThreads.Text = string.Format( "Threads: {0}", this.msJobMaster.CountRunningThreads() );
+				this.toolStripUrlCount.Text = string.Format( "URLs in Queue: {0}", this.msJobMaster.CountUrlQueueItems() );
+				this.toolStripFound.Text = string.Format( "URLs Found: {0}", this.msJobMaster.GetDocCollection().Count() );
 			}
-			
 		}
 
 		/**************************************************************************/
@@ -734,7 +706,7 @@ namespace SEOMacroscope
 			Clipboard.SetText( sText );
 		}
 
-		/**************************************************************************/
+		/** Report Save Dialogue Boxes ********************************************/
 		
 		void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
 		{
@@ -751,9 +723,7 @@ namespace SEOMacroscope
 			}
 			Dialog.Dispose();
 		}
-		
-		/**************************************************************************/
-				
+
 		void CallbackSaveHrefLangExcelReport ( object sender, EventArgs e )
 		{
 			SaveFileDialog Dialog = new SaveFileDialog ();

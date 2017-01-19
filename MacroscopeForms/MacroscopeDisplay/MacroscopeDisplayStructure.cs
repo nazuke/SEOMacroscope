@@ -193,8 +193,8 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-
-		public void RefreshDataSingle ( MacroscopeDocument msDoc, string sURL )
+		
+		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, List<string> lList )
 		{
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
@@ -203,7 +203,31 @@ namespace SEOMacroscope
 						{
 							ListView lvListView = this.msMainForm.GetDisplayStructure();
 							lvListView.BeginUpdate();
-							this.RenderListViewSingle( lvListView, msDoc, sURL );
+							this.RenderListView( lvListView, htDocCollection, lList );
+							lvListView.EndUpdate();
+						}
+					)
+				);
+			} else {
+				ListView lvListView = this.msMainForm.GetDisplayStructure();
+				lvListView.BeginUpdate();
+				this.RenderListView( lvListView, htDocCollection, lList );
+				lvListView.EndUpdate();
+			}
+		}
+
+		/**************************************************************************/
+
+		public void RefreshData ( MacroscopeDocument msDoc, string sURL )
+		{
+			if( this.msMainForm.InvokeRequired ) {
+				this.msMainForm.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							ListView lvListView = this.msMainForm.GetDisplayStructure();
+							lvListView.BeginUpdate();
+							this.RenderListView( lvListView, msDoc, sURL );
 							//this.ListViewResizeColumns( lvListView );
 							lvListView.EndUpdate();
 						}
@@ -212,25 +236,35 @@ namespace SEOMacroscope
 			} else {
 				ListView lvListView = this.msMainForm.GetDisplayStructure();
 				lvListView.BeginUpdate();
-				this.RenderListViewSingle( lvListView, msDoc, sURL );
+				this.RenderListView( lvListView, msDoc, sURL );
 				//this.ListViewResizeColumns( lvListView );
 				lvListView.EndUpdate();
 			}
 		}
 
-		/**************************************************************************/
+		/** Render Entire DocCollection *******************************************/
 
 		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
 		{
 			foreach( string sKeyURL in htDocCollection.Keys() ) {
 				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListViewSingle( lvListView, msDoc, sKeyURL );
+				this.RenderListView( lvListView, msDoc, sKeyURL );
+			}
+		}
+		
+		/** Render List ***********************************************************/
+		
+		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, List<string> lList )
+		{
+			foreach( string sKeyURL in lList ) {
+				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
+				this.RenderListView( lvListView, msDoc, sKeyURL );
 			}
 		}
 
-		/**************************************************************************/
+		/** Render One ************************************************************/
 
-		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
+		void RenderListView ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
 		{
 
 			lock( lvListView ) {
@@ -361,15 +395,15 @@ namespace SEOMacroscope
 
 			List<string> lColDataWidth = new List<string> ()
 			{
-					constURL,
-					constDateServer,
-					constDateModified,
-					constTitle
+				constURL,
+				constDateServer,
+				constDateModified,
+				constTitle
 			};
 			
 			List<string> lColHeaderWidth = new List<string> ()
 			{
-					constDateModified
+				constDateModified
 			};
 
 			foreach( string sColName in lColDataWidth ) {

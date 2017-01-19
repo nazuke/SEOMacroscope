@@ -37,9 +37,11 @@ namespace SEOMacroscope
 
 		Dictionary<string,MacroscopeDocument> DocCollection;
 
+		static string constRecalculateDocCollection = "RecalculateDocCollection";
+		MacroscopeNamedQueue NamedQueue;
+				
 		Thread ThreadRecalculateDocCollection = null;
 		Boolean ThreadRecalculateDocCollectionStop = false;
-		Queue<int> ThreadRecalculateDocCollectionQueue;
 		Semaphore ThreadRecalculateDocCollectionSemaphore;
 
 		Dictionary<string,int> StatsTitles;
@@ -51,8 +53,10 @@ namespace SEOMacroscope
 
 			DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
 
+			NamedQueue = new MacroscopeNamedQueue ();
+			NamedQueue.CreateNamedQueue( constRecalculateDocCollection );
+
 			{
-				ThreadRecalculateDocCollectionQueue = new Queue<int> ( 4096 );
 				ThreadRecalculateDocCollection = new Thread ( new ThreadStart ( this.WorkerRecalculateDocCollection ) );
 				ThreadRecalculateDocCollectionSemaphore = new Semaphore ( 0, 1 );
 				ThreadRecalculateDocCollection.Start();
@@ -109,7 +113,7 @@ namespace SEOMacroscope
 		{
 			MacroscopeDocument msDoc = null;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
-				msDoc = ( MacroscopeDocument )this.DocCollection[sKey];
+				msDoc = ( MacroscopeDocument )this.DocCollection[ sKey ];
 			}
 			return( msDoc );
 		}
@@ -152,10 +156,10 @@ namespace SEOMacroscope
 				if( this.PeekWorkerRecalculateDocCollectionQueue() ) {
 
 					{
-						int iDrainQueue = this.GetWorkerRecalculateDocCollectionQueue();
+						Boolean bDrainQueue = this.GetWorkerRecalculateDocCollectionQueue();
 						do {
-							iDrainQueue = this.GetWorkerRecalculateDocCollectionQueue();
-						} while( iDrainQueue != -1 );
+							bDrainQueue = this.GetWorkerRecalculateDocCollectionQueue();
+						} while( bDrainQueue );
 					}
 
 					this.RecalculateDocCollection();
@@ -182,45 +186,32 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void AddWorkerRecalculateDocCollectionQueue ( int iValue )
+		public void AddWorkerRecalculateDocCollectionQueue ()
 		{
-			lock( this.ThreadRecalculateDocCollectionQueue ) {
-				this.ThreadRecalculateDocCollectionQueue.Enqueue( iValue );
-			}
+			this.NamedQueue.AddToNamedQueue( constRecalculateDocCollection, "" );
 		}
 		
 		/**************************************************************************/
 		
-		public int GetWorkerRecalculateDocCollectionQueue ()
+		public Boolean GetWorkerRecalculateDocCollectionQueue ()
 		{
-			int iValue = -1;
+			Boolean bResult = false;
 			try {
-				if( this.ThreadRecalculateDocCollectionQueue.Count > 0 ) {
-					lock( this.ThreadRecalculateDocCollectionQueue ) {
-						iValue = this.ThreadRecalculateDocCollectionQueue.Dequeue();
-					}
+				if( this.NamedQueue.PeekNamedQueue( constRecalculateDocCollection ) ) {
+					bResult = true;
+					this.NamedQueue.GetNamedQueueItem( constRecalculateDocCollection );
 				}
 			} catch( InvalidOperationException ex ) {
-				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "GetWorkerRecalculateDocCollectionQueue: {0}", ex.Message ) );
 			}
-			return( iValue );
+			return( bResult );
 		}
 	
 		/**************************************************************************/
 				
 		public Boolean PeekWorkerRecalculateDocCollectionQueue ()
 		{
-			Boolean bPeek = false;
-			try {
-				lock( this.ThreadRecalculateDocCollectionQueue ) {
-					if( this.ThreadRecalculateDocCollectionQueue.Count > 0 ) {
-						bPeek = true;
-					}
-				}
-			} catch( InvalidOperationException ex ) {
-				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
-			}
-			return( bPeek );
+			return( this.NamedQueue.PeekNamedQueue( constRecalculateDocCollection ) );
 		}
 
 		/**************************************************************************/
@@ -263,7 +254,7 @@ namespace SEOMacroscope
 		{
 			int iValue = 0;
 			if( this.StatsTitles.ContainsKey( sTitle ) ) {
-				iValue = this.StatsTitles[sTitle];
+				iValue = this.StatsTitles[ sTitle ];
 			}
 			return( iValue );
 		}
@@ -272,7 +263,7 @@ namespace SEOMacroscope
 		{
 			string sTitle = msDoc.GetTitle();
 			if( this.StatsTitles.ContainsKey( sTitle ) ) {
-				this.StatsTitles[sTitle] = this.StatsTitles[sTitle] + 1;
+				this.StatsTitles[ sTitle ] = this.StatsTitles[ sTitle ] + 1;
 			} else {
 				this.StatsTitles.Add( sTitle, 1 );
 			}

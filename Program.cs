@@ -24,8 +24,6 @@
 */
 
 using System;
-using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -36,14 +34,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public static void Exit ()
-		{
-			DebugMsg( "Exiting" );
-			Application.Exit();
-		}
-
-		/**************************************************************************/
-						
 		[STAThread]
 		private static void Main ( string[] args )
 		{
@@ -53,18 +43,20 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+
+		public static void Exit ()
+		{
+			DebugMsg( "Program: Exiting" );
+			Application.Exit();
+		}
+		
+		/**************************************************************************/
 				
 		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
 
-		static void DebugMsg ( String sMsg, int iOffset )
-		{
-			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
-			System.Diagnostics.Debug.WriteLine( sMsgPadded );
-		}
-		
 		/**************************************************************************/
 
 	}

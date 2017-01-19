@@ -113,7 +113,7 @@ namespace SEOMacroscope
 		public MacroscopeDocument ( string sURL )
 		{
 
-			SuppressDebugMsg = true;
+			SuppressDebugMsg = false;
 						
 			Url = sURL;
 			Timeout = 10000;

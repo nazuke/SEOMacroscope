@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -112,6 +113,30 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
+
+		public void RefreshDataList ( MacroscopeDocumentCollection htDocCollection, List<string> lList )
+		{
+			if( this.msMainForm.InvokeRequired ) {
+				this.msMainForm.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
+							lvListView.BeginUpdate();
+							this.RenderListViewList( lvListView, htDocCollection, lList );
+							lvListView.EndUpdate();
+						}
+					)
+				);
+			} else {
+				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
+				lvListView.BeginUpdate();
+				this.RenderListViewList( lvListView, htDocCollection, lList );
+				lvListView.EndUpdate();
+			}
+		}
+
+		/**************************************************************************/
 				
 		public void RefreshDataSingle ( MacroscopeDocument msDoc, string sURL )
 		{
@@ -142,7 +167,17 @@ namespace SEOMacroscope
 			}
 
 		}
-		
+
+		/**************************************************************************/
+
+		void RenderListViewList ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, List<string> lList )
+		{
+			foreach( string sKeyURL in lList ) {
+				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
+				this.RenderListViewSingle( lvListView, msDoc, sKeyURL );
+			}
+		}
+
 		/**************************************************************************/
 
 		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )

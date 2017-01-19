@@ -39,7 +39,29 @@ namespace SEOMacroscope
 		MacroscopeAllowedHosts msAllowedHosts;
 		
 		Object DisplayLock;
-		
+
+		/** BEGIN: Named Queues **/
+
+		const string constNamedQueueUrlList = "UrlQueue";
+
+		public const string NamedQueueDisplayStructure = "DisplayStructure";
+		public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
+		public const string NamedQueueDisplayCanonicalAnalysis = "CanonicalAnalysis";
+		public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
+		public const string NamedQueueDisplayRedirectsAudit = "RedirectsAudit";
+		public const string NamedQueueDisplayUriAnalysis = "UriAnalysis";
+		public const string NamedQueueDisplayPageTitles = "PageTitles";
+		public const string NamedQueueDisplayPageDescription = "PageDescription";
+		public const string NamedQueueDisplayPageKeywords = "PageKeywords";
+		public const string NamedQueueDisplayPageHeadings = "PageHeadings";
+		public const string NamedQueueDisplayEmailAddresses = "EmailAddresses";
+		public const string NamedQueueDisplayTelephoneNumbers = "TelephoneNumbers";
+		public const string NamedQueueDisplayHostnames = "DisplayHostnames";
+
+		MacroscopeNamedQueue NamedQueue;
+
+		/** END: Named Queues **/
+
 		/** BEGIN: Configuration **/
 		
 		int ThreadsMax;
@@ -47,10 +69,6 @@ namespace SEOMacroscope
 		Boolean ThreadsStop;
 		Dictionary<int,Boolean> ThreadsDict;
 
-		//Thread ThreadUpdateDisplay = null;
-		//Boolean ThreadUpdateDisplayStop = false;
-		Queue<string> UpdateDisplayQueue;
-		
 		string StartUrl;
 		int Depth;
 		int PageLimit;
@@ -62,8 +80,6 @@ namespace SEOMacroscope
 
 		int PagesFound;
 
-		Queue<string> UrlQueue;
-		
 		Hashtable History;
 		Dictionary<string,string> Locales;
 
@@ -80,6 +96,26 @@ namespace SEOMacroscope
 			
 			DisplayLock = new Object ();
 
+			// BEGIN: Named Queues
+			NamedQueue = new MacroscopeNamedQueue ();
+			{
+				NamedQueue.CreateNamedQueue( constNamedQueueUrlList );	
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayStructure );			
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayHierarchy );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayCanonicalAnalysis );	
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayHrefLang );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayRedirectsAudit );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayUriAnalysis );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayPageTitles );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayPageDescription );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayPageKeywords );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayPageHeadings );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayEmailAddresses );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayTelephoneNumbers );
+				NamedQueue.CreateNamedQueue( NamedQueueDisplayHostnames );
+			}
+			// END: Named Queues
+
 			this.AdjustThreadsMax();
 			ThreadsRunning = 0;
 			ThreadsStop = false;
@@ -93,18 +129,10 @@ namespace SEOMacroscope
 			ProbeHrefLangs = MacroscopePreferencesManager.GetProbeHreflangs();
 			PagesFound = 0;
 
-			UrlQueue = new Queue<string> ( 4096 );
-
 			History = Hashtable.Synchronized( new Hashtable ( 4096 ) );
 
 			Locales = new Dictionary<string,string> ( 32 );
 			msRobots = new MacroscopeRobots ();
-
-			{
-				UpdateDisplayQueue = new Queue<string> ( 4096 );
-				//ThreadUpdateDisplay = new Thread ( new ThreadStart ( this.ThreadWorkerUpdateDisplay ) );
-				//ThreadUpdateDisplay.Start();
-			}
 
 		}
 
@@ -113,10 +141,10 @@ namespace SEOMacroscope
 		~MacroscopeJobMaster ()
 		{
 			DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
-			//this.ShutdownWorkerUpdateDisplay();
+			this.msDocCollection.ShutdownWorkerRecalculateDocCollection();
 		}
 
-		/**************************************************************************/
+		/** Execute Job ***********************************************************/
 
 		public Boolean Execute ()
 		{
@@ -128,7 +156,7 @@ namespace SEOMacroscope
 			this.msAllowedHosts.AddFromUrl( this.StartUrl );
 
 			if( !this.PeekUrlQueue() ) {
-				this.AddUrlQueue( this.StartUrl );
+				this.AddUrlQueueItem( this.StartUrl );
 			}
 
 			this.SpawnWorkers();
@@ -141,7 +169,7 @@ namespace SEOMacroscope
 			
 		}
 
-		/**************************************************************************/
+		/** Manage Workers ********************************************************/
 
 		void SpawnWorkers ()
 		{
@@ -186,14 +214,12 @@ namespace SEOMacroscope
 			DebugMsg( string.Format( "WorkersSpawn: STOPPED" ) );
 
 		}
-		
-		/**************************************************************************/
-		
+			
 		void StartWorker ( object thContext )
 		{
 			if( !this.ThreadsStop ) {
 				MacroscopeJobWorker msJobWorker = new MacroscopeJobWorker ( this );
-				string sURL = this.GetUrlQueue();
+				string sURL = this.GetUrlQueueItem();
 				if( sURL != null ) {
 					this.IncRunningThreads();
 					msJobWorker.Execute( sURL );
@@ -201,23 +227,17 @@ namespace SEOMacroscope
 			}
 		}
 
-		/**************************************************************************/
-
 		public void NotifyWorkersDone ( string sURL )
 		{
 			this.DecRunningThreads();
 			this.AddUpdateDisplayQueue( sURL );
 		}
 		
-		/**************************************************************************/
-
 		public void StopWorkers ()
 		{
 			this.ThreadsStop = true;
 		}
 
-		/**************************************************************************/
-		
 		public Boolean WorkersStopped ()
 		{
 			Boolean bIsStopped = false;
@@ -226,103 +246,24 @@ namespace SEOMacroscope
 				bIsStopped = true;
 			}
 			this.GetDocCollection().RecalculateDocCollection();
-			this.UpdateStatusBar();
 			return( bIsStopped );
 		}
 
-		/**************************************************************************/
-
-		/*
-		public void ShutdownWorkerUpdateDisplay ()
-		{
-			DebugMsg( "WorkerUpdateDisplayShutdown Called" );
-			this.GetDocCollection().ShutdownWorkerRecalculateDocCollection();
-			this.ThreadUpdateDisplayStop = true;
-		}
-		*/
-
-		/**************************************************************************/
-
-		// TODO: retire this approach
-		/*
-		void ThreadWorkerUpdateDisplay ()
-		{
-
-			Boolean bDoUpdateDisplay = true;
-			
-			do {
-
-				this.WorkerUpdateDisplay();
-
-				Thread.Sleep( 5000 );
-
-				if( this.ThreadUpdateDisplayStop == true ) {
-					bDoUpdateDisplay = false;
-				}
-
-			} while( bDoUpdateDisplay == true );
-
-		}
-		*/
-		
-		/**************************************************************************/
-
-		public void WorkerUpdateDisplay ()
-		{
-
-			if( this.PeekUpdateDisplayQueue() ) {
-
-				List<string> lUrls = new List<string> ();
-
-				{
-					string sUrl = this.GetUpdateDisplayQueue();
-					do {
-						if( sUrl != null ) {
-							lUrls.Add( sUrl );
-						}
-						sUrl = this.GetUpdateDisplayQueue();
-					} while( sUrl != null );
-				}
-					
-				if( lUrls.Count > 0 ) {
-
-					foreach( string sUrl in lUrls ) {
-						if( this.GetDocCollection().Contains( sUrl ) ) {
-							this.UpdateDisplaySingle( sUrl );
-						} else {
-							this.AddUpdateDisplayQueue( sUrl );
-						}
-					}
-
-					this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue( 1 );
-
-				}
-					
-			}
-
-			this.UpdateStatusBar();
-
-		}
-
-		/**************************************************************************/
+		/** Track Thread Count ****************************************************/
 
 		void AdjustThreadsMax ()
 		{
 			ThreadsMax = MacroscopePreferencesManager.GetMaxThreads();
 			ThreadPool.SetMaxThreads( ThreadsMax, ThreadsMax );
 		}
-		
-		/**************************************************************************/
-		
+			
 		void IncRunningThreads ()
 		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[iThreadId] = true;
+			this.ThreadsDict[ iThreadId ] = true;
 			this.ThreadsRunning++;
 		}
 		
-		/**************************************************************************/
-
 		void DecRunningThreads ()
 		{
 			if( this.ThreadsRunning > 0 ) {
@@ -335,8 +276,6 @@ namespace SEOMacroscope
 				this.ThreadsRunning--;
 			}
 		}
-		
-		/**************************************************************************/
 				
 		public int CountRunningThreads ()
 		{
@@ -349,110 +288,61 @@ namespace SEOMacroscope
 
 		public void AddUpdateDisplayQueue ( string sURL )
 		{
-			lock( this.UpdateDisplayQueue ) {
-				this.UpdateDisplayQueue.Enqueue( sURL );
-			}
+			// TODO: Add more queues
+
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayStructure, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayHierarchy, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayCanonicalAnalysis, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayHrefLang, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayRedirectsAudit, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayUriAnalysis, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayPageTitles, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayPageDescription, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayPageKeywords, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayPageHeadings, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayEmailAddresses, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayTelephoneNumbers, sURL );
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayHostnames, sURL );
+
 		}
-		
-		public string GetUpdateDisplayQueue ()
+
+		public List<string> DrainDisplayQueueAsList ( string sNamedQueueName )
 		{
-			string sURL = null;
-			try {
-				if( this.UpdateDisplayQueue.Count > 0 ) {
-					lock( this.UpdateDisplayQueue ) {
-						sURL = this.UpdateDisplayQueue.Dequeue();
-					}
-				}
-			} catch( InvalidOperationException ex ) {
-				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
-			}
-			return( sURL );
-		}
-				
-		public Boolean PeekUpdateDisplayQueue ()
-		{
-			Boolean bPeek = false;
-			try {
-				lock( this.UpdateDisplayQueue ) {
-					if( this.UpdateDisplayQueue.Count > 0 ) {
-						bPeek = true;
-					}
-				}
-			} catch( InvalidOperationException ex ) {
-				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
-			}
-			return( bPeek );
+			return( this.NamedQueue.DrainNamedQueueItemsAsList( sNamedQueueName ) );
 		}
 
 		/** URL Queue *************************************************************/
 
-		public List<string> GetQueue ()
+		public List<string> GetUrlQueueAsList ()
 		{
-			List<string> QueueCopy = new List<string> ( this.UrlQueue.Count );
-			lock( this.UrlQueue ) {
-				foreach( string sUrl in this.UrlQueue ) {
-					DebugMsg( string.Format( "GetQueue: {0}", sUrl ) );
-					QueueCopy.Add( sUrl );
-				}
-			}
-			return( QueueCopy );
+			return( this.NamedQueue.GetNamedQueueItemsAsList( constNamedQueueUrlList ) );
 		}
 
-		public void AddUrlQueue ( string sURL )
+		public void AddUrlQueueItem ( string sURL )
 		{
 			if( !this.SeenHistory( sURL ) ) {
-				lock( this.UrlQueue ) {
-					this.UrlQueue.Enqueue( sURL );
-				}
+				this.NamedQueue.AddToNamedQueue( constNamedQueueUrlList, sURL );
 			}
 		}
-		
-		public string GetUrlQueue ()
+
+		public string GetUrlQueueItem ()
 		{
-			string sURL = null;
-			try {
-				if( this.UrlQueue.Count > 0 ) {
-					lock( this.UrlQueue ) {
-						sURL = this.UrlQueue.Dequeue();
-					}
-				}
-			} catch( InvalidOperationException ex ) {
-				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
-			}
-			return( sURL );
+			return( this.NamedQueue.GetNamedQueueItem( constNamedQueueUrlList ) );
 		}
 			
 		public Boolean PeekUrlQueue ()
 		{
-			Boolean bPeek = false;
-			try {
-				lock( this.UrlQueue ) {
-					if( this.UrlQueue.Count > 0 ) {
-						bPeek = true;
-					}
-				}
-			} catch( InvalidOperationException ex ) {
-				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
-			}
+			Boolean bPeek = this.NamedQueue.PeekNamedQueue( constNamedQueueUrlList );
+			DebugMsg( string.Format( "PeekUrlQueue: {0}", bPeek ) );
 			return( bPeek );
 		}
 	
-		public int CountUrlQueue ()
+		public int CountUrlQueueItems ()
 		{
-			int iCount = 0;
-			try {
-				lock( this.UrlQueue ) {
-					if( this.UrlQueue.Count > 0 ) {
-						iCount = this.UrlQueue.Count;
-					}
-				}
-			} catch( InvalidOperationException ex ) {
-				DebugMsg( string.Format( "InvalidOperationException: {0}", ex.Message ) );
-			}
-			return( iCount );
+			return( this.NamedQueue.CountNamedQueueItems( constNamedQueueUrlList ) );
 		}
 
-		/**************************************************************************/
+		/** Start URL *************************************************************/
 
 		public void SetStartUrl ( string sUrl )
 		{
@@ -464,7 +354,7 @@ namespace SEOMacroscope
 			return( this.StartUrl );
 		}
 
-		/**************************************************************************/
+		/** Page Depth ************************************************************/
 
 		public int GetDepth ()
 		{
@@ -476,14 +366,14 @@ namespace SEOMacroscope
 			this.Depth = iValue;
 		}
 
-		/**************************************************************************/
+		/** Page Limit ************************************************************/
 
 		public int GetPageLimit ()
 		{
 			return( this.PageLimit );
 		}
 
-		/**************************************************************************/
+		/** Page Limit Count ******************************************************/
 
 		public int GetPageLimitCount ()
 		{
@@ -500,7 +390,7 @@ namespace SEOMacroscope
 			this.PageLimitCount = iValue;
 		}
 
-		/**************************************************************************/
+		/** HrefLang Tags *********************************************************/
 
 		public Boolean GetProbeHrefLangs ()
 		{
@@ -512,7 +402,7 @@ namespace SEOMacroscope
 			this.ProbeHrefLangs = bState;
 		}
 
-		/**************************************************************************/
+		/** History ***************************************************************/
 
 		public void AddHistory ( string sURL )
 		{
@@ -527,7 +417,7 @@ namespace SEOMacroscope
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sURL ) ) {
-				bSeen = ( Boolean )this.History[sURL];
+				bSeen = ( Boolean )this.History[ sURL ];
 			}
 			return( bSeen );
 		}
@@ -548,7 +438,7 @@ namespace SEOMacroscope
 			}
 		}
 		
-		/**************************************************************************/
+		/** Document Collection ***************************************************/
 
 		public MacroscopeDocumentCollection GetDocCollection ()
 		{
@@ -562,52 +452,27 @@ namespace SEOMacroscope
 			return( this.msAllowedHosts );
 		}
 
-		/**************************************************************************/
+		/** Locales ***************************************************************/
 		
 		public Dictionary<string,string> GetLocales ()
 		{
 			return( this.Locales );
 		}
 
-		/**************************************************************************/
-		
 		public void AddLocales ( string sLocale )
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[sLocale] = sLocale;
+					this.Locales[ sLocale ] = sLocale;
 				}
 			}
 		}
 
-		/**************************************************************************/
+		/** Robots ****************************************************************/
 		
 		public MacroscopeRobots GetRobots ()
 		{
 			return( this.msRobots );
-		}
-		
-		/**************************************************************************/
-		
-		public void UpdateDisplaySingle ( string sURL )
-		{
-			if( this.ThreadsStop == true ) {
-				return;
-			}
-			lock( this.DisplayLock ) {
-				try {
-					this.msMainForm.UpdateDisplaySingle( sURL );
-				} catch( ArgumentException ex ) {
-					DebugMsg( string.Format( "UpdateDisplaySingle: {0}", ex.Message ) );
-				}
-			}
-		}
-
-		/**************************************************************************/
-
-		public void UpdateStatusBar ()
-		{
-			this.msMainForm.UpdateStatusBar();
 		}
 
 		/**************************************************************************/

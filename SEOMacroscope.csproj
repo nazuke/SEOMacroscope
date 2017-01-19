@@ -117,6 +117,7 @@
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.Designer.cs">
       <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplay.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayCanonical.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHistory.cs" />
