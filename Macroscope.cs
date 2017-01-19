@@ -61,9 +61,7 @@ namespace SEOMacroscope
 		
 		public void DebugMsg ( String sMsg )
 		{
-			if( !this.SuppressDebugMsg ) {
-				DebugMsg( sMsg, true );
-			}
+			DebugMsg( sMsg, true );
 		}
 
 		/**************************************************************************/

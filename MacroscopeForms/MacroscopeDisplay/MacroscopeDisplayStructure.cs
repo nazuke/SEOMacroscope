@@ -31,12 +31,10 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayStructure : Macroscope
+	public class MacroscopeDisplayStructure : MacroscopeDisplay
 	{
 
 		/**************************************************************************/
-
-		MacroscopeMainForm msMainForm;
 
 		static Boolean ListViewConfigured = false;
 
@@ -74,71 +72,71 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public MacroscopeDisplayStructure ( MacroscopeMainForm msMainFormNew )
+		public MacroscopeDisplayStructure ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
+			: base( msMainFormNew, lvListViewNew )
 		{
-			
+
 			msMainForm = msMainFormNew;
+			lvListView = lvListViewNew;
 
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = msMainForm.GetDisplayStructure();
-							ConfigureListView( lvListView );
+							ConfigureListView();
 						}
 					)
 				);
 			} else {
-				ListView lvListView = msMainForm.GetDisplayStructure();
-				ConfigureListView( lvListView );
+				ConfigureListView();
 			}
 
 		}
 
 		/**************************************************************************/
 
-		static void ConfigureListView ( ListView lvListView )
+		void ConfigureListView ()
 		{
 			
 			if( !ListViewConfigured ) {
 			
 				// BEGIN: Columns
-								
-				lvListView.Columns.Add( constURL, constURL );
-				lvListView.Columns.Add( constStatus, constStatus );
-				lvListView.Columns.Add( constIsRedirect, constIsRedirect );
 
-				lvListView.Columns.Add( constDuration, constDuration );
+				this.lvListView.Columns.Add( constURL, constURL );
+				this.lvListView.Columns.Add( constStatus, constStatus );
+				this.lvListView.Columns.Add( constIsRedirect, constIsRedirect );
 
-				lvListView.Columns.Add( constDateServer, constDateServer );
-				lvListView.Columns.Add( constDateModified, constDateModified );
+				this.lvListView.Columns.Add( constDuration, constDuration );
+
+				this.lvListView.Columns.Add( constDateServer, constDateServer );
+				this.lvListView.Columns.Add( constDateModified, constDateModified );
 				
-				lvListView.Columns.Add( constContentType, constContentType );
-				lvListView.Columns.Add( constLang, constLang );
-				lvListView.Columns.Add( constCanonical, constCanonical );
-				lvListView.Columns.Add( constInhyperlinks, constInhyperlinks );
-				lvListView.Columns.Add( constOuthyperlinks, constOuthyperlinks );
-				lvListView.Columns.Add( constTitle, constTitle );
-				lvListView.Columns.Add( constTitleLen, constTitleLen );
-				lvListView.Columns.Add( constDescription, constDescription );
-				lvListView.Columns.Add( constDescriptionLen, constDescriptionLen );
-				lvListView.Columns.Add( constKeywords, constKeywords );
-				lvListView.Columns.Add( constKeywordsLen, constKeywordsLen );
-				lvListView.Columns.Add( constKeywordsCount, constKeywordsCount );
+				this.lvListView.Columns.Add( constContentType, constContentType );
+				this.lvListView.Columns.Add( constLang, constLang );
+				this.lvListView.Columns.Add( constCanonical, constCanonical );
+				this.lvListView.Columns.Add( constInhyperlinks, constInhyperlinks );
+				this.lvListView.Columns.Add( constOuthyperlinks, constOuthyperlinks );
+				this.lvListView.Columns.Add( constTitle, constTitle );
+				this.lvListView.Columns.Add( constTitleLen, constTitleLen );
+				this.lvListView.Columns.Add( constDescription, constDescription );
+				this.lvListView.Columns.Add( constDescriptionLen, constDescriptionLen );
+				this.lvListView.Columns.Add( constKeywords, constKeywords );
+				this.lvListView.Columns.Add( constKeywordsLen, constKeywordsLen );
+				this.lvListView.Columns.Add( constKeywordsCount, constKeywordsCount );
 
 				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
 					string sHeadingLevel = string.Format( constHn, iLevel );
-					lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
+					this.lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
 				}
 
-				lvListView.Columns.Add( constErrorCondition, constErrorCondition );
+				this.lvListView.Columns.Add( constErrorCondition, constErrorCondition );
 								
 				// END: Columns
 								
-				lvListView.Sorting = SortOrder.Ascending;
+				this.lvListView.Sorting = SortOrder.Ascending;
 
-				ListViewResizeColumnsInitial( lvListView );
+				this.ListViewResizeColumnsInitial();
 
 				ListViewConfigured = true;
 			
@@ -146,128 +144,13 @@ namespace SEOMacroscope
 			
 		}
 
-		/**************************************************************************/
-
-		public void ClearData ()
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayStructure();
-							lvListView.Items.Clear();
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayStructure();
-				lvListView.Items.Clear();
-			}
-		}
-		
-		/**************************************************************************/
-		
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayStructure();
-							lvListView.BeginUpdate();
-							this.RenderListView( lvListView, htDocCollection );
-							//this.ListViewResizeColumns( lvListView );
-							lvListView.EndUpdate();
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayStructure();
-				lvListView.BeginUpdate();
-				this.RenderListView( lvListView, htDocCollection );
-				//this.ListViewResizeColumns( lvListView );
-				lvListView.EndUpdate();
-			}
-		}
-
-		/**************************************************************************/
-		
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, List<string> lList )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayStructure();
-							lvListView.BeginUpdate();
-							this.RenderListView( lvListView, htDocCollection, lList );
-							lvListView.EndUpdate();
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayStructure();
-				lvListView.BeginUpdate();
-				this.RenderListView( lvListView, htDocCollection, lList );
-				lvListView.EndUpdate();
-			}
-		}
-
-		/**************************************************************************/
-
-		public void RefreshData ( MacroscopeDocument msDoc, string sURL )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayStructure();
-							lvListView.BeginUpdate();
-							this.RenderListView( lvListView, msDoc, sURL );
-							//this.ListViewResizeColumns( lvListView );
-							lvListView.EndUpdate();
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayStructure();
-				lvListView.BeginUpdate();
-				this.RenderListView( lvListView, msDoc, sURL );
-				//this.ListViewResizeColumns( lvListView );
-				lvListView.EndUpdate();
-			}
-		}
-
-		/** Render Entire DocCollection *******************************************/
-
-		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
-		{
-			foreach( string sKeyURL in htDocCollection.Keys() ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListView( lvListView, msDoc, sKeyURL );
-			}
-		}
-		
-		/** Render List ***********************************************************/
-		
-		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, List<string> lList )
-		{
-			foreach( string sKeyURL in lList ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListView( lvListView, msDoc, sKeyURL );
-			}
-		}
-
 		/** Render One ************************************************************/
 
-		void RenderListView ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
+		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			lock( lvListView ) {
+			DebugMsg( "MacroscopeDisplayStructure: RenderListView" );
+			lock( this.lvListView ) {
 
 				Hashtable htItems = new Hashtable ();
 				ListViewItem lvItem = null;
@@ -322,20 +205,20 @@ namespace SEOMacroscope
 								
 				// END: Columns				
 
-				if( lvListView.Items.ContainsKey( sKeyURL ) ) {
+				if( this.lvListView.Items.ContainsKey( sUrl ) ) {
 
-					lvItem = lvListView.Items[ sKeyURL ];
+					lvItem = this.lvListView.Items[ sUrl ];
 
 				} else {
 
-					lvItem = new ListViewItem ( sKeyURL );
-					lvItem.Name = sKeyURL;
+					lvItem = new ListViewItem ( sUrl );
+					lvItem.Name = sUrl;
 
 					foreach( string sKey in htItems.Keys ) {
 						lvItem.SubItems.Add( sKey );
 					}
 
-					lvListView.Items.Add( lvItem );
+					this.lvListView.Items.Add( lvItem );
 
 				}
 
@@ -343,7 +226,7 @@ namespace SEOMacroscope
 
 					foreach( string sKey in htItems.Keys ) {
 
-						int iColIndex = lvListView.Columns.IndexOfKey( sKey );
+						int iColIndex = this.lvListView.Columns.IndexOfKey( sKey );
 
 						if( htItems[ sKey ] != null ) {
 							lvItem.SubItems[ iColIndex ].Text = htItems[ sKey ].ToString();
@@ -363,7 +246,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		static void ListViewResizeColumnsInitial ( ListView lvListView )
+		void ListViewResizeColumnsInitial ()
 		{
 
 			Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> ()
@@ -378,19 +261,19 @@ namespace SEOMacroscope
 				}
 			};
 			
-			for( int iColIndex = 0; iColIndex < lvListView.Columns.Count; iColIndex++ ) {
-				lvListView.AutoResizeColumn( iColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
+			for( int iColIndex = 0; iColIndex < this.lvListView.Columns.Count; iColIndex++ ) {
+				this.lvListView.AutoResizeColumn( iColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
 			}
 
 			foreach( string sColName in lColExplicitWidth.Keys ) {
-				lvListView.Columns[ sColName ].Width = lColExplicitWidth[ sColName ];
+				this.lvListView.Columns[ sColName ].Width = lColExplicitWidth[ sColName ];
 			}
 
 		}
 				
 		/**************************************************************************/
 		
-		void ListViewResizeColumns ( ListView lvListView )
+		void ListViewResizeColumns ()
 		{
 
 			List<string> lColDataWidth = new List<string> ()
@@ -407,11 +290,11 @@ namespace SEOMacroscope
 			};
 
 			foreach( string sColName in lColDataWidth ) {
-				lvListView.AutoResizeColumn( lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.ColumnContent );
+				this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.ColumnContent );
 			}
 			
 			foreach( string sColName in lColHeaderWidth ) {
-				lvListView.AutoResizeColumn( lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.HeaderSize );
+				this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.HeaderSize );
 			}
 
 		}

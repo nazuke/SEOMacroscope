@@ -110,7 +110,7 @@ namespace SEOMacroscope
 
 		public Boolean PeekNamedQueue ( string sName )
 		{
-			DebugMsg( string.Format( "PeekNamedQueue: {0}", sName ) );
+			//DebugMsg( string.Format( "PeekNamedQueue: {0}", sName ) );
 			Boolean bPeek = false;
 			if( this.NamedQueues.ContainsKey( sName ) ) {
 				lock( this.NamedQueues[sName] ) {
@@ -135,6 +135,32 @@ namespace SEOMacroscope
 				}
 			}
 			return( iCount );
+		}
+
+		/**************************************************************************/
+
+		public void ClearAllNamedQueues ()
+		{
+			lock( this.NamedQueues ) {
+				lock( this.NamedQueuesIndex ) {
+					foreach( string sName in this.NamedQueues.Keys ) {
+						this.NamedQueues[ sName ].Clear();
+						this.NamedQueuesIndex[ sName ].Clear();
+					}
+				}
+			}
+		}
+		
+		/**************************************************************************/
+		
+		public void ClearNamedQueue ( string sName )
+		{
+			lock( this.NamedQueues ) {
+				lock( this.NamedQueuesIndex ) {
+					this.NamedQueues[ sName ].Clear();
+					this.NamedQueuesIndex[ sName ].Clear();
+				}
+			}
 		}
 
 		/**************************************************************************/

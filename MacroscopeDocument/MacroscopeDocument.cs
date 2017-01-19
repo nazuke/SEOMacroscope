@@ -45,7 +45,7 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		/** BEGIN: Configuration **/
-		public Boolean ProbeHrefLangs { get; set; }
+		Boolean ProbeHrefLangs;
 		/** END: Configuration **/
 		
 		string Url;
@@ -56,8 +56,6 @@ namespace SEOMacroscope
 		string UrlRedirectTo;
 
 		HtmlDocument HtmlDoc;
-		
-		MacroscopeDocument parent;
 
 		string Scheme;
 		string Hostname;
@@ -72,6 +70,7 @@ namespace SEOMacroscope
 		long ContentLength;
 		string MimeType;
 		Boolean IsHtml;
+		Boolean IsPdf;
 		Boolean IsCompressed;
 		string CompressionMethod;
 		string ContentEncoding;
@@ -115,6 +114,8 @@ namespace SEOMacroscope
 
 			SuppressDebugMsg = false;
 						
+			ProbeHrefLangs = true;
+			
 			Url = sURL;
 			Timeout = 10000;
 			
@@ -156,22 +157,29 @@ namespace SEOMacroscope
 			Description = "";
 			Keywords = "";
 
-			Headings = new Dictionary<ushort,ArrayList> () { {
+			Headings = new Dictionary<ushort,ArrayList> ()
+			{
+				{
 					1,
 					new ArrayList ( 16 )
-				}, {
+				},
+				{
 					2,
 					new ArrayList ( 16 )
-				}, {
+				},
+				{
 					3,
 					new ArrayList ( 16 )
-				}, {
+				},
+				{
 					4,
 					new ArrayList ( 16 )
-				}, {
+				},
+				{
 					5,
 					new ArrayList ( 16 )
-				}, {
+				},
+				{
 					6,
 					new ArrayList ( 16 )
 				}
@@ -183,46 +191,53 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public string GetUrl()
+		public void SetProbeHrefLangs ( Boolean bState )
+		{
+			this.ProbeHrefLangs = bState;
+		}
+
+		/**************************************************************************/
+
+		public string GetUrl ()
 		{
 			return( this.Url );
 		}
 
 		/**************************************************************************/
 
-		public Boolean GetIsRedirect()
+		public Boolean GetIsRedirect ()
 		{
 			return( this.IsRedirect );
 		}
 
-		public string GetUrlRedirectFrom()
+		public string GetUrlRedirectFrom ()
 		{
 			return( this.UrlRedirectFrom );
 			
 		}
 
-		public string GetUrlRedirectTo()
+		public string GetUrlRedirectTo ()
 		{
 			return( this.UrlRedirectTo );
 		}
 
 		/**************************************************************************/
 		
-		public int GetStatusCode()
+		public int GetStatusCode ()
 		{
 			return( this.StatusCode );
 		}
 		
 		/**************************************************************************/
 
-		public string GetErrorCondition()
+		public string GetErrorCondition ()
 		{
 			return( this.ErrorCondition );
 		}
 
 		/**************************************************************************/
 		
-		public string GetMimeType()
+		public string GetMimeType ()
 		{
 			string sMimeType = null;
 			if( this.MimeType == null ) {
@@ -239,71 +254,76 @@ namespace SEOMacroscope
 			return( sMimeType );
 		}
 
-		/**************************************************************************/
+		/** Document Type Getters *************************************************/
 		
-		public Boolean GetIsHtml()
+		public Boolean GetIsHtml ()
 		{
 			return( this.IsHtml );
+		}
+		
+		public Boolean GetIsPdf ()
+		{
+			return( this.IsPdf );
 		}
 
 		/**************************************************************************/
 
-		public Boolean GetIsCompressed()
+		public Boolean GetIsCompressed ()
 		{
 			return( this.IsCompressed );
 		}
 
-		public string GetCompressionMethod()
+		public string GetCompressionMethod ()
 		{
 			return( this.CompressionMethod );
 		}
 
 		/**************************************************************************/
 		
-		public string GetLang()
+		public string GetLang ()
 		{
 			return( this.Locale );
 		}
 		
 		/**************************************************************************/
 		
-		public string GetLocale()
+		public string GetLocale ()
 		{
 			return( this.Locale );
 		}
 
 		/** Canonical *************************************************************/
 		
-		public string GetCanonical()
+		public string GetCanonical ()
 		{
 			return( this.Canonical );
 		}
 		
-		public void SetCanonical( string sCanonical )
+		public void SetCanonical ( string sCanonical )
 		{
 			this.Canonical = sCanonical;
 		}
 
 		/** Dates *****************************************************************/
 		
-		public string GetDateServer()
+		public string GetDateServer ()
 		{
 			return( this.DateServer.ToShortDateString() );
 		}
 		
-		public string GetDateModified()
+		public string GetDateModified ()
 		{
 			return( this.DateModified.ToShortDateString() );
 		}
 
 		/** Outlinks **************************************************************/
 
-		public Dictionary<string,string> GetOutlinks()
+		public Dictionary<string,string> GetOutlinks ()
 		{
 			return( this.Outlinks );
 		}
 
-		public int CountOutlinks()
+		public int CountOutlinks ()
 		{
 			int iCount = this.GetOutlinks().Count;
 			return( iCount );
@@ -311,14 +331,14 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public MacroscopeHyperlinksIn GetHyperlinksIn()
+		public MacroscopeHyperlinksIn GetHyperlinksIn ()
 		{
 			return( this.HyperlinksIn );
 		}
 
 		/** Hyperlinks In *********************************************************/
 
-		public void AddHyperlinkIn(
+		public void AddHyperlinkIn (
 			string sType,
 			string sMethod,
 			int iLinkClass,
@@ -331,24 +351,24 @@ namespace SEOMacroscope
 			this.HyperlinksIn.Add( sType, sMethod, iLinkClass, sUrlOrigin, sUrlTarget, sLinkText, sAltText );
 		}
 
-		public void ClearHyperlinksIn()
+		public void ClearHyperlinksIn ()
 		{
 			this.HyperlinksIn.Clear();
 		}
 
-		public int CountHyperlinksIn()
+		public int CountHyperlinksIn ()
 		{
 			return( this.HyperlinksIn.Count() );
 		}
 
 		/** Hyperlinks Out ********************************************************/
 
-		public MacroscopeHyperlinksOut GetHyperlinksOut()
+		public MacroscopeHyperlinksOut GetHyperlinksOut ()
 		{
 			return( this.HyperlinksOut );
 		}
 		
-		public int CountHyperlinksOut()
+		public int CountHyperlinksOut ()
 		{
 			int iCount = this.HyperlinksOut.Count();
 			return( iCount );
@@ -356,7 +376,7 @@ namespace SEOMacroscope
 
 		/** Email Addresses *******************************************************/
 
-		public void AddEmailAddress( string sString )
+		public void AddEmailAddress ( string sString )
 		{
 			DebugMsg( string.Format( "AddEmailAddress: {0}", sString ) );
 			if( this.EmailAddresses.ContainsKey( sString ) ) {
@@ -366,14 +386,14 @@ namespace SEOMacroscope
 			}
 		}
 
-		public Dictionary<string,string> GetEmailAddresses()
+		public Dictionary<string,string> GetEmailAddresses ()
 		{
 			return( this.EmailAddresses );
 		}
 
 		/** Telephone Numbers *****************************************************/
 
-		public void AddTelephoneNumber( string sString )
+		public void AddTelephoneNumber ( string sString )
 		{
 			DebugMsg( string.Format( "AddTelephoneNumber: {0}", sString ) );
 			if( this.TelephoneNumbers.ContainsKey( sString ) ) {
@@ -383,14 +403,14 @@ namespace SEOMacroscope
 			}
 		}
 
-		public Dictionary<string,string> GetTelephoneNumbers()
+		public Dictionary<string,string> GetTelephoneNumbers ()
 		{
 			return( this.TelephoneNumbers );
 		}
 
 		/** Title *****************************************************************/
 		
-		public string GetTitle()
+		public string GetTitle ()
 		{
 			string sValue;
 			if( this.Title != null ) {
@@ -401,14 +421,14 @@ namespace SEOMacroscope
 			return( sValue );
 		}
 		
-		public int GetTitleLength()
+		public int GetTitleLength ()
 		{
 			return( this.GetTitle().Length );
 		}
 
 		/** Description ***********************************************************/
 		
-		public string GetDescription()
+		public string GetDescription ()
 		{
 			string sValue;
 			if( this.Description != null ) {
@@ -419,14 +439,14 @@ namespace SEOMacroscope
 			return( sValue );
 		}
 		
-		public int GetDescriptionLength()
+		public int GetDescriptionLength ()
 		{
 			return( this.GetDescription().Length );
 		}
 				
 		/** Keywords **************************************************************/
 				
-		public string GetKeywords()
+		public string GetKeywords ()
 		{
 			string sValue;
 			if( this.Keywords != null ) {
@@ -437,12 +457,12 @@ namespace SEOMacroscope
 			return( sValue );
 		}
 
-		public int GetKeywordsLength()
+		public int GetKeywordsLength ()
 		{
 			return( this.GetKeywords().Length );
 		}
 
-		public int GetKeywordsCount()
+		public int GetKeywordsCount ()
 		{
 			int uiCount = 0;
 			string[] aKeywords = Regex.Split( this.GetKeywords(), "[\\s,]+" );
@@ -452,20 +472,20 @@ namespace SEOMacroscope
 				
 		/** HrefLang **************************************************************/
 
-		void SetHreflang( string sLocale, string sURL )
+		void SetHreflang ( string sLocale, string sURL )
 		{
 			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( false, sLocale, sURL );
 			this.HrefLang[ sLocale ] = msHrefLang;
 		}
 
-		public Dictionary<string,MacroscopeHrefLang> GetHrefLangs()
+		public Dictionary<string,MacroscopeHrefLang> GetHrefLangs ()
 		{
 			return( this.HrefLang );
 		}
 
 		/** Headings **************************************************************/
 
-		public void AddHeading( ushort iLevel, string sString )
+		public void AddHeading ( ushort iLevel, string sString )
 		{
 			if( this.Headings.ContainsKey( iLevel ) ) {
 				ArrayList alHeadings = this.Headings[ iLevel ];
@@ -473,7 +493,7 @@ namespace SEOMacroscope
 			}
 		}
 
-		public ArrayList GetHeadings( ushort iLevel )
+		public ArrayList GetHeadings ( ushort iLevel )
 		{
 			ArrayList alHeadings = new ArrayList ();
 			if( this.Headings.ContainsKey( iLevel ) ) {
@@ -484,25 +504,25 @@ namespace SEOMacroscope
 
 		/** Durations *************************************************************/
 
-		public long GetDuration()
+		public long GetDuration ()
 		{
 			//DebugMsg( string.Format( "GetDuration: {0}", this.Duration ), 0 );
 			return( this.Duration );
 		}
 
-		public void SetDuration( long lDuration )
+		public void SetDuration ( long lDuration )
 		{
 			this.Duration = lDuration;
 		}
 
-		public decimal GetDurationInSeconds()
+		public decimal GetDurationInSeconds ()
 		{
 			decimal dDuration = ( decimal )( ( decimal )this.GetDuration() / ( decimal )1000 );
 			//DebugMsg( string.Format( "GetDurationInSeconds: {0}", dDuration ), 0 );
 			return( dDuration );
 		}
 
-		public string GetDurationInSecondsFormatted()
+		public string GetDurationInSecondsFormatted ()
 		{
 			decimal dDuration = this.GetDurationInSeconds();
 			string sDuration = dDuration.ToString( "0.00" );
@@ -512,14 +532,14 @@ namespace SEOMacroscope
 
 		/** Page Depth ************************************************************/
 
-		public int GetDepth()
+		public int GetDepth ()
 		{
 			return( this.Depth );
 		}
 
 		/**************************************************************************/
 
-		public Boolean Execute()
+		public Boolean Execute ()
 		{
 
 			// TODO: validate this.Url
@@ -529,7 +549,8 @@ namespace SEOMacroscope
 				this.IsRedirect = true;
 			} 
 
-			TimeDuration fTimeDuration = delegate( Action ProcessMethod ) {
+			TimeDuration fTimeDuration = delegate( Action ProcessMethod )
+			{
 				Stopwatch swDuration = new Stopwatch ();
 				long lDuration;
 				swDuration.Start();
@@ -592,7 +613,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Boolean IsRedirectPage()
+		Boolean IsRedirectPage ()
 		{
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
@@ -657,7 +678,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void ProcessHttpHeaders( HttpWebRequest req, HttpWebResponse res )
+		void ProcessHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
 		{
 			
 			// Status Code
@@ -735,7 +756,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		public List<KeyValuePair<string,string>> DetailDocumentDetails()
+		public List<KeyValuePair<string,string>> DetailDocumentDetails ()
 		{
 
 			List<KeyValuePair<string,string>> slDetails = new List<KeyValuePair<string,string>> ();
@@ -801,7 +822,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		int ProcessStatusCode( HttpStatusCode status )
+		int ProcessStatusCode ( HttpStatusCode status )
 		{
 			int iStatus = 0;
 			switch( status ) {

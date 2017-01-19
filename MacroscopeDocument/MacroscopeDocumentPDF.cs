@@ -59,6 +59,7 @@ namespace SEOMacroscope
 				DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
 				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
 					bIs = true;
+					this.IsPdf = true;
 				}
 				res.Close();
 //			} catch( UriFormatException ex ) {

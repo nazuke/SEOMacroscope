@@ -24,175 +24,67 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayCanonical : Macroscope
+	public class MacroscopeDisplayCanonical : MacroscopeDisplay
 	{
 		
 		/**************************************************************************/
 
-		MacroscopeMainForm msMainForm;
-		
 		static Boolean ListViewConfigured = false;
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayCanonical ( MacroscopeMainForm msMainFormNew )
+		public MacroscopeDisplayCanonical ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
+			: base( msMainFormNew, lvListViewNew )
 		{
-			
+
 			msMainForm = msMainFormNew;
+			lvListView = lvListViewNew;
 			
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-							ConfigureListView( lvListView );
+							ConfigureListView();
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-				ConfigureListView( lvListView );
+
+				ConfigureListView();
 			}
 
 		}
 
 		/**************************************************************************/
 		
-		static void ConfigureListView ( ListView lvListView )
+		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
-				lvListView.Sorting = SortOrder.Ascending;	
-			}
-		}
-		
-		/**************************************************************************/
-
-		public void ClearData ()
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-							lvListView.Items.Clear();
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-				lvListView.Items.Clear();
-			}
-		}
-
-		/**************************************************************************/
-				
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-							this.RenderListView( lvListView, htDocCollection );
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-				this.RenderListView( lvListView, htDocCollection );
+				this.lvListView.Sorting = SortOrder.Ascending;	
 			}
 		}
 
 		/**************************************************************************/
 
-		public void RefreshDataList ( MacroscopeDocumentCollection htDocCollection, List<string> lList )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-							lvListView.BeginUpdate();
-							this.RenderListViewList( lvListView, htDocCollection, lList );
-							lvListView.EndUpdate();
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-				lvListView.BeginUpdate();
-				this.RenderListViewList( lvListView, htDocCollection, lList );
-				lvListView.EndUpdate();
-			}
-		}
-
-		/**************************************************************************/
-				
-		public void RefreshDataSingle ( MacroscopeDocument msDoc, string sURL )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-							this.RenderListViewSingle( lvListView, msDoc, sURL );
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayCanonicalAnalysis();
-				this.RenderListViewSingle( lvListView, msDoc, sURL );
-			}
-		}
-
-		/**************************************************************************/
-
-		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
-		{
-
-			foreach( string sKeyURL in htDocCollection.Keys() ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListViewSingle( lvListView, msDoc, sKeyURL );
-			}
-
-		}
-
-		/**************************************************************************/
-
-		void RenderListViewList ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, List<string> lList )
-		{
-			foreach( string sKeyURL in lList ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListViewSingle( lvListView, msDoc, sKeyURL );
-			}
-		}
-
-		/**************************************************************************/
-
-		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
+		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
 			if( msDoc.GetIsHtml() ) {
 				
 				string sCanonical = msDoc.GetCanonical();
 
-				if( lvListView.Items.ContainsKey( sKeyURL ) ) {
+				if( lvListView.Items.ContainsKey( sUrl ) ) {
 							
 					try {
 
-						ListViewItem lvItem = lvListView.Items[ sKeyURL ];
-						lvItem.SubItems[ 0 ].Text = sKeyURL;
+						ListViewItem lvItem = lvListView.Items[ sUrl ];
+						lvItem.SubItems[ 0 ].Text = sUrl;
 						lvItem.SubItems[ 1 ].Text = sCanonical;
 
 					} catch( Exception ex ) {
@@ -203,11 +95,11 @@ namespace SEOMacroscope
 							
 					try {
 
-						ListViewItem lvItem = new ListViewItem ( sKeyURL );
+						ListViewItem lvItem = new ListViewItem ( sUrl );
 
-						lvItem.Name = sKeyURL;
+						lvItem.Name = sUrl;
 
-						lvItem.SubItems[ 0 ].Text = sKeyURL;
+						lvItem.SubItems[ 0 ].Text = sUrl;
 						lvItem.SubItems.Add( sCanonical );
 
 						lvListView.Items.Add( lvItem );

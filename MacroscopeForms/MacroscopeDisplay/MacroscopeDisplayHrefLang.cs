@@ -32,68 +32,44 @@ using System.Drawing;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayHrefLang : Macroscope
+	public class MacroscopeDisplayHrefLang : MacroscopeDisplay
 	{
 		
 		/**************************************************************************/
-
-		MacroscopeMainForm msMainForm;
 
 		static Boolean ListViewConfigured = false;
 
 		/**************************************************************************/
 
-		public MacroscopeDisplayHrefLang ( MacroscopeMainForm msMainFormNew )
+		public MacroscopeDisplayHrefLang ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
+			: base( msMainFormNew, lvListViewNew )
 		{
-			
+
 			msMainForm = msMainFormNew;
+			lvListView = lvListViewNew;
 
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayHrefLang();
-							ConfigureListView( lvListView );
+							ConfigureListView();
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayHrefLang();
-				ConfigureListView( lvListView );
+				ConfigureListView();
 			}
+			
 		}
 
 		/**************************************************************************/
 		
-		static void ConfigureListView ( ListView lvListView )
+		void ConfigureListView ()
 		{
-			
 			if( !ListViewConfigured ) {
-						
-				lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
-
+				this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
 				ListViewConfigured = true;
-			
-			}
-			
-		}
-				
-		/**************************************************************************/
-
-		public void ClearData ()
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							;
-						}
-					)
-				);
-			} else {
-				;
 			}
 		}
 
@@ -109,38 +85,42 @@ namespace SEOMacroscope
 					new MethodInvoker ( 
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayHrefLang();
-							this.RenderListView( lvListView, htDocCollection, htLocales );
+							this.RenderListView( htDocCollection, htLocales );
 						}
 					) 
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayHrefLang();
-				this.RenderListView( lvListView, htDocCollection, htLocales );
+				this.RenderListView( htDocCollection, htLocales );
 			}
 
 		}
 
 		/**************************************************************************/
 		
-		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection, Dictionary<string,string> htLocales )
+		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+		{
+		}
+		
+		/**************************************************************************/
+				
+		void RenderListView ( MacroscopeDocumentCollection htDocCollection, Dictionary<string,string> htLocales )
 		{
 
 			Hashtable htLocaleCols = new Hashtable ();
 
-			lvListView.Items.Clear();
-			lvListView.Columns.Clear();
+			this.lvListView.Items.Clear();
+			this.lvListView.Columns.Clear();
 
 			{
 
 				int iLocaleColCount = 3;
 
-				lvListView.Columns.Add( "Site Locale", "Site Locale" );
-				lvListView.Columns.Add( "Title", "Title" );
-				lvListView.Columns.Add( "URL", "URL" );
+				this.lvListView.Columns.Add( "URL", "URL" );
+				this.lvListView.Columns.Add( "Site Locale", "Site Locale" );
+				this.lvListView.Columns.Add( "Title", "Title" );
 
 				foreach( string sLocale in htLocales.Keys ) {
-					lvListView.Columns.Add( sLocale, sLocale );
+					this.lvListView.Columns.Add( sLocale, sLocale );
 					htLocaleCols[ sLocale ] = iLocaleColCount;
 					iLocaleColCount++;
 				}
@@ -157,17 +137,17 @@ namespace SEOMacroscope
 
 					if( htHrefLangs != null ) {
 						
+						string sDocUrl = msDoc.GetUrl();
 						string sDocLocale = msDoc.GetLocale();
 						string sDocTitle = msDoc.GetTitle();
-						string sDocUrl = msDoc.GetUrl();
 
 						{
 
 							ListViewItem lvItem;
 
-							if( lvListView.Items.ContainsKey( sKeyURL ) ) {
+							if( this.lvListView.Items.ContainsKey( sKeyURL ) ) {
 
-								lvItem = lvListView.Items[ sKeyURL ];
+								lvItem = this.lvListView.Items[ sKeyURL ];
 							
 							} else {
 							
@@ -183,17 +163,18 @@ namespace SEOMacroscope
 									lvItem.SubItems.Add( "" );
 								}
 
-								lvListView.Items.Add( lvItem );
+								this.lvListView.Items.Add( lvItem );
 
 							}
 
-							if( lvListView.Items.ContainsKey( sKeyURL ) ) {
+							if( this.lvListView.Items.ContainsKey( sKeyURL ) ) {
 							
 								try {
 
-									lvItem.SubItems[ 0 ].Text = sDocLocale;
-									lvItem.SubItems[ 1 ].Text = sDocTitle;
-									lvItem.SubItems[ 2 ].Text = sDocUrl;
+									lvItem.SubItems[ 0 ].Text = sDocUrl;
+									lvItem.SubItems[ 1 ].Text = sDocLocale;
+									lvItem.SubItems[ 2 ].Text = sDocTitle;
+
 
 									foreach( string sLocale in htLocales.Keys ) {
 
@@ -238,11 +219,11 @@ namespace SEOMacroscope
 		
 			}
 
-			lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
+			this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
 
-			lvListView.Columns[ "Site Locale" ].Width = 100;
-			lvListView.Columns[ "Title" ].Width = 300;
-			lvListView.Columns[ "URL" ].Width = 300;
+			this.lvListView.Columns[ "Site Locale" ].Width = 100;
+			this.lvListView.Columns[ "Title" ].Width = 300;
+			this.lvListView.Columns[ "URL" ].Width = 300;
 
 		}
 

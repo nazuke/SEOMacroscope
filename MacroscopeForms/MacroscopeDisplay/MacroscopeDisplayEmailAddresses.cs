@@ -30,123 +30,49 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayEmailAddresses : Macroscope
+	public class MacroscopeDisplayEmailAddresses : MacroscopeDisplay
 	{
 		
 		/**************************************************************************/
 
-		MacroscopeMainForm msMainForm;
-		
 		static Boolean ListViewConfigured = false;
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayEmailAddresses ( MacroscopeMainForm msMainFormNew )
+		public MacroscopeDisplayEmailAddresses ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
+			: base( msMainFormNew, lvListViewNew )
 		{
-			
+
 			msMainForm = msMainFormNew;
+			lvListView = lvListViewNew;
 			
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
-							ConfigureListView( lvListView );
+							ConfigureListView();
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
-				ConfigureListView( lvListView );
+				ConfigureListView();
 			}
 
 		}
 
 		/**************************************************************************/
 		
-		static void ConfigureListView ( ListView lvListView )
+		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
-				lvListView.Sorting = SortOrder.Ascending;	
-			}
-		}
-		
-		/**************************************************************************/
-
-		public void ClearData ()
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
-							lvListView.Items.Clear();
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
-				lvListView.Items.Clear();
-			}
-		}
-
-		/**************************************************************************/
-				
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
-							this.RenderListView( lvListView, htDocCollection );
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
-				this.RenderListView( lvListView, htDocCollection );
-			}
-		}
-
-		/**************************************************************************/
-				
-		public void RefreshDataSingle ( MacroscopeDocument msDoc, string sURL )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
-							this.RenderListViewSingle( lvListView, msDoc, sURL );
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayEmailAddresses();
-				this.RenderListViewSingle( lvListView, msDoc, sURL );
+				this.lvListView.Sorting = SortOrder.Ascending;	
 			}
 		}
 
 		/**************************************************************************/
 
-		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
-		{
-
-			foreach( string sKeyURL in htDocCollection.Keys() ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListViewSingle( lvListView, msDoc, sKeyURL );
-			}
-
-		}
-		
-		/**************************************************************************/
-
-		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL )
+		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
 			if( msDoc.GetIsHtml() ) {
@@ -155,15 +81,15 @@ namespace SEOMacroscope
 
 				foreach( string sEmailAddress in htEmailAddresses.Keys ) {
 
-					string sPairKey = string.Join( "", sEmailAddress, sKeyURL );
+					string sPairKey = string.Join( "", sEmailAddress, sUrl );
 
-					if( lvListView.Items.ContainsKey( sPairKey ) ) {
+					if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
 							
 						try {
 
-							ListViewItem lvItem = lvListView.Items[ sPairKey ];
+							ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
 							lvItem.SubItems[ 0 ].Text = sEmailAddress;
-							lvItem.SubItems[ 1 ].Text = sKeyURL;
+							lvItem.SubItems[ 1 ].Text = sUrl;
 
 						} catch( Exception ex ) {
 							DebugMsg( string.Format( "MacroscopeDisplayEmailAddresses 1: {0}", ex.Message ) );
@@ -178,9 +104,9 @@ namespace SEOMacroscope
 							lvItem.Name = sPairKey;
 
 							lvItem.SubItems[ 0 ].Text = sEmailAddress;
-							lvItem.SubItems.Add( sKeyURL );
+							lvItem.SubItems.Add( sUrl );
 
-							lvListView.Items.Add( lvItem );
+							this.lvListView.Items.Add( lvItem );
 
 						} catch( Exception ex ) {
 							DebugMsg( string.Format( "MacroscopeDisplayEmailAddresses 2: {0}", ex.Message ) );

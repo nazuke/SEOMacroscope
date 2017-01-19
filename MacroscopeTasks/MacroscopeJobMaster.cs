@@ -141,9 +141,10 @@ namespace SEOMacroscope
 		~MacroscopeJobMaster ()
 		{
 			DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
-			this.msDocCollection.ShutdownWorkerRecalculateDocCollection();
+			//this.msDocCollection.ShutdownWorkerRecalculateDocCollection();
+			this.msDocCollection = null;
 		}
-
+		
 		/** Execute Job ***********************************************************/
 
 		public Boolean Execute ()
@@ -209,7 +210,7 @@ namespace SEOMacroscope
 
 			}
 
-			this.GetDocCollection().RecalculateDocCollection();
+			this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 			
 			DebugMsg( string.Format( "WorkersSpawn: STOPPED" ) );
 
@@ -230,6 +231,7 @@ namespace SEOMacroscope
 		public void NotifyWorkersDone ( string sURL )
 		{
 			this.DecRunningThreads();
+			this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 			this.AddUpdateDisplayQueue( sURL );
 		}
 		
@@ -245,7 +247,7 @@ namespace SEOMacroscope
 			if( iThreadCount == 0 ) {
 				bIsStopped = true;
 			}
-			this.GetDocCollection().RecalculateDocCollection();
+			this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 			return( bIsStopped );
 		}
 
@@ -282,6 +284,13 @@ namespace SEOMacroscope
 			int iRunningThreads = 0;
 			iRunningThreads = this.ThreadsRunning;
 			return( iRunningThreads );
+		}
+
+		/** Queues ****************************************************************/
+
+		public void ClearAllQueues ()
+		{
+			this.NamedQueue.ClearAllNamedQueues();
 		}
 
 		/** Display Queue *********************************************************/

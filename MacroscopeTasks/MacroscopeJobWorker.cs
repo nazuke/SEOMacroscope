@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace SEOMacroscope
@@ -85,7 +84,7 @@ namespace SEOMacroscope
 			}
 
 			if( this.msJobMaster.GetProbeHrefLangs() ) {
-				msDoc.ProbeHrefLangs = true;
+				msDoc.SetProbeHrefLangs( true );
 			}
 
 			if( msDoc.Execute() ) {

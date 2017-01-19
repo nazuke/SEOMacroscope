@@ -29,150 +29,76 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayTitles : Macroscope
+	public class MacroscopeDisplayTitles : MacroscopeDisplay
 	{
 		
 		/**************************************************************************/
 
-		MacroscopeMainForm msMainForm;
-		
 		static Boolean ListViewConfigured = false;
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayTitles ( MacroscopeMainForm msMainFormNew )
+		public MacroscopeDisplayTitles ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
+			: base( msMainFormNew, lvListViewNew )
 		{
-			
+
 			msMainForm = msMainFormNew;
-			
+			lvListView = lvListViewNew;
+						
 			if( msMainForm.InvokeRequired ) {
 				msMainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayTitles();
-							ConfigureListView( lvListView );
+
+							ConfigureListView();
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayTitles();
-				ConfigureListView( lvListView );
+				ConfigureListView();
 			}
 
 		}
 
 		/**************************************************************************/
 		
-		static void ConfigureListView ( ListView lvListView )
+		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
-				lvListView.Sorting = SortOrder.Ascending;	
-			}
-		}
-		
-		/**************************************************************************/
-
-		public void ClearData ()
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayTitles();
-							lvListView.Items.Clear();
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayTitles();
-				lvListView.Items.Clear();
+				this.lvListView.Sorting = SortOrder.Ascending;	
 			}
 		}
 
 		/**************************************************************************/
-				
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayTitles();
-							this.RenderListView( lvListView, htDocCollection );
-						}
-					)
-				);
-			} else {
-				ListView lvListView = this.msMainForm.GetDisplayTitles();
-				this.RenderListView( lvListView, htDocCollection );
-			}
-		}
 
-		/**************************************************************************/
-				
-		public void RefreshDataSingle ( MacroscopeDocument msDoc, string sURL )
+		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			MacroscopeDocumentCollection htDocCollection = this.msMainForm.GetJobMaster().GetDocCollection();
+			Boolean bProcess;
 			
-			string sTitle = msDoc.GetTitle();
-			int iCount = htDocCollection.GetTitleCount( sTitle );
-
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ListView lvListView = this.msMainForm.GetDisplayTitles();
-							this.RenderListViewSingle( lvListView, msDoc, sURL, sTitle, iCount );
-						}
-					)
-				);
+			if( msDoc.GetIsHtml() ) {
+				bProcess = true;
+			} else if( msDoc.GetIsPdf() ) {
+				bProcess = true;
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayTitles();
-				this.RenderListViewSingle( lvListView, msDoc, sURL, sTitle, iCount );
+				bProcess = false;
 			}
 			
-		}
-
-		/**************************************************************************/
-
-		void RenderListView ( ListView lvListView, MacroscopeDocumentCollection htDocCollection )
-		{
-
-			foreach( string sKeyURL in htDocCollection.Keys() ) {
-
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
+			if( bProcess ) {
 
 				string sTitle = msDoc.GetTitle();
-				int iCount = htDocCollection.GetTitleCount( sTitle );
-
-				this.RenderListViewSingle( lvListView, msDoc, sKeyURL, sTitle, iCount );
-
-			}
-
-		}
-		
-		/**************************************************************************/
-
-		void RenderListViewSingle ( ListView lvListView, MacroscopeDocument msDoc, string sKeyURL, string sTitle, int iCount )
-		{
-
-			if( msDoc.GetIsHtml() ) {
-
-				string sPairKey = string.Join( "", sKeyURL, sTitle );
+				int iTitleCount = this.msMainForm.GetJobMaster().GetDocCollection().GetTitleCount( sTitle );
 				string sTitleLength = sTitle.Length.ToString();
+				string sPairKey = string.Join( "", sUrl, sTitle );
 
-				if( lvListView.Items.ContainsKey( sPairKey ) ) {
+				if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
 							
 					try {
 
-						ListViewItem lvItem = lvListView.Items[ sPairKey ];
-						lvItem.SubItems[ 0 ].Text = sKeyURL;
-						lvItem.SubItems[ 1 ].Text = iCount.ToString();
+						ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+						lvItem.SubItems[ 0 ].Text = sUrl;
+						lvItem.SubItems[ 1 ].Text = iTitleCount.ToString();
 						lvItem.SubItems[ 2 ].Text = sTitle;
 						lvItem.SubItems[ 3 ].Text = sTitleLength;
 
@@ -188,21 +114,21 @@ namespace SEOMacroscope
 
 						lvItem.Name = sPairKey;
 
-						lvItem.SubItems[ 0 ].Text = sKeyURL;
-						lvItem.SubItems.Add( iCount.ToString() );
+						lvItem.SubItems[ 0 ].Text = sUrl;
+						lvItem.SubItems.Add( iTitleCount.ToString() );
 						lvItem.SubItems.Add( sTitle );
 						lvItem.SubItems.Add( sTitleLength );
 
-						lvListView.Items.Add( lvItem );
+						this.lvListView.Items.Add( lvItem );
 
 					} catch( Exception ex ) {
 						DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
 					}
 
 				}
-						
+				
 			}
-
+			
 		}
 
 		/**************************************************************************/

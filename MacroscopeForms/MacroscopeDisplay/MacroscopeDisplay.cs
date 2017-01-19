@@ -24,22 +24,20 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplay : Macroscope
+	abstract public class MacroscopeDisplay : Macroscope
 	{
 
 		/**************************************************************************/
 
 		public MacroscopeMainForm msMainForm;
-		
-		public ListView lvListView;
 
+		public ListView lvListView;
 
 		/**************************************************************************/
 
@@ -113,7 +111,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void RefreshData ( MacroscopeDocument msDoc, string sURL )
+		public void RefreshData ( MacroscopeDocument msDoc, string sUrl )
 		{
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
@@ -121,44 +119,41 @@ namespace SEOMacroscope
 						delegate
 						{
 							this.lvListView.BeginUpdate();
-							this.RenderListView( msDoc, sURL );
+							this.RenderListView( msDoc, sUrl );
 							this.lvListView.EndUpdate();
 						}
 					)
 				);
 			} else {
 				this.lvListView.BeginUpdate();
-				this.RenderListView( msDoc, sURL );
+				this.RenderListView( msDoc, sUrl );
 				this.lvListView.EndUpdate();
 			}
 		}
 
 		/** Render Entire DocCollection *******************************************/
 
-		void RenderListView ( MacroscopeDocumentCollection htDocCollection )
+		public void RenderListView ( MacroscopeDocumentCollection htDocCollection )
 		{
-			foreach( string sKeyURL in htDocCollection.Keys() ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListView( msDoc, sKeyURL );
+			foreach( string sUrl in htDocCollection.Keys() ) {
+				MacroscopeDocument msDoc = htDocCollection.Get( sUrl );
+				this.RenderListView( msDoc, sUrl );
 			}
 		}
 		
 		/** Render List ***********************************************************/
 		
-		void RenderListView ( MacroscopeDocumentCollection htDocCollection, List<string> lList )
+		public void RenderListView ( MacroscopeDocumentCollection htDocCollection, List<string> lList )
 		{
-			foreach( string sKeyURL in lList ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
-				this.RenderListView( msDoc, sKeyURL );
+			foreach( string sUrl in lList ) {
+				MacroscopeDocument msDoc = htDocCollection.Get( sUrl );
+				this.RenderListView( msDoc, sUrl );
 			}
 		}
 
 		/** Render One ************************************************************/
 
-		void RenderListView ( MacroscopeDocument msDoc, string sKeyURL )
-		{
-			// Override this method.
-		}
+		abstract protected void RenderListView ( MacroscopeDocument msDoc, string sUrl );
 
 		/**************************************************************************/
 
