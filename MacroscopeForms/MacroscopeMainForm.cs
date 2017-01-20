@@ -65,15 +65,15 @@ namespace SEOMacroscope
 
 			StartUrlDirty = false;
 			
-			msDisplayStructure = new MacroscopeDisplayStructure ( this, this.listViewStructure );
-			msDisplayCanonical = new MacroscopeDisplayCanonical ( this, this.listViewCanonicalAnalysis );
-			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.listViewHrefLang );
-			msDisplayTitles = new MacroscopeDisplayTitles ( this, this.listViewPageTitles );
-			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.listViewEmailAddresses );
-			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.listViewTelephoneNumbers );
-			msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.listViewHostnames );
-			msDisplayHistory = new MacroscopeDisplayHistory ( this );
+			
+			ConfigureOverviewTabPanelInstance();
+			
 
+			
+			
+			
+			
+			
 			SetURL( MacroscopePreferencesManager.GetStartUrl() );
 
 			#if DEBUG
@@ -94,7 +94,53 @@ namespace SEOMacroscope
 			DebugMsg( "MacroscopeMainForm DESTRUCTOR CALLED" );
 			this.Cleanup();
 		}
+
+		/**************************************************************************/
+				
+		void ConfigureOverviewTabPanelInstance ()
+		{
+			
+			// ListView Reference Objects
+			msDisplayStructure = new MacroscopeDisplayStructure ( this, this.macroscopeOverviewTabPanelInstance.listViewStructure );
+			msDisplayCanonical = new MacroscopeDisplayCanonical ( this, this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
+			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
+			msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
+			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
+			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
+			msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
+			msDisplayHistory = new MacroscopeDisplayHistory ( this );
+
+			// TabPanel Properties
+			this.macroscopeOverviewTabPanelInstance.tabControlMain.Multiline = false;
+
+			// ListView Properties
+			this.macroscopeOverviewTabPanelInstance.listViewStructure.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewHostnames.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewHrefLang.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewPageTitles.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewPageDescription.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewPageKeywords.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewHistory.Dock = DockStyle.Fill;
+
+			// Events
+			this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
+			this.macroscopeOverviewTabPanelInstance.listViewStructure.Click += this.CallbackListViewStructureOverviewClick;
+		}
 		
+		/**************************************************************************/
+		
+		void ConfigureDocumentDetailsInstance ()
+		{
+			//this.macroscopeDocumentDetailsInstance.listViewDocumentInfo.Click += 
+		}
+
 		/**************************************************************************/
 
 		void Cleanup ()
@@ -132,42 +178,42 @@ namespace SEOMacroscope
 
 		public ListView GetDisplayStructure ()
 		{
-			return( this.listViewStructure );
+			return( this.macroscopeOverviewTabPanelInstance.listViewStructure );
 		}
 
 		public ListView GetDisplayCanonicalAnalysis ()
 		{
-			return( this.listViewCanonicalAnalysis );
+			return( this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
 		}
 
 		public ListView GetDisplayHrefLang ()
 		{
-			return( this.listViewHrefLang );
+			return( this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
 		}
 
 		public ListView GetDisplayTitles ()
 		{
-			return( this.listViewPageTitles );
+			return( this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
 		}
 
 		public ListView GetDisplayEmailAddresses ()
 		{
-			return( this.listViewEmailAddresses );
+			return( this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
 		}
 		
 		public ListView GetDisplayTelephoneNumbers ()
 		{
-			return( this.listViewTelephoneNumbers );
+			return( this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
 		}
 
 		public ListView GetDisplayHostnames ()
 		{
-			return( this.listViewHostnames );
+			return( this.macroscopeOverviewTabPanelInstance.listViewHostnames );
 		}
 				
 		public ListView GetDisplayHistory ()
 		{
-			return( this.listViewHistory );
+			return( this.macroscopeOverviewTabPanelInstance.listViewHistory );
 		}
 
 		/**************************************************************************/
@@ -464,8 +510,8 @@ namespace SEOMacroscope
 
 		void CallbackTabPageTimerExec ()
 		{
-			TabControl tcDisplay = this.tabControlMain;
-			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+			TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+			string sTabPageName = tcDisplay.TabPages[tcDisplay.SelectedIndex].Name;
 			if( this.msJobMaster.PeekUpdateDisplayQueue() ) {
 				this.UpdateTabPage( sTabPageName );
 				this.msJobMaster.DrainDisplayQueueAsList( MacroscopeJobMaster.NamedQueueDisplayQueue );
@@ -474,8 +520,8 @@ namespace SEOMacroscope
 
 		void CallbackTabControlDisplaySelectedIndexChanged ( Object sender, EventArgs e )
 		{
-			TabControl tcDisplay = this.tabControlMain;
-			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+			TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+			string sTabPageName = tcDisplay.TabPages[tcDisplay.SelectedIndex].Name;
 			this.UpdateTabPage( sTabPageName );
 		}
 				
@@ -557,8 +603,8 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sURL = lvItem.SubItems[ 0 ].Text.ToString();
-					this.macroscopeDocumentDetailsMain.UpdateDisplay( this.msJobMaster, sURL );
+					string sURL = lvItem.SubItems[0].Text.ToString();
+					this.macroscopeDocumentDetailsInstance.UpdateDisplay( this.msJobMaster, sURL );
 				}
 			}
 		}
@@ -574,7 +620,7 @@ namespace SEOMacroscope
 			this.msDisplayEmailAddresses.ClearData();
 			this.msDisplayTelephoneNumbers.ClearData();
 			this.msDisplayHistory.ClearData();
-			this.macroscopeDocumentDetailsMain.ClearData();
+			this.macroscopeDocumentDetailsInstance.ClearData();
 		}
 
 		/** Scanning Controls *****************************************************/

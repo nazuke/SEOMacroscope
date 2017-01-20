@@ -14,9 +14,9 @@ namespace SEOMacroscope
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.TabControl tabControlMain;
+		public System.Windows.Forms.TabControl tabControlMain;
 		public System.Windows.Forms.TabPage tabPageStructureOverview;
-		private System.Windows.Forms.ListView listViewStructure;
+		public System.Windows.Forms.ListView listViewStructure;
 		public System.Windows.Forms.TabPage tabPageHostnames;
 		public System.Windows.Forms.ListView listViewHostnames;
 		private System.Windows.Forms.ColumnHeader columnHeaderHostnameName;
@@ -30,7 +30,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.TabPage tabPageHrefLangAnalysis;
 		public System.Windows.Forms.ListView listViewHrefLang;
 		public System.Windows.Forms.TabPage tabPageRedirectsAudit;
-		private System.Windows.Forms.ListView listView1;
+		public System.Windows.Forms.ListView listViewRedirectsAudit;
 		private System.Windows.Forms.ColumnHeader RedirectsAuditOriginUrl;
 		private System.Windows.Forms.ColumnHeader RedirectsAuditStatusCode;
 		private System.Windows.Forms.ColumnHeader RedirectsAuditDestinationUrl;
@@ -50,13 +50,17 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader EmailAddressesEmail;
 		private System.Windows.Forms.ColumnHeader EmailAddressesUrl;
 		public System.Windows.Forms.TabPage tabPageTelephoneNumbers;
-		private System.Windows.Forms.ListView listViewTelephoneNumbers;
+		public System.Windows.Forms.ListView listViewTelephoneNumbers;
 		private System.Windows.Forms.ColumnHeader TelTel;
 		private System.Windows.Forms.ColumnHeader TelUrl;
 		public System.Windows.Forms.TabPage tabPageHistory;
-		private System.Windows.Forms.ListView listViewHistory;
+		public System.Windows.Forms.ListView listViewHistory;
 		private System.Windows.Forms.ColumnHeader HistoryUrl;
 		private System.Windows.Forms.ColumnHeader HistoryVisited;
+		public System.Windows.Forms.ListView listViewUriAnalysis;
+		public System.Windows.Forms.ListView listViewPageDescription;
+		public System.Windows.Forms.ListView listViewPageKeywords;
+		public System.Windows.Forms.ListView listViewPageHeadings;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -95,7 +99,7 @@ namespace SEOMacroscope
 			this.tabPageHrefLangAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewHrefLang = new System.Windows.Forms.ListView();
 			this.tabPageRedirectsAudit = new System.Windows.Forms.TabPage();
-			this.listView1 = new System.Windows.Forms.ListView();
+			this.listViewRedirectsAudit = new System.Windows.Forms.ListView();
 			this.RedirectsAuditOriginUrl = new System.Windows.Forms.ColumnHeader();
 			this.RedirectsAuditStatusCode = new System.Windows.Forms.ColumnHeader();
 			this.RedirectsAuditDestinationUrl = new System.Windows.Forms.ColumnHeader();
@@ -122,6 +126,10 @@ namespace SEOMacroscope
 			this.listViewHistory = new System.Windows.Forms.ListView();
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
+			this.listViewUriAnalysis = new System.Windows.Forms.ListView();
+			this.listViewPageDescription = new System.Windows.Forms.ListView();
+			this.listViewPageKeywords = new System.Windows.Forms.ListView();
+			this.listViewPageHeadings = new System.Windows.Forms.ListView();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tabPageHostnames.SuspendLayout();
@@ -129,7 +137,11 @@ namespace SEOMacroscope
 			this.tabPageCanonicalAnalysis.SuspendLayout();
 			this.tabPageHrefLangAnalysis.SuspendLayout();
 			this.tabPageRedirectsAudit.SuspendLayout();
+			this.tabPageUriAnalysis.SuspendLayout();
 			this.tabPagePageTitles.SuspendLayout();
+			this.tabPagePageDescription.SuspendLayout();
+			this.tabPagePageKeywords.SuspendLayout();
+			this.tabPagePageHeadings.SuspendLayout();
 			this.tabPageEmailAddresses.SuspendLayout();
 			this.tabPageTelephoneNumbers.SuspendLayout();
 			this.tabPageHistory.SuspendLayout();
@@ -200,12 +212,11 @@ namespace SEOMacroscope
 			this.listViewHostnames.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderHostnameName,
 			this.columnHeaderHostnameCount});
-			this.listViewHostnames.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewHostnames.GridLines = true;
-			this.listViewHostnames.Location = new System.Drawing.Point(0, 0);
+			this.listViewHostnames.Location = new System.Drawing.Point(10, 10);
 			this.listViewHostnames.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewHostnames.Name = "listViewHostnames";
-			this.listViewHostnames.Size = new System.Drawing.Size(592, 456);
+			this.listViewHostnames.Size = new System.Drawing.Size(200, 200);
 			this.listViewHostnames.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewHostnames.TabIndex = 2;
 			this.listViewHostnames.UseCompatibleStateImageBehavior = false;
@@ -223,29 +234,29 @@ namespace SEOMacroscope
 			// tabPageHierarchy
 			// 
 			this.tabPageHierarchy.Controls.Add(this.treeViewHierarchy);
-			this.tabPageHierarchy.Location = new System.Drawing.Point(4, 22);
+			this.tabPageHierarchy.Location = new System.Drawing.Point(4, 40);
 			this.tabPageHierarchy.Name = "tabPageHierarchy";
-			this.tabPageHierarchy.Size = new System.Drawing.Size(1192, 574);
+			this.tabPageHierarchy.Size = new System.Drawing.Size(592, 456);
 			this.tabPageHierarchy.TabIndex = 8;
 			this.tabPageHierarchy.Text = "Hierarchy";
 			this.tabPageHierarchy.UseVisualStyleBackColor = true;
 			// 
 			// treeViewHierarchy
 			// 
-			this.treeViewHierarchy.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.treeViewHierarchy.FullRowSelect = true;
-			this.treeViewHierarchy.Location = new System.Drawing.Point(0, 0);
+			this.treeViewHierarchy.Location = new System.Drawing.Point(10, 10);
+			this.treeViewHierarchy.Margin = new System.Windows.Forms.Padding(0);
 			this.treeViewHierarchy.Name = "treeViewHierarchy";
-			this.treeViewHierarchy.Size = new System.Drawing.Size(1192, 574);
+			this.treeViewHierarchy.Size = new System.Drawing.Size(200, 200);
 			this.treeViewHierarchy.TabIndex = 0;
 			// 
 			// tabPageCanonicalAnalysis
 			// 
 			this.tabPageCanonicalAnalysis.Controls.Add(this.listViewCanonicalAnalysis);
-			this.tabPageCanonicalAnalysis.Location = new System.Drawing.Point(4, 22);
+			this.tabPageCanonicalAnalysis.Location = new System.Drawing.Point(4, 40);
 			this.tabPageCanonicalAnalysis.Name = "tabPageCanonicalAnalysis";
 			this.tabPageCanonicalAnalysis.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageCanonicalAnalysis.Size = new System.Drawing.Size(1192, 574);
+			this.tabPageCanonicalAnalysis.Size = new System.Drawing.Size(592, 456);
 			this.tabPageCanonicalAnalysis.TabIndex = 7;
 			this.tabPageCanonicalAnalysis.Text = "Canonical Analysis";
 			this.tabPageCanonicalAnalysis.UseVisualStyleBackColor = true;
@@ -255,13 +266,12 @@ namespace SEOMacroscope
 			this.listViewCanonicalAnalysis.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.CanonicalAnalysisUrl,
 			this.CanonicalAnalysisCanonical});
-			this.listViewCanonicalAnalysis.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewCanonicalAnalysis.FullRowSelect = true;
 			this.listViewCanonicalAnalysis.GridLines = true;
-			this.listViewCanonicalAnalysis.Location = new System.Drawing.Point(3, 3);
+			this.listViewCanonicalAnalysis.Location = new System.Drawing.Point(10, 10);
 			this.listViewCanonicalAnalysis.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewCanonicalAnalysis.Name = "listViewCanonicalAnalysis";
-			this.listViewCanonicalAnalysis.Size = new System.Drawing.Size(1186, 568);
+			this.listViewCanonicalAnalysis.Size = new System.Drawing.Size(200, 200);
 			this.listViewCanonicalAnalysis.TabIndex = 0;
 			this.listViewCanonicalAnalysis.UseCompatibleStateImageBehavior = false;
 			this.listViewCanonicalAnalysis.View = System.Windows.Forms.View.Details;
@@ -279,52 +289,51 @@ namespace SEOMacroscope
 			// tabPageHrefLangAnalysis
 			// 
 			this.tabPageHrefLangAnalysis.Controls.Add(this.listViewHrefLang);
-			this.tabPageHrefLangAnalysis.Location = new System.Drawing.Point(4, 22);
+			this.tabPageHrefLangAnalysis.Location = new System.Drawing.Point(4, 40);
 			this.tabPageHrefLangAnalysis.Name = "tabPageHrefLangAnalysis";
 			this.tabPageHrefLangAnalysis.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageHrefLangAnalysis.Size = new System.Drawing.Size(1192, 574);
+			this.tabPageHrefLangAnalysis.Size = new System.Drawing.Size(592, 456);
 			this.tabPageHrefLangAnalysis.TabIndex = 1;
 			this.tabPageHrefLangAnalysis.Text = "HrefLang Analysis";
 			this.tabPageHrefLangAnalysis.UseVisualStyleBackColor = true;
 			// 
 			// listViewHrefLang
 			// 
-			this.listViewHrefLang.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewHrefLang.FullRowSelect = true;
 			this.listViewHrefLang.GridLines = true;
-			this.listViewHrefLang.Location = new System.Drawing.Point(3, 3);
+			this.listViewHrefLang.Location = new System.Drawing.Point(10, 10);
 			this.listViewHrefLang.Name = "listViewHrefLang";
-			this.listViewHrefLang.Size = new System.Drawing.Size(1186, 568);
+			this.listViewHrefLang.Size = new System.Drawing.Size(200, 200);
 			this.listViewHrefLang.TabIndex = 0;
 			this.listViewHrefLang.UseCompatibleStateImageBehavior = false;
 			this.listViewHrefLang.View = System.Windows.Forms.View.Details;
 			// 
 			// tabPageRedirectsAudit
 			// 
-			this.tabPageRedirectsAudit.Controls.Add(this.listView1);
-			this.tabPageRedirectsAudit.Location = new System.Drawing.Point(4, 22);
+			this.tabPageRedirectsAudit.Controls.Add(this.listViewRedirectsAudit);
+			this.tabPageRedirectsAudit.Location = new System.Drawing.Point(4, 40);
 			this.tabPageRedirectsAudit.Name = "tabPageRedirectsAudit";
 			this.tabPageRedirectsAudit.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageRedirectsAudit.Size = new System.Drawing.Size(1192, 574);
+			this.tabPageRedirectsAudit.Size = new System.Drawing.Size(592, 456);
 			this.tabPageRedirectsAudit.TabIndex = 2;
 			this.tabPageRedirectsAudit.Text = "Redirects Audit";
 			this.tabPageRedirectsAudit.UseVisualStyleBackColor = true;
 			// 
-			// listView1
+			// listViewRedirectsAudit
 			// 
-			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.listViewRedirectsAudit.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.RedirectsAuditOriginUrl,
 			this.RedirectsAuditStatusCode,
 			this.RedirectsAuditDestinationUrl});
-			this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listView1.FullRowSelect = true;
-			this.listView1.GridLines = true;
-			this.listView1.Location = new System.Drawing.Point(3, 3);
-			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(1186, 568);
-			this.listView1.TabIndex = 0;
-			this.listView1.UseCompatibleStateImageBehavior = false;
-			this.listView1.View = System.Windows.Forms.View.Details;
+			this.listViewRedirectsAudit.FullRowSelect = true;
+			this.listViewRedirectsAudit.GridLines = true;
+			this.listViewRedirectsAudit.Location = new System.Drawing.Point(10, 10);
+			this.listViewRedirectsAudit.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewRedirectsAudit.Name = "listViewRedirectsAudit";
+			this.listViewRedirectsAudit.Size = new System.Drawing.Size(200, 200);
+			this.listViewRedirectsAudit.TabIndex = 0;
+			this.listViewRedirectsAudit.UseCompatibleStateImageBehavior = false;
+			this.listViewRedirectsAudit.View = System.Windows.Forms.View.Details;
 			// 
 			// RedirectsAuditOriginUrl
 			// 
@@ -343,10 +352,11 @@ namespace SEOMacroscope
 			// 
 			// tabPageUriAnalysis
 			// 
-			this.tabPageUriAnalysis.Location = new System.Drawing.Point(4, 22);
+			this.tabPageUriAnalysis.Controls.Add(this.listViewUriAnalysis);
+			this.tabPageUriAnalysis.Location = new System.Drawing.Point(4, 40);
 			this.tabPageUriAnalysis.Name = "tabPageUriAnalysis";
 			this.tabPageUriAnalysis.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageUriAnalysis.Size = new System.Drawing.Size(1192, 574);
+			this.tabPageUriAnalysis.Size = new System.Drawing.Size(592, 456);
 			this.tabPageUriAnalysis.TabIndex = 9;
 			this.tabPageUriAnalysis.Text = "URI Analysis";
 			this.tabPageUriAnalysis.UseVisualStyleBackColor = true;
@@ -369,12 +379,12 @@ namespace SEOMacroscope
 			this.columnHeaderPageTitle,
 			this.columnHeaderLength,
 			this.columnHeaderPixelWidth});
-			this.listViewPageTitles.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewPageTitles.FullRowSelect = true;
 			this.listViewPageTitles.GridLines = true;
-			this.listViewPageTitles.Location = new System.Drawing.Point(0, 0);
+			this.listViewPageTitles.Location = new System.Drawing.Point(10, 10);
+			this.listViewPageTitles.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewPageTitles.Name = "listViewPageTitles";
-			this.listViewPageTitles.Size = new System.Drawing.Size(592, 456);
+			this.listViewPageTitles.Size = new System.Drawing.Size(200, 200);
 			this.listViewPageTitles.TabIndex = 0;
 			this.listViewPageTitles.UseCompatibleStateImageBehavior = false;
 			this.listViewPageTitles.View = System.Windows.Forms.View.Details;
@@ -403,27 +413,30 @@ namespace SEOMacroscope
 			// 
 			// tabPagePageDescription
 			// 
-			this.tabPagePageDescription.Location = new System.Drawing.Point(4, 22);
+			this.tabPagePageDescription.Controls.Add(this.listViewPageDescription);
+			this.tabPagePageDescription.Location = new System.Drawing.Point(4, 40);
 			this.tabPagePageDescription.Name = "tabPagePageDescription";
-			this.tabPagePageDescription.Size = new System.Drawing.Size(1192, 574);
+			this.tabPagePageDescription.Size = new System.Drawing.Size(592, 456);
 			this.tabPagePageDescription.TabIndex = 11;
 			this.tabPagePageDescription.Text = "Page Description";
 			this.tabPagePageDescription.UseVisualStyleBackColor = true;
 			// 
 			// tabPagePageKeywords
 			// 
-			this.tabPagePageKeywords.Location = new System.Drawing.Point(4, 22);
+			this.tabPagePageKeywords.Controls.Add(this.listViewPageKeywords);
+			this.tabPagePageKeywords.Location = new System.Drawing.Point(4, 40);
 			this.tabPagePageKeywords.Name = "tabPagePageKeywords";
-			this.tabPagePageKeywords.Size = new System.Drawing.Size(1192, 574);
+			this.tabPagePageKeywords.Size = new System.Drawing.Size(592, 456);
 			this.tabPagePageKeywords.TabIndex = 12;
 			this.tabPagePageKeywords.Text = "Page Keywords";
 			this.tabPagePageKeywords.UseVisualStyleBackColor = true;
 			// 
 			// tabPagePageHeadings
 			// 
-			this.tabPagePageHeadings.Location = new System.Drawing.Point(4, 22);
+			this.tabPagePageHeadings.Controls.Add(this.listViewPageHeadings);
+			this.tabPagePageHeadings.Location = new System.Drawing.Point(4, 40);
 			this.tabPagePageHeadings.Name = "tabPagePageHeadings";
-			this.tabPagePageHeadings.Size = new System.Drawing.Size(1192, 574);
+			this.tabPagePageHeadings.Size = new System.Drawing.Size(592, 456);
 			this.tabPagePageHeadings.TabIndex = 13;
 			this.tabPagePageHeadings.Text = "Page Headings";
 			this.tabPagePageHeadings.UseVisualStyleBackColor = true;
@@ -431,10 +444,10 @@ namespace SEOMacroscope
 			// tabPageEmailAddresses
 			// 
 			this.tabPageEmailAddresses.Controls.Add(this.listViewEmailAddresses);
-			this.tabPageEmailAddresses.Location = new System.Drawing.Point(4, 22);
+			this.tabPageEmailAddresses.Location = new System.Drawing.Point(4, 40);
 			this.tabPageEmailAddresses.Name = "tabPageEmailAddresses";
 			this.tabPageEmailAddresses.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageEmailAddresses.Size = new System.Drawing.Size(1192, 574);
+			this.tabPageEmailAddresses.Size = new System.Drawing.Size(592, 456);
 			this.tabPageEmailAddresses.TabIndex = 3;
 			this.tabPageEmailAddresses.Text = "Email Addresses";
 			this.tabPageEmailAddresses.UseVisualStyleBackColor = true;
@@ -444,13 +457,12 @@ namespace SEOMacroscope
 			this.listViewEmailAddresses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.EmailAddressesEmail,
 			this.EmailAddressesUrl});
-			this.listViewEmailAddresses.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewEmailAddresses.FullRowSelect = true;
 			this.listViewEmailAddresses.GridLines = true;
-			this.listViewEmailAddresses.Location = new System.Drawing.Point(3, 3);
+			this.listViewEmailAddresses.Location = new System.Drawing.Point(10, 10);
 			this.listViewEmailAddresses.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewEmailAddresses.Name = "listViewEmailAddresses";
-			this.listViewEmailAddresses.Size = new System.Drawing.Size(1186, 568);
+			this.listViewEmailAddresses.Size = new System.Drawing.Size(200, 200);
 			this.listViewEmailAddresses.TabIndex = 1;
 			this.listViewEmailAddresses.UseCompatibleStateImageBehavior = false;
 			this.listViewEmailAddresses.View = System.Windows.Forms.View.Details;
@@ -468,10 +480,10 @@ namespace SEOMacroscope
 			// tabPageTelephoneNumbers
 			// 
 			this.tabPageTelephoneNumbers.Controls.Add(this.listViewTelephoneNumbers);
-			this.tabPageTelephoneNumbers.Location = new System.Drawing.Point(4, 22);
+			this.tabPageTelephoneNumbers.Location = new System.Drawing.Point(4, 40);
 			this.tabPageTelephoneNumbers.Name = "tabPageTelephoneNumbers";
 			this.tabPageTelephoneNumbers.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTelephoneNumbers.Size = new System.Drawing.Size(1192, 574);
+			this.tabPageTelephoneNumbers.Size = new System.Drawing.Size(592, 456);
 			this.tabPageTelephoneNumbers.TabIndex = 4;
 			this.tabPageTelephoneNumbers.Text = "Telephone Numbers";
 			this.tabPageTelephoneNumbers.UseVisualStyleBackColor = true;
@@ -481,13 +493,12 @@ namespace SEOMacroscope
 			this.listViewTelephoneNumbers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.TelTel,
 			this.TelUrl});
-			this.listViewTelephoneNumbers.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewTelephoneNumbers.FullRowSelect = true;
 			this.listViewTelephoneNumbers.GridLines = true;
-			this.listViewTelephoneNumbers.Location = new System.Drawing.Point(3, 3);
+			this.listViewTelephoneNumbers.Location = new System.Drawing.Point(10, 10);
 			this.listViewTelephoneNumbers.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewTelephoneNumbers.Name = "listViewTelephoneNumbers";
-			this.listViewTelephoneNumbers.Size = new System.Drawing.Size(1186, 568);
+			this.listViewTelephoneNumbers.Size = new System.Drawing.Size(200, 200);
 			this.listViewTelephoneNumbers.TabIndex = 1;
 			this.listViewTelephoneNumbers.UseCompatibleStateImageBehavior = false;
 			this.listViewTelephoneNumbers.View = System.Windows.Forms.View.Details;
@@ -505,10 +516,10 @@ namespace SEOMacroscope
 			// tabPageHistory
 			// 
 			this.tabPageHistory.Controls.Add(this.listViewHistory);
-			this.tabPageHistory.Location = new System.Drawing.Point(4, 22);
+			this.tabPageHistory.Location = new System.Drawing.Point(4, 40);
 			this.tabPageHistory.Name = "tabPageHistory";
 			this.tabPageHistory.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageHistory.Size = new System.Drawing.Size(1192, 574);
+			this.tabPageHistory.Size = new System.Drawing.Size(592, 456);
 			this.tabPageHistory.TabIndex = 5;
 			this.tabPageHistory.Text = "History";
 			this.tabPageHistory.UseVisualStyleBackColor = true;
@@ -518,12 +529,11 @@ namespace SEOMacroscope
 			this.listViewHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.HistoryUrl,
 			this.HistoryVisited});
-			this.listViewHistory.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewHistory.GridLines = true;
-			this.listViewHistory.Location = new System.Drawing.Point(3, 3);
+			this.listViewHistory.Location = new System.Drawing.Point(10, 10);
 			this.listViewHistory.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewHistory.Name = "listViewHistory";
-			this.listViewHistory.Size = new System.Drawing.Size(1186, 568);
+			this.listViewHistory.Size = new System.Drawing.Size(200, 200);
 			this.listViewHistory.TabIndex = 0;
 			this.listViewHistory.UseCompatibleStateImageBehavior = false;
 			this.listViewHistory.View = System.Windows.Forms.View.Details;
@@ -537,6 +547,54 @@ namespace SEOMacroscope
 			// 
 			this.HistoryVisited.Text = "Visited";
 			this.HistoryVisited.Width = 100;
+			// 
+			// listViewUriAnalysis
+			// 
+			this.listViewUriAnalysis.FullRowSelect = true;
+			this.listViewUriAnalysis.GridLines = true;
+			this.listViewUriAnalysis.Location = new System.Drawing.Point(10, 10);
+			this.listViewUriAnalysis.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewUriAnalysis.Name = "listViewUriAnalysis";
+			this.listViewUriAnalysis.Size = new System.Drawing.Size(200, 200);
+			this.listViewUriAnalysis.TabIndex = 0;
+			this.listViewUriAnalysis.UseCompatibleStateImageBehavior = false;
+			this.listViewUriAnalysis.View = System.Windows.Forms.View.Details;
+			// 
+			// listViewPageDescription
+			// 
+			this.listViewPageDescription.FullRowSelect = true;
+			this.listViewPageDescription.GridLines = true;
+			this.listViewPageDescription.Location = new System.Drawing.Point(10, 10);
+			this.listViewPageDescription.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewPageDescription.Name = "listViewPageDescription";
+			this.listViewPageDescription.Size = new System.Drawing.Size(200, 200);
+			this.listViewPageDescription.TabIndex = 1;
+			this.listViewPageDescription.UseCompatibleStateImageBehavior = false;
+			this.listViewPageDescription.View = System.Windows.Forms.View.Details;
+			// 
+			// listViewPageKeywords
+			// 
+			this.listViewPageKeywords.FullRowSelect = true;
+			this.listViewPageKeywords.GridLines = true;
+			this.listViewPageKeywords.Location = new System.Drawing.Point(10, 10);
+			this.listViewPageKeywords.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewPageKeywords.Name = "listViewPageKeywords";
+			this.listViewPageKeywords.Size = new System.Drawing.Size(200, 200);
+			this.listViewPageKeywords.TabIndex = 2;
+			this.listViewPageKeywords.UseCompatibleStateImageBehavior = false;
+			this.listViewPageKeywords.View = System.Windows.Forms.View.Details;
+			// 
+			// listViewPageHeadings
+			// 
+			this.listViewPageHeadings.FullRowSelect = true;
+			this.listViewPageHeadings.GridLines = true;
+			this.listViewPageHeadings.Location = new System.Drawing.Point(10, 10);
+			this.listViewPageHeadings.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewPageHeadings.Name = "listViewPageHeadings";
+			this.listViewPageHeadings.Size = new System.Drawing.Size(200, 200);
+			this.listViewPageHeadings.TabIndex = 2;
+			this.listViewPageHeadings.UseCompatibleStateImageBehavior = false;
+			this.listViewPageHeadings.View = System.Windows.Forms.View.Details;
 			// 
 			// MacroscopeOverviewTabPanel
 			// 
@@ -552,7 +610,11 @@ namespace SEOMacroscope
 			this.tabPageCanonicalAnalysis.ResumeLayout(false);
 			this.tabPageHrefLangAnalysis.ResumeLayout(false);
 			this.tabPageRedirectsAudit.ResumeLayout(false);
+			this.tabPageUriAnalysis.ResumeLayout(false);
 			this.tabPagePageTitles.ResumeLayout(false);
+			this.tabPagePageDescription.ResumeLayout(false);
+			this.tabPagePageKeywords.ResumeLayout(false);
+			this.tabPagePageHeadings.ResumeLayout(false);
 			this.tabPageEmailAddresses.ResumeLayout(false);
 			this.tabPageTelephoneNumbers.ResumeLayout(false);
 			this.tabPageHistory.ResumeLayout(false);

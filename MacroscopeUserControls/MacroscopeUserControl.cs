@@ -42,15 +42,23 @@ namespace SEOMacroscope
 
 		public void CopyListViewTextToClipboard ( ListView lvListView )
 		{
+
 			string sTextToCopy = "";
+
 			foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
 				sTextToCopy += lvItem.Text;
 				for( int i = 1; i < lvItem.SubItems.Count; i++ ) {
-					sTextToCopy += "\t" + lvItem.SubItems[ i ].Text;
+					sTextToCopy += "\t" + lvItem.SubItems[i].Text;
 				}
 				sTextToCopy += "\n";
 			}
-			this.CopyTextToClipboard( sTextToCopy );
+
+			try {
+				this.CopyTextToClipboard( sTextToCopy );
+			} catch( Exception ex ) {
+				MessageBox.Show( ex.Message );
+			}
+
 		}
 
 		/**************************************************************************/
