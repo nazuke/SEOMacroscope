@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -31,28 +32,34 @@ namespace SEOMacroscope
 {
 	
 	/// <summary>
-	/// Description of MacroscopeAboutForm.
+	/// Description of MacroscopeOverviewTabPanel.
 	/// </summary>
 	
-	public partial class MacroscopeAboutForm : Form
+	public partial class MacroscopeOverviewTabPanel : UserControl
 	{
 	
 		/**************************************************************************/
 
-		public MacroscopeAboutForm ()
+		public MacroscopeOverviewTabPanel ()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
+			InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+		}
+	
+		/**************************************************************************/
+		
+		public void DebugMsg ( String sMsg )
+		{
+			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
 
-
+		public void DebugMsg ( String sMsg, int iOffset )
+		{
+			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
+			System.Diagnostics.Debug.WriteLine( sMsgPadded );
+		}
+		
 		/**************************************************************************/
+
 	}
-	
+
 }

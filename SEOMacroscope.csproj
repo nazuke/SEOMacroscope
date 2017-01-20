@@ -163,6 +163,10 @@
     <Compile Include="MacroscopeTools\MacroscopePDFTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeURLTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeURLTools.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.Designer.cs">
+      <DependentUpon>MacroscopeOverviewTabPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.Designer.cs">
       <DependentUpon>MacroscopePrefsControl.cs</DependentUpon>
@@ -192,6 +196,9 @@
     <EmbeddedResource Include="MacroscopeForms\MacroscopeMainForm.resx">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.resx">
+      <DependentUpon>MacroscopeOverviewTabPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.resx">
       <DependentUpon>MacroscopePrefsControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -217,6 +224,7 @@
     <Folder Include="MacroscopeUserControls" />
     <Folder Include="MacroscopeUserControls\MacroscopePrefsControl" />
     <Folder Include="MacroscopeHosts" />
+    <Folder Include="MacroscopeUserControls\MacroscopeOverviewTabPanel" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
