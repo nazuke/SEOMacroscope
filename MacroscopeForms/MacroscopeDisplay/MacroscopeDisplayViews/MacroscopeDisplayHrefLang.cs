@@ -32,7 +32,7 @@ using System.Drawing;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayHrefLang : MacroscopeDisplay
+	public class MacroscopeDisplayHrefLang : MacroscopeDisplayListView
 	{
 		
 		/**************************************************************************/
@@ -75,7 +75,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, Dictionary<string,string> htLocales )
+		public void RefreshData ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> htLocales )
 		{
 
 			DebugMsg( string.Format( "MacroscopeDisplayHrefLang: {0}", "RefreshData" ) );
@@ -85,12 +85,12 @@ namespace SEOMacroscope
 					new MethodInvoker ( 
 						delegate
 						{
-							this.RenderListView( htDocCollection, htLocales );
+							this.RenderListView( DocCollection, htLocales );
 						}
 					) 
 				);
 			} else {
-				this.RenderListView( htDocCollection, htLocales );
+				this.RenderListView( DocCollection, htLocales );
 			}
 
 		}
@@ -103,7 +103,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 				
-		void RenderListView ( MacroscopeDocumentCollection htDocCollection, Dictionary<string,string> htLocales )
+		void RenderListView ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> htLocales )
 		{
 
 			Hashtable htLocaleCols = new Hashtable ();
@@ -127,9 +127,9 @@ namespace SEOMacroscope
 
 			}
 
-			foreach( string sKeyURL in htDocCollection.Keys() ) {
+			foreach( string sKeyURL in DocCollection.Keys() ) {
 
-				MacroscopeDocument msDoc = htDocCollection.Get( sKeyURL );
+				MacroscopeDocument msDoc = DocCollection.Get( sKeyURL );
 
 				if( msDoc.GetIsHtml() ) {
 

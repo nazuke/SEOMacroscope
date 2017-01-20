@@ -43,6 +43,7 @@ namespace SEOMacroscope
 		Boolean StartUrlDirty;
 
 		MacroscopeDisplayStructure msDisplayStructure;
+		MacroscopeDisplayHierarchy msDisplayHierarchy;
 		MacroscopeDisplayCanonical msDisplayCanonical;
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
 		MacroscopeDisplayTitles msDisplayTitles;
@@ -64,16 +65,9 @@ namespace SEOMacroscope
 			msJobMaster = new MacroscopeJobMaster ( this );
 
 			StartUrlDirty = false;
-			
-			
-			ConfigureOverviewTabPanelInstance();
-			
 
-			
-			
-			
-			
-			
+			ConfigureOverviewTabPanelInstance();
+
 			SetURL( MacroscopePreferencesManager.GetStartUrl() );
 
 			#if DEBUG
@@ -101,21 +95,21 @@ namespace SEOMacroscope
 		{
 			
 			// ListView Reference Objects
-			msDisplayStructure = new MacroscopeDisplayStructure ( this, this.macroscopeOverviewTabPanelInstance.listViewStructure );
-			msDisplayCanonical = new MacroscopeDisplayCanonical ( this, this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
-			msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
-			msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
-			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
-			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
-			msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
-			msDisplayHistory = new MacroscopeDisplayHistory ( this );
+			this.msDisplayStructure = new MacroscopeDisplayStructure ( this, this.macroscopeOverviewTabPanelInstance.listViewStructure );
+			this.msDisplayHierarchy = new MacroscopeDisplayHierarchy ( this, this.macroscopeOverviewTabPanelInstance.treeViewHierarchy );
+			this.msDisplayCanonical = new MacroscopeDisplayCanonical ( this, this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
+			this.msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
+			this.msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
+			this.msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
+			this.msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
+			this.msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
+			this.msDisplayHistory = new MacroscopeDisplayHistory ( this );
 
 			// TabPanel Properties
 			this.macroscopeOverviewTabPanelInstance.tabControlMain.Multiline = false;
 
 			// ListView Properties
 			this.macroscopeOverviewTabPanelInstance.listViewStructure.Dock = DockStyle.Fill;
-			this.macroscopeOverviewTabPanelInstance.listViewHostnames.Dock = DockStyle.Fill;
 			this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.Dock = DockStyle.Fill;
 			this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis.Dock = DockStyle.Fill;
 			this.macroscopeOverviewTabPanelInstance.listViewHrefLang.Dock = DockStyle.Fill;
@@ -127,18 +121,20 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.Dock = DockStyle.Fill;
 			this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.Dock = DockStyle.Fill;
 			this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.Dock = DockStyle.Fill;
+			this.macroscopeOverviewTabPanelInstance.listViewHostnames.Dock = DockStyle.Fill;
 			this.macroscopeOverviewTabPanelInstance.listViewHistory.Dock = DockStyle.Fill;
 
 			// Events
 			this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
 			this.macroscopeOverviewTabPanelInstance.listViewStructure.Click += this.CallbackListViewStructureOverviewClick;
+		
 		}
 		
 		/**************************************************************************/
 		
 		void ConfigureDocumentDetailsInstance ()
 		{
-			//this.macroscopeDocumentDetailsInstance.listViewDocumentInfo.Click += 
+			//this.macroscopeDocumentDetailsInstance
 		}
 
 		/**************************************************************************/
@@ -540,6 +536,10 @@ namespace SEOMacroscope
 					break;
 
 				case "tabPageHierarchy":
+					this.msDisplayHierarchy.RefreshData(
+						this.msJobMaster.GetDocCollection(),
+						this.msJobMaster.DrainDisplayQueueAsList( MacroscopeJobMaster.NamedQueueDisplayHierarchy )
+					);
 					break;
 
 				case "tabPageCanonicalAnalysis":

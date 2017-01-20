@@ -31,7 +31,7 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayStructure : MacroscopeDisplay
+	public class MacroscopeDisplayStructure : MacroscopeDisplayListView
 	{
 
 		/**************************************************************************/

@@ -58,7 +58,7 @@ namespace SEOMacroscope
 			int iCol = 1;
 			int iColMax = 1;
 
-			MacroscopeDocumentCollection htDocCollection = msJobMaster.GetDocCollection();
+			MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
 
 			{
 			
@@ -94,11 +94,11 @@ namespace SEOMacroscope
 
 			{
 				
-				foreach( string sKey in htDocCollection.Keys() ) {
+				foreach( string sKey in DocCollection.Keys() ) {
 
 					iCol = 1;
 					
-					MacroscopeDocument msDoc = htDocCollection.Get( sKey );
+					MacroscopeDocument msDoc = DocCollection.Get( sKey );
 
 					string sURL = this.FormatIfMissing( msDoc.GetUrl() );
 					string sStatusCode = this.FormatIfMissing( msDoc.GetStatusCode().ToString() );

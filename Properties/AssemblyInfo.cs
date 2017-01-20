@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 #endregion
@@ -26,3 +27,4 @@ using System.Runtime.InteropServices;
 // Build Numbers by using the '*' as shown below:
 [assembly: AssemblyVersion ("1.0.*")]
 [assembly: AssemblyFlags (AssemblyNameFlags.PublicKey | AssemblyNameFlags.EnableJITcompileTracking)]
+[assembly: NeutralResourcesLanguage ("en-US")]

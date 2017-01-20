@@ -107,7 +107,7 @@ namespace SEOMacroscope
 		int Depth;
 		
 		// Delegate Functions
-		delegate void TimeDuration( Action ProcessMethod );
+		delegate void TimeDuration(Action ProcessMethod);
 
 		/**************************************************************************/
 
@@ -277,7 +277,7 @@ namespace SEOMacroscope
 			} else {
 				MatchCollection matches = Regex.Matches( this.MimeType, "^([^\\s;/]+)/([^\\s;/]+)" );
 				foreach( Match match in matches ) {
-					sMimeType = String.Format( "{0}/{1}", match.Groups[ 1 ].Value, match.Groups[ 2 ].Value );
+					sMimeType = String.Format( "{0}/{1}", match.Groups[1].Value, match.Groups[2].Value );
 				}
 				if( sMimeType == null ) {
 					sMimeType = this.MimeType;
@@ -417,7 +417,7 @@ namespace SEOMacroscope
 		{
 			DebugMsg( string.Format( "AddEmailAddress: {0}", sString ) );
 			if( this.EmailAddresses.ContainsKey( sString ) ) {
-				this.EmailAddresses[ sString ] = this.GetUrl();
+				this.EmailAddresses[sString] = this.GetUrl();
 			} else {
 				this.EmailAddresses.Add( sString, this.GetUrl() );
 			}
@@ -434,7 +434,7 @@ namespace SEOMacroscope
 		{
 			DebugMsg( string.Format( "AddTelephoneNumber: {0}", sString ) );
 			if( this.TelephoneNumbers.ContainsKey( sString ) ) {
-				this.TelephoneNumbers[ sString ] = this.GetUrl();
+				this.TelephoneNumbers[sString] = this.GetUrl();
 			} else {
 				this.TelephoneNumbers.Add( sString, this.GetUrl() );
 			}
@@ -512,7 +512,7 @@ namespace SEOMacroscope
 		void SetHreflang ( string sLocale, string sURL )
 		{
 			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( false, sLocale, sURL );
-			this.HrefLang[ sLocale ] = msHrefLang;
+			this.HrefLang[sLocale] = msHrefLang;
 		}
 
 		public Dictionary<string,MacroscopeHrefLang> GetHrefLangs ()
@@ -525,7 +525,7 @@ namespace SEOMacroscope
 		public void AddHeading ( ushort iLevel, string sString )
 		{
 			if( this.Headings.ContainsKey( iLevel ) ) {
-				ArrayList alHeadings = this.Headings[ iLevel ];
+				ArrayList alHeadings = this.Headings[iLevel];
 				alHeadings.Add( sString );
 			}
 		}
@@ -534,7 +534,7 @@ namespace SEOMacroscope
 		{
 			ArrayList alHeadings = new ArrayList ();
 			if( this.Headings.ContainsKey( iLevel ) ) {
-				alHeadings = this.Headings[ iLevel ];
+				alHeadings = this.Headings[iLevel];
 			}
 			return( alHeadings );
 		}
@@ -795,8 +795,8 @@ namespace SEOMacroscope
 					MatchCollection matches = Regex.Matches( sRaw, "<([^<>]+)>\\s*;\\srel=\"([^\"]+)\"" );
 
 					foreach( Match match in matches ) {
-						sUrl = match.Groups[ 1 ].Value;
-						sRel = match.Groups[ 2 ].Value;
+						sUrl = match.Groups[1].Value;
+						sRel = match.Groups[2].Value;
 					}
 									
 					if( ( sRel != null ) && ( sRel.ToLower() == "canonical" ) ) {
@@ -847,7 +847,9 @@ namespace SEOMacroscope
 			slDetails.Add( new KeyValuePair<string,string> ( "Status Code", this.GetStatusCode().ToString() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Duration (seconds)", this.GetDurationInSecondsFormatted() ) );
-						
+
+			slDetails.Add( new KeyValuePair<string,string> ( "HTST Policy Enabled", this.HypertextStrictTransportPolicy.ToString() ) );
+
 			slDetails.Add( new KeyValuePair<string,string> ( "Content Type", this.GetMimeType() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Content Length", this.ContentLength.ToString() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Encoding", this.ContentEncoding ) );
@@ -883,7 +885,7 @@ namespace SEOMacroscope
 			for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
 				string sHeading;
 				if( this.GetHeadings( iLevel ).Count > 0 ) {
-					sHeading = this.GetHeadings( iLevel )[ 0 ].ToString();
+					sHeading = this.GetHeadings( iLevel )[0].ToString();
 				} else {
 					sHeading = null;
 				}

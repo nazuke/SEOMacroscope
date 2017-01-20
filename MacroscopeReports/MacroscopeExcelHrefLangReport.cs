@@ -61,7 +61,7 @@ namespace SEOMacroscope
 			int iColMax = 1;
 
 			Dictionary<string,string> htLocales = msJobMaster.GetLocales();
-			MacroscopeDocumentCollection htDocCollection = msJobMaster.GetDocCollection();
+			MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
 			
 			Hashtable htLocaleCols = new Hashtable ();
 			
@@ -92,9 +92,9 @@ namespace SEOMacroscope
 
 			{
 				
-				foreach( string sKey in htDocCollection.Keys() ) {
+				foreach( string sKey in DocCollection.Keys() ) {
 
-					MacroscopeDocument msDoc = htDocCollection.Get( sKey );
+					MacroscopeDocument msDoc = DocCollection.Get( sKey );
 					Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 					
 					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );

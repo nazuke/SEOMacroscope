@@ -30,21 +30,21 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	abstract public class MacroscopeDisplay : Macroscope
+	abstract public class MacroscopeDisplayTreeView : Macroscope
 	{
 
 		/**************************************************************************/
 
 		public MacroscopeMainForm msMainForm;
 
-		public ListView lvListView;
+		public TreeView tvTreeView;
 
 		/**************************************************************************/
 
-		public MacroscopeDisplay ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
+		public MacroscopeDisplayTreeView ( MacroscopeMainForm msMainFormNew, TreeView tvTreeViewNew )
 		{
 			msMainForm = msMainFormNew;
-			lvListView = lvListViewNew;
+			tvTreeView = tvTreeViewNew;
 		}
 
 		/**************************************************************************/
@@ -56,105 +56,75 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							this.lvListView.Items.Clear();
+							this.tvTreeView.Nodes.Clear();
 						}
 					)
 				);
 			} else {
-				this.lvListView.Items.Clear();
+				this.tvTreeView.Nodes.Clear();
 			}
 		}
 		
 		/**************************************************************************/
 		
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection )
+		public void RefreshData ( MacroscopeDocumentCollection DocCollection )
 		{
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							this.lvListView.BeginUpdate();
-							this.RenderListView( htDocCollection );
-							this.lvListView.EndUpdate();
+							this.tvTreeView.BeginUpdate();
+							this.RenderTreeView( DocCollection );
+							this.tvTreeView.EndUpdate();
 						}
 					)
 				);
 			} else {
-				this.lvListView.BeginUpdate();
-				this.RenderListView( htDocCollection );
-				this.lvListView.EndUpdate();
+				this.tvTreeView.BeginUpdate();
+				this.RenderTreeView( DocCollection );
+				this.tvTreeView.EndUpdate();
 			}
 		}
 
 		/**************************************************************************/
+				
+		/*
+		public void RefreshData ( MacroscopeDocumentCollection DocCollection, List<string> lList )
+		{
+			if( this.msMainForm.InvokeRequired ) {
+				this.msMainForm.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							tvTreeView.BeginUpdate();
+							this.RenderTreeView( DocCollection, lList );
+							this.tvTreeView.EndUpdate();
+						}
+					)
+				);
+			} else {
+				this.tvTreeView.BeginUpdate();
+				this.RenderTreeView( DocCollection, lList );
+				this.tvTreeView.EndUpdate();
+			}
+		}
+		*/
 		
-		public void RefreshData ( MacroscopeDocumentCollection htDocCollection, List<string> lList )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							lvListView.BeginUpdate();
-							this.RenderListView( htDocCollection, lList );
-							this.lvListView.EndUpdate();
-						}
-					)
-				);
-			} else {
-				this.lvListView.BeginUpdate();
-				this.RenderListView( htDocCollection, lList );
-				this.lvListView.EndUpdate();
-			}
-		}
-
-		/**************************************************************************/
-
-		public void RefreshData ( MacroscopeDocument msDoc, string sUrl )
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.lvListView.BeginUpdate();
-							this.RenderListView( msDoc, sUrl );
-							this.lvListView.EndUpdate();
-						}
-					)
-				);
-			} else {
-				this.lvListView.BeginUpdate();
-				this.RenderListView( msDoc, sUrl );
-				this.lvListView.EndUpdate();
-			}
-		}
-
 		/** Render Entire DocCollection *******************************************/
 
-		public void RenderListView ( MacroscopeDocumentCollection htDocCollection )
+		public void RenderTreeView ( MacroscopeDocumentCollection DocCollection )
 		{
 			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-			foreach( string sUrl in htDocCollection.Keys() ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sUrl );
-				this.RenderListView( msDoc, sUrl );
-			}
-		}
-
-		/** Render List ***********************************************************/
-		
-		public void RenderListView ( MacroscopeDocumentCollection htDocCollection, List<string> lList )
-		{
-			foreach( string sUrl in lList ) {
-				MacroscopeDocument msDoc = htDocCollection.Get( sUrl );
-				this.RenderListView( msDoc, sUrl );
+			foreach( string sUrl in DocCollection.Keys() ) {
+				MacroscopeDocument msDoc = DocCollection.Get( sUrl );
+				this.RenderTreeView( msDoc, sUrl );
 			}
 		}
 
 		/** Render One ************************************************************/
 
-		abstract protected void RenderListView ( MacroscopeDocument msDoc, string sUrl );
+		abstract protected void RenderTreeView ( MacroscopeDocument msDoc, string sUrl );
 
 		/**************************************************************************/
 

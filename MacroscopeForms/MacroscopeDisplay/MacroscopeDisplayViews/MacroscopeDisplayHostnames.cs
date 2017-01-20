@@ -30,7 +30,7 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayHostnames : MacroscopeDisplay
+	public class MacroscopeDisplayHostnames : MacroscopeDisplayListView
 	{
 		
 		/**************************************************************************/
@@ -72,7 +72,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public new void RefreshData ( MacroscopeDocumentCollection htDocCollection )
+		public new void RefreshData ( MacroscopeDocumentCollection DocCollection )
 		{
 			if( this.msMainForm.InvokeRequired ) {
 				this.msMainForm.Invoke(
@@ -80,25 +80,25 @@ namespace SEOMacroscope
 						delegate
 						{
 							this.lvListView.BeginUpdate();
-							this.RenderListView( htDocCollection );
+							this.RenderListView( DocCollection );
 							this.lvListView.EndUpdate();
 						}
 					)
 				);
 			} else {
 				this.lvListView.BeginUpdate();
-				this.RenderListView( htDocCollection );
+				this.RenderListView( DocCollection );
 				this.lvListView.EndUpdate();
 			}
 		}
 
 		/**************************************************************************/
 
-		public void RenderListView ( MacroscopeDocumentCollection htDocCollection )
+		public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
 		{
 			this.DebugMsg( string.Format( "RenderListView: {0}", "OVERRIDE" ) );
 
-			Dictionary<string,int> sHostnames = htDocCollection.GetHostnamesWithCount();
+			Dictionary<string,int> sHostnames = DocCollection.GetHostnamesWithCount();
 
 			this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 1: {0}", sHostnames.Count ) );
 

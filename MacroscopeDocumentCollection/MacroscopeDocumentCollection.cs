@@ -48,6 +48,7 @@ namespace SEOMacroscope
 		Dictionary<string,Boolean> StatsHistory;
 		Dictionary<string,int> StatsHostnames;
 		Dictionary<string,int> StatsTitles;
+		Dictionary<string,int> StatsDescriptions;
 
 		Semaphore SemaphoreRecalc;
 		System.Timers.Timer TimerRecalc;
@@ -130,7 +131,7 @@ namespace SEOMacroscope
 		{
 			MacroscopeDocument msDoc = null;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
-				msDoc = ( MacroscopeDocument )this.DocCollection[ sKey ];
+				msDoc = ( MacroscopeDocument )this.DocCollection[sKey];
 			}
 			return( msDoc );
 		}
@@ -186,19 +187,13 @@ namespace SEOMacroscope
 
 		void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
 		{
-
 			DebugMsg( string.Format( "WorkerRecalculateDocCollection: {0}", "CALLED" ) );
-
 			try {
-
 				Boolean bDrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
-					
 				DebugMsg( string.Format( "bDrainQueue: {0}", bDrainQueue ) );
-					
 				if( bDrainQueue ) {
 					this.RecalculateDocCollection();
 				}
-
 			} catch( Exception ex ) {
 				DebugMsg( string.Format( "WorkerRecalculateDocCollection: {0}", ex.Message ) );
 			}
@@ -280,7 +275,7 @@ namespace SEOMacroscope
 			Dictionary<string,int> dicHostnames = new Dictionary<string,int> ( this.StatsHostnames.Count );
 			lock( this.StatsHostnames ) {
 				foreach( string sHostname in this.StatsHostnames.Keys ) {
-					dicHostnames.Add( sHostname, this.StatsHostnames[ sHostname ] );
+					dicHostnames.Add( sHostname, this.StatsHostnames[sHostname] );
 				}
 			}
 			return( dicHostnames );
@@ -290,7 +285,7 @@ namespace SEOMacroscope
 		{
 			int iValue = 0;
 			if( this.StatsHostnames.ContainsKey( sHostname ) ) {
-				iValue = this.StatsHostnames[ sHostname ];
+				iValue = this.StatsHostnames[sHostname];
 			}
 			return( iValue );
 		}
@@ -303,7 +298,7 @@ namespace SEOMacroscope
 				sHostname = sHostname.ToLower();
 				if( this.StatsHostnames.ContainsKey( sHostname ) ) {
 					lock( this.StatsHostnames ) {
-						this.StatsHostnames[ sHostname ] = this.StatsHostnames[ sHostname ] + 1;
+						this.StatsHostnames[sHostname] = this.StatsHostnames[sHostname] + 1;
 					}
 				} else {
 					lock( this.StatsHostnames ) {
@@ -324,7 +319,7 @@ namespace SEOMacroscope
 		{
 			int iValue = 0;
 			if( this.StatsTitles.ContainsKey( sTitle ) ) {
-				iValue = this.StatsTitles[ sTitle ];
+				iValue = this.StatsTitles[sTitle];
 			}
 			return( iValue );
 		}
@@ -349,7 +344,7 @@ namespace SEOMacroscope
 
 				if( this.StatsTitles.ContainsKey( sTitle ) ) {
 					lock( this.StatsTitles ) {
-						this.StatsTitles[ sTitle ] = this.StatsTitles[ sTitle ] + 1;
+						this.StatsTitles[sTitle] = this.StatsTitles[sTitle] + 1;
 					}
 				} else {
 					lock( this.StatsTitles ) {
