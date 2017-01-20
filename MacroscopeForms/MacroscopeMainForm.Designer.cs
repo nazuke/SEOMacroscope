@@ -110,13 +110,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeaderPageTitle;
 		private System.Windows.Forms.ColumnHeader columnHeaderLength;
 		private System.Windows.Forms.ColumnHeader columnHeaderPixelWidth;
-		public System.Windows.Forms.TabPage tabPageQueue;
 		public System.Windows.Forms.TabPage tabPageHostnames;
-		public System.Windows.Forms.ListView listViewQueue;
-		private System.Windows.Forms.ColumnHeader columnHeader1;
 		public System.Windows.Forms.ListView listViewHostnames;
-		private System.Windows.Forms.ColumnHeader columnHeaderHostname;
-		private System.Windows.Forms.ColumnHeader columnHeader2;
+		private System.Windows.Forms.ColumnHeader columnHeaderHostnameName;
+		private System.Windows.Forms.ColumnHeader columnHeaderHostnameCount;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -215,11 +212,8 @@ namespace SEOMacroscope
 			this.TelUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHostnames = new System.Windows.Forms.TabPage();
 			this.listViewHostnames = new System.Windows.Forms.ListView();
-			this.columnHeaderHostname = new System.Windows.Forms.ColumnHeader();
-			this.tabPageQueue = new System.Windows.Forms.TabPage();
-			this.listViewQueue = new System.Windows.Forms.ListView();
-			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderHostnameName = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderHostnameCount = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHistory = new System.Windows.Forms.TabPage();
 			this.listViewHistory = new System.Windows.Forms.ListView();
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
@@ -253,7 +247,6 @@ namespace SEOMacroscope
 			this.tabPageEmailAddresses.SuspendLayout();
 			this.tabPageTelephoneNumbers.SuspendLayout();
 			this.tabPageHostnames.SuspendLayout();
-			this.tabPageQueue.SuspendLayout();
 			this.tabPageHistory.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).BeginInit();
 			this.splitContainerSiteOverview.Panel1.SuspendLayout();
@@ -283,6 +276,7 @@ namespace SEOMacroscope
 			// 
 			// exitToolStripMenuItem
 			// 
+			this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
 			this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
@@ -298,6 +292,7 @@ namespace SEOMacroscope
 			// 
 			// preferencesToolStripMenuItem
 			// 
+			this.preferencesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("preferencesToolStripMenuItem.Image")));
 			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
 			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.preferencesToolStripMenuItem.Text = "Preferences";
@@ -314,6 +309,7 @@ namespace SEOMacroscope
 			// 
 			// saveOverviewExcelReportToolStripMenuItem
 			// 
+			this.saveOverviewExcelReportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveOverviewExcelReportToolStripMenuItem.Image")));
 			this.saveOverviewExcelReportToolStripMenuItem.Name = "saveOverviewExcelReportToolStripMenuItem";
 			this.saveOverviewExcelReportToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.saveOverviewExcelReportToolStripMenuItem.Text = "Save Overview Excel Report";
@@ -321,6 +317,7 @@ namespace SEOMacroscope
 			// 
 			// generateHrefLangExcelReportToolStripMenuItem
 			// 
+			this.generateHrefLangExcelReportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("generateHrefLangExcelReportToolStripMenuItem.Image")));
 			this.generateHrefLangExcelReportToolStripMenuItem.Name = "generateHrefLangExcelReportToolStripMenuItem";
 			this.generateHrefLangExcelReportToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.generateHrefLangExcelReportToolStripMenuItem.Text = "Save HrefLang Excel Report";
@@ -336,6 +333,7 @@ namespace SEOMacroscope
 			// 
 			// aboutSEOMacroscopeToolStripMenuItem
 			// 
+			this.aboutSEOMacroscopeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutSEOMacroscopeToolStripMenuItem.Image")));
 			this.aboutSEOMacroscopeToolStripMenuItem.Name = "aboutSEOMacroscopeToolStripMenuItem";
 			this.aboutSEOMacroscopeToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
 			this.aboutSEOMacroscopeToolStripMenuItem.Text = "About SEO Macroscope";
@@ -497,10 +495,10 @@ namespace SEOMacroscope
 			// 
 			// toolStripLabelStartUrl
 			// 
-			this.toolStripLabelStartUrl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			this.toolStripLabelStartUrl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.toolStripLabelStartUrl.Name = "toolStripLabelStartUrl";
 			this.toolStripLabelStartUrl.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-			this.toolStripLabelStartUrl.Size = new System.Drawing.Size(64, 27);
+			this.toolStripLabelStartUrl.Size = new System.Drawing.Size(58, 27);
 			this.toolStripLabelStartUrl.Text = "Start URL:";
 			// 
 			// textBoxStartUrl
@@ -518,22 +516,22 @@ namespace SEOMacroscope
 			// 
 			// ButtonStart
 			// 
-			this.ButtonStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.ButtonStart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonStart.Image = ((System.Drawing.Image)(resources.GetObject("ButtonStart.Image")));
 			this.ButtonStart.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ButtonStart.Name = "ButtonStart";
-			this.ButtonStart.Size = new System.Drawing.Size(35, 27);
+			this.ButtonStart.Size = new System.Drawing.Size(51, 27);
 			this.ButtonStart.Text = "Start";
 			this.ButtonStart.ToolTipText = "Start scanning";
 			this.ButtonStart.Click += new System.EventHandler(this.CallbackScanStart);
 			// 
 			// ButtonStop
 			// 
-			this.ButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.ButtonStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonStop.Image = ((System.Drawing.Image)(resources.GetObject("ButtonStop.Image")));
 			this.ButtonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ButtonStop.Name = "ButtonStop";
-			this.ButtonStop.Size = new System.Drawing.Size(35, 27);
+			this.ButtonStop.Size = new System.Drawing.Size(51, 27);
 			this.ButtonStop.Text = "Stop";
 			this.ButtonStop.ToolTipText = "Stop scanning";
 			this.ButtonStop.Click += new System.EventHandler(this.CallbackScanStop);
@@ -541,6 +539,7 @@ namespace SEOMacroscope
 			// ButtonReset
 			// 
 			this.ButtonReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.ButtonReset.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonReset.Image = ((System.Drawing.Image)(resources.GetObject("ButtonReset.Image")));
 			this.ButtonReset.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ButtonReset.Name = "ButtonReset";
@@ -572,6 +571,7 @@ namespace SEOMacroscope
 			// tabControlMain
 			// 
 			this.tabControlMain.Controls.Add(this.tabPageStructureOverview);
+			this.tabControlMain.Controls.Add(this.tabPageHostnames);
 			this.tabControlMain.Controls.Add(this.tabPageHierarchy);
 			this.tabControlMain.Controls.Add(this.tabPageCanonicalAnalysis);
 			this.tabControlMain.Controls.Add(this.tabPageHrefLangAnalysis);
@@ -583,8 +583,6 @@ namespace SEOMacroscope
 			this.tabControlMain.Controls.Add(this.tabPagePageHeadings);
 			this.tabControlMain.Controls.Add(this.tabPageEmailAddresses);
 			this.tabControlMain.Controls.Add(this.tabPageTelephoneNumbers);
-			this.tabControlMain.Controls.Add(this.tabPageHostnames);
-			this.tabControlMain.Controls.Add(this.tabPageQueue);
 			this.tabControlMain.Controls.Add(this.tabPageHistory);
 			this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlMain.Location = new System.Drawing.Point(0, 0);
@@ -973,7 +971,8 @@ namespace SEOMacroscope
 			// listViewHostnames
 			// 
 			this.listViewHostnames.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeaderHostname});
+			this.columnHeaderHostnameName,
+			this.columnHeaderHostnameCount});
 			this.listViewHostnames.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewHostnames.GridLines = true;
 			this.listViewHostnames.Location = new System.Drawing.Point(0, 0);
@@ -985,46 +984,14 @@ namespace SEOMacroscope
 			this.listViewHostnames.UseCompatibleStateImageBehavior = false;
 			this.listViewHostnames.View = System.Windows.Forms.View.Details;
 			// 
-			// columnHeaderHostname
+			// columnHeaderHostnameName
 			// 
-			this.columnHeaderHostname.Text = "Hostname";
-			this.columnHeaderHostname.Width = 400;
+			this.columnHeaderHostnameName.Text = "Hostname";
+			this.columnHeaderHostnameName.Width = 250;
 			// 
-			// tabPageQueue
+			// columnHeaderHostnameCount
 			// 
-			this.tabPageQueue.Controls.Add(this.listViewQueue);
-			this.tabPageQueue.Location = new System.Drawing.Point(4, 22);
-			this.tabPageQueue.Name = "tabPageQueue";
-			this.tabPageQueue.Size = new System.Drawing.Size(525, 416);
-			this.tabPageQueue.TabIndex = 14;
-			this.tabPageQueue.Text = "Queue";
-			this.tabPageQueue.UseVisualStyleBackColor = true;
-			// 
-			// listViewQueue
-			// 
-			this.listViewQueue.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeader2,
-			this.columnHeader1});
-			this.listViewQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listViewQueue.GridLines = true;
-			this.listViewQueue.Location = new System.Drawing.Point(0, 0);
-			this.listViewQueue.Margin = new System.Windows.Forms.Padding(0);
-			this.listViewQueue.Name = "listViewQueue";
-			this.listViewQueue.Size = new System.Drawing.Size(525, 416);
-			this.listViewQueue.Sorting = System.Windows.Forms.SortOrder.Ascending;
-			this.listViewQueue.TabIndex = 1;
-			this.listViewQueue.UseCompatibleStateImageBehavior = false;
-			this.listViewQueue.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader2
-			// 
-			this.columnHeader2.Text = "No.";
-			this.columnHeader2.Width = 50;
-			// 
-			// columnHeader1
-			// 
-			this.columnHeader1.Text = "URL";
-			this.columnHeader1.Width = 400;
+			this.columnHeaderHostnameCount.Text = "Count";
 			// 
 			// tabPageHistory
 			// 
@@ -1131,7 +1098,6 @@ namespace SEOMacroscope
 			this.tabPageEmailAddresses.ResumeLayout(false);
 			this.tabPageTelephoneNumbers.ResumeLayout(false);
 			this.tabPageHostnames.ResumeLayout(false);
-			this.tabPageQueue.ResumeLayout(false);
 			this.tabPageHistory.ResumeLayout(false);
 			this.splitContainerSiteOverview.Panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).EndInit();

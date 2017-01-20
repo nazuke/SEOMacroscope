@@ -45,11 +45,12 @@ namespace SEOMacroscope
 		const string constRecalculateDocCollection = "RecalculateDocCollection";
 		MacroscopeNamedQueue NamedQueue;
 
+		Dictionary<string,Boolean> StatsHistory;
+		Dictionary<string,int> StatsHostnames;
 		Dictionary<string,int> StatsTitles;
-		Dictionary<string,Boolean> StatsTitlesHistory;
 
 		Semaphore SemaphoreRecalc;
-		System.Timers.Timer TimeRecalc;
+		System.Timers.Timer TimerRecalc;
 
 		/**************************************************************************/
 
@@ -63,11 +64,12 @@ namespace SEOMacroscope
 			NamedQueue = new MacroscopeNamedQueue ();
 			NamedQueue.CreateNamedQueue( constRecalculateDocCollection );
 
+			StatsHistory = new Dictionary<string,Boolean> ();
+			StatsHostnames = new Dictionary<string,int> ( 16 );
 			StatsTitles = new Dictionary<string,int> ();
-			StatsTitlesHistory = new Dictionary<string,Boolean> ();
 			
 			SemaphoreRecalc = new Semaphore ( 0, 1 );
-			StartRecalcTimer();
+			this.StartRecalcTimer();
 
 			this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
 			
@@ -161,39 +163,45 @@ namespace SEOMacroscope
 
 		void StartRecalcTimer ()
 		{
+			this.DebugMsg( string.Format( "StartRecalcTimer: {0}", "STARTING..." ) );
 			SemaphoreRecalc.Release( 1 );
-			this.TimeRecalc = new System.Timers.Timer ( 1000 );
-			this.TimeRecalc.Elapsed += this.WorkerRecalculateDocCollection;
-			this.TimeRecalc.AutoReset = true;
-			this.TimeRecalc.Enabled = true;
-			this.TimeRecalc.Start();
+			this.DebugMsg( string.Format( "StartRecalcTimer SemaphoreRecalc: {0}", "RELEASED" ) );
+			this.TimerRecalc = new System.Timers.Timer ( 2000 );
+			this.TimerRecalc.Elapsed += this.WorkerRecalculateDocCollection;
+			this.TimerRecalc.AutoReset = true;
+			this.TimerRecalc.Enabled = true;
+			this.TimerRecalc.Start();
+			this.DebugMsg( string.Format( "StartRecalcTimer: {0}", "STARTED." ) );
 		}
 
 		void StopRecalcTimer ()
 		{
 			try {
-				this.TimeRecalc.Stop();
-				this.TimeRecalc.Dispose();
+				this.TimerRecalc.Stop();
+				this.TimerRecalc.Dispose();
 			} catch( Exception ex ) {
-				this.DebugMsg( string.Format( "StopStatusBarTimer: {0}", ex.Message ) );
+				this.DebugMsg( string.Format( "StopRecalcTimer: {0}", ex.Message ) );
 			}
 		}
-		
+
 		void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
 		{
 
-			//this.DebugMsg( "CALC: STARTING" );
+			DebugMsg( string.Format( "WorkerRecalculateDocCollection: {0}", "CALLED" ) );
 
-			if( this.PeekWorkerRecalculateDocCollectionQueue() ) {
+			try {
 
-				Boolean bDrainQueue = this.GetWorkerRecalculateDocCollectionQueue();
-				do {
-					bDrainQueue = this.GetWorkerRecalculateDocCollectionQueue();
-				} while( bDrainQueue );
+				Boolean bDrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
+					
+				DebugMsg( string.Format( "bDrainQueue: {0}", bDrainQueue ) );
+					
+				if( bDrainQueue ) {
+					this.RecalculateDocCollection();
+				}
 
-				this.RecalculateDocCollection();
+			} catch( Exception ex ) {
+				DebugMsg( string.Format( "WorkerRecalculateDocCollection: {0}", ex.Message ) );
 			}
-
 		}
 
 		/**************************************************************************/
@@ -205,25 +213,18 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		public Boolean GetWorkerRecalculateDocCollectionQueue ()
+		public Boolean DrainWorkerRecalculateDocCollectionQueue ()
 		{
 			Boolean bResult = false;
 			try {
 				if( this.NamedQueue.PeekNamedQueue( constRecalculateDocCollection ) ) {
 					bResult = true;
-					this.NamedQueue.GetNamedQueueItem( constRecalculateDocCollection );
+					this.NamedQueue.DrainNamedQueueItemsAsList( constRecalculateDocCollection );
 				}
 			} catch( InvalidOperationException ex ) {
-				this.DebugMsg( string.Format( "GetWorkerRecalculateDocCollectionQueue: {0}", ex.Message ) );
+				this.DebugMsg( string.Format( "DrainWorkerRecalculateDocCollectionQueue: {0}", ex.Message ) );
 			}
 			return( bResult );
-		}
-	
-		/**************************************************************************/
-				
-		public Boolean PeekWorkerRecalculateDocCollectionQueue ()
-		{
-			return( this.NamedQueue.PeekNamedQueue( constRecalculateDocCollection ) );
 		}
 
 		/**************************************************************************/
@@ -241,16 +242,75 @@ namespace SEOMacroscope
 
 					MacroscopeDocument msDoc = this.Get( sUrlTarget );
 
-					this.RecalculateTitles( msDoc );
-
 					this.RecalculateLinksIn( sUrlTarget, msDoc );
 
+					if( this.StatsHistory.ContainsKey( sUrlTarget ) ) {
+
+						this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", sUrlTarget ) );
+
+					} else {
+
+						this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", sUrlTarget ) );
+					
+						this.StatsHistory.Add( sUrlTarget, true );
+					
+						this.RecalculateHostnames( msDoc );
+					
+						this.RecalculateTitles( msDoc );
+
+					}
+					
 				}
 				
 			}
 
 			SemaphoreRecalc.Release();
 
+		}
+
+		/** Hostnames *************************************************************/
+
+		void ClearHostnames ()
+		{
+			this.StatsHostnames.Clear();
+		}
+
+		public Dictionary<string,int> GetHostnamesWithCount ()
+		{
+			Dictionary<string,int> dicHostnames = new Dictionary<string,int> ( this.StatsHostnames.Count );
+			lock( this.StatsHostnames ) {
+				foreach( string sHostname in this.StatsHostnames.Keys ) {
+					dicHostnames.Add( sHostname, this.StatsHostnames[ sHostname ] );
+				}
+			}
+			return( dicHostnames );
+		}
+
+		public int GetHostnamesCount ( string sHostname )
+		{
+			int iValue = 0;
+			if( this.StatsHostnames.ContainsKey( sHostname ) ) {
+				iValue = this.StatsHostnames[ sHostname ];
+			}
+			return( iValue );
+		}
+
+		void RecalculateHostnames ( MacroscopeDocument msDoc )
+		{
+			string sUrl = msDoc.GetUrl();
+			string sHostname = msDoc.GetHostname();
+			if( ( sHostname != null ) && ( sHostname.Length > 0 ) ) {
+				sHostname = sHostname.ToLower();
+				if( this.StatsHostnames.ContainsKey( sHostname ) ) {
+					lock( this.StatsHostnames ) {
+						this.StatsHostnames[ sHostname ] = this.StatsHostnames[ sHostname ] + 1;
+					}
+				} else {
+					lock( this.StatsHostnames ) {
+						this.StatsHostnames.Add( sHostname, 1 );
+					}
+				}
+			}
 		}
 
 		/** Titles ****************************************************************/
@@ -286,25 +346,17 @@ namespace SEOMacroscope
 			
 				string sUrl = msDoc.GetUrl();
 				string sTitle = msDoc.GetTitle();
-			
-				this.DebugMsg( string.Format( "RecalculateTitles Processing: {0}", sUrl ) );
-					
-				if( this.StatsTitlesHistory.ContainsKey( sUrl ) ) {
-					this.DebugMsg( string.Format( "RecalculateTitles Already Seen: {0}", sUrl ) );
-				} else {
 
-					this.DebugMsg( string.Format( "RecalculateTitles Adding: {0}", sTitle ) );
-
-					this.StatsTitlesHistory.Add( sUrl, true );
-
-					if( this.StatsTitles.ContainsKey( sTitle ) ) {
+				if( this.StatsTitles.ContainsKey( sTitle ) ) {
+					lock( this.StatsTitles ) {
 						this.StatsTitles[ sTitle ] = this.StatsTitles[ sTitle ] + 1;
-					} else {
+					}
+				} else {
+					lock( this.StatsTitles ) {
 						this.StatsTitles.Add( sTitle, 1 );
 					}
-
 				}
-			
+
 			}
 			
 		}

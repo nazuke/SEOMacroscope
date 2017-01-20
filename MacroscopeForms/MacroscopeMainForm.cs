@@ -48,12 +48,11 @@ namespace SEOMacroscope
 		MacroscopeDisplayTitles msDisplayTitles;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
-		//MacroscopeDisplayHostnames msDisplayHostnames;
-		MacroscopeDisplayQueue msDisplayQueue;
+		MacroscopeDisplayHostnames msDisplayHostnames;
 		MacroscopeDisplayHistory msDisplayHistory;
 
-		System.Timers.Timer TimerTabPages;
-		System.Timers.Timer TimerStatusBar;
+		public System.Timers.Timer TimerTabPages;
+		public System.Timers.Timer TimerStatusBar;
 			
 		/**************************************************************************/
 
@@ -72,8 +71,7 @@ namespace SEOMacroscope
 			msDisplayTitles = new MacroscopeDisplayTitles ( this, this.listViewPageTitles );
 			msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.listViewEmailAddresses );
 			msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.listViewTelephoneNumbers );
-			//msDisplayHostnames = new MacroscopeDisplayHostnames(this) ;
-			msDisplayQueue = new MacroscopeDisplayQueue ( this );
+			msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.listViewHostnames );
 			msDisplayHistory = new MacroscopeDisplayHistory ( this );
 
 			SetURL( MacroscopePreferencesManager.GetStartUrl() );
@@ -166,12 +164,7 @@ namespace SEOMacroscope
 		{
 			return( this.listViewHostnames );
 		}
-		
-		public ListView GetDisplayQueue ()
-		{
-			return( this.listViewQueue );
-		}
-		
+				
 		public ListView GetDisplayHistory ()
 		{
 			return( this.listViewHistory );
@@ -436,8 +429,8 @@ namespace SEOMacroscope
 
 		void StartTabPageTimer ()
 		{
-			this.TimerTabPages = new System.Timers.Timer ( 3000 );
-			this.TimerTabPages.Elapsed += this.CallbackTabPageTimer;
+			this.TimerTabPages = new System.Timers.Timer ( 2000 );
+			this.TimerTabPages.Elapsed += CallbackTabPageTimer;
 			this.TimerTabPages.AutoReset = true;
 			this.TimerTabPages.Enabled = true;
 			this.TimerTabPages.Start();
@@ -452,34 +445,34 @@ namespace SEOMacroscope
 				DebugMsg( string.Format( "StopStatusBarTimer: {0}", ex.Message ) );
 			}
 		}
-		
+
 		void CallbackTabPageTimer ( Object self, ElapsedEventArgs e )
 		{
-
-			TabControl tcDisplay = this.tabControlMain;
-
-			DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CALLED" ) );
-		
-			if( this.msJobMaster.CountRunningThreads() > 1 ) {
-
+			if( this.InvokeRequired ) {
 				this.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							DebugMsg( string.Format( "CallbackTabPageTimer tcDisplay: {0}", tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name ) );
-							string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
-							this.UpdateTabPage( sTabPageName );
+							this.CallbackTabPageTimerExec();	
 						}
 					)
 				);
-
 			} else {
-				DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "WAITING" ) );
+				this.CallbackTabPageTimerExec();	
 			}
-
 		}
 
-		void CallbackTabControlDisplaySelectedIndexChanged ( object sender, EventArgs e )
+		void CallbackTabPageTimerExec ()
+		{
+			TabControl tcDisplay = this.tabControlMain;
+			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+			if( this.msJobMaster.PeekUpdateDisplayQueue() ) {
+				this.UpdateTabPage( sTabPageName );
+				this.msJobMaster.DrainDisplayQueueAsList( MacroscopeJobMaster.NamedQueueDisplayQueue );
+			}
+		}
+
+		void CallbackTabControlDisplaySelectedIndexChanged ( Object sender, EventArgs e )
 		{
 			TabControl tcDisplay = this.tabControlMain;
 			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
@@ -541,15 +534,16 @@ namespace SEOMacroscope
 					this.msDisplayTelephoneNumbers.RefreshData( this.msJobMaster.GetDocCollection() );
 					break;
 
-				case "tabPageQueue":
-					this.msDisplayQueue.RefreshData( this.msJobMaster.GetUrlQueueAsList() );
+				case "tabPageHostnames":
+					this.msDisplayHostnames.RefreshData( this.msJobMaster.GetDocCollection() );
 					break;
-								
+						
 				case "tabPageHistory":
 					this.msDisplayHistory.RefreshData( this.msJobMaster.GetHistory() );
 					break;
 								
 				default:
+					DebugMsg( string.Format( "UNKNOWN TAB: {0}", sName ) );
 					break;
 
 			}

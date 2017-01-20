@@ -63,6 +63,7 @@ namespace SEOMacroscope
 		string Path;
 		string Fragment;
 		string QueryString;
+		
 		Boolean HypertextStrictTransportPolicy;
 
 		int StatusCode;
@@ -70,6 +71,7 @@ namespace SEOMacroscope
 		long ContentLength;
 		string MimeType;
 		Boolean IsHtml;
+		Boolean IsImage;
 		Boolean IsPdf;
 		Boolean IsCompressed;
 		string CompressionMethod;
@@ -196,11 +198,41 @@ namespace SEOMacroscope
 			this.ProbeHrefLangs = bState;
 		}
 
-		/**************************************************************************/
+		/** Host Details **********************************************************/
 
 		public string GetUrl ()
 		{
 			return( this.Url );
+		}
+
+		public string GetScheme ()
+		{
+			return( this.Scheme );
+		}
+
+		public string GetHostname ()
+		{
+			return( this.Hostname );
+		}
+
+		public int GetPort ()
+		{
+			return( this.Port );
+		}
+
+		public string GetPath ()
+		{
+			return( this.Path );
+		}
+
+		public string GetFragment ()
+		{
+			return( this.Fragment );
+		}
+
+		public string GetQueryString ()
+		{
+			return( this.QueryString );
 		}
 
 		/**************************************************************************/
@@ -259,6 +291,11 @@ namespace SEOMacroscope
 		public Boolean GetIsHtml ()
 		{
 			return( this.IsHtml );
+		}
+		
+		public Boolean GetIsImage ()
+		{
+			return( this.IsImage );
 		}
 		
 		public Boolean GetIsPdf ()
@@ -606,7 +643,13 @@ namespace SEOMacroscope
 			} else {
 				DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.Url ) );
 			}
-			
+
+			try {
+				this.ProcessUrlElements();
+			} catch( Exception ex ) {
+				DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
+			}
+
 			return( true );
 
 		}
@@ -674,6 +717,31 @@ namespace SEOMacroscope
 			}
 
 			return( bIsRedirect );
+		}
+		
+		/**************************************************************************/
+
+		int ProcessStatusCode ( HttpStatusCode status )
+		{
+			int iStatus = 0;
+			switch( status ) {
+				case HttpStatusCode.OK:
+					iStatus = 200;
+					break;
+				case HttpStatusCode.MovedPermanently:
+					iStatus = 301;
+					break;
+				case HttpStatusCode.NotFound:
+					iStatus = 404;
+					break;
+				case HttpStatusCode.Gone:
+					iStatus = 410;
+					break;
+				case HttpStatusCode.InternalServerError:
+					iStatus = 500;
+					break;
+			}
+			return( iStatus );
 		}
 
 		/**************************************************************************/
@@ -753,7 +821,20 @@ namespace SEOMacroscope
 			}
 
 		}
-		
+
+		/**************************************************************************/
+
+		void ProcessUrlElements ()
+		{
+			Uri uUri = new Uri ( this.GetUrl(), UriKind.Absolute );
+			this.Scheme = uUri.Scheme;
+			this.Hostname = uUri.Host;
+			this.Port = uUri.Port;
+			this.Path = uUri.AbsolutePath;
+			this.Fragment = uUri.Fragment;
+			this.QueryString = uUri.Query;
+		}
+
 		/**************************************************************************/
 		
 		public List<KeyValuePair<string,string>> DetailDocumentDetails ()
@@ -818,31 +899,6 @@ namespace SEOMacroscope
 
 			return( slDetails );
 
-		}
-
-		/**************************************************************************/
-
-		int ProcessStatusCode ( HttpStatusCode status )
-		{
-			int iStatus = 0;
-			switch( status ) {
-				case HttpStatusCode.OK:
-					iStatus = 200;
-					break;
-				case HttpStatusCode.MovedPermanently:
-					iStatus = 301;
-					break;
-				case HttpStatusCode.NotFound:
-					iStatus = 404;
-					break;
-				case HttpStatusCode.Gone:
-					iStatus = 410;
-					break;
-				case HttpStatusCode.InternalServerError:
-					iStatus = 500;
-					break;
-			}
-			return( iStatus );
 		}
 
 		/**************************************************************************/

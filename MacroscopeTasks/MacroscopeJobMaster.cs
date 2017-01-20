@@ -44,6 +44,7 @@ namespace SEOMacroscope
 
 		const string constNamedQueueUrlList = "UrlQueue";
 
+		public const string NamedQueueDisplayQueue = "DisplayQueue";
 		public const string NamedQueueDisplayStructure = "DisplayStructure";
 		public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
 		public const string NamedQueueDisplayCanonicalAnalysis = "CanonicalAnalysis";
@@ -295,10 +296,16 @@ namespace SEOMacroscope
 
 		/** Display Queue *********************************************************/
 
+		public Boolean PeekUpdateDisplayQueue ()
+		{
+			return( NamedQueue.PeekNamedQueue( NamedQueueDisplayQueue ) );
+		}
+
 		public void AddUpdateDisplayQueue ( string sURL )
 		{
 			// TODO: Add more queues
 
+			NamedQueue.AddToNamedQueue( NamedQueueDisplayQueue, sURL );
 			NamedQueue.AddToNamedQueue( NamedQueueDisplayStructure, sURL );
 			NamedQueue.AddToNamedQueue( NamedQueueDisplayHierarchy, sURL );
 			NamedQueue.AddToNamedQueue( NamedQueueDisplayCanonicalAnalysis, sURL );

@@ -24,17 +24,20 @@
 */
 
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SEOMacroscope
 {
 
 	public partial class MacroscopeDocumentDetails : MacroscopeUserControl
 	{
+		
+		/**************************************************************************/
+
+		MacroscopeUrlLoader UrlLoader;
 
 		/**************************************************************************/
 		
@@ -45,10 +48,8 @@ namespace SEOMacroscope
 			//
 			InitializeComponent();
 			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-
+			UrlLoader = new MacroscopeUrlLoader ();
+							
 		}
 
 		/**************************************************************************/
@@ -62,21 +63,14 @@ namespace SEOMacroscope
 
 		public void ClearData ()
 		{
-
 			this.listViewDocumentInfo.Items.Clear();
-
 			this.listViewHrefLang.Items.Clear();
-			
 			this.listViewImages.Items.Clear();
-			
 			this.listViewJavascripts.Items.Clear();
-			
 			this.listViewLinksIn.Items.Clear();
-			
 			this.listViewLinksOut.Items.Clear();
-			
 			this.listViewStylesheets.Items.Clear();
-
+			this.pictureBoxDocumentDetailsImage.Image = null;
 		}
 
 		/**************************************************************************/
@@ -94,20 +88,25 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							this.RenderDocumentDetails( msDoc );
-							this.RenderDocumentHrefLang( msDoc, msJobMaster.GetLocales(), msJobMaster.GetDocCollection() );
-							this.RenderListViewHyperlinksIn( msDoc );
-							this.RenderListViewHyperlinksOut( msDoc );
+							UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
 						}
 					)
 				);
 			} else {
-				this.RenderDocumentDetails( msDoc );
-				this.RenderDocumentHrefLang( msDoc, msJobMaster.GetLocales(), msJobMaster.GetDocCollection() );
-				this.RenderListViewHyperlinksIn( msDoc );
-				this.RenderListViewHyperlinksOut( msDoc );
+				UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
 			}
 
+		}
+
+		/**************************************************************************/
+
+		void UpdateDocumentDetailsDisplay ( MacroscopeJobMaster msJobMaster, MacroscopeDocument msDoc )
+		{
+			this.RenderDocumentDetails( msDoc );
+			this.RenderDocumentHrefLang( msDoc, msJobMaster.GetLocales(), msJobMaster.GetDocCollection() );
+			this.RenderListViewHyperlinksIn( msDoc );
+			this.RenderListViewHyperlinksOut( msDoc );
+			this.RenderDocumentImage( msDoc );
 		}
 
 		/**************************************************************************/
@@ -144,7 +143,7 @@ namespace SEOMacroscope
 		
 		void CallbackDocumentDetailsContextMenuStripCopyClick ( object sender, EventArgs e )
 		{
-			this.CopyListViewTextToClipboard ( this.listViewDocumentInfo );
+			this.CopyListViewTextToClipboard( this.listViewDocumentInfo );
 		}
 
 		/**************************************************************************/
@@ -158,11 +157,9 @@ namespace SEOMacroscope
 			lvListView.Columns.Clear();
 
 			{
-
+				lvListView.Columns.Add( "URL", "URL" );
 				lvListView.Columns.Add( "Site Locale", "Site Locale" );
 				lvListView.Columns.Add( "Title", "Title" );
-				lvListView.Columns.Add( "URL", "URL" );
-
 			}
 
 			string sKeyURL = msDoc.GetUrl();
@@ -183,10 +180,10 @@ namespace SEOMacroscope
 						lvItem.SubItems.Add( "" );
 						lvItem.SubItems.Add( "" );
 
-						lvItem.SubItems[ 0 ].Text = msDoc.GetLocale();
-						lvItem.SubItems[ 1 ].Text = msDoc.GetTitle();
-						lvItem.SubItems[ 2 ].Text = msDoc.GetUrl();
-								
+						lvItem.SubItems[ 0 ].Text = msDoc.GetUrl();
+						lvItem.SubItems[ 1 ].Text = msDoc.GetLocale();
+						lvItem.SubItems[ 2 ].Text = msDoc.GetTitle();
+
 						lvListView.Items.Add( lvItem );
 
 					}
@@ -227,15 +224,15 @@ namespace SEOMacroscope
 
 							}
 
-							lvItem.SubItems[ 0 ].Text = sLocale;
-							lvItem.SubItems[ 1 ].Text = sTitle;
+							lvItem.SubItems[ 1 ].Text = sLocale;
+							lvItem.SubItems[ 2 ].Text = sTitle;
 
 							if( sHrefLangUrl != null ) {
-								lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
-								lvItem.SubItems[ 2 ].Text = sHrefLangUrl;
+								lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+								lvItem.SubItems[ 0 ].Text = sHrefLangUrl;
 							} else {
-								lvItem.SubItems[ 2 ].ForeColor = Color.Red;
-								lvItem.SubItems[ 2 ].Text = "MISSSING";
+								lvItem.SubItems[ 0 ].ForeColor = Color.Red;
+								lvItem.SubItems[ 0 ].Text = "MISSSING";
 
 							}
 
@@ -249,9 +246,9 @@ namespace SEOMacroscope
 
 				lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
 
+				lvListView.Columns[ "URL" ].Width = 300;
 				lvListView.Columns[ "Site Locale" ].Width = 100;
 				lvListView.Columns[ "Title" ].Width = 300;
-				lvListView.Columns[ "URL" ].Width = 300;
 
 			}
 
@@ -392,6 +389,30 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		void RenderDocumentImage ( MacroscopeDocument msDoc )
+		{
+
+			if( msDoc.GetIsImage() ) {
+
+				MemoryStream msStream = this.UrlLoader.LoadMemoryStreamFromUrl( msDoc.GetUrl() );
+
+				if( msStream != null ) {
+					this.pictureBoxDocumentDetailsImage.Image = Image.FromStream( msStream );
+				}
+
+			} else {
+
+				try {
+					this.pictureBoxDocumentDetailsImage.Image = null;
+				} catch( Exception ex ) {
+					MessageBox.Show( ex.Message );
+				}
+
+			}
+
+		}
+
+		/**************************************************************************/
 	}
 
 }

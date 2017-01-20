@@ -107,6 +107,12 @@
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentBinary.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentCSS.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentHTML.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentImage.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentJS.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentPDF.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
@@ -121,16 +127,10 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayCanonical.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayEmailAddresses.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHistory.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHostnames.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayHrefLang.cs" />
-    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayQueue.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayStructure.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeDocumentBinary.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeDocumentCSS.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeDocumentHTML.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeDocumentImage.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeDocumentJS.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeDocumentPDF.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayStructureOverview.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTelephoneNumbers.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTitles.cs" />
@@ -144,6 +144,7 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="MacroscopeTools\MacroscopeNamedQueue.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeUrlLoader.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.Designer.cs">
       <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
@@ -199,6 +200,7 @@
     <Folder Include="MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink" />
+    <Folder Include="MacroscopeDocument\MacroscopeDocument" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />

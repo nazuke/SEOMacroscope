@@ -135,12 +135,13 @@ namespace SEOMacroscope
 
 		public void RenderListView ( MacroscopeDocumentCollection htDocCollection )
 		{
+			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
 			foreach( string sUrl in htDocCollection.Keys() ) {
 				MacroscopeDocument msDoc = htDocCollection.Get( sUrl );
 				this.RenderListView( msDoc, sUrl );
 			}
 		}
-		
+
 		/** Render List ***********************************************************/
 		
 		public void RenderListView ( MacroscopeDocumentCollection htDocCollection, List<string> lList )

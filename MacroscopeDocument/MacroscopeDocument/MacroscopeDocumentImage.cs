@@ -69,6 +69,7 @@ namespace SEOMacroscope
 
 					if( reIs.IsMatch( res.ContentType.ToString() ) ) {
 						bIs = true;
+						this.IsImage = true;
 					}
 
 					res.Close();

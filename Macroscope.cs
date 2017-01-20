@@ -61,7 +61,9 @@ namespace SEOMacroscope
 		
 		public void DebugMsg ( String sMsg )
 		{
-			DebugMsg( sMsg, true );
+			if( !SuppressStaticDebugMsg ) {
+				System.Diagnostics.Debug.WriteLine( sMsg );
+			}
 		}
 
 		/**************************************************************************/
