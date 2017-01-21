@@ -34,7 +34,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Boolean EnableProbe;
 		string Locale;
 		string Url;
 		//DateTime DateModified;
@@ -42,12 +41,12 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeHrefLang ( Boolean bProbe, string sLocale, string sURL )
+		public MacroscopeHrefLang ( string sLocale, string sURL )
 		{
-			EnableProbe = bProbe;
+			Boolean bProbeHrefLang = MacroscopePreferencesManager.GetProbeHreflangs();
 			Locale = sLocale;	
 			Url = sURL;
-			if( bProbe ) {
+			if( bProbeHrefLang ) {
 				Available = Probe();
 			} else {
 				Available = false;

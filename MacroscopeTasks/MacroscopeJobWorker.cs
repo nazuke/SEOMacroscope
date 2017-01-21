@@ -83,10 +83,6 @@ namespace SEOMacroscope
 				}
 			}
 
-			if( this.msJobMaster.GetProbeHrefLangs() ) {
-				msDoc.SetProbeHrefLangs( true );
-			}
-
 			if( msDoc.Execute() ) {
 			
 				this.msJobMaster.IncPageLimitCount();
@@ -105,7 +101,7 @@ namespace SEOMacroscope
 					foreach( string sKeyLocale in htHrefLangs.Keys ) {
 						this.msJobMaster.AddLocales( sKeyLocale );
 						{
-							string sHrefLangUrl = htHrefLangs[ sKeyLocale ].GetUrl();
+							string sHrefLangUrl = htHrefLangs[sKeyLocale].GetUrl();
 							if( ( sHrefLangUrl != null ) && ( sHrefLangUrl.Length > 0 ) ) {
 								if( !this.msJobMaster.SeenHistory( sHrefLangUrl ) ) {
 									msAllowedHosts.AddFromUrl( sHrefLangUrl );
@@ -130,7 +126,7 @@ namespace SEOMacroscope
 
 				foreach( string sOutlinkKey in htOutlinks.Keys ) {
 					
-					string sOutlinkURL = htOutlinks[ sOutlinkKey ];
+					string sOutlinkURL = htOutlinks[sOutlinkKey];
 
 					if( sOutlinkURL != null ) {
 

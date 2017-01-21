@@ -66,6 +66,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxFollowRedirects;
 		public System.Windows.Forms.CheckBox checkBoxFollowCanonicalLinks;
 		public System.Windows.Forms.CheckBox checkBoxFollowHrefLangLinks;
+		public System.Windows.Forms.CheckBox checkBox1;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -142,6 +143,7 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -233,6 +235,7 @@ namespace SEOMacroscope
 			// groupBox5
 			// 
 			this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox5.Controls.Add(this.checkBox1);
 			this.groupBox5.Controls.Add(this.checkBoxFollowHrefLangLinks);
 			this.groupBox5.Controls.Add(this.checkBoxFollowCanonicalLinks);
 			this.groupBox5.Controls.Add(this.checkBoxFollowRedirects);
@@ -249,9 +252,9 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFollowHrefLangLinks
 			// 
-			this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(20, 140);
+			this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(220, 20);
 			this.checkBoxFollowHrefLangLinks.Name = "checkBoxFollowHrefLangLinks";
-			this.checkBoxFollowHrefLangLinks.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxFollowHrefLangLinks.Size = new System.Drawing.Size(160, 24);
 			this.checkBoxFollowHrefLangLinks.TabIndex = 5;
 			this.checkBoxFollowHrefLangLinks.Text = "Follow HrefLang Links";
 			this.checkBoxFollowHrefLangLinks.UseVisualStyleBackColor = true;
@@ -260,7 +263,7 @@ namespace SEOMacroscope
 			// 
 			this.checkBoxFollowCanonicalLinks.Location = new System.Drawing.Point(20, 110);
 			this.checkBoxFollowCanonicalLinks.Name = "checkBoxFollowCanonicalLinks";
-			this.checkBoxFollowCanonicalLinks.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxFollowCanonicalLinks.Size = new System.Drawing.Size(160, 24);
 			this.checkBoxFollowCanonicalLinks.TabIndex = 4;
 			this.checkBoxFollowCanonicalLinks.Text = "Follow Canonical Links";
 			this.checkBoxFollowCanonicalLinks.UseVisualStyleBackColor = true;
@@ -269,7 +272,7 @@ namespace SEOMacroscope
 			// 
 			this.checkBoxFollowRedirects.Location = new System.Drawing.Point(20, 50);
 			this.checkBoxFollowRedirects.Name = "checkBoxFollowRedirects";
-			this.checkBoxFollowRedirects.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxFollowRedirects.Size = new System.Drawing.Size(160, 24);
 			this.checkBoxFollowRedirects.TabIndex = 2;
 			this.checkBoxFollowRedirects.Text = "Follow Redirects";
 			this.checkBoxFollowRedirects.UseVisualStyleBackColor = true;
@@ -278,7 +281,7 @@ namespace SEOMacroscope
 			// 
 			this.checkBoxFollowNoFollow.Location = new System.Drawing.Point(20, 80);
 			this.checkBoxFollowNoFollow.Name = "checkBoxFollowNoFollow";
-			this.checkBoxFollowNoFollow.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxFollowNoFollow.Size = new System.Drawing.Size(160, 24);
 			this.checkBoxFollowNoFollow.TabIndex = 3;
 			this.checkBoxFollowNoFollow.Text = "Follow rel=\"nofollow\" Links";
 			this.checkBoxFollowNoFollow.UseVisualStyleBackColor = true;
@@ -287,7 +290,7 @@ namespace SEOMacroscope
 			// 
 			this.checkBoxFollowRobotsProtocol.Location = new System.Drawing.Point(20, 20);
 			this.checkBoxFollowRobotsProtocol.Name = "checkBoxFollowRobotsProtocol";
-			this.checkBoxFollowRobotsProtocol.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxFollowRobotsProtocol.Size = new System.Drawing.Size(160, 24);
 			this.checkBoxFollowRobotsProtocol.TabIndex = 1;
 			this.checkBoxFollowRobotsProtocol.Text = "Follow Robots Protocol";
 			this.checkBoxFollowRobotsProtocol.UseVisualStyleBackColor = true;
@@ -379,7 +382,7 @@ namespace SEOMacroscope
 			1,
 			0,
 			0,
-			-2147483648});
+			0});
 			this.numericUpDownPageLimit.Name = "numericUpDownPageLimit";
 			this.numericUpDownPageLimit.Size = new System.Drawing.Size(120, 20);
 			this.numericUpDownPageLimit.TabIndex = 9;
@@ -401,7 +404,7 @@ namespace SEOMacroscope
 			1,
 			0,
 			0,
-			-2147483648});
+			0});
 			this.numericUpDownDepth.Name = "numericUpDownDepth";
 			this.numericUpDownDepth.Size = new System.Drawing.Size(120, 20);
 			this.numericUpDownDepth.TabIndex = 8;
@@ -845,6 +848,15 @@ namespace SEOMacroscope
 			0,
 			0,
 			0});
+			// 
+			// checkBox1
+			// 
+			this.checkBox1.Location = new System.Drawing.Point(220, 50);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(160, 24);
+			this.checkBox1.TabIndex = 6;
+			this.checkBox1.Text = "Follow HrefLang Links";
+			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 

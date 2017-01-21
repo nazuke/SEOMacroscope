@@ -44,10 +44,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		/** BEGIN: Configuration **/
-		Boolean ProbeHrefLangs;
-		/** END: Configuration **/
-		
 		string Url;
 		int Timeout;
 
@@ -115,8 +111,6 @@ namespace SEOMacroscope
 		{
 
 			SuppressDebugMsg = false;
-						
-			ProbeHrefLangs = true;
 			
 			Url = sURL;
 			Timeout = 10000;
@@ -189,13 +183,6 @@ namespace SEOMacroscope
 
 			Depth = MacroscopeURLTools.FindUrlDepth( Url );
 			
-		}
-		
-		/**************************************************************************/
-
-		public void SetProbeHrefLangs ( Boolean bState )
-		{
-			this.ProbeHrefLangs = bState;
 		}
 
 		/** Host Details **********************************************************/
@@ -511,7 +498,7 @@ namespace SEOMacroscope
 
 		void SetHreflang ( string sLocale, string sURL )
 		{
-			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( false, sLocale, sURL );
+			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( sLocale, sURL );
 			this.HrefLang[sLocale] = msHrefLang;
 		}
 
