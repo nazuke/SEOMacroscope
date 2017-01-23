@@ -43,6 +43,10 @@ namespace SEOMacroscope
 	{
 
 		/**************************************************************************/
+		
+		public override Boolean SuppressDebugMsg { get; protected set; }
+			
+		/**************************************************************************/
 
 		string Url;
 		int Timeout;
@@ -50,8 +54,6 @@ namespace SEOMacroscope
 		Boolean IsRedirect;
 		string UrlRedirectFrom;
 		string UrlRedirectTo;
-
-		HtmlDocument HtmlDoc;
 
 		string Scheme;
 		string Hostname;
@@ -83,7 +85,7 @@ namespace SEOMacroscope
 		Dictionary<string,MacroscopeHrefLang> HrefLang;
 
 		// Outbound links to pages and linked assets to follow
-		Dictionary<string,string> Outlinks;
+		Dictionary<string,MacroscopeOutlink> Outlinks;
 
 		// Inbound links from other pages in the scanned collection
 		MacroscopeHyperlinksIn HyperlinksIn;
@@ -103,16 +105,16 @@ namespace SEOMacroscope
 		int Depth;
 		
 		// Delegate Functions
-		delegate void TimeDuration(Action ProcessMethod);
+		delegate void TimeDuration( Action ProcessMethod );
 
 		/**************************************************************************/
 
-		public MacroscopeDocument ( string sURL )
+		public MacroscopeDocument ( string sUrl )
 		{
 
-			SuppressDebugMsg = false;
+			SuppressDebugMsg = true;
 			
-			Url = sURL;
+			Url = sUrl;
 			Timeout = 10000;
 			
 			IsRedirect = false;
@@ -142,7 +144,7 @@ namespace SEOMacroscope
 			Canonical = "";
 			HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
-			Outlinks = new Dictionary<string,string> ( 128 );
+			Outlinks = new Dictionary<string,MacroscopeOutlink> ( 128 );
 			HyperlinksIn = new MacroscopeHyperlinksIn ();
 			HyperlinksOut = new MacroscopeHyperlinksOut ();
 
@@ -181,7 +183,7 @@ namespace SEOMacroscope
 				}
 			};
 
-			Depth = MacroscopeURLTools.FindUrlDepth( Url );
+			Depth = MacroscopeUrlTools.FindUrlDepth( Url );
 			
 		}
 
@@ -264,7 +266,7 @@ namespace SEOMacroscope
 			} else {
 				MatchCollection matches = Regex.Matches( this.MimeType, "^([^\\s;/]+)/([^\\s;/]+)" );
 				foreach( Match match in matches ) {
-					sMimeType = String.Format( "{0}/{1}", match.Groups[1].Value, match.Groups[2].Value );
+					sMimeType = String.Format( "{0}/{1}", match.Groups[ 1 ].Value, match.Groups[ 2 ].Value );
 				}
 				if( sMimeType == null ) {
 					sMimeType = this.MimeType;
@@ -342,9 +344,27 @@ namespace SEOMacroscope
 
 		/** Outlinks **************************************************************/
 
-		public Dictionary<string,string> GetOutlinks ()
+		public Dictionary<string,MacroscopeOutlink> GetOutlinks ()
 		{
 			return( this.Outlinks );
+		}
+
+		public IEnumerable IterateOutlinks ()
+		{
+			lock( this.Outlinks ) {
+				foreach( string sUrl in this.Outlinks.Keys ) {
+					yield return sUrl;
+				}
+			}
+		}
+
+		public MacroscopeOutlink GetOutlink ( string sUrl )
+		{
+			MacroscopeOutlink Outlink = null;
+			if( this.Outlinks.ContainsKey( sUrl ) ) {
+				Outlink = this.Outlinks[ sUrl ];
+			}
+			return( Outlink );
 		}
 
 		public int CountOutlinks ()
@@ -404,7 +424,7 @@ namespace SEOMacroscope
 		{
 			DebugMsg( string.Format( "AddEmailAddress: {0}", sString ) );
 			if( this.EmailAddresses.ContainsKey( sString ) ) {
-				this.EmailAddresses[sString] = this.GetUrl();
+				this.EmailAddresses[ sString ] = this.GetUrl();
 			} else {
 				this.EmailAddresses.Add( sString, this.GetUrl() );
 			}
@@ -421,7 +441,7 @@ namespace SEOMacroscope
 		{
 			DebugMsg( string.Format( "AddTelephoneNumber: {0}", sString ) );
 			if( this.TelephoneNumbers.ContainsKey( sString ) ) {
-				this.TelephoneNumbers[sString] = this.GetUrl();
+				this.TelephoneNumbers[ sString ] = this.GetUrl();
 			} else {
 				this.TelephoneNumbers.Add( sString, this.GetUrl() );
 			}
@@ -496,10 +516,10 @@ namespace SEOMacroscope
 				
 		/** HrefLang **************************************************************/
 
-		void SetHreflang ( string sLocale, string sURL )
+		void SetHreflang ( string sLocale, string sUrl )
 		{
-			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( sLocale, sURL );
-			this.HrefLang[sLocale] = msHrefLang;
+			MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( sLocale, sUrl );
+			this.HrefLang[ sLocale ] = msHrefLang;
 		}
 
 		public Dictionary<string,MacroscopeHrefLang> GetHrefLangs ()
@@ -512,7 +532,7 @@ namespace SEOMacroscope
 		public void AddHeading ( ushort iLevel, string sString )
 		{
 			if( this.Headings.ContainsKey( iLevel ) ) {
-				ArrayList alHeadings = this.Headings[iLevel];
+				ArrayList alHeadings = this.Headings[ iLevel ];
 				alHeadings.Add( sString );
 			}
 		}
@@ -521,7 +541,7 @@ namespace SEOMacroscope
 		{
 			ArrayList alHeadings = new ArrayList ();
 			if( this.Headings.ContainsKey( iLevel ) ) {
-				alHeadings = this.Headings[iLevel];
+				alHeadings = this.Headings[ iLevel ];
 			}
 			return( alHeadings );
 		}
@@ -648,7 +668,7 @@ namespace SEOMacroscope
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
 			Boolean bIsRedirect = false;
-			string sOriginalURL = this.Url;
+			string sOriginalUrl = this.Url;
 			string sErrorCondition = null;
 			
 			try {
@@ -680,11 +700,11 @@ namespace SEOMacroscope
 			
 					if( bIsRedirect ) {
 						this.IsRedirect = true;
-						//this.UrlRedirectFrom = sOriginalURL;				
+						//this.UrlRedirectFrom = sOriginalUrl;				
 						this.UrlRedirectTo = res.GetResponseHeader( "Location" );
 
 
-						//this.url = MacroscopeURLTools.make_url_absolute( this.url, this.UrlRedirectFrom );
+						//this.url = MacroscopeUrlTools.make_url_absolute( this.url, this.UrlRedirectFrom );
 
 
 					}
@@ -782,8 +802,8 @@ namespace SEOMacroscope
 					MatchCollection matches = Regex.Matches( sRaw, "<([^<>]+)>\\s*;\\srel=\"([^\"]+)\"" );
 
 					foreach( Match match in matches ) {
-						sUrl = match.Groups[1].Value;
-						sRel = match.Groups[2].Value;
+						sUrl = match.Groups[ 1 ].Value;
+						sRel = match.Groups[ 2 ].Value;
 					}
 									
 					if( ( sRel != null ) && ( sRel.ToLower() == "canonical" ) ) {
@@ -872,7 +892,7 @@ namespace SEOMacroscope
 			for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
 				string sHeading;
 				if( this.GetHeadings( iLevel ).Count > 0 ) {
-					sHeading = this.GetHeadings( iLevel )[0].ToString();
+					sHeading = this.GetHeadings( iLevel )[ 0 ].ToString();
 				} else {
 					sHeading = null;
 				}

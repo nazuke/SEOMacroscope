@@ -75,13 +75,13 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void UpdateDisplay ( MacroscopeJobMaster msJobMaster, string sURL )
+		public void UpdateDisplay ( MacroscopeJobMaster msJobMaster, string sUrl )
 		{
 
 			// TODO: This blows up if the page is from a redirect. Probably need to use the original URL
 
 			MacroscopeDocumentCollection msDocCollection = msJobMaster.GetDocCollection();
-			MacroscopeDocument msDoc = msDocCollection.Get( sURL );
+			MacroscopeDocument msDoc = msDocCollection.Get( sUrl );
 
 			if( this.InvokeRequired ) {
 				this.Invoke(
@@ -162,7 +162,7 @@ namespace SEOMacroscope
 				lvListView.Columns.Add( "Title", "Title" );
 			}
 
-			string sKeyURL = msDoc.GetUrl();
+			string sKeyUrl = msDoc.GetUrl();
 
 			if( msDoc.GetIsHtml() ) {
 
@@ -172,9 +172,9 @@ namespace SEOMacroscope
 
 					{
 
-						ListViewItem lvItem = new ListViewItem ( sKeyURL );
+						ListViewItem lvItem = new ListViewItem ( sKeyUrl );
 
-						lvItem.Name = sKeyURL;
+						lvItem.Name = sKeyUrl;
 								
 						lvItem.SubItems.Add( "" );
 						lvItem.SubItems.Add( "" );

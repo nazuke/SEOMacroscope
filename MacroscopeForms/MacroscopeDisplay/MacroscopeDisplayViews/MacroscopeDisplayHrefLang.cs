@@ -127,9 +127,9 @@ namespace SEOMacroscope
 
 			}
 
-			foreach( string sKeyURL in DocCollection.Keys() ) {
+			foreach( string sKeyUrl in DocCollection.Keys() ) {
 
-				MacroscopeDocument msDoc = DocCollection.Get( sKeyURL );
+				MacroscopeDocument msDoc = DocCollection.Get( sKeyUrl );
 
 				if( msDoc.GetIsHtml() ) {
 
@@ -145,15 +145,15 @@ namespace SEOMacroscope
 
 							ListViewItem lvItem;
 
-							if( this.lvListView.Items.ContainsKey( sKeyURL ) ) {
+							if( this.lvListView.Items.ContainsKey( sKeyUrl ) ) {
 
-								lvItem = this.lvListView.Items[ sKeyURL ];
+								lvItem = this.lvListView.Items[ sKeyUrl ];
 							
 							} else {
 							
-								lvItem = new ListViewItem ( sKeyURL );
+								lvItem = new ListViewItem ( sKeyUrl );
 
-								lvItem.Name = sKeyURL;
+								lvItem.Name = sKeyUrl;
 								
 								lvItem.SubItems.Add( "" );
 								lvItem.SubItems.Add( "" );
@@ -167,7 +167,7 @@ namespace SEOMacroscope
 
 							}
 
-							if( this.lvListView.Items.ContainsKey( sKeyURL ) ) {
+							if( this.lvListView.Items.ContainsKey( sKeyUrl ) ) {
 							
 								try {
 
@@ -209,7 +209,7 @@ namespace SEOMacroscope
 								}
 
 							} else {
-								DebugMsg( string.Format( "MacroscopeDisplayHrefLang MISSING: {0}", sKeyURL ) );
+								DebugMsg( string.Format( "MacroscopeDisplayHrefLang MISSING: {0}", sKeyUrl ) );
 							}
 
 						}

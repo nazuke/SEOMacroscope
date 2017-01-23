@@ -22,50 +22,41 @@
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 */
- 
+
 using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace SEOMacroscope
 {
 
-	public class Macroscope
+	[TestFixture]
+	public class TestMacroscopeJobWorker
 	{
 
 		/**************************************************************************/
 
-		// Override SuppressDebugMsg to enable/disable debugging output statically.
-		public static Boolean SuppressStaticDebugMsg;
-
-		// Override SuppressDebugMsg to enable/disable debugging output in object.
-		public virtual Boolean SuppressDebugMsg { get; protected set; }
-		
-		/**************************************************************************/
-
-		static Macroscope ()
+		[Test]
+		public void TestWorker ()
 		{
-			SuppressStaticDebugMsg = false;
-		}
+			List<string> alUrls = new List<string>()
+			{
+				{
+					"http://engage.opentext.com/"
+				}
+			};
+			
+			for( int i = 0; i < alUrls.Count; i++ ) {
 
-		public Macroscope ()
-		{
-			SuppressDebugMsg = false;
-		}
+				MacroscopeJobMaster jobmaster = new MacroscopeJobMaster ();
+				MacroscopeJobWorker worker = new MacroscopeJobWorker ( jobmaster );
 
-		/**************************************************************************/
-		
-		public static Boolean DebugMsg ( String sMsg, Boolean bFlag )
-		{
-			if( !SuppressStaticDebugMsg ) {
-				System.Diagnostics.Debug.WriteLine( sMsg );
+				string sUrl = alUrls[i];
+
+				worker.Execute(sUrl );
+
 			}
-			return( bFlag );
-		}
-		
-		public void DebugMsg ( String sMsg )
-		{
-			//if( !SuppressDebugMsg ) {
-			//	System.Diagnostics.Debug.WriteLine( string.Format( "{0} :: {1}", this.GetType(), sMsg ) );
-			//}
+
 		}
 
 		/**************************************************************************/

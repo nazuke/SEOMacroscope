@@ -55,7 +55,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
 		private System.Windows.Forms.GroupBox groupBox6;
-		public System.Windows.Forms.CheckBox checkBoxProbeHreflangs;
+		public System.Windows.Forms.CheckBox checkBoxCheckHreflangs;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
 		private System.Windows.Forms.GroupBox groupBox8;
 		public System.Windows.Forms.NumericUpDown numericUpDownHttpProxyPort;
@@ -66,7 +66,6 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxFollowRedirects;
 		public System.Windows.Forms.CheckBox checkBoxFollowCanonicalLinks;
 		public System.Windows.Forms.CheckBox checkBoxFollowHrefLangLinks;
-		public System.Windows.Forms.CheckBox checkBox1;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -117,7 +116,7 @@ namespace SEOMacroscope
 			this.tabPageAnalysisOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
-			this.checkBoxProbeHreflangs = new System.Windows.Forms.CheckBox();
+			this.checkBoxCheckHreflangs = new System.Windows.Forms.CheckBox();
 			this.tabPageSeo = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -143,7 +142,6 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -235,7 +233,6 @@ namespace SEOMacroscope
 			// groupBox5
 			// 
 			this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox5.Controls.Add(this.checkBox1);
 			this.groupBox5.Controls.Add(this.checkBoxFollowHrefLangLinks);
 			this.groupBox5.Controls.Add(this.checkBoxFollowCanonicalLinks);
 			this.groupBox5.Controls.Add(this.checkBoxFollowRedirects);
@@ -245,14 +242,14 @@ namespace SEOMacroscope
 			this.groupBox5.Location = new System.Drawing.Point(10, 10);
 			this.groupBox5.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(500, 180);
+			this.groupBox5.Size = new System.Drawing.Size(500, 120);
 			this.groupBox5.TabIndex = 1;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Standards";
 			// 
 			// checkBoxFollowHrefLangLinks
 			// 
-			this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(220, 20);
+			this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(220, 50);
 			this.checkBoxFollowHrefLangLinks.Name = "checkBoxFollowHrefLangLinks";
 			this.checkBoxFollowHrefLangLinks.Size = new System.Drawing.Size(160, 24);
 			this.checkBoxFollowHrefLangLinks.TabIndex = 5;
@@ -261,7 +258,7 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFollowCanonicalLinks
 			// 
-			this.checkBoxFollowCanonicalLinks.Location = new System.Drawing.Point(20, 110);
+			this.checkBoxFollowCanonicalLinks.Location = new System.Drawing.Point(220, 20);
 			this.checkBoxFollowCanonicalLinks.Name = "checkBoxFollowCanonicalLinks";
 			this.checkBoxFollowCanonicalLinks.Size = new System.Drawing.Size(160, 24);
 			this.checkBoxFollowCanonicalLinks.TabIndex = 4;
@@ -306,7 +303,7 @@ namespace SEOMacroscope
 			this.groupBox4.Controls.Add(this.numericUpDownPageLimit);
 			this.groupBox4.Controls.Add(this.numericUpDownDepth);
 			this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox4.Location = new System.Drawing.Point(10, 200);
+			this.groupBox4.Location = new System.Drawing.Point(10, 140);
 			this.groupBox4.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(500, 150);
@@ -321,7 +318,6 @@ namespace SEOMacroscope
 			this.label13.Size = new System.Drawing.Size(200, 23);
 			this.label13.TabIndex = 9;
 			this.label13.Text = "Maximum Worker Threads";
-			this.label13.Click += new System.EventHandler(this.Label13Click);
 			// 
 			// numericUpDownMaxThreads
 			// 
@@ -382,7 +378,7 @@ namespace SEOMacroscope
 			1,
 			0,
 			0,
-			0});
+			-2147483648});
 			this.numericUpDownPageLimit.Name = "numericUpDownPageLimit";
 			this.numericUpDownPageLimit.Size = new System.Drawing.Size(120, 20);
 			this.numericUpDownPageLimit.TabIndex = 9;
@@ -404,7 +400,7 @@ namespace SEOMacroscope
 			1,
 			0,
 			0,
-			0});
+			-2147483648});
 			this.numericUpDownDepth.Name = "numericUpDownDepth";
 			this.numericUpDownDepth.Size = new System.Drawing.Size(120, 20);
 			this.numericUpDownDepth.TabIndex = 8;
@@ -423,7 +419,7 @@ namespace SEOMacroscope
 			this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
 			this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox1.Location = new System.Drawing.Point(10, 360);
+			this.groupBox1.Location = new System.Drawing.Point(10, 300);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(500, 120);
@@ -503,7 +499,7 @@ namespace SEOMacroscope
 			// groupBox6
 			// 
 			this.groupBox6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox6.Controls.Add(this.checkBoxProbeHreflangs);
+			this.groupBox6.Controls.Add(this.checkBoxCheckHreflangs);
 			this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox6.Location = new System.Drawing.Point(10, 10);
 			this.groupBox6.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
@@ -513,14 +509,14 @@ namespace SEOMacroscope
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Localized Pages";
 			// 
-			// checkBoxProbeHreflangs
+			// checkBoxCheckHreflangs
 			// 
-			this.checkBoxProbeHreflangs.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxProbeHreflangs.Name = "checkBoxProbeHreflangs";
-			this.checkBoxProbeHreflangs.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxProbeHreflangs.TabIndex = 1;
-			this.checkBoxProbeHreflangs.Text = "Probe Linked HrefLang Pages";
-			this.checkBoxProbeHreflangs.UseVisualStyleBackColor = true;
+			this.checkBoxCheckHreflangs.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxCheckHreflangs.Name = "checkBoxCheckHreflangs";
+			this.checkBoxCheckHreflangs.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxCheckHreflangs.TabIndex = 1;
+			this.checkBoxCheckHreflangs.Text = "Check Linked HrefLang Pages";
+			this.checkBoxCheckHreflangs.UseVisualStyleBackColor = true;
 			// 
 			// tabPageSeo
 			// 
@@ -848,15 +844,6 @@ namespace SEOMacroscope
 			0,
 			0,
 			0});
-			// 
-			// checkBox1
-			// 
-			this.checkBox1.Location = new System.Drawing.Point(220, 50);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(160, 24);
-			this.checkBox1.TabIndex = 6;
-			this.checkBox1.Text = "Follow HrefLang Links";
-			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 

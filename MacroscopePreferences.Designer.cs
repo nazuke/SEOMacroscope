@@ -25,6 +25,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool CheckHreflangs {
+			get {
+				return ((bool)(this["CheckHreflangs"]));
+			}
+			set {
+				this["CheckHreflangs"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("-1")]
 		public int Depth {
 			get {
@@ -200,18 +212,6 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["PageLimit"] = value;
-			}
-		}
-		
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("False")]
-		public bool ProbeHreflangs {
-			get {
-				return ((bool)(this["ProbeHreflangs"]));
-			}
-			set {
-				this["ProbeHreflangs"] = value;
 			}
 		}
 		

@@ -36,7 +36,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public new Boolean SuppressDebugMsg = false;
+		public override Boolean SuppressDebugMsg { get; protected set; }
 				
 		/**************************************************************************/
 
@@ -58,6 +58,8 @@ namespace SEOMacroscope
 		public MacroscopeDocumentCollection ()
 		{
 			
+			SuppressDebugMsg = true;
+			
 			this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
 			
 			DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
@@ -65,9 +67,10 @@ namespace SEOMacroscope
 			NamedQueue = new MacroscopeNamedQueue ();
 			NamedQueue.CreateNamedQueue( constRecalculateDocCollection );
 
-			StatsHistory = new Dictionary<string,Boolean> ();
+			StatsHistory = new Dictionary<string,Boolean> ( 1024 );
 			StatsHostnames = new Dictionary<string,int> ( 16 );
-			StatsTitles = new Dictionary<string,int> ();
+			StatsTitles = new Dictionary<string,int> ( 1024 );
+			StatsDescriptions = new Dictionary<string,int> ( 1024 );
 			
 			SemaphoreRecalc = new Semaphore ( 0, 1 );
 			this.StartRecalcTimer();
@@ -131,7 +134,7 @@ namespace SEOMacroscope
 		{
 			MacroscopeDocument msDoc = null;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
-				msDoc = ( MacroscopeDocument )this.DocCollection[sKey];
+				msDoc = ( MacroscopeDocument )this.DocCollection[ sKey ];
 			}
 			return( msDoc );
 		}
@@ -252,6 +255,8 @@ namespace SEOMacroscope
 						this.RecalculateHostnames( msDoc );
 					
 						this.RecalculateTitles( msDoc );
+						
+						this.RecalculateDescriptions( msDoc );
 
 					}
 					
@@ -275,7 +280,7 @@ namespace SEOMacroscope
 			Dictionary<string,int> dicHostnames = new Dictionary<string,int> ( this.StatsHostnames.Count );
 			lock( this.StatsHostnames ) {
 				foreach( string sHostname in this.StatsHostnames.Keys ) {
-					dicHostnames.Add( sHostname, this.StatsHostnames[sHostname] );
+					dicHostnames.Add( sHostname, this.StatsHostnames[ sHostname ] );
 				}
 			}
 			return( dicHostnames );
@@ -285,7 +290,7 @@ namespace SEOMacroscope
 		{
 			int iValue = 0;
 			if( this.StatsHostnames.ContainsKey( sHostname ) ) {
-				iValue = this.StatsHostnames[sHostname];
+				iValue = this.StatsHostnames[ sHostname ];
 			}
 			return( iValue );
 		}
@@ -298,7 +303,7 @@ namespace SEOMacroscope
 				sHostname = sHostname.ToLower();
 				if( this.StatsHostnames.ContainsKey( sHostname ) ) {
 					lock( this.StatsHostnames ) {
-						this.StatsHostnames[sHostname] = this.StatsHostnames[sHostname] + 1;
+						this.StatsHostnames[ sHostname ] = this.StatsHostnames[ sHostname ] + 1;
 					}
 				} else {
 					lock( this.StatsHostnames ) {
@@ -319,7 +324,7 @@ namespace SEOMacroscope
 		{
 			int iValue = 0;
 			if( this.StatsTitles.ContainsKey( sTitle ) ) {
-				iValue = this.StatsTitles[sTitle];
+				iValue = this.StatsTitles[ sTitle ];
 			}
 			return( iValue );
 		}
@@ -344,11 +349,59 @@ namespace SEOMacroscope
 
 				if( this.StatsTitles.ContainsKey( sTitle ) ) {
 					lock( this.StatsTitles ) {
-						this.StatsTitles[sTitle] = this.StatsTitles[sTitle] + 1;
+						this.StatsTitles[ sTitle ] = this.StatsTitles[ sTitle ] + 1;
 					}
 				} else {
 					lock( this.StatsTitles ) {
 						this.StatsTitles.Add( sTitle, 1 );
+					}
+				}
+
+			}
+			
+		}
+
+		/** Descriptions **********************************************************/
+
+		void ClearDescriptions ()
+		{
+			this.StatsDescriptions.Clear();
+		}
+
+		public int GetDescriptionCount ( string sDescription )
+		{
+			int iValue = 0;
+			if( this.StatsDescriptions.ContainsKey( sDescription ) ) {
+				iValue = this.StatsDescriptions[ sDescription ];
+			}
+			return( iValue );
+		}
+
+		void RecalculateDescriptions ( MacroscopeDocument msDoc )
+		{
+			
+			Boolean bProcess;
+			
+			if( msDoc.GetIsHtml() ) {
+				bProcess = true;
+			} else if( msDoc.GetIsPdf() ) {
+				bProcess = true;
+			} else {
+				bProcess = false;
+			}
+			
+			if( bProcess ) {
+			
+				string sUrl = msDoc.GetUrl();
+				string sDescription = msDoc.GetDescription();
+
+				if( this.StatsDescriptions.ContainsKey( sDescription ) ) {
+					lock( this.StatsDescriptions ) {
+						this.StatsDescriptions[ sDescription ] = this.StatsDescriptions[ sDescription ] + 1;
+					}
+				} else {
+					lock( this.StatsDescriptions ) {
+						this.StatsDescriptions.Add( sDescription, 1 );
 					}
 				}
 

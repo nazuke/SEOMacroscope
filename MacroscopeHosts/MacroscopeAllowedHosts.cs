@@ -38,26 +38,26 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Dictionary<string,Boolean> Hosts;
+		Dictionary<string,Boolean> Hostnames;
 
 		/**************************************************************************/
 
 		public MacroscopeAllowedHosts ()
 		{
-			Hosts = new Dictionary<string,Boolean> ( 32 );
+			Hostnames = new Dictionary<string,Boolean> ( 32 );
 		}
 
 		/**************************************************************************/
 
 		public void Add ( string sHostname )
 		{
-			if( !Hosts.ContainsKey( sHostname ) ) {
-				Hosts.Add( sHostname, true );
+			if( !this.Hostnames.ContainsKey( sHostname ) ) {
+				this.Hostnames.Add( sHostname, true );
 			} else {
-				Hosts[ sHostname ] = true;
+				this.Hostnames[ sHostname ] = true;
 			}
 		}
-		
+
 		/**************************************************************************/
 		
 		public void AddFromUrl ( string sUrl )
@@ -70,8 +70,8 @@ namespace SEOMacroscope
 				
 		public void Remove ( string sHostname )
 		{
-			if( !Hosts.ContainsKey( sHostname ) ) {
-				Hosts.Remove( sHostname );
+			if( !this.Hostnames.ContainsKey( sHostname ) ) {
+				this.Hostnames.Remove( sHostname );
 			}
 		}
 		
@@ -79,10 +79,10 @@ namespace SEOMacroscope
 		
 		public void Allow ( string sHostname )
 		{
-			if( Hosts.ContainsKey( sHostname ) ) {
-				Hosts[ sHostname ] = true;
+			if( this.Hostnames.ContainsKey( sHostname ) ) {
+				this.Hostnames[ sHostname ] = true;
 			} else {
-				Hosts.Add( sHostname, true );
+				this.Hostnames.Add( sHostname, true );
 			}
 		}
 		
@@ -90,10 +90,10 @@ namespace SEOMacroscope
 		
 		public void Disallow ( string sHostname )
 		{
-			if( Hosts.ContainsKey( sHostname ) ) {
-				Hosts[ sHostname ] = false;
+			if( this.Hostnames.ContainsKey( sHostname ) ) {
+				this.Hostnames[ sHostname ] = false;
 			} else {
-				Hosts.Add( sHostname, false );
+				this.Hostnames.Add( sHostname, false );
 			}
 		}
 
@@ -102,8 +102,8 @@ namespace SEOMacroscope
 		public Boolean IsAllowed ( string sHostname )
 		{
 			Boolean bIsAllowed = false;
-			if( Hosts.ContainsKey( sHostname ) ) {
-				bIsAllowed = Hosts[ sHostname ];
+			if( this.Hostnames.ContainsKey( sHostname ) ) {
+				bIsAllowed = this.Hostnames[ sHostname ];
 			}
 			return( bIsAllowed );
 		}
@@ -118,6 +118,17 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		public void DumpAllowedHosts ()
+		{
+			lock( this.Hostnames ) {
+				foreach( string sUrl in this.Hostnames.Keys ) {
+					DebugMsg( string.Format( "ALLOWED_HOST: {0}", sUrl ) );
+				}
+			}
+		}
+
+		/**************************************************************************/
+		
 	}
 
 }

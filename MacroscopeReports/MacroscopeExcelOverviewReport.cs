@@ -100,7 +100,7 @@ namespace SEOMacroscope
 					
 					MacroscopeDocument msDoc = DocCollection.Get( sKey );
 
-					string sURL = this.FormatIfMissing( msDoc.GetUrl() );
+					string sUrl = this.FormatIfMissing( msDoc.GetUrl() );
 					string sStatusCode = this.FormatIfMissing( msDoc.GetStatusCode().ToString() );
 					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
 					string sMimeType = this.FormatIfMissing( msDoc.GetMimeType() );
@@ -108,7 +108,7 @@ namespace SEOMacroscope
 					string sCanonical = this.FormatIfMissing( msDoc.GetCanonical() );
 					string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
 					
-					this.InsertAndFormatContentCell( ws, iRow, iCol, sURL );
+					this.InsertAndFormatContentCell( ws, iRow, iCol, sUrl );
 					iCol++;
 					
 					this.InsertAndFormatContentCell( ws, iRow, iCol, sStatusCode );

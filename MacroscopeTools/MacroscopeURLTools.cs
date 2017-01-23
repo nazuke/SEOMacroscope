@@ -29,31 +29,35 @@ using System.Text.RegularExpressions;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeURLTools : Macroscope
+	public class MacroscopeUrlTools : Macroscope
 	{
 
 		/**************************************************************************/
 
-		static MacroscopeURLTools ()
+		public override Boolean SuppressDebugMsg { get; protected set; }
+				
+		/**************************************************************************/
+
+		static MacroscopeUrlTools ()
 		{
 			SuppressStaticDebugMsg = true;
 		}
 		
-		public MacroscopeURLTools ()
+		public MacroscopeUrlTools ()
 		{
 			SuppressDebugMsg = true;
 		}
 
 		/**************************************************************************/
 
-		public static Boolean ValidateUrl ( string sURL )
+		public static Boolean ValidateUrl ( string sUrl )
 		{
 
 			Boolean bIsValid = false;
 
 			try {
 
-				Uri uUri = new Uri ( sURL, UriKind.Absolute );
+				Uri uUri = new Uri ( sUrl, UriKind.Absolute );
 
 				if( uUri != null ) {
 					bIsValid = true;
@@ -71,11 +75,11 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public static string MakeUrlAbsolute ( string sBaseURL, string sURL )
+		public static string MakeUrlAbsolute ( string sBaseUrl, string sUrl )
 		{
 
-			string sURLFixed;
-			Uri uBase = new Uri ( sBaseURL, UriKind.Absolute );
+			string sUrlFixed;
+			Uri uBase = new Uri ( sBaseUrl, UriKind.Absolute );
 			Uri uNew = null;
 
 			Regex reDoubleSlash = new Regex ( "^//" );
@@ -85,14 +89,14 @@ namespace SEOMacroscope
 			Regex reHTTP = new Regex ( "^http" );
 			Regex reUnsupportedScheme = new Regex ( "^[a-z0-9]+:" );
 			
-			if( reDoubleSlash.IsMatch( sURL ) ) {
+			if( reDoubleSlash.IsMatch( sUrl ) ) {
 
 				try {
 					uNew = new Uri (
 						string.Format(
 							"{0}:{1}",
 							uBase.Scheme,
-							sURL
+							sUrl
 						),
 						UriKind.Absolute
 					);
@@ -103,7 +107,7 @@ namespace SEOMacroscope
 					DebugMsg( ex.Message, true );
 				}
 
-			} else if( reSlash.IsMatch( sURL ) ) {
+			} else if( reSlash.IsMatch( sUrl ) ) {
 
 				try {
 					uNew = new Uri (
@@ -111,7 +115,7 @@ namespace SEOMacroscope
 							"{0}://{1}{2}",
 							uBase.Scheme,
 							uBase.Host,
-							sURL
+							sUrl
 						),
 						UriKind.Absolute
 					);
@@ -122,7 +126,7 @@ namespace SEOMacroscope
 					DebugMsg( ex.Message, true );
 				}
 				
-			} else if( reQuery.IsMatch( sURL ) ) {
+			} else if( reQuery.IsMatch( sUrl ) ) {
 
 				try {
 					uNew = new Uri (
@@ -130,7 +134,7 @@ namespace SEOMacroscope
 							"{0}://{1}{2}",
 							uBase.Scheme,
 							uBase.Host,
-							sURL
+							sUrl
 						),
 						UriKind.Absolute
 					);
@@ -141,11 +145,11 @@ namespace SEOMacroscope
 					DebugMsg( ex.Message, true );
 				}
 
-			} else if( reHash.IsMatch( sURL ) ) {
+			} else if( reHash.IsMatch( sUrl ) ) {
 
-				string sNewURL = sURL.ToString();
+				string sNewUrl = sUrl;
 				Regex reHashRemove = new Regex ( "#.*$", RegexOptions.Singleline );
-				sNewURL = reHashRemove.Replace( sNewURL, "" );
+				sNewUrl = reHashRemove.Replace( sNewUrl, "" );
 
 				try {
 					uNew = new Uri (
@@ -153,7 +157,7 @@ namespace SEOMacroscope
 							"{0}://{1}{2}",
 							uBase.Scheme,
 							uBase.Host,
-							sNewURL
+							sNewUrl
 						),
 						UriKind.Absolute
 					);
@@ -164,27 +168,27 @@ namespace SEOMacroscope
 					DebugMsg( ex.Message, true );
 				}
 
-			} else if( reHTTP.IsMatch( sURL ) ) {
+			} else if( reHTTP.IsMatch( sUrl ) ) {
 
 				try {
-					uNew = new Uri ( sURL, UriKind.Absolute );
+					uNew = new Uri ( sUrl, UriKind.Absolute );
 				} catch( InvalidOperationException ex ) {
 					DebugMsg( ex.Message, true );
 				} catch( UriFormatException ex ) {
 					DebugMsg( ex.Message, true );
 				}
 
-			} else if( reUnsupportedScheme.IsMatch( sURL ) ) {
+			} else if( reUnsupportedScheme.IsMatch( sUrl ) ) {
 
 				; // NO-OP, for now.
 
 			} else {
 
 				
-				DebugMsg( string.Format( "RELATIVE URL 1: {0}", sURL ), true );
+				DebugMsg( string.Format( "RELATIVE URL 1: {0}", sUrl ), true );
 
 				string sBasePath = Regex.Replace( uBase.AbsolutePath, "/[^/]+$", "/" );
-				string sNewPath = string.Join( "", sBasePath, sURL );
+				string sNewPath = string.Join( "", sBasePath, sUrl );
 				
 				DebugMsg( string.Format( "RELATIVE URL 2: {0}", sBasePath ), true );
 				DebugMsg( string.Format( "RELATIVE URL 3: {0}", sNewPath ), true );
@@ -210,47 +214,47 @@ namespace SEOMacroscope
 			}
 
 			if( uNew != null ) {
-				sURLFixed = uNew.ToString();
+				sUrlFixed = uNew.ToString();
 			} else {
-				sURLFixed = sURL;
+				sUrlFixed = sUrl;
 			}
 
-			return( sURLFixed );
+			return( sUrlFixed );
 
 		}
 
 		/**************************************************************************/
 
-		public static Boolean VerifySameHost ( string sBaseURL, string sURL )
+		public static Boolean VerifySameHost ( string sBaseUrL, string sUrl )
 		{
 			Boolean bSuccess = false;
 			Uri uBase = null;
 			Uri uNew = null;
 
 			try {
-				uBase = new Uri ( sBaseURL, UriKind.Absolute );
+				uBase = new Uri ( sBaseUrL, UriKind.Absolute );
 			} catch( InvalidOperationException ex ) {
 				DebugMsg( ex.Message, true );
-				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ), true );
+				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sBaseUrL ), true );
 			} catch( UriFormatException ex ) {
 				DebugMsg( ex.Message, true );
-				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ), true );
+				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sBaseUrL ), true );
 			} catch( Exception ex ) {
 				DebugMsg( ex.Message, true );
-				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sBaseURL ), true );
+				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sBaseUrL ), true );
 			}
 
 			try {
-				uNew = new Uri ( sURL, UriKind.Absolute );
+				uNew = new Uri ( sUrl, UriKind.Absolute );
 			} catch( InvalidOperationException ex ) {
 				DebugMsg( ex.Message, true );
-				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sURL ), true );
+				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sUrl ), true );
 			} catch( UriFormatException ex ) {
 				DebugMsg( ex.Message, true );
-				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sURL ), true );
+				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sUrl ), true );
 			} catch( Exception ex ) {
 				DebugMsg( ex.Message, true );
-				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sURL ), true );
+				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sUrl ), true );
 			}
 
 			try {
@@ -259,7 +263,7 @@ namespace SEOMacroscope
 				}
 			} catch( UriFormatException ex ) {
 				DebugMsg( ex.Message, true );
-				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sURL ), true );
+				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sUrl ), true );
 			}
 			
 			return( bSuccess );
@@ -267,14 +271,14 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public static int FindUrlDepth ( string sURL )
+		public static int FindUrlDepth ( string sUrl )
 		{
 			
 			int iDepth = 0;
 			Uri uURI = null;
 
 			try {
-				uURI = new Uri ( sURL, UriKind.Absolute );
+				uURI = new Uri ( sUrl, UriKind.Absolute );
 			} catch( InvalidOperationException ex ) {
 				DebugMsg( ex.Message, true );
 			} catch( UriFormatException ex ) {
@@ -292,10 +296,10 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public static string CleanUrlCss ( string sURL )
+		public static string CleanUrlCss ( string sUrl )
 		{
 			
-			string sCleaned = sURL;
+			string sCleaned = sUrl;
 
 			sCleaned = Regex.Replace( sCleaned, "^[\\s]", "" );
 			sCleaned = Regex.Replace( sCleaned, "[\\s]$", "" );

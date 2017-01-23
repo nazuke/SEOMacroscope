@@ -38,30 +38,7 @@ namespace SEOMacroscope
 		MacroscopeDocumentCollection msDocCollection;
 		MacroscopeAllowedHosts msAllowedHosts;
 		
-		Object DisplayLock;
-
-		/** BEGIN: Named Queues **/
-
-		const string constNamedQueueUrlList = "UrlQueue";
-
-		public const string NamedQueueDisplayQueue = "DisplayQueue";
-		public const string NamedQueueDisplayStructure = "DisplayStructure";
-		public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
-		public const string NamedQueueDisplayCanonicalAnalysis = "CanonicalAnalysis";
-		public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
-		public const string NamedQueueDisplayRedirectsAudit = "RedirectsAudit";
-		public const string NamedQueueDisplayUriAnalysis = "UriAnalysis";
-		public const string NamedQueueDisplayPageTitles = "PageTitles";
-		public const string NamedQueueDisplayPageDescription = "PageDescription";
-		public const string NamedQueueDisplayPageKeywords = "PageKeywords";
-		public const string NamedQueueDisplayPageHeadings = "PageHeadings";
-		public const string NamedQueueDisplayEmailAddresses = "EmailAddresses";
-		public const string NamedQueueDisplayTelephoneNumbers = "TelephoneNumbers";
-		public const string NamedQueueDisplayHostnames = "DisplayHostnames";
-
 		MacroscopeNamedQueue NamedQueue;
-
-		/** END: Named Queues **/
 
 		/** BEGIN: Configuration **/
 		
@@ -75,7 +52,6 @@ namespace SEOMacroscope
 		int PageLimit;
 		int PageLimitCount;
 		Boolean SameSite;
-		Boolean ProbeHrefLangs;
 
 		/** END: Configuration **/
 
@@ -85,35 +61,46 @@ namespace SEOMacroscope
 		Dictionary<string,string> Locales;
 
 		MacroscopeRobots msRobots;
-				
+
 		/**************************************************************************/
 
+		public MacroscopeJobMaster ()
+		{
+			msMainForm = null;
+			InitializeJobMaster();
+		}
+		
 		public MacroscopeJobMaster ( MacroscopeMainForm msMainFormNew )
 		{
-
 			msMainForm = msMainFormNew;
+			InitializeJobMaster();
+		}
+
+		/**************************************************************************/
+
+		void InitializeJobMaster ()
+		{
+
 			msDocCollection = new MacroscopeDocumentCollection ();
 			msAllowedHosts = new MacroscopeAllowedHosts ();
 			
-			DisplayLock = new Object ();
-
 			// BEGIN: Named Queues
 			NamedQueue = new MacroscopeNamedQueue ();
 			{
-				NamedQueue.CreateNamedQueue( constNamedQueueUrlList );	
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayStructure );			
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayHierarchy );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayCanonicalAnalysis );	
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayHrefLang );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayRedirectsAudit );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayUriAnalysis );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayPageTitles );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayPageDescription );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayPageKeywords );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayPageHeadings );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayEmailAddresses );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayTelephoneNumbers );
-				NamedQueue.CreateNamedQueue( NamedQueueDisplayHostnames );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueUrlList );	
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure );			
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis );	
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescription );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames );
 			}
 			// END: Named Queues
 
@@ -127,7 +114,6 @@ namespace SEOMacroscope
 			PageLimitCount = 0;
 
 			SameSite = MacroscopePreferencesManager.GetSameSite();
-			ProbeHrefLangs = MacroscopePreferencesManager.GetProbeHreflangs();
 			PagesFound = 0;
 
 			History = Hashtable.Synchronized( new Hashtable ( 4096 ) );
@@ -142,7 +128,6 @@ namespace SEOMacroscope
 		~MacroscopeJobMaster ()
 		{
 			DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
-			//this.msDocCollection.ShutdownWorkerRecalculateDocCollection();
 			this.msDocCollection = null;
 		}
 		
@@ -165,7 +150,9 @@ namespace SEOMacroscope
 			
 			DebugMsg( string.Format( "Pages Found: {0}", this.PagesFound ) );
 
-			this.msMainForm.CallbackScanComplete();
+			if( this.msMainForm != null ) {
+				this.msMainForm.CallbackScanComplete();
+			}
 
 			return( true );
 			
@@ -221,19 +208,19 @@ namespace SEOMacroscope
 		{
 			if( !this.ThreadsStop ) {
 				MacroscopeJobWorker msJobWorker = new MacroscopeJobWorker ( this );
-				string sURL = this.GetUrlQueueItem();
-				if( sURL != null ) {
+				string sUrl = this.GetUrlQueueItem();
+				if( sUrl != null ) {
 					this.IncRunningThreads();
-					msJobWorker.Execute( sURL );
+					msJobWorker.Execute( sUrl );
 				}
 			}
 		}
 
-		public void NotifyWorkersDone ( string sURL )
+		public void NotifyWorkersDone ( string sUrl )
 		{
 			this.DecRunningThreads();
 			this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
-			this.AddUpdateDisplayQueue( sURL );
+			this.AddUpdateDisplayQueue( sUrl );
 		}
 		
 		public void StopWorkers ()
@@ -298,27 +285,27 @@ namespace SEOMacroscope
 
 		public Boolean PeekUpdateDisplayQueue ()
 		{
-			return( NamedQueue.PeekNamedQueue( NamedQueueDisplayQueue ) );
+			return( NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue ) );
 		}
 
-		public void AddUpdateDisplayQueue ( string sURL )
+		public void AddUpdateDisplayQueue ( string sUrl )
 		{
 			// TODO: Add more queues
 
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayQueue, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayStructure, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayHierarchy, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayCanonicalAnalysis, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayHrefLang, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayRedirectsAudit, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayUriAnalysis, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayPageTitles, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayPageDescription, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayPageKeywords, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayPageHeadings, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayEmailAddresses, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayTelephoneNumbers, sURL );
-			NamedQueue.AddToNamedQueue( NamedQueueDisplayHostnames, sURL );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescription, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, sUrl );
 
 		}
 
@@ -331,31 +318,31 @@ namespace SEOMacroscope
 
 		public List<string> GetUrlQueueAsList ()
 		{
-			return( this.NamedQueue.GetNamedQueueItemsAsList( constNamedQueueUrlList ) );
+			return( this.NamedQueue.GetNamedQueueItemsAsList( MacroscopeConstants.NamedQueueUrlList ) );
 		}
 
-		public void AddUrlQueueItem ( string sURL )
+		public void AddUrlQueueItem ( string sUrl )
 		{
-			if( !this.SeenHistory( sURL ) ) {
-				this.NamedQueue.AddToNamedQueue( constNamedQueueUrlList, sURL );
+			if( !this.SeenHistory( sUrl ) ) {
+				this.NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueUrlList, sUrl );
 			}
 		}
 
 		public string GetUrlQueueItem ()
 		{
-			return( this.NamedQueue.GetNamedQueueItem( constNamedQueueUrlList ) );
+			return( this.NamedQueue.GetNamedQueueItem( MacroscopeConstants.NamedQueueUrlList ) );
 		}
 			
 		public Boolean PeekUrlQueue ()
 		{
-			Boolean bPeek = this.NamedQueue.PeekNamedQueue( constNamedQueueUrlList );
+			Boolean bPeek = this.NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
 			DebugMsg( string.Format( "PeekUrlQueue: {0}", bPeek ) );
 			return( bPeek );
 		}
 	
 		public int CountUrlQueueItems ()
 		{
-			return( this.NamedQueue.CountNamedQueueItems( constNamedQueueUrlList ) );
+			return( this.NamedQueue.CountNamedQueueItems( MacroscopeConstants.NamedQueueUrlList ) );
 		}
 
 		/** Start URL *************************************************************/
@@ -406,34 +393,22 @@ namespace SEOMacroscope
 			this.PageLimitCount = iValue;
 		}
 
-		/** HrefLang Tags *********************************************************/
-
-		public Boolean GetProbeHrefLangs ()
-		{
-			return( this.ProbeHrefLangs );
-		}
-
-		public void SetProbeHrefLangs ( Boolean bState )
-		{
-			this.ProbeHrefLangs = bState;
-		}
-
 		/** History ***************************************************************/
 
-		public void AddHistory ( string sURL )
+		public void AddHistory ( string sUrl )
 		{
-			if( !this.History.ContainsKey( sURL ) ) {
+			if( !this.History.ContainsKey( sUrl ) ) {
 				lock( this.History ) {
-					this.History.Add( sURL, true );
+					this.History.Add( sUrl, true );
 				}
 			}
 		}
 
-		public Boolean SeenHistory ( string sURL )
+		public Boolean SeenHistory ( string sUrl )
 		{
 			Boolean bSeen = false;
-			if( this.History.ContainsKey( sURL ) ) {
-				bSeen = ( Boolean )this.History[ sURL ];
+			if( this.History.ContainsKey( sUrl ) ) {
+				bSeen = ( Boolean )this.History[ sUrl ];
 			}
 			return( bSeen );
 		}

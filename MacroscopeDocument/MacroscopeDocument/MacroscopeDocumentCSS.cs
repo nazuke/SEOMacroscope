@@ -164,21 +164,21 @@ namespace SEOMacroscope
 					if( pProp.Name.Equals( "background-image" ) ) {
 
 						string sBackgroundImageUrl = pProp.Term.ToString();
-						string sLinkURLAbs;
+						string sLinkUrlAbs;
 
-						sBackgroundImageUrl = MacroscopeURLTools.CleanUrlCss( sBackgroundImageUrl );
-						sLinkURLAbs = MacroscopeURLTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
+						sBackgroundImageUrl = MacroscopeUrlTools.CleanUrlCss( sBackgroundImageUrl );
+						sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
 
 						DebugMsg( "" );
 						DebugMsg( string.Format( "sBackgroundImageUrl: {0}", sBackgroundImageUrl ) );
 						DebugMsg( string.Format( "sBackgroundImageUrl this.Url: {0}", this.Url ) );
-						DebugMsg( string.Format( "sBackgroundImageUrl sLinkURLAbs: {0}", sLinkURLAbs ) );
+						DebugMsg( string.Format( "sBackgroundImageUrl sLinkUrlAbs: {0}", sLinkUrlAbs ) );
 						DebugMsg( "" );
 
 
 
 						// TODO: Verify that this actually works:
-						//this.HyperlinksOut.Add( this.Url, sLinkURLAbs );
+						//this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
 						
 						
 						

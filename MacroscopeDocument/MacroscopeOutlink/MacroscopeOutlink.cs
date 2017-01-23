@@ -22,54 +22,46 @@
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 */
- 
+
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using System.Diagnostics;
 
 namespace SEOMacroscope
 {
-
-	public class Macroscope
+	
+	/// <summary>
+	/// Description of MacroscopeOutlink.
+	/// </summary>
+	
+	public class MacroscopeOutlink : Macroscope
 	{
-
-		/**************************************************************************/
-
-		// Override SuppressDebugMsg to enable/disable debugging output statically.
-		public static Boolean SuppressStaticDebugMsg;
-
-		// Override SuppressDebugMsg to enable/disable debugging output in object.
-		public virtual Boolean SuppressDebugMsg { get; protected set; }
 		
 		/**************************************************************************/
 
-		static Macroscope ()
-		{
-			SuppressStaticDebugMsg = false;
-		}
-
-		public Macroscope ()
-		{
-			SuppressDebugMsg = false;
-		}
+		public string RawUrl { get; set; }
+		public string AbsoluteUrl { get; set; }
+		public string Type { get; set; }
+		public Boolean Follow { get; set; }
 
 		/**************************************************************************/
-		
-		public static Boolean DebugMsg ( String sMsg, Boolean bFlag )
+				
+		public MacroscopeOutlink ()
 		{
-			if( !SuppressStaticDebugMsg ) {
-				System.Diagnostics.Debug.WriteLine( sMsg );
-			}
-			return( bFlag );
 		}
-		
-		public void DebugMsg ( String sMsg )
+					
+		public MacroscopeOutlink ( string sRawUrl, string sAbsoluteUrl, string sType, Boolean bFollow )
 		{
-			//if( !SuppressDebugMsg ) {
-			//	System.Diagnostics.Debug.WriteLine( string.Format( "{0} :: {1}", this.GetType(), sMsg ) );
-			//}
+			RawUrl = sRawUrl;
+			AbsoluteUrl = sAbsoluteUrl;
+			Type = sType;
+			Follow = bFollow;
 		}
 
 		/**************************************************************************/
 
 	}
-
+	
 }

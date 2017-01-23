@@ -24,12 +24,11 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <BaseAddress>4194304</BaseAddress>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
-    <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -109,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
+    <Compile Include="MacroscopeConstants.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentBinary.cs" />
@@ -122,6 +122,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkClass.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeOutlink\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferencesManager.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.Designer.cs">
@@ -149,8 +150,12 @@
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
+    <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlLoader.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeUrlTools.cs" />
+    <Compile Include="MacroscopeTools\t\TestMacroscopeUrlTools.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.Designer.cs">
       <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
@@ -167,8 +172,6 @@
     <Compile Include="MacroscopeTasks\MacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeLocaleTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopePDFTools.cs" />
-    <Compile Include="MacroscopeTools\MacroscopeURLTools.cs" />
-    <Compile Include="MacroscopeTools\t\TestMacroscopeURLTools.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.Designer.cs">
       <DependentUpon>MacroscopeOverviewTabPanel.cs</DependentUpon>
@@ -214,9 +217,11 @@
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink" />
     <Folder Include="MacroscopeDocument\MacroscopeDocument" />
+    <Folder Include="MacroscopeDocument\MacroscopeOutlink" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
+    <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay" />
@@ -232,6 +237,10 @@
     <Folder Include="MacroscopeUserControls\MacroscopePrefsControl" />
     <Folder Include="MacroscopeHosts" />
     <Folder Include="MacroscopeUserControls\MacroscopeOverviewTabPanel" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ProfilingSessions\Session20170123_172439.sdps" />
+    <Content Include="ProfilingSessions\Session20170123_173204.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

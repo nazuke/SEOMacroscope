@@ -41,13 +41,13 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeHrefLang ( string sLocale, string sURL )
+		public MacroscopeHrefLang ( string sLocale, string sUrl )
 		{
-			Boolean bProbeHrefLang = MacroscopePreferencesManager.GetProbeHreflangs();
+			Boolean bCheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
 			Locale = sLocale;	
-			Url = sURL;
-			if( bProbeHrefLang ) {
-				Available = Probe();
+			Url = sUrl;
+			if( bCheckHrefLang ) {
+				Available = Check();
 			} else {
 				Available = false;
 			}
@@ -76,7 +76,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Boolean Probe ()
+		Boolean Check ()
 		{
 
 			HttpWebRequest req = null;

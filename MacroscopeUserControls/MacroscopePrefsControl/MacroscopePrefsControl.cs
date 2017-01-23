@@ -51,10 +51,7 @@ namespace SEOMacroscope
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 		}
-		void Label13Click ( object sender, EventArgs e )
-		{
-	
-		}
+
 
 		/**************************************************************************/
 				

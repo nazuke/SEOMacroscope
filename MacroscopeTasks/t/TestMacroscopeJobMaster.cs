@@ -22,54 +22,27 @@
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 */
- 
+
 using System;
+using NUnit.Framework;
 
 namespace SEOMacroscope
 {
-
-	public class Macroscope
+	
+	[TestFixture]
+	public class TestMacroscopeJobMaster
 	{
-
-		/**************************************************************************/
-
-		// Override SuppressDebugMsg to enable/disable debugging output statically.
-		public static Boolean SuppressStaticDebugMsg;
-
-		// Override SuppressDebugMsg to enable/disable debugging output in object.
-		public virtual Boolean SuppressDebugMsg { get; protected set; }
 		
 		/**************************************************************************/
-
-		static Macroscope ()
+				
+		[Test]
+		public void TestMethod ()
 		{
-			SuppressStaticDebugMsg = false;
-		}
-
-		public Macroscope ()
-		{
-			SuppressDebugMsg = false;
-		}
-
-		/**************************************************************************/
-		
-		public static Boolean DebugMsg ( String sMsg, Boolean bFlag )
-		{
-			if( !SuppressStaticDebugMsg ) {
-				System.Diagnostics.Debug.WriteLine( sMsg );
-			}
-			return( bFlag );
+			// TODO: Add your test.
 		}
 		
-		public void DebugMsg ( String sMsg )
-		{
-			//if( !SuppressDebugMsg ) {
-			//	System.Diagnostics.Debug.WriteLine( string.Format( "{0} :: {1}", this.GetType(), sMsg ) );
-			//}
-		}
-
 		/**************************************************************************/
-
+				
 	}
-
+	
 }

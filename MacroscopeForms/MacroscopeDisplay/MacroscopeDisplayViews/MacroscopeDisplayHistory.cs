@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
 		static Boolean ListViewConfigured = false;
 				
-		const string constURL = "url";
+		const string constUrl = "url";
 		const string constVisited = "visited";
 
 		/**************************************************************************/
@@ -124,14 +124,14 @@ namespace SEOMacroscope
 		void RenderListView ( ListView lvListView, Hashtable htHistory )
 		{
 
-			foreach( string sURL in htHistory.Keys ) {
+			foreach( string sUrl in htHistory.Keys ) {
 			
-				string sVisited = htHistory[ sURL ].ToString();
+				string sVisited = htHistory[ sUrl ].ToString();
 			
-				if( lvListView.Items.ContainsKey( sURL ) ) {
+				if( lvListView.Items.ContainsKey( sUrl ) ) {
 			
 					try {
-						ListViewItem lvItem = lvListView.Items[ sURL ];
+						ListViewItem lvItem = lvListView.Items[ sUrl ];
 						lvItem.SubItems[ 1 ].Text = sVisited;
 					} catch( Exception ex ) {
 						DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
@@ -140,8 +140,8 @@ namespace SEOMacroscope
 				} else {
 			
 					try {
-						ListViewItem lvItem = new ListViewItem ( sURL );
-						lvItem.Name = sURL;
+						ListViewItem lvItem = new ListViewItem ( sUrl );
+						lvItem.Name = sUrl;
 						lvItem.SubItems.Add( sVisited );
 						lvListView.Items.Add( lvItem );
 					} catch( Exception ex ) {

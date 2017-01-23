@@ -57,7 +57,7 @@ namespace SEOMacroscope
 		static Boolean FollowNoFollow;
 		static Boolean FollowCanonicalLinks;
 		static Boolean FollowHrefLangLinks;
-		
+
 		static Boolean FetchStylesheets;
 		static Boolean FetchJavascripts;
 		static Boolean FetchImages;
@@ -65,7 +65,7 @@ namespace SEOMacroscope
 		static Boolean FetchBinaries;
 
 		// Analysis Options
-		static Boolean ProbeHreflangs;
+		static Boolean CheckHreflangs;
 		
 		// SEO Options
 		static int TitleMinLen;
@@ -107,7 +107,7 @@ namespace SEOMacroscope
 					PageLimit = Preferences.PageLimit;
 
 					SameSite = Preferences.SameSite;
-					ProbeHreflangs = Preferences.ProbeHreflangs;
+					CheckHreflangs = Preferences.CheckHreflangs;
 			
 					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
 					FollowRedirects = Preferences.FollowRedirects;			
@@ -163,7 +163,7 @@ namespace SEOMacroscope
 			FetchPdfs = false;
 
 			// Analysis Options
-			ProbeHreflangs = true;
+			CheckHreflangs = true;
 			
 			// SEO Options
 			TitleMinLen = 10;
@@ -217,7 +217,7 @@ namespace SEOMacroscope
 				Preferences.PageLimit = PageLimit;
 
 				Preferences.SameSite = SameSite;
-				Preferences.ProbeHreflangs = ProbeHreflangs;
+				Preferences.CheckHreflangs = CheckHreflangs;
 			
 				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
 				Preferences.FollowRedirects = FollowRedirects;
@@ -362,14 +362,14 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		public static Boolean GetProbeHreflangs ()
+		public static Boolean GetCheckHreflangs ()
 		{
-			return( ProbeHreflangs );
+			return( CheckHreflangs );
 		}
 		
-		public static void SetProbeHreflangs ( Boolean bValue )
+		public static void SetCheckHreflangs ( Boolean bValue )
 		{
-			ProbeHreflangs = bValue;
+			CheckHreflangs = bValue;
 		}
 
 		/**************************************************************************/

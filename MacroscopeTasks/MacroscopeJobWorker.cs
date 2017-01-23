@@ -21,7 +21,7 @@
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 using System;
 using System.Collections.Generic;
@@ -32,6 +32,10 @@ namespace SEOMacroscope
 	public class MacroscopeJobWorker : Macroscope
 	{
 
+		/**************************************************************************/
+				
+		public override Boolean SuppressDebugMsg { get; protected set; }
+				
 		/**************************************************************************/
 
 		readonly MacroscopeJobMaster msJobMaster;
@@ -46,127 +50,133 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public void Execute ( string sURL )
+		public void Execute ( string sUrl )
 		{
-			//Thread.Sleep( 100 );
-			this.Fetch( sURL );
-			msJobMaster.NotifyWorkersDone( sURL );
+			DebugMsg( string.Format( "Execute: {0}", sUrl ) );
+			this.Fetch( sUrl );
+			msJobMaster.NotifyWorkersDone( sUrl );
 		}
 
 		/**************************************************************************/
 
-		void Fetch ( string sURL )
+		void Fetch ( string sUrl )
 		{
 
-			MacroscopeDocument msDoc = new MacroscopeDocument ( sURL );
+			MacroscopeDocument msDoc = new MacroscopeDocument ( sUrl );
 			MacroscopeDocumentCollection DocCollection = this.msJobMaster.GetDocCollection();
 			MacroscopeAllowedHosts msAllowedHosts = this.msJobMaster.GetAllowedHosts();
 
-			if( !this.msJobMaster.GetRobots().ApplyRobotRule( sURL ) ) {
-				DebugMsg( string.Format( "Disallowed by robots.txt: {0}", sURL ) );
+			msAllowedHosts.DumpAllowedHosts();
+
+			if( !this.msJobMaster.GetRobots().ApplyRobotRule( sUrl ) ) {
+				DebugMsg( string.Format( "Disallowed by robots.txt: {0}", sUrl ) );
 				return;
 			}
 
-			this.msJobMaster.AddHistory( sURL );
+			this.msJobMaster.AddHistory( sUrl );
 
-			if( DocCollection.Contains( sURL ) ) {
+			if( MacroscopePreferencesManager.GetSameSite() ) {
+				if( !msAllowedHosts.IsAllowedFromUrl( sUrl ) ) {
+					DebugMsg( string.Format( "Disallowed by SameSite.txt: {0}", sUrl ) );
+					return;
+				}
+			}
+
+			if( DocCollection.Contains( sUrl ) ) {
 				return;
 			} else {
-				DocCollection.Add( sURL, msDoc );
+				DocCollection.Add( sUrl, msDoc );
 			}
 
 			if( this.msJobMaster.GetDepth() > 0 ) {
 				if( msDoc.GetDepth() > this.msJobMaster.GetDepth() ) {
 					//DebugMsg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
-					DocCollection.Remove( sURL );
+					DocCollection.Remove( sUrl );
 					return;
 				}
 			}
 
 			if( msDoc.Execute() ) {
-			
+				
 				this.msJobMaster.IncPageLimitCount();
 
 				if( msDoc.GetIsRedirect() ) {
 					DebugMsg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
 					this.msJobMaster.AddUrlQueueItem( msDoc.GetUrlRedirectTo() );
-				}
+				} else {
 
-				{
-					string sLocale = msDoc.GetLocale();
-					Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
-					if( sLocale != null ) {
-						this.msJobMaster.AddLocales( sLocale );
-					}
-					foreach( string sKeyLocale in htHrefLangs.Keys ) {
-						this.msJobMaster.AddLocales( sKeyLocale );
-						{
-							string sHrefLangUrl = htHrefLangs[sKeyLocale].GetUrl();
-							if( ( sHrefLangUrl != null ) && ( sHrefLangUrl.Length > 0 ) ) {
-								if( !this.msJobMaster.SeenHistory( sHrefLangUrl ) ) {
-									msAllowedHosts.AddFromUrl( sHrefLangUrl );
-									this.msJobMaster.AddUrlQueueItem( sHrefLangUrl );
-								}
-							}
-						}
-					}
-				}
+					this.ProcessHrefLangLanguages( msDoc ); // Process Languages from HrefLang
 
-				if( MacroscopePreferencesManager.GetFollowCanonicalLinks() ) {
-					string sCanonicalUrl = msDoc.GetCanonical();
-					if( ( sCanonicalUrl != null ) && ( sCanonicalUrl.Length > 0 ) ) {
-						if( !this.msJobMaster.SeenHistory( sCanonicalUrl ) ) {
-							msAllowedHosts.AddFromUrl( sCanonicalUrl );
-							this.msJobMaster.AddUrlQueueItem( sCanonicalUrl );
-						}
-					}
-				}
-
-				Dictionary<string,string> htOutlinks = msDoc.GetOutlinks();
-
-				foreach( string sOutlinkKey in htOutlinks.Keys ) {
-					
-					string sOutlinkURL = htOutlinks[sOutlinkKey];
-
-					if( sOutlinkURL != null ) {
-
-						Boolean bProceed = true;
-
-						if( this.msJobMaster.GetPageLimit() < 0 ) {
-
-							bProceed = true;
-
-						} else if( this.msJobMaster.GetPageLimit() > -1 ) {
-						
-							if( this.msJobMaster.GetPageLimitCount() >= this.msJobMaster.GetPageLimit() ) {
-								DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.msJobMaster.GetPageLimit(), this.msJobMaster.GetPageLimitCount() ) );
-								bProceed = false;
-							}
-							
-						}
-						
-						if( bProceed ) {
-							
-							if( !this.msJobMaster.SeenHistory( sOutlinkURL ) ) {
-								if( msAllowedHosts.IsAllowedFromUrl( sOutlinkURL ) ) {
-									this.msJobMaster.AddUrlQueueItem( sOutlinkURL );
-								} else {
-									DebugMsg( string.Format( "FOREIGN HOST: {0}", sOutlinkURL ) );
-								}
-							}
-							
-						} else {
-							break;
-						}
-
-					}
+					this.ProcessOutlinks( msDoc ); // Process Outlinks from document
 
 				}
-
+				
 			} else {
-				DebugMsg( string.Format( "EXECUTE FAILED: {0}", sURL ) );
+				DebugMsg( string.Format( "EXECUTE FAILED: {0}", sUrl ) );
 			}
 
+		}
+
+		/**************************************************************************/
+		
+		void ProcessHrefLangLanguages ( MacroscopeDocument msDoc )
+		{
+
+			string sLocale = msDoc.GetLocale();
+			Dictionary<string,MacroscopeHrefLang> dicHrefLangs = msDoc.GetHrefLangs();
+
+			if( sLocale != null ) {
+				this.msJobMaster.AddLocales( sLocale );
+			}
+
+			foreach( string sKeyLocale in dicHrefLangs.Keys ) {
+				this.msJobMaster.AddLocales( sKeyLocale );
+			}
+
+		}
+
+		/**************************************************************************/
+
+		void ProcessOutlinks ( MacroscopeDocument msDoc )
+		{
+
+			MacroscopeAllowedHosts msAllowedHosts = this.msJobMaster.GetAllowedHosts();
+						
+			foreach( string sUrl in msDoc.IterateOutlinks() ) {
+
+				MacroscopeOutlink Outlink = msDoc.GetOutlink( sUrl );
+				Boolean bProceed = true;
+
+				if( !Outlink.Follow ) {
+					continue;
+				}
+
+				if( Outlink.AbsoluteUrl == null ) {
+					continue;
+				}
+
+				if( this.msJobMaster.SeenHistory( Outlink.AbsoluteUrl ) ) {
+					continue;
+				}
+
+				if( !msAllowedHosts.IsAllowedFromUrl( Outlink.AbsoluteUrl ) ) {
+					DebugMsg( string.Format( "FOREIGN HOST: {0}", Outlink.AbsoluteUrl ) );
+					continue;
+				}
+
+				if( this.msJobMaster.GetPageLimit() > -1 ) {
+					if( this.msJobMaster.GetPageLimitCount() >= this.msJobMaster.GetPageLimit() ) {
+						DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.msJobMaster.GetPageLimit(), this.msJobMaster.GetPageLimitCount() ) );
+						bProceed = false;
+					}
+				}
+
+				if( bProceed ) {
+					this.msJobMaster.AddUrlQueueItem( Outlink.AbsoluteUrl );
+				}
+
+			}
+			
 		}
 
 		/**************************************************************************/

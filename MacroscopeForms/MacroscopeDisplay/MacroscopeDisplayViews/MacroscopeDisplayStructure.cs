@@ -38,7 +38,7 @@ namespace SEOMacroscope
 
 		static Boolean ListViewConfigured = false;
 
-		const string constURL = "URL";
+		const string constUrl = "URL";
 		
 		const string constStatus = "Status";
 		const string constIsRedirect = "Redirect";
@@ -103,7 +103,7 @@ namespace SEOMacroscope
 			
 				// BEGIN: Columns
 
-				this.lvListView.Columns.Add( constURL, constURL );
+				this.lvListView.Columns.Add( constUrl, constUrl );
 				this.lvListView.Columns.Add( constStatus, constStatus );
 				this.lvListView.Columns.Add( constIsRedirect, constIsRedirect );
 
@@ -157,7 +157,7 @@ namespace SEOMacroscope
 				
 				// BEGIN: Columns
 				
-				htItems[ constURL ] = msDoc.GetUrl();
+				htItems[ constUrl ] = msDoc.GetUrl();
 
 				htItems[ constStatus ] = msDoc.GetStatusCode();
 				htItems[ constIsRedirect ] = msDoc.GetIsRedirect();
@@ -252,7 +252,7 @@ namespace SEOMacroscope
 			Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> ()
 			{
 				{
-					constURL,
+					constUrl,
 					300
 				},
 				{
@@ -278,7 +278,7 @@ namespace SEOMacroscope
 
 			List<string> lColDataWidth = new List<string> ()
 			{
-				constURL,
+				constUrl,
 				constDateServer,
 				constDateModified,
 				constTitle

@@ -48,18 +48,18 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Boolean ApplyRobotRule ( string sURL )
+		public Boolean ApplyRobotRule ( string sUrl )
 		{
 			Boolean bAllowed = false;
 
 			if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() ) {
-				DebugMsg( string.Format( "ROBOTS Disabled: {0}", sURL ) );
+				DebugMsg( string.Format( "ROBOTS Disabled: {0}", sUrl ) );
 				return( true );
 			}
 
-			Uri uBase = new Uri ( sURL, UriKind.Absolute );
+			Uri uBase = new Uri ( sUrl, UriKind.Absolute );
 			Uri uNew = null;
-			string sRobotsTxtURL = null;
+			string sRobotsTxtUrl = null;
 			
 			try {
 				uNew = new Uri (
@@ -72,7 +72,7 @@ namespace SEOMacroscope
 					UriKind.Absolute
 				);
 			   	
-				sRobotsTxtURL = uNew.ToString();
+				sRobotsTxtUrl = uNew.ToString();
 				
 			} catch( InvalidOperationException ex ) {
 				DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
@@ -80,18 +80,18 @@ namespace SEOMacroscope
 				DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
 			}
 			
-			if( sRobotsTxtURL != null ) {
+			if( sRobotsTxtUrl != null ) {
 				
 				Robots robot = null;
 				
-				if( this.dicRobots.ContainsKey( sRobotsTxtURL ) ) {
-					robot = this.dicRobots[ sRobotsTxtURL ];
+				if( this.dicRobots.ContainsKey( sRobotsTxtUrl ) ) {
+					robot = this.dicRobots[ sRobotsTxtUrl ];
 				} else {
 					try {
 						using( WebClient wc = new WebClient () ) {
-							String sRobotsText = wc.DownloadString( sRobotsTxtURL );
+							String sRobotsText = wc.DownloadString( sRobotsTxtUrl );
 							robot = new Robots ( sRobotsText );
-							this.dicRobots.Add( sRobotsTxtURL, robot );
+							this.dicRobots.Add( sRobotsTxtUrl, robot );
 						}
 					} catch( Exception ex ) {
 						DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
@@ -103,7 +103,7 @@ namespace SEOMacroscope
 						if( robot.IsPathAllowed( "*", uBase.AbsolutePath ) ) {
 							bAllowed = true;
 						} else {
-							DebugMsg( string.Format( "ROBOTS Disallowed: {0}", sURL ) );
+							DebugMsg( string.Format( "ROBOTS Disallowed: {0}", sUrl ) );
 							DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", uBase.AbsolutePath ) );
 						}
 					}
