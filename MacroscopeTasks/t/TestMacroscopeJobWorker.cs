@@ -42,7 +42,7 @@ namespace SEOMacroscope
 			List<string> alUrls = new List<string>()
 			{
 				{
-					"http://engage.opentext.com/"
+					"http://localhost/"
 				}
 			};
 			
