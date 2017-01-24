@@ -38,72 +38,111 @@ namespace SEOMacroscope
 				
 		/**************************************************************************/
 
-		readonly MacroscopeJobMaster msJobMaster;
+		MacroscopeJobMaster JobMaster;
+		MacroscopeDocumentCollection DocCollection;
+		MacroscopeAllowedHosts AllowedHosts;
 		
+		Boolean SameSite;
+			
 		/**************************************************************************/
 
-		public MacroscopeJobWorker ( MacroscopeJobMaster msJobMasterNew )
+		public MacroscopeJobWorker ( MacroscopeJobMaster JobMasterNew )
 		{
-			SuppressDebugMsg = true;
-			msJobMaster = msJobMasterNew;
+			
+			SuppressDebugMsg = false;
+			
+			JobMaster = JobMasterNew;
+			
+			DocCollection = JobMaster.GetDocCollection();
+			AllowedHosts = JobMaster.GetAllowedHosts();
+
+			SameSite = MacroscopePreferencesManager.GetSameSite();
+
 		}
 
 		/**************************************************************************/
-		
-		public void Execute ( string sUrl )
+
+		public void Execute ()
 		{
-			DebugMsg( string.Format( "Execute: {0}", sUrl ) );
-			this.Fetch( sUrl );
-			msJobMaster.NotifyWorkersDone( sUrl );
+					
+			int iMaxFetches = MacroscopePreferencesManager.GetMaxFetchesPerWorker();
+			
+			while( iMaxFetches > 0 ) {
+
+				if( JobMaster.GetThreadsStop() ) {
+					
+					break;
+					
+				} else {
+				
+					string sUrl = this.JobMaster.GetUrlQueueItem();
+				
+					if( sUrl != null ) {
+
+						DebugMsg( string.Format( "Execute: {0}", sUrl ) );
+					
+						if( this.Fetch( sUrl ) ) {
+							JobMaster.NotifyWorkersFetched( sUrl );
+						}
+					
+					}
+				
+				}
+				
+				iMaxFetches--;
+
+			}
+
+			JobMaster.NotifyWorkersDone();
+		
 		}
 
 		/**************************************************************************/
 
-		void Fetch ( string sUrl )
+		Boolean Fetch ( string sUrl )
 		{
 
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sUrl );
-			MacroscopeDocumentCollection DocCollection = this.msJobMaster.GetDocCollection();
-			MacroscopeAllowedHosts AllowedHosts = this.msJobMaster.GetAllowedHosts();
+			Boolean bResult = false;
+			
+			//this.AllowedHosts.DumpAllowedHosts();
 
-			AllowedHosts.DumpAllowedHosts();
-
-			if( !this.msJobMaster.GetRobots().ApplyRobotRule( sUrl ) ) {
+			if( !this.JobMaster.GetRobots().ApplyRobotRule( sUrl ) ) {
 				DebugMsg( string.Format( "Disallowed by robots.txt: {0}", sUrl ) );
-				return;
+				return( bResult );
 			}
 
-			this.msJobMaster.AddHistory( sUrl );
+			this.JobMaster.AddHistory( sUrl );
 
-			if( MacroscopePreferencesManager.GetSameSite() ) {
-				if( !AllowedHosts.IsAllowedFromUrl( sUrl ) ) {
-					DebugMsg( string.Format( "Disallowed by SameSite.txt: {0}", sUrl ) );
-					return;
+			if( this.SameSite ) {
+				if( !this.AllowedHosts.IsAllowedFromUrl( sUrl ) ) {
+					DebugMsg( string.Format( "Disallowed by SameSite: {0}", sUrl ) );
+					return( bResult );
 				}
 			}
 
-			if( DocCollection.ContainsDocument( sUrl ) ) {
-				return;
+			if( this.DocCollection.ContainsDocument( sUrl ) ) {
+				return( bResult );
 			}
 
-			if( this.msJobMaster.GetDepth() > 0 ) {
+			if( this.JobMaster.GetDepth() > 0 ) {
 				int Depth = MacroscopeUrlTools.FindUrlDepth( sUrl );
-				if( Depth > this.msJobMaster.GetDepth() ) {
+				if( Depth > this.JobMaster.GetDepth() ) {
 					DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
-					return;
+					return( bResult );
 				}
 			}
 
 			if( msDoc.Execute() ) {
 				
-				DocCollection.AddDocument( sUrl, msDoc );
+				this.DocCollection.AddDocument( sUrl, msDoc );
 
-				this.msJobMaster.IncPageLimitCount();
+				this.JobMaster.IncPageLimitCount();
 
 				if( msDoc.GetIsRedirect() ) {
 
 					DebugMsg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
-					this.msJobMaster.AddUrlQueueItem( msDoc.GetUrlRedirectTo() );
+					this.JobMaster.AddUrlQueueItem( msDoc.GetUrlRedirectTo() );
 
 				} else {
 
@@ -112,11 +151,15 @@ namespace SEOMacroscope
 					this.ProcessOutlinks( msDoc ); // Process Outlinks from document
 
 				}
-
+				
+				bResult = true;
+				
 			} else {
 				DebugMsg( string.Format( "EXECUTE FAILED: {0}", sUrl ) );
 			}
-
+			
+			return( bResult );
+			
 		}
 
 		/**************************************************************************/
@@ -128,11 +171,11 @@ namespace SEOMacroscope
 			Dictionary<string,MacroscopeHrefLang> dicHrefLangs = msDoc.GetHrefLangs();
 
 			if( sLocale != null ) {
-				this.msJobMaster.AddLocales( sLocale );
+				this.JobMaster.AddLocales( sLocale );
 			}
 
 			foreach( string sKeyLocale in dicHrefLangs.Keys ) {
-				this.msJobMaster.AddLocales( sKeyLocale );
+				this.JobMaster.AddLocales( sKeyLocale );
 			}
 
 		}
@@ -142,8 +185,8 @@ namespace SEOMacroscope
 		void ProcessOutlinks ( MacroscopeDocument msDoc )
 		{
 
-			MacroscopeAllowedHosts AllowedHosts = this.msJobMaster.GetAllowedHosts();
-						
+			// TODO: add this.SameSite check
+
 			foreach( string sUrl in msDoc.IterateOutlinks() ) {
 
 				MacroscopeOutlink Outlink = msDoc.GetOutlink( sUrl );
@@ -157,24 +200,24 @@ namespace SEOMacroscope
 					continue;
 				}
 
-				if( this.msJobMaster.SeenHistory( Outlink.AbsoluteUrl ) ) {
+				if( this.JobMaster.SeenHistory( Outlink.AbsoluteUrl ) ) {
 					continue;
 				}
 
-				if( !AllowedHosts.IsAllowedFromUrl( Outlink.AbsoluteUrl ) ) {
+				if( !this.AllowedHosts.IsAllowedFromUrl( Outlink.AbsoluteUrl ) ) {
 					DebugMsg( string.Format( "FOREIGN HOST: {0}", Outlink.AbsoluteUrl ) );
 					continue;
 				}
 
-				if( this.msJobMaster.GetPageLimit() > -1 ) {
-					if( this.msJobMaster.GetPageLimitCount() >= this.msJobMaster.GetPageLimit() ) {
-						DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.msJobMaster.GetPageLimit(), this.msJobMaster.GetPageLimitCount() ) );
+				if( this.JobMaster.GetPageLimit() > -1 ) {
+					if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() ) {
+						DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.JobMaster.GetPageLimit(), this.JobMaster.GetPageLimitCount() ) );
 						bProceed = false;
 					}
 				}
 
 				if( bProceed ) {
-					this.msJobMaster.AddUrlQueueItem( Outlink.AbsoluteUrl );
+					this.JobMaster.AddUrlQueueItem( Outlink.AbsoluteUrl );
 				}
 
 			}

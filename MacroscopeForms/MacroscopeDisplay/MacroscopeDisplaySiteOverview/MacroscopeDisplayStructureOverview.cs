@@ -126,7 +126,7 @@ namespace SEOMacroscope
 			MacroscopeJobMaster JobMaster = this.MainForm.GetJobMaster();
 
 			{
-				int iUrlsFound = JobMaster.CountHistory();
+				int iUrlsFound = JobMaster.GetPagesFound();
 				TreeNode[] nUrlsFound = this.tvTreeView.Nodes.Find( "iUrlsFound", true );
 				nUrlsFound[ 0 ].Text = string.Format( "Total URLs Found: {0}", iUrlsFound );
 			}

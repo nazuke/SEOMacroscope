@@ -57,7 +57,7 @@ namespace SEOMacroscope
 		{
 			Queue<string> NamedQueue;
 			if( this.NamedQueues.ContainsKey( sName ) ) {
-				NamedQueue = this.NamedQueues[ sName ];
+				NamedQueue = this.NamedQueues[sName];
 			} else {
 				NamedQueue = new Queue<string> ( 4096 );
 				lock( this.NamedQueues ) {
@@ -91,14 +91,14 @@ namespace SEOMacroscope
 		{
 			Queue<string> NamedQueue;
 			if( this.NamedQueues.ContainsKey( sName ) ) {
-				NamedQueue = this.NamedQueues[ sName ];
+				NamedQueue = this.NamedQueues[sName];
 			} else {
 				NamedQueue = this.CreateNamedQueue( sName );
 			}
 			lock( this.NamedQueues[sName] ) {
-				if( !this.NamedQueuesIndex[ sName ].ContainsKey( sItem ) ) {
+				if( !this.NamedQueuesIndex[sName].ContainsKey( sItem ) ) {
 					lock( this.NamedQueuesIndex[sName] ) {
-						this.NamedQueuesIndex[ sName ].Add( sItem, true );
+						this.NamedQueuesIndex[sName].Add( sItem, true );
 						NamedQueue.Enqueue( sItem );
 					}
 				}
@@ -114,7 +114,7 @@ namespace SEOMacroscope
 			Boolean bPeek = false;
 			if( this.NamedQueues.ContainsKey( sName ) ) {
 				lock( this.NamedQueues[sName] ) {
-					if( this.NamedQueues[ sName ].Count > 0 ) {
+					if( this.NamedQueues[sName].Count > 0 ) {
 						bPeek = true;
 					}
 				}
@@ -129,8 +129,8 @@ namespace SEOMacroscope
 			int iCount = 0;
 			if( this.NamedQueues.ContainsKey( sName ) ) {
 				lock( this.NamedQueues[sName] ) {
-					if( this.NamedQueues[ sName ].Count > 0 ) {
-						iCount = this.NamedQueues[ sName ].Count;
+					if( this.NamedQueues[sName].Count > 0 ) {
+						iCount = this.NamedQueues[sName].Count;
 					}
 				}
 			}
@@ -144,8 +144,8 @@ namespace SEOMacroscope
 			lock( this.NamedQueues ) {
 				lock( this.NamedQueuesIndex ) {
 					foreach( string sName in this.NamedQueues.Keys ) {
-						this.NamedQueues[ sName ].Clear();
-						this.NamedQueuesIndex[ sName ].Clear();
+						this.NamedQueues[sName].Clear();
+						this.NamedQueuesIndex[sName].Clear();
 					}
 				}
 			}
@@ -157,8 +157,8 @@ namespace SEOMacroscope
 		{
 			lock( this.NamedQueues ) {
 				lock( this.NamedQueuesIndex ) {
-					this.NamedQueues[ sName ].Clear();
-					this.NamedQueuesIndex[ sName ].Clear();
+					this.NamedQueues[sName].Clear();
+					this.NamedQueuesIndex[sName].Clear();
 				}
 			}
 		}
@@ -168,17 +168,27 @@ namespace SEOMacroscope
 		public string GetNamedQueueItem ( string sName )
 		{
 			string sItem = null;
-			if( this.NamedQueues.ContainsKey( sName ) ) {
-				lock( this.NamedQueues[sName] ) {
-					lock( this.NamedQueuesIndex[sName] ) {
-						if( this.NamedQueues[ sName ].Count > 0 ) {
-							sItem = this.NamedQueues[ sName ].Dequeue();
-							if( sItem != null ) {
-								this.NamedQueuesIndex[ sName ].Remove( sItem );
+			
+			lock( this.NamedQueues[sName] ) {
+
+				if( this.NamedQueues.ContainsKey( sName ) ) {
+
+					if( this.NamedQueues[sName].Count > 0 ) {
+			
+						sItem = this.NamedQueues[sName].Dequeue();
+			
+						if( sItem != null ) {
+
+							lock( this.NamedQueuesIndex[sName] ) {
+								this.NamedQueuesIndex[sName].Remove( sItem );
 							}
+			
 						}
+			
 					}
+			
 				}
+			
 			}
 			return( sItem );
 		}
@@ -215,6 +225,38 @@ namespace SEOMacroscope
 					sItem = this.GetNamedQueueItem( sName );
 				} while( sItem != null );
 			}
+			return( lItems );
+		}
+		
+		/**************************************************************************/
+				
+		public List<string> DrainNamedQueueItemsAsList ( string sName, int iLimit )
+		{
+			List<string> lItems = new List<string> ();
+			int iCount = 0;
+			
+			if( this.NamedQueues.ContainsKey( sName ) ) {
+				
+				string sItem = this.GetNamedQueueItem( sName );
+				
+				do {
+					
+					if( sItem != null ) {
+						lItems.Add( sItem );
+					}
+					
+					sItem = this.GetNamedQueueItem( sName );
+					
+					iCount++;
+					
+					if( iCount >= iLimit ) {
+						break;
+					}
+					
+				} while( sItem != null );
+			
+			}
+			
 			return( lItems );
 		}
 		

@@ -25,6 +25,7 @@
  
 using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -66,7 +67,7 @@ namespace SEOMacroscope
 		public void DebugMsg ( String sMsg )
 		{
 			if( !SuppressDebugMsg ) {
-				System.Diagnostics.Debug.WriteLine( string.Format( "{0} :: {1}", this.GetType(), sMsg ) );
+				System.Diagnostics.Debug.WriteLine( string.Format( "TID:{0} :: {1} :: {2}", Thread.CurrentThread.ManagedThreadId, this.GetType(), sMsg ) );
 			}
 		}
 

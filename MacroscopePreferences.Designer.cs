@@ -193,7 +193,19 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("4")]
+		[global::System.Configuration.DefaultSettingValueAttribute("32")]
+		public int MaxFetchesPerWorker {
+			get {
+				return ((int)(this["MaxFetchesPerWorker"]));
+			}
+			set {
+				this["MaxFetchesPerWorker"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("8")]
 		public int MaxThreads {
 			get {
 				return ((int)(this["MaxThreads"]));

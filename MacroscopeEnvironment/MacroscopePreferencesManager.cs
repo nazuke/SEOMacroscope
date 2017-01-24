@@ -48,6 +48,7 @@ namespace SEOMacroscope
 		// Spidering Control
 		static string StartUrl;
 		static int MaxThreads;
+		static int MaxFetchesPerWorker;
 		static int Depth;
 		static int PageLimit;
 		
@@ -103,6 +104,7 @@ namespace SEOMacroscope
 					StartUrl = Preferences.StartUrl;
 			
 					MaxThreads = Preferences.MaxThreads;
+					MaxFetchesPerWorker = Preferences.MaxFetchesPerWorker;
 					
 					Depth = Preferences.Depth;
 					PageLimit = Preferences.PageLimit;
@@ -147,6 +149,7 @@ namespace SEOMacroscope
 			// Spidering Control
 			StartUrl = "";
 			MaxThreads = 16;
+			MaxFetchesPerWorker = 32;
 			Depth = -1;
 			PageLimit = -1;
 			
@@ -213,7 +216,8 @@ namespace SEOMacroscope
 				Preferences.StartUrl = StartUrl;
 			
 				Preferences.MaxThreads = MaxThreads;
-									
+				Preferences.MaxFetchesPerWorker = MaxFetchesPerWorker;
+
 				Preferences.Depth = Depth;
 				Preferences.PageLimit = PageLimit;
 
@@ -323,6 +327,18 @@ namespace SEOMacroscope
 		public static void SetMaxThreads ( int iMaxThreads )
 		{
 			MaxThreads = iMaxThreads;
+		}
+
+		/**************************************************************************/
+				
+		public static int GetMaxFetchesPerWorker ()
+		{
+			return( MaxFetchesPerWorker );
+		}
+		
+		public static void SetMaxFetchesPerWorker ( int iMaxFetchesPerWorker )
+		{
+			MaxFetchesPerWorker = iMaxFetchesPerWorker;
 		}
 
 		/**************************************************************************/

@@ -25,6 +25,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -38,6 +39,7 @@ namespace SEOMacroscope
 		[STAThread]
 		private static void Main ( string[] args )
 		{
+			ThreadPool.SetMaxThreads( 256, 256 );
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault( false );
 			Application.Run( new MacroscopeMainForm () );
@@ -53,7 +55,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 				
-		[Conditional("DEVMODE")]
+		[Conditional( "DEVMODE" )]
 		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );

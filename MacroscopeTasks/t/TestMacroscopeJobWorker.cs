@@ -39,7 +39,7 @@ namespace SEOMacroscope
 		[Test]
 		public void TestWorker ()
 		{
-			List<string> alUrls = new List<string>()
+			List<string> alUrls = new List<string> ()
 			{
 				{
 					"http://localhost/"
@@ -51,9 +51,9 @@ namespace SEOMacroscope
 				MacroscopeJobMaster jobmaster = new MacroscopeJobMaster ();
 				MacroscopeJobWorker worker = new MacroscopeJobWorker ( jobmaster );
 
-				string sUrl = alUrls[i];
+				jobmaster.AddUrlQueueItem( alUrls[i] );
 
-				worker.Execute(sUrl );
+				worker.Execute();
 
 			}
 

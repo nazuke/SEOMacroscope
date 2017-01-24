@@ -514,7 +514,7 @@ namespace SEOMacroscope
 		void CallbackTabPageTimerExec ()
 		{
 			TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+			string sTabPageName = tcDisplay.TabPages[tcDisplay.SelectedIndex].Name;
 			if( this.JobMaster.PeekUpdateDisplayQueue() ) {
 				this.UpdateTabPage( sTabPageName );
 				this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
@@ -524,7 +524,7 @@ namespace SEOMacroscope
 		void CallbackTabControlDisplaySelectedIndexChanged ( Object sender, EventArgs e )
 		{
 			TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+			string sTabPageName = tcDisplay.TabPages[tcDisplay.SelectedIndex].Name;
 			this.UpdateTabPage( sTabPageName );
 		}
 				
@@ -610,7 +610,7 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sUrl = lvItem.SubItems[ 0 ].Text.ToString();
+					string sUrl = lvItem.SubItems[0].Text.ToString();
 					this.macroscopeDocumentDetailsInstance.UpdateDisplay( this.JobMaster, sUrl );
 				}
 			}
@@ -747,7 +747,7 @@ namespace SEOMacroscope
 
 		void StartStatusBarTimer ()
 		{
-			this.TimerStatusBar = new System.Timers.Timer ( 2000 );
+			this.TimerStatusBar = new System.Timers.Timer ( 1000 );
 			this.TimerStatusBar.Elapsed += this.CallbackStatusBarTimer;
 			this.TimerStatusBar.AutoReset = true;
 			this.TimerStatusBar.Enabled = true;
@@ -766,9 +766,20 @@ namespace SEOMacroscope
 		
 		void CallbackStatusBarTimer ( Object self, ElapsedEventArgs e )
 		{
-			this.UpdateStatusBar();
+			if( this.InvokeRequired ) {
+				this.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							this.UpdateStatusBar();	
+						}
+					)
+				);
+			} else {
+				this.UpdateStatusBar();	
+			}
 		}
-			
+
 		void UpdateStatusBar ()
 		{
 			if( this.JobMaster != null ) {
