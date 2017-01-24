@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net;
 
@@ -145,7 +146,7 @@ namespace SEOMacroscope
 
 			// Spidering Control
 			StartUrl = "";
-			MaxThreads = 4;
+			MaxThreads = 16;
 			Depth = -1;
 			PageLimit = -1;
 			
@@ -576,6 +577,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
+		[Conditional( "DEVMODE" )]
 		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );

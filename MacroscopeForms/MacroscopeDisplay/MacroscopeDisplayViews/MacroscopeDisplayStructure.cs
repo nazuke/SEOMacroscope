@@ -38,49 +38,17 @@ namespace SEOMacroscope
 
 		static Boolean ListViewConfigured = false;
 
-		const string constUrl = "URL";
-		
-		const string constStatus = "Status";
-		const string constIsRedirect = "Redirect";
-				
-		const string constDuration = "Duration (seconds)";
-
-		const string constDateServer = "Date";
-		const string constDateModified = "Last Modified";
-		
-		const string constContentType = "Content Type";
-		const string constLang = "Lang";
-		
-		const string constCanonical = "Canonical";
-		
-		const string constInhyperlinks = "Links In";
-		const string constOuthyperlinks = "Links Out";
-		
-		const string constTitle = "Title";
-		const string constTitleLen = "Title Length";
-		
-		const string constDescription = "Description";
-		const string constDescriptionLen = "Description Length";
-		
-		const string constKeywords = "Keywords";
-		const string constKeywordsLen = "Keywords Length";
-		const string constKeywordsCount = "Keywords Count";
-		
-		const string constHn = "First H{0}";
-		
-		const string constErrorCondition = "Error Condition";
-
 		/**************************************************************************/
 
-		public MacroscopeDisplayStructure ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
-			: base( msMainFormNew, lvListViewNew )
+		public MacroscopeDisplayStructure ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+			: base( MainFormNew, lvListViewNew )
 		{
 
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( MainForm.InvokeRequired ) {
+				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -103,34 +71,34 @@ namespace SEOMacroscope
 			
 				// BEGIN: Columns
 
-				this.lvListView.Columns.Add( constUrl, constUrl );
-				this.lvListView.Columns.Add( constStatus, constStatus );
-				this.lvListView.Columns.Add( constIsRedirect, constIsRedirect );
+				this.lvListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
+				this.lvListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
+				this.lvListView.Columns.Add( MacroscopeConstants.IsRedirect, MacroscopeConstants.IsRedirect );
 
-				this.lvListView.Columns.Add( constDuration, constDuration );
+				this.lvListView.Columns.Add( MacroscopeConstants.Duration, MacroscopeConstants.Duration );
 
-				this.lvListView.Columns.Add( constDateServer, constDateServer );
-				this.lvListView.Columns.Add( constDateModified, constDateModified );
+				this.lvListView.Columns.Add( MacroscopeConstants.DateServer, MacroscopeConstants.DateServer );
+				this.lvListView.Columns.Add( MacroscopeConstants.DateModified, MacroscopeConstants.DateModified );
 				
-				this.lvListView.Columns.Add( constContentType, constContentType );
-				this.lvListView.Columns.Add( constLang, constLang );
-				this.lvListView.Columns.Add( constCanonical, constCanonical );
-				this.lvListView.Columns.Add( constInhyperlinks, constInhyperlinks );
-				this.lvListView.Columns.Add( constOuthyperlinks, constOuthyperlinks );
-				this.lvListView.Columns.Add( constTitle, constTitle );
-				this.lvListView.Columns.Add( constTitleLen, constTitleLen );
-				this.lvListView.Columns.Add( constDescription, constDescription );
-				this.lvListView.Columns.Add( constDescriptionLen, constDescriptionLen );
-				this.lvListView.Columns.Add( constKeywords, constKeywords );
-				this.lvListView.Columns.Add( constKeywordsLen, constKeywordsLen );
-				this.lvListView.Columns.Add( constKeywordsCount, constKeywordsCount );
+				this.lvListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
+				this.lvListView.Columns.Add( MacroscopeConstants.Lang, MacroscopeConstants.Lang );
+				this.lvListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
+				this.lvListView.Columns.Add( MacroscopeConstants.Inhyperlinks, MacroscopeConstants.Inhyperlinks );
+				this.lvListView.Columns.Add( MacroscopeConstants.Outhyperlinks, MacroscopeConstants.Outhyperlinks );
+				this.lvListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
+				this.lvListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
+				this.lvListView.Columns.Add( MacroscopeConstants.Description, MacroscopeConstants.Description );
+				this.lvListView.Columns.Add( MacroscopeConstants.DescriptionLen, MacroscopeConstants.DescriptionLen );
+				this.lvListView.Columns.Add( MacroscopeConstants.Keywords, MacroscopeConstants.Keywords );
+				this.lvListView.Columns.Add( MacroscopeConstants.KeywordsLen, MacroscopeConstants.KeywordsLen );
+				this.lvListView.Columns.Add( MacroscopeConstants.KeywordsCount, MacroscopeConstants.KeywordsCount );
 
 				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
-					string sHeadingLevel = string.Format( constHn, iLevel );
+					string sHeadingLevel = string.Format( MacroscopeConstants.Hn, iLevel );
 					this.lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
 				}
 
-				this.lvListView.Columns.Add( constErrorCondition, constErrorCondition );
+				this.lvListView.Columns.Add( MacroscopeConstants.ErrorCondition, MacroscopeConstants.ErrorCondition );
 								
 				// END: Columns
 								
@@ -157,40 +125,40 @@ namespace SEOMacroscope
 				
 				// BEGIN: Columns
 				
-				htItems[ constUrl ] = msDoc.GetUrl();
+				htItems[ MacroscopeConstants.Url ] = msDoc.GetUrl();
 
-				htItems[ constStatus ] = msDoc.GetStatusCode();
-				htItems[ constIsRedirect ] = msDoc.GetIsRedirect();
+				htItems[ MacroscopeConstants.Status ] = msDoc.GetStatusCode();
+				htItems[ MacroscopeConstants.IsRedirect ] = msDoc.GetIsRedirect();
 
-				htItems[ constDuration ] = msDoc.GetDurationInSecondsFormatted();
+				htItems[ MacroscopeConstants.Duration ] = msDoc.GetDurationInSecondsFormatted();
 								
-				htItems[ constContentType ] = msDoc.GetMimeType();
+				htItems[ MacroscopeConstants.ContentType ] = msDoc.GetMimeType();
 
 				{
 					string sLang = msDoc.GetLang();
 					if( sLang == null ) {
 						sLang = "";
 					}
-					htItems[ constLang ] = sLang;
+					htItems[ MacroscopeConstants.Lang ] = sLang;
 				}
 								
-				htItems[ constDateServer ] = msDoc.GetDateServer();
-				htItems[ constDateModified ] = msDoc.GetDateModified();
+				htItems[ MacroscopeConstants.DateServer ] = msDoc.GetDateServer();
+				htItems[ MacroscopeConstants.DateModified ] = msDoc.GetDateModified();
 
-				htItems[ constCanonical ] = msDoc.GetCanonical();
+				htItems[ MacroscopeConstants.Canonical ] = msDoc.GetCanonical();
 
-				htItems[ constInhyperlinks ] = msDoc.CountHyperlinksIn();
-				htItems[ constOuthyperlinks ] = msDoc.CountHyperlinksOut();
+				htItems[ MacroscopeConstants.Inhyperlinks ] = msDoc.CountHyperlinksIn();
+				htItems[ MacroscopeConstants.Outhyperlinks ] = msDoc.CountHyperlinksOut();
 												
-				htItems[ constTitle ] = msDoc.GetTitle();
-				htItems[ constTitleLen ] = msDoc.GetTitleLength();
+				htItems[ MacroscopeConstants.Title ] = msDoc.GetTitle();
+				htItems[ MacroscopeConstants.TitleLen ] = msDoc.GetTitleLength();
 
-				htItems[ constDescription ] = msDoc.GetDescription();
-				htItems[ constDescriptionLen ] = msDoc.GetDescriptionLength();
+				htItems[ MacroscopeConstants.Description ] = msDoc.GetDescription();
+				htItems[ MacroscopeConstants.DescriptionLen ] = msDoc.GetDescriptionLength();
 				
-				htItems[ constKeywords ] = msDoc.GetKeywords();
-				htItems[ constKeywordsLen ] = msDoc.GetKeywordsLength();
-				htItems[ constKeywordsCount ] = msDoc.GetKeywordsCount();
+				htItems[ MacroscopeConstants.Keywords ] = msDoc.GetKeywords();
+				htItems[ MacroscopeConstants.KeywordsLen ] = msDoc.GetKeywordsLength();
+				htItems[ MacroscopeConstants.KeywordsCount ] = msDoc.GetKeywordsCount();
 
 				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
 					ArrayList aHeadings = msDoc.GetHeadings( iLevel );
@@ -198,12 +166,14 @@ namespace SEOMacroscope
 					if( aHeadings.Count > 0 ) {
 						sText = ( string )aHeadings[ 0 ];
 					}
-					htItems[ string.Format( constHn, iLevel ) ] = sText;
+					htItems[ string.Format( MacroscopeConstants.Hn, iLevel ) ] = sText;
 				}
 
-				htItems[ constErrorCondition ] = msDoc.GetErrorCondition();
+				htItems[ MacroscopeConstants.ErrorCondition ] = msDoc.GetErrorCondition();
 								
 				// END: Columns				
+
+				this.lvListView.BeginUpdate();
 
 				if( this.lvListView.Items.ContainsKey( sUrl ) ) {
 
@@ -240,6 +210,8 @@ namespace SEOMacroscope
 					DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
 				}
 
+				this.lvListView.EndUpdate();
+				
 			}
 
 		}
@@ -252,11 +224,11 @@ namespace SEOMacroscope
 			Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> ()
 			{
 				{
-					constUrl,
+					MacroscopeConstants.Url,
 					300
 				},
 				{
-					constTitle,
+					MacroscopeConstants.Title,
 					300
 				}
 			};
@@ -278,15 +250,15 @@ namespace SEOMacroscope
 
 			List<string> lColDataWidth = new List<string> ()
 			{
-				constUrl,
-				constDateServer,
-				constDateModified,
-				constTitle
+				MacroscopeConstants.Url,
+				MacroscopeConstants.DateServer,
+				MacroscopeConstants.DateModified,
+				MacroscopeConstants.Title
 			};
 			
 			List<string> lColHeaderWidth = new List<string> ()
 			{
-				constDateModified
+				MacroscopeConstants.DateModified
 			};
 
 			foreach( string sColName in lColDataWidth ) {

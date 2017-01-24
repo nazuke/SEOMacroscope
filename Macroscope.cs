@@ -24,6 +24,7 @@
 */
  
 using System;
+using System.Diagnostics;
 
 namespace SEOMacroscope
 {
@@ -53,19 +54,20 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public static Boolean DebugMsg ( String sMsg, Boolean bFlag )
+		[Conditional( "DEVMODE" )]
+		public static void DebugMsg ( String sMsg, Boolean bFlag )
 		{
 			if( !SuppressStaticDebugMsg ) {
 				System.Diagnostics.Debug.WriteLine( sMsg );
 			}
-			return( bFlag );
 		}
-		
+
+		[Conditional( "DEVMODE" )]
 		public void DebugMsg ( String sMsg )
 		{
-			//if( !SuppressDebugMsg ) {
-			//	System.Diagnostics.Debug.WriteLine( string.Format( "{0} :: {1}", this.GetType(), sMsg ) );
-			//}
+			if( !SuppressDebugMsg ) {
+				System.Diagnostics.Debug.WriteLine( string.Format( "{0} :: {1}", this.GetType(), sMsg ) );
+			}
 		}
 
 		/**************************************************************************/

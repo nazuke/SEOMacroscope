@@ -35,15 +35,15 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public MacroscopeMainForm msMainForm;
+		public MacroscopeMainForm MainForm;
 
 		public ListView lvListView;
 
 		/**************************************************************************/
 
-		public MacroscopeDisplayListView ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
+		protected MacroscopeDisplayListView ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
 		{
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 		}
 
@@ -51,8 +51,8 @@ namespace SEOMacroscope
 
 		public void ClearData ()
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -69,21 +69,17 @@ namespace SEOMacroscope
 		
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection )
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							this.lvListView.BeginUpdate();
 							this.RenderListView( DocCollection );
-							this.lvListView.EndUpdate();
 						}
 					)
 				);
 			} else {
-				this.lvListView.BeginUpdate();
 				this.RenderListView( DocCollection );
-				this.lvListView.EndUpdate();
 			}
 		}
 
@@ -91,21 +87,17 @@ namespace SEOMacroscope
 		
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection, List<string> lList )
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							lvListView.BeginUpdate();
 							this.RenderListView( DocCollection, lList );
-							this.lvListView.EndUpdate();
 						}
 					)
 				);
 			} else {
-				this.lvListView.BeginUpdate();
 				this.RenderListView( DocCollection, lList );
-				this.lvListView.EndUpdate();
 			}
 		}
 
@@ -113,21 +105,17 @@ namespace SEOMacroscope
 
 		public void RefreshData ( MacroscopeDocument msDoc, string sUrl )
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							this.lvListView.BeginUpdate();
 							this.RenderListView( msDoc, sUrl );
-							this.lvListView.EndUpdate();
 						}
 					)
 				);
 			} else {
-				this.lvListView.BeginUpdate();
 				this.RenderListView( msDoc, sUrl );
-				this.lvListView.EndUpdate();
 			}
 		}
 
@@ -136,8 +124,8 @@ namespace SEOMacroscope
 		public void RenderListView ( MacroscopeDocumentCollection DocCollection )
 		{
 			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-			foreach( string sUrl in DocCollection.Keys() ) {
-				MacroscopeDocument msDoc = DocCollection.Get( sUrl );
+			foreach( string sUrl in DocCollection.DocumentKeys() ) {
+				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderListView( msDoc, sUrl );
 			}
 		}
@@ -147,7 +135,7 @@ namespace SEOMacroscope
 		public void RenderListView ( MacroscopeDocumentCollection DocCollection, List<string> lList )
 		{
 			foreach( string sUrl in lList ) {
-				MacroscopeDocument msDoc = DocCollection.Get( sUrl );
+				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderListView( msDoc, sUrl );
 			}
 		}

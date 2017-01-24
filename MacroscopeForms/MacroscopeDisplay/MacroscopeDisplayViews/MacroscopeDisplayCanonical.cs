@@ -38,15 +38,15 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayCanonical ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
-			: base( msMainFormNew, lvListViewNew )
+		public MacroscopeDisplayCanonical ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+			: base( MainFormNew, lvListViewNew )
 		{
 
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 			
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( MainForm.InvokeRequired ) {
+				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -79,6 +79,8 @@ namespace SEOMacroscope
 				
 				string sCanonical = msDoc.GetCanonical();
 
+				this.lvListView.BeginUpdate();
+								
 				if( lvListView.Items.ContainsKey( sUrl ) ) {
 							
 					try {
@@ -109,7 +111,9 @@ namespace SEOMacroscope
 					}
 				
 				}
-	
+				
+				this.lvListView.EndUpdate();
+				
 			}
 			
 		}

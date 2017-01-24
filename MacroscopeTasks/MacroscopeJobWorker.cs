@@ -64,9 +64,9 @@ namespace SEOMacroscope
 
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sUrl );
 			MacroscopeDocumentCollection DocCollection = this.msJobMaster.GetDocCollection();
-			MacroscopeAllowedHosts msAllowedHosts = this.msJobMaster.GetAllowedHosts();
+			MacroscopeAllowedHosts AllowedHosts = this.msJobMaster.GetAllowedHosts();
 
-			msAllowedHosts.DumpAllowedHosts();
+			AllowedHosts.DumpAllowedHosts();
 
 			if( !this.msJobMaster.GetRobots().ApplyRobotRule( sUrl ) ) {
 				DebugMsg( string.Format( "Disallowed by robots.txt: {0}", sUrl ) );
@@ -76,33 +76,35 @@ namespace SEOMacroscope
 			this.msJobMaster.AddHistory( sUrl );
 
 			if( MacroscopePreferencesManager.GetSameSite() ) {
-				if( !msAllowedHosts.IsAllowedFromUrl( sUrl ) ) {
+				if( !AllowedHosts.IsAllowedFromUrl( sUrl ) ) {
 					DebugMsg( string.Format( "Disallowed by SameSite.txt: {0}", sUrl ) );
 					return;
 				}
 			}
 
-			if( DocCollection.Contains( sUrl ) ) {
+			if( DocCollection.ContainsDocument( sUrl ) ) {
 				return;
-			} else {
-				DocCollection.Add( sUrl, msDoc );
 			}
 
 			if( this.msJobMaster.GetDepth() > 0 ) {
-				if( msDoc.GetDepth() > this.msJobMaster.GetDepth() ) {
-					//DebugMsg( string.Format( "TOO DEEP: {0}", msDoc.depth ), 3 );
-					DocCollection.Remove( sUrl );
+				int Depth = MacroscopeUrlTools.FindUrlDepth( sUrl );
+				if( Depth > this.msJobMaster.GetDepth() ) {
+					DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
 					return;
 				}
 			}
 
 			if( msDoc.Execute() ) {
 				
+				DocCollection.AddDocument( sUrl, msDoc );
+
 				this.msJobMaster.IncPageLimitCount();
 
 				if( msDoc.GetIsRedirect() ) {
+
 					DebugMsg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
 					this.msJobMaster.AddUrlQueueItem( msDoc.GetUrlRedirectTo() );
+
 				} else {
 
 					this.ProcessHrefLangLanguages( msDoc ); // Process Languages from HrefLang
@@ -110,7 +112,7 @@ namespace SEOMacroscope
 					this.ProcessOutlinks( msDoc ); // Process Outlinks from document
 
 				}
-				
+
 			} else {
 				DebugMsg( string.Format( "EXECUTE FAILED: {0}", sUrl ) );
 			}
@@ -140,7 +142,7 @@ namespace SEOMacroscope
 		void ProcessOutlinks ( MacroscopeDocument msDoc )
 		{
 
-			MacroscopeAllowedHosts msAllowedHosts = this.msJobMaster.GetAllowedHosts();
+			MacroscopeAllowedHosts AllowedHosts = this.msJobMaster.GetAllowedHosts();
 						
 			foreach( string sUrl in msDoc.IterateOutlinks() ) {
 
@@ -159,7 +161,7 @@ namespace SEOMacroscope
 					continue;
 				}
 
-				if( !msAllowedHosts.IsAllowedFromUrl( Outlink.AbsoluteUrl ) ) {
+				if( !AllowedHosts.IsAllowedFromUrl( Outlink.AbsoluteUrl ) ) {
 					DebugMsg( string.Format( "FOREIGN HOST: {0}", Outlink.AbsoluteUrl ) );
 					continue;
 				}

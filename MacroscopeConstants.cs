@@ -54,6 +54,8 @@ namespace SEOMacroscope
 		public const string NamedQueueDisplayTelephoneNumbers = "TelephoneNumbers";
 		public const string NamedQueueDisplayHostnames = "DisplayHostnames";
 
+		public const string RecalculateDocCollection = "RecalculateDocCollection";
+
 		/** END: Named Queues *****************************************************/
 
 		/** BEGIN: Outlink Types **************************************************/
@@ -66,6 +68,42 @@ namespace SEOMacroscope
 		public const string LINK_SCRIPT = "SCRIPT";
 
 		/** END: Outlink Types ****************************************************/
+
+		/** BEGIN: ListView Column Names ******************************************/
+		
+		public const string Url = "URL";
+		
+		public const string Status = "Status";
+		public const string IsRedirect = "Redirect";
+				
+		public const string Duration = "Duration (seconds)";
+
+		public const string DateServer = "Date";
+		public const string DateModified = "Last Modified";
+		
+		public const string ContentType = "Content Type";
+		public const string Lang = "Lang";
+		
+		public const string Canonical = "Canonical";
+		
+		public const string Inhyperlinks = "Links In";
+		public const string Outhyperlinks = "Links Out";
+		
+		public const string Title = "Title";
+		public const string TitleLen = "Title Length";
+		
+		public const string Description = "Description";
+		public const string DescriptionLen = "Description Length";
+		
+		public const string Keywords = "Keywords";
+		public const string KeywordsLen = "Keywords Length";
+		public const string KeywordsCount = "Keywords Count";
+		
+		public const string Hn = "First H{0}";
+		
+		public const string ErrorCondition = "Error Condition";
+
+		/** END: ListView Column Names ********************************************/
 
 	}
 	

@@ -39,15 +39,15 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayHostnames ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
-			: base( msMainFormNew, lvListViewNew )
+		public MacroscopeDisplayHostnames ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+			: base( MainFormNew, lvListViewNew )
 		{
 
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 			
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( MainForm.InvokeRequired ) {
+				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -66,7 +66,11 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
+				
 				this.lvListView.Sorting = SortOrder.Ascending;	
+				
+				ListViewConfigured = true;
+								
 			}
 		}
 
@@ -74,21 +78,17 @@ namespace SEOMacroscope
 
 		public new void RefreshData ( MacroscopeDocumentCollection DocCollection )
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							this.lvListView.BeginUpdate();
 							this.RenderListView( DocCollection );
-							this.lvListView.EndUpdate();
 						}
 					)
 				);
 			} else {
-				this.lvListView.BeginUpdate();
 				this.RenderListView( DocCollection );
-				this.lvListView.EndUpdate();
 			}
 		}
 
@@ -114,6 +114,8 @@ namespace SEOMacroscope
 		{
 			string sPairKey = string.Join( "::", "HOST", sHostname );
 
+			this.lvListView.BeginUpdate();
+			
 			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
 							
 				try {
@@ -145,6 +147,8 @@ namespace SEOMacroscope
 
 			}
 
+			this.lvListView.EndUpdate();
+			
 		}
 
 		/**************************************************************************/

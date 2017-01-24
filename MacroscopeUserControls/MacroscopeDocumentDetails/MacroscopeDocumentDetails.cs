@@ -43,20 +43,27 @@ namespace SEOMacroscope
 		
 		public MacroscopeDocumentDetails ()
 		{
-			//
+
 			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
+
+			// TabPanel Properties
+			listViewDocumentInfo.Dock = DockStyle.Fill;
+			listViewHrefLang.Dock = DockStyle.Fill;
+			listViewLinksIn.Dock = DockStyle.Fill;
+			listViewLinksOut.Dock = DockStyle.Fill;
+			listViewImages.Dock = DockStyle.Fill;
+			listViewStylesheets.Dock = DockStyle.Fill;
+			listViewJavascripts.Dock = DockStyle.Fill;
 			
 			UrlLoader = new MacroscopeUrlLoader ();
-							
+
 		}
 
 		/**************************************************************************/
 		
 		void MacroscopeDocumentDetailsLoad ( object sender, EventArgs e )
 		{
-			DebugMsg( string.Format( "MacroscopeDocumentDetailsLoad: {0}", "initialize" ) );
 		}
 
 		/**************************************************************************/
@@ -80,8 +87,8 @@ namespace SEOMacroscope
 
 			// TODO: This blows up if the page is from a redirect. Probably need to use the original URL
 
-			MacroscopeDocumentCollection msDocCollection = msJobMaster.GetDocCollection();
-			MacroscopeDocument msDoc = msDocCollection.Get( sUrl );
+			MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
+			MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 
 			if( this.InvokeRequired ) {
 				this.Invoke(
@@ -148,7 +155,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Dictionary<string,string> htLocales, MacroscopeDocumentCollection msDocCollection )
+		void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Dictionary<string,string> htLocales, MacroscopeDocumentCollection DocCollection )
 		{
 
 			ListView lvListView = this.listViewHrefLang;
@@ -216,8 +223,8 @@ namespace SEOMacroscope
 
 									sHrefLangUrl = msHrefLang.GetUrl();
 
-									if( msDocCollection.Exists( sHrefLangUrl ) ) {
-										sTitle = msDocCollection.Get( sHrefLangUrl ).GetTitle();
+									if( DocCollection.DocumentExists( sHrefLangUrl ) ) {
+										sTitle = DocCollection.GetDocument( sHrefLangUrl ).GetTitle();
 									}
 
 								}

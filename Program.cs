@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -52,6 +53,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 				
+		[Conditional("DEVMODE")]
 		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );

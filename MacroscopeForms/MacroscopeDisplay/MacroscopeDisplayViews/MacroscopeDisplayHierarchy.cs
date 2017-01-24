@@ -43,9 +43,10 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayHierarchy ( MacroscopeMainForm msMainFormNew, TreeView tvTreeView )
-			: base( msMainFormNew, tvTreeView )
+		public MacroscopeDisplayHierarchy ( MacroscopeMainForm MainFormNew, TreeView tvTreeView )
+			: base( MainFormNew, tvTreeView )
 		{
+			ConfigureListView();
 		}
 
 		/**************************************************************************/
@@ -53,6 +54,7 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
+				ListViewConfigured = true;
 			}
 		}
 
@@ -60,8 +62,8 @@ namespace SEOMacroscope
 
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection, List<string> lList )
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -86,7 +88,7 @@ namespace SEOMacroscope
 			DebugMsg( string.Format( "RenderTreeView: {0}", "BASE" ) );
 			
 			foreach( string sUrl in lList ) {
-				MacroscopeDocument msDoc = DocCollection.Get( sUrl );
+				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderTreeView( msDoc, sUrl );
 			}
 		

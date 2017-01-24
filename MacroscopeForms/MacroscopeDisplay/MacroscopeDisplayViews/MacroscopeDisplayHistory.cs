@@ -24,7 +24,7 @@
 */
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -35,32 +35,29 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		MacroscopeMainForm msMainForm;
+		MacroscopeMainForm MainForm;
 
 		static Boolean ListViewConfigured = false;
-				
-		const string constUrl = "url";
-		const string constVisited = "visited";
 
 		/**************************************************************************/
 
-		public MacroscopeDisplayHistory ( MacroscopeMainForm msMainFormNew )
+		public MacroscopeDisplayHistory ( MacroscopeMainForm MainFormNew )
 		{
 			
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 		
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( MainForm.InvokeRequired ) {
+				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayHistory();
+							ListView lvListView = this.MainForm.GetDisplayHistory();
 							ConfigureListView( lvListView );
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayHistory();
+				ListView lvListView = this.MainForm.GetDisplayHistory();
 				ConfigureListView( lvListView );
 			}
 		
@@ -79,32 +76,32 @@ namespace SEOMacroscope
 
 		public void ClearData ()
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayHistory();
+							ListView lvListView = this.MainForm.GetDisplayHistory();
 							lvListView.Items.Clear();
 						}
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayHistory();
+				ListView lvListView = this.MainForm.GetDisplayHistory();
 				lvListView.Items.Clear();
 			}
 		}
 
 		/**************************************************************************/
 				
-		public void RefreshData ( Hashtable htHistory )
+		public void RefreshData ( Dictionary<string,Boolean> htHistory )
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							ListView lvListView = this.msMainForm.GetDisplayHistory();
+							ListView lvListView = this.MainForm.GetDisplayHistory();
 							lock( lvListView ) {
 								this.RenderListView( lvListView, htHistory );
 							}
@@ -112,7 +109,7 @@ namespace SEOMacroscope
 					)
 				);
 			} else {
-				ListView lvListView = this.msMainForm.GetDisplayHistory();
+				ListView lvListView = this.MainForm.GetDisplayHistory();
 				lock( lvListView ) {
 					this.RenderListView( lvListView, htHistory );
 				}
@@ -121,13 +118,15 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 							
-		void RenderListView ( ListView lvListView, Hashtable htHistory )
+		void RenderListView ( ListView lvListView, Dictionary<string,Boolean> htHistory )
 		{
 
 			foreach( string sUrl in htHistory.Keys ) {
 			
 				string sVisited = htHistory[ sUrl ].ToString();
 			
+				lvListView.BeginUpdate();
+								
 				if( lvListView.Items.ContainsKey( sUrl ) ) {
 			
 					try {
@@ -150,6 +149,8 @@ namespace SEOMacroscope
 			
 				}
 			
+				lvListView.EndUpdate();
+				
 			}
 		
 		}

@@ -24,25 +24,39 @@
 */
 
 using System;
-using NUnit.Framework;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-	
-	[TestFixture]
-	public class TestMacroscopeJobMaster
+
+	/// <summary>
+	/// Description of MacroscopeSiteStructurePanel.
+	/// </summary>
+
+	public partial class MacroscopeSiteStructurePanel : MacroscopeUserControl
 	{
-		
+
 		/**************************************************************************/
-				
-		[Test]
-		public void TestJobMaster ()
+
+		public MacroscopeSiteStructurePanel ()
 		{
-			// TODO: Add your test.
+			InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+
+			this.tabControlSiteStructure.Dock = DockStyle.Fill;
+
+			this.splitContainerSiteOverview.Dock = DockStyle.Fill;
+			this.treeViewSiteOverview.Dock = DockStyle.Fill;
+
+			
+
+			
+			
 		}
 		
 		/**************************************************************************/
-				
+
 	}
-	
+
 }

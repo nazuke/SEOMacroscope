@@ -24,25 +24,60 @@
 */
 
 using System;
+using System.Collections;
 
 namespace SEOMacroscope
 {
-	
-	/// <summary>
-	/// Description of MacroscopeDisplayStructureOverview.
-	/// </summary>
-	
-	public class MacroscopeDisplayStructureOverview
-	{
-	
-		/**************************************************************************/
 
-		public MacroscopeDisplayStructureOverview ()
+	/// <summary>
+	/// Description of MacroscopeColumnSorter.
+	/// </summary>
+
+	public class MacroscopeColumnSorter : IComparer
+	{
+		
+		/**************************************************************************/
+				
+		public MacroscopeColumnSorter ()
 		{
 		}
-	
+
 		/**************************************************************************/
 
-	}
+		public int Compare ( object Left, object Right )
+		{
 
+			int iResult = 0;
+
+			return( iResult );
+
+		}
+		
+		/**************************************************************************/
+
+		public int Compare ( string Left, string Right )
+		{
+
+			int iResult = 0;
+
+			return( iResult );
+
+		}
+		
+		/**************************************************************************/
+
+		public int Compare ( int Left, int Right )
+		{
+
+			int iResult = 0;
+			
+			
+			return( iResult );
+
+		}
+		
+		/**************************************************************************/
+				
+	}
+	
 }

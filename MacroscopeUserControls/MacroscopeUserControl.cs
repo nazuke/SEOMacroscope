@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -48,7 +49,7 @@ namespace SEOMacroscope
 			foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
 				sTextToCopy += lvItem.Text;
 				for( int i = 1; i < lvItem.SubItems.Count; i++ ) {
-					sTextToCopy += "\t" + lvItem.SubItems[i].Text;
+					sTextToCopy += "\t" + lvItem.SubItems[ i ].Text;
 				}
 				sTextToCopy += "\n";
 			}
@@ -70,15 +71,10 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
+		[Conditional( "DEVMODE" )]
 		public void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
-		}
-
-		public void DebugMsg ( String sMsg, int iOffset )
-		{
-			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
-			System.Diagnostics.Debug.WriteLine( sMsgPadded );
 		}
 
 		/**************************************************************************/

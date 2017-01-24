@@ -94,11 +94,11 @@ namespace SEOMacroscope
 
 			{
 				
-				foreach( string sKey in DocCollection.Keys() ) {
+				foreach( string sKey in DocCollection.DocumentKeys() ) {
 
 					iCol = 1;
 					
-					MacroscopeDocument msDoc = DocCollection.Get( sKey );
+					MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
 
 					string sUrl = this.FormatIfMissing( msDoc.GetUrl() );
 					string sStatusCode = this.FormatIfMissing( msDoc.GetStatusCode().ToString() );

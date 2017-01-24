@@ -323,7 +323,7 @@ namespace SEOMacroscope
 			// 
 			this.numericUpDownMaxThreads.Location = new System.Drawing.Point(20, 20);
 			this.numericUpDownMaxThreads.Maximum = new decimal(new int[] {
-			16,
+			64,
 			0,
 			0,
 			0});
@@ -378,7 +378,7 @@ namespace SEOMacroscope
 			1,
 			0,
 			0,
-			-2147483648});
+			0});
 			this.numericUpDownPageLimit.Name = "numericUpDownPageLimit";
 			this.numericUpDownPageLimit.Size = new System.Drawing.Size(120, 20);
 			this.numericUpDownPageLimit.TabIndex = 9;
@@ -400,7 +400,7 @@ namespace SEOMacroscope
 			1,
 			0,
 			0,
-			-2147483648});
+			0});
 			this.numericUpDownDepth.Name = "numericUpDownDepth";
 			this.numericUpDownDepth.Size = new System.Drawing.Size(120, 20);
 			this.numericUpDownDepth.TabIndex = 8;

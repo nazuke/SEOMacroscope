@@ -38,15 +38,15 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayTitles ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
-			: base( msMainFormNew, lvListViewNew )
+		public MacroscopeDisplayTitles ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+			: base( MainFormNew, lvListViewNew )
 		{
 
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 						
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( MainForm.InvokeRequired ) {
+				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -66,7 +66,11 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
+				
 				this.lvListView.Sorting = SortOrder.Ascending;	
+				
+				ListViewConfigured = true;
+								
 			}
 		}
 
@@ -88,7 +92,7 @@ namespace SEOMacroscope
 			if( bProcess ) {
 
 				string sTitle = msDoc.GetTitle();
-				int iTitleCount = this.msMainForm.GetJobMaster().GetDocCollection().GetTitleCount( sTitle );
+				int iTitleCount = this.MainForm.GetJobMaster().GetDocCollection().GetTitleCount( sTitle );
 				string sTitleLength = sTitle.Length.ToString();
 				string sPairKey = string.Join( "", sUrl, sTitle );
 

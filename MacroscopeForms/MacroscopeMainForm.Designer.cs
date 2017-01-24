@@ -65,11 +65,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.SplitContainer splitContainerLeftAndRightViews;
-		private System.Windows.Forms.SplitContainer splitContainerSiteOverview;
-		private System.Windows.Forms.TreeView treeViewSiteOverview;
 		public System.Windows.Forms.SplitContainer splitContainerStructureAndDocumentDetails;
 		public SEOMacroscope.MacroscopeOverviewTabPanel macroscopeOverviewTabPanelInstance;
 		private SEOMacroscope.MacroscopeDocumentDetails macroscopeDocumentDetailsInstance;
+		private SEOMacroscope.MacroscopeSiteStructurePanel macroscopeSiteStructurePanelInstance;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -130,8 +129,7 @@ namespace SEOMacroscope
 			this.splitContainerStructureAndDocumentDetails = new System.Windows.Forms.SplitContainer();
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewTabPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
-			this.splitContainerSiteOverview = new System.Windows.Forms.SplitContainer();
-			this.treeViewSiteOverview = new System.Windows.Forms.TreeView();
+			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -145,9 +143,6 @@ namespace SEOMacroscope
 			this.splitContainerStructureAndDocumentDetails.Panel1.SuspendLayout();
 			this.splitContainerStructureAndDocumentDetails.Panel2.SuspendLayout();
 			this.splitContainerStructureAndDocumentDetails.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).BeginInit();
-			this.splitContainerSiteOverview.Panel1.SuspendLayout();
-			this.splitContainerSiteOverview.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStripMain
@@ -320,43 +315,43 @@ namespace SEOMacroscope
 			// allDocumentTypesToolStripMenuItem
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
 			// 
 			// HtmlToolStripMenuItem
 			// 
 			this.HtmlToolStripMenuItem.Name = "HtmlToolStripMenuItem";
-			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.HtmlToolStripMenuItem.Text = "HTML";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.imagesToolStripMenuItem.Text = "Images";
 			// 
 			// PdfsToolStripMenuItem
 			// 
 			this.PdfsToolStripMenuItem.Name = "PdfsToolStripMenuItem";
-			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.PdfsToolStripMenuItem.Text = "PDFs";
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
 			// 
 			// toolStripSeparator2
@@ -458,7 +453,7 @@ namespace SEOMacroscope
 			// 
 			// splitContainerLeftAndRightViews.Panel2
 			// 
-			this.splitContainerLeftAndRightViews.Panel2.Controls.Add(this.splitContainerSiteOverview);
+			this.splitContainerLeftAndRightViews.Panel2.Controls.Add(this.macroscopeSiteStructurePanelInstance);
 			this.splitContainerLeftAndRightViews.Size = new System.Drawing.Size(778, 442);
 			this.splitContainerLeftAndRightViews.SplitterDistance = 533;
 			this.splitContainerLeftAndRightViews.SplitterWidth = 6;
@@ -501,29 +496,12 @@ namespace SEOMacroscope
 			this.macroscopeDocumentDetailsInstance.Size = new System.Drawing.Size(533, 218);
 			this.macroscopeDocumentDetailsInstance.TabIndex = 0;
 			// 
-			// splitContainerSiteOverview
+			// macroscopeSiteStructurePanelInstance
 			// 
-			this.splitContainerSiteOverview.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerSiteOverview.Location = new System.Drawing.Point(0, 0);
-			this.splitContainerSiteOverview.Name = "splitContainerSiteOverview";
-			this.splitContainerSiteOverview.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainerSiteOverview.Panel1
-			// 
-			this.splitContainerSiteOverview.Panel1.Controls.Add(this.treeViewSiteOverview);
-			this.splitContainerSiteOverview.Panel1MinSize = 50;
-			this.splitContainerSiteOverview.Size = new System.Drawing.Size(239, 442);
-			this.splitContainerSiteOverview.SplitterDistance = 304;
-			this.splitContainerSiteOverview.SplitterWidth = 6;
-			this.splitContainerSiteOverview.TabIndex = 0;
-			// 
-			// treeViewSiteOverview
-			// 
-			this.treeViewSiteOverview.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.treeViewSiteOverview.Location = new System.Drawing.Point(0, 0);
-			this.treeViewSiteOverview.Name = "treeViewSiteOverview";
-			this.treeViewSiteOverview.Size = new System.Drawing.Size(239, 304);
-			this.treeViewSiteOverview.TabIndex = 0;
+			this.macroscopeSiteStructurePanelInstance.Location = new System.Drawing.Point(10, 10);
+			this.macroscopeSiteStructurePanelInstance.Name = "macroscopeSiteStructurePanelInstance";
+			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
+			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
 			// 
 			// MacroscopeMainForm
 			// 
@@ -556,9 +534,6 @@ namespace SEOMacroscope
 			this.splitContainerStructureAndDocumentDetails.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerStructureAndDocumentDetails)).EndInit();
 			this.splitContainerStructureAndDocumentDetails.ResumeLayout(false);
-			this.splitContainerSiteOverview.Panel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).EndInit();
-			this.splitContainerSiteOverview.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

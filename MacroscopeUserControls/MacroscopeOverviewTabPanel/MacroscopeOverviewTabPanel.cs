@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -42,22 +43,56 @@ namespace SEOMacroscope
 
 		public MacroscopeOverviewTabPanel ()
 		{
-			InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+ 
+			// The InitializeComponent() call is required for Windows Forms designer support.
+			InitializeComponent();
+
+			// TabPanel Properties
+			tabControlMain.Multiline = false;
+
+			// ListView Docking
+			listViewStructure.Dock = DockStyle.Fill;
+			treeViewHierarchy.Dock = DockStyle.Fill;
+			listViewCanonicalAnalysis.Dock = DockStyle.Fill;
+			listViewHrefLang.Dock = DockStyle.Fill;
+			listViewRedirectsAudit.Dock = DockStyle.Fill;
+			listViewUriAnalysis.Dock = DockStyle.Fill;
+			listViewPageTitles.Dock = DockStyle.Fill;
+			listViewPageDescription.Dock = DockStyle.Fill;
+			listViewPageKeywords.Dock = DockStyle.Fill;
+			listViewPageHeadings.Dock = DockStyle.Fill;
+			listViewEmailAddresses.Dock = DockStyle.Fill;
+			listViewTelephoneNumbers.Dock = DockStyle.Fill;
+			listViewHostnames.Dock = DockStyle.Fill;
+			listViewHistory.Dock = DockStyle.Fill;
+
+			// ListView Sorters
+			// TODO: Implement this.
+			
 		}
 	
 		/**************************************************************************/
+
+		void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
+		{
+
+			// TODO: Implement this.
+			
+			ListView lvListView = ( ListView )sender;
+
+			DebugMsg( string.Format( "CallbackColumnClick lvListView: {0}", lvListView.ToString() ) );
+			DebugMsg( string.Format( "CallbackColumnClick Column: {0}", e.Column.ToString() ) );
+
+		}
 		
+		/**************************************************************************/
+		
+		[Conditional( "DEVMODE" )]
 		public void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
 		}
 
-		public void DebugMsg ( String sMsg, int iOffset )
-		{
-			String sMsgPadded = new String ( ' ', iOffset * 2 ) + sMsg;
-			System.Diagnostics.Debug.WriteLine( sMsgPadded );
-		}
-		
 		/**************************************************************************/
 
 	}

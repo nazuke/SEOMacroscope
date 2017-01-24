@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SEOMacroscope
 {
@@ -118,6 +119,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		[Conditional( "DEVMODE" )]
 		public void DumpAllowedHosts ()
 		{
 			lock( this.Hostnames ) {

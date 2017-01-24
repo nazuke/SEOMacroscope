@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -34,9 +33,9 @@ namespace SEOMacroscope
 	public class MacroscopeJobMaster : Macroscope
 	{
 
-		MacroscopeMainForm msMainForm;
-		MacroscopeDocumentCollection msDocCollection;
-		MacroscopeAllowedHosts msAllowedHosts;
+		MacroscopeMainForm MainForm;
+		MacroscopeDocumentCollection DocCollection;
+		MacroscopeAllowedHosts AllowedHosts;
 		
 		MacroscopeNamedQueue NamedQueue;
 
@@ -45,6 +44,7 @@ namespace SEOMacroscope
 		int ThreadsMax;
 		int ThreadsRunning;
 		Boolean ThreadsStop;
+		object ThreadsLock = new object ();
 		Dictionary<int,Boolean> ThreadsDict;
 
 		string StartUrl;
@@ -57,22 +57,23 @@ namespace SEOMacroscope
 
 		int PagesFound;
 
-		Hashtable History;
+		Dictionary<string,Boolean> History;
+
 		Dictionary<string,string> Locales;
 
-		MacroscopeRobots msRobots;
+		MacroscopeRobots Robots;
 
 		/**************************************************************************/
 
 		public MacroscopeJobMaster ()
 		{
-			msMainForm = null;
+			MainForm = null;
 			InitializeJobMaster();
 		}
 		
-		public MacroscopeJobMaster ( MacroscopeMainForm msMainFormNew )
+		public MacroscopeJobMaster ( MacroscopeMainForm MainFormNew )
 		{
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			InitializeJobMaster();
 		}
 
@@ -81,8 +82,8 @@ namespace SEOMacroscope
 		void InitializeJobMaster ()
 		{
 
-			msDocCollection = new MacroscopeDocumentCollection ();
-			msAllowedHosts = new MacroscopeAllowedHosts ();
+			DocCollection = new MacroscopeDocumentCollection ();
+			AllowedHosts = new MacroscopeAllowedHosts ();
 			
 			// BEGIN: Named Queues
 			NamedQueue = new MacroscopeNamedQueue ();
@@ -116,10 +117,10 @@ namespace SEOMacroscope
 			SameSite = MacroscopePreferencesManager.GetSameSite();
 			PagesFound = 0;
 
-			History = Hashtable.Synchronized( new Hashtable ( 4096 ) );
+			History = new Dictionary<string, bool> ( 4096 );
 
 			Locales = new Dictionary<string,string> ( 32 );
-			msRobots = new MacroscopeRobots ();
+			Robots = new MacroscopeRobots ();
 
 		}
 
@@ -128,7 +129,7 @@ namespace SEOMacroscope
 		~MacroscopeJobMaster ()
 		{
 			DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
-			this.msDocCollection = null;
+			this.DocCollection = null;
 		}
 		
 		/** Execute Job ***********************************************************/
@@ -140,7 +141,7 @@ namespace SEOMacroscope
 
 			this.ThreadsStop = false;
 
-			this.msAllowedHosts.AddFromUrl( this.StartUrl );
+			this.AllowedHosts.AddFromUrl( this.StartUrl );
 
 			if( !this.PeekUrlQueue() ) {
 				this.AddUrlQueueItem( this.StartUrl );
@@ -150,10 +151,12 @@ namespace SEOMacroscope
 			
 			DebugMsg( string.Format( "Pages Found: {0}", this.PagesFound ) );
 
-			if( this.msMainForm != null ) {
-				this.msMainForm.CallbackScanComplete();
+			if( this.MainForm != null ) {
+				this.MainForm.CallbackScanComplete();
 			}
 
+			this.AddUpdateDisplayQueue( this.StartUrl );
+						
 			return( true );
 			
 		}
@@ -169,7 +172,8 @@ namespace SEOMacroscope
 
 				if( this.ThreadsStop == true ) {
 
-					DebugMsg( string.Format( "WorkersSpawn: {0}", "STOPPING" ) );
+					DebugMsg( string.Format( "SpawnWorkers: {0}", "STOPPING" ) );
+					
 					bDoRun = false;
 					break;
 
@@ -177,13 +181,15 @@ namespace SEOMacroscope
 
 					for( int i = 0; i < this.ThreadsMax; i++ ) {
 						if( this.CountRunningThreads() < this.ThreadsMax ) {
-							Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
+							lock( this.ThreadsLock ) {
+								Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
+								if( bNewThread ) {
+									Thread.Sleep( 1000 );
+								}
+							}
 						}
-						Thread.Sleep( 100 );
 					}
-						
-					Thread.Sleep( 2000 );
-					
+
 					this.AdjustThreadsMax();
 					
 					if(
@@ -194,18 +200,17 @@ namespace SEOMacroscope
 
 				}
 
-				Thread.Sleep( 100 );
-
 			}
 
 			this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 			
-			DebugMsg( string.Format( "WorkersSpawn: STOPPED" ) );
+			DebugMsg( string.Format( "SpawnWorkers: STOPPED" ) );
 
 		}
 			
 		void StartWorker ( object thContext )
 		{
+			// TODO: Make workers pull from url queue, instead of quitting after one request.
 			if( !this.ThreadsStop ) {
 				MacroscopeJobWorker msJobWorker = new MacroscopeJobWorker ( this );
 				string sUrl = this.GetUrlQueueItem();
@@ -413,11 +418,13 @@ namespace SEOMacroscope
 			return( bSeen );
 		}
 
-		public Hashtable GetHistory ()
+		public Dictionary<string,Boolean> GetHistory ()
 		{
-			Hashtable HistoryCopy;
+			Dictionary<string,Boolean> HistoryCopy = new Dictionary<string,Boolean> ( this.History.Count );
 			lock( this.History ) {
-				HistoryCopy = ( Hashtable )this.History.Clone();
+				foreach( string sKey in this.History.Keys ) {
+					HistoryCopy.Add( sKey, this.History[ sKey ] );
+				}
 			}
 			return( HistoryCopy );
 		}
@@ -428,19 +435,24 @@ namespace SEOMacroscope
 				this.History.Clear();
 			}
 		}
-		
+
+		public int CountHistory ()
+		{
+			return( this.History.Count );
+		}
+
 		/** Document Collection ***************************************************/
 
 		public MacroscopeDocumentCollection GetDocCollection ()
 		{
-			return( this.msDocCollection );
+			return( this.DocCollection );
 		}
 		
 		/**************************************************************************/
 
 		public MacroscopeAllowedHosts GetAllowedHosts ()
 		{
-			return( this.msAllowedHosts );
+			return( this.AllowedHosts );
 		}
 
 		/** Locales ***************************************************************/
@@ -463,7 +475,7 @@ namespace SEOMacroscope
 		
 		public MacroscopeRobots GetRobots ()
 		{
-			return( this.msRobots );
+			return( this.Robots );
 		}
 
 		/**************************************************************************/

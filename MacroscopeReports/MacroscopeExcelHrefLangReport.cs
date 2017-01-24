@@ -92,9 +92,9 @@ namespace SEOMacroscope
 
 			{
 				
-				foreach( string sKey in DocCollection.Keys() ) {
+				foreach( string sKey in DocCollection.DocumentKeys() ) {
 
-					MacroscopeDocument msDoc = DocCollection.Get( sKey );
+					MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
 					Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 					
 					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );

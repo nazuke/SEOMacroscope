@@ -41,15 +41,15 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public MacroscopeDisplayHrefLang ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
-			: base( msMainFormNew, lvListViewNew )
+		public MacroscopeDisplayHrefLang ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+			: base( MainFormNew, lvListViewNew )
 		{
 
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( MainForm.InvokeRequired ) {
+				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -68,8 +68,11 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
+
 				this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
+				
 				ListViewConfigured = true;
+				
 			}
 		}
 
@@ -80,8 +83,8 @@ namespace SEOMacroscope
 
 			DebugMsg( string.Format( "MacroscopeDisplayHrefLang: {0}", "RefreshData" ) );
 						
-			if( this.msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				MainForm.Invoke(
 					new MethodInvoker ( 
 						delegate
 						{
@@ -127,9 +130,11 @@ namespace SEOMacroscope
 
 			}
 
-			foreach( string sKeyUrl in DocCollection.Keys() ) {
+			this.lvListView.BeginUpdate();
+						
+			foreach( string sKeyUrl in DocCollection.DocumentKeys() ) {
 
-				MacroscopeDocument msDoc = DocCollection.Get( sKeyUrl );
+				MacroscopeDocument msDoc = DocCollection.GetDocument( sKeyUrl );
 
 				if( msDoc.GetIsHtml() ) {
 
@@ -219,6 +224,8 @@ namespace SEOMacroscope
 		
 			}
 
+			this.lvListView.EndUpdate();
+			
 			this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
 
 			this.lvListView.Columns[ "Site Locale" ].Width = 100;

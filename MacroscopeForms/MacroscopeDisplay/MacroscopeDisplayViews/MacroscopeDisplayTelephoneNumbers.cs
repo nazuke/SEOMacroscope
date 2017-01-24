@@ -39,15 +39,15 @@ namespace SEOMacroscope
 				
 		/**************************************************************************/
 
-		public MacroscopeDisplayTelephoneNumbers ( MacroscopeMainForm msMainFormNew, ListView lvListViewNew )
-			: base( msMainFormNew, lvListViewNew )
+		public MacroscopeDisplayTelephoneNumbers ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+			: base( MainFormNew, lvListViewNew )
 		{
 
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 
-			if( msMainForm.InvokeRequired ) {
-				msMainForm.Invoke(
+			if( MainForm.InvokeRequired ) {
+				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -66,7 +66,11 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
+				
 				this.lvListView.Sorting = SortOrder.Ascending;	
+				
+				ListViewConfigured = true;
+				
 			}
 		}
 
@@ -83,6 +87,8 @@ namespace SEOMacroscope
 
 					string sPairKey = string.Join( "", sTelephoneNumber, sUrl );
 
+					this.lvListView.BeginUpdate();
+								
 					if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
 							
 						try {
@@ -113,6 +119,8 @@ namespace SEOMacroscope
 						}
 
 					}
+								
+					this.lvListView.EndUpdate();
 						
 				}
 					

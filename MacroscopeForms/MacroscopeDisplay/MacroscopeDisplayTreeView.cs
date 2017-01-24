@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -35,55 +34,33 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public MacroscopeMainForm msMainForm;
+		public MacroscopeMainForm MainForm;
 
 		public TreeView tvTreeView;
 
 		/**************************************************************************/
 
-		public MacroscopeDisplayTreeView ( MacroscopeMainForm msMainFormNew, TreeView tvTreeViewNew )
+		protected MacroscopeDisplayTreeView ( MacroscopeMainForm MainFormNew, TreeView tvTreeViewNew )
 		{
-			msMainForm = msMainFormNew;
+			MainForm = MainFormNew;
 			tvTreeView = tvTreeViewNew;
 		}
 
 		/**************************************************************************/
-
-		public void ClearData ()
-		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.tvTreeView.Nodes.Clear();
-						}
-					)
-				);
-			} else {
-				this.tvTreeView.Nodes.Clear();
-			}
-		}
-		
-		/**************************************************************************/
 		
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection )
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
-							this.tvTreeView.BeginUpdate();
 							this.RenderTreeView( DocCollection );
-							this.tvTreeView.EndUpdate();
 						}
 					)
 				);
 			} else {
-				this.tvTreeView.BeginUpdate();
 				this.RenderTreeView( DocCollection );
-				this.tvTreeView.EndUpdate();
 			}
 		}
 
@@ -92,8 +69,8 @@ namespace SEOMacroscope
 		/*
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection, List<string> lList )
 		{
-			if( this.msMainForm.InvokeRequired ) {
-				this.msMainForm.Invoke(
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
@@ -116,8 +93,8 @@ namespace SEOMacroscope
 		public void RenderTreeView ( MacroscopeDocumentCollection DocCollection )
 		{
 			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-			foreach( string sUrl in DocCollection.Keys() ) {
-				MacroscopeDocument msDoc = DocCollection.Get( sUrl );
+			foreach( string sUrl in DocCollection.DocumentKeys() ) {
+				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderTreeView( msDoc, sUrl );
 			}
 		}

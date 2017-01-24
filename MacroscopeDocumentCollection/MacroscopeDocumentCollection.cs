@@ -42,7 +42,6 @@ namespace SEOMacroscope
 
 		Dictionary<string,MacroscopeDocument> DocCollection;
 
-		const string constRecalculateDocCollection = "RecalculateDocCollection";
 		MacroscopeNamedQueue NamedQueue;
 
 		Dictionary<string,Boolean> StatsHistory;
@@ -65,7 +64,7 @@ namespace SEOMacroscope
 			DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
 
 			NamedQueue = new MacroscopeNamedQueue ();
-			NamedQueue.CreateNamedQueue( constRecalculateDocCollection );
+			NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
 
 			StatsHistory = new Dictionary<string,Boolean> ( 1024 );
 			StatsHostnames = new Dictionary<string,int> ( 16 );
@@ -87,9 +86,9 @@ namespace SEOMacroscope
 			this.StopRecalcTimer();
 		}
 
-		/**************************************************************************/
+		/** Document Collection Methods *******************************************/
 
-		public Boolean Contains ( string sKey )
+		public Boolean ContainsDocument ( string sKey )
 		{
 			Boolean sResult = false;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
@@ -100,17 +99,17 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public int Count ()
+		public int CountDocuments ()
 		{
 			return( this.DocCollection.Count );
 		}
 				
 		/**************************************************************************/
 				
-		public void Add ( string sKey, MacroscopeDocument msDoc )
+		public void AddDocument ( string sKey, MacroscopeDocument msDoc )
 		{
 			if( this.DocCollection.ContainsKey( sKey ) ) {
-				this.Remove( sKey );
+				this.RemoveDocument( sKey );
 			}
 			lock( this.DocCollection ) {
 				this.DocCollection.Add( sKey, msDoc );
@@ -119,7 +118,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Boolean Exists ( string sKey )
+		public Boolean DocumentExists ( string sKey )
 		{
 			Boolean bExists = false;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
@@ -130,7 +129,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public MacroscopeDocument Get ( string sKey )
+		public MacroscopeDocument GetDocument ( string sKey )
 		{
 			MacroscopeDocument msDoc = null;
 			if( this.DocCollection.ContainsKey( sKey ) ) {
@@ -141,7 +140,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void Remove ( string sKey )
+		public void RemoveDocument ( string sKey )
 		{
 			if( this.DocCollection.ContainsKey( sKey ) ) {
 				lock( this.DocCollection ) {
@@ -152,7 +151,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 						
-		public List<string> Keys ()
+		public List<string> DocumentKeys ()
 		{
 			List<string> lKeys = new List<string> ();
 			lock( this.DocCollection ) {
@@ -206,7 +205,7 @@ namespace SEOMacroscope
 
 		public void AddWorkerRecalculateDocCollectionQueue ()
 		{
-			this.NamedQueue.AddToNamedQueue( constRecalculateDocCollection, "calc" );
+			this.NamedQueue.AddToNamedQueue( MacroscopeConstants.RecalculateDocCollection, "calc" );
 		}
 		
 		/**************************************************************************/
@@ -215,9 +214,9 @@ namespace SEOMacroscope
 		{
 			Boolean bResult = false;
 			try {
-				if( this.NamedQueue.PeekNamedQueue( constRecalculateDocCollection ) ) {
+				if( this.NamedQueue.PeekNamedQueue( MacroscopeConstants.RecalculateDocCollection ) ) {
 					bResult = true;
-					this.NamedQueue.DrainNamedQueueItemsAsList( constRecalculateDocCollection );
+					this.NamedQueue.DrainNamedQueueItemsAsList( MacroscopeConstants.RecalculateDocCollection );
 				}
 			} catch( InvalidOperationException ex ) {
 				this.DebugMsg( string.Format( "DrainWorkerRecalculateDocCollectionQueue: {0}", ex.Message ) );
@@ -238,7 +237,7 @@ namespace SEOMacroscope
 
 				foreach( string sUrlTarget in this.DocCollection.Keys ) {
 
-					MacroscopeDocument msDoc = this.Get( sUrlTarget );
+					MacroscopeDocument msDoc = this.GetDocument( sUrlTarget );
 
 					this.RecalculateLinksIn( sUrlTarget, msDoc );
 
