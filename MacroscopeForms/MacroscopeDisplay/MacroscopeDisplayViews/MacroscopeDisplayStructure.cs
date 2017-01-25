@@ -26,6 +26,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -117,7 +119,6 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			DebugMsg( "MacroscopeDisplayStructure: RenderListView" );
 			lock( this.lvListView ) {
 
 				Hashtable htItems = new Hashtable ();
@@ -176,32 +177,44 @@ namespace SEOMacroscope
 				this.lvListView.BeginUpdate();
 
 				if( this.lvListView.Items.ContainsKey( sUrl ) ) {
-
 					lvItem = this.lvListView.Items[ sUrl ];
-
 				} else {
-
 					lvItem = new ListViewItem ( sUrl );
 					lvItem.Name = sUrl;
-
 					foreach( string sKey in htItems.Keys ) {
 						lvItem.SubItems.Add( sKey );
 					}
-
 					this.lvListView.Items.Add( lvItem );
-
 				}
 
 				if( lvItem != null ) {
 
+					lvItem.UseItemStyleForSubItems = false;
+					lvItem.ForeColor = Color.Blue;
+
 					foreach( string sKey in htItems.Keys ) {
 
 						int iColIndex = this.lvListView.Columns.IndexOfKey( sKey );
+						string sText = htItems[ sKey ].ToString();
 
 						if( htItems[ sKey ] != null ) {
-							lvItem.SubItems[ iColIndex ].Text = htItems[ sKey ].ToString();
+							lvItem.SubItems[ iColIndex ].Text = sText;
 						} else {
 							lvItem.SubItems[ iColIndex ].Text = "";
+						}
+
+						lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
+
+						if( sKey == MacroscopeConstants.Status ) {
+							if( Regex.IsMatch( sText, "^[2]" ) ) {
+								lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
+							} else if( Regex.IsMatch( sText, "^[3]" ) ) {
+								lvItem.SubItems[ iColIndex ].ForeColor = Color.Goldenrod;
+							} else if( Regex.IsMatch( sText, "^[45]" ) ) {
+								lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
+							} else {
+								lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
+							}
 						}
 
 					}
@@ -250,15 +263,15 @@ namespace SEOMacroscope
 
 			List<string> lColDataWidth = new List<string> ()
 			{
-				MacroscopeConstants.Url,
-				MacroscopeConstants.DateServer,
-				MacroscopeConstants.DateModified,
-				MacroscopeConstants.Title
+					MacroscopeConstants.Url,
+					MacroscopeConstants.DateServer,
+					MacroscopeConstants.DateModified,
+					MacroscopeConstants.Title
 			};
 			
 			List<string> lColHeaderWidth = new List<string> ()
 			{
-				MacroscopeConstants.DateModified
+					MacroscopeConstants.DateModified
 			};
 
 			foreach( string sColName in lColDataWidth ) {

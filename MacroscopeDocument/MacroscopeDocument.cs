@@ -47,7 +47,9 @@ namespace SEOMacroscope
 		public override Boolean SuppressDebugMsg { get; protected set; }
 			
 		/**************************************************************************/
-
+		
+		Boolean IsDirty;
+		
 		string Url;
 		int Timeout;
 
@@ -113,6 +115,8 @@ namespace SEOMacroscope
 		{
 
 			SuppressDebugMsg = true;
+			
+			IsDirty = true;
 			
 			Url = sUrl;
 			Timeout = 10000;
@@ -185,6 +189,23 @@ namespace SEOMacroscope
 
 			Depth = MacroscopeUrlTools.FindUrlDepth( Url );
 			
+		}
+
+		/** Dirty Flag ************************************************************/
+
+		public void SetIsDirty ()
+		{
+			this.IsDirty = true;
+		}
+		
+		void ClearIsDirty ()
+		{
+			this.IsDirty = false;
+		}
+
+		public Boolean GetIsDirty ()
+		{
+			return( this.IsDirty );
 		}
 
 		/** Host Details **********************************************************/
@@ -587,6 +608,8 @@ namespace SEOMacroscope
 		{
 
 			// TODO: validate this.Url
+			
+			this.ClearIsDirty();
 			
 			if( this.IsRedirectPage() ) {
 				DebugMsg( string.Format( "IS REDIRECT: {0}", this.Url ) );

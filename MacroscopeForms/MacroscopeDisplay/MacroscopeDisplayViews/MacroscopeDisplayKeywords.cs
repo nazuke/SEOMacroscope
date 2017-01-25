@@ -26,19 +26,25 @@
 using System;
 using System.Windows.Forms;
 
+// TODO: Finish this
+
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayTitles : MacroscopeDisplayListView
+	/// <summary>
+	/// Description of MacroscopeDisplayKeywords.
+	/// </summary>
+
+	public class MacroscopeDisplayKeywords : MacroscopeDisplayListView
 	{
-		
+
 		/**************************************************************************/
 
 		static Boolean ListViewConfigured = false;
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayTitles ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+		public MacroscopeDisplayKeywords ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
 			: base( MainFormNew, lvListViewNew )
 		{
 
@@ -79,17 +85,16 @@ namespace SEOMacroscope
 			
 			if( msDoc.GetIsHtml() ) {
 				bProcess = true;
-			} else if( msDoc.GetIsPdf() ) {
-				bProcess = true;
 			} else {
 				bProcess = false;
 			}
 			
 			if( bProcess ) {
 
-				string sText = msDoc.GetTitle();
-				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetTitleCount( sText );
+				string sText = msDoc.GetKeywords();
+				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetKeywordsCount( sText );
 				string sTextLength = sText.Length.ToString();
+				int iTextNumber = msDoc.GetKeywordsCount();
 				string sPairKey = string.Join( "", sUrl, sText );
 
 				if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
@@ -101,9 +106,10 @@ namespace SEOMacroscope
 						lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
 						lvItem.SubItems[ 2 ].Text = sText;
 						lvItem.SubItems[ 3 ].Text = sTextLength;
+						lvItem.SubItems[ 4 ].Text = iTextNumber.ToString();
 
 					} catch( Exception ex ) {
-						DebugMsg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
+						DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
 					}
 
 				} else {
@@ -118,11 +124,12 @@ namespace SEOMacroscope
 						lvItem.SubItems.Add( iTextCount.ToString() );
 						lvItem.SubItems.Add( sText );
 						lvItem.SubItems.Add( sTextLength );
+						lvItem.SubItems.Add( iTextNumber.ToString() );
 
 						this.lvListView.Items.Add( lvItem );
 
 					} catch( Exception ex ) {
-						DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
+						DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
 					}
 
 				}
@@ -134,5 +141,4 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 	}
-
 }

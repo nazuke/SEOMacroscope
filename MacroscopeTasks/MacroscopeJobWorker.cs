@@ -70,7 +70,8 @@ namespace SEOMacroscope
 			while( iMaxFetches > 0 ) {
 
 				if( JobMaster.GetThreadsStop() ) {
-					
+
+					DebugMsg( string.Format( "JobMaster.GetThreadsStop: {0}", JobMaster.GetThreadsStop() ) );
 					break;
 					
 				} else {
@@ -112,7 +113,7 @@ namespace SEOMacroscope
 				return( bResult );
 			}
 
-			this.JobMaster.AddHistory( sUrl );
+			this.JobMaster.AddHistoryItem( sUrl );
 
 			if( this.SameSite ) {
 				if( !this.AllowedHosts.IsAllowedFromUrl( sUrl ) ) {
@@ -122,7 +123,10 @@ namespace SEOMacroscope
 			}
 
 			if( this.DocCollection.ContainsDocument( sUrl ) ) {
-				return( bResult );
+				if( !this.DocCollection.GetDocument( sUrl ).GetIsDirty() ) {
+					DebugMsg( string.Format( "DocCollection already has document: {0}", sUrl ) );
+					return( bResult );
+				}
 			}
 
 			if( this.JobMaster.GetDepth() > 0 ) {
@@ -133,6 +137,8 @@ namespace SEOMacroscope
 				}
 			}
 
+			DebugMsg( string.Format( "EXECUTING FETCH: {0}", sUrl ) );
+							
 			if( msDoc.Execute() ) {
 				
 				this.DocCollection.AddDocument( sUrl, msDoc );
@@ -200,12 +206,12 @@ namespace SEOMacroscope
 					continue;
 				}
 
-				if( this.JobMaster.SeenHistory( Outlink.AbsoluteUrl ) ) {
+				if( this.JobMaster.SeenHistoryItem( Outlink.AbsoluteUrl ) ) {
 					continue;
 				}
 
 				if( !this.AllowedHosts.IsAllowedFromUrl( Outlink.AbsoluteUrl ) ) {
-					DebugMsg( string.Format( "FOREIGN HOST: {0}", Outlink.AbsoluteUrl ) );
+					//DebugMsg( string.Format( "FOREIGN HOST: {0}", Outlink.AbsoluteUrl ) );
 					continue;
 				}
 

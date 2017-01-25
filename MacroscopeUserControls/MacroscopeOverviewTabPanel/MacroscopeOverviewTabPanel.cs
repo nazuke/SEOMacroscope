@@ -55,10 +55,11 @@ namespace SEOMacroscope
 			treeViewHierarchy.Dock = DockStyle.Fill;
 			listViewCanonicalAnalysis.Dock = DockStyle.Fill;
 			listViewHrefLang.Dock = DockStyle.Fill;
+			listViewErrors.Dock = DockStyle.Fill;
 			listViewRedirectsAudit.Dock = DockStyle.Fill;
 			listViewUriAnalysis.Dock = DockStyle.Fill;
 			listViewPageTitles.Dock = DockStyle.Fill;
-			listViewPageDescription.Dock = DockStyle.Fill;
+			listViewPageDescriptions.Dock = DockStyle.Fill;
 			listViewPageKeywords.Dock = DockStyle.Fill;
 			listViewPageHeadings.Dock = DockStyle.Fill;
 			listViewEmailAddresses.Dock = DockStyle.Fill;

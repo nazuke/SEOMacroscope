@@ -24,10 +24,11 @@
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using System.Threading;
-
+    
 namespace SEOMacroscope
 {
 
@@ -48,6 +49,7 @@ namespace SEOMacroscope
 		Dictionary<string,int> StatsHostnames;
 		Dictionary<string,int> StatsTitles;
 		Dictionary<string,int> StatsDescriptions;
+		Dictionary<string,int> StatsKeywords;
 
 		Semaphore SemaphoreRecalc;
 		System.Timers.Timer TimerRecalc;
@@ -70,6 +72,7 @@ namespace SEOMacroscope
 			StatsHostnames = new Dictionary<string,int> ( 16 );
 			StatsTitles = new Dictionary<string,int> ( 1024 );
 			StatsDescriptions = new Dictionary<string,int> ( 1024 );
+			StatsKeywords = new Dictionary<string,int> ( 1024 );
 			
 			SemaphoreRecalc = new Semaphore ( 0, 1 );
 			this.StartRecalcTimer();
@@ -150,7 +153,18 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-						
+
+		public IEnumerable IterateDocuments ()
+		{
+			lock( this.DocCollection ) {
+				foreach( string sUrl in this.DocumentKeys() ) {
+					yield return this.DocCollection[ sUrl ];
+				}
+			}
+		}
+
+		/**************************************************************************/
+
 		public List<string> DocumentKeys ()
 		{
 			List<string> lKeys = new List<string> ();
@@ -256,6 +270,8 @@ namespace SEOMacroscope
 						this.RecalculateTitles( msDoc );
 						
 						this.RecalculateDescriptions( msDoc );
+						
+						this.RecalculateKeywords( msDoc );
 
 					}
 					
@@ -285,11 +301,11 @@ namespace SEOMacroscope
 			return( dicHostnames );
 		}
 
-		public int GetHostnamesCount ( string sHostname )
+		public int GetHostnamesCount ( string sText )
 		{
 			int iValue = 0;
-			if( this.StatsHostnames.ContainsKey( sHostname ) ) {
-				iValue = this.StatsHostnames[ sHostname ];
+			if( this.StatsHostnames.ContainsKey( sText ) ) {
+				iValue = this.StatsHostnames[ sText ];
 			}
 			return( iValue );
 		}
@@ -297,19 +313,24 @@ namespace SEOMacroscope
 		void RecalculateHostnames ( MacroscopeDocument msDoc )
 		{
 			string sUrl = msDoc.GetUrl();
-			string sHostname = msDoc.GetHostname();
-			if( ( sHostname != null ) && ( sHostname.Length > 0 ) ) {
-				sHostname = sHostname.ToLower();
-				if( this.StatsHostnames.ContainsKey( sHostname ) ) {
+			string sText = msDoc.GetHostname();
+
+			if( ( sText != null ) && ( sText.Length > 0 ) ) {
+
+				sText = sText.ToLower();
+
+				if( this.StatsHostnames.ContainsKey( sText ) ) {
 					lock( this.StatsHostnames ) {
-						this.StatsHostnames[ sHostname ] = this.StatsHostnames[ sHostname ] + 1;
+						this.StatsHostnames[ sText ] = this.StatsHostnames[ sText ] + 1;
 					}
 				} else {
 					lock( this.StatsHostnames ) {
-						this.StatsHostnames.Add( sHostname, 1 );
+						this.StatsHostnames.Add( sText, 1 );
 					}
 				}
+
 			}
+
 		}
 
 		/** Titles ****************************************************************/
@@ -319,11 +340,12 @@ namespace SEOMacroscope
 			this.StatsTitles.Clear();
 		}
 
-		public int GetTitleCount ( string sTitle )
+		public int GetTitleCount ( string sText )
 		{
 			int iValue = 0;
-			if( this.StatsTitles.ContainsKey( sTitle ) ) {
-				iValue = this.StatsTitles[ sTitle ];
+			string sHashed = sText.GetHashCode().ToString();
+			if( this.StatsTitles.ContainsKey( sHashed ) ) {
+				iValue = this.StatsTitles[ sHashed ];
 			}
 			return( iValue );
 		}
@@ -344,15 +366,16 @@ namespace SEOMacroscope
 			if( bProcess ) {
 			
 				string sUrl = msDoc.GetUrl();
-				string sTitle = msDoc.GetTitle();
-
-				if( this.StatsTitles.ContainsKey( sTitle ) ) {
+				string sText = msDoc.GetTitle();
+				string sHashed = sText.GetHashCode().ToString();
+			
+				if( this.StatsTitles.ContainsKey( sHashed ) ) {
 					lock( this.StatsTitles ) {
-						this.StatsTitles[ sTitle ] = this.StatsTitles[ sTitle ] + 1;
+						this.StatsTitles[ sHashed ] = this.StatsTitles[ sHashed ] + 1;
 					}
 				} else {
 					lock( this.StatsTitles ) {
-						this.StatsTitles.Add( sTitle, 1 );
+						this.StatsTitles.Add( sHashed, 1 );
 					}
 				}
 
@@ -367,11 +390,12 @@ namespace SEOMacroscope
 			this.StatsDescriptions.Clear();
 		}
 
-		public int GetDescriptionCount ( string sDescription )
+		public int GetDescriptionCount ( string sText )
 		{
 			int iValue = 0;
-			if( this.StatsDescriptions.ContainsKey( sDescription ) ) {
-				iValue = this.StatsDescriptions[ sDescription ];
+			string sHashed = sText.GetHashCode().ToString();
+			if( this.StatsDescriptions.ContainsKey( sHashed ) ) {
+				iValue = this.StatsDescriptions[ sHashed ];
 			}
 			return( iValue );
 		}
@@ -392,15 +416,64 @@ namespace SEOMacroscope
 			if( bProcess ) {
 			
 				string sUrl = msDoc.GetUrl();
-				string sDescription = msDoc.GetDescription();
-
-				if( this.StatsDescriptions.ContainsKey( sDescription ) ) {
+				string sText = msDoc.GetDescription();
+				string sHashed = sText.GetHashCode().ToString();
+			
+				if( this.StatsDescriptions.ContainsKey( sHashed ) ) {
 					lock( this.StatsDescriptions ) {
-						this.StatsDescriptions[ sDescription ] = this.StatsDescriptions[ sDescription ] + 1;
+						this.StatsDescriptions[ sHashed ] = this.StatsDescriptions[ sHashed ] + 1;
 					}
 				} else {
 					lock( this.StatsDescriptions ) {
-						this.StatsDescriptions.Add( sDescription, 1 );
+						this.StatsDescriptions.Add( sHashed, 1 );
+					}
+				}
+
+			}
+			
+		}
+
+		/** Keywords **************************************************************/
+
+		void ClearKeywords ()
+		{
+			this.StatsKeywords.Clear();
+		}
+
+		public int GetKeywordsCount ( string sText )
+		{
+			int iValue = 0;
+			string sHashed = sText.GetHashCode().ToString();
+			if( this.StatsKeywords.ContainsKey( sHashed ) ) {
+				iValue = this.StatsKeywords[ sHashed ];
+			}
+			return( iValue );
+		}
+
+		void RecalculateKeywords ( MacroscopeDocument msDoc )
+		{
+			
+			Boolean bProcess;
+			
+			if( msDoc.GetIsHtml() ) {
+				bProcess = true;
+			} else {
+				bProcess = false;
+			}
+			
+			if( bProcess ) {
+			
+				string sUrl = msDoc.GetUrl();
+				string sText = msDoc.GetKeywords();
+				string sHashed = sText.GetHashCode().ToString();
+				
+				if( this.StatsKeywords.ContainsKey( sHashed ) ) {
+					lock( this.StatsKeywords ) {
+						this.StatsKeywords[ sHashed ] = this.StatsKeywords[ sHashed ] + 1;
+					}
+				} else {
+					lock( this.StatsKeywords ) {
+						this.StatsKeywords.Add( sHashed, 1 );
 					}
 				}
 

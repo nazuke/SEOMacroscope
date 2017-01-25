@@ -62,7 +62,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem miscellaneousToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutSEOMacroscopeToolStripMenuItem;
-		private System.Windows.Forms.ToolStripButton toolStripButton1;
+		public System.Windows.Forms.ToolStripButton toolStripButtonRetryBrokenLinks;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.SplitContainer splitContainerLeftAndRightViews;
 		public System.Windows.Forms.SplitContainer splitContainerStructureAndDocumentDetails;
@@ -117,7 +117,7 @@ namespace SEOMacroscope
 			this.PdfsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.miscellaneousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonRetryBrokenLinks = new System.Windows.Forms.ToolStripButton();
 			this.toolStripExecuteControls = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabelStartUrl = new System.Windows.Forms.ToolStripLabel();
 			this.textBoxStartUrl = new System.Windows.Forms.ToolStripTextBox();
@@ -287,7 +287,7 @@ namespace SEOMacroscope
 			this.toolStripViewControls.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.ToolStripFilters,
 			this.toolStripSeparator2,
-			this.toolStripButton1});
+			this.toolStripButtonRetryBrokenLinks});
 			this.toolStripViewControls.Location = new System.Drawing.Point(0, 30);
 			this.toolStripViewControls.Name = "toolStripViewControls";
 			this.toolStripViewControls.Size = new System.Drawing.Size(784, 30);
@@ -359,15 +359,15 @@ namespace SEOMacroscope
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 30);
 			// 
-			// toolStripButton1
+			// toolStripButtonRetryBrokenLinks
 			// 
-			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(108, 27);
-			this.toolStripButton1.Text = "Retry Broken Links";
-			this.toolStripButton1.Click += new System.EventHandler(this.CallbackRetryBrokenLinksClick);
+			this.toolStripButtonRetryBrokenLinks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonRetryBrokenLinks.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRetryBrokenLinks.Image")));
+			this.toolStripButtonRetryBrokenLinks.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonRetryBrokenLinks.Name = "toolStripButtonRetryBrokenLinks";
+			this.toolStripButtonRetryBrokenLinks.Size = new System.Drawing.Size(108, 27);
+			this.toolStripButtonRetryBrokenLinks.Text = "Retry Broken Links";
+			this.toolStripButtonRetryBrokenLinks.Click += new System.EventHandler(this.CallbackRetryBrokenLinksClick);
 			// 
 			// toolStripExecuteControls
 			// 
@@ -482,18 +482,16 @@ namespace SEOMacroscope
 			// 
 			// macroscopeOverviewTabPanelInstance
 			// 
-			this.macroscopeOverviewTabPanelInstance.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.macroscopeOverviewTabPanelInstance.Location = new System.Drawing.Point(0, 0);
+			this.macroscopeOverviewTabPanelInstance.Location = new System.Drawing.Point(10, 10);
 			this.macroscopeOverviewTabPanelInstance.Name = "macroscopeOverviewTabPanelInstance";
-			this.macroscopeOverviewTabPanelInstance.Size = new System.Drawing.Size(533, 218);
+			this.macroscopeOverviewTabPanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeOverviewTabPanelInstance.TabIndex = 0;
 			// 
 			// macroscopeDocumentDetailsInstance
 			// 
-			this.macroscopeDocumentDetailsInstance.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.macroscopeDocumentDetailsInstance.Location = new System.Drawing.Point(0, 0);
+			this.macroscopeDocumentDetailsInstance.Location = new System.Drawing.Point(10, 10);
 			this.macroscopeDocumentDetailsInstance.Name = "macroscopeDocumentDetailsInstance";
-			this.macroscopeDocumentDetailsInstance.Size = new System.Drawing.Size(533, 218);
+			this.macroscopeDocumentDetailsInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeDocumentDetailsInstance.TabIndex = 0;
 			// 
 			// macroscopeSiteStructurePanelInstance

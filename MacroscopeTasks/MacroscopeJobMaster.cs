@@ -90,10 +90,11 @@ namespace SEOMacroscope
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy );
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis );	
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors );
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit );
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis );
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescription );
+				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions );
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords );
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings );
 				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses );
@@ -263,7 +264,7 @@ namespace SEOMacroscope
 		void IncRunningThreads ()
 		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[iThreadId] = true;
+			this.ThreadsDict[ iThreadId ] = true;
 			this.ThreadsRunning++;
 		}
 		
@@ -310,10 +311,11 @@ namespace SEOMacroscope
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles, sUrl );
-			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescription, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, sUrl );
@@ -336,7 +338,7 @@ namespace SEOMacroscope
 
 		public void AddUrlQueueItem ( string sUrl )
 		{
-			if( !this.SeenHistory( sUrl ) ) {
+			if( !this.SeenHistoryItem( sUrl ) ) {
 				this.NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueUrlList, sUrl );
 			}
 		}
@@ -354,13 +356,40 @@ namespace SEOMacroscope
 		public Boolean PeekUrlQueue ()
 		{
 			Boolean bPeek = this.NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
-			DebugMsg( string.Format( "PeekUrlQueue: {0}", bPeek ) );
 			return( bPeek );
 		}
 	
 		public int CountUrlQueueItems ()
 		{
 			return( this.NamedQueue.CountNamedQueueItems( MacroscopeConstants.NamedQueueUrlList ) );
+		}
+
+		/** Retry Broken Links ****************************************************/
+		
+		public void RetryBrokenLinks ()
+		{
+
+			foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() ) {
+				
+				string sUrl = msDoc.GetUrl();
+
+				switch( msDoc.GetStatusCode() ) {
+					case 500: 
+						this.ResetLink( sUrl );
+						break;
+					default:
+						break;
+				}
+
+			}
+
+		}
+
+		void ResetLink ( string sUrl )
+		{
+			this.DocCollection.GetDocument( sUrl ).SetIsDirty();
+			this.ResetHistoryItem( sUrl );
+			this.AddUrlQueueItem( sUrl );
 		}
 
 		/** Start URL *************************************************************/
@@ -418,7 +447,7 @@ namespace SEOMacroscope
 			return( this.PagesFound );
 		}
 		
-		public void AddHistory ( string sUrl )
+		public void AddHistoryItem ( string sUrl )
 		{
 			if( !this.History.ContainsKey( sUrl ) ) {
 				lock( this.History ) {
@@ -427,11 +456,20 @@ namespace SEOMacroscope
 			}
 		}
 
-		public Boolean SeenHistory ( string sUrl )
+		public void ResetHistoryItem ( string sUrl )
+		{
+			if( this.History.ContainsKey( sUrl ) ) {
+				lock( this.History ) {
+					this.History[ sUrl ] = false;
+				}
+			}
+		}
+
+		public Boolean SeenHistoryItem ( string sUrl )
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sUrl ) ) {
-				bSeen = ( Boolean )this.History[sUrl];
+				bSeen = this.History[ sUrl ];
 			}
 			return( bSeen );
 		}
@@ -441,7 +479,7 @@ namespace SEOMacroscope
 			Dictionary<string,Boolean> HistoryCopy = new Dictionary<string,Boolean> ( this.History.Count );
 			lock( this.History ) {
 				foreach( string sKey in this.History.Keys ) {
-					HistoryCopy.Add( sKey, this.History[sKey] );
+					HistoryCopy.Add( sKey, this.History[ sKey ] );
 				}
 			}
 			return( HistoryCopy );
@@ -484,7 +522,7 @@ namespace SEOMacroscope
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[sLocale] = sLocale;
+					this.Locales[ sLocale ] = sLocale;
 				}
 			}
 		}

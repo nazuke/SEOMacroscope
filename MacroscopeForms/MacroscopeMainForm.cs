@@ -47,7 +47,16 @@ namespace SEOMacroscope
 		MacroscopeDisplayHierarchy msDisplayHierarchy;
 		MacroscopeDisplayCanonical msDisplayCanonical;
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
+
+		MacroscopeDisplayErrors msDisplayErrors;
+
+		MacroscopeDisplayRedirectsAudit msDisplayRedirectsAudit;
+
 		MacroscopeDisplayTitles msDisplayTitles;
+		MacroscopeDisplayDescriptions msDisplayDescriptions;
+		MacroscopeDisplayKeywords msDisplayKeywords;
+		MacroscopeDisplayHeadings msDisplayHeadings;
+
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
 		MacroscopeDisplayHostnames msDisplayHostnames;
@@ -64,7 +73,7 @@ namespace SEOMacroscope
 		public MacroscopeMainForm ()
 		{
 			
-			InitializeComponent();// The InitializeComponent() call is required for Windows Forms designer support.
+			InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
 			JobMaster = new MacroscopeJobMaster ( this );
 
@@ -106,11 +115,19 @@ namespace SEOMacroscope
 			this.msDisplayHierarchy = new MacroscopeDisplayHierarchy ( this, this.macroscopeOverviewTabPanelInstance.treeViewHierarchy );
 			this.msDisplayCanonical = new MacroscopeDisplayCanonical ( this, this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
 			this.msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
+			this.msDisplayErrors = new MacroscopeDisplayErrors ( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
+			this.msDisplayRedirectsAudit = new MacroscopeDisplayRedirectsAudit ( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit );
 			this.msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
+			this.msDisplayDescriptions = new MacroscopeDisplayDescriptions ( this, this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions );
+			this.msDisplayKeywords = new MacroscopeDisplayKeywords ( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
+			this.msDisplayHeadings = new MacroscopeDisplayHeadings ( this, this.macroscopeOverviewTabPanelInstance.listViewPageHeadings );
 			this.msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
 			this.msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
 			this.msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
-			this.msDisplayHistory = new MacroscopeDisplayHistory ( this );
+			this.msDisplayHistory = new MacroscopeDisplayHistory ( this, this.macroscopeOverviewTabPanelInstance.listViewHistory );
+
+			// Appearance
+			this.macroscopeOverviewTabPanelInstance.Dock = DockStyle.Fill;
 
 			// Events
 			this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
@@ -122,13 +139,13 @@ namespace SEOMacroscope
 		
 		void ConfigureDocumentDetailsInstance ()
 		{
+			this.macroscopeDocumentDetailsInstance.Dock = DockStyle.Fill;
 		}
 
 		/**************************************************************************/
 				
 		void ConfigureSiteStructurePanelInstance ()
 		{
-			
 			this.msSiteStructureOverview = new MacroscopeDisplayStructureOverview ( this, this.macroscopeSiteStructurePanelInstance.treeViewSiteOverview );
 			this.macroscopeSiteStructurePanelInstance.Dock = DockStyle.Fill;
 		}
@@ -167,60 +184,16 @@ namespace SEOMacroscope
 			return( this.JobMaster );
 		}
 
-		/** Displays **************************************************************/
-
-		public ListView GetDisplayStructure ()
-		{
-			return( this.macroscopeOverviewTabPanelInstance.listViewStructure );
-		}
-
-		public ListView GetDisplayCanonicalAnalysis ()
-		{
-			return( this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
-		}
-
-		public ListView GetDisplayHrefLang ()
-		{
-			return( this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
-		}
-
-		public ListView GetDisplayTitles ()
-		{
-			return( this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
-		}
-
-		public ListView GetDisplayEmailAddresses ()
-		{
-			return( this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
-		}
-		
-		public ListView GetDisplayTelephoneNumbers ()
-		{
-			return( this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
-		}
-
-		public ListView GetDisplayHostnames ()
-		{
-			return( this.macroscopeOverviewTabPanelInstance.listViewHostnames );
-		}
+		/** Start URL *************************************************************/
 				
-		public ListView GetDisplayHistory ()
-		{
-			return( this.macroscopeOverviewTabPanelInstance.listViewHistory );
-		}
-
-		/**************************************************************************/
-				
-		public string GetUrl ()
-		{
-			return( this.textBoxStartUrl.Text );
-		}
-
-		/**************************************************************************/
-
 		public void SetUrl ( string sUrl )
 		{
 			this.textBoxStartUrl.Text = sUrl;
+		}
+
+		public string GetUrl ()
+		{
+			return( this.textBoxStartUrl.Text );
 		}
 
 		/**************************************************************************/
@@ -390,7 +363,7 @@ namespace SEOMacroscope
 				
 		void CallbackScanStart ( object sender, EventArgs e )
 		{
-
+			
 			string sStartUrl = this.GetUrl();
 						
 			if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) ) {
@@ -416,7 +389,7 @@ namespace SEOMacroscope
 				DialogueBoxStartUrlInvalid();
 				
 			}
-
+			
 		}
 
 		/**************************************************************************/
@@ -514,7 +487,7 @@ namespace SEOMacroscope
 		void CallbackTabPageTimerExec ()
 		{
 			TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-			string sTabPageName = tcDisplay.TabPages[tcDisplay.SelectedIndex].Name;
+			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
 			if( this.JobMaster.PeekUpdateDisplayQueue() ) {
 				this.UpdateTabPage( sTabPageName );
 				this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
@@ -524,7 +497,7 @@ namespace SEOMacroscope
 		void CallbackTabControlDisplaySelectedIndexChanged ( Object sender, EventArgs e )
 		{
 			TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-			string sTabPageName = tcDisplay.TabPages[tcDisplay.SelectedIndex].Name;
+			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
 			this.UpdateTabPage( sTabPageName );
 		}
 				
@@ -559,24 +532,44 @@ namespace SEOMacroscope
 				case "tabPageHrefLangAnalysis":
 					this.msDisplayHrefLang.RefreshData( this.JobMaster.GetDocCollection(), JobMaster.GetLocales() );
 					break;
-									
+							
+				case "tabPageErrors":
+					this.msDisplayErrors.RefreshData( this.JobMaster.GetDocCollection() );
+					break;
+					
 				case "tabPageRedirectsAudit":
+					this.msDisplayRedirectsAudit.RefreshData( this.JobMaster.GetDocCollection() );
 					break;
 									
 				case "tabPageUriAnalysis":
 					break;
 									
 				case "tabPagePageTitles":
-					this.msDisplayTitles.RefreshData( this.JobMaster.GetDocCollection() );
+					this.msDisplayTitles.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageTitles )
+					);
 					break;
 									
-				case "tabPagePageDescription":
+				case "tabPagePageDescriptions":
+					this.msDisplayDescriptions.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageDescriptions )
+					);
 					break;
 									
 				case "tabPagePageKeywords":
+					this.msDisplayKeywords.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageKeywords )
+					);
 					break;
 									
 				case "tabPagePageHeadings":
+					this.msDisplayHeadings.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
+					);
 					break;
 									
 				case "tabPageEmailAddresses":
@@ -610,7 +603,7 @@ namespace SEOMacroscope
 			ListView lvListView = ( ListView )sender;
 			lock( lvListView ) {
 				foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
-					string sUrl = lvItem.SubItems[0].Text.ToString();
+					string sUrl = lvItem.SubItems[ 0 ].Text.ToString();
 					this.macroscopeDocumentDetailsInstance.UpdateDisplay( this.JobMaster, sUrl );
 				}
 			}
@@ -681,56 +674,85 @@ namespace SEOMacroscope
 
 		void ScanningControlsEnable ( Boolean bState )
 		{
+
 			this.reportsToolStripMenuItem.Enabled = true;
+
 			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = false;
+
+
+			this.toolStripButtonRetryBrokenLinks.Enabled = true;
+
 		}
 
 		void ScanningControlsStart ( Boolean bState )
 		{
+
 			this.reportsToolStripMenuItem.Enabled = false;
+
 			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = true;
 			this.ButtonReset.Enabled = false;
+
+			this.toolStripButtonRetryBrokenLinks.Enabled = false;
+
 		}
 
 		void ScanningControlsStopping ( Boolean bState )
 		{
+
 			this.reportsToolStripMenuItem.Enabled = false;
+
 			this.textBoxStartUrl.Enabled = false;
 			this.ButtonStart.Enabled = false;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = false;
+
+			this.toolStripButtonRetryBrokenLinks.Enabled = false;
+
 		}
 
 		void ScanningControlsStopped ( Boolean bState )
 		{
 			this.reportsToolStripMenuItem.Enabled = true;
+
 			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = true;
+
+			this.toolStripButtonRetryBrokenLinks.Enabled = true;
+
 		}
 
 		void ScanningControlsReset ( Boolean bState )
 		{
 			this.reportsToolStripMenuItem.Enabled = true;
+
 			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = false;
+
+			this.toolStripButtonRetryBrokenLinks.Enabled = true;
+
 		}
 		
 		void ScanningControlsComplete ( Boolean bState )
 		{
+
 			this.reportsToolStripMenuItem.Enabled = true;
+
 			this.textBoxStartUrl.Enabled = true;
 			this.ButtonStart.Enabled = true;
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = true;
+
+			this.toolStripButtonRetryBrokenLinks.Enabled = true;
+
 		}
 
 		/**************************************************************************/
@@ -793,7 +815,18 @@ namespace SEOMacroscope
 
 		void CallbackRetryBrokenLinksClick ( object sender, EventArgs e )
 		{
+
 			DebugMsg( string.Format( "CallbackRetryBrokenLinksClick: {0}", "CALLED" ) );
+
+			this.JobMaster.RetryBrokenLinks();
+
+			this.ScanningControlsStart( true );
+
+			MacroscopePreferencesManager.SavePreferences();
+
+			this.ThreadScanner = new Thread ( new ThreadStart ( this.ScanningThread ) );
+			this.ThreadScanner.Start();
+
 		}
 
 		/**************************************************************************/

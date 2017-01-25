@@ -29,16 +29,20 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayTitles : MacroscopeDisplayListView
+	/// <summary>
+	/// Description of MacroscopeDisplayRedirectsAudit.
+	/// </summary>
+
+	public class MacroscopeDisplayRedirectsAudit : MacroscopeDisplayListView
 	{
-		
+
 		/**************************************************************************/
 
 		static Boolean ListViewConfigured = false;
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayTitles ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+		public MacroscopeDisplayRedirectsAudit ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
 			: base( MainFormNew, lvListViewNew )
 		{
 
@@ -75,60 +79,48 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			Boolean bProcess;
-			
-			if( msDoc.GetIsHtml() ) {
-				bProcess = true;
-			} else if( msDoc.GetIsPdf() ) {
-				bProcess = true;
-			} else {
-				bProcess = false;
-			}
-			
-			if( bProcess ) {
+			/*
+			string sTitle = msDoc.GetTitle();
+			int iTitleCount = this.MainForm.GetJobMaster().GetDocCollection().GetTitleCount( sTitle );
+			string sTitleLength = sTitle.Length.ToString();
+			string sPairKey = string.Join( "", sUrl, sTitle );
 
-				string sText = msDoc.GetTitle();
-				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetTitleCount( sText );
-				string sTextLength = sText.Length.ToString();
-				string sPairKey = string.Join( "", sUrl, sText );
-
-				if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
+			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
 							
-					try {
+				try {
 
-						ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-						lvItem.SubItems[ 0 ].Text = sUrl;
-						lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
-						lvItem.SubItems[ 2 ].Text = sText;
-						lvItem.SubItems[ 3 ].Text = sTextLength;
+					ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+					lvItem.SubItems[ 0 ].Text = sUrl;
+					lvItem.SubItems[ 1 ].Text = iTitleCount.ToString();
+					lvItem.SubItems[ 2 ].Text = sTitle;
+					lvItem.SubItems[ 3 ].Text = sTitleLength;
 
-					} catch( Exception ex ) {
-						DebugMsg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
-					}
-
-				} else {
-							
-					try {
-
-						ListViewItem lvItem = new ListViewItem ( sPairKey );
-
-						lvItem.Name = sPairKey;
-
-						lvItem.SubItems[ 0 ].Text = sUrl;
-						lvItem.SubItems.Add( iTextCount.ToString() );
-						lvItem.SubItems.Add( sText );
-						lvItem.SubItems.Add( sTextLength );
-
-						this.lvListView.Items.Add( lvItem );
-
-					} catch( Exception ex ) {
-						DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
-					}
-
+				} catch( Exception ex ) {
+					DebugMsg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
 				}
-				
+
+			} else {
+							
+				try {
+
+					ListViewItem lvItem = new ListViewItem ( sPairKey );
+
+					lvItem.Name = sPairKey;
+
+					lvItem.SubItems[ 0 ].Text = sUrl;
+					lvItem.SubItems.Add( iTitleCount.ToString() );
+					lvItem.SubItems.Add( sTitle );
+					lvItem.SubItems.Add( sTitleLength );
+
+					this.lvListView.Items.Add( lvItem );
+
+				} catch( Exception ex ) {
+					DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
+				}
+
 			}
-			
+			*/
+
 		}
 
 		/**************************************************************************/

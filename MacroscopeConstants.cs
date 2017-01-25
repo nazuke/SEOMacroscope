@@ -44,10 +44,11 @@ namespace SEOMacroscope
 		public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
 		public const string NamedQueueDisplayCanonicalAnalysis = "CanonicalAnalysis";
 		public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
+		public const string NamedQueueDisplayErrors = "Errors";
 		public const string NamedQueueDisplayRedirectsAudit = "RedirectsAudit";
 		public const string NamedQueueDisplayUriAnalysis = "UriAnalysis";
 		public const string NamedQueueDisplayPageTitles = "PageTitles";
-		public const string NamedQueueDisplayPageDescription = "PageDescription";
+		public const string NamedQueueDisplayPageDescriptions = "PageDescriptions";
 		public const string NamedQueueDisplayPageKeywords = "PageKeywords";
 		public const string NamedQueueDisplayPageHeadings = "PageHeadings";
 		public const string NamedQueueDisplayEmailAddresses = "EmailAddresses";
