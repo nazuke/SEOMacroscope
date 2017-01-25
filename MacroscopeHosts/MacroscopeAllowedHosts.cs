@@ -55,7 +55,7 @@ namespace SEOMacroscope
 			if( !this.Hostnames.ContainsKey( sHostname ) ) {
 				this.Hostnames.Add( sHostname, true );
 			} else {
-				this.Hostnames[ sHostname ] = true;
+				this.Hostnames[sHostname] = true;
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace SEOMacroscope
 		public void Allow ( string sHostname )
 		{
 			if( this.Hostnames.ContainsKey( sHostname ) ) {
-				this.Hostnames[ sHostname ] = true;
+				this.Hostnames[sHostname] = true;
 			} else {
 				this.Hostnames.Add( sHostname, true );
 			}
@@ -92,7 +92,7 @@ namespace SEOMacroscope
 		public void Disallow ( string sHostname )
 		{
 			if( this.Hostnames.ContainsKey( sHostname ) ) {
-				this.Hostnames[ sHostname ] = false;
+				this.Hostnames[sHostname] = false;
 			} else {
 				this.Hostnames.Add( sHostname, false );
 			}
@@ -104,7 +104,7 @@ namespace SEOMacroscope
 		{
 			Boolean bIsAllowed = false;
 			if( this.Hostnames.ContainsKey( sHostname ) ) {
-				bIsAllowed = this.Hostnames[ sHostname ];
+				bIsAllowed = this.Hostnames[sHostname];
 			}
 			return( bIsAllowed );
 		}
@@ -115,6 +115,18 @@ namespace SEOMacroscope
 		{
 			Uri uFromUrl = new Uri ( sUrl, UriKind.Absolute );
 			return( this.IsAllowed( uFromUrl.Host ) );
+		}
+
+		/**************************************************************************/
+		
+		public Boolean IsExternalUrl ( string sUrl )
+		{
+			Uri uFromUrl = new Uri ( sUrl, UriKind.Absolute );
+			Boolean bIsExternal = false;
+			if( this.IsAllowed( uFromUrl.Host ) ) {
+				bIsExternal = true;
+			}
+			return( bIsExternal );
 		}
 
 		/**************************************************************************/

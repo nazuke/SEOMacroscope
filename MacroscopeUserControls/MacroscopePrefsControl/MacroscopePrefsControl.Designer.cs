@@ -48,7 +48,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Label label12;
 		public System.Windows.Forms.NumericUpDown numericUpDownPageLimit;
 		public System.Windows.Forms.NumericUpDown numericUpDownDepth;
-		public System.Windows.Forms.CheckBox checkBoxSameSite;
 		private System.Windows.Forms.GroupBox groupBox5;
 		public System.Windows.Forms.CheckBox checkBoxFollowRobotsProtocol;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
@@ -66,6 +65,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxFollowRedirects;
 		public System.Windows.Forms.CheckBox checkBoxFollowCanonicalLinks;
 		public System.Windows.Forms.CheckBox checkBoxFollowHrefLangLinks;
+		public System.Windows.Forms.CheckBox checkBoxCheckExternalLinks;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -102,7 +102,7 @@ namespace SEOMacroscope
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.label13 = new System.Windows.Forms.Label();
 			this.numericUpDownMaxThreads = new System.Windows.Forms.NumericUpDown();
-			this.checkBoxSameSite = new System.Windows.Forms.CheckBox();
+			this.checkBoxCheckExternalLinks = new System.Windows.Forms.CheckBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.label12 = new System.Windows.Forms.Label();
 			this.numericUpDownPageLimit = new System.Windows.Forms.NumericUpDown();
@@ -297,7 +297,7 @@ namespace SEOMacroscope
 			this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox4.Controls.Add(this.label13);
 			this.groupBox4.Controls.Add(this.numericUpDownMaxThreads);
-			this.groupBox4.Controls.Add(this.checkBoxSameSite);
+			this.groupBox4.Controls.Add(this.checkBoxCheckExternalLinks);
 			this.groupBox4.Controls.Add(this.label11);
 			this.groupBox4.Controls.Add(this.label12);
 			this.groupBox4.Controls.Add(this.numericUpDownPageLimit);
@@ -341,14 +341,14 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
-			// checkBoxSameSite
+			// checkBoxCheckExternalLinks
 			// 
-			this.checkBoxSameSite.Location = new System.Drawing.Point(20, 50);
-			this.checkBoxSameSite.Name = "checkBoxSameSite";
-			this.checkBoxSameSite.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxSameSite.TabIndex = 7;
-			this.checkBoxSameSite.Text = "Stay on same website";
-			this.checkBoxSameSite.UseVisualStyleBackColor = true;
+			this.checkBoxCheckExternalLinks.Location = new System.Drawing.Point(20, 50);
+			this.checkBoxCheckExternalLinks.Name = "checkBoxCheckExternalLinks";
+			this.checkBoxCheckExternalLinks.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxCheckExternalLinks.TabIndex = 7;
+			this.checkBoxCheckExternalLinks.Text = "Check External Links";
+			this.checkBoxCheckExternalLinks.UseVisualStyleBackColor = true;
 			// 
 			// label11
 			// 

@@ -26,6 +26,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool CheckExternalLinks {
+			get {
+				return ((bool)(this["CheckExternalLinks"]));
+			}
+			set {
+				this["CheckExternalLinks"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
 		public bool CheckHreflangs {
 			get {
 				return ((bool)(this["CheckHreflangs"]));
@@ -224,18 +236,6 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["PageLimit"] = value;
-			}
-		}
-		
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("False")]
-		public bool SameSite {
-			get {
-				return ((bool)(this["SameSite"]));
-			}
-			set {
-				this["SameSite"] = value;
 			}
 		}
 		

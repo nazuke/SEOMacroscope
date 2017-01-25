@@ -4,6 +4,9 @@
     <Profile Name="(Default)" />
   </Profiles>
   <Settings>
+    <Setting Name="CheckExternalLinks" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="CheckHreflangs" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -54,9 +57,6 @@
     </Setting>
     <Setting Name="PageLimit" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">-1</Value>
-    </Setting>
-    <Setting Name="SameSite" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="StartUrl" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)" />

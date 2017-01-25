@@ -266,6 +266,9 @@ namespace SEOMacroscope
 				foreach( HtmlNode nLink in nOutlinks ) {
 
 					string sLinkUrl = nLink.GetAttributeValue( "href", null );
+					
+					//sLinkUrl = MacroscopeUrlTools.SanitizeUrl( sLinkUrl );
+
 					string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
 
 					MacroscopeHyperlinkOut hlHyperlinkOut = this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
@@ -406,7 +409,7 @@ namespace SEOMacroscope
 						
 						msHrefLang = new MacroscopeHrefLang ( sLocale, sHref );
 						
-						this.HrefLang[ sLocale ] = msHrefLang;
+						this.HrefLang[sLocale] = msHrefLang;
 
 					}
 
@@ -445,7 +448,7 @@ namespace SEOMacroscope
 						if( Regex.IsMatch( sLinkUrl, "^mailto:" ) ) {
 							MatchCollection reMatches = Regex.Matches( sLinkUrl, "^mailto:([^?]+)" );
 							foreach( Match reMatch in reMatches ) {
-								this.AddEmailAddress( reMatch.Groups[ 1 ].Value.ToString() );
+								this.AddEmailAddress( reMatch.Groups[1].Value.ToString() );
 							}
 						}
 					}
@@ -465,7 +468,7 @@ namespace SEOMacroscope
 						if( Regex.IsMatch( sLinkUrl, "^tel:" ) ) {
 							MatchCollection reMatches = Regex.Matches( sLinkUrl, "^tel:(.+)" );
 							foreach( Match reMatch in reMatches ) {
-								this.AddTelephoneNumber( reMatch.Groups[ 1 ].Value.ToString() );
+								this.AddTelephoneNumber( reMatch.Groups[1].Value.ToString() );
 							}
 						}
 					}

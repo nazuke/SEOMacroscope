@@ -38,21 +38,19 @@ namespace SEOMacroscope
 		MacroscopeAllowedHosts AllowedHosts;
 		MacroscopeNamedQueue NamedQueue;
 		MacroscopeRobots Robots;
-				
-		/** BEGIN: Configuration **/
-		
+
 		int ThreadsMax;
 		int ThreadsRunning;
 		Boolean ThreadsStop;
 		object ThreadsLock = new object ();
 		Dictionary<int,Boolean> ThreadsDict;
 
+		Semaphore SemaphoreWorkers;
+		
 		string StartUrl;
 		int Depth;
 		int PageLimit;
 		int PageLimitCount;
-
-		/** END: Configuration **/
 
 		int PagesFound;
 
@@ -79,45 +77,48 @@ namespace SEOMacroscope
 		void InitializeJobMaster ()
 		{
 
-			DocCollection = new MacroscopeDocumentCollection ();
-			AllowedHosts = new MacroscopeAllowedHosts ();
+			this.DocCollection = new MacroscopeDocumentCollection ();
+			this.AllowedHosts = new MacroscopeAllowedHosts ();
 			
 			// BEGIN: Named Queues
-			NamedQueue = new MacroscopeNamedQueue ();
+			this.NamedQueue = new MacroscopeNamedQueue ();
 			{
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueUrlList );	
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure );			
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis );	
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
-				NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueUrlList );	
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure );			
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis );	
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames );
 			}
 			// END: Named Queues
 
 			this.AdjustThreadsMax();
-			ThreadsRunning = 0;
-			ThreadsStop = false;
-			ThreadsDict = new Dictionary<int,Boolean> ();
+			this.ThreadsRunning = 0;
+			this.ThreadsStop = false;
+			this.ThreadsDict = new Dictionary<int,Boolean> ();
 
-			Depth = MacroscopePreferencesManager.GetDepth();
-			PageLimit = MacroscopePreferencesManager.GetPageLimit();
-			PageLimitCount = 0;
+			this.SemaphoreWorkers = new Semaphore ( 0, this.ThreadsMax );
+			this.SemaphoreWorkers.Release( this.ThreadsMax );
 
-			PagesFound = 0;
+			this.Depth = MacroscopePreferencesManager.GetDepth();
+			this.PageLimit = MacroscopePreferencesManager.GetPageLimit();
+			this.PageLimitCount = 0;
 
-			History = new Dictionary<string, bool> ( 4096 );
+			this.PagesFound = 0;
 
-			Locales = new Dictionary<string,string> ( 32 );
-			Robots = new MacroscopeRobots ();
+			this.History = new Dictionary<string, bool> ( 4096 );
+
+			this.Locales = new Dictionary<string,string> ( 32 );
+			this.Robots = new MacroscopeRobots ();
 
 		}
 
@@ -176,19 +177,18 @@ namespace SEOMacroscope
 
 				} else {
 
-					for( int i = 0; i < this.ThreadsMax; i++ ) {
-						if( this.CountRunningThreads() < this.ThreadsMax ) {
-							lock( this.ThreadsLock ) {
-								Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
-								if( bNewThread ) {
-									Thread.Sleep( 100 );
-								}
-							}
-						}
-					}
+					SemaphoreWorkers.WaitOne();
 
-					this.AdjustThreadsMax();
+					DebugMsg( string.Format( "SpawnWorkers THREADS: {0} :: {1}", this.ThreadsMax, this.CountRunningThreads() ) );
+
+					Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 					
+					if( bNewThread ) {
+						Thread.Sleep( 100 );
+					}
+					
+					this.AdjustThreadsMax();
+
 					if(
 						( this.CountRunningThreads() == 0 )
 						&& ( !this.PeekUrlQueue() ) ) {
@@ -210,8 +210,9 @@ namespace SEOMacroscope
 			if( !this.GetThreadsStop() ) {
 				MacroscopeJobWorker JobWorker = new MacroscopeJobWorker ( this );
 				this.IncRunningThreads();
-				JobWorker.Execute();				
+				JobWorker.Execute();		
 			}
+			SemaphoreWorkers.Release( 1 );				
 		}
 
 		public void NotifyWorkersFetched ( string sUrl )
@@ -238,6 +239,7 @@ namespace SEOMacroscope
 			Boolean bIsStopped = false;
 			int iThreadCount = this.CountRunningThreads();
 			if( iThreadCount == 0 ) {
+				SemaphoreWorkers.Release( this.ThreadsMax );
 				bIsStopped = true;
 			}
 			this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
@@ -264,7 +266,7 @@ namespace SEOMacroscope
 		void IncRunningThreads ()
 		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[ iThreadId ] = true;
+			this.ThreadsDict[iThreadId] = true;
 			this.ThreadsRunning++;
 		}
 		
@@ -460,7 +462,7 @@ namespace SEOMacroscope
 		{
 			if( this.History.ContainsKey( sUrl ) ) {
 				lock( this.History ) {
-					this.History[ sUrl ] = false;
+					this.History[sUrl] = false;
 				}
 			}
 		}
@@ -469,7 +471,7 @@ namespace SEOMacroscope
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sUrl ) ) {
-				bSeen = this.History[ sUrl ];
+				bSeen = this.History[sUrl];
 			}
 			return( bSeen );
 		}
@@ -479,7 +481,7 @@ namespace SEOMacroscope
 			Dictionary<string,Boolean> HistoryCopy = new Dictionary<string,Boolean> ( this.History.Count );
 			lock( this.History ) {
 				foreach( string sKey in this.History.Keys ) {
-					HistoryCopy.Add( sKey, this.History[ sKey ] );
+					HistoryCopy.Add( sKey, this.History[sKey] );
 				}
 			}
 			return( HistoryCopy );
@@ -522,7 +524,7 @@ namespace SEOMacroscope
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[ sLocale ] = sLocale;
+					this.Locales[sLocale] = sLocale;
 				}
 			}
 		}

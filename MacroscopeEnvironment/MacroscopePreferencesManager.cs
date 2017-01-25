@@ -52,7 +52,7 @@ namespace SEOMacroscope
 		static int Depth;
 		static int PageLimit;
 		
-		static Boolean SameSite;
+		static Boolean CheckExternalLinks;
 		
 		static Boolean FollowRobotsProtocol;
 		static Boolean FollowRedirects;
@@ -109,7 +109,7 @@ namespace SEOMacroscope
 					Depth = Preferences.Depth;
 					PageLimit = Preferences.PageLimit;
 
-					SameSite = Preferences.SameSite;
+					CheckExternalLinks = Preferences.CheckExternalLinks;
 					CheckHreflangs = Preferences.CheckHreflangs;
 			
 					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
@@ -153,7 +153,7 @@ namespace SEOMacroscope
 			Depth = -1;
 			PageLimit = -1;
 			
-			SameSite = true;
+			CheckExternalLinks = false;
 			
 			FollowRobotsProtocol = true;
 			FollowRedirects = false;
@@ -221,7 +221,7 @@ namespace SEOMacroscope
 				Preferences.Depth = Depth;
 				Preferences.PageLimit = PageLimit;
 
-				Preferences.SameSite = SameSite;
+				Preferences.CheckExternalLinks = CheckExternalLinks;
 				Preferences.CheckHreflangs = CheckHreflangs;
 			
 				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
@@ -367,14 +367,14 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public static Boolean GetSameSite ()
+		public static Boolean GetCheckExternalLinks()
 		{
-			return( SameSite );
+			return( CheckExternalLinks );
 		}
 		
-		public static void SetSameSite ( Boolean bValue )
+		public static void SetCheckExternalLinks ( Boolean bValue )
 		{
-			SameSite = bValue;
+			CheckExternalLinks = bValue;
 		}
 		
 		/**************************************************************************/

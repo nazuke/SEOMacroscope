@@ -21,7 +21,7 @@
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
- */
+*/
 
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace SEOMacroscope
 		MacroscopeDocumentCollection DocCollection;
 		MacroscopeAllowedHosts AllowedHosts;
 		
-		Boolean SameSite;
+		Boolean CheckExternalLinks;
 			
 		/**************************************************************************/
 
@@ -56,7 +56,7 @@ namespace SEOMacroscope
 			DocCollection = JobMaster.GetDocCollection();
 			AllowedHosts = JobMaster.GetAllowedHosts();
 
-			SameSite = MacroscopePreferencesManager.GetSameSite();
+			CheckExternalLinks = MacroscopePreferencesManager.GetCheckExternalLinks();
 
 		}
 
@@ -115,16 +115,26 @@ namespace SEOMacroscope
 
 			this.JobMaster.AddHistoryItem( sUrl );
 
-			if( this.SameSite ) {
+			/*
+			if( this.CheckExternalLinks ) {
 				if( !this.AllowedHosts.IsAllowedFromUrl( sUrl ) ) {
 					DebugMsg( string.Format( "Disallowed by SameSite: {0}", sUrl ) );
 					return( bResult );
 				}
 			}
+			*/
+
+			// TODO: Add HEAD checking here
+			if( this.CheckExternalLinks ) {
+				if( !this.AllowedHosts.IsExternalUrl( sUrl ) ) {
+					DebugMsg( string.Format( "IsExternalUrl: {0}", sUrl ) );
+					return( bResult );
+				}
+				
+			}
 
 			if( this.DocCollection.ContainsDocument( sUrl ) ) {
 				if( !this.DocCollection.GetDocument( sUrl ).GetIsDirty() ) {
-					DebugMsg( string.Format( "DocCollection already has document: {0}", sUrl ) );
 					return( bResult );
 				}
 			}
@@ -137,8 +147,6 @@ namespace SEOMacroscope
 				}
 			}
 
-			DebugMsg( string.Format( "EXECUTING FETCH: {0}", sUrl ) );
-							
 			if( msDoc.Execute() ) {
 				
 				this.DocCollection.AddDocument( sUrl, msDoc );

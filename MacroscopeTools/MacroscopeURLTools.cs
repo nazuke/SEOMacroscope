@@ -25,6 +25,7 @@
 
 using System;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace SEOMacroscope
 {
@@ -73,6 +74,21 @@ namespace SEOMacroscope
 
 		}
 		
+		/**************************************************************************/
+
+		public static string SanitizeUrl ( string sUrl )
+		{
+			
+			string sSanitized;
+			DebugMsg( string.Format( "SanitizeUrl 1: {0}", sUrl ), true );
+			
+			sSanitized = Uri.EscapeUriString( sUrl );
+			
+			DebugMsg( string.Format( "SanitizeUrl 2: {0}", sSanitized ), true );
+
+			return( sSanitized );
+		}
+
 		/**************************************************************************/
 
 		public static string MakeUrlAbsolute ( string sBaseUrl, string sUrl )
