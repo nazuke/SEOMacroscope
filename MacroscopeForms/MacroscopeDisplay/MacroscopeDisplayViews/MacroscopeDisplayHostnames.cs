@@ -115,7 +115,9 @@ namespace SEOMacroscope
 			string sPairKey = string.Join( "::", "HOST", sHostname );
 
 			this.lvListView.BeginUpdate();
-			
+
+			Boolean bIsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( sHostname );
+
 			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
 							
 				try {
@@ -123,6 +125,7 @@ namespace SEOMacroscope
 					ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
 					lvItem.SubItems[ 0 ].Text = sHostname;
 					lvItem.SubItems[ 1 ].Text = iCount.ToString();
+					lvItem.SubItems[ 2 ].Text = bIsInternal.ToString();
 
 				} catch( Exception ex ) {
 					this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 1: {0}", ex.Message ) );
@@ -138,6 +141,7 @@ namespace SEOMacroscope
 
 					lvItem.SubItems[ 0 ].Text = sHostname;
 					lvItem.SubItems.Add( iCount.ToString() );
+					lvItem.SubItems.Add( bIsInternal.ToString() );
 
 					this.lvListView.Items.Add( lvItem );
 

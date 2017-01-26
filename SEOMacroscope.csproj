@@ -162,6 +162,7 @@
     <Compile Include="MacroscopeTools\MacroscopeColumnSorter.cs" />
     <Compile Include="MacroscopeTools\MacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeTools\MacroscopePdfTools.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeStringTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlLoader.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeUrlTools.cs" />

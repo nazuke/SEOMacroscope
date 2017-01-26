@@ -619,9 +619,11 @@ namespace SEOMacroscope
 
 		public Boolean Execute ()
 		{
+			
+			// TODO: Change this, so that the initial HEAD request only runs once,
+			// TODO: and determines of the page is a redirect, as well as the mime type.
 
-			// TODO: validate this.Url
-
+			TimeDuration fTimeDuration = this.GetTimeDurationDelegate();
 			Boolean bDownloadDocument = true;
 
 			this.ClearIsDirty();
@@ -631,31 +633,11 @@ namespace SEOMacroscope
 			} catch( Exception ex ) {
 				DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
 			}
-			
+
 			if( this.IsRedirectPage() ) {
 				DebugMsg( string.Format( "IS REDIRECT: {0}", this.Url ) );
 				return( true );
 			} 
-
-			TimeDuration fTimeDuration = delegate( Action ProcessMethod )
-			{
-				Stopwatch swDuration = new Stopwatch ();
-				long lDuration;
-				swDuration.Start();
-				try {
-					ProcessMethod();
-				} catch( MacroscopeDocumentException ex ) {
-					DebugMsg( string.Format( "fTimeDuration: {0}", ex.Message ) );
-				}
-				swDuration.Stop();
-				lDuration = swDuration.ElapsedMilliseconds;
-				if( lDuration > 0 ) {
-					this.Duration = lDuration;
-				} else {
-					this.Duration = 0;
-				}
-				DebugMsg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
-			};
 
 			if( !MacroscopePreferencesManager.GetCheckExternalLinks() ) {
 				if( this.GetIsExternal() ) {
@@ -713,9 +695,36 @@ namespace SEOMacroscope
 				DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.Url ) );
 			}
 
-
-
 			return( true );
+
+		}
+
+		/**************************************************************************/
+		
+		TimeDuration GetTimeDurationDelegate ()
+		{
+
+			TimeDuration fTimeDuration = delegate( Action ProcessMethod )
+			{
+				Stopwatch swDuration = new Stopwatch ();
+				long lDuration;
+				swDuration.Start();
+				try {
+					ProcessMethod();
+				} catch( MacroscopeDocumentException ex ) {
+					DebugMsg( string.Format( "fTimeDuration: {0}", ex.Message ) );
+				}
+				swDuration.Stop();
+				lDuration = swDuration.ElapsedMilliseconds;
+				if( lDuration > 0 ) {
+					this.Duration = lDuration;
+				} else {
+					this.Duration = 0;
+				}
+				//DebugMsg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
+			};
+
+			return( fTimeDuration );
 
 		}
 
@@ -808,6 +817,7 @@ namespace SEOMacroscope
 						this.IsRedirect = true;
 						string sLocation = res.GetResponseHeader( "Location" );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLocation );
+						this.UrlRedirectFrom = sOriginalUrl;
 						this.UrlRedirectTo = sLinkUrlAbs;
 						this.AddDocumentOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.LINK_REDIRECT, true );
 

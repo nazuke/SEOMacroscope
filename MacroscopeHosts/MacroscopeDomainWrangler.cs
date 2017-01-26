@@ -24,13 +24,12 @@
 */
 
 using System;
-using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
 
 	/// <summary>
-	/// Description of MacroscopeDomainWrangler.
+	/// This class attempts to determine if two domains are within the same domain space.
 	/// </summary>
 
 	public class MacroscopeDomainWrangler : Macroscope
@@ -38,19 +37,20 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		int Tolerance = 2;
+		const int Tolerance = 2;
 		
 		/**************************************************************************/
 				
 		public MacroscopeDomainWrangler ()
 		{
+			SuppressDebugMsg = true;
 		}
 
 		/**************************************************************************/
 
 		public Boolean IsWithinSameDomain ( string sDomainLeft, string sDomainRight )
 		{
-			return( this.IsWithinSameDomain( sDomainLeft, sDomainRight, this.Tolerance ) );
+			return( this.IsWithinSameDomain( sDomainLeft, sDomainRight, Tolerance ) );
 		}
 		
 		/**************************************************************************/
@@ -64,10 +64,10 @@ namespace SEOMacroscope
 			string[] DomainShort;
 			string[] DomainLong;
 
-			string sDomainLeftReversed = this.ReverseString( sDomainLeft );
-			string sDomainRightReversed = this.ReverseString( sDomainRight );
+			string sDomainLeftReversed = MacroscopeStringTools.ReverseString( sDomainLeft );
+			string sDomainRightReversed = MacroscopeStringTools.ReverseString( sDomainRight );
 
-			int iScoreThreshold = this.Tolerance;
+			int iScoreThreshold = Tolerance;
 				
 			if( iTolerance > 0 ) {
 				iScoreThreshold = iTolerance;
@@ -81,8 +81,8 @@ namespace SEOMacroscope
 				DomainLong = sDomainRightReversed.Split( '.' );
 			}
 
-			DomainShort = this.ReverseStrings( DomainShort );
-			DomainLong = this.ReverseStrings( DomainLong );
+			DomainShort = MacroscopeStringTools.ReverseStringArray( DomainShort );
+			DomainLong = MacroscopeStringTools.ReverseStringArray( DomainLong );
 
 			DebugMsg( string.Format( "DomainShort: {0} :: {1}", DomainShort.Length, string.Join( " ", DomainShort ) ) );
 			DebugMsg( string.Format( "DomainLong: {0} :: {1}", DomainLong.Length, string.Join( " ", DomainLong ) ) );
@@ -115,28 +115,6 @@ namespace SEOMacroscope
 
 			return( bIsWithinSameDomain );
 		
-		}
-
-		/**************************************************************************/
-		
-		string ReverseString ( string sInput )
-		{
-			string sOutput = "";
-			for( int i = ( sInput.Length - 1 ); i >= 0; i-- ) {
-				sOutput += sInput[ i ];
-			}
-			return( sOutput );
-		}
-		
-		/**************************************************************************/
-				
-		string[] ReverseStrings ( string[] sInput )
-		{
-			string[] sOutput = new string[sInput.Length];
-			for( int i = 0; i < sInput.Length; i++ ) {
-				sOutput[ i ] = this.ReverseString( sInput[ i ] );
-			}
-			return( sOutput );
 		}
 
 		/**************************************************************************/

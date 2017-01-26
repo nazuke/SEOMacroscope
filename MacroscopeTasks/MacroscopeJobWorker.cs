@@ -41,6 +41,7 @@ namespace SEOMacroscope
 		MacroscopeJobMaster JobMaster;
 		MacroscopeDocumentCollection DocCollection;
 		MacroscopeAllowedHosts AllowedHosts;
+		MacroscopeDomainWrangler DomainWrangler;
 
 		/**************************************************************************/
 
@@ -53,7 +54,9 @@ namespace SEOMacroscope
 			
 			DocCollection = JobMaster.GetDocCollection();
 			AllowedHosts = JobMaster.GetAllowedHosts();
-
+			
+			DomainWrangler = new MacroscopeDomainWrangler ();
+			
 		}
 
 		/**************************************************************************/
@@ -138,12 +141,29 @@ namespace SEOMacroscope
 
 				if( msDoc.GetIsRedirect() ) {
 
-					DebugMsg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
+					DebugMsg( string.Format( "REDIRECTION DETECTED GetUrl: {0}", msDoc.GetUrl() ) );
+					DebugMsg( string.Format( "REDIRECTION DETECTED From: {0}", msDoc.GetUrlRedirectFrom() ) );
+					DebugMsg( string.Format( "REDIRECTION DETECTED To: {0}", msDoc.GetUrlRedirectTo() ) );
 
 					if( MacroscopePreferencesManager.GetFollowRedirects() ) {
+						
 						string sHostname = msDoc.GetHostname();
+						
 						DebugMsg( string.Format( "Redirect Hostname: {0}", sHostname ) );
-						this.AllowedHosts.Add( sHostname );
+
+						string sHostnameFrom = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectFrom() );
+						string sHostnameTo = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectTo() );
+
+						DebugMsg( string.Format( "REDIRECTION DETECTED sHostnameFrom: {0}", sHostnameFrom ) );
+						DebugMsg( string.Format( "REDIRECTION DETECTED sHostnameTo: {0}", sHostnameTo ) );
+
+						if( DomainWrangler.IsWithinSameDomain( sHostnameFrom, sHostnameTo ) ) {
+							DebugMsg( string.Format( "REDIRECTION DETECTED IsWithinSameDomain: {0}", "HOSTS MATCH" ) );
+							this.AllowedHosts.Add( sHostname );
+						} else {
+							DebugMsg( string.Format( "REDIRECTION DETECTED IsWithinSameDomain: {0}", "HOSTS DO NOT MATCH" ) );
+						}
+
 					}
 
 					this.JobMaster.AddUrlQueueItem( msDoc.GetUrlRedirectTo() );

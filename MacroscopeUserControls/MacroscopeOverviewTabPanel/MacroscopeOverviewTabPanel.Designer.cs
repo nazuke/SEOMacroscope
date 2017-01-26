@@ -74,6 +74,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ListView listViewErrors;
 		private System.Windows.Forms.ColumnHeader columnHeaderErrorsUrl;
 		private System.Windows.Forms.ColumnHeader columnHeaderErrorsStatusCode;
+		private System.Windows.Forms.ColumnHeader columnHeaderHostnameInternal;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -120,6 +121,7 @@ namespace SEOMacroscope
 			this.listViewHostnames = new System.Windows.Forms.ListView();
 			this.columnHeaderHostnameName = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderHostnameCount = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderHostnameInternal = new System.Windows.Forms.ColumnHeader();
 			this.tabPageUriAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewUriAnalysis = new System.Windows.Forms.ListView();
 			this.tabPagePageTitles = new System.Windows.Forms.TabPage();
@@ -213,12 +215,17 @@ namespace SEOMacroscope
 			// 
 			// listViewStructure
 			// 
+			this.listViewStructure.BackColor = System.Drawing.SystemColors.Window;
+			this.listViewStructure.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.listViewStructure.CausesValidation = false;
 			this.listViewStructure.FullRowSelect = true;
 			this.listViewStructure.GridLines = true;
+			this.listViewStructure.LabelWrap = false;
 			this.listViewStructure.Location = new System.Drawing.Point(10, 10);
 			this.listViewStructure.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewStructure.MultiSelect = false;
 			this.listViewStructure.Name = "listViewStructure";
+			this.listViewStructure.ShowGroups = false;
 			this.listViewStructure.Size = new System.Drawing.Size(200, 200);
 			this.listViewStructure.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewStructure.TabIndex = 0;
@@ -393,7 +400,8 @@ namespace SEOMacroscope
 			// 
 			this.listViewHostnames.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderHostnameName,
-			this.columnHeaderHostnameCount});
+			this.columnHeaderHostnameCount,
+			this.columnHeaderHostnameInternal});
 			this.listViewHostnames.GridLines = true;
 			this.listViewHostnames.Location = new System.Drawing.Point(10, 10);
 			this.listViewHostnames.Margin = new System.Windows.Forms.Padding(0);
@@ -412,6 +420,10 @@ namespace SEOMacroscope
 			// columnHeaderHostnameCount
 			// 
 			this.columnHeaderHostnameCount.Text = "Count";
+			// 
+			// columnHeaderHostnameInternal
+			// 
+			this.columnHeaderHostnameInternal.Text = "Internal";
 			// 
 			// tabPageUriAnalysis
 			// 
@@ -468,7 +480,7 @@ namespace SEOMacroscope
 			// columnHeaderUrl
 			// 
 			this.columnHeaderUrl.Text = "URL";
-			this.columnHeaderUrl.Width = 300;
+			this.columnHeaderUrl.Width = 500;
 			// 
 			// columnHeaderCount
 			// 
@@ -517,7 +529,7 @@ namespace SEOMacroscope
 			// columnHeaderDescriptionUrl
 			// 
 			this.columnHeaderDescriptionUrl.Text = "URL";
-			this.columnHeaderDescriptionUrl.Width = 300;
+			this.columnHeaderDescriptionUrl.Width = 500;
 			// 
 			// columnHeaderDescriptionCount
 			// 
@@ -563,7 +575,7 @@ namespace SEOMacroscope
 			// columnHeaderKeywordsUrl
 			// 
 			this.columnHeaderKeywordsUrl.Text = "URL";
-			this.columnHeaderKeywordsUrl.Width = 300;
+			this.columnHeaderKeywordsUrl.Width = 500;
 			// 
 			// columnHeaderKeywordsCount
 			// 
