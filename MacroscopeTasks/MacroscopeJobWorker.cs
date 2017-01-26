@@ -41,9 +41,7 @@ namespace SEOMacroscope
 		MacroscopeJobMaster JobMaster;
 		MacroscopeDocumentCollection DocCollection;
 		MacroscopeAllowedHosts AllowedHosts;
-		
-		Boolean CheckExternalLinks;
-			
+
 		/**************************************************************************/
 
 		public MacroscopeJobWorker ( MacroscopeJobMaster JobMasterNew )
@@ -55,8 +53,6 @@ namespace SEOMacroscope
 			
 			DocCollection = JobMaster.GetDocCollection();
 			AllowedHosts = JobMaster.GetAllowedHosts();
-
-			CheckExternalLinks = MacroscopePreferencesManager.GetCheckExternalLinks();
 
 		}
 
@@ -115,22 +111,9 @@ namespace SEOMacroscope
 
 			this.JobMaster.AddHistoryItem( sUrl );
 
-			/*
-			if( this.CheckExternalLinks ) {
-				if( !this.AllowedHosts.IsAllowedFromUrl( sUrl ) ) {
-					DebugMsg( string.Format( "Disallowed by SameSite: {0}", sUrl ) );
-					return( bResult );
-				}
-			}
-			*/
-
-			// TODO: Add HEAD checking here
-			if( this.CheckExternalLinks ) {
-				if( !this.AllowedHosts.IsExternalUrl( sUrl ) ) {
-					DebugMsg( string.Format( "IsExternalUrl: {0}", sUrl ) );
-					return( bResult );
-				}
-				
+			if( this.AllowedHosts.IsExternalUrl( sUrl ) ) {
+				DebugMsg( string.Format( "IsExternalUrl: {0}", sUrl ) );
+				msDoc.SetIsExternal( true );
 			}
 
 			if( this.DocCollection.ContainsDocument( sUrl ) ) {
@@ -156,6 +139,13 @@ namespace SEOMacroscope
 				if( msDoc.GetIsRedirect() ) {
 
 					DebugMsg( string.Format( "Redirect Discovered: {0}", msDoc.GetUrlRedirectTo() ) );
+
+					if( MacroscopePreferencesManager.GetFollowRedirects() ) {
+						string sHostname = msDoc.GetHostname();
+						DebugMsg( string.Format( "Redirect Hostname: {0}", sHostname ) );
+						this.AllowedHosts.Add( sHostname );
+					}
+
 					this.JobMaster.AddUrlQueueItem( msDoc.GetUrlRedirectTo() );
 
 				} else {
@@ -218,11 +208,13 @@ namespace SEOMacroscope
 					continue;
 				}
 
+				/*
 				if( !this.AllowedHosts.IsAllowedFromUrl( Outlink.AbsoluteUrl ) ) {
 					//DebugMsg( string.Format( "FOREIGN HOST: {0}", Outlink.AbsoluteUrl ) );
 					continue;
 				}
-
+				*/
+				
 				if( this.JobMaster.GetPageLimit() > -1 ) {
 					if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() ) {
 						DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.JobMaster.GetPageLimit(), this.JobMaster.GetPageLimitCount() ) );

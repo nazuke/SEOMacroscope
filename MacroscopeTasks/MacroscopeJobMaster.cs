@@ -126,8 +126,9 @@ namespace SEOMacroscope
 
 		~MacroscopeJobMaster ()
 		{
-			DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR CALLED" ) );
+			DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR" ) );
 			this.DocCollection = null;
+			this.SemaphoreWorkers.Dispose();
 		}
 		
 		/** Execute Job ***********************************************************/
@@ -177,18 +178,22 @@ namespace SEOMacroscope
 
 				} else {
 
-					SemaphoreWorkers.WaitOne();
+					if( this.CountRunningThreads() < this.ThreadsMax ) {
 
-					DebugMsg( string.Format( "SpawnWorkers THREADS: {0} :: {1}", this.ThreadsMax, this.CountRunningThreads() ) );
+						SemaphoreWorkers.WaitOne();
 
-					Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
+						DebugMsg( string.Format( "SpawnWorkers THREADS: {0} :: {1}", this.ThreadsMax, this.CountRunningThreads() ) );
+
+						Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 					
-					if( bNewThread ) {
-						Thread.Sleep( 100 );
+						if( bNewThread ) {
+							Thread.Sleep( 100 );
+						}
+					
+						this.AdjustThreadsMax();
+
 					}
 					
-					this.AdjustThreadsMax();
-
 					if(
 						( this.CountRunningThreads() == 0 )
 						&& ( !this.PeekUrlQueue() ) ) {
@@ -239,7 +244,7 @@ namespace SEOMacroscope
 			Boolean bIsStopped = false;
 			int iThreadCount = this.CountRunningThreads();
 			if( iThreadCount == 0 ) {
-				SemaphoreWorkers.Release( this.ThreadsMax );
+				//this.SemaphoreWorkers.Release( this.ThreadsMax );
 				bIsStopped = true;
 			}
 			this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
@@ -266,7 +271,7 @@ namespace SEOMacroscope
 		void IncRunningThreads ()
 		{
 			int iThreadId = Thread.CurrentThread.ManagedThreadId;
-			this.ThreadsDict[iThreadId] = true;
+			this.ThreadsDict[ iThreadId ] = true;
 			this.ThreadsRunning++;
 		}
 		
@@ -462,7 +467,7 @@ namespace SEOMacroscope
 		{
 			if( this.History.ContainsKey( sUrl ) ) {
 				lock( this.History ) {
-					this.History[sUrl] = false;
+					this.History[ sUrl ] = false;
 				}
 			}
 		}
@@ -471,7 +476,7 @@ namespace SEOMacroscope
 		{
 			Boolean bSeen = false;
 			if( this.History.ContainsKey( sUrl ) ) {
-				bSeen = this.History[sUrl];
+				bSeen = this.History[ sUrl ];
 			}
 			return( bSeen );
 		}
@@ -481,7 +486,7 @@ namespace SEOMacroscope
 			Dictionary<string,Boolean> HistoryCopy = new Dictionary<string,Boolean> ( this.History.Count );
 			lock( this.History ) {
 				foreach( string sKey in this.History.Keys ) {
-					HistoryCopy.Add( sKey, this.History[sKey] );
+					HistoryCopy.Add( sKey, this.History[ sKey ] );
 				}
 			}
 			return( HistoryCopy );
@@ -524,7 +529,7 @@ namespace SEOMacroscope
 		{			
 			if( !this.Locales.ContainsKey( sLocale ) ) {
 				lock( this.Locales ) {
-					this.Locales[sLocale] = sLocale;
+					this.Locales[ sLocale ] = sLocale;
 				}
 			}
 		}

@@ -244,6 +244,8 @@ namespace SEOMacroscope
 				PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
 				PrefsControl.numericUpDownDepth.Value = MacroscopePreferencesManager.GetDepth();
 				PrefsControl.numericUpDownPageLimit.Value = MacroscopePreferencesManager.GetPageLimit();
+				PrefsControl.checkBoxStayInDomain.Checked = MacroscopePreferencesManager.GetStayInDomain();
+				PrefsControl.numericUpDownSameDomainTolerance.Value = MacroscopePreferencesManager.GetSameDomainTolerance();
 				PrefsControl.checkBoxCheckExternalLinks.Checked = MacroscopePreferencesManager.GetCheckExternalLinks();
 				PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
 				PrefsControl.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
@@ -285,6 +287,8 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.SetMaxThreads( ( int )PrefsControl.numericUpDownMaxThreads.Value );
 				MacroscopePreferencesManager.SetDepth( ( int )PrefsControl.numericUpDownDepth.Value );
 				MacroscopePreferencesManager.SetPageLimit( ( int )PrefsControl.numericUpDownPageLimit.Value );
+				MacroscopePreferencesManager.SetStayInDomain( PrefsControl.checkBoxStayInDomain.Checked );
+				MacroscopePreferencesManager.SetSameDomainTolerance( ( int )PrefsControl.numericUpDownSameDomainTolerance.Value );
 				MacroscopePreferencesManager.SetCheckExternalLinks( PrefsControl.checkBoxCheckExternalLinks.Checked );
 				MacroscopePreferencesManager.SetFollowRobotsProtocol( PrefsControl.checkBoxFollowRobotsProtocol.Checked );
 				MacroscopePreferencesManager.SetFollowRedirects( PrefsControl.checkBoxFollowRedirects.Checked );

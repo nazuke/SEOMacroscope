@@ -92,7 +92,7 @@ namespace SEOMacroscope
 
 			if( res != null ) {
 
-				MacroscopePDFTools pdfTools;
+				MacroscopePdfTools pdfTools;
 
 				this.ProcessHttpHeaders( req, res );
 
@@ -121,7 +121,7 @@ namespace SEOMacroscope
 						} while( sStream.CanRead );
 						aRawData = aRawDataList.ToArray();
 						this.ContentLength = aRawData.Length;
-						pdfTools = new MacroscopePDFTools ( aRawData );
+						pdfTools = new MacroscopePdfTools ( aRawData );
 					} catch( WebException ex ) {
 						DebugMsg( string.Format( "WebException", ex.Message ) );
 						pdfTools = null;

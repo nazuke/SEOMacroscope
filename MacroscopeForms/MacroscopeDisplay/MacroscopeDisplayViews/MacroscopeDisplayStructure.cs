@@ -203,7 +203,11 @@ namespace SEOMacroscope
 							lvItem.SubItems[ iColIndex ].Text = "";
 						}
 
-						lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
+						if( !msDoc.GetIsExternal() ) {
+							lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
+						} else {
+							lvItem.SubItems[ iColIndex ].ForeColor = Color.Gray;
+						}
 
 						if( sKey == MacroscopeConstants.Status ) {
 							if( Regex.IsMatch( sText, "^[2]" ) ) {
@@ -212,8 +216,6 @@ namespace SEOMacroscope
 								lvItem.SubItems[ iColIndex ].ForeColor = Color.Goldenrod;
 							} else if( Regex.IsMatch( sText, "^[45]" ) ) {
 								lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
-							} else {
-								lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
 							}
 						}
 
@@ -263,15 +265,15 @@ namespace SEOMacroscope
 
 			List<string> lColDataWidth = new List<string> ()
 			{
-					MacroscopeConstants.Url,
-					MacroscopeConstants.DateServer,
-					MacroscopeConstants.DateModified,
-					MacroscopeConstants.Title
+				MacroscopeConstants.Url,
+				MacroscopeConstants.DateServer,
+				MacroscopeConstants.DateModified,
+				MacroscopeConstants.Title
 			};
 			
 			List<string> lColHeaderWidth = new List<string> ()
 			{
-					MacroscopeConstants.DateModified
+				MacroscopeConstants.DateModified
 			};
 
 			foreach( string sColName in lColDataWidth ) {

@@ -61,6 +61,7 @@ namespace SEOMacroscope
 
 		/** BEGIN: Outlink Types **************************************************/
 
+		public const string LINK_REDIRECT = "LINK";
 		public const string LINK_LINK = "LINK";
 		public const string LINK_CANONICAL = "CANONICAL";
 		public const string LINK_HREFLANG = "HREFLANG";

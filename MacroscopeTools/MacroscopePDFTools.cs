@@ -33,7 +33,7 @@ using PdfSharp.Pdf.IO;
 namespace SEOMacroscope
 {
 
-	public class MacroscopePDFTools : Macroscope
+	public class MacroscopePdfTools : Macroscope
 	{
 		/**************************************************************************/
 
@@ -41,7 +41,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
-		public MacroscopePDFTools ( byte[] aPDF )
+		public MacroscopePdfTools ( byte[] aPDF )
 		{
 			try {
 				using( MemoryStream ms = new MemoryStream ( aPDF ) ) {

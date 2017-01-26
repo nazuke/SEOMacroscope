@@ -52,6 +52,8 @@ namespace SEOMacroscope
 		static int Depth;
 		static int PageLimit;
 		
+		static Boolean StayInDomain;
+		static int SameDomainTolerance;
 		static Boolean CheckExternalLinks;
 		
 		static Boolean FollowRobotsProtocol;
@@ -109,7 +111,10 @@ namespace SEOMacroscope
 					Depth = Preferences.Depth;
 					PageLimit = Preferences.PageLimit;
 
+					StayInDomain = Preferences.StayInDomain;		
+					SameDomainTolerance = Preferences.SameDomainTolerance;
 					CheckExternalLinks = Preferences.CheckExternalLinks;
+				
 					CheckHreflangs = Preferences.CheckHreflangs;
 			
 					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
@@ -153,8 +158,10 @@ namespace SEOMacroscope
 			Depth = -1;
 			PageLimit = -1;
 			
+			StayInDomain = true;
+			SameDomainTolerance = 2;
 			CheckExternalLinks = false;
-			
+
 			FollowRobotsProtocol = true;
 			FollowRedirects = false;
 			FollowNoFollow = true;
@@ -221,7 +228,10 @@ namespace SEOMacroscope
 				Preferences.Depth = Depth;
 				Preferences.PageLimit = PageLimit;
 
+				Preferences.StayInDomain = StayInDomain;		
+				Preferences.SameDomainTolerance = SameDomainTolerance;
 				Preferences.CheckExternalLinks = CheckExternalLinks;
+				
 				Preferences.CheckHreflangs = CheckHreflangs;
 			
 				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
@@ -365,18 +375,38 @@ namespace SEOMacroscope
 			PageLimit = iValue;
 		}
 
-		/**************************************************************************/
-		
-		public static Boolean GetCheckExternalLinks()
+		/** Domain Spidering Controls *********************************************/
+
+		public static void SetStayInDomain ( Boolean bValue )
 		{
-			return( CheckExternalLinks );
+			StayInDomain = bValue;
+		}
+
+		public static Boolean GetStayInDomain ()
+		{
+			return( StayInDomain );
 		}
 		
+		public static void SetSameDomainTolerance ( int iValue )
+		{
+			SameDomainTolerance = iValue;
+		}
+
+		public static int GetSameDomainTolerance ()
+		{
+			return( SameDomainTolerance );
+		}
+
 		public static void SetCheckExternalLinks ( Boolean bValue )
 		{
 			CheckExternalLinks = bValue;
 		}
-		
+
+		public static Boolean GetCheckExternalLinks ()
+		{
+			return( CheckExternalLinks );
+		}
+
 		/**************************************************************************/
 		
 		public static Boolean GetCheckHreflangs ()

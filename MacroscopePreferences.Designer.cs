@@ -241,6 +241,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("2")]
+		public int SameDomainTolerance {
+			get {
+				return ((int)(this["SameDomainTolerance"]));
+			}
+			set {
+				this["SameDomainTolerance"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
 		public string StartUrl {
 			get {
@@ -248,6 +260,18 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["StartUrl"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool StayInDomain {
+			get {
+				return ((bool)(this["StayInDomain"]));
+			}
+			set {
+				this["StayInDomain"] = value;
 			}
 		}
 	}

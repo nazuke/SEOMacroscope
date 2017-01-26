@@ -151,6 +151,8 @@
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MacroscopeHosts\MacroscopeAllowedHosts.cs" />
+    <Compile Include="MacroscopeHosts\MacroscopeDomainWrangler.cs" />
+    <Compile Include="MacroscopeHosts\t\TestMacroscopeDomainWrangler.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -159,6 +161,7 @@
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeColumnSorter.cs" />
     <Compile Include="MacroscopeTools\MacroscopeNamedQueue.cs" />
+    <Compile Include="MacroscopeTools\MacroscopePdfTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlLoader.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeUrlTools.cs" />
@@ -177,7 +180,6 @@
     <Compile Include="MacroscopeTasks\MacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeLocaleTools.cs" />
-    <Compile Include="MacroscopeTools\MacroscopePDFTools.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.Designer.cs">
       <DependentUpon>MacroscopeOverviewTabPanel.cs</DependentUpon>
@@ -235,6 +237,7 @@
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
+    <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />

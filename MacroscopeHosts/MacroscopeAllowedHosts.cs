@@ -121,9 +121,9 @@ namespace SEOMacroscope
 		
 		public Boolean IsExternalUrl ( string sUrl )
 		{
-			Uri uFromUrl = new Uri ( sUrl, UriKind.Absolute );
+			Uri uUrl = new Uri ( sUrl, UriKind.Absolute );
 			Boolean bIsExternal = false;
-			if( this.IsAllowed( uFromUrl.Host ) ) {
+			if( ! this.IsAllowed( uUrl.Host ) ) {
 				bIsExternal = true;
 			}
 			return( bIsExternal );
