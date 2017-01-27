@@ -43,6 +43,7 @@ namespace SEOMacroscope
 
 		Dictionary<string,MacroscopeDocument> DocCollection;
 
+		MacroscopeJobMaster JobMaster;
 		MacroscopeNamedQueue NamedQueue;
 
 		Dictionary<string,Boolean> StatsHistory;
@@ -51,12 +52,15 @@ namespace SEOMacroscope
 		Dictionary<string,int> StatsDescriptions;
 		Dictionary<string,int> StatsKeywords;
 
+		int StatsUrlsInternal;
+		int StatsCountUrlsExternal;
+
 		Semaphore SemaphoreRecalc;
 		System.Timers.Timer TimerRecalc;
 
 		/**************************************************************************/
 
-		public MacroscopeDocumentCollection ()
+		public MacroscopeDocumentCollection ( MacroscopeJobMaster JobMasterNew )
 		{
 			
 			SuppressDebugMsg = true;
@@ -65,6 +69,8 @@ namespace SEOMacroscope
 			
 			DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
 
+			JobMaster = JobMasterNew;
+			
 			NamedQueue = new MacroscopeNamedQueue ();
 			NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
 
@@ -74,6 +80,9 @@ namespace SEOMacroscope
 			StatsDescriptions = new Dictionary<string,int> ( 1024 );
 			StatsKeywords = new Dictionary<string,int> ( 1024 );
 			
+			StatsUrlsInternal = 0;
+			StatsCountUrlsExternal = 0;
+		
 			SemaphoreRecalc = new Semaphore ( 0, 1 );
 			this.StartRecalcTimer();
 
@@ -100,13 +109,23 @@ namespace SEOMacroscope
 			return( sResult );
 		}
 
-		/**************************************************************************/
+		/** Document Stats ********************************************************/
 		
 		public int CountDocuments ()
 		{
 			return( this.DocCollection.Count );
 		}
+
+		public int CountUrlsInternal ()
+		{
+			return( this.StatsUrlsInternal );
+		}
 				
+		public int CountUrlsExternal ()
+		{
+			return( this.StatsCountUrlsExternal );
+		}
+
 		/**************************************************************************/
 				
 		public void AddDocument ( string sKey, MacroscopeDocument msDoc )
@@ -249,6 +268,11 @@ namespace SEOMacroscope
 
 			lock( this.DocCollection ) {
 
+				MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
+				
+				this.StatsUrlsInternal = 0;
+				this.StatsCountUrlsExternal = 0;
+			
 				foreach( string sUrlTarget in this.DocCollection.Keys ) {
 
 					MacroscopeDocument msDoc = this.GetDocument( sUrlTarget );
@@ -273,6 +297,12 @@ namespace SEOMacroscope
 						
 						this.RecalculateKeywords( msDoc );
 
+					}
+					
+					if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) ) {
+						this.StatsUrlsInternal++;
+					} else {
+						this.StatsCountUrlsExternal++;
 					}
 					
 				}

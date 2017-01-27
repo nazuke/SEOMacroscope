@@ -52,8 +52,6 @@ namespace SEOMacroscope
 		static int Depth;
 		static int PageLimit;
 		
-		static Boolean StayInDomain;
-		static int SameDomainTolerance;
 		static Boolean CheckExternalLinks;
 		
 		static Boolean FollowRobotsProtocol;
@@ -111,8 +109,6 @@ namespace SEOMacroscope
 					Depth = Preferences.Depth;
 					PageLimit = Preferences.PageLimit;
 
-					StayInDomain = Preferences.StayInDomain;		
-					SameDomainTolerance = Preferences.SameDomainTolerance;
 					CheckExternalLinks = Preferences.CheckExternalLinks;
 				
 					CheckHreflangs = Preferences.CheckHreflangs;
@@ -158,8 +154,6 @@ namespace SEOMacroscope
 			Depth = -1;
 			PageLimit = -1;
 			
-			StayInDomain = true;
-			SameDomainTolerance = 2;
 			CheckExternalLinks = false;
 
 			FollowRobotsProtocol = true;
@@ -228,8 +222,6 @@ namespace SEOMacroscope
 				Preferences.Depth = Depth;
 				Preferences.PageLimit = PageLimit;
 
-				Preferences.StayInDomain = StayInDomain;		
-				Preferences.SameDomainTolerance = SameDomainTolerance;
 				Preferences.CheckExternalLinks = CheckExternalLinks;
 				
 				Preferences.CheckHreflangs = CheckHreflangs;
@@ -376,26 +368,6 @@ namespace SEOMacroscope
 		}
 
 		/** Domain Spidering Controls *********************************************/
-
-		public static void SetStayInDomain ( Boolean bValue )
-		{
-			StayInDomain = bValue;
-		}
-
-		public static Boolean GetStayInDomain ()
-		{
-			return( StayInDomain );
-		}
-		
-		public static void SetSameDomainTolerance ( int iValue )
-		{
-			SameDomainTolerance = iValue;
-		}
-
-		public static int GetSameDomainTolerance ()
-		{
-			return( SameDomainTolerance );
-		}
 
 		public static void SetCheckExternalLinks ( Boolean bValue )
 		{

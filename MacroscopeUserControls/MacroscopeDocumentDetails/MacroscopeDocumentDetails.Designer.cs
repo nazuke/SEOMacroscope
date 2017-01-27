@@ -72,6 +72,9 @@ namespace SEOMacroscope
 		private System.Windows.Forms.SplitContainer splitContainerDocumentDetails;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelDocumentDetailsDetails;
 		public System.Windows.Forms.PictureBox pictureBoxDocumentDetailsImage;
+		public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCopyValues;
+		private System.Windows.Forms.TabPage tabPageHttpHeaders;
+		public System.Windows.Forms.TextBox textBoxHttpHeaders;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -102,6 +105,7 @@ namespace SEOMacroscope
 			this.DocDetailsValue = new System.Windows.Forms.ColumnHeader();
 			this.contextMenuStripTextDocumentDetails = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemCopyValues = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageHrefLangAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewHrefLang = new System.Windows.Forms.ListView();
 			this.HrefLangUrl = new System.Windows.Forms.ColumnHeader();
@@ -136,6 +140,8 @@ namespace SEOMacroscope
 			this.splitContainerDocumentDetails = new System.Windows.Forms.SplitContainer();
 			this.tableLayoutPanelDocumentDetailsDetails = new System.Windows.Forms.TableLayoutPanel();
 			this.pictureBoxDocumentDetailsImage = new System.Windows.Forms.PictureBox();
+			this.tabPageHttpHeaders = new System.Windows.Forms.TabPage();
+			this.textBoxHttpHeaders = new System.Windows.Forms.TextBox();
 			this.tabControlDocument.SuspendLayout();
 			this.tabPageDocumentInfo.SuspendLayout();
 			this.contextMenuStripTextDocumentDetails.SuspendLayout();
@@ -151,11 +157,13 @@ namespace SEOMacroscope
 			this.splitContainerDocumentDetails.SuspendLayout();
 			this.tableLayoutPanelDocumentDetailsDetails.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDocumentDetailsImage)).BeginInit();
+			this.tabPageHttpHeaders.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControlDocument
 			// 
 			this.tabControlDocument.Controls.Add(this.tabPageDocumentInfo);
+			this.tabControlDocument.Controls.Add(this.tabPageHttpHeaders);
 			this.tabControlDocument.Controls.Add(this.tabPageHrefLangAnalysis);
 			this.tabControlDocument.Controls.Add(this.tabPageLinksIn);
 			this.tabControlDocument.Controls.Add(this.tabPageLinksOut);
@@ -210,16 +218,24 @@ namespace SEOMacroscope
 			// contextMenuStripTextDocumentDetails
 			// 
 			this.contextMenuStripTextDocumentDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.copyTextToolStripMenuItem});
+			this.copyTextToolStripMenuItem,
+			this.toolStripMenuItemCopyValues});
 			this.contextMenuStripTextDocumentDetails.Name = "contextMenuStripTextCopy";
-			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(128, 26);
+			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(140, 48);
 			// 
 			// copyTextToolStripMenuItem
 			// 
 			this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
-			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-			this.copyTextToolStripMenuItem.Text = "Copy Text";
-			this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyClick);
+			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.copyTextToolStripMenuItem.Text = "Copy Rows";
+			this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyRowsClick);
+			// 
+			// toolStripMenuItemCopyValues
+			// 
+			this.toolStripMenuItemCopyValues.Name = "toolStripMenuItemCopyValues";
+			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(139, 22);
+			this.toolStripMenuItemCopyValues.Text = "Copy Values";
+			this.toolStripMenuItemCopyValues.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyValuesClick);
 			// 
 			// tabPageHrefLangAnalysis
 			// 
@@ -524,6 +540,25 @@ namespace SEOMacroscope
 			this.pictureBoxDocumentDetailsImage.TabIndex = 0;
 			this.pictureBoxDocumentDetailsImage.TabStop = false;
 			// 
+			// tabPageHttpHeaders
+			// 
+			this.tabPageHttpHeaders.Controls.Add(this.textBoxHttpHeaders);
+			this.tabPageHttpHeaders.Location = new System.Drawing.Point(4, 22);
+			this.tabPageHttpHeaders.Name = "tabPageHttpHeaders";
+			this.tabPageHttpHeaders.Size = new System.Drawing.Size(567, 474);
+			this.tabPageHttpHeaders.TabIndex = 7;
+			this.tabPageHttpHeaders.Text = "HTTP Headers";
+			this.tabPageHttpHeaders.UseVisualStyleBackColor = true;
+			// 
+			// textBoxHttpHeaders
+			// 
+			this.textBoxHttpHeaders.Location = new System.Drawing.Point(20, 20);
+			this.textBoxHttpHeaders.Multiline = true;
+			this.textBoxHttpHeaders.Name = "textBoxHttpHeaders";
+			this.textBoxHttpHeaders.Size = new System.Drawing.Size(200, 200);
+			this.textBoxHttpHeaders.TabIndex = 0;
+			this.textBoxHttpHeaders.WordWrap = false;
+			// 
 			// MacroscopeDocumentDetails
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -547,6 +582,8 @@ namespace SEOMacroscope
 			this.splitContainerDocumentDetails.ResumeLayout(false);
 			this.tableLayoutPanelDocumentDetailsDetails.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDocumentDetailsImage)).EndInit();
+			this.tabPageHttpHeaders.ResumeLayout(false);
+			this.tabPageHttpHeaders.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

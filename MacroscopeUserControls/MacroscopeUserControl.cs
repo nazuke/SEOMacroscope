@@ -41,17 +41,52 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void CopyListViewTextToClipboard ( ListView lvListView )
+		public void CopyListViewRowsTextToClipboard ( ListView lvListView )
 		{
 
 			string sTextToCopy = "";
 
 			foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
+
 				sTextToCopy += lvItem.Text;
+
 				for( int i = 1; i < lvItem.SubItems.Count; i++ ) {
 					sTextToCopy += "\t" + lvItem.SubItems[ i ].Text;
 				}
+
 				sTextToCopy += "\n";
+
+			}
+
+			try {
+				this.CopyTextToClipboard( sTextToCopy );
+			} catch( Exception ex ) {
+				MessageBox.Show( ex.Message );
+			}
+
+		}
+		
+		/**************************************************************************/
+				
+		public void CopyListViewValuesTextToClipboard ( ListView lvListView )
+		{
+
+			string sTextToCopy = "";
+
+			foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
+
+				for( int i = 1; i < lvItem.SubItems.Count; i++ ) {
+
+					if( i > 1 ) {
+						sTextToCopy += "\t";
+					}
+
+					sTextToCopy += lvItem.SubItems[ i ].Text;
+
+				}
+
+				sTextToCopy += "\n";
+
 			}
 
 			try {
@@ -66,7 +101,16 @@ namespace SEOMacroscope
 
 		public void CopyTextToClipboard ( string sText )
 		{
-			Clipboard.SetText( sText );
+			int iCount = 10;
+			while( iCount > 0 ) {
+				try {
+					Clipboard.SetText( sText );
+					break;
+				} catch( Exception ex ) {
+					DebugMsg( ex.Message );
+				}
+				iCount--;
+			}
 		}
 
 		/**************************************************************************/

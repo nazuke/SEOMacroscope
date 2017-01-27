@@ -72,7 +72,7 @@ namespace SEOMacroscope
 		{
 			if( !ListViewConfigured ) {
 				
-				this.lvListView.Sorting = SortOrder.Ascending;	
+				//this.lvListView.Sorting = SortOrder.Ascending;	
 				
 				ListViewConfigured = true;
 								
@@ -101,17 +101,25 @@ namespace SEOMacroscope
 
 		public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
 		{
+
 			foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() ) {
+
 				Boolean bProceed = false;
+
 				if( ( msDoc.GetStatusCode() >= 400 ) && ( msDoc.GetStatusCode() <= 499 ) ) {
 					bProceed = true;
 				} else if( ( msDoc.GetStatusCode() >= 500 ) && ( msDoc.GetStatusCode() <= 599 ) ) {
 					bProceed = true;
 				}
+				
 				if( bProceed ) {
 					this.RenderListView( msDoc, msDoc.GetUrl() );
+				} else {
+					RemoveFromListView( msDoc.GetUrl() );
 				}
+			
 			}
+		
 		}
 
 		/**************************************************************************/
@@ -176,6 +184,25 @@ namespace SEOMacroscope
 			}
 
 			this.lvListView.EndUpdate();
+
+		}
+
+		/**************************************************************************/
+
+		void RemoveFromListView ( string sUrl )
+		{
+
+			string sPairKey = sUrl;
+
+			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
+
+				this.lvListView.BeginUpdate();
+
+				this.lvListView.Items.Remove( this.lvListView.Items[ sPairKey ] );
+
+				this.lvListView.EndUpdate();
+
+			}
 
 		}
 

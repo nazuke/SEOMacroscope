@@ -59,6 +59,17 @@ namespace SEOMacroscope
 
 		/** END: Named Queues *****************************************************/
 
+		/** BEGIN: Document Types *************************************************/
+		
+		public const string DocumentTypeBinary = "BINARY";
+		public const string DocumentTypeHtml = "HTML";
+		public const string DocumentTypeCss = "CSS";
+		public const string DocumentTypeJavascript = "JAVASCRIPT";
+		public const string DocumentTypeImage = "IMAGE";
+		public const string DocumentTypePdf = "PDF";
+
+		/** END: Document Types ***************************************************/
+
 		/** BEGIN: Outlink Types **************************************************/
 
 		public const string LINK_REDIRECT = "LINK";

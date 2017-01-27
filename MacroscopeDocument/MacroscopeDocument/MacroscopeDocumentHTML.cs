@@ -37,65 +37,6 @@ namespace SEOMacroscope
 	{
 
 		/**************************************************************************/
-
-		Boolean IsHtmlPage ()
-		{
-			
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			Boolean bIs = false;
-			Regex reIs = new Regex ( "^text/html", RegexOptions.IgnoreCase );
-			string sErrorCondition = null;
-						
-			try {
-				
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-
-				try {
-					res = ( HttpWebResponse )req.GetResponse();
-				} catch( WebException ex ) {
-					DebugMsg( string.Format( "IsHtmlPage :: WebException: {0}", ex.Message ) );
-					DebugMsg( string.Format( "IsHtmlPage :: WebExceptionStatus: {0}", ex.Status ) );
-					sErrorCondition = ex.Status.ToString();
-				}
-
-				if( res != null ) {
-					this.ProcessHttpHeaders( req, res );
-
-					DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
-					DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
-
-					if( reIs.IsMatch( res.ContentType.ToString() ) ) {
-						bIs = true;
-						this.IsHtml = true;
-					}
-
-					res.Close();
-
-				}
-
-//			} catch( UriFormatException ex ) {
-//				DebugMsg( string.Format( "IsHtmlPage :: UriFormatException: {0}", ex.Message ) );
-			
-			} catch( WebException ex ) {
-				DebugMsg( string.Format( "IsHtmlPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "IsHtmlPage :: WebExceptionStatus: {0}", ex.Status ) );
-				sErrorCondition = ex.Status.ToString();
-			}
-
-			if( sErrorCondition != null ) {
-				this.StatusCode = 500;
-				this.ErrorCondition = sErrorCondition;
-			}
-
-			return( bIs );
-		}
-
-		/**************************************************************************/
 		
 		void ProcessHtmlPage ()
 		{
@@ -115,10 +56,12 @@ namespace SEOMacroscope
 				res = ( HttpWebResponse )req.GetResponse();
 
 			} catch( WebException ex ) {
+
 				DebugMsg( string.Format( "ProcessHtmlPage :: WebException: {0}", ex.Message ) );
 				DebugMsg( string.Format( "ProcessHtmlPage :: WebException: {0}", this.Url ) );
 				DebugMsg( string.Format( "IsRedirectPage :: WebExceptionStatus: {0}", ex.Status ) );
 				sErrorCondition = ex.Status.ToString();
+
 			}
 
 			if( res != null ) {
@@ -129,17 +72,27 @@ namespace SEOMacroscope
 
 				// Get Response Body
 				try {
+
 					DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 					Stream sStream = res.GetResponseStream();
 					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
 					sRawData = srRead.ReadToEnd();
 					this.ContentLength = sRawData.Length; // May need to find bytes length
 					//DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
+
 				} catch( WebException ex ) {
+
 					DebugMsg( string.Format( "WebException", ex.Message ) );
-					this.StatusCode = 500;
 					sRawData = "";
 					this.ContentLength = 0;
+
+				} catch( Exception ex ) {
+
+					DebugMsg( string.Format( "Exception", ex.Message ) );
+					this.StatusCode = ( int )HttpStatusCode.BadRequest;
+					sRawData = "";
+					this.ContentLength = 0;
+
 				}
 				
 				if( sRawData.Length > 0 ) {
@@ -216,13 +169,10 @@ namespace SEOMacroscope
 				
 				res.Close();
 
-			} else {
-				this.StatusCode = 500;
 			}
 
 			if( sErrorCondition != null ) {
-				this.StatusCode = 500;
-				this.ErrorCondition = sErrorCondition;
+				this.ProcessErrorCondition( sErrorCondition );
 			}
 			
 		}
@@ -409,7 +359,7 @@ namespace SEOMacroscope
 						
 						msHrefLang = new MacroscopeHrefLang ( sLocale, sHref );
 						
-						this.HrefLang[sLocale] = msHrefLang;
+						this.HrefLang[ sLocale ] = msHrefLang;
 
 					}
 
@@ -448,7 +398,7 @@ namespace SEOMacroscope
 						if( Regex.IsMatch( sLinkUrl, "^mailto:" ) ) {
 							MatchCollection reMatches = Regex.Matches( sLinkUrl, "^mailto:([^?]+)" );
 							foreach( Match reMatch in reMatches ) {
-								this.AddEmailAddress( reMatch.Groups[1].Value.ToString() );
+								this.AddEmailAddress( reMatch.Groups[ 1 ].Value.ToString() );
 							}
 						}
 					}
@@ -468,7 +418,7 @@ namespace SEOMacroscope
 						if( Regex.IsMatch( sLinkUrl, "^tel:" ) ) {
 							MatchCollection reMatches = Regex.Matches( sLinkUrl, "^tel:(.+)" );
 							foreach( Match reMatch in reMatches ) {
-								this.AddTelephoneNumber( reMatch.Groups[1].Value.ToString() );
+								this.AddTelephoneNumber( reMatch.Groups[ 1 ].Value.ToString() );
 							}
 						}
 					}

@@ -77,7 +77,7 @@ namespace SEOMacroscope
 		void InitializeJobMaster ()
 		{
 
-			this.DocCollection = new MacroscopeDocumentCollection ();
+			this.DocCollection = new MacroscopeDocumentCollection ( this );
 			this.AllowedHosts = new MacroscopeAllowedHosts ();
 			
 			// BEGIN: Named Queues
@@ -137,6 +137,8 @@ namespace SEOMacroscope
 		{
 
 			DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
+
+			this.StartUrl = MacroscopeUrlTools.SanitizeUrl( this.StartUrl );
 
 			this.SetThreadsStop( false );
 
@@ -244,7 +246,6 @@ namespace SEOMacroscope
 			Boolean bIsStopped = false;
 			int iThreadCount = this.CountRunningThreads();
 			if( iThreadCount == 0 ) {
-				//this.SemaphoreWorkers.Release( this.ThreadsMax );
 				bIsStopped = true;
 			}
 			this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
@@ -381,11 +382,65 @@ namespace SEOMacroscope
 				string sUrl = msDoc.GetUrl();
 
 				switch( msDoc.GetStatusCode() ) {
-					case 500: 
+				
+				// Bogus Range
+				
+					case 0:
 						this.ResetLink( sUrl );
 						break;
+						
+				// 200 Range
+				
+					case 200:
+						break;
+						
+				// 400 Range
+				
+					case 400:
+						this.ResetLink( sUrl );
+						break;
+					case 403:
+						this.ResetLink( sUrl );
+						break;
+					case 404:
+						this.ResetLink( sUrl );
+						break;
+					case 410:
+						this.ResetLink( sUrl );
+						break;
+					case 408:
+						this.ResetLink( sUrl );
+						break;
+					case 429:
+						this.ResetLink( sUrl );
+						break;
+					case 451:
+						this.ResetLink( sUrl );
+						break;
+						
+				// 500 Range
+				
+					case 500:
+						this.ResetLink( sUrl );
+						break;
+					case 501:
+						this.ResetLink( sUrl );
+						break;
+					case 502:
+						this.ResetLink( sUrl );
+						break;
+					case 503:
+						this.ResetLink( sUrl );
+						break;
+					case 504:
+						this.ResetLink( sUrl );
+						break;
+
+				// Default
+						
 					default:
 						break;
+						
 				}
 
 			}
@@ -394,9 +449,23 @@ namespace SEOMacroscope
 
 		void ResetLink ( string sUrl )
 		{
-			this.DocCollection.GetDocument( sUrl ).SetIsDirty();
-			this.ResetHistoryItem( sUrl );
-			this.AddUrlQueueItem( sUrl );
+			
+			MacroscopeDocument msDoc = this.DocCollection.GetDocument( sUrl );
+			
+			if( msDoc != null ) {
+			
+				msDoc.SetIsDirty();
+			
+				this.ResetHistoryItem( sUrl );
+			
+				this.AddUrlQueueItem( sUrl );
+
+			} else {
+
+				DebugMsg( string.Format( "ResetLink ERROR: {0}", sUrl ) );
+
+			}
+		
 		}
 
 		/** Start URL *************************************************************/

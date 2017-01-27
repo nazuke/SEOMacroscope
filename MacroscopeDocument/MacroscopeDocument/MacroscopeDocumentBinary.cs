@@ -35,46 +35,30 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean IsBinaryPage ()
-		{
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			Boolean bIs = false;
-			try {
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
-				DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
-				DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
-				bIs = true;
-				res.Close();
-			} catch( WebException ex ) {
-				DebugMsg( string.Format( "IsBinaryPage :: WebException: {0}", ex.Message ) );
-			}
-			return( bIs );
-		}
-
-		/**************************************************************************/
-		
 		void ProcessBinaryPage ()
 		{
 
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
-
+			string sErrorCondition = null;
+			
 			try {
+				
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
+
 			} catch( WebException ex ) {
+
 				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", this.Url ) );
+				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ( int )ex.Status ) );
+
+				sErrorCondition = ex.Status.ToString();
+				
 			}
 
 			if( res != null ) {
@@ -106,8 +90,10 @@ namespace SEOMacroscope
 
 				res.Close();
 
-			} else {
-				this.StatusCode = 500;
+			}
+
+			if( sErrorCondition != null ) {
+				this.ProcessErrorCondition( sErrorCondition );
 			}
 
 		}

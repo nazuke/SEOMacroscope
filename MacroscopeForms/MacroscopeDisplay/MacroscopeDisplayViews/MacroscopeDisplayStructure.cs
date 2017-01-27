@@ -104,7 +104,7 @@ namespace SEOMacroscope
 								
 				// END: Columns
 								
-				this.lvListView.Sorting = SortOrder.Ascending;
+				//this.lvListView.Sorting = SortOrder.Ascending;
 
 				this.ListViewResizeColumnsInitial();
 

@@ -157,7 +157,7 @@ namespace SEOMacroscope
 							} else {
 							
 								lvItem = new ListViewItem ( sKeyUrl );
-
+								lvItem.UseItemStyleForSubItems = false;
 								lvItem.Name = sKeyUrl;
 								
 								lvItem.SubItems.Add( "" );
@@ -173,7 +173,7 @@ namespace SEOMacroscope
 							}
 
 							if( this.lvListView.Items.ContainsKey( sKeyUrl ) ) {
-							
+
 								try {
 
 									lvItem.SubItems[ 0 ].Text = sDocUrl;
@@ -200,7 +200,7 @@ namespace SEOMacroscope
 												lvItem.SubItems[ iLocale ].Text = sHrefLangUrl;
 											} else {
 												lvItem.SubItems[ iLocale ].ForeColor = Color.Red;
-												lvItem.SubItems[ iLocale ].Text = "MISSSING";
+												lvItem.SubItems[ iLocale ].Text = "MISSING";
 
 											}
 											

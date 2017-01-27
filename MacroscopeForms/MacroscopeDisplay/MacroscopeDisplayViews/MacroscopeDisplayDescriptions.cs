@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -69,8 +70,11 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
-				this.lvListView.Sorting = SortOrder.Ascending;	
+
+				//this.lvListView.Sorting = SortOrder.Ascending;
+
 				ListViewConfigured = true;
+
 			}
 		}
 
@@ -84,11 +88,13 @@ namespace SEOMacroscope
 			string sDescriptionLength = sDescription.Length.ToString();
 			string sPairKey = string.Join( "", sUrl, sDescription );
 
+			ListViewItem lvItem = null;
+							
 			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
 							
 				try {
 
-					ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+					lvItem = this.lvListView.Items[ sPairKey ];
 					lvItem.SubItems[ 0 ].Text = sUrl;
 					lvItem.SubItems[ 1 ].Text = iDescriptionCount.ToString();
 					lvItem.SubItems[ 2 ].Text = sDescription;
@@ -102,8 +108,8 @@ namespace SEOMacroscope
 							
 				try {
 
-					ListViewItem lvItem = new ListViewItem ( sPairKey );
-
+					lvItem = new ListViewItem ( sPairKey );
+					lvItem.UseItemStyleForSubItems = false;
 					lvItem.Name = sPairKey;
 
 					lvItem.SubItems[ 0 ].Text = sUrl;
@@ -119,6 +125,20 @@ namespace SEOMacroscope
 
 			}
 
+			if( lvItem != null ) {
+
+				lvItem.ForeColor = Color.Blue;
+				
+				if( sDescription.Length < MacroscopePreferencesManager.GetDescriptionMinLen() ) {
+					lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+				} else if( sDescription.Length > MacroscopePreferencesManager.GetDescriptionMaxLen() ) {
+					lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+				} else {
+					lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+				}
+
+			}
+			
 		}
 
 		/**************************************************************************/

@@ -25,6 +25,8 @@
 
 using System;
 
+// TODO: this does not work
+
 namespace SEOMacroscope
 {
 
@@ -43,7 +45,7 @@ namespace SEOMacroscope
 				
 		public MacroscopeDomainWrangler ()
 		{
-			SuppressDebugMsg = true;
+			SuppressDebugMsg = false;
 		}
 
 		/**************************************************************************/
@@ -97,11 +99,20 @@ namespace SEOMacroscope
 					break;
 				}
 
-				DebugMsg( string.Format( "MATCH CHECK: {0} :: {1} :: {2} :: {3}", i, bIsWithinSameDomain, DomainShort[ i ], DomainLong[ i ] ) );
+				DebugMsg(
+					string.Format(
+						"MATCH CHECK: {0} :: {1} :: {2} :: {3}",
+						i,
+						bIsWithinSameDomain,
+						DomainShort[ i ], DomainLong[ i ]
+					)
+				);
 
 			}
 
 			DebugMsg( string.Format( "SCORE: {0}", iScore ) );
+
+			DebugMsg( string.Format( "DomainShort.Length: {0}", DomainShort.Length ) );
 
 			if( DomainShort.Length >= 3 ) {
 				if( iScore >= iScoreThreshold ) {

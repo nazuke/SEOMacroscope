@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Timers;
 using System.Windows.Forms;
@@ -244,8 +245,6 @@ namespace SEOMacroscope
 				PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
 				PrefsControl.numericUpDownDepth.Value = MacroscopePreferencesManager.GetDepth();
 				PrefsControl.numericUpDownPageLimit.Value = MacroscopePreferencesManager.GetPageLimit();
-				PrefsControl.checkBoxStayInDomain.Checked = MacroscopePreferencesManager.GetStayInDomain();
-				PrefsControl.numericUpDownSameDomainTolerance.Value = MacroscopePreferencesManager.GetSameDomainTolerance();
 				PrefsControl.checkBoxCheckExternalLinks.Checked = MacroscopePreferencesManager.GetCheckExternalLinks();
 				PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
 				PrefsControl.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
@@ -287,8 +286,6 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.SetMaxThreads( ( int )PrefsControl.numericUpDownMaxThreads.Value );
 				MacroscopePreferencesManager.SetDepth( ( int )PrefsControl.numericUpDownDepth.Value );
 				MacroscopePreferencesManager.SetPageLimit( ( int )PrefsControl.numericUpDownPageLimit.Value );
-				MacroscopePreferencesManager.SetStayInDomain( PrefsControl.checkBoxStayInDomain.Checked );
-				MacroscopePreferencesManager.SetSameDomainTolerance( ( int )PrefsControl.numericUpDownSameDomainTolerance.Value );
 				MacroscopePreferencesManager.SetCheckExternalLinks( PrefsControl.checkBoxCheckExternalLinks.Checked );
 				MacroscopePreferencesManager.SetFollowRobotsProtocol( PrefsControl.checkBoxFollowRobotsProtocol.Checked );
 				MacroscopePreferencesManager.SetFollowRedirects( PrefsControl.checkBoxFollowRedirects.Checked );
@@ -353,19 +350,48 @@ namespace SEOMacroscope
 				
 		void CallbackStartUrlTextChanged ( object sender, EventArgs e )
 		{
-
+			
 			string sStartUrl = this.GetUrl();
 			StartUrlDirty = true;
 
 			if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) ) {
 				MacroscopePreferencesManager.SetStartUrl( sStartUrl );
 			}
+			
+		}
+		
+		void CallbackStartUrlKeyUp ( object sender, KeyEventArgs e )
+		{
+
+			switch( e.KeyCode ) {
+
+				case Keys.Return:
+					DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
+					this.CallackScanStartExecute();
+					break;
+
+				case Keys.Escape:
+					DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "ESCAPE" ) );
+					this.textBoxStartUrl.Text = "";
+					break;
+
+				default:
+					break;
+
+			}
 
 		}
 
 		/**************************************************************************/
-				
+
 		void CallbackScanStart ( object sender, EventArgs e )
+		{
+			this.CallackScanStartExecute();
+		}
+
+		/**************************************************************************/
+				
+		void CallackScanStartExecute ()
 		{
 			
 			string sStartUrl = this.GetUrl();

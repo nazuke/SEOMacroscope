@@ -67,9 +67,6 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxFollowHrefLangLinks;
 		public System.Windows.Forms.CheckBox checkBoxCheckExternalLinks;
 		private System.Windows.Forms.GroupBox groupBox7;
-		public System.Windows.Forms.CheckBox checkBoxStayInDomain;
-		private System.Windows.Forms.Label labelSameDomainTolerance;
-		public System.Windows.Forms.NumericUpDown numericUpDownSameDomainTolerance;
 		public System.Windows.Forms.NumericUpDown numericUpDown;
 		
 		/// <summary>
@@ -104,10 +101,11 @@ namespace SEOMacroscope
 			this.checkBoxFollowRedirects = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowNoFollow = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowRobotsProtocol = new System.Windows.Forms.CheckBox();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.checkBoxCheckExternalLinks = new System.Windows.Forms.CheckBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.label13 = new System.Windows.Forms.Label();
 			this.numericUpDownMaxThreads = new System.Windows.Forms.NumericUpDown();
-			this.checkBoxCheckExternalLinks = new System.Windows.Forms.CheckBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.label12 = new System.Windows.Forms.Label();
 			this.numericUpDownPageLimit = new System.Windows.Forms.NumericUpDown();
@@ -147,16 +145,13 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
-			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.labelSameDomainTolerance = new System.Windows.Forms.Label();
-			this.numericUpDownSameDomainTolerance = new System.Windows.Forms.NumericUpDown();
-			this.checkBoxStayInDomain = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
 			this.tabPageSpideringControl.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
+			this.groupBox7.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxThreads)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPageLimit)).BeginInit();
@@ -181,8 +176,6 @@ namespace SEOMacroscope
 			this.flowLayoutPanel4.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).BeginInit();
-			this.groupBox7.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSameDomainTolerance)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label9
@@ -303,6 +296,27 @@ namespace SEOMacroscope
 			this.checkBoxFollowRobotsProtocol.Text = "Follow robots protocol";
 			this.checkBoxFollowRobotsProtocol.UseVisualStyleBackColor = true;
 			// 
+			// groupBox7
+			// 
+			this.groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox7.Controls.Add(this.checkBoxCheckExternalLinks);
+			this.groupBox7.Location = new System.Drawing.Point(10, 140);
+			this.groupBox7.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.Size = new System.Drawing.Size(500, 60);
+			this.groupBox7.TabIndex = 9;
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = "Domain Restrictions";
+			// 
+			// checkBoxCheckExternalLinks
+			// 
+			this.checkBoxCheckExternalLinks.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxCheckExternalLinks.Name = "checkBoxCheckExternalLinks";
+			this.checkBoxCheckExternalLinks.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxCheckExternalLinks.TabIndex = 7;
+			this.checkBoxCheckExternalLinks.Text = "Check external links";
+			this.checkBoxCheckExternalLinks.UseVisualStyleBackColor = true;
+			// 
 			// groupBox4
 			// 
 			this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -312,7 +326,7 @@ namespace SEOMacroscope
 			this.groupBox4.Controls.Add(this.label12);
 			this.groupBox4.Controls.Add(this.numericUpDownPageLimit);
 			this.groupBox4.Controls.Add(this.numericUpDownDepth);
-			this.groupBox4.Location = new System.Drawing.Point(10, 270);
+			this.groupBox4.Location = new System.Drawing.Point(10, 210);
 			this.groupBox4.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(500, 120);
@@ -349,15 +363,6 @@ namespace SEOMacroscope
 			0,
 			0,
 			0});
-			// 
-			// checkBoxCheckExternalLinks
-			// 
-			this.checkBoxCheckExternalLinks.Location = new System.Drawing.Point(20, 80);
-			this.checkBoxCheckExternalLinks.Name = "checkBoxCheckExternalLinks";
-			this.checkBoxCheckExternalLinks.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxCheckExternalLinks.TabIndex = 7;
-			this.checkBoxCheckExternalLinks.Text = "Check external links";
-			this.checkBoxCheckExternalLinks.UseVisualStyleBackColor = true;
 			// 
 			// label11
 			// 
@@ -427,7 +432,7 @@ namespace SEOMacroscope
 			this.groupBox1.Controls.Add(this.checkBoxFetchImages);
 			this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
 			this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
-			this.groupBox1.Location = new System.Drawing.Point(10, 400);
+			this.groupBox1.Location = new System.Drawing.Point(10, 340);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(500, 120);
@@ -853,60 +858,6 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
-			// groupBox7
-			// 
-			this.groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox7.Controls.Add(this.checkBoxStayInDomain);
-			this.groupBox7.Controls.Add(this.labelSameDomainTolerance);
-			this.groupBox7.Controls.Add(this.checkBoxCheckExternalLinks);
-			this.groupBox7.Controls.Add(this.numericUpDownSameDomainTolerance);
-			this.groupBox7.Location = new System.Drawing.Point(10, 140);
-			this.groupBox7.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(500, 120);
-			this.groupBox7.TabIndex = 9;
-			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "Domain Restrictions";
-			// 
-			// labelSameDomainTolerance
-			// 
-			this.labelSameDomainTolerance.Location = new System.Drawing.Point(146, 52);
-			this.labelSameDomainTolerance.Name = "labelSameDomainTolerance";
-			this.labelSameDomainTolerance.Size = new System.Drawing.Size(200, 23);
-			this.labelSameDomainTolerance.TabIndex = 5;
-			this.labelSameDomainTolerance.Text = "Same domain tolerance threshold";
-			// 
-			// numericUpDownSameDomainTolerance
-			// 
-			this.numericUpDownSameDomainTolerance.Location = new System.Drawing.Point(20, 50);
-			this.numericUpDownSameDomainTolerance.Maximum = new decimal(new int[] {
-			5,
-			0,
-			0,
-			0});
-			this.numericUpDownSameDomainTolerance.Minimum = new decimal(new int[] {
-			2,
-			0,
-			0,
-			0});
-			this.numericUpDownSameDomainTolerance.Name = "numericUpDownSameDomainTolerance";
-			this.numericUpDownSameDomainTolerance.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownSameDomainTolerance.TabIndex = 9;
-			this.numericUpDownSameDomainTolerance.Value = new decimal(new int[] {
-			5,
-			0,
-			0,
-			0});
-			// 
-			// checkBoxStayInDomain
-			// 
-			this.checkBoxStayInDomain.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxStayInDomain.Name = "checkBoxStayInDomain";
-			this.checkBoxStayInDomain.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxStayInDomain.TabIndex = 10;
-			this.checkBoxStayInDomain.Text = "Stay in same domain";
-			this.checkBoxStayInDomain.UseVisualStyleBackColor = true;
-			// 
 			// MacroscopePrefsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -919,6 +870,7 @@ namespace SEOMacroscope
 			this.tabPageSpideringControl.PerformLayout();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.groupBox5.ResumeLayout(false);
+			this.groupBox7.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxThreads)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPageLimit)).EndInit();
@@ -946,8 +898,6 @@ namespace SEOMacroscope
 			this.groupBox8.ResumeLayout(false);
 			this.groupBox8.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).EndInit();
-			this.groupBox7.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSameDomainTolerance)).EndInit();
 			this.ResumeLayout(false);
 
 		}

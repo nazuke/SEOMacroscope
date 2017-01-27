@@ -227,7 +227,6 @@ namespace SEOMacroscope
 			this.listViewStructure.Name = "listViewStructure";
 			this.listViewStructure.ShowGroups = false;
 			this.listViewStructure.Size = new System.Drawing.Size(200, 200);
-			this.listViewStructure.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewStructure.TabIndex = 0;
 			this.listViewStructure.UseCompatibleStateImageBehavior = false;
 			this.listViewStructure.View = System.Windows.Forms.View.Details;
@@ -371,7 +370,6 @@ namespace SEOMacroscope
 			this.listViewErrors.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewErrors.Name = "listViewErrors";
 			this.listViewErrors.Size = new System.Drawing.Size(200, 200);
-			this.listViewErrors.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewErrors.TabIndex = 3;
 			this.listViewErrors.UseCompatibleStateImageBehavior = false;
 			this.listViewErrors.View = System.Windows.Forms.View.Details;
@@ -407,7 +405,6 @@ namespace SEOMacroscope
 			this.listViewHostnames.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewHostnames.Name = "listViewHostnames";
 			this.listViewHostnames.Size = new System.Drawing.Size(200, 200);
-			this.listViewHostnames.Sorting = System.Windows.Forms.SortOrder.Ascending;
 			this.listViewHostnames.TabIndex = 2;
 			this.listViewHostnames.UseCompatibleStateImageBehavior = false;
 			this.listViewHostnames.View = System.Windows.Forms.View.Details;

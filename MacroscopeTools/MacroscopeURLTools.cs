@@ -235,6 +235,8 @@ namespace SEOMacroscope
 				sUrlFixed = sUrl;
 			}
 
+			sUrlFixed = SanitizeUrl( sUrlFixed );
+
 			return( sUrlFixed );
 
 		}

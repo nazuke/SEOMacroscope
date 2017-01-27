@@ -66,7 +66,11 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 			if( !ListViewConfigured ) {
-				this.lvListView.Sorting = SortOrder.Ascending;	
+
+				//this.lvListView.Sorting = SortOrder.Ascending;
+
+				ListViewConfigured = true;
+
 			}
 		}
 

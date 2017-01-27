@@ -40,12 +40,18 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		Dictionary<string,Boolean> Hostnames;
-
+		
+		MacroscopeDomainWrangler DomainWrangler;
+		
 		/**************************************************************************/
 
 		public MacroscopeAllowedHosts ()
 		{
+
 			Hostnames = new Dictionary<string,Boolean> ( 32 );
+
+			DomainWrangler = new MacroscopeDomainWrangler ();
+
 		}
 
 		/**************************************************************************/
@@ -119,6 +125,18 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
+		public Boolean IsInternalUrl ( string sUrl )
+		{
+			Uri uUrl = new Uri ( sUrl, UriKind.Absolute );
+			Boolean bIsInternal = false;
+			if( this.IsAllowed( uUrl.Host ) ) {
+				bIsInternal = true;
+			}
+			return( bIsInternal );
+		}
+		
+		/**************************************************************************/
+				
 		public Boolean IsExternalUrl ( string sUrl )
 		{
 			Uri uUrl = new Uri ( sUrl, UriKind.Absolute );
@@ -136,6 +154,23 @@ namespace SEOMacroscope
 			Uri uUrl = new Uri ( sUrl, UriKind.Absolute );
 			string sHostname = uUrl.Host;
 			return( sHostname );
+		}
+
+		/**************************************************************************/
+
+		public Boolean IsWithinAllowedDomain ( string sHostname )
+		{
+			// TODO: This does not work.
+			Boolean bAllowed = false;
+			lock( this.Hostnames ) {
+				foreach( string sAllowedHostname in this.Hostnames.Keys ) {
+					if( this.DomainWrangler.IsWithinSameDomain( sHostname, sAllowedHostname ) ) {
+						bAllowed = true;
+						break;
+					}
+				}
+			}
+			return( bAllowed );
 		}
 
 		/**************************************************************************/

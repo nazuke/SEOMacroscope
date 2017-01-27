@@ -42,23 +42,8 @@ namespace SEOMacroscope
 				
 		public MacroscopePrefsControl ()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
+			InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 		}
-
-
-		/**************************************************************************/
-				
-		
-		
-		
-		
 
 		/**************************************************************************/
 				

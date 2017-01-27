@@ -59,6 +59,9 @@ namespace SEOMacroscope
 			IntStats.Add( "iUrlsFound", 0 );
 			IntStats.Add( "iUrlsCrawled", 0 );
 
+			IntStats.Add( "iUrlsInternal", 0 );
+			IntStats.Add( "iUrlsExternal", 0 );
+
 			ConfigureTreeView();
 
 		}
@@ -83,8 +86,12 @@ namespace SEOMacroscope
 			
 			TreeNode nSummary = this.tvTreeView.Nodes.Add( "SUMMARY" );
 			nSummary.Text = "Site Summary";
+
 			nSummary.Nodes.Add( "iUrlsFound" ).Name = "iUrlsFound";
 			nSummary.Nodes.Add( "iUrlsCrawled" ).Name = "iUrlsCrawled";
+
+			nSummary.Nodes.Add( "iUrlsInternal" ).Name = "iUrlsInternal";
+			nSummary.Nodes.Add( "iUrlsExternal" ).Name = "iUrlsExternal";
 			
 			this.tvTreeView.ExpandAll();
 
@@ -135,6 +142,18 @@ namespace SEOMacroscope
 				int iUrlsCrawled = DocCollection.CountDocuments();
 				TreeNode[] nUrlsCrawled = this.tvTreeView.Nodes.Find( "iUrlsCrawled", true );
 				nUrlsCrawled[ 0 ].Text = string.Format( "Total URLs Crawled: {0}", iUrlsCrawled );
+			}
+
+			{
+				int iUrlsInternal = DocCollection.CountUrlsInternal();
+				TreeNode[] nUrlsInternal = this.tvTreeView.Nodes.Find( "iUrlsInternal", true );
+				nUrlsInternal[ 0 ].Text = string.Format( "Total Internal URLs: {0}", iUrlsInternal );
+			}
+			
+			{
+				int iUrlsExternal = DocCollection.CountUrlsExternal();
+				TreeNode[] nUrlsExternal = this.tvTreeView.Nodes.Find( "iUrlsExternal", true );
+				nUrlsExternal[ 0 ].Text = string.Format( "Total External URLs: {0}", iUrlsExternal );
 			}
 
 		}

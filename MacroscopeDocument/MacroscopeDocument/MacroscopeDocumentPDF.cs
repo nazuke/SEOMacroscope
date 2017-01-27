@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.IO;
 using System.Net;
 
@@ -37,57 +36,30 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Boolean IsPdfPage ()
-		{
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			Boolean bIs = false;
-			Regex reIs = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
-			try {
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
-				
-				if( res != null ) {
-					this.ProcessHttpHeaders( req, res );
-				}
-
-				DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
-				DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
-				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
-					bIs = true;
-					this.IsPdf = true;
-				}
-				res.Close();
-//			} catch( UriFormatException ex ) {
-//				DebugMsg( string.Format( "IsPdfPage :: UriFormatException: {0}", ex.Message ) );
-			} catch( WebException ex ) {
-				DebugMsg( string.Format( "IsPdfPage :: WebException: {0}", ex.Message ) );
-			}
-			return( bIs );
-		}
-
-		/**************************************************************************/
-
 		void ProcessPdfPage ()
 		{
 
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
-
+			string sErrorCondition = null;
+			
 			try {
+
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "GET";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
+
 			} catch( WebException ex ) {
+
 				DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", this.Url ) );
+				DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ( int )ex.Status ) );
+
+				sErrorCondition = ex.Status.ToString();
+
 			}
 
 			if( res != null ) {
@@ -108,6 +80,7 @@ namespace SEOMacroscope
 
 				{ // Get Response Body
 					try {
+
 						Stream sStream = res.GetResponseStream();
 						List<byte> aRawDataList = new List<byte> ();
 						byte[] aRawData;
@@ -122,11 +95,20 @@ namespace SEOMacroscope
 						aRawData = aRawDataList.ToArray();
 						this.ContentLength = aRawData.Length;
 						pdfTools = new MacroscopePdfTools ( aRawData );
+
 					} catch( WebException ex ) {
+
 						DebugMsg( string.Format( "WebException", ex.Message ) );
 						pdfTools = null;
-						this.StatusCode = 500;
 						this.ContentLength = 0;
+
+					} catch( Exception ex ) {
+
+						DebugMsg( string.Format( "Exception", ex.Message ) );
+						this.StatusCode = ( int )HttpStatusCode.BadRequest;
+						pdfTools = null;
+						this.ContentLength = 0;
+						
 					}
 				}
 
@@ -144,8 +126,10 @@ namespace SEOMacroscope
 				
 				res.Close();
 
-			} else {
-				this.StatusCode = 500;
+			}
+
+			if( sErrorCondition != null ) {
+				this.ProcessErrorCondition( sErrorCondition );
 			}
 
 		}

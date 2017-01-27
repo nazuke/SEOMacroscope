@@ -399,6 +399,7 @@ namespace SEOMacroscope
 			this.textBoxStartUrl.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
 			this.textBoxStartUrl.Size = new System.Drawing.Size(300, 30);
 			this.textBoxStartUrl.ToolTipText = "Enter a URL to begin scanning from";
+			this.textBoxStartUrl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CallbackStartUrlKeyUp);
 			this.textBoxStartUrl.TextChanged += new System.EventHandler(this.CallbackStartUrlTextChanged);
 			// 
 			// toolStripSeparator1

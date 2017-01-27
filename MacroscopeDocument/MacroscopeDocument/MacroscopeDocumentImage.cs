@@ -35,66 +35,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean IsImagePage ()
-		{
-			
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			Boolean bIs = false;
-			Regex reIs = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
-			string sErrorCondition = null;
-						
-			try {
-
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-
-				try {
-					res = ( HttpWebResponse )req.GetResponse();
-				} catch( WebException ex ) {
-					DebugMsg( string.Format( "IsImagePage :: WebException: {0}", ex.Message ) );
-					DebugMsg( string.Format( "IsImagePage :: WebExceptionStatus: {0}", ex.Status ) );
-					sErrorCondition = ex.Status.ToString();
-				}
-
-				if( res != null ) {
-
-					this.ProcessHttpHeaders( req, res );
-
-					DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
-					DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
-
-					if( reIs.IsMatch( res.ContentType.ToString() ) ) {
-						bIs = true;
-						this.IsImage = true;
-					}
-
-					res.Close();
-
-				}
-
-//			} catch( UriFormatException ex ) {
-//				DebugMsg( string.Format( "IsImagePage :: UriFormatException: {0}", ex.Message ) );
-
-			} catch( WebException ex ) {
-				DebugMsg( string.Format( "IsImagePage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "IsImagePage :: WebExceptionStatus: {0}", ex.Status ) );
-				sErrorCondition = ex.Status.ToString();
-			}
-			
-			if( sErrorCondition != null ) {
-				this.StatusCode = 500;
-				this.ErrorCondition = sErrorCondition;
-			}
-			
-			return( bIs );
-		}
-
-		/**************************************************************************/
-		
 		void ProcessImagePage ()
 		{
 
@@ -103,6 +43,7 @@ namespace SEOMacroscope
 			string sErrorCondition = null;
 
 			try {
+				
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
@@ -110,17 +51,27 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 
 				try {
+					
 					res = ( HttpWebResponse )req.GetResponse();
+					
 				} catch( WebException ex ) {
+
 					DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
-					DebugMsg( string.Format( "ProcessImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+					DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Status ) );
+					DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ( int )ex.Status ) );
+
 					sErrorCondition = ex.Status.ToString();
+
 				}
 
 			} catch( WebException ex ) {
+
 				DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessImagePage :: WebExceptionStatus: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ( int )ex.Status ) );
+
 				sErrorCondition = ex.Status.ToString();
+
 			}
 
 			if( res != null ) {
@@ -150,12 +101,9 @@ namespace SEOMacroscope
 
 				res.Close();
 
-			} else {
-				this.StatusCode = 500;
 			}
 
 			if( sErrorCondition != null ) {
-				this.StatusCode = 500;
 				this.ErrorCondition = sErrorCondition;
 			}
 			

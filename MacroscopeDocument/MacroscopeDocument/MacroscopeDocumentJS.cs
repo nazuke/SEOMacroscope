@@ -35,56 +35,30 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean IsJavascriptPage ()
-		{
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			Boolean bIs = false;
-			Regex reIs = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
-			try {
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
-				
-				if( res != null ) {
-					this.ProcessHttpHeaders( req, res );
-				}
-				
-				DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
-				DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
-				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
-					bIs = true;
-				}
-				res.Close();
-//			} catch( UriFormatException ex ) {
-//				DebugMsg( string.Format( "IsJavascriptPage :: UriFormatException: {0}", ex.Message ) );
-			} catch( WebException ex ) {
-				DebugMsg( string.Format( "IsJavascriptPage :: WebException: {0}", ex.Message ) );
-			}
-			return( bIs );
-		}
-
-		/**************************************************************************/
-		
 		void ProcessJavascriptPage ()
 		{
 
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
-
+			string sErrorCondition = null;
+			
 			try {
+				
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "HEAD";
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
+			
 			} catch( WebException ex ) {
-				DebugMsg( string.Format( "process_javascript_page :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "process_javascript_page :: WebException: {0}", this.Url ) );
+			
+				DebugMsg( string.Format( "ProcessJavascriptPage :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "ProcessJavascriptPage :: WebException: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ProcessJavascriptPage :: WebException: {0}", ( int )ex.Status ) );
+
+				sErrorCondition = ex.Status.ToString();
+
 			}
 
 			if( res != null ) {
@@ -110,8 +84,10 @@ namespace SEOMacroscope
 
 				res.Close();
 
-			} else {
-				this.StatusCode = 500;
+			}
+
+			if( sErrorCondition != null ) {
+				this.ProcessErrorCondition( sErrorCondition );
 			}
 
 		}

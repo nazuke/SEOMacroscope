@@ -113,6 +113,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentBinary.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentCSS.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentDetails.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentHTML.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentImage.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentJS.cs" />

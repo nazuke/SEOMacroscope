@@ -47,15 +47,16 @@ namespace SEOMacroscope
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
 
-			// TabPanel Properties
+			// Control Properties
 			listViewDocumentInfo.Dock = DockStyle.Fill;
+			textBoxHttpHeaders.Dock = DockStyle.Fill;
 			listViewHrefLang.Dock = DockStyle.Fill;
 			listViewLinksIn.Dock = DockStyle.Fill;
 			listViewLinksOut.Dock = DockStyle.Fill;
 			listViewImages.Dock = DockStyle.Fill;
 			listViewStylesheets.Dock = DockStyle.Fill;
 			listViewJavascripts.Dock = DockStyle.Fill;
-			
+
 			UrlLoader = new MacroscopeUrlLoader ();
 
 		}
@@ -71,6 +72,7 @@ namespace SEOMacroscope
 		public void ClearData ()
 		{
 			this.listViewDocumentInfo.Items.Clear();
+			this.textBoxHttpHeaders.Text = "";
 			this.listViewHrefLang.Items.Clear();
 			this.listViewImages.Items.Clear();
 			this.listViewJavascripts.Items.Clear();
@@ -95,12 +97,12 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
+							this.UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
 						}
 					)
 				);
 			} else {
-				UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
+				this.UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
 			}
 
 		}
@@ -110,6 +112,7 @@ namespace SEOMacroscope
 		void UpdateDocumentDetailsDisplay ( MacroscopeJobMaster msJobMaster, MacroscopeDocument msDoc )
 		{
 			this.RenderDocumentDetails( msDoc );
+			this.RenderDocumentHttpHeaders( msDoc );
 			this.RenderDocumentHrefLang( msDoc, msJobMaster.GetLocales(), msJobMaster.GetDocCollection() );
 			this.RenderListViewHyperlinksIn( msDoc );
 			this.RenderListViewHyperlinksOut( msDoc );
@@ -148,13 +151,29 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		void CallbackDocumentDetailsContextMenuStripCopyClick ( object sender, EventArgs e )
+		void CallbackDocumentDetailsContextMenuStripCopyRowsClick ( object sender, EventArgs e )
 		{
-			this.CopyListViewTextToClipboard( this.listViewDocumentInfo );
+			this.CopyListViewRowsTextToClipboard( this.listViewDocumentInfo );
+		}
+
+		void CallbackDocumentDetailsContextMenuStripCopyValuesClick ( object sender, EventArgs e )
+		{
+			this.CopyListViewValuesTextToClipboard( this.listViewDocumentInfo );
 		}
 
 		/**************************************************************************/
 
+		void RenderDocumentHttpHeaders ( MacroscopeDocument msDoc )
+		{
+			this.textBoxHttpHeaders.Text = string.Join(
+				"",
+				msDoc.GetHttpStatusLineAsText(),
+				msDoc.GetHttpHeadersAsText()
+			);
+		}
+
+		/**************************************************************************/
+				
 		void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Dictionary<string,string> htLocales, MacroscopeDocumentCollection DocCollection )
 		{
 
@@ -239,7 +258,7 @@ namespace SEOMacroscope
 								lvItem.SubItems[ 0 ].Text = sHrefLangUrl;
 							} else {
 								lvItem.SubItems[ 0 ].ForeColor = Color.Red;
-								lvItem.SubItems[ 0 ].Text = "MISSSING";
+								lvItem.SubItems[ 0 ].Text = "MISSING";
 
 							}
 

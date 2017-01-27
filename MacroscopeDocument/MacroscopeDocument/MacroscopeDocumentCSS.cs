@@ -38,46 +38,12 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		Boolean IsCssPage ()
-		{
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			Boolean bIs = false;
-			Regex reIs = new Regex ( "^text/css", RegexOptions.IgnoreCase );
-			try {
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
-				
-				if( res != null ) {
-					this.ProcessHttpHeaders( req, res );
-				}
-				
-				DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
-				DebugMsg( string.Format( "ContentType: {0}", res.ContentType.ToString() ) );
-				if( reIs.IsMatch( res.ContentType.ToString() ) ) {
-					bIs = true;
-				}
-				res.Close();
-//			} catch( UriFormatException ex ) {
-//				DebugMsg( string.Format( "IsCssPage :: UriFormatException: {0}", ex.Message ), 2 );
-			} catch( WebException ex ) {
-				DebugMsg( string.Format( "IsCssPage :: WebException: {0}", ex.Message ) );
-			}
-			return( bIs );
-		}
-
-		/**************************************************************************/
-		
 		void ProcessCssPage ()
 		{
 
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
-
+			string sErrorCondition = null;
 			
 			DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 			
@@ -87,10 +53,17 @@ namespace SEOMacroscope
 				req.Timeout = this.Timeout;
 				req.KeepAlive = false;
 				MacroscopePreferencesManager.EnableHttpProxy( req );
+
 				res = ( HttpWebResponse )req.GetResponse();
+
 			} catch( WebException ex ) {
+
 				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", this.Url ) );
+				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ( int )ex.Status ) );
+
+				sErrorCondition = ex.Status.ToString();
+
 			}
 
 			if( res != null ) {
@@ -101,17 +74,26 @@ namespace SEOMacroscope
 
 				// Get Response Body
 				try {
+
 					DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 					Stream sStream = res.GetResponseStream();
 					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
 					sRawData = srRead.ReadToEnd();
 					this.ContentLength = sRawData.Length; // May need to find bytes length
 					//DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
+
 				} catch( WebException ex ) {
+
 					DebugMsg( string.Format( "WebException", ex.Message ) );
-					this.StatusCode = 500;
 					sRawData = "";
 					this.ContentLength = 0;
+
+				} catch( Exception ex ) {
+
+					DebugMsg( string.Format( "Exception", ex.Message ) );
+					this.StatusCode = ( int )HttpStatusCode.BadRequest;
+					this.ContentLength = 0;
+					
 				}
 
 				if( sRawData.Length > 0 ) {
@@ -144,8 +126,10 @@ namespace SEOMacroscope
 
 				res.Close();
 
-			} else {
-				this.StatusCode = 500;
+			}
+
+			if( sErrorCondition != null ) {
+				this.ProcessErrorCondition( sErrorCondition );
 			}
 
 		}

@@ -41,42 +41,77 @@ namespace SEOMacroscope
 			
 			MacroscopeDomainWrangler domainwrangler = new MacroscopeDomainWrangler ();
 
-			Assert.AreEqual( domainwrangler.IsWithinSameDomain(
-				"www.host.com",
-				"www.subdomain.host.com"
-			), true, string.Format( "NOT VALID: {0}", 1 ) );
 
-			Assert.AreEqual( domainwrangler.IsWithinSameDomain( 
-				"www.host.co.uk",
-				"www.subdomain.host.co.uk"
-			), true, string.Format( "NOT VALID: {0}", 2 ) );
+			Assert.IsTrue( 
+				domainwrangler.IsWithinSameDomain(
+					"www.host.com",
+					"www.subdomain.host.com"
+				), 
+				string.Format( "NOT VALID: {0}", 1 )
+			);
 
-			Assert.AreEqual( domainwrangler.IsWithinSameDomain(
-				"www.host.co.uk", 
-				"www.subdomain.host.com" 
-			), false, string.Format( "NOT VALID: {0}", 3 ) );
 
-			Assert.AreEqual( domainwrangler.IsWithinSameDomain( 
-				"host.co.uk", 
-				"subdomain.host.co.uk"
-			), true, string.Format( "NOT VALID: {0}", 4 ) );
+			Assert.IsTrue(
+				domainwrangler.IsWithinSameDomain(
+					"www.host.co.uk",
+					"www.subdomain.host.co.uk"
+				), string.Format( "NOT VALID: {0}", 2 ) 
+			);
 
-			Assert.AreEqual( domainwrangler.IsWithinSameDomain(
-				"co.uk", 
-				"www.host.co.uk" 
-			), false, string.Format( "NOT VALID: {0}", 5 ) );
-			
-			Assert.AreEqual( domainwrangler.IsWithinSameDomain(
-				"bongo.bongo.bongo.com.cn", 
-				"www.bongo.com.cn" 
-			), true, string.Format( "NOT VALID: {0}", 6 ) );
-			
-			Assert.AreEqual( domainwrangler.IsWithinSameDomain(
-				"someuser.acmebloghost.com", 
-				"someotheruser.acmebloghost.com",
-				3				
-			), false, string.Format( "NOT VALID: {0}", 6 ) );
-						
+
+			Assert.IsFalse( 
+				domainwrangler.IsWithinSameDomain(
+					"www.host.co.uk", 
+					"www.subdomain.host.com" 
+				), string.Format( "NOT VALID: {0}", 3 ) 
+			);
+
+
+			Assert.IsTrue(
+				domainwrangler.IsWithinSameDomain(
+					"host.co.uk", 
+					"subdomain.host.co.uk"
+				), string.Format( "NOT VALID: {0}", 4 )
+			);
+
+
+			Assert.IsFalse(
+				domainwrangler.IsWithinSameDomain(
+					"co.uk", 
+					"www.host.co.uk" 
+				), 
+				string.Format( "NOT VALID: {0}", 5 )
+			);
+
+
+			Assert.IsTrue(
+				domainwrangler.IsWithinSameDomain(
+					"bongo.bongo.bongo.com.cn", 
+					"www.bongo.com.cn" 
+				), 
+				string.Format( "NOT VALID: {0}", 6 )
+			);
+
+
+			Assert.IsFalse(
+				domainwrangler.IsWithinSameDomain(
+					"someuser.acmebloghost.com", 
+					"someotheruser.acmebloghost.com",
+					3				
+				), 
+				string.Format( "NOT VALID: {0}", 7 )
+			);
+
+
+			Assert.IsTrue(
+				domainwrangler.IsWithinSameDomain(
+					"bongo.com", 
+					"www.bongo.com"
+				), 
+				string.Format( "NOT VALID: {0}", 8 )
+			);
+
+
 		}
 
 		/**************************************************************************/

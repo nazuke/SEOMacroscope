@@ -64,15 +64,18 @@ namespace SEOMacroscope
 		string Fragment;
 		string QueryString;
 		
+		string RawHttpStatusLine;
+		string RawHttpHeaders;
+
 		Boolean HypertextStrictTransportPolicy;
 
 		int StatusCode;
 		string ErrorCondition;
 		long ContentLength;
+
 		string MimeType;
-		Boolean IsHtml;
-		Boolean IsImage;
-		Boolean IsPdf;
+		string DocumentType;
+
 		Boolean IsCompressed;
 		string CompressionMethod;
 		string ContentEncoding;
@@ -127,6 +130,9 @@ namespace SEOMacroscope
 			UrlRedirectFrom = "";			
 			UrlRedirectTo = "";
 			
+			RawHttpStatusLine = "";
+			RawHttpHeaders = "";
+			
 			Scheme = "";
 			Hostname = "";
 			Port = 80;
@@ -140,7 +146,8 @@ namespace SEOMacroscope
 			ContentLength = 0;
 			
 			MimeType = "";
-			IsHtml = false;
+			DocumentType = MacroscopeConstants.DocumentTypeBinary;
+
 			ContentEncoding = "";
 			Locale = null;
 
@@ -191,6 +198,35 @@ namespace SEOMacroscope
 
 			Depth = MacroscopeUrlTools.FindUrlDepth( Url );
 			
+		}
+
+		/** Delegates *************************************************************/
+
+		TimeDuration GetTimeDurationDelegate ()
+		{
+
+			TimeDuration fTimeDuration = delegate( Action ProcessMethod )
+			{
+				Stopwatch swDuration = new Stopwatch ();
+				long lDuration;
+				swDuration.Start();
+				try {
+					ProcessMethod();
+				} catch( MacroscopeDocumentException ex ) {
+					DebugMsg( string.Format( "fTimeDuration: {0}", ex.Message ) );
+				}
+				swDuration.Stop();
+				lDuration = swDuration.ElapsedMilliseconds;
+				if( lDuration > 0 ) {
+					this.Duration = lDuration;
+				} else {
+					this.Duration = 0;
+				}
+				//DebugMsg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
+			};
+
+			return( fTimeDuration );
+
 		}
 
 		/** Dirty Flag ************************************************************/
@@ -290,6 +326,18 @@ namespace SEOMacroscope
 			return( this.ErrorCondition );
 		}
 
+		/** HTTP Headers **********************************************************/
+
+		public string GetHttpStatusLineAsText ()
+		{
+			return( this.RawHttpStatusLine );
+		}
+		
+		public string GetHttpHeadersAsText ()
+		{
+			return( this.RawHttpHeaders );
+		}
+
 		/**************************************************************************/
 		
 		public string GetMimeType ()
@@ -309,21 +357,91 @@ namespace SEOMacroscope
 			return( sMimeType );
 		}
 
-		/** Document Type Getters *************************************************/
+		/** Document Type Methods *************************************************/
 		
+		public void SetIsBinary ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentTypeBinary;
+		}
+		
+		public Boolean GetIsBinary ()
+		{
+			if( this.DocumentType == MacroscopeConstants.DocumentTypeBinary ) {
+				return( true );
+			} else {
+				return( false );
+			}
+		}
+				
+		public void SetIsHtml ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentTypeHtml;
+		}
+						
 		public Boolean GetIsHtml ()
 		{
-			return( this.IsHtml );
+			if( this.DocumentType == MacroscopeConstants.DocumentTypeHtml ) {
+				return( true );
+			} else {
+				return( false );
+			}
+		}
+				
+		public void SetIsCss ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentTypeCss;
+		}
+				
+		public Boolean GetIsCss ()
+		{
+			if( this.DocumentType == MacroscopeConstants.DocumentTypeCss ) {
+				return( true );
+			} else {
+				return( false );
+			}
+		}
+						
+		public void SetIsJavascript ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentTypeJavascript;
+		}
+						
+						
+		public Boolean GetIsJavascript ()
+		{
+			if( this.DocumentType == MacroscopeConstants.DocumentTypeJavascript ) {
+				return( true );
+			} else {
+				return( false );
+			}
 		}
 		
+		public void SetIsImage ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentTypeImage;
+		}
+																								
 		public Boolean GetIsImage ()
 		{
-			return( this.IsImage );
+			if( this.DocumentType == MacroscopeConstants.DocumentTypeImage ) {
+				return( true );
+			} else {
+				return( false );
+			}
 		}
 		
+		public void SetIsPdf ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentTypePdf;
+		}
+																										
 		public Boolean GetIsPdf ()
 		{
-			return( this.IsPdf );
+			if( this.DocumentType == MacroscopeConstants.DocumentTypePdf ) {
+				return( true );
+			} else {
+				return( false );
+			}
 		}
 
 		/**************************************************************************/
@@ -615,7 +733,7 @@ namespace SEOMacroscope
 			return( this.Depth );
 		}
 
-		/**************************************************************************/
+		/** Executor **************************************************************/
 
 		public Boolean Execute ()
 		{
@@ -634,10 +752,12 @@ namespace SEOMacroscope
 				DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
 			}
 
-			if( this.IsRedirectPage() ) {
-				DebugMsg( string.Format( "IS REDIRECT: {0}", this.Url ) );
+			fTimeDuration( this.ExecuteHeadRequest );
+
+			if( this.GetIsRedirect() ) {
+				DebugMsg( string.Format( "REDIRECT DETECTED: {0}", this.Url ) );
 				return( true );
-			} 
+			}
 
 			if( !MacroscopePreferencesManager.GetCheckExternalLinks() ) {
 				if( this.GetIsExternal() ) {
@@ -645,200 +765,195 @@ namespace SEOMacroscope
 				}
 			}
 
-			if( this.IsHtmlPage() ) {
-				DebugMsg( string.Format( "IS HTML PAGE: {0}", this.Url ) );
-				if( bDownloadDocument ) {
-					fTimeDuration( this.ProcessHtmlPage );
-				}
+			if( bDownloadDocument ) {
 
-			} else if( this.IsCssPage() ) {
-				DebugMsg( string.Format( "IS CSS PAGE: {0}", this.Url ) );
-				if( MacroscopePreferencesManager.GetFetchStylesheets() ) {
-					if( bDownloadDocument ) {
+				if( this.GetIsHtml() ) {
+					DebugMsg( string.Format( "IS HTML PAGE: {0}", this.Url ) );
+					fTimeDuration( this.ProcessHtmlPage );
+
+				} else if( this.GetIsCss() ) {
+					DebugMsg( string.Format( "IS CSS PAGE: {0}", this.Url ) );
+					if( MacroscopePreferencesManager.GetFetchStylesheets() ) {
 						fTimeDuration( this.ProcessCssPage );
 					}
-				}
 
-			} else if( this.IsImagePage() ) {
-				DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.Url ) );
-				if( MacroscopePreferencesManager.GetFetchImages() ) {
-					if( bDownloadDocument ) {
+				} else if( this.GetIsImage() ) {
+					DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.Url ) );
+					if( MacroscopePreferencesManager.GetFetchImages() ) {
 						fTimeDuration( this.ProcessImagePage );
 					}
-				}
 				
-			} else if( this.IsJavascriptPage() ) {
-				DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ) );
-				if( MacroscopePreferencesManager.GetFetchJavascripts() ) {
-					if( bDownloadDocument ) {
+				} else if( this.GetIsJavascript() ) {
+					DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ) );
+					if( MacroscopePreferencesManager.GetFetchJavascripts() ) {
 						fTimeDuration( this.ProcessJavascriptPage );
 					}
-				}
 
-			} else if( this.IsPdfPage() ) {
-				DebugMsg( string.Format( "IS PDF PAGE: {0}", this.Url ) );
-				if( MacroscopePreferencesManager.GetFetchPdfs() ) {
-					if( bDownloadDocument ) {
+				} else if( this.GetIsPdf() ) {
+					DebugMsg( string.Format( "IS PDF PAGE: {0}", this.Url ) );
+					if( MacroscopePreferencesManager.GetFetchPdfs() ) {
 						fTimeDuration( this.ProcessPdfPage );
 					}
-				}
 
-			} else if( this.IsBinaryPage() ) {
-				DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.Url ) );
-				if( MacroscopePreferencesManager.GetFetchBinaries() ) {
-					if( bDownloadDocument ) {
+				} else if( this.GetIsBinary() ) {
+					DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.Url ) );
+					if( MacroscopePreferencesManager.GetFetchBinaries() ) {
 						fTimeDuration( this.ProcessBinaryPage );
 					}
+
+				} else {
+					DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.Url ) );
 				}
 
 			} else {
-				DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.Url ) );
+				DebugMsg( string.Format( "SKIPPING DOWNLOAD:: {0}", this.Url ) );
 			}
 
 			return( true );
 
 		}
 
-		/**************************************************************************/
-		
-		TimeDuration GetTimeDurationDelegate ()
+		/** Execute Head Request **************************************************/
+
+		void ExecuteHeadRequest ()
 		{
 
-			TimeDuration fTimeDuration = delegate( Action ProcessMethod )
-			{
-				Stopwatch swDuration = new Stopwatch ();
-				long lDuration;
-				swDuration.Start();
-				try {
-					ProcessMethod();
-				} catch( MacroscopeDocumentException ex ) {
-					DebugMsg( string.Format( "fTimeDuration: {0}", ex.Message ) );
-				}
-				swDuration.Stop();
-				lDuration = swDuration.ElapsedMilliseconds;
-				if( lDuration > 0 ) {
-					this.Duration = lDuration;
-				} else {
-					this.Duration = 0;
-				}
-				//DebugMsg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
-			};
-
-			return( fTimeDuration );
-
-		}
-
-		/**************************************************************************/
-
-		Boolean IsRedirectPage ()
-		{
-			HttpWebRequest req = null;
+			HttpWebRequest req = WebRequest.CreateHttp( this.Url );
 			HttpWebResponse res = null;
 			Boolean bIsRedirect = false;
 			string sOriginalUrl = this.Url;
 			string sErrorCondition = null;
 
+			req.Method = "HEAD";
+			req.Timeout = this.Timeout;
+			req.KeepAlive = false;
+			req.AllowAutoRedirect = false;
+			MacroscopePreferencesManager.EnableHttpProxy( req );
+
 			try {
 
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				req.AllowAutoRedirect = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
+				res = ( HttpWebResponse )req.GetResponse();
 
-				try {
-					res = ( HttpWebResponse )req.GetResponse();
-				} catch( WebException ex ) {
-					DebugMsg( string.Format( "IsRedirectPage :: WebException: {0}", ex.Message ) );
-					DebugMsg( string.Format( "IsRedirectPage :: WebExceptionStatus: {0}", ex.Status ) );
-					sErrorCondition = ex.Status.ToString();
-				}
+			} catch( TimeoutException ex ) {
 
-				if( res != null ) {
-				
-					DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
+				DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ) );
 
-					foreach( string sKey in res.Headers ) {
-						DebugMsg( string.Format( "HEADERS: {0} => {1}", sKey, res.GetResponseHeader( sKey ) ) );
-					}
-
-					try {
-
-						switch( res.StatusCode ) {
-
-						// 200 Range
-
-							case HttpStatusCode.OK:
-								bIsRedirect = false;
-								break;
-
-						// 300 Range
-
-							case HttpStatusCode.Moved:
-								bIsRedirect = true;
-								break;
-
-							case HttpStatusCode.SeeOther:
-								bIsRedirect = true;
-								break;
-						
-							case HttpStatusCode.Redirect:
-								bIsRedirect = true;
-								break;
-
-						// 400 Range
-
-							case HttpStatusCode.Forbidden:
-								bIsRedirect = false;
-								break;
-
-							case HttpStatusCode.NotFound:
-								bIsRedirect = false;
-								break;
-
-							case HttpStatusCode.Gone:
-								bIsRedirect = false;
-								break;
-								
-						// Unhandled
-
-							default:
-								throw new MacroscopeDocumentException ( "Unhandled HttpStatusCode Type" );
-								
-						}
-
-					} catch( MacroscopeDocumentException ex ) {
-						DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
-					}
-
-					if( bIsRedirect ) {
-
-						this.IsRedirect = true;
-						string sLocation = res.GetResponseHeader( "Location" );
-						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLocation );
-						this.UrlRedirectFrom = sOriginalUrl;
-						this.UrlRedirectTo = sLinkUrlAbs;
-						this.AddDocumentOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.LINK_REDIRECT, true );
-
-					}
-					
-					res.Close();
-
-				}
+				sErrorCondition = ex.Message;
 				
 			} catch( WebException ex ) {
-				DebugMsg( string.Format( "IsRedirectPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "IsRedirectPage :: WebExceptionStatus: {0}", ex.Status ) );
+
+				DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ( int )ex.Status ) );
+
 				sErrorCondition = ex.Status.ToString();
+
+			}
+
+			if( res != null ) {
+				
+				DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
+
+				foreach( string sKey in res.Headers ) {
+					DebugMsg( string.Format( "HEADERS: {0} => {1}", sKey, res.GetResponseHeader( sKey ) ) );
+				}
+
+				this.ProcessHttpHeaders( req, res );
+
+				try {
+
+					switch( res.StatusCode ) {
+
+					// 200 Range
+
+						case HttpStatusCode.OK:
+							bIsRedirect = false;
+							break;
+
+					// 300 Range
+
+						case HttpStatusCode.Moved:
+							bIsRedirect = true;
+							break;
+
+						case HttpStatusCode.SeeOther:
+							bIsRedirect = true;
+							break;
+						
+						case HttpStatusCode.Redirect:
+							bIsRedirect = true;
+							break;
+
+					// 400 Range
+
+						case HttpStatusCode.Forbidden:
+							bIsRedirect = false;
+							break;
+
+						case HttpStatusCode.NotFound:
+							bIsRedirect = false;
+							break;
+
+						case HttpStatusCode.Gone:
+							bIsRedirect = false;
+							break;
+								
+					// Unhandled
+
+						default:
+							throw new MacroscopeDocumentException ( "Unhandled HttpStatusCode Type" );
+								
+					}
+
+				} catch( MacroscopeDocumentException ex ) {
+					DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
+				}
+
+				if( bIsRedirect ) {
+
+					this.IsRedirect = true;
+					string sLocation = res.GetResponseHeader( "Location" );
+					string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLocation );
+					this.UrlRedirectFrom = sOriginalUrl;
+					this.UrlRedirectTo = sLinkUrlAbs;
+					this.AddDocumentOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.LINK_REDIRECT, true );
+
+				}
+					
+				res.Close();
+
 			}
 
 			if( sErrorCondition != null ) {
-				this.StatusCode = 500;
-				this.ErrorCondition = sErrorCondition;
+				this.ProcessErrorCondition(sErrorCondition);
 			}
 
-			return( bIsRedirect );
+		}
+				
+		/**************************************************************************/
+
+		void ProcessErrorCondition ( string ErrorCondition )
+		{
+
+			if( ErrorCondition != null ) {
+
+				switch( ErrorCondition.ToLower() ) {
+					case "timeout":
+						this.StatusCode = ( int )HttpStatusCode.RequestTimeout;
+						break;
+					default:
+						this.StatusCode = ( int )HttpStatusCode.Ambiguous;
+						break;
+				}
+
+				this.ErrorCondition = ErrorCondition;
+
+			} else {
+
+				this.ErrorCondition = "";
+
+			}
+
 		}
 
 		/**************************************************************************/
@@ -848,6 +963,16 @@ namespace SEOMacroscope
 			
 			// Status Code
 			this.StatusCode = ( int )res.StatusCode;
+			
+			// Raw HTTP Headers
+			this.RawHttpStatusLine = string.Join(
+				" ",
+				string.Join( "/", "HTTP", res.ProtocolVersion ),
+				( ( int )res.StatusCode ).ToString(),
+				res.StatusDescription,
+				"\r\n"
+			);
+			this.RawHttpHeaders = res.Headers.ToString();
 
 			// Common HTTP Headers
 			{
@@ -917,6 +1042,31 @@ namespace SEOMacroscope
 				}
 			}
 
+			// Process MIME Type
+			{
+				
+				Regex reIsHtml = new Regex ( "^text/html", RegexOptions.IgnoreCase );
+				Regex reIsCss = new Regex ( "^text/css", RegexOptions.IgnoreCase );
+				Regex reIsJavascript = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
+				Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
+				Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
+
+				if( reIsHtml.IsMatch( res.ContentType.ToString() ) ) {
+					this.SetIsHtml();
+				} else if( reIsCss.IsMatch( res.ContentType.ToString() ) ) {
+					this.SetIsCss();
+				} else if( reIsJavascript.IsMatch( res.ContentType.ToString() ) ) {
+					this.SetIsJavascript();
+				} else if( reIsImage.IsMatch( res.ContentType.ToString() ) ) {
+					this.SetIsImage();
+				} else if( reIsPdf.IsMatch( res.ContentType.ToString() ) ) {
+					this.SetIsPdf();
+				} else {
+					this.SetIsBinary();
+				}
+
+			}
+
 		}
 
 		/**************************************************************************/
@@ -945,74 +1095,6 @@ namespace SEOMacroscope
 			} else {
 				this.Outlinks.Add( sRawUrl, OutLink );
 			}
-
-		}
-
-		/**************************************************************************/
-		
-		public List<KeyValuePair<string,string>> DetailDocumentDetails ()
-		{
-
-			List<KeyValuePair<string,string>> slDetails = new List<KeyValuePair<string,string>> ();
-
-			slDetails.Add( new KeyValuePair<string,string> ( "URL", this.GetUrl() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Status Code", this.GetStatusCode().ToString() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Duration (seconds)", this.GetDurationInSecondsFormatted() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "HTST Policy Enabled", this.HypertextStrictTransportPolicy.ToString() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Content Type", this.GetMimeType() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Content Length", this.ContentLength.ToString() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Encoding", this.ContentEncoding ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Compressed", this.GetIsCompressed().ToString() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Compression Method", this.GetCompressionMethod() ) );
-									
-			slDetails.Add( new KeyValuePair<string,string> ( "Date", this.GetDateServer() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Language", this.GetLang() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect().ToString() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Redirected From", this.UrlRedirectFrom ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Links In Count", this.CountHyperlinksIn().ToString() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Links Out Count", this.CountHyperlinksOut().ToString() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "HrefLang Count", this.GetHrefLangs().Count.ToString() ) );
-				
-			slDetails.Add( new KeyValuePair<string,string> ( "Title", this.GetTitle() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Title Length", this.GetTitleLength().ToString() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Description", this.GetDescription() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Description Length", this.GetDescriptionLength().ToString() ) );
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Keywords", this.GetKeywords() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
-			slDetails.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
-
-			for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
-				string sHeading;
-				if( this.GetHeadings( iLevel ).Count > 0 ) {
-					sHeading = this.GetHeadings( iLevel )[ 0 ].ToString();
-				} else {
-					sHeading = null;
-				}
-				if( sHeading != null ) {
-					slDetails.Add( new KeyValuePair<string,string> ( string.Format( "H{0}", iLevel ), sHeading ) );
-					slDetails.Add( new KeyValuePair<string,string> ( string.Format( "H{0} Length", iLevel ), sHeading.Length.ToString() ) );
-				}
-			}
-
-			slDetails.Add( new KeyValuePair<string,string> ( "Page Depth", this.Depth.ToString() ) );
-			
-			slDetails.Add( new KeyValuePair<string,string> ( "Error Condition", this.GetErrorCondition() ) );
-
-			return( slDetails );
 
 		}
 
