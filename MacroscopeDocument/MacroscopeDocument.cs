@@ -26,9 +26,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Net;
 using System.Diagnostics;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -79,7 +79,9 @@ namespace SEOMacroscope
 		Boolean IsCompressed;
 		string CompressionMethod;
 		string ContentEncoding;
+
 		string Locale;
+		string CharacterSet;
 		
 		long Duration;
 
@@ -105,7 +107,7 @@ namespace SEOMacroscope
 		string Description;
 		string Keywords;
 
-		Dictionary<ushort,ArrayList> Headings;
+		Dictionary<ushort,List<string>> Headings;
 
 		int Depth;
 		
@@ -168,31 +170,31 @@ namespace SEOMacroscope
 			Description = "";
 			Keywords = "";
 
-			Headings = new Dictionary<ushort,ArrayList> ()
+			Headings = new Dictionary<ushort,List<string>> ()
 			{
 				{
 					1,
-					new ArrayList ( 16 )
+					new List<string> ( 16 )
 				},
 				{
 					2,
-					new ArrayList ( 16 )
+					new List<string> ( 16 )
 				},
 				{
 					3,
-					new ArrayList ( 16 )
+					new List<string> ( 16 )
 				},
 				{
 					4,
-					new ArrayList ( 16 )
+					new List<string> ( 16 )
 				},
 				{
 					5,
-					new ArrayList ( 16 )
+					new List<string> ( 16 )
 				},
 				{
 					6,
-					new ArrayList ( 16 )
+					new List<string> ( 16 )
 				}
 			};
 
@@ -222,13 +224,13 @@ namespace SEOMacroscope
 				} else {
 					this.Duration = 0;
 				}
-				//DebugMsg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
+				DebugMsg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
 			};
 
 			return( fTimeDuration );
 
 		}
-
+		
 		/** Dirty Flag ************************************************************/
 
 		public void SetIsDirty ()
@@ -456,18 +458,28 @@ namespace SEOMacroscope
 			return( this.CompressionMethod );
 		}
 
-		/**************************************************************************/
+		/** Language/Locale *******************************************************/
 		
 		public string GetLang ()
 		{
 			return( this.Locale );
 		}
-		
-		/**************************************************************************/
-		
+
 		public string GetLocale ()
 		{
 			return( this.Locale );
+		}
+
+		/** Character Set ***********************************************************************/
+		
+		public string GetCharacterSet ()
+		{
+			return( this.CharacterSet );
+		}
+		
+		public void SetCharacterSet ( string sCharSet )
+		{
+			this.CharacterSet = sCharSet;
 		}
 
 		/** Canonical *************************************************************/
@@ -684,18 +696,18 @@ namespace SEOMacroscope
 		public void AddHeading ( ushort iLevel, string sString )
 		{
 			if( this.Headings.ContainsKey( iLevel ) ) {
-				ArrayList alHeadings = this.Headings[ iLevel ];
-				alHeadings.Add( sString );
+				List<string> lHeadings = this.Headings[ iLevel ];
+				lHeadings.Add( sString );
 			}
 		}
 
-		public ArrayList GetHeadings ( ushort iLevel )
+		public List<string> GetHeadings ( ushort iLevel )
 		{
-			ArrayList alHeadings = new ArrayList ();
+			List<string> lHeadings = new List<string> ();
 			if( this.Headings.ContainsKey( iLevel ) ) {
-				alHeadings = this.Headings[ iLevel ];
+				lHeadings = this.Headings[ iLevel ];
 			}
-			return( alHeadings );
+			return( lHeadings );
 		}
 
 		/** Durations *************************************************************/
@@ -753,6 +765,12 @@ namespace SEOMacroscope
 			}
 
 			fTimeDuration( this.ExecuteHeadRequest );
+
+			if( this.GetStatusCode() == ( int )HttpStatusCode.RequestTimeout ) {
+				return( false );
+			} else if( this.GetStatusCode() == ( int )HttpStatusCode.GatewayTimeout ) {
+				return( false );
+			}
 
 			if( this.GetIsRedirect() ) {
 				DebugMsg( string.Format( "REDIRECT DETECTED: {0}", this.Url ) );
@@ -925,7 +943,7 @@ namespace SEOMacroscope
 			}
 
 			if( sErrorCondition != null ) {
-				this.ProcessErrorCondition(sErrorCondition);
+				this.ProcessErrorCondition( sErrorCondition );
 			}
 
 		}

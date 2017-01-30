@@ -81,7 +81,15 @@ namespace SEOMacroscope
 				this.Hostnames.Remove( sHostname );
 			}
 		}
+
+		/**************************************************************************/
 		
+		public void RemoveFromUrl ( string sUrl )
+		{
+			Uri uFromUrl = new Uri ( sUrl, UriKind.Absolute );
+			this.Remove( uFromUrl.Host );
+		}
+
 		/**************************************************************************/
 		
 		public void Allow ( string sHostname )

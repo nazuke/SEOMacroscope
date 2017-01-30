@@ -142,6 +142,7 @@ namespace SEOMacroscope
 											
 					lvItem.SubItems[ 0 ].Text = sUrl;
 					lvItem.SubItems[ 1 ].Text = sStatus;
+					lvItem.SubItems[ 2 ].Text = msDoc.GetErrorCondition();
 
 				} catch( Exception ex ) {
 					this.DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
@@ -157,6 +158,7 @@ namespace SEOMacroscope
 
 					lvItem.SubItems[ 0 ].Text = sUrl;
 					lvItem.SubItems.Add( sStatus );
+					lvItem.SubItems.Add( msDoc.GetErrorCondition() );
 
 					this.lvListView.Items.Add( lvItem );
 

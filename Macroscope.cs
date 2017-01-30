@@ -40,7 +40,7 @@ namespace SEOMacroscope
 
 		// Override SuppressDebugMsg to enable/disable debugging output in object.
 		public virtual Boolean SuppressDebugMsg { get; protected set; }
-		
+
 		/**************************************************************************/
 
 		static Macroscope ()

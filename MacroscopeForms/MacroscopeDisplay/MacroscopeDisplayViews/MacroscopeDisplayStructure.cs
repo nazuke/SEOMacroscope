@@ -162,10 +162,10 @@ namespace SEOMacroscope
 				htItems[ MacroscopeConstants.KeywordsCount ] = msDoc.GetKeywordsCount();
 
 				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
-					ArrayList aHeadings = msDoc.GetHeadings( iLevel );
+					List<string> aHeadings = msDoc.GetHeadings( iLevel );
 					string sText = "";
 					if( aHeadings.Count > 0 ) {
-						sText = ( string )aHeadings[ 0 ];
+						sText = aHeadings[ 0 ];
 					}
 					htItems[ string.Format( MacroscopeConstants.Hn, iLevel ) ] = sText;
 				}

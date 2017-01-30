@@ -261,7 +261,7 @@ namespace SEOMacroscope
 			this.statusStripMain.Name = "statusStripMain";
 			this.statusStripMain.Size = new System.Drawing.Size(784, 30);
 			this.statusStripMain.TabIndex = 3;
-			this.statusStripMain.Text = "statusStrip1";
+			this.statusStripMain.Text = "statusStripMain";
 			// 
 			// toolStripThreads
 			// 
@@ -278,8 +278,8 @@ namespace SEOMacroscope
 			// toolStripFound
 			// 
 			this.toolStripFound.Name = "toolStripFound";
-			this.toolStripFound.Size = new System.Drawing.Size(82, 25);
-			this.toolStripFound.Text = "URLs Found: 0";
+			this.toolStripFound.Size = new System.Drawing.Size(91, 25);
+			this.toolStripFound.Text = "URLs Crawled: 0";
 			// 
 			// toolStripViewControls
 			// 

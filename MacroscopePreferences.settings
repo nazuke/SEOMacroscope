@@ -52,6 +52,9 @@
     <Setting Name="MaxFetchesPerWorker" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">32</Value>
     </Setting>
+    <Setting Name="MaxRetries" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
     <Setting Name="MaxThreads" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">8</Value>
     </Setting>

@@ -447,6 +447,11 @@ namespace SEOMacroscope
 
 		}
 
+		public void RetryLink ( string sUrl )
+		{
+			this.ResetLink( sUrl );
+		}
+		
 		void ResetLink ( string sUrl )
 		{
 			

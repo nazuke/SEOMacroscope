@@ -79,11 +79,19 @@ namespace SEOMacroscope
 					if( sUrl != null ) {
 
 						DebugMsg( string.Format( "Execute: {0}", sUrl ) );
-					
-						if( this.Fetch( sUrl ) ) {
-							JobMaster.NotifyWorkersFetched( sUrl );
-						}
-					
+
+						int iTries = MacroscopePreferencesManager.GetMaxRetries();
+
+						do {
+							if( this.Fetch( sUrl ) ) {
+								JobMaster.NotifyWorkersFetched( sUrl );
+								break;
+							} else {
+								DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", iTries, sUrl ) );
+							}
+							iTries--;
+						} while( iTries > 0 );
+
 					}
 				
 				}

@@ -58,6 +58,7 @@ namespace SEOMacroscope
 			listViewJavascripts.Dock = DockStyle.Fill;
 
 			UrlLoader = new MacroscopeUrlLoader ();
+			listViewDocInfo.Dock = DockStyle.Fill;
 
 		}
 
@@ -80,6 +81,7 @@ namespace SEOMacroscope
 			this.listViewLinksOut.Items.Clear();
 			this.listViewStylesheets.Items.Clear();
 			this.pictureBoxDocumentDetailsImage.Image = null;
+			this.listViewDocInfo.Columns.Clear();
 		}
 
 		/**************************************************************************/
@@ -424,6 +426,7 @@ namespace SEOMacroscope
 
 				if( msStream != null ) {
 					this.pictureBoxDocumentDetailsImage.Image = Image.FromStream( msStream );
+					this.RenderListViewDocInfoImage( msDoc, this.pictureBoxDocumentDetailsImage.Image );
 				}
 
 			} else {
@@ -436,6 +439,44 @@ namespace SEOMacroscope
 
 			}
 
+		}
+
+		/** Image Properties ******************************************************/
+		
+		void RenderListViewDocInfoImage ( MacroscopeDocument msDoc, Image iImage )
+		{
+
+			ListView lvListView = this.listViewDocInfo;
+			
+			lvListView.Columns.Clear();
+
+			lvListView.Columns.Add( "Property" );
+			lvListView.Columns.Add( "Value" );
+
+			{
+				ListViewItem lvItem = new ListViewItem ( "Format" );
+				lvItem.SubItems[ 0 ].Text = "PixelFormat";
+				lvItem.SubItems.Add( msDoc.GetMimeType() );
+				lvListView.Items.Add( lvItem );
+			}
+
+			{
+				ListViewItem lvItem = new ListViewItem ( "WIDTH" );
+				lvItem.SubItems[ 0 ].Text = "Width";
+				lvItem.SubItems.Add( iImage.Width.ToString() );
+				lvListView.Items.Add( lvItem );
+			}
+
+			{
+				ListViewItem lvItem = new ListViewItem ( "HEIGHT" );
+				lvItem.SubItems[ 0 ].Text = "Height";
+				lvItem.SubItems.Add( iImage.Height.ToString() );
+				lvListView.Items.Add( lvItem );
+			}
+
+			lvListView.Columns[ "Property" ].Width = 150;
+			lvListView.Columns[ "Value" ].Width = 150;
+			
 		}
 
 		/**************************************************************************/

@@ -62,6 +62,10 @@ namespace SEOMacroscope
 			slDetails.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Language", this.GetLang() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Character Set", this.GetCharacterSet() ) );
+			
+			
+			
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
 

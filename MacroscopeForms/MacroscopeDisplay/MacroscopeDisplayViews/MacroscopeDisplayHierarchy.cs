@@ -46,16 +46,46 @@ namespace SEOMacroscope
 		public MacroscopeDisplayHierarchy ( MacroscopeMainForm MainFormNew, TreeView tvTreeView )
 			: base( MainFormNew, tvTreeView )
 		{
+
+			this.SuppressDebugMsg = false;
+
 			ConfigureListView();
+
 		}
 
 		/**************************************************************************/
 
 		void ConfigureListView ()
 		{
+
 			if( !ListViewConfigured ) {
 				ListViewConfigured = true;
 			}
+
+			if( this.MainForm.InvokeRequired ) {
+				this.MainForm.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							this.ClearData();
+						}
+					)
+				);
+			} else {
+				this.ClearData();
+			}
+
+		}
+
+		/**************************************************************************/
+
+		public void ClearData ()
+		{
+			this.tvTreeView.BeginUpdate();
+			this.tvTreeView.Nodes.Clear();
+			TreeNode nRoot = this.tvTreeView.Nodes.Add( "/" );
+			nRoot.Text = "Websites";
+			this.tvTreeView.EndUpdate();
 		}
 
 		/**************************************************************************/
@@ -67,43 +97,80 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							tvTreeView.BeginUpdate();
 							this.RenderTreeView( DocCollection, lList );
-							this.tvTreeView.EndUpdate();
 						}
 					)
 				);
 			} else {
-				this.tvTreeView.BeginUpdate();
 				this.RenderTreeView( DocCollection, lList );
-				this.tvTreeView.EndUpdate();
 			}
 		}
-		
+
 		/**************************************************************************/
 
 		void RenderTreeView ( MacroscopeDocumentCollection DocCollection, List<string> lList )
 		{
 			
-			DebugMsg( string.Format( "RenderTreeView: {0}", "BASE" ) );
-			
+			this.tvTreeView.BeginUpdate();
+
+			DebugMsg( string.Format( "HIERARCHY: {0}", "BASE" ) );
+
 			foreach( string sUrl in lList ) {
 				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderTreeView( msDoc, sUrl );
 			}
-		
+
+			this.tvTreeView.ExpandAll();
+
+			this.tvTreeView.EndUpdate();
+
 		}
 
 		/**************************************************************************/
-		
+
 		protected override void RenderTreeView ( MacroscopeDocument msDoc, string sUrl )
 		{
-			
-			//tvTreeView.Nodes
-			
-			
-			
-			
+
+			TreeNode nCurrentNode = this.tvTreeView.TopNode;
+			string sPath = string.Join( "/", msDoc.GetHostname(), msDoc.GetPath() );
+
+			if( sPath != null ) {
+
+				DebugMsg( string.Format( "HIERARCHY PATH: {0}", sPath ) );
+
+				List<String> lElements = new List<string> ( sPath.Split( new char[]
+				{
+					'/'
+				}, StringSplitOptions.RemoveEmptyEntries ) );
+
+				for( int i = 0; i < lElements.Count; i++ ) {
+
+					string sElementName = lElements[ i ];
+
+					if( nCurrentNode != null ) {
+
+						if( nCurrentNode.Nodes.ContainsKey( sElementName ) ) {
+
+							nCurrentNode = nCurrentNode.Nodes[ sElementName ];
+
+						} else {
+
+							TreeNode nNewNode = nCurrentNode.Nodes.Add( sElementName );
+							nNewNode.Name = sElementName;
+							nNewNode.Text = sElementName;
+
+							nCurrentNode = nNewNode;
+
+						}
+
+					}
+
+				}
+
+			} else {
+				DebugMsg( string.Format( "HIERARCHY ERROR: {0}", sUrl ) );
+			}
+
 		}
 
 		/**************************************************************************/

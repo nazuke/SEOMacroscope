@@ -68,6 +68,11 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxCheckExternalLinks;
 		private System.Windows.Forms.GroupBox groupBox7;
 		public System.Windows.Forms.NumericUpDown numericUpDown;
+		private System.Windows.Forms.Label label14;
+		public System.Windows.Forms.NumericUpDown numericUpDownMaxRetries;
+		private System.Windows.Forms.GroupBox groupBox9;
+		private System.Windows.Forms.Label label18;
+		public System.Windows.Forms.NumericUpDown numericUpDownMaxHeadingDepth;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -104,6 +109,8 @@ namespace SEOMacroscope
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
 			this.checkBoxCheckExternalLinks = new System.Windows.Forms.CheckBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.label14 = new System.Windows.Forms.Label();
+			this.numericUpDownMaxRetries = new System.Windows.Forms.NumericUpDown();
 			this.label13 = new System.Windows.Forms.Label();
 			this.numericUpDownMaxThreads = new System.Windows.Forms.NumericUpDown();
 			this.label11 = new System.Windows.Forms.Label();
@@ -145,6 +152,9 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
+			this.groupBox9 = new System.Windows.Forms.GroupBox();
+			this.label18 = new System.Windows.Forms.Label();
+			this.numericUpDownMaxHeadingDepth = new System.Windows.Forms.NumericUpDown();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -153,6 +163,7 @@ namespace SEOMacroscope
 			this.groupBox5.SuspendLayout();
 			this.groupBox7.SuspendLayout();
 			this.groupBox4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxRetries)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxThreads)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPageLimit)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDepth)).BeginInit();
@@ -176,6 +187,8 @@ namespace SEOMacroscope
 			this.flowLayoutPanel4.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).BeginInit();
+			this.groupBox9.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHeadingDepth)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label9
@@ -320,6 +333,8 @@ namespace SEOMacroscope
 			// groupBox4
 			// 
 			this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox4.Controls.Add(this.label14);
+			this.groupBox4.Controls.Add(this.numericUpDownMaxRetries);
 			this.groupBox4.Controls.Add(this.label13);
 			this.groupBox4.Controls.Add(this.numericUpDownMaxThreads);
 			this.groupBox4.Controls.Add(this.label11);
@@ -329,10 +344,36 @@ namespace SEOMacroscope
 			this.groupBox4.Location = new System.Drawing.Point(10, 210);
 			this.groupBox4.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(500, 120);
+			this.groupBox4.Size = new System.Drawing.Size(500, 150);
 			this.groupBox4.TabIndex = 4;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Spidering Limits";
+			// 
+			// label14
+			// 
+			this.label14.Location = new System.Drawing.Point(146, 112);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(200, 23);
+			this.label14.TabIndex = 10;
+			this.label14.Text = "Maximum fetch retries";
+			// 
+			// numericUpDownMaxRetries
+			// 
+			this.numericUpDownMaxRetries.CausesValidation = false;
+			this.numericUpDownMaxRetries.Location = new System.Drawing.Point(20, 110);
+			this.numericUpDownMaxRetries.Maximum = new decimal(new int[] {
+			10,
+			0,
+			0,
+			0});
+			this.numericUpDownMaxRetries.Name = "numericUpDownMaxRetries";
+			this.numericUpDownMaxRetries.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownMaxRetries.TabIndex = 11;
+			this.numericUpDownMaxRetries.Value = new decimal(new int[] {
+			10,
+			0,
+			0,
+			0});
 			// 
 			// label13
 			// 
@@ -432,7 +473,7 @@ namespace SEOMacroscope
 			this.groupBox1.Controls.Add(this.checkBoxFetchImages);
 			this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
 			this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
-			this.groupBox1.Location = new System.Drawing.Point(10, 340);
+			this.groupBox1.Location = new System.Drawing.Point(10, 370);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(500, 120);
@@ -547,6 +588,7 @@ namespace SEOMacroscope
 			// 
 			this.flowLayoutPanel2.Controls.Add(this.groupBox2);
 			this.flowLayoutPanel2.Controls.Add(this.groupBox3);
+			this.flowLayoutPanel2.Controls.Add(this.groupBox9);
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
@@ -579,7 +621,7 @@ namespace SEOMacroscope
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(200, 23);
 			this.label4.TabIndex = 7;
-			this.label4.Text = "Maximum Title Words";
+			this.label4.Text = "Maximum title words";
 			// 
 			// label3
 			// 
@@ -587,7 +629,7 @@ namespace SEOMacroscope
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(200, 23);
 			this.label3.TabIndex = 6;
-			this.label3.Text = "Minimum Title Words";
+			this.label3.Text = "Minimum title words";
 			// 
 			// label2
 			// 
@@ -595,7 +637,7 @@ namespace SEOMacroscope
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(200, 23);
 			this.label2.TabIndex = 5;
-			this.label2.Text = "Maximum Title Length";
+			this.label2.Text = "Maximum title length";
 			// 
 			// label1
 			// 
@@ -603,7 +645,7 @@ namespace SEOMacroscope
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(200, 23);
 			this.label1.TabIndex = 4;
-			this.label1.Text = "Minimum Title Length";
+			this.label1.Text = "Minimum title length";
 			// 
 			// numericUpDownTitleMaxWords
 			// 
@@ -697,7 +739,7 @@ namespace SEOMacroscope
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(200, 23);
 			this.label5.TabIndex = 15;
-			this.label5.Text = "Maximum Description Words";
+			this.label5.Text = "Maximum description words";
 			// 
 			// label6
 			// 
@@ -705,7 +747,7 @@ namespace SEOMacroscope
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(200, 23);
 			this.label6.TabIndex = 14;
-			this.label6.Text = "Minimum Description Words";
+			this.label6.Text = "Minimum description words";
 			// 
 			// label7
 			// 
@@ -713,7 +755,7 @@ namespace SEOMacroscope
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(200, 23);
 			this.label7.TabIndex = 13;
-			this.label7.Text = "Maximum Description Length";
+			this.label7.Text = "Maximum description length";
 			// 
 			// label8
 			// 
@@ -721,7 +763,7 @@ namespace SEOMacroscope
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(200, 23);
 			this.label8.TabIndex = 12;
-			this.label8.Text = "Minimum Description Length";
+			this.label8.Text = "Minimum description length";
 			// 
 			// numericUpDownDescriptionMaxWords
 			// 
@@ -858,6 +900,48 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
+			// groupBox9
+			// 
+			this.groupBox9.Controls.Add(this.label18);
+			this.groupBox9.Controls.Add(this.numericUpDownMaxHeadingDepth);
+			this.groupBox9.Location = new System.Drawing.Point(10, 350);
+			this.groupBox9.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox9.Name = "groupBox9";
+			this.groupBox9.Size = new System.Drawing.Size(500, 160);
+			this.groupBox9.TabIndex = 6;
+			this.groupBox9.TabStop = false;
+			this.groupBox9.Text = "Page Header Element Policies";
+			// 
+			// label18
+			// 
+			this.label18.Location = new System.Drawing.Point(146, 32);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(200, 23);
+			this.label18.TabIndex = 12;
+			this.label18.Text = "Analyze heading elements cutoff";
+			// 
+			// numericUpDownMaxHeadingDepth
+			// 
+			this.numericUpDownMaxHeadingDepth.Location = new System.Drawing.Point(20, 30);
+			this.numericUpDownMaxHeadingDepth.Maximum = new decimal(new int[] {
+			6,
+			0,
+			0,
+			0});
+			this.numericUpDownMaxHeadingDepth.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			this.numericUpDownMaxHeadingDepth.Name = "numericUpDownMaxHeadingDepth";
+			this.numericUpDownMaxHeadingDepth.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownMaxHeadingDepth.TabIndex = 5;
+			this.numericUpDownMaxHeadingDepth.Value = new decimal(new int[] {
+			2,
+			0,
+			0,
+			0});
+			// 
 			// MacroscopePrefsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -872,6 +956,7 @@ namespace SEOMacroscope
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox7.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxRetries)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxThreads)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPageLimit)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDepth)).EndInit();
@@ -898,6 +983,8 @@ namespace SEOMacroscope
 			this.groupBox8.ResumeLayout(false);
 			this.groupBox8.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).EndInit();
+			this.groupBox9.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHeadingDepth)).EndInit();
 			this.ResumeLayout(false);
 
 		}

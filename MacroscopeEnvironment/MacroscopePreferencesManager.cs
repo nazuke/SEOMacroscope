@@ -51,6 +51,7 @@ namespace SEOMacroscope
 		static int MaxFetchesPerWorker;
 		static int Depth;
 		static int PageLimit;
+		static int MaxRetries;
 		
 		static Boolean CheckExternalLinks;
 		
@@ -78,6 +79,7 @@ namespace SEOMacroscope
 		static int DescriptionMaxLen;
 		static int DescriptionMinWords;
 		static int DescriptionMaxWords;
+		static ushort MaxHeadingDepth;
 
 		/**************************************************************************/
 		
@@ -108,6 +110,7 @@ namespace SEOMacroscope
 					
 					Depth = Preferences.Depth;
 					PageLimit = Preferences.PageLimit;
+					MaxRetries = Preferences.MaxRetries;
 
 					CheckExternalLinks = Preferences.CheckExternalLinks;
 				
@@ -153,6 +156,7 @@ namespace SEOMacroscope
 			MaxFetchesPerWorker = 32;
 			Depth = -1;
 			PageLimit = -1;
+			MaxRetries = 0;
 			
 			CheckExternalLinks = false;
 
@@ -179,6 +183,7 @@ namespace SEOMacroscope
 			DescriptionMaxLen = 100;
 			DescriptionMinWords = 3;
 			DescriptionMaxWords = 10;
+			MaxHeadingDepth = 2;
 
 		}
 
@@ -200,6 +205,12 @@ namespace SEOMacroscope
 				PageLimit = -1;
 			}
 
+			if( MaxRetries <= 0 ) {
+				MaxRetries = 0;
+			} else if( MaxRetries > 10 ) {
+				MaxRetries = 10;
+			}
+			
 			SavePreferences();
 			
 		}
@@ -221,6 +232,7 @@ namespace SEOMacroscope
 
 				Preferences.Depth = Depth;
 				Preferences.PageLimit = PageLimit;
+				Preferences.MaxRetries = MaxRetries;
 
 				Preferences.CheckExternalLinks = CheckExternalLinks;
 				
@@ -365,6 +377,22 @@ namespace SEOMacroscope
 		public static void SetPageLimit ( int iValue )
 		{
 			PageLimit = iValue;
+		}
+
+		/** Maximum Retries *******************************************************/
+
+		public static int GetMaxRetries ()
+		{
+
+			DebugMsg( string.Format( "GetMaxRetries: {0}", MaxRetries ) );
+
+			return( MaxRetries );
+		}
+		
+		public static void SetMaxRetries ( int iValue )
+		{
+			DebugMsg( string.Format( "SetMaxRetries: {0}", iValue ) );
+			MaxRetries = iValue;
 		}
 
 		/** Domain Spidering Controls *********************************************/
@@ -591,6 +619,16 @@ namespace SEOMacroscope
 		public static void SetDescriptionMaxWords ( int iValue )
 		{
 			DescriptionMaxWords = iValue;
+		}
+
+		public static ushort GetMaxHeadingDepth ()
+		{
+			return( MaxHeadingDepth );
+		}
+		
+		public static void SetMaxHeadingDepth ( ushort iValue )
+		{
+			MaxHeadingDepth = iValue;
 		}
 
 		/**************************************************************************/

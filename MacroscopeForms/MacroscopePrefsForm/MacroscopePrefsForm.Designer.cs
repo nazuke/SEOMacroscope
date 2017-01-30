@@ -62,7 +62,7 @@ namespace SEOMacroscope
 			this.tableLayoutPanel1.RowCount = 2;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(584, 561);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(584, 602);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// flowLayoutPanel1
@@ -71,7 +71,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel1.Controls.Add(this.button2);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 504);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 545);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(578, 54);
@@ -100,16 +100,17 @@ namespace SEOMacroscope
 			// macroscopePrefsControlInstance
 			// 
 			this.macroscopePrefsControlInstance.AutoScroll = true;
+			this.macroscopePrefsControlInstance.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.macroscopePrefsControlInstance.Location = new System.Drawing.Point(3, 3);
 			this.macroscopePrefsControlInstance.Name = "macroscopePrefsControlInstance";
-			this.macroscopePrefsControlInstance.Size = new System.Drawing.Size(578, 495);
+			this.macroscopePrefsControlInstance.Size = new System.Drawing.Size(578, 536);
 			this.macroscopePrefsControlInstance.TabIndex = 0;
 			// 
 			// MacroscopePrefsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(584, 561);
+			this.ClientSize = new System.Drawing.Size(584, 602);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

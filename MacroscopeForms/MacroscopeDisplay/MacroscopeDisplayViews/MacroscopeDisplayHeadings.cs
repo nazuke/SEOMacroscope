@@ -24,9 +24,8 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-
-// TODO: Finish this
 
 namespace SEOMacroscope
 {
@@ -72,8 +71,6 @@ namespace SEOMacroscope
 		{
 			if( !ListViewConfigured ) {
 
-				//this.lvListView.Sorting = SortOrder.Ascending;
-
 				ListViewConfigured = true;
 
 			}
@@ -84,47 +81,56 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			/*
-			string sTitle = msDoc.GetTitle();
-			int iTitleCount = this.MainForm.GetJobMaster().GetDocCollection().GetTitleCount( sTitle );
-			string sTitleLength = sTitle.Length.ToString();
-			string sPairKey = string.Join( "", sUrl, sTitle );
+			for( ushort i = 1; i <= MacroscopePreferencesManager.GetMaxHeadingDepth(); i++ ) {
 
-			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
+				List<string> lHeadings = msDoc.GetHeadings( i );
+
+				for( int iCount = 0; iCount < lHeadings.Count; iCount++ ) {
+
+					string sPairKey = string.Join( "::", sUrl, i, iCount );
+					int iHeadingIndex = i + 1;
+					
+					if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
 							
-				try {
+						try {
 
-					ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems[ 1 ].Text = iTitleCount.ToString();
-					lvItem.SubItems[ 2 ].Text = sTitle;
-					lvItem.SubItems[ 3 ].Text = sTitleLength;
+							ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+							lvItem.SubItems[ 0 ].Text = sUrl;
+							lvItem.SubItems[ 1 ].Text = ( iCount + 1 ).ToString();
+							lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
 
-				} catch( Exception ex ) {
-					DebugMsg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
-				}
+						} catch( Exception ex ) {
+							DebugMsg( string.Format( "MacroscopeDisplayHeadings 1: {0}", ex.Message ) );
+						}
 
-			} else {
+					} else {
 							
-				try {
+						try {
 
-					ListViewItem lvItem = new ListViewItem ( sPairKey );
+							ListViewItem lvItem = new ListViewItem ( sPairKey );
 
-					lvItem.Name = sPairKey;
+							lvItem.Name = sPairKey;
 
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems.Add( iTitleCount.ToString() );
-					lvItem.SubItems.Add( sTitle );
-					lvItem.SubItems.Add( sTitleLength );
+							lvItem.SubItems[ 0 ].Text = sUrl;
+							lvItem.SubItems.Add( ( iCount + 1 ).ToString() );
 
-					this.lvListView.Items.Add( lvItem );
+							for( ushort k = 1; k <= 6; k++ ) {
+								lvItem.SubItems.Add( "" );
+							}
 
-				} catch( Exception ex ) {
-					DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
+							lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
+							
+							this.lvListView.Items.Add( lvItem );
+
+						} catch( Exception ex ) {
+							DebugMsg( string.Format( "MacroscopeDisplayHeadings 2: {0}", ex.Message ) );
+						}
+
+					}
+				
 				}
 
 			}
-			*/
 
 		}
 

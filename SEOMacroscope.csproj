@@ -124,6 +124,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkClass.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeOutlink\MacroscopeOutlink.cs" />
+    <Compile Include="MacroscopeDocument\t\TestMacroscopeDocument.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferencesManager.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.Designer.cs">
@@ -235,6 +236,7 @@
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink" />
     <Folder Include="MacroscopeDocument\MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeOutlink" />
+    <Folder Include="MacroscopeDocument\t" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />

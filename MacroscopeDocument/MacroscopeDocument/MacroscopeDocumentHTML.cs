@@ -47,7 +47,7 @@ namespace SEOMacroscope
 			string sErrorCondition = null;
 			
 			try {
-				
+
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "GET";
 				req.Timeout = this.Timeout;
@@ -109,6 +109,15 @@ namespace SEOMacroscope
 						MacroscopeLocaleTools msLocale = new MacroscopeLocaleTools ();
 						this.Locale = msLocale.ProbeLocale( HtmlDoc );
 						this.SetHreflang( this.Locale, this.Url );
+					}
+
+					{ // Probe Character Set
+						try {
+							this.SetCharacterSet( HtmlDoc.DeclaredEncoding.EncodingName );
+						} catch( Exception ex ) {
+							DebugMsg( string.Format( ex.Message ) );
+							this.SetCharacterSet( "" );
+						}
 					}
 
 					{ // Title
