@@ -86,7 +86,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void UpdateDisplay ( MacroscopeJobMaster msJobMaster, string sUrl )
+		public Boolean UpdateDisplay ( MacroscopeJobMaster msJobMaster, string sUrl )
 		{
 
 			// TODO: This blows up if the page is from a redirect. Probably need to use the original URL
@@ -94,17 +94,32 @@ namespace SEOMacroscope
 			MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
 			MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 
-			if( this.InvokeRequired ) {
-				this.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
-						}
-					)
-				);
-			} else {
-				this.UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
+			if( msDoc != null )
+			{
+				
+				if( this.InvokeRequired )
+				{
+					this.Invoke(
+						new MethodInvoker (
+							delegate
+							{
+								this.UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
+							}
+						)
+					);
+				}
+				else
+				{
+					this.UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
+				}
+				
+				return( true );
+			}
+			else
+			{
+				
+				return( false );
+			
 			}
 
 		}
@@ -132,18 +147,22 @@ namespace SEOMacroscope
 
 			List<KeyValuePair<string,string>> lItems = msDoc.DetailDocumentDetails();
 
-			for( int i = 0; i < lItems.Count; i++ ) {
+			for( int i = 0 ; i < lItems.Count ; i++ )
+			{
 
 				KeyValuePair<string,string> kvItem = lItems[ i ];
 
 				//DebugMsg( string.Format( "RenderDocumentDetails: {0} => {1}", kvItem.Key, kvItem.Value ) );
 				
-				try {
+				try
+				{
 					ListViewItem lvItem = new ListViewItem ( kvItem.Key );
 					lvItem.Name = kvItem.Key;
 					lvItem.SubItems.Add( kvItem.Value );
 					lvListView.Items.Add( lvItem );
-				} catch( Exception ex ) {
+				}
+				catch( Exception ex )
+				{
 					DebugMsg( string.Format( "RenderDocumentDetails: {0}", ex.Message ) );
 				}
 				
@@ -192,11 +211,13 @@ namespace SEOMacroscope
 
 			string sKeyUrl = msDoc.GetUrl();
 
-			if( msDoc.GetIsHtml() ) {
+			if( msDoc.GetIsHtml() )
+			{
 
 				Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 
-				if( htHrefLangs != null ) {
+				if( htHrefLangs != null )
+				{
 
 					{
 
@@ -216,12 +237,15 @@ namespace SEOMacroscope
 
 					}
 
-					foreach( string sLocale in htLocales.Keys ) {
+					foreach( string sLocale in htLocales.Keys )
+					{
 
 
-						if( sLocale != null ) {
+						if( sLocale != null )
+						{
 
-							if( sLocale == msDoc.GetLocale() ) {
+							if( sLocale == msDoc.GetLocale() )
+							{
 								continue;
 							}
 
@@ -236,15 +260,18 @@ namespace SEOMacroscope
 							lvItem.SubItems.Add( "" );
 							lvItem.SubItems.Add( "" );
 							
-							if( htHrefLangs.ContainsKey( sLocale ) ) {
+							if( htHrefLangs.ContainsKey( sLocale ) )
+							{
 
 								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
 
-								if( msHrefLang != null ) {
+								if( msHrefLang != null )
+								{
 
 									sHrefLangUrl = msHrefLang.GetUrl();
 
-									if( DocCollection.DocumentExists( sHrefLangUrl ) ) {
+									if( DocCollection.DocumentExists( sHrefLangUrl ) )
+									{
 										sTitle = DocCollection.GetDocument( sHrefLangUrl ).GetTitle();
 									}
 
@@ -255,10 +282,13 @@ namespace SEOMacroscope
 							lvItem.SubItems[ 1 ].Text = sLocale;
 							lvItem.SubItems[ 2 ].Text = sTitle;
 
-							if( sHrefLangUrl != null ) {
+							if( sHrefLangUrl != null )
+							{
 								lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
 								lvItem.SubItems[ 0 ].Text = sHrefLangUrl;
-							} else {
+							}
+							else
+							{
 								lvItem.SubItems[ 0 ].ForeColor = Color.Red;
 								lvItem.SubItems[ 0 ].Text = "MISSING";
 
@@ -292,15 +322,19 @@ namespace SEOMacroscope
 
 			lvListView.Items.Clear();
 
-			foreach( string sUrlOrigin in hlHyperlinksIn.IterateKeys() ) {
+			foreach( string sUrlOrigin in hlHyperlinksIn.IterateKeys() )
+			{
 
-				foreach( MacroscopeHyperlinkIn hlHyperlinkIn in hlHyperlinksIn.IterateLinks( sUrlOrigin ) ) {
+				foreach( MacroscopeHyperlinkIn hlHyperlinkIn in hlHyperlinksIn.IterateLinks( sUrlOrigin ) )
+				{
 
 					string sPairKey = string.Join( "::", sUrlOrigin, hlHyperlinkIn.GetLinkId().ToString() );
 
-					if( lvListView.Items.ContainsKey( sPairKey ) ) {
+					if( lvListView.Items.ContainsKey( sPairKey ) )
+					{
 							
-						try {
+						try
+						{
 
 							ListViewItem lvItem = lvListView.Items[ sPairKey ];
 							lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetLinkClass();
@@ -309,13 +343,18 @@ namespace SEOMacroscope
 							lvItem.SubItems[ 3 ].Text = hlHyperlinkIn.GetLinkText();
 							lvItem.SubItems[ 4 ].Text = hlHyperlinkIn.GetAltText();
 
-						} catch( Exception ex ) {
+						}
+						catch( Exception ex )
+						{
 							DebugMsg( string.Format( "RenderListViewHyperlinksIn 1: {0}", ex.Message ) );
 						}
 
-					} else {
+					}
+					else
+					{
 							
-						try {
+						try
+						{
 
 							ListViewItem lvItem = new ListViewItem ( sPairKey );
 
@@ -329,7 +368,9 @@ namespace SEOMacroscope
 
 							lvListView.Items.Add( lvItem );
 
-						} catch( Exception ex ) {
+						}
+						catch( Exception ex )
+						{
 							DebugMsg( string.Format( "RenderListViewHyperlinksIn 2: {0}", ex.Message ) );
 						}
 
@@ -351,14 +392,17 @@ namespace SEOMacroscope
 
 			lvListView.Items.Clear();
 
-			lock( hlHyperlinksOut ) {
+			lock( hlHyperlinksOut )
+			{
 				
-				foreach( string sUrlOrigin in hlHyperlinksOut.IterateKeys() ) {
+				foreach( string sUrlOrigin in hlHyperlinksOut.IterateKeys() )
+				{
 
 					//foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.GetLinks( sUrlOrigin ) ) {
 
 						
-					foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.IterateLinks( sUrlOrigin ) ) {
+					foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.IterateLinks( sUrlOrigin ) )
+					{
 						
 						
 						
@@ -368,9 +412,11 @@ namespace SEOMacroscope
 
 						//DebugMsg( string.Format( "RenderListViewHyperlinksOut sKey: {0} :: {1}", sKey, hlHyperlinkOut.GetUrlTarget() ) );
 
-						if( lvListView.Items.ContainsKey( sKey ) ) {
+						if( lvListView.Items.ContainsKey( sKey ) )
+						{
 							
-							try {
+							try
+							{
 
 								ListViewItem lvItem = lvListView.Items[ sKey ];
 								lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetLinkClass();
@@ -380,13 +426,18 @@ namespace SEOMacroscope
 								lvItem.SubItems[ 4 ].Text = hlHyperlinkOut.GetAltText();
 								lvItem.SubItems[ 5 ].Text = hlHyperlinkOut.GetFollow().ToString();
 
-							} catch( Exception ex ) {
+							}
+							catch( Exception ex )
+							{
 								DebugMsg( string.Format( "RenderListViewHyperlinksOut 1: {0}", ex.Message ) );
 							}
 
-						} else {
+						}
+						else
+						{
 							
-							try {
+							try
+							{
 
 								ListViewItem lvItem = new ListViewItem ( sKey );
 
@@ -401,7 +452,9 @@ namespace SEOMacroscope
 
 								lvListView.Items.Add( lvItem );
 
-							} catch( Exception ex ) {
+							}
+							catch( Exception ex )
+							{
 								DebugMsg( string.Format( "RenderListViewHyperlinksOut 2: {0}", ex.Message ) );
 							}
 
@@ -420,20 +473,27 @@ namespace SEOMacroscope
 		void RenderDocumentImage ( MacroscopeDocument msDoc )
 		{
 
-			if( msDoc.GetIsImage() ) {
+			if( msDoc.GetIsImage() )
+			{
 
 				MemoryStream msStream = this.UrlLoader.LoadMemoryStreamFromUrl( msDoc.GetUrl() );
 
-				if( msStream != null ) {
+				if( msStream != null )
+				{
 					this.pictureBoxDocumentDetailsImage.Image = Image.FromStream( msStream );
 					this.RenderListViewDocInfoImage( msDoc, this.pictureBoxDocumentDetailsImage.Image );
 				}
 
-			} else {
+			}
+			else
+			{
 
-				try {
+				try
+				{
 					this.pictureBoxDocumentDetailsImage.Image = null;
-				} catch( Exception ex ) {
+				}
+				catch( Exception ex )
+				{
 					MessageBox.Show( ex.Message );
 				}
 

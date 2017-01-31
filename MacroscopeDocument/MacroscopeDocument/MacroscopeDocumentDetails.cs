@@ -47,6 +47,8 @@ namespace SEOMacroscope
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Status Code", this.GetStatusCode().ToString() ) );
 
+			slDetails.Add( new KeyValuePair<string,string> ( "Error Condition", this.GetErrorCondition() ) );
+						
 			slDetails.Add( new KeyValuePair<string,string> ( "Duration (seconds)", this.GetDurationInSecondsFormatted() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "HTST Policy Enabled", this.HypertextStrictTransportPolicy.ToString() ) );
@@ -63,9 +65,6 @@ namespace SEOMacroscope
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Language", this.GetLang() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Character Set", this.GetCharacterSet() ) );
-			
-			
-			
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
 
@@ -87,22 +86,25 @@ namespace SEOMacroscope
 			slDetails.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
 
-			for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
+			for( ushort iLevel = 1 ; iLevel <= 6 ; iLevel++ )
+			{
 				string sHeading;
-				if( this.GetHeadings( iLevel ).Count > 0 ) {
+				if( this.GetHeadings( iLevel ).Count > 0 )
+				{
 					sHeading = this.GetHeadings( iLevel )[ 0 ].ToString();
-				} else {
+				}
+				else
+				{
 					sHeading = null;
 				}
-				if( sHeading != null ) {
+				if( sHeading != null )
+				{
 					slDetails.Add( new KeyValuePair<string,string> ( string.Format( "H{0}", iLevel ), sHeading ) );
 					slDetails.Add( new KeyValuePair<string,string> ( string.Format( "H{0} Length", iLevel ), sHeading.Length.ToString() ) );
 				}
 			}
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Page Depth", this.Depth.ToString() ) );
-			
-			slDetails.Add( new KeyValuePair<string,string> ( "Error Condition", this.GetErrorCondition() ) );
 
 			return( slDetails );
 

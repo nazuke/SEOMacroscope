@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Macroscope.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeConstants.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentImage.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentJS.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentPDF.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentSitemapXml.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayHrefLang.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayKeywords.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayRedirectsAudit.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayRobots.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayStructure.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTelephoneNumbers.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTitles.cs" />
@@ -159,6 +162,7 @@
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeColumnSorter.cs" />
@@ -242,6 +246,7 @@
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
     <Folder Include="MacroscopeHosts\t" />
+    <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />

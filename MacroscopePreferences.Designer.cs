@@ -146,6 +146,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool FollowListLinks {
+			get {
+				return ((bool)(this["FollowListLinks"]));
+			}
+			set {
+				this["FollowListLinks"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
 		public bool FollowNoFollow {
 			get {
 				return ((bool)(this["FollowNoFollow"]));
@@ -176,6 +188,18 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["FollowRobotsProtocol"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool FollowSitemapLinks {
+			get {
+				return ((bool)(this["FollowSitemapLinks"]));
+			}
+			set {
+				this["FollowSitemapLinks"] = value;
 			}
 		}
 		
@@ -248,6 +272,18 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["PageLimit"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("30")]
+		public int RequestTimeout {
+			get {
+				return ((int)(this["RequestTimeout"]));
+			}
+			set {
+				this["RequestTimeout"] = value;
 			}
 		}
 		

@@ -34,6 +34,9 @@
     <Setting Name="FollowHrefLangLinks" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="FollowListLinks" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="FollowNoFollow" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -41,6 +44,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="FollowRobotsProtocol" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FollowSitemapLinks" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="HttpProxyHost" Type="System.String" Scope="User" Roaming="false">
@@ -60,6 +66,9 @@
     </Setting>
     <Setting Name="PageLimit" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="RequestTimeout" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">30</Value>
     </Setting>
     <Setting Name="SameDomainTolerance" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">2</Value>

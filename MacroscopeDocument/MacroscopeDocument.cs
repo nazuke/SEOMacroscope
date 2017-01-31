@@ -74,7 +74,7 @@ namespace SEOMacroscope
 		long ContentLength;
 
 		string MimeType;
-		string DocumentType;
+		MacroscopeConstants.DocumentType DocumentType;
 
 		Boolean IsCompressed;
 		string CompressionMethod;
@@ -124,7 +124,7 @@ namespace SEOMacroscope
 			IsDirty = true;
 			
 			Url = sUrl;
-			Timeout = 10000;
+			Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
 			
 			IsExternal = false;
 			
@@ -148,7 +148,7 @@ namespace SEOMacroscope
 			ContentLength = 0;
 			
 			MimeType = "";
-			DocumentType = MacroscopeConstants.DocumentTypeBinary;
+			DocumentType = MacroscopeConstants.DocumentType.BINARY;
 
 			ContentEncoding = "";
 			Locale = null;
@@ -170,8 +170,7 @@ namespace SEOMacroscope
 			Description = "";
 			Keywords = "";
 
-			Headings = new Dictionary<ushort,List<string>> ()
-			{
+			Headings = new Dictionary<ushort,List<string>> () {
 				{
 					1,
 					new List<string> ( 16 )
@@ -212,16 +211,22 @@ namespace SEOMacroscope
 				Stopwatch swDuration = new Stopwatch ();
 				long lDuration;
 				swDuration.Start();
-				try {
+				try
+				{
 					ProcessMethod();
-				} catch( MacroscopeDocumentException ex ) {
+				}
+				catch( MacroscopeDocumentException ex )
+				{
 					DebugMsg( string.Format( "fTimeDuration: {0}", ex.Message ) );
 				}
 				swDuration.Stop();
 				lDuration = swDuration.ElapsedMilliseconds;
-				if( lDuration > 0 ) {
+				if( lDuration > 0 )
+				{
 					this.Duration = lDuration;
-				} else {
+				}
+				else
+				{
 					this.Duration = 0;
 				}
 				DebugMsg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
@@ -345,14 +350,19 @@ namespace SEOMacroscope
 		public string GetMimeType ()
 		{
 			string sMimeType = null;
-			if( this.MimeType == null ) {
+			if( this.MimeType == null )
+			{
 				sMimeType = "";
-			} else {
+			}
+			else
+			{
 				MatchCollection matches = Regex.Matches( this.MimeType, "^([^\\s;/]+)/([^\\s;/]+)" );
-				foreach( Match match in matches ) {
+				foreach( Match match in matches )
+				{
 					sMimeType = String.Format( "{0}/{1}", match.Groups[ 1 ].Value, match.Groups[ 2 ].Value );
 				}
-				if( sMimeType == null ) {
+				if( sMimeType == null )
+				{
 					sMimeType = this.MimeType;
 				}
 			}
@@ -363,85 +373,103 @@ namespace SEOMacroscope
 		
 		public void SetIsBinary ()
 		{
-			this.DocumentType = MacroscopeConstants.DocumentTypeBinary;
+			this.DocumentType = MacroscopeConstants.DocumentType.BINARY;
 		}
 		
 		public Boolean GetIsBinary ()
 		{
-			if( this.DocumentType == MacroscopeConstants.DocumentTypeBinary ) {
+			if( this.DocumentType == MacroscopeConstants.DocumentType.BINARY )
+			{
 				return( true );
-			} else {
+			}
+			else
+			{
 				return( false );
 			}
 		}
 				
 		public void SetIsHtml ()
 		{
-			this.DocumentType = MacroscopeConstants.DocumentTypeHtml;
+			this.DocumentType = MacroscopeConstants.DocumentType.HTML;
 		}
 						
 		public Boolean GetIsHtml ()
 		{
-			if( this.DocumentType == MacroscopeConstants.DocumentTypeHtml ) {
+			if( this.DocumentType == MacroscopeConstants.DocumentType.HTML )
+			{
 				return( true );
-			} else {
+			}
+			else
+			{
 				return( false );
 			}
 		}
 				
 		public void SetIsCss ()
 		{
-			this.DocumentType = MacroscopeConstants.DocumentTypeCss;
+			this.DocumentType = MacroscopeConstants.DocumentType.CSS;
 		}
 				
 		public Boolean GetIsCss ()
 		{
-			if( this.DocumentType == MacroscopeConstants.DocumentTypeCss ) {
+			if( this.DocumentType == MacroscopeConstants.DocumentType.CSS )
+			{
 				return( true );
-			} else {
+			}
+			else
+			{
 				return( false );
 			}
 		}
 						
 		public void SetIsJavascript ()
 		{
-			this.DocumentType = MacroscopeConstants.DocumentTypeJavascript;
+			this.DocumentType = MacroscopeConstants.DocumentType.JAVASCRIPT;
 		}
 						
 						
 		public Boolean GetIsJavascript ()
 		{
-			if( this.DocumentType == MacroscopeConstants.DocumentTypeJavascript ) {
+			if( this.DocumentType == MacroscopeConstants.DocumentType.JAVASCRIPT )
+			{
 				return( true );
-			} else {
+			}
+			else
+			{
 				return( false );
 			}
 		}
 		
 		public void SetIsImage ()
 		{
-			this.DocumentType = MacroscopeConstants.DocumentTypeImage;
+			this.DocumentType = MacroscopeConstants.DocumentType.IMAGE;
 		}
 																								
 		public Boolean GetIsImage ()
 		{
-			if( this.DocumentType == MacroscopeConstants.DocumentTypeImage ) {
+			if( this.DocumentType == MacroscopeConstants.DocumentType.IMAGE )
+			{
 				return( true );
-			} else {
+			}
+			else
+			{
 				return( false );
 			}
 		}
 		
 		public void SetIsPdf ()
 		{
-			this.DocumentType = MacroscopeConstants.DocumentTypePdf;
+			this.DocumentType = MacroscopeConstants.DocumentType.PDF;
 		}
 																										
 		public Boolean GetIsPdf ()
 		{
-			if( this.DocumentType == MacroscopeConstants.DocumentTypePdf ) {
+			if( this.DocumentType == MacroscopeConstants.DocumentType.PDF )
+			{
 				return( true );
-			} else {
+			}
+			else
+			{
 				return( false );
 			}
 		}
@@ -515,8 +543,10 @@ namespace SEOMacroscope
 
 		public IEnumerable IterateOutlinks ()
 		{
-			lock( this.Outlinks ) {
-				foreach( string sUrl in this.Outlinks.Keys ) {
+			lock( this.Outlinks )
+			{
+				foreach( string sUrl in this.Outlinks.Keys )
+				{
 					yield return sUrl;
 				}
 			}
@@ -525,7 +555,8 @@ namespace SEOMacroscope
 		public MacroscopeOutlink GetOutlink ( string sUrl )
 		{
 			MacroscopeOutlink Outlink = null;
-			if( this.Outlinks.ContainsKey( sUrl ) ) {
+			if( this.Outlinks.ContainsKey( sUrl ) )
+			{
 				Outlink = this.Outlinks[ sUrl ];
 			}
 			return( Outlink );
@@ -587,9 +618,12 @@ namespace SEOMacroscope
 		public void AddEmailAddress ( string sString )
 		{
 			DebugMsg( string.Format( "AddEmailAddress: {0}", sString ) );
-			if( this.EmailAddresses.ContainsKey( sString ) ) {
+			if( this.EmailAddresses.ContainsKey( sString ) )
+			{
 				this.EmailAddresses[ sString ] = this.GetUrl();
-			} else {
+			}
+			else
+			{
 				this.EmailAddresses.Add( sString, this.GetUrl() );
 			}
 		}
@@ -604,9 +638,12 @@ namespace SEOMacroscope
 		public void AddTelephoneNumber ( string sString )
 		{
 			DebugMsg( string.Format( "AddTelephoneNumber: {0}", sString ) );
-			if( this.TelephoneNumbers.ContainsKey( sString ) ) {
+			if( this.TelephoneNumbers.ContainsKey( sString ) )
+			{
 				this.TelephoneNumbers[ sString ] = this.GetUrl();
-			} else {
+			}
+			else
+			{
 				this.TelephoneNumbers.Add( sString, this.GetUrl() );
 			}
 		}
@@ -621,9 +658,12 @@ namespace SEOMacroscope
 		public string GetTitle ()
 		{
 			string sValue;
-			if( this.Title != null ) {
+			if( this.Title != null )
+			{
 				sValue = this.Title;
-			} else {
+			}
+			else
+			{
 				sValue = "";
 			}
 			return( sValue );
@@ -639,9 +679,12 @@ namespace SEOMacroscope
 		public string GetDescription ()
 		{
 			string sValue;
-			if( this.Description != null ) {
+			if( this.Description != null )
+			{
 				sValue = this.Description;
-			} else {
+			}
+			else
+			{
 				sValue = "";
 			}
 			return( sValue );
@@ -657,9 +700,12 @@ namespace SEOMacroscope
 		public string GetKeywords ()
 		{
 			string sValue;
-			if( this.Keywords != null ) {
+			if( this.Keywords != null )
+			{
 				sValue = this.Keywords;
-			} else {
+			}
+			else
+			{
 				sValue = "";
 			}
 			return( sValue );
@@ -673,7 +719,7 @@ namespace SEOMacroscope
 		public int GetKeywordsCount ()
 		{
 			int uiCount = 0;
-			string[] aKeywords = Regex.Split( this.GetKeywords(), "[\\s,]+" );
+			string [] aKeywords = Regex.Split( this.GetKeywords(), "[\\s,]+" );
 			uiCount = aKeywords.GetLength( 0 );
 			return( uiCount );
 		}
@@ -695,7 +741,8 @@ namespace SEOMacroscope
 
 		public void AddHeading ( ushort iLevel, string sString )
 		{
-			if( this.Headings.ContainsKey( iLevel ) ) {
+			if( this.Headings.ContainsKey( iLevel ) )
+			{
 				List<string> lHeadings = this.Headings[ iLevel ];
 				lHeadings.Add( sString );
 			}
@@ -704,7 +751,8 @@ namespace SEOMacroscope
 		public List<string> GetHeadings ( ushort iLevel )
 		{
 			List<string> lHeadings = new List<string> ();
-			if( this.Headings.ContainsKey( iLevel ) ) {
+			if( this.Headings.ContainsKey( iLevel ) )
+			{
 				lHeadings = this.Headings[ iLevel ];
 			}
 			return( lHeadings );
@@ -758,72 +806,108 @@ namespace SEOMacroscope
 
 			this.ClearIsDirty();
 
-			try {
+			try
+			{
 				this.ProcessUrlElements();
-			} catch( Exception ex ) {
+			}
+			catch( Exception ex )
+			{
 				DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
 			}
 
 			fTimeDuration( this.ExecuteHeadRequest );
 
-			if( this.GetStatusCode() == ( int )HttpStatusCode.RequestTimeout ) {
+			if( this.GetStatusCode() == ( int )HttpStatusCode.RequestTimeout )
+			{
 				return( false );
-			} else if( this.GetStatusCode() == ( int )HttpStatusCode.GatewayTimeout ) {
+			}
+			else
+			if( this.GetStatusCode() == ( int )HttpStatusCode.GatewayTimeout )
+			{
 				return( false );
 			}
 
-			if( this.GetIsRedirect() ) {
+			if( this.GetIsRedirect() )
+			{
 				DebugMsg( string.Format( "REDIRECT DETECTED: {0}", this.Url ) );
 				return( true );
 			}
 
-			if( !MacroscopePreferencesManager.GetCheckExternalLinks() ) {
-				if( this.GetIsExternal() ) {
+			if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+			{
+				if( this.GetIsExternal() )
+				{
 					bDownloadDocument = false;
 				}
 			}
 
-			if( bDownloadDocument ) {
+			if( bDownloadDocument )
+			{
 
-				if( this.GetIsHtml() ) {
+				if( this.GetIsHtml() )
+				{
 					DebugMsg( string.Format( "IS HTML PAGE: {0}", this.Url ) );
 					fTimeDuration( this.ProcessHtmlPage );
 
-				} else if( this.GetIsCss() ) {
+				}
+				else
+				if( this.GetIsCss() )
+				{
 					DebugMsg( string.Format( "IS CSS PAGE: {0}", this.Url ) );
-					if( MacroscopePreferencesManager.GetFetchStylesheets() ) {
+					if( MacroscopePreferencesManager.GetFetchStylesheets() )
+					{
 						fTimeDuration( this.ProcessCssPage );
 					}
 
-				} else if( this.GetIsImage() ) {
+				}
+				else
+				if( this.GetIsImage() )
+				{
 					DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.Url ) );
-					if( MacroscopePreferencesManager.GetFetchImages() ) {
+					if( MacroscopePreferencesManager.GetFetchImages() )
+					{
 						fTimeDuration( this.ProcessImagePage );
 					}
 				
-				} else if( this.GetIsJavascript() ) {
+				}
+				else
+				if( this.GetIsJavascript() )
+				{
 					DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ) );
-					if( MacroscopePreferencesManager.GetFetchJavascripts() ) {
+					if( MacroscopePreferencesManager.GetFetchJavascripts() )
+					{
 						fTimeDuration( this.ProcessJavascriptPage );
 					}
 
-				} else if( this.GetIsPdf() ) {
+				}
+				else
+				if( this.GetIsPdf() )
+				{
 					DebugMsg( string.Format( "IS PDF PAGE: {0}", this.Url ) );
-					if( MacroscopePreferencesManager.GetFetchPdfs() ) {
+					if( MacroscopePreferencesManager.GetFetchPdfs() )
+					{
 						fTimeDuration( this.ProcessPdfPage );
 					}
 
-				} else if( this.GetIsBinary() ) {
+				}
+				else
+				if( this.GetIsBinary() )
+				{
 					DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.Url ) );
-					if( MacroscopePreferencesManager.GetFetchBinaries() ) {
+					if( MacroscopePreferencesManager.GetFetchBinaries() )
+					{
 						fTimeDuration( this.ProcessBinaryPage );
 					}
 
-				} else {
+				}
+				else
+				{
 					DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.Url ) );
 				}
 
-			} else {
+			}
+			else
+			{
 				DebugMsg( string.Format( "SKIPPING DOWNLOAD:: {0}", this.Url ) );
 			}
 
@@ -848,17 +932,22 @@ namespace SEOMacroscope
 			req.AllowAutoRedirect = false;
 			MacroscopePreferencesManager.EnableHttpProxy( req );
 
-			try {
+			try
+			{
 
 				res = ( HttpWebResponse )req.GetResponse();
 
-			} catch( TimeoutException ex ) {
+			}
+			catch( TimeoutException ex )
+			{
 
 				DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ) );
 
 				sErrorCondition = ex.Message;
 				
-			} catch( WebException ex ) {
+			}
+			catch( WebException ex )
+			{
 
 				DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
 				DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Status ) );
@@ -868,19 +957,23 @@ namespace SEOMacroscope
 
 			}
 
-			if( res != null ) {
+			if( res != null )
+			{
 				
 				DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
 
-				foreach( string sKey in res.Headers ) {
+				foreach( string sKey in res.Headers )
+				{
 					DebugMsg( string.Format( "HEADERS: {0} => {1}", sKey, res.GetResponseHeader( sKey ) ) );
 				}
 
 				this.ProcessHttpHeaders( req, res );
 
-				try {
+				try
+				{
 
-					switch( res.StatusCode ) {
+					switch( res.StatusCode )
+					{
 
 					// 200 Range
 
@@ -923,18 +1016,21 @@ namespace SEOMacroscope
 								
 					}
 
-				} catch( MacroscopeDocumentException ex ) {
+				}
+				catch( MacroscopeDocumentException ex )
+				{
 					DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
 				}
 
-				if( bIsRedirect ) {
+				if( bIsRedirect )
+				{
 
 					this.IsRedirect = true;
 					string sLocation = res.GetResponseHeader( "Location" );
 					string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLocation );
 					this.UrlRedirectFrom = sOriginalUrl;
 					this.UrlRedirectTo = sLinkUrlAbs;
-					this.AddDocumentOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.LINK_REDIRECT, true );
+					this.AddDocumentOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.REDIRECT, true );
 
 				}
 					
@@ -942,7 +1038,8 @@ namespace SEOMacroscope
 
 			}
 
-			if( sErrorCondition != null ) {
+			if( sErrorCondition != null )
+			{
 				this.ProcessErrorCondition( sErrorCondition );
 			}
 
@@ -953,9 +1050,11 @@ namespace SEOMacroscope
 		void ProcessErrorCondition ( string ErrorCondition )
 		{
 
-			if( ErrorCondition != null ) {
+			if( ErrorCondition != null )
+			{
 
-				switch( ErrorCondition.ToLower() ) {
+				switch( ErrorCondition.ToLower() )
+				{
 					case "timeout":
 						this.StatusCode = ( int )HttpStatusCode.RequestTimeout;
 						break;
@@ -966,7 +1065,9 @@ namespace SEOMacroscope
 
 				this.ErrorCondition = ErrorCondition;
 
-			} else {
+			}
+			else
+			{
 
 				this.ErrorCondition = "";
 
@@ -999,19 +1100,23 @@ namespace SEOMacroscope
 			}
 
 			// Probe HTTP Headers
-			foreach( string sHeader in res.Headers ) {
+			foreach( string sHeader in res.Headers )
+			{
 
 				DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ) );
 
-				if( sHeader.ToLower().Equals( "date" ) ) {
+				if( sHeader.ToLower().Equals( "date" ) )
+				{
 					this.DateServer = DateTime.Parse( res.GetResponseHeader( sHeader ) );
 				}
 
-				if( sHeader.ToLower().Equals( "last-modified" ) ) {
+				if( sHeader.ToLower().Equals( "last-modified" ) )
+				{
 					this.DateModified = DateTime.Parse( res.GetResponseHeader( sHeader ) );
 				}
 
-				if( sHeader.ToLower().Equals( "content-encoding" ) ) {
+				if( sHeader.ToLower().Equals( "content-encoding" ) )
+				{
 					this.IsCompressed = true;
 					this.CompressionMethod = res.GetResponseHeader( sHeader );
 				}
@@ -1019,14 +1124,16 @@ namespace SEOMacroscope
 				// Process HTST Policy
 				// https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
 				// Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-				if( sHeader.ToLower().Equals( "strict-transport-security" ) ) {
+				if( sHeader.ToLower().Equals( "strict-transport-security" ) )
+				{
 					this.HypertextStrictTransportPolicy = true;
 					// TODO: implement includeSubDomains
 				}
 
 				// Canonical HTTP Header
 				// Link: <http://www.example.com/downloads/white-paper.pdf>; rel="canonical"
-				if( sHeader.ToLower().Equals( "link" ) ) {
+				if( sHeader.ToLower().Equals( "link" ) )
+				{
 
 					string sUrl = null;
 					string sRel = null;
@@ -1034,14 +1141,17 @@ namespace SEOMacroscope
 
 					MatchCollection matches = Regex.Matches( sRaw, "<([^<>]+)>\\s*;\\srel=\"([^\"]+)\"" );
 
-					foreach( Match match in matches ) {
+					foreach( Match match in matches )
+					{
 						sUrl = match.Groups[ 1 ].Value;
 						sRel = match.Groups[ 2 ].Value;
 					}
 									
-					if( ( sRel != null ) && ( sRel.ToLower() == "canonical" ) ) {
+					if( ( sRel != null ) && ( sRel.ToLower() == "canonical" ) )
+					{
 						
-						if( ( sUrl != null ) && ( sUrl.Length > 0 ) ) {
+						if( ( sUrl != null ) && ( sUrl.Length > 0 ) )
+						{
 							this.SetCanonical( sUrl );
 						}
 					}
@@ -1052,10 +1162,12 @@ namespace SEOMacroscope
 
 			// Process Dates
 			{
-				if( this.DateServer.Date == new DateTime ().Date ) {
+				if( this.DateServer.Date == new DateTime ().Date )
+				{
 					this.DateServer = new DateTime ();
 				}
-				if( this.DateModified.Date == new DateTime ().Date ) {
+				if( this.DateModified.Date == new DateTime ().Date )
+				{
 					this.DateModified = this.DateServer;
 				}
 			}
@@ -1069,17 +1181,32 @@ namespace SEOMacroscope
 				Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
 				Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
 
-				if( reIsHtml.IsMatch( res.ContentType.ToString() ) ) {
+				if( reIsHtml.IsMatch( res.ContentType.ToString() ) )
+				{
 					this.SetIsHtml();
-				} else if( reIsCss.IsMatch( res.ContentType.ToString() ) ) {
+				}
+				else
+				if( reIsCss.IsMatch( res.ContentType.ToString() ) )
+				{
 					this.SetIsCss();
-				} else if( reIsJavascript.IsMatch( res.ContentType.ToString() ) ) {
+				}
+				else
+				if( reIsJavascript.IsMatch( res.ContentType.ToString() ) )
+				{
 					this.SetIsJavascript();
-				} else if( reIsImage.IsMatch( res.ContentType.ToString() ) ) {
+				}
+				else
+				if( reIsImage.IsMatch( res.ContentType.ToString() ) )
+				{
 					this.SetIsImage();
-				} else if( reIsPdf.IsMatch( res.ContentType.ToString() ) ) {
+				}
+				else
+				if( reIsPdf.IsMatch( res.ContentType.ToString() ) )
+				{
 					this.SetIsPdf();
-				} else {
+				}
+				else
+				{
 					this.SetIsBinary();
 				}
 
@@ -1102,15 +1229,18 @@ namespace SEOMacroscope
 
 		/** Outlinks **************************************************************/
 
-		void AddDocumentOutlink ( string sRawUrl, string sAbsoluteUrl, string sType, Boolean bFollow )
+		void AddDocumentOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
 		{
 			
 			MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, sType, bFollow );
 
-			if( this.Outlinks.ContainsKey( sRawUrl ) ) {
+			if( this.Outlinks.ContainsKey( sRawUrl ) )
+			{
 				this.Outlinks.Remove( sRawUrl );
 				this.Outlinks.Add( sRawUrl, OutLink );
-			} else {
+			}
+			else
+			{
 				this.Outlinks.Add( sRawUrl, OutLink );
 			}
 

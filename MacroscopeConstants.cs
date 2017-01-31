@@ -35,6 +35,18 @@ namespace SEOMacroscope
 	public static class MacroscopeConstants
 	{
 
+		/** BEGIN: Runtime Modes **************************************************/
+
+		public enum RunTimeMode
+		{
+			LIVE = 1,
+			LISTFILE = 2,
+			LISTTEXT = 3,
+			SITEMAP = 4
+		}
+
+		/** END: Runtime Modes ****************************************************/
+
 		/** BEGIN: Named Queues ***************************************************/
 
 		public const string NamedQueueUrlList = "UrlQueue";
@@ -42,17 +54,18 @@ namespace SEOMacroscope
 		public const string NamedQueueDisplayQueue = "DisplayQueue";
 		public const string NamedQueueDisplayStructure = "DisplayStructure";
 		public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
-		public const string NamedQueueDisplayCanonicalAnalysis = "CanonicalAnalysis";
+		public const string NamedQueueDisplayCanonicalAnalysis = "DisplayCanonicalAnalysis";
 		public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
-		public const string NamedQueueDisplayErrors = "Errors";
-		public const string NamedQueueDisplayRedirectsAudit = "RedirectsAudit";
-		public const string NamedQueueDisplayUriAnalysis = "UriAnalysis";
-		public const string NamedQueueDisplayPageTitles = "PageTitles";
-		public const string NamedQueueDisplayPageDescriptions = "PageDescriptions";
-		public const string NamedQueueDisplayPageKeywords = "PageKeywords";
-		public const string NamedQueueDisplayPageHeadings = "PageHeadings";
-		public const string NamedQueueDisplayEmailAddresses = "EmailAddresses";
-		public const string NamedQueueDisplayTelephoneNumbers = "TelephoneNumbers";
+		public const string NamedQueueDisplayErrors = "DisplayErrors";
+		public const string NamedQueueDisplayRedirectsAudit = "DisplayRedirectsAudit";
+		public const string NamedQueueDisplayUriAnalysis = "DisplayUriAnalysis";
+		public const string NamedQueueDisplayPageTitles = "DisplayPageTitles";
+		public const string NamedQueueDisplayPageDescriptions = "DisplayPageDescriptions";
+		public const string NamedQueueDisplayPageKeywords = "DisplayPageKeywords";
+		public const string NamedQueueDisplayPageHeadings = "DisplayPageHeadings";
+		public const string NamedQueueDisplayRobots = "DisplayRobots";
+		public const string NamedQueueDisplayEmailAddresses = "DisplayEmailAddresses";
+		public const string NamedQueueDisplayTelephoneNumbers = "DisplayTelephoneNumbers";
 		public const string NamedQueueDisplayHostnames = "DisplayHostnames";
 
 		public const string RecalculateDocCollection = "RecalculateDocCollection";
@@ -60,30 +73,37 @@ namespace SEOMacroscope
 		/** END: Named Queues *****************************************************/
 
 		/** BEGIN: Document Types *************************************************/
-		
-		public const string DocumentTypeBinary = "BINARY";
-		public const string DocumentTypeHtml = "HTML";
-		public const string DocumentTypeCss = "CSS";
-		public const string DocumentTypeJavascript = "JAVASCRIPT";
-		public const string DocumentTypeImage = "IMAGE";
-		public const string DocumentTypePdf = "PDF";
 
+		public enum DocumentType
+		{
+			BINARY = 1,
+			HTML = 2,
+			CSS = 3,
+			JAVASCRIPT = 4,
+			IMAGE = 5,
+			PDF = 6
+		}
+		
 		/** END: Document Types ***************************************************/
 
 		/** BEGIN: Outlink Types **************************************************/
 
-		public const string LINK_REDIRECT = "LINK";
-		public const string LINK_LINK = "LINK";
-		public const string LINK_CANONICAL = "CANONICAL";
-		public const string LINK_HREFLANG = "HREFLANG";
-		public const string LINK_AHREF = "AHREF";
-		public const string LINK_IMAGE = "IMAGE";
-		public const string LINK_SCRIPT = "SCRIPT";
+		public enum OutlinkType
+		{
+			SITEMAPXML = 0,
+			REDIRECT = 1,
+			LINK = 2,
+			CANONICAL = 3,
+			HREFLANG = 4,
+			AHREF = 5,
+			IMAGE = 6,
+			SCRIPT = 7
+		}
 
 		/** END: Outlink Types ****************************************************/
 
 		/** BEGIN: ListView Column Names ******************************************/
-		
+
 		public const string Url = "URL";
 		
 		public const string Status = "Status";

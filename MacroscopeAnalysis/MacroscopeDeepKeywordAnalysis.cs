@@ -25,39 +25,24 @@
 
 using System;
 
-namespace SEOMacroscope
+namespace SEOMacroscope.MacroscopeAnalysis
 {
-	
+
 	/// <summary>
-	/// Description of MacroscopeOutlink.
+	/// Description of MacroscopeDeepKeywordAnalysis.
 	/// </summary>
-	
-	public class MacroscopeOutlink : Macroscope
+
+	public class MacroscopeDeepKeywordAnalysis : Macroscope
 	{
-		
-		/**************************************************************************/
-
-		public string RawUrl { get; set; }
-		public string AbsoluteUrl { get; set; }
-		public MacroscopeConstants.OutlinkType Type { get; set; }
-		public Boolean Follow { get; set; }
 
 		/**************************************************************************/
-				
-		public MacroscopeOutlink ()
+
+		public MacroscopeDeepKeywordAnalysis ()
 		{
-		}
-					
-		public MacroscopeOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
-		{
-			RawUrl = sRawUrl;
-			AbsoluteUrl = sAbsoluteUrl;
-			Type = sType;
-			Follow = bFollow;
 		}
 
 		/**************************************************************************/
 
 	}
-	
+
 }

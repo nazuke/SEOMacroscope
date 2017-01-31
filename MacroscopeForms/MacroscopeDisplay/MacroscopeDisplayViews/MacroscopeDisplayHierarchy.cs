@@ -131,7 +131,7 @@ namespace SEOMacroscope
 		protected override void RenderTreeView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			TreeNode nCurrentNode = this.tvTreeView.TopNode;
+			TreeNode nCurrentNode = this.tvTreeView.Nodes[ 0 ];
 			string sPath = string.Join( "/", msDoc.GetHostname(), msDoc.GetPath() );
 
 			if( sPath != null ) {
@@ -158,6 +158,7 @@ namespace SEOMacroscope
 							TreeNode nNewNode = nCurrentNode.Nodes.Add( sElementName );
 							nNewNode.Name = sElementName;
 							nNewNode.Text = sElementName;
+							nNewNode.Tag = sUrl;
 
 							nCurrentNode = nNewNode;
 

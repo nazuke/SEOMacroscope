@@ -48,10 +48,10 @@ namespace SEOMacroscope
 			
 			for( int i = 0; i < alUrls.Count; i++ ) {
 
-				MacroscopeJobMaster jobmaster = new MacroscopeJobMaster ();
+				MacroscopeJobMaster jobmaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE );
 				MacroscopeJobWorker worker = new MacroscopeJobWorker ( jobmaster );
 
-				jobmaster.AddUrlQueueItem( alUrls[i] );
+				jobmaster.AddUrlQueueItem( alUrls[ i ] );
 
 				worker.Execute();
 

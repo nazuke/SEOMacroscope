@@ -51,15 +51,18 @@ namespace SEOMacroscope
 		static int MaxFetchesPerWorker;
 		static int Depth;
 		static int PageLimit;
+		static int RequestTimeout;
 		static int MaxRetries;
 		
 		static Boolean CheckExternalLinks;
 		
 		static Boolean FollowRobotsProtocol;
+		static Boolean FollowSitemapLinks;
 		static Boolean FollowRedirects;
 		static Boolean FollowNoFollow;
 		static Boolean FollowCanonicalLinks;
 		static Boolean FollowHrefLangLinks;
+		static Boolean FollowListLinks;
 
 		static Boolean FetchStylesheets;
 		static Boolean FetchJavascripts;
@@ -90,15 +93,19 @@ namespace SEOMacroscope
 
 			SetDefaultValues();
 
-			if( Preferences != null ) {
+			if( Preferences != null )
+			{
 
-				if( Preferences.FirstRun == true ) {
+				if( Preferences.FirstRun == true )
+				{
 
 					SetDefaultValues();
 					Preferences.FirstRun = false;
 					Preferences.Save();
 				
-				} else {
+				}
+				else
+				{
 
 					HttpProxyHost = Preferences.HttpProxyHost;
 					HttpProxyPort = Preferences.HttpProxyPort;
@@ -110,6 +117,7 @@ namespace SEOMacroscope
 					
 					Depth = Preferences.Depth;
 					PageLimit = Preferences.PageLimit;
+					RequestTimeout = Preferences.RequestTimeout;
 					MaxRetries = Preferences.MaxRetries;
 
 					CheckExternalLinks = Preferences.CheckExternalLinks;
@@ -117,11 +125,13 @@ namespace SEOMacroscope
 					CheckHreflangs = Preferences.CheckHreflangs;
 			
 					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
+					FollowSitemapLinks = Preferences.FollowSitemapLinks;
 					FollowRedirects = Preferences.FollowRedirects;			
 					FollowNoFollow = Preferences.FollowNoFollow;
 					FollowCanonicalLinks = Preferences.FollowCanonicalLinks;			
 					FollowHrefLangLinks = Preferences.FollowHrefLangLinks;
-	
+					FollowListLinks = Preferences.FollowListLinks;
+					
 					FetchStylesheets = Preferences.FetchStylesheets;
 					FetchJavascripts = Preferences.FetchJavascripts;
 					FetchImages = Preferences.FetchImages;
@@ -156,16 +166,19 @@ namespace SEOMacroscope
 			MaxFetchesPerWorker = 32;
 			Depth = -1;
 			PageLimit = -1;
+			RequestTimeout = 30;
 			MaxRetries = 0;
 			
 			CheckExternalLinks = false;
 
 			FollowRobotsProtocol = true;
+			FollowSitemapLinks = true;
 			FollowRedirects = false;
 			FollowNoFollow = true;
 			FollowCanonicalLinks = true;			
 			FollowHrefLangLinks = false;
-
+			FollowListLinks = false;
+						
 			FetchStylesheets = true;
 			FetchJavascripts = true;
 			FetchImages = true;
@@ -192,22 +205,39 @@ namespace SEOMacroscope
 		static void SanitizeValues ()
 		{
 
-			if( StartUrl.Length > 0 ) {
+			if( StartUrl.Length > 0 )
+			{
 				StartUrl = Regex.Replace( StartUrl, "^\\s+", "" );
 				StartUrl = Regex.Replace( StartUrl, "\\s+$", "" );
 			}
 
-			if( Depth <= 0 ) {
+			if( Depth <= 0 )
+			{
 				Depth = -1;
 			}
 
-			if( PageLimit <= 0 ) {
+			if( PageLimit <= 0 )
+			{
 				PageLimit = -1;
 			}
 
-			if( MaxRetries <= 0 ) {
+			if( RequestTimeout <= 10 )
+			{
+				RequestTimeout = 10;
+			}
+			else
+			if( RequestTimeout >= 50 )
+			{
+				RequestTimeout = 50;
+			}
+
+			if( MaxRetries <= 0 )
+			{
 				MaxRetries = 0;
-			} else if( MaxRetries > 10 ) {
+			}
+			else
+			if( MaxRetries > 10 )
+			{
 				MaxRetries = 10;
 			}
 			
@@ -220,7 +250,8 @@ namespace SEOMacroscope
 		public static void SavePreferences ()
 		{
 
-			if( Preferences != null ) {
+			if( Preferences != null )
+			{
 				
 				Preferences.HttpProxyHost = HttpProxyHost;
 				Preferences.HttpProxyPort = HttpProxyPort;
@@ -232,6 +263,7 @@ namespace SEOMacroscope
 
 				Preferences.Depth = Depth;
 				Preferences.PageLimit = PageLimit;
+				Preferences.RequestTimeout = RequestTimeout;
 				Preferences.MaxRetries = MaxRetries;
 
 				Preferences.CheckExternalLinks = CheckExternalLinks;
@@ -239,11 +271,13 @@ namespace SEOMacroscope
 				Preferences.CheckHreflangs = CheckHreflangs;
 			
 				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
+				Preferences.FollowSitemapLinks = FollowSitemapLinks;
 				Preferences.FollowRedirects = FollowRedirects;
 				Preferences.FollowNoFollow = FollowNoFollow;
 				Preferences.FollowCanonicalLinks = FollowCanonicalLinks;			
 				Preferences.FollowHrefLangLinks = FollowHrefLangLinks;
-
+				Preferences.FollowListLinks = FollowListLinks;
+								
 				Preferences.FetchStylesheets = FetchStylesheets;
 				Preferences.FetchJavascripts = FetchJavascripts;
 				Preferences.FetchImages = FetchImages;
@@ -283,13 +317,17 @@ namespace SEOMacroscope
 			string sHttpProxyHost;
 			int iHttpProxyPort;
 
-			if( HttpProxyHost.Length > 0 ) {
+			if( HttpProxyHost.Length > 0 )
+			{
 
 				sHttpProxyHost = HttpProxyHost;
 
-				if( HttpProxyPort >= 0 ) {
+				if( HttpProxyPort >= 0 )
+				{
 					iHttpProxyPort = HttpProxyPort;
-				} else {
+				}
+				else
+				{
 					iHttpProxyPort = 80;
 				}
 
@@ -297,7 +335,9 @@ namespace SEOMacroscope
 				
 				wpProxy = new WebProxy ( sHttpProxyHost, iHttpProxyPort );
 
-			} else {
+			}
+			else
+			{
 				
 				DebugMsg( string.Format( "ConfigureHttpProxy: NOT USED" ) );
 				
@@ -314,7 +354,8 @@ namespace SEOMacroscope
 	
 		public static void EnableHttpProxy ( WebRequest req )
 		{
-			if( wpProxy != null ) {
+			if( wpProxy != null )
+			{
 				req.Proxy = wpProxy;
 			}
 		}
@@ -379,19 +420,27 @@ namespace SEOMacroscope
 			PageLimit = iValue;
 		}
 
+		/** Request Timeout *******************************************************/
+
+		public static int GetRequestTimeout ()
+		{
+			return( RequestTimeout );
+		}
+		
+		public static void SetRequestTimeout ( int iValue )
+		{
+			RequestTimeout = iValue;
+		}
+
 		/** Maximum Retries *******************************************************/
 
 		public static int GetMaxRetries ()
 		{
-
-			DebugMsg( string.Format( "GetMaxRetries: {0}", MaxRetries ) );
-
 			return( MaxRetries );
 		}
 		
 		public static void SetMaxRetries ( int iValue )
 		{
-			DebugMsg( string.Format( "SetMaxRetries: {0}", iValue ) );
 			MaxRetries = iValue;
 		}
 
@@ -433,6 +482,17 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
+		public static Boolean GetFollowSitemapLinks ()
+		{
+			return( FollowSitemapLinks );
+		}
+
+		public static void SetFollowSitemapLinks ( Boolean bState )
+		{
+			FollowSitemapLinks = bState;
+		}
+
+		/**************************************************************************/
 		public static Boolean GetFollowRedirects ()
 		{
 			return( FollowRedirects );
@@ -477,6 +537,18 @@ namespace SEOMacroscope
 		public static void SetFollowHrefLangLinks ( Boolean bState )
 		{
 			FollowHrefLangLinks = bState;
+		}
+
+		/**************************************************************************/
+				
+		public static Boolean GetFollowListLinks ()
+		{
+			return( FollowListLinks );
+		}
+
+		public static void SetFollowListLinks ( Boolean bState )
+		{
+			FollowListLinks = bState;
 		}
 
 		/**************************************************************************/

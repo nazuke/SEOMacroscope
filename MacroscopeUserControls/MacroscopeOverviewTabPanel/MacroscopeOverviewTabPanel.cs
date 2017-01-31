@@ -64,6 +64,7 @@ namespace SEOMacroscope
 			listViewPageDescriptions.Dock = DockStyle.Fill;
 			listViewPageKeywords.Dock = DockStyle.Fill;
 			listViewPageHeadings.Dock = DockStyle.Fill;
+			listViewRobots.Dock = DockStyle.Fill;
 			listViewEmailAddresses.Dock = DockStyle.Fill;
 			listViewTelephoneNumbers.Dock = DockStyle.Fill;
 			listViewHostnames.Dock = DockStyle.Fill;

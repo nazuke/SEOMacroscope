@@ -29,35 +29,22 @@ namespace SEOMacroscope
 {
 	
 	/// <summary>
-	/// Description of MacroscopeOutlink.
+	/// Description of MacroscopeUrlListLoader.
 	/// </summary>
 	
-	public class MacroscopeOutlink : Macroscope
+	public class MacroscopeUrlListLoader : Macroscope
 	{
-		
+	
 		/**************************************************************************/
 
-		public string RawUrl { get; set; }
-		public string AbsoluteUrl { get; set; }
-		public MacroscopeConstants.OutlinkType Type { get; set; }
-		public Boolean Follow { get; set; }
-
 		/**************************************************************************/
-				
-		public MacroscopeOutlink ()
-		{
-		}
-					
-		public MacroscopeOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
-		{
-			RawUrl = sRawUrl;
-			AbsoluteUrl = sAbsoluteUrl;
-			Type = sType;
-			Follow = bFollow;
-		}
 
+		public MacroscopeUrlListLoader()
+		{
+		}
+	
 		/**************************************************************************/
 
 	}
-	
+
 }
