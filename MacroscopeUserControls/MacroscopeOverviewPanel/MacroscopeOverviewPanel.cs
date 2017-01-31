@@ -33,15 +33,15 @@ namespace SEOMacroscope
 {
 	
 	/// <summary>
-	/// Description of MacroscopeOverviewTabPanel.
+	/// Description of MacroscopeOverviewPanel.
 	/// </summary>
 	
-	public partial class MacroscopeOverviewTabPanel : UserControl
+	public partial class MacroscopeOverviewPanel : UserControl
 	{
 	
 		/**************************************************************************/
 
-		public MacroscopeOverviewTabPanel ()
+		public MacroscopeOverviewPanel ()
 		{
  
 			// The InitializeComponent() call is required for Windows Forms designer support.

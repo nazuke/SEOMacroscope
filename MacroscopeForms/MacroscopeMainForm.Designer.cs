@@ -66,7 +66,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.SplitContainer splitContainerLeftAndRightViews;
 		public System.Windows.Forms.SplitContainer splitContainerStructureAndDocumentDetails;
-		public SEOMacroscope.MacroscopeOverviewTabPanel macroscopeOverviewTabPanelInstance;
+		public SEOMacroscope.MacroscopeOverviewPanel macroscopeOverviewTabPanelInstance;
 		private SEOMacroscope.MacroscopeDocumentDetails macroscopeDocumentDetailsInstance;
 		private SEOMacroscope.MacroscopeSiteStructurePanel macroscopeSiteStructurePanelInstance;
 		private System.Windows.Forms.ToolStripMenuItem loadURLListToolStripMenuItem;
@@ -135,7 +135,7 @@ namespace SEOMacroscope
 			this.ButtonReset = new System.Windows.Forms.ToolStripButton();
 			this.splitContainerLeftAndRightViews = new System.Windows.Forms.SplitContainer();
 			this.splitContainerStructureAndDocumentDetails = new System.Windows.Forms.SplitContainer();
-			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewTabPanel();
+			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
 			this.menuStripMain.SuspendLayout();

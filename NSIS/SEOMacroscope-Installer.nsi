@@ -1,11 +1,13 @@
-OutFile SEOMacroscope-Installer.exe
+!include SEOMacroscope-Version.nsh
+
+OutFile "SEOMacroscope-Installer-${VERSION}.exe"
 
 SetCompressor /SOLID lzma 
 Unicode true
 
 LicenseData ..\LICENSE
 
-Name "SEO Macroscope"
+Name "SEO Macroscope ${VERSION}"
 
 InstallDir $DESKTOP\QA
 #InstallDir $PROGRAMFILES

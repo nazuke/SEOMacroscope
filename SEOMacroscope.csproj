@@ -188,9 +188,9 @@
     <Compile Include="MacroscopeTasks\MacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeLocaleTools.cs" />
-    <Compile Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.cs" />
-    <Compile Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.Designer.cs">
-      <DependentUpon>MacroscopeOverviewTabPanel.cs</DependentUpon>
+    <Compile Include="MacroscopeUserControls\MacroscopeOverviewPanel\MacroscopeOverviewPanel.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeOverviewPanel\MacroscopeOverviewPanel.Designer.cs">
+      <DependentUpon>MacroscopeOverviewPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.Designer.cs">
@@ -225,8 +225,8 @@
     <EmbeddedResource Include="MacroscopeForms\MacroscopeMainForm.resx">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MacroscopeUserControls\MacroscopeOverviewTabPanel\MacroscopeOverviewTabPanel.resx">
-      <DependentUpon>MacroscopeOverviewTabPanel.cs</DependentUpon>
+    <EmbeddedResource Include="MacroscopeUserControls\MacroscopeOverviewPanel\MacroscopeOverviewPanel.resx">
+      <DependentUpon>MacroscopeOverviewPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.resx">
       <DependentUpon>MacroscopePrefsControl.cs</DependentUpon>
@@ -263,7 +263,7 @@
     <Folder Include="MacroscopeUserControls" />
     <Folder Include="MacroscopeUserControls\MacroscopePrefsControl" />
     <Folder Include="MacroscopeHosts" />
-    <Folder Include="MacroscopeUserControls\MacroscopeOverviewTabPanel" />
+    <Folder Include="MacroscopeUserControls\MacroscopeOverviewPanel" />
     <Folder Include="MacroscopeUserControls\MacroscopeSiteStructurePanel" />
   </ItemGroup>
   <ItemGroup>

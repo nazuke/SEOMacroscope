@@ -8,7 +8,7 @@
  */
 namespace SEOMacroscope
 {
-	partial class MacroscopeOverviewTabPanel
+	partial class MacroscopeOverviewPanel
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
@@ -950,12 +950,12 @@ namespace SEOMacroscope
 			this.columnHeaderSitemapLinks.Text = "Links";
 			this.columnHeaderSitemapLinks.Width = 150;
 			// 
-			// MacroscopeOverviewTabPanel
+			// MacroscopeOverviewPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tabControlMain);
-			this.Name = "MacroscopeOverviewTabPanel";
+			this.Name = "MacroscopeOverviewPanel";
 			this.Size = new System.Drawing.Size(600, 500);
 			this.tabControlMain.ResumeLayout(false);
 			this.tabPageStructureOverview.ResumeLayout(false);
