@@ -3,8 +3,9 @@ OutFile SEOMacroscope-Installer.exe
 SetCompressor /SOLID lzma 
 Unicode true
 
-
 LicenseData ..\LICENSE
+
+Name "SEO Macroscope"
 
 InstallDir $DESKTOP\QA
 #InstallDir $PROGRAMFILES
