@@ -44,33 +44,22 @@ namespace SEOMacroscope
 		public TreeView tvTreeView;
 		Boolean TreeViewConfigured = false;
 		
-		Dictionary<string,int> IntStats;
-
 		/**************************************************************************/
 
 		public MacroscopeDisplayStructureOverview ( MacroscopeMainForm MainFormNew, TreeView tvTreeViewNew )
 		{
-
 			MainForm = MainFormNew;
 			tvTreeView = tvTreeViewNew;
-
-			IntStats = new Dictionary<string,int> ();
-
-			IntStats.Add( "iUrlsFound", 0 );
-			IntStats.Add( "iUrlsCrawled", 0 );
-
-			IntStats.Add( "iUrlsInternal", 0 );
-			IntStats.Add( "iUrlsExternal", 0 );
-
 			ConfigureTreeView();
-
 		}
 
 		/**************************************************************************/
 		
 		void ConfigureTreeView ()
 		{
-			if( !TreeViewConfigured ) {
+			if( !TreeViewConfigured )
+			{
+				this.tvTreeView.PathSeparator = "/";
 				this.ResetTreeView();
 				this.TreeViewConfigured = true;
 			}
@@ -84,14 +73,32 @@ namespace SEOMacroscope
 			
 			this.tvTreeView.Nodes.Clear();
 			
-			TreeNode nSummary = this.tvTreeView.Nodes.Add( "SUMMARY" );
-			nSummary.Text = "Site Summary";
-
-			nSummary.Nodes.Add( "iUrlsFound" ).Name = "iUrlsFound";
-			nSummary.Nodes.Add( "iUrlsCrawled" ).Name = "iUrlsCrawled";
-
-			nSummary.Nodes.Add( "iUrlsInternal" ).Name = "iUrlsInternal";
-			nSummary.Nodes.Add( "iUrlsExternal" ).Name = "iUrlsExternal";
+			{
+			
+				TreeNode nNode = this.tvTreeView.Nodes.Add( "SUMMARY" );
+				nNode.Text = "Site Summary";
+				nNode.Nodes.Add( "Total URLs Found: 0" ).Name = "UrlsFound";
+				nNode.Nodes.Add( "Total URLs Crawled: 0" ).Name = "UrlsCrawled";
+				nNode.Nodes.Add( "Total Internal URLs: 0" ).Name = "UrlsInternal";
+				nNode.Nodes.Add( "Total External URLs: 0" ).Name = "UrlsExternal";
+			}
+			
+			{
+				TreeNode nNode = this.tvTreeView.Nodes.Add( "ROBOTS" );
+				nNode.Text = "Robots.txt";
+				nNode.Nodes.Add( "URLs Blocked by Robots.txt: 0" ).Name = "UrlsRobotsBlocked";
+			}
+			
+			{
+				TreeNode nNode = this.tvTreeView.Nodes.Add( "SITEMAPS" );
+				nNode.Text = "Sitemaps";
+				nNode.Nodes.Add( "Sitemaps Found: 0" ).Name = "SitemapsFound";
+			}
+	
+			{
+				TreeNode nNode = this.tvTreeView.Nodes.Add( "ERRORS" );
+				nNode.Text = "Fetch Errors";
+			}
 			
 			this.tvTreeView.ExpandAll();
 
@@ -102,7 +109,8 @@ namespace SEOMacroscope
 
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection )
 		{
-			if( this.MainForm.InvokeRequired ) {
+			if( this.MainForm.InvokeRequired )
+			{
 				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
@@ -111,7 +119,9 @@ namespace SEOMacroscope
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
 				this.RenderTreeView( DocCollection );
 			}
 		}
@@ -133,27 +143,52 @@ namespace SEOMacroscope
 			MacroscopeJobMaster JobMaster = this.MainForm.GetJobMaster();
 
 			{
-				int iUrlsFound = JobMaster.GetPagesFound();
-				TreeNode[] nUrlsFound = this.tvTreeView.Nodes.Find( "iUrlsFound", true );
-				nUrlsFound[ 0 ].Text = string.Format( "Total URLs Found: {0}", iUrlsFound );
+				int iCount = JobMaster.GetPagesFound();
+				TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsFound", true );
+				tnNode[ 0 ].Text = string.Format( "Total URLs Found: {0}", iCount );
 			}
 
 			{
-				int iUrlsCrawled = DocCollection.CountDocuments();
-				TreeNode[] nUrlsCrawled = this.tvTreeView.Nodes.Find( "iUrlsCrawled", true );
-				nUrlsCrawled[ 0 ].Text = string.Format( "Total URLs Crawled: {0}", iUrlsCrawled );
+				int iCount = DocCollection.CountDocuments();
+				TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsCrawled", true );
+				tnNode[ 0 ].Text = string.Format( "Total URLs Crawled: {0}", iCount );
 			}
 
 			{
-				int iUrlsInternal = DocCollection.CountUrlsInternal();
-				TreeNode[] nUrlsInternal = this.tvTreeView.Nodes.Find( "iUrlsInternal", true );
-				nUrlsInternal[ 0 ].Text = string.Format( "Total Internal URLs: {0}", iUrlsInternal );
+				int iCount = DocCollection.CountUrlsInternal();
+				TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsInternal", true );
+				tnNode[ 0 ].Text = string.Format( "Total Internal URLs: {0}", iCount );
 			}
 			
 			{
-				int iUrlsExternal = DocCollection.CountUrlsExternal();
-				TreeNode[] nUrlsExternal = this.tvTreeView.Nodes.Find( "iUrlsExternal", true );
-				nUrlsExternal[ 0 ].Text = string.Format( "Total External URLs: {0}", iUrlsExternal );
+				int iCount = DocCollection.CountUrlsExternal();
+				TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsExternal", true );
+				tnNode[ 0 ].Text = string.Format( "Total External URLs: {0}", iCount );
+			}
+			
+			{
+				int iCount = JobMaster.GetBlockedByRobotsList().Count;
+				TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsRobotsBlocked", true );
+				tnNode[ 0 ].Text = string.Format( "URLs Blocked by Robots.txt: {0}", iCount );
+			}
+	
+			{
+				int iCount = DocCollection.CountUrlsSitemaps();
+				TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "SitemapsFound", true );
+				tnNode[ 0 ].Text = string.Format( "Sitemaps Found: {0}", iCount );
+			}
+
+			{
+				TreeNode tnNodeErrors = this.tvTreeView.Nodes[ "ERRORS" ];
+				if( tnNodeErrors != null )
+				{
+					tnNodeErrors.Nodes.Clear();
+					Dictionary<string,int> dicErrors = DocCollection.GetStatsErrorsCount();
+					foreach( string sErrorCondition in dicErrors.Keys )
+					{
+						tnNodeErrors.Nodes.Add( string.Format( "{0}: {1}", sErrorCondition, dicErrors[ sErrorCondition ] ) );
+					}
+				}
 			}
 
 		}

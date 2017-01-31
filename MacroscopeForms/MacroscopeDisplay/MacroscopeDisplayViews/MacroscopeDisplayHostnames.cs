@@ -98,7 +98,7 @@ namespace SEOMacroscope
 		{
 			this.DebugMsg( string.Format( "RenderListView: {0}", "OVERRIDE" ) );
 
-			Dictionary<string,int> sHostnames = DocCollection.GetHostnamesWithCount();
+			Dictionary<string,int> sHostnames = DocCollection.GetStatsHostnamesWithCount();
 
 			this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 1: {0}", sHostnames.Count ) );
 

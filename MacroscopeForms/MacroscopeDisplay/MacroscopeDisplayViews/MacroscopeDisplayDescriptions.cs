@@ -84,7 +84,7 @@ namespace SEOMacroscope
 		{
 
 			string sDescription = msDoc.GetDescription();
-			int iDescriptionCount = this.MainForm.GetJobMaster().GetDocCollection().GetDescriptionCount( sDescription );
+			int iDescriptionCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
 			string sDescriptionLength = sDescription.Length.ToString();
 			string sPairKey = string.Join( "", sUrl, sDescription );
 

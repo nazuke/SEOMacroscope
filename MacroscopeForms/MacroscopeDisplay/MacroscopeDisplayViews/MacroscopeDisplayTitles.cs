@@ -92,7 +92,7 @@ namespace SEOMacroscope
 			if( bProcess ) {
 
 				string sText = msDoc.GetTitle();
-				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetTitleCount( sText );
+				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsTitleCount( sText );
 				string sTextLength = sText.Length.ToString();
 				string sPairKey = string.Join( "", sUrl, sText );
 

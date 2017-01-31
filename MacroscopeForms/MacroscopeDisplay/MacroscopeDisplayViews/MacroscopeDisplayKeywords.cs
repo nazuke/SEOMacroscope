@@ -95,7 +95,7 @@ namespace SEOMacroscope
 			if( bProcess ) {
 
 				string sText = msDoc.GetKeywords();
-				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetKeywordsCount( sText );
+				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( sText );
 				string sTextLength = sText.Length.ToString();
 				int iTextNumber = msDoc.GetKeywordsCount();
 				string sPairKey = string.Join( "", sUrl, sText );
