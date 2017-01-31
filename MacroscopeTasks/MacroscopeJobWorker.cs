@@ -101,10 +101,20 @@ namespace SEOMacroscope
 							iTries--;
 						} while( iTries > 0 );
 
+						if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+						{
+							int iCrawlDelay = this.JobMaster.GetCrawlDelay();
+							if( iCrawlDelay > 0 )
+							{
+								DebugMsg( string.Format( "Sleeping for {0} seconds...", iCrawlDelay ) );
+								Thread.Sleep( iCrawlDelay * 1000 );
+							}
+						}
+						
 					}
 				
 				}
-				
+
 				iMaxFetches--;
 
 			}

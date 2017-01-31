@@ -51,7 +51,8 @@ namespace SEOMacroscope
 
 		public void ClearData ()
 		{
-			if( this.MainForm.InvokeRequired ) {
+			if( this.MainForm.InvokeRequired )
+			{
 				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
@@ -60,7 +61,9 @@ namespace SEOMacroscope
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
 				this.lvListView.Items.Clear();
 			}
 		}
@@ -69,17 +72,24 @@ namespace SEOMacroscope
 		
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection )
 		{
-			if( this.MainForm.InvokeRequired ) {
+			if( this.MainForm.InvokeRequired )
+			{
 				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
+							Cursor.Current = Cursors.WaitCursor;
 							this.RenderListView( DocCollection );
+							Cursor.Current = Cursors.Default;
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
+				Cursor.Current = Cursors.WaitCursor;
 				this.RenderListView( DocCollection );
+				Cursor.Current = Cursors.Default;
 			}
 		}
 
@@ -87,17 +97,24 @@ namespace SEOMacroscope
 		
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection, List<string> lList )
 		{
-			if( this.MainForm.InvokeRequired ) {
+			if( this.MainForm.InvokeRequired )
+			{
 				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
+							Cursor.Current = Cursors.WaitCursor;
 							this.RenderListView( DocCollection, lList );
+							Cursor.Current = Cursors.Default;
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
+				Cursor.Current = Cursors.WaitCursor;
 				this.RenderListView( DocCollection, lList );
+				Cursor.Current = Cursors.Default;
 			}
 		}
 
@@ -105,17 +122,24 @@ namespace SEOMacroscope
 
 		public void RefreshData ( MacroscopeDocument msDoc, string sUrl )
 		{
-			if( this.MainForm.InvokeRequired ) {
+			if( this.MainForm.InvokeRequired )
+			{
 				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
+							Cursor.Current = Cursors.WaitCursor;
 							this.RenderListView( msDoc, sUrl );
+							Cursor.Current = Cursors.Default;
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
+				Cursor.Current = Cursors.WaitCursor;
 				this.RenderListView( msDoc, sUrl );
+				Cursor.Current = Cursors.Default;
 			}
 		}
 
@@ -124,7 +148,8 @@ namespace SEOMacroscope
 		public void RenderListView ( MacroscopeDocumentCollection DocCollection )
 		{
 			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-			foreach( string sUrl in DocCollection.DocumentKeys() ) {
+			foreach( string sUrl in DocCollection.DocumentKeys() )
+			{
 				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderListView( msDoc, sUrl );
 			}
@@ -134,7 +159,8 @@ namespace SEOMacroscope
 		
 		public void RenderListView ( MacroscopeDocumentCollection DocCollection, List<string> lList )
 		{
-			foreach( string sUrl in lList ) {
+			foreach( string sUrl in lList )
+			{
 				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderListView( msDoc, sUrl );
 			}

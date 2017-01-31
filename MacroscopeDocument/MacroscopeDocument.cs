@@ -474,6 +474,40 @@ namespace SEOMacroscope
 			}
 		}
 
+		public void SetIsXml ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentType.XML;
+		}
+																										
+		public Boolean GetIsXml ()
+		{
+			if( this.DocumentType == MacroscopeConstants.DocumentType.XML )
+			{
+				return( true );
+			}
+			else
+			{
+				return( false );
+			}
+		}
+		
+		public void SetIsSitemapXml ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentType.SITEMAPXML;
+		}
+																										
+		public Boolean GetIsSitemapXml ()
+		{
+			if( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPXML )
+			{
+				return( true );
+			}
+			else
+			{
+				return( false );
+			}
+		}
+
 		/**************************************************************************/
 
 		public Boolean GetIsCompressed ()
@@ -891,6 +925,16 @@ namespace SEOMacroscope
 
 				}
 				else
+				if( this.GetIsXml() )
+				{
+					DebugMsg( string.Format( "IS XML PAGE: {0}", this.Url ) );
+					if( MacroscopePreferencesManager.GetFetchXml() )
+					{
+						fTimeDuration( this.ProcessXmlPage );
+					}
+
+				}
+				else
 				if( this.GetIsBinary() )
 				{
 					DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.Url ) );
@@ -1179,7 +1223,8 @@ namespace SEOMacroscope
 				Regex reIsCss = new Regex ( "^text/css", RegexOptions.IgnoreCase );
 				Regex reIsJavascript = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
 				Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
-				Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
+				Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );			
+				Regex reIsXml = new Regex ( "^(application|text)/xml", RegexOptions.IgnoreCase );
 
 				if( reIsHtml.IsMatch( res.ContentType.ToString() ) )
 				{
@@ -1204,6 +1249,11 @@ namespace SEOMacroscope
 				if( reIsPdf.IsMatch( res.ContentType.ToString() ) )
 				{
 					this.SetIsPdf();
+				}
+				else
+				if( reIsXml.IsMatch( res.ContentType.ToString() ) )
+				{
+					this.SetIsXml();
 				}
 				else
 				{

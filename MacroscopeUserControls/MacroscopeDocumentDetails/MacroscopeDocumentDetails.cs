@@ -114,6 +114,7 @@ namespace SEOMacroscope
 				}
 				
 				return( true );
+				
 			}
 			else
 			{
@@ -128,12 +129,14 @@ namespace SEOMacroscope
 
 		void UpdateDocumentDetailsDisplay ( MacroscopeJobMaster msJobMaster, MacroscopeDocument msDoc )
 		{
+			Cursor.Current = Cursors.WaitCursor;
 			this.RenderDocumentDetails( msDoc );
 			this.RenderDocumentHttpHeaders( msDoc );
 			this.RenderDocumentHrefLang( msDoc, msJobMaster.GetLocales(), msJobMaster.GetDocCollection() );
 			this.RenderListViewHyperlinksIn( msDoc );
 			this.RenderListViewHyperlinksOut( msDoc );
 			this.RenderDocumentImage( msDoc );
+			Cursor.Current = Cursors.Default;
 		}
 
 		/**************************************************************************/

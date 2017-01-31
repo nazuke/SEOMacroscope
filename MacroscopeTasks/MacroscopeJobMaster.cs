@@ -43,6 +43,7 @@ namespace SEOMacroscope
 		MacroscopeNamedQueue NamedQueue;
 		MacroscopeRobots Robots;
 
+		int CrawlDelay;
 		int ThreadsMax;
 		int ThreadsRunning;
 		Boolean ThreadsStop;
@@ -103,12 +104,15 @@ namespace SEOMacroscope
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames );
 			}
 			// END: Named Queues
 
+			this.CrawlDelay = 0;
+			
 			this.AdjustThreadsMax();
 			this.ThreadsRunning = 0;
 			this.ThreadsStop = false;
@@ -157,6 +161,11 @@ namespace SEOMacroscope
 			if( !this.PeekUrlQueue() )
 			{
 				this.AddUrlQueueItem( this.StartUrl );
+			}
+
+			{
+				this.ProbeRobotsFile( this.StartUrl );
+				this.SetCrawlDelay( this.StartUrl );
 			}
 
 			this.SpawnWorkers();
@@ -336,8 +345,6 @@ namespace SEOMacroscope
 
 		public void AddUpdateDisplayQueue ( string sUrl )
 		{
-			// TODO: Add more queues
-
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy, sUrl );
@@ -350,10 +357,10 @@ namespace SEOMacroscope
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, sUrl );
-
 		}
 
 		public List<string> DrainDisplayQueueAsList ( string sNamedQueueName )
@@ -623,7 +630,7 @@ namespace SEOMacroscope
 			return( this.DocCollection );
 		}
 		
-		/**************************************************************************/
+		/** Allowed Hosts *********************************************************/
 
 		public MacroscopeAllowedHosts GetAllowedHosts ()
 		{
@@ -653,6 +660,31 @@ namespace SEOMacroscope
 		public MacroscopeRobots GetRobots ()
 		{
 			return( this.Robots );
+		}
+
+		void SetCrawlDelay ( string sUrl )
+		{
+			this.CrawlDelay = this.Robots.GetCrawlDelay( sUrl );
+		}
+
+		public int GetCrawlDelay ()
+		{
+			return( this.CrawlDelay );
+		}
+
+		public void ProbeRobotsFile ( string sUrl )
+		{
+			if( MacroscopePreferencesManager.GetFollowSitemapLinks() )
+			{
+				List<string> lSitemaps = Robots.GetSitemapsAsList( sUrl );
+				if( lSitemaps.Count > 0 )
+				{
+					for( int i = 0 ; i < lSitemaps.Count ; i++ )
+					{
+						this.AddUrlQueueItem( lSitemaps[ i ] );
+					}
+				}
+			}
 		}
 
 		public void AddToBlockedByRobots ( string sUrl )

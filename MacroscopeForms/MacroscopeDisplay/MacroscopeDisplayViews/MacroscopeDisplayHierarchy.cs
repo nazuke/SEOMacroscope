@@ -47,7 +47,7 @@ namespace SEOMacroscope
 			: base( MainFormNew, tvTreeView )
 		{
 
-			this.SuppressDebugMsg = false;
+			SuppressDebugMsg = false;
 
 			ConfigureListView();
 
@@ -58,11 +58,13 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 
-			if( !ListViewConfigured ) {
+			if( !ListViewConfigured )
+			{
 				ListViewConfigured = true;
 			}
 
-			if( this.MainForm.InvokeRequired ) {
+			if( this.MainForm.InvokeRequired )
+			{
 				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
@@ -71,7 +73,9 @@ namespace SEOMacroscope
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
 				this.ClearData();
 			}
 
@@ -92,17 +96,24 @@ namespace SEOMacroscope
 
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection, List<string> lList )
 		{
-			if( this.MainForm.InvokeRequired ) {
+			if( this.MainForm.InvokeRequired )
+			{
 				this.MainForm.Invoke(
 					new MethodInvoker (
 						delegate
 						{
+							Cursor.Current = Cursors.WaitCursor;
 							this.RenderTreeView( DocCollection, lList );
+							Cursor.Current = Cursors.Default;
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
+				Cursor.Current = Cursors.WaitCursor;
 				this.RenderTreeView( DocCollection, lList );
+				Cursor.Current = Cursors.Default;
 			}
 		}
 
@@ -115,7 +126,8 @@ namespace SEOMacroscope
 
 			DebugMsg( string.Format( "HIERARCHY: {0}", "BASE" ) );
 
-			foreach( string sUrl in lList ) {
+			foreach( string sUrl in lList )
+			{
 				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderTreeView( msDoc, sUrl );
 			}
@@ -134,26 +146,31 @@ namespace SEOMacroscope
 			TreeNode nCurrentNode = this.tvTreeView.Nodes[ 0 ];
 			string sPath = string.Join( "/", msDoc.GetHostname(), msDoc.GetPath() );
 
-			if( sPath != null ) {
+			if( sPath != null )
+			{
 
 				DebugMsg( string.Format( "HIERARCHY PATH: {0}", sPath ) );
 
-				List<String> lElements = new List<string> ( sPath.Split( new char[]
-				{
+				List<String> lElements = new List<string> ( sPath.Split( new char[] {
 					'/'
 				}, StringSplitOptions.RemoveEmptyEntries ) );
 
-				for( int i = 0; i < lElements.Count; i++ ) {
+				for( int i = 0 ; i < lElements.Count ; i++ )
+				{
 
 					string sElementName = lElements[ i ];
 
-					if( nCurrentNode != null ) {
+					if( nCurrentNode != null )
+					{
 
-						if( nCurrentNode.Nodes.ContainsKey( sElementName ) ) {
+						if( nCurrentNode.Nodes.ContainsKey( sElementName ) )
+						{
 
 							nCurrentNode = nCurrentNode.Nodes[ sElementName ];
 
-						} else {
+						}
+						else
+						{
 
 							TreeNode nNewNode = nCurrentNode.Nodes.Add( sElementName );
 							nNewNode.Name = sElementName;
@@ -168,7 +185,9 @@ namespace SEOMacroscope
 
 				}
 
-			} else {
+			}
+			else
+			{
 				DebugMsg( string.Format( "HIERARCHY ERROR: {0}", sUrl ) );
 			}
 

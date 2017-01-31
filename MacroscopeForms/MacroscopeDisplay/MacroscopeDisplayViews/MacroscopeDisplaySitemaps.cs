@@ -24,14 +24,13 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayRobots : MacroscopeDisplayListView
+	public class MacroscopeDisplaySitemaps : MacroscopeDisplayListView
 	{
 		
 		/**************************************************************************/
@@ -40,7 +39,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayRobots ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+		public MacroscopeDisplaySitemaps ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
 			: base( MainFormNew, lvListViewNew )
 		{
 
@@ -77,47 +76,20 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void RefreshData ( MacroscopeJobMaster JobMaster )
-		{
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.RenderListView( JobMaster );
-						}
-					)
-				);
-			}
-			else
-			{
-				this.RenderListView( JobMaster );
-			}
-		}
-
-		/**************************************************************************/
-
-		public void RenderListView ( MacroscopeJobMaster JobMaster )
+		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			Dictionary<String,Boolean> dicBlocked = JobMaster.GetBlockedByRobotsList();
+			DebugMsg( string.Format( "MacroscopeDisplaySitemaps sUrl: {0}", sUrl ) );
 
-			foreach( string sUrl in dicBlocked.Keys )
+			if( !msDoc.GetIsSitemapXml() )
 			{
-				this.RenderListView( sUrl, dicBlocked[ sUrl ] );
+				return;
 			}
-
-		}
-
-		/**************************************************************************/
-
-		void RenderListView ( string sUrl, Boolean bBlocked )
-		{
 
 			string sPairKey = string.Join( "", sUrl );
 
 			ListViewItem lvItem = null;
+			int iCount = msDoc.CountOutlinks();
 
 			if( this.lvListView.Items.ContainsKey( sPairKey ) )
 			{
@@ -127,12 +99,12 @@ namespace SEOMacroscope
 
 					lvItem = this.lvListView.Items[ sPairKey ];
 					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems[ 1 ].Text = bBlocked.ToString();
+					lvItem.SubItems[ 1 ].Text = iCount.ToString();
 
 				}
 				catch( Exception ex )
 				{
-					DebugMsg( string.Format( "MacroscopeDisplayRobots 1: {0}", ex.Message ) );
+					DebugMsg( string.Format( "MacroscopeDisplaySitemaps 1: {0}", ex.Message ) );
 				}
 
 			}
@@ -147,14 +119,14 @@ namespace SEOMacroscope
 					lvItem.Name = sPairKey;
 
 					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems.Add( bBlocked.ToString() );
+					lvItem.SubItems.Add( iCount.ToString() );
 
 					this.lvListView.Items.Add( lvItem );
 
 				}
 				catch( Exception ex )
 				{
-					DebugMsg( string.Format( "MacroscopeDisplayRobots 2: {0}", ex.Message ) );
+					DebugMsg( string.Format( "MacroscopeDisplaySitemaps 2: {0}", ex.Message ) );
 				}
 
 			}
@@ -164,14 +136,13 @@ namespace SEOMacroscope
 
 				lvItem.ForeColor = Color.Blue;
 
+				if( iCount <= 0 )
+				{
+					lvItem.ForeColor = Color.OrangeRed;
+				}
+
 			}
 
-		}
-		
-		/**************************************************************************/
-
-		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-		{
 		}
 		
 		/**************************************************************************/

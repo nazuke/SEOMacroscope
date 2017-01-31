@@ -37,7 +37,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		void ProcessSitemapXmlPage ()
+		void ProcessXmlPage ()
 		{
 
 			XmlDocument XmlDoc = null;
@@ -59,9 +59,9 @@ namespace SEOMacroscope
 			catch( WebException ex )
 			{
 
-				DebugMsg( string.Format( "ProcessSitemapXmlPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessSitemapXmlPage :: WebException: {0}", this.Url ) );
-				DebugMsg( string.Format( "ProcessSitemapXmlPage :: WebExceptionStatus: {0}", ex.Status ) );
+				DebugMsg( string.Format( "ProcessXmlPage :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "ProcessXmlPage :: WebException: {0}", this.Url ) );
+				DebugMsg( string.Format( "ProcessXmlPage :: WebExceptionStatus: {0}", ex.Status ) );
 				sErrorCondition = ex.Status.ToString();
 
 			}
@@ -81,7 +81,6 @@ namespace SEOMacroscope
 					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
 					sRawData = srRead.ReadToEnd();
 					this.ContentLength = sRawData.Length; // May need to find bytes length
-					DebugMsg( string.Format( "ProcessSitemapXmlPage :: sRawData: {0}", sRawData ) );
 				}
 				catch( WebException ex )
 				{
@@ -110,11 +109,12 @@ namespace SEOMacroscope
 
 				if( XmlDoc != null )
 				{
-
-					{ // Outlinks
+					if( this.DetectSitemapXmlDocument( XmlDoc ) )
+					{
+						DebugMsg( string.Format( "ProcessXmlPage: {0}", "SITEMAP DETECTED" ) );
+						this.SetIsSitemapXml();
 						this.ProcessSitemapXmlOutlinks( XmlDoc );
-					}	
-
+					}
 				}
 				
 				res.Close();
@@ -130,22 +130,43 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
+		Boolean DetectSitemapXmlDocument ( XmlDocument XmlDoc )
+		{
+			// Reference: https://www.sitemaps.org/protocol.html
+			Boolean bIsSitemapXml = false;
+			string sXmlns = XmlDoc.DocumentElement.GetAttribute( "xmlns" );
+			if( sXmlns != null )
+			{
+				if( sXmlns == MacroscopeConstants.SitemapXmlNamespace )
+				{
+					DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", sXmlns ) );
+					bIsSitemapXml = true;
+				}
+			}
+			return( bIsSitemapXml );
+		}
+
+		/**************************************************************************/
+
 		void ProcessSitemapXmlOutlinks ( XmlDocument XmlDoc )
 		{
 
-			XmlNodeList nOutlinks = XmlDoc.SelectNodes( "//url/loc" );
+			XmlNodeList nlOutlinks = XmlDoc.GetElementsByTagName( "loc", MacroscopeConstants.SitemapXmlNamespace );
 
-			if( nOutlinks != null )
+			DebugMsg( string.Format( "ProcessSitemapXmlOutlinks nlOutlinks: {0}", nlOutlinks.Count ) );
+
+			if( nlOutlinks != null )
 			{
 
-				foreach( XmlNode nLoc in nOutlinks )
+				foreach( XmlNode nLoc in nlOutlinks )
 				{
 					
 					string sLinkUrl = null;
-					
+
 					try
 					{
-						sLinkUrl = nLoc.Attributes.GetNamedItem( "href" ).InnerText;
+						sLinkUrl = nLoc.InnerText;
+						DebugMsg( string.Format( "ProcessSitemapXmlOutlinks sLinkUrl: {0}", sLinkUrl ) );
 					}
 					catch( Exception ex )
 					{

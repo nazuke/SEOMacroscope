@@ -50,7 +50,7 @@ namespace SEOMacroscope
 			// TabPanel Properties
 			tabControlMain.Multiline = false;
 
-			this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true  );			
+			this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true );			
 
 			// ListView Docking
 			listViewStructure.Dock = DockStyle.Fill;
@@ -65,6 +65,7 @@ namespace SEOMacroscope
 			listViewPageKeywords.Dock = DockStyle.Fill;
 			listViewPageHeadings.Dock = DockStyle.Fill;
 			listViewRobots.Dock = DockStyle.Fill;
+			listViewSitemaps.Dock = DockStyle.Fill;
 			listViewEmailAddresses.Dock = DockStyle.Fill;
 			listViewTelephoneNumbers.Dock = DockStyle.Fill;
 			listViewHostnames.Dock = DockStyle.Fill;

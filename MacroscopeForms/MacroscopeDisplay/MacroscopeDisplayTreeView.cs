@@ -64,30 +64,6 @@ namespace SEOMacroscope
 			}
 		}
 
-		/**************************************************************************/
-				
-		/*
-		public void RefreshData ( MacroscopeDocumentCollection DocCollection, List<string> lList )
-		{
-			if( this.MainForm.InvokeRequired ) {
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							tvTreeView.BeginUpdate();
-							this.RenderTreeView( DocCollection, lList );
-							this.tvTreeView.EndUpdate();
-						}
-					)
-				);
-			} else {
-				this.tvTreeView.BeginUpdate();
-				this.RenderTreeView( DocCollection, lList );
-				this.tvTreeView.EndUpdate();
-			}
-		}
-		*/
-		
 		/** Render Entire DocCollection *******************************************/
 
 		public void RenderTreeView ( MacroscopeDocumentCollection DocCollection )

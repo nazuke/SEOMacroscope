@@ -26,6 +26,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.IO;
 using System.Timers;
 using System.Windows.Forms;
 using System.Threading;
@@ -58,6 +59,7 @@ namespace SEOMacroscope
 		MacroscopeDisplayKeywords msDisplayKeywords;
 		MacroscopeDisplayHeadings msDisplayHeadings;
 		MacroscopeDisplayRobots msDisplayRobots;
+		MacroscopeDisplaySitemaps msDisplaySitemaps;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
 		MacroscopeDisplayHostnames msDisplayHostnames;
@@ -128,6 +130,7 @@ namespace SEOMacroscope
 			this.msDisplayKeywords = new MacroscopeDisplayKeywords ( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
 			this.msDisplayHeadings = new MacroscopeDisplayHeadings ( this, this.macroscopeOverviewTabPanelInstance.listViewPageHeadings );
 			this.msDisplayRobots = new MacroscopeDisplayRobots ( this, this.macroscopeOverviewTabPanelInstance.listViewRobots );
+			this.msDisplaySitemaps = new MacroscopeDisplaySitemaps ( this, this.macroscopeOverviewTabPanelInstance.listViewSitemaps );
 			this.msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
 			this.msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
 			this.msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
@@ -293,6 +296,7 @@ namespace SEOMacroscope
 				PrefsControl.checkBoxFetchJavascripts.Checked = MacroscopePreferencesManager.GetFetchImages();
 				PrefsControl.checkBoxFetchImages.Checked = MacroscopePreferencesManager.GetFetchImages();
 				PrefsControl.checkBoxFetchPdfs.Checked = MacroscopePreferencesManager.GetFetchPdfs();
+				PrefsControl.checkBoxFetchXml.Checked = MacroscopePreferencesManager.GetFetchXml();
 				PrefsControl.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
 
 				// Analysis Options
@@ -338,10 +342,12 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.SetFollowNoFollow( PrefsControl.checkBoxFollowNoFollow.Checked );
 				MacroscopePreferencesManager.SetFollowCanonicalLinks( PrefsControl.checkBoxFollowCanonicalLinks.Checked );
 				MacroscopePreferencesManager.SetFollowHrefLangLinks( PrefsControl.checkBoxFollowHrefLangLinks.Checked );
+				
 				MacroscopePreferencesManager.SetFetchStylesheets( PrefsControl.checkBoxFetchStylesheets.Checked );
 				MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchJavascripts.Checked );
 				MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchImages.Checked );
 				MacroscopePreferencesManager.SetFetchPdfs( PrefsControl.checkBoxFetchPdfs.Checked );
+				MacroscopePreferencesManager.SetFetchXml( PrefsControl.checkBoxFetchXml.Checked );
 				MacroscopePreferencesManager.SetFetchBinaries( PrefsControl.checkBoxFetchBinaries.Checked );
 
 				// Analysis Options
@@ -487,6 +493,35 @@ namespace SEOMacroscope
 				
 			}
 			
+		}
+
+		/** SCAN FROM URL LIST FILE ***********************************************/
+		
+		void CallackScanStartUrlListFileExecute ( string sPath )
+		{
+		
+			MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader ( this.JobMaster, sPath );
+			
+			if( msUrlListLoader != null )
+			{
+				if( msUrlListLoader.Execute() )
+				{
+
+
+
+
+					// TODO: implement similar to CallackScanStartExecute()
+
+
+
+
+				}
+				else
+				{
+					DialogueBoxError( "Load URL List Error", "The URL list specified could not loaded" );
+				}
+			}
+
 		}
 
 		/**************************************************************************/
@@ -690,6 +725,13 @@ namespace SEOMacroscope
 				case "tabPageRobots":
 					this.msDisplayRobots.RefreshData(
 						this.JobMaster
+					);
+					break;
+					
+				case "tabPageSitemaps":
+					this.msDisplaySitemaps.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplaySitemaps )
 					);
 					break;
 									
@@ -1232,16 +1274,37 @@ namespace SEOMacroscope
 			Clipboard.SetText( sText );
 		}
 
-		
-		
 		/** Load List *************************************************************/
-		
-		
-		
-		
-		
-		
-		
+
+		void CallbackLoadUrlListTextFile ( object sender, EventArgs e )
+		{
+
+			OpenFileDialog Dialog = new OpenFileDialog ();
+
+			Dialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+			Dialog.FilterIndex = 2;
+			Dialog.RestoreDirectory = true;
+			Dialog.DefaultExt = "txt";
+
+			if( Dialog.ShowDialog() == DialogResult.OK )
+			{
+				string sPath = Dialog.FileName;
+
+				if( File.Exists( sPath ) )
+				{
+					this.CallackScanStartUrlListFileExecute( sPath );
+				}
+				else
+				{
+					DialogueBoxError( "Load URL List Error", "The text file specified could not be found" );
+				}
+
+			}
+
+			Dialog.Dispose();
+
+		}
+
 		/** Report Save Dialogue Boxes ********************************************/
 		
 		void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )

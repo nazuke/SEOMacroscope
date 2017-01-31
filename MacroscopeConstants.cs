@@ -64,6 +64,7 @@ namespace SEOMacroscope
 		public const string NamedQueueDisplayPageKeywords = "DisplayPageKeywords";
 		public const string NamedQueueDisplayPageHeadings = "DisplayPageHeadings";
 		public const string NamedQueueDisplayRobots = "DisplayRobots";
+		public const string NamedQueueDisplaySitemaps = "DisplaySitemaps";
 		public const string NamedQueueDisplayEmailAddresses = "DisplayEmailAddresses";
 		public const string NamedQueueDisplayTelephoneNumbers = "DisplayTelephoneNumbers";
 		public const string NamedQueueDisplayHostnames = "DisplayHostnames";
@@ -81,7 +82,9 @@ namespace SEOMacroscope
 			CSS = 3,
 			JAVASCRIPT = 4,
 			IMAGE = 5,
-			PDF = 6
+			PDF = 6,
+			XML = 7,
+			SITEMAPXML = 8
 		}
 		
 		/** END: Document Types ***************************************************/
@@ -137,6 +140,14 @@ namespace SEOMacroscope
 		public const string ErrorCondition = "Error Condition";
 
 		/** END: ListView Column Names ********************************************/
+
+		/** BEGIN: Sitemap XML Protocol *******************************************/
+
+		// Reference: https://www.sitemaps.org/protocol.html
+
+		public const string SitemapXmlNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
+
+		/** END: Sitemap XML Protocol *********************************************/
 
 	}
 	

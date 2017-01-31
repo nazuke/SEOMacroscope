@@ -39,6 +39,8 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		static Boolean ListViewConfigured = false;
+		
+		int MaxHeadingsDisplayed = 2;
 
 		/**************************************************************************/
 
@@ -49,7 +51,8 @@ namespace SEOMacroscope
 			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 
-			if( MainForm.InvokeRequired ) {
+			if( MainForm.InvokeRequired )
+			{
 				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
@@ -58,7 +61,9 @@ namespace SEOMacroscope
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
 				ConfigureListView();
 			}
 
@@ -69,7 +74,8 @@ namespace SEOMacroscope
 		void ConfigureListView ()
 		{
 			
-			if( !ListViewConfigured ) {
+			if( !ListViewConfigured )
+			{
 			
 				// BEGIN: Columns
 
@@ -95,7 +101,8 @@ namespace SEOMacroscope
 				this.lvListView.Columns.Add( MacroscopeConstants.KeywordsLen, MacroscopeConstants.KeywordsLen );
 				this.lvListView.Columns.Add( MacroscopeConstants.KeywordsCount, MacroscopeConstants.KeywordsCount );
 
-				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
+				for( ushort iLevel = 1 ; iLevel <= MaxHeadingsDisplayed ; iLevel++ )
+				{
 					string sHeadingLevel = string.Format( MacroscopeConstants.Hn, iLevel );
 					this.lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
 				}
@@ -119,7 +126,8 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			lock( this.lvListView ) {
+			lock( this.lvListView )
+			{
 
 				Hashtable htItems = new Hashtable ();
 				ListViewItem lvItem = null;
@@ -137,7 +145,8 @@ namespace SEOMacroscope
 
 				{
 					string sLang = msDoc.GetLang();
-					if( sLang == null ) {
+					if( sLang == null )
+					{
 						sLang = "";
 					}
 					htItems[ MacroscopeConstants.Lang ] = sLang;
@@ -161,10 +170,12 @@ namespace SEOMacroscope
 				htItems[ MacroscopeConstants.KeywordsLen ] = msDoc.GetKeywordsLength();
 				htItems[ MacroscopeConstants.KeywordsCount ] = msDoc.GetKeywordsCount();
 
-				for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
+				for( ushort iLevel = 1 ; iLevel <= MaxHeadingsDisplayed ; iLevel++ )
+				{
 					List<string> aHeadings = msDoc.GetHeadings( iLevel );
 					string sText = "";
-					if( aHeadings.Count > 0 ) {
+					if( aHeadings.Count > 0 )
+					{
 						sText = aHeadings[ 0 ];
 					}
 					htItems[ string.Format( MacroscopeConstants.Hn, iLevel ) ] = sText;
@@ -176,52 +187,74 @@ namespace SEOMacroscope
 
 				this.lvListView.BeginUpdate();
 
-				if( this.lvListView.Items.ContainsKey( sUrl ) ) {
+				if( this.lvListView.Items.ContainsKey( sUrl ) )
+				{
 					lvItem = this.lvListView.Items[ sUrl ];
-				} else {
+				}
+				else
+				{
 					lvItem = new ListViewItem ( sUrl );
 					lvItem.Name = sUrl;
-					foreach( string sKey in htItems.Keys ) {
+					foreach( string sKey in htItems.Keys )
+					{
 						lvItem.SubItems.Add( sKey );
 					}
 					this.lvListView.Items.Add( lvItem );
 				}
 
-				if( lvItem != null ) {
+				if( lvItem != null )
+				{
 
 					lvItem.UseItemStyleForSubItems = false;
 					lvItem.ForeColor = Color.Blue;
 
-					foreach( string sKey in htItems.Keys ) {
+					foreach( string sKey in htItems.Keys )
+					{
 
 						int iColIndex = this.lvListView.Columns.IndexOfKey( sKey );
 						string sText = htItems[ sKey ].ToString();
 
-						if( htItems[ sKey ] != null ) {
+						if( htItems[ sKey ] != null )
+						{
 							lvItem.SubItems[ iColIndex ].Text = sText;
-						} else {
+						}
+						else
+						{
 							lvItem.SubItems[ iColIndex ].Text = "";
 						}
 
-						if( !msDoc.GetIsExternal() ) {
+						if( !msDoc.GetIsExternal() )
+						{
 							lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
-						} else {
+						}
+						else
+						{
 							lvItem.SubItems[ iColIndex ].ForeColor = Color.Gray;
 						}
 
-						if( sKey == MacroscopeConstants.Status ) {
-							if( Regex.IsMatch( sText, "^[2]" ) ) {
+						if( sKey == MacroscopeConstants.Status )
+						{
+							if( Regex.IsMatch( sText, "^[2]" ) )
+							{
 								lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
-							} else if( Regex.IsMatch( sText, "^[3]" ) ) {
+							}
+							else
+							if( Regex.IsMatch( sText, "^[3]" ) )
+							{
 								lvItem.SubItems[ iColIndex ].ForeColor = Color.Goldenrod;
-							} else if( Regex.IsMatch( sText, "^[45]" ) ) {
+							}
+							else
+							if( Regex.IsMatch( sText, "^[45]" ) )
+							{
 								lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
 							}
 						}
 
 					}
 
-				} else {
+				}
+				else
+				{
 					DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
 				}
 
@@ -236,8 +269,7 @@ namespace SEOMacroscope
 		void ListViewResizeColumnsInitial ()
 		{
 
-			Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> ()
-			{
+			Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () {
 				{
 					MacroscopeConstants.Url,
 					300
@@ -248,11 +280,13 @@ namespace SEOMacroscope
 				}
 			};
 			
-			for( int iColIndex = 0; iColIndex < this.lvListView.Columns.Count; iColIndex++ ) {
+			for( int iColIndex = 0 ; iColIndex < this.lvListView.Columns.Count ; iColIndex++ )
+			{
 				this.lvListView.AutoResizeColumn( iColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
 			}
 
-			foreach( string sColName in lColExplicitWidth.Keys ) {
+			foreach( string sColName in lColExplicitWidth.Keys )
+			{
 				this.lvListView.Columns[ sColName ].Width = lColExplicitWidth[ sColName ];
 			}
 
@@ -263,24 +297,24 @@ namespace SEOMacroscope
 		void ListViewResizeColumns ()
 		{
 
-			List<string> lColDataWidth = new List<string> ()
-			{
+			List<string> lColDataWidth = new List<string> () {
 				MacroscopeConstants.Url,
 				MacroscopeConstants.DateServer,
 				MacroscopeConstants.DateModified,
 				MacroscopeConstants.Title
 			};
 			
-			List<string> lColHeaderWidth = new List<string> ()
-			{
+			List<string> lColHeaderWidth = new List<string> () {
 				MacroscopeConstants.DateModified
 			};
 
-			foreach( string sColName in lColDataWidth ) {
+			foreach( string sColName in lColDataWidth )
+			{
 				this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.ColumnContent );
 			}
 			
-			foreach( string sColName in lColHeaderWidth ) {
+			foreach( string sColName in lColHeaderWidth )
+			{
 				this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.HeaderSize );
 			}
 

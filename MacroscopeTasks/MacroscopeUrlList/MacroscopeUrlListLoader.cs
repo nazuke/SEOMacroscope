@@ -37,12 +37,34 @@ namespace SEOMacroscope
 	
 		/**************************************************************************/
 
+		MacroscopeJobMaster JobMaster;
+		string Path;
+		
 		/**************************************************************************/
 
-		public MacroscopeUrlListLoader()
+		public MacroscopeUrlListLoader ( MacroscopeJobMaster JobMasterNew, string sPath )
 		{
+			JobMaster = JobMasterNew;
+			Path = sPath;
 		}
 	
+		/**************************************************************************/
+		
+		public Boolean Execute ()
+		{
+			Boolean bSuccess = false;
+
+
+			
+			
+			// TODO: load list and add to queue			
+			
+			
+			
+			
+			return( bSuccess );
+		}
+
 		/**************************************************************************/
 
 	}

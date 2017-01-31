@@ -76,6 +76,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxFollowSitemapLinks;
 		private System.Windows.Forms.Label label15;
 		public System.Windows.Forms.NumericUpDown numericUpDownRequestTimeout;
+		public System.Windows.Forms.CheckBox checkBoxFetchXml;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -161,6 +162,7 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
+			this.checkBoxFetchXml = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -518,6 +520,7 @@ namespace SEOMacroscope
 			// groupBox1
 			// 
 			this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox1.Controls.Add(this.checkBoxFetchXml);
 			this.groupBox1.Controls.Add(this.checkBoxFetchBinaries);
 			this.groupBox1.Controls.Add(this.checkBoxFetchPdfs);
 			this.groupBox1.Controls.Add(this.checkBoxFetchImages);
@@ -533,11 +536,11 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFetchBinaries
 			// 
-			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(146, 50);
+			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(146, 80);
 			this.checkBoxFetchBinaries.Name = "checkBoxFetchBinaries";
 			this.checkBoxFetchBinaries.Size = new System.Drawing.Size(110, 24);
 			this.checkBoxFetchBinaries.TabIndex = 14;
-			this.checkBoxFetchBinaries.Text = "Binary Files";
+			this.checkBoxFetchBinaries.Text = "Binary files";
 			this.checkBoxFetchBinaries.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxFetchPdfs
@@ -573,7 +576,7 @@ namespace SEOMacroscope
 			this.checkBoxFetchStylesheets.Name = "checkBoxFetchStylesheets";
 			this.checkBoxFetchStylesheets.Size = new System.Drawing.Size(110, 24);
 			this.checkBoxFetchStylesheets.TabIndex = 10;
-			this.checkBoxFetchStylesheets.Text = "CSS Stylesheets";
+			this.checkBoxFetchStylesheets.Text = "CSS stylesheets";
 			this.checkBoxFetchStylesheets.UseVisualStyleBackColor = true;
 			// 
 			// tabPageAnalysisOptions
@@ -991,6 +994,15 @@ namespace SEOMacroscope
 			0,
 			0,
 			0});
+			// 
+			// checkBoxFetchXml
+			// 
+			this.checkBoxFetchXml.Location = new System.Drawing.Point(146, 50);
+			this.checkBoxFetchXml.Name = "checkBoxFetchXml";
+			this.checkBoxFetchXml.Size = new System.Drawing.Size(110, 24);
+			this.checkBoxFetchXml.TabIndex = 15;
+			this.checkBoxFetchXml.Text = "XML files";
+			this.checkBoxFetchXml.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 
