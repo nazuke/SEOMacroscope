@@ -69,6 +69,7 @@ namespace SEOMacroscope
 		static Boolean FetchImages;
 		static Boolean FetchPdfs;
 		static Boolean FetchXml;
+		static Boolean FetchVideo;
 		static Boolean FetchBinaries;
 
 		// Analysis Options
@@ -138,7 +139,8 @@ namespace SEOMacroscope
 					FetchImages = Preferences.FetchImages;
 					FetchPdfs = Preferences.FetchPdfs;
 					FetchXml = Preferences.FetchXml;
-
+					FetchVideo = Preferences.FetchVideo;
+					
 				}
 
 			}
@@ -186,6 +188,7 @@ namespace SEOMacroscope
 			FetchImages = true;
 			FetchPdfs = false;
 			FetchXml = true;
+			FetchVideo = false;
 
 			// Analysis Options
 			CheckHreflangs = true;
@@ -286,6 +289,7 @@ namespace SEOMacroscope
 				Preferences.FetchImages = FetchImages;
 				Preferences.FetchPdfs = FetchPdfs;
 				Preferences.FetchXml = FetchXml;
+				Preferences.FetchVideo = FetchVideo;
 				
 				Preferences.Save();
 
@@ -613,6 +617,18 @@ namespace SEOMacroscope
 		public static void SetFetchXml ( Boolean bState )
 		{
 			FetchXml = bState;
+		}
+
+		/**************************************************************************/
+		
+		public static Boolean GetFetchVideo ()
+		{
+			return( FetchVideo );
+		}
+		
+		public static void SetFetchVideo ( Boolean bState )
+		{
+			FetchVideo = bState;
 		}
 
 		/**************************************************************************/

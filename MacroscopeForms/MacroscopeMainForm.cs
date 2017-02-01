@@ -56,8 +56,9 @@ namespace SEOMacroscope
 		MacroscopeDisplayKeywords msDisplayKeywords;
 		MacroscopeDisplayHeadings msDisplayHeadings;
 		MacroscopeDisplayStylesheets msDisplayStylesheets;
-		MacroscopeDisplayImages msDisplayImages;
 		MacroscopeDisplayJavascripts msDisplayJavascripts;
+		MacroscopeDisplayImages msDisplayImages;
+		MacroscopeDisplayVideos msDisplayVideos;
 		MacroscopeDisplayRobots msDisplayRobots;
 		MacroscopeDisplaySitemaps msDisplaySitemaps;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
@@ -130,8 +131,9 @@ namespace SEOMacroscope
 			this.msDisplayKeywords = new MacroscopeDisplayKeywords ( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
 			this.msDisplayHeadings = new MacroscopeDisplayHeadings ( this, this.macroscopeOverviewTabPanelInstance.listViewPageHeadings );
 			this.msDisplayStylesheets = new MacroscopeDisplayStylesheets ( this, this.macroscopeOverviewTabPanelInstance.listViewStylesheets );
-			this.msDisplayImages = new MacroscopeDisplayImages ( this, this.macroscopeOverviewTabPanelInstance.listViewImages );
 			this.msDisplayJavascripts = new MacroscopeDisplayJavascripts ( this, this.macroscopeOverviewTabPanelInstance.listViewJavascripts );
+			this.msDisplayImages = new MacroscopeDisplayImages ( this, this.macroscopeOverviewTabPanelInstance.listViewImages );
+			this.msDisplayVideos = new MacroscopeDisplayVideos ( this, this.macroscopeOverviewTabPanelInstance.listViewVideos );
 			this.msDisplayRobots = new MacroscopeDisplayRobots ( this, this.macroscopeOverviewTabPanelInstance.listViewRobots );
 			this.msDisplaySitemaps = new MacroscopeDisplaySitemaps ( this, this.macroscopeOverviewTabPanelInstance.listViewSitemaps );
 			this.msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
@@ -157,8 +159,9 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewRobots.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;		
 			this.macroscopeOverviewTabPanelInstance.listViewStylesheets.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-			this.macroscopeOverviewTabPanelInstance.listViewImages.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewJavascripts.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
+			this.macroscopeOverviewTabPanelInstance.listViewImages.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+			this.macroscopeOverviewTabPanelInstance.listViewVideos.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewHistory.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -279,6 +282,7 @@ namespace SEOMacroscope
 			{
 
 				// WebProxy Options
+				
 				PrefsControl.textBoxHttpProxyHost.Text = MacroscopePreferencesManager.GetHttpProxyHost();
 				PrefsControl.numericUpDownHttpProxyPort.Value = MacroscopePreferencesManager.GetHttpProxyPort();
 
@@ -303,12 +307,15 @@ namespace SEOMacroscope
 				PrefsControl.checkBoxFetchImages.Checked = MacroscopePreferencesManager.GetFetchImages();
 				PrefsControl.checkBoxFetchPdfs.Checked = MacroscopePreferencesManager.GetFetchPdfs();
 				PrefsControl.checkBoxFetchXml.Checked = MacroscopePreferencesManager.GetFetchXml();
+				PrefsControl.checkBoxFetchVideo.Checked = MacroscopePreferencesManager.GetFetchVideo();
 				PrefsControl.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
 
 				// Analysis Options
+				
 				PrefsControl.checkBoxCheckHreflangs.Checked = MacroscopePreferencesManager.GetCheckHreflangs();
 			
 				// SEO Options
+				
 				PrefsControl.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
 				PrefsControl.numericUpDownTitleMaxLen.Value = MacroscopePreferencesManager.GetTitleMaxLen();
 				PrefsControl.numericUpDownTitleMinWords.Value = MacroscopePreferencesManager.GetTitleMinWords();
@@ -354,6 +361,7 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchImages.Checked );
 				MacroscopePreferencesManager.SetFetchPdfs( PrefsControl.checkBoxFetchPdfs.Checked );
 				MacroscopePreferencesManager.SetFetchXml( PrefsControl.checkBoxFetchXml.Checked );
+				MacroscopePreferencesManager.SetFetchVideo( PrefsControl.checkBoxFetchVideo.Checked );
 				MacroscopePreferencesManager.SetFetchBinaries( PrefsControl.checkBoxFetchBinaries.Checked );
 
 				// Analysis Options
@@ -754,17 +762,24 @@ namespace SEOMacroscope
 					);
 					break;
 
+				case "tabPageJavascripts":
+					this.msDisplayJavascripts.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayJavascripts )
+					);
+					break;
+
 				case "tabPageImages":
 					this.msDisplayImages.RefreshData(
 						this.JobMaster.GetDocCollection(),
 						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayImages )
 					);
 					break;
-
-				case "tabPageJavascripts":
-					this.msDisplayJavascripts.RefreshData(
+					
+				case "tabPageVideos":
+					this.msDisplayVideos.RefreshData(
 						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayJavascripts )
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayVideos )
 					);
 					break;
 

@@ -68,9 +68,10 @@ namespace SEOMacroscope
 			listViewPageDescriptions.Dock = DockStyle.Fill;
 			listViewPageKeywords.Dock = DockStyle.Fill;
 			listViewPageHeadings.Dock = DockStyle.Fill;
-			listViewImages.Dock = DockStyle.Fill;
 			listViewStylesheets.Dock = DockStyle.Fill;
 			listViewJavascripts.Dock = DockStyle.Fill;
+			listViewImages.Dock = DockStyle.Fill;
+			listViewVideos.Dock = DockStyle.Fill;
 			listViewRobots.Dock = DockStyle.Fill;
 			listViewSitemaps.Dock = DockStyle.Fill;
 			listViewEmailAddresses.Dock = DockStyle.Fill;
@@ -91,9 +92,10 @@ namespace SEOMacroscope
 			listViewPageDescriptions.ListViewItemSorter = lvColumnSorter;
 			listViewPageKeywords.ListViewItemSorter = lvColumnSorter;
 			listViewPageHeadings.ListViewItemSorter = lvColumnSorter;
-			listViewImages.ListViewItemSorter = lvColumnSorter;
 			listViewStylesheets.ListViewItemSorter = lvColumnSorter;
 			listViewJavascripts.ListViewItemSorter = lvColumnSorter;
+			listViewImages.ListViewItemSorter = lvColumnSorter;
+			listViewVideos.ListViewItemSorter = lvColumnSorter;
 			listViewRobots.ListViewItemSorter = lvColumnSorter;
 			listViewSitemaps.ListViewItemSorter = lvColumnSorter;
 			listViewEmailAddresses.ListViewItemSorter = lvColumnSorter;
@@ -111,9 +113,10 @@ namespace SEOMacroscope
 			listViewPageDescriptions.ColumnClick += this.CallbackColumnClick;
 			listViewPageKeywords.ColumnClick += this.CallbackColumnClick;
 			listViewPageHeadings.ColumnClick += this.CallbackColumnClick;
-			listViewImages.ColumnClick += this.CallbackColumnClick;
 			listViewStylesheets.ColumnClick += this.CallbackColumnClick;
 			listViewJavascripts.ColumnClick += this.CallbackColumnClick;
+			listViewImages.ColumnClick += this.CallbackColumnClick;
+			listViewVideos.ColumnClick += this.CallbackColumnClick;
 			listViewRobots.ColumnClick += this.CallbackColumnClick;
 			listViewSitemaps.ColumnClick += this.CallbackColumnClick;
 			listViewEmailAddresses.ColumnClick += this.CallbackColumnClick;

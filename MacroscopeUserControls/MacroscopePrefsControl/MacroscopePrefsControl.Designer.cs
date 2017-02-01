@@ -77,6 +77,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Label label15;
 		public System.Windows.Forms.NumericUpDown numericUpDownRequestTimeout;
 		public System.Windows.Forms.CheckBox checkBoxFetchXml;
+		public System.Windows.Forms.CheckBox checkBoxFetchVideo;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -125,6 +126,7 @@ namespace SEOMacroscope
 			this.numericUpDownPageLimit = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDownDepth = new System.Windows.Forms.NumericUpDown();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.checkBoxFetchXml = new System.Windows.Forms.CheckBox();
 			this.checkBoxFetchBinaries = new System.Windows.Forms.CheckBox();
 			this.checkBoxFetchPdfs = new System.Windows.Forms.CheckBox();
 			this.checkBoxFetchImages = new System.Windows.Forms.CheckBox();
@@ -162,7 +164,7 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
-			this.checkBoxFetchXml = new System.Windows.Forms.CheckBox();
+			this.checkBoxFetchVideo = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -520,6 +522,7 @@ namespace SEOMacroscope
 			// groupBox1
 			// 
 			this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox1.Controls.Add(this.checkBoxFetchVideo);
 			this.groupBox1.Controls.Add(this.checkBoxFetchXml);
 			this.groupBox1.Controls.Add(this.checkBoxFetchBinaries);
 			this.groupBox1.Controls.Add(this.checkBoxFetchPdfs);
@@ -534,9 +537,18 @@ namespace SEOMacroscope
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Fetch Document Types";
 			// 
+			// checkBoxFetchXml
+			// 
+			this.checkBoxFetchXml.Location = new System.Drawing.Point(150, 50);
+			this.checkBoxFetchXml.Name = "checkBoxFetchXml";
+			this.checkBoxFetchXml.Size = new System.Drawing.Size(110, 24);
+			this.checkBoxFetchXml.TabIndex = 15;
+			this.checkBoxFetchXml.Text = "XML files";
+			this.checkBoxFetchXml.UseVisualStyleBackColor = true;
+			// 
 			// checkBoxFetchBinaries
 			// 
-			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(146, 80);
+			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(280, 20);
 			this.checkBoxFetchBinaries.Name = "checkBoxFetchBinaries";
 			this.checkBoxFetchBinaries.Size = new System.Drawing.Size(110, 24);
 			this.checkBoxFetchBinaries.TabIndex = 14;
@@ -545,7 +557,7 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFetchPdfs
 			// 
-			this.checkBoxFetchPdfs.Location = new System.Drawing.Point(146, 20);
+			this.checkBoxFetchPdfs.Location = new System.Drawing.Point(150, 20);
 			this.checkBoxFetchPdfs.Name = "checkBoxFetchPdfs";
 			this.checkBoxFetchPdfs.Size = new System.Drawing.Size(110, 24);
 			this.checkBoxFetchPdfs.TabIndex = 13;
@@ -995,14 +1007,14 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
-			// checkBoxFetchXml
+			// checkBoxFetchVideo
 			// 
-			this.checkBoxFetchXml.Location = new System.Drawing.Point(146, 50);
-			this.checkBoxFetchXml.Name = "checkBoxFetchXml";
-			this.checkBoxFetchXml.Size = new System.Drawing.Size(110, 24);
-			this.checkBoxFetchXml.TabIndex = 15;
-			this.checkBoxFetchXml.Text = "XML files";
-			this.checkBoxFetchXml.UseVisualStyleBackColor = true;
+			this.checkBoxFetchVideo.Location = new System.Drawing.Point(150, 80);
+			this.checkBoxFetchVideo.Name = "checkBoxFetchVideo";
+			this.checkBoxFetchVideo.Size = new System.Drawing.Size(110, 24);
+			this.checkBoxFetchVideo.TabIndex = 16;
+			this.checkBoxFetchVideo.Text = "Videos";
+			this.checkBoxFetchVideo.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 

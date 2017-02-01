@@ -99,6 +99,7 @@
     <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeInsecureLinks.cs" />
     <Compile Include="MacroscopeConstants.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentImage.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentJS.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentPDF.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentVideo.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentXml.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayStylesheets.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTelephoneNumbers.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTitles.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayVideos.cs" />
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.Designer.cs">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>

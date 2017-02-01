@@ -376,7 +376,29 @@ namespace SEOMacroscope
 					}
 				}
 			}
-			
+
+			{ // Video element links
+
+				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//video/source[@src]" );
+
+				if( nOutlinks != null )
+				{
+
+					foreach( HtmlNode nLink in nOutlinks )
+					{
+						string sLinkUrl = nLink.GetAttributeValue( "src", null );
+						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+						
+						DebugMsg( string.Format( "VIDEO: 1 :: {0}", sLinkUrl ) );
+						DebugMsg( string.Format( "VIDEO: 2 :: {0}", sLinkUrlAbs ) );
+						
+						this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.VIDEO, true );
+					}
+					
+				}
+
+			}
+
 		}
 
 		/**************************************************************************/

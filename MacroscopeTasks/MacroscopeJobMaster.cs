@@ -107,6 +107,7 @@ namespace SEOMacroscope
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayStylesheets );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayImages );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayJavascripts );
+				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayVideos );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses );
 				this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
@@ -375,6 +376,7 @@ namespace SEOMacroscope
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStylesheets, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayImages, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayJavascripts, sUrl );
+			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayVideos, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, sUrl );
 			NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, sUrl );

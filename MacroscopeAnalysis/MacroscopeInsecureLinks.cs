@@ -29,15 +29,15 @@ namespace SEOMacroscope
 {
 
 	/// <summary>
-	/// Description of MacroscopeDeepKeywordAnalysis.
+	/// Description of MacroscopeInsecureLinks.
 	/// </summary>
 
-	public class MacroscopeDeepKeywordAnalysis : Macroscope
+	public class MacroscopeInsecureLinks : Macroscope
 	{
 
 		/**************************************************************************/
 
-		public MacroscopeDeepKeywordAnalysis ()
+		public MacroscopeInsecureLinks ()
 		{
 		}
 

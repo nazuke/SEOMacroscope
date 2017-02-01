@@ -170,22 +170,28 @@ namespace SEOMacroscope
 			Description = "";
 			Keywords = "";
 
-			Headings = new Dictionary<ushort,List<string>> () { {
+			Headings = new Dictionary<ushort,List<string>> () {
+				{
 					1,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					2,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					3,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					4,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					5,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					6,
 					new List<string> ( 16 )
 				}
@@ -502,6 +508,23 @@ namespace SEOMacroscope
 			}
 		}
 
+		public void SetIsVideo ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentType.VIDEO;
+		}
+																										
+		public Boolean GetIsVideo ()
+		{
+			if( this.DocumentType == MacroscopeConstants.DocumentType.VIDEO )
+			{
+				return( true );
+			}
+			else
+			{
+				return( false );
+			}
+		}
+
 		/** Compression ***********************************************************/
 
 		public Boolean GetIsCompressed ()
@@ -533,7 +556,7 @@ namespace SEOMacroscope
 			return( this.Locale );
 		}
 
-		/** Character Set ***********************************************************************/
+		/** Character Set *********************************************************/
 		
 		public string GetCharacterSet ()
 		{
@@ -622,7 +645,15 @@ namespace SEOMacroscope
 			string sAltText
 		)
 		{
-			this.HyperlinksIn.Add( sType, sMethod, iLinkClass, sUrlOrigin, sUrlTarget, sLinkText, sAltText );
+			this.HyperlinksIn.Add( 
+				sType, 
+				sMethod, 
+				iLinkClass, 
+				sUrlOrigin, 
+				sUrlTarget, 
+				sLinkText, 
+				sAltText 
+			);
 		}
 
 		public void ClearHyperlinksIn ()
@@ -936,6 +967,15 @@ namespace SEOMacroscope
 
 				}
 				else
+				if( this.GetIsVideo() )
+				{
+					DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.Url ) );
+					if( MacroscopePreferencesManager.GetFetchVideo() )
+					{
+						fTimeDuration( this.ProcessVideoPage );
+					}
+				}
+				else
 				if( this.GetIsBinary() )
 				{
 					DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.Url ) );
@@ -1092,13 +1132,13 @@ namespace SEOMacroscope
 				
 		/**************************************************************************/
 
-		void ProcessErrorCondition ( string ErrorCondition )
+		void ProcessErrorCondition ( string ErrorCond )
 		{
 
-			if( ErrorCondition != null )
+			if( ErrorCond != null )
 			{
 
-				switch( ErrorCondition.ToLower() )
+				switch( ErrorCond.ToLower() )
 				{
 					case "timeout":
 						this.StatusCode = ( int )HttpStatusCode.RequestTimeout;
@@ -1108,14 +1148,12 @@ namespace SEOMacroscope
 						break;
 				}
 
-				this.ErrorCondition = ErrorCondition;
+				this.ErrorCondition = ErrorCond;
 
 			}
 			else
 			{
-
 				this.ErrorCondition = "";
-
 			}
 
 		}
@@ -1226,6 +1264,7 @@ namespace SEOMacroscope
 				Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
 				Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );			
 				Regex reIsXml = new Regex ( "^(application|text)/xml", RegexOptions.IgnoreCase );
+				Regex reIsVideo = new Regex ( "^video/[a-z0-9]+", RegexOptions.IgnoreCase );
 
 				if( reIsHtml.IsMatch( res.ContentType.ToString() ) )
 				{
@@ -1255,6 +1294,11 @@ namespace SEOMacroscope
 				if( reIsXml.IsMatch( res.ContentType.ToString() ) )
 				{
 					this.SetIsXml();
+				}
+				else
+				if( reIsVideo.IsMatch( res.ContentType.ToString() ) )
+				{
+					this.SetIsVideo();
 				}
 				else
 				{
