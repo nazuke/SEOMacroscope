@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections;
+using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
@@ -35,47 +36,74 @@ namespace SEOMacroscope
 
 	public class MacroscopeColumnSorter : IComparer
 	{
-		
+
+		/**************************************************************************/
+
+		int ColumnToSort;
+		SortOrder OrderOfSort;
+		CaseInsensitiveComparer ObjectCompare;
+
 		/**************************************************************************/
 				
 		public MacroscopeColumnSorter ()
 		{
+			ColumnToSort = 0;
+			OrderOfSort = SortOrder.None;
+			ObjectCompare = new CaseInsensitiveComparer ();
 		}
 
 		/**************************************************************************/
 
-		public int Compare ( object Left, object Right )
+		public int Compare ( object x, object y )
 		{
-
-			int iResult = 0;
-
-			return( iResult );
-
+			int compareResult;
+			ListViewItem listviewX, listviewY;
+			listviewX = ( ListViewItem )x;
+			listviewY = ( ListViewItem )y;
+			compareResult = ObjectCompare.Compare( listviewX.SubItems[ ColumnToSort ].Text, listviewY.SubItems[ ColumnToSort ].Text );
+			if( OrderOfSort == SortOrder.Ascending )
+			{
+				return compareResult;
+			}
+			else
+			if( OrderOfSort == SortOrder.Descending )
+			{
+				return ( -compareResult );
+			}
+			else
+			{
+				return 0;
+			}
 		}
 		
 		/**************************************************************************/
 
-		public int Compare ( string Left, string Right )
+		public int SortColumn
 		{
-
-			int iResult = 0;
-
-			return( iResult );
-
+			set
+			{
+				ColumnToSort = value;
+			}
+			get
+			{
+				return ColumnToSort;
+			}
 		}
-		
+
 		/**************************************************************************/
-
-		public int Compare ( int Left, int Right )
-		{
-
-			int iResult = 0;
-			
-			
-			return( iResult );
-
-		}
 		
+		public SortOrder Order
+		{
+			set
+			{
+				OrderOfSort = value;
+			}
+			get
+			{
+				return OrderOfSort;
+			}
+		}
+	
 		/**************************************************************************/
 				
 	}

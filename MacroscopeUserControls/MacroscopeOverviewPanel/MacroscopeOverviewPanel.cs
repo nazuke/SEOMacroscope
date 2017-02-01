@@ -40,6 +40,10 @@ namespace SEOMacroscope
 	{
 	
 		/**************************************************************************/
+				
+		MacroscopeColumnSorter lvColumnSorter;
+		
+		/**************************************************************************/
 
 		public MacroscopeOverviewPanel ()
 		{
@@ -72,8 +76,42 @@ namespace SEOMacroscope
 			listViewHistory.Dock = DockStyle.Fill;
 
 			// ListView Sorters
-			// TODO: Implement this.
-			
+			lvColumnSorter = new MacroscopeColumnSorter ();
+
+			listViewStructure.ListViewItemSorter = lvColumnSorter;
+			listViewCanonicalAnalysis.ListViewItemSorter = lvColumnSorter;
+			listViewHrefLang.ListViewItemSorter = lvColumnSorter;
+			listViewErrors.ListViewItemSorter = lvColumnSorter;
+			listViewRedirectsAudit.ListViewItemSorter = lvColumnSorter;
+			listViewUriAnalysis.ListViewItemSorter = lvColumnSorter;
+			listViewPageTitles.ListViewItemSorter = lvColumnSorter;
+			listViewPageDescriptions.ListViewItemSorter = lvColumnSorter;
+			listViewPageKeywords.ListViewItemSorter = lvColumnSorter;
+			listViewPageHeadings.ListViewItemSorter = lvColumnSorter;
+			listViewRobots.ListViewItemSorter = lvColumnSorter;
+			listViewSitemaps.ListViewItemSorter = lvColumnSorter;
+			listViewEmailAddresses.ListViewItemSorter = lvColumnSorter;
+			listViewTelephoneNumbers.ListViewItemSorter = lvColumnSorter;
+			listViewHostnames.ListViewItemSorter = lvColumnSorter;
+			listViewHistory.ListViewItemSorter = lvColumnSorter;
+
+			listViewStructure.ColumnClick += this.CallbackColumnClick;
+			listViewCanonicalAnalysis.ColumnClick += this.CallbackColumnClick;
+			listViewHrefLang.ColumnClick += this.CallbackColumnClick;
+			listViewErrors.ColumnClick += this.CallbackColumnClick;
+			listViewRedirectsAudit.ColumnClick += this.CallbackColumnClick;
+			listViewUriAnalysis.ColumnClick += this.CallbackColumnClick;
+			listViewPageTitles.ColumnClick += this.CallbackColumnClick;
+			listViewPageDescriptions.ColumnClick += this.CallbackColumnClick;
+			listViewPageKeywords.ColumnClick += this.CallbackColumnClick;
+			listViewPageHeadings.ColumnClick += this.CallbackColumnClick;
+			listViewRobots.ColumnClick += this.CallbackColumnClick;
+			listViewSitemaps.ColumnClick += this.CallbackColumnClick;
+			listViewEmailAddresses.ColumnClick += this.CallbackColumnClick;
+			listViewTelephoneNumbers.ColumnClick += this.CallbackColumnClick;
+			listViewHostnames.ColumnClick += this.CallbackColumnClick;
+			listViewHistory.ColumnClick += this.CallbackColumnClick;
+
 		}
 	
 		/**************************************************************************/
@@ -81,12 +119,26 @@ namespace SEOMacroscope
 		void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
 		{
 
-			// TODO: Implement this.
-			
-			ListView lvListView = ( ListView )sender;
+			ListView lvListView = sender as ListView;
 
-			DebugMsg( string.Format( "CallbackColumnClick lvListView: {0}", lvListView.ToString() ) );
-			DebugMsg( string.Format( "CallbackColumnClick Column: {0}", e.Column.ToString() ) );
+			if( e.Column == lvColumnSorter.SortColumn )
+			{
+				if( lvColumnSorter.Order == SortOrder.Ascending )
+				{
+					lvColumnSorter.Order = SortOrder.Descending;
+				}
+				else
+				{
+					lvColumnSorter.Order = SortOrder.Ascending;
+				}
+			}
+			else
+			{
+				lvColumnSorter.SortColumn = e.Column;
+				lvColumnSorter.Order = SortOrder.Ascending;
+			}
+
+			lvListView.Sort();
 
 		}
 		
