@@ -31,10 +31,10 @@ namespace SEOMacroscope
 {
 	
 	/// <summary>
-	/// Description of MacroscopeDisplayDescriptions.
+	/// Description of MacroscopeDisplayStylesheets.
 	/// </summary>
 
-	public class MacroscopeDisplayDescriptions : MacroscopeDisplayListView
+	public class MacroscopeDisplayStylesheets : MacroscopeDisplayListView
 	{
 		
 		/**************************************************************************/
@@ -43,7 +43,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayDescriptions ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+		public MacroscopeDisplayStylesheets ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
 			: base( MainFormNew, lvListViewNew )
 		{
 
@@ -79,58 +79,75 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			string sDescription = msDoc.GetDescription();
-			int iDescriptionCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
-			string sDescriptionLength = sDescription.Length.ToString();
-			string sPairKey = string.Join( "", sUrl, sDescription );
+			if( !msDoc.GetIsCss() )
+			{
+				return;
+			}
+
+			string sStatusCode = msDoc.GetStatusCode().ToString();
+			string sMimeType = msDoc.GetMimeType();
+			string sFileSize = msDoc.GetContentLength().ToString();
+
+			string sPairKey = string.Join( "", sUrl );
 
 			ListViewItem lvItem = null;
 							
-			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
+			if( this.lvListView.Items.ContainsKey( sPairKey ) )
+			{
 							
-				try {
+				try
+				{
 
 					lvItem = this.lvListView.Items[ sPairKey ];
 					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems[ 1 ].Text = iDescriptionCount.ToString();
-					lvItem.SubItems[ 2 ].Text = sDescription;
-					lvItem.SubItems[ 3 ].Text = sDescriptionLength;
+					lvItem.SubItems[ 1 ].Text = sStatusCode;
+					lvItem.SubItems[ 2 ].Text = sMimeType;
+					lvItem.SubItems[ 3 ].Text = sFileSize;
 
-				} catch( Exception ex ) {
-					DebugMsg( string.Format( "MacroscopeDisplayDescriptions 1: {0}", ex.Message ) );
+				}
+				catch( Exception ex )
+				{
+					DebugMsg( string.Format( "MacroscopeDisplayStylesheets 1: {0}", ex.Message ) );
 				}
 
-			} else {
+			}
+			else
+			{
 							
-				try {
+				try
+				{
 
 					lvItem = new ListViewItem ( sPairKey );
 					lvItem.UseItemStyleForSubItems = false;
 					lvItem.Name = sPairKey;
 
 					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems.Add( iDescriptionCount.ToString() );
-					lvItem.SubItems.Add( sDescription );
-					lvItem.SubItems.Add( sDescriptionLength );
+					lvItem.SubItems.Add( sStatusCode );
+					lvItem.SubItems.Add( sMimeType );
+					lvItem.SubItems.Add( sFileSize );
 
 					this.lvListView.Items.Add( lvItem );
 
-				} catch( Exception ex ) {
-					DebugMsg( string.Format( "MacroscopeDisplayDescriptions 2: {0}", ex.Message ) );
+				}
+				catch( Exception ex )
+				{
+					DebugMsg( string.Format( "MacroscopeDisplayStylesheets 2: {0}", ex.Message ) );
 				}
 
 			}
 
-			if( lvItem != null ) {
+			if( lvItem != null )
+			{
 
 				lvItem.ForeColor = Color.Blue;
 				
-				if( sDescription.Length < MacroscopePreferencesManager.GetDescriptionMinLen() ) {
-					lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-				} else if( sDescription.Length > MacroscopePreferencesManager.GetDescriptionMaxLen() ) {
-					lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-				} else {
-					lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+				if( msDoc.GetStatusCode() != 200 )
+				{
+					lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+				}
+				else
+				{
+					lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
 				}
 
 			}

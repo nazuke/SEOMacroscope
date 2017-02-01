@@ -46,7 +46,8 @@ namespace SEOMacroscope
 			HttpWebResponse res = null;
 			string sErrorCondition = null;
 			
-			try {
+			try
+			{
 
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "GET";
@@ -55,7 +56,9 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 
-			} catch( WebException ex ) {
+			}
+			catch( WebException ex )
+			{
 
 				DebugMsg( string.Format( "ProcessHtmlPage :: WebException: {0}", ex.Message ) );
 				DebugMsg( string.Format( "ProcessHtmlPage :: WebException: {0}", this.Url ) );
@@ -64,14 +67,16 @@ namespace SEOMacroscope
 
 			}
 
-			if( res != null ) {
+			if( res != null )
+			{
 				
 				string sRawData = "";
 							
 				this.ProcessHttpHeaders( req, res );
 
 				// Get Response Body
-				try {
+				try
+				{
 
 					DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 					Stream sStream = res.GetResponseStream();
@@ -80,13 +85,17 @@ namespace SEOMacroscope
 					this.ContentLength = sRawData.Length; // May need to find bytes length
 					//DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
 
-				} catch( WebException ex ) {
+				}
+				catch( WebException ex )
+				{
 
 					DebugMsg( string.Format( "WebException", ex.Message ) );
 					sRawData = "";
 					this.ContentLength = 0;
 
-				} catch( Exception ex ) {
+				}
+				catch( Exception ex )
+				{
 
 					DebugMsg( string.Format( "Exception", ex.Message ) );
 					this.StatusCode = ( int )HttpStatusCode.BadRequest;
@@ -95,15 +104,19 @@ namespace SEOMacroscope
 
 				}
 				
-				if( sRawData.Length > 0 ) {
+				if( sRawData.Length > 0 )
+				{
 					HtmlDoc = new HtmlDocument ();
 					HtmlDoc.LoadHtml( sRawData );
 					DebugMsg( string.Format( "htmlDoc: {0}", HtmlDoc ) );
-				} else {
+				}
+				else
+				{
 					DebugMsg( string.Format( "sRawData: {0}", "EMPTY" ) );
 				}
 
-				if( HtmlDoc != null ) {
+				if( HtmlDoc != null )
+				{
 
 					{ // Probe Locale
 						MacroscopeLocaleTools msLocale = new MacroscopeLocaleTools ();
@@ -112,9 +125,12 @@ namespace SEOMacroscope
 					}
 
 					{ // Probe Character Set
-						try {
+						try
+						{
 							this.SetCharacterSet( HtmlDoc.DeclaredEncoding.EncodingName );
-						} catch( Exception ex ) {
+						}
+						catch( Exception ex )
+						{
 							DebugMsg( string.Format( ex.Message ) );
 							this.SetCharacterSet( "" );
 						}
@@ -122,20 +138,26 @@ namespace SEOMacroscope
 
 					{ // Title
 						HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/title" );
-						if( nNode != null ) {
+						if( nNode != null )
+						{
 							this.Title = nNode.InnerText;
 							DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
-						} else {
+						}
+						else
+						{
 							DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
 						}
 					}
 
 					{ // Description
 						HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@name='description']" );
-						if( nNode != null ) {
+						if( nNode != null )
+						{
 							this.Description = nNode.GetAttributeValue( "content", null );
 							DebugMsg( string.Format( "DESCRIPTION: {0}", this.Description ) );
-						} else {
+						}
+						else
+						{
 							this.Description = null;		
 							DebugMsg( string.Format( "DESCRIPTION: {0}", "MISSING" ) );
 						}
@@ -143,10 +165,13 @@ namespace SEOMacroscope
 						
 					{ // Keywords
 						HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@name='keywords']" );
-						if( nNode != null ) {
+						if( nNode != null )
+						{
 							this.Keywords = nNode.GetAttributeValue( "content", null );
 							DebugMsg( string.Format( "KEYWORDS: {0}", this.Keywords ) );
-						} else {
+						}
+						else
+						{
 							this.Keywords = null;		
 							DebugMsg( string.Format( "KEYWORDS: {0}", "MISSING" ) );
 						}
@@ -180,7 +205,8 @@ namespace SEOMacroscope
 
 			}
 
-			if( sErrorCondition != null ) {
+			if( sErrorCondition != null )
+			{
 				this.ProcessErrorCondition( sErrorCondition );
 			}
 			
@@ -193,16 +219,20 @@ namespace SEOMacroscope
 
 			HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/link[@rel='canonical']" );
 
-			if( nNode != null ) {
+			if( nNode != null )
+			{
 
 				this.Canonical = nNode.GetAttributeValue( "href", "" );
 				DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
-				if( MacroscopePreferencesManager.GetFollowCanonicalLinks() ) {
+				if( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
+				{
 					string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, this.Canonical );
 					this.AddHtmlOutlink( this.Canonical, sLinkUrlAbs, MacroscopeConstants.OutlinkType.CANONICAL, true );
 				}
 
-			} else {
+			}
+			else
+			{
 
 				this.Canonical = "";
 				DebugMsg( string.Format( "CANONICAL: {0}", "MISSING" ) );
@@ -220,9 +250,11 @@ namespace SEOMacroscope
 				
 			HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
-			if( nOutlinks != null ) {
+			if( nOutlinks != null )
+			{
 
-				foreach( HtmlNode nLink in nOutlinks ) {
+				foreach( HtmlNode nLink in nOutlinks )
+				{
 
 					string sLinkUrl = nLink.GetAttributeValue( "href", null );
 					
@@ -234,8 +266,10 @@ namespace SEOMacroscope
 
 					{
 						string sFollow = nLink.GetAttributeValue( "rel", null );
-						if( sFollow != null ) {
-							if( sFollow.ToLower().Equals( "nofollow" ) ) {
+						if( sFollow != null )
+						{
+							if( sFollow.ToLower().Equals( "nofollow" ) )
+							{
 								hlHyperlinkOut.SetFollow( false );
 							}
 						} 
@@ -243,8 +277,10 @@ namespace SEOMacroscope
 
 					{
 						string sLinkText = nLink.InnerText;
-						if( sLinkText != null ) {
-							if( sLinkText.Length > 0 ) {
+						if( sLinkText != null )
+						{
+							if( sLinkText.Length > 0 )
+							{
 								hlHyperlinkOut.SetLinkText( sLinkText );
 							}
 						}
@@ -263,8 +299,10 @@ namespace SEOMacroscope
 
 			{ // Normal A HREF links
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
-				if( nOutlinks != null ) {
-					foreach( HtmlNode nLink in nOutlinks ) {
+				if( nOutlinks != null )
+				{
+					foreach( HtmlNode nLink in nOutlinks )
+					{
 						string sLinkUrl = nLink.GetAttributeValue( "href", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
 						this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.AHREF, true );
@@ -276,18 +314,22 @@ namespace SEOMacroscope
 
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//link[@href]" );
 
-				if( nOutlinks != null ) {
+				if( nOutlinks != null )
+				{
 
-					foreach( HtmlNode nLink in nOutlinks ) {
+					foreach( HtmlNode nLink in nOutlinks )
+					{
 
 						string sLinkUrl = nLink.GetAttributeValue( "href", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
 						MacroscopeConstants.OutlinkType sType = MacroscopeConstants.OutlinkType.LINK;
 						Boolean bFollow = true;
 
-						if( nLink.GetAttributeValue( "hreflang", null ) != null ) {
+						if( nLink.GetAttributeValue( "hreflang", null ) != null )
+						{
 							sType = MacroscopeConstants.OutlinkType.HREFLANG;
-							if( !MacroscopePreferencesManager.GetFollowHrefLangLinks() ) {
+							if( !MacroscopePreferencesManager.GetFollowHrefLangLinks() )
+							{
 								bFollow = false;
 							}
 						}
@@ -301,20 +343,33 @@ namespace SEOMacroscope
 			}
 
 			{ // Image element links
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//img[@src]" );
-				if( nOutlinks != null ) {
-					foreach( HtmlNode nLink in nOutlinks ) {
+
+				if( nOutlinks != null )
+				{
+
+					foreach( HtmlNode nLink in nOutlinks )
+					{
 						string sLinkUrl = nLink.GetAttributeValue( "src", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+						
+						DebugMsg( string.Format( "IMAGE: 1 :: {0}", sLinkUrl ) );
+						DebugMsg( string.Format( "IMAGE: 2 :: {0}", sLinkUrlAbs ) );
+						
 						this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
 					}
+					
 				}
+
 			}
 
 			{ // Script element links
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//script[@src]" );
-				if( nOutlinks != null ) {
-					foreach( HtmlNode nLink in nOutlinks ) {
+				if( nOutlinks != null )
+				{
+					foreach( HtmlNode nLink in nOutlinks )
+					{
 						string sLinkUrl = nLink.GetAttributeValue( "src", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
 						this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.SCRIPT, true );
@@ -331,10 +386,13 @@ namespace SEOMacroscope
 
 			MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, sType, bFollow );
 
-			if( this.Outlinks.ContainsKey( sRawUrl ) ) {
+			if( this.Outlinks.ContainsKey( sRawUrl ) )
+			{
 				this.Outlinks.Remove( sRawUrl );
 				this.Outlinks.Add( sRawUrl, OutLink );
-			} else {
+			}
+			else
+			{
 				this.Outlinks.Add( sRawUrl, OutLink );
 			}
 
@@ -347,20 +405,26 @@ namespace SEOMacroscope
 
 			HtmlNodeCollection nlNodeList = HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
 
-			if( nlNodeList != null ) {
+			if( nlNodeList != null )
+			{
 
-				foreach( HtmlNode nNode in nlNodeList ) {
+				foreach( HtmlNode nNode in nlNodeList )
+				{
 
 					MacroscopeHrefLang msHrefLang;
 					string sRel = nNode.GetAttributeValue( "rel", "" );
 					string sLocale = nNode.GetAttributeValue( "hreflang", "" );
 					string sHref = nNode.GetAttributeValue( "href", "" );
 
-					if( sLocale == "" ) {
+					if( sLocale == "" )
+					{
 						continue;
-					} else {
+					}
+					else
+					{
 
-						if( this.Url == sHref ) {
+						if( this.Url == sHref )
+						{
 							sLocale = this.Locale;
 						}
 						
@@ -382,12 +446,16 @@ namespace SEOMacroscope
 
 		void ExtractHtmlHeadings ( HtmlDocument HtmlDoc )
 		{
-			for( ushort iLevel = 1; iLevel <= 6; iLevel++ ) {
+			for( ushort iLevel = 1 ; iLevel <= 6 ; iLevel++ )
+			{
 				HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( string.Format( "//h{0}", iLevel ) );
-				if( nNodes != null ) {
-					foreach( HtmlNode nNode in nNodes ) {
+				if( nNodes != null )
+				{
+					foreach( HtmlNode nNode in nNodes )
+					{
 						string sText = nNode.InnerText;
-						if( sText != null ) {
+						if( sText != null )
+						{
 							this.AddHeading( iLevel, sText );
 						}
 					}
@@ -400,13 +468,18 @@ namespace SEOMacroscope
 		void ExtractHtmlEmailAddresses ( HtmlDocument HtmlDoc )
 		{
 			HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
-			if( nNodes != null ) {
-				foreach( HtmlNode nLink in nNodes ) {
+			if( nNodes != null )
+			{
+				foreach( HtmlNode nLink in nNodes )
+				{
 					string sLinkUrl = nLink.GetAttributeValue( "href", null );
-					if( sLinkUrl != null ) {
-						if( Regex.IsMatch( sLinkUrl, "^mailto:" ) ) {
+					if( sLinkUrl != null )
+					{
+						if( Regex.IsMatch( sLinkUrl, "^mailto:" ) )
+						{
 							MatchCollection reMatches = Regex.Matches( sLinkUrl, "^mailto:([^?]+)" );
-							foreach( Match reMatch in reMatches ) {
+							foreach( Match reMatch in reMatches )
+							{
 								this.AddEmailAddress( reMatch.Groups[ 1 ].Value.ToString() );
 							}
 						}
@@ -420,13 +493,18 @@ namespace SEOMacroscope
 		void ExtractHtmlTelephoneNumbers ( HtmlDocument HtmlDoc )
 		{
 			HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
-			if( nNodes != null ) {
-				foreach( HtmlNode nLink in nNodes ) {
+			if( nNodes != null )
+			{
+				foreach( HtmlNode nLink in nNodes )
+				{
 					string sLinkUrl = nLink.GetAttributeValue( "href", null );
-					if( sLinkUrl != null ) {
-						if( Regex.IsMatch( sLinkUrl, "^tel:" ) ) {
+					if( sLinkUrl != null )
+					{
+						if( Regex.IsMatch( sLinkUrl, "^tel:" ) )
+						{
 							MatchCollection reMatches = Regex.Matches( sLinkUrl, "^tel:(.+)" );
-							foreach( Match reMatch in reMatches ) {
+							foreach( Match reMatch in reMatches )
+							{
 								this.AddTelephoneNumber( reMatch.Groups[ 1 ].Value.ToString() );
 							}
 						}

@@ -49,15 +49,15 @@ namespace SEOMacroscope
 		MacroscopeDisplayHierarchy msDisplayHierarchy;
 		MacroscopeDisplayCanonical msDisplayCanonical;
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
-
 		MacroscopeDisplayErrors msDisplayErrors;
-
 		MacroscopeDisplayRedirectsAudit msDisplayRedirectsAudit;
-
 		MacroscopeDisplayTitles msDisplayTitles;
 		MacroscopeDisplayDescriptions msDisplayDescriptions;
 		MacroscopeDisplayKeywords msDisplayKeywords;
 		MacroscopeDisplayHeadings msDisplayHeadings;
+		MacroscopeDisplayStylesheets msDisplayStylesheets;
+		MacroscopeDisplayImages msDisplayImages;
+		MacroscopeDisplayJavascripts msDisplayJavascripts;
 		MacroscopeDisplayRobots msDisplayRobots;
 		MacroscopeDisplaySitemaps msDisplaySitemaps;
 		MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
@@ -129,6 +129,9 @@ namespace SEOMacroscope
 			this.msDisplayDescriptions = new MacroscopeDisplayDescriptions ( this, this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions );
 			this.msDisplayKeywords = new MacroscopeDisplayKeywords ( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
 			this.msDisplayHeadings = new MacroscopeDisplayHeadings ( this, this.macroscopeOverviewTabPanelInstance.listViewPageHeadings );
+			this.msDisplayStylesheets = new MacroscopeDisplayStylesheets ( this, this.macroscopeOverviewTabPanelInstance.listViewStylesheets );
+			this.msDisplayImages = new MacroscopeDisplayImages ( this, this.macroscopeOverviewTabPanelInstance.listViewImages );
+			this.msDisplayJavascripts = new MacroscopeDisplayJavascripts ( this, this.macroscopeOverviewTabPanelInstance.listViewJavascripts );
 			this.msDisplayRobots = new MacroscopeDisplayRobots ( this, this.macroscopeOverviewTabPanelInstance.listViewRobots );
 			this.msDisplaySitemaps = new MacroscopeDisplaySitemaps ( this, this.macroscopeOverviewTabPanelInstance.listViewSitemaps );
 			this.msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
@@ -152,7 +155,10 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.listViewPageTitles.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
-			this.macroscopeOverviewTabPanelInstance.listViewRobots.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
+			this.macroscopeOverviewTabPanelInstance.listViewRobots.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;		
+			this.macroscopeOverviewTabPanelInstance.listViewStylesheets.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+			this.macroscopeOverviewTabPanelInstance.listViewImages.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+			this.macroscopeOverviewTabPanelInstance.listViewJavascripts.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewHistory.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -738,6 +744,27 @@ namespace SEOMacroscope
 					this.msDisplayHeadings.RefreshData(
 						this.JobMaster.GetDocCollection(),
 						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageHeadings )
+					);
+					break;
+
+				case "tabPageStylesheets":
+					this.msDisplayStylesheets.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStylesheets )
+					);
+					break;
+
+				case "tabPageImages":
+					this.msDisplayImages.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayImages )
+					);
+					break;
+
+				case "tabPageJavascripts":
+					this.msDisplayJavascripts.RefreshData(
+						this.JobMaster.GetDocCollection(),
+						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayJavascripts )
 					);
 					break;
 

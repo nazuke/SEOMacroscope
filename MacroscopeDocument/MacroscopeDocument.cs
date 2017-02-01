@@ -170,28 +170,22 @@ namespace SEOMacroscope
 			Description = "";
 			Keywords = "";
 
-			Headings = new Dictionary<ushort,List<string>> () {
-				{
+			Headings = new Dictionary<ushort,List<string>> () { {
 					1,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					2,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					3,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					4,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					5,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					6,
 					new List<string> ( 16 )
 				}
@@ -508,7 +502,7 @@ namespace SEOMacroscope
 			}
 		}
 
-		/**************************************************************************/
+		/** Compression ***********************************************************/
 
 		public Boolean GetIsCompressed ()
 		{
@@ -518,6 +512,13 @@ namespace SEOMacroscope
 		public string GetCompressionMethod ()
 		{
 			return( this.CompressionMethod );
+		}
+
+		/** Content Length ********************************************************/
+
+		public long GetContentLength ()
+		{
+			return( this.ContentLength );
 		}
 
 		/** Language/Locale *******************************************************/
