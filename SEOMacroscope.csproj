@@ -50,16 +50,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug Text Only' ">
-    <OutputPath>bin\Debug\</OutputPath>
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE,BUILD_TEXT_VERSION</DefineConstants>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <StartAction>Project</StartAction>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML">
       <HintPath>packages\ClosedXML.0.86.0\lib\net40\ClosedXML.dll</HintPath>
@@ -268,11 +258,6 @@
     <Folder Include="MacroscopeHosts" />
     <Folder Include="MacroscopeUserControls\MacroscopeOverviewPanel" />
     <Folder Include="MacroscopeUserControls\MacroscopeSiteStructurePanel" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ProfilingSessions\Session20170123_172439.sdps" />
-    <Content Include="ProfilingSessions\Session20170123_173204.sdps" />
-    <Content Include="ProfilingSessions\Session20170201_165145.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
