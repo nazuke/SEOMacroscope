@@ -69,23 +69,23 @@ namespace SEOMacroscope
 
 		public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode )
 		{
-			RuntimeMode = iRuntimeMode;
 			MainForm = null;
-			InitializeJobMaster();
+			InitializeJobMaster( iRuntimeMode );
 		}
 		
 		public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode, MacroscopeMainForm MainFormNew )
 		{
-			RuntimeMode = iRuntimeMode;
 			MainForm = MainFormNew;
-			InitializeJobMaster();
+			InitializeJobMaster( iRuntimeMode );
 		}
 
 		/**************************************************************************/
 
-		void InitializeJobMaster ()
+		void InitializeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode )
 		{
 
+			RuntimeMode = iRuntimeMode;
+						
 			this.DocCollection = new MacroscopeDocumentCollection ( this );
 			this.AllowedHosts = new MacroscopeAllowedHosts ();
 			
@@ -145,6 +145,18 @@ namespace SEOMacroscope
 			this.SemaphoreWorkers.Dispose();
 		}
 		
+		/** Runtime Mode **********************************************************/
+
+		public void SetRuntimeMode ( MacroscopeConstants.RunTimeMode iRuntimeMode )
+		{
+			this.RuntimeMode = iRuntimeMode;
+		}
+
+		public MacroscopeConstants.RunTimeMode GetRuntimeMode ()
+		{
+			return( this.RuntimeMode );
+		}
+
 		/** Execute Job ***********************************************************/
 
 		public Boolean Execute ()

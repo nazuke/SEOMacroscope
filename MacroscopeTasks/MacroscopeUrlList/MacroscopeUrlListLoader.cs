@@ -24,6 +24,9 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -39,13 +42,15 @@ namespace SEOMacroscope
 
 		MacroscopeJobMaster JobMaster;
 		string Path;
-		
+		List<string> UrlList;
+					
 		/**************************************************************************/
 
 		public MacroscopeUrlListLoader ( MacroscopeJobMaster JobMasterNew, string sPath )
 		{
 			JobMaster = JobMasterNew;
 			Path = sPath;
+			UrlList = new List<string> ();
 		}
 	
 		/**************************************************************************/
@@ -53,16 +58,84 @@ namespace SEOMacroscope
 		public Boolean Execute ()
 		{
 			Boolean bSuccess = false;
+			MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
 
+			this.CleanseList();
 
+			if( this.UrlList.Count > 0 )
+			{
 			
-			
-			// TODO: load list and add to queue			
-			
-			
-			
-			
+				this.JobMaster.SetRuntimeMode( MacroscopeConstants.RunTimeMode.LISTFILE );
+
+				for( int i = 0 ; i < this.UrlList.Count ; i++ )
+				{
+					string sUrl = this.UrlList[ i ];
+					AllowedHosts.AddFromUrl( sUrl );
+					this.JobMaster.AddUrlQueueItem( sUrl );
+				}
+
+				bSuccess = true;
+			}
+
 			return( bSuccess );
+		}
+
+		/**************************************************************************/
+
+		Boolean CleanseList ()
+		{
+
+			Boolean bSuccess = false;
+			string [] saUrls = null;
+
+			try
+			{
+				saUrls = File.ReadAllLines( this.Path );
+			}
+			catch( FileLoadException ex )
+			{
+				DebugMsg( string.Format( "FileLoadException: {0}", ex.Message ) );
+			}
+
+			if( ( saUrls != null ) && ( saUrls.Length > 0 ) )
+			{
+				for( int i = 0 ; i < saUrls.Length ; i++ )
+				{
+					string sUrl = saUrls[ i ];
+					sUrl = Regex.Replace( sUrl, "^\\s+", "" );
+					sUrl = Regex.Replace( sUrl, "\\s+$", "" );
+					if( sUrl.Length > 0 )
+					{
+						if( Uri.IsWellFormedUriString( sUrl, UriKind.Absolute ) )
+						{
+							DebugMsg( string.Format( "CleanseList Adding: {0}", sUrl ) );
+							this.UrlList.Add( sUrl );
+						}
+					}
+				}
+				bSuccess = true;
+			}
+
+			return( bSuccess );
+		}
+
+		/**************************************************************************/
+
+		public string GetUrlListItem ( int iItem )
+		{
+			string sUrl = null;
+			try
+			{
+				if( this.UrlList[ iItem ].Length > 0 )
+				{
+					sUrl = this.UrlList[ iItem ];
+				}
+			}
+			catch( Exception ex )
+			{
+				DebugMsg( string.Format( "GetUrlListItem: {0}", ex.Message ) );
+			}
+			return( sUrl );
 		}
 
 		/**************************************************************************/

@@ -42,7 +42,6 @@ namespace SEOMacroscope
 		MacroscopeJobMaster JobMaster;
 		MacroscopeDocumentCollection DocCollection;
 		MacroscopeAllowedHosts AllowedHosts;
-		//MacroscopeDomainWrangler DomainWrangler;
 
 		/**************************************************************************/
 
@@ -241,6 +240,15 @@ namespace SEOMacroscope
 		{
 
 			// TODO: add this.SameSite check
+
+			if(
+				( this.JobMaster.GetRuntimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
+				|| ( this.JobMaster.GetRuntimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
+				|| ( this.JobMaster.GetRuntimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
+			{
+				DebugMsg( string.Format( "ProcessOutlinks LISTMODE: {0}", this.JobMaster.GetRuntimeMode() ) );
+				return;
+			}
 
 			foreach( string sUrl in msDoc.IterateOutlinks() )
 			{

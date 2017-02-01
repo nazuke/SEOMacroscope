@@ -419,7 +419,7 @@ namespace SEOMacroscope
 		{
 			
 			string sStartUrl = this.GetUrl();
-			StartUrlDirty = true;
+			this.StartUrlDirty = true;
 
 			if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) )
 			{
@@ -470,12 +470,12 @@ namespace SEOMacroscope
 
 				this.ScanningControlsStart( true );
 
-				if( StartUrlDirty )
+				if( this.StartUrlDirty )
 				{
 					this.JobMaster.ClearAllQueues();
 					this.JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
 					this.ClearDisplay();
-					StartUrlDirty = false;
+					this.StartUrlDirty = false;
 				}
 
 				MacroscopePreferencesManager.SetStartUrl( sStartUrl );
@@ -499,21 +499,40 @@ namespace SEOMacroscope
 		
 		void CallackScanStartUrlListFileExecute ( string sPath )
 		{
-		
+
+			this.JobMaster.ClearAllQueues();
+			this.JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LISTFILE, this );
+			this.ClearDisplay();
+				
 			MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader ( this.JobMaster, sPath );
-			
+
 			if( msUrlListLoader != null )
 			{
+
 				if( msUrlListLoader.Execute() )
 				{
 
+					string sStartUrl = msUrlListLoader.GetUrlListItem( 0 );
+					
+					this.SetUrl( sStartUrl );
 
+					if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) )
+					{
 
+						this.ScanningControlsStart( true );
 
-					// TODO: implement similar to CallackScanStartExecute()
+						MacroscopePreferencesManager.SetStartUrl( sStartUrl );
 
+						MacroscopePreferencesManager.SavePreferences();
 
+						this.ThreadScanner = new Thread ( new ThreadStart ( this.ScanningThread ) );
+						this.ThreadScanner.Start();
 
+					}
+					else
+					{
+						DialogueBoxStartUrlInvalid();
+					}
 
 				}
 				else
@@ -521,7 +540,7 @@ namespace SEOMacroscope
 					DialogueBoxError( "Load URL List Error", "The URL list specified could not loaded" );
 				}
 			}
-
+			
 		}
 
 		/**************************************************************************/
