@@ -71,6 +71,7 @@ namespace SEOMacroscope
 			listViewStylesheets.Dock = DockStyle.Fill;
 			listViewJavascripts.Dock = DockStyle.Fill;
 			listViewImages.Dock = DockStyle.Fill;
+			listViewAudios.Dock = DockStyle.Fill;
 			listViewVideos.Dock = DockStyle.Fill;
 			listViewRobots.Dock = DockStyle.Fill;
 			listViewSitemaps.Dock = DockStyle.Fill;
@@ -95,6 +96,7 @@ namespace SEOMacroscope
 			listViewStylesheets.ListViewItemSorter = lvColumnSorter;
 			listViewJavascripts.ListViewItemSorter = lvColumnSorter;
 			listViewImages.ListViewItemSorter = lvColumnSorter;
+			listViewAudios.ListViewItemSorter = lvColumnSorter;
 			listViewVideos.ListViewItemSorter = lvColumnSorter;
 			listViewRobots.ListViewItemSorter = lvColumnSorter;
 			listViewSitemaps.ListViewItemSorter = lvColumnSorter;
@@ -116,6 +118,7 @@ namespace SEOMacroscope
 			listViewStylesheets.ColumnClick += this.CallbackColumnClick;
 			listViewJavascripts.ColumnClick += this.CallbackColumnClick;
 			listViewImages.ColumnClick += this.CallbackColumnClick;
+			listViewAudios.ColumnClick += this.CallbackColumnClick;
 			listViewVideos.ColumnClick += this.CallbackColumnClick;
 			listViewRobots.ColumnClick += this.CallbackColumnClick;
 			listViewSitemaps.ColumnClick += this.CallbackColumnClick;

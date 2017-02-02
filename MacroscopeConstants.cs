@@ -66,6 +66,7 @@ namespace SEOMacroscope
 		public const string NamedQueueDisplayStylesheets = "DisplayStylesheets";
 		public const string NamedQueueDisplayJavascripts = "DisplayJavascripts";
 		public const string NamedQueueDisplayImages = "DisplayImages";
+		public const string NamedQueueDisplayAudios = "DisplayAudios";
 		public const string NamedQueueDisplayVideos = "DisplayVideos";
 		public const string NamedQueueDisplayRobots = "DisplayRobots";
 		public const string NamedQueueDisplaySitemaps = "DisplaySitemaps";
@@ -87,9 +88,10 @@ namespace SEOMacroscope
 			JAVASCRIPT = 4,
 			IMAGE = 5,
 			PDF = 6,
-			XML = 7,
-			SITEMAPXML = 8,
-			VIDEO = 9
+			AUDIO = 7,
+			VIDEO = 8,
+			XML = 9,
+			SITEMAPXML = 10
 		}
 		
 		/** END: Document Types ***************************************************/
@@ -101,12 +103,19 @@ namespace SEOMacroscope
 			SITEMAPXML = 0,
 			REDIRECT = 1,
 			LINK = 2,
-			CANONICAL = 3,
-			HREFLANG = 4,
-			AHREF = 5,
-			IMAGE = 6,
-			SCRIPT = 7,
-			VIDEO = 8
+			STYLESHEET= 3,
+			CANONICAL = 4,
+			HREFLANG = 5,
+			AHREF = 6,
+			META = 7,
+			IFRAME = 8,
+			MAP = 9,
+			IMAGE = 10,
+			SCRIPT = 11,
+			AUDIO = 12,
+			VIDEO = 13,
+			EMBED = 14,
+			OBJECT = 15
 		}
 
 		/** END: Outlink Types ****************************************************/

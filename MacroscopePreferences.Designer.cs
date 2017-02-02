@@ -26,6 +26,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool AnalyzeKeywordsInText {
+			get {
+				return ((bool)(this["AnalyzeKeywordsInText"]));
+			}
+			set {
+				this["AnalyzeKeywordsInText"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
 		public bool CheckExternalLinks {
 			get {
 				return ((bool)(this["CheckExternalLinks"]));
@@ -56,6 +68,66 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["Depth"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("150")]
+		public int DescriptionMaxLen {
+			get {
+				return ((int)(this["DescriptionMaxLen"]));
+			}
+			set {
+				this["DescriptionMaxLen"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("20")]
+		public int DescriptionMaxWords {
+			get {
+				return ((int)(this["DescriptionMaxWords"]));
+			}
+			set {
+				this["DescriptionMaxWords"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("10")]
+		public int DescriptionMinLen {
+			get {
+				return ((int)(this["DescriptionMinLen"]));
+			}
+			set {
+				this["DescriptionMinLen"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("3")]
+		public int DescriptionMinWords {
+			get {
+				return ((int)(this["DescriptionMinWords"]));
+			}
+			set {
+				this["DescriptionMinWords"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool FetchAudio {
+			get {
+				return ((bool)(this["FetchAudio"]));
+			}
+			set {
+				this["FetchAudio"] = value;
 			}
 		}
 		
@@ -265,6 +337,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("2")]
+		public ushort MaxHeadingDepth {
+			get {
+				return ((ushort)(this["MaxHeadingDepth"]));
+			}
+			set {
+				this["MaxHeadingDepth"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("0")]
 		public int MaxRetries {
 			get {
@@ -325,6 +409,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool ScanSitesInList {
+			get {
+				return ((bool)(this["ScanSitesInList"]));
+			}
+			set {
+				this["ScanSitesInList"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
 		public string StartUrl {
 			get {
@@ -337,13 +433,73 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("True")]
-		public bool StayInDomain {
+		[global::System.Configuration.DefaultSettingValueAttribute("70")]
+		public int TitleMaxLen {
 			get {
-				return ((bool)(this["StayInDomain"]));
+				return ((int)(this["TitleMaxLen"]));
 			}
 			set {
-				this["StayInDomain"] = value;
+				this["TitleMaxLen"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("512")]
+		public int TitleMaxPixelWidth {
+			get {
+				return ((int)(this["TitleMaxPixelWidth"]));
+			}
+			set {
+				this["TitleMaxPixelWidth"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("10")]
+		public int TitleMaxWords {
+			get {
+				return ((int)(this["TitleMaxWords"]));
+			}
+			set {
+				this["TitleMaxWords"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("10")]
+		public int TitleMinLen {
+			get {
+				return ((int)(this["TitleMinLen"]));
+			}
+			set {
+				this["TitleMinLen"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("3")]
+		public int TitleMinWords {
+			get {
+				return ((int)(this["TitleMinWords"]));
+			}
+			set {
+				this["TitleMinWords"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool WarnAboutInsecureLinks {
+			get {
+				return ((bool)(this["WarnAboutInsecureLinks"]));
+			}
+			set {
+				this["WarnAboutInsecureLinks"] = value;
 			}
 		}
 	}

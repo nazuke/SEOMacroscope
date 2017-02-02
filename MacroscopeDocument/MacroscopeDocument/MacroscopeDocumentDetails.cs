@@ -78,6 +78,7 @@ namespace SEOMacroscope
 				
 			slDetails.Add( new KeyValuePair<string,string> ( "Title", this.GetTitle() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Title Length", this.GetTitleLength().ToString() ) );
+			slDetails.Add( new KeyValuePair<string,string> ( "Title Pixel Width", this.GetTitlePixelWidth().ToString() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Description", this.GetDescription() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Description Length", this.GetDescriptionLength().ToString() ) );

@@ -24,6 +24,8 @@
 */
 
 using System;
+using System.Text.RegularExpressions;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -49,7 +51,8 @@ namespace SEOMacroscope
 			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 						
-			if( MainForm.InvokeRequired ) {
+			if( MainForm.InvokeRequired )
+			{
 				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
@@ -58,7 +61,9 @@ namespace SEOMacroscope
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
 				ConfigureListView();
 			}
 
@@ -68,12 +73,9 @@ namespace SEOMacroscope
 		
 		void ConfigureListView ()
 		{
-			if( !ListViewConfigured ) {
-				
-				//this.lvListView.Sorting = SortOrder.Ascending;
-				
+			if( !ListViewConfigured )
+			{
 				ListViewConfigured = true;
-			
 			}
 		}
 
@@ -82,48 +84,122 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			/*
-			string sTitle = msDoc.GetTitle();
-			int iTitleCount = this.MainForm.GetJobMaster().GetDocCollection().GetTitleCount( sTitle );
-			string sTitleLength = sTitle.Length.ToString();
-			string sPairKey = string.Join( "", sUrl, sTitle );
+			Boolean bProcess;
 
-			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
+			if( msDoc.GetIsRedirect() )
+			{
+				bProcess = true;
+			}
+			else
+			{
+				bProcess = false;
+			}
+
+			if( bProcess )
+			{
+
+				string sOriginURL = msDoc.GetUrlRedirectFrom();
+				string sStatusCode = msDoc.GetStatusCode().ToString();
+				string sDestinationURL = msDoc.GetUrlRedirectTo();
+
+				string sPairKey = string.Join( "", sUrl );
+
+				if( 
+					( sOriginURL != null )
+					&& ( sOriginURL.Length > 0 )
+					&& ( sStatusCode != null )
+					&& ( sStatusCode.Length > 0 )
+					&& ( sDestinationURL != null )
+					&& ( sDestinationURL.Length > 0 ) )
+				{
+					
+					ListViewItem lvItem = null;
+
+					if( this.lvListView.Items.ContainsKey( sPairKey ) )
+					{
 							
-				try {
+						try
+						{
 
-					ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems[ 1 ].Text = iTitleCount.ToString();
-					lvItem.SubItems[ 2 ].Text = sTitle;
-					lvItem.SubItems[ 3 ].Text = sTitleLength;
+							lvItem = this.lvListView.Items[ sPairKey ];
+							lvItem.SubItems[ 0 ].Text = sUrl;
+							lvItem.SubItems[ 1 ].Text = sStatusCode;
+							lvItem.SubItems[ 2 ].Text = sOriginURL;
+							lvItem.SubItems[ 3 ].Text = sDestinationURL;
 
-				} catch( Exception ex ) {
-					DebugMsg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
-				}
+						}
+						catch( Exception ex )
+						{
+							DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 1: {0}", ex.Message ) );
+						}
 
-			} else {
+					}
+					else
+					{
 							
-				try {
+						try
+						{
 
-					ListViewItem lvItem = new ListViewItem ( sPairKey );
+							lvItem = new ListViewItem ( sPairKey );
+							lvItem.UseItemStyleForSubItems = false;
+							
+							lvItem.Name = sPairKey;
 
-					lvItem.Name = sPairKey;
+							lvItem.SubItems[ 0 ].Text = sUrl;
+							lvItem.SubItems.Add( sStatusCode );
+							lvItem.SubItems.Add( sOriginURL );
+							lvItem.SubItems.Add( sDestinationURL );
 
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems.Add( iTitleCount.ToString() );
-					lvItem.SubItems.Add( sTitle );
-					lvItem.SubItems.Add( sTitleLength );
+							this.lvListView.Items.Add( lvItem );
 
-					this.lvListView.Items.Add( lvItem );
+						}
+						catch( Exception ex )
+						{
+							DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 2: {0}", ex.Message ) );
+						}
 
-				} catch( Exception ex ) {
-					DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
+					}
+
+					if( lvItem != null )
+					{
+
+						if( !msDoc.GetIsExternal() )
+						{
+							
+							for( int i = 0 ; i <= 3 ; i++ )
+								lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+								
+							if( Regex.IsMatch( sStatusCode, "^[2]" ) )
+							{
+								for( int i = 0 ; i <= 3 ; i++ )
+									lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+							}
+							else
+							if( Regex.IsMatch( sStatusCode, "^[3]" ) )
+							{
+								for( int i = 0 ; i <= 3 ; i++ )
+									lvItem.SubItems[ 0 ].ForeColor = Color.Goldenrod;
+							}
+							else
+							if( Regex.IsMatch( sStatusCode, "^[45]" ) )
+							{
+								for( int i = 0 ; i <= 3 ; i++ )
+									lvItem.SubItems[ 0 ].ForeColor = Color.Red;
+							}
+
+						}
+						else
+						{
+							for( int i = 0 ; i <= 3 ; i++ )
+								lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+						}
+
+					}
+					
 				}
 
 			}
-			*/
-
+			
 		}
 
 		/**************************************************************************/

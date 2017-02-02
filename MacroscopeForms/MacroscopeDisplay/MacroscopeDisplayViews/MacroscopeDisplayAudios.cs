@@ -24,27 +24,26 @@
 */
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
-
-// TODO: Finish this
 
 namespace SEOMacroscope
 {
-
+	
 	/// <summary>
-	/// Description of MacroscopeDisplayKeywords.
+	/// Description of MacroscopeDisplayAudios.
 	/// </summary>
 
-	public class MacroscopeDisplayKeywords : MacroscopeDisplayListView
+	public class MacroscopeDisplayAudios: MacroscopeDisplayListView
 	{
-
+		
 		/**************************************************************************/
 
 		static Boolean ListViewConfigured = false;
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayKeywords ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+		public MacroscopeDisplayAudios ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
 			: base( MainFormNew, lvListViewNew )
 		{
 
@@ -75,11 +74,7 @@ namespace SEOMacroscope
 		{
 			if( !ListViewConfigured )
 			{
-				
-				//this.lvListView.Sorting = SortOrder.Ascending;
-				
 				ListViewConfigured = true;
-			
 			}
 		}
 
@@ -88,82 +83,77 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			Boolean bProcess;
-			
-			if( msDoc.GetIsExternal() )
+			if( !msDoc.GetIsAudio() )
 			{
 				return;
 			}
-			
-			if( msDoc.GetIsHtml() )
-			{
-				bProcess = true;
-			}
-			else
-			if( msDoc.GetIsPdf() )
-			{
-				bProcess = true;
-			}
-			else
-			{
-				bProcess = false;
-			}
 
-			if( bProcess )
-			{
+			string sStatusCode = msDoc.GetStatusCode().ToString();
+			string sMimeType = msDoc.GetMimeType();
+			string sFileSize = msDoc.GetContentLength().ToString();
 
-				string sText = msDoc.GetKeywords();
-				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( sText );
-				string sTextLength = sText.Length.ToString();
-				int iTextNumber = msDoc.GetKeywordsCount();
-				string sPairKey = string.Join( "", sUrl, sText );
+			string sPairKey = string.Join( "", sUrl );
 
-				if( this.lvListView.Items.ContainsKey( sPairKey ) )
-				{
+			ListViewItem lvItem = null;
 							
-					try
-					{
+			if( this.lvListView.Items.ContainsKey( sPairKey ) )
+			{
+							
+				try
+				{
 
-						ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-						lvItem.SubItems[ 0 ].Text = sUrl;
-						lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
-						lvItem.SubItems[ 2 ].Text = sText;
-						lvItem.SubItems[ 3 ].Text = sTextLength;
-						lvItem.SubItems[ 4 ].Text = iTextNumber.ToString();
+					lvItem = this.lvListView.Items[ sPairKey ];
+					lvItem.SubItems[ 0 ].Text = sUrl;
+					lvItem.SubItems[ 1 ].Text = sStatusCode;
+					lvItem.SubItems[ 2 ].Text = sMimeType;
+					lvItem.SubItems[ 3 ].Text = sFileSize;
 
-					}
-					catch( Exception ex )
-					{
-						DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
-					}
+				}
+				catch( Exception ex )
+				{
+					DebugMsg( string.Format( "MacroscopeDisplayAudios 1: {0}", ex.Message ) );
+				}
 
+			}
+			else
+			{
+							
+				try
+				{
+
+					lvItem = new ListViewItem ( sPairKey );
+					lvItem.UseItemStyleForSubItems = false;
+					lvItem.Name = sPairKey;
+
+					lvItem.SubItems[ 0 ].Text = sUrl;
+					lvItem.SubItems.Add( sStatusCode );
+					lvItem.SubItems.Add( sMimeType );
+					lvItem.SubItems.Add( sFileSize );
+
+					this.lvListView.Items.Add( lvItem );
+
+				}
+				catch( Exception ex )
+				{
+					DebugMsg( string.Format( "MacroscopeDisplayAudios 2: {0}", ex.Message ) );
+				}
+
+			}
+
+			if( lvItem != null )
+			{
+
+				lvItem.ForeColor = Color.Blue;
+				
+				if( msDoc.GetStatusCode() != 200 )
+				{
+					lvItem.SubItems[ 1 ].ForeColor = Color.Red;
 				}
 				else
 				{
-							
-					try
-					{
-
-						ListViewItem lvItem = new ListViewItem ( sPairKey );
-
-						lvItem.Name = sPairKey;
-
-						lvItem.SubItems[ 0 ].Text = sUrl;
-						lvItem.SubItems.Add( iTextCount.ToString() );
-						lvItem.SubItems.Add( sText );
-						lvItem.SubItems.Add( sTextLength );
-						lvItem.SubItems.Add( iTextNumber.ToString() );
-
-						this.lvListView.Items.Add( lvItem );
-
-					}
-					catch( Exception ex )
-					{
-						DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
-					}
-
+					lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
 				}
-				
+
 			}
 			
 		}
@@ -171,4 +161,5 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 	}
+
 }

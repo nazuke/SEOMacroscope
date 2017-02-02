@@ -135,7 +135,7 @@ namespace SEOMacroscope
 			this.RenderDocumentHrefLang( msDoc, msJobMaster.GetLocales(), msJobMaster.GetDocCollection() );
 			this.RenderListViewHyperlinksIn( msDoc );
 			this.RenderListViewHyperlinksOut( msDoc );
-			this.RenderDocumentImage( msDoc );
+			this.RenderDocumentPreview( msDoc );
 			Cursor.Current = Cursors.Default;
 		}
 
@@ -471,26 +471,46 @@ namespace SEOMacroscope
 		
 		}
 
-		/**************************************************************************/
+		/** Document Preview ******************************************************/
 
-		void RenderDocumentImage ( MacroscopeDocument msDoc )
+		void RenderDocumentPreview ( MacroscopeDocument msDoc )
 		{
-
+			
 			if( msDoc.GetIsImage() )
 			{
-
-				MemoryStream msStream = this.UrlLoader.LoadMemoryStreamFromUrl( msDoc.GetUrl() );
-
-				if( msStream != null )
-				{
-					this.pictureBoxDocumentDetailsImage.Image = Image.FromStream( msStream );
-					this.RenderListViewDocInfoImage( msDoc, this.pictureBoxDocumentDetailsImage.Image );
-				}
-
+				this.RenderImagePreview( msDoc );
 			}
 			else
 			{
+				ClearDocumentPreviewListView();
+			}
 
+		}
+		
+		/** Clear Document Preview ListView ***************************************/
+
+		void ClearDocumentPreviewListView ()
+		{
+			ListView lvListView = this.listViewDocInfo;
+			lvListView.Clear();
+			this.pictureBoxDocumentDetailsImage.Image = null;
+		}
+
+		/** Image Preview *********************************************************/
+
+		void RenderImagePreview ( MacroscopeDocument msDoc )
+		{
+			if( msDoc.GetIsImage() )
+			{
+				MemoryStream msStream = this.UrlLoader.LoadMemoryStreamFromUrl( msDoc.GetUrl() );
+				if( msStream != null )
+				{
+					this.pictureBoxDocumentDetailsImage.Image = Image.FromStream( msStream );
+					this.RenderImagePreviewListView( msDoc, this.pictureBoxDocumentDetailsImage.Image );
+				}
+			}
+			else
+			{
 				try
 				{
 					this.pictureBoxDocumentDetailsImage.Image = null;
@@ -499,19 +519,15 @@ namespace SEOMacroscope
 				{
 					MessageBox.Show( ex.Message );
 				}
-
 			}
-
 		}
 
-		/** Image Properties ******************************************************/
-		
-		void RenderListViewDocInfoImage ( MacroscopeDocument msDoc, Image iImage )
+		void RenderImagePreviewListView ( MacroscopeDocument msDoc, Image iImage )
 		{
 
 			ListView lvListView = this.listViewDocInfo;
 			
-			lvListView.Columns.Clear();
+			lvListView.Clear();
 
 			lvListView.Columns.Add( "Property" );
 			lvListView.Columns.Add( "Value" );
@@ -537,8 +553,8 @@ namespace SEOMacroscope
 				lvListView.Items.Add( lvItem );
 			}
 
-			lvListView.Columns[ "Property" ].Width = 150;
-			lvListView.Columns[ "Value" ].Width = 150;
+			lvListView.Columns[ 0 ].Width = 150;
+			lvListView.Columns[ 1 ].Width = 150;
 			
 		}
 

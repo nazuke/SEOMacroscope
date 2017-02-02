@@ -58,6 +58,7 @@ namespace SEOMacroscope
 		
 		static Boolean FollowRobotsProtocol;
 		static Boolean FollowSitemapLinks;
+		
 		static Boolean FollowRedirects;
 		static Boolean FollowNoFollow;
 		static Boolean FollowCanonicalLinks;
@@ -68,23 +69,32 @@ namespace SEOMacroscope
 		static Boolean FetchJavascripts;
 		static Boolean FetchImages;
 		static Boolean FetchPdfs;
-		static Boolean FetchXml;
+		static Boolean FetchAudio;
 		static Boolean FetchVideo;
+		static Boolean FetchXml;
 		static Boolean FetchBinaries;
 
 		// Analysis Options
 		static Boolean CheckHreflangs;
+		static Boolean ScanSitesInList;
+		static Boolean WarnAboutInsecureLinks;
 		
 		// SEO Options
+
 		static int TitleMinLen;
 		static int TitleMaxLen;
 		static int TitleMinWords;
 		static int TitleMaxWords;
+		static int TitleMaxPixelWidth;
+		
 		static int DescriptionMinLen;
 		static int DescriptionMaxLen;
 		static int DescriptionMinWords;
 		static int DescriptionMaxWords;
+		
 		static ushort MaxHeadingDepth;
+		
+		static Boolean AnalyzeKeywordsInText;
 
 		/**************************************************************************/
 		
@@ -125,9 +135,12 @@ namespace SEOMacroscope
 					CheckExternalLinks = Preferences.CheckExternalLinks;
 				
 					CheckHreflangs = Preferences.CheckHreflangs;
-			
+					ScanSitesInList = Preferences.ScanSitesInList;
+					WarnAboutInsecureLinks = Preferences.WarnAboutInsecureLinks;
+
 					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
 					FollowSitemapLinks = Preferences.FollowSitemapLinks;
+					
 					FollowRedirects = Preferences.FollowRedirects;			
 					FollowNoFollow = Preferences.FollowNoFollow;
 					FollowCanonicalLinks = Preferences.FollowCanonicalLinks;			
@@ -138,9 +151,23 @@ namespace SEOMacroscope
 					FetchJavascripts = Preferences.FetchJavascripts;
 					FetchImages = Preferences.FetchImages;
 					FetchPdfs = Preferences.FetchPdfs;
-					FetchXml = Preferences.FetchXml;
+					FetchAudio = Preferences.FetchAudio;
 					FetchVideo = Preferences.FetchVideo;
+					FetchXml = Preferences.FetchXml;
+
+					TitleMinLen = Preferences.TitleMinLen;
+					TitleMaxLen = Preferences.TitleMaxLen;
+					TitleMinWords = Preferences.TitleMinWords;
+					TitleMaxWords = Preferences.TitleMaxWords;
+					TitleMaxPixelWidth = Preferences.TitleMaxPixelWidth;
 					
+					DescriptionMinLen = Preferences.DescriptionMinLen;
+					DescriptionMaxLen = Preferences.DescriptionMaxLen;
+					DescriptionMinWords = Preferences.DescriptionMinWords;
+					DescriptionMaxWords = Preferences.DescriptionMaxWords;
+					MaxHeadingDepth = Preferences.MaxHeadingDepth;
+					AnalyzeKeywordsInText = Preferences.AnalyzeKeywordsInText;
+
 				}
 
 			}
@@ -161,10 +188,12 @@ namespace SEOMacroscope
 		{
 
 			// WebProxy Options
+			
 			HttpProxyHost = "";
 			HttpProxyPort = 0;
 
 			// Spidering Control
+			
 			StartUrl = "";
 			MaxThreads = 16;
 			MaxFetchesPerWorker = 32;
@@ -177,6 +206,7 @@ namespace SEOMacroscope
 
 			FollowRobotsProtocol = true;
 			FollowSitemapLinks = true;
+			
 			FollowRedirects = false;
 			FollowNoFollow = true;
 			FollowCanonicalLinks = true;			
@@ -187,22 +217,32 @@ namespace SEOMacroscope
 			FetchJavascripts = true;
 			FetchImages = true;
 			FetchPdfs = false;
-			FetchXml = true;
+			FetchAudio = false;
 			FetchVideo = false;
+			FetchXml = true;
 
 			// Analysis Options
-			CheckHreflangs = true;
 			
+			CheckHreflangs = true;
+			ScanSitesInList = false;
+			WarnAboutInsecureLinks = false;
+
 			// SEO Options
+			
 			TitleMinLen = 10;
 			TitleMaxLen = 70;
 			TitleMinWords = 3;
 			TitleMaxWords = 10;
+			TitleMaxPixelWidth = 512;
+			
 			DescriptionMinLen = 10;
-			DescriptionMaxLen = 100;
+			DescriptionMaxLen = 150;
 			DescriptionMinWords = 3;
-			DescriptionMaxWords = 10;
+			DescriptionMaxWords = 20;
+			
 			MaxHeadingDepth = 2;
+			
+			AnalyzeKeywordsInText = false;
 
 		}
 
@@ -275,9 +315,12 @@ namespace SEOMacroscope
 				Preferences.CheckExternalLinks = CheckExternalLinks;
 				
 				Preferences.CheckHreflangs = CheckHreflangs;
-			
+				Preferences.ScanSitesInList = ScanSitesInList;
+				Preferences.WarnAboutInsecureLinks = WarnAboutInsecureLinks;
+
 				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
 				Preferences.FollowSitemapLinks = FollowSitemapLinks;
+				
 				Preferences.FollowRedirects = FollowRedirects;
 				Preferences.FollowNoFollow = FollowNoFollow;
 				Preferences.FollowCanonicalLinks = FollowCanonicalLinks;			
@@ -288,9 +331,25 @@ namespace SEOMacroscope
 				Preferences.FetchJavascripts = FetchJavascripts;
 				Preferences.FetchImages = FetchImages;
 				Preferences.FetchPdfs = FetchPdfs;
-				Preferences.FetchXml = FetchXml;
+				Preferences.FetchAudio = FetchAudio;
 				Preferences.FetchVideo = FetchVideo;
+				Preferences.FetchXml = FetchXml;
+
+				Preferences.TitleMinLen = TitleMinLen;
+				Preferences.TitleMaxLen = TitleMaxLen;
+				Preferences.TitleMinWords = TitleMinWords;
+				Preferences.TitleMaxWords = TitleMaxWords;
+				Preferences.TitleMaxPixelWidth = TitleMaxPixelWidth;
 				
+				Preferences.DescriptionMinLen = DescriptionMinLen;
+				Preferences.DescriptionMaxLen = DescriptionMaxLen;
+				Preferences.DescriptionMinWords = DescriptionMinWords;
+				Preferences.DescriptionMaxWords = DescriptionMaxWords;
+				
+				Preferences.MaxHeadingDepth = MaxHeadingDepth;
+				
+				Preferences.AnalyzeKeywordsInText = AnalyzeKeywordsInText;
+
 				Preferences.Save();
 
 			}
@@ -478,6 +537,30 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
+		public static Boolean GetScanSitesInList ()
+		{
+			return( ScanSitesInList );
+		}
+		
+		public static void SetScanSitesInList ( Boolean bValue )
+		{
+			ScanSitesInList = bValue;
+		}
+
+		/**************************************************************************/
+				
+		public static Boolean GetWarnAboutInsecureLinks ()
+		{
+			return( WarnAboutInsecureLinks );
+		}
+		
+		public static void SetWarnAboutInsecureLinks ( Boolean bValue )
+		{
+			WarnAboutInsecureLinks = bValue;
+		}
+
+		/**************************************************************************/
+		
 		public static Boolean GetFollowRobotsProtocol ()
 		{
 			return( FollowRobotsProtocol );
@@ -609,14 +692,14 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 		
-		public static Boolean GetFetchXml ()
+		public static Boolean GetFetchAudio ()
 		{
-			return( FetchXml );
+			return( FetchAudio );
 		}
 		
-		public static void SetFetchXml ( Boolean bState )
+		public static void SetFetchAudio ( Boolean bState )
 		{
-			FetchXml = bState;
+			FetchAudio = bState;
 		}
 
 		/**************************************************************************/
@@ -629,6 +712,18 @@ namespace SEOMacroscope
 		public static void SetFetchVideo ( Boolean bState )
 		{
 			FetchVideo = bState;
+		}
+
+		/**************************************************************************/
+		
+		public static Boolean GetFetchXml ()
+		{
+			return( FetchXml );
+		}
+		
+		public static void SetFetchXml ( Boolean bState )
+		{
+			FetchXml = bState;
 		}
 
 		/**************************************************************************/
@@ -685,6 +780,18 @@ namespace SEOMacroscope
 			TitleMaxWords = iValue;
 		}
 
+		public static int GetTitleMaxPixelWidth ()
+		{
+			return( TitleMaxPixelWidth );
+		}
+		
+		public static void SetTitleMaxPixelWidth ( int iValue )
+		{
+			TitleMaxPixelWidth = iValue;
+		}
+
+		/* ---------------------------------------------------------------------- */
+		
 		public static int GetDescriptionMinLen ()
 		{
 			return( DescriptionMinLen );
@@ -733,6 +840,16 @@ namespace SEOMacroscope
 		public static void SetMaxHeadingDepth ( ushort iValue )
 		{
 			MaxHeadingDepth = iValue;
+		}
+
+		public static Boolean GetAnalyzeKeywordsInText ()
+		{
+			return( AnalyzeKeywordsInText );
+		}
+		
+		public static void SetAnalyzeKeywordsInText ( Boolean bState )
+		{
+			AnalyzeKeywordsInText = bState;
 		}
 
 		/**************************************************************************/

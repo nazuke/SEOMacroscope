@@ -50,7 +50,8 @@ namespace SEOMacroscope
 			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 						
-			if( MainForm.InvokeRequired ) {
+			if( MainForm.InvokeRequired )
+			{
 				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
@@ -59,7 +60,9 @@ namespace SEOMacroscope
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
 				ConfigureListView();
 			}
 
@@ -69,7 +72,8 @@ namespace SEOMacroscope
 		
 		void ConfigureListView ()
 		{
-			if( !ListViewConfigured ) {
+			if( !ListViewConfigured )
+			{
 				ListViewConfigured = true;
 			}
 		}
@@ -79,60 +83,102 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			string sDescription = msDoc.GetDescription();
-			int iDescriptionCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
-			string sDescriptionLength = sDescription.Length.ToString();
-			string sPairKey = string.Join( "", sUrl, sDescription );
-
-			ListViewItem lvItem = null;
-							
-			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
-							
-				try {
-
-					lvItem = this.lvListView.Items[ sPairKey ];
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems[ 1 ].Text = iDescriptionCount.ToString();
-					lvItem.SubItems[ 2 ].Text = sDescription;
-					lvItem.SubItems[ 3 ].Text = sDescriptionLength;
-
-				} catch( Exception ex ) {
-					DebugMsg( string.Format( "MacroscopeDisplayDescriptions 1: {0}", ex.Message ) );
-				}
-
-			} else {
-							
-				try {
-
-					lvItem = new ListViewItem ( sPairKey );
-					lvItem.UseItemStyleForSubItems = false;
-					lvItem.Name = sPairKey;
-
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems.Add( iDescriptionCount.ToString() );
-					lvItem.SubItems.Add( sDescription );
-					lvItem.SubItems.Add( sDescriptionLength );
-
-					this.lvListView.Items.Add( lvItem );
-
-				} catch( Exception ex ) {
-					DebugMsg( string.Format( "MacroscopeDisplayDescriptions 2: {0}", ex.Message ) );
-				}
-
+			Boolean bProcess;
+			
+			if( msDoc.GetIsExternal() )
+			{
+				return;
+			}
+			
+			if( msDoc.GetIsHtml() )
+			{
+				bProcess = true;
+			}
+			else
+			if( msDoc.GetIsPdf() )
+			{
+				bProcess = true;
+			}
+			else
+			{
+				bProcess = false;
 			}
 
-			if( lvItem != null ) {
-
-				lvItem.ForeColor = Color.Blue;
+			if( bProcess )
+			{
 				
-				if( sDescription.Length < MacroscopePreferencesManager.GetDescriptionMinLen() ) {
-					lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-				} else if( sDescription.Length > MacroscopePreferencesManager.GetDescriptionMaxLen() ) {
-					lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-				} else {
-					lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+				string sDescription = msDoc.GetDescription();
+				int iDescriptionCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
+				string sDescriptionLength = sDescription.Length.ToString();
+				string sPairKey = string.Join( "", sUrl, sDescription );
+
+				ListViewItem lvItem = null;
+							
+				if( this.lvListView.Items.ContainsKey( sPairKey ) )
+				{
+							
+					try
+					{
+
+						lvItem = this.lvListView.Items[ sPairKey ];
+						lvItem.SubItems[ 0 ].Text = sUrl;
+						lvItem.SubItems[ 1 ].Text = iDescriptionCount.ToString();
+						lvItem.SubItems[ 2 ].Text = sDescription;
+						lvItem.SubItems[ 3 ].Text = sDescriptionLength;
+
+					}
+					catch( Exception ex )
+					{
+						DebugMsg( string.Format( "MacroscopeDisplayDescriptions 1: {0}", ex.Message ) );
+					}
+
+				}
+				else
+				{
+							
+					try
+					{
+
+						lvItem = new ListViewItem ( sPairKey );
+						lvItem.UseItemStyleForSubItems = false;
+						lvItem.Name = sPairKey;
+
+						lvItem.SubItems[ 0 ].Text = sUrl;
+						lvItem.SubItems.Add( iDescriptionCount.ToString() );
+						lvItem.SubItems.Add( sDescription );
+						lvItem.SubItems.Add( sDescriptionLength );
+
+						this.lvListView.Items.Add( lvItem );
+
+					}
+					catch( Exception ex )
+					{
+						DebugMsg( string.Format( "MacroscopeDisplayDescriptions 2: {0}", ex.Message ) );
+					}
+
 				}
 
+				if( lvItem != null )
+				{
+
+					lvItem.ForeColor = Color.Blue;
+				
+					if( sDescription.Length < MacroscopePreferencesManager.GetDescriptionMinLen() )
+					{
+						lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+					}
+					else
+					if( sDescription.Length > MacroscopePreferencesManager.GetDescriptionMaxLen() )
+					{
+						lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+					}
+					else
+					{
+						lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+					}
+
+				}
+			
 			}
 			
 		}

@@ -46,7 +46,8 @@ namespace SEOMacroscope
 			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
 						
-			if( MainForm.InvokeRequired ) {
+			if( MainForm.InvokeRequired )
+			{
 				MainForm.Invoke(
 					new MethodInvoker (
 						delegate
@@ -55,7 +56,9 @@ namespace SEOMacroscope
 						}
 					)
 				);
-			} else {
+			}
+			else
+			{
 				ConfigureListView();
 			}
 
@@ -65,12 +68,9 @@ namespace SEOMacroscope
 		
 		void ConfigureListView ()
 		{
-			if( !ListViewConfigured ) {
-				
-				//this.lvListView.Sorting = SortOrder.Ascending;
-				
+			if( !ListViewConfigured )
+			{
 				ListViewConfigured = true;
-			
 			}
 		}
 
@@ -81,40 +81,68 @@ namespace SEOMacroscope
 
 			Boolean bProcess;
 			
-			if( msDoc.GetIsHtml() ) {
-				bProcess = true;
-			} else if( msDoc.GetIsPdf() ) {
-				bProcess = true;
-			} else {
-				bProcess = false;
+			if( msDoc.GetIsExternal() )
+			{
+				return;
 			}
 			
-			if( bProcess ) {
+			if( msDoc.GetIsHtml() )
+			{
+				bProcess = true;
+			}
+			else
+			if( msDoc.GetIsPdf() )
+			{
+				bProcess = true;
+			}
+			else
+			{
+				bProcess = false;
+			}
+
+			if( bProcess )
+			{
 
 				string sText = msDoc.GetTitle();
+				string sTextLabel = sText;
 				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsTitleCount( sText );
 				string sTextLength = sText.Length.ToString();
+				int iTextPixelWidth = msDoc.GetTitlePixelWidth();
+
 				string sPairKey = string.Join( "", sUrl, sText );
 
 				ListViewItem lvItem = null;
 
-				if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
+				if( sText.Length <= 0 )
+				{
+					sTextLabel = "MISSING";
+				}
+
+				if( this.lvListView.Items.ContainsKey( sPairKey ) )
+				{
 							
-					try {
+					try
+					{
 
 						lvItem = this.lvListView.Items[ sPairKey ];
 						lvItem.SubItems[ 0 ].Text = sUrl;
 						lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
-						lvItem.SubItems[ 2 ].Text = sText;
+						lvItem.SubItems[ 2 ].Text = sTextLabel;
 						lvItem.SubItems[ 3 ].Text = sTextLength;
+						lvItem.SubItems[ 4 ].Text = iTextPixelWidth.ToString();
 
-					} catch( Exception ex ) {
+					}
+					catch( Exception ex )
+					{
 						DebugMsg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
 					}
 
-				} else {
+				}
+				else
+				{
 							
-					try {
+					try
+					{
 
 						lvItem = new ListViewItem ( sPairKey );
 						lvItem.UseItemStyleForSubItems = false;
@@ -122,27 +150,81 @@ namespace SEOMacroscope
 
 						lvItem.SubItems[ 0 ].Text = sUrl;
 						lvItem.SubItems.Add( iTextCount.ToString() );
-						lvItem.SubItems.Add( sText );
+						lvItem.SubItems.Add( sTextLabel );
 						lvItem.SubItems.Add( sTextLength );
+						lvItem.SubItems.Add( iTextPixelWidth.ToString() );
 
 						this.lvListView.Items.Add( lvItem );
 
-					} catch( Exception ex ) {
+					}
+					catch( Exception ex )
+					{
 						DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
 					}
 
 				}
 				
-				if( lvItem != null ) {
+				if( lvItem != null )
+				{
 
 					lvItem.ForeColor = Color.Blue;
-				
-					if( sText.Length < MacroscopePreferencesManager.GetTitleMinLen() ) {
+
+					// Check Missing Title ---------------------------------------------//
+
+					if( sText.Length <= 0 )
+					{
+						lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+					}
+					else
+					if( sText.Length < MacroscopePreferencesManager.GetTitleMinLen() )
+					{
+						lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+					}
+					else
+					if( sText.Length > MacroscopePreferencesManager.GetTitleMaxLen() )
+					{
+						lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+					}
+					else
+					{
+						lvItem.SubItems[ 2 ].ForeColor = Color.ForestGreen;
+					}
+
+					// Check Title Length ----------------------------------------------//
+
+					if( sText.Length < MacroscopePreferencesManager.GetTitleMinLen() )
+					{
 						lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-					} else if( sText.Length > MacroscopePreferencesManager.GetTitleMaxLen() ) {
+					}
+					else
+					if( sText.Length > MacroscopePreferencesManager.GetTitleMaxLen() )
+					{
 						lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-					} else {
+					}
+					else
+					{
 						lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+					}
+
+					// Check Pixel Width -----------------------------------------------//
+										
+					if( iTextPixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
+					{
+						lvItem.SubItems[ 4 ].ForeColor = Color.Red;
+					}
+					else
+					if( iTextPixelWidth >= ( MacroscopePreferencesManager.GetTitleMaxPixelWidth() - 20 ) )
+					{
+						lvItem.SubItems[ 4 ].ForeColor = Color.Goldenrod;
+					}
+					else
+					if( iTextPixelWidth <= 0 )
+					{
+						lvItem.SubItems[ 4 ].ForeColor = Color.OrangeRed;
+					}
+					else
+					{
+						lvItem.SubItems[ 4 ].ForeColor = Color.ForestGreen;
 					}
 
 				}

@@ -42,7 +42,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public override Boolean SuppressDebugMsg { get; protected set; }
+		//public override Boolean SuppressDebugMsg { get; protected set; }
 			
 		/**************************************************************************/
 		
@@ -103,7 +103,10 @@ namespace SEOMacroscope
 		Dictionary<string,string> EmailAddresses;
 		Dictionary<string,string> TelephoneNumbers;
 		
+		MacroscopeAnalyzePageTitles AnalyzePageTitles;
+
 		string Title;
+		int TitlePixelWidth;
 		string Description;
 		string Keywords;
 
@@ -166,7 +169,10 @@ namespace SEOMacroscope
 			EmailAddresses = new Dictionary<string,string> ( 256 );
 			TelephoneNumbers = new Dictionary<string,string> ( 256 );
 
+			AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+			
 			Title = "";
+			TitlePixelWidth = 0;
 			Description = "";
 			Keywords = "";
 
@@ -474,6 +480,40 @@ namespace SEOMacroscope
 			}
 		}
 
+		public void SetIsAudio ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentType.AUDIO;
+		}
+																										
+		public Boolean GetIsAudio ()
+		{
+			if( this.DocumentType == MacroscopeConstants.DocumentType.AUDIO )
+			{
+				return( true );
+			}
+			else
+			{
+				return( false );
+			}
+		}
+		
+		public void SetIsVideo ()
+		{
+			this.DocumentType = MacroscopeConstants.DocumentType.VIDEO;
+		}
+																										
+		public Boolean GetIsVideo ()
+		{
+			if( this.DocumentType == MacroscopeConstants.DocumentType.VIDEO )
+			{
+				return( true );
+			}
+			else
+			{
+				return( false );
+			}
+		}
+		
 		public void SetIsXml ()
 		{
 			this.DocumentType = MacroscopeConstants.DocumentType.XML;
@@ -499,23 +539,6 @@ namespace SEOMacroscope
 		public Boolean GetIsSitemapXml ()
 		{
 			if( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPXML )
-			{
-				return( true );
-			}
-			else
-			{
-				return( false );
-			}
-		}
-
-		public void SetIsVideo ()
-		{
-			this.DocumentType = MacroscopeConstants.DocumentType.VIDEO;
-		}
-																										
-		public Boolean GetIsVideo ()
-		{
-			if( this.DocumentType == MacroscopeConstants.DocumentType.VIDEO )
 			{
 				return( true );
 			}
@@ -738,6 +761,11 @@ namespace SEOMacroscope
 		public int GetTitleLength ()
 		{
 			return( this.GetTitle().Length );
+		}
+		
+		public int GetTitlePixelWidth ()
+		{
+			return( this.TitlePixelWidth );
 		}
 
 		/** Description ***********************************************************/
@@ -994,6 +1022,11 @@ namespace SEOMacroscope
 			else
 			{
 				DebugMsg( string.Format( "SKIPPING DOWNLOAD:: {0}", this.Url ) );
+			}
+
+			if( this.Title.Length > 0 )
+			{
+				this.TitlePixelWidth = AnalyzePageTitles.CalcTitleWidth( this.Title );
 			}
 
 			return( true );
@@ -1263,9 +1296,10 @@ namespace SEOMacroscope
 				Regex reIsJavascript = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
 				Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
 				Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );			
-				Regex reIsXml = new Regex ( "^(application|text)/xml", RegexOptions.IgnoreCase );
+				Regex reIsAudio = new Regex ( "^audio/[a-z0-9]+", RegexOptions.IgnoreCase );
 				Regex reIsVideo = new Regex ( "^video/[a-z0-9]+", RegexOptions.IgnoreCase );
-
+				Regex reIsXml = new Regex ( "^(application|text)/xml", RegexOptions.IgnoreCase );
+				
 				if( reIsHtml.IsMatch( res.ContentType.ToString() ) )
 				{
 					this.SetIsHtml();
@@ -1291,14 +1325,19 @@ namespace SEOMacroscope
 					this.SetIsPdf();
 				}
 				else
-				if( reIsXml.IsMatch( res.ContentType.ToString() ) )
+				if( reIsAudio.IsMatch( res.ContentType.ToString() ) )
 				{
-					this.SetIsXml();
+					this.SetIsAudio();
 				}
 				else
 				if( reIsVideo.IsMatch( res.ContentType.ToString() ) )
 				{
 					this.SetIsVideo();
+				}
+				else
+				if( reIsXml.IsMatch( res.ContentType.ToString() ) )
+				{
+					this.SetIsXml();
 				}
 				else
 				{

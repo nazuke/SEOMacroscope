@@ -97,9 +97,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Macroscope.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageTitles.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeInsecureLinks.cs" />
+    <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzePageTitles.cs" />
     <Compile Include="MacroscopeConstants.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocument.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureOverview.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTreeView.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayAudios.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayCanonical.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayDescriptions.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayEmailAddresses.cs" />
@@ -232,6 +235,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="MacroscopeAnalysis\t" />
     <Folder Include="MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink" />
