@@ -690,7 +690,7 @@ namespace SEOMacroscope
 			if( msDoc.GetIsHtml() )
 			{
 			
-				MacroscopeSearchIndexer SearchIndexer = this.JobMaster.GetSearchIndexer();
+				MacroscopeSearchIndex SearchIndexer = this.JobMaster.GetSearchIndex();
 
 				SearchIndexer.AddDocumentToIndex( msDoc );
 
