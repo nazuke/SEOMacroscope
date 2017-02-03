@@ -66,9 +66,8 @@ namespace SEOMacroscope
 
 		public void AddDocumentToIndex ( MacroscopeDocument msDoc )
 		{
-			string sUrl = msDoc.GetUrl();
-
-			this.RemoveDocumentFromIndex( sUrl );
+			
+			this.RemoveDocumentFromIndex( msDoc );
 			
 			this.ProcessText( msDoc );
 
@@ -81,14 +80,13 @@ namespace SEOMacroscope
 			
 			List<string> TextBlocks = new List<string> ( 16 );
 			List<string> Words = new List<string> ( 256 );
-			string sTextBlock = "";
 
 			TextBlocks.Add( msDoc.GetTitle() );
 			TextBlocks.Add( msDoc.GetDescription() );
 			TextBlocks.Add( msDoc.GetKeywords() );
 			TextBlocks.Add( msDoc.GetBodyText() );
 
-			DebugMsg( string.Format( "ProcessText: {0}", TextBlocks.Count ) );
+			DebugMsg( string.Format( "ProcessText: TextBlocks.Count: {0}", TextBlocks.Count ) );
 
 			if( TextBlocks.Count > 0 )
 			{
@@ -111,39 +109,38 @@ namespace SEOMacroscope
 				}
 			}
 			
-			
-			sTextBlock = string.Join( ", ", Words );
-			
+			DebugMsg( string.Format( "ProcessText: Words :: {0}", Words.Count ) );
 
-			DebugMsg( string.Format( "ProcessText: sTextBlock :: {0}", sTextBlock ) );
+			for( int i = 0 ; i < Words.Count ; i++ )
+			{
+
+				string sWord = Words[ i ];
 				
-			
-			
-			
-			DebugMsg( "" );
-			
-			
+				Dictionary<string,MacroscopeDocument> DocumentReference;
+
+				if( InvertedIndex.ContainsKey( sWord ) )
+				{
+					DocumentReference = this.InvertedIndex[ sWord ];
+				}
+				else
+				{
+					DocumentReference = new Dictionary<string,MacroscopeDocument> ();
+					this.InvertedIndex.Add( sWord, DocumentReference );
+				}
+
+				if( !DocumentReference.ContainsKey( msDoc.GetUrl() ) )
+				{
+					DocumentReference.Add( msDoc.GetUrl(), msDoc );
+				}
+
+			}
+									
 		}
 
 		/**************************************************************************/
 
-		void RemoveDocumentFromIndex ( string sUrl )
+		void RemoveDocumentFromIndex ( MacroscopeDocument msDoc )
 		{
-
-			/*
-			if( this.ForwardIndex.ContainsKey( sUrl ) )
-			{
-			}
-			*/
-
-			/*
-			if( this.DocumentIndex.ContainsKey( sUrl ) )
-			{
-
-				//this.DocumentIndex.Remove( sUrl );
-			}
-			*/
-
 		}
 
 		/**************************************************************************/

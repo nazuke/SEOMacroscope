@@ -686,10 +686,15 @@ namespace SEOMacroscope
 
 		void AddDocumentToSearchIndex ( MacroscopeDocument msDoc )
 		{
-			
-			MacroscopeSearchIndexer SearchIndexer = this.JobMaster.GetSearchIndexer();
 
-			SearchIndexer.AddDocumentToIndex( msDoc );
+			if( msDoc.GetIsHtml() )
+			{
+			
+				MacroscopeSearchIndexer SearchIndexer = this.JobMaster.GetSearchIndexer();
+
+				SearchIndexer.AddDocumentToIndex( msDoc );
+
+			}
 
 		}
 
