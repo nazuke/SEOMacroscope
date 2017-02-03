@@ -39,8 +39,8 @@ namespace SEOMacroscope
 
 		Guid LinkGuid;
 
-		MacroscopeHyperlinkClass LinkClass;
-
+		MacroscopeConstants.HyperlinkType HyperlinkType;
+		
 		string Method;
 
 		string UrlOrigin;
@@ -55,7 +55,7 @@ namespace SEOMacroscope
 		public MacroscopeHyperlinkOut ()
 		{
 			LinkGuid = Guid.NewGuid();
-			LinkClass = new MacroscopeHyperlinkClass ( "TEXT" );
+			HyperlinkType = MacroscopeConstants.HyperlinkType.TEXT;
 			Follow = true;
 		}
 	
@@ -68,9 +68,14 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public string GetLinkClass ()
+		public void SetHyperlinkType ( MacroscopeConstants.HyperlinkType hlType )
 		{
-			return( this.LinkClass.Get() );
+			this.HyperlinkType = hlType;
+		}
+		
+		public MacroscopeConstants.HyperlinkType GetHyperlinkType ()
+		{
+			return( this.HyperlinkType );
 		}
 
 		/**************************************************************************/

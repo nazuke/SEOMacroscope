@@ -42,10 +42,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		//public override Boolean SuppressDebugMsg { get; protected set; }
-			
-		/**************************************************************************/
-		
 		Boolean IsDirty;
 		
 		string Url;
@@ -112,6 +108,8 @@ namespace SEOMacroscope
 
 		Dictionary<ushort,List<string>> Headings;
 
+		string BodyText;
+
 		int Depth;
 		
 		// Delegate Functions
@@ -122,7 +120,7 @@ namespace SEOMacroscope
 		public MacroscopeDocument ( string sUrl )
 		{
 
-			SuppressDebugMsg = false;
+			SuppressDebugMsg = true;
 			
 			IsDirty = true;
 			
@@ -176,33 +174,29 @@ namespace SEOMacroscope
 			Description = "";
 			Keywords = "";
 
-			Headings = new Dictionary<ushort,List<string>> () {
-				{
+			Headings = new Dictionary<ushort,List<string>> () { {
 					1,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					2,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					3,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					4,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					5,
 					new List<string> ( 16 )
-				},
-				{
+				}, {
 					6,
 					new List<string> ( 16 )
 				}
 			};
 
+			BodyText = "";
+				
 			Depth = MacroscopeUrlTools.FindUrlDepth( Url );
 			
 		}
@@ -659,9 +653,8 @@ namespace SEOMacroscope
 		/** Hyperlinks In *********************************************************/
 
 		public void AddHyperlinkIn (
-			string sType,
+			MacroscopeConstants.HyperlinkType hlType,
 			string sMethod,
-			int iLinkClass,
 			string sUrlOrigin,
 			string sUrlTarget,
 			string sLinkText,
@@ -669,9 +662,8 @@ namespace SEOMacroscope
 		)
 		{
 			this.HyperlinksIn.Add( 
-				sType, 
-				sMethod, 
-				iLinkClass, 
+				hlType, 
+				sMethod,
 				sUrlOrigin, 
 				sUrlTarget, 
 				sLinkText, 
@@ -850,6 +842,26 @@ namespace SEOMacroscope
 				lHeadings = this.Headings[ iLevel ];
 			}
 			return( lHeadings );
+		}
+
+		/** Body Text *************************************************************/
+
+		void SetBodyText ( string sText )
+		{
+			if( ( sText != null ) && ( sText.Length > 0 ) )
+			{
+				sText = MacroscopeStringTools.CleanBodyText( sText );
+				this.BodyText = sText;
+			}
+			else
+			{
+				this.BodyText = "";
+			}
+		}
+		
+		public string GetBodyText ()
+		{
+			return( this.BodyText );
 		}
 
 		/** Durations *************************************************************/

@@ -96,6 +96,14 @@ namespace SEOMacroscope
 		
 		/** END: Document Types ***************************************************/
 
+		/** BEGIN: Outlink Classes ************************************************/
+
+		public enum HyperlinkType
+		{
+			TEXT = 0,
+			IMAGE = 1
+		}
+		
 		/** BEGIN: Outlink Types **************************************************/
 
 		public enum OutlinkType

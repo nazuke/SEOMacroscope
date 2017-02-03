@@ -37,9 +37,11 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
+		public MacroscopeConstants.OutlinkType Type { get; set; }
+
 		public string RawUrl { get; set; }
 		public string AbsoluteUrl { get; set; }
-		public MacroscopeConstants.OutlinkType Type { get; set; }
+
 		public Boolean Follow { get; set; }
 
 		/**************************************************************************/
@@ -48,11 +50,16 @@ namespace SEOMacroscope
 		{
 		}
 					
-		public MacroscopeOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
+		public MacroscopeOutlink (
+			string sRawUrl,
+			string sAbsoluteUrl,
+			MacroscopeConstants.OutlinkType olType,
+			Boolean bFollow
+		)
 		{
 			RawUrl = sRawUrl;
 			AbsoluteUrl = sAbsoluteUrl;
-			Type = sType;
+			Type = olType;
 			Follow = bFollow;
 		}
 

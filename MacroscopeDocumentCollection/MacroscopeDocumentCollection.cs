@@ -336,6 +336,8 @@ namespace SEOMacroscope
 						
 						this.RecalculateStatsErrors( msDoc );
 
+						this.AddDocumentToSearchIndex( msDoc );
+
 					}
 					
 					if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
@@ -647,7 +649,7 @@ namespace SEOMacroscope
 
 		}
 
-		/**************************************************************************/
+		/** Hyperlinks In *********************************************************/
 
 		void RecalculateLinksIn ( string sUrlTarget, MacroscopeDocument msDoc )
 		{
@@ -662,12 +664,32 @@ namespace SEOMacroscope
 
 					if( sUrlTarget == HyperlinkOut.GetUrlTarget() )
 					{
-						msDoc.AddHyperlinkIn( "", "", MacroscopeHyperlinkIn.LINKTEXT, sUrlOrigin, sUrlTarget, "", "" );
+						
+						msDoc.AddHyperlinkIn(
+							HyperlinkOut.GetHyperlinkType(),
+							HyperlinkOut.GetMethod(),
+							sUrlOrigin,
+							sUrlTarget,
+							HyperlinkOut.GetLinkText(),
+							HyperlinkOut.GetAltText()
+						);
+						
 					}
 
 				}
 
 			}
+
+		}
+
+		/** Search Index **********************************************************/
+
+		void AddDocumentToSearchIndex ( MacroscopeDocument msDoc )
+		{
+			
+			MacroscopeSearchIndexer SearchIndexer = this.JobMaster.GetSearchIndexer();
+
+			SearchIndexer.AddDocumentToIndex( msDoc );
 
 		}
 

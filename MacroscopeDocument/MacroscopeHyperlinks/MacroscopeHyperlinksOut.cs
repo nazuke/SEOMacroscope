@@ -39,7 +39,6 @@ namespace SEOMacroscope
 	
 		/**************************************************************************/
 				
-		object Locker = new object ();
 		Dictionary<string,List<MacroscopeHyperlinkOut>> Links;
 
 		/**************************************************************************/
@@ -60,7 +59,10 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 				
-		public MacroscopeHyperlinkOut Add ( string sUrlOrigin, string sUrlTarget )
+		public MacroscopeHyperlinkOut Add (
+			string sUrlOrigin,
+			string sUrlTarget
+		)
 		{
 
 			//DebugMsg( string.Format( "MacroscopeHyperlinkOut sUrlOrigin: {0}", sUrlOrigin ), 1 );
@@ -72,17 +74,21 @@ namespace SEOMacroscope
 			hlHyperlinkOut.SetUrlOrigin( sUrlOrigin );
 			hlHyperlinkOut.SetUrlTarget( sUrlTarget );
 
-			if( this.Links.ContainsKey( sUrlOrigin ) ) {
+			if( this.Links.ContainsKey( sUrlOrigin ) )
+			{
 
 				lLinkList = ( List<MacroscopeHyperlinkOut> )this.Links[ sUrlOrigin ];
 				lLinkList.Add( hlHyperlinkOut );
 
-			} else {
+			}
+			else
+			{
 
 				lLinkList = new List<MacroscopeHyperlinkOut> ( 256 );
 				lLinkList.Add( hlHyperlinkOut );
 
-				lock( this.Links ) {
+				lock( this.Links )
+				{
 					this.Links.Add( sUrlOrigin, lLinkList );
 				}
 
@@ -96,8 +102,10 @@ namespace SEOMacroscope
 
 		public void Remove ( string sUrlOrigin )
 		{
-			lock( this.Links ) {
-				if( this.Links.ContainsKey( sUrlOrigin ) ) {
+			lock( this.Links )
+			{
+				if( this.Links.ContainsKey( sUrlOrigin ) )
+				{
 					this.Links.Remove( sUrlOrigin );
 				}
 			}
@@ -114,8 +122,10 @@ namespace SEOMacroscope
 
 		public IEnumerable IterateKeys ()
 		{
-			lock( this.Links ) {
-				foreach( string sUrl in this.Links.Keys ) {
+			lock( this.Links )
+			{
+				foreach( string sUrl in this.Links.Keys )
+				{
 					yield return sUrl;
 				}
 			}
@@ -126,10 +136,13 @@ namespace SEOMacroscope
 		public List<MacroscopeHyperlinkOut> GetLinksList ( string sUrl )
 		{
 			List<MacroscopeHyperlinkOut> lHyperlinks = new List<MacroscopeHyperlinkOut> ( this.Links.Count );
-			if( this.Links.ContainsKey( sUrl ) ) {
-				lock( this.Links ) {
+			if( this.Links.ContainsKey( sUrl ) )
+			{
+				lock( this.Links )
+				{
 					List<MacroscopeHyperlinkOut> lLinksList = this.Links[ sUrl ];
-					for( int i = 0; i < lLinksList.Count; i++ ) {
+					for( int i = 0 ; i < lLinksList.Count ; i++ )
+					{
 						lHyperlinks.Add( lLinksList[ i ] );
 					}
 				}
@@ -141,10 +154,13 @@ namespace SEOMacroscope
 				
 		public IEnumerable IterateLinks ( string sUrl )
 		{
-			if( this.Links.ContainsKey( sUrl ) ) {
-				lock( this.Links ) {
+			if( this.Links.ContainsKey( sUrl ) )
+			{
+				lock( this.Links )
+				{
 					List<MacroscopeHyperlinkOut> lLinksList = this.Links[ sUrl ];
-					for( int i = 0; i < lLinksList.Count; i++ ) {
+					for( int i = 0 ; i < lLinksList.Count ; i++ )
+					{
 						yield return lLinksList[ i ];
 					}
 				}
@@ -156,9 +172,12 @@ namespace SEOMacroscope
 		public int Count ()
 		{
 			int iCount = 0;
-			if( this.Links.Count > 0 ) {
-				lock( this.Links.Keys ) {
-					foreach( string sUrl in this.Links.Keys ) {
+			if( this.Links.Count > 0 )
+			{
+				lock( this.Links.Keys )
+				{
+					foreach( string sUrl in this.Links.Keys )
+					{
 						List<MacroscopeHyperlinkOut> lLinkList = ( List<MacroscopeHyperlinkOut> )this.Links[ sUrl ];
 						iCount += lLinkList.Count;
 					}

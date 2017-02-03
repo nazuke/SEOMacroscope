@@ -37,26 +37,22 @@ namespace SEOMacroscope
 	
 		/**************************************************************************/
 
-		public static int LINKTEXT = 0;
-		public static int LINKIMAGE = 1;
-		
-		public int LinkId;
+		int LinkId;
 
-		public string Type;
-		public string Method;
-		public int LinkClass;
-		public string UrlOrigin;
-		public string UrlTarget;
-		public string LinkText;
-		public string AltText;
+		MacroscopeConstants.HyperlinkType HyperlinkType;
+
+		string Method;
+		string UrlOrigin;
+		string UrlTarget;
+		string LinkText;
+		string AltText;
 
 		/**************************************************************************/
-				
+			
 		public MacroscopeHyperlinkIn (
 			int iLinkId,
-			string sType,
+			MacroscopeConstants.HyperlinkType hlLinkType,
 			string sMethod,
-			int iLinkClass,
 			string sUrlOrigin,
 			string sUrlTarget,
 			string sLinkText,
@@ -64,9 +60,8 @@ namespace SEOMacroscope
 		)
 		{
 			LinkId = iLinkId;
-			Type = sType;
+			HyperlinkType = hlLinkType;
 			Method = sMethod;
-			LinkClass = iLinkClass;
 			UrlOrigin = sUrlOrigin;
 			UrlTarget = sUrlTarget;
 			LinkText = sLinkText;
@@ -81,10 +76,10 @@ namespace SEOMacroscope
 		}
 		
 		/**************************************************************************/
-
-		public string GetLinkClass ()
+	 
+		public MacroscopeConstants.HyperlinkType GetHyperlinkType ()
 		{
-			return( this.LinkClass.ToString() );
+			return( this.HyperlinkType );
 		}
 
 		/**************************************************************************/

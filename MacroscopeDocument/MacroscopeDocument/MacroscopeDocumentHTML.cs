@@ -199,6 +199,18 @@ namespace SEOMacroscope
 						this.ExtractHrefLangAlternates( HtmlDoc );
 					}
 
+					{ // Process Body Text
+						string sText = HtmlDoc.DocumentNode.InnerText;
+						if( sText != null )
+						{
+							this.SetBodyText( sText );
+						}
+						else
+						{
+							this.SetBodyText( "" );
+						}
+					}
+
 				}
 				
 				res.Close();
@@ -246,8 +258,6 @@ namespace SEOMacroscope
 		void ProcessHtmlHyperlinksOut ( HtmlDocument HtmlDoc )
 		{
 
-			// TODO: Add image links
-				
 			HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
 			if( nOutlinks != null )
@@ -257,15 +267,15 @@ namespace SEOMacroscope
 				{
 
 					string sLinkUrl = nLink.GetAttributeValue( "href", null );
-					
 					//sLinkUrl = MacroscopeUrlTools.SanitizeUrl( sLinkUrl );
-
 					string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
 
 					MacroscopeHyperlinkOut hlHyperlinkOut = this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
 
-					{
+					{ // FOLLOW / NOFOLLOW
+
 						string sFollow = nLink.GetAttributeValue( "rel", null );
+
 						if( sFollow != null )
 						{
 							if( sFollow.ToLower().Equals( "nofollow" ) )
@@ -273,10 +283,13 @@ namespace SEOMacroscope
 								hlHyperlinkOut.SetFollow( false );
 							}
 						} 
+
 					}
 
-					{
+					{ // TEXT LINK
+
 						string sLinkText = nLink.InnerText;
+
 						if( sLinkText != null )
 						{
 							if( sLinkText.Length > 0 )
@@ -284,14 +297,35 @@ namespace SEOMacroscope
 								hlHyperlinkOut.SetLinkText( sLinkText );
 							}
 						}
+
 					}
-					
+
+					{ // IMAGE LINK
+
+						HtmlNode nImage = nLink.SelectSingleNode( "descendant::img" );
+
+						if( nImage != null )
+						{
+
+							DebugMsg( string.Format( "nImage: {0}", this.GetUrl() ) );
+							DebugMsg( string.Format( "nImage: {0}", nImage ) );
+
+							hlHyperlinkOut.SetHyperlinkType( MacroscopeConstants.HyperlinkType.IMAGE );
+							string sAltText = nLink.GetAttributeValue( "alt", null );
+							if( ( sAltText != null ) && ( sAltText.Length > 0 ) )
+							{
+								hlHyperlinkOut.SetAltText( sAltText );
+							}
+						}
+						
+					}
+
 				}
 							
 			}
 						
 		}
-				
+
 		/**************************************************************************/
 
 		void ProcessHtmlOutlinks ( HtmlDocument HtmlDoc )

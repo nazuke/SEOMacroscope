@@ -340,7 +340,7 @@ namespace SEOMacroscope
 						{
 
 							ListViewItem lvItem = lvListView.Items[ sPairKey ];
-							lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetLinkClass();
+							lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetHyperlinkType().ToString();
 							lvItem.SubItems[ 1 ].Text = hlHyperlinkIn.GetUrlOrigin();
 							lvItem.SubItems[ 2 ].Text = hlHyperlinkIn.GetUrlTarget();
 							lvItem.SubItems[ 3 ].Text = hlHyperlinkIn.GetLinkText();
@@ -363,7 +363,7 @@ namespace SEOMacroscope
 
 							lvItem.Name = sPairKey;
 
-							lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetLinkClass();
+							lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetHyperlinkType().ToString();
 							lvItem.SubItems.Add( hlHyperlinkIn.GetUrlOrigin() );						
 							lvItem.SubItems.Add( hlHyperlinkIn.GetUrlTarget() );
 							lvItem.SubItems.Add( hlHyperlinkIn.GetLinkText() );
@@ -422,7 +422,7 @@ namespace SEOMacroscope
 							{
 
 								ListViewItem lvItem = lvListView.Items[ sKey ];
-								lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetLinkClass();
+								lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetHyperlinkType().ToString();
 								lvItem.SubItems[ 1 ].Text = hlHyperlinkOut.GetUrlOrigin();
 								lvItem.SubItems[ 2 ].Text = hlHyperlinkOut.GetUrlTarget();
 								lvItem.SubItems[ 3 ].Text = hlHyperlinkOut.GetLinkText();
@@ -446,7 +446,7 @@ namespace SEOMacroscope
 
 								lvItem.Name = sKey;
 
-								lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetLinkClass();
+								lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetHyperlinkType().ToString();
 								lvItem.SubItems.Add( hlHyperlinkOut.GetUrlOrigin() );						
 								lvItem.SubItems.Add( hlHyperlinkOut.GetUrlTarget() );
 								lvItem.SubItems.Add( hlHyperlinkOut.GetLinkText() );

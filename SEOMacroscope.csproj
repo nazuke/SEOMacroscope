@@ -118,7 +118,6 @@
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkClass.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeOutlink\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopeDocument\t\TestMacroscopeDocument.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferencesManager.cs" />
@@ -162,6 +161,7 @@
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="MacroscopeSearch\MacroscopeSearchIndexer.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
@@ -265,6 +265,7 @@
     <Folder Include="MacroscopeHosts" />
     <Folder Include="MacroscopeUserControls\MacroscopeOverviewPanel" />
     <Folder Include="MacroscopeUserControls\MacroscopeSiteStructurePanel" />
+    <Folder Include="MacroscopeSearch" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

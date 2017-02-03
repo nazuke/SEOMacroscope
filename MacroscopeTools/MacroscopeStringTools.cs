@@ -24,6 +24,8 @@
 */
 
 using System;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -46,7 +48,8 @@ namespace SEOMacroscope
 		public static string ReverseString ( string sInput )
 		{
 			string sOutput = "";
-			for( int i = ( sInput.Length - 1 ); i >= 0; i-- ) {
+			for( int i = ( sInput.Length - 1 ) ; i >= 0 ; i-- )
+			{
 				sOutput += sInput[ i ];
 			}
 			return( sOutput );
@@ -54,13 +57,32 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 				
-		public static string[] ReverseStringArray ( string[] sInput )
+		public static string[] ReverseStringArray ( string [] sInput )
 		{
-			string[] sOutput = new string[sInput.Length];
-			for( int i = 0; i < sInput.Length; i++ ) {
+			string [] sOutput = new string[sInput.Length];
+			for( int i = 0 ; i < sInput.Length ; i++ )
+			{
 				sOutput[ i ] = MacroscopeStringTools.ReverseString( sInput[ i ] );
 			}
 			return( sOutput );
+		}
+
+		/**************************************************************************/
+
+		public static string CleanBodyText ( string sText )
+		{
+
+			string sCleaned = "";
+
+			if( ( sText != null ) && ( sText.Length > 0 ) )
+			{
+				sCleaned = sText.ToLower();
+				sCleaned = Regex.Replace( sCleaned, "[\\s]+", " ", RegexOptions.Singleline );
+				sCleaned = Regex.Replace( sCleaned, "[^\\w\\d]+", " ", RegexOptions.Singleline );
+			}
+
+			return( sCleaned );
+
 		}
 
 		/**************************************************************************/
