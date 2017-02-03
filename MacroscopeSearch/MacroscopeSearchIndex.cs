@@ -30,10 +30,10 @@ namespace SEOMacroscope
 {
 	
 	/// <summary>
-	/// Description of MacroscopeSearchIndexer.
+	/// Description of MacroscopeSearchIndex.
 	/// </summary>
 	
-	public class MacroscopeSearchIndexer : Macroscope
+	public class MacroscopeSearchIndex : Macroscope
 	{
 	
 		/**************************************************************************/
@@ -49,7 +49,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public MacroscopeSearchIndexer ()
+		public MacroscopeSearchIndex ()
 		{
 
 			SuppressDebugMsg = false;
@@ -79,7 +79,7 @@ namespace SEOMacroscope
 		{
 			
 			List<string> TextBlocks = new List<string> ( 16 );
-			List<string> Words = new List<string> ( 256 );
+			List<string> Terms = new List<string> ( 256 );
 
 			TextBlocks.Add( msDoc.GetTitle() );
 			TextBlocks.Add( msDoc.GetDescription() );
@@ -92,16 +92,16 @@ namespace SEOMacroscope
 			{
 				for( int i = 0 ; i < TextBlocks.Count ; i++ )
 				{
-					string [] WordsChunk = TextBlocks[ i ].Split( ' ' );
-					if( WordsChunk.Length > 0 )
+					string [] Chunk = TextBlocks[ i ].Split( ' ' );
+					if( Chunk.Length > 0 )
 					{
-						for( int j = 0 ; j < WordsChunk.Length ; j++ )
+						for( int j = 0 ; j < Chunk.Length ; j++ )
 						{
-							if( WordsChunk[ j ].Length > 0 )
+							if( Chunk[ j ].Length > 0 )
 							{
-								if( !Words.Contains( WordsChunk[ j ] ) )
+								if( !Terms.Contains( Chunk[ j ] ) )
 								{
-									Words.Add( WordsChunk[ j ] );
+									Terms.Add( Chunk[ j ] );
 								}
 							}
 						}
@@ -109,23 +109,23 @@ namespace SEOMacroscope
 				}
 			}
 			
-			DebugMsg( string.Format( "ProcessText: Words :: {0}", Words.Count ) );
+			DebugMsg( string.Format( "ProcessText: Words :: {0}", Terms.Count ) );
 
-			for( int i = 0 ; i < Words.Count ; i++ )
+			for( int i = 0 ; i < Terms.Count ; i++ )
 			{
 
-				string sWord = Words[ i ];
+				string sTerm = Terms[ i ];
 				
 				Dictionary<string,MacroscopeDocument> DocumentReference;
 
-				if( InvertedIndex.ContainsKey( sWord ) )
+				if( InvertedIndex.ContainsKey( sTerm ) )
 				{
-					DocumentReference = this.InvertedIndex[ sWord ];
+					DocumentReference = this.InvertedIndex[ sTerm ];
 				}
 				else
 				{
 					DocumentReference = new Dictionary<string,MacroscopeDocument> ();
-					this.InvertedIndex.Add( sWord, DocumentReference );
+					this.InvertedIndex.Add( sTerm, DocumentReference );
 				}
 
 				if( !DocumentReference.ContainsKey( msDoc.GetUrl() ) )
@@ -143,6 +143,25 @@ namespace SEOMacroscope
 		{
 		}
 
+		/**************************************************************************/
+
+		// TODO: Finish this
+
+		public List<MacroscopeDocument> ExecuteSearchForDocuments ( string [] Terms )
+		{
+			List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
+
+			for( int i = 0 ; i < Terms.Length ; i++ ) {
+				
+				if( InvertedIndex.ContainsKey( Terms[i] ) ) {
+
+				}
+
+			}
+
+			return( DocList );
+		}
+		
 		/**************************************************************************/
 				
 	}
