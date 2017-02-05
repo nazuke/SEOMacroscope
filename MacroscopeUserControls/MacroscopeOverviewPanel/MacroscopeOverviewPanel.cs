@@ -57,7 +57,10 @@ namespace SEOMacroscope
 			this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true );			
 
 			// ListView Docking
+			
+			tableLayoutPanelStructure.Dock = DockStyle.Fill;
 			listViewStructure.Dock = DockStyle.Fill;
+			
 			treeViewHierarchy.Dock = DockStyle.Fill;
 			listViewCanonicalAnalysis.Dock = DockStyle.Fill;
 			listViewHrefLang.Dock = DockStyle.Fill;

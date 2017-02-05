@@ -45,7 +45,8 @@ namespace SEOMacroscope
 
 		MacroscopeJobMaster JobMaster;
 		MacroscopeNamedQueue NamedQueue;
-
+		MacroscopeSearchIndex SearchIndex;
+		
 		Dictionary<string,Boolean> StatsHistory;
 		Dictionary<string,int> StatsHostnames;
 		Dictionary<string,int> StatsTitles;
@@ -75,7 +76,9 @@ namespace SEOMacroscope
 			
 			NamedQueue = new MacroscopeNamedQueue ();
 			NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
-
+			
+			SearchIndex = new MacroscopeSearchIndex ();
+			
 			StatsHistory = new Dictionary<string,Boolean> ( 1024 );
 			StatsHostnames = new Dictionary<string,int> ( 16 );
 			StatsTitles = new Dictionary<string,int> ( 1024 );
@@ -684,16 +687,17 @@ namespace SEOMacroscope
 
 		/** Search Index **********************************************************/
 
+		public MacroscopeSearchIndex GetSearchIndex ()
+		{
+			return( this.SearchIndex );
+		}
+
 		void AddDocumentToSearchIndex ( MacroscopeDocument msDoc )
 		{
 
 			if( msDoc.GetIsHtml() )
 			{
-			
-				MacroscopeSearchIndex SearchIndexer = this.JobMaster.GetSearchIndex();
-
-				SearchIndexer.AddDocumentToIndex( msDoc );
-
+				this.SearchIndex.AddDocumentToIndex( msDoc );
 			}
 
 		}

@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.IO;
@@ -152,6 +153,9 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
 			
 			this.macroscopeOverviewTabPanelInstance.listViewStructure.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.TextChanged += this.CallbackSearchTextBoxSearchTextChanged;	
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
+			
 			this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.NodeMouseClick += this.CallbackHierarchyNodeMouseClick;
 			this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewHrefLang.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
@@ -1074,6 +1078,56 @@ namespace SEOMacroscope
 				{
 					MessageBox.Show( ex.Message );
 				}
+			}
+
+		}
+
+		/** STRUCTURE OVERVIEW PANEL TOOL STRIP CALLBACKS ******************************************/
+
+		void CallbackSearchTextBoxSearchTextChanged ( object sender, EventArgs e )
+		{
+			/*
+			string sStartUrl = this.GetUrl();
+			this.StartUrlDirty = true;
+
+			if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) )
+			{
+				MacroscopePreferencesManager.SetStartUrl( sStartUrl );
+			}
+			*/
+		}
+		
+		void CallbackSearchTextBoxSearchKeyUp ( object sender, KeyEventArgs e )
+		{
+
+			ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+
+			switch( e.KeyCode )
+			{
+
+				case Keys.Return:
+					DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
+
+					MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
+
+					List<MacroscopeDocument> lResults = SearchIndex.ExecuteSearchForDocuments( SearchTextBox.Text.Split( ' ' ) );
+
+					for( int i = 0 ; i < lResults.Count ; i++ )
+					{
+						MacroscopeDocument msDoc = lResults[ i ];
+						DebugMsg( string.Format( "SEARCH_RESULTS: {0}", msDoc.GetUrl() ) );
+					}
+
+					break;
+					
+				case Keys.Escape:
+					DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "ESCAPE" ) );
+					SearchTextBox.Text = "";
+					break;
+
+				default:
+					break;
+
 			}
 
 		}

@@ -42,7 +42,6 @@ namespace SEOMacroscope
 		MacroscopeAllowedHosts AllowedHosts;
 		MacroscopeNamedQueue NamedQueue;
 		MacroscopeRobots Robots;
-		MacroscopeSearchIndex SearchIndex;
 		
 		int CrawlDelay;
 		int ThreadsMax;
@@ -140,8 +139,6 @@ namespace SEOMacroscope
 			this.Robots = new MacroscopeRobots ();
 			this.BlockedByRobots = new Dictionary<string,Boolean> ();
 
-			this.SearchIndex = new MacroscopeSearchIndex ();
-			
 		}
 
 		/**************************************************************************/
@@ -747,12 +744,6 @@ namespace SEOMacroscope
 			return( dicCopy );
 		}
 
-		/** Search Indexer ********************************************************/
-
-		public MacroscopeSearchIndex GetSearchIndex()
-		{
-			return( this.SearchIndex );
-		}
 
 		/**************************************************************************/
 				

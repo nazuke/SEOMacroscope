@@ -146,6 +146,8 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		// TODO: Finish this
+		// Currently, this is a simple Boolean OR algorithm.
+		// Add options for OR, AND, etc.
 
 		public List<MacroscopeDocument> ExecuteSearchForDocuments ( string [] Terms )
 		{
@@ -154,6 +156,10 @@ namespace SEOMacroscope
 			for( int i = 0 ; i < Terms.Length ; i++ ) {
 				
 				if( InvertedIndex.ContainsKey( Terms[i] ) ) {
+					
+					foreach ( string sUrl in InvertedIndex[Terms[i]].Keys ) {
+						DocList.Add( InvertedIndex[Terms[i]][sUrl] );
+					}
 
 				}
 
