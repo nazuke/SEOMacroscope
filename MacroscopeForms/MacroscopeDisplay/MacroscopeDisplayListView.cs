@@ -143,6 +143,31 @@ namespace SEOMacroscope
 			}
 		}
 
+		/**************************************************************************/
+
+		public void RefreshData ( List<MacroscopeDocument> DocList )
+		{
+			if( this.MainForm.InvokeRequired )
+			{
+				this.MainForm.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							Cursor.Current = Cursors.WaitCursor;
+							this.RenderListView( DocList );
+							Cursor.Current = Cursors.Default;
+						}
+					)
+				);
+			}
+			else
+			{
+				Cursor.Current = Cursors.WaitCursor;
+				this.RenderListView( DocList );
+				Cursor.Current = Cursors.Default;
+			}
+		}
+
 		/** Render Entire DocCollection *******************************************/
 
 		public void RenderListView ( MacroscopeDocumentCollection DocCollection )
@@ -162,6 +187,18 @@ namespace SEOMacroscope
 			foreach( string sUrl in lList )
 			{
 				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+				this.RenderListView( msDoc, sUrl );
+			}
+		}
+
+		/** Render Document List **************************************************/
+		
+		public void RenderListView ( List<MacroscopeDocument> DocList )
+		{
+			for( int i = 0 ; i < DocList.Count ; i++ )
+			{
+				MacroscopeDocument msDoc = DocList[ i ];
+				string sUrl = msDoc.GetUrl();
 				this.RenderListView( msDoc, sUrl );
 			}
 		}

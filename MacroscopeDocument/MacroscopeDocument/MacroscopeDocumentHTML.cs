@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Text;
@@ -79,11 +80,21 @@ namespace SEOMacroscope
 				{
 
 					DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
+
+					Encoding encUseEncoding = Encoding.UTF8;
+					if( this.CharSet != null )
+					{
+						encUseEncoding = this.CharSet;
+					}
+					else
+					{
+						encUseEncoding = this.HtmlSniffCharset();
+					}
+
 					Stream sStream = res.GetResponseStream();
-					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
+					StreamReader srRead = new StreamReader ( sStream, encUseEncoding );
 					sRawData = srRead.ReadToEnd();
 					this.ContentLength = sRawData.Length; // May need to find bytes length
-					//DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
 
 				}
 				catch( WebException ex )
@@ -200,7 +211,7 @@ namespace SEOMacroscope
 					}
 
 					{ // Process Body Text
-						string sText = HtmlDoc.DocumentNode.InnerText;
+						string sText = this.ProcessHtmlBodyText( sRawData );
 						if( sText != null )
 						{
 							this.SetBodyText( sText );
@@ -685,7 +696,35 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-				
+
+		string ProcessHtmlBodyText ( string sHtml )
+		{
+
+			HtmlDocument HtmlDoc = new HtmlDocument ();
+			List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
+			string sText = "";
+
+			HtmlDoc.LoadHtml( sHtml );
+
+			foreach( HtmlNode nNode in HtmlDoc.DocumentNode.SelectNodes( "(//script|//style)") )
+			{
+				NodesToRemove.Add( nNode );
+			}
+
+			for( int i = 0 ; i < NodesToRemove.Count ; i++ )
+			{
+				NodesToRemove[ i ].Remove();
+			}
+
+			sText = HtmlDoc.DocumentNode.InnerText;
+
+			sText = Regex.Replace( sText, "<!--.*?-->", "", RegexOptions.Singleline );
+
+			return( sText );
+		}
+
+		/** Extract Email Addresses ***********************************************/
+
 		void ExtractHtmlEmailAddresses ( HtmlDocument HtmlDoc )
 		{
 			HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
@@ -709,7 +748,7 @@ namespace SEOMacroscope
 			}
 		}
 			
-		/**************************************************************************/
+		/** Extract Telephone Numbers *********************************************/
 
 		void ExtractHtmlTelephoneNumbers ( HtmlDocument HtmlDoc )
 		{
@@ -732,6 +771,19 @@ namespace SEOMacroscope
 					}
 				}
 			}
+		}
+
+		/** Sniff Charset *********************************************************/
+
+		Encoding HtmlSniffCharset ()
+		{
+			
+			Encoding encSniffed = Encoding.UTF8;
+			
+			// TODO: Implement code to download HTML, and examine the content-type meta tag.
+			
+			return( encSniffed );
+
 		}
 
 		/**************************************************************************/

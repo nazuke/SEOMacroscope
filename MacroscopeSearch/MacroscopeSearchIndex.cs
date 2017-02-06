@@ -38,6 +38,12 @@ namespace SEOMacroscope
 	
 		/**************************************************************************/
 
+		public enum SearchMode
+		{
+			OR = 1,
+			AND = 2
+		}
+
 		// sUrl, MacroscopeDocument
 		Dictionary<string,MacroscopeDocument> DocumentIndex;
 
@@ -143,22 +149,42 @@ namespace SEOMacroscope
 		{
 		}
 
-		/**************************************************************************/
+		/** SEARCH INDEX **********************************************************/
 
-		// TODO: Finish this
-		// Currently, this is a simple Boolean OR algorithm.
-		// Add options for OR, AND, etc.
-
-		public List<MacroscopeDocument> ExecuteSearchForDocuments ( string [] Terms )
+		public List<MacroscopeDocument> ExecuteSearchForDocuments (
+			MacroscopeSearchIndex.SearchMode SMode,
+			string [] Terms
+		)
 		{
+			List<MacroscopeDocument> DocList = null;
+			switch( SMode )
+			{
+				case MacroscopeSearchIndex.SearchMode.OR:
+					DocList = this.ExecuteSearchForDocumentsOR( Terms );
+					break;
+				case MacroscopeSearchIndex.SearchMode.AND:
+					DocList = this.ExecuteSearchForDocumentsAND( Terms );
+					break;
+			}
+			return( DocList );
+		}
+
+		/** SEARCH INDEX: OR METHOD ***********************************************/
+
+		public List<MacroscopeDocument> ExecuteSearchForDocumentsOR ( string [] Terms )
+		{
+			
 			List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
 
-			for( int i = 0 ; i < Terms.Length ; i++ ) {
+			for( int i = 0 ; i < Terms.Length ; i++ )
+			{
 				
-				if( InvertedIndex.ContainsKey( Terms[i] ) ) {
+				if( InvertedIndex.ContainsKey( Terms[ i ] ) )
+				{
 					
-					foreach ( string sUrl in InvertedIndex[Terms[i]].Keys ) {
-						DocList.Add( InvertedIndex[Terms[i]][sUrl] );
+					foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
+					{
+						DocList.Add( InvertedIndex[ Terms[ i ] ][ sUrl ] );
 					}
 
 				}
@@ -166,8 +192,56 @@ namespace SEOMacroscope
 			}
 
 			return( DocList );
+			
 		}
-		
+
+		/** SEARCH INDEX: AND METHOD **********************************************/
+
+		public List<MacroscopeDocument> ExecuteSearchForDocumentsAND ( string [] Terms )
+		{
+			
+			List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
+
+			Dictionary<MacroscopeDocument,int> DocListGather = new Dictionary<MacroscopeDocument,int> ();
+
+			for( int i = 0 ; i < Terms.Length ; i++ )
+			{
+				
+				if( InvertedIndex.ContainsKey( Terms[ i ] ) )
+				{
+					
+					foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
+					{
+
+						MacroscopeDocument msDoc = InvertedIndex[ Terms[ i ] ][ sUrl ];
+						if( DocListGather.ContainsKey( msDoc ) )
+						{
+							DocListGather[ msDoc ] = DocListGather[ msDoc ] + 1;
+						}
+						else
+						{
+							DocListGather.Add( msDoc, 1 );
+						}
+
+
+					}
+
+				}
+
+			}
+
+			foreach( MacroscopeDocument msDoc in DocListGather.Keys )
+			{
+				if( DocListGather[ msDoc ] == Terms.Length )
+				{
+					DocList.Add( msDoc );
+				}
+			}
+
+			return( DocList );
+			
+		}
+
 		/**************************************************************************/
 				
 	}

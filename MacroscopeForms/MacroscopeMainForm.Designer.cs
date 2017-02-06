@@ -73,6 +73,12 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem loadFromTextFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pasteFromClipboardToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem sEOMacroscopeWebsiteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem parametersToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem includeURLPatternsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem excludeURLPatternsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem crawlParentDirectoriesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem crawlChildDirectoriesToolStripMenuItem;
+		public System.Windows.Forms.ToolStripProgressBar ProgressBarScan;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -104,6 +110,11 @@ namespace SEOMacroscope
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.parametersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.includeURLPatternsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.excludeURLPatternsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.crawlParentDirectoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.crawlChildDirectoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -133,6 +144,7 @@ namespace SEOMacroscope
 			this.ButtonStart = new System.Windows.Forms.ToolStripButton();
 			this.ButtonStop = new System.Windows.Forms.ToolStripButton();
 			this.ButtonReset = new System.Windows.Forms.ToolStripButton();
+			this.ProgressBarScan = new System.Windows.Forms.ToolStripProgressBar();
 			this.splitContainerLeftAndRightViews = new System.Windows.Forms.SplitContainer();
 			this.splitContainerStructureAndDocumentDetails = new System.Windows.Forms.SplitContainer();
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
@@ -158,6 +170,7 @@ namespace SEOMacroscope
 			this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.fileToolStripMenuItem,
 			this.editToolStripMenuItem,
+			this.parametersToolStripMenuItem,
 			this.reportsToolStripMenuItem,
 			this.helpToolStripMenuItem});
 			this.menuStripMain.Location = new System.Drawing.Point(0, 0);
@@ -181,7 +194,7 @@ namespace SEOMacroscope
 			this.loadFromTextFileToolStripMenuItem,
 			this.pasteFromClipboardToolStripMenuItem});
 			this.loadURLListToolStripMenuItem.Name = "loadURLListToolStripMenuItem";
-			this.loadURLListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadURLListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.loadURLListToolStripMenuItem.Text = "Load URL List";
 			// 
 			// loadFromTextFileToolStripMenuItem
@@ -201,7 +214,7 @@ namespace SEOMacroscope
 			// 
 			this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.CallbackFileExit);
 			// 
@@ -220,6 +233,45 @@ namespace SEOMacroscope
 			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.preferencesToolStripMenuItem.Text = "Preferences";
 			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.CallbackEditPreferencesClick);
+			// 
+			// parametersToolStripMenuItem
+			// 
+			this.parametersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.includeURLPatternsToolStripMenuItem,
+			this.excludeURLPatternsToolStripMenuItem,
+			this.crawlParentDirectoriesToolStripMenuItem,
+			this.crawlChildDirectoriesToolStripMenuItem});
+			this.parametersToolStripMenuItem.Name = "parametersToolStripMenuItem";
+			this.parametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+			this.parametersToolStripMenuItem.Text = "Task Parameters";
+			// 
+			// includeURLPatternsToolStripMenuItem
+			// 
+			this.includeURLPatternsToolStripMenuItem.Name = "includeURLPatternsToolStripMenuItem";
+			this.includeURLPatternsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+			this.includeURLPatternsToolStripMenuItem.Text = "Include URL Patterns";
+			// 
+			// excludeURLPatternsToolStripMenuItem
+			// 
+			this.excludeURLPatternsToolStripMenuItem.Name = "excludeURLPatternsToolStripMenuItem";
+			this.excludeURLPatternsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+			this.excludeURLPatternsToolStripMenuItem.Text = "Exclude URL Patterns";
+			// 
+			// crawlParentDirectoriesToolStripMenuItem
+			// 
+			this.crawlParentDirectoriesToolStripMenuItem.Checked = true;
+			this.crawlParentDirectoriesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.crawlParentDirectoriesToolStripMenuItem.Name = "crawlParentDirectoriesToolStripMenuItem";
+			this.crawlParentDirectoriesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+			this.crawlParentDirectoriesToolStripMenuItem.Text = "Crawl Parent Directories";
+			// 
+			// crawlChildDirectoriesToolStripMenuItem
+			// 
+			this.crawlChildDirectoriesToolStripMenuItem.Checked = true;
+			this.crawlChildDirectoriesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.crawlChildDirectoriesToolStripMenuItem.Name = "crawlChildDirectoriesToolStripMenuItem";
+			this.crawlChildDirectoriesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+			this.crawlChildDirectoriesToolStripMenuItem.Text = "Crawl Child Directories";
 			// 
 			// reportsToolStripMenuItem
 			// 
@@ -416,7 +468,8 @@ namespace SEOMacroscope
 			this.toolStripSeparator1,
 			this.ButtonStart,
 			this.ButtonStop,
-			this.ButtonReset});
+			this.ButtonReset,
+			this.ProgressBarScan});
 			this.toolStripExecuteControls.Location = new System.Drawing.Point(0, 0);
 			this.toolStripExecuteControls.Name = "toolStripExecuteControls";
 			this.toolStripExecuteControls.Size = new System.Drawing.Size(784, 30);
@@ -478,6 +531,13 @@ namespace SEOMacroscope
 			this.ButtonReset.Text = "Reset";
 			this.ButtonReset.ToolTipText = "Reset all scan results";
 			this.ButtonReset.Click += new System.EventHandler(this.CallbackScanReset);
+			// 
+			// ProgressBarScan
+			// 
+			this.ProgressBarScan.CausesValidation = false;
+			this.ProgressBarScan.Name = "ProgressBarScan";
+			this.ProgressBarScan.Size = new System.Drawing.Size(150, 27);
+			this.ProgressBarScan.Step = 1;
 			// 
 			// splitContainerLeftAndRightViews
 			// 

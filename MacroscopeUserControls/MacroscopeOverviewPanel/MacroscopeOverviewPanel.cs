@@ -83,6 +83,9 @@ namespace SEOMacroscope
 			listViewHostnames.Dock = DockStyle.Fill;
 			listViewHistory.Dock = DockStyle.Fill;
 
+			tableLayoutPanelSearchCollection.Dock = DockStyle.Fill;
+			listViewSearchCollection.Dock = DockStyle.Fill;
+
 			// ListView Sorters
 			lvColumnSorter = new MacroscopeColumnSorter ();
 
@@ -107,7 +110,8 @@ namespace SEOMacroscope
 			listViewTelephoneNumbers.ListViewItemSorter = lvColumnSorter;
 			listViewHostnames.ListViewItemSorter = lvColumnSorter;
 			listViewHistory.ListViewItemSorter = lvColumnSorter;
-
+			listViewSearchCollection.ListViewItemSorter = lvColumnSorter;
+	
 			listViewStructure.ColumnClick += this.CallbackColumnClick;
 			listViewCanonicalAnalysis.ColumnClick += this.CallbackColumnClick;
 			listViewHrefLang.ColumnClick += this.CallbackColumnClick;
@@ -129,7 +133,8 @@ namespace SEOMacroscope
 			listViewTelephoneNumbers.ColumnClick += this.CallbackColumnClick;
 			listViewHostnames.ColumnClick += this.CallbackColumnClick;
 			listViewHistory.ColumnClick += this.CallbackColumnClick;
-
+			listViewSearchCollection.ColumnClick += this.CallbackColumnClick;
+	
 		}
 	
 		/**************************************************************************/

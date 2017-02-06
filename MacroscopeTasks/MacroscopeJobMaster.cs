@@ -61,6 +61,8 @@ namespace SEOMacroscope
 
 		Dictionary<string,Boolean> History;
 
+		Dictionary<string,Boolean> ProcessedList;
+				
 		Dictionary<string,string> Locales;
 
 		Dictionary<string,Boolean> BlockedByRobots;
@@ -133,6 +135,8 @@ namespace SEOMacroscope
 			this.PagesFound = 0;
 
 			this.History = new Dictionary<string, bool> ( 4096 );
+
+			ProcessedList = new Dictionary<string,Boolean> ( 4096 );
 
 			this.Locales = new Dictionary<string,string> ( 32 );
 			
@@ -593,7 +597,18 @@ namespace SEOMacroscope
 			{
 				lock( this.History )
 				{
-					this.History.Add( sUrl, true );
+					this.History.Add( sUrl, false );
+				}
+			}
+		}
+		
+		public void AddHistoryItem ( string sUrl, Boolean bSeen )
+		{
+			if( this.History.ContainsKey( sUrl ) )
+			{
+				lock( this.History )
+				{
+					this.History[ sUrl ] = bSeen;
 				}
 			}
 		}
@@ -643,6 +658,18 @@ namespace SEOMacroscope
 		public int CountHistory ()
 		{
 			return( this.History.Count );
+		}
+
+		public int CountHistoryUnseen ()
+		{
+			int iCount = 0;
+			Dictionary<string,Boolean> HistoryCopy = this.GetHistory();
+			foreach( string sKey in HistoryCopy.Keys )
+			{
+				if( !this.History[ sKey ] )
+					iCount++;
+			}
+			return( iCount );
 		}
 
 		/** Document Collection ***************************************************/

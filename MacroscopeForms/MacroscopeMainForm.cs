@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.IO;
 using System.Timers;
@@ -67,11 +66,13 @@ namespace SEOMacroscope
 		MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
 		MacroscopeDisplayHostnames msDisplayHostnames;
 		MacroscopeDisplayHistory msDisplayHistory;
+		MacroscopeDisplaySearchCollection msDisplaySearchCollection;
 
 		MacroscopeDisplayStructureOverview msSiteStructureOverview;
 
 		Semaphore SemaphoreTabPages;
 				
+		public System.Timers.Timer TimerProgressBarScan;
 		public System.Timers.Timer TimerTabPages;
 		public System.Timers.Timer TimerSiteOverview;
 		public System.Timers.Timer TimerStatusBar;
@@ -100,6 +101,7 @@ namespace SEOMacroscope
 			this.SemaphoreTabPages = new Semaphore ( 0, 1 );
 			this.SemaphoreTabPages.Release( 1 );
 			
+			//StartProgressBarScanTimer();
 			StartTabPageTimer();
 			StartSiteOverviewTimer();
 			StartStatusBarTimer();
@@ -143,7 +145,8 @@ namespace SEOMacroscope
 			this.msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
 			this.msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
 			this.msDisplayHistory = new MacroscopeDisplayHistory ( this, this.macroscopeOverviewTabPanelInstance.listViewHistory );
-
+			this.msDisplaySearchCollection = new MacroscopeDisplaySearchCollection ( this, this.macroscopeOverviewTabPanelInstance.listViewSearchCollection );
+			
 			// Appearance
 			
 			this.macroscopeOverviewTabPanelInstance.Dock = DockStyle.Fill;
@@ -153,7 +156,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
 			
 			this.macroscopeOverviewTabPanelInstance.listViewStructure.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.TextChanged += this.CallbackSearchTextBoxSearchTextChanged;	
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Click += this.CallbackStructureButtonShowAll;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
 			
 			this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.NodeMouseClick += this.CallbackHierarchyNodeMouseClick;
@@ -171,6 +174,10 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewHistory.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+
+			this.macroscopeOverviewTabPanelInstance.listViewSearchCollection.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Click += this.CallbackSearchCollectionButtonClear;
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.KeyUp += this.CallbackSearchCollectionTextBoxSearchKeyUp;
 
 			// Context Menu Events
 			
@@ -211,6 +218,7 @@ namespace SEOMacroscope
 				this.ThreadScanner.Abort();
 			}
 
+			//this.StopProgressBarScanTimer();
 			this.StopTabPageTimer();
 			this.StopSiteOverviewTimer();
 			this.StopStatusBarTimer();
@@ -840,7 +848,10 @@ namespace SEOMacroscope
 				case "tabPageHistory":
 					this.msDisplayHistory.RefreshData( this.JobMaster.GetHistory() );
 					break;
-								
+					
+				case "tabPageSearch":
+					break;
+
 				default:
 					DebugMsg( string.Format( "UNKNOWN TAB: {0}", sName ) );
 					break;
@@ -1084,19 +1095,17 @@ namespace SEOMacroscope
 
 		/** STRUCTURE OVERVIEW PANEL TOOL STRIP CALLBACKS ******************************************/
 
-		void CallbackSearchTextBoxSearchTextChanged ( object sender, EventArgs e )
+		void CallbackStructureButtonShowAll ( object sender, EventArgs e )
 		{
-			/*
-			string sStartUrl = this.GetUrl();
-			this.StartUrlDirty = true;
 
-			if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) )
-			{
-				MacroscopePreferencesManager.SetStartUrl( sStartUrl );
-			}
-			*/
+			this.msDisplayStructure.ClearData();
+			
+			this.msDisplayStructure.RefreshData(
+				this.JobMaster.GetDocCollection()
+			);
+
 		}
-		
+
 		void CallbackSearchTextBoxSearchKeyUp ( object sender, KeyEventArgs e )
 		{
 
@@ -1106,23 +1115,37 @@ namespace SEOMacroscope
 			{
 
 				case Keys.Return:
+					
 					DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
 
 					MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
 
-					List<MacroscopeDocument> lResults = SearchIndex.ExecuteSearchForDocuments( SearchTextBox.Text.Split( ' ' ) );
+					
+					string sText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
 
-					for( int i = 0 ; i < lResults.Count ; i++ )
+					if( sText.Length > 0 )
 					{
-						MacroscopeDocument msDoc = lResults[ i ];
-						DebugMsg( string.Format( "SEARCH_RESULTS: {0}", msDoc.GetUrl() ) );
-					}
+						
+						SearchTextBox.Text = sText;
+						
+						List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
+							                                   MacroscopeSearchIndex.SearchMode.AND,
+							                                   sText.Split( ' ' )
+						                                   );
 
+						this.msDisplayStructure.ClearData();
+
+						this.msDisplayStructure.RefreshData( DocList );
+						
+					}
+					
 					break;
 					
 				case Keys.Escape:
+					
 					DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "ESCAPE" ) );
 					SearchTextBox.Text = "";
+					
 					break;
 
 				default:
@@ -1155,6 +1178,67 @@ namespace SEOMacroscope
 			else
 			{
 				this.macroscopeDocumentDetailsInstance.ClearData();
+			}
+
+		}
+
+		/** SEARCH COLLECTION PANEL CALLBACKS *************************************/
+
+		void CallbackSearchCollectionButtonClear ( object sender, EventArgs e )
+		{
+			this.msDisplaySearchCollection.ClearData();
+		}
+
+		void CallbackSearchCollectionTextBoxSearchKeyUp ( object sender, KeyEventArgs e )
+		{
+
+			ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+
+			DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp: {0}", "CALLED" ) );
+								
+			switch( e.KeyCode )
+			{
+
+				case Keys.Return:
+					
+					DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp: {0}", "RETURN" ) );
+										
+					MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
+	
+					string sText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
+
+					if( sText.Length > 0 )
+					{
+						
+						SearchTextBox.Text = sText;
+						
+						DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp sText: {0}", sText ) );
+											
+						List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
+							                                   MacroscopeSearchIndex.SearchMode.AND,
+							                                   sText.Split( ' ' )
+						                                   );
+
+						this.msDisplaySearchCollection.ClearData();
+
+						DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp DocList: {0}", DocList.Count ) );
+												
+						this.msDisplaySearchCollection.RefreshData( DocList );
+						
+					}
+					
+					break;
+					
+				case Keys.Escape:
+					
+					DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp: {0}", "ESCAPE" ) );
+					SearchTextBox.Text = "";
+					
+					break;
+
+				default:
+					break;
+
 			}
 
 		}
@@ -1239,8 +1323,13 @@ namespace SEOMacroscope
 			this.ButtonStop.Enabled = false;
 			this.ButtonReset.Enabled = false;
 
-
 			this.toolStripButtonRetryBrokenLinks.Enabled = true;
+			
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
+
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
 		}
 
@@ -1256,6 +1345,12 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = false;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
+			
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
+			
 		}
 
 		void ScanningControlsStopping ( Boolean bState )
@@ -1270,6 +1365,12 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = false;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
+					
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
+			
 		}
 
 		void ScanningControlsStopped ( Boolean bState )
@@ -1283,6 +1384,12 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = true;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
+
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
+			
 		}
 
 		void ScanningControlsReset ( Boolean bState )
@@ -1296,6 +1403,12 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = true;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
+						
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
+			
 		}
 		
 		void ScanningControlsComplete ( Boolean bState )
@@ -1309,7 +1422,13 @@ namespace SEOMacroscope
 			this.ButtonReset.Enabled = true;
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = true;
+			
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
+			
 		}
 
 		/** MAIN SCANNING THREAD **************************************************/
@@ -1341,6 +1460,67 @@ namespace SEOMacroscope
 
 		}
 
+		/** Scan Progress Bar *****************************************************/
+
+		void StartProgressBarScanTimer ()
+		{
+			this.TimerProgressBarScan = new System.Timers.Timer ( 1000 );
+			this.TimerProgressBarScan.Elapsed += this.CallbackProgressBarScanTimer;
+			this.TimerProgressBarScan.AutoReset = true;
+			this.TimerProgressBarScan.Enabled = true;
+			this.TimerProgressBarScan.Start();
+		}
+
+		void StopProgressBarScanTimer ()
+		{
+			try
+			{
+				this.TimerProgressBarScan.Stop();
+				this.TimerProgressBarScan.Dispose();
+			}
+			catch( Exception ex )
+			{
+				DebugMsg( string.Format( "StopProgressBarScanTimer: {0}", ex.Message ) );
+			}
+		}
+		
+		void CallbackProgressBarScanTimer ( Object self, ElapsedEventArgs e )
+		{
+			if( this.InvokeRequired )
+			{
+				this.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							this.UpdateProgressBarScan();	
+						}
+					)
+				);
+			}
+			else
+			{
+				this.UpdateProgressBarScan();	
+			}
+		}
+
+		void UpdateProgressBarScan ()
+		{
+
+			int iPercentage = 0;
+
+			if( this.JobMaster != null )
+			{
+				int iUrlsInHistory = this.JobMaster.CountHistory();
+				int iUrlsInHistoryUnseen = this.JobMaster.CountHistoryUnseen();
+				iPercentage = ( int )( ( 100 / iUrlsInHistory ) * iUrlsInHistoryUnseen );
+			}
+
+			DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
+			
+			this.ProgressBarScan.Value = iPercentage;
+
+		}
+				
 		/** Status Bar ************************************************************/
 
 		void StartStatusBarTimer ()

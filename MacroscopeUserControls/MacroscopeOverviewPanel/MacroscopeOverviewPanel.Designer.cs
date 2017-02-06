@@ -137,6 +137,22 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ToolStripTextBox toolStripStructureSearchTextBoxSearch;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		public System.Windows.Forms.ToolStripLabel toolStripLabelStructureItems;
+		public System.Windows.Forms.ToolStripButton toolStripStructureButtonShowAll;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		public System.Windows.Forms.TabPage tabPageSearch;
+		public System.Windows.Forms.ListView listViewSearchCollection;
+		public System.Windows.Forms.ToolStrip toolStripSearchCollection;
+		public System.Windows.Forms.ToolStripButton toolStripSearchCollectionButtonClear;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+		private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+		public System.Windows.Forms.ToolStripTextBox toolStripSearchCollectionTextBoxSearch;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+		public System.Windows.Forms.ToolStripLabel toolStripSearchCollectionDocumentsNumber;
+		private System.Windows.Forms.ColumnHeader columnHeaderSearchCollectionUrl;
+		private System.Windows.Forms.ColumnHeader columnHeaderSearchCollectionPageTitle;
+		private System.Windows.Forms.ColumnHeader columnHeaderSearchCollectionPageDescription;
+		private System.Windows.Forms.ColumnHeader columnHeaderSearchCollectionPageKeywords;
+		public System.Windows.Forms.TableLayoutPanel tableLayoutPanelSearchCollection;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -160,6 +176,7 @@ namespace SEOMacroscope
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroscopeOverviewPanel));
 			this.tabControlMain = new System.Windows.Forms.TabControl();
 			this.tabPageStructureOverview = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanelStructure = new System.Windows.Forms.TableLayoutPanel();
@@ -171,6 +188,13 @@ namespace SEOMacroscope
 			this.toolStripMenuItemRemoveFromAllowedHosts = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripMenuItemResetEntry = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSearch = new System.Windows.Forms.ToolStrip();
+			this.toolStripStructureButtonShowAll = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+			this.toolStripStructureSearchTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripLabelStructureItems = new System.Windows.Forms.ToolStripLabel();
 			this.tabPageHierarchy = new System.Windows.Forms.TabPage();
 			this.treeViewHierarchy = new System.Windows.Forms.TreeView();
 			this.tabPageCanonicalAnalysis = new System.Windows.Forms.TabPage();
@@ -277,16 +301,26 @@ namespace SEOMacroscope
 			this.listViewHistory = new System.Windows.Forms.ListView();
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
+			this.tabPageSearch = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanelSearchCollection = new System.Windows.Forms.TableLayoutPanel();
+			this.listViewSearchCollection = new System.Windows.Forms.ListView();
+			this.columnHeaderSearchCollectionUrl = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderSearchCollectionPageTitle = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderSearchCollectionPageDescription = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderSearchCollectionPageKeywords = new System.Windows.Forms.ColumnHeader();
+			this.toolStripSearchCollection = new System.Windows.Forms.ToolStrip();
+			this.toolStripSearchCollectionButtonClear = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+			this.toolStripSearchCollectionTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSearchCollectionDocumentsNumber = new System.Windows.Forms.ToolStripLabel();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-			this.toolStripStructureSearchTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripLabelStructureItems = new System.Windows.Forms.ToolStripLabel();
-			this.toolStripSearch = new System.Windows.Forms.ToolStrip();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
 			this.contextMenuStripStructure.SuspendLayout();
+			this.toolStripSearch.SuspendLayout();
 			this.tabPageHierarchy.SuspendLayout();
 			this.tabPageCanonicalAnalysis.SuspendLayout();
 			this.tabPageHrefLangAnalysis.SuspendLayout();
@@ -308,7 +342,9 @@ namespace SEOMacroscope
 			this.tabPageEmailAddresses.SuspendLayout();
 			this.tabPageTelephoneNumbers.SuspendLayout();
 			this.tabPageHistory.SuspendLayout();
-			this.toolStripSearch.SuspendLayout();
+			this.tabPageSearch.SuspendLayout();
+			this.tableLayoutPanelSearchCollection.SuspendLayout();
+			this.toolStripSearchCollection.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControlMain
@@ -335,6 +371,7 @@ namespace SEOMacroscope
 			this.tabControlMain.Controls.Add(this.tabPageEmailAddresses);
 			this.tabControlMain.Controls.Add(this.tabPageTelephoneNumbers);
 			this.tabControlMain.Controls.Add(this.tabPageHistory);
+			this.tabControlMain.Controls.Add(this.tabPageSearch);
 			this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlMain.Location = new System.Drawing.Point(0, 0);
 			this.tabControlMain.Margin = new System.Windows.Forms.Padding(0);
@@ -441,6 +478,62 @@ namespace SEOMacroscope
 			this.toolStripMenuItemResetEntry.Size = new System.Drawing.Size(247, 22);
 			this.toolStripMenuItemResetEntry.Text = "Retry fetch";
 			this.toolStripMenuItemResetEntry.ToolTipText = "Try and fetch this page again";
+			// 
+			// toolStripSearch
+			// 
+			this.toolStripSearch.AutoSize = false;
+			this.toolStripSearch.CanOverflow = false;
+			this.toolStripSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStripSearch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripStructureButtonShowAll,
+			this.toolStripSeparator4,
+			this.toolStripLabel1,
+			this.toolStripStructureSearchTextBoxSearch,
+			this.toolStripSeparator3,
+			this.toolStripLabelStructureItems});
+			this.toolStripSearch.Location = new System.Drawing.Point(0, 0);
+			this.toolStripSearch.Name = "toolStripSearch";
+			this.toolStripSearch.Padding = new System.Windows.Forms.Padding(0);
+			this.toolStripSearch.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.toolStripSearch.Size = new System.Drawing.Size(400, 28);
+			this.toolStripSearch.TabIndex = 1;
+			this.toolStripSearch.Text = "toolStrip1";
+			// 
+			// toolStripStructureButtonShowAll
+			// 
+			this.toolStripStructureButtonShowAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripStructureButtonShowAll.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStructureButtonShowAll.Image")));
+			this.toolStripStructureButtonShowAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripStructureButtonShowAll.Name = "toolStripStructureButtonShowAll";
+			this.toolStripStructureButtonShowAll.Size = new System.Drawing.Size(55, 25);
+			this.toolStripStructureButtonShowAll.Text = "Show all";
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 28);
+			// 
+			// toolStripLabel1
+			// 
+			this.toolStripLabel1.Name = "toolStripLabel1";
+			this.toolStripLabel1.Size = new System.Drawing.Size(45, 25);
+			this.toolStripLabel1.Text = "Search:";
+			// 
+			// toolStripStructureSearchTextBoxSearch
+			// 
+			this.toolStripStructureSearchTextBoxSearch.Name = "toolStripStructureSearchTextBoxSearch";
+			this.toolStripStructureSearchTextBoxSearch.Size = new System.Drawing.Size(150, 28);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 28);
+			// 
+			// toolStripLabelStructureItems
+			// 
+			this.toolStripLabelStructureItems.Name = "toolStripLabelStructureItems";
+			this.toolStripLabelStructureItems.Size = new System.Drawing.Size(80, 25);
+			this.toolStripLabelStructureItems.Text = "Documents: 0";
 			// 
 			// tabPageHierarchy
 			// 
@@ -1367,45 +1460,132 @@ namespace SEOMacroscope
 			this.HistoryVisited.Text = "Visited";
 			this.HistoryVisited.Width = 100;
 			// 
-			// toolStripLabel1
+			// tabPageSearch
 			// 
-			this.toolStripLabel1.Name = "toolStripLabel1";
-			this.toolStripLabel1.Size = new System.Drawing.Size(45, 25);
-			this.toolStripLabel1.Text = "Search:";
+			this.tabPageSearch.Controls.Add(this.tableLayoutPanelSearchCollection);
+			this.tabPageSearch.Location = new System.Drawing.Point(4, 58);
+			this.tabPageSearch.Name = "tabPageSearch";
+			this.tabPageSearch.Size = new System.Drawing.Size(592, 438);
+			this.tabPageSearch.TabIndex = 24;
+			this.tabPageSearch.Text = "Search";
+			this.tabPageSearch.UseVisualStyleBackColor = true;
 			// 
-			// toolStripStructureSearchTextBoxSearch
+			// tableLayoutPanelSearchCollection
 			// 
-			this.toolStripStructureSearchTextBoxSearch.Name = "toolStripStructureSearchTextBoxSearch";
-			this.toolStripStructureSearchTextBoxSearch.Size = new System.Drawing.Size(150, 28);
+			this.tableLayoutPanelSearchCollection.ColumnCount = 1;
+			this.tableLayoutPanelSearchCollection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelSearchCollection.Controls.Add(this.listViewSearchCollection, 0, 1);
+			this.tableLayoutPanelSearchCollection.Controls.Add(this.toolStripSearchCollection, 0, 0);
+			this.tableLayoutPanelSearchCollection.Location = new System.Drawing.Point(20, 20);
+			this.tableLayoutPanelSearchCollection.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanelSearchCollection.Name = "tableLayoutPanelSearchCollection";
+			this.tableLayoutPanelSearchCollection.RowCount = 2;
+			this.tableLayoutPanelSearchCollection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tableLayoutPanelSearchCollection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelSearchCollection.Size = new System.Drawing.Size(400, 400);
+			this.tableLayoutPanelSearchCollection.TabIndex = 3;
 			// 
-			// toolStripSeparator3
+			// listViewSearchCollection
 			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 28);
+			this.listViewSearchCollection.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.listViewSearchCollection.BackColor = System.Drawing.SystemColors.Window;
+			this.listViewSearchCollection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.listViewSearchCollection.CausesValidation = false;
+			this.listViewSearchCollection.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderSearchCollectionUrl,
+			this.columnHeaderSearchCollectionPageTitle,
+			this.columnHeaderSearchCollectionPageDescription,
+			this.columnHeaderSearchCollectionPageKeywords});
+			this.listViewSearchCollection.ContextMenuStrip = this.contextMenuStripStructure;
+			this.listViewSearchCollection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.listViewSearchCollection.FullRowSelect = true;
+			this.listViewSearchCollection.GridLines = true;
+			this.listViewSearchCollection.LabelWrap = false;
+			this.listViewSearchCollection.Location = new System.Drawing.Point(100, 114);
+			this.listViewSearchCollection.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewSearchCollection.MultiSelect = false;
+			this.listViewSearchCollection.Name = "listViewSearchCollection";
+			this.listViewSearchCollection.ShowGroups = false;
+			this.listViewSearchCollection.Size = new System.Drawing.Size(200, 200);
+			this.listViewSearchCollection.TabIndex = 0;
+			this.listViewSearchCollection.UseCompatibleStateImageBehavior = false;
+			this.listViewSearchCollection.View = System.Windows.Forms.View.Details;
 			// 
-			// toolStripLabelStructureItems
+			// columnHeaderSearchCollectionUrl
 			// 
-			this.toolStripLabelStructureItems.Name = "toolStripLabelStructureItems";
-			this.toolStripLabelStructureItems.Size = new System.Drawing.Size(80, 25);
-			this.toolStripLabelStructureItems.Text = "Documents: 0";
+			this.columnHeaderSearchCollectionUrl.Text = "URL";
+			this.columnHeaderSearchCollectionUrl.Width = 300;
 			// 
-			// toolStripSearch
+			// columnHeaderSearchCollectionPageTitle
 			// 
-			this.toolStripSearch.AutoSize = false;
-			this.toolStripSearch.CanOverflow = false;
-			this.toolStripSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.toolStripSearch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.toolStripLabel1,
-			this.toolStripStructureSearchTextBoxSearch,
-			this.toolStripSeparator3,
-			this.toolStripLabelStructureItems});
-			this.toolStripSearch.Location = new System.Drawing.Point(0, 0);
-			this.toolStripSearch.Name = "toolStripSearch";
-			this.toolStripSearch.Padding = new System.Windows.Forms.Padding(0);
-			this.toolStripSearch.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.toolStripSearch.Size = new System.Drawing.Size(400, 28);
-			this.toolStripSearch.TabIndex = 1;
-			this.toolStripSearch.Text = "toolStrip1";
+			this.columnHeaderSearchCollectionPageTitle.Text = "Page Title";
+			this.columnHeaderSearchCollectionPageTitle.Width = 300;
+			// 
+			// columnHeaderSearchCollectionPageDescription
+			// 
+			this.columnHeaderSearchCollectionPageDescription.Text = "Page Description";
+			this.columnHeaderSearchCollectionPageDescription.Width = 300;
+			// 
+			// columnHeaderSearchCollectionPageKeywords
+			// 
+			this.columnHeaderSearchCollectionPageKeywords.Text = "Page Keywords";
+			this.columnHeaderSearchCollectionPageKeywords.Width = 300;
+			// 
+			// toolStripSearchCollection
+			// 
+			this.toolStripSearchCollection.AutoSize = false;
+			this.toolStripSearchCollection.CanOverflow = false;
+			this.toolStripSearchCollection.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStripSearchCollection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripSearchCollectionButtonClear,
+			this.toolStripSeparator5,
+			this.toolStripLabel2,
+			this.toolStripSearchCollectionTextBoxSearch,
+			this.toolStripSeparator6,
+			this.toolStripSearchCollectionDocumentsNumber});
+			this.toolStripSearchCollection.Location = new System.Drawing.Point(0, 0);
+			this.toolStripSearchCollection.Name = "toolStripSearchCollection";
+			this.toolStripSearchCollection.Padding = new System.Windows.Forms.Padding(0);
+			this.toolStripSearchCollection.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.toolStripSearchCollection.Size = new System.Drawing.Size(400, 28);
+			this.toolStripSearchCollection.TabIndex = 1;
+			this.toolStripSearchCollection.Text = "toolStrip1";
+			// 
+			// toolStripSearchCollectionButtonClear
+			// 
+			this.toolStripSearchCollectionButtonClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripSearchCollectionButtonClear.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSearchCollectionButtonClear.Image")));
+			this.toolStripSearchCollectionButtonClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripSearchCollectionButtonClear.Name = "toolStripSearchCollectionButtonClear";
+			this.toolStripSearchCollectionButtonClear.Size = new System.Drawing.Size(38, 25);
+			this.toolStripSearchCollectionButtonClear.Text = "Clear";
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(6, 28);
+			// 
+			// toolStripLabel2
+			// 
+			this.toolStripLabel2.Name = "toolStripLabel2";
+			this.toolStripLabel2.Size = new System.Drawing.Size(45, 25);
+			this.toolStripLabel2.Text = "Search:";
+			// 
+			// toolStripSearchCollectionTextBoxSearch
+			// 
+			this.toolStripSearchCollectionTextBoxSearch.Name = "toolStripSearchCollectionTextBoxSearch";
+			this.toolStripSearchCollectionTextBoxSearch.Size = new System.Drawing.Size(150, 28);
+			// 
+			// toolStripSeparator6
+			// 
+			this.toolStripSeparator6.Name = "toolStripSeparator6";
+			this.toolStripSeparator6.Size = new System.Drawing.Size(6, 28);
+			// 
+			// toolStripSearchCollectionDocumentsNumber
+			// 
+			this.toolStripSearchCollectionDocumentsNumber.Name = "toolStripSearchCollectionDocumentsNumber";
+			this.toolStripSearchCollectionDocumentsNumber.Size = new System.Drawing.Size(80, 25);
+			this.toolStripSearchCollectionDocumentsNumber.Text = "Documents: 0";
 			// 
 			// MacroscopeOverviewPanel
 			// 
@@ -1418,6 +1598,8 @@ namespace SEOMacroscope
 			this.tabPageStructureOverview.ResumeLayout(false);
 			this.tableLayoutPanelStructure.ResumeLayout(false);
 			this.contextMenuStripStructure.ResumeLayout(false);
+			this.toolStripSearch.ResumeLayout(false);
+			this.toolStripSearch.PerformLayout();
 			this.tabPageHierarchy.ResumeLayout(false);
 			this.tabPageCanonicalAnalysis.ResumeLayout(false);
 			this.tabPageHrefLangAnalysis.ResumeLayout(false);
@@ -1439,8 +1621,10 @@ namespace SEOMacroscope
 			this.tabPageEmailAddresses.ResumeLayout(false);
 			this.tabPageTelephoneNumbers.ResumeLayout(false);
 			this.tabPageHistory.ResumeLayout(false);
-			this.toolStripSearch.ResumeLayout(false);
-			this.toolStripSearch.PerformLayout();
+			this.tabPageSearch.ResumeLayout(false);
+			this.tableLayoutPanelSearchCollection.ResumeLayout(false);
+			this.toolStripSearchCollection.ResumeLayout(false);
+			this.toolStripSearchCollection.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

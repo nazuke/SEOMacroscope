@@ -28,13 +28,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
 
 	/// <summary>
-	/// Description of MacroscopeDocument.
+	/// MacroscopeDocument is a representation of the document found at a crawled URL.
 	/// </summary>
 
 	public partial class MacroscopeDocument : Macroscope
@@ -47,6 +48,8 @@ namespace SEOMacroscope
 		string Url;
 		int Timeout;
 
+		string Checksum;
+		
 		Boolean IsExternal;
 		
 		Boolean IsRedirect;
@@ -77,8 +80,9 @@ namespace SEOMacroscope
 		string ContentEncoding;
 
 		string Locale;
+		Encoding CharSet;
 		string CharacterSet;
-		
+
 		long Duration;
 
 		DateTime DateServer;
@@ -120,7 +124,7 @@ namespace SEOMacroscope
 		public MacroscopeDocument ( string sUrl )
 		{
 
-			SuppressDebugMsg = true;
+			SuppressDebugMsg = false;
 			
 			IsDirty = true;
 			
@@ -152,7 +156,10 @@ namespace SEOMacroscope
 			DocumentType = MacroscopeConstants.DocumentType.BINARY;
 
 			ContentEncoding = "";
+			
 			Locale = null;
+			CharSet = null;
+			CharacterSet = null;
 
 			DateServer = new DateTime ();
 			DateModified = new DateTime ();
@@ -1284,6 +1291,14 @@ namespace SEOMacroscope
 						}
 					}
 
+				}
+
+				// Probe Character Set
+				// TODO: implement this
+				if( sHeader.ToLower().Equals( "content-type" ) )
+				{
+					string sCharSet = "";
+					this.CharSet = null;
 				}
 
 			}
