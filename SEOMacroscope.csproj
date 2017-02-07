@@ -211,6 +211,7 @@
       <LastGenOutput>MacroscopePreferences.Designer.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.resx">

@@ -499,14 +499,14 @@ namespace SEOMacroscope
 			// 
 			this.macroscopeOverviewTabPanelInstance.Location = new System.Drawing.Point(10, 10);
 			this.macroscopeOverviewTabPanelInstance.Name = "macroscopeOverviewTabPanelInstance";
-			this.macroscopeOverviewTabPanelInstance.Size = new System.Drawing.Size(200, 200);
+			this.macroscopeOverviewTabPanelInstance.Size = new System.Drawing.Size(400, 200);
 			this.macroscopeOverviewTabPanelInstance.TabIndex = 0;
 			// 
 			// macroscopeDocumentDetailsInstance
 			// 
 			this.macroscopeDocumentDetailsInstance.Location = new System.Drawing.Point(10, 10);
 			this.macroscopeDocumentDetailsInstance.Name = "macroscopeDocumentDetailsInstance";
-			this.macroscopeDocumentDetailsInstance.Size = new System.Drawing.Size(200, 200);
+			this.macroscopeDocumentDetailsInstance.Size = new System.Drawing.Size(400, 200);
 			this.macroscopeDocumentDetailsInstance.TabIndex = 0;
 			// 
 			// macroscopeSiteStructurePanelInstance
@@ -527,7 +527,9 @@ namespace SEOMacroscope
 			this.MainMenuStrip = this.menuStripMain;
 			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "MacroscopeMainForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MacroscopeMainForm";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CallbackFormClosing);
 			this.menuStripMain.ResumeLayout(false);
 			this.menuStripMain.PerformLayout();

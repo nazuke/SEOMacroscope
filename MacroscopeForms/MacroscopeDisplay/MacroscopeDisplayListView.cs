@@ -192,6 +192,31 @@ namespace SEOMacroscope
 				Cursor.Current = Cursors.Default;
 			}
 		}
+		
+		/**************************************************************************/
+				
+		public void RefreshData ( MacroscopeDocumentCollection DocCollection, string sUrlFragment )
+		{
+			if( this.MainForm.InvokeRequired )
+			{
+				this.MainForm.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							Cursor.Current = Cursors.WaitCursor;
+							this.RenderListView( DocCollection, sUrlFragment );
+							Cursor.Current = Cursors.Default;
+						}
+					)
+				);
+			}
+			else
+			{
+				Cursor.Current = Cursors.WaitCursor;
+				this.RenderListView( DocCollection, sUrlFragment );
+				Cursor.Current = Cursors.Default;
+			}
+		}
 
 		/** Render Entire DocCollection *******************************************/
 
@@ -236,8 +261,25 @@ namespace SEOMacroscope
 			foreach( string sUrl in DocCollection.DocumentKeys() )
 			{
 				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-				if( msDoc.GetDocumentType() == DocumentType )
+				if( 
+					( msDoc.GetDocumentType() == DocumentType )
+					|| ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
 				{
+					this.RenderListView( msDoc, sUrl );
+				}
+			}
+		}
+
+		/** Render DocCollection Filtered by URL Fragment *************************/
+
+		public void RenderListView ( MacroscopeDocumentCollection DocCollection, string sUrlFragment )
+		{
+			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+			foreach( string sUrl in DocCollection.DocumentKeys() )
+			{
+				if( sUrl.IndexOf( sUrlFragment ) >= 0 )
+				{
+					MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 					this.RenderListView( msDoc, sUrl );
 				}
 			}

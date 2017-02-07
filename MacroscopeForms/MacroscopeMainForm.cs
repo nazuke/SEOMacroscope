@@ -151,14 +151,21 @@ namespace SEOMacroscope
 			
 			this.macroscopeOverviewTabPanelInstance.Dock = DockStyle.Fill;
 
-			// Events
+			// Events --------------------------------------------------------------//
 			
 			this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
 			
+			// listViewStructure
 			this.macroscopeOverviewTabPanelInstance.listViewStructure.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Click += this.CallbackStructureButtonShowAll;
+			foreach( ToolStripDropDownItem ddItem in this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.DropDownItems )
+			{
+				ddItem.Click += this.CallbackStructureDocumentTypesFilterMenuItemClick;
+			}
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.KeyUp += this.CallbackSearchTextBoxSearchUrlKeyUp;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
-			
+
+			// treeViewHierarchy etc...
 			this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.NodeMouseClick += this.CallbackHierarchyNodeMouseClick;
 			this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewHrefLang.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
@@ -175,13 +182,8 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewHistory.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
+			// listViewSearchCollection
 			this.macroscopeOverviewTabPanelInstance.listViewSearchCollection.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-
-			foreach( ToolStripDropDownItem ddItem in this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.DropDownItems )
-			{
-				ddItem.Click += this.CallbackSearchCollectionDocumentTypesFilterMenuItemClick;
-			}
-
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Click += this.CallbackSearchCollectionButtonClear;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.KeyUp += this.CallbackSearchCollectionTextBoxSearchKeyUp;
 
@@ -1099,66 +1101,100 @@ namespace SEOMacroscope
 
 		}
 
-		/** STRUCTURE OVERVIEW PANEL TOOL STRIP CALLBACKS ******************************************/
+		/** STRUCTURE OVERVIEW PANEL TOOL STRIP CALLBACKS *************************/
 
+		void CallbackStructureDocumentTypesFilterMenuItemClick ( object sender, EventArgs e )
+		{
+			ToolStripDropDownItem FilterMenuItem = ( ToolStripDropDownItem )sender;
+			DebugMsg( string.Format( "CallbackSearchCollectionDocumentTypesFilterMenuItemClick: {0}", FilterMenuItem.Tag ) );
+			MacroscopeConstants.DocumentType DocumentType = MacroscopeConstants.DocumentType.ALL;
+			switch( FilterMenuItem.Tag.ToString() )
+			{
+				case "ALL":
+					DocumentType = MacroscopeConstants.DocumentType.ALL;
+					break;
+				case "HTML":
+					DocumentType = MacroscopeConstants.DocumentType.HTML;
+					break;
+				case "CSS":
+					DocumentType = MacroscopeConstants.DocumentType.CSS;
+					break;
+				case "JAVASCRIPT":
+					DocumentType = MacroscopeConstants.DocumentType.JAVASCRIPT;
+					break;
+				case "IMAGE":
+					DocumentType = MacroscopeConstants.DocumentType.IMAGE;
+					break;
+				case "PDF":
+					DocumentType = MacroscopeConstants.DocumentType.PDF;
+					break;
+				case "AUDIO":
+					DocumentType = MacroscopeConstants.DocumentType.AUDIO;
+					break;
+				case "VIDEO":
+					DocumentType = MacroscopeConstants.DocumentType.VIDEO;
+					break;
+				case "SITEMAPXML":
+					DocumentType = MacroscopeConstants.DocumentType.SITEMAPXML;
+					break;
+				case "MISC":
+					DocumentType = MacroscopeConstants.DocumentType.BINARY;
+					break;
+			}
+			this.msDisplayStructure.ClearData();
+			this.msDisplayStructure.RefreshData(
+				this.JobMaster.GetDocCollection(),
+				DocumentType
+			);
+		}
+		
 		void CallbackStructureButtonShowAll ( object sender, EventArgs e )
 		{
-
 			this.msDisplayStructure.ClearData();
-			
 			this.msDisplayStructure.RefreshData(
 				this.JobMaster.GetDocCollection()
 			);
+		}
 
+		void CallbackSearchTextBoxSearchUrlKeyUp ( object sender, KeyEventArgs e )
+		{
+			ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+			switch( e.KeyCode )
+			{
+				case Keys.Return:
+					string sUrlFragment = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
+					DebugMsg( string.Format( "CallbackSearchTextBoxSearchUrlKeyUp: {0}", sUrlFragment ) );
+					if( sUrlFragment.Length > 0 )
+					{
+						SearchTextBox.Text = sUrlFragment;
+						this.msDisplayStructure.ClearData();
+						this.msDisplayStructure.RefreshData( this.JobMaster.GetDocCollection(), sUrlFragment );
+					}
+					break;
+			}
 		}
 
 		void CallbackSearchTextBoxSearchKeyUp ( object sender, KeyEventArgs e )
 		{
-
 			ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
-
 			switch( e.KeyCode )
 			{
-
 				case Keys.Return:
-					
 					DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
-
 					MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
-
-					
 					string sText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
-
 					if( sText.Length > 0 )
 					{
-						
 						SearchTextBox.Text = sText;
-						
 						List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
 							                                   MacroscopeSearchIndex.SearchMode.AND,
 							                                   sText.Split( ' ' )
 						                                   );
-
 						this.msDisplayStructure.ClearData();
-
 						this.msDisplayStructure.RefreshData( DocList );
-						
 					}
-					
 					break;
-					
-				case Keys.Escape:
-					
-					DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "ESCAPE" ) );
-					SearchTextBox.Text = "";
-					
-					break;
-
-				default:
-					break;
-
 			}
-
 		}
 
 		/** HIERARCHY PANEL CALLBACKS *********************************************/
@@ -1189,49 +1225,6 @@ namespace SEOMacroscope
 		}
 
 		/** SEARCH COLLECTION PANEL CALLBACKS *************************************/
-
-		void CallbackSearchCollectionDocumentTypesFilterMenuItemClick ( object sender, EventArgs e )
-		{
-	
-			ToolStripDropDownItem FilterMenuItem = ( ToolStripDropDownItem )sender;
-
-			DebugMsg( string.Format( "CallbackSearchCollectionDocumentTypesFilterMenuItemClick: {0}", FilterMenuItem.Tag ) );
-
-			MacroscopeConstants.DocumentType DocumentType = MacroscopeConstants.DocumentType.ALL;
-			
-			switch( FilterMenuItem.Tag.ToString() )
-			{
-				case "ALL":
-					DocumentType = MacroscopeConstants.DocumentType.ALL;
-					break;
-				case "HTML":
-					DocumentType = MacroscopeConstants.DocumentType.HTML;
-					break;
-				case "CSS":
-					DocumentType = MacroscopeConstants.DocumentType.CSS;
-					break;
-				case "JAVASCRIPT":
-					DocumentType = MacroscopeConstants.DocumentType.JAVASCRIPT;
-					break;
-				case "IMAGE":
-					DocumentType = MacroscopeConstants.DocumentType.IMAGE;
-					break;
-				case "PDF":
-					DocumentType = MacroscopeConstants.DocumentType.PDF;
-					break;
-				case "MISC":
-					DocumentType = MacroscopeConstants.DocumentType.BINARY;
-					break;
-			}
-
-			this.msDisplayStructure.ClearData();
-			
-			this.msDisplayStructure.RefreshData(
-				this.JobMaster.GetDocCollection(),
-				DocumentType
-			);
-
-		}
 
 		void CallbackSearchCollectionButtonClear ( object sender, EventArgs e )
 		{
@@ -1374,10 +1367,11 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = true;
 			
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
 
-			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
@@ -1395,10 +1389,11 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = false;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
-			
-			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = false;
+
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
 			
@@ -1416,10 +1411,11 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = false;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
-					
-			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = false;
+
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
 			
@@ -1436,10 +1432,11 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = true;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
 
-			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 			
@@ -1456,10 +1453,11 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = true;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
-						
-			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = true;
+
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 			
@@ -1477,10 +1475,11 @@ namespace SEOMacroscope
 
 			this.toolStripButtonRetryBrokenLinks.Enabled = true;
 			
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
+			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
 
-			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 			
