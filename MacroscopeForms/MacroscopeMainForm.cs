@@ -101,7 +101,7 @@ namespace SEOMacroscope
 			this.SemaphoreTabPages = new Semaphore ( 0, 1 );
 			this.SemaphoreTabPages.Release( 1 );
 			
-			//StartProgressBarScanTimer();
+			StartProgressBarScanTimer();
 			StartTabPageTimer();
 			StartSiteOverviewTimer();
 			StartStatusBarTimer();
@@ -218,7 +218,7 @@ namespace SEOMacroscope
 				this.ThreadScanner.Abort();
 			}
 
-			//this.StopProgressBarScanTimer();
+			this.StopProgressBarScanTimer();
 			this.StopTabPageTimer();
 			this.StopSiteOverviewTimer();
 			this.StopStatusBarTimer();
@@ -1510,9 +1510,30 @@ namespace SEOMacroscope
 
 			if( this.JobMaster != null )
 			{
-				int iUrlsInHistory = this.JobMaster.CountHistory();
-				int iUrlsInHistoryUnseen = this.JobMaster.CountHistoryUnseen();
-				iPercentage = ( int )( ( 100 / iUrlsInHistory ) * iUrlsInHistoryUnseen );
+
+				List<decimal> Counts = this.JobMaster.GetProgress();
+				decimal iTotal = Counts[ 0 ];
+				decimal iProcessed = Counts[ 1 ];
+				decimal iQueued = Counts[ 2 ];
+				iPercentage = ( int )( ( 100 / iTotal ) * iProcessed );
+
+				/*
+				if( iPercentage < 0 )
+				{
+					iPercentage = 0;
+				}
+				else
+				if( iPercentage > 100 )
+				{
+					iPercentage = 100;
+				}
+				*/
+				
+				DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
+				DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
+				DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
+				DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
+
 			}
 
 			DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
@@ -1574,7 +1595,35 @@ namespace SEOMacroscope
 			}
 		}
 
-		/**************************************************************************/
+		/** Operation Toolbar Callbacks *******************************************/
+
+		void CallbackDocumentTypesFilterMenuItemClick ( object sender, EventArgs e )
+		{
+	
+			ToolStripMenuItem FilterMenuItem = ( ToolStripMenuItem )sender;
+
+			DebugMsg( string.Format( "CallbackDocumentTypesFilterMenuItemClick: {0}", FilterMenuItem.Tag ) );
+
+			switch( FilterMenuItem.Tag.ToString() )
+			{
+				case "ALL":
+					break;
+				case "HTML":
+					break;
+				case "CSS":
+					break;
+				case "JAVASCRIPT":
+					break;
+				case "IMAGE":
+					break;
+				case "PDF":
+					break;
+
+				case "MISC":
+					break;
+			}
+
+		}
 
 		void CallbackRetryBrokenLinksClick ( object sender, EventArgs e )
 		{

@@ -406,43 +406,57 @@ namespace SEOMacroscope
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
 			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.allDocumentTypesToolStripMenuItem.Tag = "ALL";
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
+			this.allDocumentTypesToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
 			// 
 			// HtmlToolStripMenuItem
 			// 
 			this.HtmlToolStripMenuItem.Name = "HtmlToolStripMenuItem";
 			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.HtmlToolStripMenuItem.Tag = "HTML";
 			this.HtmlToolStripMenuItem.Text = "HTML";
+			this.HtmlToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
 			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.stylesheetsToolStripMenuItem.Tag = "CSS";
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
+			this.stylesheetsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
 			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.javaScriptsToolStripMenuItem.Tag = "JAVASCRIPT";
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
+			this.javaScriptsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
 			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.imagesToolStripMenuItem.Tag = "IMAGE";
 			this.imagesToolStripMenuItem.Text = "Images";
+			this.imagesToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
 			// 
 			// PdfsToolStripMenuItem
 			// 
 			this.PdfsToolStripMenuItem.Name = "PdfsToolStripMenuItem";
 			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.PdfsToolStripMenuItem.Tag = "PDF";
 			this.PdfsToolStripMenuItem.Text = "PDFs";
+			this.PdfsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
 			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.miscellaneousToolStripMenuItem.Tag = "MISC";
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
+			this.miscellaneousToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
 			// 
 			// toolStripSeparator2
 			// 
@@ -535,8 +549,9 @@ namespace SEOMacroscope
 			// ProgressBarScan
 			// 
 			this.ProgressBarScan.CausesValidation = false;
+			this.ProgressBarScan.Margin = new System.Windows.Forms.Padding(10, 8, 10, 8);
 			this.ProgressBarScan.Name = "ProgressBarScan";
-			this.ProgressBarScan.Size = new System.Drawing.Size(150, 27);
+			this.ProgressBarScan.Size = new System.Drawing.Size(150, 14);
 			this.ProgressBarScan.Step = 1;
 			// 
 			// splitContainerLeftAndRightViews

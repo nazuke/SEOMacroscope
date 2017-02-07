@@ -61,8 +61,8 @@ namespace SEOMacroscope
 
 		Dictionary<string,Boolean> History;
 
-		Dictionary<string,Boolean> ProcessedList;
-				
+		Dictionary<string,Dictionary<string,Boolean>> Progress;
+
 		Dictionary<string,string> Locales;
 
 		Dictionary<string,Boolean> BlockedByRobots;
@@ -136,7 +136,12 @@ namespace SEOMacroscope
 
 			this.History = new Dictionary<string, bool> ( 4096 );
 
-			ProcessedList = new Dictionary<string,Boolean> ( 4096 );
+			{
+				this.Progress = new Dictionary<string,Dictionary<string,Boolean>> ();
+				this.Progress.Add( "total", new Dictionary<string,Boolean> ( 4096 ) );
+				this.Progress.Add( "processed", new Dictionary<string,Boolean> ( 4096 ) );
+				this.Progress.Add( "queued", new Dictionary<string,Boolean> ( 4096 ) );
+			}
 
 			this.Locales = new Dictionary<string,string> ( 32 );
 			
@@ -601,17 +606,6 @@ namespace SEOMacroscope
 				}
 			}
 		}
-		
-		public void AddHistoryItem ( string sUrl, Boolean bSeen )
-		{
-			if( this.History.ContainsKey( sUrl ) )
-			{
-				lock( this.History )
-				{
-					this.History[ sUrl ] = bSeen;
-				}
-			}
-		}
 
 		public void ResetHistoryItem ( string sUrl )
 		{
@@ -660,16 +654,54 @@ namespace SEOMacroscope
 			return( this.History.Count );
 		}
 
-		public int CountHistoryUnseen ()
+		/** Progress **************************************************************/
+
+		public void AddToProgress ( string sUrl )
 		{
-			int iCount = 0;
-			Dictionary<string,Boolean> HistoryCopy = this.GetHistory();
-			foreach( string sKey in HistoryCopy.Keys )
+			lock( this.Progress )
 			{
-				if( !this.History[ sKey ] )
-					iCount++;
+				if( !this.Progress[ "total" ].ContainsKey( sUrl ) )
+				{
+					this.Progress[ "total" ].Add( sUrl, true );
+					if( !this.Progress[ "queued" ].ContainsKey( sUrl ) )
+					{
+						this.Progress[ "queued" ].Add( sUrl, true );
+					}
+				}
 			}
-			return( iCount );
+		}
+
+		public void UpdateProgress ( string sUrl, Boolean bState )
+		{
+			if( bState )
+			{
+				lock( this.Progress )
+				{
+					if( this.Progress[ "total" ].ContainsKey( sUrl ) )
+					{
+						if( !this.Progress[ "processed" ].ContainsKey( sUrl ) )
+						{
+							this.Progress[ "processed" ].Add( sUrl, true );
+							if( this.Progress[ "queued" ].ContainsKey( sUrl ) )
+							{
+								this.Progress[ "queued" ].Remove( sUrl );
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public List<decimal> GetProgress ()
+		{
+			List<decimal> Counts = new List<decimal> ( 3 );
+			lock( this.Progress )
+			{
+				Counts.Add( this.Progress[ "total" ].Count );			
+				Counts.Add( this.Progress[ "processed" ].Count );			
+				Counts.Add( this.Progress[ "queued" ].Count );			
+			}
+			return( Counts );
 		}
 
 		/** Document Collection ***************************************************/

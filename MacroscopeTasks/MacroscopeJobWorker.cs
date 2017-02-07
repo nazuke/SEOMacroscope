@@ -129,8 +129,6 @@ namespace SEOMacroscope
 
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sUrl );
 			Boolean bResult = false;
-			
-			//this.AllowedHosts.DumpAllowedHosts();
 
 			if( !this.JobMaster.GetRobots().ApplyRobotRule( sUrl ) )
 			{
@@ -239,8 +237,6 @@ namespace SEOMacroscope
 		void ProcessOutlinks ( MacroscopeDocument msDoc )
 		{
 
-			// TODO: add this.SameSite check
-
 			if(
 				( this.JobMaster.GetRuntimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
 				|| ( this.JobMaster.GetRuntimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
@@ -289,7 +285,11 @@ namespace SEOMacroscope
 
 				if( bProceed )
 				{
+
 					this.JobMaster.AddUrlQueueItem( Outlink.AbsoluteUrl );
+
+					this.JobMaster.AddToProgress( Outlink.AbsoluteUrl );
+
 				}
 
 			}
