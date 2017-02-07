@@ -377,7 +377,11 @@ namespace SEOMacroscope
 		}
 
 		/** Document Type Methods *************************************************/
-		
+
+		public MacroscopeConstants.DocumentType GetDocumentType(){
+			return( this.DocumentType );
+		}
+
 		public void SetIsBinary ()
 		{
 			this.DocumentType = MacroscopeConstants.DocumentType.BINARY;

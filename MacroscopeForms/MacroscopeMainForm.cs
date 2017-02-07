@@ -176,6 +176,12 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.listViewHistory.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
 			this.macroscopeOverviewTabPanelInstance.listViewSearchCollection.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+
+			foreach( ToolStripDropDownItem ddItem in this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.DropDownItems )
+			{
+				ddItem.Click += this.CallbackSearchCollectionDocumentTypesFilterMenuItemClick;
+			}
+
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Click += this.CallbackSearchCollectionButtonClear;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.KeyUp += this.CallbackSearchCollectionTextBoxSearchKeyUp;
 
@@ -1184,6 +1190,49 @@ namespace SEOMacroscope
 
 		/** SEARCH COLLECTION PANEL CALLBACKS *************************************/
 
+		void CallbackSearchCollectionDocumentTypesFilterMenuItemClick ( object sender, EventArgs e )
+		{
+	
+			ToolStripDropDownItem FilterMenuItem = ( ToolStripDropDownItem )sender;
+
+			DebugMsg( string.Format( "CallbackSearchCollectionDocumentTypesFilterMenuItemClick: {0}", FilterMenuItem.Tag ) );
+
+			MacroscopeConstants.DocumentType DocumentType = MacroscopeConstants.DocumentType.ALL;
+			
+			switch( FilterMenuItem.Tag.ToString() )
+			{
+				case "ALL":
+					DocumentType = MacroscopeConstants.DocumentType.ALL;
+					break;
+				case "HTML":
+					DocumentType = MacroscopeConstants.DocumentType.HTML;
+					break;
+				case "CSS":
+					DocumentType = MacroscopeConstants.DocumentType.CSS;
+					break;
+				case "JAVASCRIPT":
+					DocumentType = MacroscopeConstants.DocumentType.JAVASCRIPT;
+					break;
+				case "IMAGE":
+					DocumentType = MacroscopeConstants.DocumentType.IMAGE;
+					break;
+				case "PDF":
+					DocumentType = MacroscopeConstants.DocumentType.PDF;
+					break;
+				case "MISC":
+					DocumentType = MacroscopeConstants.DocumentType.BINARY;
+					break;
+			}
+
+			this.msDisplayStructure.ClearData();
+			
+			this.msDisplayStructure.RefreshData(
+				this.JobMaster.GetDocCollection(),
+				DocumentType
+			);
+
+		}
+
 		void CallbackSearchCollectionButtonClear ( object sender, EventArgs e )
 		{
 			this.msDisplaySearchCollection.ClearData();
@@ -1328,6 +1377,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
@@ -1348,6 +1398,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
 			
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
 			
@@ -1368,6 +1419,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
 					
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
 			
@@ -1387,6 +1439,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 			
@@ -1406,6 +1459,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
 						
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 			
@@ -1426,6 +1480,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
 
+			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionFilterMenu.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
 			this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 			
@@ -1596,34 +1651,6 @@ namespace SEOMacroscope
 		}
 
 		/** Operation Toolbar Callbacks *******************************************/
-
-		void CallbackDocumentTypesFilterMenuItemClick ( object sender, EventArgs e )
-		{
-	
-			ToolStripMenuItem FilterMenuItem = ( ToolStripMenuItem )sender;
-
-			DebugMsg( string.Format( "CallbackDocumentTypesFilterMenuItemClick: {0}", FilterMenuItem.Tag ) );
-
-			switch( FilterMenuItem.Tag.ToString() )
-			{
-				case "ALL":
-					break;
-				case "HTML":
-					break;
-				case "CSS":
-					break;
-				case "JAVASCRIPT":
-					break;
-				case "IMAGE":
-					break;
-				case "PDF":
-					break;
-
-				case "MISC":
-					break;
-			}
-
-		}
 
 		void CallbackRetryBrokenLinksClick ( object sender, EventArgs e )
 		{

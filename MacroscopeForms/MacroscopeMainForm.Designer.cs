@@ -52,18 +52,9 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripButton ButtonStart;
 		private System.Windows.Forms.ToolStripButton ButtonStop;
 		private System.Windows.Forms.ToolStripButton ButtonReset;
-		private System.Windows.Forms.ToolStripDropDownButton ToolStripFilters;
-		private System.Windows.Forms.ToolStripMenuItem allDocumentTypesToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem HtmlToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem stylesheetsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem javaScriptsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem imagesToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem PdfsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem miscellaneousToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutSEOMacroscopeToolStripMenuItem;
 		public System.Windows.Forms.ToolStripButton toolStripButtonRetryBrokenLinks;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.SplitContainer splitContainerLeftAndRightViews;
 		public System.Windows.Forms.SplitContainer splitContainerStructureAndDocumentDetails;
 		public SEOMacroscope.MacroscopeOverviewPanel macroscopeOverviewTabPanelInstance;
@@ -127,15 +118,6 @@ namespace SEOMacroscope
 			this.toolStripUrlCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripFound = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripViewControls = new System.Windows.Forms.ToolStrip();
-			this.ToolStripFilters = new System.Windows.Forms.ToolStripDropDownButton();
-			this.allDocumentTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.HtmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.stylesheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.javaScriptsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.imagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.PdfsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.miscellaneousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButtonRetryBrokenLinks = new System.Windows.Forms.ToolStripButton();
 			this.toolStripExecuteControls = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabelStartUrl = new System.Windows.Forms.ToolStripLabel();
@@ -375,93 +357,12 @@ namespace SEOMacroscope
 			// 
 			this.toolStripViewControls.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripViewControls.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.ToolStripFilters,
-			this.toolStripSeparator2,
 			this.toolStripButtonRetryBrokenLinks});
 			this.toolStripViewControls.Location = new System.Drawing.Point(0, 30);
 			this.toolStripViewControls.Name = "toolStripViewControls";
 			this.toolStripViewControls.Size = new System.Drawing.Size(784, 30);
 			this.toolStripViewControls.TabIndex = 5;
 			this.toolStripViewControls.Text = "toolStrip1";
-			// 
-			// ToolStripFilters
-			// 
-			this.ToolStripFilters.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.ToolStripFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.allDocumentTypesToolStripMenuItem,
-			this.HtmlToolStripMenuItem,
-			this.stylesheetsToolStripMenuItem,
-			this.javaScriptsToolStripMenuItem,
-			this.imagesToolStripMenuItem,
-			this.PdfsToolStripMenuItem,
-			this.miscellaneousToolStripMenuItem});
-			this.ToolStripFilters.Image = ((System.Drawing.Image)(resources.GetObject("ToolStripFilters.Image")));
-			this.ToolStripFilters.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.ToolStripFilters.Name = "ToolStripFilters";
-			this.ToolStripFilters.Size = new System.Drawing.Size(46, 27);
-			this.ToolStripFilters.Text = "Filter";
-			this.ToolStripFilters.ToolTipText = "Filter results";
-			// 
-			// allDocumentTypesToolStripMenuItem
-			// 
-			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.allDocumentTypesToolStripMenuItem.Tag = "ALL";
-			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
-			this.allDocumentTypesToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
-			// 
-			// HtmlToolStripMenuItem
-			// 
-			this.HtmlToolStripMenuItem.Name = "HtmlToolStripMenuItem";
-			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.HtmlToolStripMenuItem.Tag = "HTML";
-			this.HtmlToolStripMenuItem.Text = "HTML";
-			this.HtmlToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
-			// 
-			// stylesheetsToolStripMenuItem
-			// 
-			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.stylesheetsToolStripMenuItem.Tag = "CSS";
-			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
-			this.stylesheetsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
-			// 
-			// javaScriptsToolStripMenuItem
-			// 
-			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.javaScriptsToolStripMenuItem.Tag = "JAVASCRIPT";
-			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
-			this.javaScriptsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
-			// 
-			// imagesToolStripMenuItem
-			// 
-			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.imagesToolStripMenuItem.Tag = "IMAGE";
-			this.imagesToolStripMenuItem.Text = "Images";
-			this.imagesToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
-			// 
-			// PdfsToolStripMenuItem
-			// 
-			this.PdfsToolStripMenuItem.Name = "PdfsToolStripMenuItem";
-			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.PdfsToolStripMenuItem.Tag = "PDF";
-			this.PdfsToolStripMenuItem.Text = "PDFs";
-			this.PdfsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
-			// 
-			// miscellaneousToolStripMenuItem
-			// 
-			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.miscellaneousToolStripMenuItem.Tag = "MISC";
-			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
-			this.miscellaneousToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentTypesFilterMenuItemClick);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 30);
 			// 
 			// toolStripButtonRetryBrokenLinks
 			// 

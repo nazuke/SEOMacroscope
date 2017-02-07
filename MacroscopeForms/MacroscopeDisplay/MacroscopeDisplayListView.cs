@@ -168,6 +168,31 @@ namespace SEOMacroscope
 			}
 		}
 
+		/**************************************************************************/
+
+		public void RefreshData ( MacroscopeDocumentCollection DocCollection, MacroscopeConstants.DocumentType DocumentType )
+		{
+			if( this.MainForm.InvokeRequired )
+			{
+				this.MainForm.Invoke(
+					new MethodInvoker (
+						delegate
+						{
+							Cursor.Current = Cursors.WaitCursor;
+							this.RenderListView( DocCollection, DocumentType );
+							Cursor.Current = Cursors.Default;
+						}
+					)
+				);
+			}
+			else
+			{
+				Cursor.Current = Cursors.WaitCursor;
+				this.RenderListView( DocCollection, DocumentType );
+				Cursor.Current = Cursors.Default;
+			}
+		}
+
 		/** Render Entire DocCollection *******************************************/
 
 		public void RenderListView ( MacroscopeDocumentCollection DocCollection )
@@ -200,6 +225,21 @@ namespace SEOMacroscope
 				MacroscopeDocument msDoc = DocList[ i ];
 				string sUrl = msDoc.GetUrl();
 				this.RenderListView( msDoc, sUrl );
+			}
+		}
+
+		/** Render Filtered DocCollection *******************************************/
+
+		public void RenderListView ( MacroscopeDocumentCollection DocCollection, MacroscopeConstants.DocumentType DocumentType )
+		{
+			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+			foreach( string sUrl in DocCollection.DocumentKeys() )
+			{
+				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+				if( msDoc.GetDocumentType() == DocumentType )
+				{
+					this.RenderListView( msDoc, sUrl );
+				}
 			}
 		}
 

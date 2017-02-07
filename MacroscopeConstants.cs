@@ -82,6 +82,7 @@ namespace SEOMacroscope
 
 		public enum DocumentType
 		{
+			ALL = 0,
 			BINARY = 1,
 			HTML = 2,
 			CSS = 3,
@@ -111,7 +112,7 @@ namespace SEOMacroscope
 			SITEMAPXML = 0,
 			REDIRECT = 1,
 			LINK = 2,
-			STYLESHEET= 3,
+			STYLESHEET = 3,
 			CANONICAL = 4,
 			HREFLANG = 5,
 			AHREF = 6,
