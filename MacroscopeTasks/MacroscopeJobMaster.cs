@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace SEOMacroscope
@@ -67,6 +68,9 @@ namespace SEOMacroscope
 
 		Dictionary<string,Boolean> BlockedByRobots;
 
+		List<string> IncludeUrlPatternsList;
+		List<string> ExcludeUrlPatternsList;
+		
 		/**************************************************************************/
 
 		public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode )
@@ -147,6 +151,9 @@ namespace SEOMacroscope
 			
 			this.Robots = new MacroscopeRobots ();
 			this.BlockedByRobots = new Dictionary<string,Boolean> ();
+
+			IncludeUrlPatternsList = new List<string> ( 128 );
+			ExcludeUrlPatternsList = new List<string> ( 128 );
 
 		}
 
@@ -803,7 +810,84 @@ namespace SEOMacroscope
 			return( dicCopy );
 		}
 
+		/** Include URL Patterns **************************************************/
 
+		public void LoadIncludeUrlPatterns ( string IncludeUrlPatternsText )
+		{
+		
+			this.IncludeUrlPatternsList.Clear();
+		
+			foreach( string sLine in Regex.Split( IncludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
+			{
+				DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", sLine ) );
+				if( sLine.Length > 0 )
+				{
+					this.IncludeUrlPatternsList.Add( sLine );
+				}
+			}
+
+		}
+
+		public Boolean UseIncludeUrlPatterns ()
+		{
+			if( this.IncludeUrlPatternsList.Count > 0 )
+			{
+				return( true );
+			}
+			else
+			{
+				return( false );
+			}
+		}
+
+		public Boolean MatchesIncludeUrlPattern ( string Url )
+		{
+			Boolean bMatches = false;
+
+			// TODO: Implement this.
+
+			return( bMatches );
+		}
+
+		/** Exclude URL Patterns **************************************************/
+
+		public void LoadExcludeUrlPatterns ( string ExcludeUrlPatternsText )
+		{
+			
+			this.ExcludeUrlPatternsList.Clear();
+
+			foreach( string sLine in Regex.Split( ExcludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
+			{
+				DebugMsg( string.Format( "LoadExcludeUrlPatterns: {0}", sLine ) );
+				if( sLine.Length > 0 )
+				{
+					this.ExcludeUrlPatternsList.Add( sLine );
+				}
+			}
+
+		}
+
+		public Boolean UseExcludeUrlPatterns ()
+		{
+			if( this.ExcludeUrlPatternsList.Count > 0 )
+			{
+				return( true );
+			}
+			else
+			{
+				return( false );
+			}
+		}
+
+		public Boolean MatchesExcludeUrlPattern ( string Url )
+		{
+			Boolean bMatches = false;
+
+			// TODO: Implement this.
+
+			return( bMatches );
+		}
+		
 		/**************************************************************************/
 				
 	}

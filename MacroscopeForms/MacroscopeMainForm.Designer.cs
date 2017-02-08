@@ -232,12 +232,14 @@ namespace SEOMacroscope
 			this.includeURLPatternsToolStripMenuItem.Name = "includeURLPatternsToolStripMenuItem";
 			this.includeURLPatternsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.includeURLPatternsToolStripMenuItem.Text = "Include URL Patterns";
+			this.includeURLPatternsToolStripMenuItem.Click += new System.EventHandler(this.CallbackIncludeUrlItemsClick);
 			// 
 			// excludeURLPatternsToolStripMenuItem
 			// 
 			this.excludeURLPatternsToolStripMenuItem.Name = "excludeURLPatternsToolStripMenuItem";
 			this.excludeURLPatternsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.excludeURLPatternsToolStripMenuItem.Text = "Exclude URL Patterns";
+			this.excludeURLPatternsToolStripMenuItem.Click += new System.EventHandler(this.CallbackExcludeUrlItemsClick);
 			// 
 			// crawlParentDirectoriesToolStripMenuItem
 			// 

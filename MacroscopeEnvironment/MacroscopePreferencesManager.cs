@@ -184,7 +184,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		static void SetDefaultValues ()
+		public static void SetDefaultValues ()
 		{
 
 			// WebProxy Options

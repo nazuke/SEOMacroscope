@@ -210,6 +210,9 @@ namespace SEOMacroscope
 			this.javaScriptsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.imagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.PdfsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.audioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.sitemapXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.miscellaneousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripStructureButtonShowAll = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -341,9 +344,6 @@ namespace SEOMacroscope
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.audioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.sitemapXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
@@ -592,6 +592,27 @@ namespace SEOMacroscope
 			this.PdfsToolStripMenuItem.Tag = "PDF";
 			this.PdfsToolStripMenuItem.Text = "PDFs";
 			// 
+			// audioToolStripMenuItem
+			// 
+			this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
+			this.audioToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.audioToolStripMenuItem.Tag = "AUDIO";
+			this.audioToolStripMenuItem.Text = "Audio Files";
+			// 
+			// videoToolStripMenuItem
+			// 
+			this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
+			this.videoToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.videoToolStripMenuItem.Tag = "VIDEO";
+			this.videoToolStripMenuItem.Text = "Video Files";
+			// 
+			// sitemapXMLToolStripMenuItem
+			// 
+			this.sitemapXMLToolStripMenuItem.Name = "sitemapXMLToolStripMenuItem";
+			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.sitemapXMLToolStripMenuItem.Tag = "SITEMAPXML";
+			this.sitemapXMLToolStripMenuItem.Text = "XML Sitemaps";
+			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
@@ -815,6 +836,7 @@ namespace SEOMacroscope
 			this.listViewCanonicalAnalysis.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.CanonicalAnalysisUrl,
 			this.CanonicalAnalysisCanonical});
+			this.listViewCanonicalAnalysis.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewCanonicalAnalysis.FullRowSelect = true;
 			this.listViewCanonicalAnalysis.GridLines = true;
 			this.listViewCanonicalAnalysis.Location = new System.Drawing.Point(10, 10);
@@ -848,6 +870,7 @@ namespace SEOMacroscope
 			// 
 			// listViewHrefLang
 			// 
+			this.listViewHrefLang.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewHrefLang.FullRowSelect = true;
 			this.listViewHrefLang.GridLines = true;
 			this.listViewHrefLang.Location = new System.Drawing.Point(10, 10);
@@ -1541,6 +1564,7 @@ namespace SEOMacroscope
 			this.listViewRobots.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderRobots,
 			this.columnHeaderRobotsBlocked});
+			this.listViewRobots.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewRobots.GridLines = true;
 			this.listViewRobots.Location = new System.Drawing.Point(20, 20);
 			this.listViewRobots.Name = "listViewRobots";
@@ -1575,6 +1599,7 @@ namespace SEOMacroscope
 			this.listViewSitemaps.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderSitemapUrl,
 			this.columnHeaderSitemapLinks});
+			this.listViewSitemaps.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewSitemaps.GridLines = true;
 			this.listViewSitemaps.Location = new System.Drawing.Point(20, 20);
 			this.listViewSitemaps.Name = "listViewSitemaps";
@@ -1702,27 +1727,6 @@ namespace SEOMacroscope
 			// 
 			this.HistoryVisited.Text = "Visited";
 			this.HistoryVisited.Width = 100;
-			// 
-			// audioToolStripMenuItem
-			// 
-			this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
-			this.audioToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.audioToolStripMenuItem.Tag = "AUDIO";
-			this.audioToolStripMenuItem.Text = "Audio Files";
-			// 
-			// videoToolStripMenuItem
-			// 
-			this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
-			this.videoToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.videoToolStripMenuItem.Tag = "VIDEO";
-			this.videoToolStripMenuItem.Text = "Video Files";
-			// 
-			// sitemapXMLToolStripMenuItem
-			// 
-			this.sitemapXMLToolStripMenuItem.Name = "sitemapXMLToolStripMenuItem";
-			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.sitemapXMLToolStripMenuItem.Tag = "SITEMAPXML";
-			this.sitemapXMLToolStripMenuItem.Text = "XML Sitemaps";
 			// 
 			// MacroscopeOverviewPanel
 			// 

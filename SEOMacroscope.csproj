@@ -146,6 +146,14 @@
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.Designer.cs">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.Designer.cs">
+      <DependentUpon>MacroscopeExcludeUrlPatterns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeIncludeUrlPatterns.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeIncludeUrlPatterns.Designer.cs">
+      <DependentUpon>MacroscopeIncludeUrlPatterns.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeHosts\MacroscopeAllowedHosts.cs" />
     <Compile Include="MacroscopeHosts\MacroscopeDomainWrangler.cs" />
     <Compile Include="MacroscopeHosts\t\TestMacroscopeDomainWrangler.cs" />
@@ -212,6 +220,12 @@
     <EmbeddedResource Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.resx">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.resx">
+      <DependentUpon>MacroscopeExcludeUrlPatterns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeIncludeUrlPatterns.resx">
+      <DependentUpon>MacroscopeIncludeUrlPatterns.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.resx">
       <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,6 +254,7 @@
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
+    <Folder Include="MacroscopeForms\MacroscopeTaskParameters" />
     <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
