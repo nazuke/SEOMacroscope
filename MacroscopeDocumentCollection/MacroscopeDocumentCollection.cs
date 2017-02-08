@@ -49,6 +49,7 @@ namespace SEOMacroscope
 		Dictionary<string,int> StatsDescriptions;
 		Dictionary<string,int> StatsKeywords;
 		Dictionary<string,int> StatsErrors;
+		Dictionary<string,int> StatsChecksums;
 
 		int StatsUrlsInternal;
 		int StatsUrlsExternal;
@@ -81,6 +82,7 @@ namespace SEOMacroscope
 			StatsDescriptions = new Dictionary<string,int> ( 1024 );
 			StatsKeywords = new Dictionary<string,int> ( 1024 );
 			StatsErrors	= new	Dictionary<string,int> ( 32 );
+			StatsChecksums	= new	Dictionary<string,int> ( 1024 );
 
 			StatsUrlsInternal = 0;
 			StatsUrlsExternal = 0;
@@ -334,6 +336,8 @@ namespace SEOMacroscope
 						this.RecalculateStatsKeywords( msDoc );
 						
 						this.RecalculateStatsErrors( msDoc );
+						
+						this.RecalculateStatsChecksums( msDoc );
 
 						this.AddDocumentToSearchIndex( msDoc );
 
@@ -658,6 +662,70 @@ namespace SEOMacroscope
 			
 		}
 
+		/** Checksums *************************************************************/
+
+		void ClearStatsChecksums ()
+		{
+			lock( this.StatsChecksums )
+			{
+				this.StatsChecksums.Clear();
+			}
+		}
+
+		public int GetStatsChecksumCount ( string Checksum )
+		{
+			int Count = 0;
+			lock( this.StatsChecksums )
+			{
+				if( this.StatsChecksums.ContainsKey( Checksum ) )
+				{
+					Count = this.StatsChecksums[ Checksum ];
+				}
+			}
+			return( Count );
+		}
+
+		public Dictionary<string,int> GetStatsChecksumsCount ()
+		{
+			Dictionary<string,int> dicStats = new Dictionary<string,int> ( this.StatsChecksums.Count );
+			lock( this.StatsChecksums )
+			{
+				foreach( string sKey in this.StatsChecksums.Keys )
+				{
+					dicStats.Add( sKey, this.StatsChecksums[ sKey ] );
+				}
+			}
+			return( dicStats );
+		}
+
+		void RecalculateStatsChecksums ( MacroscopeDocument msDoc )
+		{
+
+			string sChecksum = msDoc.GetChecksum();
+		
+			if( sChecksum.Length > 0 )
+			{
+				
+				DebugMsg( string.Format( "RecalculateStatsChecksums: {0}", sChecksum ) );
+
+				lock( this.StatsChecksums )
+				{
+				
+					if( this.StatsChecksums.ContainsKey( sChecksum ) )
+					{
+						this.StatsChecksums[ sChecksum ] = this.StatsChecksums[ sChecksum ] + 1;
+					}
+					else
+					{
+						this.StatsChecksums.Add( sChecksum, 1 );
+					}
+					
+				}
+
+			}
+		
+		}
+
 		/** Hyperlinks In *********************************************************/
 
 		void RecalculateLinksIn ( string sUrlTarget, MacroscopeDocument msDoc )
@@ -700,12 +768,10 @@ namespace SEOMacroscope
 
 		void AddDocumentToSearchIndex ( MacroscopeDocument msDoc )
 		{
-
 			if( msDoc.GetIsHtml() )
 			{
 				this.SearchIndex.AddDocumentToIndex( msDoc );
 			}
-
 		}
 
 		/**************************************************************************/

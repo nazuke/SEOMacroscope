@@ -30,12 +30,8 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-		
-	/// <summary>
-	/// Description of MacroscopeDisplayErrors.
-	/// </summary>
 
-	public class MacroscopeDisplayErrors : MacroscopeDisplayListView
+	public class MacroscopeDisplayUriAnalysis : MacroscopeDisplayListView
 	{
 		
 		/**************************************************************************/
@@ -44,13 +40,13 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 
-		public MacroscopeDisplayErrors ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+		public MacroscopeDisplayUriAnalysis ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
 			: base( MainFormNew, lvListViewNew )
 		{
 
 			MainForm = MainFormNew;
 			lvListView = lvListViewNew;
-			
+						
 			if( MainForm.InvokeRequired )
 			{
 				MainForm.Invoke(
@@ -75,66 +71,8 @@ namespace SEOMacroscope
 		{
 			if( !ListViewConfigured )
 			{
-				
-				//this.lvListView.Sorting = SortOrder.Ascending;	
-				
 				ListViewConfigured = true;
-								
 			}
-		}
-
-		/**************************************************************************/
-
-		public new void RefreshData ( MacroscopeDocumentCollection DocCollection )
-		{
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.RenderListView( DocCollection );
-						}
-					)
-				);
-			}
-			else
-			{
-				this.RenderListView( DocCollection );
-			}
-		}
-
-		/**************************************************************************/
-
-		public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
-		{
-
-			foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
-			{
-
-				Boolean bProceed = false;
-
-				if( ( msDoc.GetStatusCode() >= 400 ) && ( msDoc.GetStatusCode() <= 499 ) )
-				{
-					bProceed = true;
-				}
-				else
-				if( ( msDoc.GetStatusCode() >= 500 ) && ( msDoc.GetStatusCode() <= 599 ) )
-				{
-					bProceed = true;
-				}
-				
-				if( bProceed )
-				{
-					this.RenderListView( msDoc, msDoc.GetUrl() );
-				}
-				else
-				{
-					RemoveFromListView( msDoc.GetUrl() );
-				}
-			
-			}
-		
 		}
 
 		/**************************************************************************/
@@ -142,12 +80,14 @@ namespace SEOMacroscope
 		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
 		{
 
-			string sPairKey = sUrl;
 			string sStatus = msDoc.GetStatusCode().ToString();
+			string sChecksum = msDoc.GetChecksum();
+			string sCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsChecksumCount( Checksum: sChecksum ).ToString();
+			string sPairKey = string.Join( "", sUrl );
 			ListViewItem lvItem = null;
 
 			this.lvListView.BeginUpdate();
-
+						
 			if( this.lvListView.Items.ContainsKey( sPairKey ) )
 			{
 							
@@ -155,15 +95,15 @@ namespace SEOMacroscope
 				{
 
 					lvItem = this.lvListView.Items[ sPairKey ];
-											
 					lvItem.SubItems[ 0 ].Text = sUrl;
 					lvItem.SubItems[ 1 ].Text = sStatus;
-					lvItem.SubItems[ 2 ].Text = msDoc.GetErrorCondition();
+					lvItem.SubItems[ 2 ].Text = sCount;
+					lvItem.SubItems[ 3 ].Text = sChecksum;
 
 				}
 				catch( Exception ex )
 				{
-					this.DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
+					DebugMsg( string.Format( "MacroscopeDisplayUriAnalysis 1: {0}", ex.Message ) );
 				}
 
 			}
@@ -174,23 +114,24 @@ namespace SEOMacroscope
 				{
 
 					lvItem = new ListViewItem ( sPairKey );
-
+					lvItem.UseItemStyleForSubItems = false;
 					lvItem.Name = sPairKey;
 
 					lvItem.SubItems[ 0 ].Text = sUrl;
 					lvItem.SubItems.Add( sStatus );
-					lvItem.SubItems.Add( msDoc.GetErrorCondition() );
+					lvItem.SubItems.Add( sCount );
+					lvItem.SubItems.Add( sChecksum );
 
 					this.lvListView.Items.Add( lvItem );
 
 				}
 				catch( Exception ex )
 				{
-					this.DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
+					DebugMsg( string.Format( "MacroscopeDisplayUriAnalysis 2: {0}", ex.Message ) );
 				}
 
 			}
-
+				
 			if( lvItem != null )
 			{
 
@@ -217,33 +158,13 @@ namespace SEOMacroscope
 				}
 
 			}
-
+			
 			this.lvListView.EndUpdate();
-
+			
 		}
 
 		/**************************************************************************/
 
-		void RemoveFromListView ( string sUrl )
-		{
-
-			string sPairKey = sUrl;
-
-			if( this.lvListView.Items.ContainsKey( sPairKey ) )
-			{
-
-				this.lvListView.BeginUpdate();
-
-				this.lvListView.Items.Remove( this.lvListView.Items[ sPairKey ] );
-
-				this.lvListView.EndUpdate();
-
-			}
-
-		}
-
-		/**************************************************************************/
-	
 	}
 
 }

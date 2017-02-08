@@ -167,6 +167,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem audioToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem videoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem sitemapXMLToolStripMenuItem;
+		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisUrl;
+		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisStatusCode;
+		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisChecksum;
+		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisCount;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -263,6 +267,9 @@ namespace SEOMacroscope
 			this.columnHeaderHostnameInternal = new System.Windows.Forms.ColumnHeader();
 			this.tabPageUriAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewUriAnalysis = new System.Windows.Forms.ListView();
+			this.columnHeaderUriAnalysisUrl = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderUriAnalysisStatusCode = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderUriAnalysisChecksum = new System.Windows.Forms.ColumnHeader();
 			this.tabPagePageTitles = new System.Windows.Forms.TabPage();
 			this.listViewPageTitles = new System.Windows.Forms.ListView();
 			this.columnHeaderUrl = new System.Windows.Forms.ColumnHeader();
@@ -344,6 +351,7 @@ namespace SEOMacroscope
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.columnHeaderUriAnalysisCount = new System.Windows.Forms.ColumnHeader();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
@@ -553,70 +561,70 @@ namespace SEOMacroscope
 			// allDocumentTypesToolStripMenuItem
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.allDocumentTypesToolStripMenuItem.Tag = "ALL";
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
 			// 
 			// HtmlToolStripMenuItem
 			// 
 			this.HtmlToolStripMenuItem.Name = "HtmlToolStripMenuItem";
-			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.HtmlToolStripMenuItem.Tag = "HTML";
 			this.HtmlToolStripMenuItem.Text = "HTML";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.stylesheetsToolStripMenuItem.Tag = "CSS";
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.javaScriptsToolStripMenuItem.Tag = "JAVASCRIPT";
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.imagesToolStripMenuItem.Tag = "IMAGE";
 			this.imagesToolStripMenuItem.Text = "Images";
 			// 
 			// PdfsToolStripMenuItem
 			// 
 			this.PdfsToolStripMenuItem.Name = "PdfsToolStripMenuItem";
-			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.PdfsToolStripMenuItem.Tag = "PDF";
 			this.PdfsToolStripMenuItem.Text = "PDFs";
 			// 
 			// audioToolStripMenuItem
 			// 
 			this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
-			this.audioToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.audioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.audioToolStripMenuItem.Tag = "AUDIO";
 			this.audioToolStripMenuItem.Text = "Audio Files";
 			// 
 			// videoToolStripMenuItem
 			// 
 			this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
-			this.videoToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.videoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.videoToolStripMenuItem.Tag = "VIDEO";
 			this.videoToolStripMenuItem.Text = "Video Files";
 			// 
 			// sitemapXMLToolStripMenuItem
 			// 
 			this.sitemapXMLToolStripMenuItem.Name = "sitemapXMLToolStripMenuItem";
-			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.sitemapXMLToolStripMenuItem.Tag = "SITEMAPXML";
 			this.sitemapXMLToolStripMenuItem.Text = "XML Sitemaps";
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.miscellaneousToolStripMenuItem.Tag = "MISC";
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
 			// 
@@ -653,7 +661,7 @@ namespace SEOMacroscope
 			// toolStripLabel1
 			// 
 			this.toolStripLabel1.Name = "toolStripLabel1";
-			this.toolStripLabel1.Size = new System.Drawing.Size(70, 25);
+			this.toolStripLabel1.Size = new System.Drawing.Size(69, 25);
 			this.toolStripLabel1.Text = "Search Text:";
 			// 
 			// toolStripStructureSearchTextBoxSearch
@@ -1022,15 +1030,39 @@ namespace SEOMacroscope
 			// 
 			// listViewUriAnalysis
 			// 
+			this.listViewUriAnalysis.CausesValidation = false;
+			this.listViewUriAnalysis.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderUriAnalysisUrl,
+			this.columnHeaderUriAnalysisStatusCode,
+			this.columnHeaderUriAnalysisCount,
+			this.columnHeaderUriAnalysisChecksum});
+			this.listViewUriAnalysis.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewUriAnalysis.FullRowSelect = true;
 			this.listViewUriAnalysis.GridLines = true;
-			this.listViewUriAnalysis.Location = new System.Drawing.Point(10, 10);
+			this.listViewUriAnalysis.LabelWrap = false;
+			this.listViewUriAnalysis.Location = new System.Drawing.Point(20, 20);
 			this.listViewUriAnalysis.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewUriAnalysis.Name = "listViewUriAnalysis";
 			this.listViewUriAnalysis.Size = new System.Drawing.Size(200, 200);
 			this.listViewUriAnalysis.TabIndex = 0;
 			this.listViewUriAnalysis.UseCompatibleStateImageBehavior = false;
 			this.listViewUriAnalysis.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeaderUriAnalysisUrl
+			// 
+			this.columnHeaderUriAnalysisUrl.Text = "URL";
+			this.columnHeaderUriAnalysisUrl.Width = 400;
+			// 
+			// columnHeaderUriAnalysisStatusCode
+			// 
+			this.columnHeaderUriAnalysisStatusCode.Text = "Status Code";
+			this.columnHeaderUriAnalysisStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.columnHeaderUriAnalysisStatusCode.Width = 100;
+			// 
+			// columnHeaderUriAnalysisChecksum
+			// 
+			this.columnHeaderUriAnalysisChecksum.Text = "Checksum";
+			this.columnHeaderUriAnalysisChecksum.Width = 250;
 			// 
 			// tabPagePageTitles
 			// 
@@ -1727,6 +1759,12 @@ namespace SEOMacroscope
 			// 
 			this.HistoryVisited.Text = "Visited";
 			this.HistoryVisited.Width = 100;
+			// 
+			// columnHeaderUriAnalysisCount
+			// 
+			this.columnHeaderUriAnalysisCount.Text = "Occurences";
+			this.columnHeaderUriAnalysisCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.columnHeaderUriAnalysisCount.Width = 100;
 			// 
 			// MacroscopeOverviewPanel
 			// 

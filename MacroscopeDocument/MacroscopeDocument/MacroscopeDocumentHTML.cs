@@ -95,7 +95,7 @@ namespace SEOMacroscope
 					StreamReader srRead = new StreamReader ( sStream, encUseEncoding );
 					sRawData = srRead.ReadToEnd();
 					this.ContentLength = sRawData.Length; // May need to find bytes length
-					this.Checksum = this.GenerateChecksum( sRawData );
+					this.SetChecksum( sRawData );
 					
 				}
 				catch( WebException ex )

@@ -118,7 +118,7 @@ namespace SEOMacroscope
 		int Depth;
 		
 		// Delegate Functions
-		delegate void TimeDuration( Action ProcessMethod );
+		delegate void TimeDuration(Action ProcessMethod);
 
 		/**************************************************************************/
 
@@ -131,6 +131,8 @@ namespace SEOMacroscope
 			
 			Url = sUrl;
 			Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
+			
+			Checksum = "";
 			
 			IsExternal = false;
 			
@@ -182,22 +184,28 @@ namespace SEOMacroscope
 			Description = "";
 			Keywords = "";
 
-			Headings = new Dictionary<ushort,List<string>> () { {
+			Headings = new Dictionary<ushort,List<string>> () {
+				{
 					1,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					2,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					3,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					4,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					5,
 					new List<string> ( 16 )
-				}, {
+				},
+				{
 					6,
 					new List<string> ( 16 )
 				}
@@ -296,6 +304,31 @@ namespace SEOMacroscope
 		public string GetQueryString ()
 		{
 			return( this.QueryString );
+		}
+
+		/** Checksum Value ********************************************************/
+
+		public void SetChecksum ( string ChecksumValue )
+		{
+			this.Checksum = this.GenerateChecksum( ChecksumValue );
+		}
+
+		public string GetChecksum ()
+		{
+			return( this.Checksum );
+		}
+
+		string GenerateChecksum ( string sData )
+		{
+			MD5 Md5Digest = MD5.Create();
+			byte [] BytesIn = Encoding.UTF8.GetBytes( sData );
+			byte [] Hashed = Md5Digest.ComputeHash( BytesIn );
+			StringBuilder sbString = new StringBuilder ();
+			for( int i = 0 ; i < Hashed.Length ; i++ )
+			{
+				sbString.Append( Hashed[ i ].ToString( "X2" ) );
+			}
+			return( sbString.ToString() );
 		}
 
 		/** Is External Flag ******************************************************/
@@ -1424,18 +1457,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		string GenerateChecksum ( string sData )
-		{
-			MD5 Md5Digest = MD5.Create();
-			byte [] BytesIn = Encoding.UTF8.GetBytes( sData );
-			byte [] Hashed = Md5Digest.ComputeHash( BytesIn );
-			StringBuilder sbString = new StringBuilder ();
-			for( int i = 0 ; i < Hashed.Length ; i++ )
-			{
-				sbString.Append( Hashed[ i ].ToString( "X2" ) );
-			}
-			return( sbString.ToString() );
-		}
+
 
 		/**************************************************************************/
 

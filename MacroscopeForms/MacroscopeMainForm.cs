@@ -51,6 +51,9 @@ namespace SEOMacroscope
 		MacroscopeDisplayHrefLang msDisplayHrefLang;
 		MacroscopeDisplayErrors msDisplayErrors;
 		MacroscopeDisplayRedirectsAudit msDisplayRedirectsAudit;
+		
+		MacroscopeDisplayUriAnalysis msDisplayUriAnalysis;
+		
 		MacroscopeDisplayTitles msDisplayTitles;
 		MacroscopeDisplayDescriptions msDisplayDescriptions;
 		MacroscopeDisplayKeywords msDisplayKeywords;
@@ -131,6 +134,12 @@ namespace SEOMacroscope
 			this.msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
 			this.msDisplayErrors = new MacroscopeDisplayErrors ( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
 			this.msDisplayRedirectsAudit = new MacroscopeDisplayRedirectsAudit ( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit );
+			
+			this.msDisplayUriAnalysis = new MacroscopeDisplayUriAnalysis ( this, this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis );
+			 
+			
+			
+			
 			this.msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
 			this.msDisplayDescriptions = new MacroscopeDisplayDescriptions ( this, this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions );
 			this.msDisplayKeywords = new MacroscopeDisplayKeywords ( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
@@ -788,6 +797,10 @@ namespace SEOMacroscope
 					break;
 									
 				case "tabPageUriAnalysis":
+					this.msDisplayUriAnalysis.RefreshData(
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayUriAnalysis )
+					);
 					break;
 									
 				case "tabPagePageTitles":
