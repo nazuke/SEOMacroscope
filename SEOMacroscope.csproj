@@ -22,6 +22,7 @@
     <SignAssembly>False</SignAssembly>
     <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>SEOMacroscope.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -79,21 +80,11 @@
       <HintPath>packages\RobotsTxt.2014.02.19\lib\RobotsTxt.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Macroscope.cs" />
@@ -167,6 +158,7 @@
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeColumnSorter.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeDnsTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeTools\MacroscopePdfTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeStringTools.cs" />

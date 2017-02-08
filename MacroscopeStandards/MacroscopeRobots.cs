@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.IO;
 using RobotsTxt;
 
 namespace SEOMacroscope
@@ -90,38 +91,104 @@ namespace SEOMacroscope
 			if( sRobotsTxtUrl != null )
 			{
 
-				if( this.dicRobots.ContainsKey( sRobotsTxtUrl ) )
+				lock( this.dicRobots )
 				{
-					robot = this.dicRobots[ sRobotsTxtUrl ];
-				}
-				else
-				{
-					try
+
+					if( this.dicRobots.ContainsKey( sRobotsTxtUrl ) )
 					{
-						using( WebClient wc = new WebClient () )
+						robot = this.dicRobots[ sRobotsTxtUrl ];
+					}
+					else
+					{
+
+						String sRobotsText = this.FetchRobotTextFile( sRobotsTxtUrl );
+
+						if( sRobotsText.Length > 0 )
 						{
-							String sRobotsText = wc.DownloadString( sRobotsTxtUrl );
 							robot = new Robots ( sRobotsText );
 							this.dicRobots.Add( sRobotsTxtUrl, robot );
 						}
-					}
-					catch( Exception ex )
-					{
-						DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
-					}					
-				}
 
+					}
+
+				}
+				
 			}
 
 			return( robot );
 
 		}
 
+		/** Fetch Robots Text *****************************************************/
+
+		string FetchRobotTextFile ( string sUrl )
+		{
+			Boolean bProceed = false;
+			HttpWebRequest req = null;
+			HttpWebResponse res = null;
+			string RobotText = "";
+			string sRawData = "";
+
+			/*
+			if( !MacroscopeDnsTools.CheckValidHostname( sUrl ) )
+			{
+				DebugMsg( string.Format( "FetchRobotTextFile :: CheckValidHostname: {0}", "NOT OK" ) );
+				return( RobotText );
+			}
+			*/
+			
+			try
+			{
+
+				req = WebRequest.CreateHttp( sUrl );
+				req.Method = "GET";
+				req.Timeout = 10000;
+				req.KeepAlive = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
+				res = ( HttpWebResponse )req.GetResponse();
+				bProceed = true;
+				
+			}
+			catch( WebException ex )
+			{
+				DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", sUrl ) );
+				DebugMsg( string.Format( "FetchRobotTextFile :: WebExceptionStatus: {0}", ex.Status ) );
+			}
+
+			if( ( bProceed ) && ( res != null ) )
+			{
+				try
+				{
+					Stream sStream = res.GetResponseStream();
+					StreamReader srRead = new StreamReader ( sStream );
+					sRawData = srRead.ReadToEnd();
+				}
+				catch( WebException ex )
+				{
+					DebugMsg( string.Format( "FetchRobotTextFile: WebException", ex.Message ) );
+					sRawData = "";
+				}
+				catch( Exception ex )
+				{
+					DebugMsg( string.Format( "FetchRobotTextFile: Exception", ex.Message ) );
+					sRawData = "";
+				}
+			}
+
+			if( sRawData.Length > 0 )
+			{
+				RobotText = sRawData;
+			}
+
+			return( RobotText );
+		}
+
 		/** Rules *****************************************************************/
 
 		public Boolean ApplyRobotRule ( string sUrl )
 		{
-			
+
 			Boolean bAllowed = false;
 
 			if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )

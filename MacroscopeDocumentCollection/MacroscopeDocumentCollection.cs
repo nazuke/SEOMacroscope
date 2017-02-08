@@ -37,10 +37,6 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public override Boolean SuppressDebugMsg { get; protected set; }
-				
-		/**************************************************************************/
-
 		Dictionary<string,MacroscopeDocument> DocCollection;
 
 		MacroscopeJobMaster JobMaster;
@@ -66,7 +62,7 @@ namespace SEOMacroscope
 		public MacroscopeDocumentCollection ( MacroscopeJobMaster JobMasterNew )
 		{
 			
-			SuppressDebugMsg = true;
+			SuppressDebugMsg = false;
 			
 			this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
 			
@@ -84,7 +80,7 @@ namespace SEOMacroscope
 			StatsTitles = new Dictionary<string,int> ( 1024 );
 			StatsDescriptions = new Dictionary<string,int> ( 1024 );
 			StatsKeywords = new Dictionary<string,int> ( 1024 );
-			StatsErrors	= new	Dictionary<string,int> ( 1024 );
+			StatsErrors	= new	Dictionary<string,int> ( 32 );
 
 			StatsUrlsInternal = 0;
 			StatsUrlsExternal = 0;
@@ -612,7 +608,10 @@ namespace SEOMacroscope
 
 		void ClearStatsErrors ()
 		{
-			this.StatsErrors.Clear();
+			lock( this.StatsErrors )
+			{
+				this.StatsErrors.Clear();
+			}
 		}
 
 		public Dictionary<string,int> GetStatsErrorsCount ()
@@ -633,23 +632,30 @@ namespace SEOMacroscope
 
 			string sErrorCondition = msDoc.GetErrorCondition();
 			int iStatusCode = msDoc.GetStatusCode();
-			string sError = string.Format( "{0} ({1})", iStatusCode, sErrorCondition );
-
-			if( this.StatsErrors.ContainsKey( sError ) )
+			
+			if( iStatusCode >= 300 )
 			{
+			
+				string sError = string.Format( "{0} ({1})", iStatusCode, sErrorCondition );
+
+				DebugMsg( string.Format( "RecalculateStatsErrors: {0}", sError ) );
+
 				lock( this.StatsErrors )
 				{
-					this.StatsErrors[ sError ] = this.StatsErrors[ sError ] + 1;
+				
+					if( this.StatsErrors.ContainsKey( sError ) )
+					{
+						this.StatsErrors[ sError ] = this.StatsErrors[ sError ] + 1;
+					}
+					else
+					{
+						this.StatsErrors.Add( sError, 1 );
+					}
+					
 				}
+				
 			}
-			else
-			{
-				lock( this.StatsErrors )
-				{
-					this.StatsErrors.Add( sError, 1 );
-				}
-			}
-
+			
 		}
 
 		/** Hyperlinks In *********************************************************/

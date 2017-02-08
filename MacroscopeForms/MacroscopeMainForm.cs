@@ -510,7 +510,7 @@ namespace SEOMacroscope
 			this.CallackScanStartExecute();
 		}
 
-		/**************************************************************************/
+		/** NORMAL SCAN ***********************************************************/
 				
 		void CallackScanStartExecute ()
 		{
@@ -731,35 +731,42 @@ namespace SEOMacroscope
 
 				case "tabPageStructureOverview":
 					this.msDisplayStructure.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
 					);
 					break;
 
 				case "tabPageHierarchy":
 					this.msDisplayHierarchy.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHierarchy )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList:	this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHierarchy )
 					);
 					break;
 
 				case "tabPageCanonicalAnalysis":
 					this.msDisplayCanonical.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis )
 					);
 					break;
 									
 				case "tabPageHrefLangAnalysis":
-					this.msDisplayHrefLang.RefreshData( this.JobMaster.GetDocCollection(), JobMaster.GetLocales() );
+					this.msDisplayHrefLang.RefreshData( 
+						DocCollection: this.JobMaster.GetDocCollection(), 
+						LocalesList: JobMaster.GetLocales()
+					);
 					break;
 							
 				case "tabPageErrors":
-					this.msDisplayErrors.RefreshData( this.JobMaster.GetDocCollection() );
+					this.msDisplayErrors.RefreshData( 
+						DocCollection: this.JobMaster.GetDocCollection()
+					);
 					break;
 					
 				case "tabPageRedirectsAudit":
-					this.msDisplayRedirectsAudit.RefreshData( this.JobMaster.GetDocCollection() );
+					this.msDisplayRedirectsAudit.RefreshData( 
+						DocCollection: this.JobMaster.GetDocCollection() 
+					);
 					break;
 									
 				case "tabPageUriAnalysis":
@@ -767,64 +774,64 @@ namespace SEOMacroscope
 									
 				case "tabPagePageTitles":
 					this.msDisplayTitles.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageTitles )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageTitles )
 					);
 					break;
 									
 				case "tabPagePageDescriptions":
 					this.msDisplayDescriptions.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageDescriptions )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageDescriptions )
 					);
 					break;
 									
 				case "tabPagePageKeywords":
 					this.msDisplayKeywords.RefreshData(
 						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageKeywords )
+						UrlList:	this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageKeywords )
 					);
 					break;
 									
 				case "tabPagePageHeadings":
 					this.msDisplayHeadings.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageHeadings )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList:	this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageHeadings )
 					);
 					break;
 
 				case "tabPageStylesheets":
 					this.msDisplayStylesheets.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStylesheets )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList:	this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStylesheets )
 					);
 					break;
 
 				case "tabPageJavascripts":
 					this.msDisplayJavascripts.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayJavascripts )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList:	this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayJavascripts )
 					);
 					break;
 
 				case "tabPageImages":
 					this.msDisplayImages.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayImages )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList:	this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayImages )
 					);
 					break;
 
 				case "tabPageAudios":
 					this.msDisplayAudios.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayAudios )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayAudios )
 					);
 					break;
 					
 				case "tabPageVideos":
 					this.msDisplayVideos.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayVideos )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayVideos )
 					);
 					break;
 
@@ -836,25 +843,33 @@ namespace SEOMacroscope
 					
 				case "tabPageSitemaps":
 					this.msDisplaySitemaps.RefreshData(
-						this.JobMaster.GetDocCollection(),
-						this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplaySitemaps )
+						DocCollection: this.JobMaster.GetDocCollection(),
+						UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplaySitemaps )
 					);
 					break;
 									
 				case "tabPageEmailAddresses":
-					this.msDisplayEmailAddresses.RefreshData( this.JobMaster.GetDocCollection() );
+					this.msDisplayEmailAddresses.RefreshData(
+						DocCollection: this.JobMaster.GetDocCollection()
+					);
 					break;
 									
 				case "tabPageTelephoneNumbers":
-					this.msDisplayTelephoneNumbers.RefreshData( this.JobMaster.GetDocCollection() );
+					this.msDisplayTelephoneNumbers.RefreshData(
+						DocCollection: this.JobMaster.GetDocCollection()
+					);
 					break;
 
 				case "tabPageHostnames":
-					this.msDisplayHostnames.RefreshData( this.JobMaster.GetDocCollection() );
+					this.msDisplayHostnames.RefreshData( 
+						DocCollection: this.JobMaster.GetDocCollection()
+					);
 					break;
 						
 				case "tabPageHistory":
-					this.msDisplayHistory.RefreshData( this.JobMaster.GetHistory() );
+					this.msDisplayHistory.RefreshData(
+						this.JobMaster.GetHistory()
+					);
 					break;
 					
 				case "tabPageSearch":
@@ -1168,7 +1183,10 @@ namespace SEOMacroscope
 					{
 						SearchTextBox.Text = sUrlFragment;
 						this.msDisplayStructure.ClearData();
-						this.msDisplayStructure.RefreshData( this.JobMaster.GetDocCollection(), sUrlFragment );
+						this.msDisplayStructure.RefreshData(
+							DocCollection: this.JobMaster.GetDocCollection(),
+							UrlFragment: sUrlFragment
+						);
 					}
 					break;
 			}

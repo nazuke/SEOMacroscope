@@ -529,7 +529,6 @@ namespace SEOMacroscope
 			this.Name = "MacroscopeMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MacroscopeMainForm";
-			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CallbackFormClosing);
 			this.menuStripMain.ResumeLayout(false);
 			this.menuStripMain.PerformLayout();

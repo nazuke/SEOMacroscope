@@ -78,7 +78,10 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
-		public void RefreshData ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> htLocales )
+		public void RefreshData (
+			MacroscopeDocumentCollection DocCollection, 
+			Dictionary<string,string> LocalesList
+		)
 		{
 
 			DebugMsg( string.Format( "MacroscopeDisplayHrefLang: {0}", "RefreshData" ) );
@@ -88,12 +91,12 @@ namespace SEOMacroscope
 					new MethodInvoker ( 
 						delegate
 						{
-							this.RenderListView( DocCollection, htLocales );
+							this.RenderListView( DocCollection: DocCollection, LocalesList: LocalesList );
 						}
 					) 
 				);
 			} else {
-				this.RenderListView( DocCollection, htLocales );
+				this.RenderListView( DocCollection, LocalesList );
 			}
 
 		}
@@ -106,7 +109,7 @@ namespace SEOMacroscope
 		
 		/**************************************************************************/
 				
-		void RenderListView ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> htLocales )
+		void RenderListView ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> LocalesList )
 		{
 
 			Hashtable htLocaleCols = new Hashtable ();
@@ -124,7 +127,7 @@ namespace SEOMacroscope
 				this.lvListView.Columns.Add( "Site Locale", "Site Locale" );
 				this.lvListView.Columns.Add( "Title", "Title" );
 
-				foreach( string sLocale in htLocales.Keys ) {
+				foreach( string sLocale in LocalesList.Keys ) {
 					this.lvListView.Columns.Add( sLocale, sLocale );
 					htLocaleCols[ sLocale ] = iLocaleColCount;
 					iLocaleColCount++;
@@ -169,7 +172,7 @@ namespace SEOMacroscope
 							lvItem.SubItems.Add( "" );
 							lvItem.SubItems.Add( "" );
 
-							for( int i = 0; i < htLocales.Keys.Count; i++ ) {
+							for( int i = 0; i < LocalesList.Keys.Count; i++ ) {
 								lvItem.SubItems.Add( "" );
 							}
 
@@ -185,7 +188,7 @@ namespace SEOMacroscope
 								lvItem.SubItems[ 1 ].Text = sDocLocale;
 								lvItem.SubItems[ 2 ].Text = sDocTitle;
 
-								foreach( string sLocale in htLocales.Keys ) {
+								foreach( string sLocale in LocalesList.Keys ) {
 
 									if( sLocale != null ) {
 

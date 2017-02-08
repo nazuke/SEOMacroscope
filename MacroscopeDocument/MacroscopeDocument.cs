@@ -30,7 +30,8 @@ using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using System.Security.Cryptography;
+	
 namespace SEOMacroscope
 {
 
@@ -124,7 +125,7 @@ namespace SEOMacroscope
 		public MacroscopeDocument ( string sUrl )
 		{
 
-			SuppressDebugMsg = false;
+			SuppressDebugMsg = true;
 			
 			IsDirty = true;
 			
@@ -328,6 +329,11 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 		
+		public void SetStatusCode ( HttpStatusCode Status )
+		{
+			this.StatusCode = ( int )Status;
+		}
+
 		public int GetStatusCode ()
 		{
 			return( this.StatusCode );
@@ -378,7 +384,8 @@ namespace SEOMacroscope
 
 		/** Document Type Methods *************************************************/
 
-		public MacroscopeConstants.DocumentType GetDocumentType(){
+		public MacroscopeConstants.DocumentType GetDocumentType ()
+		{
 			return( this.DocumentType );
 		}
 
@@ -1169,9 +1176,13 @@ namespace SEOMacroscope
 					this.IsRedirect = true;
 					string sLocation = res.GetResponseHeader( "Location" );
 					string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLocation );
-					this.UrlRedirectFrom = sOriginalUrl;
-					this.UrlRedirectTo = sLinkUrlAbs;
-					this.AddDocumentOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.REDIRECT, true );
+
+					if( sLinkUrlAbs != null )
+					{
+						this.UrlRedirectFrom = sOriginalUrl;
+						this.UrlRedirectTo = sLinkUrlAbs;
+						this.AddDocumentOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.REDIRECT, true );
+					}
 
 				}
 					
@@ -1409,6 +1420,21 @@ namespace SEOMacroscope
 				this.Outlinks.Add( sRawUrl, OutLink );
 			}
 
+		}
+
+		/**************************************************************************/
+
+		string GenerateChecksum ( string sData )
+		{
+			MD5 Md5Digest = MD5.Create();
+			byte [] BytesIn = Encoding.UTF8.GetBytes( sData );
+			byte [] Hashed = Md5Digest.ComputeHash( BytesIn );
+			StringBuilder sbString = new StringBuilder ();
+			for( int i = 0 ; i < Hashed.Length ; i++ )
+			{
+				sbString.Append( Hashed[ i ].ToString( "X2" ) );
+			}
+			return( sbString.ToString() );
 		}
 
 		/**************************************************************************/

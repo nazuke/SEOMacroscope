@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 
 namespace SEOMacroscope
@@ -130,6 +131,15 @@ namespace SEOMacroscope
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sUrl );
 			Boolean bResult = false;
 
+			/*
+			if( !MacroscopeDnsTools.CheckValidHostname( sUrl ) )
+			{
+				DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
+				msDoc.SetStatusCode( HttpStatusCode.BadGateway );
+				return( bResult );
+			}
+			*/
+			
 			if( !this.JobMaster.GetRobots().ApplyRobotRule( sUrl ) )
 			{
 				DebugMsg( string.Format( "Disallowed by robots.txt: {0}", sUrl ) );

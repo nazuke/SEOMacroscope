@@ -94,7 +94,10 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public void RefreshData ( MacroscopeDocumentCollection DocCollection, List<string> lList )
+		public void RefreshData (
+			MacroscopeDocumentCollection DocCollection, 
+			List<string> UrlList
+		)
 		{
 			if( this.MainForm.InvokeRequired )
 			{
@@ -103,7 +106,7 @@ namespace SEOMacroscope
 						delegate
 						{
 							Cursor.Current = Cursors.WaitCursor;
-							this.RenderTreeView( DocCollection, lList );
+							this.RenderTreeView( DocCollection: DocCollection, UrlList: UrlList );
 							Cursor.Current = Cursors.Default;
 						}
 					)
@@ -112,21 +115,24 @@ namespace SEOMacroscope
 			else
 			{
 				Cursor.Current = Cursors.WaitCursor;
-				this.RenderTreeView( DocCollection, lList );
+				this.RenderTreeView( DocCollection: DocCollection, UrlList: UrlList );
 				Cursor.Current = Cursors.Default;
 			}
 		}
 
 		/**************************************************************************/
 
-		void RenderTreeView ( MacroscopeDocumentCollection DocCollection, List<string> lList )
+		void RenderTreeView ( 
+			MacroscopeDocumentCollection DocCollection, 
+			List<string> UrlList
+		)
 		{
 			
 			this.tvTreeView.BeginUpdate();
 
 			DebugMsg( string.Format( "HIERARCHY: {0}", "BASE" ) );
 
-			foreach( string sUrl in lList )
+			foreach( string sUrl in UrlList )
 			{
 				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderTreeView( msDoc, sUrl );
@@ -140,7 +146,10 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		protected override void RenderTreeView ( MacroscopeDocument msDoc, string sUrl )
+		protected override void RenderTreeView ( 
+			MacroscopeDocument msDoc, 
+			string Url 
+		)
 		{
 
 			TreeNode nCurrentNode = this.tvTreeView.Nodes[ 0 ];
@@ -175,7 +184,7 @@ namespace SEOMacroscope
 							TreeNode nNewNode = nCurrentNode.Nodes.Add( sElementName );
 							nNewNode.Name = sElementName;
 							nNewNode.Text = sElementName;
-							nNewNode.Tag = sUrl;
+							nNewNode.Tag = Url;
 
 							nCurrentNode = nNewNode;
 
@@ -188,7 +197,7 @@ namespace SEOMacroscope
 			}
 			else
 			{
-				DebugMsg( string.Format( "HIERARCHY ERROR: {0}", sUrl ) );
+				DebugMsg( string.Format( "HIERARCHY ERROR: {0}", Url ) );
 			}
 
 		}
