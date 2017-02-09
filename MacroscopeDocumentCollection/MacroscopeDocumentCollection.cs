@@ -89,7 +89,7 @@ namespace SEOMacroscope
 			StatsUrlsSitemaps = 0;
 		
 			SemaphoreRecalc = new Semaphore ( 0, 1 );
-			this.StartRecalcTimer();
+			//this.StartRecalcTimer();
 
 			this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
 			
@@ -100,7 +100,7 @@ namespace SEOMacroscope
 		~MacroscopeDocumentCollection ()
 		{
 			this.DebugMsg( "MacroscopeDocumentCollection DESTRUCTOR CALLED" );
-			this.StopRecalcTimer();
+			//this.StopRecalcTimer();
 		}
 
 		/** Document Collection Methods *******************************************/

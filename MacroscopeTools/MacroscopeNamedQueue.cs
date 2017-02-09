@@ -56,13 +56,18 @@ namespace SEOMacroscope
 		public Queue<string> CreateNamedQueue ( string sName )
 		{
 			Queue<string> NamedQueue;
-			if( this.NamedQueues.ContainsKey( sName ) ) {
-				NamedQueue = this.NamedQueues[sName];
-			} else {
+			if( this.NamedQueues.ContainsKey( sName ) )
+			{
+				NamedQueue = this.NamedQueues[ sName ];
+			}
+			else
+			{
 				NamedQueue = new Queue<string> ( 4096 );
-				lock( this.NamedQueues ) {
+				lock( this.NamedQueues )
+				{
 					this.NamedQueues.Add( sName, NamedQueue );
-					lock( this.NamedQueues[sName] ) {
+					lock( this.NamedQueues[sName] )
+					{
 						Dictionary<string,Boolean> NamedQueueIndex = new Dictionary<string,Boolean> ( 4096 );
 						this.NamedQueuesIndex.Add( sName, NamedQueueIndex );
 					}
@@ -75,10 +80,13 @@ namespace SEOMacroscope
 		
 		public void DeleteNamedQueue ( string sName )
 		{
-			if( this.NamedQueues.ContainsKey( sName ) ) {
-				lock( this.NamedQueues ) {
+			if( this.NamedQueues.ContainsKey( sName ) )
+			{
+				lock( this.NamedQueues )
+				{
 					this.NamedQueues.Remove( sName );
-					lock( this.NamedQueuesIndex ) {
+					lock( this.NamedQueuesIndex )
+					{
 						this.NamedQueuesIndex.Remove( sName );
 					}
 				}
@@ -90,15 +98,21 @@ namespace SEOMacroscope
 		public Queue<string> AddToNamedQueue ( string sName, string sItem )
 		{
 			Queue<string> NamedQueue;
-			if( this.NamedQueues.ContainsKey( sName ) ) {
-				NamedQueue = this.NamedQueues[sName];
-			} else {
+			if( this.NamedQueues.ContainsKey( sName ) )
+			{
+				NamedQueue = this.NamedQueues[ sName ];
+			}
+			else
+			{
 				NamedQueue = this.CreateNamedQueue( sName );
 			}
-			lock( this.NamedQueues[sName] ) {
-				if( !this.NamedQueuesIndex[sName].ContainsKey( sItem ) ) {
-					lock( this.NamedQueuesIndex[sName] ) {
-						this.NamedQueuesIndex[sName].Add( sItem, true );
+			lock( this.NamedQueues[sName] )
+			{
+				if( !this.NamedQueuesIndex[ sName ].ContainsKey( sItem ) )
+				{
+					lock( this.NamedQueuesIndex[sName] )
+					{
+						this.NamedQueuesIndex[ sName ].Add( sItem, true );
 						NamedQueue.Enqueue( sItem );
 					}
 				}
@@ -112,9 +126,12 @@ namespace SEOMacroscope
 		{
 			//DebugMsg( string.Format( "PeekNamedQueue: {0}", sName ) );
 			Boolean bPeek = false;
-			if( this.NamedQueues.ContainsKey( sName ) ) {
-				lock( this.NamedQueues[sName] ) {
-					if( this.NamedQueues[sName].Count > 0 ) {
+			if( this.NamedQueues.ContainsKey( sName ) )
+			{
+				lock( this.NamedQueues[sName] )
+				{
+					if( this.NamedQueues[ sName ].Count > 0 )
+					{
 						bPeek = true;
 					}
 				}
@@ -127,10 +144,13 @@ namespace SEOMacroscope
 		public int CountNamedQueueItems ( string sName )
 		{
 			int iCount = 0;
-			if( this.NamedQueues.ContainsKey( sName ) ) {
-				lock( this.NamedQueues[sName] ) {
-					if( this.NamedQueues[sName].Count > 0 ) {
-						iCount = this.NamedQueues[sName].Count;
+			if( this.NamedQueues.ContainsKey( sName ) )
+			{
+				lock( this.NamedQueues[sName] )
+				{
+					if( this.NamedQueues[ sName ].Count > 0 )
+					{
+						iCount = this.NamedQueues[ sName ].Count;
 					}
 				}
 			}
@@ -141,11 +161,14 @@ namespace SEOMacroscope
 
 		public void ClearAllNamedQueues ()
 		{
-			lock( this.NamedQueues ) {
-				lock( this.NamedQueuesIndex ) {
-					foreach( string sName in this.NamedQueues.Keys ) {
-						this.NamedQueues[sName].Clear();
-						this.NamedQueuesIndex[sName].Clear();
+			lock( this.NamedQueues )
+			{
+				lock( this.NamedQueuesIndex )
+				{
+					foreach( string sName in this.NamedQueues.Keys )
+					{
+						this.NamedQueues[ sName ].Clear();
+						this.NamedQueuesIndex[ sName ].Clear();
 					}
 				}
 			}
@@ -155,10 +178,12 @@ namespace SEOMacroscope
 		
 		public void ClearNamedQueue ( string sName )
 		{
-			lock( this.NamedQueues ) {
-				lock( this.NamedQueuesIndex ) {
-					this.NamedQueues[sName].Clear();
-					this.NamedQueuesIndex[sName].Clear();
+			lock( this.NamedQueues )
+			{
+				lock( this.NamedQueuesIndex )
+				{
+					this.NamedQueues[ sName ].Clear();
+					this.NamedQueuesIndex[ sName ].Clear();
 				}
 			}
 		}
@@ -169,18 +194,23 @@ namespace SEOMacroscope
 		{
 			string sItem = null;
 			
-			lock( this.NamedQueues[sName] ) {
+			lock( this.NamedQueues[sName] )
+			{
 
-				if( this.NamedQueues.ContainsKey( sName ) ) {
+				if( this.NamedQueues.ContainsKey( sName ) )
+				{
 
-					if( this.NamedQueues[sName].Count > 0 ) {
+					if( this.NamedQueues[ sName ].Count > 0 )
+					{
 			
-						sItem = this.NamedQueues[sName].Dequeue();
+						sItem = this.NamedQueues[ sName ].Dequeue();
 			
-						if( sItem != null ) {
+						if( sItem != null )
+						{
 
-							lock( this.NamedQueuesIndex[sName] ) {
-								this.NamedQueuesIndex[sName].Remove( sItem );
+							lock( this.NamedQueuesIndex[sName] )
+							{
+								this.NamedQueuesIndex[ sName ].Remove( sItem );
 							}
 			
 						}
@@ -199,10 +229,13 @@ namespace SEOMacroscope
 		{
 			// TODO: implement this, such that items can be pulled from the queue without being deleted
 			List<string> lItems = new List<string> ();
-			if( this.NamedQueues.ContainsKey( sName ) ) {
+			if( this.NamedQueues.ContainsKey( sName ) )
+			{
 				string sItem = this.GetNamedQueueItem( sName );
-				do {
-					if( sItem != null ) {
+				do
+				{
+					if( sItem != null )
+					{
 						lItems.Add( sItem );
 					}
 					sItem = this.GetNamedQueueItem( sName );
@@ -215,17 +248,27 @@ namespace SEOMacroscope
 
 		public List<string> DrainNamedQueueItemsAsList ( string sName )
 		{
+		
 			List<string> lItems = new List<string> ();
-			if( this.NamedQueues.ContainsKey( sName ) ) {
+		
+			if( this.NamedQueues.ContainsKey( sName ) )
+			{
+		
 				string sItem = this.GetNamedQueueItem( sName );
-				do {
-					if( sItem != null ) {
+		
+				do
+				{
+					if( sItem != null )
+					{
 						lItems.Add( sItem );
 					}
 					sItem = this.GetNamedQueueItem( sName );
 				} while( sItem != null );
+		
 			}
+		
 			return( lItems );
+
 		}
 		
 		/**************************************************************************/
@@ -235,13 +278,16 @@ namespace SEOMacroscope
 			List<string> lItems = new List<string> ();
 			int iCount = 0;
 			
-			if( this.NamedQueues.ContainsKey( sName ) ) {
+			if( this.NamedQueues.ContainsKey( sName ) )
+			{
 				
 				string sItem = this.GetNamedQueueItem( sName );
 				
-				do {
+				do
+				{
 					
-					if( sItem != null ) {
+					if( sItem != null )
+					{
 						lItems.Add( sItem );
 					}
 					
@@ -249,7 +295,8 @@ namespace SEOMacroscope
 					
 					iCount++;
 					
-					if( iCount >= iLimit ) {
+					if( iCount >= iLimit )
+					{
 						break;
 					}
 					

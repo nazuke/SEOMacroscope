@@ -104,10 +104,10 @@ namespace SEOMacroscope
 			this.SemaphoreTabPages = new Semaphore ( 0, 1 );
 			this.SemaphoreTabPages.Release( 1 );
 			
-			StartProgressBarScanTimer();
-			StartTabPageTimer();
-			StartSiteOverviewTimer();
-			StartStatusBarTimer();
+			StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
+			StartTabPageTimer( Delay: 4000 ); // BROKEN // 4000ms
+			StartSiteOverviewTimer( Delay: 4000 ); // 4000ms
+			StartStatusBarTimer( Delay: 1000 ); // 1000ms
 			
 			ScanningControlsEnable( true );
 
@@ -134,12 +134,7 @@ namespace SEOMacroscope
 			this.msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
 			this.msDisplayErrors = new MacroscopeDisplayErrors ( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
 			this.msDisplayRedirectsAudit = new MacroscopeDisplayRedirectsAudit ( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit );
-			
 			this.msDisplayUriAnalysis = new MacroscopeDisplayUriAnalysis ( this, this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis );
-			 
-			
-			
-			
 			this.msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
 			this.msDisplayDescriptions = new MacroscopeDisplayDescriptions ( this, this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions );
 			this.msDisplayKeywords = new MacroscopeDisplayKeywords ( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
@@ -180,7 +175,9 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewHrefLang.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewErrors.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-			this.macroscopeOverviewTabPanelInstance.listViewPageTitles.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
+			this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+			this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+			this.macroscopeOverviewTabPanelInstance.listViewPageTitles.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 			this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;			
 			this.macroscopeOverviewTabPanelInstance.listViewRobots.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;		
@@ -684,10 +681,10 @@ namespace SEOMacroscope
 
 		/** TAB PAGES *************************************************************/
 
-		void StartTabPageTimer ()
+		void StartTabPageTimer ( int Delay )
 		{
-			this.TimerTabPages = new System.Timers.Timer ( 4000 );
-			this.TimerTabPages.Elapsed += CallbackTabPageTimer;
+			this.TimerTabPages = new System.Timers.Timer ( Delay );
+			this.TimerTabPages.Elapsed += this.CallbackTabPageTimer;
 			this.TimerTabPages.AutoReset = true;
 			this.TimerTabPages.Enabled = true;
 			this.TimerTabPages.Start();
@@ -714,14 +711,14 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							this.CallbackTabPageTimerExec();	
+							this.CallbackTabPageTimerExec();
 						}
 					)
 				);
 			}
 			else
 			{
-				this.CallbackTabPageTimerExec();	
+				this.CallbackTabPageTimerExec();
 			}
 		}
 
@@ -729,6 +726,8 @@ namespace SEOMacroscope
 		{
 			
 			this.SemaphoreTabPages.WaitOne();
+
+			DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE ACQUIRED" ) );
 
 			TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
 			string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
@@ -740,6 +739,8 @@ namespace SEOMacroscope
 			}
 
 			this.SemaphoreTabPages.Release( 1 );
+
+			DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE RELEASED" ) );
 
 		}
 
@@ -1336,9 +1337,9 @@ namespace SEOMacroscope
 
 		/** SITE OVERVIEW PANEL ***************************************************/
 
-		void StartSiteOverviewTimer ()
+		void StartSiteOverviewTimer ( int Delay )
 		{
-			this.TimerSiteOverview = new System.Timers.Timer ( 4000 );
+			this.TimerSiteOverview = new System.Timers.Timer ( Delay );
 			this.TimerSiteOverview.Elapsed += this.CallbackSiteOverviewTimer;
 			this.TimerSiteOverview.AutoReset = true;
 			this.TimerSiteOverview.Enabled = true;
@@ -1565,9 +1566,9 @@ namespace SEOMacroscope
 
 		/** Scan Progress Bar *****************************************************/
 
-		void StartProgressBarScanTimer ()
+		void StartProgressBarScanTimer ( int Delay )
 		{
-			this.TimerProgressBarScan = new System.Timers.Timer ( 1000 );
+			this.TimerProgressBarScan = new System.Timers.Timer ( Delay );
 			this.TimerProgressBarScan.Elapsed += this.CallbackProgressBarScanTimer;
 			this.TimerProgressBarScan.AutoReset = true;
 			this.TimerProgressBarScan.Enabled = true;
@@ -1602,7 +1603,7 @@ namespace SEOMacroscope
 			}
 			else
 			{
-				this.UpdateProgressBarScan();	
+				this.UpdateProgressBarScan();
 			}
 		}
 
@@ -1647,9 +1648,9 @@ namespace SEOMacroscope
 				
 		/** Status Bar ************************************************************/
 
-		void StartStatusBarTimer ()
+		void StartStatusBarTimer ( int Delay )
 		{
-			this.TimerStatusBar = new System.Timers.Timer ( 1000 );
+			this.TimerStatusBar = new System.Timers.Timer ( Delay );
 			this.TimerStatusBar.Elapsed += this.CallbackStatusBarTimer;
 			this.TimerStatusBar.AutoReset = true;
 			this.TimerStatusBar.Enabled = true;
@@ -1677,14 +1678,14 @@ namespace SEOMacroscope
 					new MethodInvoker (
 						delegate
 						{
-							this.UpdateStatusBar();	
+							this.UpdateStatusBar();
 						}
 					)
 				);
 			}
 			else
 			{
-				this.UpdateStatusBar();	
+				this.UpdateStatusBar();
 			}
 		}
 

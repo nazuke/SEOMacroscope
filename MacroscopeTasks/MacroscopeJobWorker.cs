@@ -131,14 +131,12 @@ namespace SEOMacroscope
 			MacroscopeDocument msDoc = new MacroscopeDocument ( sUrl );
 			Boolean bResult = false;
 
-			/*
 			if( !MacroscopeDnsTools.CheckValidHostname( sUrl ) )
 			{
 				DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
 				msDoc.SetStatusCode( HttpStatusCode.BadGateway );
 				return( bResult );
 			}
-			*/
 			
 			if( !this.JobMaster.GetRobots().ApplyRobotRule( sUrl ) )
 			{

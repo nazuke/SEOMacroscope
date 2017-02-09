@@ -72,6 +72,12 @@ namespace SEOMacroscope
 		
 		public void RefreshData ( MacroscopeDocumentCollection DocCollection )
 		{
+
+			if( DocCollection.CountDocuments() <= 0 )
+			{
+				return;
+			}
+
 			if( this.MainForm.InvokeRequired )
 			{
 				this.MainForm.Invoke(
@@ -91,6 +97,7 @@ namespace SEOMacroscope
 				this.RenderListView( DocCollection );
 				Cursor.Current = Cursors.Default;
 			}
+
 		}
 
 		/**************************************************************************/
@@ -100,6 +107,12 @@ namespace SEOMacroscope
 			List<string> UrlList
 		)
 		{
+
+			if( DocCollection.CountDocuments() <= 0 )
+			{
+				return;
+			}
+
 			if( this.MainForm.InvokeRequired )
 			{
 				this.MainForm.Invoke(
@@ -119,6 +132,7 @@ namespace SEOMacroscope
 				this.RenderListView( DocCollection, UrlList );
 				Cursor.Current = Cursors.Default;
 			}
+
 		}
 
 		/**************************************************************************/
@@ -128,6 +142,7 @@ namespace SEOMacroscope
 			string Url
 		)
 		{
+
 			if( this.MainForm.InvokeRequired )
 			{
 				this.MainForm.Invoke(
@@ -147,12 +162,19 @@ namespace SEOMacroscope
 				this.RenderListView( msDoc, Url );
 				Cursor.Current = Cursors.Default;
 			}
+
 		}
 
 		/**************************************************************************/
 
 		public void RefreshData ( List<MacroscopeDocument> DocList )
 		{
+
+			if( DocList.Count <= 0 )
+			{
+				return;
+			}
+
 			if( this.MainForm.InvokeRequired )
 			{
 				this.MainForm.Invoke(
@@ -172,12 +194,22 @@ namespace SEOMacroscope
 				this.RenderListView( DocList: DocList );
 				Cursor.Current = Cursors.Default;
 			}
+
 		}
 
 		/**************************************************************************/
 
-		public void RefreshData ( MacroscopeDocumentCollection DocCollection, MacroscopeConstants.DocumentType DocumentType )
+		public void RefreshData (
+			MacroscopeDocumentCollection DocCollection,
+			MacroscopeConstants.DocumentType DocumentType
+		)
 		{
+
+			if( DocCollection.CountDocuments() <= 0 )
+			{
+				return;
+			}
+
 			if( this.MainForm.InvokeRequired )
 			{
 				this.MainForm.Invoke(
@@ -197,6 +229,7 @@ namespace SEOMacroscope
 				this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
 				Cursor.Current = Cursors.Default;
 			}
+
 		}
 		
 		/**************************************************************************/
@@ -206,6 +239,11 @@ namespace SEOMacroscope
 			string UrlFragment
 		)
 		{
+
+			if( DocCollection.CountDocuments() <= 0 ) {
+				return;
+			}
+
 			if( this.MainForm.InvokeRequired )
 			{
 				this.MainForm.Invoke(
@@ -225,6 +263,7 @@ namespace SEOMacroscope
 				this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
 				Cursor.Current = Cursors.Default;
 			}
+			
 		}
 
 		/** Render Entire DocCollection *******************************************/
@@ -243,10 +282,10 @@ namespace SEOMacroscope
 		
 		public void RenderListView (
 			MacroscopeDocumentCollection DocCollection,
-			List<string> lList
+			List<string> UrlList
 		)
 		{
-			foreach( string sUrl in lList )
+			foreach( string sUrl in UrlList )
 			{
 				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 				this.RenderListView( msDoc, sUrl );

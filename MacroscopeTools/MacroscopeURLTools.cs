@@ -35,13 +35,9 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		//public override Boolean SuppressDebugMsg { get; protected set; }
-				
-		/**************************************************************************/
-
 		static MacroscopeUrlTools ()
 		{
-			SuppressStaticDebugMsg = false;
+			SuppressStaticDebugMsg = true;
 		}
 		
 		public MacroscopeUrlTools ()

@@ -25,8 +25,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.IO;
+using System.Net;
 using RobotsTxt;
 
 namespace SEOMacroscope
@@ -47,144 +47,7 @@ namespace SEOMacroscope
 			dicRobots = new Dictionary<string,Robots> ( 32 );
 		}
 
-		/** Fetch Robot ***********************************************************/
-
-		public Robots FetchRobot ( string sUrl )
-		{
-			
-			Robots robot = null;
-
-			if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
-			{
-				DebugMsg( string.Format( "ROBOTS Disabled: {0}", sUrl ) );
-				return( robot );
-			}
-
-			Uri uBase = new Uri ( sUrl, UriKind.Absolute );
-			Uri uNew = null;
-			string sRobotsTxtUrl = null;
-			
-			try
-			{
-				uNew = new Uri (
-					string.Format(
-						"{0}://{1}{2}",
-						uBase.Scheme,
-						uBase.Host,
-						"/robots.txt"
-					),
-					UriKind.Absolute
-				);
-			   	
-				sRobotsTxtUrl = uNew.ToString();
-				
-			}
-			catch( InvalidOperationException ex )
-			{
-				DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
-			}
-			catch( UriFormatException ex )
-			{
-				DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
-			}
-			
-			if( sRobotsTxtUrl != null )
-			{
-
-				lock( this.dicRobots )
-				{
-
-					if( this.dicRobots.ContainsKey( sRobotsTxtUrl ) )
-					{
-						robot = this.dicRobots[ sRobotsTxtUrl ];
-					}
-					else
-					{
-
-						String sRobotsText = this.FetchRobotTextFile( sRobotsTxtUrl );
-
-						if( sRobotsText.Length > 0 )
-						{
-							robot = new Robots ( sRobotsText );
-							this.dicRobots.Add( sRobotsTxtUrl, robot );
-						}
-
-					}
-
-				}
-				
-			}
-
-			return( robot );
-
-		}
-
-		/** Fetch Robots Text *****************************************************/
-
-		string FetchRobotTextFile ( string sUrl )
-		{
-			Boolean bProceed = false;
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			string RobotText = "";
-			string sRawData = "";
-
-			/*
-			if( !MacroscopeDnsTools.CheckValidHostname( sUrl ) )
-			{
-				DebugMsg( string.Format( "FetchRobotTextFile :: CheckValidHostname: {0}", "NOT OK" ) );
-				return( RobotText );
-			}
-			*/
-			
-			try
-			{
-
-				req = WebRequest.CreateHttp( sUrl );
-				req.Method = "GET";
-				req.Timeout = 10000;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
-				bProceed = true;
-				
-			}
-			catch( WebException ex )
-			{
-				DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", sUrl ) );
-				DebugMsg( string.Format( "FetchRobotTextFile :: WebExceptionStatus: {0}", ex.Status ) );
-			}
-
-			if( ( bProceed ) && ( res != null ) )
-			{
-				try
-				{
-					Stream sStream = res.GetResponseStream();
-					StreamReader srRead = new StreamReader ( sStream );
-					sRawData = srRead.ReadToEnd();
-				}
-				catch( WebException ex )
-				{
-					DebugMsg( string.Format( "FetchRobotTextFile: WebException", ex.Message ) );
-					sRawData = "";
-				}
-				catch( Exception ex )
-				{
-					DebugMsg( string.Format( "FetchRobotTextFile: Exception", ex.Message ) );
-					sRawData = "";
-				}
-			}
-
-			if( sRawData.Length > 0 )
-			{
-				RobotText = sRawData;
-			}
-
-			return( RobotText );
-		}
-
-		/** Rules *****************************************************************/
+		/** ROBOT RULES ***********************************************************/
 
 		public Boolean ApplyRobotRule ( string sUrl )
 		{
@@ -275,6 +138,151 @@ namespace SEOMacroscope
 
 			return( iDelay );
 
+		}
+
+		/** Fetch Robot ***********************************************************/
+
+		public Robots FetchRobot ( string sUrl )
+		{
+			
+			Robots robot = null;
+
+			if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+			{
+				DebugMsg( string.Format( "ROBOTS Disabled: {0}", sUrl ) );
+				return( robot );
+			}
+
+			Uri uBase = new Uri ( sUrl, UriKind.Absolute );
+			Uri uNew = null;
+			string sRobotsTxtUrl = null;
+			
+			try
+			{
+				uNew = new Uri (
+					string.Format(
+						"{0}://{1}{2}",
+						uBase.Scheme,
+						uBase.Host,
+						"/robots.txt"
+					),
+					UriKind.Absolute
+				);
+			   	
+				sRobotsTxtUrl = uNew.ToString();
+				
+			}
+			catch( InvalidOperationException ex )
+			{
+				DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
+			}
+			catch( UriFormatException ex )
+			{
+				DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
+			}
+			
+			if( sRobotsTxtUrl != null )
+			{
+
+				lock( this.dicRobots )
+				{
+
+					if( this.dicRobots.ContainsKey( sRobotsTxtUrl ) )
+					{
+						robot = this.dicRobots[ sRobotsTxtUrl ];
+					}
+					else
+					{
+
+						String sRobotsText = this.FetchRobotTextFile( sRobotsTxtUrl );
+
+						if( sRobotsText.Length > 0 )
+						{
+							robot = new Robots ( sRobotsText );
+							this.dicRobots.Add( sRobotsTxtUrl, robot );
+						}
+
+					}
+
+				}
+				
+			}
+
+			return( robot );
+
+		}
+
+		/** Fetch Robots Text *****************************************************/
+
+		string FetchRobotTextFile ( string sUrl )
+		{
+			Boolean bProceed = false;
+			HttpWebRequest req = null;
+			HttpWebResponse res = null;
+			string RobotText = "";
+			string sRawData = "";
+
+			if( !MacroscopeDnsTools.CheckValidHostname( sUrl ) )
+			{
+				DebugMsg( string.Format( "FetchRobotTextFile :: CheckValidHostname: {0}", "NOT OK" ) );
+				return( RobotText );
+			}
+			
+			try
+			{
+
+				req = WebRequest.CreateHttp( sUrl );
+				req.Method = "GET";
+				req.Timeout = 30000; // 30 seconds
+				req.KeepAlive = false;
+				MacroscopePreferencesManager.EnableHttpProxy( req );
+				res = ( HttpWebResponse )req.GetResponse();
+				bProceed = true;
+				
+			}
+			catch( WebException ex )
+			{
+				DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", sUrl ) );
+				DebugMsg( string.Format( "FetchRobotTextFile :: WebExceptionStatus: {0}", ex.Status ) );
+			}
+			catch( NotSupportedException ex )
+			{
+				DebugMsg( string.Format( "FetchRobotTextFile :: NotSupportedException: {0}", ex.Message ) );
+				DebugMsg( string.Format( "FetchRobotTextFile :: NotSupportedException: {0}", sUrl ) );
+			}
+			catch( Exception ex )
+			{
+				DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", ex.Message ) );
+				DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", sUrl ) );
+			}
+			
+			if( ( bProceed ) && ( res != null ) )
+			{
+				try
+				{
+					Stream sStream = res.GetResponseStream();
+					StreamReader srRead = new StreamReader ( sStream );
+					sRawData = srRead.ReadToEnd();
+				}
+				catch( WebException ex )
+				{
+					DebugMsg( string.Format( "FetchRobotTextFile: WebException", ex.Message ) );
+					sRawData = "";
+				}
+				catch( Exception ex )
+				{
+					DebugMsg( string.Format( "FetchRobotTextFile: Exception", ex.Message ) );
+					sRawData = "";
+				}
+			}
+
+			if( sRawData.Length > 0 )
+			{
+				RobotText = sRawData;
+			}
+
+			return( RobotText );
 		}
 
 		/**************************************************************************/
