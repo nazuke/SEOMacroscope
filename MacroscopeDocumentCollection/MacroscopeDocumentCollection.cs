@@ -89,7 +89,7 @@ namespace SEOMacroscope
 			StatsUrlsSitemaps = 0;
 		
 			SemaphoreRecalc = new Semaphore ( 0, 1 );
-			//this.StartRecalcTimer();
+			this.StartRecalcTimer();
 
 			this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
 			
@@ -100,7 +100,7 @@ namespace SEOMacroscope
 		~MacroscopeDocumentCollection ()
 		{
 			this.DebugMsg( "MacroscopeDocumentCollection DESTRUCTOR CALLED" );
-			//this.StopRecalcTimer();
+			this.StopRecalcTimer();
 		}
 
 		/** Document Collection Methods *******************************************/
@@ -139,15 +139,32 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 				
+		// TODO: There may be a bug here, whereby two or more error pages are added multiple times.
+		
 		public void AddDocument ( string sKey, MacroscopeDocument msDoc )
 		{
-			if( this.DocCollection.ContainsKey( sKey ) )
-			{
-				this.RemoveDocument( sKey );
-			}
 			lock( this.DocCollection )
 			{
-				this.DocCollection.Add( sKey, msDoc );
+				if( this.DocCollection.ContainsKey( sKey ) )
+				{
+					this.DocCollection.Remove( sKey );
+					this.DocCollection.Add( sKey, msDoc );
+				}
+				else
+				{
+					try
+					{
+						this.DocCollection.Add( sKey, msDoc );
+					}
+					catch( ArgumentException ex )
+					{
+						this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
+					}
+					catch( Exception ex )
+					{
+						this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
+					}
+				}
 			}
 		}
 
@@ -362,6 +379,39 @@ namespace SEOMacroscope
 			}
 
 			SemaphoreRecalc.Release();
+
+		}
+
+		/** Hyperlinks In *********************************************************/
+
+		void RecalculateLinksIn ( string sUrlTarget, MacroscopeDocument msDoc )
+		{
+
+			msDoc.ClearHyperlinksIn();
+
+			foreach( string sUrlOrigin in this.DocCollection.Keys )
+			{
+
+				foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks( sUrlTarget ) )
+				{
+
+					if( sUrlTarget == HyperlinkOut.GetUrlTarget() )
+					{
+						
+						msDoc.AddHyperlinkIn(
+							HyperlinkOut.GetHyperlinkType(),
+							HyperlinkOut.GetMethod(),
+							sUrlOrigin,
+							sUrlTarget,
+							HyperlinkOut.GetLinkText(),
+							HyperlinkOut.GetAltText()
+						);
+						
+					}
+
+				}
+
+			}
 
 		}
 
@@ -724,39 +774,6 @@ namespace SEOMacroscope
 
 			}
 		
-		}
-
-		/** Hyperlinks In *********************************************************/
-
-		void RecalculateLinksIn ( string sUrlTarget, MacroscopeDocument msDoc )
-		{
-
-			msDoc.ClearHyperlinksIn();
-
-			foreach( string sUrlOrigin in this.DocCollection.Keys )
-			{
-
-				foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks( sUrlTarget ) )
-				{
-
-					if( sUrlTarget == HyperlinkOut.GetUrlTarget() )
-					{
-						
-						msDoc.AddHyperlinkIn(
-							HyperlinkOut.GetHyperlinkType(),
-							HyperlinkOut.GetMethod(),
-							sUrlOrigin,
-							sUrlTarget,
-							HyperlinkOut.GetLinkText(),
-							HyperlinkOut.GetAltText()
-						);
-						
-					}
-
-				}
-
-			}
-
 		}
 
 		/** Search Index **********************************************************/

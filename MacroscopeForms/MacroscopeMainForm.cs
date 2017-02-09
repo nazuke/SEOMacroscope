@@ -73,13 +73,17 @@ namespace SEOMacroscope
 
 		MacroscopeDisplayStructureOverview msSiteStructureOverview;
 
+		MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
+				
 		Semaphore SemaphoreTabPages;
 				
 		public System.Timers.Timer TimerProgressBarScan;
 		public System.Timers.Timer TimerTabPages;
 		public System.Timers.Timer TimerSiteOverview;
 		public System.Timers.Timer TimerStatusBar;
-			
+
+
+
 		/**************************************************************************/
 
 		public MacroscopeMainForm ()
@@ -88,6 +92,10 @@ namespace SEOMacroscope
 			InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
 			JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+
+			IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
+			
+			JobMaster.SetIncludeExcludeUrls( IncludeExcludeUrls );
 
 			StartUrlDirty = false;
 
@@ -108,7 +116,7 @@ namespace SEOMacroscope
 			StartTabPageTimer( Delay: 4000 ); // BROKEN // 4000ms
 			StartSiteOverviewTimer( Delay: 4000 ); // 4000ms
 			StartStatusBarTimer( Delay: 1000 ); // 1000ms
-			
+
 			ScanningControlsEnable( true );
 
 		}
@@ -550,6 +558,7 @@ namespace SEOMacroscope
 				{
 					this.JobMaster.ClearAllQueues();
 					this.JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+					this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
 					this.ClearDisplay();
 					this.StartUrlDirty = false;
 				}
@@ -578,6 +587,7 @@ namespace SEOMacroscope
 
 			this.JobMaster.ClearAllQueues();
 			this.JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LISTFILE, this );
+			this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
 			this.ClearDisplay();
 				
 			MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader ( this.JobMaster, sPath );
@@ -651,6 +661,8 @@ namespace SEOMacroscope
 				this.JobMaster.ClearAllQueues();
 
 				this.JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+				
+				this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
 
 				this.ClearDisplay();
 				
@@ -1408,6 +1420,7 @@ namespace SEOMacroscope
 		void ScanningControlsEnable ( Boolean bState )
 		{
 
+			this.taskParametersToolStripMenuItem.Enabled = true;
 			this.reportsToolStripMenuItem.Enabled = true;
 
 			this.textBoxStartUrl.Enabled = true;
@@ -1430,6 +1443,7 @@ namespace SEOMacroscope
 		void ScanningControlsStart ( Boolean bState )
 		{
 
+			this.taskParametersToolStripMenuItem.Enabled = false;
 			this.reportsToolStripMenuItem.Enabled = false;
 
 			this.textBoxStartUrl.Enabled = false;
@@ -1452,6 +1466,7 @@ namespace SEOMacroscope
 		void ScanningControlsStopping ( Boolean bState )
 		{
 
+			this.taskParametersToolStripMenuItem.Enabled = false;
 			this.reportsToolStripMenuItem.Enabled = false;
 
 			this.textBoxStartUrl.Enabled = false;
@@ -1473,6 +1488,8 @@ namespace SEOMacroscope
 
 		void ScanningControlsStopped ( Boolean bState )
 		{
+						
+			this.taskParametersToolStripMenuItem.Enabled = true;
 			this.reportsToolStripMenuItem.Enabled = true;
 
 			this.textBoxStartUrl.Enabled = true;
@@ -1494,6 +1511,8 @@ namespace SEOMacroscope
 
 		void ScanningControlsReset ( Boolean bState )
 		{
+
+			this.taskParametersToolStripMenuItem.Enabled = true;
 			this.reportsToolStripMenuItem.Enabled = true;
 
 			this.textBoxStartUrl.Enabled = true;
@@ -1516,6 +1535,7 @@ namespace SEOMacroscope
 		void ScanningControlsComplete ( Boolean bState )
 		{
 
+			this.taskParametersToolStripMenuItem.Enabled = true;
 			this.reportsToolStripMenuItem.Enabled = true;
 
 			this.textBoxStartUrl.Enabled = true;
@@ -1756,12 +1776,18 @@ namespace SEOMacroscope
 		{
 
 			MacroscopeIncludeUrlPatterns IncludeUrlPatterns = new MacroscopeIncludeUrlPatterns ();
+			string IncludePatternsText = this.IncludeExcludeUrls.FetchIncludeUrlPatterns();
 
+			if( IncludePatternsText.Length > 0 )
+			{
+				IncludeUrlPatterns.textBoxPatterns.Text = IncludePatternsText;
+			}
+			
 			DialogResult IncludeUrlPatternsResult = IncludeUrlPatterns.ShowDialog();
 
 			if( IncludeUrlPatternsResult == DialogResult.OK )
 			{
-				this.JobMaster.LoadIncludeUrlPatterns( IncludeUrlPatternsText: IncludeUrlPatterns.textBoxPatterns.Text );
+				this.IncludeExcludeUrls.LoadIncludeUrlPatterns( IncludeUrlPatternsText: IncludeUrlPatterns.textBoxPatterns.Text );
 			}
 
 		}
@@ -1770,12 +1796,18 @@ namespace SEOMacroscope
 		{
 
 			MacroscopeExcludeUrlPatterns ExcludeUrlPatterns = new MacroscopeExcludeUrlPatterns ();
+			string ExcludeUrlPatternsText = this.IncludeExcludeUrls.FetchExcludeUrlPatterns();
 
+			if( ExcludeUrlPatternsText.Length > 0 )
+			{
+				ExcludeUrlPatterns.textBoxPatterns.Text = ExcludeUrlPatternsText;
+			}
+			
 			DialogResult ExcludeUrlPatternsResult = ExcludeUrlPatterns.ShowDialog();
 
 			if( ExcludeUrlPatternsResult == DialogResult.OK )
 			{
-				this.JobMaster.LoadExcludeUrlPatterns( ExcludeUrlPatternsText: ExcludeUrlPatterns.textBoxPatterns.Text );
+				this.IncludeExcludeUrls.LoadExcludeUrlPatterns( ExcludeUrlPatternsText: ExcludeUrlPatterns.textBoxPatterns.Text );
 			}
 
 		}

@@ -115,6 +115,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeOutlink\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopeDocument\t\TestMacroscopeDocument.cs" />
+    <Compile Include="MacroscopeEnvironment\MacroscopeIncludeExcludeUrls.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferencesManager.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.Designer.cs">

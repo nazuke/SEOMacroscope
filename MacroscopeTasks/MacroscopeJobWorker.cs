@@ -35,15 +35,12 @@ namespace SEOMacroscope
 	{
 
 		/**************************************************************************/
-				
-		public override Boolean SuppressDebugMsg { get; protected set; }
-				
-		/**************************************************************************/
 
 		MacroscopeJobMaster JobMaster;
 		MacroscopeDocumentCollection DocCollection;
 		MacroscopeAllowedHosts AllowedHosts;
-
+		MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
+		
 		/**************************************************************************/
 
 		public MacroscopeJobWorker ( MacroscopeJobMaster JobMasterNew )
@@ -55,6 +52,8 @@ namespace SEOMacroscope
 			
 			DocCollection = JobMaster.GetDocCollection();
 			AllowedHosts = JobMaster.GetAllowedHosts();
+
+			IncludeExcludeUrls = JobMaster.GetIncludeExcludeUrls();
 
 		}
 
@@ -79,7 +78,15 @@ namespace SEOMacroscope
 				{
 				
 					string sUrl = this.JobMaster.GetUrlQueueItem();
-				
+
+					if( sUrl != null )
+					{
+						if( !this.CheckIncludeExcludeUrl( sUrl ) )
+						{
+							sUrl = null;
+						}
+					}
+
 					if( sUrl != null )
 					{
 
@@ -121,6 +128,43 @@ namespace SEOMacroscope
 
 			JobMaster.NotifyWorkersDone();
 		
+		}
+
+		/** Check Include/Exclude URL *********************************************/
+
+		Boolean CheckIncludeExcludeUrl ( string sUrl )
+		{
+			
+			Boolean bSuccess = true;
+
+			if( this.IncludeExcludeUrls.UseIncludeUrlPatterns() )
+			{
+				if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( sUrl ) )
+				{
+					DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES INCLUDE URL: {0}", sUrl ) );
+				}
+				else
+				{
+					DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", sUrl ) );
+					bSuccess = false;
+				}
+			}
+
+			if( this.IncludeExcludeUrls.UseExcludeUrlPatterns() )
+			{
+				if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( sUrl ) )
+				{
+					DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", sUrl ) );
+					bSuccess = false;
+				}
+				else
+				{
+					DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH EXCLUDE URL: {0}", sUrl ) );
+				}
+			}
+
+			return( bSuccess );
+			
 		}
 
 		/**************************************************************************/

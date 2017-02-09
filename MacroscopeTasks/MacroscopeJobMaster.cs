@@ -43,6 +43,7 @@ namespace SEOMacroscope
 		MacroscopeAllowedHosts AllowedHosts;
 		MacroscopeNamedQueue NamedQueue;
 		MacroscopeRobots Robots;
+		MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 		
 		int CrawlDelay;
 		int ThreadsMax;
@@ -68,9 +69,6 @@ namespace SEOMacroscope
 
 		Dictionary<string,Boolean> BlockedByRobots;
 
-		List<string> IncludeUrlPatternsList;
-		List<string> ExcludeUrlPatternsList;
-		
 		/**************************************************************************/
 
 		public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode )
@@ -152,9 +150,6 @@ namespace SEOMacroscope
 			this.Robots = new MacroscopeRobots ();
 			this.BlockedByRobots = new Dictionary<string,Boolean> ();
 
-			IncludeUrlPatternsList = new List<string> ( 128 );
-			ExcludeUrlPatternsList = new List<string> ( 128 );
-
 		}
 
 		/**************************************************************************/
@@ -176,6 +171,18 @@ namespace SEOMacroscope
 		public MacroscopeConstants.RunTimeMode GetRuntimeMode ()
 		{
 			return( this.RuntimeMode );
+		}
+
+		/** Include/Exclude URLs **************************************************/
+		
+		public void SetIncludeExcludeUrls ( MacroscopeIncludeExcludeUrls IncludeExcludeUrlsNew )
+		{
+			this.IncludeExcludeUrls = IncludeExcludeUrlsNew;
+		}
+		
+		public MacroscopeIncludeExcludeUrls GetIncludeExcludeUrls ()
+		{
+			return( this.IncludeExcludeUrls );
 		}
 
 		/** Execute Job ***********************************************************/
@@ -810,8 +817,19 @@ namespace SEOMacroscope
 			return( dicCopy );
 		}
 
-		/** Include URL Patterns **************************************************/
+		/** Include/Exclude URL Patterns ******************************************/
 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
 		public void LoadIncludeUrlPatterns ( string IncludeUrlPatternsText )
 		{
 		
@@ -828,29 +846,52 @@ namespace SEOMacroscope
 
 		}
 
+		public string FetchIncludeUrlPatterns ()
+		{
+			string sText = string.Join( "\r\n", this.IncludeUrlPatternsList );
+			return( sText );
+		}
+
 		public Boolean UseIncludeUrlPatterns ()
 		{
-			if( this.IncludeUrlPatternsList.Count > 0 )
+			Boolean bUse = false;
+
+			int Count = this.IncludeUrlPatternsList.Count;
+			
+			if( Count > 0 )
 			{
-				return( true );
+				bUse = true;
 			}
-			else
-			{
-				return( false );
-			}
+			return( bUse );
 		}
 
 		public Boolean MatchesIncludeUrlPattern ( string Url )
 		{
-			Boolean bMatches = false;
+			Boolean bMatch = false;
 
 			// TODO: Implement this.
 
-			return( bMatches );
+			for( int i = 0 ; i < this.IncludeUrlPatternsList.Count ; i++ )
+			{
+				if( Url.IndexOf( this.IncludeUrlPatternsList[ i ] ) >= 0 )
+				{
+					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+					bMatch = true;
+					break;
+				}
+				else
+				{
+					DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+				}
+			}
+
+			return( bMatch );
 		}
+		*/
 
 		/** Exclude URL Patterns **************************************************/
 
+		/*
 		public void LoadExcludeUrlPatterns ( string ExcludeUrlPatternsText )
 		{
 			
@@ -866,27 +907,46 @@ namespace SEOMacroscope
 			}
 
 		}
+		
+		public string FetchExcludeUrlPatterns ()
+		{
+			string sText = string.Join( "\r\n", this.ExcludeUrlPatternsList );
+			return( sText );
+		}
 
 		public Boolean UseExcludeUrlPatterns ()
 		{
+			Boolean bUse = false;
 			if( this.ExcludeUrlPatternsList.Count > 0 )
 			{
-				return( true );
+				bUse = true;
 			}
-			else
-			{
-				return( false );
-			}
+			return( bUse );
 		}
 
 		public Boolean MatchesExcludeUrlPattern ( string Url )
 		{
-			Boolean bMatches = false;
+			Boolean bMatch = false;
 
 			// TODO: Implement this.
 
-			return( bMatches );
+			for( int i = 0 ; i < this.ExcludeUrlPatternsList.Count ; i++ )
+			{
+				if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ] ) >= 0 )
+				{
+					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+					bMatch = true;
+					break;
+				}
+				else
+				{
+					DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+				}
+			}
+						
+			return( bMatch );
 		}
+		*/
 		
 		/**************************************************************************/
 				

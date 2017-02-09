@@ -64,7 +64,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem loadFromTextFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pasteFromClipboardToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem sEOMacroscopeWebsiteToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem parametersToolStripMenuItem;
+		public System.Windows.Forms.ToolStripMenuItem taskParametersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem includeURLPatternsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem excludeURLPatternsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem crawlParentDirectoriesToolStripMenuItem;
@@ -101,7 +101,7 @@ namespace SEOMacroscope
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.parametersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.taskParametersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.includeURLPatternsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.excludeURLPatternsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.crawlParentDirectoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,7 +152,7 @@ namespace SEOMacroscope
 			this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.fileToolStripMenuItem,
 			this.editToolStripMenuItem,
-			this.parametersToolStripMenuItem,
+			this.taskParametersToolStripMenuItem,
 			this.reportsToolStripMenuItem,
 			this.helpToolStripMenuItem});
 			this.menuStripMain.Location = new System.Drawing.Point(0, 0);
@@ -216,16 +216,16 @@ namespace SEOMacroscope
 			this.preferencesToolStripMenuItem.Text = "Preferences";
 			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.CallbackEditPreferencesClick);
 			// 
-			// parametersToolStripMenuItem
+			// taskParametersToolStripMenuItem
 			// 
-			this.parametersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.taskParametersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.includeURLPatternsToolStripMenuItem,
 			this.excludeURLPatternsToolStripMenuItem,
 			this.crawlParentDirectoriesToolStripMenuItem,
 			this.crawlChildDirectoriesToolStripMenuItem});
-			this.parametersToolStripMenuItem.Name = "parametersToolStripMenuItem";
-			this.parametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
-			this.parametersToolStripMenuItem.Text = "Task Parameters";
+			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
+			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+			this.taskParametersToolStripMenuItem.Text = "Task Parameters";
 			// 
 			// includeURLPatternsToolStripMenuItem
 			// 
