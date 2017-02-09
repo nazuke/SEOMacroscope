@@ -161,6 +161,7 @@
       <DependentUpon>MacroscopeIncludeUrlPatterns.cs</DependentUpon>
     </Compile>
     <Compile Include="MacroscopeHosts\MacroscopeAllowedHosts.cs" />
+    <Compile Include="MacroscopeHosts\MacroscopeDnsTools.cs" />
     <Compile Include="MacroscopeHosts\MacroscopeDomainWrangler.cs" />
     <Compile Include="MacroscopeHosts\t\TestMacroscopeDomainWrangler.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
@@ -172,7 +173,6 @@
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeColumnSorter.cs" />
-    <Compile Include="MacroscopeTools\MacroscopeDnsTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeTools\MacroscopePdfTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeStringTools.cs" />

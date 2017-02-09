@@ -1420,6 +1420,7 @@ namespace SEOMacroscope
 		void ScanningControlsEnable ( Boolean bState )
 		{
 
+			this.loadUrlListToolStripMenuItem.Enabled = true;
 			this.taskParametersToolStripMenuItem.Enabled = true;
 			this.reportsToolStripMenuItem.Enabled = true;
 
@@ -1443,6 +1444,7 @@ namespace SEOMacroscope
 		void ScanningControlsStart ( Boolean bState )
 		{
 
+			this.loadUrlListToolStripMenuItem.Enabled = false;
 			this.taskParametersToolStripMenuItem.Enabled = false;
 			this.reportsToolStripMenuItem.Enabled = false;
 
@@ -1466,6 +1468,7 @@ namespace SEOMacroscope
 		void ScanningControlsStopping ( Boolean bState )
 		{
 
+			this.loadUrlListToolStripMenuItem.Enabled = false;
 			this.taskParametersToolStripMenuItem.Enabled = false;
 			this.reportsToolStripMenuItem.Enabled = false;
 
@@ -1489,6 +1492,7 @@ namespace SEOMacroscope
 		void ScanningControlsStopped ( Boolean bState )
 		{
 						
+			this.loadUrlListToolStripMenuItem.Enabled = true;
 			this.taskParametersToolStripMenuItem.Enabled = true;
 			this.reportsToolStripMenuItem.Enabled = true;
 
@@ -1512,6 +1516,7 @@ namespace SEOMacroscope
 		void ScanningControlsReset ( Boolean bState )
 		{
 
+			this.loadUrlListToolStripMenuItem.Enabled = true;
 			this.taskParametersToolStripMenuItem.Enabled = true;
 			this.reportsToolStripMenuItem.Enabled = true;
 
@@ -1535,6 +1540,7 @@ namespace SEOMacroscope
 		void ScanningControlsComplete ( Boolean bState )
 		{
 
+			this.loadUrlListToolStripMenuItem.Enabled = true;
 			this.taskParametersToolStripMenuItem.Enabled = true;
 			this.reportsToolStripMenuItem.Enabled = true;
 
@@ -1854,6 +1860,10 @@ namespace SEOMacroscope
 		static void DebugMsg ( String sMsg )
 		{
 			System.Diagnostics.Debug.WriteLine( sMsg );
+		}
+		void EditToolStripMenuItemClick ( object sender, EventArgs e )
+		{
+	
 		}
 
 		/**************************************************************************/

@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using ClosedXML.Excel;
 
@@ -62,9 +61,8 @@ namespace SEOMacroscope
 
 			Dictionary<string,string> htLocales = msJobMaster.GetLocales();
 			MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
-			
-			Hashtable htLocaleCols = new Hashtable ();
-			
+			Dictionary<string,int> dicLocaleCols = new Dictionary<string, int>();
+
 			{
 			
 				ws.Cell( iRow, iCol ).Value = "Site Locale";
@@ -75,7 +73,7 @@ namespace SEOMacroscope
 
 				foreach( string sLocale in htLocales.Keys ) {
 					DebugMsg( string.Format( "EXCEL sLocale: {0}", sLocale ) );
-					htLocaleCols[sLocale] = iCol;
+					dicLocaleCols[sLocale] = iCol;
 					ws.Cell( iRow, iCol ).Value = sLocale;
 					iCol++;
 				}
@@ -110,16 +108,16 @@ namespace SEOMacroscope
 						ws.Cell( iRow, 2 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
 					}
 					
-					ws.Cell( iRow, ( int )htLocaleCols[msDoc.GetLocale()] ).Value = msDoc.GetUrl();
+					ws.Cell( iRow, dicLocaleCols[msDoc.GetLocale()] ).Value = msDoc.GetUrl();
 
 					foreach( string sLocale in htLocales.Keys ) {
 						if( sLocale != null ) {
 							if( htHrefLangs.ContainsKey( sLocale ) ) {
 								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[sLocale];
-								ws.Cell( iRow, ( int )htLocaleCols[sLocale] ).Value = msHrefLang.GetUrl();
+								ws.Cell( iRow, dicLocaleCols[sLocale] ).Value = msHrefLang.GetUrl();
 							} else {
-								ws.Cell( iRow, ( int )htLocaleCols[sLocale] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
-								ws.Cell( iRow, ( int )htLocaleCols[sLocale] ).Value = "MISSING";					
+								ws.Cell( iRow, dicLocaleCols[sLocale] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+								ws.Cell( iRow, dicLocaleCols[sLocale] ).Value = "MISSING";					
 							}
 						}
 					}

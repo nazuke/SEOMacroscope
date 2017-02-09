@@ -60,7 +60,7 @@ namespace SEOMacroscope
 		public SEOMacroscope.MacroscopeOverviewPanel macroscopeOverviewTabPanelInstance;
 		private SEOMacroscope.MacroscopeDocumentDetails macroscopeDocumentDetailsInstance;
 		private SEOMacroscope.MacroscopeSiteStructurePanel macroscopeSiteStructurePanelInstance;
-		private System.Windows.Forms.ToolStripMenuItem loadURLListToolStripMenuItem;
+		public System.Windows.Forms.ToolStripMenuItem loadUrlListToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem loadFromTextFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pasteFromClipboardToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem sEOMacroscopeWebsiteToolStripMenuItem;
@@ -95,7 +95,7 @@ namespace SEOMacroscope
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroscopeMainForm));
 			this.menuStripMain = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.loadURLListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadUrlListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadFromTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pasteFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -164,20 +164,20 @@ namespace SEOMacroscope
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.loadURLListToolStripMenuItem,
+			this.loadUrlListToolStripMenuItem,
 			this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
-			// loadURLListToolStripMenuItem
+			// loadUrlListToolStripMenuItem
 			// 
-			this.loadURLListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.loadUrlListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.loadFromTextFileToolStripMenuItem,
 			this.pasteFromClipboardToolStripMenuItem});
-			this.loadURLListToolStripMenuItem.Name = "loadURLListToolStripMenuItem";
-			this.loadURLListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-			this.loadURLListToolStripMenuItem.Text = "Load URL List";
+			this.loadUrlListToolStripMenuItem.Name = "loadUrlListToolStripMenuItem";
+			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadUrlListToolStripMenuItem.Text = "Load URL List";
 			// 
 			// loadFromTextFileToolStripMenuItem
 			// 
@@ -195,8 +195,9 @@ namespace SEOMacroscope
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
+			this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.CallbackFileExit);
 			// 
@@ -207,10 +208,12 @@ namespace SEOMacroscope
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "Edit";
+			this.editToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItemClick);
 			// 
 			// preferencesToolStripMenuItem
 			// 
 			this.preferencesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("preferencesToolStripMenuItem.Image")));
+			this.preferencesToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
 			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.preferencesToolStripMenuItem.Text = "Preferences";
@@ -224,7 +227,7 @@ namespace SEOMacroscope
 			this.crawlParentDirectoriesToolStripMenuItem,
 			this.crawlChildDirectoriesToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
 			this.taskParametersToolStripMenuItem.Text = "Task Parameters";
 			// 
 			// includeURLPatternsToolStripMenuItem
@@ -269,6 +272,7 @@ namespace SEOMacroscope
 			// saveOverviewExcelReportToolStripMenuItem
 			// 
 			this.saveOverviewExcelReportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveOverviewExcelReportToolStripMenuItem.Image")));
+			this.saveOverviewExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.saveOverviewExcelReportToolStripMenuItem.Name = "saveOverviewExcelReportToolStripMenuItem";
 			this.saveOverviewExcelReportToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.saveOverviewExcelReportToolStripMenuItem.Text = "Save Overview Excel Report";
@@ -277,6 +281,7 @@ namespace SEOMacroscope
 			// generateHrefLangExcelReportToolStripMenuItem
 			// 
 			this.generateHrefLangExcelReportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("generateHrefLangExcelReportToolStripMenuItem.Image")));
+			this.generateHrefLangExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.generateHrefLangExcelReportToolStripMenuItem.Name = "generateHrefLangExcelReportToolStripMenuItem";
 			this.generateHrefLangExcelReportToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.generateHrefLangExcelReportToolStripMenuItem.Text = "Save HrefLang Excel Report";
@@ -419,6 +424,7 @@ namespace SEOMacroscope
 			// 
 			this.ButtonStart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonStart.Image = ((System.Drawing.Image)(resources.GetObject("ButtonStart.Image")));
+			this.ButtonStart.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.ButtonStart.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ButtonStart.Name = "ButtonStart";
 			this.ButtonStart.Size = new System.Drawing.Size(51, 27);
@@ -430,6 +436,7 @@ namespace SEOMacroscope
 			// 
 			this.ButtonStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonStop.Image = ((System.Drawing.Image)(resources.GetObject("ButtonStop.Image")));
+			this.ButtonStop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.ButtonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ButtonStop.Name = "ButtonStop";
 			this.ButtonStop.Size = new System.Drawing.Size(51, 27);
@@ -439,12 +446,12 @@ namespace SEOMacroscope
 			// 
 			// ButtonReset
 			// 
-			this.ButtonReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.ButtonReset.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonReset.Image = ((System.Drawing.Image)(resources.GetObject("ButtonReset.Image")));
+			this.ButtonReset.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.ButtonReset.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ButtonReset.Name = "ButtonReset";
-			this.ButtonReset.Size = new System.Drawing.Size(39, 27);
+			this.ButtonReset.Size = new System.Drawing.Size(55, 27);
 			this.ButtonReset.Text = "Reset";
 			this.ButtonReset.ToolTipText = "Reset all scan results";
 			this.ButtonReset.Click += new System.EventHandler(this.CallbackScanReset);
@@ -460,7 +467,8 @@ namespace SEOMacroscope
 			// splitContainerLeftAndRightViews
 			// 
 			this.splitContainerLeftAndRightViews.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainerLeftAndRightViews.Location = new System.Drawing.Point(3, 63);
+			this.splitContainerLeftAndRightViews.Location = new System.Drawing.Point(0, 60);
+			this.splitContainerLeftAndRightViews.Margin = new System.Windows.Forms.Padding(0);
 			this.splitContainerLeftAndRightViews.Name = "splitContainerLeftAndRightViews";
 			// 
 			// splitContainerLeftAndRightViews.Panel1
@@ -471,8 +479,8 @@ namespace SEOMacroscope
 			// splitContainerLeftAndRightViews.Panel2
 			// 
 			this.splitContainerLeftAndRightViews.Panel2.Controls.Add(this.macroscopeSiteStructurePanelInstance);
-			this.splitContainerLeftAndRightViews.Size = new System.Drawing.Size(778, 442);
-			this.splitContainerLeftAndRightViews.SplitterDistance = 533;
+			this.splitContainerLeftAndRightViews.Size = new System.Drawing.Size(784, 448);
+			this.splitContainerLeftAndRightViews.SplitterDistance = 554;
 			this.splitContainerLeftAndRightViews.SplitterWidth = 6;
 			this.splitContainerLeftAndRightViews.TabIndex = 7;
 			this.splitContainerLeftAndRightViews.TabStop = false;
@@ -492,8 +500,8 @@ namespace SEOMacroscope
 			// splitContainerStructureAndDocumentDetails.Panel2
 			// 
 			this.splitContainerStructureAndDocumentDetails.Panel2.Controls.Add(this.macroscopeDocumentDetailsInstance);
-			this.splitContainerStructureAndDocumentDetails.Size = new System.Drawing.Size(533, 442);
-			this.splitContainerStructureAndDocumentDetails.SplitterDistance = 218;
+			this.splitContainerStructureAndDocumentDetails.Size = new System.Drawing.Size(554, 448);
+			this.splitContainerStructureAndDocumentDetails.SplitterDistance = 220;
 			this.splitContainerStructureAndDocumentDetails.SplitterWidth = 6;
 			this.splitContainerStructureAndDocumentDetails.TabIndex = 0;
 			// 
