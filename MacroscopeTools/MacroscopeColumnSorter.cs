@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -56,11 +57,20 @@ namespace SEOMacroscope
 
 		public int Compare ( object x, object y )
 		{
+			
 			int compareResult;
 			ListViewItem listviewX, listviewY;
+			
 			listviewX = ( ListViewItem )x;
 			listviewY = ( ListViewItem )y;
-			compareResult = ObjectCompare.Compare( listviewX.SubItems[ ColumnToSort ].Text, listviewY.SubItems[ ColumnToSort ].Text );
+
+			object [] ObjectPair = DetermineValueType(
+				                       listviewX.SubItems[ ColumnToSort ].Text,
+				                       listviewY.SubItems[ ColumnToSort ].Text
+			                       );
+			
+			compareResult = ObjectCompare.Compare( ObjectPair[ 0 ], ObjectPair[ 1 ] );
+
 			if( OrderOfSort == SortOrder.Ascending )
 			{
 				return compareResult;
@@ -74,6 +84,7 @@ namespace SEOMacroscope
 			{
 				return 0;
 			}
+			
 		}
 		
 		/**************************************************************************/
@@ -105,7 +116,41 @@ namespace SEOMacroscope
 		}
 	
 		/**************************************************************************/
-				
+		
+		object[] DetermineValueType ( string sTextX, string sTextY )
+		{
+			object [] ObjectPair = new object[2];
+	
+			ObjectPair[ 0 ] = sTextX;
+			ObjectPair[ 1 ] = sTextY;
+
+			if(
+				Regex.IsMatch( sTextX, "^[0-9]+$" )
+				&& Regex.IsMatch( sTextY, "^[0-9]+$" ) )
+			{
+				decimal DecimalX = decimal.Parse( sTextX );
+				decimal DecimalY = decimal.Parse( sTextY );
+				ObjectPair[ 0 ] = DecimalX;
+				ObjectPair[ 1 ] = DecimalY;
+			}
+			
+			if(
+				Regex.IsMatch( sTextX, "^[0-9]+\\.[0-9]+$" )
+				&& Regex.IsMatch( sTextY, "^[0-9]+\\.[0-9]+$" ) )
+			{
+				decimal DecimalX = decimal.Parse( sTextX );
+				decimal DecimalY = decimal.Parse( sTextY );
+				ObjectPair[ 0 ] = DecimalX;
+				ObjectPair[ 1 ] = DecimalY;
+			}
+
+			// TODO: Add dates, etc.
+			
+			return( ObjectPair );
+		}
+		
+		/**************************************************************************/
+
 	}
 	
 }

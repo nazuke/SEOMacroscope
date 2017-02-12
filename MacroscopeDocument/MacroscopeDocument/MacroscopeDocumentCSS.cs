@@ -47,7 +47,9 @@ namespace SEOMacroscope
 			
 			DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 			
-			try {
+			try
+			{
+				
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "GET";
 				req.Timeout = this.Timeout;
@@ -56,7 +58,9 @@ namespace SEOMacroscope
 
 				res = ( HttpWebResponse )req.GetResponse();
 
-			} catch( WebException ex ) {
+			}
+			catch( WebException ex )
+			{
 
 				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Message ) );
 				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Status ) );
@@ -66,14 +70,16 @@ namespace SEOMacroscope
 
 			}
 
-			if( res != null ) {
+			if( res != null )
+			{
 				
 				string sRawData = "";
 
 				this.ProcessHttpHeaders( req, res );
 
 				// Get Response Body
-				try {
+				try
+				{
 
 					DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 					Stream sStream = res.GetResponseStream();
@@ -82,13 +88,17 @@ namespace SEOMacroscope
 					this.ContentLength = sRawData.Length; // May need to find bytes length
 					//DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
 
-				} catch( WebException ex ) {
+				}
+				catch( WebException ex )
+				{
 
 					DebugMsg( string.Format( "WebException", ex.Message ) );
 					sRawData = "";
 					this.ContentLength = 0;
 
-				} catch( Exception ex ) {
+				}
+				catch( Exception ex )
+				{
 
 					DebugMsg( string.Format( "Exception", ex.Message ) );
 					this.StatusCode = ( int )HttpStatusCode.BadRequest;
@@ -96,12 +106,10 @@ namespace SEOMacroscope
 					
 				}
 
-				if( sRawData.Length > 0 ) {
+				if( sRawData.Length > 0 )
+				{
 					ExCSS.Parser ExCssParser = new  ExCSS.Parser ();
 					ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( sRawData );
-
-
-
 
 					this.ProcessCssHyperlinksOut( ExCssStylesheet );
 
@@ -110,16 +118,21 @@ namespace SEOMacroscope
 				{ // Title
 					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
 					string sTitle = null;
-					foreach( Match match in reMatches ) {
-						if( match.Groups[ 1 ].Value.Length > 0 ) {
+					foreach( Match match in reMatches )
+					{
+						if( match.Groups[ 1 ].Value.Length > 0 )
+						{
 							sTitle = match.Groups[ 1 ].Value.ToString();
 							break;
 						}
 					}
-					if( sTitle != null ) {
+					if( sTitle != null )
+					{
 						this.Title = sTitle;
 						DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
-					} else {
+					}
+					else
+					{
 						DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
 					}
 				}
@@ -128,7 +141,8 @@ namespace SEOMacroscope
 
 			}
 
-			if( sErrorCondition != null ) {
+			if( sErrorCondition != null )
+			{
 				this.ProcessErrorCondition( sErrorCondition );
 			}
 
@@ -139,34 +153,42 @@ namespace SEOMacroscope
 		void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
 		{
 
-			foreach( var rRule in ExCssStylesheet.StyleRules ) {
+			foreach( var rRule in ExCssStylesheet.StyleRules )
+			{
 						
 				int iRule = ExCssStylesheet.StyleRules.IndexOf( rRule );
 
-				foreach( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties ) {
+				foreach( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties )
+				{
 
-					if( pProp.Name.Equals( "background-image" ) ) {
+					if( pProp.Name.Equals( "background-image" ) )
+					{
 
 						string sBackgroundImageUrl = pProp.Term.ToString();
 						string sLinkUrlAbs;
 
+						DebugMsg( string.Format( "ProcessCssHyperlinksOut: {0}", sBackgroundImageUrl ) );
+													
 						sBackgroundImageUrl = MacroscopeUrlTools.CleanUrlCss( sBackgroundImageUrl );
-						sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
+											
+						if( sBackgroundImageUrl != null )
+						{
+													
+							sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
 
-						DebugMsg( "" );
-						DebugMsg( string.Format( "sBackgroundImageUrl: {0}", sBackgroundImageUrl ) );
-						DebugMsg( string.Format( "sBackgroundImageUrl this.Url: {0}", this.Url ) );
-						DebugMsg( string.Format( "sBackgroundImageUrl sLinkUrlAbs: {0}", sLinkUrlAbs ) );
-						DebugMsg( "" );
-
-
-
-						// TODO: Verify that this actually works:
-						//this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
+							DebugMsg( string.Format( "ProcessCssHyperlinksOut: {0}", sBackgroundImageUrl ) );
+							DebugMsg( string.Format( "ProcessCssHyperlinksOut this.Url: {0}", this.Url ) );
+							DebugMsg( string.Format( "ProcessCssHyperlinksOut sLinkUrlAbs: {0}", sLinkUrlAbs ) );
+							
+							// TODO: Verify that this actually works:
 						
+							this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
 						
-						
-
+						}
+						else
+						{
+							DebugMsg( string.Format( "ProcessCssHyperlinksOut: {0}", "NOT CSS URL" ) );
+						}
 
 					}
 

@@ -422,11 +422,22 @@ namespace SEOMacroscope
 			
 			string sCleaned = sUrl;
 
-			sCleaned = Regex.Replace( sCleaned, "^[\\s]", "" );
-			sCleaned = Regex.Replace( sCleaned, "[\\s]$", "" );
-			sCleaned = Regex.Replace( sCleaned, "^url\\(", "" );
-			sCleaned = Regex.Replace( sCleaned, "\\)$", "" );
+			if( Regex.IsMatch( sUrl, "url\\([^()]+\\)" ) )
+			{
+			
+				sCleaned = Regex.Replace( sCleaned, "^[\\s]", "" );
+				sCleaned = Regex.Replace( sCleaned, "[\\s]$", "" );
+				sCleaned = Regex.Replace( sCleaned, "^url\\(", "" );
+				sCleaned = Regex.Replace( sCleaned, "\\)$", "" );
 
+			}
+			else
+			{
+				
+				sCleaned = null;
+			
+			}
+			
 			return( sCleaned );
 
 		}

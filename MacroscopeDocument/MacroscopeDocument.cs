@@ -125,7 +125,7 @@ namespace SEOMacroscope
 		public MacroscopeDocument ( string sUrl )
 		{
 
-			SuppressDebugMsg = true;
+			SuppressDebugMsg = false;
 			
 			IsDirty = true;
 			
