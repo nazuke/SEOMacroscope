@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -39,7 +39,7 @@ namespace SEOMacroscope
 		{
 			SuppressStaticDebugMsg = true;
 		}
-		
+
 		public MacroscopeUrlTools ()
 		{
 			SuppressDebugMsg = true;
@@ -73,17 +73,17 @@ namespace SEOMacroscope
 			return( bIsValid );
 
 		}
-		
+
 		/**************************************************************************/
 
 		public static string SanitizeUrl ( string sUrl )
 		{
-			
+
 			string sSanitized;
 			DebugMsg( string.Format( "SanitizeUrl 1: {0}", sUrl ), true );
-			
+
 			sSanitized = Uri.EscapeUriString( sUrl );
-			
+
 			DebugMsg( string.Format( "SanitizeUrl 2: {0}", sSanitized ), true );
 
 			return( sSanitized );
@@ -146,7 +146,7 @@ namespace SEOMacroscope
 						),
 						UriKind.Absolute
 					);
-			   	
+
 				}
 				catch( InvalidOperationException ex )
 				{
@@ -173,7 +173,7 @@ namespace SEOMacroscope
 						),
 						UriKind.Absolute
 					);
-			   	
+
 				}
 				catch( InvalidOperationException ex )
 				{
@@ -183,7 +183,7 @@ namespace SEOMacroscope
 				{
 					DebugMsg( ex.Message, true );
 				}
-				
+
 			}
 			else
 			if( reQuery.IsMatch( sUrl ) )
@@ -200,7 +200,7 @@ namespace SEOMacroscope
 						),
 						UriKind.Absolute
 					);
-			   	
+
 				}
 				catch( InvalidOperationException ex )
 				{
@@ -231,7 +231,7 @@ namespace SEOMacroscope
 						),
 						UriKind.Absolute
 					);
-			   	
+
 				}
 				catch( InvalidOperationException ex )
 				{
@@ -271,16 +271,16 @@ namespace SEOMacroscope
 			else
 			{
 
-				
+
 				DebugMsg( string.Format( "RELATIVE URL 1: {0}", sUrl ), true );
 
 				string sBasePath = Regex.Replace( uBase.AbsolutePath, "/[^/]+$", "/" );
 				string sNewPath = string.Join( "", sBasePath, sUrl );
-				
+
 				DebugMsg( string.Format( "RELATIVE URL 2: {0}", sBasePath ), true );
 				DebugMsg( string.Format( "RELATIVE URL 3: {0}", sNewPath ), true );
-				
-				
+
+
 				try
 				{
 					uNew = new Uri (
@@ -292,7 +292,7 @@ namespace SEOMacroscope
 						),
 						UriKind.Absolute
 					);
-			   	
+
 				}
 				catch( InvalidOperationException ex )
 				{
@@ -380,7 +380,7 @@ namespace SEOMacroscope
 				DebugMsg( ex.Message, true );
 				DebugMsg( string.Format( "FAILED TO VERIFY: {0}", sUrl ), true );
 			}
-			
+
 			return( bSuccess );
 		}
 
@@ -388,7 +388,7 @@ namespace SEOMacroscope
 
 		public static int FindUrlDepth ( string sUrl )
 		{
-			
+
 			int iDepth = 0;
 			Uri uURI = null;
 
@@ -412,19 +412,19 @@ namespace SEOMacroscope
 			}
 
 			return( iDepth );
-			
+
 		}
 
 		/**************************************************************************/
 
 		public static string CleanUrlCss ( string sUrl )
 		{
-			
+
 			string sCleaned = sUrl;
 
 			if( Regex.IsMatch( sUrl, "url\\([^()]+\\)" ) )
 			{
-			
+
 				sCleaned = Regex.Replace( sCleaned, "^[\\s]", "" );
 				sCleaned = Regex.Replace( sCleaned, "[\\s]$", "" );
 				sCleaned = Regex.Replace( sCleaned, "^url\\(", "" );
@@ -433,16 +433,16 @@ namespace SEOMacroscope
 			}
 			else
 			{
-				
+
 				sCleaned = null;
-			
+
 			}
-			
+
 			return( sCleaned );
 
 		}
 
 		/**************************************************************************/
 	}
-	
+
 }

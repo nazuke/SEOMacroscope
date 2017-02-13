@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -38,7 +38,7 @@ namespace SEOMacroscope
 	{
 
 		/**************************************************************************/
-		
+
 		public List<KeyValuePair<string,string>> DetailDocumentDetails ()
 		{
 
@@ -49,7 +49,7 @@ namespace SEOMacroscope
 			slDetails.Add( new KeyValuePair<string,string> ( "Status Code", this.GetStatusCode().ToString() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Error Condition", this.GetErrorCondition() ) );
-						
+
 			slDetails.Add( new KeyValuePair<string,string> ( "Duration (seconds)", this.GetDurationInSecondsFormatted() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "HTST Policy Enabled", this.HypertextStrictTransportPolicy.ToString() ) );
@@ -60,7 +60,7 @@ namespace SEOMacroscope
 
 			slDetails.Add( new KeyValuePair<string,string> ( "Compressed", this.GetIsCompressed().ToString() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Compression Method", this.GetCompressionMethod() ) );
-									
+
 			slDetails.Add( new KeyValuePair<string,string> ( "Date", this.GetDateServer() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
 
@@ -76,7 +76,7 @@ namespace SEOMacroscope
 			slDetails.Add( new KeyValuePair<string,string> ( "Links Out Count", this.CountHyperlinksOut().ToString() ) );
 
 			slDetails.Add( new KeyValuePair<string,string> ( "HrefLang Count", this.GetHrefLangs().Count.ToString() ) );
-				
+
 			slDetails.Add( new KeyValuePair<string,string> ( "Title", this.GetTitle() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Title Length", this.GetTitleLength().ToString() ) );
 			slDetails.Add( new KeyValuePair<string,string> ( "Title Pixel Width", this.GetTitlePixelWidth().ToString() ) );

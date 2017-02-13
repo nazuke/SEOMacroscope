@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -35,17 +35,17 @@ namespace SEOMacroscope
 	/// Description of MacroscopeColumnSorter.
 	/// </summary>
 
-	public class MacroscopeColumnSorter : IComparer
+	public class MacroscopeColumnSorter : Macroscope, IComparer
 	{
 
 		/**************************************************************************/
 
-		int ColumnToSort;
-		SortOrder OrderOfSort;
-		CaseInsensitiveComparer ObjectCompare;
+		private int ColumnToSort;
+		private SortOrder OrderOfSort;
+		private CaseInsensitiveComparer ObjectCompare;
 
 		/**************************************************************************/
-				
+
 		public MacroscopeColumnSorter ()
 		{
 			ColumnToSort = 0;
@@ -57,10 +57,10 @@ namespace SEOMacroscope
 
 		public int Compare ( object x, object y )
 		{
-			
+
 			int compareResult;
 			ListViewItem listviewX, listviewY;
-			
+
 			listviewX = ( ListViewItem )x;
 			listviewY = ( ListViewItem )y;
 
@@ -68,7 +68,7 @@ namespace SEOMacroscope
 				                       listviewX.SubItems[ ColumnToSort ].Text,
 				                       listviewY.SubItems[ ColumnToSort ].Text
 			                       );
-			
+
 			compareResult = ObjectCompare.Compare( ObjectPair[ 0 ], ObjectPair[ 1 ] );
 
 			if( OrderOfSort == SortOrder.Ascending )
@@ -84,9 +84,9 @@ namespace SEOMacroscope
 			{
 				return 0;
 			}
-			
+
 		}
-		
+
 		/**************************************************************************/
 
 		public int SortColumn
@@ -102,7 +102,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 		public SortOrder Order
 		{
 			set
@@ -114,13 +114,13 @@ namespace SEOMacroscope
 				return OrderOfSort;
 			}
 		}
-	
+
 		/**************************************************************************/
-		
+
 		object[] DetermineValueType ( string sTextX, string sTextY )
 		{
 			object [] ObjectPair = new object[2];
-	
+
 			ObjectPair[ 0 ] = sTextX;
 			ObjectPair[ 1 ] = sTextY;
 
@@ -133,7 +133,7 @@ namespace SEOMacroscope
 				ObjectPair[ 0 ] = DecimalX;
 				ObjectPair[ 1 ] = DecimalY;
 			}
-			
+
 			if(
 				Regex.IsMatch( sTextX, "^[0-9]+\\.[0-9]+$" )
 				&& Regex.IsMatch( sTextY, "^[0-9]+\\.[0-9]+$" ) )
@@ -145,12 +145,12 @@ namespace SEOMacroscope
 			}
 
 			// TODO: Add dates, etc.
-			
+
 			return( ObjectPair );
 		}
-		
+
 		/**************************************************************************/
 
 	}
-	
+
 }

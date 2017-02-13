@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -53,12 +53,12 @@ namespace SEOMacroscope
 		static int PageLimit;
 		static int RequestTimeout;
 		static int MaxRetries;
-		
+
 		static Boolean CheckExternalLinks;
-		
+
 		static Boolean FollowRobotsProtocol;
 		static Boolean FollowSitemapLinks;
-		
+
 		static Boolean FollowRedirects;
 		static Boolean FollowNoFollow;
 		static Boolean FollowCanonicalLinks;
@@ -78,7 +78,7 @@ namespace SEOMacroscope
 		static Boolean CheckHreflangs;
 		static Boolean ScanSitesInList;
 		static Boolean WarnAboutInsecureLinks;
-		
+
 		// SEO Options
 
 		static int TitleMinLen;
@@ -86,18 +86,18 @@ namespace SEOMacroscope
 		static int TitleMinWords;
 		static int TitleMaxWords;
 		static int TitleMaxPixelWidth;
-		
+
 		static int DescriptionMinLen;
 		static int DescriptionMaxLen;
 		static int DescriptionMinWords;
 		static int DescriptionMaxWords;
-		
+
 		static ushort MaxHeadingDepth;
-		
+
 		static Boolean AnalyzeKeywordsInText;
 
 		/**************************************************************************/
-		
+
 		static MacroscopePreferencesManager ()
 		{
 
@@ -114,7 +114,7 @@ namespace SEOMacroscope
 					SetDefaultValues();
 					Preferences.FirstRun = false;
 					Preferences.Save();
-				
+
 				}
 				else
 				{
@@ -123,30 +123,30 @@ namespace SEOMacroscope
 					HttpProxyPort = Preferences.HttpProxyPort;
 
 					StartUrl = Preferences.StartUrl;
-			
+
 					MaxThreads = Preferences.MaxThreads;
 					MaxFetchesPerWorker = Preferences.MaxFetchesPerWorker;
-					
+
 					Depth = Preferences.Depth;
 					PageLimit = Preferences.PageLimit;
 					RequestTimeout = Preferences.RequestTimeout;
 					MaxRetries = Preferences.MaxRetries;
 
 					CheckExternalLinks = Preferences.CheckExternalLinks;
-				
+
 					CheckHreflangs = Preferences.CheckHreflangs;
 					ScanSitesInList = Preferences.ScanSitesInList;
 					WarnAboutInsecureLinks = Preferences.WarnAboutInsecureLinks;
 
 					FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
 					FollowSitemapLinks = Preferences.FollowSitemapLinks;
-					
-					FollowRedirects = Preferences.FollowRedirects;			
+
+					FollowRedirects = Preferences.FollowRedirects;
 					FollowNoFollow = Preferences.FollowNoFollow;
-					FollowCanonicalLinks = Preferences.FollowCanonicalLinks;			
+					FollowCanonicalLinks = Preferences.FollowCanonicalLinks;
 					FollowHrefLangLinks = Preferences.FollowHrefLangLinks;
 					FollowListLinks = Preferences.FollowListLinks;
-					
+
 					FetchStylesheets = Preferences.FetchStylesheets;
 					FetchJavascripts = Preferences.FetchJavascripts;
 					FetchImages = Preferences.FetchImages;
@@ -160,7 +160,7 @@ namespace SEOMacroscope
 					TitleMinWords = Preferences.TitleMinWords;
 					TitleMaxWords = Preferences.TitleMaxWords;
 					TitleMaxPixelWidth = Preferences.TitleMaxPixelWidth;
-					
+
 					DescriptionMinLen = Preferences.DescriptionMinLen;
 					DescriptionMaxLen = Preferences.DescriptionMaxLen;
 					DescriptionMinWords = Preferences.DescriptionMinWords;
@@ -175,7 +175,7 @@ namespace SEOMacroscope
 			SanitizeValues();
 
 			ConfigureHttpProxy();
-			
+
 			DebugMsg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
 			DebugMsg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
 			DebugMsg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
@@ -188,12 +188,12 @@ namespace SEOMacroscope
 		{
 
 			// WebProxy Options
-			
+
 			HttpProxyHost = "";
 			HttpProxyPort = 0;
 
 			// Spidering Control
-			
+
 			StartUrl = "";
 			MaxThreads = 16;
 			MaxFetchesPerWorker = 32;
@@ -201,18 +201,18 @@ namespace SEOMacroscope
 			PageLimit = -1;
 			RequestTimeout = 30;
 			MaxRetries = 0;
-			
+
 			CheckExternalLinks = false;
 
 			FollowRobotsProtocol = true;
 			FollowSitemapLinks = true;
-			
+
 			FollowRedirects = false;
 			FollowNoFollow = true;
-			FollowCanonicalLinks = true;			
+			FollowCanonicalLinks = true;
 			FollowHrefLangLinks = false;
 			FollowListLinks = false;
-						
+
 			FetchStylesheets = true;
 			FetchJavascripts = true;
 			FetchImages = true;
@@ -222,32 +222,32 @@ namespace SEOMacroscope
 			FetchXml = true;
 
 			// Analysis Options
-			
+
 			CheckHreflangs = true;
 			ScanSitesInList = false;
 			WarnAboutInsecureLinks = false;
 
 			// SEO Options
-			
+
 			TitleMinLen = 10;
 			TitleMaxLen = 70;
 			TitleMinWords = 3;
 			TitleMaxWords = 10;
 			TitleMaxPixelWidth = 512;
-			
+
 			DescriptionMinLen = 10;
 			DescriptionMaxLen = 150;
 			DescriptionMinWords = 3;
 			DescriptionMaxWords = 20;
-			
+
 			MaxHeadingDepth = 2;
-			
+
 			AnalyzeKeywordsInText = false;
 
 		}
 
 		/**************************************************************************/
-				
+
 		static void SanitizeValues ()
 		{
 
@@ -286,24 +286,24 @@ namespace SEOMacroscope
 			{
 				MaxRetries = 10;
 			}
-			
+
 			SavePreferences();
-			
+
 		}
 
 		/**************************************************************************/
-		
+
 		public static void SavePreferences ()
 		{
 
 			if( Preferences != null )
 			{
-				
+
 				Preferences.HttpProxyHost = HttpProxyHost;
 				Preferences.HttpProxyPort = HttpProxyPort;
 
 				Preferences.StartUrl = StartUrl;
-			
+
 				Preferences.MaxThreads = MaxThreads;
 				Preferences.MaxFetchesPerWorker = MaxFetchesPerWorker;
 
@@ -313,20 +313,20 @@ namespace SEOMacroscope
 				Preferences.MaxRetries = MaxRetries;
 
 				Preferences.CheckExternalLinks = CheckExternalLinks;
-				
+
 				Preferences.CheckHreflangs = CheckHreflangs;
 				Preferences.ScanSitesInList = ScanSitesInList;
 				Preferences.WarnAboutInsecureLinks = WarnAboutInsecureLinks;
 
 				Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
 				Preferences.FollowSitemapLinks = FollowSitemapLinks;
-				
+
 				Preferences.FollowRedirects = FollowRedirects;
 				Preferences.FollowNoFollow = FollowNoFollow;
-				Preferences.FollowCanonicalLinks = FollowCanonicalLinks;			
+				Preferences.FollowCanonicalLinks = FollowCanonicalLinks;
 				Preferences.FollowHrefLangLinks = FollowHrefLangLinks;
 				Preferences.FollowListLinks = FollowListLinks;
-								
+
 				Preferences.FetchStylesheets = FetchStylesheets;
 				Preferences.FetchJavascripts = FetchJavascripts;
 				Preferences.FetchImages = FetchImages;
@@ -340,14 +340,14 @@ namespace SEOMacroscope
 				Preferences.TitleMinWords = TitleMinWords;
 				Preferences.TitleMaxWords = TitleMaxWords;
 				Preferences.TitleMaxPixelWidth = TitleMaxPixelWidth;
-				
+
 				Preferences.DescriptionMinLen = DescriptionMinLen;
 				Preferences.DescriptionMaxLen = DescriptionMaxLen;
 				Preferences.DescriptionMinWords = DescriptionMinWords;
 				Preferences.DescriptionMaxWords = DescriptionMaxWords;
-				
+
 				Preferences.MaxHeadingDepth = MaxHeadingDepth;
-				
+
 				Preferences.AnalyzeKeywordsInText = AnalyzeKeywordsInText;
 
 				Preferences.Save();
@@ -362,7 +362,7 @@ namespace SEOMacroscope
 		{
 			return( HttpProxyHost );
 		}
-		
+
 		public static void SetHttpProxyHost ( string sValue )
 		{
 			HttpProxyHost = sValue;
@@ -372,7 +372,7 @@ namespace SEOMacroscope
 		{
 			return( HttpProxyPort );
 		}
-		
+
 		public static void SetHttpProxyPort ( int iValue )
 		{
 			HttpProxyPort = iValue;
@@ -380,7 +380,7 @@ namespace SEOMacroscope
 
 		public static void ConfigureHttpProxy ()
 		{
-			
+
 			string sHttpProxyHost;
 			int iHttpProxyPort;
 
@@ -399,17 +399,17 @@ namespace SEOMacroscope
 				}
 
 				DebugMsg( string.Format( "ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort ) );
-				
+
 				wpProxy = new WebProxy ( sHttpProxyHost, iHttpProxyPort );
 
 			}
 			else
 			{
-				
+
 				DebugMsg( string.Format( "ConfigureHttpProxy: NOT USED" ) );
-				
+
 				wpProxy = null;
-				
+
 			}
 
 		}
@@ -418,7 +418,7 @@ namespace SEOMacroscope
 		{
 			return( wpProxy );
 		}
-	
+
 		public static void EnableHttpProxy ( WebRequest req )
 		{
 			if( wpProxy != null )
@@ -426,38 +426,38 @@ namespace SEOMacroscope
 				req.Proxy = wpProxy;
 			}
 		}
-				
+
 		/**************************************************************************/
 
 		public static string GetStartUrl ()
 		{
 			return( StartUrl );
 		}
-		
+
 		public static void SetStartUrl ( string sStartUrl )
 		{
 			StartUrl = sStartUrl;
 		}
-		
+
 		/**************************************************************************/
-				
+
 		public static int GetMaxThreads ()
 		{
 			return( MaxThreads );
 		}
-		
+
 		public static void SetMaxThreads ( int iMaxThreads )
 		{
 			MaxThreads = iMaxThreads;
 		}
 
 		/**************************************************************************/
-				
+
 		public static int GetMaxFetchesPerWorker ()
 		{
 			return( MaxFetchesPerWorker );
 		}
-		
+
 		public static void SetMaxFetchesPerWorker ( int iMaxFetchesPerWorker )
 		{
 			MaxFetchesPerWorker = iMaxFetchesPerWorker;
@@ -469,19 +469,19 @@ namespace SEOMacroscope
 		{
 			return( Depth );
 		}
-		
+
 		public static void SetDepth ( int iValue )
 		{
 			Depth = iValue;
 		}
-		
+
 		/**************************************************************************/
-		
+
 		public static int GetPageLimit ()
 		{
 			return( PageLimit );
 		}
-		
+
 		public static void SetPageLimit ( int iValue )
 		{
 			PageLimit = iValue;
@@ -493,7 +493,7 @@ namespace SEOMacroscope
 		{
 			return( RequestTimeout );
 		}
-		
+
 		public static void SetRequestTimeout ( int iValue )
 		{
 			RequestTimeout = iValue;
@@ -505,7 +505,7 @@ namespace SEOMacroscope
 		{
 			return( MaxRetries );
 		}
-		
+
 		public static void SetMaxRetries ( int iValue )
 		{
 			MaxRetries = iValue;
@@ -524,43 +524,43 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 		public static Boolean GetCheckHreflangs ()
 		{
 			return( CheckHreflangs );
 		}
-		
+
 		public static void SetCheckHreflangs ( Boolean bValue )
 		{
 			CheckHreflangs = bValue;
 		}
 
 		/**************************************************************************/
-		
+
 		public static Boolean GetScanSitesInList ()
 		{
 			return( ScanSitesInList );
 		}
-		
+
 		public static void SetScanSitesInList ( Boolean bValue )
 		{
 			ScanSitesInList = bValue;
 		}
 
 		/**************************************************************************/
-				
+
 		public static Boolean GetWarnAboutInsecureLinks ()
 		{
 			return( WarnAboutInsecureLinks );
 		}
-		
+
 		public static void SetWarnAboutInsecureLinks ( Boolean bValue )
 		{
 			WarnAboutInsecureLinks = bValue;
 		}
 
 		/**************************************************************************/
-		
+
 		public static Boolean GetFollowRobotsProtocol ()
 		{
 			return( FollowRobotsProtocol );
@@ -572,7 +572,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 		public static Boolean GetFollowSitemapLinks ()
 		{
 			return( FollowSitemapLinks );
@@ -593,7 +593,7 @@ namespace SEOMacroscope
 		{
 			FollowRedirects = bState;
 		}
-		
+
 		/**************************************************************************/
 
 		public static Boolean GetFollowNoFollow ()
@@ -607,7 +607,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 		public static Boolean GetFollowCanonicalLinks ()
 		{
 			return( FollowCanonicalLinks );
@@ -617,7 +617,7 @@ namespace SEOMacroscope
 		{
 			FollowCanonicalLinks = bState;
 		}
-		
+
 		/**************************************************************************/
 
 		public static Boolean GetFollowHrefLangLinks ()
@@ -631,7 +631,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-				
+
 		public static Boolean GetFollowListLinks ()
 		{
 			return( FollowListLinks );
@@ -643,96 +643,96 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 		public static Boolean GetFetchStylesheets ()
 		{
 			return( FetchStylesheets );
 		}
-		
+
 		public static void SetFetchStylesheets ( Boolean bState )
 		{
 			FetchStylesheets = bState;
 		}
 
 		/**************************************************************************/
-				
+
 		public static Boolean GetFetchJavascripts ()
 		{
 			return( FetchJavascripts );
 		}
-		
+
 		public static void SetFetchJavascripts ( Boolean bState )
 		{
 			FetchJavascripts = bState;
 		}
 
 		/**************************************************************************/
-				
+
 		public static Boolean GetFetchImages ()
 		{
 			return( FetchImages );
 		}
-		
+
 		public static void SetFetchImages ( Boolean bState )
 		{
 			FetchImages = bState;
 		}
 
 		/**************************************************************************/
-				
+
 		public static Boolean GetFetchPdfs ()
 		{
 			return( FetchPdfs );
 		}
-		
+
 		public static void SetFetchPdfs ( Boolean bState )
 		{
 			FetchPdfs = bState;
 		}
-		
+
 		/**************************************************************************/
-		
+
 		public static Boolean GetFetchAudio ()
 		{
 			return( FetchAudio );
 		}
-		
+
 		public static void SetFetchAudio ( Boolean bState )
 		{
 			FetchAudio = bState;
 		}
 
 		/**************************************************************************/
-		
+
 		public static Boolean GetFetchVideo ()
 		{
 			return( FetchVideo );
 		}
-		
+
 		public static void SetFetchVideo ( Boolean bState )
 		{
 			FetchVideo = bState;
 		}
 
 		/**************************************************************************/
-		
+
 		public static Boolean GetFetchXml ()
 		{
 			return( FetchXml );
 		}
-		
+
 		public static void SetFetchXml ( Boolean bState )
 		{
 			FetchXml = bState;
 		}
 
 		/**************************************************************************/
-				
+
 		public static Boolean GetFetchBinaries ()
 		{
 			return( FetchBinaries );
 		}
-		
+
 		public static void SetFetchBinaries ( Boolean bState )
 		{
 			FetchBinaries = bState;
@@ -744,7 +744,7 @@ namespace SEOMacroscope
 		{
 			return( TitleMinLen );
 		}
-		
+
 		public static void SetTitleMinLen ( int iValue )
 		{
 			TitleMinLen = iValue;
@@ -754,7 +754,7 @@ namespace SEOMacroscope
 		{
 			return( TitleMaxLen );
 		}
-		
+
 		public static void SetTitleMaxLen ( int iValue )
 		{
 			TitleMaxLen = iValue;
@@ -764,7 +764,7 @@ namespace SEOMacroscope
 		{
 			return( TitleMinWords );
 		}
-		
+
 		public static void SetTitleMinWords ( int iValue )
 		{
 			TitleMinWords = iValue;
@@ -774,7 +774,7 @@ namespace SEOMacroscope
 		{
 			return( TitleMaxWords );
 		}
-		
+
 		public static void SetTitleMaxWords ( int iValue )
 		{
 			TitleMaxWords = iValue;
@@ -784,19 +784,19 @@ namespace SEOMacroscope
 		{
 			return( TitleMaxPixelWidth );
 		}
-		
+
 		public static void SetTitleMaxPixelWidth ( int iValue )
 		{
 			TitleMaxPixelWidth = iValue;
 		}
 
 		/* ---------------------------------------------------------------------- */
-		
+
 		public static int GetDescriptionMinLen ()
 		{
 			return( DescriptionMinLen );
 		}
-		
+
 		public static void SetDescriptionMinLen ( int iValue )
 		{
 			DescriptionMinLen = iValue;
@@ -806,7 +806,7 @@ namespace SEOMacroscope
 		{
 			return( DescriptionMaxLen );
 		}
-		
+
 		public static void SetDescriptionMaxLen ( int iValue )
 		{
 			DescriptionMaxLen = iValue;
@@ -816,7 +816,7 @@ namespace SEOMacroscope
 		{
 			return( DescriptionMinWords );
 		}
-		
+
 		public static void SetDescriptionMinWords ( int iValue )
 		{
 			DescriptionMinWords = iValue;
@@ -826,7 +826,7 @@ namespace SEOMacroscope
 		{
 			return( DescriptionMaxWords );
 		}
-		
+
 		public static void SetDescriptionMaxWords ( int iValue )
 		{
 			DescriptionMaxWords = iValue;
@@ -836,7 +836,7 @@ namespace SEOMacroscope
 		{
 			return( MaxHeadingDepth );
 		}
-		
+
 		public static void SetMaxHeadingDepth ( ushort iValue )
 		{
 			MaxHeadingDepth = iValue;
@@ -846,14 +846,14 @@ namespace SEOMacroscope
 		{
 			return( AnalyzeKeywordsInText );
 		}
-		
+
 		public static void SetAnalyzeKeywordsInText ( Boolean bState )
 		{
 			AnalyzeKeywordsInText = bState;
 		}
 
 		/**************************************************************************/
-		
+
 		[Conditional( "DEVMODE" )]
 		static void DebugMsg ( String sMsg )
 		{

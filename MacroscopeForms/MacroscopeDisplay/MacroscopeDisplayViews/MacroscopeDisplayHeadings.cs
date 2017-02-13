@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -29,112 +29,122 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-	
-	/// <summary>
-	/// Description of MacroscopeDisplayHeadings.
-	/// </summary>
-	
-	public class MacroscopeDisplayHeadings : MacroscopeDisplayListView
-	{
-		
-		/**************************************************************************/
 
-		static Boolean ListViewConfigured = false;
-		
-		/**************************************************************************/
+  /// <summary>
+  /// Description of MacroscopeDisplayHeadings.
+  /// </summary>
 
-		public MacroscopeDisplayHeadings ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-			: base( MainFormNew, lvListViewNew )
-		{
+  public class MacroscopeDisplayHeadings : MacroscopeDisplayListView
+  {
 
-			MainForm = MainFormNew;
-			lvListView = lvListViewNew;
-						
-			if( MainForm.InvokeRequired ) {
-				MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ConfigureListView();
-						}
-					)
-				);
-			} else {
-				ConfigureListView();
-			}
+    /**************************************************************************/
 
-		}
+    public MacroscopeDisplayHeadings ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+      : base( MainFormNew, lvListViewNew )
+    {
 
-		/**************************************************************************/
-		
-		void ConfigureListView ()
-		{
-			if( !ListViewConfigured ) {
+      MainForm = MainFormNew;
+      lvListView = lvListViewNew;
 
-				ListViewConfigured = true;
+      if( MainForm.InvokeRequired )
+      {
+        MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ConfigureListView();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ConfigureListView();
+      }
 
-			}
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-		{
+    protected override void ConfigureListView ()
+    {
+      if( !this.ListViewConfigured )
+      {
+        this.ListViewConfigured = true;
+      }
+    }
 
-			for( ushort i = 1; i <= MacroscopePreferencesManager.GetMaxHeadingDepth(); i++ ) {
+    /**************************************************************************/
 
-				List<string> lHeadings = msDoc.GetHeadings( i );
+    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    {
 
-				for( int iCount = 0; iCount < lHeadings.Count; iCount++ ) {
+      for( ushort i = 1 ; i <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; i++ )
+      {
 
-					string sPairKey = string.Join( "::", sUrl, i, iCount );
-					int iHeadingIndex = i + 1;
-					
-					if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
-							
-						try {
+        List<string> lHeadings = msDoc.GetHeadings( i );
 
-							ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-							lvItem.SubItems[ 0 ].Text = sUrl;
-							lvItem.SubItems[ 1 ].Text = ( iCount + 1 ).ToString();
-							lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
+        for( int iCount = 0 ; iCount < lHeadings.Count ; iCount++ )
+        {
 
-						} catch( Exception ex ) {
-							DebugMsg( string.Format( "MacroscopeDisplayHeadings 1: {0}", ex.Message ) );
-						}
+          string sPairKey = string.Join( "::", sUrl, i, iCount );
+          int iHeadingIndex = i + 1;
 
-					} else {
-							
-						try {
+          if( this.lvListView.Items.ContainsKey( sPairKey ) )
+          {
 
-							ListViewItem lvItem = new ListViewItem ( sPairKey );
+            try
+            {
 
-							lvItem.Name = sPairKey;
+              ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+              lvItem.SubItems[ 0 ].Text = sUrl;
+              lvItem.SubItems[ 1 ].Text = ( iCount + 1 ).ToString();
+              lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
 
-							lvItem.SubItems[ 0 ].Text = sUrl;
-							lvItem.SubItems.Add( ( iCount + 1 ).ToString() );
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "MacroscopeDisplayHeadings 1: {0}", ex.Message ) );
+            }
 
-							for( ushort k = 1; k <= 6; k++ ) {
-								lvItem.SubItems.Add( "" );
-							}
+          }
+          else
+          {
 
-							lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
-							
-							this.lvListView.Items.Add( lvItem );
+            try
+            {
 
-						} catch( Exception ex ) {
-							DebugMsg( string.Format( "MacroscopeDisplayHeadings 2: {0}", ex.Message ) );
-						}
+              ListViewItem lvItem = new ListViewItem ( sPairKey );
 
-					}
-				
-				}
+              lvItem.Name = sPairKey;
 
-			}
+              lvItem.SubItems[ 0 ].Text = sUrl;
+              lvItem.SubItems.Add( ( iCount + 1 ).ToString() );
 
-		}
+              for( ushort k = 1 ; k <= 6 ; k++ )
+              {
+                lvItem.SubItems.Add( "" );
+              }
 
-		/**************************************************************************/
+              lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
 
-	}
+              this.lvListView.Items.Add( lvItem );
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "MacroscopeDisplayHeadings 2: {0}", ex.Message ) );
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+  }
 }

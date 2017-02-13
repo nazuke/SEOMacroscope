@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -40,9 +40,9 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		const int Tolerance = 2;
-		
+
 		/**************************************************************************/
-				
+
 		public MacroscopeDomainWrangler ()
 		{
 			SuppressDebugMsg = false;
@@ -54,15 +54,15 @@ namespace SEOMacroscope
 		{
 			return( this.IsWithinSameDomain( sDomainLeft, sDomainRight, Tolerance ) );
 		}
-		
+
 		/**************************************************************************/
-		
+
 		public Boolean IsWithinSameDomain ( string sDomainLeft, string sDomainRight, int iTolerance )
 		{
 
 			Boolean bIsWithinSameDomain = false;
 			int iScore = 0;
-			
+
 			string[] DomainShort;
 			string[] DomainLong;
 
@@ -70,7 +70,7 @@ namespace SEOMacroscope
 			string sDomainRightReversed = MacroscopeStringTools.ReverseString( sDomainRight );
 
 			int iScoreThreshold = Tolerance;
-				
+
 			if( iTolerance > 0 ) {
 				iScoreThreshold = iTolerance;
 			}
@@ -90,7 +90,7 @@ namespace SEOMacroscope
 			DebugMsg( string.Format( "DomainLong: {0} :: {1}", DomainLong.Length, string.Join( " ", DomainLong ) ) );
 
 			DebugMsg( "" );
-						
+
 			for( int i = 0; i < DomainShort.Length; i++ ) {
 
 				if( DomainShort[ i ] == DomainLong[ i ] ) {
@@ -125,11 +125,11 @@ namespace SEOMacroscope
 			DebugMsg( "" );
 
 			return( bIsWithinSameDomain );
-		
+
 		}
 
 		/**************************************************************************/
-		
+
 	}
 
 }

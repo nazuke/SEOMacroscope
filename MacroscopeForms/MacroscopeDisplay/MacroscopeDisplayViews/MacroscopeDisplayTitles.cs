@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -30,211 +30,207 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayTitles : MacroscopeDisplayListView
-	{
-		
-		/**************************************************************************/
+  public class MacroscopeDisplayTitles : MacroscopeDisplayListView
+  {
 
-		static Boolean ListViewConfigured = false;
-		
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeDisplayTitles ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-			: base( MainFormNew, lvListViewNew )
-		{
+    public MacroscopeDisplayTitles ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+      : base( MainFormNew, lvListViewNew )
+    {
 
-			MainForm = MainFormNew;
-			lvListView = lvListViewNew;
-						
-			if( MainForm.InvokeRequired )
-			{
-				MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ConfigureListView();
-						}
-					)
-				);
-			}
-			else
-			{
-				ConfigureListView();
-			}
+      MainForm = MainFormNew;
+      lvListView = lvListViewNew;
 
-		}
+      if( MainForm.InvokeRequired )
+      {
+        MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ConfigureListView();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ConfigureListView();
+      }
 
-		/**************************************************************************/
-		
-		void ConfigureListView ()
-		{
-			if( !ListViewConfigured )
-			{
-				ListViewConfigured = true;
-			}
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-		{
+    protected override void ConfigureListView ()
+    {
+      if( !this.ListViewConfigured )
+      {
+        this.ListViewConfigured = true;
+      }
+    }
 
-			Boolean bProcess;
-			
-			if( msDoc.GetIsExternal() )
-			{
-				return;
-			}
-			
-			if( msDoc.GetIsHtml() )
-			{
-				bProcess = true;
-			}
-			else
-			if( msDoc.GetIsPdf() )
-			{
-				bProcess = true;
-			}
-			else
-			{
-				bProcess = false;
-			}
+    /**************************************************************************/
 
-			if( bProcess )
-			{
+    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    {
 
-				string sText = msDoc.GetTitle();
-				string sTextLabel = sText;
-				int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsTitleCount( sText );
-				string sTextLength = sText.Length.ToString();
-				int iTextPixelWidth = msDoc.GetTitlePixelWidth();
+      Boolean bProcess;
 
-				string sPairKey = string.Join( "", sUrl, sText );
+      if( msDoc.GetIsExternal() )
+      {
+        return;
+      }
 
-				ListViewItem lvItem = null;
+      if( msDoc.GetIsHtml() )
+      {
+        bProcess = true;
+      }
+      else
+      if( msDoc.GetIsPdf() )
+      {
+        bProcess = true;
+      }
+      else
+      {
+        bProcess = false;
+      }
 
-				if( sText.Length <= 0 )
-				{
-					sTextLabel = "MISSING";
-				}
+      if( bProcess )
+      {
 
-				if( this.lvListView.Items.ContainsKey( sPairKey ) )
-				{
-							
-					try
-					{
+        string sText = msDoc.GetTitle();
+        string sTextLabel = sText;
+        int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsTitleCount( sText );
+        string sTextLength = sText.Length.ToString();
+        int iTextPixelWidth = msDoc.GetTitlePixelWidth();
 
-						lvItem = this.lvListView.Items[ sPairKey ];
-						lvItem.SubItems[ 0 ].Text = sUrl;
-						lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
-						lvItem.SubItems[ 2 ].Text = sTextLabel;
-						lvItem.SubItems[ 3 ].Text = sTextLength;
-						lvItem.SubItems[ 4 ].Text = iTextPixelWidth.ToString();
+        string sPairKey = string.Join( "", sUrl, sText );
 
-					}
-					catch( Exception ex )
-					{
-						DebugMsg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
-					}
+        ListViewItem lvItem = null;
 
-				}
-				else
-				{
-							
-					try
-					{
+        if( sText.Length <= 0 )
+        {
+          sTextLabel = "MISSING";
+        }
 
-						lvItem = new ListViewItem ( sPairKey );
-						lvItem.UseItemStyleForSubItems = false;
-						lvItem.Name = sPairKey;
+        if( this.lvListView.Items.ContainsKey( sPairKey ) )
+        {
 
-						lvItem.SubItems[ 0 ].Text = sUrl;
-						lvItem.SubItems.Add( iTextCount.ToString() );
-						lvItem.SubItems.Add( sTextLabel );
-						lvItem.SubItems.Add( sTextLength );
-						lvItem.SubItems.Add( iTextPixelWidth.ToString() );
+          try
+          {
 
-						this.lvListView.Items.Add( lvItem );
+            lvItem = this.lvListView.Items[ sPairKey ];
+            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
+            lvItem.SubItems[ 2 ].Text = sTextLabel;
+            lvItem.SubItems[ 3 ].Text = sTextLength;
+            lvItem.SubItems[ 4 ].Text = iTextPixelWidth.ToString();
 
-					}
-					catch( Exception ex )
-					{
-						DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
-					}
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "MacroscopeDisplayTitles 1: {0}", ex.Message ) );
+          }
 
-				}
-				
-				if( lvItem != null )
-				{
+        }
+        else
+        {
 
-					lvItem.ForeColor = Color.Blue;
+          try
+          {
 
-					// Check Missing Title ---------------------------------------------//
+            lvItem = new ListViewItem ( sPairKey );
+            lvItem.UseItemStyleForSubItems = false;
+            lvItem.Name = sPairKey;
 
-					if( sText.Length <= 0 )
-					{
-						lvItem.SubItems[ 2 ].ForeColor = Color.Red;
-					}
-					else
-					if( sText.Length < MacroscopePreferencesManager.GetTitleMinLen() )
-					{
-						lvItem.SubItems[ 2 ].ForeColor = Color.Red;
-					}
-					else
-					if( sText.Length > MacroscopePreferencesManager.GetTitleMaxLen() )
-					{
-						lvItem.SubItems[ 2 ].ForeColor = Color.Red;
-					}
-					else
-					{
-						lvItem.SubItems[ 2 ].ForeColor = Color.ForestGreen;
-					}
+            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems.Add( iTextCount.ToString() );
+            lvItem.SubItems.Add( sTextLabel );
+            lvItem.SubItems.Add( sTextLength );
+            lvItem.SubItems.Add( iTextPixelWidth.ToString() );
 
-					// Check Title Length ----------------------------------------------//
+            this.lvListView.Items.Add( lvItem );
 
-					if( sText.Length < MacroscopePreferencesManager.GetTitleMinLen() )
-					{
-						lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-					}
-					else
-					if( sText.Length > MacroscopePreferencesManager.GetTitleMaxLen() )
-					{
-						lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-					}
-					else
-					{
-						lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
-					}
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "MacroscopeDisplayTitles 2: {0}", ex.Message ) );
+          }
 
-					// Check Pixel Width -----------------------------------------------//
-										
-					if( iTextPixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
-					{
-						lvItem.SubItems[ 4 ].ForeColor = Color.Red;
-					}
-					else
-					if( iTextPixelWidth >= ( MacroscopePreferencesManager.GetTitleMaxPixelWidth() - 20 ) )
-					{
-						lvItem.SubItems[ 4 ].ForeColor = Color.Goldenrod;
-					}
-					else
-					if( iTextPixelWidth <= 0 )
-					{
-						lvItem.SubItems[ 4 ].ForeColor = Color.OrangeRed;
-					}
-					else
-					{
-						lvItem.SubItems[ 4 ].ForeColor = Color.ForestGreen;
-					}
+        }
 
-				}
+        if( lvItem != null )
+        {
 
-			}
-			
-		}
+          lvItem.ForeColor = Color.Blue;
 
-		/**************************************************************************/
+          // Check Missing Title ---------------------------------------------//
 
-	}
+          if( sText.Length <= 0 )
+          {
+            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+          }
+          else
+          if( sText.Length < MacroscopePreferencesManager.GetTitleMinLen() )
+          {
+            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+          }
+          else
+          if( sText.Length > MacroscopePreferencesManager.GetTitleMaxLen() )
+          {
+            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+          }
+          else
+          {
+            lvItem.SubItems[ 2 ].ForeColor = Color.ForestGreen;
+          }
+
+          // Check Title Length ----------------------------------------------//
+
+          if( sText.Length < MacroscopePreferencesManager.GetTitleMinLen() )
+          {
+            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+          }
+          else
+          if( sText.Length > MacroscopePreferencesManager.GetTitleMaxLen() )
+          {
+            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+          }
+          else
+          {
+            lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+          }
+
+          // Check Pixel Width -----------------------------------------------//
+
+          if( iTextPixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
+          {
+            lvItem.SubItems[ 4 ].ForeColor = Color.Red;
+          }
+          else
+          if( iTextPixelWidth >= ( MacroscopePreferencesManager.GetTitleMaxPixelWidth() - 20 ) )
+          {
+            lvItem.SubItems[ 4 ].ForeColor = Color.Goldenrod;
+          }
+          else
+          if( iTextPixelWidth <= 0 )
+          {
+            lvItem.SubItems[ 4 ].ForeColor = Color.OrangeRed;
+          }
+          else
+          {
+            lvItem.SubItems[ 4 ].ForeColor = Color.ForestGreen;
+          }
+
+        }
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

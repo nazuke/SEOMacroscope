@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -30,36 +30,36 @@ using System.Threading;
 
 namespace SEOMacroscope
 {
-	
+
 	/// <summary>
 	/// Description of MacroscopeIncludeExcludeUrls.
 	/// </summary>
-	
+
 	public class MacroscopeIncludeExcludeUrls : Macroscope
 	{
-		
+
 		/**************************************************************************/
 
 		List<string> IncludeUrlPatternsList;
 		List<string> ExcludeUrlPatternsList;
-		
+
 		/**************************************************************************/
 
 		public MacroscopeIncludeExcludeUrls ()
 		{
-			
+
 			IncludeUrlPatternsList = new List<string> ( 128 );
 			ExcludeUrlPatternsList = new List<string> ( 128 );
-			
+
 		}
 
 		/** Include URL Patterns **************************************************/
 
 		public void LoadIncludeUrlPatterns ( string IncludeUrlPatternsText )
 		{
-		
+
 			this.IncludeUrlPatternsList.Clear();
-		
+
 			foreach( string sLine in Regex.Split( IncludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
 			{
 				DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", sLine ) );
@@ -82,7 +82,7 @@ namespace SEOMacroscope
 			Boolean bUse = false;
 
 			int Count = this.IncludeUrlPatternsList.Count;
-			
+
 			if( Count > 0 )
 			{
 				bUse = true;
@@ -117,7 +117,7 @@ namespace SEOMacroscope
 
 		public void LoadExcludeUrlPatterns ( string ExcludeUrlPatternsText )
 		{
-			
+
 			this.ExcludeUrlPatternsList.Clear();
 
 			foreach( string sLine in Regex.Split( ExcludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
@@ -130,7 +130,7 @@ namespace SEOMacroscope
 			}
 
 		}
-		
+
 		public string FetchExcludeUrlPatterns ()
 		{
 			string sText = string.Join( "\r\n", this.ExcludeUrlPatternsList );
@@ -159,7 +159,7 @@ namespace SEOMacroscope
 
 			for( int i = 0 ; i < iPatterns ; i++ )
 			{
-				if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ] ) >= 0 )
+				if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ], StringComparison.CurrentCulture ) >= 0 )
 				{
 					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0}", i ) );
 					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
@@ -172,12 +172,12 @@ namespace SEOMacroscope
 					DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
 				}
 			}
-						
+
 			return( bMatch );
 		}
-		
+
 		/**************************************************************************/
-		
+
 	}
 
 }

@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -30,324 +30,331 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	abstract public class MacroscopeDisplayListView : Macroscope
-	{
+  abstract public class MacroscopeDisplayListView : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeMainForm MainForm;
+    public MacroscopeMainForm MainForm;
 
-		public ListView lvListView;
+    public ListView lvListView;
 
-		/**************************************************************************/
+    protected Boolean ListViewConfigured = false;
+        
+    /**************************************************************************/
 
-		protected MacroscopeDisplayListView ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-		{
-			MainForm = MainFormNew;
-			lvListView = lvListViewNew;
-		}
+    protected MacroscopeDisplayListView ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+    {
+      MainForm = MainFormNew;
+      lvListView = lvListViewNew;
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void ClearData ()
-		{
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.lvListView.Items.Clear();
-						}
-					)
-				);
-			}
-			else
-			{
-				this.lvListView.Items.Clear();
-			}
-		}
-		
-		/**************************************************************************/
-		
-		public void RefreshData ( MacroscopeDocumentCollection DocCollection )
-		{
+    abstract protected void ConfigureListView ();
 
-			if( DocCollection.CountDocuments() <= 0 )
-			{
-				return;
-			}
+    /**************************************************************************/
 
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							Cursor.Current = Cursors.WaitCursor;
-							this.RenderListView( DocCollection );
-							Cursor.Current = Cursors.Default;
-						}
-					)
-				);
-			}
-			else
-			{
-				Cursor.Current = Cursors.WaitCursor;
-				this.RenderListView( DocCollection );
-				Cursor.Current = Cursors.Default;
-			}
+    public void ClearData ()
+    {
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.lvListView.Items.Clear();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.lvListView.Items.Clear();
+      }
+    }
 
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
-		
-		public void RefreshData (
-			MacroscopeDocumentCollection DocCollection,
-			List<string> UrlList
-		)
-		{
+    public void RefreshData ( MacroscopeDocumentCollection DocCollection )
+    {
 
-			if( DocCollection.CountDocuments() <= 0 )
-			{
-				return;
-			}
+      if( DocCollection.CountDocuments() <= 0 )
+      {
+        return;
+      }
 
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							Cursor.Current = Cursors.WaitCursor;
-							this.RenderListView( DocCollection, UrlList );
-							Cursor.Current = Cursors.Default;
-						}
-					)
-				);
-			}
-			else
-			{
-				Cursor.Current = Cursors.WaitCursor;
-				this.RenderListView( DocCollection, UrlList );
-				Cursor.Current = Cursors.Default;
-			}
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              Cursor.Current = Cursors.WaitCursor;
+              this.RenderListView( DocCollection );
+              Cursor.Current = Cursors.Default;
+            }
+          )
+        );
+      }
+      else
+      {
+        Cursor.Current = Cursors.WaitCursor;
+        this.RenderListView( DocCollection );
+        Cursor.Current = Cursors.Default;
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void RefreshData (
-			MacroscopeDocument msDoc,
-			string Url
-		)
-		{
+    public void RefreshData (
+      MacroscopeDocumentCollection DocCollection,
+      List<string> UrlList
+    )
+    {
 
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							Cursor.Current = Cursors.WaitCursor;
-							this.RenderListView( msDoc, Url );
-							Cursor.Current = Cursors.Default;
-						}
-					)
-				);
-			}
-			else
-			{
-				Cursor.Current = Cursors.WaitCursor;
-				this.RenderListView( msDoc, Url );
-				Cursor.Current = Cursors.Default;
-			}
+      if( DocCollection.CountDocuments() <= 0 )
+      {
+        return;
+      }
 
-		}
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              Cursor.Current = Cursors.WaitCursor;
+              this.RenderListView( DocCollection, UrlList );
+              Cursor.Current = Cursors.Default;
+            }
+          )
+        );
+      }
+      else
+      {
+        Cursor.Current = Cursors.WaitCursor;
+        this.RenderListView( DocCollection, UrlList );
+        Cursor.Current = Cursors.Default;
+      }
 
-		/**************************************************************************/
+    }
 
-		public void RefreshData ( List<MacroscopeDocument> DocList )
-		{
+    /**************************************************************************/
 
-			if( DocList.Count <= 0 )
-			{
-				return;
-			}
+    public void RefreshData (
+      MacroscopeDocument msDoc,
+      string Url
+    )
+    {
 
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							Cursor.Current = Cursors.WaitCursor;
-							this.RenderListView( DocList: DocList );
-							Cursor.Current = Cursors.Default;
-						}
-					)
-				);
-			}
-			else
-			{
-				Cursor.Current = Cursors.WaitCursor;
-				this.RenderListView( DocList: DocList );
-				Cursor.Current = Cursors.Default;
-			}
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              Cursor.Current = Cursors.WaitCursor;
+              this.RenderListView( msDoc, Url );
+              Cursor.Current = Cursors.Default;
+            }
+          )
+        );
+      }
+      else
+      {
+        Cursor.Current = Cursors.WaitCursor;
+        this.RenderListView( msDoc, Url );
+        Cursor.Current = Cursors.Default;
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void RefreshData (
-			MacroscopeDocumentCollection DocCollection,
-			MacroscopeConstants.DocumentType DocumentType
-		)
-		{
+    public void RefreshData ( List<MacroscopeDocument> DocList )
+    {
 
-			if( DocCollection.CountDocuments() <= 0 )
-			{
-				return;
-			}
+      if( DocList.Count <= 0 )
+      {
+        return;
+      }
 
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							Cursor.Current = Cursors.WaitCursor;
-							this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
-							Cursor.Current = Cursors.Default;
-						}
-					)
-				);
-			}
-			else
-			{
-				Cursor.Current = Cursors.WaitCursor;
-				this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
-				Cursor.Current = Cursors.Default;
-			}
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              Cursor.Current = Cursors.WaitCursor;
+              this.RenderListView( DocList: DocList );
+              Cursor.Current = Cursors.Default;
+            }
+          )
+        );
+      }
+      else
+      {
+        Cursor.Current = Cursors.WaitCursor;
+        this.RenderListView( DocList: DocList );
+        Cursor.Current = Cursors.Default;
+      }
 
-		}
-		
-		/**************************************************************************/
-				
-		public void RefreshData (
-			MacroscopeDocumentCollection DocCollection,
-			string UrlFragment
-		)
-		{
+    }
 
-			if( DocCollection.CountDocuments() <= 0 ) {
-				return;
-			}
+    /**************************************************************************/
 
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							Cursor.Current = Cursors.WaitCursor;
-							this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
-							Cursor.Current = Cursors.Default;
-						}
-					)
-				);
-			}
-			else
-			{
-				Cursor.Current = Cursors.WaitCursor;
-				this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
-				Cursor.Current = Cursors.Default;
-			}
-			
-		}
+    public void RefreshData (
+      MacroscopeDocumentCollection DocCollection,
+      MacroscopeConstants.DocumentType DocumentType
+    )
+    {
 
-		/** Render Entire DocCollection *******************************************/
+      if( DocCollection.CountDocuments() <= 0 )
+      {
+        return;
+      }
 
-		public void RenderListView ( MacroscopeDocumentCollection DocCollection )
-		{
-			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-			foreach( string sUrl in DocCollection.DocumentKeys() )
-			{
-				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-				this.RenderListView( msDoc, sUrl );
-			}
-		}
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              Cursor.Current = Cursors.WaitCursor;
+              this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
+              Cursor.Current = Cursors.Default;
+            }
+          )
+        );
+      }
+      else
+      {
+        Cursor.Current = Cursors.WaitCursor;
+        this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
+        Cursor.Current = Cursors.Default;
+      }
 
-		/** Render List ***********************************************************/
-		
-		public void RenderListView (
-			MacroscopeDocumentCollection DocCollection,
-			List<string> UrlList
-		)
-		{
-			foreach( string sUrl in UrlList )
-			{
-				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-				this.RenderListView( msDoc, sUrl );
-			}
-		}
+    }
 
-		/** Render Document List **************************************************/
-		
-		public void RenderListView ( List<MacroscopeDocument> DocList )
-		{
-			for( int i = 0 ; i < DocList.Count ; i++ )
-			{
-				MacroscopeDocument msDoc = DocList[ i ];
-				string sUrl = msDoc.GetUrl();
-				this.RenderListView( msDoc, sUrl );
-			}
-		}
+    /**************************************************************************/
 
-		/** Render Filtered DocCollection *******************************************/
+    public void RefreshData (
+      MacroscopeDocumentCollection DocCollection,
+      string UrlFragment
+    )
+    {
 
-		public void RenderListView (
-			MacroscopeDocumentCollection DocCollection,
-			MacroscopeConstants.DocumentType DocumentType
-		)
-		{
-			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-			foreach( string sUrl in DocCollection.DocumentKeys() )
-			{
-				MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-				if( 
-					( msDoc.GetDocumentType() == DocumentType )
-					|| ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
-				{
-					this.RenderListView( msDoc, sUrl );
-				}
-			}
-		}
+      if( DocCollection.CountDocuments() <= 0 )
+      {
+        return;
+      }
 
-		/** Render DocCollection Filtered by URL Fragment *************************/
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              Cursor.Current = Cursors.WaitCursor;
+              this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
+              Cursor.Current = Cursors.Default;
+            }
+          )
+        );
+      }
+      else
+      {
+        Cursor.Current = Cursors.WaitCursor;
+        this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
+        Cursor.Current = Cursors.Default;
+      }
 
-		public void RenderListView (
-			MacroscopeDocumentCollection DocCollection,
-			string UrlFragment
-		)
-		{
-			DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-			foreach( string sUrl in DocCollection.DocumentKeys() )
-			{
-				if( sUrl.IndexOf( UrlFragment ) >= 0 )
-				{
-					MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-					this.RenderListView( msDoc, sUrl );
-				}
-			}
-		}
+    }
 
-		/** Render One ************************************************************/
+    /** Render Entire DocCollection *******************************************/
 
-		abstract protected void RenderListView ( MacroscopeDocument msDoc, string sUrl );
+    public void RenderListView ( MacroscopeDocumentCollection DocCollection )
+    {
+      DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+      foreach( string sUrl in DocCollection.DocumentKeys() )
+      {
+        MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+        this.RenderListView( msDoc, sUrl );
+      }
+    }
 
-		/**************************************************************************/
+    /** Render List ***********************************************************/
 
-	}
+    public void RenderListView (
+      MacroscopeDocumentCollection DocCollection,
+      List<string> UrlList
+    )
+    {
+      foreach( string sUrl in UrlList )
+      {
+        MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+        this.RenderListView( msDoc, sUrl );
+      }
+    }
+
+    /** Render Document List **************************************************/
+
+    public void RenderListView ( List<MacroscopeDocument> DocList )
+    {
+      for( int i = 0 ; i < DocList.Count ; i++ )
+      {
+        MacroscopeDocument msDoc = DocList[ i ];
+        string sUrl = msDoc.GetUrl();
+        this.RenderListView( msDoc, sUrl );
+      }
+    }
+
+    /** Render Filtered DocCollection *******************************************/
+
+    public void RenderListView (
+      MacroscopeDocumentCollection DocCollection,
+      MacroscopeConstants.DocumentType DocumentType
+    )
+    {
+      DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+      foreach( string sUrl in DocCollection.DocumentKeys() )
+      {
+        MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+        if(
+          ( msDoc.GetDocumentType() == DocumentType )
+          || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
+        {
+          this.RenderListView( msDoc, sUrl );
+        }
+      }
+    }
+
+    /** Render DocCollection Filtered by URL Fragment *************************/
+
+    public void RenderListView (
+      MacroscopeDocumentCollection DocCollection,
+      string UrlFragment
+    )
+    {
+      DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+      foreach( string sUrl in DocCollection.DocumentKeys() )
+      {
+        if( sUrl.IndexOf( UrlFragment ) >= 0 )
+        {
+          MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+          this.RenderListView( msDoc, sUrl );
+        }
+      }
+    }
+
+    /** Render One ************************************************************/
+
+    abstract protected void RenderListView ( MacroscopeDocument msDoc, string sUrl );
+
+    /**************************************************************************/
+
+  }
 
 }

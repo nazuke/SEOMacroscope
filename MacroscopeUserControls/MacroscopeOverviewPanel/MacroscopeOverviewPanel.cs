@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -31,36 +31,36 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-	
+
 	/// <summary>
 	/// Description of MacroscopeOverviewPanel.
 	/// </summary>
-	
+
 	public partial class MacroscopeOverviewPanel : UserControl
 	{
-	
+
 		/**************************************************************************/
-				
+
 		MacroscopeColumnSorter lvColumnSorter;
-		
+
 		/**************************************************************************/
 
 		public MacroscopeOverviewPanel ()
 		{
- 
+
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			InitializeComponent();
 
 			// TabPanel Properties
 			tabControlMain.Multiline = false;
 
-			this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true );			
+			this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true );
 
 			// ListView Docking
-			
+
 			tableLayoutPanelStructure.Dock = DockStyle.Fill;
 			listViewStructure.Dock = DockStyle.Fill;
-			
+
 			treeViewHierarchy.Dock = DockStyle.Fill;
 			listViewCanonicalAnalysis.Dock = DockStyle.Fill;
 			listViewHrefLang.Dock = DockStyle.Fill;
@@ -111,7 +111,7 @@ namespace SEOMacroscope
 			listViewHostnames.ListViewItemSorter = lvColumnSorter;
 			listViewHistory.ListViewItemSorter = lvColumnSorter;
 			listViewSearchCollection.ListViewItemSorter = lvColumnSorter;
-	
+
 			listViewStructure.ColumnClick += this.CallbackColumnClick;
 			listViewCanonicalAnalysis.ColumnClick += this.CallbackColumnClick;
 			listViewHrefLang.ColumnClick += this.CallbackColumnClick;
@@ -134,9 +134,9 @@ namespace SEOMacroscope
 			listViewHostnames.ColumnClick += this.CallbackColumnClick;
 			listViewHistory.ColumnClick += this.CallbackColumnClick;
 			listViewSearchCollection.ColumnClick += this.CallbackColumnClick;
-	
+
 		}
-	
+
 		/**************************************************************************/
 
 		void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
@@ -164,9 +164,9 @@ namespace SEOMacroscope
 			lvListView.Sort();
 
 		}
-		
+
 		/**************************************************************************/
-		
+
 		[Conditional( "DEVMODE" )]
 		public void DebugMsg ( String sMsg )
 		{

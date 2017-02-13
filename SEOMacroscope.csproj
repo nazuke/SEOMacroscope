@@ -18,7 +18,7 @@
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkProfile />
     <RunCodeAnalysis>False</RunCodeAnalysis>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\jason\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\jholland\Documents\GitHub\SEOMacroscope\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <SignAssembly>False</SignAssembly>
     <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>

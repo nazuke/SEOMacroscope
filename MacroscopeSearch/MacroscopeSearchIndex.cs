@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -28,14 +28,14 @@ using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
-	
+
 	/// <summary>
 	/// Description of MacroscopeSearchIndex.
 	/// </summary>
-	
+
 	public class MacroscopeSearchIndex : Macroscope
 	{
-	
+
 		/**************************************************************************/
 
 		public enum SearchMode
@@ -59,7 +59,7 @@ namespace SEOMacroscope
 		{
 
 			SuppressDebugMsg = false;
-						
+
 			DocumentIndex = new Dictionary<string, MacroscopeDocument> ( 4096 );
 
 			ForwardIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
@@ -67,14 +67,14 @@ namespace SEOMacroscope
 			InvertedIndex = new Dictionary<string, Dictionary<string,MacroscopeDocument>> ( 4096 );
 
 		}
-		
+
 		/**************************************************************************/
 
 		public void AddDocumentToIndex ( MacroscopeDocument msDoc )
 		{
-			
+
 			this.RemoveDocumentFromIndex( msDoc );
-			
+
 			this.ProcessText( msDoc );
 
 		}
@@ -83,7 +83,7 @@ namespace SEOMacroscope
 
 		void ProcessText ( MacroscopeDocument msDoc )
 		{
-			
+
 			List<string> TextBlocks = new List<string> ( 16 );
 			List<string> Terms = new List<string> ( 256 );
 
@@ -114,14 +114,14 @@ namespace SEOMacroscope
 					}
 				}
 			}
-			
+
 			DebugMsg( string.Format( "ProcessText: Words :: {0}", Terms.Count ) );
 
 			for( int i = 0 ; i < Terms.Count ; i++ )
 			{
 
 				string sTerm = Terms[ i ];
-				
+
 				Dictionary<string,MacroscopeDocument> DocumentReference;
 
 				if( InvertedIndex.ContainsKey( sTerm ) )
@@ -140,7 +140,7 @@ namespace SEOMacroscope
 				}
 
 			}
-									
+
 		}
 
 		/**************************************************************************/
@@ -173,15 +173,15 @@ namespace SEOMacroscope
 
 		public List<MacroscopeDocument> ExecuteSearchForDocumentsOR ( string [] Terms )
 		{
-			
+
 			List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
 
 			for( int i = 0 ; i < Terms.Length ; i++ )
 			{
-				
+
 				if( InvertedIndex.ContainsKey( Terms[ i ] ) )
 				{
-					
+
 					foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
 					{
 						DocList.Add( InvertedIndex[ Terms[ i ] ][ sUrl ] );
@@ -192,24 +192,24 @@ namespace SEOMacroscope
 			}
 
 			return( DocList );
-			
+
 		}
 
 		/** SEARCH INDEX: AND METHOD **********************************************/
 
 		public List<MacroscopeDocument> ExecuteSearchForDocumentsAND ( string [] Terms )
 		{
-			
+
 			List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
 
 			Dictionary<MacroscopeDocument,int> DocListGather = new Dictionary<MacroscopeDocument,int> ();
 
 			for( int i = 0 ; i < Terms.Length ; i++ )
 			{
-				
+
 				if( InvertedIndex.ContainsKey( Terms[ i ] ) )
 				{
-					
+
 					foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
 					{
 
@@ -239,11 +239,11 @@ namespace SEOMacroscope
 			}
 
 			return( DocList );
-			
+
 		}
 
 		/**************************************************************************/
-				
+
 	}
-	
+
 }

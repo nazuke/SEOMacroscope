@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -29,161 +29,157 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-	
-	/// <summary>
-	/// Description of MacroscopeDisplayDescriptions.
-	/// </summary>
 
-	public class MacroscopeDisplayDescriptions : MacroscopeDisplayListView
-	{
-		
-		/**************************************************************************/
+  /// <summary>
+  /// Description of MacroscopeDisplayDescriptions.
+  /// </summary>
 
-		static Boolean ListViewConfigured = false;
-		
-		/**************************************************************************/
+  public class MacroscopeDisplayDescriptions : MacroscopeDisplayListView
+  {
 
-		public MacroscopeDisplayDescriptions ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-			: base( MainFormNew, lvListViewNew )
-		{
+    /**************************************************************************/
 
-			MainForm = MainFormNew;
-			lvListView = lvListViewNew;
-						
-			if( MainForm.InvokeRequired )
-			{
-				MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ConfigureListView();
-						}
-					)
-				);
-			}
-			else
-			{
-				ConfigureListView();
-			}
+    public MacroscopeDisplayDescriptions ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+      : base( MainFormNew, lvListViewNew )
+    {
 
-		}
+      MainForm = MainFormNew;
+      lvListView = lvListViewNew;
 
-		/**************************************************************************/
-		
-		void ConfigureListView ()
-		{
-			if( !ListViewConfigured )
-			{
-				ListViewConfigured = true;
-			}
-		}
+      if( MainForm.InvokeRequired )
+      {
+        MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              ConfigureListView();
+            }
+          )
+        );
+      }
+      else
+      {
+        ConfigureListView();
+      }
 
-		/**************************************************************************/
+    }
 
-		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-		{
+    /**************************************************************************/
 
-			Boolean bProcess;
-			
-			if( msDoc.GetIsExternal() )
-			{
-				return;
-			}
-			
-			if( msDoc.GetIsHtml() )
-			{
-				bProcess = true;
-			}
-			else
-			if( msDoc.GetIsPdf() )
-			{
-				bProcess = true;
-			}
-			else
-			{
-				bProcess = false;
-			}
+    protected override void ConfigureListView ()
+    {
+      if( !this.ListViewConfigured )
+      {
+        this.ListViewConfigured = true;
+      }
+    }
 
-			if( bProcess )
-			{
-				
-				string sDescription = msDoc.GetDescription();
-				int iDescriptionCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
-				string sDescriptionLength = sDescription.Length.ToString();
-				string sPairKey = string.Join( "", sUrl, sDescription );
+    /**************************************************************************/
 
-				ListViewItem lvItem = null;
-							
-				if( this.lvListView.Items.ContainsKey( sPairKey ) )
-				{
-							
-					try
-					{
+    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    {
 
-						lvItem = this.lvListView.Items[ sPairKey ];
-						lvItem.SubItems[ 0 ].Text = sUrl;
-						lvItem.SubItems[ 1 ].Text = iDescriptionCount.ToString();
-						lvItem.SubItems[ 2 ].Text = sDescription;
-						lvItem.SubItems[ 3 ].Text = sDescriptionLength;
+      Boolean bProcess;
 
-					}
-					catch( Exception ex )
-					{
-						DebugMsg( string.Format( "MacroscopeDisplayDescriptions 1: {0}", ex.Message ) );
-					}
+      if( msDoc.GetIsExternal() )
+      {
+        return;
+      }
 
-				}
-				else
-				{
-							
-					try
-					{
+      if( msDoc.GetIsHtml() )
+      {
+        bProcess = true;
+      }
+      else
+      if( msDoc.GetIsPdf() )
+      {
+        bProcess = true;
+      }
+      else
+      {
+        bProcess = false;
+      }
 
-						lvItem = new ListViewItem ( sPairKey );
-						lvItem.UseItemStyleForSubItems = false;
-						lvItem.Name = sPairKey;
+      if( bProcess )
+      {
 
-						lvItem.SubItems[ 0 ].Text = sUrl;
-						lvItem.SubItems.Add( iDescriptionCount.ToString() );
-						lvItem.SubItems.Add( sDescription );
-						lvItem.SubItems.Add( sDescriptionLength );
+        string sDescription = msDoc.GetDescription();
+        int iDescriptionCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
+        string sDescriptionLength = sDescription.Length.ToString();
+        string sPairKey = string.Join( "", sUrl, sDescription );
 
-						this.lvListView.Items.Add( lvItem );
+        ListViewItem lvItem = null;
 
-					}
-					catch( Exception ex )
-					{
-						DebugMsg( string.Format( "MacroscopeDisplayDescriptions 2: {0}", ex.Message ) );
-					}
+        if( this.lvListView.Items.ContainsKey( sPairKey ) )
+        {
 
-				}
+          try
+          {
 
-				if( lvItem != null )
-				{
+            lvItem = this.lvListView.Items[ sPairKey ];
+            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems[ 1 ].Text = iDescriptionCount.ToString();
+            lvItem.SubItems[ 2 ].Text = sDescription;
+            lvItem.SubItems[ 3 ].Text = sDescriptionLength;
 
-					lvItem.ForeColor = Color.Blue;
-				
-					if( sDescription.Length < MacroscopePreferencesManager.GetDescriptionMinLen() )
-					{
-						lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-					}
-					else
-					if( sDescription.Length > MacroscopePreferencesManager.GetDescriptionMaxLen() )
-					{
-						lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-					}
-					else
-					{
-						lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
-					}
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "MacroscopeDisplayDescriptions 1: {0}", ex.Message ) );
+          }
 
-				}
-			
-			}
-			
-		}
+        }
+        else
+        {
 
-		/**************************************************************************/
+          try
+          {
 
-	}
+            lvItem = new ListViewItem ( sPairKey );
+            lvItem.UseItemStyleForSubItems = false;
+            lvItem.Name = sPairKey;
+
+            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems.Add( iDescriptionCount.ToString() );
+            lvItem.SubItems.Add( sDescription );
+            lvItem.SubItems.Add( sDescriptionLength );
+
+            this.lvListView.Items.Add( lvItem );
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "MacroscopeDisplayDescriptions 2: {0}", ex.Message ) );
+          }
+
+        }
+
+        if( lvItem != null )
+        {
+
+          lvItem.ForeColor = Color.Blue;
+
+          if( sDescription.Length < MacroscopePreferencesManager.GetDescriptionMinLen() )
+          {
+            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+          }
+          else
+          if( sDescription.Length > MacroscopePreferencesManager.GetDescriptionMaxLen() )
+          {
+            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+          }
+          else
+          {
+            lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+          }
+
+        }
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+  }
 }

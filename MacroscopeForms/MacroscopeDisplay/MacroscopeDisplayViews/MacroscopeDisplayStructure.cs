@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -33,244 +33,239 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayStructure : MacroscopeDisplayListView
-	{
+  public class MacroscopeDisplayStructure : MacroscopeDisplayListView
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		static Boolean ListViewConfigured = false;
-		
-		int MaxHeadingsDisplayed = 2;
+    private int MaxHeadingsDisplayed = 2;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeDisplayStructure ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-			: base( MainFormNew, lvListViewNew )
-		{
+    public MacroscopeDisplayStructure ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+      : base( MainFormNew, lvListViewNew )
+    {
 
-			MainForm = MainFormNew;
-			lvListView = lvListViewNew;
+      MainForm = MainFormNew;
+      lvListView = lvListViewNew;
 
-			if( MainForm.InvokeRequired )
-			{
-				MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ConfigureListView();
-						}
-					)
-				);
-			}
-			else
-			{
-				ConfigureListView();
-			}
+      if( MainForm.InvokeRequired )
+      {
+        MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ConfigureListView();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ConfigureListView();
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void ConfigureListView ()
-		{
-			
-			if( !ListViewConfigured )
-			{
-			
-				// BEGIN: Columns
+    protected override void ConfigureListView ()
+    {
 
-				this.lvListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
-				this.lvListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
-				this.lvListView.Columns.Add( MacroscopeConstants.IsRedirect, MacroscopeConstants.IsRedirect );
+      if( !this.ListViewConfigured )
+      {
 
-				this.lvListView.Columns.Add( MacroscopeConstants.Duration, MacroscopeConstants.Duration );
+        // BEGIN: Columns
 
-				this.lvListView.Columns.Add( MacroscopeConstants.DateServer, MacroscopeConstants.DateServer );
-				this.lvListView.Columns.Add( MacroscopeConstants.DateModified, MacroscopeConstants.DateModified );
-				
-				this.lvListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
-				this.lvListView.Columns.Add( MacroscopeConstants.Lang, MacroscopeConstants.Lang );
-				this.lvListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
-				this.lvListView.Columns.Add( MacroscopeConstants.Inhyperlinks, MacroscopeConstants.Inhyperlinks );
-				this.lvListView.Columns.Add( MacroscopeConstants.Outhyperlinks, MacroscopeConstants.Outhyperlinks );
-				this.lvListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
-				this.lvListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
-				this.lvListView.Columns.Add( MacroscopeConstants.Description, MacroscopeConstants.Description );
-				this.lvListView.Columns.Add( MacroscopeConstants.DescriptionLen, MacroscopeConstants.DescriptionLen );
-				this.lvListView.Columns.Add( MacroscopeConstants.Keywords, MacroscopeConstants.Keywords );
-				this.lvListView.Columns.Add( MacroscopeConstants.KeywordsLen, MacroscopeConstants.KeywordsLen );
-				this.lvListView.Columns.Add( MacroscopeConstants.KeywordsCount, MacroscopeConstants.KeywordsCount );
+        this.lvListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
+        this.lvListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
+        this.lvListView.Columns.Add( MacroscopeConstants.IsRedirect, MacroscopeConstants.IsRedirect );
 
-				for( ushort iLevel = 1 ; iLevel <= MaxHeadingsDisplayed ; iLevel++ )
-				{
-					string sHeadingLevel = string.Format( MacroscopeConstants.Hn, iLevel );
-					this.lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
-				}
+        this.lvListView.Columns.Add( MacroscopeConstants.Duration, MacroscopeConstants.Duration );
 
-				this.lvListView.Columns.Add( MacroscopeConstants.ErrorCondition, MacroscopeConstants.ErrorCondition );
-								
-				// END: Columns
-								
-				//this.lvListView.Sorting = SortOrder.Ascending;
+        this.lvListView.Columns.Add( MacroscopeConstants.DateServer, MacroscopeConstants.DateServer );
+        this.lvListView.Columns.Add( MacroscopeConstants.DateModified, MacroscopeConstants.DateModified );
 
-				this.ListViewResizeColumnsInitial();
+        this.lvListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
+        this.lvListView.Columns.Add( MacroscopeConstants.Lang, MacroscopeConstants.Lang );
+        this.lvListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
+        this.lvListView.Columns.Add( MacroscopeConstants.Inhyperlinks, MacroscopeConstants.Inhyperlinks );
+        this.lvListView.Columns.Add( MacroscopeConstants.Outhyperlinks, MacroscopeConstants.Outhyperlinks );
+        this.lvListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
+        this.lvListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
+        this.lvListView.Columns.Add( MacroscopeConstants.Description, MacroscopeConstants.Description );
+        this.lvListView.Columns.Add( MacroscopeConstants.DescriptionLen, MacroscopeConstants.DescriptionLen );
+        this.lvListView.Columns.Add( MacroscopeConstants.Keywords, MacroscopeConstants.Keywords );
+        this.lvListView.Columns.Add( MacroscopeConstants.KeywordsLen, MacroscopeConstants.KeywordsLen );
+        this.lvListView.Columns.Add( MacroscopeConstants.KeywordsCount, MacroscopeConstants.KeywordsCount );
 
-				ListViewConfigured = true;
-			
-			}
-			
-		}
+        for( ushort iLevel = 1 ; iLevel <= MaxHeadingsDisplayed ; iLevel++ )
+        {
+          string sHeadingLevel = string.Format( MacroscopeConstants.Hn, iLevel );
+          this.lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
+        }
 
-		/** Render One ************************************************************/
+        this.lvListView.Columns.Add( MacroscopeConstants.ErrorCondition, MacroscopeConstants.ErrorCondition );
 
-		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-		{
+        // END: Columns
 
-			lock( this.lvListView )
-			{
+        this.ListViewResizeColumnsInitial();
 
-				Hashtable htItems = new Hashtable ();
-				ListViewItem lvItem = null;
-				
-				// BEGIN: Columns
-				
-				htItems[ MacroscopeConstants.Url ] = msDoc.GetUrl();
+        this.ListViewConfigured = true;
 
-				htItems[ MacroscopeConstants.Status ] = msDoc.GetStatusCode();
-				htItems[ MacroscopeConstants.IsRedirect ] = msDoc.GetIsRedirect();
+      }
 
-				htItems[ MacroscopeConstants.Duration ] = msDoc.GetDurationInSecondsFormatted();
-								
-				htItems[ MacroscopeConstants.ContentType ] = msDoc.GetMimeType();
+    }
 
-				{
-					string sLang = msDoc.GetLang();
-					if( sLang == null )
-					{
-						sLang = "";
-					}
-					htItems[ MacroscopeConstants.Lang ] = sLang;
-				}
-								
-				htItems[ MacroscopeConstants.DateServer ] = msDoc.GetDateServer();
-				htItems[ MacroscopeConstants.DateModified ] = msDoc.GetDateModified();
+    /** Render One ************************************************************/
 
-				htItems[ MacroscopeConstants.Canonical ] = msDoc.GetCanonical();
+    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    {
 
-				htItems[ MacroscopeConstants.Inhyperlinks ] = msDoc.CountHyperlinksIn();
-				htItems[ MacroscopeConstants.Outhyperlinks ] = msDoc.CountHyperlinksOut();
-												
-				htItems[ MacroscopeConstants.Title ] = msDoc.GetTitle();
-				htItems[ MacroscopeConstants.TitleLen ] = msDoc.GetTitleLength();
+      lock( this.lvListView )
+      {
 
-				htItems[ MacroscopeConstants.Description ] = msDoc.GetDescription();
-				htItems[ MacroscopeConstants.DescriptionLen ] = msDoc.GetDescriptionLength();
-				
-				htItems[ MacroscopeConstants.Keywords ] = msDoc.GetKeywords();
-				htItems[ MacroscopeConstants.KeywordsLen ] = msDoc.GetKeywordsLength();
-				htItems[ MacroscopeConstants.KeywordsCount ] = msDoc.GetKeywordsCount();
+        Hashtable htItems = new Hashtable ();
+        ListViewItem lvItem = null;
 
-				for( ushort iLevel = 1 ; iLevel <= MaxHeadingsDisplayed ; iLevel++ )
-				{
-					List<string> aHeadings = msDoc.GetHeadings( iLevel );
-					string sText = "";
-					if( aHeadings.Count > 0 )
-					{
-						sText = aHeadings[ 0 ];
-					}
-					htItems[ string.Format( MacroscopeConstants.Hn, iLevel ) ] = sText;
-				}
+        // BEGIN: Columns
 
-				htItems[ MacroscopeConstants.ErrorCondition ] = msDoc.GetErrorCondition();
-								
-				// END: Columns				
+        htItems[ MacroscopeConstants.Url ] = msDoc.GetUrl();
 
-				this.lvListView.BeginUpdate();
+        htItems[ MacroscopeConstants.Status ] = msDoc.GetStatusCode();
+        htItems[ MacroscopeConstants.IsRedirect ] = msDoc.GetIsRedirect();
 
-				if( this.lvListView.Items.ContainsKey( sUrl ) )
-				{
-					lvItem = this.lvListView.Items[ sUrl ];
-				}
-				else
-				{
-					lvItem = new ListViewItem ( sUrl );
-					lvItem.Name = sUrl;
-					foreach( string sKey in htItems.Keys )
-					{
-						lvItem.SubItems.Add( sKey );
-					}
-					this.lvListView.Items.Add( lvItem );
-				}
+        htItems[ MacroscopeConstants.Duration ] = msDoc.GetDurationInSecondsFormatted();
 
-				if( lvItem != null )
-				{
+        htItems[ MacroscopeConstants.ContentType ] = msDoc.GetMimeType();
 
-					lvItem.UseItemStyleForSubItems = false;
-					lvItem.ForeColor = Color.Blue;
+        {
+          string sLang = msDoc.GetLang();
+          if( sLang == null )
+          {
+            sLang = "";
+          }
+          htItems[ MacroscopeConstants.Lang ] = sLang;
+        }
 
-					foreach( string sKey in htItems.Keys )
-					{
+        htItems[ MacroscopeConstants.DateServer ] = msDoc.GetDateServer();
+        htItems[ MacroscopeConstants.DateModified ] = msDoc.GetDateModified();
 
-						int iColIndex = this.lvListView.Columns.IndexOfKey( sKey );
-						string sText = htItems[ sKey ].ToString();
+        htItems[ MacroscopeConstants.Canonical ] = msDoc.GetCanonical();
 
-						if( htItems[ sKey ] != null )
-						{
-							lvItem.SubItems[ iColIndex ].Text = sText;
-						}
-						else
-						{
-							lvItem.SubItems[ iColIndex ].Text = "";
-						}
+        htItems[ MacroscopeConstants.Inhyperlinks ] = msDoc.CountHyperlinksIn();
+        htItems[ MacroscopeConstants.Outhyperlinks ] = msDoc.CountHyperlinksOut();
 
-						if( !msDoc.GetIsExternal() )
-						{
-							lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
-						}
-						else
-						{
-							lvItem.SubItems[ iColIndex ].ForeColor = Color.Gray;
-						}
+        htItems[ MacroscopeConstants.Title ] = msDoc.GetTitle();
+        htItems[ MacroscopeConstants.TitleLen ] = msDoc.GetTitleLength();
 
-						if( sKey == MacroscopeConstants.Status )
-						{
-							if( Regex.IsMatch( sText, "^[2]" ) )
-							{
-								lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
-							}
-							else
-							if( Regex.IsMatch( sText, "^[3]" ) )
-							{
-								lvItem.SubItems[ iColIndex ].ForeColor = Color.Goldenrod;
-							}
-							else
-							if( Regex.IsMatch( sText, "^[45]" ) )
-							{
-								lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
-							}
-						}
+        htItems[ MacroscopeConstants.Description ] = msDoc.GetDescription();
+        htItems[ MacroscopeConstants.DescriptionLen ] = msDoc.GetDescriptionLength();
 
-					}
+        htItems[ MacroscopeConstants.Keywords ] = msDoc.GetKeywords();
+        htItems[ MacroscopeConstants.KeywordsLen ] = msDoc.GetKeywordsLength();
+        htItems[ MacroscopeConstants.KeywordsCount ] = msDoc.GetKeywordsCount();
 
-				}
-				else
-				{
-					DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
-				}
+        for( ushort iLevel = 1 ; iLevel <= MaxHeadingsDisplayed ; iLevel++ )
+        {
+          List<string> aHeadings = msDoc.GetHeadings( iLevel );
+          string sText = "";
+          if( aHeadings.Count > 0 )
+          {
+            sText = aHeadings[ 0 ];
+          }
+          htItems[ string.Format( MacroscopeConstants.Hn, iLevel ) ] = sText;
+        }
 
-				this.lvListView.EndUpdate();
-				
-			}
+        htItems[ MacroscopeConstants.ErrorCondition ] = msDoc.GetErrorCondition();
 
-		}
+        // END: Columns
 
-		/**************************************************************************/
+        this.lvListView.BeginUpdate();
 
-		void ListViewResizeColumnsInitial ()
-		{
+        if( this.lvListView.Items.ContainsKey( sUrl ) )
+        {
+          lvItem = this.lvListView.Items[ sUrl ];
+        }
+        else
+        {
+          lvItem = new ListViewItem ( sUrl );
+          lvItem.Name = sUrl;
+          foreach( string sKey in htItems.Keys )
+          {
+            lvItem.SubItems.Add( sKey );
+          }
+          this.lvListView.Items.Add( lvItem );
+        }
 
-			Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () {
-				{
+        if( lvItem != null )
+        {
+
+          lvItem.UseItemStyleForSubItems = false;
+          lvItem.ForeColor = Color.Blue;
+
+          foreach( string sKey in htItems.Keys )
+          {
+
+            int iColIndex = this.lvListView.Columns.IndexOfKey( sKey );
+            string sText = htItems[ sKey ].ToString();
+
+            if( htItems[ sKey ] != null )
+            {
+              lvItem.SubItems[ iColIndex ].Text = sText;
+            }
+            else
+            {
+              lvItem.SubItems[ iColIndex ].Text = "";
+            }
+
+            if( !msDoc.GetIsExternal() )
+            {
+              lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
+            }
+            else
+            {
+              lvItem.SubItems[ iColIndex ].ForeColor = Color.Gray;
+            }
+
+            if( sKey == MacroscopeConstants.Status )
+            {
+              if( Regex.IsMatch( sText, "^[2]" ) )
+              {
+                lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
+              }
+              else
+              if( Regex.IsMatch( sText, "^[3]" ) )
+              {
+                lvItem.SubItems[ iColIndex ].ForeColor = Color.Goldenrod;
+              }
+              else
+              if( Regex.IsMatch( sText, "^[45]" ) )
+              {
+                lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
+              }
+            }
+
+          }
+
+        }
+        else
+        {
+          DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
+        }
+
+        this.lvListView.EndUpdate();
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    void ListViewResizeColumnsInitial ()
+    {
+
+      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
 					MacroscopeConstants.Url,
 					300
 				},
@@ -279,7 +274,7 @@ namespace SEOMacroscope
 					300
 				}
 			};
-			
+
 			for( int iColIndex = 0 ; iColIndex < this.lvListView.Columns.Count ; iColIndex++ )
 			{
 				this.lvListView.AutoResizeColumn( iColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
@@ -291,9 +286,9 @@ namespace SEOMacroscope
 			}
 
 		}
-				
+
 		/**************************************************************************/
-		
+
 		void ListViewResizeColumns ()
 		{
 
@@ -303,7 +298,7 @@ namespace SEOMacroscope
 				MacroscopeConstants.DateModified,
 				MacroscopeConstants.Title
 			};
-			
+
 			List<string> lColHeaderWidth = new List<string> () {
 				MacroscopeConstants.DateModified
 			};
@@ -312,7 +307,7 @@ namespace SEOMacroscope
 			{
 				this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.ColumnContent );
 			}
-			
+
 			foreach( string sColName in lColHeaderWidth )
 			{
 				this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.HeaderSize );

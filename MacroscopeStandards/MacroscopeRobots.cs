@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -32,7 +32,7 @@ using RobotsTxt;
 namespace SEOMacroscope
 {
 
-	
+
 	public class MacroscopeRobots : Macroscope
 	{
 
@@ -67,7 +67,7 @@ namespace SEOMacroscope
 
 				if( ( robot != null ) && ( uBase != null ) )
 				{
-					
+
 					if( robot.IsPathAllowed( "*", uBase.AbsolutePath ) )
 					{
 						bAllowed = true;
@@ -81,9 +81,9 @@ namespace SEOMacroscope
 				}
 
 			}
-			
+
 			return( bAllowed );
-			
+
 		}
 
 		/** Sitemaps **************************************************************/
@@ -125,7 +125,7 @@ namespace SEOMacroscope
 			{
 
 				long iGetCrawlDelay = robot.CrawlDelay( "*" );
-				
+
 				if( iGetCrawlDelay > 0 )
 				{
 					iDelay = ( int )( iGetCrawlDelay / 1000 );
@@ -144,7 +144,7 @@ namespace SEOMacroscope
 
 		public Robots FetchRobot ( string sUrl )
 		{
-			
+
 			Robots robot = null;
 
 			if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
@@ -156,7 +156,7 @@ namespace SEOMacroscope
 			Uri uBase = new Uri ( sUrl, UriKind.Absolute );
 			Uri uNew = null;
 			string sRobotsTxtUrl = null;
-			
+
 			try
 			{
 				uNew = new Uri (
@@ -168,9 +168,9 @@ namespace SEOMacroscope
 					),
 					UriKind.Absolute
 				);
-			   	
+
 				sRobotsTxtUrl = uNew.ToString();
-				
+
 			}
 			catch( InvalidOperationException ex )
 			{
@@ -180,7 +180,7 @@ namespace SEOMacroscope
 			{
 				DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
 			}
-			
+
 			if( sRobotsTxtUrl != null )
 			{
 
@@ -205,7 +205,7 @@ namespace SEOMacroscope
 					}
 
 				}
-				
+
 			}
 
 			return( robot );
@@ -227,7 +227,7 @@ namespace SEOMacroscope
 				DebugMsg( string.Format( "FetchRobotTextFile :: CheckValidHostname: {0}", "NOT OK" ) );
 				return( RobotText );
 			}
-			
+
 			try
 			{
 
@@ -238,7 +238,7 @@ namespace SEOMacroscope
 				MacroscopePreferencesManager.EnableHttpProxy( req );
 				res = ( HttpWebResponse )req.GetResponse();
 				bProceed = true;
-				
+
 			}
 			catch( WebException ex )
 			{
@@ -256,7 +256,7 @@ namespace SEOMacroscope
 				DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", ex.Message ) );
 				DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", sUrl ) );
 			}
-			
+
 			if( ( bProceed ) && ( res != null ) )
 			{
 				try
@@ -288,5 +288,5 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 	}
-	
+
 }

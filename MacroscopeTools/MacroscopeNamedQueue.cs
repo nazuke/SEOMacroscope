@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -36,12 +36,12 @@ namespace SEOMacroscope
 
 	public class MacroscopeNamedQueue : Macroscope
 	{
-		
+
 		/**************************************************************************/
 
-		Dictionary<string,Queue<string>> NamedQueues;
+		private Dictionary<string,Queue<string>> NamedQueues;
 
-		Dictionary<string,Dictionary<string,Boolean>> NamedQueuesIndex;
+		private Dictionary<string,Dictionary<string,Boolean>> NamedQueuesIndex;
 
 		/**************************************************************************/
 
@@ -75,9 +75,9 @@ namespace SEOMacroscope
 			}
 			return( NamedQueue );
 		}
-		
+
 		/**************************************************************************/
-		
+
 		public void DeleteNamedQueue ( string sName )
 		{
 			if( this.NamedQueues.ContainsKey( sName ) )
@@ -173,9 +173,9 @@ namespace SEOMacroscope
 				}
 			}
 		}
-		
+
 		/**************************************************************************/
-		
+
 		public void ClearNamedQueue ( string sName )
 		{
 			lock( this.NamedQueues )
@@ -193,7 +193,7 @@ namespace SEOMacroscope
 		public string GetNamedQueueItem ( string sName )
 		{
 			string sItem = null;
-			
+
 			lock( this.NamedQueues[sName] )
 			{
 
@@ -202,9 +202,9 @@ namespace SEOMacroscope
 
 					if( this.NamedQueues[ sName ].Count > 0 )
 					{
-			
+
 						sItem = this.NamedQueues[ sName ].Dequeue();
-			
+
 						if( sItem != null )
 						{
 
@@ -212,13 +212,13 @@ namespace SEOMacroscope
 							{
 								this.NamedQueuesIndex[ sName ].Remove( sItem );
 							}
-			
+
 						}
-			
+
 					}
-			
+
 				}
-			
+
 			}
 			return( sItem );
 		}
@@ -248,14 +248,14 @@ namespace SEOMacroscope
 
 		public List<string> DrainNamedQueueItemsAsList ( string sName )
 		{
-		
+
 			List<string> lItems = new List<string> ();
-		
+
 			if( this.NamedQueues.ContainsKey( sName ) )
 			{
-		
+
 				string sItem = this.GetNamedQueueItem( sName );
-		
+
 				do
 				{
 					if( sItem != null )
@@ -264,49 +264,49 @@ namespace SEOMacroscope
 					}
 					sItem = this.GetNamedQueueItem( sName );
 				} while( sItem != null );
-		
+
 			}
-		
+
 			return( lItems );
 
 		}
-		
+
 		/**************************************************************************/
-				
+
 		public List<string> DrainNamedQueueItemsAsList ( string sName, int iLimit )
 		{
 			List<string> lItems = new List<string> ();
 			int iCount = 0;
-			
+
 			if( this.NamedQueues.ContainsKey( sName ) )
 			{
-				
+
 				string sItem = this.GetNamedQueueItem( sName );
-				
+
 				do
 				{
-					
+
 					if( sItem != null )
 					{
 						lItems.Add( sItem );
 					}
-					
+
 					sItem = this.GetNamedQueueItem( sName );
-					
+
 					iCount++;
-					
+
 					if( iCount >= iLimit )
 					{
 						break;
 					}
-					
+
 				} while( sItem != null );
-			
+
 			}
-			
+
 			return( lItems );
 		}
-		
+
 		/**************************************************************************/
 
 	}

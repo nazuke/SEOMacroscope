@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -28,7 +28,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using System.Threading;
-    
+
 namespace SEOMacroscope
 {
 
@@ -37,45 +37,45 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Dictionary<string,MacroscopeDocument> DocCollection;
+		private Dictionary<string,MacroscopeDocument> DocCollection;
 
-		MacroscopeJobMaster JobMaster;
-		MacroscopeNamedQueue NamedQueue;
-		MacroscopeSearchIndex SearchIndex;
-		
-		Dictionary<string,Boolean> StatsHistory;
-		Dictionary<string,int> StatsHostnames;
-		Dictionary<string,int> StatsTitles;
-		Dictionary<string,int> StatsDescriptions;
-		Dictionary<string,int> StatsKeywords;
-		Dictionary<string,int> StatsErrors;
-		Dictionary<string,int> StatsChecksums;
+		private MacroscopeJobMaster JobMaster;
+		private MacroscopeNamedQueue NamedQueue;
+		private MacroscopeSearchIndex SearchIndex;
 
-		int StatsUrlsInternal;
-		int StatsUrlsExternal;
-		int StatsUrlsSitemaps;
+		private Dictionary<string,Boolean> StatsHistory;
+		private Dictionary<string,int> StatsHostnames;
+		private Dictionary<string,int> StatsTitles;
+		private Dictionary<string,int> StatsDescriptions;
+		private Dictionary<string,int> StatsKeywords;
+		private Dictionary<string,int> StatsErrors;
+		private Dictionary<string,int> StatsChecksums;
 
-		Semaphore SemaphoreRecalc;
-		System.Timers.Timer TimerRecalc;
+		private int StatsUrlsInternal;
+		private int StatsUrlsExternal;
+		private int StatsUrlsSitemaps;
+
+		private Semaphore SemaphoreRecalc;
+		private System.Timers.Timer TimerRecalc;
 
 		/**************************************************************************/
 
 		public MacroscopeDocumentCollection ( MacroscopeJobMaster JobMasterNew )
 		{
-			
+
 			SuppressDebugMsg = false;
-			
+
 			this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
-			
+
 			DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
 
 			JobMaster = JobMasterNew;
-			
+
 			NamedQueue = new MacroscopeNamedQueue ();
 			NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
-			
+
 			SearchIndex = new MacroscopeSearchIndex ();
-			
+
 			StatsHistory = new Dictionary<string,Boolean> ( 1024 );
 			StatsHostnames = new Dictionary<string,int> ( 16 );
 			StatsTitles = new Dictionary<string,int> ( 1024 );
@@ -87,12 +87,12 @@ namespace SEOMacroscope
 			StatsUrlsInternal = 0;
 			StatsUrlsExternal = 0;
 			StatsUrlsSitemaps = 0;
-		
+
 			SemaphoreRecalc = new Semaphore ( 0, 1 );
 			this.StartRecalcTimer();
 
 			this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
-			
+
 		}
 
 		/**************************************************************************/
@@ -116,7 +116,7 @@ namespace SEOMacroscope
 		}
 
 		/** Document Stats ********************************************************/
-		
+
 		public int CountDocuments ()
 		{
 			return( this.DocCollection.Count );
@@ -126,7 +126,7 @@ namespace SEOMacroscope
 		{
 			return( this.StatsUrlsInternal );
 		}
-				
+
 		public int CountUrlsExternal ()
 		{
 			return( this.StatsUrlsExternal );
@@ -138,9 +138,9 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-				
+
 		// TODO: There may be a bug here, whereby two or more error pages are added multiple times.
-		
+
 		public void AddDocument ( string sKey, MacroscopeDocument msDoc )
 		{
 			lock( this.DocCollection )
@@ -285,9 +285,9 @@ namespace SEOMacroscope
 		{
 			this.NamedQueue.AddToNamedQueue( MacroscopeConstants.RecalculateDocCollection, "calc" );
 		}
-		
+
 		/**************************************************************************/
-		
+
 		public Boolean DrainWorkerRecalculateDocCollectionQueue ()
 		{
 			Boolean bResult = false;
@@ -319,11 +319,11 @@ namespace SEOMacroscope
 			{
 
 				MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
-				
+
 				this.StatsUrlsInternal = 0;
 				this.StatsUrlsExternal = 0;
 				this.StatsUrlsSitemaps = 0;
-				
+
 				foreach( string sUrlTarget in this.DocCollection.Keys )
 				{
 
@@ -341,25 +341,25 @@ namespace SEOMacroscope
 					{
 
 						this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", sUrlTarget ) );
-					
+
 						this.StatsHistory.Add( sUrlTarget, true );
-					
+
 						this.RecalculateStatsHostnames( msDoc );
-					
+
 						this.RecalculateStatsTitles( msDoc );
-						
+
 						this.RecalculateStatsDescriptions( msDoc );
-						
+
 						this.RecalculateStatsKeywords( msDoc );
-						
+
 						this.RecalculateStatsErrors( msDoc );
-						
+
 						this.RecalculateStatsChecksums( msDoc );
 
 						this.AddDocumentToSearchIndex( msDoc );
 
 					}
-					
+
 					if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
 					{
 						this.StatsUrlsInternal++;
@@ -375,7 +375,7 @@ namespace SEOMacroscope
 					}
 
 				}
-				
+
 			}
 
 			SemaphoreRecalc.Release();
@@ -397,7 +397,7 @@ namespace SEOMacroscope
 
 					if( sUrlTarget == HyperlinkOut.GetUrlTarget() )
 					{
-						
+
 						msDoc.AddHyperlinkIn(
 							HyperlinkOut.GetHyperlinkType(),
 							HyperlinkOut.GetMethod(),
@@ -406,7 +406,7 @@ namespace SEOMacroscope
 							HyperlinkOut.GetLinkText(),
 							HyperlinkOut.GetAltText()
 						);
-						
+
 					}
 
 				}
@@ -494,9 +494,9 @@ namespace SEOMacroscope
 
 		void RecalculateStatsTitles ( MacroscopeDocument msDoc )
 		{
-			
+
 			Boolean bProcess;
-			
+
 			if( msDoc.GetIsHtml() )
 			{
 				bProcess = true;
@@ -510,14 +510,14 @@ namespace SEOMacroscope
 			{
 				bProcess = false;
 			}
-			
+
 			if( bProcess )
 			{
-			
+
 				string sUrl = msDoc.GetUrl();
 				string sText = msDoc.GetTitle();
 				string sHashed = sText.GetHashCode().ToString();
-			
+
 				if( this.StatsTitles.ContainsKey( sHashed ) )
 				{
 					lock( this.StatsTitles )
@@ -534,7 +534,7 @@ namespace SEOMacroscope
 				}
 
 			}
-			
+
 		}
 
 		/** Descriptions **********************************************************/
@@ -557,9 +557,9 @@ namespace SEOMacroscope
 
 		void RecalculateStatsDescriptions ( MacroscopeDocument msDoc )
 		{
-			
+
 			Boolean bProcess;
-			
+
 			if( msDoc.GetIsHtml() )
 			{
 				bProcess = true;
@@ -573,14 +573,14 @@ namespace SEOMacroscope
 			{
 				bProcess = false;
 			}
-			
+
 			if( bProcess )
 			{
-			
+
 				string sUrl = msDoc.GetUrl();
 				string sText = msDoc.GetDescription();
 				string sHashed = sText.GetHashCode().ToString();
-			
+
 				if( this.StatsDescriptions.ContainsKey( sHashed ) )
 				{
 					lock( this.StatsDescriptions )
@@ -597,7 +597,7 @@ namespace SEOMacroscope
 				}
 
 			}
-			
+
 		}
 
 		/** Keywords **************************************************************/
@@ -620,9 +620,9 @@ namespace SEOMacroscope
 
 		void RecalculateStatsKeywords ( MacroscopeDocument msDoc )
 		{
-			
+
 			Boolean bProcess;
-			
+
 			if( msDoc.GetIsHtml() )
 			{
 				bProcess = true;
@@ -631,14 +631,14 @@ namespace SEOMacroscope
 			{
 				bProcess = false;
 			}
-			
+
 			if( bProcess )
 			{
-			
+
 				string sUrl = msDoc.GetUrl();
 				string sText = msDoc.GetKeywords();
 				string sHashed = sText.GetHashCode().ToString();
-				
+
 				if( this.StatsKeywords.ContainsKey( sHashed ) )
 				{
 					lock( this.StatsKeywords )
@@ -655,7 +655,7 @@ namespace SEOMacroscope
 				}
 
 			}
-			
+
 		}
 
 		/** Errors ****************************************************************/
@@ -686,17 +686,17 @@ namespace SEOMacroscope
 
 			string sErrorCondition = msDoc.GetErrorCondition();
 			int iStatusCode = msDoc.GetStatusCode();
-			
+
 			if( iStatusCode >= 300 )
 			{
-			
+
 				string sError = string.Format( "{0} ({1})", iStatusCode, sErrorCondition );
 
 				DebugMsg( string.Format( "RecalculateStatsErrors: {0}", sError ) );
 
 				lock( this.StatsErrors )
 				{
-				
+
 					if( this.StatsErrors.ContainsKey( sError ) )
 					{
 						this.StatsErrors[ sError ] = this.StatsErrors[ sError ] + 1;
@@ -705,11 +705,11 @@ namespace SEOMacroscope
 					{
 						this.StatsErrors.Add( sError, 1 );
 					}
-					
+
 				}
-				
+
 			}
-			
+
 		}
 
 		/** Checksums *************************************************************/
@@ -752,15 +752,15 @@ namespace SEOMacroscope
 		{
 
 			string sChecksum = msDoc.GetChecksum();
-		
+
 			if( sChecksum.Length > 0 )
 			{
-				
+
 				DebugMsg( string.Format( "RecalculateStatsChecksums: {0}", sChecksum ) );
 
 				lock( this.StatsChecksums )
 				{
-				
+
 					if( this.StatsChecksums.ContainsKey( sChecksum ) )
 					{
 						this.StatsChecksums[ sChecksum ] = this.StatsChecksums[ sChecksum ] + 1;
@@ -769,11 +769,11 @@ namespace SEOMacroscope
 					{
 						this.StatsChecksums.Add( sChecksum, 1 );
 					}
-					
+
 				}
 
 			}
-		
+
 		}
 
 		/** Search Index **********************************************************/

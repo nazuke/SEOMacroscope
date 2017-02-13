@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -38,7 +38,7 @@ namespace SEOMacroscope
 	{
 
 		/**************************************************************************/
-		
+
 		void ProcessHtmlPage ()
 		{
 
@@ -46,7 +46,7 @@ namespace SEOMacroscope
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
 			string sErrorCondition = null;
-			
+
 			try
 			{
 
@@ -70,9 +70,9 @@ namespace SEOMacroscope
 
 			if( res != null )
 			{
-				
+
 				string sRawData = "";
-							
+
 				this.ProcessHttpHeaders( req, res );
 
 				// Get Response Body
@@ -96,7 +96,7 @@ namespace SEOMacroscope
 					sRawData = srRead.ReadToEnd();
 					this.ContentLength = sRawData.Length; // May need to find bytes length
 					this.SetChecksum( sRawData );
-					
+
 				}
 				catch( WebException ex )
 				{
@@ -115,7 +115,7 @@ namespace SEOMacroscope
 					this.ContentLength = 0;
 
 				}
-				
+
 				if( sRawData.Length > 0 )
 				{
 					HtmlDoc = new HtmlDocument ();
@@ -170,11 +170,11 @@ namespace SEOMacroscope
 						}
 						else
 						{
-							this.Description = null;		
+							this.Description = null;
 							DebugMsg( string.Format( "DESCRIPTION: {0}", "MISSING" ) );
 						}
 					}
-						
+
 					{ // Keywords
 						HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@name='keywords']" );
 						if( nNode != null )
@@ -184,7 +184,7 @@ namespace SEOMacroscope
 						}
 						else
 						{
-							this.Keywords = null;		
+							this.Keywords = null;
 							DebugMsg( string.Format( "KEYWORDS: {0}", "MISSING" ) );
 						}
 					}
@@ -192,16 +192,16 @@ namespace SEOMacroscope
 					{ // Canonical
 						this.ProcessHtmlCanonical( HtmlDoc );
 					}
-					
+
 					{ // Outlinks
 						this.ProcessHtmlHyperlinksOut( HtmlDoc );
 						this.ProcessHtmlOutlinks( HtmlDoc );
-					}	
-					
+					}
+
 					{ // Extract interesting document elements
 						this.ExtractHtmlHeadings( HtmlDoc );
 					}
-						
+
 					{ // Special Links
 						this.ExtractHtmlEmailAddresses( HtmlDoc );
 						this.ExtractHtmlTelephoneNumbers( HtmlDoc );
@@ -224,7 +224,7 @@ namespace SEOMacroscope
 					}
 
 				}
-				
+
 				res.Close();
 
 			}
@@ -233,7 +233,7 @@ namespace SEOMacroscope
 			{
 				this.ProcessErrorCondition( sErrorCondition );
 			}
-			
+
 		}
 
 		/**************************************************************************/
@@ -264,7 +264,7 @@ namespace SEOMacroscope
 			}
 
 		}
-		
+
 		/**************************************************************************/
 
 		void ProcessHtmlHyperlinksOut ( HtmlDocument HtmlDoc )
@@ -294,7 +294,7 @@ namespace SEOMacroscope
 							{
 								hlHyperlinkOut.SetFollow( false );
 							}
-						} 
+						}
 
 					}
 
@@ -329,13 +329,13 @@ namespace SEOMacroscope
 								hlHyperlinkOut.SetAltText( sAltText );
 							}
 						}
-						
+
 					}
 
 				}
-							
+
 			}
-						
+
 		}
 
 		/**************************************************************************/
@@ -344,40 +344,40 @@ namespace SEOMacroscope
 		{
 
 			{ // A HREF links ------------------------------------------------------//
-				
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
-				
+
 				if( nOutlinks != null )
 				{
-					
+
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = nLink.GetAttributeValue( "href", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.AHREF, true );
 						}
-						
+
 					}
-					
+
 				}
-				
+
 			} // -------------------------------------------------------------------//
 
 			{ // META elements -----------------------------------------------------//
 				// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
-				
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//meta[@content]" );
-				
+
 				if( nOutlinks != null )
 				{
-					
+
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = null;
 						string sContent = nLink.GetAttributeValue( "content", null );
 
@@ -396,21 +396,21 @@ namespace SEOMacroscope
 						{
 
 							string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 							DebugMsg( string.Format( "META: 1 :: {0}", sLinkUrl ) );
 							DebugMsg( string.Format( "META: 2 :: {0}", sLinkUrlAbs ) );
-						
+
 							if( sLinkUrlAbs != null )
 							{
 								this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.META, true );
 							}
 
 						}
-						
+
 					}
-					
+
 				}
-				
+
 			} // -------------------------------------------------------------------//
 
 			{ // LINK element links
@@ -448,16 +448,16 @@ namespace SEOMacroscope
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, sType, bFollow );
 						}
-						
+
 					}
-					
+
 				}
-				
+
 			} // -------------------------------------------------------------------//
 
 			{ // IFRAME element links -----------------------------------------------//
 				// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
-				
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//iframe[@src]" );
 
 				if( nOutlinks != null )
@@ -467,17 +467,17 @@ namespace SEOMacroscope
 					{
 						string sLinkUrl = nLink.GetAttributeValue( "src", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						DebugMsg( string.Format( "IFRAME: 1 :: {0}", sLinkUrl ) );
 						DebugMsg( string.Format( "IFRAME: 2 :: {0}", sLinkUrlAbs ) );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IFRAME, true );
 						}
-												
+
 					}
-					
+
 				}
 
 			} // -------------------------------------------------------------------//
@@ -488,20 +488,20 @@ namespace SEOMacroscope
 
 				if( nOutlinks != null )
 				{
-					
+
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = nLink.GetAttributeValue( "href", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.MAP, true );
 						}
-						
+
 					}
-					
+
 				}
 
 			} // -------------------------------------------------------------------//
@@ -515,51 +515,51 @@ namespace SEOMacroscope
 
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = nLink.GetAttributeValue( "src", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						DebugMsg( string.Format( "IMAGE: 1 :: {0}", sLinkUrl ) );
 						DebugMsg( string.Format( "IMAGE: 2 :: {0}", sLinkUrlAbs ) );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
 						}
-						
+
 					}
-					
+
 				}
 
 			} // -------------------------------------------------------------------//
 
 			{ // SCRIPT element links ----------------------------------------------//
-				
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//script[@src]" );
-				
+
 				if( nOutlinks != null )
 				{
-					
+
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = nLink.GetAttributeValue( "src", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.SCRIPT, true );
 						}
-						
+
 					}
-					
+
 				}
-				
+
 			} // -------------------------------------------------------------------//
 
 			{ // AUDIO element links -----------------------------------------------//
 				// https://developer.mozilla.org/en/docs/Web/HTML/Element/audio
-				
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "(//audio[@src]|//audio/source[@src]|//audio/track[@src])" );
 
 				if( nOutlinks != null )
@@ -567,27 +567,27 @@ namespace SEOMacroscope
 
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = nLink.GetAttributeValue( "src", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						DebugMsg( string.Format( "AUDIO: 1 :: {0}", sLinkUrl ) );
 						DebugMsg( string.Format( "AUDIO: 2 :: {0}", sLinkUrlAbs ) );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.AUDIO, true );
 						}
-						
+
 					}
-					
+
 				}
 
 			} // -------------------------------------------------------------------//
 
 			{ // VIDEO element links -----------------------------------------------//
 				// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
-				
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "(//video[@src]|//video/source[@src]|//video/track[@src])" );
 
 				if( nOutlinks != null )
@@ -595,27 +595,27 @@ namespace SEOMacroscope
 
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = nLink.GetAttributeValue( "src", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						DebugMsg( string.Format( "VIDEO: 1 :: {0}", sLinkUrl ) );
 						DebugMsg( string.Format( "VIDEO: 2 :: {0}", sLinkUrlAbs ) );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.VIDEO, true );
 						}
-						
+
 					}
-					
+
 				}
 
 			} // -------------------------------------------------------------------//
 
 			{ // EMBED element links -----------------------------------------------//
 				// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/embed
-				
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//embed[@src]" );
 
 				if( nOutlinks != null )
@@ -623,27 +623,27 @@ namespace SEOMacroscope
 
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = nLink.GetAttributeValue( "src", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						DebugMsg( string.Format( "EMBED: 1 :: {0}", sLinkUrl ) );
 						DebugMsg( string.Format( "EMBED: 2 :: {0}", sLinkUrlAbs ) );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.EMBED, true );
 						}
-						
+
 					}
-					
+
 				}
 
 			} // -------------------------------------------------------------------//
 
 			{ // OBJECT element links ----------------------------------------------//
 				// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object
-				
+
 				HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//object[@data]" );
 
 				if( nOutlinks != null )
@@ -651,20 +651,20 @@ namespace SEOMacroscope
 
 					foreach( HtmlNode nLink in nOutlinks )
 					{
-						
+
 						string sLinkUrl = nLink.GetAttributeValue( "data", null );
 						string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-						
+
 						DebugMsg( string.Format( "OBJECT: 1 :: {0}", sLinkUrl ) );
 						DebugMsg( string.Format( "OBJECT: 2 :: {0}", sLinkUrlAbs ) );
-						
+
 						if( sLinkUrlAbs != null )
 						{
 							this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.OBJECT, true );
 						}
-						
+
 					}
-					
+
 				}
 
 			} // -------------------------------------------------------------------//
@@ -691,7 +691,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 		void ExtractHrefLangAlternates ( HtmlDocument HtmlDoc )
 		{
 
@@ -719,11 +719,11 @@ namespace SEOMacroscope
 						{
 							sLocale = this.Locale;
 						}
-						
+
 						DebugMsg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ) );
-						
+
 						msHrefLang = new MacroscopeHrefLang ( sLocale, sHref );
-						
+
 						this.HrefLang[ sLocale ] = msHrefLang;
 
 					}
@@ -733,7 +733,7 @@ namespace SEOMacroscope
 			}
 
 		}
-		
+
 		/**************************************************************************/
 
 		void ExtractHtmlHeadings ( HtmlDocument HtmlDoc )
@@ -807,7 +807,7 @@ namespace SEOMacroscope
 				}
 			}
 		}
-			
+
 		/** Extract Telephone Numbers *********************************************/
 
 		void ExtractHtmlTelephoneNumbers ( HtmlDocument HtmlDoc )
@@ -837,11 +837,11 @@ namespace SEOMacroscope
 
 		Encoding HtmlSniffCharset ()
 		{
-			
+
 			Encoding encSniffed = Encoding.UTF8;
-			
+
 			// TODO: Implement code to download HTML, and examine the content-type meta tag.
-			
+
 			return( encSniffed );
 
 		}

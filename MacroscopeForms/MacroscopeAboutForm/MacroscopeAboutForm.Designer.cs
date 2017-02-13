@@ -3,7 +3,7 @@
  * User: jason
  * Date: 2017/01/12
  * Time: 23:26
- * 
+ *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 namespace SEOMacroscope
@@ -16,7 +16,7 @@ namespace SEOMacroscope
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.RichTextBox richTextBox1;
 		private System.Windows.Forms.Label label1;
-		
+
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -30,7 +30,7 @@ namespace SEOMacroscope
 			}
 			base.Dispose(disposing);
 		}
-		
+
 		/// <summary>
 		/// This method is required for Windows Forms designer support.
 		/// Do not change the method contents inside the source code editor. The Forms designer might
@@ -41,9 +41,9 @@ namespace SEOMacroscope
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
-			// 
+			//
 			// richTextBox1
-			// 
+			//
 			this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.richTextBox1.Cursor = System.Windows.Forms.Cursors.Default;
 			this.richTextBox1.Enabled = false;
@@ -54,18 +54,18 @@ namespace SEOMacroscope
 			this.richTextBox1.TabIndex = 0;
 			this.richTextBox1.Text = "SEO Macroscope\n\nCopyright 2017 Jason Holland";
 			this.richTextBox1.WordWrap = false;
-			// 
+			//
 			// label1
-			// 
+			//
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(300, 50);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "SEO Macroscope";
-			// 
+			//
 			// MacroscopeAboutForm
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;

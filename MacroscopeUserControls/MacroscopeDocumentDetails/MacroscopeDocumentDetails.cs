@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -34,13 +34,13 @@ namespace SEOMacroscope
 
 	public partial class MacroscopeDocumentDetails : MacroscopeUserControl
 	{
-		
+
 		/**************************************************************************/
 
 		MacroscopeUrlLoader UrlLoader;
 
 		/**************************************************************************/
-		
+
 		public MacroscopeDocumentDetails ()
 		{
 
@@ -63,7 +63,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 		void MacroscopeDocumentDetailsLoad ( object sender, EventArgs e )
 		{
 		}
@@ -96,7 +96,7 @@ namespace SEOMacroscope
 
 			if( msDoc != null )
 			{
-				
+
 				if( this.InvokeRequired )
 				{
 					this.Invoke(
@@ -112,15 +112,15 @@ namespace SEOMacroscope
 				{
 					this.UpdateDocumentDetailsDisplay( msJobMaster, msDoc );
 				}
-				
+
 				return( true );
-				
+
 			}
 			else
 			{
-				
+
 				return( false );
-			
+
 			}
 
 		}
@@ -156,7 +156,7 @@ namespace SEOMacroscope
 				KeyValuePair<string,string> kvItem = lItems[ i ];
 
 				//DebugMsg( string.Format( "RenderDocumentDetails: {0} => {1}", kvItem.Key, kvItem.Value ) );
-				
+
 				try
 				{
 					ListViewItem lvItem = new ListViewItem ( kvItem.Key );
@@ -168,13 +168,13 @@ namespace SEOMacroscope
 				{
 					DebugMsg( string.Format( "RenderDocumentDetails: {0}", ex.Message ) );
 				}
-				
+
 			}
 
 		}
 
 		/**************************************************************************/
-		
+
 		void CallbackDocumentDetailsContextMenuStripCopyRowsClick ( object sender, EventArgs e )
 		{
 			this.CopyListViewRowsTextToClipboard( this.listViewDocumentInfo );
@@ -197,7 +197,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-				
+
 		void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Dictionary<string,string> htLocales, MacroscopeDocumentCollection DocCollection )
 		{
 
@@ -227,7 +227,7 @@ namespace SEOMacroscope
 						ListViewItem lvItem = new ListViewItem ( sKeyUrl );
 
 						lvItem.Name = sKeyUrl;
-								
+
 						lvItem.SubItems.Add( "" );
 						lvItem.SubItems.Add( "" );
 						lvItem.SubItems.Add( "" );
@@ -254,15 +254,15 @@ namespace SEOMacroscope
 
 							string sHrefLangUrl = null;
 							string sTitle = "";
-							
+
 							ListViewItem lvItem = new ListViewItem ( sLocale );
-							
+
 							lvItem.Name = sLocale;
-													
+
 							lvItem.SubItems.Add( "" );
 							lvItem.SubItems.Add( "" );
 							lvItem.SubItems.Add( "" );
-							
+
 							if( htHrefLangs.ContainsKey( sLocale ) )
 							{
 
@@ -298,9 +298,9 @@ namespace SEOMacroscope
 							}
 
 							lvListView.Items.Add( lvItem );
-							
+
 						}
-								
+
 					}
 
 				}
@@ -335,7 +335,7 @@ namespace SEOMacroscope
 
 					if( lvListView.Items.ContainsKey( sPairKey ) )
 					{
-							
+
 						try
 						{
 
@@ -355,7 +355,7 @@ namespace SEOMacroscope
 					}
 					else
 					{
-							
+
 						try
 						{
 
@@ -364,7 +364,7 @@ namespace SEOMacroscope
 							lvItem.Name = sPairKey;
 
 							lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetHyperlinkType().ToString();
-							lvItem.SubItems.Add( hlHyperlinkIn.GetUrlOrigin() );						
+							lvItem.SubItems.Add( hlHyperlinkIn.GetUrlOrigin() );
 							lvItem.SubItems.Add( hlHyperlinkIn.GetUrlTarget() );
 							lvItem.SubItems.Add( hlHyperlinkIn.GetLinkText() );
 							lvItem.SubItems.Add( hlHyperlinkIn.GetAltText() );
@@ -397,27 +397,27 @@ namespace SEOMacroscope
 
 			lock( hlHyperlinksOut )
 			{
-				
+
 				foreach( string sUrlOrigin in hlHyperlinksOut.IterateKeys() )
 				{
 
 					//foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.GetLinks( sUrlOrigin ) ) {
 
-						
+
 					foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.IterateLinks( sUrlOrigin ) )
 					{
-						
-						
-						
-						
-						
+
+
+
+
+
 						string sKey = hlHyperlinkOut.GetGuid();
 
 						//DebugMsg( string.Format( "RenderListViewHyperlinksOut sKey: {0} :: {1}", sKey, hlHyperlinkOut.GetUrlTarget() ) );
 
 						if( lvListView.Items.ContainsKey( sKey ) )
 						{
-							
+
 							try
 							{
 
@@ -438,7 +438,7 @@ namespace SEOMacroscope
 						}
 						else
 						{
-							
+
 							try
 							{
 
@@ -447,10 +447,10 @@ namespace SEOMacroscope
 								lvItem.Name = sKey;
 
 								lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetHyperlinkType().ToString();
-								lvItem.SubItems.Add( hlHyperlinkOut.GetUrlOrigin() );						
+								lvItem.SubItems.Add( hlHyperlinkOut.GetUrlOrigin() );
 								lvItem.SubItems.Add( hlHyperlinkOut.GetUrlTarget() );
 								lvItem.SubItems.Add( hlHyperlinkOut.GetLinkText() );
-								lvItem.SubItems.Add( hlHyperlinkOut.GetAltText() );						
+								lvItem.SubItems.Add( hlHyperlinkOut.GetAltText() );
 								lvItem.SubItems.Add( hlHyperlinkOut.GetFollow().ToString() );
 
 								lvListView.Items.Add( lvItem );
@@ -466,16 +466,16 @@ namespace SEOMacroscope
 					}
 
 				}
-				
+
 			}
-		
+
 		}
 
 		/** Document Preview ******************************************************/
 
 		void RenderDocumentPreview ( MacroscopeDocument msDoc )
 		{
-			
+
 			if( msDoc.GetIsImage() )
 			{
 				this.RenderImagePreview( msDoc );
@@ -486,7 +486,7 @@ namespace SEOMacroscope
 			}
 
 		}
-		
+
 		/** Clear Document Preview ListView ***************************************/
 
 		void ClearDocumentPreviewListView ()
@@ -526,7 +526,7 @@ namespace SEOMacroscope
 		{
 
 			ListView lvListView = this.listViewDocInfo;
-			
+
 			lvListView.Clear();
 
 			lvListView.Columns.Add( "Property" );
@@ -555,7 +555,7 @@ namespace SEOMacroscope
 
 			lvListView.Columns[ 0 ].Width = 150;
 			lvListView.Columns[ 1 ].Width = 150;
-			
+
 		}
 
 		/**************************************************************************/

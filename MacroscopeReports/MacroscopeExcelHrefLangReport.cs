@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -29,7 +29,7 @@ using ClosedXML.Excel;
 
 namespace SEOMacroscope
 {
-	
+
 	public class MacroscopeExcelHrefLangReport : MacroscopeExcelReports
 	{
 
@@ -42,7 +42,7 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		public void WriteXslx ( MacroscopeJobMaster msJobMaster, string sOutputFilename )
-		{				
+		{
 			var wb = new XLWorkbook ();
 			DebugMsg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
 			this.BuildWorksheet( msJobMaster, wb, "Macroscope HrefLang", false );
@@ -52,9 +52,9 @@ namespace SEOMacroscope
 		/**************************************************************************/
 
 		void BuildWorksheet ( MacroscopeJobMaster msJobMaster, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
-		{				
+		{
 			var ws = wb.Worksheets.Add( sWorksheetLabel );
-			
+
 			int iRow = 1;
 			int iCol = 1;
 			int iColMax = 1;
@@ -64,7 +64,7 @@ namespace SEOMacroscope
 			Dictionary<string,int> dicLocaleCols = new Dictionary<string, int>();
 
 			{
-			
+
 				ws.Cell( iRow, iCol ).Value = "Site Locale";
 				iCol++;
 
@@ -83,18 +83,18 @@ namespace SEOMacroscope
 				}
 
 			}
-			
+
 			iColMax = iCol;
-			
+
 			iRow++;
 
 			{
-				
+
 				foreach( string sKey in DocCollection.DocumentKeys() ) {
 
 					MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
 					Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
-					
+
 					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
 					string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
 
@@ -107,7 +107,7 @@ namespace SEOMacroscope
 					if( sTitle == "MISSING" ) {
 						ws.Cell( iRow, 2 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
 					}
-					
+
 					ws.Cell( iRow, dicLocaleCols[msDoc.GetLocale()] ).Value = msDoc.GetUrl();
 
 					foreach( string sLocale in htLocales.Keys ) {
@@ -117,7 +117,7 @@ namespace SEOMacroscope
 								ws.Cell( iRow, dicLocaleCols[sLocale] ).Value = msHrefLang.GetUrl();
 							} else {
 								ws.Cell( iRow, dicLocaleCols[sLocale] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
-								ws.Cell( iRow, dicLocaleCols[sLocale] ).Value = "MISSING";					
+								ws.Cell( iRow, dicLocaleCols[sLocale] ).Value = "MISSING";
 							}
 						}
 					}
@@ -131,7 +131,7 @@ namespace SEOMacroscope
 			{
 				var rangeData = ws.Range( 1, 1, iRow - 1, iColMax - 1 );
 				var excelTable = rangeData.CreateTable();
-				excelTable.Sort( "Title", XLSortOrder.Ascending, false, true );				
+				excelTable.Sort( "Title", XLSortOrder.Ascending, false, true );
 			}
 
 			ws.Columns().AdjustToContents();
@@ -139,7 +139,7 @@ namespace SEOMacroscope
 		}
 
 		/**************************************************************************/
-		
+
 	}
-	
+
 }

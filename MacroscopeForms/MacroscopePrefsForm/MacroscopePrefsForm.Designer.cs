@@ -3,7 +3,7 @@
  * User: jason
  * Date: 2017/01/12
  * Time: 21:30
- * 
+ *
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 namespace SEOMacroscope
@@ -22,7 +22,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
 		public System.Windows.Forms.Button buttonPrefsDefault;
-		
+
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -36,7 +36,7 @@ namespace SEOMacroscope
 			}
 			base.Dispose(disposing);
 		}
-		
+
 		/// <summary>
 		/// This method is required for Windows Forms designer support.
 		/// Do not change the method contents inside the source code editor. The Forms designer might
@@ -57,9 +57,9 @@ namespace SEOMacroscope
 			this.flowLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.SuspendLayout();
-			// 
+			//
 			// tableLayoutPanel1
-			// 
+			//
 			this.tableLayoutPanel1.ColumnCount = 1;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.Controls.Add(this.macroscopePrefsControlInstance, 0, 0);
@@ -73,18 +73,18 @@ namespace SEOMacroscope
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(584, 662);
 			this.tableLayoutPanel1.TabIndex = 0;
-			// 
+			//
 			// macroscopePrefsControlInstance
-			// 
+			//
 			this.macroscopePrefsControlInstance.AutoScroll = true;
 			this.macroscopePrefsControlInstance.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.macroscopePrefsControlInstance.Location = new System.Drawing.Point(3, 3);
 			this.macroscopePrefsControlInstance.Name = "macroscopePrefsControlInstance";
 			this.macroscopePrefsControlInstance.Size = new System.Drawing.Size(578, 596);
 			this.macroscopePrefsControlInstance.TabIndex = 0;
-			// 
+			//
 			// tableLayoutPanel2
-			// 
+			//
 			this.tableLayoutPanel2.ColumnCount = 2;
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -98,9 +98,9 @@ namespace SEOMacroscope
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
 			this.tableLayoutPanel2.Size = new System.Drawing.Size(578, 54);
 			this.tableLayoutPanel2.TabIndex = 1;
-			// 
+			//
 			// flowLayoutPanel1
-			// 
+			//
 			this.flowLayoutPanel1.Controls.Add(this.button1);
 			this.flowLayoutPanel1.Controls.Add(this.button2);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -111,9 +111,9 @@ namespace SEOMacroscope
 			this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(289, 54);
 			this.flowLayoutPanel1.TabIndex = 0;
-			// 
+			//
 			// button1
-			// 
+			//
 			this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.button1.Location = new System.Drawing.Point(201, 13);
 			this.button1.Name = "button1";
@@ -121,9 +121,9 @@ namespace SEOMacroscope
 			this.button1.TabIndex = 101;
 			this.button1.Text = "Cancel";
 			this.button1.UseVisualStyleBackColor = true;
-			// 
+			//
 			// button2
-			// 
+			//
 			this.button2.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.button2.Location = new System.Drawing.Point(120, 13);
 			this.button2.Name = "button2";
@@ -131,9 +131,9 @@ namespace SEOMacroscope
 			this.button2.TabIndex = 100;
 			this.button2.Text = "OK";
 			this.button2.UseVisualStyleBackColor = true;
-			// 
+			//
 			// flowLayoutPanel2
-			// 
+			//
 			this.flowLayoutPanel2.Controls.Add(this.buttonPrefsDefault);
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
@@ -142,18 +142,18 @@ namespace SEOMacroscope
 			this.flowLayoutPanel2.Padding = new System.Windows.Forms.Padding(10);
 			this.flowLayoutPanel2.Size = new System.Drawing.Size(289, 54);
 			this.flowLayoutPanel2.TabIndex = 1;
-			// 
+			//
 			// buttonPrefsDefault
-			// 
+			//
 			this.buttonPrefsDefault.Location = new System.Drawing.Point(13, 13);
 			this.buttonPrefsDefault.Name = "buttonPrefsDefault";
 			this.buttonPrefsDefault.Size = new System.Drawing.Size(75, 23);
 			this.buttonPrefsDefault.TabIndex = 102;
 			this.buttonPrefsDefault.Text = "Defaults";
 			this.buttonPrefsDefault.UseVisualStyleBackColor = true;
-			// 
+			//
 			// MacroscopePrefsForm
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(584, 662);

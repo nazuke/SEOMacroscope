@@ -9,20 +9,20 @@
 //------------------------------------------------------------------------------
 
 namespace SEOMacroscope {
-	
-	
+
+
 	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("ICSharpCode.SettingsEditor.SettingsCodeGeneratorTool", "5.1.0.5216")]
 	internal sealed partial class MacroscopePreferences : global::System.Configuration.ApplicationSettingsBase {
-		
+
 		private static MacroscopePreferences defaultInstance = ((MacroscopePreferences)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new MacroscopePreferences())));
-		
+
 		public static MacroscopePreferences Default {
 			get {
 				return defaultInstance;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -34,7 +34,7 @@ namespace SEOMacroscope {
 				this["AnalyzeKeywordsInText"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -46,7 +46,7 @@ namespace SEOMacroscope {
 				this["CheckExternalLinks"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -58,7 +58,7 @@ namespace SEOMacroscope {
 				this["CheckHreflangs"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("-1")]
@@ -70,7 +70,7 @@ namespace SEOMacroscope {
 				this["Depth"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("150")]
@@ -82,7 +82,7 @@ namespace SEOMacroscope {
 				this["DescriptionMaxLen"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("20")]
@@ -94,7 +94,7 @@ namespace SEOMacroscope {
 				this["DescriptionMaxWords"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("10")]
@@ -106,7 +106,7 @@ namespace SEOMacroscope {
 				this["DescriptionMinLen"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("3")]
@@ -118,7 +118,7 @@ namespace SEOMacroscope {
 				this["DescriptionMinWords"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -130,7 +130,7 @@ namespace SEOMacroscope {
 				this["FetchAudio"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -142,7 +142,7 @@ namespace SEOMacroscope {
 				this["FetchImages"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -154,7 +154,7 @@ namespace SEOMacroscope {
 				this["FetchJavascripts"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -166,7 +166,7 @@ namespace SEOMacroscope {
 				this["FetchPdfs"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -178,7 +178,7 @@ namespace SEOMacroscope {
 				this["FetchStylesheets"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -190,7 +190,7 @@ namespace SEOMacroscope {
 				this["FetchVideo"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -202,7 +202,7 @@ namespace SEOMacroscope {
 				this["FetchXml"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -214,7 +214,7 @@ namespace SEOMacroscope {
 				this["FirstRun"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -226,7 +226,7 @@ namespace SEOMacroscope {
 				this["FollowCanonicalLinks"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -238,7 +238,7 @@ namespace SEOMacroscope {
 				this["FollowHrefLangLinks"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -250,7 +250,7 @@ namespace SEOMacroscope {
 				this["FollowListLinks"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -262,7 +262,7 @@ namespace SEOMacroscope {
 				this["FollowNoFollow"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -274,7 +274,7 @@ namespace SEOMacroscope {
 				this["FollowRedirects"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -286,7 +286,7 @@ namespace SEOMacroscope {
 				this["FollowRobotsProtocol"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -298,7 +298,7 @@ namespace SEOMacroscope {
 				this["FollowSitemapLinks"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
@@ -310,7 +310,7 @@ namespace SEOMacroscope {
 				this["HttpProxyHost"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("0")]
@@ -322,7 +322,7 @@ namespace SEOMacroscope {
 				this["HttpProxyPort"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("32")]
@@ -334,7 +334,7 @@ namespace SEOMacroscope {
 				this["MaxFetchesPerWorker"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("2")]
@@ -346,7 +346,7 @@ namespace SEOMacroscope {
 				this["MaxHeadingDepth"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("0")]
@@ -358,7 +358,7 @@ namespace SEOMacroscope {
 				this["MaxRetries"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("8")]
@@ -370,7 +370,7 @@ namespace SEOMacroscope {
 				this["MaxThreads"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("-1")]
@@ -382,7 +382,7 @@ namespace SEOMacroscope {
 				this["PageLimit"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("30")]
@@ -394,7 +394,7 @@ namespace SEOMacroscope {
 				this["RequestTimeout"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("2")]
@@ -406,7 +406,7 @@ namespace SEOMacroscope {
 				this["SameDomainTolerance"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
@@ -418,7 +418,7 @@ namespace SEOMacroscope {
 				this["ScanSitesInList"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
@@ -430,7 +430,7 @@ namespace SEOMacroscope {
 				this["StartUrl"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("70")]
@@ -442,7 +442,7 @@ namespace SEOMacroscope {
 				this["TitleMaxLen"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("512")]
@@ -454,7 +454,7 @@ namespace SEOMacroscope {
 				this["TitleMaxPixelWidth"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("10")]
@@ -466,7 +466,7 @@ namespace SEOMacroscope {
 				this["TitleMaxWords"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("10")]
@@ -478,7 +478,7 @@ namespace SEOMacroscope {
 				this["TitleMinLen"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("3")]
@@ -490,7 +490,7 @@ namespace SEOMacroscope {
 				this["TitleMinWords"] = value;
 			}
 		}
-		
+
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]

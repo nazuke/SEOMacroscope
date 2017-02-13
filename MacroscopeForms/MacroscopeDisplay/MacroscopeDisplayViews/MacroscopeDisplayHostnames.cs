@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -30,139 +30,148 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeDisplayHostnames : MacroscopeDisplayListView
-	{
-		
-		/**************************************************************************/
+  public class MacroscopeDisplayHostnames : MacroscopeDisplayListView
+  {
 
-		static Boolean ListViewConfigured = false;
-		
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeDisplayHostnames ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-			: base( MainFormNew, lvListViewNew )
-		{
+    public MacroscopeDisplayHostnames ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+      : base( MainFormNew, lvListViewNew )
+    {
 
-			MainForm = MainFormNew;
-			lvListView = lvListViewNew;
-			
-			if( MainForm.InvokeRequired ) {
-				MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ConfigureListView();
-						}
-					)
-				);
-			} else {
-				ConfigureListView();
-			}
+      MainForm = MainFormNew;
+      lvListView = lvListViewNew;
 
-		}
+      if( MainForm.InvokeRequired )
+      {
+        MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ConfigureListView();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ConfigureListView();
+      }
 
-		/**************************************************************************/
-		
-		void ConfigureListView ()
-		{
-			if( !ListViewConfigured ) {
-				
-				//this.lvListView.Sorting = SortOrder.Ascending;	
-				
-				ListViewConfigured = true;
-								
-			}
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public new void RefreshData ( MacroscopeDocumentCollection DocCollection )
-		{
-			if( this.MainForm.InvokeRequired ) {
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.RenderListView( DocCollection );
-						}
-					)
-				);
-			} else {
-				this.RenderListView( DocCollection );
-			}
-		}
+    protected override void ConfigureListView ()
+    {
+      if( !this.ListViewConfigured )
+      {
+        this.ListViewConfigured = true;
+      }
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
-		{
-			this.DebugMsg( string.Format( "RenderListView: {0}", "OVERRIDE" ) );
+    public new void RefreshData ( MacroscopeDocumentCollection DocCollection )
+    {
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.RenderListView( DocCollection );
+            }
+          )
+        );
+      }
+      else
+      {
+        this.RenderListView( DocCollection );
+      }
+    }
 
-			Dictionary<string,int> sHostnames = DocCollection.GetStatsHostnamesWithCount();
+    /**************************************************************************/
 
-			this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 1: {0}", sHostnames.Count ) );
+    public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
+    {
+      this.DebugMsg( string.Format( "RenderListView: {0}", "OVERRIDE" ) );
 
-			foreach( string sHostname in sHostnames.Keys ) {
-				int iCount = sHostnames[ sHostname ];
-				this.RenderListView( sHostname, iCount );
-			}
-		}
+      Dictionary<string,int> sHostnames = DocCollection.GetStatsHostnamesWithCount();
 
-		/**************************************************************************/
+      this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 1: {0}", sHostnames.Count ) );
 
-		public void RenderListView ( string sHostname, int iCount )
-		{
-			string sPairKey = string.Join( "::", "HOST", sHostname );
+      foreach( string sHostname in sHostnames.Keys )
+      {
+        int iCount = sHostnames[ sHostname ];
+        this.RenderListView( sHostname, iCount );
+      }
+    }
 
-			this.lvListView.BeginUpdate();
+    /**************************************************************************/
 
-			Boolean bIsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( sHostname );
+    public void RenderListView ( string sHostname, int iCount )
+    {
+      string sPairKey = string.Join( "::", "HOST", sHostname );
 
-			if( this.lvListView.Items.ContainsKey( sPairKey ) ) {
-							
-				try {
+      this.lvListView.BeginUpdate();
 
-					ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-					lvItem.SubItems[ 0 ].Text = sHostname;
-					lvItem.SubItems[ 1 ].Text = iCount.ToString();
-					lvItem.SubItems[ 2 ].Text = bIsInternal.ToString();
+      Boolean bIsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( sHostname );
 
-				} catch( Exception ex ) {
-					this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 1: {0}", ex.Message ) );
-				}
+      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      {
 
-			} else {
-							
-				try {
+        try
+        {
 
-					ListViewItem lvItem = new ListViewItem ( sPairKey );
+          ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem.SubItems[ 0 ].Text = sHostname;
+          lvItem.SubItems[ 1 ].Text = iCount.ToString();
+          lvItem.SubItems[ 2 ].Text = bIsInternal.ToString();
 
-					lvItem.Name = sPairKey;
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 1: {0}", ex.Message ) );
+        }
 
-					lvItem.SubItems[ 0 ].Text = sHostname;
-					lvItem.SubItems.Add( iCount.ToString() );
-					lvItem.SubItems.Add( bIsInternal.ToString() );
+      }
+      else
+      {
 
-					this.lvListView.Items.Add( lvItem );
+        try
+        {
 
-				} catch( Exception ex ) {
-					this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 2: {0}", ex.Message ) );
-				}
+          ListViewItem lvItem = new ListViewItem ( sPairKey );
 
-			}
+          lvItem.Name = sPairKey;
 
-			this.lvListView.EndUpdate();
-			
-		}
+          lvItem.SubItems[ 0 ].Text = sHostname;
+          lvItem.SubItems.Add( iCount.ToString() );
+          lvItem.SubItems.Add( bIsInternal.ToString() );
 
-		/**************************************************************************/
+          this.lvListView.Items.Add( lvItem );
 
-		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-		{
-		}
-		
-		/**************************************************************************/
-	
-	}
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 2: {0}", ex.Message ) );
+        }
+
+      }
+
+      this.lvListView.EndUpdate();
+
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    {
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

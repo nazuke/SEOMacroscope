@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -37,19 +37,19 @@ namespace SEOMacroscope
 	{
 
 		/**************************************************************************/
-		
+
 		void ProcessCssPage ()
 		{
 
 			HttpWebRequest req = null;
 			HttpWebResponse res = null;
 			string sErrorCondition = null;
-			
+
 			DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
-			
+
 			try
 			{
-				
+
 				req = WebRequest.CreateHttp( this.Url );
 				req.Method = "GET";
 				req.Timeout = this.Timeout;
@@ -72,7 +72,7 @@ namespace SEOMacroscope
 
 			if( res != null )
 			{
-				
+
 				string sRawData = "";
 
 				this.ProcessHttpHeaders( req, res );
@@ -103,7 +103,7 @@ namespace SEOMacroscope
 					DebugMsg( string.Format( "Exception", ex.Message ) );
 					this.StatusCode = ( int )HttpStatusCode.BadRequest;
 					this.ContentLength = 0;
-					
+
 				}
 
 				if( sRawData.Length > 0 )
@@ -155,7 +155,7 @@ namespace SEOMacroscope
 
 			foreach( var rRule in ExCssStylesheet.StyleRules )
 			{
-						
+
 				int iRule = ExCssStylesheet.StyleRules.IndexOf( rRule );
 
 				foreach( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties )
@@ -168,22 +168,22 @@ namespace SEOMacroscope
 						string sLinkUrlAbs;
 
 						DebugMsg( string.Format( "ProcessCssHyperlinksOut: {0}", sBackgroundImageUrl ) );
-													
+
 						sBackgroundImageUrl = MacroscopeUrlTools.CleanUrlCss( sBackgroundImageUrl );
-											
+
 						if( sBackgroundImageUrl != null )
 						{
-													
+
 							sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
 
 							DebugMsg( string.Format( "ProcessCssHyperlinksOut: {0}", sBackgroundImageUrl ) );
 							DebugMsg( string.Format( "ProcessCssHyperlinksOut this.Url: {0}", this.Url ) );
 							DebugMsg( string.Format( "ProcessCssHyperlinksOut sLinkUrlAbs: {0}", sLinkUrlAbs ) );
-							
+
 							// TODO: Verify that this actually works:
-						
+
 							this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
-						
+
 						}
 						else
 						{

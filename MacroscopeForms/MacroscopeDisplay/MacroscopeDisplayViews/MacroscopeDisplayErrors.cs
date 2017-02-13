@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -30,220 +30,212 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-		
-	/// <summary>
-	/// Description of MacroscopeDisplayErrors.
-	/// </summary>
 
-	public class MacroscopeDisplayErrors : MacroscopeDisplayListView
-	{
-		
-		/**************************************************************************/
+  /// <summary>
+  /// Description of MacroscopeDisplayErrors.
+  /// </summary>
 
-		static Boolean ListViewConfigured = false;
-		
-		/**************************************************************************/
+  public class MacroscopeDisplayErrors : MacroscopeDisplayListView
+  {
 
-		public MacroscopeDisplayErrors ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-			: base( MainFormNew, lvListViewNew )
-		{
+    /**************************************************************************/
 
-			MainForm = MainFormNew;
-			lvListView = lvListViewNew;
-			
-			if( MainForm.InvokeRequired )
-			{
-				MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ConfigureListView();
-						}
-					)
-				);
-			}
-			else
-			{
-				ConfigureListView();
-			}
+    public MacroscopeDisplayErrors ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+      : base( MainFormNew, lvListViewNew )
+    {
 
-		}
+      MainForm = MainFormNew;
+      lvListView = lvListViewNew;
 
-		/**************************************************************************/
-		
-		void ConfigureListView ()
-		{
-			if( !ListViewConfigured )
-			{
-				
-				//this.lvListView.Sorting = SortOrder.Ascending;	
-				
-				ListViewConfigured = true;
-								
-			}
-		}
+      if( MainForm.InvokeRequired )
+      {
+        MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ConfigureListView();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ConfigureListView();
+      }
 
-		/**************************************************************************/
+    }
 
-		public new void RefreshData ( MacroscopeDocumentCollection DocCollection )
-		{
-			if( this.MainForm.InvokeRequired )
-			{
-				this.MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							this.RenderListView( DocCollection );
-						}
-					)
-				);
-			}
-			else
-			{
-				this.RenderListView( DocCollection );
-			}
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    protected override void ConfigureListView ()
+    {
+      if( !this.ListViewConfigured )
+      {
+        this.ListViewConfigured = true;
+      }
+    }
 
-		public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
-		{
+    /**************************************************************************/
 
-			foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
-			{
+    public new void RefreshData ( MacroscopeDocumentCollection DocCollection )
+    {
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.RenderListView( DocCollection );
+            }
+          )
+        );
+      }
+      else
+      {
+        this.RenderListView( DocCollection );
+      }
+    }
 
-				Boolean bProceed = false;
+    /**************************************************************************/
 
-				if( ( msDoc.GetStatusCode() >= 400 ) && ( msDoc.GetStatusCode() <= 499 ) )
-				{
-					bProceed = true;
-				}
-				else
-				if( ( msDoc.GetStatusCode() >= 500 ) && ( msDoc.GetStatusCode() <= 599 ) )
-				{
-					bProceed = true;
-				}
-				
-				if( bProceed )
-				{
-					this.RenderListView( msDoc, msDoc.GetUrl() );
-				}
-				else
-				{
-					RemoveFromListView( msDoc.GetUrl() );
-				}
-			
-			}
-		
-		}
+    public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
+    {
 
-		/**************************************************************************/
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      {
 
-		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-		{
+        Boolean bProceed = false;
 
-			string sPairKey = sUrl;
-			string sStatus = msDoc.GetStatusCode().ToString();
-			ListViewItem lvItem = null;
+        if( ( msDoc.GetStatusCode() >= 400 ) && ( msDoc.GetStatusCode() <= 499 ) )
+        {
+          bProceed = true;
+        }
+        else
+        if( ( msDoc.GetStatusCode() >= 500 ) && ( msDoc.GetStatusCode() <= 599 ) )
+        {
+          bProceed = true;
+        }
 
-			this.lvListView.BeginUpdate();
+        if( bProceed )
+        {
+          this.RenderListView( msDoc, msDoc.GetUrl() );
+        }
+        else
+        {
+          RemoveFromListView( msDoc.GetUrl() );
+        }
 
-			if( this.lvListView.Items.ContainsKey( sPairKey ) )
-			{
-							
-				try
-				{
+      }
 
-					lvItem = this.lvListView.Items[ sPairKey ];
-											
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems[ 1 ].Text = sStatus;
-					lvItem.SubItems[ 2 ].Text = msDoc.GetErrorCondition();
+    }
 
-				}
-				catch( Exception ex )
-				{
-					this.DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
-				}
+    /**************************************************************************/
 
-			}
-			else
-			{
-							
-				try
-				{
+    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    {
 
-					lvItem = new ListViewItem ( sPairKey );
+      string sPairKey = sUrl;
+      string sStatus = msDoc.GetStatusCode().ToString();
+      ListViewItem lvItem = null;
 
-					lvItem.Name = sPairKey;
+      this.lvListView.BeginUpdate();
 
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems.Add( sStatus );
-					lvItem.SubItems.Add( msDoc.GetErrorCondition() );
+      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      {
 
-					this.lvListView.Items.Add( lvItem );
+        try
+        {
 
-				}
-				catch( Exception ex )
-				{
-					this.DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
-				}
+          lvItem = this.lvListView.Items[ sPairKey ];
 
-			}
+          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 1 ].Text = sStatus;
+          lvItem.SubItems[ 2 ].Text = msDoc.GetErrorCondition();
 
-			if( lvItem != null )
-			{
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
+        }
 
-				lvItem.UseItemStyleForSubItems = false;
-				lvItem.ForeColor = Color.Blue;
-				
-				if( Regex.IsMatch( sStatus, "^[2]" ) )
-				{
-					lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-				}
-				else
-				if( Regex.IsMatch( sStatus, "^[3]" ) )
-				{
-					lvItem.SubItems[ 1 ].ForeColor = Color.Goldenrod;
-				}
-				else
-				if( Regex.IsMatch( sStatus, "^[45]" ) )
-				{
-					lvItem.SubItems[ 1 ].ForeColor = Color.Red;
-				}
-				else
-				{
-					lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
-				}
+      }
+      else
+      {
 
-			}
+        try
+        {
 
-			this.lvListView.EndUpdate();
+          lvItem = new ListViewItem ( sPairKey );
 
-		}
+          lvItem.Name = sPairKey;
 
-		/**************************************************************************/
+          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems.Add( sStatus );
+          lvItem.SubItems.Add( msDoc.GetErrorCondition() );
 
-		void RemoveFromListView ( string sUrl )
-		{
+          this.lvListView.Items.Add( lvItem );
 
-			string sPairKey = sUrl;
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
+        }
 
-			if( this.lvListView.Items.ContainsKey( sPairKey ) )
-			{
+      }
 
-				this.lvListView.BeginUpdate();
+      if( lvItem != null )
+      {
 
-				this.lvListView.Items.Remove( this.lvListView.Items[ sPairKey ] );
+        lvItem.UseItemStyleForSubItems = false;
+        lvItem.ForeColor = Color.Blue;
 
-				this.lvListView.EndUpdate();
+        if( Regex.IsMatch( sStatus, "^[2]" ) )
+        {
+          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+        }
+        else
+        if( Regex.IsMatch( sStatus, "^[3]" ) )
+        {
+          lvItem.SubItems[ 1 ].ForeColor = Color.Goldenrod;
+        }
+        else
+        if( Regex.IsMatch( sStatus, "^[45]" ) )
+        {
+          lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+        }
+        else
+        {
+          lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
+        }
 
-			}
+      }
 
-		}
+      this.lvListView.EndUpdate();
 
-		/**************************************************************************/
-	
-	}
+    }
+
+    /**************************************************************************/
+
+    void RemoveFromListView ( string sUrl )
+    {
+
+      string sPairKey = sUrl;
+
+      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      {
+
+        this.lvListView.BeginUpdate();
+
+        this.lvListView.Items.Remove( this.lvListView.Items[ sPairKey ] );
+
+        this.lvListView.EndUpdate();
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

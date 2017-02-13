@@ -1,23 +1,23 @@
 ﻿/*
-	
+
 	This file is part of SEOMacroscope.
-	
+
 	Copyright 2017 Jason Holland.
-	
+
 	The GitHub repository may be found at:
-	
+
 		https://github.com/nazuke/SEOMacroscope
-	
+
 	Foobar is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	Foobar is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -29,132 +29,132 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-	
-	/// <summary>
-	/// Description of MacroscopeDisplayStylesheets.
-	/// </summary>
 
-	public class MacroscopeDisplayStylesheets : MacroscopeDisplayListView
-	{
-		
-		/**************************************************************************/
+  /// <summary>
+  /// Description of MacroscopeDisplayStylesheets.
+  /// </summary>
 
-		static Boolean ListViewConfigured = false;
-		
-		/**************************************************************************/
+  public class MacroscopeDisplayStylesheets : MacroscopeDisplayListView
+  {
 
-		public MacroscopeDisplayStylesheets ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-			: base( MainFormNew, lvListViewNew )
-		{
+    /**************************************************************************/
 
-			MainForm = MainFormNew;
-			lvListView = lvListViewNew;
-						
-			if( MainForm.InvokeRequired ) {
-				MainForm.Invoke(
-					new MethodInvoker (
-						delegate
-						{
-							ConfigureListView();
-						}
-					)
-				);
-			} else {
-				ConfigureListView();
-			}
+    public MacroscopeDisplayStylesheets ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+      : base( MainFormNew, lvListViewNew )
+    {
 
-		}
+      MainForm = MainFormNew;
+      lvListView = lvListViewNew;
 
-		/**************************************************************************/
-		
-		void ConfigureListView ()
-		{
-			if( !ListViewConfigured ) {
-				ListViewConfigured = true;
-			}
-		}
+      if( MainForm.InvokeRequired )
+      {
+        MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ConfigureListView();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ConfigureListView();
+      }
 
-		/**************************************************************************/
+    }
 
-		protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-		{
+    /**************************************************************************/
 
-			if( !msDoc.GetIsCss() )
-			{
-				return;
-			}
+    protected override void ConfigureListView ()
+    {
+      if( !this.ListViewConfigured )
+      {
+        this.ListViewConfigured = true;
+      }
+    }
 
-			string sStatusCode = msDoc.GetStatusCode().ToString();
-			string sMimeType = msDoc.GetMimeType();
-			string sFileSize = msDoc.GetContentLength().ToString();
+    /**************************************************************************/
 
-			string sPairKey = string.Join( "", sUrl );
+    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    {
 
-			ListViewItem lvItem = null;
-							
-			if( this.lvListView.Items.ContainsKey( sPairKey ) )
-			{
-							
-				try
-				{
+      if( !msDoc.GetIsCss() )
+      {
+        return;
+      }
 
-					lvItem = this.lvListView.Items[ sPairKey ];
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems[ 1 ].Text = sStatusCode;
-					lvItem.SubItems[ 2 ].Text = sMimeType;
-					lvItem.SubItems[ 3 ].Text = sFileSize;
+      string sStatusCode = msDoc.GetStatusCode().ToString();
+      string sMimeType = msDoc.GetMimeType();
+      string sFileSize = msDoc.GetContentLength().ToString();
 
-				}
-				catch( Exception ex )
-				{
-					DebugMsg( string.Format( "MacroscopeDisplayStylesheets 1: {0}", ex.Message ) );
-				}
+      string sPairKey = string.Join( "", sUrl );
 
-			}
-			else
-			{
-							
-				try
-				{
+      ListViewItem lvItem = null;
 
-					lvItem = new ListViewItem ( sPairKey );
-					lvItem.UseItemStyleForSubItems = false;
-					lvItem.Name = sPairKey;
+      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      {
 
-					lvItem.SubItems[ 0 ].Text = sUrl;
-					lvItem.SubItems.Add( sStatusCode );
-					lvItem.SubItems.Add( sMimeType );
-					lvItem.SubItems.Add( sFileSize );
+        try
+        {
 
-					this.lvListView.Items.Add( lvItem );
+          lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 1 ].Text = sStatusCode;
+          lvItem.SubItems[ 2 ].Text = sMimeType;
+          lvItem.SubItems[ 3 ].Text = sFileSize;
 
-				}
-				catch( Exception ex )
-				{
-					DebugMsg( string.Format( "MacroscopeDisplayStylesheets 2: {0}", ex.Message ) );
-				}
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "MacroscopeDisplayStylesheets 1: {0}", ex.Message ) );
+        }
 
-			}
+      }
+      else
+      {
 
-			if( lvItem != null )
-			{
+        try
+        {
 
-				lvItem.ForeColor = Color.Blue;
-				
-				if( msDoc.GetStatusCode() != 200 )
-				{
-					lvItem.SubItems[ 1 ].ForeColor = Color.Red;
-				}
-				else
-				{
-					lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
-				}
+          lvItem = new ListViewItem ( sPairKey );
+          lvItem.UseItemStyleForSubItems = false;
+          lvItem.Name = sPairKey;
 
-			}
-			
-		}
+          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems.Add( sStatusCode );
+          lvItem.SubItems.Add( sMimeType );
+          lvItem.SubItems.Add( sFileSize );
 
-		/**************************************************************************/
+          this.lvListView.Items.Add( lvItem );
 
-	}
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "MacroscopeDisplayStylesheets 2: {0}", ex.Message ) );
+        }
+
+      }
+
+      if( lvItem != null )
+      {
+
+        lvItem.ForeColor = Color.Blue;
+
+        if( msDoc.GetStatusCode() != 200 )
+        {
+          lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+        }
+        else
+        {
+          lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+        }
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+  }
 }
