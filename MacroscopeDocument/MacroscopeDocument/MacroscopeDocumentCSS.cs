@@ -33,173 +33,243 @@ using ExCSS;
 namespace SEOMacroscope
 {
 
-	public partial class MacroscopeDocument : Macroscope
-	{
+  public partial class MacroscopeDocument : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void ProcessCssPage ()
-		{
+    void ProcessCssPage ()
+    {
 
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			string sErrorCondition = null;
+      HttpWebRequest req = null;
+      HttpWebResponse res = null;
+      string sErrorCondition = null;
 
-			DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
+      DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 
-			try
-			{
+      try
+      {
 
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "GET";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
+        req = WebRequest.CreateHttp( this.Url );
+        req.Method = "GET";
+        req.Timeout = this.Timeout;
+        req.KeepAlive = false;
+        MacroscopePreferencesManager.EnableHttpProxy( req );
 
-				res = ( HttpWebResponse )req.GetResponse();
+        res = ( HttpWebResponse )req.GetResponse();
 
-			}
-			catch( WebException ex )
-			{
+      }
+      catch( WebException ex )
+      {
 
-				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Status ) );
-				DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ( int )ex.Status ) );
+        DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Status ) );
+        DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ( int )ex.Status ) );
 
-				sErrorCondition = ex.Status.ToString();
+        sErrorCondition = ex.Status.ToString();
 
-			}
+      }
 
-			if( res != null )
-			{
+      if( res != null )
+      {
 
-				string sRawData = "";
+        string sRawData = "";
 
-				this.ProcessHttpHeaders( req, res );
+        this.ProcessHttpHeaders( req, res );
 
-				// Get Response Body
-				try
-				{
+        // Get Response Body
+        try
+        {
 
-					DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
-					Stream sStream = res.GetResponseStream();
-					StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
-					sRawData = srRead.ReadToEnd();
-					this.ContentLength = sRawData.Length; // May need to find bytes length
-					//DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
+          DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
-				}
-				catch( WebException ex )
-				{
+          Stream sStream = res.GetResponseStream();
+          StreamReader srRead;
 
-					DebugMsg( string.Format( "WebException", ex.Message ) );
-					sRawData = "";
-					this.ContentLength = 0;
+          if( this.CharSet != null )
+          {
+            srRead = new StreamReader ( sStream, this.CharSet );
+          }
+          else
+          {
+            srRead = new StreamReader ( sStream );
+          }
+         
+          sRawData = srRead.ReadToEnd();
+          this.ContentLength = sRawData.Length; // May need to find bytes length
+          //DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
 
-				}
-				catch( Exception ex )
-				{
+        }
+        catch( WebException ex )
+        {
 
-					DebugMsg( string.Format( "Exception", ex.Message ) );
-					this.StatusCode = ( int )HttpStatusCode.BadRequest;
-					this.ContentLength = 0;
+          DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
+          sRawData = "";
+          this.ContentLength = 0;
 
-				}
+        }
+        catch( Exception ex )
+        {
 
-				if( sRawData.Length > 0 )
-				{
-					ExCSS.Parser ExCssParser = new  ExCSS.Parser ();
-					ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( sRawData );
+          DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+          this.StatusCode = ( int )HttpStatusCode.BadRequest;
+          this.ContentLength = 0;
 
-					this.ProcessCssHyperlinksOut( ExCssStylesheet );
+        }
 
-				}
+        if( sRawData.Length > 0 )
+        {
+          ExCSS.Parser ExCssParser = new  ExCSS.Parser ();
+          ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( sRawData );
 
-				{ // Title
-					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
-					string sTitle = null;
-					foreach( Match match in reMatches )
-					{
-						if( match.Groups[ 1 ].Value.Length > 0 )
-						{
-							sTitle = match.Groups[ 1 ].Value.ToString();
-							break;
-						}
-					}
-					if( sTitle != null )
-					{
-						this.Title = sTitle;
-						DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
-					}
-					else
-					{
-						DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
-					}
-				}
+          this.ProcessCssHyperlinksOut( ExCssStylesheet );
 
-				res.Close();
+        }
+        else
+        {
+          
+          DebugMsg( string.Format( "ProcessCssPage: ERROR: {0}", this.GetUrl() ) );
+          
+        }
+        
+        { // Title
+          MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
+          string sTitle = null;
+          foreach( Match match in reMatches )
+          {
+            if( match.Groups[ 1 ].Value.Length > 0 )
+            {
+              sTitle = match.Groups[ 1 ].Value.ToString();
+              break;
+            }
+          }
+          if( sTitle != null )
+          {
+            this.Title = sTitle;
+            DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
+          }
+          else
+          {
+            DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
+          }
+        }
 
-			}
+        res.Close();
 
-			if( sErrorCondition != null )
-			{
-				this.ProcessErrorCondition( sErrorCondition );
-			}
+      }
 
-		}
+      if( sErrorCondition != null )
+      {
+        this.ProcessErrorCondition( sErrorCondition );
+      }
 
-		/**************************************************************************/
+    }
 
-		void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
-		{
+    /**************************************************************************/
 
-			foreach( var rRule in ExCssStylesheet.StyleRules )
-			{
+    void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
+    {
 
-				int iRule = ExCssStylesheet.StyleRules.IndexOf( rRule );
+      foreach( var rRule in ExCssStylesheet.StyleRules )
+      {
 
-				foreach( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties )
-				{
+        int iRule = ExCssStylesheet.StyleRules.IndexOf( rRule );
 
-					if( pProp.Name.Equals( "background-image" ) )
-					{
+        foreach( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties )
+        {
+          
+          string sBackgroundImageUrl;
+          string sLinkUrlAbs;
 
-						string sBackgroundImageUrl = pProp.Term.ToString();
-						string sLinkUrlAbs;
+          switch( pProp.Name.ToLower() )
+          {
 
-						DebugMsg( string.Format( "ProcessCssHyperlinksOut: {0}", sBackgroundImageUrl ) );
+            case "background-image":
+              sBackgroundImageUrl = pProp.Term.ToString();
+              sLinkUrlAbs = this.ProcessCssBackImageUrl( sBackgroundImageUrl );
+              DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", sBackgroundImageUrl ) );
+              DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", sLinkUrlAbs ) );
+              if( sLinkUrlAbs != null )
+              {
+                // TODO: Verify that this actually works:
+                this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
+                this.AddCssOutlink( this.Url, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
+              }
+              break;
 
-						sBackgroundImageUrl = MacroscopeUrlTools.CleanUrlCss( sBackgroundImageUrl );
+            case "background":
+              sBackgroundImageUrl = pProp.Term.ToString();
+              sLinkUrlAbs = this.ProcessCssBackImageUrl( sBackgroundImageUrl );
+              DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", sBackgroundImageUrl ) );
+              DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", sLinkUrlAbs ) );
+              if( sLinkUrlAbs != null )
+              {     
+                // TODO: Verify that this actually works:
+                this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
+                this.AddCssOutlink( this.Url, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
+              }
+              break;
 
-						if( sBackgroundImageUrl != null )
-						{
+            default:
+              break;
 
-							sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sBackgroundImageUrl );
+          }
 
-							DebugMsg( string.Format( "ProcessCssHyperlinksOut: {0}", sBackgroundImageUrl ) );
-							DebugMsg( string.Format( "ProcessCssHyperlinksOut this.Url: {0}", this.Url ) );
-							DebugMsg( string.Format( "ProcessCssHyperlinksOut sLinkUrlAbs: {0}", sLinkUrlAbs ) );
+        }
 
-							// TODO: Verify that this actually works:
+      }
 
-							this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
+    }
 
-						}
-						else
-						{
-							DebugMsg( string.Format( "ProcessCssHyperlinksOut: {0}", "NOT CSS URL" ) );
-						}
+    /**************************************************************************/
 
-					}
+    private string ProcessCssBackImageUrl ( string sBackgroundImageUrl )
+    {
 
-				}
+      string sLinkUrlAbs = null;
+      string sLinkUrlCleaned = MacroscopeUrlTools.CleanUrlCss( sBackgroundImageUrl );
 
-			}
+      if( sLinkUrlCleaned != null )
+      {
 
-		}
+        sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrlCleaned );
 
-		/**************************************************************************/
+        DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", sLinkUrlCleaned ) );
+        DebugMsg( string.Format( "ProcessCssBackImageUrl: this.Url: {0}", this.Url ) );
+        DebugMsg( string.Format( "ProcessCssBackImageUrl: sLinkUrlAbs: {0}", sLinkUrlAbs ) );
 
-	}
+      }
+
+      return( sLinkUrlAbs );
+      
+    }
+
+    /**************************************************************************/
+
+    void AddCssOutlink (
+      string sRawUrl,
+      string sAbsoluteUrl,
+      MacroscopeConstants.OutlinkType OutlinkType,
+      Boolean bFollow
+    )
+    {
+
+      MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, OutlinkType, bFollow );
+
+      if( this.Outlinks.ContainsKey( sRawUrl ) )
+      {
+        this.Outlinks.Remove( sRawUrl );
+        this.Outlinks.Add( sRawUrl, OutLink );
+      }
+      else
+      {
+        this.Outlinks.Add( sRawUrl, OutLink );
+      }
+
+    }
+
+    /**************************************************************************/
+    
+  }
 
 }

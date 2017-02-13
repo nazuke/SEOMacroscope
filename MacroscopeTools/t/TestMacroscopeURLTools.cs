@@ -30,72 +30,66 @@ using NUnit.Framework;
 namespace SEOMacroscope
 {
 
-	[TestFixture]
-	public class TestMacroscopeUrlTools
-	{
+  [TestFixture]
+  public class TestMacroscopeUrlTools
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Test]
-		public void TestMakeUrlAbsoluteUrls ()
-		{
+    [Test]
+    public void TestMakeUrlAbsoluteUrls ()
+    {
 
-			Hashtable htUrls = new Hashtable ()
-			{
-				{
-					"path/to/images/picture.gif",
-					"http://www.host.com/path/to/page/path/to/images/picture.gif"
-				},
-				{
-					"../path/to/images/picture.gif" ,
-					"http://www.host.com/path/to/path/to/images/picture.gif"
-				},
-				{
-					"../../path/to/images/picture.gif" ,
-					"http://www.host.com/path/path/to/images/picture.gif"
-				}
-			};
+      Hashtable htUrls = new Hashtable () { {
+          "path/to/images/picture.gif",
+          "http://www.host.com/path/to/page/path/to/images/picture.gif"
+        },
+        {
+          "../path/to/images/picture.gif" ,
+          "http://www.host.com/path/to/path/to/images/picture.gif"
+        }, {
+          "../../path/to/images/picture.gif" ,
+          "http://www.host.com/path/path/to/images/picture.gif"
+        }
+      };
 
-			string sBaseUrl = "http://www.host.com/path/to/page/";
-			string sFilename = "index.html";
-			string sUrl = string.Join( "", sBaseUrl, sFilename );
+      string sBaseUrl = "http://www.host.com/path/to/page/";
+      string sFilename = "index.html";
+      string sUrl = string.Join( "", sBaseUrl, sFilename );
 
-			foreach( string sRelativeUrl in htUrls.Keys ) {
-				string sAbsoluteUrl = MacroscopeUrlTools.MakeUrlAbsolute( sUrl, sRelativeUrl );
-				Assert.AreEqual( htUrls[ sRelativeUrl ], sAbsoluteUrl, "DO NOT MATCH" );
-			}
+      foreach( string sRelativeUrl in htUrls.Keys )
+      {
+        string sAbsoluteUrl = MacroscopeUrlTools.MakeUrlAbsolute( sUrl, sRelativeUrl );
+        Assert.AreEqual( htUrls[ sRelativeUrl ], sAbsoluteUrl, "DO NOT MATCH" );
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Test]
-		public void TestValidateUrls ()
-		{
+    [Test]
+    public void TestValidateUrls ()
+    {
 
-			Hashtable htUrls = new Hashtable ()
-			{
-				{
-					"http://www.host.com/",
-					true
-				},
-				{
-					"http://www.host.com/index.html",
-					true
-				},
-				{
-					"http://www.host.com/path/path/to/images/picture.gif",
-					true
-				},
-				{
-					"http://www.host.com/??",
-					true
-				},
-				{
-					"http://www.host.com/ ",
-					true
-				},
-				{
+      Hashtable htUrls = new Hashtable () {
+        {
+          "http://www.host.com/",
+          true
+        }, {
+          "http://www.host.com/index.html",
+          true
+        },
+        {
+          "http://www.host.com/path/path/to/images/picture.gif",
+          true
+        }, {
+          "http://www.host.com/??",
+          true
+        },
+        {
+          "http://www.host.com/ ",
+          true
+        }, {
 					"http://   www.host.com/",
 					false
 				}
@@ -110,19 +104,66 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		[TestFixtureSetUp]
-		public void Init ()
-		{
-		}
+		[Test]
+    public void TestCleanUrlCss ()
+    {
 
-		/**************************************************************************/
+      Hashtable htProperties = new Hashtable ()
+      {
+        {
+          "background-image:none;",
+          null
+        },
+        {
+          "background: #0b7bee url(none) no-repeat center center/cover;",
+          null
+        },          
+        {
+          "background: #0b7bee url(images/video-bg.jpg) no-repeat center center/cover;",
+          "images/video-bg.jpg"
+        },  
+        {
+          "background: #0b7bee url(\"images/video-bg.jpg\") no-repeat center center/cover;",
+          "images/video-bg.jpg"
+        },
+        {
+          "src: url(\"fonts/company/latin-e-bold-eot.eot\");",
+          "fonts/company/latin-e-bold-eot.eot"
+        },         
+        {
+          "src: url(\"fonts/company/latin-e-bold-eot.eot?#iefix\") format(\"embedded-opentype\"),url(\"fonts/company/latin-e-bold-woff.woff\") format(\"woff\"),url(\"fonts/company/latin-e-bold-ttf.ttf\") format(\"truetype\");",
+          "fonts/company/latin-e-bold-eot.eot?#iefix"
+        },
+        {
+          "background: #ffffff url(images/services/features-background.png) no-repeat left bottom;",
+          "images/services/features-background.png"
+        },
+        {
+          "background: transparent url(\"images/home/mouse.png\") no-repeat 90% top;",
+          "images/home/mouse.png"
+        },
+        {
+          "background: #0b7bee url(images/services/features-background_hover.png) no-repeat left bottom;",
+          "images/services/features-background_hover.png"
+        },
+        {
+          "background-image: url(\"images/global/page-head-trans.png\");",
+          "images/global/page-head-trans.png"
+        },
+        {
+          "background-image: url(\"images/showcase/hero.jpg\");",
+          "images/showcase/hero.jpg"
+        }
+      };
 
-		[TestFixtureTearDown]
-		public void Dispose ()
-		{
-		}
+      foreach( string sProperty in htProperties.Keys ) {
+        string sCleaned = MacroscopeUrlTools.CleanUrlCss ( sProperty );
+        Assert.AreEqual( htProperties[ sProperty ], sCleaned, string.Format( "NOT VALID: {0}", sCleaned ) );
+      }
 
-		/**************************************************************************/
+    }
+
+    /**************************************************************************/
 
 	}
 

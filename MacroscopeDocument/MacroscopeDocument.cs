@@ -28,9 +28,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Security.Cryptography;
 
 namespace SEOMacroscope
 {
@@ -151,72 +151,72 @@ namespace SEOMacroscope
       this.QueryString = "";
       this.HypertextStrictTransportPolicy = false;
 
-      StatusCode = 0;
-      ErrorCondition = "";
-      ContentLength = 0;
+      this.StatusCode = 0;
+      this.ErrorCondition = "";
+      this.ContentLength = 0;
 
-      MimeType = "";
-      DocumentType = MacroscopeConstants.DocumentType.BINARY;
+      this.MimeType = "";
+      this.DocumentType = MacroscopeConstants.DocumentType.BINARY;
 
-      ContentEncoding = "";
+      this.ContentEncoding = "";
 
-      Locale = null;
-      CharSet = null;
-      CharacterSet = null;
+      this.Locale = null;
+      this.CharSet = null;
+      this.CharacterSet = null;
 
-      DateServer = new DateTime ();
-      DateModified = new DateTime ();
+      this.DateServer = new DateTime ();
+      this.DateModified = new DateTime ();
 
-      Canonical = "";
-      HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
+      this.Canonical = "";
+      this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
-      Outlinks = new Dictionary<string,MacroscopeOutlink> ( 128 );
-      HyperlinksIn = new MacroscopeHyperlinksIn ();
-      HyperlinksOut = new MacroscopeHyperlinksOut ();
+      this.Outlinks = new Dictionary<string,MacroscopeOutlink> ( 128 );
+      this.HyperlinksIn = new MacroscopeHyperlinksIn ();
+      this.HyperlinksOut = new MacroscopeHyperlinksOut ();
 
-      EmailAddresses = new Dictionary<string,string> ( 256 );
-      TelephoneNumbers = new Dictionary<string,string> ( 256 );
+      this.EmailAddresses = new Dictionary<string,string> ( 256 );
+      this.TelephoneNumbers = new Dictionary<string,string> ( 256 );
 
-      AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+      this.AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
 
-      Title = "";
-      TitlePixelWidth = 0;
-      Description = "";
-      Keywords = "";
+      this.Title = "";
+      this.TitlePixelWidth = 0;
+      this.Description = "";
+      this.Keywords = "";
 
-      Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
       };
 
-      BodyText = "";
+      this.BodyText = "";
 
-      Depth = MacroscopeUrlTools.FindUrlDepth( Url );
+      this.Depth = MacroscopeUrlTools.FindUrlDepth( Url );
 
     }
 
     /** Delegates *************************************************************/
 
-    TimeDuration GetTimeDurationDelegate ()
+    private TimeDuration GetTimeDurationDelegate ()
     {
 
       TimeDuration fTimeDuration = delegate( Action ProcessMethod )
@@ -315,7 +315,7 @@ namespace SEOMacroscope
       return( this.Checksum );
     }
 
-    string GenerateChecksum ( string sData )
+    private string GenerateChecksum ( string sData )
     {
       MD5 Md5Digest = MD5.Create();
       byte [] BytesIn = Encoding.UTF8.GetBytes( sData );
@@ -371,6 +371,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public void SetErrorCondition ( string sErrorCondtion )
+    {
+      this.ErrorCondition = sErrorCondtion;
+    }
+    
     public string GetErrorCondition ()
     {
       return( this.ErrorCondition );
@@ -860,7 +865,7 @@ namespace SEOMacroscope
 
     /** HrefLang **************************************************************/
 
-    void SetHreflang ( string sLocale, string sUrl )
+    private void SetHreflang ( string sLocale, string sUrl )
     {
       MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( sLocale, sUrl );
       this.HrefLang[ sLocale ] = msHrefLang;
@@ -894,7 +899,7 @@ namespace SEOMacroscope
 
     /** Body Text *************************************************************/
 
-    void SetBodyText ( string sText )
+    private void SetBodyText ( string sText )
     {
       if( ( sText != null ) && ( sText.Length > 0 ) )
       {
@@ -1092,7 +1097,7 @@ namespace SEOMacroscope
 
     /** Execute Head Request **************************************************/
 
-    void ExecuteHeadRequest ()
+    private void ExecuteHeadRequest ()
     {
 
       HttpWebRequest req = WebRequest.CreateHttp( this.Url );
@@ -1137,6 +1142,8 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
 
+        this.SetErrorCondition( res.StatusDescription );
+
         foreach( string sKey in res.Headers )
         {
           DebugMsg( string.Format( "HEADERS: {0} => {1}", sKey, res.GetResponseHeader( sKey ) ) );
@@ -1159,28 +1166,39 @@ namespace SEOMacroscope
           // 300 Range
 
             case HttpStatusCode.Moved:
+              this.SetErrorCondition( HttpStatusCode.Moved.ToString() );
               bIsRedirect = true;
               break;
 
             case HttpStatusCode.SeeOther:
+              this.SetErrorCondition( HttpStatusCode.SeeOther.ToString() );
               bIsRedirect = true;
               break;
 
             case HttpStatusCode.Redirect:
+              this.SetErrorCondition( HttpStatusCode.Redirect.ToString() );
               bIsRedirect = true;
               break;
 
           // 400 Range
 
+            case HttpStatusCode.BadRequest:
+              this.SetErrorCondition( HttpStatusCode.BadRequest.ToString() );
+              bIsRedirect = false;
+              break;
+
             case HttpStatusCode.Forbidden:
+              this.SetErrorCondition( HttpStatusCode.Forbidden.ToString() );
               bIsRedirect = false;
               break;
 
             case HttpStatusCode.NotFound:
+              this.SetErrorCondition( HttpStatusCode.NotFound.ToString() );
               bIsRedirect = false;
               break;
 
             case HttpStatusCode.Gone:
+              this.SetErrorCondition( HttpStatusCode.Gone.ToString() );
               bIsRedirect = false;
               break;
 
@@ -1208,7 +1226,12 @@ namespace SEOMacroscope
           {
             this.UrlRedirectFrom = sOriginalUrl;
             this.UrlRedirectTo = sLinkUrlAbs;
-            this.AddDocumentOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.REDIRECT, true );
+            this.AddDocumentOutlink(
+              sLinkUrlAbs,
+              sLinkUrlAbs,
+              MacroscopeConstants.OutlinkType.REDIRECT,
+              true
+            );
           }
 
         }
@@ -1226,7 +1249,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessErrorCondition ( string ErrorCond )
+    private void ProcessErrorCondition ( string ErrorCond )
     {
 
       if( ErrorCond != null )
@@ -1254,11 +1277,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
+    private void ProcessHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
     {
 
       // Status Code
       this.StatusCode = ( int )res.StatusCode;
+      this.SetErrorCondition( res.StatusDescription );
 
       // Raw HTTP Headers
       this.RawHttpStatusLine = string.Join(
@@ -1419,7 +1443,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessUrlElements ()
+    private void ProcessUrlElements ()
     {
       Uri uUri = new Uri ( this.GetUrl(), UriKind.Absolute );
       this.Scheme = uUri.Scheme;
@@ -1432,7 +1456,7 @@ namespace SEOMacroscope
 
     /** Outlinks **************************************************************/
 
-    void AddDocumentOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
+    private void AddDocumentOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
     {
 
       MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, sType, bFollow );

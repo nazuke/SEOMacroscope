@@ -96,8 +96,14 @@ namespace SEOMacroscope
       }
 
       {
-        TreeNode nNode = this.tvTreeView.Nodes.Add( "ERRORS" );
-        nNode.Text = "Fetch Errors";
+        TreeNode nNode = this.tvTreeView.Nodes.Add( "ISSUES" );
+        nNode.Text = "Fetch Issues";
+        TreeNode nNodeWarnings = nNode.Nodes.Add( "FETCH_WARNINGS" );
+        nNodeWarnings.Name = "FETCH_WARNINGS";
+        nNodeWarnings.Text = "Fetch Warnings";
+        TreeNode nNodeErrors = nNode.Nodes.Add( "FETCH_ERRORS" );
+        nNodeErrors.Name = "FETCH_ERRORS";
+        nNodeErrors.Text = "Fetch Errors";
       }
 
       this.tvTreeView.ExpandAll();
@@ -132,6 +138,7 @@ namespace SEOMacroscope
     {
       this.tvTreeView.BeginUpdate();
       this.RenderTreeViewSummary( DocCollection );
+      this.tvTreeView.ExpandAll();
       this.tvTreeView.EndUpdate();
     }
 
@@ -179,14 +186,29 @@ namespace SEOMacroscope
       }
 
       {
-        TreeNode tnNodeErrors = this.tvTreeView.Nodes[ "ERRORS" ];
-        if( tnNodeErrors != null )
+        TreeNode [] tnNodes = this.tvTreeView.Nodes.Find( "FETCH_WARNINGS", true );
+        TreeNode tnNode = tnNodes[ 0 ];
+        if( tnNode != null )
         {
-          tnNodeErrors.Nodes.Clear();
-          Dictionary<string,int> dicErrors = DocCollection.GetStatsErrorsCount();
-          foreach( string sErrorCondition in dicErrors.Keys )
+          tnNode.Nodes.Clear();
+          Dictionary<string,int> dicMessages = DocCollection.GetStatsWarningsCount();
+          foreach( string sKey in dicMessages.Keys )
           {
-            tnNodeErrors.Nodes.Add( string.Format( "{0}: {1}", sErrorCondition, dicErrors[ sErrorCondition ] ) );
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", sKey, dicMessages[ sKey ] ) );
+          }
+        }
+      }
+
+      {
+        TreeNode [] tnNodes = this.tvTreeView.Nodes.Find( "FETCH_ERRORS", true );
+        TreeNode tnNode = tnNodes[ 0 ];
+        if( tnNode != null )
+        {
+          tnNode.Nodes.Clear();
+          Dictionary<string,int> dicMessages = DocCollection.GetStatsErrorsCount();
+          foreach( string sKey in dicMessages.Keys )
+          {
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", sKey, dicMessages[ sKey ] ) );
           }
         }
       }

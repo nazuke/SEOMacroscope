@@ -1221,7 +1221,7 @@ namespace SEOMacroscope
 			switch( e.KeyCode )
 			{
 				case Keys.Return:
-					string sUrlFragment = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
+					string sUrlFragment = SearchTextBox.Text;
 					DebugMsg( string.Format( "CallbackSearchTextBoxSearchUrlKeyUp: {0}", sUrlFragment ) );
 					if( sUrlFragment.Length > 0 )
 					{
