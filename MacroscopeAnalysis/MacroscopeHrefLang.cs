@@ -29,88 +29,99 @@ using System.Net;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeHrefLang : Macroscope
-	{
+  /// <summary>
+  /// Analyze the HrefLang attributes of an HTML document.
+  /// </summary>
 
-		/**************************************************************************/
+  public class MacroscopeHrefLang : Macroscope
+  {
 
-		string Locale;
-		string Url;
-		//DateTime DateModified;
-		Boolean Available;
+    /**************************************************************************/
 
-		/**************************************************************************/
+    string Locale;
+    string Url;
+    //DateTime DateModified;
+    Boolean Available;
 
-		public MacroscopeHrefLang ( string sLocale, string sUrl )
-		{
-			Boolean bCheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
-			Locale = sLocale;
-			Url = sUrl;
-			if( bCheckHrefLang ) {
-				Available = Check();
-			} else {
-				Available = false;
-			}
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public MacroscopeHrefLang ( string sLocale, string sUrl )
+    {
+      Boolean bCheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
+      Locale = sLocale;
+      Url = sUrl;
+      if( bCheckHrefLang )
+      {
+        Available = Check();
+      }
+      else
+      {
+        Available = false;
+      }
+    }
 
-		public string GetLocale ()
-		{
-			return( this.Locale );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public string GetLocale ()
+    {
+      return( this.Locale );
+    }
 
-		public string GetUrl ()
-		{
-			return( this.Url );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public string GetUrl ()
+    {
+      return( this.Url );
+    }
 
-		public Boolean IsAvailable ()
-		{
-			return( this.Available );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public Boolean IsAvailable ()
+    {
+      return( this.Available );
+    }
 
-		Boolean Check ()
-		{
+    /**************************************************************************/
 
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			Boolean bAvailable = false;
+    Boolean Check ()
+    {
 
-			try {
+      HttpWebRequest req = null;
+      HttpWebResponse res = null;
+      Boolean bAvailable = false;
 
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = 10000;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
+      try
+      {
 
-				res = ( HttpWebResponse )req.GetResponse();
+        req = WebRequest.CreateHttp( this.Url );
+        req.Method = "HEAD";
+        req.Timeout = 10000;
+        req.KeepAlive = false;
+        MacroscopePreferencesManager.EnableHttpProxy( req );
 
-				DebugMsg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ) );
+        res = ( HttpWebResponse )req.GetResponse();
 
-				if( res.StatusCode == HttpStatusCode.OK ) {
-					bAvailable = true;
-				}
+        DebugMsg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ) );
 
-				res.Close();
+        if( res.StatusCode == HttpStatusCode.OK )
+        {
+          bAvailable = true;
+        }
 
-			} catch( WebException ex ) {
-				DebugMsg( string.Format( "MacroscopeHrefLang WebException: {0}", ex.Message ) );
-			}
+        res.Close();
 
-			return( bAvailable );
+      }
+      catch( WebException ex )
+      {
+        DebugMsg( string.Format( "MacroscopeHrefLang WebException: {0}", ex.Message ) );
+      }
 
-		}
+      return( bAvailable );
 
-		/**************************************************************************/
+    }
 
-	}
+    /**************************************************************************/
+
+  }
 
 }

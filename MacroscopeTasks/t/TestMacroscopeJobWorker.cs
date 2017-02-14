@@ -36,7 +36,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		[Test]
+		//[Test] // Not implemented
 		public void TestWorker ()
 		{
 			List<string> alUrls = new List<string> ()

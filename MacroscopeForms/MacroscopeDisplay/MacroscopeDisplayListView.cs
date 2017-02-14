@@ -341,7 +341,7 @@ namespace SEOMacroscope
       DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
       foreach( string sUrl in DocCollection.DocumentKeys() )
       {
-        if( sUrl.IndexOf( UrlFragment ) >= 0 )
+        if( sUrl.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
         {
           MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
           this.RenderListView( msDoc, sUrl );

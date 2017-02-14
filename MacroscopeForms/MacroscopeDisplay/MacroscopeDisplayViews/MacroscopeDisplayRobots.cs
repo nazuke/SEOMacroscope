@@ -31,7 +31,7 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-  public class MacroscopeDisplayRobots : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayRobots : MacroscopeDisplayListView
   {
 
     /**************************************************************************/
@@ -101,20 +101,28 @@ namespace SEOMacroscope
 
       foreach( string sUrl in dicBlocked.Keys )
       {
-        this.RenderListView( sUrl, dicBlocked[ sUrl ] );
+        Boolean bInternal = JobMaster.GetAllowedHosts().IsInternalUrl( sUrl );
+        this.RenderListView( sUrl, dicBlocked[ sUrl ], bInternal );
       }
 
     }
 
     /**************************************************************************/
 
-    void RenderListView ( string sUrl, Boolean bBlocked )
+    void RenderListView ( string sUrl, Boolean bBlocked, Boolean bInternal )
     {
 
       string sPairKey = string.Join( "", sUrl );
-
+      string sBlocked = "";
       ListViewItem lvItem = null;
+      
+      if( bBlocked )
+      {
+        sBlocked = "blocked";
+      }
 
+      this.lvListView.BeginUpdate();
+            
       if( this.lvListView.Items.ContainsKey( sPairKey ) )
       {
 
@@ -123,7 +131,7 @@ namespace SEOMacroscope
 
           lvItem = this.lvListView.Items[ sPairKey ];
           lvItem.SubItems[ 0 ].Text = sUrl;
-          lvItem.SubItems[ 1 ].Text = bBlocked.ToString();
+          lvItem.SubItems[ 1 ].Text = sBlocked;
 
         }
         catch( Exception ex )
@@ -143,7 +151,7 @@ namespace SEOMacroscope
           lvItem.Name = sPairKey;
 
           lvItem.SubItems[ 0 ].Text = sUrl;
-          lvItem.SubItems.Add( bBlocked.ToString() );
+          lvItem.SubItems.Add( sBlocked );
 
           this.lvListView.Items.Add( lvItem );
 
@@ -158,10 +166,35 @@ namespace SEOMacroscope
       if( lvItem != null )
       {
 
+        lvItem.UseItemStyleForSubItems = false;
         lvItem.ForeColor = Color.Blue;
+
+        if( bInternal )
+        {
+          lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+        }
+        else
+        {
+          lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+        }
+
+        if( bBlocked )
+        {
+          if( bInternal )
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Red;
+          }
+          else
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+          }
+          lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+        }
 
       }
 
+      this.lvListView.EndUpdate();
+            
     }
 
     /**************************************************************************/
@@ -173,6 +206,5 @@ namespace SEOMacroscope
     /**************************************************************************/
 
   }
-
 
 }

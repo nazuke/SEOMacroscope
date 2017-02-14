@@ -31,7 +31,7 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-  public class MacroscopeDisplayUriAnalysis : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayUriAnalysis : MacroscopeDisplayListView
   {
 
     /**************************************************************************/
@@ -49,14 +49,14 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              ConfigureListView();
+              this.ConfigureListView();
             }
           )
         );
       }
       else
       {
-        ConfigureListView();
+        this.ConfigureListView();
       }
 
     }
@@ -78,7 +78,7 @@ namespace SEOMacroscope
 
       string sStatus = msDoc.GetStatusCode().ToString();
       string sChecksum = msDoc.GetChecksum();
-      string sCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsChecksumCount( Checksum: sChecksum ).ToString();
+      int iCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsChecksumCount( Checksum: sChecksum );
       string sPairKey = string.Join( "", sUrl );
       ListViewItem lvItem = null;
 
@@ -93,7 +93,7 @@ namespace SEOMacroscope
           lvItem = this.lvListView.Items[ sPairKey ];
           lvItem.SubItems[ 0 ].Text = sUrl;
           lvItem.SubItems[ 1 ].Text = sStatus;
-          lvItem.SubItems[ 2 ].Text = sCount;
+          lvItem.SubItems[ 2 ].Text = iCount.ToString();
           lvItem.SubItems[ 3 ].Text = sChecksum;
 
         }
@@ -115,7 +115,7 @@ namespace SEOMacroscope
 
           lvItem.SubItems[ 0 ].Text = sUrl;
           lvItem.SubItems.Add( sStatus );
-          lvItem.SubItems.Add( sCount );
+          lvItem.SubItems.Add( iCount.ToString() );
           lvItem.SubItems.Add( sChecksum );
 
           this.lvListView.Items.Add( lvItem );
@@ -131,8 +131,16 @@ namespace SEOMacroscope
       if( lvItem != null )
       {
 
-        lvItem.UseItemStyleForSubItems = false;
         lvItem.ForeColor = Color.Blue;
+
+        if( !msDoc.GetIsExternal() )
+        {
+          lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+        }
+        else
+        {
+          lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+        }
 
         if( Regex.IsMatch( sStatus, "^[2]" ) )
         {
@@ -151,6 +159,17 @@ namespace SEOMacroscope
         else
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
+        }
+
+        if( iCount > 1 )
+        {
+          lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+          lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+        }
+        else
+        {
+          lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
+          lvItem.SubItems[ 3 ].ForeColor = Color.Blue;
         }
 
       }

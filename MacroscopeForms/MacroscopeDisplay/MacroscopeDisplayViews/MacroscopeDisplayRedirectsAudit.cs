@@ -35,7 +35,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDisplayRedirectsAudit.
   /// </summary>
 
-  public class MacroscopeDisplayRedirectsAudit : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayRedirectsAudit : MacroscopeDisplayListView
   {
 
     /**************************************************************************/

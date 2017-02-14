@@ -192,8 +192,8 @@ namespace SEOMacroscope
               if( sLinkUrlAbs != null )
               {
                 // TODO: Verify that this actually works:
-                this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
-                this.AddCssOutlink( this.Url, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
+                this.HyperlinksOut.Add( sLinkUrlAbs, sLinkUrlAbs );
+                this.AddCssOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
               }
               break;
 
@@ -205,8 +205,8 @@ namespace SEOMacroscope
               if( sLinkUrlAbs != null )
               {     
                 // TODO: Verify that this actually works:
-                this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
-                this.AddCssOutlink( this.Url, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
+                this.HyperlinksOut.Add( sLinkUrlAbs, sLinkUrlAbs );
+                this.AddCssOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
               }
               break;
 

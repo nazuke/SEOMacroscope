@@ -231,6 +231,8 @@ namespace SEOMacroscope
 
         this.DocCollection.AddDocument( sUrl, msDoc );
 
+        this.JobMaster.VisitedHistoryItem( msDoc.GetUrl() );
+
         this.JobMaster.IncPageLimitCount();
 
         if( msDoc.GetIsRedirect() )

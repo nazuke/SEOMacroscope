@@ -68,7 +68,9 @@ namespace SEOMacroscope
     private string RawHttpHeaders;
 
     private Boolean HypertextStrictTransportPolicy;
-
+    private Boolean IsSecureUrl;
+    private List<string> InSecureLinks;
+    
     private int StatusCode;
     private string ErrorCondition;
     private long ContentLength;
@@ -125,7 +127,7 @@ namespace SEOMacroscope
     public MacroscopeDocument ( string sUrl )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.IsDirty = true;
 
@@ -149,8 +151,11 @@ namespace SEOMacroscope
       this.Path = "";
       this.Fragment = "";
       this.QueryString = "";
-      this.HypertextStrictTransportPolicy = false;
 
+      this.HypertextStrictTransportPolicy = false;
+      this.IsSecureUrl = false;
+      this.InSecureLinks = new List<string> ( 128 );
+    
       this.StatusCode = 0;
       this.ErrorCondition = "";
       this.ContentLength = 0;
@@ -184,25 +189,25 @@ namespace SEOMacroscope
       this.Description = "";
       this.Keywords = "";
 
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -301,6 +306,40 @@ namespace SEOMacroscope
     public string GetQueryString ()
     {
       return( this.QueryString );
+    }
+
+    /** Secure URLs ***********************************************************/
+
+    public void SetIsSecureUrl ( Boolean bState )
+    {
+      this.IsSecureUrl = bState;
+    }
+
+    public Boolean GetIsSecureUrl ()
+    {
+      return( this.IsSecureUrl );
+    }
+
+    public void AddInsecureLink ( string sUrl )
+    {
+      this.InSecureLinks.Add( sUrl );
+    }
+    
+    public List<string> GetInsecureLinks ()
+    {
+      List<string> DocList = new List<string> ( 128 );
+      lock( this.InSecureLinks )
+      {
+        int iCount = this.InSecureLinks.Count;
+        if( iCount > 0 )
+        {
+          for( int i = 0 ; i < iCount ; i++ )
+          {
+            DocList.Add( this.InSecureLinks[ i ] );
+          }
+        }
+      }
+      return( DocList );
     }
 
     /** Checksum Value ********************************************************/
@@ -694,6 +733,28 @@ namespace SEOMacroscope
     {
       int iCount = this.GetOutlinks().Count;
       return( iCount );
+    }
+
+    private void AddDocumentOutlink (
+      string sRawUrl,
+      string sAbsoluteUrl,
+      MacroscopeConstants.OutlinkType sType,
+      Boolean bFollow
+    )
+    {
+
+      MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, sType, bFollow );
+
+      if( this.Outlinks.ContainsKey( sRawUrl ) )
+      {
+        this.Outlinks.Remove( sRawUrl );
+        this.Outlinks.Add( sRawUrl, OutLink );
+      }
+      else
+      {
+        this.Outlinks.Add( sRawUrl, OutLink );
+      }
+
     }
 
     /**************************************************************************/
@@ -1091,6 +1152,12 @@ namespace SEOMacroscope
         this.TitlePixelWidth = AnalyzePageTitles.CalcTitleWidth( this.Title );
       }
 
+      if( MacroscopePreferencesManager.GetWarnAboutInsecureLinks() )
+      {
+        MacroscopeInsecureLinks InsecureLinks = new MacroscopeInsecureLinks ();
+        InsecureLinks.Analyze( this );
+      }
+
       return( true );
 
     }
@@ -1445,6 +1512,7 @@ namespace SEOMacroscope
 
     private void ProcessUrlElements ()
     {
+
       Uri uUri = new Uri ( this.GetUrl(), UriKind.Absolute );
       this.Scheme = uUri.Scheme;
       this.Hostname = uUri.Host;
@@ -1452,23 +1520,10 @@ namespace SEOMacroscope
       this.Path = uUri.AbsolutePath;
       this.Fragment = uUri.Fragment;
       this.QueryString = uUri.Query;
-    }
 
-    /** Outlinks **************************************************************/
-
-    private void AddDocumentOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
-    {
-
-      MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, sType, bFollow );
-
-      if( this.Outlinks.ContainsKey( sRawUrl ) )
+      if( this.Scheme.ToLower().Equals( "https" ) )
       {
-        this.Outlinks.Remove( sRawUrl );
-        this.Outlinks.Add( sRawUrl, OutLink );
-      }
-      else
-      {
-        this.Outlinks.Add( sRawUrl, OutLink );
+        this.SetIsSecureUrl( true );
       }
 
     }

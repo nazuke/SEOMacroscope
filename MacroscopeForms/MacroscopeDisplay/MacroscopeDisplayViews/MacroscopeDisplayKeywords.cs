@@ -35,7 +35,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDisplayKeywords.
   /// </summary>
 
-  public class MacroscopeDisplayKeywords : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayKeywords : MacroscopeDisplayListView
   {
 
     /**************************************************************************/

@@ -34,12 +34,8 @@ namespace SEOMacroscope
   /// Description of MacroscopeDisplayHierarchy.
   /// </summary>
 
-  public class MacroscopeDisplayHierarchy : MacroscopeDisplayTreeView
+  public sealed class MacroscopeDisplayHierarchy : MacroscopeDisplayTreeView
   {
-
-    /**************************************************************************/
-
-    static Boolean ListViewConfigured = false;
 
     /**************************************************************************/
 
@@ -49,18 +45,18 @@ namespace SEOMacroscope
 
       SuppressDebugMsg = false;
 
-      ConfigureListView();
+      this.ConfigureTreeView();
 
     }
 
     /**************************************************************************/
 
-    void ConfigureListView ()
+    protected override void ConfigureTreeView ()
     {
 
-      if( !ListViewConfigured )
+      if( !this.TreeViewConfigured )
       {
-        ListViewConfigured = true;
+        this.TreeViewConfigured = true;
       }
 
       if( this.MainForm.InvokeRequired )

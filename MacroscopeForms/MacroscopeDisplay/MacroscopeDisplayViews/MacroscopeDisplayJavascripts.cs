@@ -34,7 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDisplayJavascripts.
   /// </summary>
 
-  public class MacroscopeDisplayJavascripts : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayJavascripts : MacroscopeDisplayListView
   {
 
     /**************************************************************************/

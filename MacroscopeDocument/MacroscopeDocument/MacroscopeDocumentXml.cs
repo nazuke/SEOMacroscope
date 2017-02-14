@@ -84,13 +84,13 @@ namespace SEOMacroscope
         }
         catch( WebException ex )
         {
-          DebugMsg( string.Format( "WebException", ex.Message ) );
+          DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
           sRawData = "";
           this.ContentLength = 0;
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "Exception", ex.Message ) );
+          DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           this.StatusCode = ( int )HttpStatusCode.BadRequest;
           sRawData = "";
           this.ContentLength = 0;

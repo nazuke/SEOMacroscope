@@ -25,21 +25,23 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
 
-  public class MacroscopeDisplayHistory : Macroscope
+  public sealed class MacroscopeDisplayHistory : Macroscope
   {
 
     /**************************************************************************/
 
-    MacroscopeMainForm MainForm;
-    ListView lvListView;
+    private MacroscopeMainForm MainForm;
 
-    static Boolean ListViewConfigured = false;
+    private ListView lvListView;
 
+    private Boolean ListViewConfigured = false;
+    
     /**************************************************************************/
 
     public MacroscopeDisplayHistory ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
@@ -54,29 +56,25 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              ConfigureListView();
+              this.ConfigureListView();
             }
           )
         );
       }
       else
       {
-        ConfigureListView();
+        this.ConfigureListView();
       }
 
     }
 
     /**************************************************************************/
 
-    void ConfigureListView ()
+    private void ConfigureListView ()
     {
-      if( !ListViewConfigured )
+      if( !this.ListViewConfigured )
       {
-
-        //this.lvListView.Sorting = SortOrder.Ascending;
-
-        ListViewConfigured = true;
-
+        this.ListViewConfigured = true;
       }
     }
 
@@ -103,7 +101,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RefreshData ( Dictionary<string,Boolean> htHistory )
+    public void RefreshData ( Dictionary<string,Boolean> History )
     {
       if( this.MainForm.InvokeRequired )
       {
@@ -113,7 +111,7 @@ namespace SEOMacroscope
             {
               lock( this.lvListView )
               {
-                this.RenderListView( htHistory );
+                this.RenderListView( History );
               }
             }
           )
@@ -123,21 +121,29 @@ namespace SEOMacroscope
       {
         lock( this.lvListView )
         {
-          this.RenderListView( htHistory );
+          this.RenderListView( History );
         }
       }
     }
 
     /**************************************************************************/
 
-    void RenderListView ( Dictionary<string,Boolean> htHistory )
+    void RenderListView ( Dictionary<string,Boolean> History )
     {
 
-      foreach( string sUrl in htHistory.Keys )
+      MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
+            
+      foreach( string sUrl in History.Keys )
       {
 
-        string sVisited = htHistory[ sUrl ].ToString();
+        string sVisited = "No";
+        ListViewItem lvItem = null;
 
+        if( History[ sUrl ] )
+        {
+          sVisited = "Yes";
+        }
+        
         this.lvListView.BeginUpdate();
 
         if( this.lvListView.Items.ContainsKey( sUrl ) )
@@ -145,7 +151,7 @@ namespace SEOMacroscope
 
           try
           {
-            ListViewItem lvItem = this.lvListView.Items[ sUrl ];
+            lvItem = this.lvListView.Items[ sUrl ];
             lvItem.SubItems[ 1 ].Text = sVisited;
           }
           catch( Exception ex )
@@ -159,7 +165,8 @@ namespace SEOMacroscope
 
           try
           {
-            ListViewItem lvItem = new ListViewItem ( sUrl );
+            lvItem = new ListViewItem ( sUrl );
+            lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = sUrl;
             lvItem.SubItems.Add( sVisited );
             this.lvListView.Items.Add( lvItem );
@@ -171,6 +178,31 @@ namespace SEOMacroscope
 
         }
 
+        if( lvItem != null )
+        {
+
+          lvItem.ForeColor = Color.Blue;
+
+          if( AllowedHosts.IsInternalUrl( sUrl ) )
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+            if( History[ sUrl ] )
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+            }
+          }
+          else
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+          }
+
+        }
+                
         this.lvListView.EndUpdate();
 
       }

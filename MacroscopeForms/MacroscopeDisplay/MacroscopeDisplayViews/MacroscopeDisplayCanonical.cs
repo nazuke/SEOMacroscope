@@ -24,12 +24,13 @@
 */
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
 
-  public class MacroscopeDisplayCanonical : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayCanonical : MacroscopeDisplayListView
   {
 
     /**************************************************************************/
@@ -54,7 +55,6 @@ namespace SEOMacroscope
       }
       else
       {
-
         this.ConfigureListView();
       }
 
@@ -74,11 +74,20 @@ namespace SEOMacroscope
 
     protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
     {
-
+      
+      MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
+      
       if( msDoc.GetIsHtml() )
       {
 
         string sCanonical = msDoc.GetCanonical();
+        string sCanonicalLabel = sCanonical;
+        ListViewItem lvItem = null;
+
+        if( sCanonical.Length == 0 )
+        {
+          sCanonicalLabel = "MISSING";
+        }
 
         this.lvListView.BeginUpdate();
 
@@ -88,9 +97,9 @@ namespace SEOMacroscope
           try
           {
 
-            ListViewItem lvItem = lvListView.Items[ sUrl ];
+            lvItem = lvListView.Items[ sUrl ];
             lvItem.SubItems[ 0 ].Text = sUrl;
-            lvItem.SubItems[ 1 ].Text = sCanonical;
+            lvItem.SubItems[ 1 ].Text = sCanonicalLabel;
 
           }
           catch( Exception ex )
@@ -105,12 +114,12 @@ namespace SEOMacroscope
           try
           {
 
-            ListViewItem lvItem = new ListViewItem ( sUrl );
-
+            lvItem = new ListViewItem ( sUrl );
+            lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = sUrl;
 
             lvItem.SubItems[ 0 ].Text = sUrl;
-            lvItem.SubItems.Add( sCanonical );
+            lvItem.SubItems.Add( sCanonicalLabel );
 
             lvListView.Items.Add( lvItem );
 
@@ -122,6 +131,38 @@ namespace SEOMacroscope
 
         }
 
+        if( lvItem != null )
+        {
+
+          lvItem.ForeColor = Color.Blue;
+
+          if( AllowedHosts.IsInternalUrl( sUrl ) )
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+          }
+          else
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+          }
+
+          if( sCanonical.Length == 0 )
+          {
+            lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+          }
+          else
+          {
+            if( AllowedHosts.IsInternalUrl( sCanonical ) )
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+            }
+          }
+          
+        }
+              
         this.lvListView.EndUpdate();
 
       }

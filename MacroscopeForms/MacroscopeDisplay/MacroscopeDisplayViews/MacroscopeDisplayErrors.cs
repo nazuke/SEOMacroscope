@@ -35,7 +35,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDisplayErrors.
   /// </summary>
 
-  public class MacroscopeDisplayErrors : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayErrors : MacroscopeDisplayListView
   {
 
     /**************************************************************************/

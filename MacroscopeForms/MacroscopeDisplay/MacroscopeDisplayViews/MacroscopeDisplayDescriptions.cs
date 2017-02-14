@@ -34,7 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDisplayDescriptions.
   /// </summary>
 
-  public class MacroscopeDisplayDescriptions : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayDescriptions : MacroscopeDisplayListView
   {
 
     /**************************************************************************/
@@ -52,14 +52,14 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              ConfigureListView();
+              this.ConfigureListView();
             }
           )
         );
       }
       else
       {
-        ConfigureListView();
+        this.ConfigureListView();
       }
 
     }

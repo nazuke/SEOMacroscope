@@ -623,6 +623,17 @@ namespace SEOMacroscope
         }
       }
     }
+    
+    public void VisitedHistoryItem ( string sUrl )
+    {
+      if( this.History.ContainsKey( sUrl ) )
+      {
+        lock( this.History )
+        {
+          this.History[ sUrl ] = true;
+        }
+      }
+    }
 
     public void ResetHistoryItem ( string sUrl )
     {

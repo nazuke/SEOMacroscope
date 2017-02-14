@@ -38,6 +38,8 @@ namespace SEOMacroscope
 
     public TreeView tvTreeView;
 
+    protected Boolean TreeViewConfigured = false;
+        
     /**************************************************************************/
 
     protected MacroscopeDisplayTreeView ( MacroscopeMainForm MainFormNew, TreeView tvTreeViewNew )
@@ -48,6 +50,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    abstract protected void ConfigureTreeView ();
+        
+    /**************************************************************************/
+            
     public void RefreshData ( MacroscopeDocumentCollection DocCollection )
     {
       if( this.MainForm.InvokeRequired )

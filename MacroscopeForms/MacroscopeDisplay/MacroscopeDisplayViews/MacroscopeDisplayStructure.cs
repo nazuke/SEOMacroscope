@@ -33,12 +33,12 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-  public class MacroscopeDisplayStructure : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayStructure : MacroscopeDisplayListView
   {
 
     /**************************************************************************/
 
-    private int MaxHeadingsDisplayed = 2;
+    private const int MaxHeadingsDisplayed = 2;
 
     /**************************************************************************/
 

@@ -32,7 +32,7 @@ using System.Drawing;
 namespace SEOMacroscope
 {
 
-  public class MacroscopeDisplayHrefLang : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayHrefLang : MacroscopeDisplayListView
   {
 
     /**************************************************************************/

@@ -62,7 +62,9 @@ namespace SEOMacroscope
 			listViewStructure.Dock = DockStyle.Fill;
 
 			treeViewHierarchy.Dock = DockStyle.Fill;
-			listViewCanonicalAnalysis.Dock = DockStyle.Fill;
+      listViewRobots.Dock = DockStyle.Fill;
+      listViewSitemaps.Dock = DockStyle.Fill;
+      listViewCanonicalAnalysis.Dock = DockStyle.Fill;
 			listViewHrefLang.Dock = DockStyle.Fill;
 			listViewErrors.Dock = DockStyle.Fill;
 			listViewRedirectsAudit.Dock = DockStyle.Fill;
@@ -76,8 +78,6 @@ namespace SEOMacroscope
 			listViewImages.Dock = DockStyle.Fill;
 			listViewAudios.Dock = DockStyle.Fill;
 			listViewVideos.Dock = DockStyle.Fill;
-			listViewRobots.Dock = DockStyle.Fill;
-			listViewSitemaps.Dock = DockStyle.Fill;
 			listViewEmailAddresses.Dock = DockStyle.Fill;
 			listViewTelephoneNumbers.Dock = DockStyle.Fill;
 			listViewHostnames.Dock = DockStyle.Fill;
@@ -90,7 +90,9 @@ namespace SEOMacroscope
 			lvColumnSorter = new MacroscopeColumnSorter ();
 
 			listViewStructure.ListViewItemSorter = lvColumnSorter;
-			listViewCanonicalAnalysis.ListViewItemSorter = lvColumnSorter;
+      listViewRobots.ListViewItemSorter = lvColumnSorter;
+      listViewSitemaps.ListViewItemSorter = lvColumnSorter;
+      listViewCanonicalAnalysis.ListViewItemSorter = lvColumnSorter;
 			listViewHrefLang.ListViewItemSorter = lvColumnSorter;
 			listViewErrors.ListViewItemSorter = lvColumnSorter;
 			listViewRedirectsAudit.ListViewItemSorter = lvColumnSorter;
@@ -104,8 +106,6 @@ namespace SEOMacroscope
 			listViewImages.ListViewItemSorter = lvColumnSorter;
 			listViewAudios.ListViewItemSorter = lvColumnSorter;
 			listViewVideos.ListViewItemSorter = lvColumnSorter;
-			listViewRobots.ListViewItemSorter = lvColumnSorter;
-			listViewSitemaps.ListViewItemSorter = lvColumnSorter;
 			listViewEmailAddresses.ListViewItemSorter = lvColumnSorter;
 			listViewTelephoneNumbers.ListViewItemSorter = lvColumnSorter;
 			listViewHostnames.ListViewItemSorter = lvColumnSorter;
@@ -113,7 +113,9 @@ namespace SEOMacroscope
 			listViewSearchCollection.ListViewItemSorter = lvColumnSorter;
 
 			listViewStructure.ColumnClick += this.CallbackColumnClick;
-			listViewCanonicalAnalysis.ColumnClick += this.CallbackColumnClick;
+      listViewRobots.ColumnClick += this.CallbackColumnClick;
+      listViewSitemaps.ColumnClick += this.CallbackColumnClick;
+      listViewCanonicalAnalysis.ColumnClick += this.CallbackColumnClick;
 			listViewHrefLang.ColumnClick += this.CallbackColumnClick;
 			listViewErrors.ColumnClick += this.CallbackColumnClick;
 			listViewRedirectsAudit.ColumnClick += this.CallbackColumnClick;
@@ -127,8 +129,6 @@ namespace SEOMacroscope
 			listViewImages.ColumnClick += this.CallbackColumnClick;
 			listViewAudios.ColumnClick += this.CallbackColumnClick;
 			listViewVideos.ColumnClick += this.CallbackColumnClick;
-			listViewRobots.ColumnClick += this.CallbackColumnClick;
-			listViewSitemaps.ColumnClick += this.CallbackColumnClick;
 			listViewEmailAddresses.ColumnClick += this.CallbackColumnClick;
 			listViewTelephoneNumbers.ColumnClick += this.CallbackColumnClick;
 			listViewHostnames.ColumnClick += this.CallbackColumnClick;

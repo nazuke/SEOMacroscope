@@ -151,8 +151,8 @@ namespace SEOMacroscope
           "images/global/page-head-trans.png"
         },
         {
-          "background-image: url(\"images/showcase/hero.jpg\");",
-          "images/showcase/hero.jpg"
+          "background-image: url(\"images/heroes/hero.jpg\");",
+          "images/heroes/hero.jpg"
         }
       };
 

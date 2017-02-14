@@ -34,7 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDisplayHeadings.
   /// </summary>
 
-  public class MacroscopeDisplayHeadings : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayHeadings : MacroscopeDisplayListView
   {
 
     /**************************************************************************/

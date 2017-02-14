@@ -24,25 +24,45 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeInsecureLinks.
-	/// </summary>
+  /// <summary>
+  /// Analayze possibly insecure links within a document.
+  /// </summary>
 
-	public class MacroscopeInsecureLinks : Macroscope
-	{
+  public class MacroscopeInsecureLinks : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeInsecureLinks ()
-		{
-		}
+    public MacroscopeInsecureLinks ()
+    {
+      this.SuppressDebugMsg = false;
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+    public void Analyze ( MacroscopeDocument msDoc )
+    {
+      if( msDoc.GetIsSecureUrl() )
+      {
+        Dictionary<string,MacroscopeOutlink> DocDic = msDoc.GetOutlinks();
+        foreach( string sUrl in DocDic.Keys )
+        {
+          if( Regex.IsMatch( sUrl, "^http://", RegexOptions.IgnoreCase ) )
+          {
+            msDoc.AddInsecureLink( sUrl );
+          }
+        }
+      }
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

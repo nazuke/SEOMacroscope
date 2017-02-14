@@ -37,12 +37,12 @@ namespace SEOMacroscope
 
     static MacroscopeUrlTools ()
     {
-      SuppressStaticDebugMsg = false;
+      SuppressStaticDebugMsg = true;
     }
 
     public MacroscopeUrlTools ()
     {
-      SuppressDebugMsg = false;
+      SuppressDebugMsg = true;
     }
 
     /**************************************************************************/
