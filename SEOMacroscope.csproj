@@ -97,6 +97,7 @@
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeInsecureLinks.cs" />
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzePageTitles.cs" />
+    <Compile Include="MacroscopeAnalysis\t\TestMacroscopeDeepKeywordAnalysis.cs" />
     <Compile Include="MacroscopeConstants.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayListView.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureOverview.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureKeywordAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTreeView.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayUriAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayAudios.cs" />

@@ -29,221 +29,221 @@ using System.Collections.Generic;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeSearchIndex.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeSearchIndex.
+  /// </summary>
 
-	public class MacroscopeSearchIndex : Macroscope
-	{
+  public class MacroscopeSearchIndex : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public enum SearchMode
-		{
-			OR = 1,
-			AND = 2
-		}
+    public enum SearchMode
+    {
+      OR = 1,
+      AND = 2
+    }
 
-		// sUrl, MacroscopeDocument
-		Dictionary<string,MacroscopeDocument> DocumentIndex;
+    // sUrl, MacroscopeDocument
+    private Dictionary<string,MacroscopeDocument> DocumentIndex;
 
-		// sUrl, sInvertedIndex ( sKeyword, Boolean )
-		Dictionary<string,Dictionary<string,Boolean>> ForwardIndex;
+    // sUrl, sInvertedIndex ( sKeyword, Boolean )
+    private Dictionary<string,Dictionary<string,Boolean>> ForwardIndex;
 
-		// sUrl, DocumentIndex
-		Dictionary<string,Dictionary<string,MacroscopeDocument>> InvertedIndex;
+    // sUrl, DocumentIndex
+    private Dictionary<string,Dictionary<string,MacroscopeDocument>> InvertedIndex;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeSearchIndex ()
-		{
+    public MacroscopeSearchIndex ()
+    {
 
-			SuppressDebugMsg = false;
+      SuppressDebugMsg = false;
 
-			DocumentIndex = new Dictionary<string, MacroscopeDocument> ( 4096 );
+      DocumentIndex = new Dictionary<string, MacroscopeDocument> ( 4096 );
 
-			ForwardIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
+      ForwardIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
 
-			InvertedIndex = new Dictionary<string, Dictionary<string,MacroscopeDocument>> ( 4096 );
+      InvertedIndex = new Dictionary<string, Dictionary<string,MacroscopeDocument>> ( 4096 );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void AddDocumentToIndex ( MacroscopeDocument msDoc )
-		{
+    public void AddDocumentToIndex ( MacroscopeDocument msDoc )
+    {
 
-			this.RemoveDocumentFromIndex( msDoc );
+      this.RemoveDocumentFromIndex( msDoc );
 
-			this.ProcessText( msDoc );
+      this.ProcessText( msDoc );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void ProcessText ( MacroscopeDocument msDoc )
-		{
+    private void ProcessText ( MacroscopeDocument msDoc )
+    {
 
-			List<string> TextBlocks = new List<string> ( 16 );
-			List<string> Terms = new List<string> ( 256 );
+      List<string> TextBlocks = new List<string> ( 16 );
+      List<string> Terms = new List<string> ( 256 );
 
-			TextBlocks.Add( msDoc.GetTitle() );
-			TextBlocks.Add( msDoc.GetDescription() );
-			TextBlocks.Add( msDoc.GetKeywords() );
-			TextBlocks.Add( msDoc.GetBodyText() );
+      TextBlocks.Add( msDoc.GetTitle() );
+      TextBlocks.Add( msDoc.GetDescription() );
+      TextBlocks.Add( msDoc.GetKeywords() );
+      TextBlocks.Add( msDoc.GetBodyText() );
 
-			DebugMsg( string.Format( "ProcessText: TextBlocks.Count: {0}", TextBlocks.Count ) );
+      DebugMsg( string.Format( "ProcessText: TextBlocks.Count: {0}", TextBlocks.Count ) );
 
-			if( TextBlocks.Count > 0 )
-			{
-				for( int i = 0 ; i < TextBlocks.Count ; i++ )
-				{
-					string [] Chunk = TextBlocks[ i ].Split( ' ' );
-					if( Chunk.Length > 0 )
-					{
-						for( int j = 0 ; j < Chunk.Length ; j++ )
-						{
-							if( Chunk[ j ].Length > 0 )
-							{
-								if( !Terms.Contains( Chunk[ j ] ) )
-								{
-									Terms.Add( Chunk[ j ] );
-								}
-							}
-						}
-					}
-				}
-			}
+      if( TextBlocks.Count > 0 )
+      {
+        for( int i = 0 ; i < TextBlocks.Count ; i++ )
+        {
+          string [] Chunk = TextBlocks[ i ].Split( ' ' );
+          if( Chunk.Length > 0 )
+          {
+            for( int j = 0 ; j < Chunk.Length ; j++ )
+            {
+              if( Chunk[ j ].Length > 0 )
+              {
+                if( !Terms.Contains( Chunk[ j ] ) )
+                {
+                  Terms.Add( Chunk[ j ] );
+                }
+              }
+            }
+          }
+        }
+      }
 
-			DebugMsg( string.Format( "ProcessText: Words :: {0}", Terms.Count ) );
+      DebugMsg( string.Format( "ProcessText: Words :: {0}", Terms.Count ) );
 
-			for( int i = 0 ; i < Terms.Count ; i++ )
-			{
+      for( int i = 0 ; i < Terms.Count ; i++ )
+      {
 
-				string sTerm = Terms[ i ];
+        string sTerm = Terms[ i ];
 
-				Dictionary<string,MacroscopeDocument> DocumentReference;
+        Dictionary<string,MacroscopeDocument> DocumentReference;
 
-				if( InvertedIndex.ContainsKey( sTerm ) )
-				{
-					DocumentReference = this.InvertedIndex[ sTerm ];
-				}
-				else
-				{
-					DocumentReference = new Dictionary<string,MacroscopeDocument> ();
-					this.InvertedIndex.Add( sTerm, DocumentReference );
-				}
+        if( InvertedIndex.ContainsKey( sTerm ) )
+        {
+          DocumentReference = this.InvertedIndex[ sTerm ];
+        }
+        else
+        {
+          DocumentReference = new Dictionary<string,MacroscopeDocument> ();
+          this.InvertedIndex.Add( sTerm, DocumentReference );
+        }
 
-				if( !DocumentReference.ContainsKey( msDoc.GetUrl() ) )
-				{
-					DocumentReference.Add( msDoc.GetUrl(), msDoc );
-				}
+        if( !DocumentReference.ContainsKey( msDoc.GetUrl() ) )
+        {
+          DocumentReference.Add( msDoc.GetUrl(), msDoc );
+        }
 
-			}
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void RemoveDocumentFromIndex ( MacroscopeDocument msDoc )
-		{
-		}
+    private void RemoveDocumentFromIndex ( MacroscopeDocument msDoc )
+    {
+    }
 
-		/** SEARCH INDEX **********************************************************/
+    /** SEARCH INDEX **********************************************************/
 
-		public List<MacroscopeDocument> ExecuteSearchForDocuments (
-			MacroscopeSearchIndex.SearchMode SMode,
-			string [] Terms
-		)
-		{
-			List<MacroscopeDocument> DocList = null;
-			switch( SMode )
-			{
-				case MacroscopeSearchIndex.SearchMode.OR:
-					DocList = this.ExecuteSearchForDocumentsOR( Terms );
-					break;
-				case MacroscopeSearchIndex.SearchMode.AND:
-					DocList = this.ExecuteSearchForDocumentsAND( Terms );
-					break;
-			}
-			return( DocList );
-		}
+    public List<MacroscopeDocument> ExecuteSearchForDocuments (
+      MacroscopeSearchIndex.SearchMode SMode,
+      string [] Terms
+    )
+    {
+      List<MacroscopeDocument> DocList = null;
+      switch( SMode )
+      {
+        case MacroscopeSearchIndex.SearchMode.OR:
+          DocList = this.ExecuteSearchForDocumentsOR( Terms );
+          break;
+        case MacroscopeSearchIndex.SearchMode.AND:
+          DocList = this.ExecuteSearchForDocumentsAND( Terms );
+          break;
+      }
+      return( DocList );
+    }
 
-		/** SEARCH INDEX: OR METHOD ***********************************************/
+    /** SEARCH INDEX: OR METHOD ***********************************************/
 
-		public List<MacroscopeDocument> ExecuteSearchForDocumentsOR ( string [] Terms )
-		{
+    public List<MacroscopeDocument> ExecuteSearchForDocumentsOR ( string [] Terms )
+    {
 
-			List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
+      List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
 
-			for( int i = 0 ; i < Terms.Length ; i++ )
-			{
+      for( int i = 0 ; i < Terms.Length ; i++ )
+      {
 
-				if( InvertedIndex.ContainsKey( Terms[ i ] ) )
-				{
+        if( InvertedIndex.ContainsKey( Terms[ i ] ) )
+        {
 
-					foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
-					{
-						DocList.Add( InvertedIndex[ Terms[ i ] ][ sUrl ] );
-					}
+          foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
+          {
+            DocList.Add( InvertedIndex[ Terms[ i ] ][ sUrl ] );
+          }
 
-				}
+        }
 
-			}
+      }
 
-			return( DocList );
+      return( DocList );
 
-		}
+    }
 
-		/** SEARCH INDEX: AND METHOD **********************************************/
+    /** SEARCH INDEX: AND METHOD **********************************************/
 
-		public List<MacroscopeDocument> ExecuteSearchForDocumentsAND ( string [] Terms )
-		{
+    public List<MacroscopeDocument> ExecuteSearchForDocumentsAND ( string [] Terms )
+    {
 
-			List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
+      List<MacroscopeDocument> DocList = new List<MacroscopeDocument> ();
 
-			Dictionary<MacroscopeDocument,int> DocListGather = new Dictionary<MacroscopeDocument,int> ();
+      Dictionary<MacroscopeDocument,int> DocListGather = new Dictionary<MacroscopeDocument,int> ();
 
-			for( int i = 0 ; i < Terms.Length ; i++ )
-			{
+      for( int i = 0 ; i < Terms.Length ; i++ )
+      {
 
-				if( InvertedIndex.ContainsKey( Terms[ i ] ) )
-				{
+        if( InvertedIndex.ContainsKey( Terms[ i ] ) )
+        {
 
-					foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
-					{
+          foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
+          {
 
-						MacroscopeDocument msDoc = InvertedIndex[ Terms[ i ] ][ sUrl ];
-						if( DocListGather.ContainsKey( msDoc ) )
-						{
-							DocListGather[ msDoc ] = DocListGather[ msDoc ] + 1;
-						}
-						else
-						{
-							DocListGather.Add( msDoc, 1 );
-						}
+            MacroscopeDocument msDoc = InvertedIndex[ Terms[ i ] ][ sUrl ];
+            if( DocListGather.ContainsKey( msDoc ) )
+            {
+              DocListGather[ msDoc ] = DocListGather[ msDoc ] + 1;
+            }
+            else
+            {
+              DocListGather.Add( msDoc, 1 );
+            }
 
 
-					}
+          }
 
-				}
+        }
 
-			}
+      }
 
-			foreach( MacroscopeDocument msDoc in DocListGather.Keys )
-			{
-				if( DocListGather[ msDoc ] == Terms.Length )
-				{
-					DocList.Add( msDoc );
-				}
-			}
+      foreach( MacroscopeDocument msDoc in DocListGather.Keys )
+      {
+        if( DocListGather[ msDoc ] == Terms.Length )
+        {
+          DocList.Add( msDoc );
+        }
+      }
 
-			return( DocList );
+      return( DocList );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

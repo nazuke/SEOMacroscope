@@ -75,17 +75,17 @@ namespace SEOMacroscope
     MacroscopeDisplaySearchCollection msDisplaySearchCollection;
 
     MacroscopeDisplayStructureOverview msSiteStructureOverview;
-
+    MacroscopeDisplayStructureKeywordAnalysis msSiteStructureKeywordAnalysis;
+    
     MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
-    Semaphore SemaphoreTabPages;
-
+    Semaphore SemaphoreOverviewTabPages;
+    Semaphore SemaphoreSiteStructureDisplay;
+    
     public System.Timers.Timer TimerProgressBarScan;
     public System.Timers.Timer TimerTabPages;
     public System.Timers.Timer TimerSiteOverview;
     public System.Timers.Timer TimerStatusBar;
-
-
 
     /**************************************************************************/
 
@@ -94,33 +94,36 @@ namespace SEOMacroscope
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-      JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+      this.JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
 
-      IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
+      this.IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
 
-      JobMaster.SetIncludeExcludeUrls( IncludeExcludeUrls );
+      this.JobMaster.SetIncludeExcludeUrls( IncludeExcludeUrls );
 
-      StartUrlDirty = false;
+      this.StartUrlDirty = false;
 
-      ConfigureOverviewTabPanelInstance();
-      ConfigureDocumentDetailsInstance();
-      ConfigureSiteStructurePanelInstance();
+      this.ConfigureOverviewTabPanelInstance();
+      this.ConfigureDocumentDetailsInstance();
+      this.ConfigureSiteStructurePanelInstance();
 
-      SetUrl( MacroscopePreferencesManager.GetStartUrl() );
+      this.SetUrl( MacroscopePreferencesManager.GetStartUrl() );
 
       #if DEBUG
-			textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
+			this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
       #endif
 
-      this.SemaphoreTabPages = new Semaphore ( 0, 1 );
-      this.SemaphoreTabPages.Release( 1 );
+      this.SemaphoreOverviewTabPages = new Semaphore ( 0, 1 );
+      this.SemaphoreOverviewTabPages.Release( 1 );
 
-      StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
-      StartTabPageTimer( Delay: 4000 ); // BROKEN // 4000ms
-      StartSiteOverviewTimer( Delay: 4000 ); // 4000ms
-      StartStatusBarTimer( Delay: 1000 ); // 1000ms
+      this.SemaphoreSiteStructureDisplay = new Semaphore ( 0, 1 );
+      this.SemaphoreSiteStructureDisplay.Release( 1 );
 
-      ScanningControlsEnable( true );
+      this.StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
+      this.StartTabPageTimer( Delay: 4000 ); // BROKEN // 4000ms
+      this.StartSiteOverviewTimer( Delay: 4000 ); // 4000ms
+      this.StartStatusBarTimer( Delay: 1000 ); // 1000ms
+
+      this.ScanningControlsEnable( true );
 
     }
 
@@ -226,8 +229,13 @@ namespace SEOMacroscope
 
     void ConfigureSiteStructurePanelInstance ()
     {
+      
       this.msSiteStructureOverview = new MacroscopeDisplayStructureOverview ( this, this.macroscopeSiteStructurePanelInstance.treeViewSiteOverview );
       this.macroscopeSiteStructurePanelInstance.Dock = DockStyle.Fill;
+      
+      this.msSiteStructureKeywordAnalysis = new MacroscopeDisplayStructureKeywordAnalysis ( this, this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis );
+      
+      
     }
 
     /**************************************************************************/
@@ -257,7 +265,7 @@ namespace SEOMacroscope
 
       this.JobMaster = null;
 
-      this.SemaphoreTabPages.Dispose();
+      this.SemaphoreOverviewTabPages.Dispose();
 
       DebugMsg( string.Format( "MacroscopeMainForm Cleanup: DONE." ) );
     }
@@ -739,7 +747,7 @@ namespace SEOMacroscope
     void CallbackTabPageTimerExec ()
     {
 
-      this.SemaphoreTabPages.WaitOne();
+      this.SemaphoreOverviewTabPages.WaitOne();
 
       DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE ACQUIRED" ) );
 
@@ -752,7 +760,7 @@ namespace SEOMacroscope
         this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
       }
 
-      this.SemaphoreTabPages.Release( 1 );
+      this.SemaphoreOverviewTabPages.Release( 1 );
 
       DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE RELEASED" ) );
 
@@ -1394,12 +1402,29 @@ namespace SEOMacroscope
 
     void CallbackSiteOverviewTimerExec ()
     {
+      
+      this.SemaphoreSiteStructureDisplay.WaitOne();
+
+      DebugMsg( string.Format( "SemaphoreSiteStructureDisplay: {0}", "OBTAINED" ) );
+              
       this.UpdateSiteOverview();
+      
+      this.SemaphoreSiteStructureDisplay.Release( 1 );
+      
+      DebugMsg( string.Format( "SemaphoreSiteStructureDisplay: {0}", "RELEASED" ) );
+    
     }
 
     void UpdateSiteOverview ()
     {
+      
       this.msSiteStructureOverview.RefreshData( this.JobMaster.GetDocCollection() );
+      
+      if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+      {
+        this.msSiteStructureKeywordAnalysis.RefreshKeywordAnalysisData( this.JobMaster.GetDocCollection() );
+      }
+      
     }
 
     /** Whole Display *********************************************************/

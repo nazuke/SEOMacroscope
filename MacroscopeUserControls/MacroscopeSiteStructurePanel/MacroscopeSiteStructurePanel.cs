@@ -31,32 +31,37 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeSiteStructurePanel.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeSiteStructurePanel.
+  /// </summary>
 
-	public partial class MacroscopeSiteStructurePanel : MacroscopeUserControl
-	{
+  public partial class MacroscopeSiteStructurePanel : MacroscopeUserControl
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeSiteStructurePanel ()
-		{
-			InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+    private MacroscopeColumnSorter lvColumnSorter;
+		    
+    /**************************************************************************/
+		    
+    public MacroscopeSiteStructurePanel ()
+    {
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-			this.tabControlSiteStructure.Dock = DockStyle.Fill;
+      this.lvColumnSorter = new MacroscopeColumnSorter ();
+            
+      this.tabControlSiteStructure.Dock = DockStyle.Fill;
 
-			this.splitContainerSiteOverview.Dock = DockStyle.Fill;
-			this.treeViewSiteOverview.Dock = DockStyle.Fill;
+      this.splitContainerSiteOverview.Dock = DockStyle.Fill;
+      this.treeViewSiteOverview.Dock = DockStyle.Fill;
 
+      this.listViewKeywordAnalysis.Dock = DockStyle.Fill;
+      this.listViewKeywordAnalysis.ListViewItemSorter = lvColumnSorter;
 
+    }
 
+    /**************************************************************************/
 
-
-		}
-
-		/**************************************************************************/
-
-	}
+  }
 
 }

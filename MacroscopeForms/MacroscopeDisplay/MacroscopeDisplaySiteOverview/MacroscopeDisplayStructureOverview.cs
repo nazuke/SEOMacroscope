@@ -42,20 +42,25 @@ namespace SEOMacroscope
     public MacroscopeMainForm MainForm;
 
     public TreeView tvTreeView;
-    Boolean TreeViewConfigured = false;
+    
+    private Boolean TreeViewConfigured = false;
 
     /**************************************************************************/
 
     public MacroscopeDisplayStructureOverview ( MacroscopeMainForm MainFormNew, TreeView tvTreeViewNew )
     {
-      MainForm = MainFormNew;
-      tvTreeView = tvTreeViewNew;
-      ConfigureTreeView();
+      
+      this.MainForm = MainFormNew;
+      
+      this.tvTreeView = tvTreeViewNew;
+      
+      this.ConfigureTreeView();
+    
     }
 
     /**************************************************************************/
 
-    void ConfigureTreeView ()
+    private void ConfigureTreeView ()
     {
       if( !this.TreeViewConfigured )
       {
@@ -67,7 +72,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ResetTreeView ()
+    private void ResetTreeView ()
     {
       this.tvTreeView.BeginUpdate();
 
@@ -109,6 +114,7 @@ namespace SEOMacroscope
       this.tvTreeView.ExpandAll();
 
       this.tvTreeView.EndUpdate();
+      
     }
 
     /**************************************************************************/
@@ -144,7 +150,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void RenderTreeViewSummary ( MacroscopeDocumentCollection DocCollection )
+    private void RenderTreeViewSummary ( MacroscopeDocumentCollection DocCollection )
     {
 
       MacroscopeJobMaster JobMaster = this.MainForm.GetJobMaster();

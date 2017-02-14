@@ -32,7 +32,7 @@ using System.Threading;
 namespace SEOMacroscope
 {
 
-  public class MacroscopeDocumentCollection : Macroscope
+  public sealed class MacroscopeDocumentCollection : Macroscope
   {
 
     /**************************************************************************/
@@ -42,7 +42,8 @@ namespace SEOMacroscope
     private MacroscopeJobMaster JobMaster;
     private MacroscopeNamedQueue NamedQueue;
     private MacroscopeSearchIndex SearchIndex;
-
+    private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
+      
     private Dictionary<string,Boolean> StatsHistory;
     private Dictionary<string,int> StatsHostnames;
     private Dictionary<string,int> StatsTitles;
@@ -51,6 +52,7 @@ namespace SEOMacroscope
     private Dictionary<string,int> StatsWarnings;
     private Dictionary<string,int> StatsErrors;
     private Dictionary<string,int> StatsChecksums;
+    private Dictionary<string,int> StatsDeepKeywordAnalysis;
 
     private int StatsUrlsInternal;
     private int StatsUrlsExternal;
@@ -64,33 +66,36 @@ namespace SEOMacroscope
     public MacroscopeDocumentCollection ( MacroscopeJobMaster JobMasterNew )
     {
 
-      SuppressDebugMsg = true;
+      this.SuppressDebugMsg = true;
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
 
-      DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
+      this.DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
 
-      JobMaster = JobMasterNew;
+      this.JobMaster = JobMasterNew;
 
-      NamedQueue = new MacroscopeNamedQueue ();
-      NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
+      this.NamedQueue = new MacroscopeNamedQueue ();
+      this.NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
 
-      SearchIndex = new MacroscopeSearchIndex ();
+      this.SearchIndex = new MacroscopeSearchIndex ();
 
-      StatsHistory = new Dictionary<string,Boolean> ( 1024 );
-      StatsHostnames = new Dictionary<string,int> ( 16 );
-      StatsTitles = new Dictionary<string,int> ( 1024 );
-      StatsDescriptions = new Dictionary<string,int> ( 1024 );
-      StatsKeywords = new Dictionary<string,int> ( 1024 );
-      StatsWarnings = new  Dictionary<string,int> ( 32 );
-      StatsErrors = new  Dictionary<string,int> ( 32 );
-      StatsChecksums	= new	Dictionary<string,int> ( 1024 );
+      this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
+          
+      this.StatsHistory = new Dictionary<string,Boolean> ( 1024 );
+      this.StatsHostnames = new Dictionary<string,int> ( 16 );
+      this.StatsTitles = new Dictionary<string,int> ( 1024 );
+      this.StatsDescriptions = new Dictionary<string,int> ( 1024 );
+      this.StatsKeywords = new Dictionary<string,int> ( 1024 );
+      this.StatsWarnings = new  Dictionary<string,int> ( 32 );
+      this.StatsErrors = new  Dictionary<string,int> ( 32 );
+      this.StatsChecksums = new  Dictionary<string,int> ( 1024 );
+      this.StatsDeepKeywordAnalysis = new  Dictionary<string,int> ( 1024 );
 
-      StatsUrlsInternal = 0;
-      StatsUrlsExternal = 0;
-      StatsUrlsSitemaps = 0;
+      this.StatsUrlsInternal = 0;
+      this.StatsUrlsExternal = 0;
+      this.StatsUrlsSitemaps = 0;
 
-      SemaphoreRecalc = new Semaphore ( 0, 1 );
+      this.SemaphoreRecalc = new Semaphore ( 0, 1 );
       this.StartRecalcTimer();
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
@@ -365,6 +370,11 @@ namespace SEOMacroscope
 
             this.RecalculateStatsChecksums( msDoc );
 
+            if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+            {
+              this.RecalculateStatsDeepKeywordAnalysis( msDoc );
+            }
+            
             this.AddDocumentToSearchIndex( msDoc );
 
           }
@@ -837,6 +847,38 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /** Deep Keyword Analysis *************************************************/
+
+    private void ClearStatsDeepKeywordAnalysis ()
+    {
+      lock( this.StatsDeepKeywordAnalysis )
+      {
+        this.StatsDeepKeywordAnalysis.Clear();
+      }
+    }
+
+    private void RecalculateStatsDeepKeywordAnalysis ( MacroscopeDocument msDoc )
+    {
+      //lock( this.StatsDeepKeywordAnalysis )
+      //{
+      this.AnalyzeKeywords.Analyze( msDoc.GetBodyText(), this.StatsDeepKeywordAnalysis );
+      //}
+      DebugMsg( "" );
+    }
+
+    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ()
+    {
+      Dictionary<string,int> Terms = new Dictionary<string,int> ( this.StatsDeepKeywordAnalysis.Count );
+      lock( this.StatsDeepKeywordAnalysis )
+      {
+        foreach( string sTerm in this.StatsDeepKeywordAnalysis.Keys )
+        {
+          Terms.Add( sTerm, this.StatsDeepKeywordAnalysis[ sTerm ] );
+        }
+      }
+      return( Terms );
     }
 
     /** Search Index **********************************************************/

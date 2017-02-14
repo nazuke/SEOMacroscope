@@ -41,7 +41,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		MacroscopeColumnSorter lvColumnSorter;
+		private MacroscopeColumnSorter lvColumnSorter;
 
 		/**************************************************************************/
 

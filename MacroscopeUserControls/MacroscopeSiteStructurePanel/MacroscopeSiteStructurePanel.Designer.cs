@@ -36,6 +36,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageSiteSpeed;
 		public System.Windows.Forms.SplitContainer splitContainerSiteOverview;
 		public System.Windows.Forms.TreeView treeViewSiteOverview;
+		public System.Windows.Forms.TabPage tabPageKeywordAnalysis;
+		public System.Windows.Forms.ListView listViewKeywordAnalysis;
+		public System.Windows.Forms.ColumnHeader columnHeaderKeywordAnalysisOccurrences;
+		private System.Windows.Forms.ColumnHeader columnHeaderKeywordAnalysisTerm;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -61,18 +65,24 @@ namespace SEOMacroscope
 			this.tabControlSiteStructure = new System.Windows.Forms.TabControl();
 			this.tabPageSiteOverview = new System.Windows.Forms.TabPage();
 			this.splitContainerSiteOverview = new System.Windows.Forms.SplitContainer();
-			this.tabPageSiteSpeed = new System.Windows.Forms.TabPage();
 			this.treeViewSiteOverview = new System.Windows.Forms.TreeView();
+			this.tabPageKeywordAnalysis = new System.Windows.Forms.TabPage();
+			this.listViewKeywordAnalysis = new System.Windows.Forms.ListView();
+			this.columnHeaderKeywordAnalysisOccurrences = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderKeywordAnalysisTerm = new System.Windows.Forms.ColumnHeader();
+			this.tabPageSiteSpeed = new System.Windows.Forms.TabPage();
 			this.tabControlSiteStructure.SuspendLayout();
 			this.tabPageSiteOverview.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).BeginInit();
 			this.splitContainerSiteOverview.Panel1.SuspendLayout();
 			this.splitContainerSiteOverview.SuspendLayout();
+			this.tabPageKeywordAnalysis.SuspendLayout();
 			this.SuspendLayout();
-			//
+			// 
 			// tabControlSiteStructure
-			//
+			// 
 			this.tabControlSiteStructure.Controls.Add(this.tabPageSiteOverview);
+			this.tabControlSiteStructure.Controls.Add(this.tabPageKeywordAnalysis);
 			this.tabControlSiteStructure.Controls.Add(this.tabPageSiteSpeed);
 			this.tabControlSiteStructure.Location = new System.Drawing.Point(20, 20);
 			this.tabControlSiteStructure.Margin = new System.Windows.Forms.Padding(0);
@@ -80,9 +90,9 @@ namespace SEOMacroscope
 			this.tabControlSiteStructure.SelectedIndex = 0;
 			this.tabControlSiteStructure.Size = new System.Drawing.Size(440, 440);
 			this.tabControlSiteStructure.TabIndex = 0;
-			//
+			// 
 			// tabPageSiteOverview
-			//
+			// 
 			this.tabPageSiteOverview.Controls.Add(this.splitContainerSiteOverview);
 			this.tabPageSiteOverview.Location = new System.Drawing.Point(4, 22);
 			this.tabPageSiteOverview.Name = "tabPageSiteOverview";
@@ -91,25 +101,66 @@ namespace SEOMacroscope
 			this.tabPageSiteOverview.TabIndex = 0;
 			this.tabPageSiteOverview.Text = "Site Overview";
 			this.tabPageSiteOverview.UseVisualStyleBackColor = true;
-			//
+			// 
 			// splitContainerSiteOverview
-			//
+			// 
 			this.splitContainerSiteOverview.Location = new System.Drawing.Point(20, 20);
 			this.splitContainerSiteOverview.Margin = new System.Windows.Forms.Padding(0);
 			this.splitContainerSiteOverview.Name = "splitContainerSiteOverview";
 			this.splitContainerSiteOverview.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			//
+			// 
 			// splitContainerSiteOverview.Panel1
-			//
+			// 
 			this.splitContainerSiteOverview.Panel1.Controls.Add(this.treeViewSiteOverview);
 			this.splitContainerSiteOverview.Size = new System.Drawing.Size(300, 300);
 			this.splitContainerSiteOverview.SplitterDistance = 200;
 			this.splitContainerSiteOverview.SplitterIncrement = 10;
 			this.splitContainerSiteOverview.SplitterWidth = 6;
 			this.splitContainerSiteOverview.TabIndex = 0;
-			//
+			// 
+			// treeViewSiteOverview
+			// 
+			this.treeViewSiteOverview.Location = new System.Drawing.Point(20, 20);
+			this.treeViewSiteOverview.Margin = new System.Windows.Forms.Padding(0);
+			this.treeViewSiteOverview.Name = "treeViewSiteOverview";
+			this.treeViewSiteOverview.Size = new System.Drawing.Size(150, 150);
+			this.treeViewSiteOverview.TabIndex = 0;
+			// 
+			// tabPageKeywordAnalysis
+			// 
+			this.tabPageKeywordAnalysis.Controls.Add(this.listViewKeywordAnalysis);
+			this.tabPageKeywordAnalysis.Location = new System.Drawing.Point(4, 22);
+			this.tabPageKeywordAnalysis.Name = "tabPageKeywordAnalysis";
+			this.tabPageKeywordAnalysis.Size = new System.Drawing.Size(432, 414);
+			this.tabPageKeywordAnalysis.TabIndex = 2;
+			this.tabPageKeywordAnalysis.Text = "Keyword Analysis";
+			this.tabPageKeywordAnalysis.UseVisualStyleBackColor = true;
+			// 
+			// listViewKeywordAnalysis
+			// 
+			this.listViewKeywordAnalysis.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderKeywordAnalysisOccurrences,
+			this.columnHeaderKeywordAnalysisTerm});
+			this.listViewKeywordAnalysis.GridLines = true;
+			this.listViewKeywordAnalysis.Location = new System.Drawing.Point(20, 20);
+			this.listViewKeywordAnalysis.Name = "listViewKeywordAnalysis";
+			this.listViewKeywordAnalysis.Size = new System.Drawing.Size(200, 200);
+			this.listViewKeywordAnalysis.TabIndex = 0;
+			this.listViewKeywordAnalysis.UseCompatibleStateImageBehavior = false;
+			this.listViewKeywordAnalysis.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeaderKeywordAnalysisOccurrences
+			// 
+			this.columnHeaderKeywordAnalysisOccurrences.Text = "Occurrences";
+			this.columnHeaderKeywordAnalysisOccurrences.Width = 100;
+			// 
+			// columnHeaderKeywordAnalysisTerm
+			// 
+			this.columnHeaderKeywordAnalysisTerm.Text = "Term";
+			this.columnHeaderKeywordAnalysisTerm.Width = 150;
+			// 
 			// tabPageSiteSpeed
-			//
+			// 
 			this.tabPageSiteSpeed.Location = new System.Drawing.Point(4, 22);
 			this.tabPageSiteSpeed.Name = "tabPageSiteSpeed";
 			this.tabPageSiteSpeed.Padding = new System.Windows.Forms.Padding(3);
@@ -117,17 +168,9 @@ namespace SEOMacroscope
 			this.tabPageSiteSpeed.TabIndex = 1;
 			this.tabPageSiteSpeed.Text = "Site Speed";
 			this.tabPageSiteSpeed.UseVisualStyleBackColor = true;
-			//
-			// treeViewSiteOverview
-			//
-			this.treeViewSiteOverview.Location = new System.Drawing.Point(20, 20);
-			this.treeViewSiteOverview.Margin = new System.Windows.Forms.Padding(0);
-			this.treeViewSiteOverview.Name = "treeViewSiteOverview";
-			this.treeViewSiteOverview.Size = new System.Drawing.Size(150, 150);
-			this.treeViewSiteOverview.TabIndex = 0;
-			//
+			// 
 			// MacroscopeSiteStructurePanel
-			//
+			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tabControlSiteStructure);
@@ -138,6 +181,7 @@ namespace SEOMacroscope
 			this.splitContainerSiteOverview.Panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).EndInit();
 			this.splitContainerSiteOverview.ResumeLayout(false);
+			this.tabPageKeywordAnalysis.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

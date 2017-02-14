@@ -116,11 +116,12 @@ namespace SEOMacroscope
     private Dictionary<ushort,List<string>> Headings;
 
     private string BodyText;
-
+    private Dictionary<string,int> DeepKeywordAnalysis;
+    
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -214,7 +215,8 @@ namespace SEOMacroscope
       };
 
       this.BodyText = "";
-
+      this.DeepKeywordAnalysis = new Dictionary<string,int> ( 256 );
+      
       this.Depth = MacroscopeUrlTools.FindUrlDepth( Url );
 
     }
@@ -489,11 +491,11 @@ namespace SEOMacroscope
     {
       if( this.DocumentType == MacroscopeConstants.DocumentType.HTML )
       {
-        return true;
+        return( true );
       }
       else
       {
-        return false;
+        return( false );
       }
     }
 
@@ -960,7 +962,7 @@ namespace SEOMacroscope
 
     /** Body Text *************************************************************/
 
-    private void SetBodyText ( string sText )
+    public void SetBodyText ( string sText )
     {
       if( ( sText != null ) && ( sText.Length > 0 ) )
       {
@@ -978,6 +980,31 @@ namespace SEOMacroscope
       return( this.BodyText );
     }
 
+    /** Deep Keyword Analysis *************************************************/
+
+    private void ExecuteDeepKeywordAnalysis ()
+    {
+      MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
+      lock( this.DeepKeywordAnalysis )
+      {
+        this.DeepKeywordAnalysis.Clear();
+        AnalyzeKeywords.Analyze( this.GetBodyText(), this.DeepKeywordAnalysis );
+      }
+    }
+
+    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ()
+    {
+      Dictionary<string,int> Terms = new Dictionary<string,int> ( this.DeepKeywordAnalysis.Count );
+      lock( this.DeepKeywordAnalysis )
+      {
+        foreach( string sTerm in this.DeepKeywordAnalysis.Keys )
+        {
+          Terms.Add( sTerm, this.DeepKeywordAnalysis[ sTerm ] );
+        }
+      }
+      return( Terms );
+    }
+    
     /** Durations *************************************************************/
 
     public long GetDuration ()
@@ -1156,6 +1183,11 @@ namespace SEOMacroscope
       {
         MacroscopeInsecureLinks InsecureLinks = new MacroscopeInsecureLinks ();
         InsecureLinks.Analyze( this );
+      }
+
+      if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+      {
+        this.ExecuteDeepKeywordAnalysis();
       }
 
       return( true );

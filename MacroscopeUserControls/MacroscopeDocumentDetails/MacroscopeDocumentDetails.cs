@@ -39,6 +39,8 @@ namespace SEOMacroscope
 
     private MacroscopeUrlLoader UrlLoader;
 
+    private MacroscopeColumnSorter lvColumnSorter;
+        
     /**************************************************************************/
 
     public MacroscopeDocumentDetails ()
@@ -48,22 +50,35 @@ namespace SEOMacroscope
       InitializeComponent();
 
       // Control Properties
-      listViewDocumentInfo.Dock = DockStyle.Fill;
-      textBoxHttpHeaders.Dock = DockStyle.Fill;
-      listViewHrefLang.Dock = DockStyle.Fill;
-      listViewLinksIn.Dock = DockStyle.Fill;
-      listViewLinksOut.Dock = DockStyle.Fill;
-      listViewInsecureLinks.Dock = DockStyle.Fill;
-      listViewImages.Dock = DockStyle.Fill;
-      listViewStylesheets.Dock = DockStyle.Fill;
-      listViewJavascripts.Dock = DockStyle.Fill;
-      listViewAudios.Dock = DockStyle.Fill;
-      listViewVideos.Dock = DockStyle.Fill;
-      listViewKeywordAnalysis.Dock = DockStyle.Fill;
+      this.listViewDocumentInfo.Dock = DockStyle.Fill;
+      this.textBoxHttpHeaders.Dock = DockStyle.Fill;
+      this.listViewHrefLang.Dock = DockStyle.Fill;
+      this.listViewLinksIn.Dock = DockStyle.Fill;
+      this.listViewLinksOut.Dock = DockStyle.Fill;
+      this.listViewInsecureLinks.Dock = DockStyle.Fill;
+      this.listViewImages.Dock = DockStyle.Fill;
+      this.listViewStylesheets.Dock = DockStyle.Fill;
+      this.listViewJavascripts.Dock = DockStyle.Fill;
+      this.listViewAudios.Dock = DockStyle.Fill;
+      this.listViewVideos.Dock = DockStyle.Fill;
+      this.listViewKeywordAnalysis.Dock = DockStyle.Fill;
 
-      UrlLoader = new MacroscopeUrlLoader ();
-      listViewDocInfo.Dock = DockStyle.Fill;
+      this.UrlLoader = new MacroscopeUrlLoader ();
+      this.listViewDocInfo.Dock = DockStyle.Fill;
 
+      // ListView Sorters
+      this.lvColumnSorter = new MacroscopeColumnSorter ();
+
+      this.listViewLinksIn.ListViewItemSorter = lvColumnSorter;
+      this.listViewLinksOut.ListViewItemSorter = lvColumnSorter;
+      this.listViewInsecureLinks.ListViewItemSorter = lvColumnSorter;
+      this.listViewImages.ListViewItemSorter = lvColumnSorter;
+      this.listViewStylesheets.ListViewItemSorter = lvColumnSorter;
+      this.listViewJavascripts.ListViewItemSorter = lvColumnSorter;
+      this.listViewAudios.ListViewItemSorter = lvColumnSorter;
+      this.listViewVideos.ListViewItemSorter = lvColumnSorter;
+      this.listViewKeywordAnalysis.ListViewItemSorter = lvColumnSorter;
+      
     }
 
     /**************************************************************************/
@@ -82,13 +97,13 @@ namespace SEOMacroscope
       this.listViewHrefLang.Items.Clear();
       this.listViewLinksIn.Items.Clear();
       this.listViewLinksOut.Items.Clear();
-      listViewInsecureLinks.Items.Clear();
+      this.listViewInsecureLinks.Items.Clear();
       this.listViewImages.Items.Clear();
       this.listViewStylesheets.Items.Clear();
       this.listViewJavascripts.Items.Clear();
-      listViewAudios.Items.Clear();
-      listViewVideos.Items.Clear();
-      listViewKeywordAnalysis.Items.Clear();
+      this.listViewAudios.Items.Clear();
+      this.listViewVideos.Items.Clear();
+      this.listViewKeywordAnalysis.Items.Clear();
 
       this.pictureBoxDocumentDetailsImage.Image = null;
       this.listViewDocInfo.Columns.Clear();
@@ -165,6 +180,11 @@ namespace SEOMacroscope
       
       this.RenderListViewVideos( JobMaster, msDoc );
       
+      if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+      {
+        this.RenderListViewKeywordAnalysis( JobMaster, msDoc );
+      }
+            
       this.RenderDocumentPreview( msDoc );
       
       Cursor.Current = Cursors.Default;
@@ -178,6 +198,8 @@ namespace SEOMacroscope
 
       ListView lvListView = this.listViewDocumentInfo;
 
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
 
       List<KeyValuePair<string,string>> lItems = msDoc.DetailDocumentDetails();
@@ -203,6 +225,8 @@ namespace SEOMacroscope
 
       }
 
+      lvListView.EndUpdate();
+            
     }
 
     /**************************************************************************/
@@ -235,6 +259,8 @@ namespace SEOMacroscope
 
       ListView lvListView = this.listViewHrefLang;
 
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
       lvListView.Columns.Clear();
 
@@ -345,6 +371,8 @@ namespace SEOMacroscope
 
       }
 
+      lvListView.EndUpdate();
+            
     }
 
     /** Hyperlinks In *********************************************************/
@@ -355,6 +383,8 @@ namespace SEOMacroscope
       ListView lvListView = this.listViewLinksIn;
       MacroscopeHyperlinksIn hlHyperlinksIn = msDoc.GetHyperlinksIn();
 
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
 
       foreach( string sUrlOrigin in hlHyperlinksIn.IterateKeys() )
@@ -415,6 +445,8 @@ namespace SEOMacroscope
 
       }
 
+      lvListView.EndUpdate();
+            
     }
 
     /** Hyperlinks Out ********************************************************/
@@ -425,6 +457,8 @@ namespace SEOMacroscope
       ListView lvListView = this.listViewLinksOut;
       MacroscopeHyperlinksOut hlHyperlinksOut = msDoc.GetHyperlinksOut();
 
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
 
       lock( hlHyperlinksOut )
@@ -492,6 +526,8 @@ namespace SEOMacroscope
 
       }
 
+      lvListView.EndUpdate();
+            
     }
 
     /** Insecure Links Out ****************************************************/
@@ -502,6 +538,8 @@ namespace SEOMacroscope
       ListView lvListView = this.listViewInsecureLinks;
       List<string> DocList = msDoc.GetInsecureLinks();
 
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
 
       if( DocList.Count > 0 )
@@ -558,6 +596,9 @@ namespace SEOMacroscope
         }
 
       }
+      
+      lvListView.EndUpdate();
+            
     }
 
     /** Stylesheets ***********************************************************/
@@ -569,6 +610,8 @@ namespace SEOMacroscope
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
       
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
 
       foreach( string sUrl in DicOutlinks.Keys )
@@ -647,6 +690,8 @@ namespace SEOMacroscope
                 
       }
 
+      lvListView.EndUpdate();
+            
     }
 
     /** Javascripts ***********************************************************/
@@ -658,6 +703,8 @@ namespace SEOMacroscope
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
       
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
 
       foreach( string sUrl in DicOutlinks.Keys )
@@ -736,6 +783,8 @@ namespace SEOMacroscope
                 
       }
 
+      lvListView.EndUpdate();
+            
     }
 
     /** Images ****************************************************************/
@@ -747,6 +796,8 @@ namespace SEOMacroscope
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
       
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
 
       foreach( string sUrl in DicOutlinks.Keys )
@@ -825,6 +876,8 @@ namespace SEOMacroscope
 
       }
 
+      lvListView.EndUpdate();
+            
     }
     
     /** Audios ****************************************************************/
@@ -836,6 +889,8 @@ namespace SEOMacroscope
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
       
+      lvListView.BeginUpdate();
+            
       lvListView.Items.Clear();
 
       foreach( string sUrl in DicOutlinks.Keys )
@@ -914,6 +969,8 @@ namespace SEOMacroscope
         
       }
 
+      lvListView.EndUpdate();
+            
     }
 
     /** Videos ****************************************************************/
@@ -924,6 +981,8 @@ namespace SEOMacroscope
       ListView lvListView = this.listViewVideos;
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
+      
+      lvListView.BeginUpdate();
       
       lvListView.Items.Clear();
 
@@ -1003,6 +1062,78 @@ namespace SEOMacroscope
                 
       }
 
+      lvListView.EndUpdate();
+    }
+
+    /** Keyword Analysis ******************************************************/
+
+    private void RenderListViewKeywordAnalysis ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    {
+
+      ListView lvListView = this.listViewKeywordAnalysis;
+      Dictionary<string,int> DicTerms = msDoc.GetDeepKeywordAnalysisAsDictonary();
+
+      lvListView.BeginUpdate();
+            
+      lvListView.Items.Clear();
+
+      foreach( string sTerm in DicTerms.Keys )
+      {
+
+        string sKeyPair = sTerm;
+        ListViewItem lvItem = null;
+
+        if( lvListView.Items.ContainsKey( sKeyPair ) )
+        {
+
+          try
+          {
+
+            lvItem = lvListView.Items[ sKeyPair ];
+            lvItem.SubItems[ 0 ].Text = DicTerms[ sTerm ].ToString();
+            lvItem.SubItems[ 1 ].Text = sTerm;
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "RenderListViewKeywordAnalysis 1: {0}", ex.Message ) );
+          }
+
+        }
+        else
+        {
+
+          try
+          {
+
+            lvItem = new ListViewItem ( sKeyPair );
+            lvItem.UseItemStyleForSubItems = false;
+            lvItem.Name = sKeyPair;
+
+            lvItem.SubItems[ 0 ].Text = DicTerms[ sTerm ].ToString();
+            lvItem.SubItems.Add( sTerm );
+
+            lvListView.Items.Add( lvItem );
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "RenderListViewKeywordAnalysis 2: {0}", ex.Message ) );
+          }
+
+        }
+        
+        if( lvItem != null )
+        {
+
+          lvItem.ForeColor = Color.Blue;
+
+        }
+                
+      }
+      
+      lvListView.EndUpdate();
+      
     }
 
     /** Document Preview ******************************************************/

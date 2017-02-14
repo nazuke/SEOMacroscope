@@ -164,8 +164,8 @@ namespace SEOMacroscope
 			this.columnHeaderAudiosUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageVideos = new System.Windows.Forms.TabPage();
 			this.listViewVideos = new System.Windows.Forms.ListView();
-			this.columnHeaderVideosUrl = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderVideosItem = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderVideosUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageKeywordAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewKeywordAnalysis = new System.Windows.Forms.ListView();
 			this.columnHeaderKeywordAnalysisOccurences = new System.Windows.Forms.ColumnHeader();
@@ -262,19 +262,19 @@ namespace SEOMacroscope
 			this.copyTextToolStripMenuItem,
 			this.toolStripMenuItemCopyValues});
 			this.contextMenuStripTextDocumentDetails.Name = "contextMenuStripTextCopy";
-			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(140, 48);
+			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(139, 48);
 			// 
 			// copyTextToolStripMenuItem
 			// 
 			this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
-			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
 			this.copyTextToolStripMenuItem.Text = "Copy Rows";
 			this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyRowsClick);
 			// 
 			// toolStripMenuItemCopyValues
 			// 
 			this.toolStripMenuItemCopyValues.Name = "toolStripMenuItemCopyValues";
-			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(139, 22);
+			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(138, 22);
 			this.toolStripMenuItemCopyValues.Text = "Copy Values";
 			this.toolStripMenuItemCopyValues.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyValuesClick);
 			// 
@@ -646,17 +646,15 @@ namespace SEOMacroscope
 			this.listViewVideos.UseCompatibleStateImageBehavior = false;
 			this.listViewVideos.View = System.Windows.Forms.View.Details;
 			// 
-			// columnHeaderVideosUrl
-			// 
-			this.columnHeaderVideosUrl.DisplayIndex = 1;
-			this.columnHeaderVideosUrl.Text = "URL";
-			this.columnHeaderVideosUrl.Width = 500;
-			// 
 			// columnHeaderVideosItem
 			// 
-			this.columnHeaderVideosItem.DisplayIndex = 0;
 			this.columnHeaderVideosItem.Text = "Item";
 			this.columnHeaderVideosItem.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// columnHeaderVideosUrl
+			// 
+			this.columnHeaderVideosUrl.Text = "URL";
+			this.columnHeaderVideosUrl.Width = 500;
 			// 
 			// tabPageKeywordAnalysis
 			// 

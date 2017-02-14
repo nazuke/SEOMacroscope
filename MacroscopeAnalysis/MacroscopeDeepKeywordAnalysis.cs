@@ -24,25 +24,69 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeDeepKeywordAnalysis.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeDeepKeywordAnalysis.
+  /// </summary>
 
-	public class MacroscopeDeepKeywordAnalysis : Macroscope
-	{
+  public class MacroscopeDeepKeywordAnalysis : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeDeepKeywordAnalysis ()
-		{
-		}
+    public MacroscopeDeepKeywordAnalysis ()
+    {
+      this.SuppressDebugMsg = true;
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+    public void Analyze ( string Text, Dictionary<string,int> Terms )
+    {
+
+      if( Text.Length > 0 )
+      {
+
+        string [] Chunks = Text.Split( ' ' );
+        
+        if( Chunks.Length > 0 )
+        {
+          
+          for( int j = 0 ; j < Chunks.Length ; j++ )
+          {
+          
+            string sTerm = Chunks[ j ];
+              
+            if( sTerm.Length > 0 )
+            {
+
+              DebugMsg( string.Format( "sTerm: {0}", sTerm ) );
+
+              if( Terms.ContainsKey( sTerm ) )
+              {
+                Terms[ sTerm ] += 1;
+              }
+              else
+              {
+                Terms.Add( sTerm, 1 );
+              }
+
+            }
+
+          }
+          
+        }
+        
+      }
+
+    }
+
+    /**************************************************************************/
+
+  }
 
 }
