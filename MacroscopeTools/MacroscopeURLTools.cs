@@ -24,6 +24,7 @@
 */
 
 using System;
+using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -104,6 +105,8 @@ namespace SEOMacroscope
       Regex reQuery = new Regex ( "^\\?" );
       Regex reHash = new Regex ( "^#" );
       Regex reUnsupportedScheme = new Regex ( "^[^:]+:" );
+
+      sUrl = HtmlEntity.DeEntitize( sUrl );
 
       if( !Regex.IsMatch( sUrl, "^(https?:|/|#)" ) )
       {

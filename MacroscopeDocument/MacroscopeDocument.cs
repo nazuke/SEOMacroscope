@@ -116,12 +116,12 @@ namespace SEOMacroscope
     private Dictionary<ushort,List<string>> Headings;
 
     private string BodyText;
-    private Dictionary<string,int> DeepKeywordAnalysis;
-    
+    private List<Dictionary<string,int>> DeepKeywordAnalysis;
+
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -190,33 +190,38 @@ namespace SEOMacroscope
       this.Description = "";
       this.Keywords = "";
 
-      this.Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
       };
 
       this.BodyText = "";
-      this.DeepKeywordAnalysis = new Dictionary<string,int> ( 256 );
       
+      this.DeepKeywordAnalysis = new List<Dictionary<string,int>> ( 4 );
+      for( int i = 0 ; i <= 3 ; i++ )
+      {
+        this.DeepKeywordAnalysis.Add( new Dictionary<string,int> ( 256 ) );
+      }
+
       this.Depth = MacroscopeUrlTools.FindUrlDepth( Url );
 
     }
@@ -984,22 +989,53 @@ namespace SEOMacroscope
 
     private void ExecuteDeepKeywordAnalysis ()
     {
-      MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
-      lock( this.DeepKeywordAnalysis )
+      
+      Boolean bProceed = false;
+
+      if( this.GetIsHtml() )
       {
-        this.DeepKeywordAnalysis.Clear();
-        AnalyzeKeywords.Analyze( this.GetBodyText(), this.DeepKeywordAnalysis );
+        bProceed = true;
       }
+      else
+      if( this.GetIsPdf() )
+      {
+        bProceed = true;
+      }
+      
+      if( bProceed )
+      {
+
+        MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
+      
+        lock( this.DeepKeywordAnalysis )
+        {
+          for( int Words = 0 ; Words <= 3 ; Words++ )
+          {
+            lock( this.DeepKeywordAnalysis[ Words ] )
+            {
+              this.DeepKeywordAnalysis[ Words ].Clear();
+              AnalyzeKeywords.Analyze(
+                Text: this.GetBodyText(), 
+                Terms: this.DeepKeywordAnalysis[ Words ],
+                Words: Words + 1
+              );
+            }
+          }
+        }
+      
+      }
+      
     }
 
-    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ()
+    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ( int Words )
     {
+      int iWordsOffset = Words - 1;
       Dictionary<string,int> Terms = new Dictionary<string,int> ( this.DeepKeywordAnalysis.Count );
       lock( this.DeepKeywordAnalysis )
       {
-        foreach( string sTerm in this.DeepKeywordAnalysis.Keys )
+        foreach( string sTerm in this.DeepKeywordAnalysis[iWordsOffset].Keys )
         {
-          Terms.Add( sTerm, this.DeepKeywordAnalysis[ sTerm ] );
+          Terms.Add( sTerm, this.DeepKeywordAnalysis[ iWordsOffset ][ sTerm ] );
         }
       }
       return( Terms );

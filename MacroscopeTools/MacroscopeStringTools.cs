@@ -24,68 +24,78 @@
 */
 
 using System;
+using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeStringTools.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeStringTools.
+  /// </summary>
 
-	public class MacroscopeStringTools : Macroscope
-	{
+  public class MacroscopeStringTools : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeStringTools ()
-		{
-		}
+    static MacroscopeStringTools ()
+    {
+      SuppressStaticDebugMsg = true;
+    }
 
-		/**************************************************************************/
+    public MacroscopeStringTools ()
+    {
+    }
 
-		public static string ReverseString ( string sInput )
-		{
-			string sOutput = "";
-			for( int i = ( sInput.Length - 1 ) ; i >= 0 ; i-- )
-			{
-				sOutput += sInput[ i ];
-			}
-			return( sOutput );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public static string ReverseString ( string sInput )
+    {
+      string sOutput = "";
+      for( int i = ( sInput.Length - 1 ) ; i >= 0 ; i-- )
+      {
+        sOutput += sInput[ i ];
+      }
+      return( sOutput );
+    }
 
-		public static string[] ReverseStringArray ( string [] sInput )
-		{
-			string [] sOutput = new string[sInput.Length];
-			for( int i = 0 ; i < sInput.Length ; i++ )
-			{
-				sOutput[ i ] = MacroscopeStringTools.ReverseString( sInput[ i ] );
-			}
-			return( sOutput );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public static string[] ReverseStringArray ( string [] sInput )
+    {
+      string [] sOutput = new string[sInput.Length];
+      for( int i = 0 ; i < sInput.Length ; i++ )
+      {
+        sOutput[ i ] = MacroscopeStringTools.ReverseString( sInput[ i ] );
+      }
+      return( sOutput );
+    }
 
-		public static string CleanBodyText ( string sText )
-		{
+    /**************************************************************************/
 
-			string sCleaned = "";
+    public static string CleanBodyText ( string sText )
+    {
 
-			if( ( sText != null ) && ( sText.Length > 0 ) )
-			{
-				sCleaned = sText.ToLower();
-				sCleaned = Regex.Replace( sCleaned, "[\\s]+", " ", RegexOptions.Singleline );
-				sCleaned = Regex.Replace( sCleaned, "[^\\w\\d]+", " ", RegexOptions.Singleline );
-			}
+      string sCleaned = "";
 
-			return( sCleaned );
+      if( ( sText != null ) && ( sText.Length > 0 ) )
+      {
+        sCleaned = sText.ToLower();
+        sCleaned = HtmlEntity.DeEntitize( sCleaned );
+        sCleaned = Regex.Replace( sCleaned, "<!.+?>", "########", RegexOptions.Singleline );
+        sCleaned = Regex.Replace( sCleaned, "<!--.+?-->", "########", RegexOptions.Singleline );
+        sCleaned = Regex.Replace( sCleaned, "[\\s]+", " ", RegexOptions.Singleline );
+        sCleaned = Regex.Replace( sCleaned, "[^\\w\\d]+", " ", RegexOptions.Singleline );
+        sCleaned = sCleaned.Trim();
+      }
+      
+      return( sCleaned );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

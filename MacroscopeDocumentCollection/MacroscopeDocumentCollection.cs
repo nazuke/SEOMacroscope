@@ -26,6 +26,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Timers;
 using System.Threading;
 
@@ -52,7 +53,8 @@ namespace SEOMacroscope
     private Dictionary<string,int> StatsWarnings;
     private Dictionary<string,int> StatsErrors;
     private Dictionary<string,int> StatsChecksums;
-    private Dictionary<string,int> StatsDeepKeywordAnalysis;
+
+    private List<Dictionary<string,int>> StatsDeepKeywordAnalysis;
 
     private int StatsUrlsInternal;
     private int StatsUrlsExternal;
@@ -89,7 +91,12 @@ namespace SEOMacroscope
       this.StatsWarnings = new  Dictionary<string,int> ( 32 );
       this.StatsErrors = new  Dictionary<string,int> ( 32 );
       this.StatsChecksums = new  Dictionary<string,int> ( 1024 );
-      this.StatsDeepKeywordAnalysis = new  Dictionary<string,int> ( 1024 );
+
+      this.StatsDeepKeywordAnalysis = new  List<Dictionary<string,int>> ( 4 );
+      for( int i = 0 ; i <= 3 ; i++ )
+      {
+        this.StatsDeepKeywordAnalysis.Add( new Dictionary<string,int> ( 1024 ) );
+      }
 
       this.StatsUrlsInternal = 0;
       this.StatsUrlsExternal = 0;
@@ -270,11 +277,9 @@ namespace SEOMacroscope
 
     void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
     {
-      //DebugMsg( string.Format( "WorkerRecalculateDocCollection: {0}", "CALLED" ) );
       try
       {
         Boolean bDrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
-        //DebugMsg( string.Format( "bDrainQueue: {0}", bDrainQueue ) );
         if( bDrainQueue )
         {
           this.TimerRecalc.Interval = 2000;
@@ -855,30 +860,86 @@ namespace SEOMacroscope
     {
       lock( this.StatsDeepKeywordAnalysis )
       {
-        this.StatsDeepKeywordAnalysis.Clear();
+        for( int i = 0 ; i <= 3 ; i++ )
+        {
+          lock( this.StatsDeepKeywordAnalysis[i] )
+          {
+            this.StatsDeepKeywordAnalysis[ i ].Clear();
+          }
+        }
       }
     }
 
     private void RecalculateStatsDeepKeywordAnalysis ( MacroscopeDocument msDoc )
     {
-      //lock( this.StatsDeepKeywordAnalysis )
-      //{
-      this.AnalyzeKeywords.Analyze( msDoc.GetBodyText(), this.StatsDeepKeywordAnalysis );
-      //}
-      DebugMsg( "" );
+
+      Boolean bProceed = false;
+
+      if( msDoc.GetIsHtml() )
+      {
+        bProceed = true;
+      }
+      else
+      if( msDoc.GetIsPdf() )
+      {
+        bProceed = true;
+      }
+      
+      if( bProceed )
+      {
+        
+        string sLang = msDoc.GetLang();
+        
+        if( sLang != null )
+        {
+          DebugMsg( string.Format( "RecalculateStatsDeepKeywordAnalysis: GetLang {0}", msDoc.GetLang() ) );
+          if( Regex.IsMatch( msDoc.GetLang(), "^(en|fr|de|it|es|po)", RegexOptions.IgnoreCase ) )
+          {
+            lock( this.StatsDeepKeywordAnalysis )
+            {
+              for( int i = 0 ; i <= 3 ; i++ )
+              {
+                this.AnalyzeKeywords.Analyze(
+                  Text: msDoc.GetBodyText(),
+                  Terms: this.StatsDeepKeywordAnalysis[ i ],
+                  Words: i + 1
+                );
+              }
+            }
+          }
+        }
+      
+      }
+      
     }
 
-    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ()
+    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ( int Words )
     {
-      Dictionary<string,int> Terms = new Dictionary<string,int> ( this.StatsDeepKeywordAnalysis.Count );
-      lock( this.StatsDeepKeywordAnalysis )
+      
+      int iWordsOffset = Words - 1;
+      
+      DebugMsg( string.Format( "GetDeepKeywordAnalysisAsDictonary: Words: {0}", Words ) );
+      DebugMsg( string.Format( "GetDeepKeywordAnalysisAsDictonary: iWordsOffset: {0}", iWordsOffset ) );
+      
+      DebugMsg( string.Format( "GetDeepKeywordAnalysisAsDictonary: this.StatsDeepKeywordAnalysis: {0}", this.StatsDeepKeywordAnalysis[ iWordsOffset ].Count ) );
+      
+            
+      Dictionary<string,int> Terms = new Dictionary<string,int> ( this.StatsDeepKeywordAnalysis[ iWordsOffset ].Count );
+      
+      
+      DebugMsg( string.Format( "GetDeepKeywordAnalysisAsDictonary: Terms: {0}", Terms.Count ) );
+      
+      
+      lock( this.StatsDeepKeywordAnalysis[iWordsOffset] )
       {
-        foreach( string sTerm in this.StatsDeepKeywordAnalysis.Keys )
+        foreach( string sTerm in this.StatsDeepKeywordAnalysis[iWordsOffset].Keys )
         {
-          Terms.Add( sTerm, this.StatsDeepKeywordAnalysis[ sTerm ] );
+          Terms.Add( sTerm, this.StatsDeepKeywordAnalysis[ iWordsOffset ][ sTerm ] );
         }
       }
+      
       return( Terms );
+      
     }
 
     /** Search Index **********************************************************/

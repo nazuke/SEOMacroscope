@@ -46,12 +46,12 @@ namespace SEOMacroscope
       : base( MainFormNew, lvListViewNew )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainFormNew;
+      this.lvListView = lvListViewNew;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {
@@ -265,11 +265,11 @@ namespace SEOMacroscope
     void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
-					MacroscopeConstants.Url,
-					300
-				},
-				{
+      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () {
+        {
+          MacroscopeConstants.Url,
+          300
+        }, {
 					MacroscopeConstants.Title,
 					300
 				}

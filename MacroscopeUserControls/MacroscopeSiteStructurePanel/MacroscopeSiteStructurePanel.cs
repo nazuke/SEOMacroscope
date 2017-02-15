@@ -55,13 +55,55 @@ namespace SEOMacroscope
       this.splitContainerSiteOverview.Dock = DockStyle.Fill;
       this.treeViewSiteOverview.Dock = DockStyle.Fill;
 
-      this.listViewKeywordAnalysis.Dock = DockStyle.Fill;
-      this.listViewKeywordAnalysis.ListViewItemSorter = lvColumnSorter;
+      this.tabControlKeywordAnalysisPhrases.Dock = DockStyle.Fill;
+        
+      this.listViewKeywordAnalysis1.Dock = DockStyle.Fill;
+      this.listViewKeywordAnalysis2.Dock = DockStyle.Fill;
+      this.listViewKeywordAnalysis3.Dock = DockStyle.Fill;
+      this.listViewKeywordAnalysis4.Dock = DockStyle.Fill;
+
+      this.listViewKeywordAnalysis1.ListViewItemSorter = this.lvColumnSorter;
+      this.listViewKeywordAnalysis2.ListViewItemSorter = this.lvColumnSorter;
+      this.listViewKeywordAnalysis3.ListViewItemSorter = this.lvColumnSorter;
+      this.listViewKeywordAnalysis4.ListViewItemSorter = this.lvColumnSorter;
+
+      this.listViewKeywordAnalysis1.ColumnClick += this.CallbackColumnClick;
+      this.listViewKeywordAnalysis2.ColumnClick += this.CallbackColumnClick;
+      this.listViewKeywordAnalysis3.ColumnClick += this.CallbackColumnClick;
+      this.listViewKeywordAnalysis4.ColumnClick += this.CallbackColumnClick;
 
     }
 
     /**************************************************************************/
 
+    void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
+    {
+
+      ListView lvListView = sender as ListView;
+
+      if( e.Column == lvColumnSorter.SortColumn )
+      {
+        if( lvColumnSorter.Order == SortOrder.Ascending )
+        {
+          lvColumnSorter.Order = SortOrder.Descending;
+        }
+        else
+        {
+          lvColumnSorter.Order = SortOrder.Ascending;
+        }
+      }
+      else
+      {
+        lvColumnSorter.SortColumn = e.Column;
+        lvColumnSorter.Order = SortOrder.Ascending;
+      }
+
+      lvListView.Sort();
+
+    }
+
+    /**************************************************************************/
+    
   }
 
 }

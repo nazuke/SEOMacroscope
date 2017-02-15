@@ -30,6 +30,7 @@ using System.IO;
 using System.Timers;
 using System.Windows.Forms;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -230,12 +231,21 @@ namespace SEOMacroscope
     void ConfigureSiteStructurePanelInstance ()
     {
       
-      this.msSiteStructureOverview = new MacroscopeDisplayStructureOverview ( this, this.macroscopeSiteStructurePanelInstance.treeViewSiteOverview );
+      this.msSiteStructureOverview = new MacroscopeDisplayStructureOverview (
+        this,
+        this.macroscopeSiteStructurePanelInstance.treeViewSiteOverview
+      );
+      
       this.macroscopeSiteStructurePanelInstance.Dock = DockStyle.Fill;
       
-      this.msSiteStructureKeywordAnalysis = new MacroscopeDisplayStructureKeywordAnalysis ( this, this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis );
-      
-      
+      this.msSiteStructureKeywordAnalysis = new MacroscopeDisplayStructureKeywordAnalysis (
+        this,
+        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis1,
+        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis2,
+        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis3,
+        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis4
+      );
+
     }
 
     /**************************************************************************/
@@ -1368,6 +1378,18 @@ namespace SEOMacroscope
       this.TimerSiteOverview.Start();
     }
 
+    void SetVelocitySiteOverviewTimer ( int Delay )
+    {
+      try
+      {
+        this.TimerSiteOverview.Interval = Delay;
+      }
+      catch( Exception ex )
+      {
+        ;
+      }
+    }
+
     void StopSiteOverviewTimer ()
     {
       try
@@ -1417,14 +1439,15 @@ namespace SEOMacroscope
 
     void UpdateSiteOverview ()
     {
-      
       this.msSiteStructureOverview.RefreshData( this.JobMaster.GetDocCollection() );
-      
+    }
+
+    private void UpdateSiteOverviewKeywordAnalysis ()
+    {
       if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
       {
         this.msSiteStructureKeywordAnalysis.RefreshKeywordAnalysisData( this.JobMaster.GetDocCollection() );
       }
-      
     }
 
     /** Whole Display *********************************************************/
@@ -1592,10 +1615,21 @@ namespace SEOMacroscope
 
     void ScanningThread ()
     {
+
       DebugMsg( "Scanning Thread: Started." );
+
+      this.SetVelocitySiteOverviewTimer( Delay: 4000 );
       this.JobMaster.SetStartUrl( this.GetUrl() );
       this.JobMaster.Execute();
+      this.SetVelocitySiteOverviewTimer( Delay: 10000 );
+
+      {
+        Thread ThreadUpdateSiteOverviewKeywordAnalysis = new Thread ( new ThreadStart ( this.UpdateSiteOverviewKeywordAnalysis ) );
+        ThreadUpdateSiteOverviewKeywordAnalysis.Start();
+      }
+
       DebugMsg( "Scanning Thread: Done." );
+
     }
 
     /** RERUN SCAN ************************************************************/
@@ -1686,14 +1720,14 @@ namespace SEOMacroscope
 				}
 				*/
 
-        DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
-        DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
-        DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
-        DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
 
       }
 
-      DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
+      //DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
 
       this.ProgressBarScan.Value = iPercentage;
 
@@ -1886,7 +1920,7 @@ namespace SEOMacroscope
     [Conditional( "DEVMODE" )]
     static void DebugMsg ( String sMsg )
     {
-      System.Diagnostics.Debug.WriteLine( sMsg );
+      //System.Diagnostics.Debug.WriteLine( sMsg );
     }
     void EditToolStripMenuItemClick ( object sender, EventArgs e )
     {

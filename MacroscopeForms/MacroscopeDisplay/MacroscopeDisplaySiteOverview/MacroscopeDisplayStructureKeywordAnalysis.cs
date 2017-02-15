@@ -27,95 +27,99 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace SEOMacroscope
 {
 
-  public sealed class MacroscopeDisplayStructureKeywordAnalysis : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayStructureKeywordAnalysis : Macroscope
   {
 
     /**************************************************************************/
 
-    public MacroscopeDisplayStructureKeywordAnalysis ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
-    {
-
-      this.MainForm = MainFormNew;
-      this.lvListView = lvListViewNew;
-
-      if( MainForm.InvokeRequired )
-      {
-        MainForm.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.ConfigureListView();
-            }
-          )
-        );
-      }
-      else
-      {
-        this.ConfigureListView();
-      }
-
-    }
+    private MacroscopeMainForm MainForm;
+          
+    private List<ListView> lvListViews = new List<ListView> ( 4 );
 
     /**************************************************************************/
 
-    protected override void ConfigureListView ()
+    public MacroscopeDisplayStructureKeywordAnalysis (
+      MacroscopeMainForm MainFormNew,
+      ListView lvListView1New,
+      ListView lvListView2New,
+      ListView lvListView3New,
+      ListView lvListView4New
+    )
     {
-      if( !this.ListViewConfigured )
-      {
-        this.ListViewConfigured = true;
-      }
+
+      this.SuppressDebugMsg = true;
+      
+      this.MainForm = MainFormNew;
+      
+      this.lvListViews.Add( lvListView1New );
+      this.lvListViews.Add( lvListView2New );
+      this.lvListViews.Add( lvListView3New );
+      this.lvListViews.Add( lvListView4New );
+
     }
 
     /**************************************************************************/
 
     public void RefreshKeywordAnalysisData ( MacroscopeDocumentCollection DocCollection )
     {
-      if( this.MainForm.InvokeRequired )
+
+      for( int i = 0 ; i <= 3 ; i++ )
       {
-        this.MainForm.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.RenderKeywordAnalysisListView( DocCollection );
-            }
-          )
-        );
+
+        Dictionary<string,int> DicTerms = DocCollection.GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
+
+        if( this.MainForm.InvokeRequired )
+        {
+          this.MainForm.Invoke(
+            new MethodInvoker (
+              delegate
+              {
+                Cursor.Current = Cursors.WaitCursor;
+                this.RenderKeywordAnalysisListView( this.lvListViews[ i ], DicTerms );
+                Cursor.Current = Cursors.Default;
+              }
+            )
+          );
+        }
+        else
+        {
+          Cursor.Current = Cursors.WaitCursor;
+          this.RenderKeywordAnalysisListView( this.lvListViews[ i ], DicTerms );
+          Cursor.Current = Cursors.Default;
+        }
+      
       }
-      else
-      {
-        this.RenderKeywordAnalysisListView( DocCollection );
-      }
+
     }
 
     /**************************************************************************/
     
-    void RenderKeywordAnalysisListView ( MacroscopeDocumentCollection DocCollection )
+    void RenderKeywordAnalysisListView (
+      ListView lvListView,
+      Dictionary<string,int> DicTerms
+    )
     {
 
-      Dictionary<string,int> DicTerms = DocCollection.GetDeepKeywordAnalysisAsDictonary();
-
-      this.lvListView.BeginUpdate();
+      lvListView.BeginUpdate();
             
-      this.lvListView.Items.Clear();
-
       foreach( string sTerm in DicTerms.Keys )
       {
 
         string sKeyPair = sTerm;
         ListViewItem lvItem = null;
 
-        if( this.lvListView.Items.ContainsKey( sKeyPair ) )
+        if( lvListView.Items.ContainsKey( sKeyPair ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ sKeyPair ];
+            lvItem = lvListView.Items[ sKeyPair ];
             lvItem.SubItems[ 0 ].Text = DicTerms[ sTerm ].ToString();
             lvItem.SubItems[ 1 ].Text = sTerm;
 
@@ -139,7 +143,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].Text = DicTerms[ sTerm ].ToString();
             lvItem.SubItems.Add( sTerm );
 
-            this.lvListView.Items.Add( lvItem );
+            lvListView.Items.Add( lvItem );
 
           }
           catch( Exception ex )
@@ -155,19 +159,13 @@ namespace SEOMacroscope
           lvItem.ForeColor = Color.Blue;
 
         }
-                
+
       }
       
-      this.lvListView.EndUpdate();
+      lvListView.EndUpdate();
 
     }
 
-    /**************************************************************************/
-    
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
-    {
-    }
-    
     /**************************************************************************/
 
   }

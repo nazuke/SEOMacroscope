@@ -37,9 +37,23 @@ namespace SEOMacroscope
 		public System.Windows.Forms.SplitContainer splitContainerSiteOverview;
 		public System.Windows.Forms.TreeView treeViewSiteOverview;
 		public System.Windows.Forms.TabPage tabPageKeywordAnalysis;
-		public System.Windows.Forms.ListView listViewKeywordAnalysis;
+		public System.Windows.Forms.ListView listViewKeywordAnalysis1;
 		public System.Windows.Forms.ColumnHeader columnHeaderKeywordAnalysisOccurrences;
 		private System.Windows.Forms.ColumnHeader columnHeaderKeywordAnalysisTerm;
+		public System.Windows.Forms.TabControl tabControlKeywordAnalysisPhrases;
+		public System.Windows.Forms.TabPage tabPageKeywordAnalysisPhrases1;
+		public System.Windows.Forms.TabPage tabPageKeywordAnalysisPhrases2;
+		public System.Windows.Forms.TabPage tabPageKeywordAnalysisPhrases3;
+		public System.Windows.Forms.TabPage tabPageKeywordAnalysisPhrases4;
+		public System.Windows.Forms.ListView listViewKeywordAnalysis2;
+		public System.Windows.Forms.ColumnHeader columnHeader1;
+		private System.Windows.Forms.ColumnHeader columnHeader2;
+		public System.Windows.Forms.ListView listViewKeywordAnalysis3;
+		public System.Windows.Forms.ColumnHeader columnHeader3;
+		private System.Windows.Forms.ColumnHeader columnHeader4;
+		public System.Windows.Forms.ListView listViewKeywordAnalysis4;
+		public System.Windows.Forms.ColumnHeader columnHeader5;
+		private System.Windows.Forms.ColumnHeader columnHeader6;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -67,9 +81,23 @@ namespace SEOMacroscope
 			this.splitContainerSiteOverview = new System.Windows.Forms.SplitContainer();
 			this.treeViewSiteOverview = new System.Windows.Forms.TreeView();
 			this.tabPageKeywordAnalysis = new System.Windows.Forms.TabPage();
-			this.listViewKeywordAnalysis = new System.Windows.Forms.ListView();
+			this.tabControlKeywordAnalysisPhrases = new System.Windows.Forms.TabControl();
+			this.tabPageKeywordAnalysisPhrases1 = new System.Windows.Forms.TabPage();
+			this.listViewKeywordAnalysis1 = new System.Windows.Forms.ListView();
 			this.columnHeaderKeywordAnalysisOccurrences = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderKeywordAnalysisTerm = new System.Windows.Forms.ColumnHeader();
+			this.tabPageKeywordAnalysisPhrases2 = new System.Windows.Forms.TabPage();
+			this.listViewKeywordAnalysis2 = new System.Windows.Forms.ListView();
+			this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+			this.tabPageKeywordAnalysisPhrases3 = new System.Windows.Forms.TabPage();
+			this.listViewKeywordAnalysis3 = new System.Windows.Forms.ListView();
+			this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+			this.tabPageKeywordAnalysisPhrases4 = new System.Windows.Forms.TabPage();
+			this.listViewKeywordAnalysis4 = new System.Windows.Forms.ListView();
+			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
 			this.tabPageSiteSpeed = new System.Windows.Forms.TabPage();
 			this.tabControlSiteStructure.SuspendLayout();
 			this.tabPageSiteOverview.SuspendLayout();
@@ -77,6 +105,11 @@ namespace SEOMacroscope
 			this.splitContainerSiteOverview.Panel1.SuspendLayout();
 			this.splitContainerSiteOverview.SuspendLayout();
 			this.tabPageKeywordAnalysis.SuspendLayout();
+			this.tabControlKeywordAnalysisPhrases.SuspendLayout();
+			this.tabPageKeywordAnalysisPhrases1.SuspendLayout();
+			this.tabPageKeywordAnalysisPhrases2.SuspendLayout();
+			this.tabPageKeywordAnalysisPhrases3.SuspendLayout();
+			this.tabPageKeywordAnalysisPhrases4.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControlSiteStructure
@@ -128,7 +161,7 @@ namespace SEOMacroscope
 			// 
 			// tabPageKeywordAnalysis
 			// 
-			this.tabPageKeywordAnalysis.Controls.Add(this.listViewKeywordAnalysis);
+			this.tabPageKeywordAnalysis.Controls.Add(this.tabControlKeywordAnalysisPhrases);
 			this.tabPageKeywordAnalysis.Location = new System.Drawing.Point(4, 22);
 			this.tabPageKeywordAnalysis.Name = "tabPageKeywordAnalysis";
 			this.tabPageKeywordAnalysis.Size = new System.Drawing.Size(432, 414);
@@ -136,18 +169,41 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysis.Text = "Keyword Analysis";
 			this.tabPageKeywordAnalysis.UseVisualStyleBackColor = true;
 			// 
-			// listViewKeywordAnalysis
+			// tabControlKeywordAnalysisPhrases
 			// 
-			this.listViewKeywordAnalysis.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.tabControlKeywordAnalysisPhrases.Controls.Add(this.tabPageKeywordAnalysisPhrases1);
+			this.tabControlKeywordAnalysisPhrases.Controls.Add(this.tabPageKeywordAnalysisPhrases2);
+			this.tabControlKeywordAnalysisPhrases.Controls.Add(this.tabPageKeywordAnalysisPhrases3);
+			this.tabControlKeywordAnalysisPhrases.Controls.Add(this.tabPageKeywordAnalysisPhrases4);
+			this.tabControlKeywordAnalysisPhrases.Location = new System.Drawing.Point(20, 20);
+			this.tabControlKeywordAnalysisPhrases.Name = "tabControlKeywordAnalysisPhrases";
+			this.tabControlKeywordAnalysisPhrases.SelectedIndex = 0;
+			this.tabControlKeywordAnalysisPhrases.Size = new System.Drawing.Size(400, 300);
+			this.tabControlKeywordAnalysisPhrases.TabIndex = 1;
+			// 
+			// tabPageKeywordAnalysisPhrases1
+			// 
+			this.tabPageKeywordAnalysisPhrases1.Controls.Add(this.listViewKeywordAnalysis1);
+			this.tabPageKeywordAnalysisPhrases1.Location = new System.Drawing.Point(4, 22);
+			this.tabPageKeywordAnalysisPhrases1.Name = "tabPageKeywordAnalysisPhrases1";
+			this.tabPageKeywordAnalysisPhrases1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageKeywordAnalysisPhrases1.Size = new System.Drawing.Size(392, 274);
+			this.tabPageKeywordAnalysisPhrases1.TabIndex = 0;
+			this.tabPageKeywordAnalysisPhrases1.Text = "One Word Terms";
+			this.tabPageKeywordAnalysisPhrases1.UseVisualStyleBackColor = true;
+			// 
+			// listViewKeywordAnalysis1
+			// 
+			this.listViewKeywordAnalysis1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderKeywordAnalysisOccurrences,
 			this.columnHeaderKeywordAnalysisTerm});
-			this.listViewKeywordAnalysis.GridLines = true;
-			this.listViewKeywordAnalysis.Location = new System.Drawing.Point(20, 20);
-			this.listViewKeywordAnalysis.Name = "listViewKeywordAnalysis";
-			this.listViewKeywordAnalysis.Size = new System.Drawing.Size(200, 200);
-			this.listViewKeywordAnalysis.TabIndex = 0;
-			this.listViewKeywordAnalysis.UseCompatibleStateImageBehavior = false;
-			this.listViewKeywordAnalysis.View = System.Windows.Forms.View.Details;
+			this.listViewKeywordAnalysis1.GridLines = true;
+			this.listViewKeywordAnalysis1.Location = new System.Drawing.Point(20, 20);
+			this.listViewKeywordAnalysis1.Name = "listViewKeywordAnalysis1";
+			this.listViewKeywordAnalysis1.Size = new System.Drawing.Size(200, 200);
+			this.listViewKeywordAnalysis1.TabIndex = 0;
+			this.listViewKeywordAnalysis1.UseCompatibleStateImageBehavior = false;
+			this.listViewKeywordAnalysis1.View = System.Windows.Forms.View.Details;
 			// 
 			// columnHeaderKeywordAnalysisOccurrences
 			// 
@@ -157,7 +213,109 @@ namespace SEOMacroscope
 			// columnHeaderKeywordAnalysisTerm
 			// 
 			this.columnHeaderKeywordAnalysisTerm.Text = "Term";
-			this.columnHeaderKeywordAnalysisTerm.Width = 150;
+			this.columnHeaderKeywordAnalysisTerm.Width = 300;
+			// 
+			// tabPageKeywordAnalysisPhrases2
+			// 
+			this.tabPageKeywordAnalysisPhrases2.Controls.Add(this.listViewKeywordAnalysis2);
+			this.tabPageKeywordAnalysisPhrases2.Location = new System.Drawing.Point(4, 22);
+			this.tabPageKeywordAnalysisPhrases2.Name = "tabPageKeywordAnalysisPhrases2";
+			this.tabPageKeywordAnalysisPhrases2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageKeywordAnalysisPhrases2.Size = new System.Drawing.Size(392, 274);
+			this.tabPageKeywordAnalysisPhrases2.TabIndex = 1;
+			this.tabPageKeywordAnalysisPhrases2.Text = "Two Word Terms";
+			this.tabPageKeywordAnalysisPhrases2.UseVisualStyleBackColor = true;
+			// 
+			// listViewKeywordAnalysis2
+			// 
+			this.listViewKeywordAnalysis2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader1,
+			this.columnHeader2});
+			this.listViewKeywordAnalysis2.GridLines = true;
+			this.listViewKeywordAnalysis2.Location = new System.Drawing.Point(20, 20);
+			this.listViewKeywordAnalysis2.Name = "listViewKeywordAnalysis2";
+			this.listViewKeywordAnalysis2.Size = new System.Drawing.Size(200, 200);
+			this.listViewKeywordAnalysis2.TabIndex = 1;
+			this.listViewKeywordAnalysis2.UseCompatibleStateImageBehavior = false;
+			this.listViewKeywordAnalysis2.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Occurrences";
+			this.columnHeader1.Width = 100;
+			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "Term";
+			this.columnHeader2.Width = 300;
+			// 
+			// tabPageKeywordAnalysisPhrases3
+			// 
+			this.tabPageKeywordAnalysisPhrases3.Controls.Add(this.listViewKeywordAnalysis3);
+			this.tabPageKeywordAnalysisPhrases3.Location = new System.Drawing.Point(4, 22);
+			this.tabPageKeywordAnalysisPhrases3.Name = "tabPageKeywordAnalysisPhrases3";
+			this.tabPageKeywordAnalysisPhrases3.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageKeywordAnalysisPhrases3.Size = new System.Drawing.Size(392, 274);
+			this.tabPageKeywordAnalysisPhrases3.TabIndex = 2;
+			this.tabPageKeywordAnalysisPhrases3.Text = "Three Word Terms";
+			this.tabPageKeywordAnalysisPhrases3.UseVisualStyleBackColor = true;
+			// 
+			// listViewKeywordAnalysis3
+			// 
+			this.listViewKeywordAnalysis3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader3,
+			this.columnHeader4});
+			this.listViewKeywordAnalysis3.GridLines = true;
+			this.listViewKeywordAnalysis3.Location = new System.Drawing.Point(20, 20);
+			this.listViewKeywordAnalysis3.Name = "listViewKeywordAnalysis3";
+			this.listViewKeywordAnalysis3.Size = new System.Drawing.Size(200, 200);
+			this.listViewKeywordAnalysis3.TabIndex = 1;
+			this.listViewKeywordAnalysis3.UseCompatibleStateImageBehavior = false;
+			this.listViewKeywordAnalysis3.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "Occurrences";
+			this.columnHeader3.Width = 100;
+			// 
+			// columnHeader4
+			// 
+			this.columnHeader4.Text = "Term";
+			this.columnHeader4.Width = 300;
+			// 
+			// tabPageKeywordAnalysisPhrases4
+			// 
+			this.tabPageKeywordAnalysisPhrases4.Controls.Add(this.listViewKeywordAnalysis4);
+			this.tabPageKeywordAnalysisPhrases4.Location = new System.Drawing.Point(4, 22);
+			this.tabPageKeywordAnalysisPhrases4.Name = "tabPageKeywordAnalysisPhrases4";
+			this.tabPageKeywordAnalysisPhrases4.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageKeywordAnalysisPhrases4.Size = new System.Drawing.Size(392, 274);
+			this.tabPageKeywordAnalysisPhrases4.TabIndex = 3;
+			this.tabPageKeywordAnalysisPhrases4.Text = "Four Word Terms";
+			this.tabPageKeywordAnalysisPhrases4.UseVisualStyleBackColor = true;
+			// 
+			// listViewKeywordAnalysis4
+			// 
+			this.listViewKeywordAnalysis4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader5,
+			this.columnHeader6});
+			this.listViewKeywordAnalysis4.GridLines = true;
+			this.listViewKeywordAnalysis4.Location = new System.Drawing.Point(20, 20);
+			this.listViewKeywordAnalysis4.Name = "listViewKeywordAnalysis4";
+			this.listViewKeywordAnalysis4.Size = new System.Drawing.Size(200, 200);
+			this.listViewKeywordAnalysis4.TabIndex = 1;
+			this.listViewKeywordAnalysis4.UseCompatibleStateImageBehavior = false;
+			this.listViewKeywordAnalysis4.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader5
+			// 
+			this.columnHeader5.Text = "Occurrences";
+			this.columnHeader5.Width = 100;
+			// 
+			// columnHeader6
+			// 
+			this.columnHeader6.Text = "Term";
+			this.columnHeader6.Width = 300;
 			// 
 			// tabPageSiteSpeed
 			// 
@@ -182,6 +340,11 @@ namespace SEOMacroscope
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).EndInit();
 			this.splitContainerSiteOverview.ResumeLayout(false);
 			this.tabPageKeywordAnalysis.ResumeLayout(false);
+			this.tabControlKeywordAnalysisPhrases.ResumeLayout(false);
+			this.tabPageKeywordAnalysisPhrases1.ResumeLayout(false);
+			this.tabPageKeywordAnalysisPhrases2.ResumeLayout(false);
+			this.tabPageKeywordAnalysisPhrases3.ResumeLayout(false);
+			this.tabPageKeywordAnalysisPhrases4.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

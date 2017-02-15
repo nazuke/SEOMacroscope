@@ -45,7 +45,68 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void Analyze ( string Text, Dictionary<string,int> Terms )
+    public void Analyze (
+      string Text,
+      Dictionary<string,int> Terms,
+      int Words
+    )
+    {
+      if( Words == 1 )
+      {
+        this.AnalyzeTerm(
+          Text: Text,
+          Terms: Terms
+        );
+      }
+      else
+      if( Words > 1 )
+      {
+        this.AnalyzePhrase(
+          Text: Text,
+          Terms: Terms,
+          Words: Words
+        );
+      }
+    }
+
+    /** Analyze 1 Word ********************************************************/
+
+    private void AnalyzeTerm (
+      string Text,
+      Dictionary<string,int> Terms
+    )
+    {
+      if( Text.Length > 0 )
+      {
+        string [] Chunks = Text.Split( ' ' );
+        if( Chunks.Length > 0 )
+        {
+          for( int i = 0 ; i < Chunks.Length ; i++ )
+          {
+            string sTerm = Chunks[ i ];
+            if( sTerm.Length > 0 )
+            {
+              if( Terms.ContainsKey( sTerm ) )
+              {
+                Terms[ sTerm ] += 1;
+              }
+              else
+              {
+                Terms.Add( sTerm, 1 );
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /** Analyze Multi-Word Phrases ********************************************/
+
+    private void AnalyzePhrase (
+      string Text,
+      Dictionary<string,int> Terms,
+      int Words
+    )
     {
 
       if( Text.Length > 0 )
@@ -56,25 +117,39 @@ namespace SEOMacroscope
         if( Chunks.Length > 0 )
         {
           
-          for( int j = 0 ; j < Chunks.Length ; j++ )
+          for( int i = 0 ; i < Chunks.Length ; i++ )
           {
-          
-            string sTerm = Chunks[ j ];
-              
-            if( sTerm.Length > 0 )
+
+            string sTerm = Chunks[ i ];
+            int iEnd = ( i + Words );
+
+            if( ( Chunks.Length - iEnd ) >= Words )
             {
-
-              DebugMsg( string.Format( "sTerm: {0}", sTerm ) );
-
-              if( Terms.ContainsKey( sTerm ) )
+            
+              for( int j = i + 1 ; ( j < iEnd ) && ( j < Chunks.Length ) ; j++ )
               {
-                Terms[ sTerm ] += 1;
-              }
-              else
-              {
-                Terms.Add( sTerm, 1 );
+                string sSubTerm = Chunks[ j ];
+                sTerm = string.Join( " ", sTerm, sSubTerm );
               }
 
+              DebugMsg( string.Format( "RANGE: {0} :: {1} :: {2}", i, iEnd, sTerm ) );
+
+              if( sTerm.Length > 0 )
+              {
+
+                DebugMsg( string.Format( "sTerm: {0}", sTerm ) );
+
+                if( Terms.ContainsKey( sTerm ) )
+                {
+                  Terms[ sTerm ] += 1;
+                }
+                else
+                {
+                  Terms.Add( sTerm, 1 );
+                }
+
+              }
+              
             }
 
           }

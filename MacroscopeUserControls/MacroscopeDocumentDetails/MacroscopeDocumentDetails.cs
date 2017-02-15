@@ -1071,7 +1071,7 @@ namespace SEOMacroscope
     {
 
       ListView lvListView = this.listViewKeywordAnalysis;
-      Dictionary<string,int> DicTerms = msDoc.GetDeepKeywordAnalysisAsDictonary();
+      Dictionary<string,int> DicTerms = msDoc.GetDeepKeywordAnalysisAsDictonary( Words: 1 );
 
       lvListView.BeginUpdate();
             

@@ -41,7 +41,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 	      
     [Test]
-    public void TestAnalyze ()
+    public void TestAnalyze1 ()
     {
       
       MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
@@ -49,18 +49,83 @@ namespace SEOMacroscope
       msDoc.SetBodyText( BodyText );
       
       MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
-      
+
       Dictionary<string,int> Terms = new Dictionary<string,int> ( 256 );
-            
-      AnalyzeKeywords.Analyze( msDoc.GetBodyText(), Terms );
+
+      AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 1 );
 
       foreach( string sTerm in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS: {0} :: {1}", Terms[ sTerm ], sTerm ) );
+        DebugMsg( string.Format( "TOTALS 1: {0} :: {1}", Terms[ sTerm ], sTerm ) );
       }
-            
     }
-		
+    
+    /**************************************************************************/
+        
+    [Test]
+    public void TestAnalyze2 ()
+    {
+      
+      MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
+      
+      msDoc.SetBodyText( BodyText );
+      
+      MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
+
+      Dictionary<string,int> Terms = new Dictionary<string,int> ( 256 );
+
+      AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 2 );
+
+      foreach( string sTerm in Terms.Keys )
+      {
+        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ sTerm ], sTerm ) );
+      }
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestAnalyze3 ()
+    {
+      
+      MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
+      
+      msDoc.SetBodyText( BodyText );
+      
+      MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
+
+      Dictionary<string,int> Terms = new Dictionary<string,int> ( 256 );
+
+      AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 3 );
+
+      foreach( string sTerm in Terms.Keys )
+      {
+        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ sTerm ], sTerm ) );
+      }
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestAnalyze4 ()
+    {
+      
+      MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
+      
+      msDoc.SetBodyText( BodyText );
+      
+      MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
+
+      Dictionary<string,int> Terms = new Dictionary<string,int> ( 256 );
+
+      AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 4 );
+
+      foreach( string sTerm in Terms.Keys )
+      {
+        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ sTerm ], sTerm ) );
+      }
+    }
+    
     /**************************************************************************/
 		    
   }

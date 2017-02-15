@@ -262,19 +262,19 @@ namespace SEOMacroscope
 			this.copyTextToolStripMenuItem,
 			this.toolStripMenuItemCopyValues});
 			this.contextMenuStripTextDocumentDetails.Name = "contextMenuStripTextCopy";
-			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(139, 48);
+			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(140, 48);
 			// 
 			// copyTextToolStripMenuItem
 			// 
 			this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
-			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
 			this.copyTextToolStripMenuItem.Text = "Copy Rows";
 			this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyRowsClick);
 			// 
 			// toolStripMenuItemCopyValues
 			// 
 			this.toolStripMenuItemCopyValues.Name = "toolStripMenuItemCopyValues";
-			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(138, 22);
+			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(139, 22);
 			this.toolStripMenuItemCopyValues.Text = "Copy Values";
 			this.toolStripMenuItemCopyValues.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyValuesClick);
 			// 
@@ -290,7 +290,9 @@ namespace SEOMacroscope
 			// 
 			// textBoxHttpHeaders
 			// 
+			this.textBoxHttpHeaders.BackColor = System.Drawing.Color.Black;
 			this.textBoxHttpHeaders.CausesValidation = false;
+			this.textBoxHttpHeaders.ForeColor = System.Drawing.Color.Gold;
 			this.textBoxHttpHeaders.Location = new System.Drawing.Point(20, 20);
 			this.textBoxHttpHeaders.Multiline = true;
 			this.textBoxHttpHeaders.Name = "textBoxHttpHeaders";
