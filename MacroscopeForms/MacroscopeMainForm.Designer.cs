@@ -146,9 +146,9 @@ namespace SEOMacroscope
 			this.splitContainerStructureAndDocumentDetails.Panel2.SuspendLayout();
 			this.splitContainerStructureAndDocumentDetails.SuspendLayout();
 			this.SuspendLayout();
-			//
+			// 
 			// menuStripMain
-			//
+			// 
 			this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.fileToolStripMenuItem,
 			this.editToolStripMenuItem,
@@ -160,158 +160,158 @@ namespace SEOMacroscope
 			this.menuStripMain.Size = new System.Drawing.Size(784, 24);
 			this.menuStripMain.TabIndex = 1;
 			this.menuStripMain.Text = "menuStripMain";
-			//
+			// 
 			// fileToolStripMenuItem
-			//
+			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.loadUrlListToolStripMenuItem,
 			this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
-			//
+			// 
 			// loadUrlListToolStripMenuItem
-			//
+			// 
 			this.loadUrlListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.loadFromTextFileToolStripMenuItem,
 			this.pasteFromClipboardToolStripMenuItem});
 			this.loadUrlListToolStripMenuItem.Name = "loadUrlListToolStripMenuItem";
-			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.loadUrlListToolStripMenuItem.Text = "Load URL List";
-			//
+			// 
 			// loadFromTextFileToolStripMenuItem
-			//
+			// 
 			this.loadFromTextFileToolStripMenuItem.Name = "loadFromTextFileToolStripMenuItem";
 			this.loadFromTextFileToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.loadFromTextFileToolStripMenuItem.Text = "Load from Text File";
 			this.loadFromTextFileToolStripMenuItem.Click += new System.EventHandler(this.CallbackLoadUrlListTextFile);
-			//
+			// 
 			// pasteFromClipboardToolStripMenuItem
-			//
+			// 
 			this.pasteFromClipboardToolStripMenuItem.Name = "pasteFromClipboardToolStripMenuItem";
 			this.pasteFromClipboardToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.pasteFromClipboardToolStripMenuItem.Text = "Paste from Clipboard";
-			//
+			// 
 			// exitToolStripMenuItem
-			//
+			// 
 			this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
 			this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.CallbackFileExit);
-			//
+			// 
 			// editToolStripMenuItem
-			//
+			// 
 			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.preferencesToolStripMenuItem});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "Edit";
 			this.editToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItemClick);
-			//
+			// 
 			// preferencesToolStripMenuItem
-			//
+			// 
 			this.preferencesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("preferencesToolStripMenuItem.Image")));
 			this.preferencesToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
 			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.preferencesToolStripMenuItem.Text = "Preferences";
 			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.CallbackEditPreferencesClick);
-			//
+			// 
 			// taskParametersToolStripMenuItem
-			//
+			// 
 			this.taskParametersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.includeURLPatternsToolStripMenuItem,
 			this.excludeURLPatternsToolStripMenuItem,
 			this.crawlParentDirectoriesToolStripMenuItem,
 			this.crawlChildDirectoriesToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
+			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
 			this.taskParametersToolStripMenuItem.Text = "Task Parameters";
-			//
+			// 
 			// includeURLPatternsToolStripMenuItem
-			//
+			// 
 			this.includeURLPatternsToolStripMenuItem.Name = "includeURLPatternsToolStripMenuItem";
 			this.includeURLPatternsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.includeURLPatternsToolStripMenuItem.Text = "Include URL Patterns";
 			this.includeURLPatternsToolStripMenuItem.Click += new System.EventHandler(this.CallbackIncludeUrlItemsClick);
-			//
+			// 
 			// excludeURLPatternsToolStripMenuItem
-			//
+			// 
 			this.excludeURLPatternsToolStripMenuItem.Name = "excludeURLPatternsToolStripMenuItem";
 			this.excludeURLPatternsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.excludeURLPatternsToolStripMenuItem.Text = "Exclude URL Patterns";
 			this.excludeURLPatternsToolStripMenuItem.Click += new System.EventHandler(this.CallbackExcludeUrlItemsClick);
-			//
+			// 
 			// crawlParentDirectoriesToolStripMenuItem
-			//
+			// 
 			this.crawlParentDirectoriesToolStripMenuItem.Checked = true;
 			this.crawlParentDirectoriesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.crawlParentDirectoriesToolStripMenuItem.Name = "crawlParentDirectoriesToolStripMenuItem";
 			this.crawlParentDirectoriesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.crawlParentDirectoriesToolStripMenuItem.Text = "Crawl Parent Directories";
-			//
+			// 
 			// crawlChildDirectoriesToolStripMenuItem
-			//
+			// 
 			this.crawlChildDirectoriesToolStripMenuItem.Checked = true;
 			this.crawlChildDirectoriesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.crawlChildDirectoriesToolStripMenuItem.Name = "crawlChildDirectoriesToolStripMenuItem";
 			this.crawlChildDirectoriesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.crawlChildDirectoriesToolStripMenuItem.Text = "Crawl Child Directories";
-			//
+			// 
 			// reportsToolStripMenuItem
-			//
+			// 
 			this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.saveOverviewExcelReportToolStripMenuItem,
 			this.generateHrefLangExcelReportToolStripMenuItem});
 			this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
 			this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
 			this.reportsToolStripMenuItem.Text = "Reports";
-			//
+			// 
 			// saveOverviewExcelReportToolStripMenuItem
-			//
+			// 
 			this.saveOverviewExcelReportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveOverviewExcelReportToolStripMenuItem.Image")));
 			this.saveOverviewExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.saveOverviewExcelReportToolStripMenuItem.Name = "saveOverviewExcelReportToolStripMenuItem";
 			this.saveOverviewExcelReportToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.saveOverviewExcelReportToolStripMenuItem.Text = "Save Overview Excel Report";
 			this.saveOverviewExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveOverviewExcelReport);
-			//
+			// 
 			// generateHrefLangExcelReportToolStripMenuItem
-			//
+			// 
 			this.generateHrefLangExcelReportToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("generateHrefLangExcelReportToolStripMenuItem.Image")));
 			this.generateHrefLangExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.generateHrefLangExcelReportToolStripMenuItem.Name = "generateHrefLangExcelReportToolStripMenuItem";
 			this.generateHrefLangExcelReportToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.generateHrefLangExcelReportToolStripMenuItem.Text = "Save HrefLang Excel Report";
 			this.generateHrefLangExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveHrefLangExcelReport);
-			//
+			// 
 			// helpToolStripMenuItem
-			//
+			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.aboutSEOMacroscopeToolStripMenuItem,
 			this.sEOMacroscopeWebsiteToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
-			//
+			// 
 			// aboutSEOMacroscopeToolStripMenuItem
-			//
+			// 
 			this.aboutSEOMacroscopeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutSEOMacroscopeToolStripMenuItem.Image")));
 			this.aboutSEOMacroscopeToolStripMenuItem.Name = "aboutSEOMacroscopeToolStripMenuItem";
 			this.aboutSEOMacroscopeToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
 			this.aboutSEOMacroscopeToolStripMenuItem.Text = "About SEO Macroscope";
 			this.aboutSEOMacroscopeToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpAboutClick);
-			//
+			// 
 			// sEOMacroscopeWebsiteToolStripMenuItem
-			//
+			// 
 			this.sEOMacroscopeWebsiteToolStripMenuItem.Name = "sEOMacroscopeWebsiteToolStripMenuItem";
 			this.sEOMacroscopeWebsiteToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
 			this.sEOMacroscopeWebsiteToolStripMenuItem.Text = "SEO Macroscope Website";
-			//
+			// 
 			// tableLayoutPanelMainContainer
-			//
+			// 
 			this.tableLayoutPanelMainContainer.ColumnCount = 1;
 			this.tableLayoutPanelMainContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanelMainContainer.Controls.Add(this.statusStripMain, 0, 3);
@@ -328,9 +328,9 @@ namespace SEOMacroscope
 			this.tableLayoutPanelMainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanelMainContainer.Size = new System.Drawing.Size(784, 538);
 			this.tableLayoutPanelMainContainer.TabIndex = 2;
-			//
+			// 
 			// statusStripMain
-			//
+			// 
 			this.statusStripMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripThreads,
@@ -341,27 +341,27 @@ namespace SEOMacroscope
 			this.statusStripMain.Size = new System.Drawing.Size(784, 30);
 			this.statusStripMain.TabIndex = 3;
 			this.statusStripMain.Text = "statusStripMain";
-			//
+			// 
 			// toolStripThreads
-			//
+			// 
 			this.toolStripThreads.Name = "toolStripThreads";
 			this.toolStripThreads.Size = new System.Drawing.Size(61, 25);
 			this.toolStripThreads.Text = "Threads: 0";
-			//
+			// 
 			// toolStripUrlCount
-			//
+			// 
 			this.toolStripUrlCount.Name = "toolStripUrlCount";
 			this.toolStripUrlCount.Size = new System.Drawing.Size(96, 25);
 			this.toolStripUrlCount.Text = "URLs in Queue: 0";
-			//
+			// 
 			// toolStripFound
-			//
+			// 
 			this.toolStripFound.Name = "toolStripFound";
 			this.toolStripFound.Size = new System.Drawing.Size(91, 25);
 			this.toolStripFound.Text = "URLs Crawled: 0";
-			//
+			// 
 			// toolStripViewControls
-			//
+			// 
 			this.toolStripViewControls.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripViewControls.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripButtonRetryBrokenLinks});
@@ -370,9 +370,9 @@ namespace SEOMacroscope
 			this.toolStripViewControls.Size = new System.Drawing.Size(784, 30);
 			this.toolStripViewControls.TabIndex = 5;
 			this.toolStripViewControls.Text = "toolStrip1";
-			//
+			// 
 			// toolStripButtonRetryBrokenLinks
-			//
+			// 
 			this.toolStripButtonRetryBrokenLinks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripButtonRetryBrokenLinks.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRetryBrokenLinks.Image")));
 			this.toolStripButtonRetryBrokenLinks.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -380,9 +380,9 @@ namespace SEOMacroscope
 			this.toolStripButtonRetryBrokenLinks.Size = new System.Drawing.Size(108, 27);
 			this.toolStripButtonRetryBrokenLinks.Text = "Retry Broken Links";
 			this.toolStripButtonRetryBrokenLinks.Click += new System.EventHandler(this.CallbackRetryBrokenLinksClick);
-			//
+			// 
 			// toolStripExecuteControls
-			//
+			// 
 			this.toolStripExecuteControls.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripExecuteControls.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripLabelStartUrl,
@@ -397,31 +397,31 @@ namespace SEOMacroscope
 			this.toolStripExecuteControls.Size = new System.Drawing.Size(784, 30);
 			this.toolStripExecuteControls.TabIndex = 6;
 			this.toolStripExecuteControls.Text = "toolStrip1";
-			//
+			// 
 			// toolStripLabelStartUrl
-			//
+			// 
 			this.toolStripLabelStartUrl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.toolStripLabelStartUrl.Name = "toolStripLabelStartUrl";
 			this.toolStripLabelStartUrl.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
 			this.toolStripLabelStartUrl.Size = new System.Drawing.Size(58, 27);
 			this.toolStripLabelStartUrl.Text = "Start URL:";
-			//
+			// 
 			// textBoxStartUrl
-			//
+			// 
 			this.textBoxStartUrl.Name = "textBoxStartUrl";
 			this.textBoxStartUrl.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
 			this.textBoxStartUrl.Size = new System.Drawing.Size(300, 30);
 			this.textBoxStartUrl.ToolTipText = "Enter a URL to begin scanning from";
 			this.textBoxStartUrl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CallbackStartUrlKeyUp);
 			this.textBoxStartUrl.TextChanged += new System.EventHandler(this.CallbackStartUrlTextChanged);
-			//
+			// 
 			// toolStripSeparator1
-			//
+			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 30);
-			//
+			// 
 			// ButtonStart
-			//
+			// 
 			this.ButtonStart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonStart.Image = ((System.Drawing.Image)(resources.GetObject("ButtonStart.Image")));
 			this.ButtonStart.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -431,9 +431,9 @@ namespace SEOMacroscope
 			this.ButtonStart.Text = "Start";
 			this.ButtonStart.ToolTipText = "Start scanning";
 			this.ButtonStart.Click += new System.EventHandler(this.CallbackScanStart);
-			//
+			// 
 			// ButtonStop
-			//
+			// 
 			this.ButtonStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonStop.Image = ((System.Drawing.Image)(resources.GetObject("ButtonStop.Image")));
 			this.ButtonStop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -443,9 +443,9 @@ namespace SEOMacroscope
 			this.ButtonStop.Text = "Stop";
 			this.ButtonStop.ToolTipText = "Stop scanning";
 			this.ButtonStop.Click += new System.EventHandler(this.CallbackScanStop);
-			//
+			// 
 			// ButtonReset
-			//
+			// 
 			this.ButtonReset.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ButtonReset.Image = ((System.Drawing.Image)(resources.GetObject("ButtonReset.Image")));
 			this.ButtonReset.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -455,85 +455,86 @@ namespace SEOMacroscope
 			this.ButtonReset.Text = "Reset";
 			this.ButtonReset.ToolTipText = "Reset all scan results";
 			this.ButtonReset.Click += new System.EventHandler(this.CallbackScanReset);
-			//
+			// 
 			// ProgressBarScan
-			//
+			// 
 			this.ProgressBarScan.CausesValidation = false;
 			this.ProgressBarScan.Margin = new System.Windows.Forms.Padding(10, 8, 10, 8);
 			this.ProgressBarScan.Name = "ProgressBarScan";
 			this.ProgressBarScan.Size = new System.Drawing.Size(150, 14);
 			this.ProgressBarScan.Step = 1;
-			//
+			// 
 			// splitContainerLeftAndRightViews
-			//
+			// 
 			this.splitContainerLeftAndRightViews.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainerLeftAndRightViews.Location = new System.Drawing.Point(0, 60);
 			this.splitContainerLeftAndRightViews.Margin = new System.Windows.Forms.Padding(0);
 			this.splitContainerLeftAndRightViews.Name = "splitContainerLeftAndRightViews";
-			//
+			// 
 			// splitContainerLeftAndRightViews.Panel1
-			//
+			// 
 			this.splitContainerLeftAndRightViews.Panel1.Controls.Add(this.splitContainerStructureAndDocumentDetails);
 			this.splitContainerLeftAndRightViews.Panel1MinSize = 75;
-			//
+			// 
 			// splitContainerLeftAndRightViews.Panel2
-			//
+			// 
 			this.splitContainerLeftAndRightViews.Panel2.Controls.Add(this.macroscopeSiteStructurePanelInstance);
 			this.splitContainerLeftAndRightViews.Size = new System.Drawing.Size(784, 448);
 			this.splitContainerLeftAndRightViews.SplitterDistance = 554;
 			this.splitContainerLeftAndRightViews.SplitterWidth = 6;
 			this.splitContainerLeftAndRightViews.TabIndex = 7;
 			this.splitContainerLeftAndRightViews.TabStop = false;
-			//
+			// 
 			// splitContainerStructureAndDocumentDetails
-			//
+			// 
 			this.splitContainerStructureAndDocumentDetails.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainerStructureAndDocumentDetails.Location = new System.Drawing.Point(0, 0);
 			this.splitContainerStructureAndDocumentDetails.Margin = new System.Windows.Forms.Padding(0);
 			this.splitContainerStructureAndDocumentDetails.Name = "splitContainerStructureAndDocumentDetails";
 			this.splitContainerStructureAndDocumentDetails.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			//
+			// 
 			// splitContainerStructureAndDocumentDetails.Panel1
-			//
+			// 
 			this.splitContainerStructureAndDocumentDetails.Panel1.Controls.Add(this.macroscopeOverviewTabPanelInstance);
-			//
+			// 
 			// splitContainerStructureAndDocumentDetails.Panel2
-			//
+			// 
 			this.splitContainerStructureAndDocumentDetails.Panel2.Controls.Add(this.macroscopeDocumentDetailsInstance);
 			this.splitContainerStructureAndDocumentDetails.Size = new System.Drawing.Size(554, 448);
 			this.splitContainerStructureAndDocumentDetails.SplitterDistance = 220;
 			this.splitContainerStructureAndDocumentDetails.SplitterWidth = 6;
 			this.splitContainerStructureAndDocumentDetails.TabIndex = 0;
-			//
+			// 
 			// macroscopeOverviewTabPanelInstance
-			//
+			// 
 			this.macroscopeOverviewTabPanelInstance.Location = new System.Drawing.Point(10, 10);
 			this.macroscopeOverviewTabPanelInstance.Name = "macroscopeOverviewTabPanelInstance";
 			this.macroscopeOverviewTabPanelInstance.Size = new System.Drawing.Size(400, 200);
 			this.macroscopeOverviewTabPanelInstance.TabIndex = 0;
-			//
+			// 
 			// macroscopeDocumentDetailsInstance
-			//
+			// 
 			this.macroscopeDocumentDetailsInstance.Location = new System.Drawing.Point(10, 10);
 			this.macroscopeDocumentDetailsInstance.Name = "macroscopeDocumentDetailsInstance";
 			this.macroscopeDocumentDetailsInstance.Size = new System.Drawing.Size(400, 200);
 			this.macroscopeDocumentDetailsInstance.TabIndex = 0;
-			//
+			// 
 			// macroscopeSiteStructurePanelInstance
-			//
+			// 
 			this.macroscopeSiteStructurePanelInstance.Location = new System.Drawing.Point(10, 10);
 			this.macroscopeSiteStructurePanelInstance.Name = "macroscopeSiteStructurePanelInstance";
 			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
-			//
+			// 
 			// MacroscopeMainForm
-			//
+			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 562);
 			this.Controls.Add(this.tableLayoutPanelMainContainer);
 			this.Controls.Add(this.menuStripMain);
 			this.DoubleBuffered = true;
+			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
 			this.MainMenuStrip = this.menuStripMain;
 			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "MacroscopeMainForm";

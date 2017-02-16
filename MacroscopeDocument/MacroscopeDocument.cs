@@ -50,6 +50,7 @@ namespace SEOMacroscope
     private int Timeout;
 
     private string Checksum;
+    private string Etag;
 
     private Boolean IsExternal;
 
@@ -136,6 +137,7 @@ namespace SEOMacroscope
       this.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
 
       this.Checksum = "";
+      this.Etag = "";
 
       this.IsExternal = false;
 
@@ -372,6 +374,19 @@ namespace SEOMacroscope
         sbString.Append( Hashed[ i ].ToString( "X2" ) );
       }
       return( sbString.ToString() );
+    }
+
+    /** Etag Value ************************************************************/
+    
+    public void SetEtag ( string EtagValue )
+    {
+      this.Etag = EtagValue;
+      this.Checksum = EtagValue;
+    }
+
+    public string GetEtag ()
+    {
+      return( this.Etag );
     }
 
     /** Is External Flag ******************************************************/
@@ -1500,6 +1515,12 @@ namespace SEOMacroscope
         {
           string sCharSet = "";
           this.CharSet = null;
+        }
+
+        // Process Etag
+        if( sHeader.ToLower().Equals( "etag" ) )
+        {
+          this.SetEtag( res.GetResponseHeader( sHeader ) );
         }
 
       }

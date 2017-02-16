@@ -1,5 +1,6 @@
-!include SEOMacroscope-Version.nsh
-
+!include "SEOMacroscope-Version.nsh"
+#!include "MUI2.nsh"
+	
 OutFile "SEOMacroscope-Installer-${VERSION}.exe"
 
 SetCompressor /SOLID lzma 
@@ -13,6 +14,18 @@ InstallDir $DESKTOP\QA
 #InstallDir $PROGRAMFILES
 
 RequestExecutionLevel user
+
+# ICONS AND SPLASH SCREENS --------------------------------------------------- #
+
+
+#!define MUI_ICON "..\BlenderProjects\MacroscopeIcon-64x64.ico"
+#!define MUI_HEADERIMAGE
+#!define MUI_HEADERIMAGE_BITMAP "path\to\InstallerLogo.bmp"
+#!define MUI_HEADERIMAGE_RIGHT
+
+# VARIABLES ------------------------------------------------------------------ #
+
+
 
 Var SEOMacroscopeDir
 Var SEOMacroscopeExe

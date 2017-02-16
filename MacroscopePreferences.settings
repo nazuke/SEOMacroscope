@@ -29,7 +29,10 @@
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="FetchAudio" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FetchBinaries" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="FetchImages" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
@@ -44,7 +47,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="FetchVideo" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="FetchXml" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
@@ -122,7 +125,7 @@
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="WarnAboutInsecureLinks" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

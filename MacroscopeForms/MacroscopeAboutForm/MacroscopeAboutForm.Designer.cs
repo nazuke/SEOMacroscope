@@ -41,9 +41,9 @@ namespace SEOMacroscope
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
-			//
+			// 
 			// richTextBox1
-			//
+			// 
 			this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.richTextBox1.Cursor = System.Windows.Forms.Cursors.Default;
 			this.richTextBox1.Enabled = false;
@@ -54,18 +54,18 @@ namespace SEOMacroscope
 			this.richTextBox1.TabIndex = 0;
 			this.richTextBox1.Text = "SEO Macroscope\n\nCopyright 2017 Jason Holland";
 			this.richTextBox1.WordWrap = false;
-			//
+			// 
 			// label1
-			//
+			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(300, 50);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "SEO Macroscope";
-			//
+			// 
 			// MacroscopeAboutForm
-			//
+			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
@@ -74,6 +74,7 @@ namespace SEOMacroscope
 			this.Controls.Add(this.richTextBox1);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MacroscopeAboutForm";

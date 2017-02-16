@@ -23,6 +23,7 @@
     <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>SEOMacroscope.Program</StartupObject>
+    <ApplicationIcon>BlenderProjects\MacroscopeIcon-64x64.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -91,6 +92,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Icons.Designer.cs">
+      <DependentUpon>Icons.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageTitles.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
@@ -222,6 +227,10 @@
     <None Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Icons.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.resx">
       <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>
     </EmbeddedResource>
