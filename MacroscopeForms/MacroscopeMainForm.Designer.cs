@@ -539,7 +539,7 @@ namespace SEOMacroscope
 			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "MacroscopeMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "MacroscopeMainForm";
+			this.Text = "SEO Macroscope";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CallbackFormClosing);
 			this.menuStripMain.ResumeLayout(false);
 			this.menuStripMain.PerformLayout();

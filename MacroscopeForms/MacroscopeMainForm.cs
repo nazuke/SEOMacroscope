@@ -1386,7 +1386,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
-        ;
+        DebugMsg( string.Format( "SetVelocitySiteOverviewTimer: {0}", ex.Message ) );
       }
     }
 
