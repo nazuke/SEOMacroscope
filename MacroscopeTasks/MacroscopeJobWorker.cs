@@ -50,17 +50,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeJobWorker ( MacroscopeJobMaster JobMasterNew )
+    public MacroscopeJobWorker ( MacroscopeJobMaster JobMaster )
     {
 
-      SuppressDebugMsg = false;
+      this.SuppressDebugMsg = false;
 
-      JobMaster = JobMasterNew;
+      this.JobMaster = JobMaster;
 
-      DocCollection = JobMaster.GetDocCollection();
-      AllowedHosts = JobMaster.GetAllowedHosts();
+      this.DocCollection = this.JobMaster.GetDocCollection();
+      
+      this.AllowedHosts = this.JobMaster.GetAllowedHosts();
 
-      IncludeExcludeUrls = JobMaster.GetIncludeExcludeUrls();
+      this.IncludeExcludeUrls = this.JobMaster.GetIncludeExcludeUrls();
 
     }
 
@@ -74,10 +75,10 @@ namespace SEOMacroscope
       while( iMaxFetches > 0 )
       {
 
-        if( JobMaster.GetThreadsStop() )
+        if( this.JobMaster.GetThreadsStop() )
         {
 
-          DebugMsg( string.Format( "JobMaster.GetThreadsStop: {0}", JobMaster.GetThreadsStop() ) );
+          DebugMsg( string.Format( "JobMaster.GetThreadsStop: {0}", this.JobMaster.GetThreadsStop() ) );
           break;
 
         }
@@ -105,7 +106,7 @@ namespace SEOMacroscope
             {
               if( this.Fetch( sUrl ) )
               {
-                JobMaster.NotifyWorkersFetched( sUrl );
+                this.JobMaster.NotifyWorkersFetched( sUrl );
                 break;
               }
               else
@@ -133,7 +134,7 @@ namespace SEOMacroscope
 
       }
 
-      JobMaster.NotifyWorkersDone();
+      this.JobMaster.NotifyWorkersDone();
 
     }
 

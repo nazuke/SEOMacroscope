@@ -30,12 +30,11 @@ using System.IO;
 using System.Timers;
 using System.Windows.Forms;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeMainForm : Form
+  public partial class MacroscopeMainForm : Form, IMacroscopeTaskController
   {
 
     /**************************************************************************/
@@ -692,7 +691,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void CallbackScanComplete ()
+    public void ICallbackScanComplete ()
     {
       if( this.InvokeRequired )
       {

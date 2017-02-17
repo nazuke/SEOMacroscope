@@ -41,7 +41,8 @@ namespace SEOMacroscope
 
     private MacroscopeConstants.RunTimeMode RuntimeMode;
 
-    private MacroscopeMainForm MainForm;
+    private IMacroscopeTaskController TaskController;
+
     private MacroscopeDocumentCollection DocCollection;
     private MacroscopeAllowedHosts AllowedHosts;
     private MacroscopeNamedQueue NamedQueue;
@@ -74,16 +75,25 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode )
+    public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode RuntimeMode )
     {
-      MainForm = null;
-      InitializeJobMaster( iRuntimeMode );
+      //this.MainForm = null;
+      this.TaskController = null;
+      InitializeJobMaster( RuntimeMode );
     }
 
-    public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode, MacroscopeMainForm MainFormNew )
+    public MacroscopeJobMaster (
+      MacroscopeConstants.RunTimeMode RuntimeMode,
+      IMacroscopeTaskController TaskController
+      //MacroscopeMainForm MainFormNew
+    )
     {
-      MainForm = MainFormNew;
-      InitializeJobMaster( iRuntimeMode );
+
+      //this.MainForm = MainFormNew;
+
+      this.TaskController = TaskController;
+
+      InitializeJobMaster( RuntimeMode );
     }
 
     /**************************************************************************/
@@ -91,7 +101,7 @@ namespace SEOMacroscope
     void InitializeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode )
     {
 
-      RuntimeMode = iRuntimeMode;
+      this.RuntimeMode = iRuntimeMode;
 
       this.DocCollection = new MacroscopeDocumentCollection ( this );
       this.AllowedHosts = new MacroscopeAllowedHosts ();
@@ -215,9 +225,9 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "Pages Found: {0}", this.GetPagesFound() ) );
 
-      if( this.MainForm != null )
+      if( this.TaskController != null )
       {
-        this.MainForm.CallbackScanComplete();
+        this.TaskController.ICallbackScanComplete();
       }
 
       this.AddUpdateDisplayQueue( this.StartUrl );

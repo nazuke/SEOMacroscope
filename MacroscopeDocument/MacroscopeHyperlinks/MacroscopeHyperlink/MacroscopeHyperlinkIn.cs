@@ -37,15 +37,15 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		int LinkId;
+		private int LinkId;
 
-		MacroscopeConstants.HyperlinkType HyperlinkType;
+		private MacroscopeConstants.HyperlinkType HyperlinkType;
 
-		string Method;
-		string UrlOrigin;
-		string UrlTarget;
-		string LinkText;
-		string AltText;
+		private string Method;
+		private string UrlOrigin;
+		private string UrlTarget;
+		private string LinkText;
+		private string AltText;
 
 		/**************************************************************************/
 
@@ -59,13 +59,13 @@ namespace SEOMacroscope
 			string sAltText
 		)
 		{
-			LinkId = iLinkId;
-			HyperlinkType = hlLinkType;
-			Method = sMethod;
-			UrlOrigin = sUrlOrigin;
-			UrlTarget = sUrlTarget;
-			LinkText = sLinkText;
-			AltText = sAltText;
+			this.LinkId = iLinkId;
+			this.HyperlinkType = hlLinkType;
+			this.Method = sMethod;
+			this.UrlOrigin = sUrlOrigin;
+			this.UrlTarget = sUrlTarget;
+			this.LinkText = sLinkText;
+			this.AltText = sAltText;
 		}
 
 		/**************************************************************************/

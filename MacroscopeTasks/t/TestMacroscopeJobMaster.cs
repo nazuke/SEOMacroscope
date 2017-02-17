@@ -29,20 +29,26 @@ using NUnit.Framework;
 namespace SEOMacroscope
 {
 
-	[TestFixture]
-	public class TestMacroscopeJobMaster
-	{
+  [TestFixture]
+  public class TestMacroscopeJobMaster: IMacroscopeTaskController
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Test]
-		public void TestJobMaster ()
-		{
-			// TODO: Add your test.
-		}
+    [Test]
+    public void TestJobMaster ()
+    {
+      // TODO: Add your test.
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
+		    
+    public void ICallbackScanComplete ()
+    {
+    }
+		
+    /**************************************************************************/
 
-	}
+  }
 
 }

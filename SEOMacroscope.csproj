@@ -24,6 +24,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>SEOMacroscope.Program</StartupObject>
     <ApplicationIcon>BlenderProjects\MacroscopeIcon-64x64.ico</ApplicationIcon>
+    <CodeAnalysisRules>-Microsoft.Naming#CA1704;-Microsoft.Naming#CA1709</CodeAnalysisRules>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -176,6 +177,7 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="MacroscopeSearch\MacroscopeSearchIndex.cs" />
+    <Compile Include="MacroscopeTasks\IMacroscopeTaskController.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />

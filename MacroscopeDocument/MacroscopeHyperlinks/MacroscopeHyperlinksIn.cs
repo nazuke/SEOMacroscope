@@ -39,16 +39,16 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		object Locker = new object ();
-		Dictionary<string,List<MacroscopeHyperlinkIn>> Links;
-		int LinkId;
+		private Dictionary<string,List<MacroscopeHyperlinkIn>> Links;
+
+		private int LinkId;
 
 		/**************************************************************************/
 
 		public MacroscopeHyperlinksIn ()
 		{
-			Links = new Dictionary<string,List<MacroscopeHyperlinkIn>> ( 256 );
-			LinkId = 1;
+			this.Links = new Dictionary<string,List<MacroscopeHyperlinkIn>> ( 256 );
+			this.LinkId = 1;
 		}
 
 		/**************************************************************************/
@@ -64,7 +64,7 @@ namespace SEOMacroscope
 		{
 
 			MacroscopeHyperlinkIn hlHyperlinkIn = new MacroscopeHyperlinkIn (
-				                                      LinkId,
+				                                      this.LinkId,
 				                                      hlType,
 				                                      sMethod,
 				                                      sUrlOrigin,
@@ -97,7 +97,7 @@ namespace SEOMacroscope
 
 			}
 
-			LinkId++;
+			this.LinkId++;
 
 		}
 
@@ -121,7 +121,7 @@ namespace SEOMacroscope
 			lock( this.Links )
 			{
 				this.Links.Clear();
-				LinkId = 1;
+				this.LinkId = 1;
 			}
 		}
 

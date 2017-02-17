@@ -47,12 +47,12 @@ namespace SEOMacroscope
     public MacroscopeDisplayHistory ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainFormNew;
+      this.lvListView = lvListViewNew;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {

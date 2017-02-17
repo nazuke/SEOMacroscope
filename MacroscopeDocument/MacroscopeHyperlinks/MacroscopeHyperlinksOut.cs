@@ -39,14 +39,14 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Dictionary<string,List<MacroscopeHyperlinkOut>> Links;
+		private Dictionary<string,List<MacroscopeHyperlinkOut>> Links;
 
 		/**************************************************************************/
 
 		public MacroscopeHyperlinksOut ()
 		{
 
-			Links = new Dictionary<string,List<MacroscopeHyperlinkOut>> ( 256 );
+			this.Links = new Dictionary<string,List<MacroscopeHyperlinkOut>> ( 256 );
 
 		}
 

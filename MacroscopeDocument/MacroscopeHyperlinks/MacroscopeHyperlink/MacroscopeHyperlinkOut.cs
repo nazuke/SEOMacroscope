@@ -37,26 +37,26 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Guid LinkGuid;
+		private Guid LinkGuid;
 
-		MacroscopeConstants.HyperlinkType HyperlinkType;
+		private MacroscopeConstants.HyperlinkType HyperlinkType;
 
-		string Method;
+		private string Method;
 
-		string UrlOrigin;
-		string UrlTarget;
-		string LinkText;
-		string AltText;
+		private string UrlOrigin;
+		private string UrlTarget;
+		private string LinkText;
+		private string AltText;
 
-		Boolean Follow;
+		private Boolean Follow;
 
 		/**************************************************************************/
 
 		public MacroscopeHyperlinkOut ()
 		{
-			LinkGuid = Guid.NewGuid();
-			HyperlinkType = MacroscopeConstants.HyperlinkType.TEXT;
-			Follow = true;
+			this.LinkGuid = Guid.NewGuid();
+			this.HyperlinkType = MacroscopeConstants.HyperlinkType.TEXT;
+			this.Follow = true;
 		}
 
 		/**************************************************************************/
