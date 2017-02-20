@@ -290,8 +290,8 @@ namespace SEOMacroscope
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.aboutSEOMacroscopeToolStripMenuItem,
-			this.sEOMacroscopeWebsiteToolStripMenuItem});
+			this.sEOMacroscopeWebsiteToolStripMenuItem,
+			this.aboutSEOMacroscopeToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
