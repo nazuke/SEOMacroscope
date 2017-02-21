@@ -13,6 +13,12 @@
     <Setting Name="CheckHreflangs" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="CrawlChildDirectories" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CrawlParentDirectories" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
     <Setting Name="Depth" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">-1</Value>
     </Setting>

@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace SEOMacroscope
@@ -36,13 +37,150 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public void TestJobMaster ()
+    public void TestIsWithinParentDirectory ()
     {
-      // TODO: Add your test.
+
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+
+      const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
+
+      List<string> TargetUrls = new List<string> () {
+        {
+          "http://www.companyname.com/path/to/some/deep/folder/"
+        },
+        {
+          "http://www.companyname.com/path/to/some/deep/folder/index.html"
+        },
+        {
+          "http://www.companyname.com/path/to/some/deep/folder/image"
+        },
+        {
+          "http://www.companyname.com/path/to/some/deep/index.html"
+        }, {
+          "http://www.companyname.com/path/to/some/page.jsp"
+        },
+        {
+          "http://www.companyname.com/path/to/file.pdf"
+        }, {
+          "http://www.companyname.com/path/"
+        },
+         {
+          "http://www.companyname.com/path/index.php"
+        },
+         {
+          "http://www.companyname.com/"
+        }
+      };
+
+      JobMaster.SetStartUrl( StartUrl );
+
+      JobMaster.DetermineStartingDirectory();
+
+      foreach( string TargetUrl in TargetUrls )
+      {
+        Assert.IsTrue( JobMaster.IsWithinParentDirectory( TargetUrl ), string.Format( "FAIL: {0}", TargetUrl ) );
+      }
+
     }
 
     /**************************************************************************/
-		    
+
+    [Test]
+    public void TestIsNotWithinParentDirectory ()
+    {
+
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+
+      const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
+
+      List<string> TargetUrls = new List<string> () {
+        {
+          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/index.html"
+        }, {
+          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
+        },
+        {
+          "http://www.companyname.com/images/some-image.jpg"
+        },
+        {
+          "http://www.companyname.com/path/to/some/folder/media/image"
+        }
+      };
+
+      JobMaster.SetStartUrl( StartUrl );
+
+      JobMaster.DetermineStartingDirectory();
+
+      foreach( string TargetUrl in TargetUrls )
+      {
+        Assert.IsFalse( JobMaster.IsWithinParentDirectory( TargetUrl ), string.Format( "FAIL: {0}", TargetUrl ) );
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestIsWithinChildDirectory ()
+    {
+
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+
+      const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
+
+      List<string> TargetUrls = new List<string> () {
+        {
+          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
+        }, {
+          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/image"
+        }
+      };
+
+      JobMaster.SetStartUrl( StartUrl );
+
+      JobMaster.DetermineStartingDirectory();
+
+      foreach( string sUrl in TargetUrls )
+      {
+        Assert.IsTrue( JobMaster.IsWithinChildDirectory( sUrl ), string.Format( "FAIL: {0}", sUrl ) );
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestIsNotWithinChildDirectory ()
+    {
+
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+
+      const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html";
+
+      List<string> TargetUrls = new List<string> () { {
+          "http://www.companyname.com/path/to/some/deep/folder/index.html"
+        },
+        {
+          "http://www.companyname.com/path/to/some/folder/image"
+        },
+        {
+          "http://www.companyname.com/folder/image"
+        }
+      };
+
+      JobMaster.SetStartUrl( StartUrl );
+
+      JobMaster.DetermineStartingDirectory();
+
+      foreach( string sUrl in TargetUrls )
+      {
+        Assert.IsFalse( JobMaster.IsWithinChildDirectory( sUrl ), string.Format( "FAIL: {0}", sUrl ) );
+      }
+
+    }
+
+    /**************************************************************************/
+
     public void ICallbackScanComplete ()
     {
     }

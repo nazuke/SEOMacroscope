@@ -139,6 +139,8 @@ namespace SEOMacroscope
 
     void ConfigureOverviewTabPanelInstance ()
     {
+      
+      this.ConfigureMenus();
 
       // ListView Reference Objects
 
@@ -216,6 +218,14 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripMenuItemRemoveFromAllowedHosts.Click += this.CallbackRemoveFromAllowedHosts;
       this.macroscopeOverviewTabPanelInstance.toolStripMenuItemResetEntry.Click += this.CallbackRetryFetchClick;
 
+    }
+
+    /**************************************************************************/
+
+    void ConfigureMenus ()
+    {
+      this.crawlParentDirectoriesToolStripMenuItem.Checked = MacroscopePreferencesManager.GetCrawlParentDirectories();
+      this.crawlChildDirectoriesToolStripMenuItem.Checked = MacroscopePreferencesManager.GetCrawlChildDirectories();
     }
 
     /**************************************************************************/
@@ -758,7 +768,7 @@ namespace SEOMacroscope
 
       this.SemaphoreOverviewTabPages.WaitOne();
 
-      DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE ACQUIRED" ) );
+      //DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE ACQUIRED" ) );
 
       TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
       string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
@@ -771,7 +781,7 @@ namespace SEOMacroscope
 
       this.SemaphoreOverviewTabPages.Release( 1 );
 
-      DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE RELEASED" ) );
+      //DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE RELEASED" ) );
 
     }
 
@@ -1426,13 +1436,13 @@ namespace SEOMacroscope
       
       this.SemaphoreSiteStructureDisplay.WaitOne();
 
-      DebugMsg( string.Format( "SemaphoreSiteStructureDisplay: {0}", "OBTAINED" ) );
+      //DebugMsg( string.Format( "SemaphoreSiteStructureDisplay: {0}", "OBTAINED" ) );
               
       this.UpdateSiteOverview();
       
       this.SemaphoreSiteStructureDisplay.Release( 1 );
       
-      DebugMsg( string.Format( "SemaphoreSiteStructureDisplay: {0}", "RELEASED" ) );
+      //DebugMsg( string.Format( "SemaphoreSiteStructureDisplay: {0}", "RELEASED" ) );
     
     }
 
@@ -1878,6 +1888,50 @@ namespace SEOMacroscope
 
     }
 
+    void CallbackCrawlParentDirectoriesToolStripMenuItemClick ( object sender, EventArgs e )
+    {
+
+      ToolStripMenuItem CrawlMenuItem = sender as ToolStripMenuItem;
+
+      DebugMsg( string.Format( "CrawlMenuItem: {0}", CrawlMenuItem.Checked ) );
+
+      if( CrawlMenuItem.Checked )
+      {
+        CrawlMenuItem.Checked = false;
+        MacroscopePreferencesManager.SetCrawlParentDirectories( false );
+      }
+      else
+      {
+        CrawlMenuItem.Checked = true;
+        MacroscopePreferencesManager.SetCrawlParentDirectories( true );
+      }
+
+      MacroscopePreferencesManager.SavePreferences();
+
+    }
+
+    void CallbackCrawlChildDirectoriesToolStripMenuItemClick ( object sender, EventArgs e )
+    {
+
+      ToolStripMenuItem CrawlMenuItem = sender as ToolStripMenuItem;
+
+      DebugMsg( string.Format( "CrawlMenuItem: {0}", CrawlMenuItem.CheckState ) );
+
+      if( CrawlMenuItem.Checked )
+      {
+        CrawlMenuItem.Checked = false;
+        MacroscopePreferencesManager.SetCrawlChildDirectories( false );
+      }
+      else
+      {
+        CrawlMenuItem.Checked = true;
+        MacroscopePreferencesManager.SetCrawlChildDirectories( true );
+      }
+
+      MacroscopePreferencesManager.SavePreferences();
+
+    }
+
     /** Report Save Dialogue Boxes ********************************************/
 
     void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
@@ -1919,12 +1973,9 @@ namespace SEOMacroscope
     [Conditional( "DEVMODE" )]
     static void DebugMsg ( String sMsg )
     {
-      //System.Diagnostics.Debug.WriteLine( sMsg );
+      System.Diagnostics.Debug.WriteLine( sMsg );
     }
-    void EditToolStripMenuItemClick ( object sender, EventArgs e )
-    {
 
-    }
 
     /**************************************************************************/
 

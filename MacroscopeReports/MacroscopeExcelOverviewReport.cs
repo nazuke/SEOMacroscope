@@ -29,123 +29,141 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeExcelOverviewReport : MacroscopeExcelReports
-	{
+  public class MacroscopeExcelOverviewReport : MacroscopeExcelReports
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeExcelOverviewReport ()
-		{
-		}
+    public MacroscopeExcelOverviewReport ()
+    {
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void WriteXslx( MacroscopeJobMaster msJobMaster, string sOutputFilename )
-		{
-			var wb = new XLWorkbook ();
-			DebugMsg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
-			this.BuildWorksheet( msJobMaster, wb, "Macroscope Overview", false );
-			wb.SaveAs( sOutputFilename );
-		}
+    public void WriteXslx ( MacroscopeJobMaster msJobMaster, string sOutputFilename )
+    {
+      var wb = new XLWorkbook ();
+      DebugMsg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
+      this.BuildWorksheet( msJobMaster, wb, "Macroscope Overview", false );
+      wb.SaveAs( sOutputFilename );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void BuildWorksheet( MacroscopeJobMaster msJobMaster, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
-		{
-			var ws = wb.Worksheets.Add( sWorksheetLabel );
+    void BuildWorksheet ( MacroscopeJobMaster msJobMaster, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
+    {
+      var ws = wb.Worksheets.Add( sWorksheetLabel );
 
-			int iRow = 1;
-			int iCol = 1;
-			int iColMax = 1;
+      int iRow = 1;
+      int iCol = 1;
+      int iColMax = 1;
 
-			MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
+      MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
 
-			{
+      {
 
-				ws.Cell( iRow, iCol ).Value = "Address";
-				iCol++;
+        ws.Cell( iRow, iCol ).Value = "Address";
+        iCol++;
 
-				ws.Cell( iRow, iCol ).Value = "Status";
-				iCol++;
+        ws.Cell( iRow, iCol ).Value = "Status";
+        iCol++;
 
-				ws.Cell( iRow, iCol ).Value = "Locale";
-				iCol++;
+        ws.Cell( iRow, iCol ).Value = "Redirect";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Duration";
+        iCol++;
 
-				ws.Cell( iRow, iCol ).Value = "Content-Type";
-				iCol++;
+        ws.Cell( iRow, iCol ).Value = "Content-Type";
+        iCol++;
 
-				ws.Cell( iRow, iCol ).Value = "Server Date";
-				iCol++;
+        ws.Cell( iRow, iCol ).Value = "Locale";
+        iCol++;
 
-				ws.Cell( iRow, iCol ).Value = "Canonical";
-				iCol++;
+        ws.Cell( iRow, iCol ).Value = "Server Date";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Modified Date";
+        iCol++;
 
-				ws.Cell( iRow, iCol ).Value = "Title";
+        ws.Cell( iRow, iCol ).Value = "Canonical";
+        iCol++;
 
-				for( int i = 1; i <= iCol; i++ ) {
-					ws.Cell( iRow, i ).Style.Font.SetBold();
-				}
+        ws.Cell( iRow, iCol ).Value = "Title"; 
+        iCol++;
 
-			}
+        ws.Cell( iRow, iCol ).Value = "Error Condition";
 
-			iColMax = iCol;
+        for( int i = 1 ; i <= iCol ; i++ )
+        {
+          ws.Cell( iRow, i ).Style.Font.SetBold();
+        }
 
-			iRow++;
+      }
 
-			{
+      iColMax = iCol;
 
-				foreach( string sKey in DocCollection.DocumentKeys() ) {
+      iRow++;
 
-					iCol = 1;
+      {
 
-					MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+        foreach( string sKey in DocCollection.DocumentKeys() )
+        {
 
-					string sUrl = this.FormatIfMissing( msDoc.GetUrl() );
-					string sStatusCode = this.FormatIfMissing( msDoc.GetStatusCode().ToString() );
-					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
-					string sMimeType = this.FormatIfMissing( msDoc.GetMimeType() );
-					string sDateServer = this.FormatIfMissing( msDoc.GetDateServer() );
-					string sCanonical = this.FormatIfMissing( msDoc.GetCanonical() );
-					string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
+          iCol = 1;
 
-					this.InsertAndFormatContentCell( ws, iRow, iCol, sUrl );
-					iCol++;
+          MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
 
-					this.InsertAndFormatContentCell( ws, iRow, iCol, sStatusCode );
-					iCol++;
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetUrl() ) );
+          iCol++;
 
-					this.InsertAndFormatContentCell( ws, iRow, iCol, sSiteLocale );
-					iCol++;
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
+          iCol++;
+          
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetIsRedirect().ToString() ) );
+          iCol++;
 
-					this.InsertAndFormatContentCell( ws, iRow, iCol, sMimeType );
-					iCol++;
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDurationInSecondsFormatted().ToString() ) );
+          iCol++;
 
-					this.InsertAndFormatContentCell( ws, iRow, iCol, sDateServer );
-					iCol++;
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetMimeType() ) );
+          iCol++;
 
-					this.InsertAndFormatContentCell( ws, iRow, iCol, sCanonical );
-					iCol++;
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetLocale() ) );
+          iCol++;
 
-					this.InsertAndFormatContentCell( ws, iRow, iCol, sTitle );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateServer() ) );
+          iCol++;
+          
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateModified() ) );
+          iCol++;
 
-					iRow++;
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCanonical() ) );
+          iCol++;
 
-				}
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitle() ) );
+          iCol++;
 
-			}
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetErrorCondition() ) );
 
-			{
-				var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
-				var excelTable = rangeData.CreateTable();
-				excelTable.Sort( "Address", XLSortOrder.Ascending, false, true );
-			}
+          iRow++;
 
-			ws.Columns().AdjustToContents();
+        }
 
-		}
+      }
 
-		/**************************************************************************/
+      {
+        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
+        var excelTable = rangeData.CreateTable();
+        excelTable.Sort( "Address", XLSortOrder.Ascending, false, true );
+      }
 
-	}
+      ws.Columns().AdjustToContents();
+
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

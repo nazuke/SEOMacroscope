@@ -98,6 +98,52 @@ namespace SEOMacroscope
           if( sUrl != null )
           {
 
+            if(
+              !MacroscopePreferencesManager.GetCrawlParentDirectories()
+              && !MacroscopePreferencesManager.GetCrawlChildDirectories()
+              && sUrl != this.JobMaster.GetStartUrl() )
+            {
+              sUrl = null;
+            }
+            else
+            if(
+              !MacroscopePreferencesManager.GetCrawlParentDirectories()
+              || !MacroscopePreferencesManager.GetCrawlChildDirectories() )
+            {
+
+              DebugMsg( string.Format( "Running Parent/Child Check: {0}", sUrl ) ); 
+
+              if( 
+                MacroscopePreferencesManager.GetCrawlParentDirectories()
+                && ( sUrl != null ) )
+              {
+                if( !this.JobMaster.IsWithinParentDirectory( sUrl ) )
+                {
+                  sUrl = null;
+                }
+              }
+              
+              if( 
+                MacroscopePreferencesManager.GetCrawlChildDirectories()
+                && ( sUrl != null ) )
+              {
+                if( !this.JobMaster.IsWithinChildDirectory( sUrl ) )
+                {
+                  sUrl = null;
+                }
+              }
+
+            }
+            else
+            {
+              DebugMsg( string.Format( "Skipping Parent/Child Check: {0}", sUrl ) ); 
+            }
+
+          }
+
+          if( sUrl != null )
+          {
+
             DebugMsg( string.Format( "Execute: {0}", sUrl ) );
 
             int iTries = MacroscopePreferencesManager.GetMaxRetries();

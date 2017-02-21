@@ -46,6 +46,7 @@ namespace SEOMacroscope
     //static string HttpProxyPassword;
 
     // Spidering Control
+    
     static string StartUrl;
     static int MaxThreads;
     static int MaxFetchesPerWorker;
@@ -74,7 +75,13 @@ namespace SEOMacroscope
     static Boolean FetchXml;
     static Boolean FetchBinaries;
 
+    // Per-Job Spidering Options
+
+    static Boolean CrawlParentDirectories;
+    static Boolean CrawlChildDirectories;
+
     // Analysis Options
+    
     static Boolean CheckHreflangs;
     static Boolean ScanSitesInList;
     static Boolean WarnAboutInsecureLinks;
@@ -155,6 +162,9 @@ namespace SEOMacroscope
           FetchVideo = Preferences.FetchVideo;
           FetchXml = Preferences.FetchXml;
           FetchBinaries = Preferences.FetchBinaries;
+          
+          CrawlParentDirectories = Preferences.CrawlParentDirectories;
+          CrawlChildDirectories = Preferences.CrawlChildDirectories;              
 
           TitleMinLen = Preferences.TitleMinLen;
           TitleMaxLen = Preferences.TitleMaxLen;
@@ -222,7 +232,12 @@ namespace SEOMacroscope
       FetchVideo = true;
       FetchXml = true;
       FetchBinaries = true;
-      
+
+      // Per-Job Spidering Options
+
+      CrawlParentDirectories = true;
+      CrawlChildDirectories = true;
+
       // Analysis Options
 
       CheckHreflangs = true;
@@ -337,6 +352,9 @@ namespace SEOMacroscope
         Preferences.FetchVideo = FetchVideo;
         Preferences.FetchXml = FetchXml;
         Preferences.FetchBinaries = FetchBinaries;
+
+        Preferences.CrawlParentDirectories = CrawlParentDirectories;
+        Preferences.CrawlChildDirectories = CrawlChildDirectories;
 
         Preferences.TitleMinLen = TitleMinLen;
         Preferences.TitleMaxLen = TitleMaxLen;
@@ -739,6 +757,28 @@ namespace SEOMacroscope
     public static void SetFetchBinaries ( Boolean bState )
     {
       FetchBinaries = bState;
+    }
+
+    /** Per-Job Spidering Options *********************************************/
+
+    public static Boolean GetCrawlParentDirectories ()
+    {
+      return( CrawlParentDirectories );
+    }
+
+    public static void SetCrawlParentDirectories ( Boolean bState )
+    {
+      CrawlParentDirectories = bState;
+    }
+
+    public static Boolean GetCrawlChildDirectories ()
+    {
+      return( CrawlChildDirectories );
+    }
+
+    public static void SetCrawlChildDirectories ( Boolean bState )
+    {
+      CrawlChildDirectories = bState;
     }
 
     /** SEO Options ***********************************************************/

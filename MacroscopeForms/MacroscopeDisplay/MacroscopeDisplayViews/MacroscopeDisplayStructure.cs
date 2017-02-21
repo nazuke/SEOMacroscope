@@ -221,7 +221,7 @@ namespace SEOMacroscope
 
             if( !msDoc.GetIsExternal() )
             {
-              lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
+              lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
             }
             else
             {

@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace SEOMacroscope
@@ -64,6 +65,9 @@ namespace SEOMacroscope
     private int PageLimitCount;
 
     private int PagesFound;
+
+    private string ParentStartingDirectory;
+    private string ChildStartingDirectory;
 
     private Dictionary<string,Boolean> History;
 
@@ -149,6 +153,11 @@ namespace SEOMacroscope
 
       this.PagesFound = 0;
 
+      {
+        this.ParentStartingDirectory = "";
+        this.ChildStartingDirectory = "";
+      }
+
       this.History = new Dictionary<string, bool> ( 4096 );
 
       {
@@ -206,7 +215,9 @@ namespace SEOMacroscope
       DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
 
       this.StartUrl = MacroscopeUrlTools.SanitizeUrl( this.StartUrl );
-
+      
+      this.DetermineStartingDirectory();
+        
       this.SetThreadsStop( false );
 
       this.AllowedHosts.AddFromUrl( this.StartUrl );
@@ -616,12 +627,134 @@ namespace SEOMacroscope
       this.PageLimitCount++;
     }
 
-    /** History ***************************************************************/
-
     public int GetPagesFound ()
     {
       return( this.PagesFound );
     }
+
+    /** Crawl Parent / Child Directories **************************************/
+
+    public void DetermineStartingDirectory ()
+    {
+      
+      Uri StartUri = new Uri ( this.GetStartUrl() );
+      string Path = StartUri.AbsolutePath;
+
+      Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+
+      if( Path.Length == 0 )
+      {
+        Path = "/";
+      }
+
+      this.ParentStartingDirectory = string.Join(
+        "",
+        StartUri.Scheme,
+        "://",
+        StartUri.Host,
+        Path
+      );
+
+
+      this.ChildStartingDirectory = string.Join(
+        "",
+        StartUri.Scheme,
+        "://",
+        StartUri.Host,
+        Path
+      );
+
+    }
+
+    public Boolean IsWithinParentDirectory ( string Url )
+    {
+
+      Boolean IsWithin = false;
+      Uri CurrentUri = new Uri ( Url );
+
+      if(
+        ( CurrentUri.Scheme.ToLower() == "http" )
+        || ( CurrentUri.Scheme.ToLower() == "https" ) )
+      {
+
+        string Path = CurrentUri.AbsolutePath;
+        Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+        if( Path.Length == 0 )
+        {
+          Path = "/";
+        }
+
+        string CurrentUriString = string.Join(
+                                    "",
+                                    CurrentUri.Scheme,
+                                    "://",
+                                    CurrentUri.Host,
+                                    Path
+                                  );
+
+        int ParentStartingDirectoryLength = this.ParentStartingDirectory.Length;
+        int CurrentUriStringLength = CurrentUriString.Length;
+
+        if( ParentStartingDirectoryLength >= CurrentUriStringLength )
+        {
+          if( this.ParentStartingDirectory.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
+          {
+            IsWithin = true;
+          }
+
+        }
+
+      }
+
+      return( IsWithin );
+      
+    }
+
+    public Boolean IsWithinChildDirectory ( string Url )
+    {
+      
+      Boolean IsWithin = false;
+      Uri CurrentUri = new Uri ( Url );
+
+      if( 
+        ( CurrentUri.Scheme.ToLower() == "http" )
+        || ( CurrentUri.Scheme.ToLower() == "https" ) )
+      {
+
+        string Path = CurrentUri.AbsolutePath;
+        Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+        if( Path.Length == 0 )
+        {
+          Path = "/";
+        }
+
+        string CurrentUriString = string.Join(
+                                    "",
+                                    CurrentUri.Scheme,
+                                    "://",
+                                    CurrentUri.Host,
+                                    Path
+                                  );
+
+        int ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
+        int CurrentUriStringLength = CurrentUriString.Length;
+     
+        if( CurrentUriStringLength >= ChildStartingDirectoryLength )
+        {
+          if( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
+          {
+            IsWithin = true;
+          }
+
+        }
+        
+      }
+
+      return( IsWithin );
+      
+    }
+
+    /** History ***************************************************************/
 
     public void AddHistoryItem ( string sUrl )
     {
@@ -840,137 +973,6 @@ namespace SEOMacroscope
       }
       return( dicCopy );
     }
-
-    /** Include/Exclude URL Patterns ******************************************/
-
-
-
-
-
-
-
-
-
-
-
-    /*
-		public void LoadIncludeUrlPatterns ( string IncludeUrlPatternsText )
-		{
-
-			this.IncludeUrlPatternsList.Clear();
-
-			foreach( string sLine in Regex.Split( IncludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
-			{
-				DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", sLine ) );
-				if( sLine.Length > 0 )
-				{
-					this.IncludeUrlPatternsList.Add( sLine );
-				}
-			}
-
-		}
-
-		public string FetchIncludeUrlPatterns ()
-		{
-			string sText = string.Join( "\r\n", this.IncludeUrlPatternsList );
-			return( sText );
-		}
-
-		public Boolean UseIncludeUrlPatterns ()
-		{
-			Boolean bUse = false;
-
-			int Count = this.IncludeUrlPatternsList.Count;
-
-			if( Count > 0 )
-			{
-				bUse = true;
-			}
-			return( bUse );
-		}
-
-		public Boolean MatchesIncludeUrlPattern ( string Url )
-		{
-			Boolean bMatch = false;
-
-			// TODO: Implement this.
-
-			for( int i = 0 ; i < this.IncludeUrlPatternsList.Count ; i++ )
-			{
-				if( Url.IndexOf( this.IncludeUrlPatternsList[ i ] ) >= 0 )
-				{
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-					bMatch = true;
-					break;
-				}
-				else
-				{
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-				}
-			}
-
-			return( bMatch );
-		}
-		*/
-
-    /** Exclude URL Patterns **************************************************/
-
-    /*
-		public void LoadExcludeUrlPatterns ( string ExcludeUrlPatternsText )
-		{
-
-			this.ExcludeUrlPatternsList.Clear();
-
-			foreach( string sLine in Regex.Split( ExcludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
-			{
-				DebugMsg( string.Format( "LoadExcludeUrlPatterns: {0}", sLine ) );
-				if( sLine.Length > 0 )
-				{
-					this.ExcludeUrlPatternsList.Add( sLine );
-				}
-			}
-
-		}
-
-		public string FetchExcludeUrlPatterns ()
-		{
-			string sText = string.Join( "\r\n", this.ExcludeUrlPatternsList );
-			return( sText );
-		}
-
-		public Boolean UseExcludeUrlPatterns ()
-		{
-			Boolean bUse = false;
-			if( this.ExcludeUrlPatternsList.Count > 0 )
-			{
-				bUse = true;
-			}
-			return( bUse );
-		}
-
-		public Boolean MatchesExcludeUrlPattern ( string Url )
-		{
-			Boolean bMatch = false;
-
-			// TODO: Implement this.
-
-			for( int i = 0 ; i < this.ExcludeUrlPatternsList.Count ; i++ )
-			{
-				if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ] ) >= 0 )
-				{
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-					bMatch = true;
-					break;
-				}
-				else
-				{
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-				}
-			}
-
-			return( bMatch );
-		}
-		*/
 
     /**************************************************************************/
 

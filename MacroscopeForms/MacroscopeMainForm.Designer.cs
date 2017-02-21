@@ -67,8 +67,8 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ToolStripMenuItem taskParametersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem includeURLPatternsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem excludeURLPatternsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem crawlParentDirectoriesToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem crawlChildDirectoriesToolStripMenuItem;
+		public System.Windows.Forms.ToolStripMenuItem crawlParentDirectoriesToolStripMenuItem;
+		public System.Windows.Forms.ToolStripMenuItem crawlChildDirectoriesToolStripMenuItem;
 		public System.Windows.Forms.ToolStripProgressBar ProgressBarScan;
 
 		/// <summary>
@@ -110,8 +110,8 @@ namespace SEOMacroscope
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.aboutSEOMacroscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutSEOMacroscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanelMainContainer = new System.Windows.Forms.TableLayoutPanel();
 			this.statusStripMain = new System.Windows.Forms.StatusStrip();
 			this.toolStripThreads = new System.Windows.Forms.ToolStripStatusLabel();
@@ -208,7 +208,6 @@ namespace SEOMacroscope
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
 			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
 			this.editToolStripMenuItem.Text = "Edit";
-			this.editToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItemClick);
 			// 
 			// preferencesToolStripMenuItem
 			// 
@@ -251,6 +250,7 @@ namespace SEOMacroscope
 			this.crawlParentDirectoriesToolStripMenuItem.Name = "crawlParentDirectoriesToolStripMenuItem";
 			this.crawlParentDirectoriesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.crawlParentDirectoriesToolStripMenuItem.Text = "Crawl Parent Directories";
+			this.crawlParentDirectoriesToolStripMenuItem.Click += new System.EventHandler(this.CallbackCrawlParentDirectoriesToolStripMenuItemClick);
 			// 
 			// crawlChildDirectoriesToolStripMenuItem
 			// 
@@ -259,6 +259,7 @@ namespace SEOMacroscope
 			this.crawlChildDirectoriesToolStripMenuItem.Name = "crawlChildDirectoriesToolStripMenuItem";
 			this.crawlChildDirectoriesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.crawlChildDirectoriesToolStripMenuItem.Text = "Crawl Child Directories";
+			this.crawlChildDirectoriesToolStripMenuItem.Click += new System.EventHandler(this.CallbackCrawlChildDirectoriesToolStripMenuItemClick);
 			// 
 			// reportsToolStripMenuItem
 			// 
@@ -296,6 +297,12 @@ namespace SEOMacroscope
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
 			// 
+			// sEOMacroscopeWebsiteToolStripMenuItem
+			// 
+			this.sEOMacroscopeWebsiteToolStripMenuItem.Name = "sEOMacroscopeWebsiteToolStripMenuItem";
+			this.sEOMacroscopeWebsiteToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+			this.sEOMacroscopeWebsiteToolStripMenuItem.Text = "SEO Macroscope Website";
+			// 
 			// aboutSEOMacroscopeToolStripMenuItem
 			// 
 			this.aboutSEOMacroscopeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutSEOMacroscopeToolStripMenuItem.Image")));
@@ -303,12 +310,6 @@ namespace SEOMacroscope
 			this.aboutSEOMacroscopeToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
 			this.aboutSEOMacroscopeToolStripMenuItem.Text = "About SEO Macroscope";
 			this.aboutSEOMacroscopeToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpAboutClick);
-			// 
-			// sEOMacroscopeWebsiteToolStripMenuItem
-			// 
-			this.sEOMacroscopeWebsiteToolStripMenuItem.Name = "sEOMacroscopeWebsiteToolStripMenuItem";
-			this.sEOMacroscopeWebsiteToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-			this.sEOMacroscopeWebsiteToolStripMenuItem.Text = "SEO Macroscope Website";
 			// 
 			// tableLayoutPanelMainContainer
 			// 
