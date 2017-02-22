@@ -168,7 +168,7 @@ namespace SEOMacroscope
               if( Regex.IsMatch( sStatusCode, "^[2]" ) )
               {
                 for( int i = 0 ; i <= 3 ; i++ )
-                  lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+                  lvItem.SubItems[ 0 ].ForeColor = Color.ForestGreen;
               }
               else
               if( Regex.IsMatch( sStatusCode, "^[3]" ) )

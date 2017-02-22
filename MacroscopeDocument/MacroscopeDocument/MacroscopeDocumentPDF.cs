@@ -31,111 +31,132 @@ using System.Net;
 namespace SEOMacroscope
 {
 
-	public partial class MacroscopeDocument : Macroscope
-	{
+  public partial class MacroscopeDocument : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void ProcessPdfPage ()
-		{
+    void ProcessPdfPage ()
+    {
 
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			string sErrorCondition = null;
+      HttpWebRequest req = null;
+      HttpWebResponse res = null;
+      string sErrorCondition = null;
 
-			try {
+      try
+      {
 
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "GET";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
+        req = WebRequest.CreateHttp( this.Url );
+        req.Method = "GET";
+        req.Timeout = this.Timeout;
+        req.KeepAlive = false;
+        MacroscopePreferencesManager.EnableHttpProxy( req );
+        res = ( HttpWebResponse )req.GetResponse();
 
-			} catch( WebException ex ) {
+      }
+      catch( WebException ex )
+      {
 
-				DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ex.Status ) );
-				DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ( int )ex.Status ) );
+        DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ex.Status ) );
+        DebugMsg( string.Format( "ProcessPdfPage :: WebException: {0}", ( int )ex.Status ) );
 
-				sErrorCondition = ex.Status.ToString();
+        sErrorCondition = ex.Status.ToString();
 
-			}
+      }
 
-			if( res != null ) {
+      if( res != null )
+      {
 
-				MacroscopePdfTools pdfTools;
+        MacroscopePdfTools pdfTools;
 
-				this.ProcessHttpHeaders( req, res );
+        this.ProcessHttpHeaders( req, res );
 
-				{ // Probe Locale
-					this.Locale = "en"; // Implement locale probing
-					this.SetHreflang( this.Locale, this.Url );
-				}
+        { // Probe Locale
+          this.Locale = "en"; // Implement locale probing
+          this.SetHreflang( this.Locale, this.Url );
+        }
 
-				{ // Canonical
-					this.Canonical = this.Url;
-					DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
-				}
+        { // Canonical
+          this.Canonical = this.Url;
+          DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
+        }
 
-				{ // Get Response Body
-					try {
+        { // Get Response Body
+          try
+          {
 
-						Stream sStream = res.GetResponseStream();
-						List<byte> aRawDataList = new List<byte> ();
-						byte[] aRawData;
-						do {
-							int buf = sStream.ReadByte();
-							if( buf > -1 ) {
-								aRawDataList.Add( ( byte )buf );
-							} else {
-								break;
-							}
-						} while( sStream.CanRead );
-						aRawData = aRawDataList.ToArray();
-						this.ContentLength = aRawData.Length;
-						pdfTools = new MacroscopePdfTools ( aRawData );
+            Stream sStream = res.GetResponseStream();
+            List<byte> aRawDataList = new List<byte> ();
+            byte [] aRawData;
+            do
+            {
+              int buf = sStream.ReadByte();
+              if( buf > -1 )
+              {
+                aRawDataList.Add( ( byte )buf );
+              }
+              else
+              {
+                break;
+              }
+            } while( sStream.CanRead );
+            aRawData = aRawDataList.ToArray();
+            this.ContentLength = aRawData.Length;
 
-					} catch( WebException ex ) {
+            pdfTools = new MacroscopePdfTools ( aRawData );
+						
+            this.SetWasDownloaded( true );
 
-						DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
-						pdfTools = null;
-						this.ContentLength = 0;
+          }
+          catch( WebException ex )
+          {
 
-					} catch( Exception ex ) {
+            DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
+            pdfTools = null;
+            this.ContentLength = 0;
+
+          }
+          catch( Exception ex )
+          {
 
             DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-						this.StatusCode = ( int )HttpStatusCode.BadRequest;
-						pdfTools = null;
-						this.ContentLength = 0;
+            this.StatusCode = ( int )HttpStatusCode.BadRequest;
+            pdfTools = null;
+            this.ContentLength = 0;
 
-					}
-				}
+          }
+        }
 
-				{ // Title
-					if( pdfTools != null ) {
-						string sTitle = pdfTools.GetTitle();
-						if( sTitle != null ) {
-							this.Title = sTitle;
-							DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
-						} else {
-							DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
-						}
-					}
-				}
+        { // Title
+          if( pdfTools != null )
+          {
+            string sTitle = pdfTools.GetTitle();
+            if( sTitle != null )
+            {
+              this.Title = sTitle;
+              DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
+            }
+            else
+            {
+              DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
+            }
+          }
+        }
 
-				res.Close();
+        res.Close();
 
-			}
+      }
 
-			if( sErrorCondition != null ) {
-				this.ProcessErrorCondition( sErrorCondition );
-			}
+      if( sErrorCondition != null )
+      {
+        this.ProcessErrorCondition( sErrorCondition );
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

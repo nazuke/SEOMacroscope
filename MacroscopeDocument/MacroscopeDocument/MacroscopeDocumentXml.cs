@@ -76,11 +76,16 @@ namespace SEOMacroscope
         // Get Response Body
         try
         {
+          
           DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
+
           Stream sStream = res.GetResponseStream();
           StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
           sRawData = srRead.ReadToEnd();
+          
           this.ContentLength = sRawData.Length; // May need to find bytes length
+          this.SetWasDownloaded( true );
+        
         }
         catch( WebException ex )
         {

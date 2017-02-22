@@ -48,9 +48,9 @@ namespace SEOMacroscope
 
 		public MacroscopeColumnSorter ()
 		{
-			ColumnToSort = 0;
-			OrderOfSort = SortOrder.None;
-			ObjectCompare = new CaseInsensitiveComparer ();
+			this.ColumnToSort = 0;
+			this.OrderOfSort = SortOrder.None;
+			this.ObjectCompare = new CaseInsensitiveComparer ();
 		}
 
 		/**************************************************************************/

@@ -132,6 +132,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocument.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureOverview.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureKeywordAnalysis.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureSiteSpeed.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTreeView.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayUriAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayAudios.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeColumnSorter.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeDecimalSorter.cs" />
     <Compile Include="MacroscopeTools\MacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeTools\MacroscopePdfTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeStringTools.cs" />

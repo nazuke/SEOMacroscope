@@ -153,7 +153,7 @@ namespace SEOMacroscope
           {
             if( AllowedHosts.IsInternalUrl( sCanonical ) )
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+              lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
             }
             else
             {

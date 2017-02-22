@@ -221,7 +221,7 @@ namespace SEOMacroscope
 
             if( !msDoc.GetIsExternal() )
             {
-              lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
+              lvItem.SubItems[ iColIndex ].ForeColor = Color.ForestGreen;
             }
             else
             {
@@ -232,7 +232,7 @@ namespace SEOMacroscope
             {
               if( Regex.IsMatch( sText, "^[2]" ) )
               {
-                lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
+                lvItem.SubItems[ iColIndex ].ForeColor = Color.ForestGreen;
               }
               else
               if( Regex.IsMatch( sText, "^[3]" ) )

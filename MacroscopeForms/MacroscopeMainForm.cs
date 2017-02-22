@@ -76,7 +76,8 @@ namespace SEOMacroscope
 
     MacroscopeDisplayStructureOverview msSiteStructureOverview;
     MacroscopeDisplayStructureKeywordAnalysis msSiteStructureKeywordAnalysis;
-    
+    MacroscopeDisplayStructureSiteSpeed msSiteStructureSiteSpeed;
+
     MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
     Semaphore SemaphoreOverviewTabPages;
@@ -253,6 +254,13 @@ namespace SEOMacroscope
         this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis2,
         this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis3,
         this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis4
+      );
+
+      this.msSiteStructureSiteSpeed = new MacroscopeDisplayStructureSiteSpeed (
+        this,
+        this.macroscopeSiteStructurePanelInstance.listViewSiteSpeedSlowest,
+        this.macroscopeSiteStructurePanelInstance.listViewSiteSpeedFastest,
+        this.macroscopeSiteStructurePanelInstance.toolStripLabelSiteSpeedAverage
       );
 
     }
@@ -1449,6 +1457,7 @@ namespace SEOMacroscope
     void UpdateSiteOverview ()
     {
       this.msSiteStructureOverview.RefreshData( this.JobMaster.GetDocCollection() );
+      this.msSiteStructureSiteSpeed.RefreshSiteSpeedData( this.JobMaster.GetDocCollection() );
     }
 
     private void UpdateSiteOverviewKeywordAnalysis ()

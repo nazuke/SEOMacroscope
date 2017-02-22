@@ -96,6 +96,8 @@ namespace SEOMacroscope
           sRawData = srRead.ReadToEnd();
           this.ContentLength = sRawData.Length; // May need to find bytes length
           this.SetChecksum( sRawData );
+          
+          this.SetWasDownloaded( true );
 
         }
         catch( WebException ex )

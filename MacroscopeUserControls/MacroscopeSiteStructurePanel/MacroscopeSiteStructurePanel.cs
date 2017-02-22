@@ -41,20 +41,23 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private MacroscopeColumnSorter lvColumnSorter;
-		    
+    
     /**************************************************************************/
 		    
     public MacroscopeSiteStructurePanel ()
     {
+      
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
       this.lvColumnSorter = new MacroscopeColumnSorter ();
-            
-      this.tabControlSiteStructure.Dock = DockStyle.Fill;
 
+      // Site Overview
+      this.tabControlSiteStructure.Dock = DockStyle.Fill;
       this.splitContainerSiteOverview.Dock = DockStyle.Fill;
       this.treeViewSiteOverview.Dock = DockStyle.Fill;
 
+      // Keyword Analysis
+      
       this.tabControlKeywordAnalysisPhrases.Dock = DockStyle.Fill;
         
       this.listViewKeywordAnalysis1.Dock = DockStyle.Fill;
@@ -71,6 +74,21 @@ namespace SEOMacroscope
       this.listViewKeywordAnalysis2.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis3.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis4.ColumnClick += this.CallbackColumnClick;
+
+      // Site Speed
+
+      this.tableLayoutPanelSiteSpeed.Dock = DockStyle.Fill;
+      this.tabControlSiteSpeed.Dock = DockStyle.Fill;
+      this.listViewSiteSpeedSlowest.Dock = DockStyle.Fill;
+      this.listViewSiteSpeedFastest.Dock = DockStyle.Fill;
+
+      this.listViewSiteSpeedSlowest.Columns[ 0 ].TextAlign = HorizontalAlignment.Right;
+      this.listViewSiteSpeedFastest.Columns[ 0 ].TextAlign = HorizontalAlignment.Right;
+
+      this.listViewSiteSpeedSlowest.Sorting = SortOrder.None;
+      this.listViewSiteSpeedFastest.Sorting = SortOrder.None;
+
+      this.toolStripLabelSiteSpeedAverage.Text = string.Format( "Average Response Time: {0:0.00}s", 0 );
 
     }
 
@@ -100,6 +118,16 @@ namespace SEOMacroscope
 
       lvListView.Sort();
 
+    }
+
+    /**************************************************************************/
+
+    void TabControlSiteStructureClick ( object sender, EventArgs e )
+    {
+    }
+
+    void TabControlKeywordAnalysisPhrasesClick ( object sender, EventArgs e )
+    {
     }
 
     /**************************************************************************/

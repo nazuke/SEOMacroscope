@@ -36,7 +36,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageSiteSpeed;
 		public System.Windows.Forms.SplitContainer splitContainerSiteOverview;
 		public System.Windows.Forms.TreeView treeViewSiteOverview;
-		public System.Windows.Forms.TabPage tabPageKeywordAnalysis;
+		private System.Windows.Forms.TabPage tabPageKeywordAnalysis;
 		public System.Windows.Forms.ListView listViewKeywordAnalysis1;
 		public System.Windows.Forms.ColumnHeader columnHeaderKeywordAnalysisOccurrences;
 		private System.Windows.Forms.ColumnHeader columnHeaderKeywordAnalysisTerm;
@@ -54,6 +54,18 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ListView listViewKeywordAnalysis4;
 		public System.Windows.Forms.ColumnHeader columnHeader5;
 		private System.Windows.Forms.ColumnHeader columnHeader6;
+		public System.Windows.Forms.TabControl tabControlSiteSpeed;
+		public System.Windows.Forms.TabPage tabPageSiteSpeedFastest;
+		public System.Windows.Forms.ListView listViewSiteSpeedFastest;
+		public System.Windows.Forms.ColumnHeader columnHeader7;
+		private System.Windows.Forms.ColumnHeader columnHeader8;
+		public System.Windows.Forms.TabPage tabPageSiteSpeedSlowest;
+		public System.Windows.Forms.ListView listViewSiteSpeedSlowest;
+		public System.Windows.Forms.ColumnHeader columnHeaderSiteSpeedTime;
+		private System.Windows.Forms.ColumnHeader columnHeaderSiteSpeedTimeUrl;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSiteSpeed;
+		private System.Windows.Forms.ToolStrip toolStrip1;
+		public System.Windows.Forms.ToolStripLabel toolStripLabelSiteSpeedAverage;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -80,6 +92,19 @@ namespace SEOMacroscope
 			this.tabPageSiteOverview = new System.Windows.Forms.TabPage();
 			this.splitContainerSiteOverview = new System.Windows.Forms.SplitContainer();
 			this.treeViewSiteOverview = new System.Windows.Forms.TreeView();
+			this.tabPageSiteSpeed = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanelSiteSpeed = new System.Windows.Forms.TableLayoutPanel();
+			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolStripLabelSiteSpeedAverage = new System.Windows.Forms.ToolStripLabel();
+			this.tabControlSiteSpeed = new System.Windows.Forms.TabControl();
+			this.tabPageSiteSpeedSlowest = new System.Windows.Forms.TabPage();
+			this.listViewSiteSpeedSlowest = new System.Windows.Forms.ListView();
+			this.columnHeaderSiteSpeedTime = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderSiteSpeedTimeUrl = new System.Windows.Forms.ColumnHeader();
+			this.tabPageSiteSpeedFastest = new System.Windows.Forms.TabPage();
+			this.listViewSiteSpeedFastest = new System.Windows.Forms.ListView();
+			this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
+			this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
 			this.tabPageKeywordAnalysis = new System.Windows.Forms.TabPage();
 			this.tabControlKeywordAnalysisPhrases = new System.Windows.Forms.TabControl();
 			this.tabPageKeywordAnalysisPhrases1 = new System.Windows.Forms.TabPage();
@@ -98,12 +123,17 @@ namespace SEOMacroscope
 			this.listViewKeywordAnalysis4 = new System.Windows.Forms.ListView();
 			this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
 			this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
-			this.tabPageSiteSpeed = new System.Windows.Forms.TabPage();
 			this.tabControlSiteStructure.SuspendLayout();
 			this.tabPageSiteOverview.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).BeginInit();
 			this.splitContainerSiteOverview.Panel1.SuspendLayout();
 			this.splitContainerSiteOverview.SuspendLayout();
+			this.tabPageSiteSpeed.SuspendLayout();
+			this.tableLayoutPanelSiteSpeed.SuspendLayout();
+			this.toolStrip1.SuspendLayout();
+			this.tabControlSiteSpeed.SuspendLayout();
+			this.tabPageSiteSpeedSlowest.SuspendLayout();
+			this.tabPageSiteSpeedFastest.SuspendLayout();
 			this.tabPageKeywordAnalysis.SuspendLayout();
 			this.tabControlKeywordAnalysisPhrases.SuspendLayout();
 			this.tabPageKeywordAnalysisPhrases1.SuspendLayout();
@@ -115,25 +145,25 @@ namespace SEOMacroscope
 			// tabControlSiteStructure
 			// 
 			this.tabControlSiteStructure.Controls.Add(this.tabPageSiteOverview);
-			this.tabControlSiteStructure.Controls.Add(this.tabPageKeywordAnalysis);
 			this.tabControlSiteStructure.Controls.Add(this.tabPageSiteSpeed);
+			this.tabControlSiteStructure.Controls.Add(this.tabPageKeywordAnalysis);
 			this.tabControlSiteStructure.Location = new System.Drawing.Point(20, 20);
-			this.tabControlSiteStructure.Margin = new System.Windows.Forms.Padding(0);
 			this.tabControlSiteStructure.Name = "tabControlSiteStructure";
 			this.tabControlSiteStructure.SelectedIndex = 0;
 			this.tabControlSiteStructure.Size = new System.Drawing.Size(440, 440);
 			this.tabControlSiteStructure.TabIndex = 0;
+			this.tabControlSiteStructure.Click += new System.EventHandler(this.TabControlSiteStructureClick);
 			// 
 			// tabPageSiteOverview
 			// 
+			this.tabPageSiteOverview.BackColor = System.Drawing.Color.LightGray;
+			this.tabPageSiteOverview.CausesValidation = false;
 			this.tabPageSiteOverview.Controls.Add(this.splitContainerSiteOverview);
 			this.tabPageSiteOverview.Location = new System.Drawing.Point(4, 22);
 			this.tabPageSiteOverview.Name = "tabPageSiteOverview";
-			this.tabPageSiteOverview.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageSiteOverview.Size = new System.Drawing.Size(432, 414);
 			this.tabPageSiteOverview.TabIndex = 0;
 			this.tabPageSiteOverview.Text = "Site Overview";
-			this.tabPageSiteOverview.UseVisualStyleBackColor = true;
 			// 
 			// splitContainerSiteOverview
 			// 
@@ -159,15 +189,138 @@ namespace SEOMacroscope
 			this.treeViewSiteOverview.Size = new System.Drawing.Size(150, 150);
 			this.treeViewSiteOverview.TabIndex = 0;
 			// 
+			// tabPageSiteSpeed
+			// 
+			this.tabPageSiteSpeed.BackColor = System.Drawing.Color.LightGray;
+			this.tabPageSiteSpeed.CausesValidation = false;
+			this.tabPageSiteSpeed.Controls.Add(this.tableLayoutPanelSiteSpeed);
+			this.tabPageSiteSpeed.Location = new System.Drawing.Point(4, 22);
+			this.tabPageSiteSpeed.Name = "tabPageSiteSpeed";
+			this.tabPageSiteSpeed.Size = new System.Drawing.Size(432, 414);
+			this.tabPageSiteSpeed.TabIndex = 1;
+			this.tabPageSiteSpeed.Text = "Site Speed";
+			// 
+			// tableLayoutPanelSiteSpeed
+			// 
+			this.tableLayoutPanelSiteSpeed.ColumnCount = 1;
+			this.tableLayoutPanelSiteSpeed.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelSiteSpeed.Controls.Add(this.toolStrip1, 0, 1);
+			this.tableLayoutPanelSiteSpeed.Controls.Add(this.tabControlSiteSpeed, 0, 0);
+			this.tableLayoutPanelSiteSpeed.Location = new System.Drawing.Point(20, 20);
+			this.tableLayoutPanelSiteSpeed.Name = "tableLayoutPanelSiteSpeed";
+			this.tableLayoutPanelSiteSpeed.RowCount = 2;
+			this.tableLayoutPanelSiteSpeed.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelSiteSpeed.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tableLayoutPanelSiteSpeed.Size = new System.Drawing.Size(400, 370);
+			this.tableLayoutPanelSiteSpeed.TabIndex = 3;
+			// 
+			// toolStrip1
+			// 
+			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripLabelSiteSpeedAverage});
+			this.toolStrip1.Location = new System.Drawing.Point(0, 342);
+			this.toolStrip1.Name = "toolStrip1";
+			this.toolStrip1.Padding = new System.Windows.Forms.Padding(3);
+			this.toolStrip1.Size = new System.Drawing.Size(400, 28);
+			this.toolStrip1.TabIndex = 3;
+			this.toolStrip1.Text = "toolStrip1";
+			// 
+			// toolStripLabelSiteSpeedAverage
+			// 
+			this.toolStripLabelSiteSpeedAverage.Name = "toolStripLabelSiteSpeedAverage";
+			this.toolStripLabelSiteSpeedAverage.Size = new System.Drawing.Size(13, 19);
+			this.toolStripLabelSiteSpeedAverage.Text = "0";
+			// 
+			// tabControlSiteSpeed
+			// 
+			this.tabControlSiteSpeed.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.tabControlSiteSpeed.Controls.Add(this.tabPageSiteSpeedSlowest);
+			this.tabControlSiteSpeed.Controls.Add(this.tabPageSiteSpeedFastest);
+			this.tabControlSiteSpeed.Location = new System.Drawing.Point(50, 21);
+			this.tabControlSiteSpeed.Name = "tabControlSiteSpeed";
+			this.tabControlSiteSpeed.SelectedIndex = 0;
+			this.tabControlSiteSpeed.Size = new System.Drawing.Size(300, 300);
+			this.tabControlSiteSpeed.TabIndex = 2;
+			// 
+			// tabPageSiteSpeedSlowest
+			// 
+			this.tabPageSiteSpeedSlowest.Controls.Add(this.listViewSiteSpeedSlowest);
+			this.tabPageSiteSpeedSlowest.Location = new System.Drawing.Point(4, 22);
+			this.tabPageSiteSpeedSlowest.Name = "tabPageSiteSpeedSlowest";
+			this.tabPageSiteSpeedSlowest.Size = new System.Drawing.Size(292, 274);
+			this.tabPageSiteSpeedSlowest.TabIndex = 1;
+			this.tabPageSiteSpeedSlowest.Text = "Slowest Pages";
+			this.tabPageSiteSpeedSlowest.UseVisualStyleBackColor = true;
+			// 
+			// listViewSiteSpeedSlowest
+			// 
+			this.listViewSiteSpeedSlowest.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderSiteSpeedTime,
+			this.columnHeaderSiteSpeedTimeUrl});
+			this.listViewSiteSpeedSlowest.GridLines = true;
+			this.listViewSiteSpeedSlowest.Location = new System.Drawing.Point(20, 20);
+			this.listViewSiteSpeedSlowest.Name = "listViewSiteSpeedSlowest";
+			this.listViewSiteSpeedSlowest.Size = new System.Drawing.Size(200, 200);
+			this.listViewSiteSpeedSlowest.TabIndex = 1;
+			this.listViewSiteSpeedSlowest.UseCompatibleStateImageBehavior = false;
+			this.listViewSiteSpeedSlowest.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeaderSiteSpeedTime
+			// 
+			this.columnHeaderSiteSpeedTime.Text = "Response Time (secs)";
+			this.columnHeaderSiteSpeedTime.Width = 150;
+			// 
+			// columnHeaderSiteSpeedTimeUrl
+			// 
+			this.columnHeaderSiteSpeedTimeUrl.Text = "URL";
+			this.columnHeaderSiteSpeedTimeUrl.Width = 300;
+			// 
+			// tabPageSiteSpeedFastest
+			// 
+			this.tabPageSiteSpeedFastest.Controls.Add(this.listViewSiteSpeedFastest);
+			this.tabPageSiteSpeedFastest.Location = new System.Drawing.Point(4, 22);
+			this.tabPageSiteSpeedFastest.Name = "tabPageSiteSpeedFastest";
+			this.tabPageSiteSpeedFastest.Size = new System.Drawing.Size(292, 274);
+			this.tabPageSiteSpeedFastest.TabIndex = 0;
+			this.tabPageSiteSpeedFastest.Text = "Fastest Pages";
+			this.tabPageSiteSpeedFastest.UseVisualStyleBackColor = true;
+			// 
+			// listViewSiteSpeedFastest
+			// 
+			this.listViewSiteSpeedFastest.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeader7,
+			this.columnHeader8});
+			this.listViewSiteSpeedFastest.GridLines = true;
+			this.listViewSiteSpeedFastest.Location = new System.Drawing.Point(20, 20);
+			this.listViewSiteSpeedFastest.Name = "listViewSiteSpeedFastest";
+			this.listViewSiteSpeedFastest.Size = new System.Drawing.Size(200, 200);
+			this.listViewSiteSpeedFastest.TabIndex = 2;
+			this.listViewSiteSpeedFastest.UseCompatibleStateImageBehavior = false;
+			this.listViewSiteSpeedFastest.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader7
+			// 
+			this.columnHeader7.Text = "Response Time (secs)";
+			this.columnHeader7.Width = 150;
+			// 
+			// columnHeader8
+			// 
+			this.columnHeader8.Text = "URL";
+			this.columnHeader8.Width = 300;
+			// 
 			// tabPageKeywordAnalysis
 			// 
+			this.tabPageKeywordAnalysis.BackColor = System.Drawing.Color.LightGray;
+			this.tabPageKeywordAnalysis.CausesValidation = false;
 			this.tabPageKeywordAnalysis.Controls.Add(this.tabControlKeywordAnalysisPhrases);
 			this.tabPageKeywordAnalysis.Location = new System.Drawing.Point(4, 22);
 			this.tabPageKeywordAnalysis.Name = "tabPageKeywordAnalysis";
+			this.tabPageKeywordAnalysis.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageKeywordAnalysis.Size = new System.Drawing.Size(432, 414);
 			this.tabPageKeywordAnalysis.TabIndex = 2;
 			this.tabPageKeywordAnalysis.Text = "Keyword Analysis";
-			this.tabPageKeywordAnalysis.UseVisualStyleBackColor = true;
 			// 
 			// tabControlKeywordAnalysisPhrases
 			// 
@@ -180,13 +333,13 @@ namespace SEOMacroscope
 			this.tabControlKeywordAnalysisPhrases.SelectedIndex = 0;
 			this.tabControlKeywordAnalysisPhrases.Size = new System.Drawing.Size(400, 300);
 			this.tabControlKeywordAnalysisPhrases.TabIndex = 1;
+			this.tabControlKeywordAnalysisPhrases.Click += new System.EventHandler(this.TabControlKeywordAnalysisPhrasesClick);
 			// 
 			// tabPageKeywordAnalysisPhrases1
 			// 
 			this.tabPageKeywordAnalysisPhrases1.Controls.Add(this.listViewKeywordAnalysis1);
 			this.tabPageKeywordAnalysisPhrases1.Location = new System.Drawing.Point(4, 22);
 			this.tabPageKeywordAnalysisPhrases1.Name = "tabPageKeywordAnalysisPhrases1";
-			this.tabPageKeywordAnalysisPhrases1.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageKeywordAnalysisPhrases1.Size = new System.Drawing.Size(392, 274);
 			this.tabPageKeywordAnalysisPhrases1.TabIndex = 0;
 			this.tabPageKeywordAnalysisPhrases1.Text = "One Word Terms";
@@ -220,7 +373,6 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysisPhrases2.Controls.Add(this.listViewKeywordAnalysis2);
 			this.tabPageKeywordAnalysisPhrases2.Location = new System.Drawing.Point(4, 22);
 			this.tabPageKeywordAnalysisPhrases2.Name = "tabPageKeywordAnalysisPhrases2";
-			this.tabPageKeywordAnalysisPhrases2.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageKeywordAnalysisPhrases2.Size = new System.Drawing.Size(392, 274);
 			this.tabPageKeywordAnalysisPhrases2.TabIndex = 1;
 			this.tabPageKeywordAnalysisPhrases2.Text = "Two Word Terms";
@@ -254,7 +406,6 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysisPhrases3.Controls.Add(this.listViewKeywordAnalysis3);
 			this.tabPageKeywordAnalysisPhrases3.Location = new System.Drawing.Point(4, 22);
 			this.tabPageKeywordAnalysisPhrases3.Name = "tabPageKeywordAnalysisPhrases3";
-			this.tabPageKeywordAnalysisPhrases3.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageKeywordAnalysisPhrases3.Size = new System.Drawing.Size(392, 274);
 			this.tabPageKeywordAnalysisPhrases3.TabIndex = 2;
 			this.tabPageKeywordAnalysisPhrases3.Text = "Three Word Terms";
@@ -288,7 +439,6 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysisPhrases4.Controls.Add(this.listViewKeywordAnalysis4);
 			this.tabPageKeywordAnalysisPhrases4.Location = new System.Drawing.Point(4, 22);
 			this.tabPageKeywordAnalysisPhrases4.Name = "tabPageKeywordAnalysisPhrases4";
-			this.tabPageKeywordAnalysisPhrases4.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageKeywordAnalysisPhrases4.Size = new System.Drawing.Size(392, 274);
 			this.tabPageKeywordAnalysisPhrases4.TabIndex = 3;
 			this.tabPageKeywordAnalysisPhrases4.Text = "Four Word Terms";
@@ -317,16 +467,6 @@ namespace SEOMacroscope
 			this.columnHeader6.Text = "Term";
 			this.columnHeader6.Width = 300;
 			// 
-			// tabPageSiteSpeed
-			// 
-			this.tabPageSiteSpeed.Location = new System.Drawing.Point(4, 22);
-			this.tabPageSiteSpeed.Name = "tabPageSiteSpeed";
-			this.tabPageSiteSpeed.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageSiteSpeed.Size = new System.Drawing.Size(432, 414);
-			this.tabPageSiteSpeed.TabIndex = 1;
-			this.tabPageSiteSpeed.Text = "Site Speed";
-			this.tabPageSiteSpeed.UseVisualStyleBackColor = true;
-			// 
 			// MacroscopeSiteStructurePanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -339,6 +479,14 @@ namespace SEOMacroscope
 			this.splitContainerSiteOverview.Panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).EndInit();
 			this.splitContainerSiteOverview.ResumeLayout(false);
+			this.tabPageSiteSpeed.ResumeLayout(false);
+			this.tableLayoutPanelSiteSpeed.ResumeLayout(false);
+			this.tableLayoutPanelSiteSpeed.PerformLayout();
+			this.toolStrip1.ResumeLayout(false);
+			this.toolStrip1.PerformLayout();
+			this.tabControlSiteSpeed.ResumeLayout(false);
+			this.tabPageSiteSpeedSlowest.ResumeLayout(false);
+			this.tabPageSiteSpeedFastest.ResumeLayout(false);
 			this.tabPageKeywordAnalysis.ResumeLayout(false);
 			this.tabControlKeywordAnalysisPhrases.ResumeLayout(false);
 			this.tabPageKeywordAnalysisPhrases1.ResumeLayout(false);

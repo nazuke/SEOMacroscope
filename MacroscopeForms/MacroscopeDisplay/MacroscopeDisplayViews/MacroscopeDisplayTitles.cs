@@ -216,7 +216,7 @@ namespace SEOMacroscope
           else
           if( iTextPixelWidth <= 0 )
           {
-            lvItem.SubItems[ 4 ].ForeColor = Color.OrangeRed;
+            lvItem.SubItems[ 4 ].ForeColor = Color.Orange;
           }
           else
           {

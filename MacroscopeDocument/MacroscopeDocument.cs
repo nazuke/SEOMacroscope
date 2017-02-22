@@ -88,6 +88,7 @@ namespace SEOMacroscope
     private string CharacterSet;
 
     private long Duration;
+    private Boolean WasDownloaded;
 
     private DateTime DateServer;
     private DateTime DateModified;
@@ -172,6 +173,9 @@ namespace SEOMacroscope
       this.CharSet = null;
       this.CharacterSet = null;
 
+      this.Duration = 0;
+      this.WasDownloaded = false;
+
       this.DateServer = new DateTime ();
       this.DateModified = new DateTime ();
 
@@ -192,25 +196,25 @@ namespace SEOMacroscope
       this.Description = "";
       this.Keywords = "";
 
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -1058,14 +1062,14 @@ namespace SEOMacroscope
     
     /** Durations *************************************************************/
 
-    public long GetDuration ()
-    {
-      return( this.Duration );
-    }
-
     public void SetDuration ( long lDuration )
     {
       this.Duration = lDuration;
+    }
+
+    public long GetDuration ()
+    {
+      return( this.Duration );
     }
 
     public decimal GetDurationInSeconds ()
@@ -1079,6 +1083,16 @@ namespace SEOMacroscope
       decimal dDuration = this.GetDurationInSeconds();
       string sDuration = dDuration.ToString( "0.00" );
       return( sDuration );
+    }
+
+    public void SetWasDownloaded ( Boolean bState )
+    {
+      this.WasDownloaded = bState;
+    }
+
+    public Boolean GetWasDownloaded ()
+    {
+      return( this.WasDownloaded );
     }
 
     /** Page Depth ************************************************************/

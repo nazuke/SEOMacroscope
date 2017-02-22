@@ -188,7 +188,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
             if( History[ sUrl ] )
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+              lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
             }
             else
             {

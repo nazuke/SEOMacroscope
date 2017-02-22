@@ -134,7 +134,7 @@ namespace SEOMacroscope
 
         if( iCount <= 0 )
         {
-          lvItem.ForeColor = Color.OrangeRed;
+          lvItem.ForeColor = Color.Orange;
         }
 
       }
