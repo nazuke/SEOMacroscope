@@ -23,7 +23,7 @@
     <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>SEOMacroscope.Program</StartupObject>
-    <ApplicationIcon>BlenderProjects\MacroscopeIcon-64x64.ico</ApplicationIcon>
+    <ApplicationIcon>BlenderProjects\application-icon\MacroscopeIcon-64x64.ico</ApplicationIcon>
     <CodeAnalysisRules>-Microsoft.Naming#CA1704;-Microsoft.Naming#CA1709</CodeAnalysisRules>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
