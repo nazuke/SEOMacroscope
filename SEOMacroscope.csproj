@@ -97,6 +97,10 @@
       <DependentUpon>Icons.resx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Images.Designer.cs">
+      <DependentUpon>Images.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Macroscope.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageTitles.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
@@ -234,6 +238,10 @@
     <EmbeddedResource Include="Icons.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.resx">
       <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>

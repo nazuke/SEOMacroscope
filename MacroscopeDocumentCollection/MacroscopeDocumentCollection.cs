@@ -237,11 +237,14 @@ namespace SEOMacroscope
     public List<string> DocumentKeys ()
     {
       List<string> lKeys = new List<string> ();
-      lock( this.DocCollection )
+      if( this.DocCollection.Count > 0 )
       {
-        foreach( string sKey in this.DocCollection.Keys )
+        lock( this.DocCollection )
         {
-          lKeys.Add( sKey );
+          foreach( string sKey in this.DocCollection.Keys )
+          {
+            lKeys.Add( sKey );
+          }
         }
       }
       return( lKeys );

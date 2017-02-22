@@ -172,7 +172,7 @@ namespace SEOMacroscope
       Cursor.Current = Cursors.WaitCursor;
 
       int [] count = new int[12];
-      int count_i = -1;
+      int count_i = 0;
       
       count[ count_i++ ] = await this.RenderDocumentDetails( msDoc );
 

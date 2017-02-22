@@ -498,6 +498,16 @@ namespace SEOMacroscope
 
     /** Help Menu *************************************************************/
 
+    void CallbackHelpBlogClick ( object sender, EventArgs e )
+    {
+      Process.Start( "https://seo-macroscope.blogspot.com/" );
+    }
+
+    void CallbackHelpGitHubClick ( object sender, EventArgs e )
+    {
+      Process.Start( "https://github.com/nazuke/SEOMacroscope" );
+    }
+
     void CallbackHelpAboutClick ( object sender, EventArgs e )
     {
       DebugMsg( "CallbackHelpAboutClick Called" );
@@ -1984,7 +1994,6 @@ namespace SEOMacroscope
     {
       System.Diagnostics.Debug.WriteLine( sMsg );
     }
-
 
     /**************************************************************************/
 
