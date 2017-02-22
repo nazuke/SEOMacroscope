@@ -28,6 +28,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -87,6 +88,18 @@ namespace SEOMacroscope
     {
     }
 
+    /**************************************************************************/
+
+    private void CallbackDocumentDetailsContextMenuStripCopyRowsClick ( object sender, EventArgs e )
+    {
+      this.CopyListViewRowsTextToClipboard( this.listViewDocumentInfo );
+    }
+
+    private void CallbackDocumentDetailsContextMenuStripCopyValuesClick ( object sender, EventArgs e )
+    {
+      this.CopyListViewValuesTextToClipboard( this.listViewDocumentInfo );
+    }
+    
     /**************************************************************************/
 
     public void ClearData ()
@@ -153,51 +166,55 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void UpdateDocumentDetailsDisplay ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private async void UpdateDocumentDetailsDisplay ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
-      
+
       Cursor.Current = Cursors.WaitCursor;
+
+      int [] count = new int[12];
+      int count_i = -1;
       
-      this.RenderDocumentDetails( msDoc );
+      count[ count_i++ ] = await this.RenderDocumentDetails( msDoc );
 
-      this.RenderDocumentHttpHeaders( msDoc );
-
-      this.RenderDocumentHrefLang( msDoc, JobMaster.GetLocales(), JobMaster.GetDocCollection() );
-
-      this.RenderListViewHyperlinksIn( msDoc );
-
-      this.RenderListViewHyperlinksOut( msDoc );
-
-      this.RenderListViewInsecureLinks( msDoc );
-
-      this.RenderListViewStylesheets( JobMaster, msDoc );
+      count[ count_i++ ] = await this.RenderDocumentHttpHeaders( msDoc );
       
-      this.RenderListViewJavascripts( JobMaster, msDoc );
+      count[ count_i++ ] = await this.RenderDocumentHrefLang( msDoc, JobMaster.GetLocales(), JobMaster.GetDocCollection() );
       
-      this.RenderListViewImages( JobMaster, msDoc );
+      count[ count_i++ ] = await this.RenderListViewHyperlinksIn( msDoc );
 
-      this.RenderListViewAudios( JobMaster, msDoc );
+      count[ count_i++ ] = await this.RenderListViewHyperlinksOut( msDoc );
+
+      count[ count_i++ ] = await this.RenderListViewInsecureLinks( msDoc );
       
-      this.RenderListViewVideos( JobMaster, msDoc );
+      count[ count_i++ ] = await this.RenderListViewStylesheets( JobMaster, msDoc );
       
+      count[ count_i++ ] = await this.RenderListViewJavascripts( JobMaster, msDoc );
+            
+      count[ count_i++ ] = await this.RenderListViewImages( JobMaster, msDoc );
+      
+      count[ count_i++ ] = await this.RenderListViewAudios( JobMaster, msDoc );
+            
+      count[ count_i++ ] = await this.RenderListViewVideos( JobMaster, msDoc );
+            
       if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
       {
-        this.RenderListViewKeywordAnalysis( JobMaster, msDoc );
+        count[ count_i++ ] = await this.RenderListViewKeywordAnalysis( JobMaster, msDoc );
       }
             
       this.RenderDocumentPreview( msDoc );
-      
+     
       Cursor.Current = Cursors.Default;
 
     }
 
     /**************************************************************************/
 
-    private void RenderDocumentDetails ( MacroscopeDocument msDoc )
+    private async Task<int> RenderDocumentDetails ( MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewDocumentInfo;
-
+      int count = 0;
+      
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -208,9 +225,8 @@ namespace SEOMacroscope
       {
 
         KeyValuePair<string,string> kvItem = lItems[ i ];
-
-        //DebugMsg( string.Format( "RenderDocumentDetails: {0} => {1}", kvItem.Key, kvItem.Value ) );
-
+        count++;
+        
         try
         {
           ListViewItem lvItem = new ListViewItem ( kvItem.Key );
@@ -226,39 +242,33 @@ namespace SEOMacroscope
       }
 
       lvListView.EndUpdate();
-            
+      
+      return( count );
+      
     }
 
     /**************************************************************************/
 
-    private void CallbackDocumentDetailsContextMenuStripCopyRowsClick ( object sender, EventArgs e )
+    private async Task<int> RenderDocumentHttpHeaders ( MacroscopeDocument msDoc )
     {
-      this.CopyListViewRowsTextToClipboard( this.listViewDocumentInfo );
-    }
-
-    private void CallbackDocumentDetailsContextMenuStripCopyValuesClick ( object sender, EventArgs e )
-    {
-      this.CopyListViewValuesTextToClipboard( this.listViewDocumentInfo );
-    }
-
-    /**************************************************************************/
-
-    private void RenderDocumentHttpHeaders ( MacroscopeDocument msDoc )
-    {
+      int count = 0;
       this.textBoxHttpHeaders.Text = string.Join(
         "",
         msDoc.GetHttpStatusLineAsText(),
         msDoc.GetHttpHeadersAsText()
       );
+      count++;
+      return( count );
     }
 
     /**************************************************************************/
 
-    private void RenderDocumentHrefLang ( MacroscopeDocument msDoc, Dictionary<string,string> htLocales, MacroscopeDocumentCollection DocCollection )
+    private async Task<int> RenderDocumentHrefLang ( MacroscopeDocument msDoc, Dictionary<string,string> htLocales, MacroscopeDocumentCollection DocCollection )
     {
 
       ListView lvListView = this.listViewHrefLang;
-
+      int count = 0;
+      
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -312,7 +322,7 @@ namespace SEOMacroscope
 
               string sHrefLangUrl = null;
               string sTitle = "";
-
+              count++;
               ListViewItem lvItem = new ListViewItem ( sLocale );
 
               lvItem.Name = sLocale;
@@ -373,16 +383,18 @@ namespace SEOMacroscope
 
       lvListView.EndUpdate();
             
+      return( count );
     }
 
     /** Hyperlinks In *********************************************************/
 
-    private void RenderListViewHyperlinksIn ( MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewHyperlinksIn ( MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewLinksIn;
       MacroscopeHyperlinksIn hlHyperlinksIn = msDoc.GetHyperlinksIn();
-
+      int count = 0;
+      
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -394,7 +406,8 @@ namespace SEOMacroscope
         {
 
           string sPairKey = string.Join( "::", sUrlOrigin, hlHyperlinkIn.GetLinkId().ToString() );
-
+          count++;
+          
           if( lvListView.Items.ContainsKey( sPairKey ) )
           {
 
@@ -446,17 +459,20 @@ namespace SEOMacroscope
       }
 
       lvListView.EndUpdate();
-            
+          
+      return( count );
+      
     }
 
     /** Hyperlinks Out ********************************************************/
 
-    private void RenderListViewHyperlinksOut ( MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewHyperlinksOut ( MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewLinksOut;
       MacroscopeHyperlinksOut hlHyperlinksOut = msDoc.GetHyperlinksOut();
-
+      int count = 0;
+      
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -471,7 +487,8 @@ namespace SEOMacroscope
           {
 
             string sKey = hlHyperlinkOut.GetGuid();
-
+            count++;
+            
             if( lvListView.Items.ContainsKey( sKey ) )
             {
 
@@ -527,17 +544,19 @@ namespace SEOMacroscope
       }
 
       lvListView.EndUpdate();
-            
+         
+      return( count );
     }
 
     /** Insecure Links Out ****************************************************/
 
-    private void RenderListViewInsecureLinks ( MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewInsecureLinks ( MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewInsecureLinks;
       List<string> DocList = msDoc.GetInsecureLinks();
-
+      int count = 0;
+      
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -550,8 +569,8 @@ namespace SEOMacroscope
           {
 
             string sUrl = DocList[ i ];
-
             string sPairKey = sUrl;
+            count++;
 
             if( lvListView.Items.ContainsKey( sUrl ) )
             {
@@ -599,17 +618,20 @@ namespace SEOMacroscope
       
       lvListView.EndUpdate();
             
+      return( count );
+      
     }
 
     /** Stylesheets ***********************************************************/
 
-    private void RenderListViewStylesheets ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewStylesheets ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewStylesheets;
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
-      
+      int count = 0;
+            
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -620,8 +642,9 @@ namespace SEOMacroscope
         string sKeyPair = sUrl;
         ListViewItem lvItem = null;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
-
-        DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
+        count++;
+        
+        //DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
 
         if( OutlinkType == MacroscopeConstants.OutlinkType.STYLESHEET )
         {
@@ -691,18 +714,21 @@ namespace SEOMacroscope
       }
 
       lvListView.EndUpdate();
+      
+      return( count );
             
     }
 
     /** Javascripts ***********************************************************/
 
-    private void RenderListViewJavascripts ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewJavascripts ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewJavascripts;
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
-      
+      int count = 0;
+            
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -713,8 +739,9 @@ namespace SEOMacroscope
         string sKeyPair = sUrl;
         ListViewItem lvItem = null;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
-
-        DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
+        count++;
+        
+        //DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
 
         if( OutlinkType == MacroscopeConstants.OutlinkType.SCRIPT )
         {
@@ -784,18 +811,21 @@ namespace SEOMacroscope
       }
 
       lvListView.EndUpdate();
-            
+          
+      return( count );
+      
     }
 
     /** Images ****************************************************************/
 
-    private void RenderListViewImages ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewImages ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewImages;
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
-      
+      int count = 0;
+            
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -806,8 +836,9 @@ namespace SEOMacroscope
         string sKeyPair = sUrl;
         ListViewItem lvItem = null;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
-
-        DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType.ToString() ) );
+        count++;
+        
+        //DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
 
         if( OutlinkType == MacroscopeConstants.OutlinkType.IMAGE )
         {
@@ -877,18 +908,21 @@ namespace SEOMacroscope
       }
 
       lvListView.EndUpdate();
-            
+         
+      return( count );
+      
     }
     
     /** Audios ****************************************************************/
 
-    private void RenderListViewAudios ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewAudios ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewAudios;
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
-      
+      int count = 0;
+            
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -899,8 +933,9 @@ namespace SEOMacroscope
         string sKeyPair = sUrl;
         ListViewItem lvItem = null;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
-
-        DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
+        count++;
+        
+        //DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
 
         if( OutlinkType == MacroscopeConstants.OutlinkType.AUDIO )
         {
@@ -970,18 +1005,21 @@ namespace SEOMacroscope
       }
 
       lvListView.EndUpdate();
-            
+         
+      return( count );
+      
     }
 
     /** Videos ****************************************************************/
 
-    private void RenderListViewVideos ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewVideos ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewVideos;
       Dictionary<string,MacroscopeOutlink> DicOutlinks = msDoc.GetOutlinks();
       int iCount = 1;
-      
+      int count = 0;
+            
       lvListView.BeginUpdate();
       
       lvListView.Items.Clear();
@@ -992,8 +1030,9 @@ namespace SEOMacroscope
         string sKeyPair = sUrl;
         ListViewItem lvItem = null;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
-
-        DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
+        count++;
+        
+        //DebugMsg( string.Format( "OutlinkType: {0}", OutlinkType ) );
 
         if( OutlinkType == MacroscopeConstants.OutlinkType.VIDEO )
         {
@@ -1063,16 +1102,20 @@ namespace SEOMacroscope
       }
 
       lvListView.EndUpdate();
+      
+      return( count );
+      
     }
 
     /** Keyword Analysis ******************************************************/
 
-    private void RenderListViewKeywordAnalysis ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private async Task<int> RenderListViewKeywordAnalysis ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewKeywordAnalysis;
       Dictionary<string,int> DicTerms = msDoc.GetDeepKeywordAnalysisAsDictonary( Words: 1 );
-
+      int count = 0;
+      
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
@@ -1082,7 +1125,8 @@ namespace SEOMacroscope
 
         string sKeyPair = sTerm;
         ListViewItem lvItem = null;
-
+        count++;
+        
         if( lvListView.Items.ContainsKey( sKeyPair ) )
         {
 
@@ -1133,6 +1177,8 @@ namespace SEOMacroscope
       }
       
       lvListView.EndUpdate();
+      
+      return( count );
       
     }
 

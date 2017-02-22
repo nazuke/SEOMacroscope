@@ -697,6 +697,8 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    /// Reference: https://support.google.com/webmasters/answer/189077
+
     void ExtractHrefLangAlternates ( HtmlDocument HtmlDoc )
     {
 
