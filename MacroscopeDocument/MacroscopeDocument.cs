@@ -1554,14 +1554,14 @@ namespace SEOMacroscope
       // Process MIME Type
       {
 
-        Regex reIsHtml = new Regex ( "^text/html", RegexOptions.IgnoreCase );
+        Regex reIsHtml = new Regex ( "^(text/html|application/xhtml+xml)", RegexOptions.IgnoreCase );
         Regex reIsCss = new Regex ( "^text/css", RegexOptions.IgnoreCase );
         Regex reIsJavascript = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
         Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
         Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
         Regex reIsAudio = new Regex ( "^audio/[a-z0-9]+", RegexOptions.IgnoreCase );
         Regex reIsVideo = new Regex ( "^video/[a-z0-9]+", RegexOptions.IgnoreCase );
-        Regex reIsXml = new Regex ( "^(application|text)/xml", RegexOptions.IgnoreCase );
+        Regex reIsXml = new Regex ( "^(application|text)/(atom\\+xml|xml)", RegexOptions.IgnoreCase );
 
         if( reIsHtml.IsMatch( res.ContentType.ToString() ) )
         {

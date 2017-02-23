@@ -25,15 +25,15 @@
 
 namespace SEOMacroscope
 {
-	partial class MacroscopeAboutForm
+	partial class MacroscopeLicenceForm
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-
+		public System.Windows.Forms.RichTextBox richTextBoxLicence;
+		
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -47,7 +47,7 @@ namespace SEOMacroscope
 			}
 			base.Dispose(disposing);
 		}
-
+		
 		/// <summary>
 		/// This method is required for Windows Forms designer support.
 		/// Do not change the method contents inside the source code editor. The Forms designer might
@@ -56,53 +56,45 @@ namespace SEOMacroscope
 		private void InitializeComponent()
 		{
 			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
+			this.richTextBoxLicence = new System.Windows.Forms.RichTextBox();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
-			this.label1.BackColor = System.Drawing.Color.Transparent;
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.ForeColor = System.Drawing.Color.White;
-			this.label1.Location = new System.Drawing.Point(20, 20);
-			this.label1.Margin = new System.Windows.Forms.Padding(0);
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(300, 50);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "SEO Macroscope";
-			this.label1.Click += new System.EventHandler(this.Label1Click);
+			this.label1.Size = new System.Drawing.Size(560, 23);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "SEO Macroscope Licence";
 			// 
-			// label2
+			// richTextBoxLicence
 			// 
-			this.label2.BackColor = System.Drawing.Color.Transparent;
-			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.ForeColor = System.Drawing.Color.White;
-			this.label2.Location = new System.Drawing.Point(20, 290);
-			this.label2.Margin = new System.Windows.Forms.Padding(0);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(300, 50);
-			this.label2.TabIndex = 2;
-			this.label2.Text = "SEO Macroscope\r\n\r\nCopyright 2017 Jason Holland\r\n\r\n";
+			this.richTextBoxLicence.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.richTextBoxLicence.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.richTextBoxLicence.Location = new System.Drawing.Point(12, 35);
+			this.richTextBoxLicence.Name = "richTextBoxLicence";
+			this.richTextBoxLicence.Size = new System.Drawing.Size(560, 415);
+			this.richTextBoxLicence.TabIndex = 1;
+			this.richTextBoxLicence.Text = "";
 			// 
-			// MacroscopeAboutForm
+			// MacroscopeLicenceForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.Window;
-			this.BackgroundImage = global::SEOMacroscope.Images._0001;
-			this.ClientSize = new System.Drawing.Size(584, 361);
-			this.Controls.Add(this.label2);
+			this.BackColor = System.Drawing.Color.White;
+			this.CausesValidation = false;
+			this.ClientSize = new System.Drawing.Size(584, 462);
+			this.Controls.Add(this.richTextBoxLicence);
 			this.Controls.Add(this.label1);
-			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "MacroscopeAboutForm";
-			this.ShowInTaskbar = false;
+			this.Name = "MacroscopeLicenceForm";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "About SEO Macroscope";
+			this.Text = "MacroscopeLicenceForm";
 			this.TopMost = true;
 			this.ResumeLayout(false);
 

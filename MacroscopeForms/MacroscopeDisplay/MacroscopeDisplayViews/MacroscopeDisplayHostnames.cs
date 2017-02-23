@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -39,12 +40,12 @@ namespace SEOMacroscope
       : base( MainFormNew, lvListViewNew )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainFormNew;
+      this.lvListView = lvListViewNew;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {
@@ -118,13 +119,15 @@ namespace SEOMacroscope
 
       Boolean bIsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( sHostname );
 
+      ListViewItem lvItem = null;
+      
       if( this.lvListView.Items.ContainsKey( sPairKey ) )
       {
 
         try
         {
 
-          ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem = this.lvListView.Items[ sPairKey ];
           lvItem.SubItems[ 0 ].Text = sHostname;
           lvItem.SubItems[ 1 ].Text = iCount.ToString();
           lvItem.SubItems[ 2 ].Text = bIsInternal.ToString();
@@ -142,7 +145,7 @@ namespace SEOMacroscope
         try
         {
 
-          ListViewItem lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( sPairKey );
 
           lvItem.Name = sPairKey;
 
@@ -158,6 +161,26 @@ namespace SEOMacroscope
           this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 2: {0}", ex.Message ) );
         }
 
+      }
+
+      if( lvItem != null )
+      {
+
+        lvItem.ForeColor = Color.ForestGreen;
+
+        if( bIsInternal )
+        {
+          lvItem.SubItems[ 0 ].ForeColor = Color.ForestGreen;
+          lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+          lvItem.SubItems[ 2 ].ForeColor = Color.ForestGreen;
+        }
+        else
+        {
+          lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+          lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+        }
+        
       }
 
       this.lvListView.EndUpdate();

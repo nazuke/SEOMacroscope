@@ -38,13 +38,13 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		Dictionary<string,Robots> dicRobots;
+		Dictionary<string,Robots> RobotsDic;
 
 		/**************************************************************************/
 
 		public MacroscopeRobots ()
 		{
-			dicRobots = new Dictionary<string,Robots> ( 32 );
+			RobotsDic = new Dictionary<string,Robots> ( 32 );
 		}
 
 		/** ROBOT RULES ***********************************************************/
@@ -91,7 +91,7 @@ namespace SEOMacroscope
 		public List<string> GetSitemapsAsList ( string sUrl )
 		{
 
-			List<string> lSitemaps = new List<string> ();
+			List<string> SitemapsList = new List<string> ();
 			Robots robot = this.FetchRobot( sUrl );
 
 			if( robot != null )
@@ -100,16 +100,16 @@ namespace SEOMacroscope
 				foreach( Sitemap SitemapEntry in robot.Sitemaps )
 				{
 
-					string sSitemapUrl = SitemapEntry.Url.ToString();
-					lSitemaps.Add( sSitemapUrl );
+					string SitemapUrl = SitemapEntry.Url.ToString();
+					SitemapsList.Add( SitemapUrl );
 
-					DebugMsg( string.Format( "ROBOTS sSitemap: {0}", sSitemapUrl ) );
+					DebugMsg( string.Format( "ROBOTS SitemapUrl: {0}", SitemapUrl ) );
 
 				}
 
 			}
 
-			return( lSitemaps );
+			return( SitemapsList );
 
 		}
 
@@ -184,12 +184,12 @@ namespace SEOMacroscope
 			if( sRobotsTxtUrl != null )
 			{
 
-				lock( this.dicRobots )
+				lock( this.RobotsDic )
 				{
 
-					if( this.dicRobots.ContainsKey( sRobotsTxtUrl ) )
+					if( this.RobotsDic.ContainsKey( sRobotsTxtUrl ) )
 					{
-						robot = this.dicRobots[ sRobotsTxtUrl ];
+						robot = this.RobotsDic[ sRobotsTxtUrl ];
 					}
 					else
 					{
@@ -199,7 +199,7 @@ namespace SEOMacroscope
 						if( sRobotsText.Length > 0 )
 						{
 							robot = new Robots ( sRobotsText );
-							this.dicRobots.Add( sRobotsTxtUrl, robot );
+							this.RobotsDic.Add( sRobotsTxtUrl, robot );
 						}
 
 					}

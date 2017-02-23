@@ -161,6 +161,10 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTelephoneNumbers.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTitles.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayVideos.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeLicenceForm\MacroscopeLicenceForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeLicenceForm\MacroscopeLicenceForm.Designer.cs">
+      <DependentUpon>MacroscopeLicenceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.Designer.cs">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
@@ -227,6 +231,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <EmbeddedResource Include="LICENSE">
+      <LogicalName>LICENCE</LogicalName>
+    </EmbeddedResource>
     <None Include="MacroscopePreferences.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MacroscopePreferences.Designer.cs</LastGenOutput>
@@ -245,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.resx">
       <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeLicenceForm\MacroscopeLicenceForm.resx">
+      <DependentUpon>MacroscopeLicenceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.resx">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
@@ -284,6 +294,7 @@
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
     <Folder Include="MacroscopeForms\MacroscopeTaskParameters" />
+    <Folder Include="MacroscopeForms\MacroscopeLicenceForm" />
     <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />

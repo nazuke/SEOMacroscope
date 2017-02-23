@@ -47,12 +47,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayStructureOverview ( MacroscopeMainForm MainFormNew, TreeView tvTreeViewNew )
+    public MacroscopeDisplayStructureOverview ( MacroscopeMainForm MainForm, TreeView tvTreeView )
     {
       
-      this.MainForm = MainFormNew;
+      this.MainForm = MainForm;
       
-      this.tvTreeView = tvTreeViewNew;
+      this.tvTreeView = tvTreeView;
       
       this.ConfigureTreeView();
     

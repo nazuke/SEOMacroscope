@@ -896,7 +896,7 @@ namespace SEOMacroscope
         if( sLang != null )
         {
           DebugMsg( string.Format( "RecalculateStatsDeepKeywordAnalysis: GetLang {0}", msDoc.GetLang() ) );
-          if( Regex.IsMatch( msDoc.GetLang(), "^(en|fr|de|it|es|po)", RegexOptions.IgnoreCase ) )
+          if( Regex.IsMatch( msDoc.GetLang(), "^(x-default|en|fr|de|it|es|po)", RegexOptions.IgnoreCase ) )
           {
             lock( this.StatsDeepKeywordAnalysis )
             {

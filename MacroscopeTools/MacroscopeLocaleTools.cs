@@ -29,58 +29,63 @@ using HtmlAgilityPack;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeLocaleTools : Macroscope
-	{
+  public class MacroscopeLocaleTools : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeLocaleTools ()
-		{
-		}
+    public MacroscopeLocaleTools ()
+    {
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public string ProbeLocale ( HtmlDocument doc )
-		{
+    public string ProbeLocale ( HtmlDocument doc )
+    {
 
-			string sLocale = null;
+      string sLocale = null;
 
-			if( sLocale == null ) {
-				HtmlNode nNode = doc.DocumentNode.SelectSingleNode( "/html[@lang]" );
-				if( nNode != null ) {
-					sLocale = nNode.GetAttributeValue( "lang", null );
-					DebugMsg( string.Format( "HTML@LANG: {0}", sLocale ) );
-				} else {
-					sLocale = null;
-					DebugMsg( string.Format( "HTML@LANG: {0}", "MISSING" ) );
-				}
-			}
+      if( sLocale == null )
+      {
+        HtmlNode nNode = doc.DocumentNode.SelectSingleNode( "/html[@lang]" );
+        if( nNode != null )
+        {
+          sLocale = nNode.GetAttributeValue( "lang", null );
+          DebugMsg( string.Format( "HTML@LANG: {0}", sLocale ) );
+        }
+        else
+        {
+          sLocale = null;
+          DebugMsg( string.Format( "HTML@LANG: {0}", "MISSING" ) );
+        }
+      }
 
-			if( sLocale == null ) {
-				HtmlNode nNode = doc.DocumentNode.SelectSingleNode( "/html/head/meta[@http-equiv='Content-Language']" );
-				if( nNode != null ) {
-					sLocale = nNode.GetAttributeValue( "content", null );
-					DebugMsg( string.Format( "HTML@LANG: {0}", sLocale ) );
-				} else {
-					sLocale = null;
-					DebugMsg( string.Format( "HTML@LANG: {0}", "MISSING" ) );
-				}
-			}
+      if( sLocale == null )
+      {
+        HtmlNode nNode = doc.DocumentNode.SelectSingleNode( "/html/head/meta[@http-equiv='Content-Language']" );
+        if( nNode != null )
+        {
+          sLocale = nNode.GetAttributeValue( "content", null );
+          DebugMsg( string.Format( "HTML@LANG: {0}", sLocale ) );
+        }
+        else
+        {
+          sLocale = null;
+          DebugMsg( string.Format( "HTML@LANG: {0}", "MISSING" ) );
+        }
+      }
 
-			return( sLocale );
+      if( sLocale == null )
+      {
+        sLocale = "x-default";
+      }
+      
+      return( sLocale );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		/*
-		public new void DebugMsg ( String sMsg )
-		{
-		}
-		*/
-
-		/**************************************************************************/
-
-	}
+  }
 
 }

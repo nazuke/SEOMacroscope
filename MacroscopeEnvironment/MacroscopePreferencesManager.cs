@@ -887,7 +887,8 @@ namespace SEOMacroscope
 
     public static Boolean GetAnalyzeKeywordsInText ()
     {
-      return( AnalyzeKeywordsInText );
+      Boolean bState = AnalyzeKeywordsInText;
+      return( bState );
     }
 
     public static void SetAnalyzeKeywordsInText ( Boolean bState )

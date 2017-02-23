@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -44,22 +43,22 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     public MacroscopeDisplayStructureKeywordAnalysis (
-      MacroscopeMainForm MainFormNew,
-      ListView lvListView1New,
-      ListView lvListView2New,
-      ListView lvListView3New,
-      ListView lvListView4New
+      MacroscopeMainForm MainForm,
+      ListView lvListView1,
+      ListView lvListView2,
+      ListView lvListView3,
+      ListView lvListView4
     )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
       
-      this.MainForm = MainFormNew;
+      this.MainForm = MainForm;
       
-      this.lvListViews.Add( lvListView1New );
-      this.lvListViews.Add( lvListView2New );
-      this.lvListViews.Add( lvListView3New );
-      this.lvListViews.Add( lvListView4New );
+      this.lvListViews.Add( lvListView1 );
+      this.lvListViews.Add( lvListView2 );
+      this.lvListViews.Add( lvListView3 );
+      this.lvListViews.Add( lvListView4 );
 
     }
 
@@ -155,13 +154,11 @@ namespace SEOMacroscope
         
         if( lvItem != null )
         {
-
           lvItem.ForeColor = Color.Blue;
-
         }
 
       }
-      
+
       lvListView.EndUpdate();
 
     }

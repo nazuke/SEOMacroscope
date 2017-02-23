@@ -43,10 +43,10 @@ namespace SEOMacroscope
         
     /**************************************************************************/
 
-    protected MacroscopeDisplayListView ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+    protected MacroscopeDisplayListView ( MacroscopeMainForm MainForm, ListView lvListView )
     {
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
     }
 
     /**************************************************************************/

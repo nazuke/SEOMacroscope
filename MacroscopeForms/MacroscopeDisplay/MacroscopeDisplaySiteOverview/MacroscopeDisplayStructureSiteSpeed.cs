@@ -48,7 +48,7 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public MacroscopeDisplayStructureSiteSpeed(
+    public MacroscopeDisplayStructureSiteSpeed (
       MacroscopeMainForm MainFormNew,
       ListView lvListViewSlowest,
       ListView lvListViewFastest,
@@ -56,12 +56,12 @@ namespace SEOMacroscope
     )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       
       this.MainForm = MainFormNew;
 
-      this.DecimalSorterAscending = new MacroscopeDecimalSorter(MacroscopeDecimalSorter.SortOrder.ASCENDING);
-      this.DecimalSorterDescending = new MacroscopeDecimalSorter(MacroscopeDecimalSorter.SortOrder.DESCENDING);
+      this.DecimalSorterAscending = new MacroscopeDecimalSorter ( MacroscopeDecimalSorter.SortOrder.ASCENDING );
+      this.DecimalSorterDescending = new MacroscopeDecimalSorter ( MacroscopeDecimalSorter.SortOrder.DESCENDING );
                 
       this.lvListViewSlowest = lvListViewSlowest;
       this.lvListViewFastest = lvListViewFastest;
@@ -71,69 +71,82 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RefreshSiteSpeedData(MacroscopeDocumentCollection DocCollection)
+    public void RefreshSiteSpeedData ( MacroscopeDocumentCollection DocCollection )
     {
 
-      if (DocCollection.CountDocuments() > 0) {
+      if( DocCollection.CountDocuments() > 0 )
+      {
 
         const int MeasurePages = 20;
         decimal Average = 0;
         int Count = 0;
         decimal Maximus = 0;
 
-        SortedList<decimal,string> SortedListAll = new SortedList<decimal, string>(DocCollection.CountDocuments(), this.DecimalSorterAscending);
-        SortedList<decimal,string> SortedListSlowest = new SortedList<decimal, string>(MeasurePages, this.DecimalSorterDescending);
-        SortedList<decimal,string> SortedListFastest = new SortedList<decimal, string>(MeasurePages, this.DecimalSorterAscending);
+        SortedList<decimal,string> SortedListAll = new SortedList<decimal, string> ( DocCollection.CountDocuments(), this.DecimalSorterAscending );
+        SortedList<decimal,string> SortedListSlowest = new SortedList<decimal, string> ( MeasurePages, this.DecimalSorterDescending );
+        SortedList<decimal,string> SortedListFastest = new SortedList<decimal, string> ( MeasurePages, this.DecimalSorterAscending );
 
-        foreach (string sUrl in DocCollection.DocumentKeys()) {
+        foreach( string sUrl in DocCollection.DocumentKeys() )
+        {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument(sUrl);
+          MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
           decimal Duration = msDoc.GetDurationInSeconds();
 
-          if (!msDoc.GetIsExternal() && msDoc.GetWasDownloaded()) {
+          if( !msDoc.GetIsExternal() && msDoc.GetWasDownloaded() )
+          {
           
             Count++;
             Maximus += Duration;
           
-            if (SortedListAll.ContainsKey(Duration)) {
-              SortedListAll[Duration] = msDoc.GetUrl();
-            } else {
-              SortedListAll.Add(Duration, msDoc.GetUrl());
+            if( SortedListAll.ContainsKey( Duration ) )
+            {
+              SortedListAll[ Duration ] = msDoc.GetUrl();
+            }
+            else
+            {
+              SortedListAll.Add( Duration, msDoc.GetUrl() );
             }
           
           }
 
         }
 
-        foreach (decimal Duration in SortedListAll.Keys.Take(MeasurePages)) {
-          SortedListFastest.Add(Duration, SortedListAll[Duration]);
+        foreach( decimal Duration in SortedListAll.Keys.Take(MeasurePages) )
+        {
+          SortedListFastest.Add( Duration, SortedListAll[ Duration ] );
         }
 
-        foreach (decimal Duration in SortedListAll.Keys.Reverse().Take(MeasurePages)) {
-          SortedListSlowest.Add(Duration, SortedListAll[Duration]);
+        foreach( decimal Duration in SortedListAll.Keys.Reverse().Take(MeasurePages) )
+        {
+          SortedListSlowest.Add( Duration, SortedListAll[ Duration ] );
         }
 
-        if (Count > 0) {
+        if( Count > 0 )
+        {
           Average = Maximus / Count;
         }
         
-        if (this.MainForm.InvokeRequired) {
+        if( this.MainForm.InvokeRequired )
+        {
           this.MainForm.Invoke(
-            new MethodInvoker(
-              delegate {
+            new MethodInvoker (
+              delegate
+              {
                 Cursor.Current = Cursors.WaitCursor;
-                this.RenderSiteSpeedListView(this.lvListViewSlowest, SortedListSlowest);
-                this.RenderSiteSpeedListView(this.lvListViewFastest, SortedListFastest);
-                this.UpdateAverageLabel(Average);
+                this.RenderSiteSpeedListView( this.lvListViewSlowest, SortedListSlowest );
+                this.RenderSiteSpeedListView( this.lvListViewFastest, SortedListFastest );
+                this.UpdateAverageLabel( Average );
                 Cursor.Current = Cursors.Default;
               }
             )
           );
-        } else {
+        }
+        else
+        {
           Cursor.Current = Cursors.WaitCursor;
-          this.RenderSiteSpeedListView(this.lvListViewSlowest, SortedListSlowest);
-          this.RenderSiteSpeedListView(this.lvListViewFastest, SortedListFastest);
-          this.UpdateAverageLabel(Average);
+          this.RenderSiteSpeedListView( this.lvListViewSlowest, SortedListSlowest );
+          this.RenderSiteSpeedListView( this.lvListViewFastest, SortedListFastest );
+          this.UpdateAverageLabel( Average );
           Cursor.Current = Cursors.Default;
         }
       
@@ -143,7 +156,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    void RenderSiteSpeedListView(
+    void RenderSiteSpeedListView (
       ListView lvListView,
       SortedList<decimal,string> SortedListSpeed
     )
@@ -153,52 +166,65 @@ namespace SEOMacroscope
 
       lvListView.Items.Clear();
             
-      foreach (decimal Duration in SortedListSpeed.Keys) {
+      foreach( decimal Duration in SortedListSpeed.Keys )
+      {
 
-        string sDuration = string.Format("{0:0.00}", Duration);
+        string sDuration = string.Format( "{0:0.00}", Duration );
         ListViewItem lvItem = null;
 
-        if (lvListView.Items.ContainsKey(sDuration)) {
+        if( lvListView.Items.ContainsKey( sDuration ) )
+        {
 
-          try {
+          try
+          {
 
-            lvItem = lvListView.Items[sDuration];
-            lvItem.SubItems[0].Text = sDuration;
-            lvItem.SubItems[1].Text = SortedListSpeed[Duration];
+            lvItem = lvListView.Items[ sDuration ];
+            lvItem.SubItems[ 0 ].Text = sDuration;
+            lvItem.SubItems[ 1 ].Text = SortedListSpeed[ Duration ];
 
-          } catch (Exception ex) {
-            DebugMsg(string.Format("MacroscopeDisplayStructureSiteSpeed 1: {0}", ex.Message));
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "MacroscopeDisplayStructureSiteSpeed 1: {0}", ex.Message ) );
           }
 
-        } else {
+        }
+        else
+        {
 
-          try {
+          try
+          {
 
-            lvItem = new ListViewItem(sDuration);
+            lvItem = new ListViewItem ( sDuration );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = sDuration;
 
-            lvItem.SubItems.Add(sDuration);
-            lvItem.SubItems[0].Text = sDuration;
-            lvItem.SubItems[1].Text = SortedListSpeed[Duration];
+            lvItem.SubItems.Add( sDuration );
+            lvItem.SubItems[ 0 ].Text = sDuration;
+            lvItem.SubItems[ 1 ].Text = SortedListSpeed[ Duration ];
             
-            lvListView.Items.Add(lvItem);
+            lvListView.Items.Add( lvItem );
 
-          } catch (Exception ex) {
-            DebugMsg(string.Format("MacroscopeDisplayStructureSiteSpeed 2: {0}", ex.Message));
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "MacroscopeDisplayStructureSiteSpeed 2: {0}", ex.Message ) );
           }
 
         }
         
-        if (lvItem != null) {
+        if( lvItem != null )
+        {
           
           lvItem.ForeColor = Color.ForestGreen;
           
-          if (Duration >= 1) {
+          if( Duration >= 1 )
+          {
             lvItem.ForeColor = Color.Orange;
           }
 
-          if (Duration >= 2) {
+          if( Duration >= 2 )
+          {
             lvItem.ForeColor = Color.Red;
           }
 
@@ -212,18 +238,20 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void UpdateAverageLabel(decimal Duration)
+    private void UpdateAverageLabel ( decimal Duration )
     {
       
-      this.AverageLabel.Text = string.Format("Average Response Time: {0:0.00}s", Duration);
+      this.AverageLabel.Text = string.Format( "Average Response Time: {0:0.00}s", Duration );
       
       this.AverageLabel.ForeColor = Color.ForestGreen;
           
-      if (Duration >= 1) {
+      if( Duration >= 1 )
+      {
         this.AverageLabel.ForeColor = Color.Orange;
       }
 
-      if (Duration >= 2) {
+      if( Duration >= 2 )
+      {
         this.AverageLabel.ForeColor = Color.Red;
       }
     }

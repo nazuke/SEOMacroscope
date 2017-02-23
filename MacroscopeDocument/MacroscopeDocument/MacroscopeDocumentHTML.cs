@@ -133,9 +133,13 @@ namespace SEOMacroscope
         {
 
           { // Probe Locale
+            
             MacroscopeLocaleTools msLocale = new MacroscopeLocaleTools ();
             this.Locale = msLocale.ProbeLocale( HtmlDoc );
-            this.SetHreflang( this.Locale, this.Url );
+            if( this.Locale != null )
+            {
+              this.SetHreflang( this.Locale, this.Url );
+            }
           }
 
           { // Probe Character Set

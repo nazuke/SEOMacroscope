@@ -39,16 +39,18 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private const int MaxHeadingsDisplayed = 2;
+    private ToolStripLabel DocumentCount;
 
     /**************************************************************************/
 
-    public MacroscopeDisplayStructure ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplayStructure ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      this.MainForm = MainFormNew;
-      this.lvListView = lvListViewNew;
-
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
+      this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelStructureItems;
+      
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -254,6 +256,8 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
         }
 
+        this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
+
         this.lvListView.EndUpdate();
 
       }
@@ -270,31 +274,31 @@ namespace SEOMacroscope
           MacroscopeConstants.Url,
           300
         }, {
-					MacroscopeConstants.Title,
-					300
-				}
-			};
+          MacroscopeConstants.Title,
+          300
+        }
+      };
 
-			for( int iColIndex = 0 ; iColIndex < this.lvListView.Columns.Count ; iColIndex++ )
-			{
-				this.lvListView.AutoResizeColumn( iColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
-			}
+      for( int iColIndex = 0 ; iColIndex < this.lvListView.Columns.Count ; iColIndex++ )
+      {
+        this.lvListView.AutoResizeColumn( iColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
+      }
 
-			foreach( string sColName in lColExplicitWidth.Keys )
-			{
-				this.lvListView.Columns[ sColName ].Width = lColExplicitWidth[ sColName ];
-			}
+      foreach( string sColName in lColExplicitWidth.Keys )
+      {
+        this.lvListView.Columns[ sColName ].Width = lColExplicitWidth[ sColName ];
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void ListViewResizeColumns ()
-		{
+    void ListViewResizeColumns ()
+    {
 
-			List<string> lColDataWidth = new List<string> () {
-				MacroscopeConstants.Url,
-				MacroscopeConstants.DateServer,
+      List<string> lColDataWidth = new List<string> () {
+          MacroscopeConstants.Url,
+        MacroscopeConstants.DateServer,
 				MacroscopeConstants.DateModified,
 				MacroscopeConstants.Title
 			};

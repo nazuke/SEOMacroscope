@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Timers;
+using System.Resources;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -334,7 +336,7 @@ namespace SEOMacroscope
 
     /** Edit Menu *************************************************************/
 
-    void CallbackEditPreferencesClick ( object sender, EventArgs e )
+    private void CallbackEditPreferencesClick ( object sender, EventArgs e )
     {
       MacroscopePrefsForm PreferencesForm = new MacroscopePrefsForm ();
       MacroscopePrefsControl PrefsControl = PreferencesForm.macroscopePrefsControlInstance;
@@ -347,7 +349,7 @@ namespace SEOMacroscope
       }
     }
 
-    void SetPrefsFormControlFieldToDefaults ( object sender, EventArgs e )
+    private void SetPrefsFormControlFieldToDefaults ( object sender, EventArgs e )
     {
       Button DefaultsButton = ( Button )sender;
       MacroscopePrefsForm PreferencesForm = ( MacroscopePrefsForm )DefaultsButton.TopLevelControl;
@@ -356,7 +358,7 @@ namespace SEOMacroscope
       this.SetPrefsFormControlFields( PrefsControl );
     }
 
-    void SetPrefsFormControlFields ( MacroscopePrefsControl PrefsControl )
+    private void SetPrefsFormControlFields ( MacroscopePrefsControl PrefsControl )
     {
 
       { //Configure Form Fields
@@ -433,7 +435,7 @@ namespace SEOMacroscope
 
     }
 
-    void SavePrefsFormControlFields ( MacroscopePrefsControl PrefsControl )
+    private void SavePrefsFormControlFields ( MacroscopePrefsControl PrefsControl )
     {
 
       // WebProxy Options
@@ -498,26 +500,38 @@ namespace SEOMacroscope
 
     /** Help Menu *************************************************************/
 
-    void CallbackHelpBlogClick ( object sender, EventArgs e )
+    private void CallbackHelpBlogClick ( object sender, EventArgs e )
     {
       Process.Start( "https://seo-macroscope.blogspot.com/" );
     }
 
-    void CallbackHelpGitHubClick ( object sender, EventArgs e )
+    private void CallbackHelpGitHubClick ( object sender, EventArgs e )
     {
       Process.Start( "https://github.com/nazuke/SEOMacroscope" );
     }
-
-    void CallbackHelpAboutClick ( object sender, EventArgs e )
+    
+    private void CallbackHelpLicenceClick ( object sender, EventArgs e )
     {
-      DebugMsg( "CallbackHelpAboutClick Called" );
-      MacroscopeAboutForm fAboutForm = new MacroscopeAboutForm ();
-      fAboutForm.ShowDialog();
+      MacroscopeLicenceForm LicenceForm = new MacroscopeLicenceForm ();
+      string LicenceText;
+      StreamReader Reader = new StreamReader ( Assembly.GetExecutingAssembly().GetManifestResourceStream( "LICENCE" ) );
+      LicenceText = Reader.ReadToEnd();
+      DebugMsg( string.Format( "LicenceText: {0}", LicenceText ) );
+      LicenceForm.richTextBoxLicence.Text = LicenceText.ToString();
+      LicenceForm.ShowDialog();
+      LicenceForm.Dispose();
+    }
+
+    private void CallbackHelpAboutClick ( object sender, EventArgs e )
+    {
+      MacroscopeAboutForm AboutForm = new MacroscopeAboutForm ();
+      AboutForm.ShowDialog();
+      AboutForm.Dispose();
     }
 
     /** DIALOGUE BOXES ********************************************************/
 
-    void DialogueBoxWarning ( string sTitle, string sMessage )
+    private void DialogueBoxWarning ( string sTitle, string sMessage )
     {
       MessageBox.Show(
         sMessage,
@@ -528,7 +542,7 @@ namespace SEOMacroscope
       );
     }
 
-    void DialogueBoxError ( string sTitle, string sMessage )
+    private void DialogueBoxError ( string sTitle, string sMessage )
     {
       MessageBox.Show(
         sMessage,
@@ -539,14 +553,14 @@ namespace SEOMacroscope
       );
     }
 
-    void DialogueBoxStartUrlInvalid ()
+    private void DialogueBoxStartUrlInvalid ()
     {
       DialogueBoxError( "Error", "Please enter a valid URL" );
     }
 
     /** MAIN CONTROL STRIP CALLBACKS ******************************************/
 
-    void CallbackStartUrlTextChanged ( object sender, EventArgs e )
+    private void CallbackStartUrlTextChanged ( object sender, EventArgs e )
     {
 
       string sStartUrl = this.GetUrl();
@@ -559,7 +573,7 @@ namespace SEOMacroscope
 
     }
 
-    void CallbackStartUrlKeyUp ( object sender, KeyEventArgs e )
+    private void CallbackStartUrlKeyUp ( object sender, KeyEventArgs e )
     {
 
       switch( e.KeyCode )
@@ -584,14 +598,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void CallbackScanStart ( object sender, EventArgs e )
+    private void CallbackScanStart ( object sender, EventArgs e )
     {
       this.CallackScanStartExecute();
     }
 
     /** NORMAL SCAN ***********************************************************/
 
-    void CallackScanStartExecute ()
+    private void CallackScanStartExecute ()
     {
 
       string sStartUrl = this.GetUrl();
@@ -629,7 +643,7 @@ namespace SEOMacroscope
 
     /** SCAN FROM URL LIST FILE ***********************************************/
 
-    void CallackScanStartUrlListFileExecute ( string sPath )
+    private void CallackScanStartUrlListFileExecute ( string sPath )
     {
 
       this.JobMaster.ClearAllQueues();
