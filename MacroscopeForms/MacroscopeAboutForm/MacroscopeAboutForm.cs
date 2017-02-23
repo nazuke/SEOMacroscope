@@ -30,37 +30,26 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeAboutForm.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeAboutForm.
+  /// </summary>
 
-	public partial class MacroscopeAboutForm : Form
-	{
+  public partial class MacroscopeAboutForm : Form
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeAboutForm ()
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-		}
-    void RichTextBox1TextChanged ( object sender, EventArgs e )
+    public MacroscopeAboutForm ()
     {
+		  
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+
+      this.labelVersionString.Text = string.Format( "Version {0}", ProductVersion );
+
+    }
+
+    /**************************************************************************/
     
-    }
-    void Label1Click ( object sender, EventArgs e )
-    {
-  
-    }
-
-
-		/**************************************************************************/
-	}
+  }
 
 }

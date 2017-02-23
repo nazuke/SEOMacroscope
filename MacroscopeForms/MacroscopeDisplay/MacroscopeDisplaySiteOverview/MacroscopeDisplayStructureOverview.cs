@@ -79,7 +79,6 @@ namespace SEOMacroscope
       this.tvTreeView.Nodes.Clear();
 
       {
-
         TreeNode nNode = this.tvTreeView.Nodes.Add( "SUMMARY" );
         nNode.Text = "Site Summary";
         nNode.Nodes.Add( "Total URLs Found: 0" ).Name = "UrlsFound";
@@ -88,6 +87,14 @@ namespace SEOMacroscope
         nNode.Nodes.Add( "Total External URLs: 0" ).Name = "UrlsExternal";
       }
 
+      {
+        TreeNode nNode = this.tvTreeView.Nodes.Add( "RESPONSETIMES" );
+        nNode.Text = "Response Times";
+        nNode.Nodes.Add( "Fastest Page Response: 0.0 secs" ).Name = "FastestPageResponse";
+        nNode.Nodes.Add( "Slowest Page Response: 0.0 secs" ).Name = "SlowestPageResponse";
+        nNode.Nodes.Add( "Average Page Duration: 0.0 secs" ).Name = "AveragePageDuration";
+      }
+      
       {
         TreeNode nNode = this.tvTreeView.Nodes.Add( "ROBOTS" );
         nNode.Text = "Robots.txt";
@@ -177,6 +184,24 @@ namespace SEOMacroscope
         int iCount = DocCollection.CountUrlsExternal();
         TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsExternal", true );
         tnNode[ 0 ].Text = string.Format( "Total External URLs: {0}", iCount );
+      }
+
+      {
+        decimal Fastest = DocCollection.GetStatsDurationsFastest();
+        decimal Slowest = DocCollection.GetStatsDurationsSlowest();
+        decimal Average = DocCollection.GetStatsDurationAverage();
+        {
+          TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "FastestPageResponse", true );
+          tnNode[ 0 ].Text = string.Format( "Fastest Page Response: {0:0.00} secs", Fastest );
+        }
+        {
+          TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "SlowestPageResponse", true );
+          tnNode[ 0 ].Text = string.Format( "Slowest Page Response: {0:0.00} secs", Slowest );
+        }
+        {
+          TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "AveragePageDuration", true );
+          tnNode[ 0 ].Text = string.Format( "Average Page Duration: {0:0.00} secs", Average );
+        }
       }
 
       {

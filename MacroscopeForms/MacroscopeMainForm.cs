@@ -516,7 +516,8 @@ namespace SEOMacroscope
       string LicenceText;
       StreamReader Reader = new StreamReader ( Assembly.GetExecutingAssembly().GetManifestResourceStream( "LICENCE" ) );
       LicenceText = Reader.ReadToEnd();
-      DebugMsg( string.Format( "LicenceText: {0}", LicenceText ) );
+      Reader.Close();
+      Reader.Dispose();
       LicenceForm.richTextBoxLicence.Text = LicenceText.ToString();
       LicenceForm.ShowDialog();
       LicenceForm.Dispose();

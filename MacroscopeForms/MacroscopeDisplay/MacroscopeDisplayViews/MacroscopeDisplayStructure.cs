@@ -223,7 +223,7 @@ namespace SEOMacroscope
 
             if( !msDoc.GetIsExternal() )
             {
-              lvItem.SubItems[ iColIndex ].ForeColor = Color.ForestGreen;
+              lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
             }
             else
             {
@@ -234,7 +234,7 @@ namespace SEOMacroscope
             {
               if( Regex.IsMatch( sText, "^[2]" ) )
               {
-                lvItem.SubItems[ iColIndex ].ForeColor = Color.ForestGreen;
+                lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
               }
               else
               if( Regex.IsMatch( sText, "^[3]" ) )
@@ -245,6 +245,18 @@ namespace SEOMacroscope
               if( Regex.IsMatch( sText, "^[45]" ) )
               {
                 lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
+              }
+            }
+
+            if( sKey == MacroscopeConstants.IsRedirect )
+            {
+              if( sText.ToLower() == "true" )
+              {
+                lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
+              }
+              else
+              {
+                lvItem.SubItems[ iColIndex ].ForeColor = Color.Gray;
               }
             }
 
@@ -269,11 +281,11 @@ namespace SEOMacroscope
     void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () {
-        {
+      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
           MacroscopeConstants.Url,
           300
-        }, {
+        },
+        {
           MacroscopeConstants.Title,
           300
         }
@@ -297,14 +309,14 @@ namespace SEOMacroscope
     {
 
       List<string> lColDataWidth = new List<string> () {
-          MacroscopeConstants.Url,
-        MacroscopeConstants.DateServer,
-				MacroscopeConstants.DateModified,
-				MacroscopeConstants.Title
-			};
+        MacroscopeConstants.Url,
+          MacroscopeConstants.DateServer,
+        MacroscopeConstants.DateModified,
+          MacroscopeConstants.Title
+      };
 
-			List<string> lColHeaderWidth = new List<string> () {
-				MacroscopeConstants.DateModified
+      List<string> lColHeaderWidth = new List<string> () {
+        MacroscopeConstants.DateModified
 			};
 
 			foreach( string sColName in lColDataWidth )

@@ -35,16 +35,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayCanonical ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplayCanonical ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {
@@ -141,7 +141,7 @@ namespace SEOMacroscope
 
           if( AllowedHosts.IsInternalUrl( sUrl ) )
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.ForestGreen;
+            lvItem.SubItems[ 0 ].ForeColor = Color.Green;
           }
           else
           {
@@ -150,7 +150,7 @@ namespace SEOMacroscope
 
           if( ( StatusCode >= 100 ) && ( StatusCode <= 299 ) )
           {
-            lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+            lvItem.SubItems[ 1 ].ForeColor = Color.Green;
           }
           else
           if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
@@ -182,7 +182,7 @@ namespace SEOMacroscope
           {
             if( AllowedHosts.IsInternalUrl( sCanonical ) )
             {
-              lvItem.SubItems[ 2 ].ForeColor = Color.ForestGreen;
+              lvItem.SubItems[ 2 ].ForeColor = Color.Green;
             }
             else
             {

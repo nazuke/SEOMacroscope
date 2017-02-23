@@ -159,6 +159,8 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
+          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+                    
           if( sDescription.Length < MacroscopePreferencesManager.GetDescriptionMinLen() )
           {
             lvItem.SubItems[ 3 ].ForeColor = Color.Red;
@@ -170,7 +172,7 @@ namespace SEOMacroscope
           }
           else
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+            lvItem.SubItems[ 3 ].ForeColor = Color.Green;
           }
 
         }

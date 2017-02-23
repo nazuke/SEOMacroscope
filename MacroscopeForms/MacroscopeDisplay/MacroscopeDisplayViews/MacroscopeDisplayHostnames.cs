@@ -166,13 +166,13 @@ namespace SEOMacroscope
       if( lvItem != null )
       {
 
-        lvItem.ForeColor = Color.ForestGreen;
+        lvItem.ForeColor = Color.Green;
 
         if( bIsInternal )
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.ForestGreen;
-          lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
-          lvItem.SubItems[ 2 ].ForeColor = Color.ForestGreen;
+          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Green;
         }
         else
         {

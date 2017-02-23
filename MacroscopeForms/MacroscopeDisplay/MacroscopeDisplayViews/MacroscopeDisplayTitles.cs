@@ -35,16 +35,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayTitles ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplayTitles ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {
@@ -165,6 +165,8 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
+          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+
           // Check Missing Title ---------------------------------------------//
 
           if( sText.Length <= 0 )
@@ -183,7 +185,7 @@ namespace SEOMacroscope
           }
           else
           {
-            lvItem.SubItems[ 2 ].ForeColor = Color.ForestGreen;
+            lvItem.SubItems[ 2 ].ForeColor = Color.Green;
           }
 
           // Check Title Length ----------------------------------------------//
@@ -199,7 +201,7 @@ namespace SEOMacroscope
           }
           else
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.ForestGreen;
+            lvItem.SubItems[ 3 ].ForeColor = Color.Green;
           }
 
           // Check Pixel Width -----------------------------------------------//
@@ -220,7 +222,7 @@ namespace SEOMacroscope
           }
           else
           {
-            lvItem.SubItems[ 4 ].ForeColor = Color.ForestGreen;
+            lvItem.SubItems[ 4 ].ForeColor = Color.Green;
           }
 
         }

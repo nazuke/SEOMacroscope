@@ -36,12 +36,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayUriAnalysis ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplayUriAnalysis ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      this.MainForm = MainFormNew;
-      this.lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -135,7 +135,7 @@ namespace SEOMacroscope
 
         if( !msDoc.GetIsExternal() )
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
         }
         else
         {
@@ -144,7 +144,7 @@ namespace SEOMacroscope
 
         if( Regex.IsMatch( sStatus, "^[2]" ) )
         {
-          lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
         }
         else
         if( Regex.IsMatch( sStatus, "^[3]" ) )

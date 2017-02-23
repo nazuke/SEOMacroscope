@@ -147,7 +147,7 @@ namespace SEOMacroscope
         }
         else
         {
-          lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
         }
 
       }

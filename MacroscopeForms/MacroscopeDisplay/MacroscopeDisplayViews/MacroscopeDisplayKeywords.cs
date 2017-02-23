@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 // TODO: Finish this
@@ -110,13 +111,15 @@ namespace SEOMacroscope
         int iTextNumber = msDoc.GetKeywordsCount();
         string sPairKey = string.Join( "", sUrl, sText );
 
+        ListViewItem lvItem = null;
+          
         if( this.lvListView.Items.ContainsKey( sPairKey ) )
         {
 
           try
           {
 
-            ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+            lvItem = this.lvListView.Items[ sPairKey ];
             lvItem.SubItems[ 0 ].Text = sUrl;
             lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
             lvItem.SubItems[ 2 ].Text = sText;
@@ -126,7 +129,7 @@ namespace SEOMacroscope
           }
           catch( Exception ex )
           {
-            DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
+            DebugMsg( string.Format( "MacroscopeDisplayKeywords 1: {0}", ex.Message ) );
           }
 
         }
@@ -136,8 +139,8 @@ namespace SEOMacroscope
           try
           {
 
-            ListViewItem lvItem = new ListViewItem ( sPairKey );
-
+            lvItem = new ListViewItem ( sPairKey );
+            lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = sPairKey;
 
             lvItem.SubItems[ 0 ].Text = sUrl;
@@ -151,9 +154,18 @@ namespace SEOMacroscope
           }
           catch( Exception ex )
           {
-            DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
+            DebugMsg( string.Format( "MacroscopeDisplayKeywords 2: {0}", ex.Message ) );
           }
 
+        }
+
+        if( lvItem != null )
+        {
+
+          lvItem.ForeColor = Color.Blue;
+
+          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          
         }
 
       }

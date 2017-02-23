@@ -53,7 +53,9 @@ namespace SEOMacroscope
     private Dictionary<string,int> StatsWarnings;
     private Dictionary<string,int> StatsErrors;
     private Dictionary<string,int> StatsChecksums;
-
+    
+    private Dictionary<string,decimal> StatsDurations;
+    
     private List<Dictionary<string,int>> StatsDeepKeywordAnalysis;
 
     private int StatsUrlsInternal;
@@ -91,6 +93,8 @@ namespace SEOMacroscope
       this.StatsWarnings = new  Dictionary<string,int> ( 32 );
       this.StatsErrors = new  Dictionary<string,int> ( 32 );
       this.StatsChecksums = new  Dictionary<string,int> ( 1024 );
+
+      this.StatsDurations = new Dictionary<string,decimal> ( 1024 );
 
       this.StatsDeepKeywordAnalysis = new  List<Dictionary<string,int>> ( 4 );
       for( int i = 0 ; i <= 3 ; i++ )
@@ -378,6 +382,8 @@ namespace SEOMacroscope
 
             this.RecalculateStatsChecksums( msDoc );
 
+            this.RecalculateStatsDurations( msDoc );
+            
             if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
             {
               this.RecalculateStatsDeepKeywordAnalysis( msDoc );
@@ -855,6 +861,114 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /** Average Duration ******************************************************/
+    
+    private void ClearStatsDurations ()
+    {
+      lock( this.StatsDurations )
+      {
+        this.StatsDurations.Clear();
+      }
+    }
+
+    public decimal GetStatsDurationAverage ()
+    {
+      
+      decimal Average = 0;
+      decimal Maximus = 0;
+      int Count = 0;
+      
+      if( this.StatsDurations.Count > 0 )
+      {
+        
+        lock( this.StatsDurations )
+        {
+          foreach( string Url in this.StatsDurations.Keys )
+          {
+            Count++;
+            Maximus += this.StatsDurations[ Url ];
+          }
+        }
+      
+        if( Count > 0 )
+        {
+          Average = Maximus / Count;
+        }
+        
+      }
+      
+      return( Average );
+    }
+
+    public decimal GetStatsDurationsFastest ()
+    {
+      decimal Fastest = -1; 
+      if( this.StatsDurations.Count > 0 )
+      {   
+        lock( this.StatsDurations )
+        {
+          foreach( string Url in this.StatsDurations.Keys )
+          {
+            if( Fastest == -1 )
+            {
+              Fastest = this.StatsDurations[ Url ];
+            }
+            else
+            {
+              if( this.StatsDurations[ Url ] <= Fastest )
+              {
+                Fastest = this.StatsDurations[ Url ];
+              }
+            }
+          }
+        }
+      } 
+      return( Fastest );
+    }
+
+    public decimal GetStatsDurationsSlowest ()
+    {
+      decimal Slowest = -1; 
+      if( this.StatsDurations.Count > 0 )
+      {   
+        lock( this.StatsDurations )
+        {
+          foreach( string Url in this.StatsDurations.Keys )
+          {
+            if( Slowest == -1 )
+            {
+              Slowest = this.StatsDurations[ Url ];
+            }
+            else
+            {
+              if( this.StatsDurations[ Url ] >= Slowest )
+              {
+                Slowest = this.StatsDurations[ Url ];
+              }
+            }
+          }
+        }
+      } 
+      return( Slowest );
+    }
+
+    private void RecalculateStatsDurations ( MacroscopeDocument msDoc )
+    {
+      string Url = msDoc.GetUrl();
+      lock( this.StatsDurations )
+      {
+        if( this.StatsDurations.ContainsKey( Url ) )
+        {
+          this.StatsDurations[ Url ] = msDoc.GetDurationInSeconds();
+        }
+        else
+        {
+          this.StatsDurations.Add( Url, msDoc.GetDurationInSeconds() );
+        }
+      }
+      ;
     }
 
     /** Deep Keyword Analysis *************************************************/

@@ -40,16 +40,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayRedirectsAudit ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplayRedirectsAudit ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {
@@ -93,13 +93,17 @@ namespace SEOMacroscope
 
       if( bProcess )
       {
-
+      
+        MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
+      
         string sOriginURL = msDoc.GetUrlRedirectFrom();
         string sStatusCode = msDoc.GetStatusCode().ToString();
         string sDestinationURL = msDoc.GetUrlRedirectTo();
 
         string sPairKey = string.Join( "", sUrl );
 
+        this.lvListView.BeginUpdate();
+        
         if(
           ( sOriginURL != null )
           && ( sOriginURL.Length > 0 )
@@ -168,7 +172,7 @@ namespace SEOMacroscope
               if( Regex.IsMatch( sStatusCode, "^[2]" ) )
               {
                 for( int i = 0 ; i <= 3 ; i++ )
-                  lvItem.SubItems[ 0 ].ForeColor = Color.ForestGreen;
+                  lvItem.SubItems[ 0 ].ForeColor = Color.Green;
               }
               else
               if( Regex.IsMatch( sStatusCode, "^[3]" ) )
@@ -190,10 +194,30 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
             }
 
+            if( AllowedHosts.IsInternalUrl( sOriginURL ) )
+            {
+              lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+            }
+            
+            if( AllowedHosts.IsInternalUrl( sDestinationURL ) )
+            {
+              lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+            }
+
           }
 
         }
 
+        this.lvListView.EndUpdate();
+      
       }
 
     }

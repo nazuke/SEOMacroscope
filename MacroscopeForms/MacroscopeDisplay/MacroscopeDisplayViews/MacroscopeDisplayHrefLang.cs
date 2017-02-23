@@ -207,7 +207,7 @@ namespace SEOMacroscope
                
                 if( AllowedHosts.IsInternalUrl( sDocUrl ) )
                 {
-                  lvItem.SubItems[ 0 ].ForeColor = Color.ForestGreen;
+                  lvItem.SubItems[ 0 ].ForeColor = Color.Green;
                 }
                 else
                 {
@@ -216,7 +216,7 @@ namespace SEOMacroscope
 
                 if( ( StatusCode >= 100 ) && ( StatusCode <= 299 ) )
                 {
-                  lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+                  lvItem.SubItems[ 1 ].ForeColor = Color.Green;
                 }
                 else
                 if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )

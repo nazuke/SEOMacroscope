@@ -216,7 +216,7 @@ namespace SEOMacroscope
         if( lvItem != null )
         {
           
-          lvItem.ForeColor = Color.ForestGreen;
+          lvItem.ForeColor = Color.Green;
           
           if( Duration >= 1 )
           {
@@ -243,7 +243,7 @@ namespace SEOMacroscope
       
       this.AverageLabel.Text = string.Format( "Average Response Time: {0:0.00}s", Duration );
       
-      this.AverageLabel.ForeColor = Color.ForestGreen;
+      this.AverageLabel.ForeColor = Color.Green;
           
       if( Duration >= 1 )
       {
