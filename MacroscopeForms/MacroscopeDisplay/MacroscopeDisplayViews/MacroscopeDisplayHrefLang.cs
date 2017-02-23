@@ -112,6 +112,7 @@ namespace SEOMacroscope
     void RenderListView ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> LocalesList )
     {
 
+      MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       Hashtable htLocaleCols = new Hashtable ();
 
       this.lvListView.Items.Clear();
@@ -121,9 +122,10 @@ namespace SEOMacroscope
 
       {
 
-        int iLocaleColCount = 3;
+        int iLocaleColCount = 4;
 
         this.lvListView.Columns.Add( "URL", "URL" );
+        this.lvListView.Columns.Add( "Status Code", "Status Code" );
         this.lvListView.Columns.Add( "Site Locale", "Site Locale" );
         this.lvListView.Columns.Add( "Title", "Title" );
 
@@ -160,6 +162,7 @@ namespace SEOMacroscope
           {
 
             string sDocUrl = msDoc.GetUrl();
+            int StatusCode = msDoc.GetStatusCode();
             string sDocLocale = msDoc.GetLocale();
             string sDocTitle = msDoc.GetTitle();
             ListViewItem lvItem;
@@ -180,6 +183,7 @@ namespace SEOMacroscope
               lvItem.SubItems.Add( "" );
               lvItem.SubItems.Add( "" );
               lvItem.SubItems.Add( "" );
+              lvItem.SubItems.Add( "" );
 
               for( int i = 0 ; i < LocalesList.Keys.Count ; i++ )
               {
@@ -197,8 +201,37 @@ namespace SEOMacroscope
               {
 
                 lvItem.SubItems[ 0 ].Text = sDocUrl;
-                lvItem.SubItems[ 1 ].Text = sDocLocale;
-                lvItem.SubItems[ 2 ].Text = sDocTitle;
+                lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
+                lvItem.SubItems[ 2 ].Text = sDocLocale;
+                lvItem.SubItems[ 3 ].Text = sDocTitle;
+               
+                if( AllowedHosts.IsInternalUrl( sDocUrl ) )
+                {
+                  lvItem.SubItems[ 0 ].ForeColor = Color.ForestGreen;
+                }
+                else
+                {
+                  lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+                }
+
+                if( ( StatusCode >= 100 ) && ( StatusCode <= 299 ) )
+                {
+                  lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+                }
+                else
+                if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
+                {
+                  lvItem.SubItems[ 1 ].ForeColor = Color.Orange;
+                }
+                else
+                if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
+                {
+                  lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+                }
+                else
+                {
+                  lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+                }
 
                 foreach( string sLocale in LocalesList.Keys )
                 {
@@ -258,6 +291,7 @@ namespace SEOMacroscope
       this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
 
       this.lvListView.Columns[ "Site Locale" ].Width = 100;
+      this.lvListView.Columns[ "Status Code" ].Width = 80;
       this.lvListView.Columns[ "Title" ].Width = 300;
       this.lvListView.Columns[ "URL" ].Width = 300;
 

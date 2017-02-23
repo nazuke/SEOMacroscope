@@ -81,6 +81,7 @@ namespace SEOMacroscope
       {
 
         string sCanonical = msDoc.GetCanonical();
+        int StatusCode = msDoc.GetStatusCode();
         string sCanonicalLabel = sCanonical;
         ListViewItem lvItem = null;
 
@@ -99,7 +100,8 @@ namespace SEOMacroscope
 
             lvItem = lvListView.Items[ sUrl ];
             lvItem.SubItems[ 0 ].Text = sUrl;
-            lvItem.SubItems[ 1 ].Text = sCanonicalLabel;
+            lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
+            lvItem.SubItems[ 2 ].Text = sCanonicalLabel;
 
           }
           catch( Exception ex )
@@ -119,6 +121,7 @@ namespace SEOMacroscope
             lvItem.Name = sUrl;
 
             lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems.Add( StatusCode.ToString() );
             lvItem.SubItems.Add( sCanonicalLabel );
 
             lvListView.Items.Add( lvItem );
@@ -134,30 +137,56 @@ namespace SEOMacroscope
         if( lvItem != null )
         {
 
-          lvItem.ForeColor = Color.Blue;
+          lvItem.ForeColor = Color.Gray;
 
           if( AllowedHosts.IsInternalUrl( sUrl ) )
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+            lvItem.SubItems[ 0 ].ForeColor = Color.ForestGreen;
           }
           else
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
           }
 
-          if( sCanonical.Length == 0 )
+          if( ( StatusCode >= 100 ) && ( StatusCode <= 299 ) )
+          {
+            lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+          }
+          else
+          if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
+          {
+            lvItem.SubItems[ 1 ].ForeColor = Color.Orange;
+          }
+          else
+          if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
           {
             lvItem.SubItems[ 1 ].ForeColor = Color.Red;
           }
           else
           {
-            if( AllowedHosts.IsInternalUrl( sCanonical ) )
+            lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+          }
+
+          if( sCanonical.Length == 0 )
+          {
+            if( AllowedHosts.IsInternalUrl( sUrl ) )
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.ForestGreen;
+              lvItem.SubItems[ 2 ].ForeColor = Color.Red;
             }
             else
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+            }
+          }
+          else
+          {
+            if( AllowedHosts.IsInternalUrl( sCanonical ) )
+            {
+              lvItem.SubItems[ 2 ].ForeColor = Color.ForestGreen;
+            }
+            else
+            {
+              lvItem.SubItems[ 2 ].ForeColor = Color.Red;
             }
           }
           
