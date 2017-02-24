@@ -65,8 +65,43 @@ namespace SEOMacroscope
       if( !this.TreeViewConfigured )
       {
         this.tvTreeView.PathSeparator = "/";
-        this.ResetTreeView();
+        if( this.MainForm.InvokeRequired )
+        {
+          this.MainForm.Invoke(
+            new MethodInvoker (
+              delegate
+              {
+                this.ResetTreeView();
+              }
+            )
+          );
+        }
+        else
+        {
+          this.ResetTreeView();
+        }
         this.TreeViewConfigured = true;
+      }
+    }
+
+    /**************************************************************************/
+    
+    public void ClearData ()
+    {
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ResetTreeView();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ResetTreeView();
       }
     }
 

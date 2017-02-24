@@ -39,11 +39,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayHierarchy ( MacroscopeMainForm MainFormNew, TreeView tvTreeView )
-      : base( MainFormNew, tvTreeView )
+    public MacroscopeDisplayHierarchy ( MacroscopeMainForm MainForm, TreeView tvTreeView )
+      : base( MainForm, tvTreeView )
     {
 
-      SuppressDebugMsg = false;
+      this.SuppressDebugMsg = false;
 
       this.ConfigureTreeView();
 

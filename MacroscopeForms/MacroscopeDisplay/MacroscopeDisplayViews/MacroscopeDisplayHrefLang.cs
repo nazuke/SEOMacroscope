@@ -37,16 +37,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayHrefLang ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplayHrefLang ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {
@@ -80,12 +80,9 @@ namespace SEOMacroscope
       Dictionary<string,string> LocalesList
     )
     {
-
-      DebugMsg( string.Format( "MacroscopeDisplayHrefLang: {0}", "RefreshData" ) );
-
       if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {
@@ -98,7 +95,6 @@ namespace SEOMacroscope
       {
         this.RenderListView( DocCollection, LocalesList );
       }
-
     }
 
     /**************************************************************************/

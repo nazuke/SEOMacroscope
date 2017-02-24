@@ -42,10 +42,10 @@ namespace SEOMacroscope
         
     /**************************************************************************/
 
-    protected MacroscopeDisplayTreeView ( MacroscopeMainForm MainFormNew, TreeView tvTreeViewNew )
+    protected MacroscopeDisplayTreeView ( MacroscopeMainForm MainForm, TreeView tvTreeView )
     {
-      MainForm = MainFormNew;
-      tvTreeView = tvTreeViewNew;
+      this.MainForm = MainForm;
+      this.tvTreeView = tvTreeView;
     }
 
     /**************************************************************************/

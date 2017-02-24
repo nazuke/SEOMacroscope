@@ -64,6 +64,33 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public void ClearData ()
+    {
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              for( int i = 0 ; i <= 3 ; i++ )
+              {
+                this.lvListViews[ i ].Items.Clear();
+              }
+            }
+          )
+        );
+      }
+      else
+      {
+        for( int i = 0 ; i <= 3 ; i++ )
+        {
+          this.lvListViews[ i ].Items.Clear();
+        }
+      }
+    }
+
+    /**************************************************************************/
+
     public void RefreshKeywordAnalysisData ( MacroscopeDocumentCollection DocCollection )
     {
 

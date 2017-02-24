@@ -396,8 +396,6 @@ namespace SEOMacroscope
 
           this.JobMaster.AddUrlQueueItem( Outlink.AbsoluteUrl );
 
-          this.JobMaster.AddToProgress( Outlink.AbsoluteUrl );
-
         }
 
       }

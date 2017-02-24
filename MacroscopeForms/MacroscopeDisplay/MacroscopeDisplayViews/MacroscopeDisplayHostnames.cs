@@ -36,12 +36,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayHostnames ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplayHostnames ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      this.MainForm = MainFormNew;
-      this.lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
       if( this.MainForm.InvokeRequired )
       {

@@ -130,7 +130,7 @@ namespace SEOMacroscope
     public MacroscopeDocument ( string sUrl )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       this.IsDirty = true;
 
@@ -377,7 +377,8 @@ namespace SEOMacroscope
       {
         sbString.Append( Hashed[ i ].ToString( "X2" ) );
       }
-      return( sbString.ToString() );
+      string sChecksum = sbString.ToString();
+      return( sChecksum );
     }
 
     /** Etag Value ************************************************************/
@@ -1534,7 +1535,16 @@ namespace SEOMacroscope
         // Process Etag
         if( sHeader.ToLower().Equals( "etag" ) )
         {
-          this.SetEtag( res.GetResponseHeader( sHeader ) );
+          string ETag = res.GetResponseHeader( sHeader );
+          if( ( ETag != null ) && ( ETag.Length > 0 ) )
+          {
+            ETag = Regex.Replace( ETag, "[\"'\\s]+", "", RegexOptions.Singleline );
+          }
+          else
+          {
+            ETag = "";
+          }
+          this.SetEtag( ETag );
         }
 
       }

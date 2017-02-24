@@ -21,7 +21,7 @@
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 using System;
 using System.Collections.Generic;
@@ -79,9 +79,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode RuntimeMode )
+    public MacroscopeJobMaster (
+      MacroscopeConstants.RunTimeMode RuntimeMode
+    )
     {
-      //this.MainForm = null;
+      this.SuppressDebugMsg = false;
       this.TaskController = null;
       InitializeJobMaster( RuntimeMode );
     }
@@ -89,14 +91,10 @@ namespace SEOMacroscope
     public MacroscopeJobMaster (
       MacroscopeConstants.RunTimeMode RuntimeMode,
       IMacroscopeTaskController TaskController
-      //MacroscopeMainForm MainFormNew
     )
     {
-
-      //this.MainForm = MainFormNew;
-
+      this.SuppressDebugMsg = false;
       this.TaskController = TaskController;
-
       InitializeJobMaster( RuntimeMode );
     }
 
@@ -160,12 +158,7 @@ namespace SEOMacroscope
 
       this.History = new Dictionary<string, bool> ( 4096 );
 
-      {
-        this.Progress = new Dictionary<string,Dictionary<string,Boolean>> ();
-        this.Progress.Add( "total", new Dictionary<string,Boolean> ( 4096 ) );
-        this.Progress.Add( "processed", new Dictionary<string,Boolean> ( 4096 ) );
-        this.Progress.Add( "queued", new Dictionary<string,Boolean> ( 4096 ) );
-      }
+      this.InitProgress();
 
       this.Locales = new Dictionary<string,string> ( 32 );
 
@@ -217,7 +210,7 @@ namespace SEOMacroscope
       this.StartUrl = MacroscopeUrlTools.SanitizeUrl( this.StartUrl );
       
       this.DetermineStartingDirectory();
-        
+      
       this.SetThreadsStop( false );
 
       this.AllowedHosts.AddFromUrl( this.StartUrl );
@@ -315,12 +308,13 @@ namespace SEOMacroscope
       SemaphoreWorkers.Release( 1 );
     }
 
-    public void NotifyWorkersFetched ( string sUrl )
+    public void NotifyWorkersFetched ( string Url )
     {
-      DebugMsg( string.Format( "NotifyWorkersFetched: {0}", sUrl ) );
+      DebugMsg( string.Format( "NotifyWorkersFetched: {0}", Url ) );
       this.PagesFound++;
-      this.AddUpdateDisplayQueue( sUrl );
+      this.AddUpdateDisplayQueue( Url );
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
+      this.UpdateProgress( Url, true );
     }
 
     public void NotifyWorkersDone ()
@@ -444,12 +438,16 @@ namespace SEOMacroscope
       return( this.NamedQueue.GetNamedQueueItemsAsList( MacroscopeConstants.NamedQueueUrlList ) );
     }
 
-    public void AddUrlQueueItem ( string sUrl )
+    public void AddUrlQueueItem ( string Url )
     {
-      if( !this.SeenHistoryItem( sUrl ) )
+      
+      if( !this.SeenHistoryItem( Url ) )
       {
-        this.NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueUrlList, sUrl );
+        this.NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueUrlList, Url );
       }
+
+      this.AddToProgress( Url );
+
     }
 
     public string GetUrlQueueItem ()
@@ -716,7 +714,7 @@ namespace SEOMacroscope
       Boolean IsWithin = false;
       Uri CurrentUri = new Uri ( Url );
 
-      if( 
+      if(
         ( CurrentUri.Scheme.ToLower() == "http" )
         || ( CurrentUri.Scheme.ToLower() == "https" ) )
       {
@@ -738,7 +736,7 @@ namespace SEOMacroscope
 
         int ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
         int CurrentUriStringLength = CurrentUriString.Length;
-     
+        
         if( CurrentUriStringLength >= ChildStartingDirectoryLength )
         {
           if( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
@@ -827,40 +825,90 @@ namespace SEOMacroscope
 
     /** Progress **************************************************************/
 
-    public void AddToProgress ( string sUrl )
+    private void InitProgress ()
     {
-      lock( this.Progress )
-      {
-        if( !this.Progress[ "total" ].ContainsKey( sUrl ) )
-        {
-          this.Progress[ "total" ].Add( sUrl, true );
-          if( !this.Progress[ "queued" ].ContainsKey( sUrl ) )
-          {
-            this.Progress[ "queued" ].Add( sUrl, true );
-          }
-        }
-      }
+      this.Progress = new Dictionary<string,Dictionary<string,Boolean>> ();
+      this.Progress.Add( "list", new Dictionary<string,Boolean> ( 4096 ) );
+      this.Progress.Add( "done", new Dictionary<string,Boolean> ( 4096 ) );
+      this.Progress.Add( "wait", new Dictionary<string,Boolean> ( 4096 ) );
     }
 
-    public void UpdateProgress ( string sUrl, Boolean bState )
+    public void AddToProgress ( string Url )
     {
-      if( bState )
+
+      if( this.AllowedHosts.IsAllowedFromUrl( Url ) )
       {
+        DebugMsg( string.Format( "AddToProgress: INTERNAL: {0}", Url ) );
+
         lock( this.Progress )
         {
-          if( this.Progress[ "total" ].ContainsKey( sUrl ) )
+          
+          if( !this.Progress[ "list" ].ContainsKey( Url ) )
           {
-            if( !this.Progress[ "processed" ].ContainsKey( sUrl ) )
+
+            this.Progress[ "list" ].Add( Url, false );
+
+            if( !this.Progress[ "wait" ].ContainsKey( Url ) )
             {
-              this.Progress[ "processed" ].Add( sUrl, true );
-              if( this.Progress[ "queued" ].ContainsKey( sUrl ) )
-              {
-                this.Progress[ "queued" ].Remove( sUrl );
-              }
+              this.Progress[ "wait" ].Add( Url, true );
             }
+            
           }
+
         }
+
       }
+      else
+      {
+        DebugMsg( string.Format( "AddToProgress: EXTERNAL: {0}", Url ) );
+      }
+
+    }
+
+    public void UpdateProgress ( string Url, Boolean bState )
+    {
+
+      if( bState && this.AllowedHosts.IsAllowedFromUrl( Url ) )
+      {
+
+        DebugMsg( string.Format( "UpdateProgress: INTERNAL: {0}", Url ) );
+
+        lock( this.Progress )
+        {
+
+          if( this.Progress[ "list" ].ContainsKey( Url ) )
+          {
+            
+            this.Progress[ "list" ][ Url ] = true;
+            
+            if( this.Progress[ "wait" ].ContainsKey( Url ) )
+            {
+              this.Progress[ "wait" ].Remove( Url );
+            }
+
+            if( this.Progress[ "done" ].ContainsKey( Url ) )
+            {
+              this.Progress[ "done" ][Url] = true;
+            } else {
+              this.Progress[ "done" ].Add( Url, true );
+            }
+
+          }
+          else
+          {
+
+            DebugMsg( string.Format( "UpdateProgress: NOT IN LIST: {0}", Url ) );
+
+          }
+
+        }
+
+      }
+      else
+      {
+        DebugMsg( string.Format( "UpdateProgress: EXTERNAL: {0} :: {1}", bState, Url ) );
+      }
+
     }
 
     public List<decimal> GetProgress ()
@@ -868,9 +916,9 @@ namespace SEOMacroscope
       List<decimal> Counts = new List<decimal> ( 3 );
       lock( this.Progress )
       {
-        Counts.Add( this.Progress[ "total" ].Count );
-        Counts.Add( this.Progress[ "processed" ].Count );
-        Counts.Add( this.Progress[ "queued" ].Count );
+        Counts.Add( this.Progress[ "list" ].Count );
+        Counts.Add( this.Progress[ "done" ].Count );
+        Counts.Add( this.Progress[ "wait" ].Count );
       }
       return( Counts );
     }

@@ -35,16 +35,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplaySearchCollection ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplaySearchCollection ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {

@@ -27,8 +27,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-// TODO: Finish this
-
 namespace SEOMacroscope
 {
 
@@ -41,16 +39,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayKeywords ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
-      : base( MainFormNew, lvListViewNew )
+    public MacroscopeDisplayKeywords ( MacroscopeMainForm MainForm, ListView lvListView )
+      : base( MainForm, lvListView )
     {
 
-      MainForm = MainFormNew;
-      lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
-      if( MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
-        MainForm.Invoke(
+        this.MainForm.Invoke(
           new MethodInvoker (
             delegate
             {
@@ -165,7 +163,7 @@ namespace SEOMacroscope
           lvItem.ForeColor = Color.Blue;
 
           lvItem.SubItems[ 0 ].ForeColor = Color.Green;
-          
+
         }
 
       }
@@ -175,4 +173,5 @@ namespace SEOMacroscope
     /**************************************************************************/
 
   }
+  
 }

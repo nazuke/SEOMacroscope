@@ -49,7 +49,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     public MacroscopeDisplayStructureSiteSpeed (
-      MacroscopeMainForm MainFormNew,
+      MacroscopeMainForm MainForm,
       ListView lvListViewSlowest,
       ListView lvListViewFastest,
       ToolStripLabel AverageLabel
@@ -58,7 +58,7 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = true;
       
-      this.MainForm = MainFormNew;
+      this.MainForm = MainForm;
 
       this.DecimalSorterAscending = new MacroscopeDecimalSorter ( MacroscopeDecimalSorter.SortOrder.ASCENDING );
       this.DecimalSorterDescending = new MacroscopeDecimalSorter ( MacroscopeDecimalSorter.SortOrder.DESCENDING );
@@ -67,6 +67,31 @@ namespace SEOMacroscope
       this.lvListViewFastest = lvListViewFastest;
       this.AverageLabel = AverageLabel;
 
+    }
+
+    /**************************************************************************/
+
+    public void ClearData ()
+    {
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.lvListViewSlowest.Items.Clear();
+              this.lvListViewFastest.Items.Clear();
+              this.UpdateAverageLabel( 0 );
+            }
+          )
+        );
+      }
+      else
+      {
+        this.lvListViewSlowest.Items.Clear();
+        this.lvListViewFastest.Items.Clear();
+        this.UpdateAverageLabel( 0 );
+      }
     }
 
     /**************************************************************************/

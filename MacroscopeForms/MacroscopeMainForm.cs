@@ -1497,15 +1497,44 @@ namespace SEOMacroscope
 
     public void ClearDisplay ()
     {
+      
       this.msDisplayStructure.ClearData();
       this.msDisplayHierarchy.ClearData();
+      this.msDisplaySearchCollection.ClearData();
+      
+      this.msDisplayRobots.ClearData();
+      this.msDisplaySitemaps.ClearData();
+      
       this.msDisplayCanonical.ClearData();
       this.msDisplayHrefLang.ClearData();
+      
+      this.msDisplayErrors.ClearData();
+      this.msDisplayRedirectsAudit.ClearData();
+      this.msDisplayUriAnalysis.ClearData();
+      
       this.msDisplayTitles.ClearData();
+      this.msDisplayDescriptions.ClearData();
+      this.msDisplayKeywords.ClearData();
+      this.msDisplayHeadings.ClearData();
+
+      this.msDisplayStylesheets.ClearData();
+      this.msDisplayJavascripts.ClearData();
+      this.msDisplayImages.ClearData();
+      this.msDisplayAudios.ClearData();
+      this.msDisplayVideos.ClearData();
+      
       this.msDisplayEmailAddresses.ClearData();
       this.msDisplayTelephoneNumbers.ClearData();
+
+      this.msDisplayHostnames.ClearData();
       this.msDisplayHistory.ClearData();
+
       this.macroscopeDocumentDetailsInstance.ClearData();
+
+      this.msSiteStructureOverview.ClearData();
+      this.msSiteStructureSiteSpeed.ClearData();
+      this.msSiteStructureKeywordAnalysis.ClearData();
+
     }
 
     /** Scanning Controls *****************************************************/
@@ -1751,26 +1780,24 @@ namespace SEOMacroscope
         decimal iQueued = Counts[ 2 ];
         iPercentage = ( int )( ( 100 / iTotal ) * iProcessed );
 
-        /*
-				if( iPercentage < 0 )
-				{
-					iPercentage = 0;
-				}
-				else
-				if( iPercentage > 100 )
-				{
-					iPercentage = 100;
-				}
-				*/
+        if( iPercentage < 0 )
+        {
+          iPercentage = 0;
+        }
+        else
+        if( iPercentage > 100 )
+        {
+          iPercentage = 100;
+        }
 
-        //DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
+        DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
+        DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
+        DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
+        DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
 
       }
 
-      //DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
+      DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
 
       this.ProgressBarScan.Value = iPercentage;
 

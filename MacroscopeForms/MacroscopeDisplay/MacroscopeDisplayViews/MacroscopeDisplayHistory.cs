@@ -44,11 +44,11 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public MacroscopeDisplayHistory ( MacroscopeMainForm MainFormNew, ListView lvListViewNew )
+    public MacroscopeDisplayHistory ( MacroscopeMainForm MainForm, ListView lvListView )
     {
 
-      this.MainForm = MainFormNew;
-      this.lvListView = lvListViewNew;
+      this.MainForm = MainForm;
+      this.lvListView = lvListView;
 
       if( this.MainForm.InvokeRequired )
       {

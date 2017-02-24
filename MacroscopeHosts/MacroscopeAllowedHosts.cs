@@ -48,105 +48,105 @@ namespace SEOMacroscope
     public MacroscopeAllowedHosts ()
     {
 
-      Hostnames = new Dictionary<string,Boolean> ( 32 );
+      this.Hostnames = new Dictionary<string,Boolean> ( 32 );
 
-      DomainWrangler = new MacroscopeDomainWrangler ();
+      this.DomainWrangler = new MacroscopeDomainWrangler ();
 
     }
 
     /**************************************************************************/
 
-    public void Add ( string sHostname )
+    public void Add ( string Hostname )
     {
-      if( !this.Hostnames.ContainsKey( sHostname ) )
+      if( !this.Hostnames.ContainsKey( Hostname ) )
       {
-        this.Hostnames.Add( sHostname, true );
+        this.Hostnames.Add( Hostname, true );
       }
       else
       {
-        this.Hostnames[ sHostname ] = true;
+        this.Hostnames[ Hostname ] = true;
       }
     }
 
     /**************************************************************************/
 
-    public void AddFromUrl ( string sUrl )
+    public void AddFromUrl ( string Url )
     {
-      Uri uFromUrl = new Uri ( sUrl, UriKind.Absolute );
+      Uri uFromUrl = new Uri ( Url, UriKind.Absolute );
       this.Add( uFromUrl.Host );
     }
 
     /**************************************************************************/
 
-    public void Remove ( string sHostname )
+    public void Remove ( string Hostname )
     {
-      if( !this.Hostnames.ContainsKey( sHostname ) )
+      if( !this.Hostnames.ContainsKey( Hostname ) )
       {
-        this.Hostnames.Remove( sHostname );
+        this.Hostnames.Remove( Hostname );
       }
     }
 
     /**************************************************************************/
 
-    public void RemoveFromUrl ( string sUrl )
+    public void RemoveFromUrl ( string Url )
     {
-      Uri uFromUrl = new Uri ( sUrl, UriKind.Absolute );
+      Uri uFromUrl = new Uri ( Url, UriKind.Absolute );
       this.Remove( uFromUrl.Host );
     }
 
     /**************************************************************************/
 
-    public void Allow ( string sHostname )
+    public void Allow ( string Hostname )
     {
-      if( this.Hostnames.ContainsKey( sHostname ) )
+      if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        this.Hostnames[ sHostname ] = true;
+        this.Hostnames[ Hostname ] = true;
       }
       else
       {
-        this.Hostnames.Add( sHostname, true );
+        this.Hostnames.Add( Hostname, true );
       }
     }
 
     /**************************************************************************/
 
-    public void Disallow ( string sHostname )
+    public void Disallow ( string Hostname )
     {
-      if( this.Hostnames.ContainsKey( sHostname ) )
+      if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        this.Hostnames[ sHostname ] = false;
+        this.Hostnames[ Hostname ] = false;
       }
       else
       {
-        this.Hostnames.Add( sHostname, false );
+        this.Hostnames.Add( Hostname, false );
       }
     }
 
     /**************************************************************************/
 
-    public Boolean IsAllowed ( string sHostname )
+    public Boolean IsAllowed ( string Hostname )
     {
       Boolean bIsAllowed = false;
-      if( this.Hostnames.ContainsKey( sHostname ) )
+      if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        bIsAllowed = this.Hostnames[ sHostname ];
+        bIsAllowed = this.Hostnames[ Hostname ];
       }
       return( bIsAllowed );
     }
 
     /**************************************************************************/
 
-    public Boolean IsAllowedFromUrl ( string sUrl )
+    public Boolean IsAllowedFromUrl ( string Url )
     {
-      Uri uFromUrl = new Uri ( sUrl, UriKind.Absolute );
+      Uri uFromUrl = new Uri ( Url, UriKind.Absolute );
       return( this.IsAllowed( uFromUrl.Host ) );
     }
 
     /**************************************************************************/
 
-    public Boolean IsInternalUrl ( string sUrl )
+    public Boolean IsInternalUrl ( string Url )
     {
-      Uri uUrl = new Uri ( sUrl, UriKind.Absolute );
+      Uri uUrl = new Uri ( Url, UriKind.Absolute );
       Boolean bIsInternal = false;
       if( this.IsAllowed( uUrl.Host ) )
       {
@@ -157,9 +157,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean IsExternalUrl ( string sUrl )
+    public Boolean IsExternalUrl ( string Url )
     {
-      Uri uUrl = new Uri ( sUrl, UriKind.Absolute );
+      Uri uUrl = new Uri ( Url, UriKind.Absolute );
       Boolean bIsExternal = false;
       if( !this.IsAllowed( uUrl.Host ) )
       {
@@ -170,16 +170,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static string ParseHostnameFromUrl ( string sUrl )
+    public static string ParseHostnameFromUrl ( string Url )
     {
-      Uri uUrl = new Uri ( sUrl, UriKind.Absolute );
+      Uri uUrl = new Uri ( Url, UriKind.Absolute );
       string sHostname = uUrl.Host;
       return( sHostname );
     }
 
     /**************************************************************************/
 
-    public Boolean IsWithinAllowedDomain ( string sHostname )
+    public Boolean IsWithinAllowedDomain ( string Hostname )
     {
       // TODO: This does not work.
       Boolean bAllowed = false;
@@ -187,7 +187,7 @@ namespace SEOMacroscope
       {
         foreach( string sAllowedHostname in this.Hostnames.Keys )
         {
-          if( this.DomainWrangler.IsWithinSameDomain( sHostname, sAllowedHostname ) )
+          if( this.DomainWrangler.IsWithinSameDomain( Hostname, sAllowedHostname ) )
           {
             bAllowed = true;
             break;
