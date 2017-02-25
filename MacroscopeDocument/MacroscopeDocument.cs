@@ -123,7 +123,7 @@ namespace SEOMacroscope
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -196,25 +196,25 @@ namespace SEOMacroscope
       this.Description = "";
       this.Keywords = "";
 
-      this.Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
@@ -1275,6 +1275,8 @@ namespace SEOMacroscope
       req.Timeout = this.Timeout;
       req.KeepAlive = false;
       req.AllowAutoRedirect = false;
+      req.UserAgent = this.UserAgent();
+      
       MacroscopePreferencesManager.EnableHttpProxy( req );
 
       try

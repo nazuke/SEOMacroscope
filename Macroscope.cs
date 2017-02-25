@@ -25,58 +25,83 @@
 
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Threading;
 
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of Macroscope.
-	/// </summary>
+  /// <summary>
+  /// Description of Macroscope.
+  /// </summary>
 
-	public class Macroscope
-	{
+  public class Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		// Override SuppressDebugMsg to enable/disable debugging output statically.
-		public static Boolean SuppressStaticDebugMsg;
+    // Override SuppressDebugMsg to enable/disable debugging output statically.
+    public static Boolean SuppressStaticDebugMsg;
 
-		// Set SuppressDebugMsg to enable/disable debugging output in object.
+    // Set SuppressDebugMsg to enable/disable debugging output in object.
     public Boolean SuppressDebugMsg;
 
-		/**************************************************************************/
+    private string UserAgentString;
+    
+    /**************************************************************************/
 
-		static Macroscope ()
-		{
-			SuppressStaticDebugMsg = false;
-		}
+    static Macroscope ()
+    {
+      SuppressStaticDebugMsg = false;
+    }
 
-		public Macroscope ()
-		{
-			SuppressDebugMsg = false;
-		}
+    public Macroscope ()
+    {
+      this.SuppressDebugMsg = false;
+      
+      this.UserAgentString = this._UserAgent();
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
+    
+    public string UserAgent ()
+    {
+      return( this.UserAgentString );
+    }
+    
+    /**************************************************************************/
+        
+    private string _UserAgent ()
+    {
+      string sLocation = Assembly.GetExecutingAssembly().Location;
+      string sName = FileVersionInfo.GetVersionInfo( sLocation ).ProductName;
+      string sVersion = FileVersionInfo.GetVersionInfo( sLocation ).ProductVersion;
+      string sUserAgent = string.Format( "{0}/{1}", sName, sVersion );
+      return( sUserAgent );
+    }
 
-		[Conditional( "DEVMODE" )]
-		public static void DebugMsg ( String sMsg, Boolean bFlag )
-		{
-			if( !SuppressStaticDebugMsg ) {
-				System.Diagnostics.Debug.WriteLine( sMsg );
-			}
-		}
+    /**************************************************************************/
+		
+    [Conditional( "DEVMODE" )]
+    public static void DebugMsg ( String sMsg, Boolean bFlag )
+    {
+      if( !SuppressStaticDebugMsg )
+      {
+        System.Diagnostics.Debug.WriteLine( sMsg );
+      }
+    }
 
-		[Conditional( "DEVMODE" )]
-		public void DebugMsg ( String sMsg )
-		{
-			if( !SuppressDebugMsg ) {
-				System.Diagnostics.Debug.WriteLine( string.Format( "TID:{0} :: {1} :: {2}", Thread.CurrentThread.ManagedThreadId, this.GetType(), sMsg ) );
-			}
-		}
+    [Conditional( "DEVMODE" )]
+    public void DebugMsg ( String sMsg )
+    {
+      if( !SuppressDebugMsg )
+      {
+        System.Diagnostics.Debug.WriteLine( string.Format( "TID:{0} :: {1} :: {2}", Thread.CurrentThread.ManagedThreadId, this.GetType(), sMsg ) );
+      }
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

@@ -30,87 +30,102 @@ using System.Net;
 namespace SEOMacroscope
 {
 
-	public partial class MacroscopeDocument : Macroscope
-	{
+  public partial class MacroscopeDocument : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void ProcessVideoPage ()
-		{
+    void ProcessVideoPage ()
+    {
 
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			string sErrorCondition = null;
+      HttpWebRequest req = null;
+      HttpWebResponse res = null;
+      string sErrorCondition = null;
 
-			try {
+      try
+      {
 
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
+        req = WebRequest.CreateHttp( this.Url );
+        req.Method = "HEAD";
+        req.Timeout = this.Timeout;
+        req.KeepAlive = false;
+        req.UserAgent = this.UserAgent();
+				        
+        MacroscopePreferencesManager.EnableHttpProxy( req );
 
-				try {
+        try
+        {
 
-					res = ( HttpWebResponse )req.GetResponse();
+          res = ( HttpWebResponse )req.GetResponse();
 
-				} catch( WebException ex ) {
+        }
+        catch( WebException ex )
+        {
 
-					DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Message ) );
-					DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Status ) );
-					DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ( int )ex.Status ) );
+          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Message ) );
+          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Status ) );
+          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ( int )ex.Status ) );
 
-					sErrorCondition = ex.Status.ToString();
+          sErrorCondition = ex.Status.ToString();
 
-				}
+        }
 
-			} catch( WebException ex ) {
+      }
+      catch( WebException ex )
+      {
 
-				DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Status ) );
-				DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ( int )ex.Status ) );
+        DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Status ) );
+        DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ( int )ex.Status ) );
 
-				sErrorCondition = ex.Status.ToString();
+        sErrorCondition = ex.Status.ToString();
 
-			}
+      }
 
-			if( res != null ) {
+      if( res != null )
+      {
 
-				this.ProcessHttpHeaders( req, res );
+        this.ProcessHttpHeaders( req, res );
 
-				{ // Title
+        { // Title
 
-					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
-					string sTitle = null;
+          MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
+          string sTitle = null;
 
-					foreach( Match match in reMatches ) {
-						if( match.Groups[ 1 ].Value.Length > 0 ) {
-							sTitle = match.Groups[ 1 ].Value.ToString();
-							break;
-						}
-					}
+          foreach( Match match in reMatches )
+          {
+            if( match.Groups[ 1 ].Value.Length > 0 )
+            {
+              sTitle = match.Groups[ 1 ].Value.ToString();
+              break;
+            }
+          }
 
-					if( sTitle != null ) {
-						this.Title = sTitle;
-						DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
-					} else {
-						DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
-					}
+          if( sTitle != null )
+          {
+            this.Title = sTitle;
+            DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
+          }
+          else
+          {
+            DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
+          }
 
-				}
+        }
 
-				res.Close();
+        res.Close();
 
-			}
+      }
 
-			if( sErrorCondition != null ) {
-				this.ErrorCondition = sErrorCondition;
-			}
+      if( sErrorCondition != null )
+      {
+        this.ErrorCondition = sErrorCondition;
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

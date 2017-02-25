@@ -121,7 +121,7 @@ namespace SEOMacroscope
       this.SemaphoreSiteStructureDisplay = new Semaphore ( 0, 1 );
       this.SemaphoreSiteStructureDisplay.Release( 1 );
 
-      this.StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
+      //this.StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
       this.StartTabPageTimer( Delay: 4000 ); // BROKEN // 4000ms
       this.StartSiteOverviewTimer( Delay: 4000 ); // 4000ms
       this.StartStatusBarTimer( Delay: 1000 ); // 1000ms
@@ -1656,7 +1656,9 @@ namespace SEOMacroscope
 
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
-
+      
+      this.UpdateProgressBarScan( 0 );
+    
     }
 
     void ScanningControlsComplete ( Boolean bState )
@@ -1691,8 +1693,11 @@ namespace SEOMacroscope
       DebugMsg( "Scanning Thread: Started." );
 
       this.SetVelocitySiteOverviewTimer( Delay: 4000 );
+      this.StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
       this.JobMaster.SetStartUrl( this.GetUrl() );
       this.JobMaster.Execute();
+      this.StopProgressBarScanTimer();
+      this.UpdateProgressBarScan( 100 );
       this.SetVelocitySiteOverviewTimer( Delay: 10000 );
 
       {
@@ -1725,7 +1730,7 @@ namespace SEOMacroscope
 
     /** Scan Progress Bar *****************************************************/
 
-    void StartProgressBarScanTimer ( int Delay )
+    private void StartProgressBarScanTimer ( int Delay )
     {
       this.TimerProgressBarScan = new System.Timers.Timer ( Delay );
       this.TimerProgressBarScan.Elapsed += this.CallbackProgressBarScanTimer;
@@ -1734,7 +1739,7 @@ namespace SEOMacroscope
       this.TimerProgressBarScan.Start();
     }
 
-    void StopProgressBarScanTimer ()
+    private void StopProgressBarScanTimer ()
     {
       try
       {
@@ -1747,7 +1752,7 @@ namespace SEOMacroscope
       }
     }
 
-    void CallbackProgressBarScanTimer ( Object self, ElapsedEventArgs e )
+    private void CallbackProgressBarScanTimer ( Object self, ElapsedEventArgs e )
     {
       if( this.InvokeRequired )
       {
@@ -1766,7 +1771,12 @@ namespace SEOMacroscope
       }
     }
 
-    void UpdateProgressBarScan ()
+    private void UpdateProgressBarScan ( int Percentage )
+    {
+      this.ProgressBarScan.Value = Percentage;    
+    }
+        
+    private void UpdateProgressBarScan ()
     {
 
       int iPercentage = 0;

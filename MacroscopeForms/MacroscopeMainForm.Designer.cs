@@ -230,7 +230,7 @@ namespace SEOMacroscope
 			this.crawlParentDirectoriesToolStripMenuItem,
 			this.crawlChildDirectoriesToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
 			this.taskParametersToolStripMenuItem.Text = "Task Parameters";
 			// 
 			// includeURLPatternsToolStripMenuItem
@@ -488,7 +488,7 @@ namespace SEOMacroscope
 			this.ProgressBarScan.CausesValidation = false;
 			this.ProgressBarScan.Margin = new System.Windows.Forms.Padding(10, 8, 10, 8);
 			this.ProgressBarScan.Name = "ProgressBarScan";
-			this.ProgressBarScan.Size = new System.Drawing.Size(150, 14);
+			this.ProgressBarScan.Size = new System.Drawing.Size(200, 14);
 			this.ProgressBarScan.Step = 1;
 			// 
 			// splitContainerLeftAndRightViews
@@ -528,7 +528,7 @@ namespace SEOMacroscope
 			// 
 			this.splitContainerStructureAndDocumentDetails.Panel2.Controls.Add(this.macroscopeDocumentDetailsInstance);
 			this.splitContainerStructureAndDocumentDetails.Size = new System.Drawing.Size(712, 616);
-			this.splitContainerStructureAndDocumentDetails.SplitterDistance = 302;
+			this.splitContainerStructureAndDocumentDetails.SplitterDistance = 301;
 			this.splitContainerStructureAndDocumentDetails.SplitterWidth = 6;
 			this.splitContainerStructureAndDocumentDetails.TabIndex = 0;
 			// 
@@ -563,7 +563,7 @@ namespace SEOMacroscope
 			this.DoubleBuffered = true;
 			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
 			this.MainMenuStrip = this.menuStripMain;
-			this.MinimumSize = new System.Drawing.Size(1024, 768);
+			this.MinimumSize = new System.Drawing.Size(1024, 758);
 			this.Name = "MacroscopeMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SEO Macroscope";

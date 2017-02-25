@@ -26,7 +26,6 @@
 using System;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Text;
 using System.Net;
 using ExCSS;
 
@@ -54,6 +53,8 @@ namespace SEOMacroscope
         req.Method = "GET";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
+        req.UserAgent = this.UserAgent();
+                
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();

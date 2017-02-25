@@ -30,76 +30,89 @@ using System.Net;
 namespace SEOMacroscope
 {
 
-	public partial class MacroscopeDocument : Macroscope
-	{
+  public partial class MacroscopeDocument : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void ProcessBinaryPage ()
-		{
+    void ProcessBinaryPage ()
+    {
 
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			string sErrorCondition = null;
+      HttpWebRequest req = null;
+      HttpWebResponse res = null;
+      string sErrorCondition = null;
 
-			try {
+      try
+      {
 
-				req = WebRequest.CreateHttp( this.Url );
-				req.Method = "HEAD";
-				req.Timeout = this.Timeout;
-				req.KeepAlive = false;
-				MacroscopePreferencesManager.EnableHttpProxy( req );
-				res = ( HttpWebResponse )req.GetResponse();
+        req = WebRequest.CreateHttp( this.Url );
+        req.Method = "HEAD";
+        req.Timeout = this.Timeout;
+        req.KeepAlive = false;
+        req.UserAgent = this.UserAgent();
+				        
+        MacroscopePreferencesManager.EnableHttpProxy( req );
+        
+        res = ( HttpWebResponse )req.GetResponse();
 
-			} catch( WebException ex ) {
+      }
+      catch( WebException ex )
+      {
 
-				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Message ) );
-				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Status ) );
-				DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ( int )ex.Status ) );
+        DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Status ) );
+        DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ( int )ex.Status ) );
 
-				sErrorCondition = ex.Status.ToString();
+        sErrorCondition = ex.Status.ToString();
 
-			}
+      }
 
-			if( res != null ) {
+      if( res != null )
+      {
 
-				this.ProcessHttpHeaders( req, res );
+        this.ProcessHttpHeaders( req, res );
 
-				{ // Title
+        { // Title
 
-					MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
-					string sTitle = null;
+          MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
+          string sTitle = null;
 
-					foreach( Match match in reMatches ) {
+          foreach( Match match in reMatches )
+          {
 
-						if( match.Groups[ 0 ].Value.Length > 0 ) {
-							sTitle = match.Groups[ 0 ].Value.ToString();
-							break;
-						}
+            if( match.Groups[ 0 ].Value.Length > 0 )
+            {
+              sTitle = match.Groups[ 0 ].Value.ToString();
+              break;
+            }
 
-					}
+          }
 
-					if( sTitle != null ) {
-						this.Title = sTitle;
-						DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
-					} else {
-						DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
-					}
+          if( sTitle != null )
+          {
+            this.Title = sTitle;
+            DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
+          }
+          else
+          {
+            DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
+          }
 
-				}
+        }
 
-				res.Close();
+        res.Close();
 
-			}
+      }
 
-			if( sErrorCondition != null ) {
-				this.ProcessErrorCondition( sErrorCondition );
-			}
+      if( sErrorCondition != null )
+      {
+        this.ProcessErrorCondition( sErrorCondition );
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

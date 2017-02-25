@@ -54,6 +54,8 @@ namespace SEOMacroscope
         req.Method = "GET";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
+        req.UserAgent = this.UserAgent();
+
         MacroscopePreferencesManager.EnableHttpProxy( req );
         res = ( HttpWebResponse )req.GetResponse();
 
@@ -779,20 +781,31 @@ namespace SEOMacroscope
 
       HtmlDoc.LoadHtml( sHtml );
 
-      foreach( HtmlNode nNode in HtmlDoc.DocumentNode.SelectNodes( "(//script|//style)") )
+      if( HtmlDoc != null )
       {
-        NodesToRemove.Add( nNode );
+        
+        HtmlNodeCollection nNodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//script|//style)" );
+      
+        if( nNodeCollection != null )
+        {
+          
+          foreach( HtmlNode nNode in nNodeCollection )
+          {
+            NodesToRemove.Add( nNode );
+          }
+
+          for( int i = 0 ; i < NodesToRemove.Count ; i++ )
+          {
+            NodesToRemove[ i ].Remove();
+          }
+                  
+        }
+
+        sText = HtmlDoc.DocumentNode.InnerText;
+        sText = Regex.Replace( sText, "<!--.*?-->", "", RegexOptions.Singleline );
+        
       }
-
-      for( int i = 0 ; i < NodesToRemove.Count ; i++ )
-      {
-        NodesToRemove[ i ].Remove();
-      }
-
-      sText = HtmlDoc.DocumentNode.InnerText;
-
-      sText = Regex.Replace( sText, "<!--.*?-->", "", RegexOptions.Singleline );
-
+      
       return( sText );
     }
 
