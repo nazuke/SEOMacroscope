@@ -238,6 +238,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MacroscopePreferences.Designer.cs</LastGenOutput>
     </None>
+    <None Include="notes.txt" />
     <None Include="packages.config" />
     <None Include="TODO.txt" />
   </ItemGroup>

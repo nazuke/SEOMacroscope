@@ -1773,7 +1773,21 @@ namespace SEOMacroscope
 
     private void UpdateProgressBarScan ( int Percentage )
     {
-      this.ProgressBarScan.Value = Percentage;    
+      if( this.InvokeRequired )
+      {
+        this.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ProgressBarScan.Value = Percentage;    
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ProgressBarScan.Value = Percentage;    
+      }
     }
         
     private void UpdateProgressBarScan ()
