@@ -24,25 +24,36 @@
 */
 
 using System;
+using NUnit.Framework;
 
 namespace SEOMacroscope
 {
-
-  /// <summary>
-  /// Description of IMacroscopeTaskController.
-  /// </summary>
-
-  /**************************************************************************/
-	    
-  public interface IMacroscopeTaskController
+  
+  [TestFixture]
+  public class TestMacroscopeCredentialsHttp : Macroscope
   {
-    
-    void ICallbackScanComplete ();
+	
+    /**************************************************************************/
 
-    MacroscopeCredentialsHttp IGetCredentialsHttp ();
+    [Test]
+    public void TestGenerateKey ()
+    {
 
+      MacroscopeCredentialsHttp Credentials = new MacroscopeCredentialsHttp ();
+      
+      const string Domain = "www.companyname.com";
+      const string Realm = "Realm of Chaos";
+
+      string Digest = Credentials.TestGenerateKey( Domain, Realm );
+
+      DebugMsg( string.Format( "Digest: {0}", Digest ) );
+      
+      Assert.IsNotEmpty( Digest, string.Format( "FAIL: {0} :: {1}", Domain, Realm ) );
+
+    }
+		
+    /**************************************************************************/
+		    
   }
-
-  /**************************************************************************/
-
+	
 }

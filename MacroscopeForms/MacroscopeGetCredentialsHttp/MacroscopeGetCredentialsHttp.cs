@@ -24,25 +24,32 @@
 */
 
 using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-
+  
   /// <summary>
-  /// Description of IMacroscopeTaskController.
+  /// Description of MacroscopeGetCredentialsHttp.
   /// </summary>
-
-  /**************************************************************************/
-	    
-  public interface IMacroscopeTaskController
+	
+  public partial class MacroscopeGetCredentialsHttp : Form
   {
-    
-    void ICallbackScanComplete ();
+	
+    /**************************************************************************/
+	      
+    public MacroscopeGetCredentialsHttp ()
+    {
 
-    MacroscopeCredentialsHttp IGetCredentialsHttp ();
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
+    }
+	  
+    /**************************************************************************/
+	      
+    /**************************************************************************/
+	  
   }
-
-  /**************************************************************************/
-
+	
 }

@@ -44,27 +44,23 @@ namespace SEOMacroscope
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
-      List<string> TargetUrls = new List<string> () {
-        {
+      List<string> TargetUrls = new List<string> () { {
           "http://www.companyname.com/path/to/some/deep/folder/"
-        },
-        {
+        }, {
           "http://www.companyname.com/path/to/some/deep/folder/index.html"
-        },
-        {
+        }, {
           "http://www.companyname.com/path/to/some/deep/folder/image"
-        },
-        {
+        }, {
           "http://www.companyname.com/path/to/some/deep/index.html"
-        }, {
-          "http://www.companyname.com/path/to/some/page.jsp"
         },
         {
-          "http://www.companyname.com/path/to/file.pdf"
+          "http://www.companyname.com/path/to/some/page.jsp"
         }, {
-          "http://www.companyname.com/path/"
+          "http://www.companyname.com/path/to/file.pdf"
         },
-         {
+        {
+          "http://www.companyname.com/path/"
+        }, {
           "http://www.companyname.com/path/index.php"
         },
          {
@@ -184,7 +180,12 @@ namespace SEOMacroscope
     public void ICallbackScanComplete ()
     {
     }
-		
+
+    public MacroscopeCredentialsHttp IGetCredentialsHttp () {
+      MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp();
+      return( CredentialsHttp );
+    }
+
     /**************************************************************************/
 
   }

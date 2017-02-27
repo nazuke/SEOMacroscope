@@ -26,6 +26,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Timers;
 using System.Threading;
@@ -718,9 +719,9 @@ namespace SEOMacroscope
     {
 
       string sErrorCondition = msDoc.GetErrorCondition();
-      int iStatusCode = msDoc.GetStatusCode();
+      HttpStatusCode iStatusCode = msDoc.GetStatusCode();
 
-      if( ( iStatusCode >= 300 ) && ( iStatusCode <= 399 ) )
+      if( ( (int)iStatusCode >= 300 ) && ( (int)iStatusCode <= 399 ) )
       {
 
         string sText = string.Format( "{0} ({1})", iStatusCode, sErrorCondition );
@@ -772,9 +773,9 @@ namespace SEOMacroscope
     {
 
       string sErrorCondition = msDoc.GetErrorCondition();
-      int iStatusCode = msDoc.GetStatusCode();
+      HttpStatusCode iStatusCode = msDoc.GetStatusCode();
 
-      if( ( iStatusCode >= 400 ) && ( iStatusCode <= 599 ) )
+      if( ( (int)iStatusCode >= 400 ) && ( (int)iStatusCode <= 599 ) )
       {
 
         string sText = string.Format( "{0} ({1})", iStatusCode, sErrorCondition );

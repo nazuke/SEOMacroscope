@@ -116,6 +116,7 @@ namespace SEOMacroscope
           {
 
             DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
+            this.SetStatusCode( ( ( HttpWebResponse )ex.Response ).StatusCode );
             pdfTools = null;
             this.ContentLength = 0;
 
@@ -124,7 +125,7 @@ namespace SEOMacroscope
           {
 
             DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-            this.StatusCode = ( int )HttpStatusCode.BadRequest;
+            this.SetStatusCode( HttpStatusCode.BadRequest );
             pdfTools = null;
             this.ContentLength = 0;
 

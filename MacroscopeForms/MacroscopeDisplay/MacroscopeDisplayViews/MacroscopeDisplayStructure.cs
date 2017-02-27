@@ -80,6 +80,7 @@ namespace SEOMacroscope
         // BEGIN: Columns
 
         this.lvListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
+        this.lvListView.Columns.Add( MacroscopeConstants.StatusCode, MacroscopeConstants.StatusCode );
         this.lvListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
         this.lvListView.Columns.Add( MacroscopeConstants.IsRedirect, MacroscopeConstants.IsRedirect );
 
@@ -134,6 +135,7 @@ namespace SEOMacroscope
 
         htItems[ MacroscopeConstants.Url ] = msDoc.GetUrl();
 
+        htItems[ MacroscopeConstants.StatusCode ] = ( ( int )msDoc.GetStatusCode() ).ToString();
         htItems[ MacroscopeConstants.Status ] = msDoc.GetStatusCode();
         htItems[ MacroscopeConstants.IsRedirect ] = msDoc.GetIsRedirect();
 
@@ -206,6 +208,8 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.ForeColor = Color.Blue;
 
+          int iStatusColIndex = this.lvListView.Columns.IndexOfKey( MacroscopeConstants.Status );
+                        
           foreach( string sKey in htItems.Keys )
           {
 
@@ -230,25 +234,29 @@ namespace SEOMacroscope
               lvItem.SubItems[ iColIndex ].ForeColor = Color.Gray;
             }
 
-            if( sKey == MacroscopeConstants.Status )
+            if( sKey == MacroscopeConstants.StatusCode )
             {
               if( Regex.IsMatch( sText, "^[2]" ) )
               {
                 lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
+                lvItem.SubItems[ iStatusColIndex ].ForeColor = Color.Green;
               }
               else
               if( Regex.IsMatch( sText, "^[3]" ) )
               {
                 lvItem.SubItems[ iColIndex ].ForeColor = Color.Goldenrod;
+                lvItem.SubItems[ iStatusColIndex ].ForeColor = Color.Goldenrod;
               }
               else
               if( Regex.IsMatch( sText, "^[45]" ) )
               {
                 lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
+                lvItem.SubItems[ iStatusColIndex ].ForeColor = Color.Red;
               }
               else
               {
                 lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
+                lvItem.SubItems[ iStatusColIndex ].ForeColor = Color.Blue;
               }
             }
 
@@ -285,11 +293,11 @@ namespace SEOMacroscope
     void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () {
-        {
+      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
           MacroscopeConstants.Url,
           300
-        }, {
+        },
+        {
           MacroscopeConstants.Title,
           300
         }
@@ -313,14 +321,14 @@ namespace SEOMacroscope
     {
 
       List<string> lColDataWidth = new List<string> () {
-          MacroscopeConstants.Url,
-        MacroscopeConstants.DateServer,
-          MacroscopeConstants.DateModified,
-        MacroscopeConstants.Title
+        MacroscopeConstants.Url,
+          MacroscopeConstants.DateServer,
+        MacroscopeConstants.DateModified,
+          MacroscopeConstants.Title
       };
 
       List<string> lColHeaderWidth = new List<string> () {
-          MacroscopeConstants.DateModified
+        MacroscopeConstants.DateModified
       };
 
       foreach( string sColName in lColDataWidth )

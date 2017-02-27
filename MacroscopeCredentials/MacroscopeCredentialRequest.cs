@@ -27,22 +27,43 @@ using System;
 
 namespace SEOMacroscope
 {
-
+  
   /// <summary>
-  /// Description of IMacroscopeTaskController.
+  /// Description of MacroscopeCredentialRequest.
   /// </summary>
-
-  /**************************************************************************/
-	    
-  public interface IMacroscopeTaskController
+  
+  public class MacroscopeCredentialRequest
   {
-    
-    void ICallbackScanComplete ();
+  
+    /**************************************************************************/
 
-    MacroscopeCredentialsHttp IGetCredentialsHttp ();
+    private string Domain;
+    private string Realm;
+
+    /**************************************************************************/
+
+    public MacroscopeCredentialRequest ( string Domain, string Realm )
+    {
+      this.Domain = Domain;
+      this.Realm = Realm;
+    }
+
+    /**************************************************************************/
+
+    public string GetDomain ()
+    {
+      return( this.Domain );
+    }
+
+    /**************************************************************************/
+
+    public string GetRealm ()
+    {
+      return( this.Realm );
+    }
+
+    /**************************************************************************/
 
   }
-
-  /**************************************************************************/
 
 }

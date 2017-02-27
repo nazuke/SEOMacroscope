@@ -26,158 +26,157 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeIncludeExcludeUrls.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeIncludeExcludeUrls.
+  /// </summary>
 
-	public class MacroscopeIncludeExcludeUrls : Macroscope
-	{
+  public class MacroscopeIncludeExcludeUrls : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		List<string> IncludeUrlPatternsList;
-		List<string> ExcludeUrlPatternsList;
+    List<string> IncludeUrlPatternsList;
+    List<string> ExcludeUrlPatternsList;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeIncludeExcludeUrls ()
-		{
+    public MacroscopeIncludeExcludeUrls ()
+    {
 
-			IncludeUrlPatternsList = new List<string> ( 128 );
-			ExcludeUrlPatternsList = new List<string> ( 128 );
+      IncludeUrlPatternsList = new List<string> ( 128 );
+      ExcludeUrlPatternsList = new List<string> ( 128 );
 
-		}
+    }
 
-		/** Include URL Patterns **************************************************/
+    /** Include URL Patterns **************************************************/
 
-		public void LoadIncludeUrlPatterns ( string IncludeUrlPatternsText )
-		{
+    public void LoadIncludeUrlPatterns ( string IncludeUrlPatternsText )
+    {
 
-			this.IncludeUrlPatternsList.Clear();
+      this.IncludeUrlPatternsList.Clear();
 
-			foreach( string sLine in Regex.Split( IncludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
-			{
-				DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", sLine ) );
-				if( sLine.Length > 0 )
-				{
-					this.IncludeUrlPatternsList.Add( sLine );
-				}
-			}
+      foreach( string sLine in Regex.Split( IncludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
+      {
+        DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", sLine ) );
+        if( sLine.Length > 0 )
+        {
+          this.IncludeUrlPatternsList.Add( sLine );
+        }
+      }
 
-		}
+    }
 
-		public string FetchIncludeUrlPatterns ()
-		{
-			string sText = string.Join( "\r\n", this.IncludeUrlPatternsList );
-			return( sText );
-		}
+    public string FetchIncludeUrlPatterns ()
+    {
+      string sText = string.Join( "\r\n", this.IncludeUrlPatternsList );
+      return( sText );
+    }
 
-		public Boolean UseIncludeUrlPatterns ()
-		{
-			Boolean bUse = false;
+    public Boolean UseIncludeUrlPatterns ()
+    {
+      Boolean bUse = false;
 
-			int Count = this.IncludeUrlPatternsList.Count;
+      int Count = this.IncludeUrlPatternsList.Count;
 
-			if( Count > 0 )
-			{
-				bUse = true;
-			}
-			return( bUse );
-		}
+      if( Count > 0 )
+      {
+        bUse = true;
+      }
+      return( bUse );
+    }
 
-		public Boolean MatchesIncludeUrlPattern ( string Url )
-		{
-			Boolean bMatch = false;
+    public Boolean MatchesIncludeUrlPattern ( string Url )
+    {
+      Boolean bMatch = false;
 
-			// TODO: Implement this.
+      // TODO: Implement this.
 
-			for( int i = 0 ; i < this.IncludeUrlPatternsList.Count ; i++ )
-			{
-				if( Url.IndexOf( this.IncludeUrlPatternsList[ i ] ) >= 0 )
-				{
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-					bMatch = true;
-					break;
-				}
-				else
-				{
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-				}
-			}
+      for( int i = 0 ; i < this.IncludeUrlPatternsList.Count ; i++ )
+      {
+        if( Url.IndexOf( this.IncludeUrlPatternsList[ i ], StringComparison.Ordinal ) >= 0 )
+        {
+          DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+          bMatch = true;
+          break;
+        }
+        else
+        {
+          DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+        }
+      }
 
-			return( bMatch );
-		}
+      return( bMatch );
+    }
 
-		/** Exclude URL Patterns **************************************************/
+    /** Exclude URL Patterns **************************************************/
 
-		public void LoadExcludeUrlPatterns ( string ExcludeUrlPatternsText )
-		{
+    public void LoadExcludeUrlPatterns ( string ExcludeUrlPatternsText )
+    {
 
-			this.ExcludeUrlPatternsList.Clear();
+      this.ExcludeUrlPatternsList.Clear();
 
-			foreach( string sLine in Regex.Split( ExcludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
-			{
-				DebugMsg( string.Format( "LoadExcludeUrlPatterns: {0}", sLine ) );
-				if( sLine.Length > 0 )
-				{
-					this.ExcludeUrlPatternsList.Add( sLine );
-				}
-			}
+      foreach( string sLine in Regex.Split( ExcludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
+      {
+        DebugMsg( string.Format( "LoadExcludeUrlPatterns: {0}", sLine ) );
+        if( sLine.Length > 0 )
+        {
+          this.ExcludeUrlPatternsList.Add( sLine );
+        }
+      }
 
-		}
+    }
 
-		public string FetchExcludeUrlPatterns ()
-		{
-			string sText = string.Join( "\r\n", this.ExcludeUrlPatternsList );
-			return( sText );
-		}
+    public string FetchExcludeUrlPatterns ()
+    {
+      string sText = string.Join( "\r\n", this.ExcludeUrlPatternsList );
+      return( sText );
+    }
 
-		public Boolean UseExcludeUrlPatterns ()
-		{
-			Boolean bUse = false;
-			if( this.ExcludeUrlPatternsList.Count > 0 )
-			{
-				bUse = true;
-			}
-			return( bUse );
-		}
+    public Boolean UseExcludeUrlPatterns ()
+    {
+      Boolean bUse = false;
+      if( this.ExcludeUrlPatternsList.Count > 0 )
+      {
+        bUse = true;
+      }
+      return( bUse );
+    }
 
-		public Boolean MatchesExcludeUrlPattern ( string Url )
-		{
-			Boolean bMatch = false;
+    public Boolean MatchesExcludeUrlPattern ( string Url )
+    {
+      Boolean bMatch = false;
 
-			// TODO: Implement this.
+      // TODO: Implement this.
 
-			int iPatterns = this.ExcludeUrlPatternsList.Count;
+      int iPatterns = this.ExcludeUrlPatternsList.Count;
 
-			DebugMsg( string.Format( "iPatterns: COUNT: {0}", iPatterns ) );
+      DebugMsg( string.Format( "iPatterns: COUNT: {0}", iPatterns ) );
 
-			for( int i = 0 ; i < iPatterns ; i++ )
-			{
-				if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ], StringComparison.CurrentCulture ) >= 0 )
-				{
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0}", i ) );
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-					bMatch = true;
-					break;
-				}
-				else
-				{
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0}", i ) );
-					DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-				}
-			}
+      for( int i = 0 ; i < iPatterns ; i++ )
+      {
+        if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ], StringComparison.Ordinal ) >= 0 )
+        {
+          DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0}", i ) );
+          DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+          bMatch = true;
+          break;
+        }
+        else
+        {
+          DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0}", i ) );
+          DebugMsg( string.Format( "MatchesIncludeUrlPattern: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+        }
+      }
 
-			return( bMatch );
-		}
+      return( bMatch );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

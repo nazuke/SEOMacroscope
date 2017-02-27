@@ -109,6 +109,7 @@
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzePageTitles.cs" />
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeDeepKeywordAnalysis.cs" />
     <Compile Include="MacroscopeConstants.cs" />
+    <Compile Include="MacroscopeCredentials\MacroscopeCredentialRequest.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentBinary.cs" />
@@ -126,8 +127,11 @@
     <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeOutlink\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopeDocument\t\TestMacroscopeDocument.cs" />
+    <Compile Include="MacroscopeCredentials\MacroscopeCredential.cs" />
+    <Compile Include="MacroscopeCredentials\MacroscopeCredentialsHttp.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopeIncludeExcludeUrls.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferencesManager.cs" />
+    <Compile Include="MacroscopeCredentials\t\TestMacroscopeCredentialsHttp.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.Designer.cs">
       <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>
@@ -161,6 +165,10 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTelephoneNumbers.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTitles.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayVideos.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.Designer.cs">
+      <DependentUpon>MacroscopeGetCredentialsHttp.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopeLicenceForm\MacroscopeLicenceForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLicenceForm\MacroscopeLicenceForm.Designer.cs">
       <DependentUpon>MacroscopeLicenceForm.cs</DependentUpon>
@@ -231,6 +239,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.resx">
+      <DependentUpon>MacroscopeGetCredentialsHttp.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <EmbeddedResource Include="LICENSE">
       <LogicalName>LICENCE</LogicalName>
@@ -291,12 +302,15 @@
     <Folder Include="MacroscopeDocument\MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeOutlink" />
     <Folder Include="MacroscopeDocument\t" />
+    <Folder Include="MacroscopeCredentials" />
+    <Folder Include="MacroscopeCredentials\t" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
     <Folder Include="MacroscopeForms\MacroscopeTaskParameters" />
     <Folder Include="MacroscopeForms\MacroscopeLicenceForm" />
+    <Folder Include="MacroscopeForms\MacroscopeGetCredentialsHttp" />
     <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
@@ -317,6 +331,7 @@
     <Folder Include="MacroscopeUserControls\MacroscopeOverviewPanel" />
     <Folder Include="MacroscopeUserControls\MacroscopeSiteStructurePanel" />
     <Folder Include="MacroscopeSearch" />
+    <Folder Include="docs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

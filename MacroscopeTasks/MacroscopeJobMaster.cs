@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -43,7 +44,8 @@ namespace SEOMacroscope
     private MacroscopeConstants.RunTimeMode RuntimeMode;
 
     private IMacroscopeTaskController TaskController;
-
+    MacroscopeCredentialsHttp CredentialsHttp;
+        
     private MacroscopeDocumentCollection DocCollection;
     private MacroscopeAllowedHosts AllowedHosts;
     private MacroscopeNamedQueue NamedQueue;
@@ -104,7 +106,9 @@ namespace SEOMacroscope
     {
 
       this.RuntimeMode = iRuntimeMode;
-
+      
+      this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
+      
       this.DocCollection = new MacroscopeDocumentCollection ( this );
       this.AllowedHosts = new MacroscopeAllowedHosts ();
 
@@ -186,6 +190,13 @@ namespace SEOMacroscope
     public MacroscopeConstants.RunTimeMode GetRuntimeMode ()
     {
       return( this.RuntimeMode );
+    }
+
+    /** Credentials **********************************************************/
+
+    public MacroscopeCredentialsHttp GetCredentialsHttp ()
+    {
+      return( this.CredentialsHttp );
     }
 
     /** Include/Exclude URLs **************************************************/
@@ -492,48 +503,45 @@ namespace SEOMacroscope
 
         // 200 Range
 
-          case 200:
+          case HttpStatusCode.OK:
             break;
 
         // 400 Range
 
-          case 400:
+          case HttpStatusCode.BadRequest:
             this.ResetLink( sUrl );
             break;
-          case 403:
+          case HttpStatusCode.Forbidden:
             this.ResetLink( sUrl );
             break;
-          case 404:
+          case HttpStatusCode.NotFound:
             this.ResetLink( sUrl );
             break;
-          case 410:
+          case HttpStatusCode.Gone:
             this.ResetLink( sUrl );
             break;
-          case 408:
+          case HttpStatusCode.RequestTimeout:
             this.ResetLink( sUrl );
             break;
-          case 429:
-            this.ResetLink( sUrl );
-            break;
-          case 451:
+          case HttpStatusCode.RequestUriTooLong:
             this.ResetLink( sUrl );
             break;
 
         // 500 Range
 
-          case 500:
+          case HttpStatusCode.InternalServerError:
             this.ResetLink( sUrl );
             break;
-          case 501:
+          case HttpStatusCode.NotImplemented:
             this.ResetLink( sUrl );
             break;
-          case 502:
+          case HttpStatusCode.BadGateway:
             this.ResetLink( sUrl );
             break;
-          case 503:
+          case HttpStatusCode.ServiceUnavailable:
             this.ResetLink( sUrl );
             break;
-          case 504:
+          case HttpStatusCode.GatewayTimeout:
             this.ResetLink( sUrl );
             break;
 
@@ -888,8 +896,10 @@ namespace SEOMacroscope
 
             if( this.Progress[ "done" ].ContainsKey( Url ) )
             {
-              this.Progress[ "done" ][Url] = true;
-            } else {
+              this.Progress[ "done" ][ Url ] = true;
+            }
+            else
+            {
               this.Progress[ "done" ].Add( Url, true );
             }
 

@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Net;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -81,7 +82,7 @@ namespace SEOMacroscope
       {
 
         string sCanonical = msDoc.GetCanonical();
-        int StatusCode = msDoc.GetStatusCode();
+        HttpStatusCode StatusCode = msDoc.GetStatusCode();
         string sCanonicalLabel = sCanonical;
         ListViewItem lvItem = null;
 
@@ -148,17 +149,17 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
           }
 
-          if( ( StatusCode >= 100 ) && ( StatusCode <= 299 ) )
+          if( ( (int)StatusCode >= 100 ) && ( (int)StatusCode <= 299 ) )
           {
             lvItem.SubItems[ 1 ].ForeColor = Color.Green;
           }
           else
-          if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
+          if( ( (int)StatusCode >= 300 ) && ( (int)StatusCode <= 399 ) )
           {
             lvItem.SubItems[ 1 ].ForeColor = Color.Orange;
           }
           else
-          if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
+          if( ( (int)StatusCode >= 400 ) && ( (int)StatusCode <= 599 ) )
           {
             lvItem.SubItems[ 1 ].ForeColor = Color.Red;
           }

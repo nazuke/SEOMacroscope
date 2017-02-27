@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Timers;
-using System.Resources;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Threading;
@@ -44,7 +43,8 @@ namespace SEOMacroscope
     Thread ThreadScanner;
 
     MacroscopeJobMaster JobMaster;
-
+    MacroscopeCredentialsHttp CredentialsHttp;
+    
     Boolean StartUrlDirty;
 
     MacroscopeDisplayStructure msDisplayStructure;
@@ -84,11 +84,13 @@ namespace SEOMacroscope
 
     Semaphore SemaphoreOverviewTabPages;
     Semaphore SemaphoreSiteStructureDisplay;
+    Semaphore SemaphoreAuthenticationDialogue;
     
     public System.Timers.Timer TimerProgressBarScan;
     public System.Timers.Timer TimerTabPages;
     public System.Timers.Timer TimerSiteOverview;
     public System.Timers.Timer TimerStatusBar;
+    public System.Timers.Timer TimerAuthentication;
 
     /**************************************************************************/
 
@@ -98,6 +100,7 @@ namespace SEOMacroscope
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
       this.JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+      this.CredentialsHttp = new MacroscopeCredentialsHttp ();
 
       this.IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
 
@@ -126,6 +129,11 @@ namespace SEOMacroscope
       this.StartSiteOverviewTimer( Delay: 4000 ); // 4000ms
       this.StartStatusBarTimer( Delay: 1000 ); // 1000ms
 
+      // Authentication Dialogue
+      this.SemaphoreAuthenticationDialogue = new Semaphore ( 0, 1 );
+      this.SemaphoreAuthenticationDialogue.Release( 1 );
+      this.StartAuthenticationTimer( Delay: 1000 ); // 1000ms
+      
       this.ScanningControlsEnable( true );
 
     }
@@ -304,6 +312,13 @@ namespace SEOMacroscope
     public MacroscopeJobMaster GetJobMaster ()
     {
       return( this.JobMaster );
+    }
+
+    /** Credentials ***********************************************************/
+    
+    public MacroscopeCredentialsHttp IGetCredentialsHttp ()
+    {
+      return( this.CredentialsHttp );
     }
 
     /** Start URL *************************************************************/
@@ -702,7 +717,7 @@ namespace SEOMacroscope
 
       while( this.JobMaster.CountRunningThreads() > 0 )
       {
-        DebugMsg( "CallbackScanStop: WAITING" );
+        Thread.Yield();
         Thread.Sleep( 100 );
       }
 
@@ -1829,7 +1844,7 @@ namespace SEOMacroscope
 
     /** Status Bar ************************************************************/
 
-    void StartStatusBarTimer ( int Delay )
+    private void StartStatusBarTimer ( int Delay )
     {
       this.TimerStatusBar = new System.Timers.Timer ( Delay );
       this.TimerStatusBar.Elapsed += this.CallbackStatusBarTimer;
@@ -1838,7 +1853,7 @@ namespace SEOMacroscope
       this.TimerStatusBar.Start();
     }
 
-    void StopStatusBarTimer ()
+    private void StopStatusBarTimer ()
     {
       try
       {
@@ -1851,7 +1866,7 @@ namespace SEOMacroscope
       }
     }
 
-    void CallbackStatusBarTimer ( Object self, ElapsedEventArgs e )
+    private void CallbackStatusBarTimer ( Object self, ElapsedEventArgs e )
     {
       if( this.InvokeRequired )
       {
@@ -1870,7 +1885,7 @@ namespace SEOMacroscope
       }
     }
 
-    void UpdateStatusBar ()
+    private void UpdateStatusBar ()
     {
       if( this.JobMaster != null )
       {
@@ -1880,9 +1895,109 @@ namespace SEOMacroscope
       }
     }
 
+    /** Authentication Dialogue Timer *****************************************/
+
+    private void StartAuthenticationTimer ( int Delay )
+    {
+      this.TimerAuthentication = new System.Timers.Timer ( Delay );
+      this.TimerAuthentication.Elapsed += this.CallbackAuthenticationTimer;
+      this.TimerAuthentication.AutoReset = true;
+      this.TimerAuthentication.Enabled = true;
+      this.TimerAuthentication.Start();
+    }
+
+    private void StopAuthenticationTimer ()
+    {
+      try
+      {
+        this.TimerAuthentication.Stop();
+        this.TimerAuthentication.Dispose();
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "StopAuthenticationTimer: {0}", ex.Message ) );
+      }
+    }
+
+    private void CallbackAuthenticationTimer ( Object self, ElapsedEventArgs e )
+    {
+      if( this.InvokeRequired )
+      {
+        this.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ShowAuthenticationDialogue();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ShowAuthenticationDialogue();
+      }
+    }
+
+    private void ShowAuthenticationDialogue ()
+    {
+      if( this.JobMaster != null )
+      {
+
+        if( this.CredentialsHttp.PeekCredentialRequest() )
+        {
+
+          this.SemaphoreAuthenticationDialogue.WaitOne();
+
+          DebugMsg( string.Format( "SemaphoreAuthenticationDialogue: {0}", "OBTAINED" ) );
+
+          MacroscopeCredentialRequest CredentialRequest = this.CredentialsHttp.DequeueCredentialRequest();
+          MacroscopeGetCredentialsHttp CredentialsForm = new MacroscopeGetCredentialsHttp ();
+
+          CredentialsForm.labelMessage.Text = string.Format(
+            "The website at \"{0}\" is requesting credentials for the Realm \"{1}\"",
+            CredentialRequest.GetDomain(),
+            CredentialRequest.GetRealm()
+          );
+
+          DialogResult CredentialsFormResult = CredentialsForm.ShowDialog();
+
+          
+          DebugMsg( string.Format( "CredentialsFormResult: {0}", CredentialsFormResult ) );
+          
+          
+          if( CredentialsFormResult == DialogResult.OK )
+          {
+            string sUsername = CredentialsForm.textBoxUsername.Text;
+            string sPassword = CredentialsForm.maskedTextBoxPassword.Text;
+
+            this.CredentialsHttp.AddCredential(
+              Domain: CredentialRequest.GetDomain(),
+              Realm: CredentialRequest.GetRealm(),
+              Username: sUsername,
+              Password: sPassword
+            );
+
+          }
+
+          CredentialsForm.Dispose();
+
+          this.SemaphoreAuthenticationDialogue.Release( 1 );
+      
+          DebugMsg( string.Format( "SemaphoreAuthenticationDialogue: {0}", "RELEASED" ) );
+
+        }
+        else
+        {
+          DebugMsg( string.Format( "No credentials requests waiting" ) ); 
+        }
+        
+      }
+
+    }
+
     /** Operation Toolbar Callbacks *******************************************/
 
-    void CallbackRetryBrokenLinksClick ( object sender, EventArgs e )
+    private void CallbackRetryBrokenLinksClick ( object sender, EventArgs e )
     {
 
       DebugMsg( string.Format( "CallbackRetryBrokenLinksClick: {0}", "CALLED" ) );
@@ -1895,14 +2010,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void CopyTextToClipboard ( string sText )
+    private void CopyTextToClipboard ( string sText )
     {
       Clipboard.SetText( sText );
     }
 
     /** Load List *************************************************************/
 
-    void CallbackLoadUrlListTextFile ( object sender, EventArgs e )
+    private void CallbackLoadUrlListTextFile ( object sender, EventArgs e )
     {
 
       OpenFileDialog Dialog = new OpenFileDialog ();
@@ -1933,7 +2048,7 @@ namespace SEOMacroscope
 
     /** TASK PARAMETERS CALLBACKS ********************************************/
 
-    void CallbackIncludeUrlItemsClick ( object sender, EventArgs e )
+    private void CallbackIncludeUrlItemsClick ( object sender, EventArgs e )
     {
 
       MacroscopeIncludeUrlPatterns IncludeUrlPatterns = new MacroscopeIncludeUrlPatterns ();
@@ -1953,7 +2068,7 @@ namespace SEOMacroscope
 
     }
 
-    void CallbackExcludeUrlItemsClick ( object sender, EventArgs e )
+    private void CallbackExcludeUrlItemsClick ( object sender, EventArgs e )
     {
 
       MacroscopeExcludeUrlPatterns ExcludeUrlPatterns = new MacroscopeExcludeUrlPatterns ();
@@ -1973,7 +2088,7 @@ namespace SEOMacroscope
 
     }
 
-    void CallbackCrawlParentDirectoriesToolStripMenuItemClick ( object sender, EventArgs e )
+    private void CallbackCrawlParentDirectoriesToolStripMenuItemClick ( object sender, EventArgs e )
     {
 
       ToolStripMenuItem CrawlMenuItem = sender as ToolStripMenuItem;
@@ -1995,7 +2110,7 @@ namespace SEOMacroscope
 
     }
 
-    void CallbackCrawlChildDirectoriesToolStripMenuItemClick ( object sender, EventArgs e )
+    private void CallbackCrawlChildDirectoriesToolStripMenuItemClick ( object sender, EventArgs e )
     {
 
       ToolStripMenuItem CrawlMenuItem = sender as ToolStripMenuItem;
@@ -2019,7 +2134,7 @@ namespace SEOMacroscope
 
     /** Report Save Dialogue Boxes ********************************************/
 
-    void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
+    private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
     {
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
@@ -2047,7 +2162,7 @@ namespace SEOMacroscope
       Dialog.Dispose();
     }
 
-    void CallbackSaveHrefLangExcelReport ( object sender, EventArgs e )
+    private void CallbackSaveHrefLangExcelReport ( object sender, EventArgs e )
     {
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";

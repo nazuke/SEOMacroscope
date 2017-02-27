@@ -50,6 +50,14 @@ namespace SEOMacroscope
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 		}
+    void RichTextBox1TextChanged ( object sender, EventArgs e )
+    {
+    
+    }
+    void Label1Click ( object sender, EventArgs e )
+    {
+  
+    }
 
 		/**************************************************************************/
 

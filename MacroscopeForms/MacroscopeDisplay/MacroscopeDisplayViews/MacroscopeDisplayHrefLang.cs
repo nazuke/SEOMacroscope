@@ -26,6 +26,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -158,7 +159,7 @@ namespace SEOMacroscope
           {
 
             string sDocUrl = msDoc.GetUrl();
-            int StatusCode = msDoc.GetStatusCode();
+            HttpStatusCode StatusCode = msDoc.GetStatusCode();
             string sDocLocale = msDoc.GetLocale();
             string sDocTitle = msDoc.GetTitle();
             ListViewItem lvItem;
@@ -210,17 +211,17 @@ namespace SEOMacroscope
                   lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
                 }
 
-                if( ( StatusCode >= 100 ) && ( StatusCode <= 299 ) )
+                if( ( (int)StatusCode >= 100 ) && ( (int)StatusCode <= 299 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Green;
                 }
                 else
-                if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
+                if( ( (int)StatusCode >= 300 ) && ( (int)StatusCode <= 399 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Orange;
                 }
                 else
-                if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
+                if( ( (int)StatusCode >= 400 ) && ( (int)StatusCode <= 599 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Red;
                 }

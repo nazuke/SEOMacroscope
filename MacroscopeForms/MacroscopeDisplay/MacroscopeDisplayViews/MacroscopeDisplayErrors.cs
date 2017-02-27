@@ -106,12 +106,12 @@ namespace SEOMacroscope
 
         Boolean bProceed = false;
 
-        if( ( msDoc.GetStatusCode() >= 400 ) && ( msDoc.GetStatusCode() <= 499 ) )
+        if( ( (int)msDoc.GetStatusCode() >= 400 ) && ( (int)msDoc.GetStatusCode() <= 499 ) )
         {
           bProceed = true;
         }
         else
-        if( ( msDoc.GetStatusCode() >= 500 ) && ( msDoc.GetStatusCode() <= 599 ) )
+        if( ( (int)msDoc.GetStatusCode() >= 500 ) && ( (int)msDoc.GetStatusCode() <= 599 ) )
         {
           bProceed = true;
         }

@@ -278,6 +278,16 @@ namespace SEOMacroscope
 
         this.DocCollection.AddDocument( sUrl, msDoc );
 
+        if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized )
+        {
+          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
+          {
+            MacroscopeCredentialsHttp CredentialsHttp = this.JobMaster.GetCredentialsHttp();
+            CredentialsHttp.EnqueueCredentialRequest( msDoc.GetHostname(), msDoc.GetAuthenticationRealm() );
+            this.JobMaster.AddUrlQueueItem( msDoc.GetUrl() );
+          }
+        }
+
         this.JobMaster.VisitedHistoryItem( msDoc.GetUrl() );
 
         this.JobMaster.IncPageLimitCount();
@@ -287,13 +297,18 @@ namespace SEOMacroscope
 
           DebugMsg( string.Format( "REDIRECTION DETECTED GetUrl: {0}", msDoc.GetUrl() ) );
           DebugMsg( string.Format( "REDIRECTION DETECTED From: {0}", msDoc.GetUrlRedirectFrom() ) );
-          DebugMsg( string.Format( "REDIRECTION DETECTED To: {0}", msDoc.GetUrlRedirectTo() ) );
 
           if( MacroscopePreferencesManager.GetFollowRedirects() )
           {
+
             string sHostname = msDoc.GetHostname();
             string sHostnameFrom = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectFrom() );
-            string sHostnameTo = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectTo() );
+            string sUrlRedirectTo = msDoc.GetUrlRedirectTo();
+            string sHostnameTo = MacroscopeAllowedHosts.ParseHostnameFromUrl( sUrlRedirectTo );
+
+            DebugMsg( string.Format( "REDIRECTION DETECTED sUrlRedirectTo: {0}", sUrlRedirectTo ) );
+            DebugMsg( string.Format( "REDIRECTION DETECTED sHostnameTo: {0}", sHostnameTo ) );
+            
           }
 
           this.JobMaster.AddUrlQueueItem( msDoc.GetUrlRedirectTo() );

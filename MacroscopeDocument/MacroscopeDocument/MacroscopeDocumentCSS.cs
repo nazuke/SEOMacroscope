@@ -107,6 +107,7 @@ namespace SEOMacroscope
         {
 
           DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
+          this.SetStatusCode( ( ( HttpWebResponse )ex.Response ).StatusCode );
           sRawData = "";
           this.ContentLength = 0;
 
@@ -115,7 +116,7 @@ namespace SEOMacroscope
         {
 
           DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-          this.StatusCode = ( int )HttpStatusCode.BadRequest;
+          this.SetStatusCode( HttpStatusCode.BadRequest );
           this.ContentLength = 0;
 
         }

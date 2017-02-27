@@ -72,7 +72,7 @@ namespace SEOMacroscope
     )
     {
 
-      string sValue = msDoc.GetStatusCode().ToString();
+      string sValue = ( ( int )msDoc.GetStatusCode() ).ToString();
       
       if( sValue == null )
       {

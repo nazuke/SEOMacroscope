@@ -66,6 +66,9 @@ namespace SEOMacroscope
     private string Fragment;
     private string QueryString;
 
+    private MacroscopeConstants.AuthenticationType AuthenticationType;
+    private string AuthenticationRealm;
+
     private string RawHttpStatusLine;
     private string RawHttpHeaders;
 
@@ -73,7 +76,7 @@ namespace SEOMacroscope
     private Boolean IsSecureUrl;
     private List<string> InSecureLinks;
     
-    private int StatusCode;
+    private HttpStatusCode StatusCode;
     private string ErrorCondition;
     private long ContentLength;
 
@@ -197,25 +200,25 @@ namespace SEOMacroscope
       this.Description = "";
       this.Keywords = "";
 
-      this.Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
@@ -322,6 +325,28 @@ namespace SEOMacroscope
       return( this.QueryString );
     }
 
+    /** Authentication ********************************************************/
+
+    public void SetAuthenticationType ( MacroscopeConstants.AuthenticationType AuthenticationType )
+    {
+      this.AuthenticationType = AuthenticationType;
+    }
+    
+    public MacroscopeConstants.AuthenticationType GetAuthenticationType ()
+    {
+      return( this.AuthenticationType );
+    }
+
+    public void SetAuthenticationRealm ( string AuthenticationRealm )
+    {
+      this.AuthenticationRealm = AuthenticationRealm;
+    }
+    
+    public string GetAuthenticationRealm ()
+    {
+      return( this.AuthenticationRealm );
+    }
+
     /** Secure URLs ***********************************************************/
 
     public void SetIsSecureUrl ( Boolean bState )
@@ -370,9 +395,9 @@ namespace SEOMacroscope
 
     private string GenerateChecksum ( string sData )
     {
-      MD5 Md5Digest = MD5.Create();
+      HashAlgorithm Digest = HashAlgorithm.Create( "SHA256" );
       byte [] BytesIn = Encoding.UTF8.GetBytes( sData );
-      byte [] Hashed = Md5Digest.ComputeHash( BytesIn );
+      byte [] Hashed = Digest.ComputeHash( BytesIn );
       StringBuilder sbString = new StringBuilder ();
       for( int i = 0 ; i < Hashed.Length ; i++ )
       {
@@ -428,10 +453,10 @@ namespace SEOMacroscope
 
     public void SetStatusCode ( HttpStatusCode Status )
     {
-      this.StatusCode = ( int )Status;
+      this.StatusCode = Status;
     }
 
-    public int GetStatusCode ()
+    public HttpStatusCode GetStatusCode ()
     {
       return( this.StatusCode );
     }
@@ -1147,12 +1172,12 @@ namespace SEOMacroscope
 
       fTimeDuration( this.ExecuteHeadRequest );
 
-      if( this.GetStatusCode() == ( int )HttpStatusCode.RequestTimeout )
+      if( this.GetStatusCode() == HttpStatusCode.RequestTimeout )
       {
         return( false );
       }
       else
-      if( this.GetStatusCode() == ( int )HttpStatusCode.GatewayTimeout )
+      if( this.GetStatusCode() == HttpStatusCode.GatewayTimeout )
       {
         return( false );
       }
@@ -1287,7 +1312,6 @@ namespace SEOMacroscope
 
       HttpWebRequest req = WebRequest.CreateHttp( this.Url );
       HttpWebResponse res = null;
-      Boolean bIsRedirect = false;
       string sOriginalUrl = this.Url;
       string sErrorCondition = null;
 
@@ -1299,36 +1323,33 @@ namespace SEOMacroscope
       
       MacroscopePreferencesManager.EnableHttpProxy( req );
 
+      if( this.GetAuthenticationRealm() != null ) {
+        ; // TODO: implement this
+      }
+
       try
       {
-
         res = ( HttpWebResponse )req.GetResponse();
-
       }
       catch( TimeoutException ex )
       {
-
         DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ) );
-
         sErrorCondition = ex.Message;
-
       }
       catch( WebException ex )
       {
-
         DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Status ) );
-        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ( int )ex.Status ) );
-
+        res = ( HttpWebResponse )ex.Response;
         sErrorCondition = ex.Status.ToString();
-
       }
+
+      DebugMsg( string.Format( "sErrorCondition: {0}", sErrorCondition ) );
 
       if( res != null )
       {
 
-        DebugMsg( string.Format( "Status: {0}", res.StatusCode ) );
-
+        DebugMsg( string.Format( "StatusCode: {0}", res.StatusCode ) );
+              
         this.SetErrorCondition( res.StatusDescription );
 
         foreach( string sKey in res.Headers )
@@ -1338,75 +1359,12 @@ namespace SEOMacroscope
 
         this.ProcessHttpHeaders( req, res );
 
-        try
-        {
-
-          switch( res.StatusCode )
-          {
-
-          // 200 Range
-
-            case HttpStatusCode.OK:
-              bIsRedirect = false;
-              break;
-
-          // 300 Range
-
-            case HttpStatusCode.Moved:
-              this.SetErrorCondition( HttpStatusCode.Moved.ToString() );
-              bIsRedirect = true;
-              break;
-
-            case HttpStatusCode.SeeOther:
-              this.SetErrorCondition( HttpStatusCode.SeeOther.ToString() );
-              bIsRedirect = true;
-              break;
-
-            case HttpStatusCode.Redirect:
-              this.SetErrorCondition( HttpStatusCode.Redirect.ToString() );
-              bIsRedirect = true;
-              break;
-
-          // 400 Range
-
-            case HttpStatusCode.BadRequest:
-              this.SetErrorCondition( HttpStatusCode.BadRequest.ToString() );
-              bIsRedirect = false;
-              break;
-
-            case HttpStatusCode.Forbidden:
-              this.SetErrorCondition( HttpStatusCode.Forbidden.ToString() );
-              bIsRedirect = false;
-              break;
-
-            case HttpStatusCode.NotFound:
-              this.SetErrorCondition( HttpStatusCode.NotFound.ToString() );
-              bIsRedirect = false;
-              break;
-
-            case HttpStatusCode.Gone:
-              this.SetErrorCondition( HttpStatusCode.Gone.ToString() );
-              bIsRedirect = false;
-              break;
-
-          // Unhandled
-
-            default:
-              throw new MacroscopeDocumentException ( "Unhandled HttpStatusCode Type" );
-
-          }
-
-        }
-        catch( MacroscopeDocumentException ex )
-        {
-          DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
-        }
-
-        if( bIsRedirect )
+        if( this.IsRedirect )
         {
 
           this.IsRedirect = true;
           string sLocation = res.GetResponseHeader( "Location" );
+          sLocation = Uri.UnescapeDataString( sLocation );
           string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLocation );
 
           if( sLinkUrlAbs != null )
@@ -1445,10 +1403,9 @@ namespace SEOMacroscope
         switch( ErrorCond.ToLower() )
         {
           case "timeout":
-            this.StatusCode = ( int )HttpStatusCode.RequestTimeout;
+            this.SetStatusCode( HttpStatusCode.RequestTimeout );
             break;
           default:
-            this.StatusCode = ( int )HttpStatusCode.Ambiguous;
             break;
         }
 
@@ -1467,9 +1424,100 @@ namespace SEOMacroscope
     private void ProcessHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
     {
 
+      Boolean bIsRedirect = false;
+            
       // Status Code
-      this.StatusCode = ( int )res.StatusCode;
+      this.SetStatusCode( res.StatusCode );
       this.SetErrorCondition( res.StatusDescription );
+
+      try
+      {
+
+        switch( this.GetStatusCode() )
+        {
+
+        // 200 Range
+
+          case HttpStatusCode.OK:
+            bIsRedirect = false;
+            break;
+
+        // 300 Range
+
+          case HttpStatusCode.Moved:
+            this.SetErrorCondition( HttpStatusCode.Moved.ToString() );
+            bIsRedirect = true;
+            break;
+
+          case HttpStatusCode.SeeOther:
+            this.SetErrorCondition( HttpStatusCode.SeeOther.ToString() );
+            bIsRedirect = true;
+            break;
+
+          case HttpStatusCode.Redirect:
+            this.SetErrorCondition( HttpStatusCode.Redirect.ToString() );
+            bIsRedirect = true;
+            break;
+
+        // 400 Range
+
+          case HttpStatusCode.BadRequest:
+            this.SetErrorCondition( HttpStatusCode.BadRequest.ToString() );
+            bIsRedirect = false;
+            break;
+              
+          case HttpStatusCode.Unauthorized:
+            this.SetErrorCondition( HttpStatusCode.Unauthorized.ToString() );
+            bIsRedirect = false;
+            break;
+            
+          case HttpStatusCode.PaymentRequired:
+            this.SetErrorCondition( HttpStatusCode.PaymentRequired.ToString() );
+            bIsRedirect = false;
+            break;
+
+          case HttpStatusCode.Forbidden:
+            this.SetErrorCondition( HttpStatusCode.Forbidden.ToString() );
+            bIsRedirect = false;
+            break;
+
+          case HttpStatusCode.NotFound:
+            this.SetErrorCondition( HttpStatusCode.NotFound.ToString() );
+            bIsRedirect = false;
+            break;
+              
+          case HttpStatusCode.MethodNotAllowed:
+            this.SetErrorCondition( HttpStatusCode.MethodNotAllowed.ToString() );
+            bIsRedirect = false;
+            break;
+
+          case HttpStatusCode.Gone:
+            this.SetErrorCondition( HttpStatusCode.Gone.ToString() );
+            bIsRedirect = false;
+            break;
+              
+          case HttpStatusCode.RequestUriTooLong:
+            this.SetErrorCondition( HttpStatusCode.RequestUriTooLong.ToString() );
+            bIsRedirect = false;
+            break;
+
+        // Unhandled
+
+          default:
+            throw new MacroscopeDocumentException ( "Unhandled HttpStatusCode Type" );
+
+        }
+
+      }
+      catch( MacroscopeDocumentException ex )
+      {
+        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
+      }
+
+      if( bIsRedirect )
+      {
+        this.IsRedirect = true;
+      }
 
       // Raw HTTP Headers
       this.RawHttpStatusLine = string.Join(
@@ -1492,6 +1540,40 @@ namespace SEOMacroscope
       {
 
         DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ) );
+
+        if( sHeader.ToLower().Equals( "www-authenticate" ) )
+        {
+          
+          // EXAMPLE: WWW-Authenticate: Basic realm="Access to the staging site"
+
+          string sAuthenticationType = "";    
+          string sAuthenticationRealm = "";
+          string sValue = res.GetResponseHeader( sHeader );
+
+          MatchCollection matches = Regex.Matches( sValue, "^\\s*(Basic)\\s+realm=\"([^\"]+)\"", RegexOptions.IgnoreCase );
+
+          DebugMsg( string.Format( "www-authenticate: \"{0}\"", sValue ) );
+
+          foreach( Match match in matches )
+          {
+            sAuthenticationType = match.Groups[ 1 ].Value;
+            sAuthenticationRealm = match.Groups[ 2 ].Value;
+          }
+
+          DebugMsg( string.Format( "www-authenticate: \"{0}\" :: \"{1}\"", sAuthenticationType, sAuthenticationRealm ) );
+
+          if( sAuthenticationType.ToLower() == "basic" )
+          {
+            this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.BASIC );
+          }
+          else
+          {
+            this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.UNSUPPORTED );
+          }
+
+          this.SetAuthenticationRealm( sAuthenticationRealm );
+
+        }
 
         if( sHeader.ToLower().Equals( "date" ) )
         {

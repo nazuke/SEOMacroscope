@@ -63,9 +63,8 @@ namespace SEOMacroscope
       catch( WebException ex )
       {
 
-        DebugMsg( string.Format( "ProcessHtmlPage :: WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "ProcessHtmlPage :: WebException: {0}", this.Url ) );
-        DebugMsg( string.Format( "ProcessHtmlPage :: WebExceptionStatus: {0}", ex.Status ) );
+        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
+        res = ( HttpWebResponse )ex.Response;
         sErrorCondition = ex.Status.ToString();
 
       }
@@ -106,6 +105,7 @@ namespace SEOMacroscope
         {
 
           DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
+          this.SetStatusCode( ( ( HttpWebResponse )ex.Response ).StatusCode );
           sRawData = "";
           this.ContentLength = 0;
 
@@ -114,7 +114,7 @@ namespace SEOMacroscope
         {
 
           DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-          this.StatusCode = ( int )HttpStatusCode.BadRequest;
+          this.SetStatusCode( HttpStatusCode.BadRequest );
           sRawData = "";
           this.ContentLength = 0;
 

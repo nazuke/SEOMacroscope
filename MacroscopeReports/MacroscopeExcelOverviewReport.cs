@@ -75,7 +75,7 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Address";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Status";
+        ws.Cell( iRow, iCol ).Value = "Status Code";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Redirect";

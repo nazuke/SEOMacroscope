@@ -89,6 +89,16 @@ namespace SEOMacroscope
 
     /** END: Named Queues *****************************************************/
 
+    /** BEGIN: Authentication Types *******************************************/
+
+    public enum AuthenticationType
+    {
+      UNSUPPORTED = 0,
+      BASIC = 1
+    }
+
+    /** END: Authentication Types *******************************************/
+
     /** BEGIN: Document Types *************************************************/
 
     public enum DocumentType
@@ -144,7 +154,9 @@ namespace SEOMacroscope
 
     public const string Url = "URL";
 
+    public const string StatusCode = "Status Code";
     public const string Status = "Status";
+    
     public const string IsRedirect = "Redirect";
 
     public const string Duration = "Duration (seconds)";

@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Net;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -141,7 +142,7 @@ namespace SEOMacroscope
 
         lvItem.ForeColor = Color.Blue;
 
-        if( msDoc.GetStatusCode() != 200 )
+        if( msDoc.GetStatusCode() != HttpStatusCode.OK )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Red;
         }
