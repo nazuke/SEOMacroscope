@@ -93,6 +93,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="version.txt">
+      <DependentUpon>version.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Content>
+    <None Include="docs\index.html">
+      <DependentUpon>index.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Include="docs\resources\header.html">
+      <DependentUpon>header.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <Content Include="docs\resources\footer.html">
+      <DependentUpon>footer.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Icons.Designer.cs">
       <DependentUpon>Icons.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -237,6 +256,10 @@
     <Compile Include="MacroscopeUserControls\MacroscopeUserControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="version.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>version.txt</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.resx">
@@ -246,6 +269,21 @@
     <EmbeddedResource Include="LICENSE">
       <LogicalName>LICENCE</LogicalName>
     </EmbeddedResource>
+    <Content Include="docs\index.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>index.html</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="docs\resources\footer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>footer.html</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="docs\resources\header.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>header.html</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <None Include="MacroscopePreferences.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MacroscopePreferences.Designer.cs</LastGenOutput>
@@ -295,6 +333,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="docs\help" />
+    <Folder Include="docs\resources" />
     <Folder Include="MacroscopeAnalysis\t" />
     <Folder Include="MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeHyperlinks" />

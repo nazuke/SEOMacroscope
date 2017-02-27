@@ -64,6 +64,15 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
+    private static string GetVersion ()
+    {
+      string sLocation = Assembly.GetExecutingAssembly().Location;
+      string sVersion = FileVersionInfo.GetVersionInfo( sLocation ).ProductVersion;
+      return( sVersion );
+    }
+
+    /**************************************************************************/
+    
     public string UserAgent ()
     {
       return( this.UserAgentString );

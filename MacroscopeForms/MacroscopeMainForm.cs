@@ -717,7 +717,6 @@ namespace SEOMacroscope
 
       while( this.JobMaster.CountRunningThreads() > 0 )
       {
-        Thread.Yield();
         Thread.Sleep( 100 );
       }
 

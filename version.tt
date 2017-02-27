@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".txt" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Reflection" #>
+<#
+	string sLocation = Assembly.GetExecutingAssembly().Location;
+	string sVersion = FileVersionInfo.GetVersionInfo( sLocation ).ProductVersion;
+#><#= sVersion #>
