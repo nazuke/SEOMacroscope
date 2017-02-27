@@ -31,6 +31,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 
 namespace SEOMacroscope
 {
@@ -123,7 +124,7 @@ namespace SEOMacroscope
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -196,25 +197,25 @@ namespace SEOMacroscope
       this.Description = "";
       this.Keywords = "";
 
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -877,6 +878,20 @@ namespace SEOMacroscope
 
     /** Title *****************************************************************/
 
+    public void SetTitle ( string TitleText, MacroscopeConstants.TextProcessingMode ProcessingMode )
+    {
+
+      string sValue = TitleText;
+
+      if( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
+      {
+        sValue = HtmlEntity.DeEntitize( TitleText );
+      }
+
+      this.Title = sValue;
+
+    }
+
     public string GetTitle ()
     {
       string sValue;
@@ -894,6 +909,11 @@ namespace SEOMacroscope
     public int GetTitleLength ()
     {
       return( this.GetTitle().Length );
+    }
+
+    public void SetTitlePixelWidth ( int Width )
+    {
+      this.TitlePixelWidth = Width;
     }
 
     public int GetTitlePixelWidth ()
@@ -1240,9 +1260,9 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "SKIPPING DOWNLOAD:: {0}", this.Url ) );
       }
 
-      if( this.Title.Length > 0 )
+      if( this.GetTitleLength() > 0 )
       {
-        this.TitlePixelWidth = AnalyzePageTitles.CalcTitleWidth( this.Title );
+        this.SetTitlePixelWidth( AnalyzePageTitles.CalcTitleWidth( this.GetTitle() ) );
       }
 
       if( MacroscopePreferencesManager.GetWarnAboutInsecureLinks() )

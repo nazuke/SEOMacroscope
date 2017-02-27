@@ -246,6 +246,10 @@ namespace SEOMacroscope
               {
                 lvItem.SubItems[ iColIndex ].ForeColor = Color.Red;
               }
+              else
+              {
+                lvItem.SubItems[ iColIndex ].ForeColor = Color.Blue;
+              }
             }
 
             if( sKey == MacroscopeConstants.IsRedirect )
@@ -281,11 +285,11 @@ namespace SEOMacroscope
     void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
+      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () {
+        {
           MacroscopeConstants.Url,
           300
-        },
-        {
+        }, {
           MacroscopeConstants.Title,
           300
         }
@@ -309,30 +313,30 @@ namespace SEOMacroscope
     {
 
       List<string> lColDataWidth = new List<string> () {
-        MacroscopeConstants.Url,
-          MacroscopeConstants.DateServer,
-        MacroscopeConstants.DateModified,
-          MacroscopeConstants.Title
+          MacroscopeConstants.Url,
+        MacroscopeConstants.DateServer,
+          MacroscopeConstants.DateModified,
+        MacroscopeConstants.Title
       };
 
       List<string> lColHeaderWidth = new List<string> () {
-        MacroscopeConstants.DateModified
-			};
+          MacroscopeConstants.DateModified
+      };
 
-			foreach( string sColName in lColDataWidth )
-			{
-				this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.ColumnContent );
-			}
+      foreach( string sColName in lColDataWidth )
+      {
+        this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.ColumnContent );
+      }
 
-			foreach( string sColName in lColHeaderWidth )
-			{
-				this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.HeaderSize );
-			}
+      foreach( string sColName in lColHeaderWidth )
+      {
+        this.lvListView.AutoResizeColumn( this.lvListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.HeaderSize );
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

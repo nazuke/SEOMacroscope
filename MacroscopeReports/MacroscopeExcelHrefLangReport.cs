@@ -30,116 +30,177 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-	public class MacroscopeExcelHrefLangReport : MacroscopeExcelReports
-	{
+  public class MacroscopeExcelHrefLangReport : MacroscopeExcelReports
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeExcelHrefLangReport ()
-		{
-		}
+    public MacroscopeExcelHrefLangReport ()
+    {
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void WriteXslx ( MacroscopeJobMaster msJobMaster, string sOutputFilename )
-		{
-			var wb = new XLWorkbook ();
-			DebugMsg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
-			this.BuildWorksheet( msJobMaster, wb, "Macroscope HrefLang", false );
-			wb.SaveAs( sOutputFilename );
-		}
+    public void WriteXslx ( MacroscopeJobMaster msJobMaster, string sOutputFilename )
+    {
+      var wb = new XLWorkbook ();
+      DebugMsg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
+      this.BuildWorksheet( msJobMaster, wb, "Macroscope HrefLang", false );
+      try
+      {
+        wb.SaveAs( sOutputFilename );
+      }
+      catch( System.IO.IOException )
+      {
+        MacroscopeCannotSaveExcelFileException CannotSaveExcelFileException = new MacroscopeCannotSaveExcelFileException (
+                                                                                string.Format( "Cannot write to Excel file at {0}", sOutputFilename )
+                                                                              );
+        throw CannotSaveExcelFileException;
+      }
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		void BuildWorksheet ( MacroscopeJobMaster msJobMaster, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
-		{
-			var ws = wb.Worksheets.Add( sWorksheetLabel );
+    void BuildWorksheet ( MacroscopeJobMaster msJobMaster, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
+    {
+      var ws = wb.Worksheets.Add( sWorksheetLabel );
 
-			int iRow = 1;
-			int iCol = 1;
-			int iColMax = 1;
+      int iRow = 1;
+      int iCol = 1;
+      int iColMax = 1;
 
-			Dictionary<string,string> htLocales = msJobMaster.GetLocales();
-			MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
-			Dictionary<string,int> dicLocaleCols = new Dictionary<string, int>();
+      Dictionary<string,string> htLocales = msJobMaster.GetLocales();
+      MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
+      Dictionary<string,int> dicLocaleCols = new Dictionary<string, int> ();
 
-			{
+      {
 
-				ws.Cell( iRow, iCol ).Value = "Site Locale";
-				iCol++;
+        ws.Cell( iRow, iCol ).Value = "URL";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Status Code";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Site Locale";
+        iCol++;
 
-				ws.Cell( iRow, iCol ).Value = "Title";
-				iCol++;
+        ws.Cell( iRow, iCol ).Value = "Title";
+        iCol++;
 
-				foreach( string sLocale in htLocales.Keys ) {
-					DebugMsg( string.Format( "EXCEL sLocale: {0}", sLocale ) );
-					dicLocaleCols[sLocale] = iCol;
-					ws.Cell( iRow, iCol ).Value = sLocale;
-					iCol++;
-				}
+        foreach( string sLocale in htLocales.Keys )
+        {
+          DebugMsg( string.Format( "EXCEL sLocale: {0}", sLocale ) );
+          dicLocaleCols[ sLocale ] = iCol;
+          ws.Cell( iRow, iCol ).Value = sLocale;
+          iCol++;
+        }
 
-				for( int i = 1; i <= iCol; i++ ) {
-					ws.Cell( iRow, i ).Style.Font.SetBold();
-				}
+        for( int i = 1 ; i <= iCol ; i++ )
+        {
+          ws.Cell( iRow, i ).Style.Font.SetBold();
+        }
 
-			}
+      }
 
-			iColMax = iCol;
+      iColMax = iCol;
 
-			iRow++;
+      iRow++;
 
-			{
+      {
 
-				foreach( string sKey in DocCollection.DocumentKeys() ) {
+        foreach( string sKey in DocCollection.DocumentKeys() )
+        {
 
-					MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
-					Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
+          MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+          Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 
-					string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
-					string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
+          string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
+          string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
+          string sLocaleCol = msDoc.GetLocale();
 
-					ws.Cell( iRow, 1 ).Value = sSiteLocale;
-					if( sSiteLocale == "MISSING" ) {
-						ws.Cell( iRow, 1 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
-					}
+          iCol = 1;
 
-					ws.Cell( iRow, 2 ).Value = sTitle;
-					if( sTitle == "MISSING" ) {
-						ws.Cell( iRow, 2 ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
-					}
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+          iCol++;
 
-					ws.Cell( iRow, dicLocaleCols[msDoc.GetLocale()] ).Value = msDoc.GetUrl();
+          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
+          iCol++;
 
-					foreach( string sLocale in htLocales.Keys ) {
-						if( sLocale != null ) {
-							if( htHrefLangs.ContainsKey( sLocale ) ) {
-								MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[sLocale];
-								ws.Cell( iRow, dicLocaleCols[sLocale] ).Value = msHrefLang.GetUrl();
-							} else {
-								ws.Cell( iRow, dicLocaleCols[sLocale] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
-								ws.Cell( iRow, dicLocaleCols[sLocale] ).Value = "MISSING";
-							}
-						}
-					}
+          ws.Cell( iRow, iCol ).Value = sSiteLocale;
+          if( sSiteLocale == "MISSING" )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+          }
+          iCol++;
+          
+          ws.Cell( iRow, iCol ).Value = sTitle;
+          if( sTitle == "MISSING" )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+          }
+          iCol++;
+          
+          if( sLocaleCol != null )
+          {
+            ws.Cell( iRow, dicLocaleCols[ sLocaleCol ] ).Value = msDoc.GetUrl();
+          }
+          else
+          {
+            ;
+          }
+            
+          foreach( string sLocale in htLocales.Keys )
+          {
+            
+            if( sLocale != null )
+            {
+            
+              if( htHrefLangs.ContainsKey( sLocale ) )
+              {
 
-					iRow++;
+                MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
+                string sValue = msHrefLang.GetUrl();
 
-				}
+                ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Value = sValue;
 
-			}
+                if( msJobMaster.GetAllowedHosts().IsInternalUrl( sValue ) )
+                {
+                  ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+                }
+                else
+                {
+                  ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Blue );
+                }
 
-			{
-				var rangeData = ws.Range( 1, 1, iRow - 1, iColMax - 1 );
-				var excelTable = rangeData.CreateTable();
-				excelTable.Sort( "Title", XLSortOrder.Ascending, false, true );
-			}
+              }
+              else
+              {
+                ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+                ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Value = "MISSING";
+              }
+              
+            }
+            
+          }
 
-			ws.Columns().AdjustToContents();
+          iRow++;
 
-		}
+        }
 
-		/**************************************************************************/
+      }
 
-	}
+      {
+        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax - 1 );
+        var excelTable = rangeData.CreateTable();
+        excelTable.Sort( "Title", XLSortOrder.Ascending, false, true );
+      }
+
+      ws.Columns().AdjustToContents();
+
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

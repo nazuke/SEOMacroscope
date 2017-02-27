@@ -28,151 +28,162 @@ using System;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeOutlink.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeOutlink.
+  /// </summary>
 
-	public static class MacroscopeConstants
-	{
+  public static class MacroscopeConstants
+  {
 
-		/** BEGIN: Runtime Modes **************************************************/
+    /** BEGIN: Runtime Modes **************************************************/
 
-		public enum RunTimeMode
-		{
-			LIVE = 1,
-			LISTFILE = 2,
-			LISTTEXT = 3,
-			SITEMAP = 4
-		}
+    public enum RunTimeMode
+    {
+      LIVE = 1,
+      LISTFILE = 2,
+      LISTTEXT = 3,
+      SITEMAP = 4
+    }
 
-		/** END: Runtime Modes ****************************************************/
+    /** END: Runtime Modes ****************************************************/
 
-		/** BEGIN: Named Queues ***************************************************/
+    /** BEGIN: Text Processing Modes ******************************************/
 
-		public const string NamedQueueUrlList = "UrlQueue";
+    public enum TextProcessingMode
+    {
+      NO_PROCESSING = 0,
+      PRESERVE_HTML_ENTITIES = 1,
+      DECODE_HTML_ENTITIES = 2
+    }
 
-		public const string NamedQueueDisplayQueue = "DisplayQueue";
-		public const string NamedQueueDisplayStructure = "DisplayStructure";
-		public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
-		public const string NamedQueueDisplayCanonicalAnalysis = "DisplayCanonicalAnalysis";
-		public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
-		public const string NamedQueueDisplayErrors = "DisplayErrors";
-		public const string NamedQueueDisplayRedirectsAudit = "DisplayRedirectsAudit";
-		public const string NamedQueueDisplayUriAnalysis = "DisplayUriAnalysis";
-		public const string NamedQueueDisplayPageTitles = "DisplayPageTitles";
-		public const string NamedQueueDisplayPageDescriptions = "DisplayPageDescriptions";
-		public const string NamedQueueDisplayPageKeywords = "DisplayPageKeywords";
-		public const string NamedQueueDisplayPageHeadings = "DisplayPageHeadings";
-		public const string NamedQueueDisplayStylesheets = "DisplayStylesheets";
-		public const string NamedQueueDisplayJavascripts = "DisplayJavascripts";
-		public const string NamedQueueDisplayImages = "DisplayImages";
-		public const string NamedQueueDisplayAudios = "DisplayAudios";
-		public const string NamedQueueDisplayVideos = "DisplayVideos";
-		public const string NamedQueueDisplayRobots = "DisplayRobots";
-		public const string NamedQueueDisplaySitemaps = "DisplaySitemaps";
-		public const string NamedQueueDisplayEmailAddresses = "DisplayEmailAddresses";
-		public const string NamedQueueDisplayTelephoneNumbers = "DisplayTelephoneNumbers";
-		public const string NamedQueueDisplayHostnames = "DisplayHostnames";
+    /** END: Text Processing Modes ********************************************/
 
-		public const string RecalculateDocCollection = "RecalculateDocCollection";
+    /** BEGIN: Named Queues ***************************************************/
 
-		/** END: Named Queues *****************************************************/
+    public const string NamedQueueUrlList = "UrlQueue";
 
-		/** BEGIN: Document Types *************************************************/
+    public const string NamedQueueDisplayQueue = "DisplayQueue";
+    public const string NamedQueueDisplayStructure = "DisplayStructure";
+    public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
+    public const string NamedQueueDisplayCanonicalAnalysis = "DisplayCanonicalAnalysis";
+    public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
+    public const string NamedQueueDisplayErrors = "DisplayErrors";
+    public const string NamedQueueDisplayRedirectsAudit = "DisplayRedirectsAudit";
+    public const string NamedQueueDisplayUriAnalysis = "DisplayUriAnalysis";
+    public const string NamedQueueDisplayPageTitles = "DisplayPageTitles";
+    public const string NamedQueueDisplayPageDescriptions = "DisplayPageDescriptions";
+    public const string NamedQueueDisplayPageKeywords = "DisplayPageKeywords";
+    public const string NamedQueueDisplayPageHeadings = "DisplayPageHeadings";
+    public const string NamedQueueDisplayStylesheets = "DisplayStylesheets";
+    public const string NamedQueueDisplayJavascripts = "DisplayJavascripts";
+    public const string NamedQueueDisplayImages = "DisplayImages";
+    public const string NamedQueueDisplayAudios = "DisplayAudios";
+    public const string NamedQueueDisplayVideos = "DisplayVideos";
+    public const string NamedQueueDisplayRobots = "DisplayRobots";
+    public const string NamedQueueDisplaySitemaps = "DisplaySitemaps";
+    public const string NamedQueueDisplayEmailAddresses = "DisplayEmailAddresses";
+    public const string NamedQueueDisplayTelephoneNumbers = "DisplayTelephoneNumbers";
+    public const string NamedQueueDisplayHostnames = "DisplayHostnames";
 
-		public enum DocumentType
-		{
-			ALL = 0,
-			BINARY = 1,
-			HTML = 2,
-			CSS = 3,
-			JAVASCRIPT = 4,
-			IMAGE = 5,
-			PDF = 6,
-			AUDIO = 7,
-			VIDEO = 8,
-			XML = 9,
-			SITEMAPXML = 10
-		}
+    public const string RecalculateDocCollection = "RecalculateDocCollection";
 
-		/** END: Document Types ***************************************************/
+    /** END: Named Queues *****************************************************/
 
-		/** BEGIN: Outlink Classes ************************************************/
+    /** BEGIN: Document Types *************************************************/
 
-		public enum HyperlinkType
-		{
-			TEXT = 0,
-			IMAGE = 1
-		}
+    public enum DocumentType
+    {
+      ALL = 0,
+      BINARY = 1,
+      HTML = 2,
+      CSS = 3,
+      JAVASCRIPT = 4,
+      IMAGE = 5,
+      PDF = 6,
+      AUDIO = 7,
+      VIDEO = 8,
+      XML = 9,
+      SITEMAPXML = 10
+    }
 
-		/** BEGIN: Outlink Types **************************************************/
+    /** END: Document Types ***************************************************/
 
-		public enum OutlinkType
-		{
-			SITEMAPXML = 0,
-			REDIRECT = 1,
-			LINK = 2,
-			STYLESHEET = 3,
-			CANONICAL = 4,
-			HREFLANG = 5,
-			AHREF = 6,
-			META = 7,
-			IFRAME = 8,
-			MAP = 9,
-			IMAGE = 10,
-			SCRIPT = 11,
-			AUDIO = 12,
-			VIDEO = 13,
-			EMBED = 14,
-			OBJECT = 15
-		}
+    /** BEGIN: Outlink Classes ************************************************/
 
-		/** END: Outlink Types ****************************************************/
+    public enum HyperlinkType
+    {
+      TEXT = 0,
+      IMAGE = 1
+    }
 
-		/** BEGIN: ListView Column Names ******************************************/
+    /** BEGIN: Outlink Types **************************************************/
 
-		public const string Url = "URL";
+    public enum OutlinkType
+    {
+      SITEMAPXML = 0,
+      REDIRECT = 1,
+      LINK = 2,
+      STYLESHEET = 3,
+      CANONICAL = 4,
+      HREFLANG = 5,
+      AHREF = 6,
+      META = 7,
+      IFRAME = 8,
+      MAP = 9,
+      IMAGE = 10,
+      SCRIPT = 11,
+      AUDIO = 12,
+      VIDEO = 13,
+      EMBED = 14,
+      OBJECT = 15
+    }
 
-		public const string Status = "Status";
-		public const string IsRedirect = "Redirect";
+    /** END: Outlink Types ****************************************************/
 
-		public const string Duration = "Duration (seconds)";
+    /** BEGIN: ListView Column Names ******************************************/
 
-		public const string DateServer = "Server Date";
-		public const string DateModified = "Modified Date";
+    public const string Url = "URL";
 
-		public const string ContentType = "Content Type";
-		public const string Lang = "Lang";
+    public const string Status = "Status";
+    public const string IsRedirect = "Redirect";
 
-		public const string Canonical = "Canonical";
+    public const string Duration = "Duration (seconds)";
 
-		public const string Inhyperlinks = "Links In";
-		public const string Outhyperlinks = "Links Out";
+    public const string DateServer = "Server Date";
+    public const string DateModified = "Modified Date";
 
-		public const string Title = "Title";
-		public const string TitleLen = "Title Length";
+    public const string ContentType = "Content Type";
+    public const string Lang = "Lang";
 
-		public const string Description = "Description";
-		public const string DescriptionLen = "Description Length";
+    public const string Canonical = "Canonical";
 
-		public const string Keywords = "Keywords";
-		public const string KeywordsLen = "Keywords Length";
-		public const string KeywordsCount = "Keywords Count";
+    public const string Inhyperlinks = "Links In";
+    public const string Outhyperlinks = "Links Out";
 
-		public const string Hn = "First H{0}";
+    public const string Title = "Title";
+    public const string TitleLen = "Title Length";
 
-		public const string ErrorCondition = "Error Condition";
+    public const string Description = "Description";
+    public const string DescriptionLen = "Description Length";
 
-		/** END: ListView Column Names ********************************************/
+    public const string Keywords = "Keywords";
+    public const string KeywordsLen = "Keywords Length";
+    public const string KeywordsCount = "Keywords Count";
 
-		/** BEGIN: Sitemap XML Protocol *******************************************/
+    public const string Hn = "First H{0}";
 
-		// Reference: https://www.sitemaps.org/protocol.html
+    public const string ErrorCondition = "Error Condition";
 
-		public const string SitemapXmlNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
+    /** END: ListView Column Names ********************************************/
 
-		/** END: Sitemap XML Protocol *********************************************/
+    /** BEGIN: Sitemap XML Protocol *******************************************/
 
-	}
+    // Reference: https://www.sitemaps.org/protocol.html
+
+    public const string SitemapXmlNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
+
+    /** END: Sitemap XML Protocol *********************************************/
+
+  }
 
 }

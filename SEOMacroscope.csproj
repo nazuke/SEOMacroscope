@@ -185,6 +185,7 @@
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="MacroscopeReports\MacroscopeCannotSaveExcelFileException.cs" />
     <Compile Include="MacroscopeSearch\MacroscopeSearchIndex.cs" />
     <Compile Include="MacroscopeTasks\IMacroscopeTaskController.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />

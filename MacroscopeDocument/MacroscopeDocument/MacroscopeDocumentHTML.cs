@@ -160,8 +160,8 @@ namespace SEOMacroscope
             HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/title" );
             if( nNode != null )
             {
-              this.Title = nNode.InnerText;
-              DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
+              this.SetTitle( nNode.InnerText, MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES );
+              DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
             }
             else
             {

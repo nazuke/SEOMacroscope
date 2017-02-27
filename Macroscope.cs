@@ -73,10 +73,14 @@ namespace SEOMacroscope
         
     private string _UserAgent ()
     {
+      #if (DEBUG)
+      const string sUserAgent = "BOT";
+      #else
       string sLocation = Assembly.GetExecutingAssembly().Location;
       string sName = FileVersionInfo.GetVersionInfo( sLocation ).ProductName;
       string sVersion = FileVersionInfo.GetVersionInfo( sLocation ).ProductVersion;
       string sUserAgent = string.Format( "{0}/{1}", sName, sVersion );
+      #endif
       return( sUserAgent );
     }
 

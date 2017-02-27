@@ -1,3 +1,9 @@
 Icons from: https://github.com/Templarian/WindowsIcons
 
 HTTP Protocol tests: http://httpbin.org/
+
+
+
+Google Search Console API Documentation:
+
+https://developers.google.com/webmaster-tools/

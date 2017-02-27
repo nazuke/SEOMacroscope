@@ -2031,7 +2031,18 @@ namespace SEOMacroscope
       {
         string sPath = Dialog.FileName;
         MacroscopeExcelOverviewReport msExcelReport = new MacroscopeExcelOverviewReport ();
-        msExcelReport.WriteXslx( this.JobMaster, sPath );
+        try
+        {
+          msExcelReport.WriteXslx( this.JobMaster, sPath );
+        }
+        catch( MacroscopeCannotSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
+        }
       }
       Dialog.Dispose();
     }
@@ -2048,7 +2059,18 @@ namespace SEOMacroscope
       {
         string sPath = Dialog.FileName;
         MacroscopeExcelHrefLangReport msExcelReport = new MacroscopeExcelHrefLangReport ();
-        msExcelReport.WriteXslx( this.JobMaster, sPath );
+        try
+        {
+          msExcelReport.WriteXslx( this.JobMaster, sPath );
+        }
+        catch( MacroscopeCannotSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );
+        }
       }
       Dialog.Dispose();
     }

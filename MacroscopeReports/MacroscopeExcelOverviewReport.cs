@@ -45,7 +45,17 @@ namespace SEOMacroscope
       var wb = new XLWorkbook ();
       DebugMsg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
       this.BuildWorksheet( msJobMaster, wb, "Macroscope Overview", false );
-      wb.SaveAs( sOutputFilename );
+      try
+      {
+        wb.SaveAs( sOutputFilename );
+      }
+      catch( System.IO.IOException )
+      {
+        MacroscopeCannotSaveExcelFileException CannotSaveExcelFileException = new MacroscopeCannotSaveExcelFileException (
+                                                                                string.Format( "Cannot write to Excel file at {0}", sOutputFilename )
+                                                                              );
+        throw CannotSaveExcelFileException;
+      }
     }
 
     /**************************************************************************/
@@ -114,13 +124,13 @@ namespace SEOMacroscope
 
           MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetUrl() ) );
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
+          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetIsRedirect().ToString() ) );
+          this.InsertAndFormatRedirectCell( ws, iRow, iCol, msDoc );
           iCol++;
 
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDurationInSecondsFormatted().ToString() ) );

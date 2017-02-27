@@ -137,8 +137,8 @@ namespace SEOMacroscope
             string sTitle = pdfTools.GetTitle();
             if( sTitle != null )
             {
-              this.Title = sTitle;
-              DebugMsg( string.Format( "TITLE: {0}", this.Title ) );
+              this.SetTitle( sTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
+              DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
             }
             else
             {

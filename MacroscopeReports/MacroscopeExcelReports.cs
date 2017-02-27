@@ -24,47 +24,145 @@
 */
 
 using System;
+using System.Text.RegularExpressions;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
 {
 
-	public class MacroscopeExcelReports : Macroscope
-	{
+  public class MacroscopeExcelReports : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeExcelReports ()
-		{
-		}
+    public MacroscopeExcelReports ()
+    {
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void InsertAndFormatContentCell ( IXLWorksheet ws, int iRow, int iCol, string sValue )
-		{
-			ws.Cell( iRow, iCol ).Value = sValue;
-			if( sValue == "MISSING" ) {
-				ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
-			}
-		}
+    public void InsertAndFormatUrlCell (
+      IXLWorksheet ws,
+      int iRow,
+      int iCol,
+      MacroscopeDocument msDoc
+    )
+    {
 
-		/**************************************************************************/
+      ws.Cell( iRow, iCol ).Value = msDoc.GetUrl();
 
-		public string FormatIfMissing ( string sString )
-		{
-			string sFormatted;
-			if( sString == null ) {
-				sFormatted = "MISSING";
-			} else if( sString.Length == 0 ) {
-				sFormatted = "MISSING";
-			} else {
-				sFormatted = sString;
-			}
-			return( sFormatted );
-		}
+      if( !msDoc.GetIsExternal() )
+      {
+        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+      }
+      else
+      {
+        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+      }
 
-		/**************************************************************************/
+    }
 
-	}
+    /**************************************************************************/
+
+    public void InsertAndFormatStatusCodeCell (
+      IXLWorksheet ws,
+      int iRow,
+      int iCol,
+      MacroscopeDocument msDoc
+    )
+    {
+
+      string sValue = msDoc.GetStatusCode().ToString();
+      
+      if( sValue == null )
+      {
+        sValue = "0";
+      }
+      
+      ws.Cell( iRow, iCol ).Value = sValue;
+
+      {
+        if( Regex.IsMatch( sValue, "^[2]" ) )
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+        }
+        else
+        if( Regex.IsMatch( sValue, "^[3]" ) )
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Goldenrod );
+        }
+        else
+        if( Regex.IsMatch( sValue, "^[45]" ) )
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+        }
+        else
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Blue );
+        }
+      }
+
+    }
+
+    /**************************************************************************/
+
+    public void InsertAndFormatRedirectCell (
+      IXLWorksheet ws,
+      int iRow,
+      int iCol,
+      MacroscopeDocument msDoc
+    )
+    {
+
+      string sValue = msDoc.GetIsRedirect().ToString();
+      
+      ws.Cell( iRow, iCol ).Value = sValue;
+
+      if( sValue.ToLower() == "true" )
+      {
+        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+      }
+      else
+      {
+        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+      }
+
+    }
+
+    /**************************************************************************/
+
+    public void InsertAndFormatContentCell ( IXLWorksheet ws, int iRow, int iCol, string sValue )
+    {
+      ws.Cell( iRow, iCol ).Value = sValue;
+      if( sValue == "MISSING" )
+      {
+        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+      }
+    }
+
+    /**************************************************************************/
+
+    public string FormatIfMissing ( string sString )
+    {
+      string sFormatted;
+      if( sString == null )
+      {
+        sFormatted = "MISSING";
+      }
+      else
+      if( sString.Length == 0 )
+      {
+        sFormatted = "MISSING";
+      }
+      else
+      {
+        sFormatted = sString;
+      }
+      return( sFormatted );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }
