@@ -105,7 +105,7 @@ namespace SEOMacroscope
 
         string sText = msDoc.GetKeywords();
         int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( sText );
-        string sTextLength = sText.Length.ToString();
+        int iKeywordsLength = msDoc.GetKeywordsLength();
         int iTextNumber = msDoc.GetKeywordsCount();
         string sPairKey = string.Join( "", sUrl, sText );
 
@@ -121,7 +121,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].Text = sUrl;
             lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
             lvItem.SubItems[ 2 ].Text = sText;
-            lvItem.SubItems[ 3 ].Text = sTextLength;
+            lvItem.SubItems[ 3 ].Text = iKeywordsLength.ToString();
             lvItem.SubItems[ 4 ].Text = iTextNumber.ToString();
 
           }
@@ -144,7 +144,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].Text = sUrl;
             lvItem.SubItems.Add( iTextCount.ToString() );
             lvItem.SubItems.Add( sText );
-            lvItem.SubItems.Add( sTextLength );
+            lvItem.SubItems.Add( iKeywordsLength.ToString() );
             lvItem.SubItems.Add( iTextNumber.ToString() );
 
             this.lvListView.Items.Add( lvItem );

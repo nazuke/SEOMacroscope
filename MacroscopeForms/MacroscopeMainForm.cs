@@ -528,12 +528,6 @@ namespace SEOMacroscope
     private void CallbackHelpLicenceClick ( object sender, EventArgs e )
     {
       MacroscopeLicenceForm LicenceForm = new MacroscopeLicenceForm ();
-      string LicenceText;
-      StreamReader Reader = new StreamReader ( Assembly.GetExecutingAssembly().GetManifestResourceStream( "LICENCE" ) );
-      LicenceText = Reader.ReadToEnd();
-      Reader.Close();
-      Reader.Dispose();
-      LicenceForm.richTextBoxLicence.Text = LicenceText.ToString();
       LicenceForm.ShowDialog();
       LicenceForm.Dispose();
     }
@@ -1711,7 +1705,7 @@ namespace SEOMacroscope
       this.JobMaster.SetStartUrl( this.GetUrl() );
       this.JobMaster.Execute();
       this.StopProgressBarScanTimer();
-      this.UpdateProgressBarScan( 100 );
+      this.UpdateProgressBarScan( 0 );
       this.SetVelocitySiteOverviewTimer( Delay: 10000 );
 
       {
@@ -1828,14 +1822,14 @@ namespace SEOMacroscope
           iPercentage = 100;
         }
 
-        DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
-        DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
-        DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
-        DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
 
       }
 
-      DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
+      //DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
 
       this.ProgressBarScan.Value = iPercentage;
 
@@ -1939,6 +1933,10 @@ namespace SEOMacroscope
 
     private void ShowAuthenticationDialogue ()
     {
+      
+      Boolean bRerun = false;
+      string sRerunUrl = null;
+      
       if( this.JobMaster != null )
       {
 
@@ -1950,46 +1948,63 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "SemaphoreAuthenticationDialogue: {0}", "OBTAINED" ) );
 
           MacroscopeCredentialRequest CredentialRequest = this.CredentialsHttp.DequeueCredentialRequest();
-          MacroscopeGetCredentialsHttp CredentialsForm = new MacroscopeGetCredentialsHttp ();
-
-          CredentialsForm.labelMessage.Text = string.Format(
-            "The website at \"{0}\" is requesting credentials for the Realm \"{1}\"",
-            CredentialRequest.GetDomain(),
-            CredentialRequest.GetRealm()
-          );
-
-          DialogResult CredentialsFormResult = CredentialsForm.ShowDialog();
-
           
-          DebugMsg( string.Format( "CredentialsFormResult: {0}", CredentialsFormResult ) );
-          
-          
-          if( CredentialsFormResult == DialogResult.OK )
+          if( this.CredentialsHttp.CredentialExists( CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) )
           {
-            string sUsername = CredentialsForm.textBoxUsername.Text;
-            string sPassword = CredentialsForm.maskedTextBoxPassword.Text;
 
-            this.CredentialsHttp.AddCredential(
-              Domain: CredentialRequest.GetDomain(),
-              Realm: CredentialRequest.GetRealm(),
-              Username: sUsername,
-              Password: sPassword
-            );
+            DebugMsg( string.Format( "CredentialExists: {0} :: {1}", CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) );
+
+            bRerun = true;
+            sRerunUrl = CredentialRequest.GetUrl();
 
           }
+          else
+          {
 
-          CredentialsForm.Dispose();
+            MacroscopeGetCredentialsHttp CredentialsForm = new MacroscopeGetCredentialsHttp ();
 
+            CredentialsForm.labelMessage.Text = string.Format(
+              "The website at \"{0}\" is requesting credentials for the Realm \"{1}\"",
+              CredentialRequest.GetDomain(),
+              CredentialRequest.GetRealm()
+            );
+
+            DialogResult CredentialsFormResult = CredentialsForm.ShowDialog();
+
+            if( CredentialsFormResult == DialogResult.OK )
+            {
+              string sUsername = CredentialsForm.textBoxUsername.Text;
+              string sPassword = CredentialsForm.maskedTextBoxPassword.Text;
+
+              this.CredentialsHttp.AddCredential(
+                Domain: CredentialRequest.GetDomain(),
+                Realm: CredentialRequest.GetRealm(),
+                Username: sUsername,
+                Password: sPassword
+              );
+
+              bRerun = true;
+              sRerunUrl = CredentialRequest.GetUrl();
+
+            }
+
+            CredentialsForm.Dispose();
+
+          }
+          
           this.SemaphoreAuthenticationDialogue.Release( 1 );
       
           DebugMsg( string.Format( "SemaphoreAuthenticationDialogue: {0}", "RELEASED" ) );
 
         }
-        else
-        {
-          DebugMsg( string.Format( "No credentials requests waiting" ) ); 
-        }
-        
+
+      }
+
+      if( bRerun )
+      {
+        this.JobMaster.AddUrlQueueItem( sRerunUrl );
+        this.JobMaster.RetryLink( sRerunUrl );
+        this.RerunScanQueue();
       }
 
     }
@@ -2065,6 +2080,8 @@ namespace SEOMacroscope
         this.IncludeExcludeUrls.LoadIncludeUrlPatterns( IncludeUrlPatternsText: IncludeUrlPatterns.textBoxPatterns.Text );
       }
 
+      IncludeUrlPatterns.Dispose();
+      
     }
 
     private void CallbackExcludeUrlItemsClick ( object sender, EventArgs e )
@@ -2084,6 +2101,8 @@ namespace SEOMacroscope
       {
         this.IncludeExcludeUrls.LoadExcludeUrlPatterns( ExcludeUrlPatternsText: ExcludeUrlPatterns.textBoxPatterns.Text );
       }
+      
+      ExcludeUrlPatterns.Dispose();
 
     }
 
@@ -2131,6 +2150,11 @@ namespace SEOMacroscope
 
     }
 
+    private void CallbackClearHTTPAuthenticationToolStripMenuItemClick ( object sender, EventArgs e )
+    {
+      this.CredentialsHttp.ClearAll();
+    }
+
     /** Report Save Dialogue Boxes ********************************************/
 
     private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
@@ -2161,6 +2185,8 @@ namespace SEOMacroscope
       Dialog.Dispose();
     }
 
+    /** -------------------------------------------------------------------- **/    
+        
     private void CallbackSaveHrefLangExcelReport ( object sender, EventArgs e )
     {
       SaveFileDialog Dialog = new SaveFileDialog ();
@@ -2184,6 +2210,36 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );
+        }
+      }
+      Dialog.Dispose();
+    }
+
+    /** -------------------------------------------------------------------- **/    
+
+    private void CallbackSavePageContentsExcelReport ( object sender, EventArgs e )
+    {
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+        string sPath = Dialog.FileName;
+        MacroscopeExcelPageContentsReport msExcelReport = new MacroscopeExcelPageContentsReport ();
+        try
+        {
+          msExcelReport.WriteXslx( this.JobMaster, sPath );
+        }
+        catch( MacroscopeCannotSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );
         }
       }
       Dialog.Dispose();

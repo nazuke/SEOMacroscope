@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.IO;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
@@ -40,19 +41,19 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void WriteXslx ( MacroscopeJobMaster msJobMaster, string sOutputFilename )
+    public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
       var wb = new XLWorkbook ();
-      DebugMsg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
-      this.BuildWorksheet( msJobMaster, wb, "Macroscope Overview", false );
+      DebugMsg( string.Format( "EXCEL OutputFilename: {0}", OutputFilename ) );
+      this.BuildWorksheet( JobMaster, wb, "Macroscope Overview" );
       try
       {
-        wb.SaveAs( sOutputFilename );
+        wb.SaveAs( OutputFilename );
       }
-      catch( System.IO.IOException )
+      catch( IOException )
       {
         MacroscopeCannotSaveExcelFileException CannotSaveExcelFileException = new MacroscopeCannotSaveExcelFileException (
-                                                                                string.Format( "Cannot write to Excel file at {0}", sOutputFilename )
+                                                                                string.Format( "Cannot write to Excel file at {0}", OutputFilename )
                                                                               );
         throw CannotSaveExcelFileException;
       }
@@ -60,7 +61,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void BuildWorksheet ( MacroscopeJobMaster msJobMaster, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
+    void BuildWorksheet (
+      MacroscopeJobMaster JobMaster,
+      XLWorkbook wb,
+      string sWorksheetLabel
+    )
     {
       var ws = wb.Worksheets.Add( sWorksheetLabel );
 
@@ -68,7 +73,7 @@ namespace SEOMacroscope
       int iCol = 1;
       int iColMax = 1;
 
-      MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
+      MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
 
       {
 
@@ -167,8 +172,6 @@ namespace SEOMacroscope
         var excelTable = rangeData.CreateTable();
         excelTable.Sort( "Address", XLSortOrder.Ascending, false, true );
       }
-
-      ws.Columns().AdjustToContents();
 
     }
 

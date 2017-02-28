@@ -39,13 +39,15 @@ namespace SEOMacroscope
 
     private string Domain;
     private string Realm;
+    private string Url;
 
     /**************************************************************************/
 
-    public MacroscopeCredentialRequest ( string Domain, string Realm )
+    public MacroscopeCredentialRequest ( string Domain, string Realm, string Url )
     {
       this.Domain = Domain;
       this.Realm = Realm;
+      this.Url = Url;
     }
 
     /**************************************************************************/
@@ -60,6 +62,13 @@ namespace SEOMacroscope
     public string GetRealm ()
     {
       return( this.Realm );
+    }
+
+    /**************************************************************************/
+
+    public string GetUrl ()
+    {
+      return( this.Url );
     }
 
     /**************************************************************************/

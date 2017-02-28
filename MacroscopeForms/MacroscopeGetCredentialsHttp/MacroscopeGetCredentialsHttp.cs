@@ -43,11 +43,20 @@ namespace SEOMacroscope
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-
+      
+      this.Shown += this.MacroscopeGetCredentialsHttpShown;
+      
     }
-	  
+
     /**************************************************************************/
 	      
+    void MacroscopeGetCredentialsHttpShown ( object sender, EventArgs e )
+    {
+
+      this.textBoxUsername.Focus();
+
+    }
+        
     /**************************************************************************/
 	  
   }

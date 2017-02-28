@@ -92,10 +92,10 @@ namespace SEOMacroscope
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MacroscopeLicenceForm";
+			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MacroscopeLicenceForm";
-			this.TopMost = true;
 			this.ResumeLayout(false);
 
 		}

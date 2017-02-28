@@ -93,8 +93,9 @@ namespace SEOMacroscope
 
     public enum AuthenticationType
     {
-      UNSUPPORTED = 0,
-      BASIC = 1
+      NONE = 0,
+      UNSUPPORTED = 1,
+      BASIC = 2
     }
 
     /** END: Authentication Types *******************************************/

@@ -41,7 +41,8 @@ namespace SEOMacroscope
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string sErrorCondition = null;
-
+      Boolean bAuthenticating = false;
+      
       try
       {
 
@@ -50,7 +51,8 @@ namespace SEOMacroscope
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
         req.UserAgent = this.UserAgent();
-				        
+        bAuthenticating = this.AuthenticateRequest( req );
+				                              
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         try
@@ -86,6 +88,11 @@ namespace SEOMacroscope
       {
 
         this.ProcessHttpHeaders( req, res );
+
+        if( bAuthenticating )
+        {
+          this.VerifyOrPurgeCredential();
+        }
 
         { // Title
 

@@ -32,7 +32,7 @@ namespace SEOMacroscope
 {
   
   /// <summary>
-  /// Description of MacroscopeCredentialsHttp.
+  /// MacroscopeCredentialsHttp manages the credential requests queue, and the collection of credentials entered for this crawl session.
   /// </summary>
 	
   public class MacroscopeCredentialsHttp
@@ -52,6 +52,14 @@ namespace SEOMacroscope
       this.CredentialRequests = new Queue<MacroscopeCredentialRequest> ( 16 );
       this.Credentials = new Dictionary<string,MacroscopeCredential> ( 16 );
       this.Memo = new Dictionary<string,string> ( 16 );
+    }
+
+    /**************************************************************************/
+
+    public void ClearAll ()
+    {
+      this.ClearCredentialRequests();
+      this.ClearCredentials();
     }
 
     /**************************************************************************/
@@ -94,13 +102,23 @@ namespace SEOMacroscope
 
     /** Credential Requests ***************************************************/
 
-    public void EnqueueCredentialRequest ( string Domain, string Realm )
+    public void ClearCredentialRequests ()
+    {
+      lock( this.CredentialRequests )
+      {
+        this.CredentialRequests.Clear();
+      }
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    public void EnqueueCredentialRequest ( string Domain, string Realm, string Url )
     {
 
       lock( this.CredentialRequests )
       {
 
-        MacroscopeCredentialRequest CredentialRequest = new MacroscopeCredentialRequest ( Domain, Realm );
+        MacroscopeCredentialRequest CredentialRequest = new MacroscopeCredentialRequest ( Domain, Realm, Url );
 
         this.CredentialRequests.Enqueue( CredentialRequest );
 
@@ -166,6 +184,21 @@ namespace SEOMacroscope
 
     /** Credentials ***********************************************************/
 
+    public void ClearCredentials ()
+    {
+      lock( this.Credentials )
+      {
+        this.Credentials.Clear();
+        lock( this.Memo )
+        {
+          this.Memo.Clear();
+        }
+      }
+    }
+
+    /* ---------------------------------------------------------------------- */
+    
+    
     public void AddCredential ( string Domain, string Realm, string Username, string Password )
     {
 
@@ -179,7 +212,13 @@ namespace SEOMacroscope
           this.Credentials.Remove( sKey );
         }
 
-        MacroscopeCredential Credential = new MacroscopeCredential ( Domain, Realm, Username, Password );
+        MacroscopeCredential Credential = new MacroscopeCredential (
+                                            CredentialsHttp: this,
+                                            Domain: Domain,
+                                            Realm: Realm,
+                                            Username: Username,
+                                            Password: Password
+                                          );
 
         this.Credentials.Add( sKey, Credential );
 

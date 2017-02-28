@@ -1,25 +1,25 @@
 ﻿/*
 
-	This file is part of SEOMacroscope.
+  This file is part of SEOMacroscope.
 
-	Copyright 2017 Jason Holland.
+  Copyright 2017 Jason Holland.
 
-	The GitHub repository may be found at:
+  The GitHub repository may be found at:
 
-		https://github.com/nazuke/SEOMacroscope
+    https://github.com/nazuke/SEOMacroscope
 
-	Foobar is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+  Foobar is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-	Foobar is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+  Foobar is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU General Public License
+  along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
@@ -35,7 +35,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessVideoPage ()
+    void ProcessAudioPage ()
     {
 
       HttpWebRequest req = null;
@@ -52,7 +52,7 @@ namespace SEOMacroscope
         req.KeepAlive = false;
         req.UserAgent = this.UserAgent();
         bAuthenticating = this.AuthenticateRequest( req );
-				                              
+                      
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         try
@@ -64,9 +64,9 @@ namespace SEOMacroscope
         catch( WebException ex )
         {
 
-          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Message ) );
-          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Status ) );
-          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ( int )ex.Status ) );
+          DebugMsg( string.Format( "ProcessAudioPage :: WebException: {0}", ex.Message ) );
+          DebugMsg( string.Format( "ProcessAudioPage :: WebException: {0}", ex.Status ) );
+          DebugMsg( string.Format( "ProcessAudioPage :: WebException: {0}", ( int )ex.Status ) );
 
           sErrorCondition = ex.Status.ToString();
 
@@ -76,9 +76,9 @@ namespace SEOMacroscope
       catch( WebException ex )
       {
 
-        DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Status ) );
-        DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ( int )ex.Status ) );
+        DebugMsg( string.Format( "ProcessAudioPage :: WebException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "ProcessAudioPage :: WebException: {0}", ex.Status ) );
+        DebugMsg( string.Format( "ProcessAudioPage :: WebException: {0}", ( int )ex.Status ) );
 
         sErrorCondition = ex.Status.ToString();
 
@@ -93,7 +93,7 @@ namespace SEOMacroscope
         {
           this.VerifyOrPurgeCredential();
         }
-
+                
         { // Title
 
           MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );

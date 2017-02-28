@@ -278,7 +278,7 @@ namespace SEOMacroscope
 
             SemaphoreWorkers.WaitOne();
 
-            DebugMsg( string.Format( "SpawnWorkers THREADS: {0} :: {1}", this.ThreadsMax, this.CountRunningThreads() ) );
+            //DebugMsg( string.Format( "SpawnWorkers THREADS: {0} :: {1}", this.ThreadsMax, this.CountRunningThreads() ) );
 
             Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 
@@ -511,6 +511,9 @@ namespace SEOMacroscope
           case HttpStatusCode.BadRequest:
             this.ResetLink( sUrl );
             break;
+          case HttpStatusCode.Unauthorized:
+            this.ResetLink( sUrl );
+            break;
           case HttpStatusCode.Forbidden:
             this.ResetLink( sUrl );
             break;
@@ -561,7 +564,7 @@ namespace SEOMacroscope
       this.ResetLink( sUrl );
     }
 
-    void ResetLink ( string sUrl )
+    private void ResetLink ( string sUrl )
     {
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( sUrl );

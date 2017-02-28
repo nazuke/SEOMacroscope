@@ -135,7 +135,6 @@ namespace SEOMacroscope
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "About SEO Macroscope";
-			this.TopMost = true;
 			this.ResumeLayout(false);
 
 		}

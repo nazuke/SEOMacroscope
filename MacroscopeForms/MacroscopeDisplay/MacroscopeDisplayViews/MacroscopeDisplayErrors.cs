@@ -106,12 +106,12 @@ namespace SEOMacroscope
 
         Boolean bProceed = false;
 
-        if( ( (int)msDoc.GetStatusCode() >= 400 ) && ( (int)msDoc.GetStatusCode() <= 499 ) )
+        if( ( ( int )msDoc.GetStatusCode() >= 400 ) && ( ( int )msDoc.GetStatusCode() <= 499 ) )
         {
           bProceed = true;
         }
         else
-        if( ( (int)msDoc.GetStatusCode() >= 500 ) && ( (int)msDoc.GetStatusCode() <= 599 ) )
+        if( ( ( int )msDoc.GetStatusCode() >= 500 ) && ( ( int )msDoc.GetStatusCode() <= 599 ) )
         {
           bProceed = true;
         }
@@ -135,6 +135,7 @@ namespace SEOMacroscope
     {
 
       string sPairKey = sUrl;
+      string sStatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
       string sStatus = msDoc.GetStatusCode().ToString();
       ListViewItem lvItem = null;
 
@@ -149,8 +150,9 @@ namespace SEOMacroscope
           lvItem = this.lvListView.Items[ sPairKey ];
 
           lvItem.SubItems[ 0 ].Text = sUrl;
-          lvItem.SubItems[ 1 ].Text = sStatus;
-          lvItem.SubItems[ 2 ].Text = msDoc.GetErrorCondition();
+          lvItem.SubItems[ 1 ].Text = sStatusCode;
+          lvItem.SubItems[ 2 ].Text = sStatus;
+          lvItem.SubItems[ 3 ].Text = msDoc.GetErrorCondition();
 
         }
         catch( Exception ex )
@@ -170,6 +172,7 @@ namespace SEOMacroscope
           lvItem.Name = sPairKey;
 
           lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems.Add( sStatusCode );
           lvItem.SubItems.Add( sStatus );
           lvItem.SubItems.Add( msDoc.GetErrorCondition() );
 
@@ -189,23 +192,27 @@ namespace SEOMacroscope
         lvItem.UseItemStyleForSubItems = false;
         lvItem.ForeColor = Color.Blue;
 
-        if( Regex.IsMatch( sStatus, "^[2]" ) )
+        if( Regex.IsMatch( sStatusCode, "^[2]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Green;
         }
         else
-        if( Regex.IsMatch( sStatus, "^[3]" ) )
+        if( Regex.IsMatch( sStatusCode, "^[3]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Goldenrod;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Goldenrod;
         }
         else
-        if( Regex.IsMatch( sStatus, "^[45]" ) )
+        if( Regex.IsMatch( sStatusCode, "^[45]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Red;
         }
         else
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
         }
 
       }

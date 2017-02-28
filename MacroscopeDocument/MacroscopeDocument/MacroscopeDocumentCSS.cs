@@ -43,7 +43,8 @@ namespace SEOMacroscope
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string sErrorCondition = null;
-
+      Boolean bAuthenticating = false;
+      
       DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 
       try
@@ -54,7 +55,8 @@ namespace SEOMacroscope
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
         req.UserAgent = this.UserAgent();
-                
+        bAuthenticating = this.AuthenticateRequest( req );
+                                      
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();
@@ -77,6 +79,11 @@ namespace SEOMacroscope
         string sRawData = "";
 
         this.ProcessHttpHeaders( req, res );
+
+        if( bAuthenticating )
+        {
+          this.VerifyOrPurgeCredential();
+        }
 
         // Get Response Body
         try

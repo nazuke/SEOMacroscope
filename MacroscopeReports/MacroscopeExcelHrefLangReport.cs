@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using ClosedXML.Excel;
 
@@ -41,19 +42,19 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void WriteXslx ( MacroscopeJobMaster msJobMaster, string sOutputFilename )
+    public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
       var wb = new XLWorkbook ();
-      DebugMsg( string.Format( "EXCEL sOutputPath: {0}", sOutputFilename ) );
-      this.BuildWorksheet( msJobMaster, wb, "Macroscope HrefLang", false );
+      DebugMsg( string.Format( "EXCEL OutputFilename: {0}", OutputFilename ) );
+      this.BuildWorksheet( JobMaster, wb, "Macroscope HrefLang Matrix" );
       try
       {
-        wb.SaveAs( sOutputFilename );
+        wb.SaveAs( OutputFilename );
       }
-      catch( System.IO.IOException )
+      catch( IOException )
       {
         MacroscopeCannotSaveExcelFileException CannotSaveExcelFileException = new MacroscopeCannotSaveExcelFileException (
-                                                                                string.Format( "Cannot write to Excel file at {0}", sOutputFilename )
+                                                                                string.Format( "Cannot write to Excel file at {0}", OutputFilename )
                                                                               );
         throw CannotSaveExcelFileException;
       }
@@ -61,16 +62,20 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void BuildWorksheet ( MacroscopeJobMaster msJobMaster, XLWorkbook wb, string sWorksheetLabel, Boolean bCheck )
+    void BuildWorksheet (
+      MacroscopeJobMaster JobMaster,
+      XLWorkbook wb,
+      string WorksheetLabel
+    )
     {
-      var ws = wb.Worksheets.Add( sWorksheetLabel );
+      var ws = wb.Worksheets.Add( WorksheetLabel );
 
       int iRow = 1;
       int iCol = 1;
       int iColMax = 1;
 
-      Dictionary<string,string> htLocales = msJobMaster.GetLocales();
-      MacroscopeDocumentCollection DocCollection = msJobMaster.GetDocCollection();
+      Dictionary<string,string> htLocales = JobMaster.GetLocales();
+      MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       Dictionary<string,int> dicLocaleCols = new Dictionary<string, int> ();
 
       {
@@ -163,7 +168,7 @@ namespace SEOMacroscope
 
                 ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Value = sValue;
 
-                if( msJobMaster.GetAllowedHosts().IsInternalUrl( sValue ) )
+                if( JobMaster.GetAllowedHosts().IsInternalUrl( sValue ) )
                 {
                   ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
                 }
@@ -194,8 +199,6 @@ namespace SEOMacroscope
         var excelTable = rangeData.CreateTable();
         excelTable.Sort( "Title", XLSortOrder.Ascending, false, true );
       }
-
-      ws.Columns().AdjustToContents();
 
     }
 

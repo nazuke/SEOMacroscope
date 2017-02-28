@@ -76,6 +76,7 @@ namespace SEOMacroscope
     protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
     {
 
+      string sStatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
       string sStatus = msDoc.GetStatusCode().ToString();
       string sChecksum = msDoc.GetChecksum();
       int iCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsChecksumCount( Checksum: sChecksum );
@@ -92,9 +93,10 @@ namespace SEOMacroscope
 
           lvItem = this.lvListView.Items[ sPairKey ];
           lvItem.SubItems[ 0 ].Text = sUrl;
-          lvItem.SubItems[ 1 ].Text = sStatus;
-          lvItem.SubItems[ 2 ].Text = iCount.ToString();
-          lvItem.SubItems[ 3 ].Text = sChecksum;
+          lvItem.SubItems[ 1 ].Text = sStatusCode;   
+          lvItem.SubItems[ 2 ].Text = sStatus;
+          lvItem.SubItems[ 3 ].Text = iCount.ToString();
+          lvItem.SubItems[ 4 ].Text = sChecksum;
 
         }
         catch( Exception ex )
@@ -114,6 +116,7 @@ namespace SEOMacroscope
           lvItem.Name = sPairKey;
 
           lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems.Add( sStatusCode );
           lvItem.SubItems.Add( sStatus );
           lvItem.SubItems.Add( iCount.ToString() );
           lvItem.SubItems.Add( sChecksum );
@@ -142,34 +145,40 @@ namespace SEOMacroscope
           lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
         }
 
-        if( Regex.IsMatch( sStatus, "^[2]" ) )
+        if( Regex.IsMatch( sStatusCode, "^[2]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Green;
         }
         else
-        if( Regex.IsMatch( sStatus, "^[3]" ) )
+        if( Regex.IsMatch( sStatusCode, "^[3]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Goldenrod;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Goldenrod;
         }
         else
-        if( Regex.IsMatch( sStatus, "^[45]" ) )
+        if( Regex.IsMatch( sStatusCode, "^[45]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Red;
         }
         else
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
+          lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
         }
 
         if( iCount > 1 )
         {
           lvItem.SubItems[ 2 ].ForeColor = Color.Red;
           lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+          lvItem.SubItems[ 4 ].ForeColor = Color.Red;
         }
         else
         {
           lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
           lvItem.SubItems[ 3 ].ForeColor = Color.Blue;
+          lvItem.SubItems[ 4 ].ForeColor = Color.Blue;
         }
 
       }

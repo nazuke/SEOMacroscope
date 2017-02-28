@@ -149,10 +149,16 @@ namespace SEOMacroscope
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.CancelButton = this.buttonCancel;
 			this.ClientSize = new System.Drawing.Size(484, 462);
+			this.ControlBox = false;
 			this.Controls.Add(this.tableLayoutPanel1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
 			this.KeyPreview = true;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "MacroscopeIncludeUrlPatterns";
+			this.ShowInTaskbar = false;
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Include URL Patterns";
 			this.tableLayoutPanel1.ResumeLayout(false);

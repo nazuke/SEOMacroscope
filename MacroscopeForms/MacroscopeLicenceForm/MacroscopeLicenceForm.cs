@@ -24,6 +24,8 @@
 */
 
 using System;
+using System.IO;
+using System.Reflection;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -31,7 +33,7 @@ namespace SEOMacroscope
 {
   
   /// <summary>
-  /// Description of MacroscopeLicenceForm.
+  /// Displayes the licence file in a dialogue.
   /// </summary>
 	
   public partial class MacroscopeLicenceForm : Form
@@ -41,14 +43,28 @@ namespace SEOMacroscope
 	      
     public MacroscopeLicenceForm ()
     {
-      //
-      // The InitializeComponent() call is required for Windows Forms designer support.
-      //
-      InitializeComponent();
-			
-      //
-      // TODO: Add constructor code after the InitializeComponent() call.
-      //
+
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+      
+            this.Shown += this.MacroscopeLicenceFormShown;
+      
+    }
+    
+    /**************************************************************************/
+
+    private void MacroscopeLicenceFormShown ( object sender, EventArgs e )
+    {
+
+      string LicenceText;
+      StreamReader Reader = new StreamReader ( Assembly.GetExecutingAssembly().GetManifestResourceStream( "LICENCE" ) );
+
+      LicenceText = Reader.ReadToEnd();
+
+      Reader.Close();
+      Reader.Dispose();
+
+      this.richTextBoxLicence.Text = LicenceText.ToString();
+
     }
 	      
     /**************************************************************************/

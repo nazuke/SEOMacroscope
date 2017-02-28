@@ -225,7 +225,7 @@ namespace SEOMacroscope
             lvItem.Name = sDuration;
 
             lvItem.SubItems[ 0 ].Text = sDuration;
-            lvItem.SubItems.Add( sDuration );
+            //lvItem.SubItems.Add( sDuration );
             lvItem.SubItems.Add( SortedListSpeed[ Duration ] );
             
             lvListView.Items.Add( lvItem );

@@ -93,10 +93,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="version.txt">
+    <None Include="version.nsh">
       <DependentUpon>version.tt</DependentUpon>
       <AutoGen>True</AutoGen>
-    </Content>
+    </None>
     <None Include="docs\index.html">
       <DependentUpon>index.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -131,6 +131,7 @@
     <Compile Include="MacroscopeCredentials\MacroscopeCredentialRequest.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentAudio.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentBinary.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentCSS.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentDetails.cs" />
@@ -213,6 +214,11 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="MacroscopeReports\MacroscopeCannotSaveExcelFileException.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportHeadings.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\MacroscopeExcelPageContentsReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportDescriptions.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportKeywords.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportTitles.cs" />
     <Compile Include="MacroscopeSearch\MacroscopeSearchIndex.cs" />
     <Compile Include="MacroscopeTasks\IMacroscopeTaskController.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
@@ -258,7 +264,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="version.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>version.txt</LastGenOutput>
+      <LastGenOutput>version.nsh</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +359,7 @@
     <Folder Include="MacroscopeForms\MacroscopeLicenceForm" />
     <Folder Include="MacroscopeForms\MacroscopeGetCredentialsHttp" />
     <Folder Include="MacroscopeHosts\t" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelPageContentsReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />

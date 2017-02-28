@@ -1,4 +1,4 @@
-!include "SEOMacroscope-Version.nsh"
+!include "..\version.nsh"
 #!include "MUI2.nsh"
 	
 OutFile "SEOMacroscope-Installer-${VERSION}.exe"

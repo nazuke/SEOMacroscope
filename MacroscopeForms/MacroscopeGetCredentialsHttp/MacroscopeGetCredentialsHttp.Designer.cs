@@ -157,10 +157,10 @@ namespace SEOMacroscope
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MacroscopeGetCredentialsHttp";
+			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SEO Macroscope: Authentication Required";
-			this.TopMost = true;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

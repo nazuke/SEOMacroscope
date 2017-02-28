@@ -226,8 +226,40 @@ namespace SEOMacroscope
     Boolean Fetch ( string sUrl )
     {
 
-      MacroscopeDocument msDoc = new MacroscopeDocument ( sUrl );
+      MacroscopeDocument msDoc = this.DocCollection.GetDocument( sUrl );
       Boolean bResult = false;
+
+      if( msDoc != null )
+      {
+
+        if( msDoc.GetAuthenticationRealm() != null )
+        {
+          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
+          {
+
+            MacroscopeCredential Credential = this.JobMaster.GetCredentialsHttp().GetCredential(
+                                                msDoc.GetHostname(),
+                                                msDoc.GetAuthenticationRealm()
+                                              );
+            if( Credential != null )
+            {
+              msDoc = new MacroscopeDocument (
+                Credential: Credential,
+                Url: sUrl
+              );
+            }
+
+          }
+
+        }
+
+      }
+      else
+      {
+
+        msDoc = new MacroscopeDocument ( sUrl );
+
+      }
 
       if( !MacroscopeDnsTools.CheckValidHostname( sUrl ) )
       {
@@ -283,7 +315,7 @@ namespace SEOMacroscope
           if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
           {
             MacroscopeCredentialsHttp CredentialsHttp = this.JobMaster.GetCredentialsHttp();
-            CredentialsHttp.EnqueueCredentialRequest( msDoc.GetHostname(), msDoc.GetAuthenticationRealm() );
+            CredentialsHttp.EnqueueCredentialRequest( msDoc.GetHostname(), msDoc.GetAuthenticationRealm(), msDoc.GetUrl() );
             this.JobMaster.AddUrlQueueItem( msDoc.GetUrl() );
           }
         }

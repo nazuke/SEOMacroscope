@@ -97,7 +97,8 @@ namespace SEOMacroscope
         MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       
         string sOriginURL = msDoc.GetUrlRedirectFrom();
-        string sStatusCode = msDoc.GetStatusCode().ToString();
+        string sStatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+        string sStatus = msDoc.GetStatusCode().ToString();
         string sDestinationURL = msDoc.GetUrlRedirectTo();
 
         string sPairKey = string.Join( "", sUrl );
@@ -107,8 +108,8 @@ namespace SEOMacroscope
         if(
           ( sOriginURL != null )
           && ( sOriginURL.Length > 0 )
-          && ( sStatusCode != null )
-          && ( sStatusCode.Length > 0 )
+          && ( sStatus != null )
+          && ( sStatus.Length > 0 )
           && ( sDestinationURL != null )
           && ( sDestinationURL.Length > 0 ) )
         {
@@ -124,8 +125,9 @@ namespace SEOMacroscope
               lvItem = this.lvListView.Items[ sPairKey ];
               lvItem.SubItems[ 0 ].Text = sUrl;
               lvItem.SubItems[ 1 ].Text = sStatusCode;
-              lvItem.SubItems[ 2 ].Text = sOriginURL;
-              lvItem.SubItems[ 3 ].Text = sDestinationURL;
+              lvItem.SubItems[ 2 ].Text = sStatus;
+              lvItem.SubItems[ 3 ].Text = sOriginURL;
+              lvItem.SubItems[ 4 ].Text = sDestinationURL;
 
             }
             catch( Exception ex )
@@ -147,6 +149,7 @@ namespace SEOMacroscope
 
               lvItem.SubItems[ 0 ].Text = sUrl;
               lvItem.SubItems.Add( sStatusCode );
+              lvItem.SubItems.Add( sStatus );
               lvItem.SubItems.Add( sOriginURL );
               lvItem.SubItems.Add( sDestinationURL );
 
@@ -166,50 +169,50 @@ namespace SEOMacroscope
             if( !msDoc.GetIsExternal() )
             {
 
-              for( int i = 0 ; i <= 3 ; i++ )
-                lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+              for( int i = 0 ; i <= 4 ; i++ )
+                lvItem.SubItems[ i ].ForeColor = Color.Blue;
 
               if( Regex.IsMatch( sStatusCode, "^[2]" ) )
               {
-                for( int i = 0 ; i <= 3 ; i++ )
-                  lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+                for( int i = 0 ; i <= 4 ; i++ )
+                  lvItem.SubItems[ i ].ForeColor = Color.Green;
               }
               else
               if( Regex.IsMatch( sStatusCode, "^[3]" ) )
               {
-                for( int i = 0 ; i <= 3 ; i++ )
-                  lvItem.SubItems[ 0 ].ForeColor = Color.Goldenrod;
+                for( int i = 0 ; i <= 4 ; i++ )
+                  lvItem.SubItems[ i ].ForeColor = Color.Goldenrod;
               }
               else
               if( Regex.IsMatch( sStatusCode, "^[45]" ) )
               {
-                for( int i = 0 ; i <= 3 ; i++ )
-                  lvItem.SubItems[ 0 ].ForeColor = Color.Red;
+                for( int i = 0 ; i <= 4 ; i++ )
+                  lvItem.SubItems[ i ].ForeColor = Color.Red;
               }
 
             }
             else
             {
-              for( int i = 0 ; i <= 3 ; i++ )
-                lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+              for( int i = 0 ; i <= 4 ; i++ )
+                lvItem.SubItems[ i ].ForeColor = Color.Gray;
             }
 
             if( AllowedHosts.IsInternalUrl( sOriginURL ) )
-            {
-              lvItem.SubItems[ 2 ].ForeColor = Color.Green;
-            }
-            else
-            {
-              lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
-            }
-            
-            if( AllowedHosts.IsInternalUrl( sDestinationURL ) )
             {
               lvItem.SubItems[ 3 ].ForeColor = Color.Green;
             }
             else
             {
               lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+            }
+            
+            if( AllowedHosts.IsInternalUrl( sDestinationURL ) )
+            {
+              lvItem.SubItems[ 4 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
             }
 
           }

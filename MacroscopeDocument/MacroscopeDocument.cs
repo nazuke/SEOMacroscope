@@ -68,6 +68,7 @@ namespace SEOMacroscope
 
     private MacroscopeConstants.AuthenticationType AuthenticationType;
     private string AuthenticationRealm;
+    private MacroscopeCredential AuthenticationCredential;
 
     private string RawHttpStatusLine;
     private string RawHttpHeaders;
@@ -131,14 +132,30 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocument ( string sUrl )
+    public MacroscopeDocument ( string Url )
+    {
+      this.InitializeDocument( Url );
+    }
+    
+    public MacroscopeDocument ( MacroscopeCredential Credential, string Url )
+    {
+
+      this.InitializeDocument( Url );
+
+      this.AuthenticationCredential = Credential;
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void InitializeDocument ( string Url )
     {
 
       this.SuppressDebugMsg = false;
 
       this.IsDirty = true;
 
-      this.Url = sUrl;
+      this.Url = Url;
       this.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
 
       this.Checksum = "";
@@ -160,6 +177,10 @@ namespace SEOMacroscope
       this.Fragment = "";
       this.QueryString = "";
 
+      AuthenticationType = MacroscopeConstants.AuthenticationType.NONE;
+      AuthenticationRealm = null;
+      AuthenticationCredential = null;
+      
       this.HypertextStrictTransportPolicy = false;
       this.IsSecureUrl = false;
       this.InSecureLinks = new List<string> ( 128 );
@@ -345,6 +366,11 @@ namespace SEOMacroscope
     public string GetAuthenticationRealm ()
     {
       return( this.AuthenticationRealm );
+    }
+
+    private MacroscopeCredential GetAuthenticationCredential ()
+    {
+      return( this.AuthenticationCredential );
     }
 
     /** Secure URLs ***********************************************************/
@@ -1256,6 +1282,15 @@ namespace SEOMacroscope
 
         }
         else
+        if( this.GetIsAudio() )
+        {
+          DebugMsg( string.Format( "IS AUDIO PAGE: {0}", this.Url ) );
+          if( MacroscopePreferencesManager.GetFetchAudio() )
+          {
+            fTimeDuration( this.ProcessAudioPage );
+          }
+        }
+        else
         if( this.GetIsVideo() )
         {
           DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.Url ) );
@@ -1314,18 +1349,16 @@ namespace SEOMacroscope
       HttpWebResponse res = null;
       string sOriginalUrl = this.Url;
       string sErrorCondition = null;
+      Boolean bAuthenticating = false;
 
       req.Method = "HEAD";
       req.Timeout = this.Timeout;
       req.KeepAlive = false;
       req.AllowAutoRedirect = false;
       req.UserAgent = this.UserAgent();
-      
+      bAuthenticating = this.AuthenticateRequest( req );
+                            
       MacroscopePreferencesManager.EnableHttpProxy( req );
-
-      if( this.GetAuthenticationRealm() != null ) {
-        ; // TODO: implement this
-      }
 
       try
       {
@@ -1359,6 +1392,11 @@ namespace SEOMacroscope
 
         this.ProcessHttpHeaders( req, res );
 
+        if( bAuthenticating )
+        {
+          this.VerifyOrPurgeCredential();
+        }
+
         if( this.IsRedirect )
         {
 
@@ -1388,6 +1426,73 @@ namespace SEOMacroscope
       if( sErrorCondition != null )
       {
         this.ProcessErrorCondition( sErrorCondition );
+      }
+
+    }
+
+    /**************************************************************************/
+
+    private Boolean AuthenticateRequest ( HttpWebRequest req )
+    {
+      
+      // Reference: https://en.wikipedia.org/wiki/Basic_access_authentication#Protocol
+
+      Boolean bAuthenticating = false;
+
+      if( this.GetAuthenticationCredential() != null )
+      {
+       
+        byte [] UsernamePassword = Encoding.UTF8.GetBytes(
+                                     string.Join(
+                                       ":",
+                                       this.GetAuthenticationCredential().GetUsername(),
+                                       this.GetAuthenticationCredential().GetPassword()
+                                     )
+                                   );
+
+        string sB64Encoded = System.Convert.ToBase64String( UsernamePassword );
+
+        if( req != null )
+        {
+          
+          req.PreAuthenticate = true;
+
+          req.Headers.Add(
+            HttpRequestHeader.Authorization,
+            string.Join( " ", "Basic", sB64Encoded )
+          );
+        
+          bAuthenticating = true;
+        
+        }
+        
+      }
+
+      return( bAuthenticating );
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void VerifyOrPurgeCredential ()
+    {
+
+      if( this.GetAuthenticationCredential() != null )
+      {
+        DebugMsg( string.Format( "VerifyCredential: {0}", this.GetStatusCode() ) );
+        
+        if( this.GetStatusCode() == HttpStatusCode.Unauthorized )
+        {
+          
+          MacroscopeCredential Credential = this.GetAuthenticationCredential();
+
+          Credential.GetCredentialsHttp().RemoveCredential(
+            Credential.GetDomain(),
+            Credential.GetRealm()
+          );
+
+        }
+
       }
 
     }
@@ -1671,7 +1776,7 @@ namespace SEOMacroscope
         Regex reIsHtml = new Regex ( "^(text/html|application/xhtml+xml)", RegexOptions.IgnoreCase );
         Regex reIsCss = new Regex ( "^text/css", RegexOptions.IgnoreCase );
         Regex reIsJavascript = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
-        Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp)", RegexOptions.IgnoreCase );
+        Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp|x-icon)", RegexOptions.IgnoreCase );
         Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
         Regex reIsAudio = new Regex ( "^audio/[a-z0-9]+", RegexOptions.IgnoreCase );
         Regex reIsVideo = new Regex ( "^video/[a-z0-9]+", RegexOptions.IgnoreCase );

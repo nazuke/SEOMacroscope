@@ -104,8 +104,8 @@ namespace SEOMacroscope
       {
 
         string sDescription = msDoc.GetDescription();
-        int iDescriptionCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
-        string sDescriptionLength = sDescription.Length.ToString();
+        int iOccurrences = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
+        int iDescriptionLength = msDoc.GetDescriptionLength();
         string sPairKey = string.Join( "", sUrl, sDescription );
 
         ListViewItem lvItem = null;
@@ -118,9 +118,9 @@ namespace SEOMacroscope
 
             lvItem = this.lvListView.Items[ sPairKey ];
             lvItem.SubItems[ 0 ].Text = sUrl;
-            lvItem.SubItems[ 1 ].Text = iDescriptionCount.ToString();
+            lvItem.SubItems[ 1 ].Text = iOccurrences.ToString();
             lvItem.SubItems[ 2 ].Text = sDescription;
-            lvItem.SubItems[ 3 ].Text = sDescriptionLength;
+            lvItem.SubItems[ 3 ].Text = iDescriptionLength.ToString();
 
           }
           catch( Exception ex )
@@ -140,9 +140,9 @@ namespace SEOMacroscope
             lvItem.Name = sPairKey;
 
             lvItem.SubItems[ 0 ].Text = sUrl;
-            lvItem.SubItems.Add( iDescriptionCount.ToString() );
+            lvItem.SubItems.Add( iOccurrences.ToString() );
             lvItem.SubItems.Add( sDescription );
-            lvItem.SubItems.Add( sDescriptionLength );
+            lvItem.SubItems.Add( iDescriptionLength.ToString() );
 
             this.lvListView.Items.Add( lvItem );
 
@@ -161,12 +161,12 @@ namespace SEOMacroscope
 
           lvItem.SubItems[ 0 ].ForeColor = Color.Green;
                     
-          if( sDescription.Length < MacroscopePreferencesManager.GetDescriptionMinLen() )
+          if( iDescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
           {
             lvItem.SubItems[ 3 ].ForeColor = Color.Red;
           }
           else
-          if( sDescription.Length > MacroscopePreferencesManager.GetDescriptionMaxLen() )
+          if( iDescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
           {
             lvItem.SubItems[ 3 ].ForeColor = Color.Red;
           }

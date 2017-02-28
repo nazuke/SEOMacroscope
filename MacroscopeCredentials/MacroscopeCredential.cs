@@ -37,6 +37,7 @@ namespace SEOMacroscope
   
     /**************************************************************************/
 
+    private MacroscopeCredentialsHttp CredentialsHttp;
     private string Domain;
     private string Realm;
     private string Username;
@@ -44,8 +45,15 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeCredential ( string Domain, string Realm, string Username, string Password )
+    public MacroscopeCredential (
+      MacroscopeCredentialsHttp CredentialsHttp,
+      string Domain,
+      string Realm,
+      string Username,
+      string Password
+    )
     {
+      this.CredentialsHttp = CredentialsHttp;
       this.Domain = Domain;
       this.Realm = Realm;
       this.Username = Username;
@@ -54,14 +62,35 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public string GetUsername ( string Domain, string Realm )
+    public MacroscopeCredentialsHttp GetCredentialsHttp ()
+    {
+      return( this.CredentialsHttp );
+    }
+    
+    /**************************************************************************/
+
+    public string GetDomain ()
+    {
+      return( this.Domain );
+    }
+
+    /**************************************************************************/
+
+    public string GetRealm ()
+    {
+      return( this.Realm );
+    }
+
+    /**************************************************************************/
+
+    public string GetUsername ()
     {
       return( this.Username );
     }
 
     /**************************************************************************/
 
-    public string GetPassword ( string Domain, string Realm )
+    public string GetPassword ()
     {
       return( this.Password );
     }
