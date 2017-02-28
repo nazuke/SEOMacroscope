@@ -46,11 +46,11 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public MacroscopeUrlListLoader ( MacroscopeJobMaster JobMasterNew, string sPath )
+		public MacroscopeUrlListLoader ( MacroscopeJobMaster JobMaster, string Path )
 		{
-			JobMaster = JobMasterNew;
-			Path = sPath;
-			UrlList = new List<string> ();
+			this.JobMaster = JobMaster;
+			this.Path = Path;
+			this.UrlList = new List<string> ();
 		}
 
 		/**************************************************************************/
@@ -65,7 +65,7 @@ namespace SEOMacroscope
 			if( this.UrlList.Count > 0 )
 			{
 
-				this.JobMaster.SetRuntimeMode( MacroscopeConstants.RunTimeMode.LISTFILE );
+			  this.JobMaster.SetRunTimeMode( RunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE );
 
 				for( int i = 0 ; i < this.UrlList.Count ; i++ )
 				{
@@ -121,14 +121,14 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public string GetUrlListItem ( int iItem )
+		public string GetUrlListItem ( int Item )
 		{
 			string sUrl = null;
 			try
 			{
-				if( this.UrlList[ iItem ].Length > 0 )
+				if( this.UrlList[ Item ].Length > 0 )
 				{
-					sUrl = this.UrlList[ iItem ];
+					sUrl = this.UrlList[ Item ];
 				}
 			}
 			catch( Exception ex )

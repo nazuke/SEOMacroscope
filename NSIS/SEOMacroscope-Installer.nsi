@@ -10,13 +10,15 @@ LicenseData ..\LICENSE
 
 Name "SEO Macroscope ${VERSION}"
 
-InstallDir $DESKTOP\QA
-#InstallDir $PROGRAMFILES
+#InstallDir $DESKTOP\QA
+InstallDir $PROGRAMFILES
 
-RequestExecutionLevel user
+RequestExecutionLevel none
+#RequestExecutionLevel user
+#RequestExecutionLevel highest
+#RequestExecutionLevel admin
 
 # ICONS AND SPLASH SCREENS --------------------------------------------------- #
-
 
 #!define MUI_ICON "..\BlenderProjects\MacroscopeIcon-64x64.ico"
 #!define MUI_HEADERIMAGE
@@ -24,8 +26,6 @@ RequestExecutionLevel user
 #!define MUI_HEADERIMAGE_RIGHT
 
 # VARIABLES ------------------------------------------------------------------ #
-
-
 
 Var SEOMacroscopeDir
 Var SEOMacroscopeExe
@@ -67,23 +67,45 @@ Section uninstall
 
 	Call un.setVariables
 
-#	Delete $INSTDIR\$SEOMacroscopeExe.exe
+###	BEGIN: Program Files
+	Delete $INSTDIR\PdfSharp.Charting.resources.dll
+	Delete $INSTDIR\PdfSharp.resources.dll
+	RMDir $INSTDIR\de
 
-#	Delete $INSTDIR\BouncyCastle.Crypto.dll
-#	Delete $INSTDIR\SEOMacroscopeWPF.exe.config
-#	Delete $INSTDIR\MailKit.dll
-#	Delete $INSTDIR\MailKit.xml
-#	Delete $INSTDIR\MimeKit.dll
-#	Delete $INSTDIR\MimeKit.xml
+	Delete $INSTDIR\ClosedXML.dll
+	Delete $INSTDIR\ClosedXML.pdb
+		
+	Delete $INSTDIR\DocumentFormat.OpenXml.dll
+	
+	Delete $INSTDIR\ExCSS.dll
 
-#	Delete $INSTDIR\$SEOMacroscopeUninstallExe.exe
+	Delete $INSTDIR\HtmlAgilityPack.dll
+	Delete $INSTDIR\HtmlAgilityPack.pdb
+	Delete $INSTDIR\HtmlAgilityPack.xml
 
-#	RMDir $INSTDIR
+	Delete $INSTDIR\NUnit.Framework.dll
 
+	Delete $INSTDIR\PdfSharp.Charting.dll
+	Delete $INSTDIR\PdfSharp.Charting.xml
+	Delete $INSTDIR\PdfSharp.dll
+	Delete $INSTDIR\PdfSharp.xml
+
+	Delete $INSTDIR\RobotsTxt.dll
+	Delete $INSTDIR\RobotsTxt.xml
+	
+	Delete $INSTDIR\$SEOMacroscopeExe.exe
+	Delete $INSTDIR\$SEOMacroscopeExe.exe.config
+
+	Delete $INSTDIR\$SEOMacroscopeUninstallExe.exe
+
+	RMDir $INSTDIR
+###	END: Program Files
+
+###	BEGIN: Start Menu Shortcuts
 	Delete $SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeName.lnk
 	Delete $SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeUninstallName.lnk
-
-#	RMDir $SMPROGRAMS\$SEOMacroscopeDir
+	RMDir $SMPROGRAMS\$SEOMacroscopeDir
+###	END: Start Menu Shortcuts
 
 SectionEnd
 

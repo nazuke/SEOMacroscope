@@ -41,7 +41,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private MacroscopeConstants.RunTimeMode RuntimeMode;
+    private MacroscopeConstants.RunTimeMode RunTimeMode;
 
     private IMacroscopeTaskController TaskController;
     MacroscopeCredentialsHttp CredentialsHttp;
@@ -82,30 +82,30 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     public MacroscopeJobMaster (
-      MacroscopeConstants.RunTimeMode RuntimeMode
+      MacroscopeConstants.RunTimeMode RunTimeMode
     )
     {
       this.SuppressDebugMsg = false;
       this.TaskController = null;
-      InitializeJobMaster( RuntimeMode );
+      InitializeJobMaster( RunTimeMode: RunTimeMode );
     }
 
     public MacroscopeJobMaster (
-      MacroscopeConstants.RunTimeMode RuntimeMode,
+      MacroscopeConstants.RunTimeMode RunTimeMode,
       IMacroscopeTaskController TaskController
     )
     {
       this.SuppressDebugMsg = false;
       this.TaskController = TaskController;
-      InitializeJobMaster( RuntimeMode );
+      InitializeJobMaster( RunTimeMode: RunTimeMode );
     }
 
     /**************************************************************************/
 
-    void InitializeJobMaster ( MacroscopeConstants.RunTimeMode iRuntimeMode )
+    private void InitializeJobMaster ( MacroscopeConstants.RunTimeMode RunTimeMode )
     {
 
-      this.RuntimeMode = iRuntimeMode;
+      this.RunTimeMode = RunTimeMode;
       
       this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
       
@@ -182,14 +182,14 @@ namespace SEOMacroscope
 
     /** Runtime Mode **********************************************************/
 
-    public void SetRuntimeMode ( MacroscopeConstants.RunTimeMode iRuntimeMode )
+    public void SetRunTimeMode ( MacroscopeConstants.RunTimeMode RunTimeMode )
     {
-      this.RuntimeMode = iRuntimeMode;
+      this.RunTimeMode = RunTimeMode;
     }
 
-    public MacroscopeConstants.RunTimeMode GetRuntimeMode ()
+    public MacroscopeConstants.RunTimeMode GetRunTimeMode ()
     {
-      return( this.RuntimeMode );
+      return( this.RunTimeMode );
     }
 
     /** Credentials **********************************************************/
@@ -201,9 +201,9 @@ namespace SEOMacroscope
 
     /** Include/Exclude URLs **************************************************/
 
-    public void SetIncludeExcludeUrls ( MacroscopeIncludeExcludeUrls IncludeExcludeUrlsNew )
+    public void SetIncludeExcludeUrls ( MacroscopeIncludeExcludeUrls IncludeExcludeUrls )
     {
-      this.IncludeExcludeUrls = IncludeExcludeUrlsNew;
+      this.IncludeExcludeUrls = IncludeExcludeUrls;
     }
 
     public MacroscopeIncludeExcludeUrls GetIncludeExcludeUrls ()
@@ -353,9 +353,9 @@ namespace SEOMacroscope
 
     /** Track Thread Count ****************************************************/
 
-    void SetThreadsStop ( Boolean bState )
+    void SetThreadsStop ( Boolean Stopped )
     {
-      this.ThreadsStop = bState;
+      this.ThreadsStop = Stopped;
     }
 
     public Boolean GetThreadsStop ()
@@ -437,9 +437,9 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, sUrl );
     }
 
-    public List<string> DrainDisplayQueueAsList ( string sNamedQueueName )
+    public List<string> DrainDisplayQueueAsList ( string NamedQueueName )
     {
-      return( this.NamedQueue.DrainNamedQueueItemsAsList( sNamedQueueName ) );
+      return( this.NamedQueue.DrainNamedQueueItemsAsList( NamedQueueName ) );
     }
 
     /** URL Queue *************************************************************/
@@ -490,7 +490,7 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
-        string sUrl = msDoc.GetUrl();
+        string Url = msDoc.GetUrl();
 
         switch( msDoc.GetStatusCode() )
         {
@@ -498,7 +498,7 @@ namespace SEOMacroscope
         // Bogus Range
 
           case 0:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
 
         // 200 Range
@@ -509,43 +509,43 @@ namespace SEOMacroscope
         // 400 Range
 
           case HttpStatusCode.BadRequest:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.Unauthorized:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.Forbidden:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.NotFound:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.Gone:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.RequestTimeout:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.RequestUriTooLong:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
 
         // 500 Range
 
           case HttpStatusCode.InternalServerError:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.NotImplemented:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.BadGateway:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.ServiceUnavailable:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
           case HttpStatusCode.GatewayTimeout:
-            this.ResetLink( sUrl );
+            this.ResetLink( Url );
             break;
 
         // Default
@@ -559,30 +559,30 @@ namespace SEOMacroscope
 
     }
 
-    public void RetryLink ( string sUrl )
+    public void RetryLink ( string Url )
     {
-      this.ResetLink( sUrl );
+      this.ResetLink( Url );
     }
 
-    private void ResetLink ( string sUrl )
+    private void ResetLink ( string Url )
     {
 
-      MacroscopeDocument msDoc = this.DocCollection.GetDocument( sUrl );
+      MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
 
       if( msDoc != null )
       {
 
         msDoc.SetIsDirty();
 
-        this.ResetHistoryItem( sUrl );
+        this.ResetHistoryItem( Url );
 
-        this.AddUrlQueueItem( sUrl );
+        this.AddUrlQueueItem( Url );
 
       }
       else
       {
 
-        DebugMsg( string.Format( "ResetLink ERROR: {0}", sUrl ) );
+        DebugMsg( string.Format( "ResetLink ERROR: {0}", Url ) );
 
       }
 
@@ -590,9 +590,9 @@ namespace SEOMacroscope
 
     /** Start URL *************************************************************/
 
-    public void SetStartUrl ( string sUrl )
+    public void SetStartUrl ( string Url )
     {
-      this.StartUrl = sUrl;
+      this.StartUrl = Url;
     }
 
     public string GetStartUrl ()
@@ -607,9 +607,9 @@ namespace SEOMacroscope
       return( this.Depth );
     }
 
-    public void SetGetDepth ( int iValue )
+    public void SetGetDepth ( int Value )
     {
-      this.Depth = iValue;
+      this.Depth = Value;
     }
 
     /** Page Limit ************************************************************/
@@ -621,9 +621,9 @@ namespace SEOMacroscope
 
     /** Page Limit Count ******************************************************/
 
-    public void SetPageLimitCount ( int iValue )
+    public void SetPageLimitCount ( int Value )
     {
-      this.PageLimitCount = iValue;
+      this.PageLimitCount = Value;
     }
 
     public int GetPageLimitCount ()
@@ -765,45 +765,45 @@ namespace SEOMacroscope
 
     /** History ***************************************************************/
 
-    public void AddHistoryItem ( string sUrl )
+    public void AddHistoryItem ( string Url )
     {
-      if( !this.History.ContainsKey( sUrl ) )
+      if( !this.History.ContainsKey( Url ) )
       {
         lock( this.History )
         {
-          this.History.Add( sUrl, false );
+          this.History.Add( Url, false );
         }
       }
     }
     
-    public void VisitedHistoryItem ( string sUrl )
+    public void VisitedHistoryItem ( string Url )
     {
-      if( this.History.ContainsKey( sUrl ) )
+      if( this.History.ContainsKey( Url ) )
       {
         lock( this.History )
         {
-          this.History[ sUrl ] = true;
+          this.History[ Url ] = true;
         }
       }
     }
 
-    public void ResetHistoryItem ( string sUrl )
+    public void ResetHistoryItem ( string Url )
     {
-      if( this.History.ContainsKey( sUrl ) )
+      if( this.History.ContainsKey( Url ) )
       {
         lock( this.History )
         {
-          this.History[ sUrl ] = false;
+          this.History[ Url ] = false;
         }
       }
     }
 
-    public Boolean SeenHistoryItem ( string sUrl )
+    public Boolean SeenHistoryItem ( string Url )
     {
       Boolean bSeen = false;
-      if( this.History.ContainsKey( sUrl ) )
+      if( this.History.ContainsKey( Url ) )
       {
-        bSeen = this.History[ sUrl ];
+        bSeen = this.History[ Url ];
       }
       return( bSeen );
     }
@@ -876,10 +876,10 @@ namespace SEOMacroscope
 
     }
 
-    public void UpdateProgress ( string Url, Boolean bState )
+    public void UpdateProgress ( string Url, Boolean State )
     {
 
-      if( bState && this.AllowedHosts.IsAllowedFromUrl( Url ) )
+      if( State && this.AllowedHosts.IsAllowedFromUrl( Url ) )
       {
 
         DebugMsg( string.Format( "UpdateProgress: INTERNAL: {0}", Url ) );
@@ -919,7 +919,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "UpdateProgress: EXTERNAL: {0} :: {1}", bState, Url ) );
+        DebugMsg( string.Format( "UpdateProgress: EXTERNAL: {0} :: {1}", State, Url ) );
       }
 
     }
@@ -957,13 +957,13 @@ namespace SEOMacroscope
       return( this.Locales );
     }
 
-    public void AddLocales ( string sLocale )
+    public void AddLocales ( string Locale )
     {
-      if( !this.Locales.ContainsKey( sLocale ) )
+      if( !this.Locales.ContainsKey( Locale ) )
       {
         lock( this.Locales )
         {
-          this.Locales[ sLocale ] = sLocale;
+          this.Locales[ Locale ] = Locale;
         }
       }
     }
@@ -975,9 +975,9 @@ namespace SEOMacroscope
       return( this.Robots );
     }
 
-    void SetCrawlDelay ( string sUrl )
+    void SetCrawlDelay ( string Url )
     {
-      this.CrawlDelay = this.Robots.GetCrawlDelay( sUrl );
+      this.CrawlDelay = this.Robots.GetCrawlDelay( Url );
     }
 
     public int GetCrawlDelay ()
@@ -985,11 +985,11 @@ namespace SEOMacroscope
       return( this.CrawlDelay );
     }
 
-    public void ProbeRobotsFile ( string sUrl )
+    public void ProbeRobotsFile ( string Url )
     {
       if( MacroscopePreferencesManager.GetFollowSitemapLinks() )
       {
-        List<string> lSitemaps = Robots.GetSitemapsAsList( sUrl );
+        List<string> lSitemaps = Robots.GetSitemapsAsList( Url );
         if( lSitemaps.Count > 0 )
         {
           for( int i = 0 ; i < lSitemaps.Count ; i++ )
@@ -1000,24 +1000,24 @@ namespace SEOMacroscope
       }
     }
 
-    public void AddToBlockedByRobots ( string sUrl )
+    public void AddToBlockedByRobots ( string Url )
     {
-      if( !this.BlockedByRobots.ContainsKey( sUrl ) )
+      if( !this.BlockedByRobots.ContainsKey( Url ) )
       {
         lock( this.BlockedByRobots )
         {
-          this.BlockedByRobots[ sUrl ] = true;
+          this.BlockedByRobots[ Url ] = true;
         }
       }
     }
 
-    public void RemoveFromBlockedByRobots ( string sUrl )
+    public void RemoveFromBlockedByRobots ( string Url )
     {
-      if( this.BlockedByRobots.ContainsKey( sUrl ) )
+      if( this.BlockedByRobots.ContainsKey( Url ) )
       {
         lock( this.BlockedByRobots )
         {
-          this.BlockedByRobots.Remove( sUrl );
+          this.BlockedByRobots.Remove( Url );
         }
       }
     }

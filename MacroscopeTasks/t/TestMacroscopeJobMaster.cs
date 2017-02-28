@@ -40,7 +40,7 @@ namespace SEOMacroscope
     public void TestIsWithinParentDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
@@ -85,7 +85,7 @@ namespace SEOMacroscope
     public void TestIsNotWithinParentDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
@@ -120,7 +120,7 @@ namespace SEOMacroscope
     public void TestIsWithinChildDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
@@ -149,7 +149,7 @@ namespace SEOMacroscope
     public void TestIsNotWithinChildDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode.LIVE, this );
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html";
 

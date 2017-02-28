@@ -186,34 +186,34 @@ namespace SEOMacroscope
 
     /** Check Include/Exclude URL *********************************************/
 
-    Boolean CheckIncludeExcludeUrl ( string sUrl )
+    Boolean CheckIncludeExcludeUrl ( string Url )
     {
 
       Boolean bSuccess = true;
 
       if( this.IncludeExcludeUrls.UseIncludeUrlPatterns() )
       {
-        if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( sUrl ) )
+        if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url ) )
         {
-          DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES INCLUDE URL: {0}", sUrl ) );
+          DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES INCLUDE URL: {0}", Url ) );
         }
         else
         {
-          DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", sUrl ) );
+          DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", Url ) );
           bSuccess = false;
         }
       }
 
       if( this.IncludeExcludeUrls.UseExcludeUrlPatterns() )
       {
-        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( sUrl ) )
+        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) )
         {
-          DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", sUrl ) );
+          DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", Url ) );
           bSuccess = false;
         }
         else
         {
-          DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH EXCLUDE URL: {0}", sUrl ) );
+          DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH EXCLUDE URL: {0}", Url ) );
         }
       }
 
@@ -223,10 +223,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    Boolean Fetch ( string sUrl )
+    Boolean Fetch ( string Url )
     {
 
-      MacroscopeDocument msDoc = this.DocCollection.GetDocument( sUrl );
+      MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
       Boolean bResult = false;
 
       if( msDoc != null )
@@ -245,7 +245,7 @@ namespace SEOMacroscope
             {
               msDoc = new MacroscopeDocument (
                 Credential: Credential,
-                Url: sUrl
+                Url: Url
               );
             }
 
@@ -257,39 +257,39 @@ namespace SEOMacroscope
       else
       {
 
-        msDoc = new MacroscopeDocument ( sUrl );
+        msDoc = new MacroscopeDocument ( Url );
 
       }
 
-      if( !MacroscopeDnsTools.CheckValidHostname( sUrl ) )
+      if( !MacroscopeDnsTools.CheckValidHostname( Url ) )
       {
         DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
         msDoc.SetStatusCode( HttpStatusCode.BadGateway );
         return( bResult );
       }
 
-      if( !this.JobMaster.GetRobots().ApplyRobotRule( sUrl ) )
+      if( !this.JobMaster.GetRobots().ApplyRobotRule( Url ) )
       {
-        DebugMsg( string.Format( "Disallowed by robots.txt: {0}", sUrl ) );
-        this.JobMaster.AddToBlockedByRobots( sUrl );
+        DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
+        this.JobMaster.AddToBlockedByRobots( Url );
         return( bResult );
       }
       else
       {
-        this.JobMaster.RemoveFromBlockedByRobots( sUrl );
+        this.JobMaster.RemoveFromBlockedByRobots( Url );
       }
 
-      this.JobMaster.AddHistoryItem( sUrl );
+      this.JobMaster.AddHistoryItem( Url );
 
-      if( this.AllowedHosts.IsExternalUrl( sUrl ) )
+      if( this.AllowedHosts.IsExternalUrl( Url ) )
       {
-        DebugMsg( string.Format( "IsExternalUrl: {0}", sUrl ) );
+        DebugMsg( string.Format( "IsExternalUrl: {0}", Url ) );
         msDoc.SetIsExternal( true );
       }
 
-      if( this.DocCollection.ContainsDocument( sUrl ) )
+      if( this.DocCollection.ContainsDocument( Url ) )
       {
-        if( !this.DocCollection.GetDocument( sUrl ).GetIsDirty() )
+        if( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
         {
           return( bResult );
         }
@@ -297,7 +297,7 @@ namespace SEOMacroscope
 
       if( this.JobMaster.GetDepth() > 0 )
       {
-        int Depth = MacroscopeUrlTools.FindUrlDepth( sUrl );
+        int Depth = MacroscopeUrlTools.FindUrlDepth( Url );
         if( Depth > this.JobMaster.GetDepth() )
         {
           DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
@@ -308,7 +308,7 @@ namespace SEOMacroscope
       if( msDoc.Execute() )
       {
 
-        this.DocCollection.AddDocument( sUrl, msDoc );
+        this.DocCollection.AddDocument( Url, msDoc );
 
         if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized )
         {
@@ -360,7 +360,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "EXECUTE FAILED: {0}", sUrl ) );
+        DebugMsg( string.Format( "EXECUTE FAILED: {0}", Url ) );
       }
 
       return( bResult );
@@ -393,11 +393,11 @@ namespace SEOMacroscope
     {
 
       if(
-        ( this.JobMaster.GetRuntimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
-        || ( this.JobMaster.GetRuntimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
-        || ( this.JobMaster.GetRuntimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
+        ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
+        || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
+        || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
       {
-        DebugMsg( string.Format( "ProcessOutlinks LISTMODE: {0}", this.JobMaster.GetRuntimeMode() ) );
+        DebugMsg( string.Format( "ProcessOutlinks LISTMODE: {0}", this.JobMaster.GetRunTimeMode() ) );
         return;
       }
 

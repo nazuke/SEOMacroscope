@@ -175,6 +175,7 @@ namespace SEOMacroscope
 			// splitContainerSiteOverview.Panel1
 			// 
 			this.splitContainerSiteOverview.Panel1.Controls.Add(this.treeViewSiteOverview);
+			this.splitContainerSiteOverview.Panel2Collapsed = true;
 			this.splitContainerSiteOverview.Size = new System.Drawing.Size(300, 300);
 			this.splitContainerSiteOverview.SplitterDistance = 200;
 			this.splitContainerSiteOverview.SplitterIncrement = 10;
@@ -207,6 +208,7 @@ namespace SEOMacroscope
 			this.tableLayoutPanelSiteSpeed.Controls.Add(this.toolStrip1, 0, 1);
 			this.tableLayoutPanelSiteSpeed.Controls.Add(this.tabControlSiteSpeed, 0, 0);
 			this.tableLayoutPanelSiteSpeed.Location = new System.Drawing.Point(20, 20);
+			this.tableLayoutPanelSiteSpeed.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelSiteSpeed.Name = "tableLayoutPanelSiteSpeed";
 			this.tableLayoutPanelSiteSpeed.RowCount = 2;
 			this.tableLayoutPanelSiteSpeed.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -217,12 +219,14 @@ namespace SEOMacroscope
 			// toolStrip1
 			// 
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStrip1.GripMargin = new System.Windows.Forms.Padding(0);
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripLabelSiteSpeedAverage});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 342);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Padding = new System.Windows.Forms.Padding(3);
+			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
 			this.toolStrip1.Size = new System.Drawing.Size(400, 28);
 			this.toolStrip1.TabIndex = 3;
 			this.toolStrip1.Text = "toolStrip1";
@@ -239,6 +243,7 @@ namespace SEOMacroscope
 			this.tabControlSiteSpeed.Controls.Add(this.tabPageSiteSpeedSlowest);
 			this.tabControlSiteSpeed.Controls.Add(this.tabPageSiteSpeedFastest);
 			this.tabControlSiteSpeed.Location = new System.Drawing.Point(50, 21);
+			this.tabControlSiteSpeed.Margin = new System.Windows.Forms.Padding(0);
 			this.tabControlSiteSpeed.Name = "tabControlSiteSpeed";
 			this.tabControlSiteSpeed.SelectedIndex = 0;
 			this.tabControlSiteSpeed.Size = new System.Drawing.Size(300, 300);
@@ -317,7 +322,6 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysis.Controls.Add(this.tabControlKeywordAnalysisPhrases);
 			this.tabPageKeywordAnalysis.Location = new System.Drawing.Point(4, 22);
 			this.tabPageKeywordAnalysis.Name = "tabPageKeywordAnalysis";
-			this.tabPageKeywordAnalysis.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageKeywordAnalysis.Size = new System.Drawing.Size(432, 414);
 			this.tabPageKeywordAnalysis.TabIndex = 2;
 			this.tabPageKeywordAnalysis.Text = "Keyword Analysis";
@@ -329,6 +333,7 @@ namespace SEOMacroscope
 			this.tabControlKeywordAnalysisPhrases.Controls.Add(this.tabPageKeywordAnalysisPhrases3);
 			this.tabControlKeywordAnalysisPhrases.Controls.Add(this.tabPageKeywordAnalysisPhrases4);
 			this.tabControlKeywordAnalysisPhrases.Location = new System.Drawing.Point(20, 20);
+			this.tabControlKeywordAnalysisPhrases.Margin = new System.Windows.Forms.Padding(0);
 			this.tabControlKeywordAnalysisPhrases.Name = "tabControlKeywordAnalysisPhrases";
 			this.tabControlKeywordAnalysisPhrases.SelectedIndex = 0;
 			this.tabControlKeywordAnalysisPhrases.Size = new System.Drawing.Size(400, 300);
@@ -342,7 +347,7 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysisPhrases1.Name = "tabPageKeywordAnalysisPhrases1";
 			this.tabPageKeywordAnalysisPhrases1.Size = new System.Drawing.Size(392, 274);
 			this.tabPageKeywordAnalysisPhrases1.TabIndex = 0;
-			this.tabPageKeywordAnalysisPhrases1.Text = "One Word Terms";
+			this.tabPageKeywordAnalysisPhrases1.Text = "One Word";
 			this.tabPageKeywordAnalysisPhrases1.UseVisualStyleBackColor = true;
 			// 
 			// listViewKeywordAnalysis1
@@ -375,7 +380,7 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysisPhrases2.Name = "tabPageKeywordAnalysisPhrases2";
 			this.tabPageKeywordAnalysisPhrases2.Size = new System.Drawing.Size(392, 274);
 			this.tabPageKeywordAnalysisPhrases2.TabIndex = 1;
-			this.tabPageKeywordAnalysisPhrases2.Text = "Two Word Terms";
+			this.tabPageKeywordAnalysisPhrases2.Text = "Two Words";
 			this.tabPageKeywordAnalysisPhrases2.UseVisualStyleBackColor = true;
 			// 
 			// listViewKeywordAnalysis2
@@ -408,7 +413,7 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysisPhrases3.Name = "tabPageKeywordAnalysisPhrases3";
 			this.tabPageKeywordAnalysisPhrases3.Size = new System.Drawing.Size(392, 274);
 			this.tabPageKeywordAnalysisPhrases3.TabIndex = 2;
-			this.tabPageKeywordAnalysisPhrases3.Text = "Three Word Terms";
+			this.tabPageKeywordAnalysisPhrases3.Text = "Three Words";
 			this.tabPageKeywordAnalysisPhrases3.UseVisualStyleBackColor = true;
 			// 
 			// listViewKeywordAnalysis3
@@ -441,7 +446,7 @@ namespace SEOMacroscope
 			this.tabPageKeywordAnalysisPhrases4.Name = "tabPageKeywordAnalysisPhrases4";
 			this.tabPageKeywordAnalysisPhrases4.Size = new System.Drawing.Size(392, 274);
 			this.tabPageKeywordAnalysisPhrases4.TabIndex = 3;
-			this.tabPageKeywordAnalysisPhrases4.Text = "Four Word Terms";
+			this.tabPageKeywordAnalysisPhrases4.Text = "Four Words";
 			this.tabPageKeywordAnalysisPhrases4.UseVisualStyleBackColor = true;
 			// 
 			// listViewKeywordAnalysis4
