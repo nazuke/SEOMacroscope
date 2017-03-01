@@ -90,6 +90,7 @@ Section uninstall
 	###	BEGIN: Program Files
 
 	Delete "$INSTDIR\LICENSE"
+	Delete "$INSTDIR\README.md"
 
 	Delete "$INSTDIR\PdfSharp.Charting.resources.dll"
 	Delete "$INSTDIR\PdfSharp.resources.dll"
