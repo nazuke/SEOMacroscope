@@ -143,11 +143,6 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentPDF.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentVideo.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentXml.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeOutlink\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopeDocument\t\TestMacroscopeDocument.cs" />
     <Compile Include="MacroscopeCredentials\MacroscopeCredential.cs" />
     <Compile Include="MacroscopeCredentials\MacroscopeCredentialsHttp.cs" />
@@ -211,6 +206,11 @@
     <Compile Include="MacroscopeHosts\MacroscopeDnsTools.cs" />
     <Compile Include="MacroscopeHosts\MacroscopeDomainWrangler.cs" />
     <Compile Include="MacroscopeHosts\t\TestMacroscopeDomainWrangler.cs" />
+    <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
+    <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
+    <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
+    <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
+    <Compile Include="MacroscopeOutlink\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -347,10 +347,7 @@
     <Folder Include="docs\resources" />
     <Folder Include="MacroscopeAnalysis\t" />
     <Folder Include="MacroscopeDocument" />
-    <Folder Include="MacroscopeDocument\MacroscopeHyperlinks" />
-    <Folder Include="MacroscopeDocument\MacroscopeHyperlinks\MacroscopeHyperlink" />
     <Folder Include="MacroscopeDocument\MacroscopeDocument" />
-    <Folder Include="MacroscopeDocument\MacroscopeOutlink" />
     <Folder Include="MacroscopeDocument\t" />
     <Folder Include="MacroscopeCredentials" />
     <Folder Include="MacroscopeCredentials\t" />
@@ -362,6 +359,9 @@
     <Folder Include="MacroscopeForms\MacroscopeLicenceForm" />
     <Folder Include="MacroscopeForms\MacroscopeGetCredentialsHttp" />
     <Folder Include="MacroscopeHosts\t" />
+    <Folder Include="MacroscopeHyperlinks" />
+    <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />
+    <Folder Include="MacroscopeOutlink" />
     <Folder Include="MacroscopeReports\MacroscopeExcelPageContentsReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />

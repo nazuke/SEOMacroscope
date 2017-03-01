@@ -45,7 +45,9 @@ namespace SEOMacroscope
     private MacroscopeNamedQueue NamedQueue;
     private MacroscopeSearchIndex SearchIndex;
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
-      
+
+    private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn; // Page URL => From URL
+
     private Dictionary<string,Boolean> StatsHistory;
     private Dictionary<string,int> StatsHostnames;
     private Dictionary<string,int> StatsTitles;
