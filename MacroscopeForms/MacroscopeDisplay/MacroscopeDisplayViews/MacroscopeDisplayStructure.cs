@@ -290,7 +290,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ListViewResizeColumnsInitial ()
+    private void ListViewResizeColumnsInitial ()
     {
 
       Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
@@ -317,7 +317,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ListViewResizeColumns ()
+    private void ListViewResizeColumns ()
     {
 
       List<string> lColDataWidth = new List<string> () {

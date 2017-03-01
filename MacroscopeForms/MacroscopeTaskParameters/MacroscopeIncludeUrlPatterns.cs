@@ -30,37 +30,49 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeIncludeUrlPatterns.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeIncludeUrlPatterns.
+  /// </summary>
 
-	public partial class MacroscopeIncludeUrlPatterns : Form
-	{
+  public partial class MacroscopeIncludeUrlPatterns : Form
+  {
 
-		/**************************************************************************/
-
-		public MacroscopeIncludeUrlPatterns ()
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-		}
-    void RichTextBox1TextChanged ( object sender, EventArgs e )
-    {
+    /**************************************************************************/
     
-    }
-    void Label1Click ( object sender, EventArgs e )
+    private string PatternsText;
+    
+    /**************************************************************************/
+
+    public MacroscopeIncludeUrlPatterns ( string PatternsText )
     {
-  
+
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+
+      this.PatternsText = PatternsText;
+      
+      this.Shown += this.CallbackIncludeUrlPatternsShown;
+                
     }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+    private void CallbackIncludeUrlPatternsShown ( object sender, EventArgs e )
+    {
+      if( this.PatternsText.Length > 0 )
+      {
+        this.textBoxPatterns.Text = this.PatternsText;
+      }
+    }
+
+    /**************************************************************************/
+
+    public string GetPatternsText ()
+    {
+      return( this.textBoxPatterns.Text );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

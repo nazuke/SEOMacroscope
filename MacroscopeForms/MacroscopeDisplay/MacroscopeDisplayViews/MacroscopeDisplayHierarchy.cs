@@ -118,7 +118,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void RenderTreeView (
+    private void RenderTreeView (
       MacroscopeDocumentCollection DocCollection,
       List<string> UrlList
     )

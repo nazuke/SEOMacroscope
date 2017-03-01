@@ -88,6 +88,7 @@ namespace SEOMacroscope
 			// 
 			// textBoxPatterns
 			// 
+			this.textBoxPatterns.AcceptsReturn = true;
 			this.textBoxPatterns.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.textBoxPatterns.Location = new System.Drawing.Point(20, 60);
 			this.textBoxPatterns.Margin = new System.Windows.Forms.Padding(20, 0, 20, 20);
@@ -116,7 +117,7 @@ namespace SEOMacroscope
 			this.buttonCancel.Location = new System.Drawing.Point(380, 13);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 1;
+			this.buttonCancel.TabIndex = 2;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
@@ -126,7 +127,7 @@ namespace SEOMacroscope
 			this.buttonOK.Location = new System.Drawing.Point(299, 13);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
-			this.buttonOK.TabIndex = 0;
+			this.buttonOK.TabIndex = 1;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			// 
@@ -139,7 +140,6 @@ namespace SEOMacroscope
 			this.label1.Size = new System.Drawing.Size(444, 20);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Enter patterns one per line:";
-			this.label1.Click += new System.EventHandler(this.Label1Click);
 			// 
 			// MacroscopeIncludeUrlPatterns
 			// 

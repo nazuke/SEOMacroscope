@@ -125,7 +125,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    void RenderKeywordAnalysisListView (
+    private void RenderKeywordAnalysisListView (
       ListView lvListView,
       Dictionary<string,int> DicTerms
     )

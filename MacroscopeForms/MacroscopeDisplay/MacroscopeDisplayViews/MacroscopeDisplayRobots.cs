@@ -109,7 +109,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void RenderListView ( string sUrl, Boolean bBlocked, Boolean bInternal )
+    private void RenderListView ( string sUrl, Boolean bBlocked, Boolean bInternal )
     {
 
       string sPairKey = string.Join( "", sUrl );

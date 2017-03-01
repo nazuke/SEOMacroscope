@@ -106,7 +106,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void RenderListView ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> LocalesList )
+    private void RenderListView ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> LocalesList )
     {
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();

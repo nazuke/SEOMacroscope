@@ -369,7 +369,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessHrefLangLanguages ( MacroscopeDocument msDoc )
+    private void ProcessHrefLangLanguages ( MacroscopeDocument msDoc )
     {
 
       string sLocale = msDoc.GetLocale();
@@ -389,7 +389,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessOutlinks ( MacroscopeDocument msDoc )
+    private void ProcessOutlinks ( MacroscopeDocument msDoc )
     {
 
       if(

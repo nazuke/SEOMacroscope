@@ -30,29 +30,49 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeExcludeUrlPatterns.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeExcludeUrlPatterns.
+  /// </summary>
 
-	public partial class MacroscopeExcludeUrlPatterns : Form
-	{
+  public partial class MacroscopeExcludeUrlPatterns : Form
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeExcludeUrlPatterns ()
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
+    private string PatternsText;
 
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public MacroscopeExcludeUrlPatterns ( string PatternsText )
+    {
 
-	}
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+
+      this.PatternsText = PatternsText;
+      
+      this.Shown += this.CallbackIncludeUrlPatternsShown;
+
+    }
+
+    /**************************************************************************/
+
+    private void CallbackIncludeUrlPatternsShown ( object sender, EventArgs e )
+    {
+      if( this.PatternsText.Length > 0 )
+      {
+        this.textBoxPatterns.Text = this.PatternsText;
+      }
+    }
+
+    /**************************************************************************/
+
+    public string GetPatternsText ()
+    {
+      return( this.textBoxPatterns.Text );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

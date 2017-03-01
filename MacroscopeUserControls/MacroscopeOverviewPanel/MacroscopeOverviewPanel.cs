@@ -139,7 +139,7 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
+		private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
 		{
 
 			ListView lvListView = sender as ListView;

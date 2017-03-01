@@ -181,7 +181,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    void RenderSiteSpeedListView (
+    private void RenderSiteSpeedListView (
       ListView lvListView,
       SortedList<decimal,string> SortedListSpeed
     )

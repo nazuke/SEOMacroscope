@@ -50,7 +50,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 	      
-    void MacroscopeGetCredentialsHttpShown ( object sender, EventArgs e )
+    private void MacroscopeGetCredentialsHttpShown ( object sender, EventArgs e )
     {
 
       this.textBoxUsername.Focus();

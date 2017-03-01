@@ -36,7 +36,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessPdfPage ()
+    private void ProcessPdfPage ()
     {
 
       HttpWebRequest req = null;

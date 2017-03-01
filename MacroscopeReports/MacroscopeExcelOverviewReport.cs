@@ -61,7 +61,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void BuildWorksheet (
+    private void BuildWorksheet (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string sWorksheetLabel

@@ -253,7 +253,7 @@ namespace SEOMacroscope
 
     /** Manage Workers ********************************************************/
 
-    void SpawnWorkers ()
+    private void SpawnWorkers ()
     {
 
       Boolean bDoRun = true;
@@ -308,7 +308,7 @@ namespace SEOMacroscope
 
     }
 
-    void StartWorker ( object thContext )
+    private void StartWorker ( object thContext )
     {
       if( !this.GetThreadsStop() )
       {
@@ -353,7 +353,7 @@ namespace SEOMacroscope
 
     /** Track Thread Count ****************************************************/
 
-    void SetThreadsStop ( Boolean Stopped )
+    private void SetThreadsStop ( Boolean Stopped )
     {
       this.ThreadsStop = Stopped;
     }
@@ -363,19 +363,19 @@ namespace SEOMacroscope
       return( this.ThreadsStop );
     }
 
-    void AdjustThreadsMax ()
+    private void AdjustThreadsMax ()
     {
       ThreadsMax = MacroscopePreferencesManager.GetMaxThreads();
     }
 
-    void IncRunningThreads ()
+    private void IncRunningThreads ()
     {
       int iThreadId = Thread.CurrentThread.ManagedThreadId;
       this.ThreadsDict[ iThreadId ] = true;
       this.ThreadsRunning++;
     }
 
-    void DecRunningThreads ()
+    private void DecRunningThreads ()
     {
       if( this.ThreadsRunning > 0 )
       {
@@ -975,7 +975,7 @@ namespace SEOMacroscope
       return( this.Robots );
     }
 
-    void SetCrawlDelay ( string Url )
+    private void SetCrawlDelay ( string Url )
     {
       this.CrawlDelay = this.Robots.GetCrawlDelay( Url );
     }

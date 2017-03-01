@@ -88,6 +88,7 @@ namespace SEOMacroscope
 			// 
 			// textBoxPatterns
 			// 
+			this.textBoxPatterns.AcceptsReturn = true;
 			this.textBoxPatterns.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.textBoxPatterns.Location = new System.Drawing.Point(20, 60);
 			this.textBoxPatterns.Margin = new System.Windows.Forms.Padding(20, 0, 20, 20);

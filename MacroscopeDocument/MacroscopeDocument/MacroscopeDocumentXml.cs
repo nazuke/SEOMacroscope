@@ -37,7 +37,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessXmlPage ()
+    private void ProcessXmlPage ()
     {
 
       XmlDocument XmlDoc = null;
@@ -94,6 +94,7 @@ namespace SEOMacroscope
           sRawData = srRead.ReadToEnd();
           
           this.ContentLength = sRawData.Length; // May need to find bytes length
+          
           this.SetWasDownloaded( true );
         
         }
@@ -173,7 +174,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessSitemapXmlOutlinks ( XmlDocument XmlDoc )
+    private void ProcessSitemapXmlOutlinks ( XmlDocument XmlDoc )
     {
 
       XmlNodeList nlOutlinks = XmlDoc.GetElementsByTagName( "loc", MacroscopeConstants.SitemapXmlNamespace );
@@ -211,7 +212,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void AddSitemapXmlOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
+    private void AddSitemapXmlOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
     {
 
       MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, sType, bFollow );

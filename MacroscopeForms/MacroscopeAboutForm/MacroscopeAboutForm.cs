@@ -44,8 +44,15 @@ namespace SEOMacroscope
 		  
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-      this.labelVersionString.Text = string.Format( "Version {0}", ProductVersion );
+      this.Shown += this.CallbackAboutFormShown;
 
+    }
+
+    /**************************************************************************/
+
+    private void CallbackAboutFormShown ( object sender, EventArgs e )
+    {
+      this.labelVersionString.Text = string.Format( "Version {0}", ProductVersion );
     }
 
     /**************************************************************************/

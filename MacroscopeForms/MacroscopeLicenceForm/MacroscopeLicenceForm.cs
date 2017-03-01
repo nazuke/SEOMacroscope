@@ -46,13 +46,13 @@ namespace SEOMacroscope
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
       
-            this.Shown += this.MacroscopeLicenceFormShown;
+      this.Shown += this.CallbackLicenceFormShown;
       
     }
     
     /**************************************************************************/
 
-    private void MacroscopeLicenceFormShown ( object sender, EventArgs e )
+    private void CallbackLicenceFormShown ( object sender, EventArgs e )
     {
 
       string LicenceText;

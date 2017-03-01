@@ -35,7 +35,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessJavascriptPage ()
+    private void ProcessJavascriptPage ()
     {
 
       HttpWebRequest req = null;

@@ -223,7 +223,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void RemoveFromListView ( string sUrl )
+    private void RemoveFromListView ( string sUrl )
     {
 
       string sPairKey = sUrl;

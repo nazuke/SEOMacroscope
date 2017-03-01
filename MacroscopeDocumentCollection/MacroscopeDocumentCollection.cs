@@ -257,7 +257,7 @@ namespace SEOMacroscope
 
     /** Recalculate Stats Across DocCollection ********************************/
 
-    void StartRecalcTimer ()
+    private void StartRecalcTimer ()
     {
       this.DebugMsg( string.Format( "StartRecalcTimer: {0}", "STARTING..." ) );
       SemaphoreRecalc.Release( 1 );
@@ -270,7 +270,7 @@ namespace SEOMacroscope
       this.DebugMsg( string.Format( "StartRecalcTimer: {0}", "STARTED." ) );
     }
 
-    void StopRecalcTimer ()
+    private void StopRecalcTimer ()
     {
       try
       {
@@ -283,7 +283,7 @@ namespace SEOMacroscope
       }
     }
 
-    void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
+    private void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
     {
       try
       {
@@ -418,7 +418,7 @@ namespace SEOMacroscope
 
     /** Hyperlinks In *********************************************************/
 
-    void RecalculateLinksIn ( string sUrlTarget, MacroscopeDocument msDoc )
+    private void RecalculateLinksIn ( string sUrlTarget, MacroscopeDocument msDoc )
     {
 
       msDoc.ClearHyperlinksIn();
@@ -451,7 +451,7 @@ namespace SEOMacroscope
 
     /** Hostnames *************************************************************/
 
-    void ClearStatsHostnames ()
+    private void ClearStatsHostnames ()
     {
       this.StatsHostnames.Clear();
     }
@@ -479,7 +479,7 @@ namespace SEOMacroscope
       return( iValue );
     }
 
-    void RecalculateStatsHostnames ( MacroscopeDocument msDoc )
+    private void RecalculateStatsHostnames ( MacroscopeDocument msDoc )
     {
       string sUrl = msDoc.GetUrl();
       string sText = msDoc.GetHostname();
@@ -510,7 +510,7 @@ namespace SEOMacroscope
 
     /** Titles ****************************************************************/
 
-    void ClearStatsTitles ()
+    private void ClearStatsTitles ()
     {
       this.StatsTitles.Clear();
     }
@@ -526,7 +526,7 @@ namespace SEOMacroscope
       return( iValue );
     }
 
-    void RecalculateStatsTitles ( MacroscopeDocument msDoc )
+    private void RecalculateStatsTitles ( MacroscopeDocument msDoc )
     {
 
       Boolean bProcess;
@@ -573,7 +573,7 @@ namespace SEOMacroscope
 
     /** Descriptions **********************************************************/
 
-    void ClearStatsDescriptions ()
+    private void ClearStatsDescriptions ()
     {
       this.StatsDescriptions.Clear();
     }
@@ -589,7 +589,7 @@ namespace SEOMacroscope
       return( iValue );
     }
 
-    void RecalculateStatsDescriptions ( MacroscopeDocument msDoc )
+    private void RecalculateStatsDescriptions ( MacroscopeDocument msDoc )
     {
 
       Boolean bProcess;
@@ -636,7 +636,7 @@ namespace SEOMacroscope
 
     /** Keywords **************************************************************/
 
-    void ClearStatsKeywords ()
+    private void ClearStatsKeywords ()
     {
       this.StatsKeywords.Clear();
     }
@@ -652,7 +652,7 @@ namespace SEOMacroscope
       return( iValue );
     }
 
-    void RecalculateStatsKeywords ( MacroscopeDocument msDoc )
+    private void RecalculateStatsKeywords ( MacroscopeDocument msDoc )
     {
 
       Boolean bProcess;
@@ -694,7 +694,7 @@ namespace SEOMacroscope
 
     /** Warnings ****************************************************************/
 
-    void ClearStatsWarnings ()
+    private void ClearStatsWarnings ()
     {
       lock( this.StatsWarnings )
       {
@@ -715,7 +715,7 @@ namespace SEOMacroscope
       return( dicStats );
     }
 
-    void RecalculateStatsWarnings ( MacroscopeDocument msDoc )
+    private void RecalculateStatsWarnings ( MacroscopeDocument msDoc )
     {
 
       string sErrorCondition = msDoc.GetErrorCondition();
@@ -748,7 +748,7 @@ namespace SEOMacroscope
 
     /** Errors ****************************************************************/
 
-    void ClearStatsErrors ()
+    private void ClearStatsErrors ()
     {
       lock( this.StatsErrors )
       {
@@ -769,7 +769,7 @@ namespace SEOMacroscope
       return( dicStats );
     }
 
-    void RecalculateStatsErrors ( MacroscopeDocument msDoc )
+    private void RecalculateStatsErrors ( MacroscopeDocument msDoc )
     {
 
       string sErrorCondition = msDoc.GetErrorCondition();
@@ -802,7 +802,7 @@ namespace SEOMacroscope
 
     /** Checksums *************************************************************/
 
-    void ClearStatsChecksums ()
+    private void ClearStatsChecksums ()
     {
       lock( this.StatsChecksums )
       {
@@ -836,7 +836,7 @@ namespace SEOMacroscope
       return( dicStats );
     }
 
-    void RecalculateStatsChecksums ( MacroscopeDocument msDoc )
+    private void RecalculateStatsChecksums ( MacroscopeDocument msDoc )
     {
 
       string sChecksum = msDoc.GetChecksum();
@@ -1067,7 +1067,7 @@ namespace SEOMacroscope
       return( this.SearchIndex );
     }
 
-    void AddDocumentToSearchIndex ( MacroscopeDocument msDoc )
+    private void AddDocumentToSearchIndex ( MacroscopeDocument msDoc )
     {
       if( msDoc.GetIsHtml() )
       {

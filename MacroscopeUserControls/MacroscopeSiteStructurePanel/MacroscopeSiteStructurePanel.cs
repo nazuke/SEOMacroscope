@@ -94,7 +94,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
+    private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
     {
 
       ListView lvListView = sender as ListView;
@@ -122,11 +122,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void TabControlSiteStructureClick ( object sender, EventArgs e )
+    private void TabControlSiteStructureClick ( object sender, EventArgs e )
     {
     }
 
-    void TabControlKeywordAnalysisPhrasesClick ( object sender, EventArgs e )
+    private void TabControlKeywordAnalysisPhrasesClick ( object sender, EventArgs e )
     {
     }
 

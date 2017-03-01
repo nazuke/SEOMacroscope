@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessHtmlPage ()
+    private void ProcessHtmlPage ()
     {
 
       HtmlDocument HtmlDoc = null;
@@ -258,7 +258,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessHtmlCanonical ( HtmlDocument HtmlDoc )
+    private void ProcessHtmlCanonical ( HtmlDocument HtmlDoc )
     {
 
       HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/link[@rel='canonical']" );
@@ -287,7 +287,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessHtmlHyperlinksOut ( HtmlDocument HtmlDoc )
+    private void ProcessHtmlHyperlinksOut ( HtmlDocument HtmlDoc )
     {
 
       HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
@@ -360,7 +360,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessHtmlOutlinks ( HtmlDocument HtmlDoc )
+    private void ProcessHtmlOutlinks ( HtmlDocument HtmlDoc )
     {
 
       { // A HREF links ------------------------------------------------------//
@@ -693,7 +693,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void AddHtmlOutlink (
+    private void AddHtmlOutlink (
       string sRawUrl,
       string sAbsoluteUrl,
       MacroscopeConstants.OutlinkType OutlinkType,
@@ -719,7 +719,7 @@ namespace SEOMacroscope
 
     /// Reference: https://support.google.com/webmasters/answer/189077
 
-    void ExtractHrefLangAlternates ( HtmlDocument HtmlDoc )
+    private void ExtractHrefLangAlternates ( HtmlDocument HtmlDoc )
     {
 
       HtmlNodeCollection nlNodeList = HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
@@ -763,7 +763,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ExtractHtmlHeadings ( HtmlDocument HtmlDoc )
+    private void ExtractHtmlHeadings ( HtmlDocument HtmlDoc )
     {
       for( ushort iLevel = 1 ; iLevel <= 6 ; iLevel++ )
       {
@@ -823,7 +823,7 @@ namespace SEOMacroscope
 
     /** Extract Email Addresses ***********************************************/
 
-    void ExtractHtmlEmailAddresses ( HtmlDocument HtmlDoc )
+    private void ExtractHtmlEmailAddresses ( HtmlDocument HtmlDoc )
     {
       HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
       if( nNodes != null )
@@ -848,7 +848,7 @@ namespace SEOMacroscope
 
     /** Extract Telephone Numbers *********************************************/
 
-    void ExtractHtmlTelephoneNumbers ( HtmlDocument HtmlDoc )
+    private void ExtractHtmlTelephoneNumbers ( HtmlDocument HtmlDoc )
     {
       HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
       if( nNodes != null )

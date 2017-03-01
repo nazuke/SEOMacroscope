@@ -29,33 +29,206 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopePrefsForm.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopePrefsForm.
+  /// </summary>
 
-	public partial class MacroscopePrefsForm : Form
-	{
+  public partial class MacroscopePrefsForm : Form
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopePrefsForm ()
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
+    public MacroscopePrefsForm ()
+    {
 
-		}
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-		/**************************************************************************/
+      this.Shown += this.CallbackPrefsFormShown;
+		            
+    }
 
-		static void DebugMsg ( String sMsg )
-		{
-			System.Diagnostics.Debug.WriteLine( sMsg );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    private void CallbackPrefsFormShown ( object sender, EventArgs e )
+    {
 
-	}
+      MacroscopePrefsControl PrefsControl = this.macroscopePrefsControlInstance;
+		
+      this.buttonPrefsDefault.Click += this.SetPrefsFormControlFieldToDefaults;
+      
+      this.SetPrefsFormControlFields( PrefsControl: PrefsControl );
+
+    }
+
+    /**************************************************************************/
+
+    private void SetPrefsFormControlFieldToDefaults ( object sender, EventArgs e )
+    {
+
+      Button DefaultsButton = ( Button )sender;
+      MacroscopePrefsControl PrefsControl = this.macroscopePrefsControlInstance;
+
+      MacroscopePreferencesManager.SetDefaultValues();
+
+      this.SetPrefsFormControlFields( PrefsControl );
+
+    }
+
+    /**************************************************************************/
+        
+    private void SetPrefsFormControlFields ( MacroscopePrefsControl PrefsControl )
+    {
+
+      { //Configure Form Fields
+
+        // Spidering Control
+
+        PrefsControl.numericUpDownDepth.Minimum = -1;
+        PrefsControl.numericUpDownDepth.Maximum = 10000;
+
+        PrefsControl.numericUpDownPageLimit.Minimum = -1;
+        PrefsControl.numericUpDownPageLimit.Maximum = 10000;
+
+        PrefsControl.numericUpDownMaxRetries.Minimum = 0;
+        PrefsControl.numericUpDownMaxRetries.Maximum = 10;
+
+      }
+
+      {
+
+        // WebProxy Options
+
+        PrefsControl.textBoxHttpProxyHost.Text = MacroscopePreferencesManager.GetHttpProxyHost();
+        PrefsControl.numericUpDownHttpProxyPort.Value = MacroscopePreferencesManager.GetHttpProxyPort();
+
+        // Spidering Control
+
+        PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
+        PrefsControl.numericUpDownDepth.Value = MacroscopePreferencesManager.GetDepth();
+        PrefsControl.numericUpDownPageLimit.Value = MacroscopePreferencesManager.GetPageLimit();
+        PrefsControl.numericUpDownRequestTimeout.Value = ( Decimal )MacroscopePreferencesManager.GetRequestTimeout();
+        PrefsControl.numericUpDownMaxRetries.Value = ( Decimal )MacroscopePreferencesManager.GetMaxRetries();
+
+        PrefsControl.checkBoxCheckExternalLinks.Checked = MacroscopePreferencesManager.GetCheckExternalLinks();
+        PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
+        PrefsControl.checkBoxFollowSitemapLinks.Checked = MacroscopePreferencesManager.GetFollowSitemapLinks();
+        PrefsControl.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
+        PrefsControl.checkBoxFollowNoFollow.Checked = MacroscopePreferencesManager.GetFollowNoFollow();
+        PrefsControl.checkBoxFollowCanonicalLinks.Checked = MacroscopePreferencesManager.GetFollowCanonicalLinks();
+        PrefsControl.checkBoxFollowHrefLangLinks.Checked = MacroscopePreferencesManager.GetFollowHrefLangLinks();
+
+        PrefsControl.checkBoxFetchStylesheets.Checked = MacroscopePreferencesManager.GetFetchStylesheets();
+        PrefsControl.checkBoxFetchJavascripts.Checked = MacroscopePreferencesManager.GetFetchImages();
+        PrefsControl.checkBoxFetchImages.Checked = MacroscopePreferencesManager.GetFetchImages();
+        PrefsControl.checkBoxFetchPdfs.Checked = MacroscopePreferencesManager.GetFetchPdfs();
+        PrefsControl.checkBoxFetchAudio.Checked = MacroscopePreferencesManager.GetFetchAudio();
+        PrefsControl.checkBoxFetchVideo.Checked = MacroscopePreferencesManager.GetFetchVideo();
+        PrefsControl.checkBoxFetchXml.Checked = MacroscopePreferencesManager.GetFetchXml();
+        PrefsControl.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
+
+        // Analysis Options
+
+        PrefsControl.checkBoxCheckHreflangs.Checked = MacroscopePreferencesManager.GetCheckHreflangs();
+        PrefsControl.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
+        PrefsControl.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
+
+        // SEO Options
+
+        PrefsControl.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
+        PrefsControl.numericUpDownTitleMaxLen.Value = MacroscopePreferencesManager.GetTitleMaxLen();
+        PrefsControl.numericUpDownTitleMinWords.Value = MacroscopePreferencesManager.GetTitleMinWords();
+        PrefsControl.numericUpDownTitleMaxWords.Value = MacroscopePreferencesManager.GetTitleMaxWords();
+        PrefsControl.numericUpDownTitleMaxPixelWidth.Value = MacroscopePreferencesManager.GetTitleMaxPixelWidth();
+
+        PrefsControl.numericUpDownDescriptionMinLen.Value = MacroscopePreferencesManager.GetDescriptionMinLen();
+        PrefsControl.numericUpDownDescriptionMaxLen.Value = MacroscopePreferencesManager.GetDescriptionMaxLen();
+        PrefsControl.numericUpDownDescriptionMinWords.Value = MacroscopePreferencesManager.GetDescriptionMinWords();
+        PrefsControl.numericUpDownDescriptionMaxWords.Value = MacroscopePreferencesManager.GetDescriptionMaxWords();
+
+        PrefsControl.numericUpDownMaxHeadingDepth.Value = MacroscopePreferencesManager.GetMaxHeadingDepth();
+
+        PrefsControl.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
+
+      }
+
+    }
+
+    /**************************************************************************/
+        
+    public void SavePrefsFormControlFields ()
+    {
+
+      MacroscopePrefsControl PrefsControl = this.macroscopePrefsControlInstance;
+
+      // WebProxy Options
+
+      MacroscopePreferencesManager.SetHttpProxyHost( PrefsControl.textBoxHttpProxyHost.Text );
+      MacroscopePreferencesManager.SetHttpProxyPort( ( int )PrefsControl.numericUpDownHttpProxyPort.Value );
+
+      // Spidering Control
+
+      MacroscopePreferencesManager.SetMaxThreads( ( int )PrefsControl.numericUpDownMaxThreads.Value );
+      MacroscopePreferencesManager.SetDepth( ( int )PrefsControl.numericUpDownDepth.Value );
+      MacroscopePreferencesManager.SetPageLimit( ( int )PrefsControl.numericUpDownPageLimit.Value );
+      MacroscopePreferencesManager.SetRequestTimeout( ( int )PrefsControl.numericUpDownRequestTimeout.Value );
+      MacroscopePreferencesManager.SetMaxRetries( ( int )PrefsControl.numericUpDownMaxRetries.Value );
+
+      MacroscopePreferencesManager.SetCheckExternalLinks( PrefsControl.checkBoxCheckExternalLinks.Checked );
+      MacroscopePreferencesManager.SetFollowRobotsProtocol( PrefsControl.checkBoxFollowRobotsProtocol.Checked );
+      MacroscopePreferencesManager.SetFollowSitemapLinks( PrefsControl.checkBoxFollowSitemapLinks.Checked );
+      MacroscopePreferencesManager.SetFollowRedirects( PrefsControl.checkBoxFollowRedirects.Checked );
+      MacroscopePreferencesManager.SetFollowNoFollow( PrefsControl.checkBoxFollowNoFollow.Checked );
+      MacroscopePreferencesManager.SetFollowCanonicalLinks( PrefsControl.checkBoxFollowCanonicalLinks.Checked );
+      MacroscopePreferencesManager.SetFollowHrefLangLinks( PrefsControl.checkBoxFollowHrefLangLinks.Checked );
+
+      MacroscopePreferencesManager.SetFetchStylesheets( PrefsControl.checkBoxFetchStylesheets.Checked );
+      MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchJavascripts.Checked );
+      MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchImages.Checked );
+      MacroscopePreferencesManager.SetFetchPdfs( PrefsControl.checkBoxFetchPdfs.Checked );
+      MacroscopePreferencesManager.SetFetchAudio( PrefsControl.checkBoxFetchAudio.Checked );
+      MacroscopePreferencesManager.SetFetchVideo( PrefsControl.checkBoxFetchVideo.Checked );
+      MacroscopePreferencesManager.SetFetchXml( PrefsControl.checkBoxFetchXml.Checked );
+      MacroscopePreferencesManager.SetFetchBinaries( PrefsControl.checkBoxFetchBinaries.Checked );
+
+      // Analysis Options
+
+      MacroscopePreferencesManager.SetCheckHreflangs( PrefsControl.checkBoxCheckHreflangs.Checked );
+      MacroscopePreferencesManager.SetScanSitesInList( PrefsControl.checkBoxScanSitesInList.Checked );
+      MacroscopePreferencesManager.SetWarnAboutInsecureLinks( PrefsControl.checkBoxWarnAboutInsecureLinks.Checked );
+
+      // SEO Options
+
+      MacroscopePreferencesManager.SetTitleMinLen( ( int )PrefsControl.numericUpDownTitleMinLen.Value );
+      MacroscopePreferencesManager.SetTitleMaxLen( ( int )PrefsControl.numericUpDownTitleMaxLen.Value );
+      MacroscopePreferencesManager.SetTitleMinWords( ( int )PrefsControl.numericUpDownTitleMinWords.Value );
+      MacroscopePreferencesManager.SetTitleMaxWords( ( int )PrefsControl.numericUpDownTitleMaxWords.Value );
+      MacroscopePreferencesManager.SetTitleMaxPixelWidth( ( int )PrefsControl.numericUpDownTitleMaxPixelWidth.Value );
+
+      MacroscopePreferencesManager.SetDescriptionMinLen( ( int )PrefsControl.numericUpDownDescriptionMinLen.Value );
+      MacroscopePreferencesManager.SetDescriptionMaxLen( ( int )PrefsControl.numericUpDownDescriptionMaxLen.Value );
+      MacroscopePreferencesManager.SetDescriptionMinWords( ( int )PrefsControl.numericUpDownDescriptionMinWords.Value );
+      MacroscopePreferencesManager.SetDescriptionMaxWords( ( int )PrefsControl.numericUpDownDescriptionMaxWords.Value );
+
+      MacroscopePreferencesManager.SetMaxHeadingDepth( ( ushort )PrefsControl.numericUpDownMaxHeadingDepth.Value );
+
+      MacroscopePreferencesManager.SetAnalyzeKeywordsInText( PrefsControl.checkBoxAnalyzeKeywordsInText.Checked );
+
+      // Tidy Up
+
+      MacroscopePreferencesManager.SavePreferences();
+      MacroscopePreferencesManager.ConfigureHttpProxy();
+
+    }
+
+    /**************************************************************************/
+
+    private static void DebugMsg ( String sMsg )
+    {
+      System.Diagnostics.Debug.WriteLine( sMsg );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

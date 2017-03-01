@@ -299,7 +299,7 @@ namespace SEOMacroscope
       this.IsDirty = true;
     }
 
-    void ClearIsDirty ()
+    private void ClearIsDirty ()
     {
       this.IsDirty = false;
     }

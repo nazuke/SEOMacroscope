@@ -37,7 +37,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessCssPage ()
+    private void ProcessCssPage ()
     {
 
       HttpWebRequest req = null;
@@ -104,9 +104,9 @@ namespace SEOMacroscope
           }
          
           sRawData = srRead.ReadToEnd();
+
           this.ContentLength = sRawData.Length; // May need to find bytes length
-          //DebugMsg( string.Format( "sRawData: {0}", sRawData ) );
-          
+         
           this.SetWasDownloaded( true );
 
         }
@@ -187,7 +187,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
+    private void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
     {
 
       foreach( var rRule in ExCssStylesheet.StyleRules )
@@ -266,7 +266,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    void AddCssOutlink (
+    private void AddCssOutlink (
       string sRawUrl,
       string sAbsoluteUrl,
       MacroscopeConstants.OutlinkType OutlinkType,
