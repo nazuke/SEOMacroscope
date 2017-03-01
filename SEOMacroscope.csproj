@@ -87,7 +87,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ObjectModel" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -275,6 +274,7 @@
     <None Include="app.config" />
     <EmbeddedResource Include="LICENSE">
       <LogicalName>LICENCE</LogicalName>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="docs\index.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

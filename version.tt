@@ -18,4 +18,6 @@
 		sVersion = FileVersionInfo.GetVersionInfo( sExePath).ProductVersion;
 	}
 
-#>!define VERSION "<#= sVersion #>"
+#>
+
+!define VERSION "<#= sVersion #>"

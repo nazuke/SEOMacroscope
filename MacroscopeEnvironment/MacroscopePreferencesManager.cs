@@ -206,8 +206,8 @@ namespace SEOMacroscope
       // Spidering Control
 
       StartUrl = "";
-      MaxThreads = 16;
-      MaxFetchesPerWorker = 32;
+      MaxThreads = 4;
+      MaxFetchesPerWorker = 64;
       Depth = -1;
       PageLimit = -1;
       RequestTimeout = 30;

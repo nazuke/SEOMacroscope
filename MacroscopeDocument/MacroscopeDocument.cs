@@ -189,7 +189,7 @@ namespace SEOMacroscope
       this.ErrorCondition = "";
       this.ContentLength = 0;
 
-      this.MimeType = "";
+      this.MimeType = MacroscopeConstants.DefaultMimeType;
       this.DocumentType = MacroscopeConstants.DocumentType.BINARY;
 
       this.ContentEncoding = "";
@@ -518,7 +518,7 @@ namespace SEOMacroscope
       string sMimeType = null;
       if( this.MimeType == null )
       {
-        sMimeType = "";
+        sMimeType = MacroscopeConstants.DefaultMimeType;
       }
       else
       {
@@ -1636,7 +1636,16 @@ namespace SEOMacroscope
 
       // Common HTTP Headers
       {
-        this.MimeType = res.ContentType;
+
+        if( res.ContentType != null )
+        {
+          this.MimeType = res.ContentType;
+        }
+        else
+        {
+          this.MimeType = MacroscopeConstants.DefaultMimeType;
+        }
+
         this.ContentLength = res.ContentLength;
       }
 
@@ -1782,42 +1791,42 @@ namespace SEOMacroscope
         Regex reIsVideo = new Regex ( "^video/[a-z0-9]+", RegexOptions.IgnoreCase );
         Regex reIsXml = new Regex ( "^(application|text)/(atom\\+xml|xml)", RegexOptions.IgnoreCase );
 
-        if( reIsHtml.IsMatch( res.ContentType.ToString() ) )
+        if( reIsHtml.IsMatch( this.MimeType ) )
         {
           this.SetIsHtml();
         }
         else
-        if( reIsCss.IsMatch( res.ContentType.ToString() ) )
+        if( reIsCss.IsMatch( this.MimeType ) )
         {
           this.SetIsCss();
         }
         else
-        if( reIsJavascript.IsMatch( res.ContentType.ToString() ) )
+        if( reIsJavascript.IsMatch( this.MimeType ) )
         {
           this.SetIsJavascript();
         }
         else
-        if( reIsImage.IsMatch( res.ContentType.ToString() ) )
+        if( reIsImage.IsMatch( this.MimeType ) )
         {
           this.SetIsImage();
         }
         else
-        if( reIsPdf.IsMatch( res.ContentType.ToString() ) )
+        if( reIsPdf.IsMatch( this.MimeType ) )
         {
           this.SetIsPdf();
         }
         else
-        if( reIsAudio.IsMatch( res.ContentType.ToString() ) )
+        if( reIsAudio.IsMatch( this.MimeType ) )
         {
           this.SetIsAudio();
         }
         else
-        if( reIsVideo.IsMatch( res.ContentType.ToString() ) )
+        if( reIsVideo.IsMatch( this.MimeType ) )
         {
           this.SetIsVideo();
         }
         else
-        if( reIsXml.IsMatch( res.ContentType.ToString() ) )
+        if( reIsXml.IsMatch( this.MimeType ) )
         {
           this.SetIsXml();
         }

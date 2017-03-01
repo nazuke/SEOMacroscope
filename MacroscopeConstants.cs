@@ -98,7 +98,13 @@ namespace SEOMacroscope
       BASIC = 2
     }
 
-    /** END: Authentication Types *******************************************/
+    /** END: Authentication Types *********************************************/
+
+    /** BEGIN: MIME Types *****************************************************/
+
+    public const string DefaultMimeType = "application/octet-stream";
+
+    /** END: MIME Types *******************************************************/
 
     /** BEGIN: Document Types *************************************************/
 

@@ -67,7 +67,10 @@ Section uninstall
 
 	Call un.setVariables
 
-###	BEGIN: Program Files
+	###	BEGIN: Program Files
+
+	Delete $INSTDIR\LICENSE
+
 	Delete $INSTDIR\PdfSharp.Charting.resources.dll
 	Delete $INSTDIR\PdfSharp.resources.dll
 	RMDir $INSTDIR\de
@@ -99,13 +102,16 @@ Section uninstall
 	Delete $INSTDIR\$SEOMacroscopeUninstallExe.exe
 
 	RMDir $INSTDIR
-###	END: Program Files
 
-###	BEGIN: Start Menu Shortcuts
+	###	END: Program Files
+
+	###	BEGIN: Start Menu Shortcuts
+
 	Delete $SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeName.lnk
 	Delete $SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeUninstallName.lnk
 	RMDir $SMPROGRAMS\$SEOMacroscopeDir
-###	END: Start Menu Shortcuts
+
+	###	END: Start Menu Shortcuts
 
 SectionEnd
 

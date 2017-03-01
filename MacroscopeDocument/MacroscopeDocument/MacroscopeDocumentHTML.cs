@@ -108,7 +108,16 @@ namespace SEOMacroscope
         {
 
           DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
-          this.SetStatusCode( ( ( HttpWebResponse )ex.Response ).StatusCode );
+          
+          if( ex.Response != null )
+          {
+            this.SetStatusCode( ( ( HttpWebResponse )ex.Response ).StatusCode );
+          }
+          else
+          {
+            this.SetStatusCode( ( HttpStatusCode )ex.Status );
+          }
+          
           sRawData = "";
           this.ContentLength = 0;
 

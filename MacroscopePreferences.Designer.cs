@@ -397,7 +397,7 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("8")]
+		[global::System.Configuration.DefaultSettingValueAttribute("4")]
 		public int MaxThreads {
 			get {
 				return ((int)(this["MaxThreads"]));
