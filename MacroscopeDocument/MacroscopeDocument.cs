@@ -1746,7 +1746,7 @@ namespace SEOMacroscope
         // TODO: implement this
         if( sHeader.ToLower().Equals( "content-type" ) )
         {
-          string sCharSet = "";
+          //string sCharSet = "";
           this.CharSet = null;
         }
 

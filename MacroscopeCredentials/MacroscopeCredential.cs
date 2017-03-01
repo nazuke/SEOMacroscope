@@ -32,7 +32,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeCredential.
   /// </summary>
   
-  public class MacroscopeCredential
+  public class MacroscopeCredential : Macroscope
   {
   
     /**************************************************************************/

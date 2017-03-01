@@ -35,7 +35,7 @@ namespace SEOMacroscope
   /// MacroscopeCredentialsHttp manages the credential requests queue, and the collection of credentials entered for this crawl session.
   /// </summary>
 	
-  public class MacroscopeCredentialsHttp
+  public class MacroscopeCredentialsHttp : Macroscope
   {
 	
     /**************************************************************************/
@@ -145,7 +145,7 @@ namespace SEOMacroscope
         }
         catch( Exception ex )
         {
-          ;
+          DebugMsg( string.Format( "PeekCredentialRequest: {0}", ex.Message ) );
         }
 
       }
@@ -173,7 +173,7 @@ namespace SEOMacroscope
         }
         catch( Exception ex )
         {
-          ;
+          DebugMsg( string.Format( "DequeueCredentialRequest: {0}", ex.Message ) );
         }
 
       }

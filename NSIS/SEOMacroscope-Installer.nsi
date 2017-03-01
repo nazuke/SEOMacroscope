@@ -1,6 +1,8 @@
 !include "..\version.nsh"
 #!include "MUI2.nsh"
 	
+RequestExecutionLevel none
+
 OutFile "SEOMacroscope-Installer-${VERSION}.exe"
 
 SetCompressor /SOLID lzma 
@@ -10,13 +12,8 @@ LicenseData ..\LICENSE
 
 Name "SEO Macroscope ${VERSION}"
 
-#InstallDir $DESKTOP\QA
-InstallDir $PROGRAMFILES
-
-RequestExecutionLevel none
-#RequestExecutionLevel user
-#RequestExecutionLevel highest
-#RequestExecutionLevel admin
+#InstallDir "$DESKTOP\QA"
+InstallDir "$PROGRAMFILES"
 
 # ICONS AND SPLASH SCREENS --------------------------------------------------- #
 
@@ -46,18 +43,31 @@ UninstPage instfiles
 
 Section
 
-	Call setVariables
+	SetShellVarContext all
+	
+	###	BEGIN: SET VARIABLES
 
-	SetOutPath $INSTDIR\$SEOMacroscopeDir
+	StrCpy $SEOMacroscopeDir "SEO Macroscope"
+	StrCpy $SEOMacroscopeExe "SEOMacroscope"
+	StrCpy $SEOMacroscopeName "SEO Macroscope"
+	StrCpy $SEOMacroscopeUninstallExe "Uninstall SEO Macroscope"
+	StrCpy $SEOMacroscopeUninstallName "Uninstall SEO Macroscope"
+
+	###	END: SET VARIABLES
+
+	SetOutPath "$INSTDIR\$SEOMacroscopeDir"
 
 	File ..\\bin\Release\*.*
 
-	WriteUninstaller $INSTDIR\$SEOMacroscopeDir\$SEOMacroscopeUninstallExe.exe
+	WriteUninstaller "$INSTDIR\$SEOMacroscopeDir\$SEOMacroscopeUninstallExe.exe"
 
-	CreateDirectory $SMPROGRAMS\$SEOMacroscopeDir
+	###	BEGIN: Start Menu Shortcuts
+	
+	CreateDirectory "$SMPROGRAMS\$SEOMacroscopeDir"
+	CreateShortCut "$SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeName.lnk" "$INSTDIR\$SEOMacroscopeDir\$SEOMacroscopeExe.exe"
+	CreateShortCut "$SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeUninstallName.lnk" "$INSTDIR\$SEOMacroscopeDir\$SEOMacroscopeUninstallExe.exe"
 
-	CreateShortCut $SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeName.lnk $INSTDIR\$SEOMacroscopeDir\$SEOMacroscopeExe.exe
-	CreateShortCut $SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeUninstallName.lnk $INSTDIR\$SEOMacroscopeDir\$SEOMacroscopeUninstallExe.exe
+	###	END: Start Menu Shortcuts
 
 SectionEnd
 
@@ -65,72 +75,64 @@ SectionEnd
 
 Section uninstall
 
-	Call un.setVariables
+	SetShellVarContext all
 
+	###	BEGIN: SET VARIABLES
+
+	StrCpy $SEOMacroscopeDir "SEO Macroscope"
+	StrCpy $SEOMacroscopeExe "SEOMacroscope"
+	StrCpy $SEOMacroscopeName "SEO Macroscope"
+	StrCpy $SEOMacroscopeUninstallExe "Uninstall SEO Macroscope"
+	StrCpy $SEOMacroscopeUninstallName "Uninstall SEO Macroscope"
+
+	###	END: SET VARIABLES
+	
 	###	BEGIN: Program Files
 
-	Delete $INSTDIR\LICENSE
+	Delete "$INSTDIR\LICENSE"
 
-	Delete $INSTDIR\PdfSharp.Charting.resources.dll
-	Delete $INSTDIR\PdfSharp.resources.dll
-	RMDir $INSTDIR\de
+	Delete "$INSTDIR\PdfSharp.Charting.resources.dll"
+	Delete "$INSTDIR\PdfSharp.resources.dll"
+	RMDir "$INSTDIR\de"
 
-	Delete $INSTDIR\ClosedXML.dll
-	Delete $INSTDIR\ClosedXML.pdb
+	Delete "$INSTDIR\ClosedXML.dll"
+	Delete "$INSTDIR\ClosedXML.pdb"
 		
-	Delete $INSTDIR\DocumentFormat.OpenXml.dll
+	Delete "$INSTDIR\DocumentFormat.OpenXml.dll"
 	
-	Delete $INSTDIR\ExCSS.dll
+	Delete "$INSTDIR\ExCSS.dll"
 
-	Delete $INSTDIR\HtmlAgilityPack.dll
-	Delete $INSTDIR\HtmlAgilityPack.pdb
-	Delete $INSTDIR\HtmlAgilityPack.xml
+	Delete "$INSTDIR\HtmlAgilityPack.dll"
+	Delete "$INSTDIR\HtmlAgilityPack.pdb"
+	Delete "$INSTDIR\HtmlAgilityPack.xml"
 
-	Delete $INSTDIR\NUnit.Framework.dll
+	Delete "$INSTDIR\NUnit.Framework.dll"
 
-	Delete $INSTDIR\PdfSharp.Charting.dll
-	Delete $INSTDIR\PdfSharp.Charting.xml
-	Delete $INSTDIR\PdfSharp.dll
-	Delete $INSTDIR\PdfSharp.xml
+	Delete "$INSTDIR\PdfSharp.Charting.dll"
+	Delete "$INSTDIR\PdfSharp.Charting.xml"
+	Delete "$INSTDIR\PdfSharp.dll"
+	Delete "$INSTDIR\PdfSharp.xml"
 
-	Delete $INSTDIR\RobotsTxt.dll
-	Delete $INSTDIR\RobotsTxt.xml
+	Delete "$INSTDIR\RobotsTxt.dll"
+	Delete "$INSTDIR\RobotsTxt.xml"
 	
-	Delete $INSTDIR\$SEOMacroscopeExe.exe
-	Delete $INSTDIR\$SEOMacroscopeExe.exe.config
+	Delete "$INSTDIR\$SEOMacroscopeExe.exe"
+	Delete "$INSTDIR\$SEOMacroscopeExe.exe.config"
 
-	Delete $INSTDIR\$SEOMacroscopeUninstallExe.exe
+	Delete "$INSTDIR\$SEOMacroscopeUninstallExe.exe"
 
-	RMDir $INSTDIR
+	RMDir "$INSTDIR"
 
 	###	END: Program Files
 
 	###	BEGIN: Start Menu Shortcuts
 
-	Delete $SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeName.lnk
-	Delete $SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeUninstallName.lnk
-	RMDir $SMPROGRAMS\$SEOMacroscopeDir
+	Delete "$SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeName.lnk"
+	Delete "$SMPROGRAMS\$SEOMacroscopeDir\$SEOMacroscopeUninstallName.lnk"
+	RMDir "$SMPROGRAMS\$SEOMacroscopeDir"
 
 	###	END: Start Menu Shortcuts
 
 SectionEnd
-
-# ---------------------------------------------------------------------------- #
-
-Function setVariables
-	StrCpy $SEOMacroscopeDir "SEOMacroscope"
-	StrCpy $SEOMacroscopeExe "SEOMacroscope"
-	StrCpy $SEOMacroscopeName "SEO Macroscope"
-	StrCpy $SEOMacroscopeUninstallExe "Uninstall-SEOMacroscope"
-	StrCpy $SEOMacroscopeUninstallName "Uninstall SEOMacroscope"
-FunctionEnd
-
-Function un.setVariables
-	StrCpy $SEOMacroscopeDir "SEOMacroscope"
-	StrCpy $SEOMacroscopeExe "SEOMacroscope"
-	StrCpy $SEOMacroscopeName "SEO Macroscope"
-	StrCpy $SEOMacroscopeUninstallExe "Uninstall-SEOMacroscope"
-	StrCpy $SEOMacroscopeUninstallName "Uninstall SEOMacroscope"
-FunctionEnd
 
 # ---------------------------------------------------------------------------- #
