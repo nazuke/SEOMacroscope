@@ -130,7 +130,8 @@ namespace SEOMacroscope
     public enum HyperlinkType
     {
       TEXT = 0,
-      IMAGE = 1
+      IMAGE = 1,
+      CSS = 2
     }
 
     /** BEGIN: Outlink Types **************************************************/

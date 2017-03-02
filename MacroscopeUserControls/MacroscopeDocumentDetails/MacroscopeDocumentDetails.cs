@@ -392,20 +392,20 @@ namespace SEOMacroscope
     {
 
       ListView lvListView = this.listViewLinksIn;
-      MacroscopeHyperlinksIn hlHyperlinksIn = msDoc.GetHyperlinksIn();
+      MacroscopeHyperlinksIn HyperlinksIn = msDoc.GetHyperlinksIn();
       int count = 0;
-      
+
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
 
-      foreach( string sUrlOrigin in hlHyperlinksIn.IterateKeys() )
+      if( HyperlinksIn != null )
       {
-
-        foreach( MacroscopeHyperlinkIn hlHyperlinkIn in hlHyperlinksIn.IterateLinks( sUrlOrigin ) )
+        foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks(  ) )
         {
 
-          string sPairKey = string.Join( "::", sUrlOrigin, hlHyperlinkIn.GetLinkId().ToString() );
+          ListViewItem lvItem = null;
+          string sPairKey = HyperlinkIn.GetLinkGuid().ToString();
           count++;
           
           if( lvListView.Items.ContainsKey( sPairKey ) )
@@ -414,12 +414,12 @@ namespace SEOMacroscope
             try
             {
 
-              ListViewItem lvItem = lvListView.Items[ sPairKey ];
-              lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetHyperlinkType().ToString();
-              lvItem.SubItems[ 1 ].Text = hlHyperlinkIn.GetUrlOrigin();
-              lvItem.SubItems[ 2 ].Text = hlHyperlinkIn.GetUrlTarget();
-              lvItem.SubItems[ 3 ].Text = hlHyperlinkIn.GetLinkText();
-              lvItem.SubItems[ 4 ].Text = hlHyperlinkIn.GetAltText();
+              lvItem = lvListView.Items[ sPairKey ];
+              lvItem.SubItems[ 0 ].Text = HyperlinkIn.GetHyperlinkType().ToString();
+              lvItem.SubItems[ 1 ].Text = HyperlinkIn.GetUrlOrigin();
+              lvItem.SubItems[ 2 ].Text = HyperlinkIn.GetUrlTarget();
+              lvItem.SubItems[ 3 ].Text = HyperlinkIn.GetLinkText();
+              lvItem.SubItems[ 4 ].Text = HyperlinkIn.GetAltText();
 
             }
             catch( Exception ex )
@@ -434,15 +434,15 @@ namespace SEOMacroscope
             try
             {
 
-              ListViewItem lvItem = new ListViewItem ( sPairKey );
-
+              lvItem = new ListViewItem ( sPairKey );
+              lvItem.UseItemStyleForSubItems = false;
               lvItem.Name = sPairKey;
 
-              lvItem.SubItems[ 0 ].Text = hlHyperlinkIn.GetHyperlinkType().ToString();
-              lvItem.SubItems.Add( hlHyperlinkIn.GetUrlOrigin() );
-              lvItem.SubItems.Add( hlHyperlinkIn.GetUrlTarget() );
-              lvItem.SubItems.Add( hlHyperlinkIn.GetLinkText() );
-              lvItem.SubItems.Add( hlHyperlinkIn.GetAltText() );
+              lvItem.SubItems[ 0 ].Text = HyperlinkIn.GetHyperlinkType().ToString();
+              lvItem.SubItems.Add( HyperlinkIn.GetUrlOrigin() );
+              lvItem.SubItems.Add( HyperlinkIn.GetUrlTarget() );
+              lvItem.SubItems.Add( HyperlinkIn.GetLinkText() );
+              lvItem.SubItems.Add( HyperlinkIn.GetAltText() );
 
               lvListView.Items.Add( lvItem );
 
@@ -470,71 +470,67 @@ namespace SEOMacroscope
     {
 
       ListView lvListView = this.listViewLinksOut;
-      MacroscopeHyperlinksOut hlHyperlinksOut = msDoc.GetHyperlinksOut();
+      MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
       int count = 0;
       
       lvListView.BeginUpdate();
             
       lvListView.Items.Clear();
 
-      lock( hlHyperlinksOut )
+      lock( HyperlinksOut )
       {
 
-        foreach( string sUrlOrigin in hlHyperlinksOut.IterateKeys() )
+        foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks(  ) )
         {
 
-          foreach( MacroscopeHyperlinkOut hlHyperlinkOut in hlHyperlinksOut.IterateLinks( sUrlOrigin ) )
+          ListViewItem lvItem = null;
+          string sKey = HyperlinkOut.GetGuid();
+          count++;
+            
+          if( lvListView.Items.ContainsKey( sKey ) )
           {
 
-            string sKey = hlHyperlinkOut.GetGuid();
-            count++;
-            
-            if( lvListView.Items.ContainsKey( sKey ) )
+            try
             {
 
-              try
-              {
-
-                ListViewItem lvItem = lvListView.Items[ sKey ];
-                lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetHyperlinkType().ToString();
-                lvItem.SubItems[ 1 ].Text = hlHyperlinkOut.GetUrlOrigin();
-                lvItem.SubItems[ 2 ].Text = hlHyperlinkOut.GetUrlTarget();
-                lvItem.SubItems[ 3 ].Text = hlHyperlinkOut.GetLinkText();
-                lvItem.SubItems[ 4 ].Text = hlHyperlinkOut.GetAltText();
-                lvItem.SubItems[ 5 ].Text = hlHyperlinkOut.GetFollow().ToString();
-
-              }
-              catch( Exception ex )
-              {
-                DebugMsg( string.Format( "RenderListViewHyperlinksOut 1: {0}", ex.Message ) );
-              }
+              lvItem = lvListView.Items[ sKey ];
+              lvItem.SubItems[ 0 ].Text = HyperlinkOut.GetHyperlinkType().ToString();
+              lvItem.SubItems[ 1 ].Text = msDoc.GetUrl();
+              lvItem.SubItems[ 2 ].Text = HyperlinkOut.GetUrlTarget();
+              lvItem.SubItems[ 3 ].Text = HyperlinkOut.GetLinkText();
+              lvItem.SubItems[ 4 ].Text = HyperlinkOut.GetAltText();
+              lvItem.SubItems[ 5 ].Text = HyperlinkOut.GetFollow().ToString();
 
             }
-            else
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewHyperlinksOut 1: {0}", ex.Message ) );
+            }
+
+          }
+          else
+          {
+
+            try
             {
 
-              try
-              {
+              lvItem = new ListViewItem ( sKey );
+              lvItem.UseItemStyleForSubItems = false;
+              lvItem.Name = sKey;
 
-                ListViewItem lvItem = new ListViewItem ( sKey );
+              lvItem.SubItems[ 0 ].Text = HyperlinkOut.GetHyperlinkType().ToString();
+              lvItem.SubItems.Add( msDoc.GetUrl() );
+              lvItem.SubItems.Add( HyperlinkOut.GetUrlTarget() );
+              lvItem.SubItems.Add( HyperlinkOut.GetLinkText() );
+              lvItem.SubItems.Add( HyperlinkOut.GetAltText() );
+              lvItem.SubItems.Add( HyperlinkOut.GetFollow().ToString() );
 
-                lvItem.Name = sKey;
+              lvListView.Items.Add( lvItem );
 
-                lvItem.SubItems[ 0 ].Text = hlHyperlinkOut.GetHyperlinkType().ToString();
-                lvItem.SubItems.Add( hlHyperlinkOut.GetUrlOrigin() );
-                lvItem.SubItems.Add( hlHyperlinkOut.GetUrlTarget() );
-                lvItem.SubItems.Add( hlHyperlinkOut.GetLinkText() );
-                lvItem.SubItems.Add( hlHyperlinkOut.GetAltText() );
-                lvItem.SubItems.Add( hlHyperlinkOut.GetFollow().ToString() );
-
-                lvListView.Items.Add( lvItem );
-
-              }
-              catch( Exception ex )
-              {
-                DebugMsg( string.Format( "RenderListViewHyperlinksOut 2: {0}", ex.Message ) );
-              }
-
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewHyperlinksOut 2: {0}", ex.Message ) );
             }
 
           }
@@ -566,48 +562,46 @@ namespace SEOMacroscope
       
         for( int i = 0 ; i < DocList.Count ; i++ )
         {
+
+          ListViewItem lvItem = null;
+          string sUrl = DocList[ i ];
+          string sPairKey = sUrl;
+          count++;
+
+          if( lvListView.Items.ContainsKey( sUrl ) )
           {
 
-            string sUrl = DocList[ i ];
-            string sPairKey = sUrl;
-            count++;
-
-            if( lvListView.Items.ContainsKey( sUrl ) )
+            try
             {
 
-              try
-              {
-
-                ListViewItem lvItem = lvListView.Items[ sPairKey ];
-                lvItem.SubItems[ 0 ].Text = sUrl;
-
-              }
-              catch( Exception ex )
-              {
-                DebugMsg( string.Format( "RenderListViewInsecureLinks 1: {0}", ex.Message ) );
-              }
+              lvItem = lvListView.Items[ sPairKey ];
+              lvItem.SubItems[ 0 ].Text = sUrl;
 
             }
-            else
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewInsecureLinks 1: {0}", ex.Message ) );
+            }
+
+          }
+          else
+          {
+
+            try
             {
 
-              try
-              {
+              lvItem = new ListViewItem ( sPairKey );
+              lvItem.UseItemStyleForSubItems = false;
+              lvItem.Name = sPairKey;
 
-                ListViewItem lvItem = new ListViewItem ( sPairKey );
+              lvItem.SubItems[ 0 ].Text = sUrl;
 
-                lvItem.Name = sPairKey;
+              lvListView.Items.Add( lvItem );
 
-                lvItem.SubItems[ 0 ].Text = sUrl;
-
-                lvListView.Items.Add( lvItem );
-
-              }
-              catch( Exception ex )
-              {
-                DebugMsg( string.Format( "RenderListViewInsecureLinks 2: {0}", ex.Message ) );
-              }
-
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewInsecureLinks 2: {0}", ex.Message ) );
             }
 
           }
@@ -736,8 +730,8 @@ namespace SEOMacroscope
       foreach( string sUrl in DicOutlinks.Keys )
       {
 
-        string sKeyPair = sUrl;
         ListViewItem lvItem = null;
+        string sKeyPair = sUrl;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
         count++;
         
@@ -833,8 +827,8 @@ namespace SEOMacroscope
       foreach( string sUrl in DicOutlinks.Keys )
       {
 
-        string sKeyPair = sUrl;
         ListViewItem lvItem = null;
+        string sKeyPair = sUrl;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
         count++;
         
@@ -930,8 +924,8 @@ namespace SEOMacroscope
       foreach( string sUrl in DicOutlinks.Keys )
       {
 
-        string sKeyPair = sUrl;
         ListViewItem lvItem = null;
+        string sKeyPair = sUrl;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
         count++;
         
@@ -1027,8 +1021,8 @@ namespace SEOMacroscope
       foreach( string sUrl in DicOutlinks.Keys )
       {
 
-        string sKeyPair = sUrl;
         ListViewItem lvItem = null;
+        string sKeyPair = sUrl;
         MacroscopeConstants.OutlinkType OutlinkType = DicOutlinks[ sUrl ].Type;
         count++;
         
@@ -1123,8 +1117,8 @@ namespace SEOMacroscope
       foreach( string sTerm in DicTerms.Keys )
       {
 
-        string sKeyPair = sTerm;
         ListViewItem lvItem = null;
+        string sKeyPair = sTerm;
         count++;
         
         if( lvListView.Items.ContainsKey( sKeyPair ) )

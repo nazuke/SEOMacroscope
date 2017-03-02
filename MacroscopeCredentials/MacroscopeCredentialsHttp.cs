@@ -49,6 +49,7 @@ namespace SEOMacroscope
 
     public MacroscopeCredentialsHttp ()
     {
+      this.SuppressDebugMsg = true;
       this.CredentialRequests = new Queue<MacroscopeCredentialRequest> ( 16 );
       this.Credentials = new Dictionary<string,MacroscopeCredential> ( 16 );
       this.Memo = new Dictionary<string,string> ( 16 );

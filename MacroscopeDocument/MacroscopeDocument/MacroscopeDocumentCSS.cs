@@ -139,6 +139,7 @@ namespace SEOMacroscope
 
         if( sRawData.Length > 0 )
         {
+
           ExCSS.Parser ExCssParser = new  ExCSS.Parser ();
           ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( sRawData );
 
@@ -212,7 +213,10 @@ namespace SEOMacroscope
               if( sLinkUrlAbs != null )
               {
                 // TODO: Verify that this actually works:
-                this.HyperlinksOut.Add( sLinkUrlAbs, sLinkUrlAbs );
+                this.HyperlinksOut.Add(
+                  LinkType: MacroscopeConstants.HyperlinkType.CSS,
+                  UrlTarget: sLinkUrlAbs
+                );
                 this.AddCssOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
               }
               break;
@@ -225,7 +229,10 @@ namespace SEOMacroscope
               if( sLinkUrlAbs != null )
               {     
                 // TODO: Verify that this actually works:
-                this.HyperlinksOut.Add( sLinkUrlAbs, sLinkUrlAbs );
+                this.HyperlinksOut.Add( 
+                  LinkType: MacroscopeConstants.HyperlinkType.CSS,
+                  UrlTarget: sLinkUrlAbs
+                );
                 this.AddCssOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
               }
               break;

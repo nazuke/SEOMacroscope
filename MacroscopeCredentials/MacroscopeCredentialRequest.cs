@@ -45,6 +45,7 @@ namespace SEOMacroscope
 
     public MacroscopeCredentialRequest ( string Domain, string Realm, string Url )
     {
+      this.SuppressDebugMsg = true;
       this.Domain = Domain;
       this.Realm = Realm;
       this.Url = Url;

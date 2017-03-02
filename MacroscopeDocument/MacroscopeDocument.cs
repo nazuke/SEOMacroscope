@@ -45,6 +45,8 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private MacroscopeDocumentCollection DocumentCollection;
+
     private Boolean IsDirty;
 
     private string Url;
@@ -104,10 +106,8 @@ namespace SEOMacroscope
     // Outbound links to pages and linked assets to follow
     private Dictionary<string,MacroscopeOutlink> Outlinks;
 
-    // Inbound links from other pages in the scanned collection
-    private MacroscopeHyperlinksIn HyperlinksIn;
-
     // Outbound hypertext links
+    private Boolean ProcessHyperlinksIn;
     private MacroscopeHyperlinksOut HyperlinksOut;
 
     private Dictionary<string,string> EmailAddresses;
@@ -132,18 +132,40 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocument ( string Url )
+    public MacroscopeDocument (
+      string Url
+    )
     {
       this.InitializeDocument( Url );
     }
     
-    public MacroscopeDocument ( MacroscopeCredential Credential, string Url )
+    public MacroscopeDocument (
+      MacroscopeDocumentCollection DocumentCollection,
+      string Url
+    )
     {
-
       this.InitializeDocument( Url );
+      this.SetDocumentCollection( DocumentCollection );
+    }
 
+    public MacroscopeDocument (
+      MacroscopeCredential Credential,
+      string Url
+    )
+    {
+      this.InitializeDocument( Url );
       this.AuthenticationCredential = Credential;
-      
+    }
+    
+    public MacroscopeDocument (
+      MacroscopeDocumentCollection DocumentCollection,
+      MacroscopeCredential Credential,
+      string Url
+    )
+    {
+      this.InitializeDocument( Url );
+      this.SetDocumentCollection( DocumentCollection );
+      this.AuthenticationCredential = Credential;
     }
 
     /** -------------------------------------------------------------------- **/
@@ -153,6 +175,8 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = false;
 
+      DocumentCollection = null;
+      
       this.IsDirty = true;
 
       this.Url = Url;
@@ -208,7 +232,8 @@ namespace SEOMacroscope
       this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
       this.Outlinks = new Dictionary<string,MacroscopeOutlink> ( 128 );
-      this.HyperlinksIn = new MacroscopeHyperlinksIn ();
+
+      this.ProcessHyperlinksIn = false;
       this.HyperlinksOut = new MacroscopeHyperlinksOut ();
 
       this.EmailAddresses = new Dictionary<string,string> ( 256 );
@@ -290,6 +315,13 @@ namespace SEOMacroscope
 
       return( fTimeDuration );
 
+    }
+
+    /** DocumentCollection ************************************************************/
+    
+    private void SetDocumentCollection ( MacroscopeDocumentCollection DocumentCollection )
+    {
+      this.DocumentCollection = DocumentCollection;
     }
 
     /** Dirty Flag ************************************************************/
@@ -836,45 +868,40 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
+    /** Hyperlinks In *********************************************************/
 
     public MacroscopeHyperlinksIn GetHyperlinksIn ()
     {
-      return( this.HyperlinksIn );
-    }
-
-    /** Hyperlinks In *********************************************************/
-
-    public void AddHyperlinkIn (
-      MacroscopeConstants.HyperlinkType hlType,
-      string sMethod,
-      string sUrlOrigin,
-      string sUrlTarget,
-      string sLinkText,
-      string sAltText
-    )
-    {
-      this.HyperlinksIn.Add(
-        hlType,
-        sMethod,
-        sUrlOrigin,
-        sUrlTarget,
-        sLinkText,
-        sAltText
-      );
-    }
-
-    public void ClearHyperlinksIn ()
-    {
-      this.HyperlinksIn.Clear();
+      MacroscopeHyperlinksIn DocumentHyperlinksIn = this.DocumentCollection.GetDocumentHyperlinksIn( this.GetUrl() );
+      return( DocumentHyperlinksIn );
     }
 
     public int CountHyperlinksIn ()
     {
-      return( this.HyperlinksIn.Count() );
+
+      MacroscopeHyperlinksIn DocumentHyperlinksIn = this.DocumentCollection.GetDocumentHyperlinksIn( this.GetUrl() );
+      int Count = 0;
+      
+      if( DocumentHyperlinksIn != null )
+      {
+        
+        Count = DocumentHyperlinksIn.Count();
+      }
+
+      return( Count );
     }
 
     /** Hyperlinks Out ********************************************************/
+
+    public void SetProcessHyperlinksIn ( Boolean State )
+    {
+      this.ProcessHyperlinksIn = State;
+    }
+    
+    public Boolean GetProcessHyperlinksIn ()
+    {
+      return( this.ProcessHyperlinksIn );
+    }
 
     public MacroscopeHyperlinksOut GetHyperlinksOut ()
     {
@@ -1227,14 +1254,18 @@ namespace SEOMacroscope
 
         if( this.GetIsHtml() )
         {
+          
           DebugMsg( string.Format( "IS HTML PAGE: {0}", this.Url ) );
+          
           fTimeDuration( this.ProcessHtmlPage );
 
         }
         else
         if( this.GetIsCss() )
         {
+          
           DebugMsg( string.Format( "IS CSS PAGE: {0}", this.Url ) );
+          
           if( MacroscopePreferencesManager.GetFetchStylesheets() )
           {
             fTimeDuration( this.ProcessCssPage );
@@ -1244,7 +1275,9 @@ namespace SEOMacroscope
         else
         if( this.GetIsImage() )
         {
+          
           DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.Url ) );
+          
           if( MacroscopePreferencesManager.GetFetchImages() )
           {
             fTimeDuration( this.ProcessImagePage );
@@ -1254,7 +1287,9 @@ namespace SEOMacroscope
         else
         if( this.GetIsJavascript() )
         {
+          
           DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.Url ) );
+          
           if( MacroscopePreferencesManager.GetFetchJavascripts() )
           {
             fTimeDuration( this.ProcessJavascriptPage );
@@ -1264,7 +1299,9 @@ namespace SEOMacroscope
         else
         if( this.GetIsPdf() )
         {
+          
           DebugMsg( string.Format( "IS PDF PAGE: {0}", this.Url ) );
+          
           if( MacroscopePreferencesManager.GetFetchPdfs() )
           {
             fTimeDuration( this.ProcessPdfPage );
@@ -1274,7 +1311,9 @@ namespace SEOMacroscope
         else
         if( this.GetIsXml() )
         {
+          
           DebugMsg( string.Format( "IS XML PAGE: {0}", this.Url ) );
+          
           if( MacroscopePreferencesManager.GetFetchXml() )
           {
             fTimeDuration( this.ProcessXmlPage );
@@ -1284,20 +1323,26 @@ namespace SEOMacroscope
         else
         if( this.GetIsAudio() )
         {
+          
           DebugMsg( string.Format( "IS AUDIO PAGE: {0}", this.Url ) );
+          
           if( MacroscopePreferencesManager.GetFetchAudio() )
           {
             fTimeDuration( this.ProcessAudioPage );
           }
+          
         }
         else
         if( this.GetIsVideo() )
         {
+          
           DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.Url ) );
+          
           if( MacroscopePreferencesManager.GetFetchVideo() )
           {
             fTimeDuration( this.ProcessVideoPage );
           }
+          
         }
         else
         if( this.GetIsBinary() )
@@ -1335,6 +1380,8 @@ namespace SEOMacroscope
       {
         this.ExecuteDeepKeywordAnalysis();
       }
+
+      this.SetProcessHyperlinksIn( true );
 
       return( true );
 

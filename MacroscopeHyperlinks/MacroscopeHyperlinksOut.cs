@@ -30,164 +30,112 @@ using System.Collections.Generic;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeHyperlinksOut.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeHyperlinksOut.
+  /// </summary>
 
-	public class MacroscopeHyperlinksOut : Macroscope
-	{
+  public class MacroscopeHyperlinksOut : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		private Dictionary<string,List<MacroscopeHyperlinkOut>> Links;
+    private List<MacroscopeHyperlinkOut> Links;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeHyperlinksOut ()
-		{
+    public MacroscopeHyperlinksOut ()
+    {
+      this.Links = new List<MacroscopeHyperlinkOut> ( 256 );
+    }
 
-			this.Links = new Dictionary<string,List<MacroscopeHyperlinkOut>> ( 256 );
+    /**************************************************************************/
 
-		}
+    public void Clear ()
+    {
+      lock( this.Links )
+      {
+        this.Links.Clear();
+      }
+    }
+    
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public MacroscopeHyperlinkOut Add (
+      MacroscopeConstants.HyperlinkType LinkType,
+      string UrlTarget
+    )
+    {
 
-		public void Clear ()
-		{
-			this.Links.Clear();
-		}
+      MacroscopeHyperlinkOut HyperlinkOut = new MacroscopeHyperlinkOut ();
 
-		/**************************************************************************/
+      HyperlinkOut.SetHyperlinkType( LinkType );
+      HyperlinkOut.SetUrlTarget( UrlTarget );
 
-		public MacroscopeHyperlinkOut Add (
-			string sUrlOrigin,
-			string sUrlTarget
-		)
-		{
+      lock( this.Links )
+      {
+        this.Links.Add( HyperlinkOut );
+      }
 
-			//DebugMsg( string.Format( "MacroscopeHyperlinkOut sUrlOrigin: {0}", sUrlOrigin ), 1 );
-			//DebugMsg( string.Format( "MacroscopeHyperlinkOut sUrlTarget: {0}", sUrlTarget ), 1 );
+      return( HyperlinkOut );
 
-			MacroscopeHyperlinkOut hlHyperlinkOut = new MacroscopeHyperlinkOut ();
-			List<MacroscopeHyperlinkOut> lLinkList;
+    }
 
-			hlHyperlinkOut.SetUrlOrigin( sUrlOrigin );
-			hlHyperlinkOut.SetUrlTarget( sUrlTarget );
+    /**************************************************************************/
 
-			if( this.Links.ContainsKey( sUrlOrigin ) )
-			{
+    public void Remove ( MacroscopeHyperlinkOut HyperlinkOut )
+    {
+      lock( this.Links )
+      {
+        foreach( MacroscopeHyperlinkOut HyperlinkOutOld in this.Links )
+        {
+          if( HyperlinkOutOld.Equals( HyperlinkOut ) )
+          {
+            this.Links.Remove( HyperlinkOutOld );
+          }
+        }
+      }
+    }
 
-				lLinkList = ( List<MacroscopeHyperlinkOut> )this.Links[ sUrlOrigin ];
-				lLinkList.Add( hlHyperlinkOut );
+    /**************************************************************************/
 
-			}
-			else
-			{
+    public Boolean ContainsLink ( string Url )
+    {
+      Boolean LinkPresent = false;
+      lock( this.Links )
+      {
+        foreach( MacroscopeHyperlinkOut HyperlinkOut in this.Links )
+        {
+          if( HyperlinkOut.GetUrlTarget() == Url )
+          {
+            LinkPresent = true;
+          }
+        }
+      }
+      return( LinkPresent );
+    }
 
-				lLinkList = new List<MacroscopeHyperlinkOut> ( 256 );
-				lLinkList.Add( hlHyperlinkOut );
+    /**************************************************************************/
 
-				lock( this.Links )
-				{
-					this.Links.Add( sUrlOrigin, lLinkList );
-				}
+    public IEnumerable IterateLinks ()
+    {
+      lock( this.Links )
+      {
+        foreach( MacroscopeHyperlinkOut HyperlinkOut in this.Links )
+        {
+          yield return HyperlinkOut;
+        }
+      }
+    }
 
-			}
+    /**************************************************************************/
 
-			return( hlHyperlinkOut );
+    public int Count ()
+    {
+      return( this.Links.Count );
+    }
 
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
-
-		public void Remove ( string sUrlOrigin )
-		{
-			lock( this.Links )
-			{
-				if( this.Links.ContainsKey( sUrlOrigin ) )
-				{
-					this.Links.Remove( sUrlOrigin );
-				}
-			}
-		}
-
-		/**************************************************************************/
-
-		public Boolean ContainsKey ( string sUrlOrigin )
-		{
-			return( this.Links.ContainsKey( sUrlOrigin ) );
-		}
-
-		/**************************************************************************/
-
-		public IEnumerable IterateKeys ()
-		{
-			lock( this.Links )
-			{
-				foreach( string sUrl in this.Links.Keys )
-				{
-					yield return sUrl;
-				}
-			}
-		}
-
-		/**************************************************************************/
-
-		public List<MacroscopeHyperlinkOut> GetLinksList ( string sUrl )
-		{
-			List<MacroscopeHyperlinkOut> lHyperlinks = new List<MacroscopeHyperlinkOut> ( this.Links.Count );
-			if( this.Links.ContainsKey( sUrl ) )
-			{
-				lock( this.Links )
-				{
-					List<MacroscopeHyperlinkOut> lLinksList = this.Links[ sUrl ];
-					for( int i = 0 ; i < lLinksList.Count ; i++ )
-					{
-						lHyperlinks.Add( lLinksList[ i ] );
-					}
-				}
-			}
-			return( lHyperlinks );
-		}
-
-		/**************************************************************************/
-
-		public IEnumerable IterateLinks ( string sUrl )
-		{
-			if( this.Links.ContainsKey( sUrl ) )
-			{
-				lock( this.Links )
-				{
-					List<MacroscopeHyperlinkOut> lLinksList = this.Links[ sUrl ];
-					for( int i = 0 ; i < lLinksList.Count ; i++ )
-					{
-						yield return lLinksList[ i ];
-					}
-				}
-			}
-		}
-
-		/**************************************************************************/
-
-		public int Count ()
-		{
-			int iCount = 0;
-			if( this.Links.Count > 0 )
-			{
-				lock( this.Links.Keys )
-				{
-					foreach( string sUrl in this.Links.Keys )
-					{
-						List<MacroscopeHyperlinkOut> lLinkList = ( List<MacroscopeHyperlinkOut> )this.Links[ sUrl ];
-						iCount += lLinkList.Count;
-					}
-				}
-			}
-			return( iCount );
-		}
-
-		/**************************************************************************/
-
-	}
+  }
 
 }

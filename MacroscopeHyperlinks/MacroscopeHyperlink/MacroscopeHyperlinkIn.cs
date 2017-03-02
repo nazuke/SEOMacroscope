@@ -28,90 +28,92 @@ using System;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeHyperlinkIn.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeHyperlinkIn.
+  /// </summary>
 
-	public class MacroscopeHyperlinkIn : Macroscope
-	{
+  public class MacroscopeHyperlinkIn : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		private int LinkId;
+    private Guid LinkGuid;
 
-		private MacroscopeConstants.HyperlinkType HyperlinkType;
+    private MacroscopeConstants.HyperlinkType HyperlinkType;
 
-		private string Method;
-		private string UrlOrigin;
-		private string UrlTarget;
-		private string LinkText;
-		private string AltText;
+    private string Method;
+    private string UrlOrigin;
+    private string UrlTarget;
+    private string LinkText;
+    private string AltText;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeHyperlinkIn (
-			int iLinkId,
-			MacroscopeConstants.HyperlinkType hlLinkType,
-			string sMethod,
-			string sUrlOrigin,
-			string sUrlTarget,
-			string sLinkText,
-			string sAltText
-		)
-		{
-			this.LinkId = iLinkId;
-			this.HyperlinkType = hlLinkType;
-			this.Method = sMethod;
-			this.UrlOrigin = sUrlOrigin;
-			this.UrlTarget = sUrlTarget;
-			this.LinkText = sLinkText;
-			this.AltText = sAltText;
-		}
+    public MacroscopeHyperlinkIn (
+      MacroscopeConstants.HyperlinkType LinkType,
+      string Method,
+      string UrlOrigin,
+      string UrlTarget,
+      string LinkText,
+      string AltText
+    )
+    {
 
-		/**************************************************************************/
+      this.LinkGuid = Guid.NewGuid();
 
-		public int GetLinkId ()
-		{
-			return( this.LinkId );
-		}
+      this.HyperlinkType = LinkType;
+      this.Method = Method;
+      this.UrlOrigin = UrlOrigin;
+      this.UrlTarget = UrlTarget;
+      this.LinkText = LinkText;
+      this.AltText = AltText;
 
-		/**************************************************************************/
+    }
 
-		public MacroscopeConstants.HyperlinkType GetHyperlinkType ()
-		{
-			return( this.HyperlinkType );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public Guid GetLinkGuid ()
+    {
+      return( this.LinkGuid );
+    }
 
-		public string GetUrlOrigin ()
-		{
-			return( this.UrlOrigin );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public MacroscopeConstants.HyperlinkType GetHyperlinkType ()
+    {
+      return( this.HyperlinkType );
+    }
 
-		public string GetUrlTarget ()
-		{
-			return( this.UrlTarget );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public string GetUrlOrigin ()
+    {
+      return( this.UrlOrigin );
+    }
 
-		public string GetLinkText ()
-		{
-			return( this.LinkText );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public string GetUrlTarget ()
+    {
+      return( this.UrlTarget );
+    }
 
-		public string GetAltText ()
-		{
-			return( this.AltText );
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public string GetLinkText ()
+    {
+      return( this.LinkText );
+    }
 
-	}
+    /**************************************************************************/
+
+    public string GetAltText ()
+    {
+      return( this.AltText );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

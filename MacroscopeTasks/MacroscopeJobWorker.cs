@@ -243,7 +243,7 @@ namespace SEOMacroscope
                                               );
             if( Credential != null )
             {
-              msDoc = new MacroscopeDocument (
+              msDoc = this.DocCollection.CreateDocument(
                 Credential: Credential,
                 Url: Url
               );
@@ -257,7 +257,7 @@ namespace SEOMacroscope
       else
       {
 
-        msDoc = new MacroscopeDocument ( Url );
+        msDoc = this.DocCollection.CreateDocument( Url );
 
       }
 

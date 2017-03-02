@@ -302,7 +302,10 @@ namespace SEOMacroscope
           //sLinkUrl = MacroscopeUrlTools.SanitizeUrl( sLinkUrl );
           string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
 
-          MacroscopeHyperlinkOut hlHyperlinkOut = this.HyperlinksOut.Add( this.Url, sLinkUrlAbs );
+          MacroscopeHyperlinkOut hlHyperlinkOut = this.HyperlinksOut.Add(
+                                                    LinkType: MacroscopeConstants.HyperlinkType.TEXT,
+                                                    UrlTarget: sLinkUrlAbs
+                                                  );
 
           { // FOLLOW / NOFOLLOW
 

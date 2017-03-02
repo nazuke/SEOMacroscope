@@ -43,7 +43,6 @@ namespace SEOMacroscope
 
 		private string Method;
 
-		private string UrlOrigin;
 		private string UrlTarget;
 		private string LinkText;
 		private string AltText;
@@ -88,18 +87,6 @@ namespace SEOMacroscope
 		public string GetMethod ()
 		{
 			return( this.Method );
-		}
-
-		/**************************************************************************/
-
-		public void SetUrlOrigin ( string sUrl )
-		{
-			this.UrlOrigin = sUrl;
-		}
-
-		public string GetUrlOrigin ()
-		{
-			return( this.UrlOrigin );
 		}
 
 		/**************************************************************************/

@@ -46,7 +46,7 @@ namespace SEOMacroscope
     private MacroscopeSearchIndex SearchIndex;
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
 
-    private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn; // Page URL => From URL
+    private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn;
 
     private Dictionary<string,Boolean> StatsHistory;
     private Dictionary<string,int> StatsHostnames;
@@ -70,16 +70,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocumentCollection ( MacroscopeJobMaster JobMasterNew )
+    public MacroscopeDocumentCollection ( MacroscopeJobMaster JobMaster )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
 
       this.DocCollection = new Dictionary<string,MacroscopeDocument> ( 4096 );
 
-      this.JobMaster = JobMasterNew;
+      this.JobMaster = JobMaster;
 
       this.NamedQueue = new MacroscopeNamedQueue ();
       this.NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
@@ -87,7 +87,9 @@ namespace SEOMacroscope
       this.SearchIndex = new MacroscopeSearchIndex ();
 
       this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
-          
+
+      this.StructHyperlinksIn = new Dictionary<string,MacroscopeHyperlinksIn> ( 1024 );
+      
       this.StatsHistory = new Dictionary<string,Boolean> ( 1024 );
       this.StatsHostnames = new Dictionary<string,int> ( 16 );
       this.StatsTitles = new Dictionary<string,int> ( 1024 );
@@ -134,6 +136,25 @@ namespace SEOMacroscope
         sResult = true;
       }
       return( sResult );
+    }
+
+    /** Create Document Methods *******************************************/
+    
+    public MacroscopeDocument CreateDocument ( string Url )
+    {
+      MacroscopeDocument msDoc = new MacroscopeDocument ( DocumentCollection: this, Url: Url );
+      return( msDoc );
+    }
+
+    public MacroscopeDocument CreateDocument ( MacroscopeCredential Credential, string Url )
+    {
+      MacroscopeDocument msDoc = new MacroscopeDocument (
+                                   DocumentCollection: this,
+                                   Url: Url,
+                                   Credential: Credential
+                                 );
+
+      return( msDoc );
     }
 
     /** Document Stats ********************************************************/
@@ -257,6 +278,27 @@ namespace SEOMacroscope
       return( lKeys );
     }
 
+    /** HyperlinksIn **********************************************************/
+
+    public MacroscopeHyperlinksIn GetDocumentHyperlinksIn ( string Url )
+    {
+    
+      MacroscopeHyperlinksIn HyperlinksIn = null;
+      
+      lock( this.StructHyperlinksIn )
+      {
+
+        if( this.StructHyperlinksIn.ContainsKey( Url ) )
+        {
+          HyperlinksIn = this.StructHyperlinksIn[Url];
+        }
+
+      }
+      
+      return( HyperlinksIn );
+      
+    }
+
     /** Recalculate Stats Across DocCollection ********************************/
 
     private void StartRecalcTimer ()
@@ -351,25 +393,32 @@ namespace SEOMacroscope
         this.StatsUrlsExternal = 0;
         this.StatsUrlsSitemaps = 0;
 
-        foreach( string sUrlTarget in this.DocCollection.Keys )
+        foreach( string UrlTarget in this.DocCollection.Keys )
         {
 
-          MacroscopeDocument msDoc = this.GetDocument( sUrlTarget );
+          MacroscopeDocument msDoc = this.GetDocument( UrlTarget );
 
-          this.RecalculateLinksIn( sUrlTarget, msDoc );
-
-          if( this.StatsHistory.ContainsKey( sUrlTarget ) )
+          try
+          {
+            this.RecalculateLinksIn( msDoc );
+          }
+          catch( Exception ex )
+          {
+            this.DebugMsg( string.Format( "RecalculateLinksIn: {0}", ex.Message ) );
+          }
+          
+          if( this.StatsHistory.ContainsKey( UrlTarget ) )
           {
 
-            this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", sUrlTarget ) );
+            this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", UrlTarget ) );
 
           }
           else
           {
 
-            this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", sUrlTarget ) );
+            this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", UrlTarget ) );
 
-            this.StatsHistory.Add( sUrlTarget, true );
+            this.StatsHistory.Add( UrlTarget, true );
 
             this.RecalculateStatsHostnames( msDoc );
 
@@ -420,33 +469,69 @@ namespace SEOMacroscope
 
     /** Hyperlinks In *********************************************************/
 
-    private void RecalculateLinksIn ( string sUrlTarget, MacroscopeDocument msDoc )
+    private void RecalculateLinksIn ( MacroscopeDocument msDoc )
     {
 
-      msDoc.ClearHyperlinksIn();
+      DebugMsg( string.Format( "RecalculateLinksIn: {0} :: {1}", msDoc.GetProcessHyperlinksIn(), msDoc.GetUrl() ) );
 
-      foreach( string sUrlOrigin in this.DocCollection.Keys )
+      if( msDoc.GetProcessHyperlinksIn() )
       {
 
-        foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks( sUrlTarget ) )
-        {
+        DebugMsg( string.Format( "RecalculateLinksIn: PROCESSING: {0}", msDoc.GetUrl() ) );
+        
+        msDoc.SetProcessHyperlinksIn( false );
 
-          if( sUrlTarget == HyperlinkOut.GetUrlTarget() )
+        foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks() )
+        {
+                  
+          string Url = HyperlinkOut.GetUrlTarget();
+          MacroscopeHyperlinksIn HyperlinksIn = null;
+
+          DebugMsg( string.Format( "RecalculateLinksIn: URL SOURCE: {0}", msDoc.GetUrl() ) );
+          DebugMsg( string.Format( "RecalculateLinksIn: URL TARGET: {0}", Url ) );
+
+          if( Url == msDoc.GetUrl() )
+          {
+            DebugMsg( string.Format( "RecalculateLinksIn: SELF: {0}", Url ) );
+            continue;
+          }
+          
+          if( StructHyperlinksIn.ContainsKey( Url ) )
+          {
+            HyperlinksIn = StructHyperlinksIn[ Url ];
+          }
+          else
+          {
+            HyperlinksIn = new MacroscopeHyperlinksIn ();
+            StructHyperlinksIn.Add( Url, HyperlinksIn );
+          }
+
+          if( HyperlinksIn != null )
           {
 
-            msDoc.AddHyperlinkIn(
-              HyperlinkOut.GetHyperlinkType(),
-              HyperlinkOut.GetMethod(),
-              sUrlOrigin,
-              sUrlTarget,
-              HyperlinkOut.GetLinkText(),
-              HyperlinkOut.GetAltText()
+            HyperlinksIn.Add(
+              LinkType: HyperlinkOut.GetHyperlinkType(),
+              Method: HyperlinkOut.GetMethod(),
+              UrlOrigin: msDoc.GetUrl(),
+              UrlTarget: Url,
+              LinkText: HyperlinkOut.GetLinkText(),
+              AltText: HyperlinkOut.GetAltText()
             );
 
+          }
+          else
+          {
+            DebugMsg( string.Format( "RecalculateLinksIn: NULL: {0}", msDoc.GetUrl() ) );
           }
 
         }
 
+      }
+      else
+      {
+        
+        DebugMsg( string.Format( "RecalculateLinksIn: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
+        
       }
 
     }
@@ -723,7 +808,7 @@ namespace SEOMacroscope
       string sErrorCondition = msDoc.GetErrorCondition();
       HttpStatusCode iStatusCode = msDoc.GetStatusCode();
 
-      if( ( (int)iStatusCode >= 300 ) && ( (int)iStatusCode <= 399 ) )
+      if( ( ( int )iStatusCode >= 300 ) && ( ( int )iStatusCode <= 399 ) )
       {
 
         string sText = string.Format( "{0} ({1})", iStatusCode, sErrorCondition );
@@ -777,7 +862,7 @@ namespace SEOMacroscope
       string sErrorCondition = msDoc.GetErrorCondition();
       HttpStatusCode iStatusCode = msDoc.GetStatusCode();
 
-      if( ( (int)iStatusCode >= 400 ) && ( (int)iStatusCode <= 599 ) )
+      if( ( ( int )iStatusCode >= 400 ) && ( ( int )iStatusCode <= 599 ) )
       {
 
         string sText = string.Format( "{0} ({1})", iStatusCode, sErrorCondition );

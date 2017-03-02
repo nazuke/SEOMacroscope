@@ -53,6 +53,7 @@ namespace SEOMacroscope
       string Password
     )
     {
+      this.SuppressDebugMsg = true;
       this.CredentialsHttp = CredentialsHttp;
       this.Domain = Domain;
       this.Realm = Realm;
