@@ -99,21 +99,6 @@
       <DependentUpon>version.tt</DependentUpon>
       <AutoGen>True</AutoGen>
     </None>
-    <None Include="docs\index.html">
-      <DependentUpon>index.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Include="docs\resources\header.html">
-      <DependentUpon>header.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <Content Include="docs\resources\footer.html">
-      <DependentUpon>footer.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
     <Compile Include="Icons.Designer.cs">
       <DependentUpon>Icons.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -279,21 +264,6 @@
       <LogicalName>LICENCE</LogicalName>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="docs\index.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>index.html</LastGenOutput>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Include="docs\resources\footer.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>footer.html</LastGenOutput>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Include="docs\resources\header.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>header.html</LastGenOutput>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
     <None Include="MacroscopePreferences.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MacroscopePreferences.Designer.cs</LastGenOutput>
@@ -343,8 +313,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="docs\help" />
-    <Folder Include="docs\resources" />
     <Folder Include="MacroscopeAnalysis\t" />
     <Folder Include="MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeDocument" />
@@ -382,7 +350,6 @@
     <Folder Include="MacroscopeUserControls\MacroscopeOverviewPanel" />
     <Folder Include="MacroscopeUserControls\MacroscopeSiteStructurePanel" />
     <Folder Include="MacroscopeSearch" />
-    <Folder Include="docs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
