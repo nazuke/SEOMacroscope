@@ -4,6 +4,7 @@ GEM
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
     colorator (1.1.0)
+    ffi (1.9.17-x64-mingw32)
     ffi (1.9.17-x86-mingw32)
     forwardable-extended (2.6.0)
     jekyll (3.4.1)
@@ -47,6 +48,7 @@ GEM
       tzinfo (>= 1.0.0)
 
 PLATFORMS
+  x64-mingw32
   x86-mingw32
 
 DEPENDENCIES
@@ -59,4 +61,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.14.5
+   1.14.6

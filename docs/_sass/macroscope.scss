@@ -1,0 +1,37 @@
+body
+{
+	background-color:#FFFFFF;
+}
+
+/** Jumbotrons ****************************************************************/
+
+.jumbotron
+{
+
+  background-color:#000000;
+	background-image:url('../media/images/uranus.png');
+  background-repeat:no-repeat;
+  background-position:top right;
+  background-size:40%;
+
+  h1, a
+  {
+    color:#FF8800;
+  }
+
+  h2
+  {
+    color:#AAAAAA;
+  }
+
+}
+
+/** Footer ********************************************************************/
+
+footer
+{
+  background-color:#EEEEEE;
+  margin:100px 0px 0px 0px;
+}
+
+/******************************************************************************/

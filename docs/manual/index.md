@@ -3,6 +3,11 @@ layout: page
 title: SEO Macroscope Manual
 ---
 
+
+
+![The SEO Macroscope application window.](images/application-001.png)
+
+
 ## Site Scan
 
 TBD
