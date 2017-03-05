@@ -299,7 +299,6 @@ namespace SEOMacroscope
         {
 
           string sLinkUrl = nLink.GetAttributeValue( "href", null );
-          //sLinkUrl = MacroscopeUrlTools.SanitizeUrl( sLinkUrl );
           string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
 
           MacroscopeHyperlinkOut hlHyperlinkOut = this.HyperlinksOut.Add(
@@ -347,10 +346,12 @@ namespace SEOMacroscope
 
               hlHyperlinkOut.SetHyperlinkType( MacroscopeConstants.HyperlinkType.IMAGE );
               string sAltText = nLink.GetAttributeValue( "alt", null );
+              
               if( ( sAltText != null ) && ( sAltText.Length > 0 ) )
               {
                 hlHyperlinkOut.SetAltText( sAltText );
               }
+              
             }
 
           }

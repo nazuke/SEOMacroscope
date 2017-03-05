@@ -153,7 +153,6 @@ namespace SEOMacroscope
                                    Url: Url,
                                    Credential: Credential
                                  );
-
       return( msDoc );
     }
 
@@ -290,7 +289,7 @@ namespace SEOMacroscope
 
         if( this.StructHyperlinksIn.ContainsKey( Url ) )
         {
-          HyperlinksIn = this.StructHyperlinksIn[Url];
+          HyperlinksIn = this.StructHyperlinksIn[ Url ];
         }
 
       }
