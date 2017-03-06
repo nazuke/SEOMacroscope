@@ -73,7 +73,7 @@ namespace SEOMacroscope
     public MacroscopeDocumentCollection ( MacroscopeJobMaster JobMaster )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
 
@@ -128,10 +128,10 @@ namespace SEOMacroscope
 
     /** Document Collection Methods *******************************************/
 
-    public Boolean ContainsDocument ( string sKey )
+    public Boolean ContainsDocument ( string Url )
     {
       Boolean sResult = false;
-      if( this.DocCollection.ContainsKey( sKey ) )
+      if( this.DocCollection.ContainsKey( Url ) )
       {
         sResult = true;
       }
@@ -182,20 +182,20 @@ namespace SEOMacroscope
 
     // TODO: There may be a bug here, whereby two or more error pages are added multiple times.
 
-    public void AddDocument ( string sKey, MacroscopeDocument msDoc )
+    public void AddDocument ( string Url, MacroscopeDocument msDoc )
     {
       lock( this.DocCollection )
       {
-        if( this.DocCollection.ContainsKey( sKey ) )
+        if( this.DocCollection.ContainsKey( Url ) )
         {
-          this.DocCollection.Remove( sKey );
-          this.DocCollection.Add( sKey, msDoc );
+          this.DocCollection.Remove( Url );
+          this.DocCollection.Add( Url, msDoc );
         }
         else
         {
           try
           {
-            this.DocCollection.Add( sKey, msDoc );
+            this.DocCollection.Add( Url, msDoc );
           }
           catch( ArgumentException ex )
           {
@@ -211,10 +211,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean DocumentExists ( string sKey )
+    public Boolean DocumentExists ( string Url )
     {
       Boolean bExists = false;
-      if( this.DocCollection.ContainsKey( sKey ) )
+      if( this.DocCollection.ContainsKey( Url ) )
       {
         bExists = true;
       }
@@ -223,25 +223,25 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocument GetDocument ( string sKey )
+    public MacroscopeDocument GetDocument ( string Url )
     {
       MacroscopeDocument msDoc = null;
-      if( this.DocCollection.ContainsKey( sKey ) )
+      if( ( Url != null ) && this.DocCollection.ContainsKey( Url ) )
       {
-        msDoc = ( MacroscopeDocument )this.DocCollection[ sKey ];
+        msDoc = ( MacroscopeDocument )this.DocCollection[ Url ];
       }
       return( msDoc );
     }
 
     /**************************************************************************/
 
-    public void RemoveDocument ( string sKey )
+    public void RemoveDocument ( string Url )
     {
-      if( this.DocCollection.ContainsKey( sKey ) )
+      if( this.DocCollection.ContainsKey( Url ) )
       {
         lock( this.DocCollection )
         {
-          this.DocCollection.Remove( sKey );
+          this.DocCollection.Remove( Url );
         }
       }
     }
@@ -268,9 +268,9 @@ namespace SEOMacroscope
       {
         lock( this.DocCollection )
         {
-          foreach( string sKey in this.DocCollection.Keys )
+          foreach( string Url in this.DocCollection.Keys )
           {
-            lKeys.Add( sKey );
+            lKeys.Add( Url );
           }
         }
       }
@@ -478,7 +478,7 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "RecalculateLinksIn: PROCESSING: {0}", msDoc.GetUrl() ) );
         
-        msDoc.SetProcessHyperlinksIn( false );
+        msDoc.UnsetProcessHyperlinksIn();
 
         foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks() )
         {

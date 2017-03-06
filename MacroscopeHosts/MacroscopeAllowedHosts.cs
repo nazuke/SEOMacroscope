@@ -138,8 +138,29 @@ namespace SEOMacroscope
 
     public Boolean IsAllowedFromUrl ( string Url )
     {
-      Uri uFromUrl = new Uri ( Url, UriKind.Absolute );
-      return( this.IsAllowed( uFromUrl.Host ) );
+
+      Uri FromUri = null;
+      Boolean Allowed = false;
+
+      try
+      {
+        FromUri = new Uri ( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "IsAllowedFromUrl: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "IsAllowedFromUrl: {0}", ex.Message ) );
+      }
+
+      if( FromUri != null )
+      {
+        Allowed = this.IsAllowed( FromUri.Host );
+      } 
+
+      return( Allowed );
     }
 
     /**************************************************************************/

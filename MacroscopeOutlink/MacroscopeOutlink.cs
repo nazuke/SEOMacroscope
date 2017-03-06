@@ -28,43 +28,104 @@ using System;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeOutlink.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeOutlink.
+  /// </summary>
 
-	public class MacroscopeOutlink : Macroscope
-	{
+  public class MacroscopeOutlink : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeConstants.OutlinkType Type { get; set; }
+    private MacroscopeConstants.OutlinkType LinkType;
 
-		public string RawUrl { get; set; }
-		public string AbsoluteUrl { get; set; }
+    private string AbsoluteUrl;
 
-		public Boolean Follow { get; set; }
+    private Boolean DoFollow;
 
-		/**************************************************************************/
+    private string Title;
+    private string AltText;
 
-		public MacroscopeOutlink ()
-		{
-		}
+    /**************************************************************************/
 
-		public MacroscopeOutlink (
-			string sRawUrl,
-			string sAbsoluteUrl,
-			MacroscopeConstants.OutlinkType olType,
-			Boolean bFollow
-		)
-		{
-			RawUrl = sRawUrl;
-			AbsoluteUrl = sAbsoluteUrl;
-			Type = olType;
-			Follow = bFollow;
-		}
+    public MacroscopeOutlink (
+      string AbsoluteUrl,
+      MacroscopeConstants.OutlinkType LinkType,
+      Boolean Follow
+    )
+    {
+      this.AbsoluteUrl = AbsoluteUrl;
+      this.LinkType = LinkType;
+      this.DoFollow = Follow;
+    }
 
-		/**************************************************************************/
+    /** Absolute URL **********************************************************/
 
-	}
+    public void SetAbsoluteUrl ( string AbsoluteUrl )
+    {
+      this.AbsoluteUrl = AbsoluteUrl;
+    }
+
+    public string GetAbsoluteUrl ()
+    {
+      return( this.AbsoluteUrl );
+    }
+    
+    /** Link Type *************************************************************/
+
+    public void SetLinkType ( MacroscopeConstants.OutlinkType LinkType )
+    {
+      this.LinkType = LinkType;
+    }
+
+    public MacroscopeConstants.OutlinkType GetLinkType ()
+    {
+      return( this.LinkType );
+    }
+    
+    /** DoFollow **************************************************************/
+
+    public void SetDoFollow ()
+    {
+      this.DoFollow = true;
+    }
+    
+    public void UnsetDoFollow ()
+    {
+      this.DoFollow = false;
+    }
+
+    public Boolean GetDoFollow ()
+    {
+      return( this.DoFollow );
+    }
+
+    /** Title *****************************************************************/
+
+    public void SetTitle ( string Title )
+    {
+      this.Title = Title;
+    }
+
+    public string GetTitle ()
+    {
+      return( this.Title );
+    }
+
+    /** AltText ***************************************************************/
+
+    public void SetAltText ( string AltText )
+    {
+      this.AltText = AltText;
+    }
+
+    public string GetAltText ()
+    {
+      return( this.AltText );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

@@ -51,7 +51,7 @@ namespace SEOMacroscope
       try
       {
 
-        req = WebRequest.CreateHttp( this.Url );
+        req = WebRequest.CreateHttp( this.DocUrl );
         req.Method = "GET";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
@@ -152,7 +152,7 @@ namespace SEOMacroscope
             this.Locale = msLocale.ProbeLocale( HtmlDoc );
             if( this.Locale != null )
             {
-              this.SetHreflang( this.Locale, this.Url );
+              this.SetHreflang( this.Locale, this.DocUrl );
             }
           }
 
@@ -270,8 +270,15 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
         if( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
         {
-          string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, this.Canonical );
-          this.AddHtmlOutlink( this.Canonical, sLinkUrlAbs, MacroscopeConstants.OutlinkType.CANONICAL, true );
+          
+          string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, this.Canonical );
+          
+          this.AddHtmlOutlink(
+            AbsoluteUrl: sLinkUrlAbs,
+            LinkType: MacroscopeConstants.OutlinkType.CANONICAL,
+            Follow: true
+          );
+          
         }
 
       }
@@ -299,12 +306,16 @@ namespace SEOMacroscope
         {
 
           string sLinkUrl = nLink.GetAttributeValue( "href", null );
-          string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+          string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
           MacroscopeHyperlinkOut hlHyperlinkOut = this.HyperlinksOut.Add(
                                                     LinkType: MacroscopeConstants.HyperlinkType.TEXT,
                                                     UrlTarget: sLinkUrlAbs
                                                   );
+          if( sLinkUrlAbs != null )
+          {
+            this.SetProcessHyperlinksInForUrl( Url: sLinkUrlAbs );
+          }
 
           { // FOLLOW / NOFOLLOW
 
@@ -342,11 +353,14 @@ namespace SEOMacroscope
             {
 
               DebugMsg( string.Format( "nImage: {0}", this.GetUrl() ) );
+              DebugMsg( string.Format( "nImage: SRC: {0}", nImage.GetAttributeValue( "src", "UNKNOWN" ) ) );
               DebugMsg( string.Format( "nImage: {0}", nImage ) );
 
               hlHyperlinkOut.SetHyperlinkType( MacroscopeConstants.HyperlinkType.IMAGE );
               string sAltText = nLink.GetAttributeValue( "alt", null );
               
+              DebugMsg( string.Format( "nImage: sAltText: {0}", sAltText ) );
+                            
               if( ( sAltText != null ) && ( sAltText.Length > 0 ) )
               {
                 hlHyperlinkOut.SetAltText( sAltText );
@@ -378,11 +392,25 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sTitle = nLink.GetAttributeValue( "title", "" );
+            string sAltText = nLink.GetAttributeValue( "alt", "" );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.AHREF, true );
+              
+              MacroscopeOutlink Outlink = this.AddHtmlOutlink(
+                                            sLinkUrlAbs,
+                                            MacroscopeConstants.OutlinkType.AHREF,
+                                            true
+                                          );
+              
+              if( Outlink != null )
+              {
+                Outlink.SetTitle( Title: sTitle );
+                Outlink.SetAltText( AltText: sAltText );
+              }
+
             }
 
           }
@@ -419,14 +447,18 @@ namespace SEOMacroscope
             if( ( sLinkUrl != null ) && ( sLinkUrl.Length > 0 ) )
             {
 
-              string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+              string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
               DebugMsg( string.Format( "META: 1 :: {0}", sLinkUrl ) );
               DebugMsg( string.Format( "META: 2 :: {0}", sLinkUrlAbs ) );
 
               if( sLinkUrlAbs != null )
               {
-                this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.META, true );
+                this.AddHtmlOutlink(
+                  AbsoluteUrl: sLinkUrlAbs,
+                  LinkType: MacroscopeConstants.OutlinkType.META,
+                  Follow: true
+                );
               }
 
             }
@@ -448,13 +480,13 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-            MacroscopeConstants.OutlinkType sType = MacroscopeConstants.OutlinkType.LINK;
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            MacroscopeConstants.OutlinkType LinkType = MacroscopeConstants.OutlinkType.LINK;
             Boolean bFollow = true;
 
             if( nLink.GetAttributeValue( "hreflang", null ) != null )
             {
-              sType = MacroscopeConstants.OutlinkType.HREFLANG;
+              LinkType = MacroscopeConstants.OutlinkType.HREFLANG;
               if( !MacroscopePreferencesManager.GetFollowHrefLangLinks() )
               {
                 bFollow = false;
@@ -465,12 +497,16 @@ namespace SEOMacroscope
               ( nLink.GetAttributeValue( "rel", null ) != null )
               && ( nLink.GetAttributeValue( "rel", "" ).ToLower() == "stylesheet" ) )
             {
-              sType = MacroscopeConstants.OutlinkType.STYLESHEET;
+              LinkType = MacroscopeConstants.OutlinkType.STYLESHEET;
             }
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, sType, bFollow );
+              this.AddHtmlOutlink(
+                AbsoluteUrl: sLinkUrlAbs,
+                LinkType: LinkType,
+                Follow: bFollow
+              );
             }
 
           }
@@ -490,14 +526,20 @@ namespace SEOMacroscope
           foreach( HtmlNode nLink in nOutlinks )
           {
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "IFRAME: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "IFRAME: 2 :: {0}", sLinkUrlAbs ) );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IFRAME, true );
+
+              this.AddHtmlOutlink(
+                AbsoluteUrl: sLinkUrlAbs,
+                LinkType: MacroscopeConstants.OutlinkType.IFRAME,
+                Follow: true
+              );
+              
             }
 
           }
@@ -517,11 +559,17 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.MAP, true );
+
+              this.AddHtmlOutlink(
+                AbsoluteUrl: sLinkUrlAbs,
+                LinkType: MacroscopeConstants.OutlinkType.MAP,
+                Follow: true
+              );
+              
             }
 
           }
@@ -541,14 +589,28 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
-
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sTitle = nLink.GetAttributeValue( "title", "" );
+            string sAltText = nLink.GetAttributeValue( "alt", "" );
+            
             DebugMsg( string.Format( "IMAGE: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "IMAGE: 2 :: {0}", sLinkUrlAbs ) );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
+
+              MacroscopeOutlink Outlink = this.AddHtmlOutlink(
+                                            AbsoluteUrl: sLinkUrlAbs,
+                                            LinkType: MacroscopeConstants.OutlinkType.IMAGE,
+                                            Follow: true
+                                          );
+
+              if( Outlink != null )
+              {
+                Outlink.SetTitle( Title: sTitle );
+                Outlink.SetAltText( AltText: sAltText );
+              }
+
             }
 
           }
@@ -568,11 +630,17 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.SCRIPT, true );
+              
+              this.AddHtmlOutlink(
+                AbsoluteUrl: sLinkUrlAbs,
+                LinkType: MacroscopeConstants.OutlinkType.SCRIPT,
+                Follow: true
+              );
+              
             }
 
           }
@@ -593,14 +661,20 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "AUDIO: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "AUDIO: 2 :: {0}", sLinkUrlAbs ) );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.AUDIO, true );
+              
+              this.AddHtmlOutlink(
+                AbsoluteUrl: sLinkUrlAbs,
+                LinkType: MacroscopeConstants.OutlinkType.AUDIO,
+                Follow: true
+              );
+              
             }
 
           }
@@ -621,14 +695,20 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "VIDEO: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "VIDEO: 2 :: {0}", sLinkUrlAbs ) );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.VIDEO, true );
+
+              this.AddHtmlOutlink(
+                AbsoluteUrl: sLinkUrlAbs,
+                LinkType: MacroscopeConstants.OutlinkType.VIDEO,
+                Follow: true
+              );
+              
             }
 
           }
@@ -649,14 +729,20 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "EMBED: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "EMBED: 2 :: {0}", sLinkUrlAbs ) );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.EMBED, true );
+              
+              this.AddHtmlOutlink(
+                AbsoluteUrl: sLinkUrlAbs,
+                LinkType: MacroscopeConstants.OutlinkType.EMBED,
+                Follow: true
+              );
+              
             }
 
           }
@@ -677,14 +763,20 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "data", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "OBJECT: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "OBJECT: 2 :: {0}", sLinkUrlAbs ) );
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink( sLinkUrl, sLinkUrlAbs, MacroscopeConstants.OutlinkType.OBJECT, true );
+              
+              this.AddHtmlOutlink(
+                AbsoluteUrl: sLinkUrlAbs,
+                LinkType: MacroscopeConstants.OutlinkType.OBJECT,
+                Follow: true
+              );
+              
             }
 
           }
@@ -697,25 +789,30 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void AddHtmlOutlink (
-      string sRawUrl,
-      string sAbsoluteUrl,
-      MacroscopeConstants.OutlinkType OutlinkType,
-      Boolean bFollow
+    private MacroscopeOutlink AddHtmlOutlink (
+      string AbsoluteUrl,
+      MacroscopeConstants.OutlinkType LinkType,
+      Boolean Follow
     )
     {
 
-      MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, OutlinkType, bFollow );
+      MacroscopeOutlink OutLink = new MacroscopeOutlink (
+                                    AbsoluteUrl: AbsoluteUrl,
+                                    LinkType: LinkType,
+                                    Follow: Follow
+                                  );
 
-      if( this.Outlinks.ContainsKey( sRawUrl ) )
+      if( this.Outlinks.ContainsKey( AbsoluteUrl ) )
       {
-        this.Outlinks.Remove( sRawUrl );
-        this.Outlinks.Add( sRawUrl, OutLink );
+        this.Outlinks.Remove( AbsoluteUrl );
+        this.Outlinks.Add( AbsoluteUrl, OutLink );
       }
       else
       {
-        this.Outlinks.Add( sRawUrl, OutLink );
+        this.Outlinks.Add( AbsoluteUrl, OutLink );
       }
+
+      return( OutLink );
 
     }
 
@@ -746,7 +843,7 @@ namespace SEOMacroscope
           else
           {
 
-            if( this.Url == sHref )
+            if( this.DocUrl == sHref )
             {
               sLocale = this.Locale;
             }
@@ -842,7 +939,7 @@ namespace SEOMacroscope
               MatchCollection reMatches = Regex.Matches( sLinkUrl, "^mailto:([^?]+)" );
               foreach( Match reMatch in reMatches )
               {
-                this.AddEmailAddress( reMatch.Groups[ 1 ].Value.ToString() );
+                this.AddEmailAddress( EmailAddress: reMatch.Groups[ 1 ].Value );
               }
             }
           }
@@ -867,7 +964,7 @@ namespace SEOMacroscope
               MatchCollection reMatches = Regex.Matches( sLinkUrl, "^tel:(.+)" );
               foreach( Match reMatch in reMatches )
               {
-                this.AddTelephoneNumber( reMatch.Groups[ 1 ].Value.ToString() );
+                this.AddTelephoneNumber( TelephoneNumber: reMatch.Groups[ 1 ].Value );
               }
             }
           }

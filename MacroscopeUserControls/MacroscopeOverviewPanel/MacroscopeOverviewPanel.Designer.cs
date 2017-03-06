@@ -288,6 +288,7 @@ namespace SEOMacroscope
 			this.listViewErrors = new System.Windows.Forms.ListView();
 			this.columnHeaderErrorsUrl = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderErrorsStatusCode = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderErrorsStatus = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderErrorsDescription = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHostnames = new System.Windows.Forms.TabPage();
 			this.listViewHostnames = new System.Windows.Forms.ListView();
@@ -298,6 +299,7 @@ namespace SEOMacroscope
 			this.listViewUriAnalysis = new System.Windows.Forms.ListView();
 			this.columnHeaderUriAnalysisUrl = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderUriAnalysisStatusCode = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderUriAnalysisStatus = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderUriAnalysisCount = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderUriAnalysisChecksum = new System.Windows.Forms.ColumnHeader();
 			this.tabPagePageTitles = new System.Windows.Forms.TabPage();
@@ -373,8 +375,6 @@ namespace SEOMacroscope
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.columnHeaderErrorsStatus = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderUriAnalysisStatus = new System.Windows.Forms.ColumnHeader();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
@@ -1073,6 +1073,11 @@ namespace SEOMacroscope
 			this.columnHeaderErrorsStatusCode.Text = "Status Code";
 			this.columnHeaderErrorsStatusCode.Width = 150;
 			// 
+			// columnHeaderErrorsStatus
+			// 
+			this.columnHeaderErrorsStatus.Text = "Status";
+			this.columnHeaderErrorsStatus.Width = 150;
+			// 
 			// columnHeaderErrorsDescription
 			// 
 			this.columnHeaderErrorsDescription.Text = "Error Description";
@@ -1158,6 +1163,11 @@ namespace SEOMacroscope
 			this.columnHeaderUriAnalysisStatusCode.Text = "Status Code";
 			this.columnHeaderUriAnalysisStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.columnHeaderUriAnalysisStatusCode.Width = 100;
+			// 
+			// columnHeaderUriAnalysisStatus
+			// 
+			this.columnHeaderUriAnalysisStatus.Text = "Status";
+			this.columnHeaderUriAnalysisStatus.Width = 150;
 			// 
 			// columnHeaderUriAnalysisCount
 			// 
@@ -1796,16 +1806,6 @@ namespace SEOMacroscope
 			// 
 			this.HistoryVisited.Text = "Visited";
 			this.HistoryVisited.Width = 100;
-			// 
-			// columnHeaderErrorsStatus
-			// 
-			this.columnHeaderErrorsStatus.Text = "Status";
-			this.columnHeaderErrorsStatus.Width = 150;
-			// 
-			// columnHeaderUriAnalysisStatus
-			// 
-			this.columnHeaderUriAnalysisStatus.Text = "Status";
-			this.columnHeaderUriAnalysisStatus.Width = 150;
 			// 
 			// MacroscopeOverviewPanel
 			// 

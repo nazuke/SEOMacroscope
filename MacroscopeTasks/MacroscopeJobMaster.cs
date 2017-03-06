@@ -85,7 +85,7 @@ namespace SEOMacroscope
       MacroscopeConstants.RunTimeMode RunTimeMode
     )
     {
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       this.TaskController = null;
       InitializeJobMaster( RunTimeMode: RunTimeMode );
     }
@@ -95,7 +95,7 @@ namespace SEOMacroscope
       IMacroscopeTaskController TaskController
     )
     {
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       this.TaskController = TaskController;
       InitializeJobMaster( RunTimeMode: RunTimeMode );
     }

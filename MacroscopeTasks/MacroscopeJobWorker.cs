@@ -407,17 +407,17 @@ namespace SEOMacroscope
         MacroscopeOutlink Outlink = msDoc.GetOutlink( sUrl );
         Boolean bProceed = true;
 
-        if( !Outlink.Follow )
+        if( !Outlink.GetDoFollow() )
         {
           continue;
         }
 
-        if( Outlink.AbsoluteUrl == null )
+        if( Outlink.GetAbsoluteUrl() == null )
         {
           continue;
         }
 
-        if( this.JobMaster.SeenHistoryItem( Outlink.AbsoluteUrl ) )
+        if( this.JobMaster.SeenHistoryItem( Outlink.GetAbsoluteUrl() ) )
         {
           continue;
         }
@@ -441,7 +441,7 @@ namespace SEOMacroscope
         if( bProceed )
         {
 
-          this.JobMaster.AddUrlQueueItem( Outlink.AbsoluteUrl );
+          this.JobMaster.AddUrlQueueItem( Outlink.GetAbsoluteUrl() );
 
         }
 

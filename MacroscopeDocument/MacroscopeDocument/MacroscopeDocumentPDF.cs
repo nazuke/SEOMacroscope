@@ -47,7 +47,7 @@ namespace SEOMacroscope
       try
       {
 
-        req = WebRequest.CreateHttp( this.Url );
+        req = WebRequest.CreateHttp( this.DocUrl );
         req.Method = "GET";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
@@ -84,11 +84,11 @@ namespace SEOMacroscope
 
         { // Probe Locale
           this.Locale = "en"; // Implement locale probing
-          this.SetHreflang( this.Locale, this.Url );
+          this.SetHreflang( this.Locale, this.DocUrl );
         }
 
         { // Canonical
-          this.Canonical = this.Url;
+          this.Canonical = this.DocUrl;
           DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
         }
 

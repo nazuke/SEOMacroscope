@@ -91,6 +91,8 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeaderJavascriptsItem;
 		private System.Windows.Forms.ColumnHeader columnHeaderAudiosItem;
 		private System.Windows.Forms.ColumnHeader columnHeaderVideosItem;
+		public System.Windows.Forms.ColumnHeader columnHeaderImagesTitle;
+		public System.Windows.Forms.ColumnHeader columnHeaderImagesAltText;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -158,6 +160,8 @@ namespace SEOMacroscope
 			this.listViewImages = new System.Windows.Forms.ListView();
 			this.columnHeaderImagesItem = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderImagesUrl = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderImagesTitle = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderImagesAltText = new System.Windows.Forms.ColumnHeader();
 			this.tabPageAudios = new System.Windows.Forms.TabPage();
 			this.listViewAudios = new System.Windows.Forms.ListView();
 			this.columnHeaderAudiosItem = new System.Windows.Forms.ColumnHeader();
@@ -566,7 +570,9 @@ namespace SEOMacroscope
 			this.listViewImages.CausesValidation = false;
 			this.listViewImages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderImagesItem,
-			this.columnHeaderImagesUrl});
+			this.columnHeaderImagesUrl,
+			this.columnHeaderImagesTitle,
+			this.columnHeaderImagesAltText});
 			this.listViewImages.FullRowSelect = true;
 			this.listViewImages.GridLines = true;
 			this.listViewImages.Location = new System.Drawing.Point(20, 20);
@@ -585,6 +591,16 @@ namespace SEOMacroscope
 			// 
 			this.columnHeaderImagesUrl.Text = "URL";
 			this.columnHeaderImagesUrl.Width = 400;
+			// 
+			// columnHeaderImagesTitle
+			// 
+			this.columnHeaderImagesTitle.Text = "Title";
+			this.columnHeaderImagesTitle.Width = 150;
+			// 
+			// columnHeaderImagesAltText
+			// 
+			this.columnHeaderImagesAltText.Text = "Alt Text";
+			this.columnHeaderImagesAltText.Width = 150;
 			// 
 			// tabPageAudios
 			// 

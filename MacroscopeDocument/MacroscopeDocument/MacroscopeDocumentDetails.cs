@@ -89,6 +89,8 @@ namespace SEOMacroscope
       slDetails.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
       slDetails.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
 
+      slDetails.Add( new KeyValuePair<string,string> ( "AltText", this.GetAltText() ) );
+            
       slDetails.Add( new KeyValuePair<string,string> ( "Checksum", this.GetChecksum() ) );
 
       for( ushort iLevel = 1 ; iLevel <= 6 ; iLevel++ )

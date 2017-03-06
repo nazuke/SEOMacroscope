@@ -49,7 +49,7 @@ namespace SEOMacroscope
       try
       {
 
-        req = WebRequest.CreateHttp( this.Url );
+        req = WebRequest.CreateHttp( this.DocUrl );
         req.Method = "GET";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
@@ -65,7 +65,7 @@ namespace SEOMacroscope
       {
 
         DebugMsg( string.Format( "ProcessXmlPage :: WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "ProcessXmlPage :: WebException: {0}", this.Url ) );
+        DebugMsg( string.Format( "ProcessXmlPage :: WebException: {0}", this.DocUrl ) );
         DebugMsg( string.Format( "ProcessXmlPage :: WebExceptionStatus: {0}", ex.Status ) );
         sErrorCondition = ex.Status.ToString();
 
@@ -201,7 +201,10 @@ namespace SEOMacroscope
 
           if( sLinkUrl != null )
           {
-            this.AddSitemapXmlOutlink( sLinkUrl, sLinkUrl, MacroscopeConstants.OutlinkType.SITEMAPXML, true );
+            this.AddSitemapXmlOutlink(
+              AbsoluteUrl: sLinkUrl,
+              LinkType: MacroscopeConstants.OutlinkType.SITEMAPXML,
+              Follow: true );
           }
 
         }
@@ -212,21 +215,31 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void AddSitemapXmlOutlink ( string sRawUrl, string sAbsoluteUrl, MacroscopeConstants.OutlinkType sType, Boolean bFollow )
+    private MacroscopeOutlink AddSitemapXmlOutlink (
+      string AbsoluteUrl,
+      MacroscopeConstants.OutlinkType LinkType,
+      Boolean Follow
+    )
     {
 
-      MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, sType, bFollow );
+      MacroscopeOutlink OutLink = new MacroscopeOutlink (
+                                    AbsoluteUrl: AbsoluteUrl,
+                                    LinkType: LinkType,
+                                    Follow: Follow
+                                  );
 
-      if( this.Outlinks.ContainsKey( sRawUrl ) )
+      if( this.Outlinks.ContainsKey( AbsoluteUrl ) )
       {
-        this.Outlinks.Remove( sRawUrl );
-        this.Outlinks.Add( sRawUrl, OutLink );
+        this.Outlinks.Remove( AbsoluteUrl );
+        this.Outlinks.Add( AbsoluteUrl, OutLink );
       }
       else
       {
-        this.Outlinks.Add( sRawUrl, OutLink );
+        this.Outlinks.Add( AbsoluteUrl, OutLink );
       }
 
+      return( OutLink );
+            
     }
 
     /**************************************************************************/

@@ -46,7 +46,7 @@ namespace SEOMacroscope
       try
       {
 
-        req = WebRequest.CreateHttp( this.Url );
+        req = WebRequest.CreateHttp( this.DocUrl );
         req.Method = "HEAD";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
@@ -82,7 +82,7 @@ namespace SEOMacroscope
 
         { // Title
 
-          MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
+          MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
           string sTitle = null;
 
           foreach( Match match in reMatches )

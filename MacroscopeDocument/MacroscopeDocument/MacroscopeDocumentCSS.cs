@@ -50,7 +50,7 @@ namespace SEOMacroscope
       try
       {
 
-        req = WebRequest.CreateHttp( this.Url );
+        req = WebRequest.CreateHttp( this.DocUrl );
         req.Method = "GET";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
@@ -154,7 +154,7 @@ namespace SEOMacroscope
         }
         
         { // Title
-          MatchCollection reMatches = Regex.Matches( this.Url, "/([^/]+)$" );
+          MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
           string sTitle = null;
           foreach( Match match in reMatches )
           {
@@ -217,7 +217,11 @@ namespace SEOMacroscope
                   LinkType: MacroscopeConstants.HyperlinkType.CSS,
                   UrlTarget: sLinkUrlAbs
                 );
-                this.AddCssOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
+                this.AddCssOutlink(
+                  AbsoluteUrl: sLinkUrlAbs,
+                  LinkType: MacroscopeConstants.OutlinkType.IMAGE,
+                  Follow: true
+                );
               }
               break;
 
@@ -233,7 +237,11 @@ namespace SEOMacroscope
                   LinkType: MacroscopeConstants.HyperlinkType.CSS,
                   UrlTarget: sLinkUrlAbs
                 );
-                this.AddCssOutlink( sLinkUrlAbs, sLinkUrlAbs, MacroscopeConstants.OutlinkType.IMAGE, true );
+                this.AddCssOutlink(
+                  AbsoluteUrl: sLinkUrlAbs,
+                  LinkType: MacroscopeConstants.OutlinkType.IMAGE,
+                  Follow: true
+                );
               }
               break;
 
@@ -259,10 +267,10 @@ namespace SEOMacroscope
       if( sLinkUrlCleaned != null )
       {
 
-        sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.Url, sLinkUrlCleaned );
+        sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrlCleaned );
 
         DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", sLinkUrlCleaned ) );
-        DebugMsg( string.Format( "ProcessCssBackImageUrl: this.Url: {0}", this.Url ) );
+        DebugMsg( string.Format( "ProcessCssBackImageUrl: this.Url: {0}", this.DocUrl ) );
         DebugMsg( string.Format( "ProcessCssBackImageUrl: sLinkUrlAbs: {0}", sLinkUrlAbs ) );
 
       }
@@ -273,26 +281,31 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void AddCssOutlink (
-      string sRawUrl,
-      string sAbsoluteUrl,
-      MacroscopeConstants.OutlinkType OutlinkType,
-      Boolean bFollow
+    private MacroscopeOutlink AddCssOutlink (
+      string AbsoluteUrl,
+      MacroscopeConstants.OutlinkType LinkType,
+      Boolean Follow
     )
     {
 
-      MacroscopeOutlink OutLink = new MacroscopeOutlink ( sRawUrl, sAbsoluteUrl, OutlinkType, bFollow );
+      MacroscopeOutlink OutLink = new MacroscopeOutlink (
+                                    AbsoluteUrl: AbsoluteUrl,
+                                    LinkType: LinkType,
+                                    Follow: Follow
+                                  );
 
-      if( this.Outlinks.ContainsKey( sRawUrl ) )
+      if( this.Outlinks.ContainsKey( AbsoluteUrl ) )
       {
-        this.Outlinks.Remove( sRawUrl );
-        this.Outlinks.Add( sRawUrl, OutLink );
+        this.Outlinks.Remove( AbsoluteUrl );
+        this.Outlinks.Add( AbsoluteUrl, OutLink );
       }
       else
       {
-        this.Outlinks.Add( sRawUrl, OutLink );
+        this.Outlinks.Add( AbsoluteUrl, OutLink );
       }
 
+      return( OutLink );
+            
     }
 
     /**************************************************************************/
