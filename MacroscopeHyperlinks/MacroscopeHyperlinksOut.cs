@@ -116,7 +116,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public IEnumerable IterateLinks ()
+    public IEnumerable<MacroscopeHyperlinkOut> IterateLinks ()
     {
       lock( this.Links )
       {

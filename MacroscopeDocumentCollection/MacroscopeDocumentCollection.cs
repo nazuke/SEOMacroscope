@@ -248,7 +248,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public IEnumerable IterateDocuments ()
+    public IEnumerable<MacroscopeDocument> IterateDocuments ()
     {
       lock( this.DocCollection )
       {
@@ -298,7 +298,7 @@ namespace SEOMacroscope
       
     }
 
-    public IEnumerable IterateHyperlinksIn ()
+    public IEnumerable<string> IterateHyperlinksIn ()
     {
       lock( this.StructHyperlinksIn )
       {

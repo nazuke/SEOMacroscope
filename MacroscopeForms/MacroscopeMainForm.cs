@@ -2125,11 +2125,11 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
-        string sPath = Dialog.FileName;
+        string Path = Dialog.FileName;
         MacroscopeExcelOverviewReport msExcelReport = new MacroscopeExcelOverviewReport ();
         try
         {
-          msExcelReport.WriteXslx( this.JobMaster, sPath );
+          msExcelReport.WriteXslx( this.JobMaster, Path );
         }
         catch( MacroscopeCannotSaveExcelFileException ex )
         {
@@ -2143,7 +2143,37 @@ namespace SEOMacroscope
       Dialog.Dispose();
     }
 
-    /** -------------------------------------------------------------------- **/    
+    /** -------------------------------------------------------------------- **/  
+
+    private void CallbackSaveBrokenLinksExcelReport ( object sender, EventArgs e )
+    {
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+        string Path = Dialog.FileName;
+        MacroscopeExcelBrokenLinksReport msExcelReport = new MacroscopeExcelBrokenLinksReport ();
+        try
+        {
+          msExcelReport.WriteXslx( this.JobMaster, Path );
+        }
+        catch( MacroscopeCannotSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );
+        }
+      }
+      Dialog.Dispose();
+    }
+
+    /** -------------------------------------------------------------------- **/
         
     private void CallbackSaveHrefLangExcelReport ( object sender, EventArgs e )
     {
@@ -2155,11 +2185,11 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
-        string sPath = Dialog.FileName;
+        string Path = Dialog.FileName;
         MacroscopeExcelHrefLangReport msExcelReport = new MacroscopeExcelHrefLangReport ();
         try
         {
-          msExcelReport.WriteXslx( this.JobMaster, sPath );
+          msExcelReport.WriteXslx( this.JobMaster, Path );
         }
         catch( MacroscopeCannotSaveExcelFileException ex )
         {
@@ -2185,11 +2215,11 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
-        string sPath = Dialog.FileName;
+        string Path = Dialog.FileName;
         MacroscopeExcelPageContentsReport msExcelReport = new MacroscopeExcelPageContentsReport ();
         try
         {
-          msExcelReport.WriteXslx( this.JobMaster, sPath );
+          msExcelReport.WriteXslx( this.JobMaster, Path );
         }
         catch( MacroscopeCannotSaveExcelFileException ex )
         {

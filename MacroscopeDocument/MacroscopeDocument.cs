@@ -821,7 +821,7 @@ namespace SEOMacroscope
       return( this.Outlinks );
     }
 
-    public IEnumerable IterateOutlinks ()
+    public IEnumerable<string> IterateOutlinks ()
     {
       lock( this.Outlinks )
       {

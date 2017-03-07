@@ -202,14 +202,16 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="MacroscopeReports\MacroscopeCannotSaveExcelFileException.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportHeadings.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetBrokenLinks.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\MacroscopeExcelBrokenLinksReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportHeadings.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\MacroscopeExcelPageContentsReport.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportDescriptions.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportKeywords.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportTitles.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\ExcelUriReportLinks.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\ExcelUriReportRedirectsAudit.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\ExcelUriReportUriAnalysis.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportDescriptions.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetKeywords.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetTitles.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetLinks.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetRedirectsAudit.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetUriAnalysis.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\MacroscopeExcelUriReport.cs" />
     <Compile Include="MacroscopeSearch\MacroscopeSearchIndex.cs" />
     <Compile Include="MacroscopeTasks\IMacroscopeTaskController.cs" />
@@ -337,6 +339,7 @@
     <Folder Include="MacroscopeOutlink" />
     <Folder Include="MacroscopeReports\MacroscopeExcelPageContentsReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelUriReport" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
