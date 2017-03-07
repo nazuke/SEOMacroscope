@@ -122,7 +122,7 @@ namespace SEOMacroscope
 
     /** Render One ************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       lock( this.lvListView )
@@ -187,14 +187,14 @@ namespace SEOMacroscope
 
         this.lvListView.BeginUpdate();
 
-        if( this.lvListView.Items.ContainsKey( sUrl ) )
+        if( this.lvListView.Items.ContainsKey( Url ) )
         {
-          lvItem = this.lvListView.Items[ sUrl ];
+          lvItem = this.lvListView.Items[ Url ];
         }
         else
         {
-          lvItem = new ListViewItem ( sUrl );
-          lvItem.Name = sUrl;
+          lvItem = new ListViewItem ( Url );
+          lvItem.Name = Url;
           foreach( string sKey in htItems.Keys )
           {
             lvItem.SubItems.Add( sKey );

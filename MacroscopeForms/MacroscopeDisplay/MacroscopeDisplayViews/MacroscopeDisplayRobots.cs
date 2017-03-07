@@ -99,20 +99,20 @@ namespace SEOMacroscope
 
       Dictionary<String,Boolean> dicBlocked = JobMaster.GetBlockedByRobotsList();
 
-      foreach( string sUrl in dicBlocked.Keys )
+      foreach( string Url in dicBlocked.Keys )
       {
-        Boolean bInternal = JobMaster.GetAllowedHosts().IsInternalUrl( sUrl );
-        this.RenderListView( sUrl, dicBlocked[ sUrl ], bInternal );
+        Boolean bInternal = JobMaster.GetAllowedHosts().IsInternalUrl( Url );
+        this.RenderListView( Url, dicBlocked[ Url ], bInternal );
       }
 
     }
 
     /**************************************************************************/
 
-    private void RenderListView ( string sUrl, Boolean bBlocked, Boolean bInternal )
+    private void RenderListView ( string Url, Boolean bBlocked, Boolean bInternal )
     {
 
-      string sPairKey = string.Join( "", sUrl );
+      string sPairKey = string.Join( "", Url );
       string sBlocked = "";
       ListViewItem lvItem = null;
       
@@ -130,7 +130,7 @@ namespace SEOMacroscope
         {
 
           lvItem = this.lvListView.Items[ sPairKey ];
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = sBlocked;
 
         }
@@ -150,7 +150,7 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = sPairKey;
 
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems.Add( sBlocked );
 
           this.lvListView.Items.Add( lvItem );
@@ -199,7 +199,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
     }
 

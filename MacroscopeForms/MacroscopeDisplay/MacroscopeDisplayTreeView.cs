@@ -78,16 +78,16 @@ namespace SEOMacroscope
     public void RenderTreeView ( MacroscopeDocumentCollection DocCollection )
     {
       DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-      foreach( string sUrl in DocCollection.DocumentKeys() )
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-        this.RenderTreeView( msDoc, sUrl );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        this.RenderTreeView( msDoc, Url );
       }
     }
 
     /** Render One ************************************************************/
 
-    abstract protected void RenderTreeView ( MacroscopeDocument msDoc, string sUrl );
+    abstract protected void RenderTreeView ( MacroscopeDocument msDoc, string Url );
 
     /**************************************************************************/
 

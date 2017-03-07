@@ -252,9 +252,9 @@ namespace SEOMacroscope
     {
       lock( this.DocCollection )
       {
-        foreach( string sUrl in this.DocumentKeys() )
+        foreach( string Url in this.DocumentKeys() )
         {
-          yield return this.DocCollection[ sUrl ];
+          yield return this.DocCollection[ Url ];
         }
       }
     }
@@ -296,6 +296,17 @@ namespace SEOMacroscope
       
       return( HyperlinksIn );
       
+    }
+
+    public IEnumerable IterateHyperlinksIn ()
+    {
+      lock( this.StructHyperlinksIn )
+      {
+        foreach( string Url in this.StructHyperlinksIn.Keys )
+        {
+          yield return Url;
+        }
+      }
     }
 
     /** Recalculate Stats Across DocCollection ********************************/
@@ -514,6 +525,7 @@ namespace SEOMacroscope
               UrlOrigin: msDoc.GetUrl(),
               UrlTarget: Url,
               LinkText: HyperlinkOut.GetLinkText(),
+              LinkTitle: HyperlinkOut.GetLinkTitle(),
               AltText: HyperlinkOut.GetAltText()
             );
 

@@ -73,7 +73,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
       
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
@@ -93,14 +93,14 @@ namespace SEOMacroscope
 
         this.lvListView.BeginUpdate();
 
-        if( lvListView.Items.ContainsKey( sUrl ) )
+        if( lvListView.Items.ContainsKey( Url ) )
         {
 
           try
           {
 
-            lvItem = lvListView.Items[ sUrl ];
-            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem = lvListView.Items[ Url ];
+            lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
             lvItem.SubItems[ 2 ].Text = sCanonicalLabel;
 
@@ -117,11 +117,11 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( sUrl );
+            lvItem = new ListViewItem ( Url );
             lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = sUrl;
+            lvItem.Name = Url;
 
-            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems.Add( StatusCode.ToString() );
             lvItem.SubItems.Add( sCanonicalLabel );
 
@@ -140,7 +140,7 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Gray;
 
-          if( AllowedHosts.IsInternalUrl( sUrl ) )
+          if( AllowedHosts.IsInternalUrl( Url ) )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Green;
           }
@@ -170,7 +170,7 @@ namespace SEOMacroscope
 
           if( sCanonical.Length == 0 )
           {
-            if( AllowedHosts.IsInternalUrl( sUrl ) )
+            if( AllowedHosts.IsInternalUrl( Url ) )
             {
               lvItem.SubItems[ 2 ].ForeColor = Color.Red;
             }

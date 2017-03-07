@@ -305,69 +305,86 @@ namespace SEOMacroscope
         foreach( HtmlNode nLink in nOutlinks )
         {
 
+          MacroscopeHyperlinkOut HyperlinkOut = null;
           string sLinkUrl = nLink.GetAttributeValue( "href", null );
-          string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
-
-          MacroscopeHyperlinkOut hlHyperlinkOut = this.HyperlinksOut.Add(
-                                                    LinkType: MacroscopeConstants.HyperlinkType.TEXT,
-                                                    UrlTarget: sLinkUrlAbs
-                                                  );
-          if( sLinkUrlAbs != null )
+          string sLinkUrlAbsolute = null;
+          string sLinkTitle = nLink.GetAttributeValue( "title", "" );
+          
+          if( sLinkUrl != null )
           {
-            this.SetProcessHyperlinksInForUrl( Url: sLinkUrlAbs );
-          }
 
-          { // FOLLOW / NOFOLLOW
+            sLinkUrlAbsolute = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
-            string sFollow = nLink.GetAttributeValue( "rel", null );
-
-            if( sFollow != null )
+            if( sLinkUrlAbsolute != null )
             {
-              if( sFollow.ToLower().Equals( "nofollow" ) )
+
+              this.SetProcessHyperlinksInForUrl( Url: sLinkUrlAbsolute );
+
+              HyperlinkOut = this.HyperlinksOut.Add(
+                LinkType: MacroscopeConstants.HyperlinkType.TEXT,
+                UrlTarget: sLinkUrlAbsolute
+              );
+
+              if( sLinkTitle.Length > 0 )
               {
-                hlHyperlinkOut.SetFollow( false );
+                sLinkTitle = HtmlEntity.DeEntitize( sLinkTitle );
+                if( sLinkTitle.Length > 0 )
+                  HyperlinkOut.SetLinkTitle( sLinkTitle );
               }
-            }
 
-          }
+              { // FOLLOW / NOFOLLOW
 
-          { // TEXT LINK
+                string sRel = nLink.GetAttributeValue( "rel", null );
 
-            string sLinkText = nLink.InnerText;
+                if( sRel != null )
+                {
+                  if( sRel.ToLower().Contains( "nofollow" ) )
+                    HyperlinkOut.UnsetDoFollow();
+                }
 
-            if( sLinkText != null )
-            {
-              if( sLinkText.Length > 0 )
-              {
-                hlHyperlinkOut.SetLinkText( sLinkText );
               }
-            }
 
-          }
+              { // TEXT LINK
 
-          { // IMAGE LINK
+                string sLinkText = nLink.InnerText;
 
-            HtmlNode nImage = nLink.SelectSingleNode( "descendant::img" );
+                if( ( sLinkText != null ) && ( sLinkText.Length > 0 ) )
+                {
+                  sLinkText = HtmlEntity.DeEntitize( sLinkText );
+                  if( sLinkText.Length > 0 )
+                    HyperlinkOut.SetLinkText( sLinkText );
+                }
+            
+              }
 
-            if( nImage != null )
-            {
+              { // IMAGE LINK
 
-              DebugMsg( string.Format( "nImage: {0}", this.GetUrl() ) );
-              DebugMsg( string.Format( "nImage: SRC: {0}", nImage.GetAttributeValue( "src", "UNKNOWN" ) ) );
-              DebugMsg( string.Format( "nImage: {0}", nImage ) );
+                HtmlNode nImage = nLink.SelectSingleNode( "descendant::img" );
 
-              hlHyperlinkOut.SetHyperlinkType( MacroscopeConstants.HyperlinkType.IMAGE );
-              string sAltText = nLink.GetAttributeValue( "alt", null );
+                if( nImage != null )
+                {
+
+                  DebugMsg( string.Format( "nImage: {0}", this.GetUrl() ) );
+                  DebugMsg( string.Format( "nImage: SRC: {0}", nImage.GetAttributeValue( "src", "UNKNOWN" ) ) );
+                  DebugMsg( string.Format( "nImage: {0}", nImage ) );
+
+                  HyperlinkOut.SetHyperlinkType( MacroscopeConstants.HyperlinkType.IMAGE );
+                  string sAltText = nLink.GetAttributeValue( "alt", "" );
               
-              DebugMsg( string.Format( "nImage: sAltText: {0}", sAltText ) );
+                  DebugMsg( string.Format( "nImage: sAltText: {0}", sAltText ) );
                             
-              if( ( sAltText != null ) && ( sAltText.Length > 0 ) )
-              {
-                hlHyperlinkOut.SetAltText( sAltText );
-              }
+                  if( ( sAltText != null ) && ( sAltText.Length > 0 ) )
+                  {
+                    sAltText = HtmlEntity.DeEntitize( sAltText );
+                    HyperlinkOut.SetAltText( sAltText );
+                  }
               
-            }
+                }
 
+              }
+            
+            }
+          
           }
 
         }

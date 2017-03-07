@@ -278,10 +278,10 @@ namespace SEOMacroscope
     public void RenderListView ( MacroscopeDocumentCollection DocCollection )
     {
       DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-      foreach( string sUrl in DocCollection.DocumentKeys() )
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-        this.RenderListView( msDoc, sUrl );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        this.RenderListView( msDoc, Url );
       }
     }
 
@@ -292,10 +292,10 @@ namespace SEOMacroscope
       List<string> UrlList
     )
     {
-      foreach( string sUrl in UrlList )
+      foreach( string Url in UrlList )
       {
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-        this.RenderListView( msDoc, sUrl );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        this.RenderListView( msDoc, Url );
       }
     }
 
@@ -306,8 +306,7 @@ namespace SEOMacroscope
       for( int i = 0 ; i < DocList.Count ; i++ )
       {
         MacroscopeDocument msDoc = DocList[ i ];
-        string sUrl = msDoc.GetUrl();
-        this.RenderListView( msDoc, sUrl );
+        this.RenderListView( msDoc, msDoc.GetUrl() );
       }
     }
 
@@ -319,14 +318,14 @@ namespace SEOMacroscope
     )
     {
       DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-      foreach( string sUrl in DocCollection.DocumentKeys() )
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         if(
           ( msDoc.GetDocumentType() == DocumentType )
           || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
         {
-          this.RenderListView( msDoc, sUrl );
+          this.RenderListView( msDoc, Url );
         }
       }
     }
@@ -339,19 +338,19 @@ namespace SEOMacroscope
     )
     {
       DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
-      foreach( string sUrl in DocCollection.DocumentKeys() )
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
-        if( sUrl.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
+        if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
         {
-          MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-          this.RenderListView( msDoc, sUrl );
+          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+          this.RenderListView( msDoc, Url );
         }
       }
     }
 
     /** Render One ************************************************************/
 
-    abstract protected void RenderListView ( MacroscopeDocument msDoc, string sUrl );
+    abstract protected void RenderListView ( MacroscopeDocument msDoc, string Url );
 
     /**************************************************************************/
 

@@ -62,6 +62,20 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    public void InsertAndFormatUrlCell (
+      IXLWorksheet ws,
+      int iRow,
+      int iCol,
+      string Url
+    )
+    {
+
+      ws.Cell( iRow, iCol ).Value = Url;
+
+    }
+
     /**************************************************************************/
 
     public void InsertAndFormatStatusCodeCell (

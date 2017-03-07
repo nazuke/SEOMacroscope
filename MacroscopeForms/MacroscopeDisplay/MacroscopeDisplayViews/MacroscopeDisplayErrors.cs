@@ -131,10 +131,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
-      string sPairKey = sUrl;
+      string sPairKey = Url;
       string sStatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
       string sStatus = msDoc.GetStatusCode().ToString();
       ListViewItem lvItem = null;
@@ -149,7 +149,7 @@ namespace SEOMacroscope
 
           lvItem = this.lvListView.Items[ sPairKey ];
 
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = sStatusCode;
           lvItem.SubItems[ 2 ].Text = sStatus;
           lvItem.SubItems[ 3 ].Text = msDoc.GetErrorCondition();
@@ -157,7 +157,7 @@ namespace SEOMacroscope
         }
         catch( Exception ex )
         {
-          this.DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "MacroscopeDisplayErrors 1: {0}", ex.Message ) );
         }
 
       }
@@ -168,10 +168,10 @@ namespace SEOMacroscope
         {
 
           lvItem = new ListViewItem ( sPairKey );
-
+          lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = sPairKey;
 
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems.Add( sStatusCode );
           lvItem.SubItems.Add( sStatus );
           lvItem.SubItems.Add( msDoc.GetErrorCondition() );
@@ -181,7 +181,7 @@ namespace SEOMacroscope
         }
         catch( Exception ex )
         {
-          this.DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "MacroscopeDisplayErrors 2: {0}", ex.Message ) );
         }
 
       }
@@ -189,7 +189,6 @@ namespace SEOMacroscope
       if( lvItem != null )
       {
 
-        lvItem.UseItemStyleForSubItems = false;
         lvItem.ForeColor = Color.Blue;
 
         if( Regex.IsMatch( sStatusCode, "^[2]" ) )
@@ -223,10 +222,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RemoveFromListView ( string sUrl )
+    private void RemoveFromListView ( string Url )
     {
 
-      string sPairKey = sUrl;
+      string sPairKey = Url;
 
       if( this.lvListView.Items.ContainsKey( sPairKey ) )
       {

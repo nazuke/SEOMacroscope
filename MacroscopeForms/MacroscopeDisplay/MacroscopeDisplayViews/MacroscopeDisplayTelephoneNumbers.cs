@@ -72,7 +72,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       if( msDoc.GetIsHtml() )
@@ -83,7 +83,7 @@ namespace SEOMacroscope
         foreach( string sTelephoneNumber in htTelephoneNumbers.Keys )
         {
 
-          string sPairKey = string.Join( "", sTelephoneNumber, sUrl );
+          string sPairKey = string.Join( "", sTelephoneNumber, Url );
 
           this.lvListView.BeginUpdate();
 
@@ -95,7 +95,7 @@ namespace SEOMacroscope
 
               ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
               lvItem.SubItems[ 0 ].Text = sTelephoneNumber;
-              lvItem.SubItems[ 1 ].Text = sUrl;
+              lvItem.SubItems[ 1 ].Text = Url;
 
             }
             catch( Exception ex )
@@ -115,7 +115,7 @@ namespace SEOMacroscope
               lvItem.Name = sPairKey;
 
               lvItem.SubItems[ 0 ].Text = sTelephoneNumber;
-              lvItem.SubItems.Add( sUrl );
+              lvItem.SubItems.Add( Url );
 
               this.lvListView.Items.Add( lvItem );
 

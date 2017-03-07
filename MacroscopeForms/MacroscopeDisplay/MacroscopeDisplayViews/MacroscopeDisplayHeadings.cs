@@ -76,7 +76,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       for( ushort i = 1 ; i <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; i++ )
@@ -87,7 +87,7 @@ namespace SEOMacroscope
         for( int iCount = 0 ; iCount < lHeadings.Count ; iCount++ )
         {
 
-          string sPairKey = string.Join( "::", sUrl, i, iCount );
+          string sPairKey = string.Join( "::", Url, i, iCount );
           int iHeadingIndex = i + 1;
 
           if( this.lvListView.Items.ContainsKey( sPairKey ) )
@@ -97,7 +97,7 @@ namespace SEOMacroscope
             {
 
               ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-              lvItem.SubItems[ 0 ].Text = sUrl;
+              lvItem.SubItems[ 0 ].Text = Url;
               lvItem.SubItems[ 1 ].Text = ( iCount + 1 ).ToString();
               lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
 
@@ -118,7 +118,7 @@ namespace SEOMacroscope
 
               lvItem.Name = sPairKey;
 
-              lvItem.SubItems[ 0 ].Text = sUrl;
+              lvItem.SubItems[ 0 ].Text = Url;
               lvItem.SubItems.Add( ( iCount + 1 ).ToString() );
 
               for( ushort k = 1 ; k <= 6 ; k++ )

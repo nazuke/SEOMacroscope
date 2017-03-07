@@ -76,7 +76,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       Boolean bProcess;
@@ -106,7 +106,7 @@ namespace SEOMacroscope
         string sDescription = msDoc.GetDescription();
         int iOccurrences = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
         int iDescriptionLength = msDoc.GetDescriptionLength();
-        string sPairKey = string.Join( "", sUrl, sDescription );
+        string sPairKey = string.Join( "", Url, sDescription );
 
         ListViewItem lvItem = null;
 
@@ -117,7 +117,7 @@ namespace SEOMacroscope
           {
 
             lvItem = this.lvListView.Items[ sPairKey ];
-            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = iOccurrences.ToString();
             lvItem.SubItems[ 2 ].Text = sDescription;
             lvItem.SubItems[ 3 ].Text = iDescriptionLength.ToString();
@@ -139,7 +139,7 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = sPairKey;
 
-            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems.Add( iOccurrences.ToString() );
             lvItem.SubItems.Add( sDescription );
             lvItem.SubItems.Add( iDescriptionLength.ToString() );

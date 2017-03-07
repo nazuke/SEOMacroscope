@@ -144,6 +144,7 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureKeywordAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureSiteSpeed.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTreeView.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayUriAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayAudios.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayCanonical.cs" />
@@ -206,6 +207,10 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportDescriptions.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportKeywords.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\ExcelPageContentsReportTitles.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\ExcelUriReportLinks.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\ExcelUriReportRedirectsAudit.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\ExcelUriReportUriAnalysis.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\MacroscopeExcelUriReport.cs" />
     <Compile Include="MacroscopeSearch\MacroscopeSearchIndex.cs" />
     <Compile Include="MacroscopeTasks\IMacroscopeTaskController.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
@@ -331,6 +336,7 @@
     <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />
     <Folder Include="MacroscopeOutlink" />
     <Folder Include="MacroscopeReports\MacroscopeExcelPageContentsReport" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelUriReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />

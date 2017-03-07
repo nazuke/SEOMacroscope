@@ -77,7 +77,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       if( !msDoc.GetIsImage() )
@@ -89,7 +89,7 @@ namespace SEOMacroscope
       string sMimeType = msDoc.GetMimeType();
       string sFileSize = msDoc.GetContentLength().ToString();
 
-      string sPairKey = string.Join( "", sUrl );
+      string sPairKey = string.Join( "", Url );
 
       ListViewItem lvItem = null;
 
@@ -100,7 +100,7 @@ namespace SEOMacroscope
         {
 
           lvItem = this.lvListView.Items[ sPairKey ];
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = sStatusCode;
           lvItem.SubItems[ 2 ].Text = sMimeType;
           lvItem.SubItems[ 3 ].Text = sFileSize;
@@ -122,7 +122,7 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = sPairKey;
 
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems.Add( sStatusCode );
           lvItem.SubItems.Add( sMimeType );
           lvItem.SubItems.Add( sFileSize );

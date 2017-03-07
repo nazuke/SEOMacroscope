@@ -51,11 +51,11 @@ namespace SEOMacroscope
       if( msDoc.GetIsSecureUrl() )
       {
         Dictionary<string,MacroscopeOutlink> DocDic = msDoc.GetOutlinks();
-        foreach( string sUrl in DocDic.Keys )
+        foreach( string Url in DocDic.Keys )
         {
-          if( Regex.IsMatch( sUrl, "^http://", RegexOptions.IgnoreCase ) )
+          if( Regex.IsMatch( Url, "^http://", RegexOptions.IgnoreCase ) )
           {
-            msDoc.AddInsecureLink( sUrl );
+            msDoc.AddInsecureLink( Url );
           }
         }
       }

@@ -72,14 +72,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       string sTitle = msDoc.GetTitle();
       string sDescription = msDoc.GetDescription();
       string sKeywords = msDoc.GetKeywords();
 
-      string sPairKey = string.Join( "", sUrl );
+      string sPairKey = string.Join( "", Url );
 
       ListViewItem lvItem = null;
 
@@ -90,7 +90,7 @@ namespace SEOMacroscope
         {
 
           lvItem = this.lvListView.Items[ sPairKey ];
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = sTitle;
           lvItem.SubItems[ 2 ].Text = sDescription;
           lvItem.SubItems[ 3 ].Text = sKeywords;
@@ -112,7 +112,7 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = sPairKey;
 
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems.Add( sTitle );
           lvItem.SubItems.Add( sDescription );
           lvItem.SubItems.Add( sKeywords );

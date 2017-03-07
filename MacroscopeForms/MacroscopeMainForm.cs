@@ -58,6 +58,7 @@ namespace SEOMacroscope
     MacroscopeDisplayErrors msDisplayErrors;
     MacroscopeDisplayRedirectsAudit msDisplayRedirectsAudit;
 
+    MacroscopeDisplayLinks msDisplayLinks;
     MacroscopeDisplayUriAnalysis msDisplayUriAnalysis;
 
     MacroscopeDisplayTitles msDisplayTitles;
@@ -163,7 +164,10 @@ namespace SEOMacroscope
       this.msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
       this.msDisplayErrors = new MacroscopeDisplayErrors ( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
       this.msDisplayRedirectsAudit = new MacroscopeDisplayRedirectsAudit ( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit );
+
+      this.msDisplayLinks = new MacroscopeDisplayLinks ( this, this.macroscopeOverviewTabPanelInstance.listViewLinks );
       this.msDisplayUriAnalysis = new MacroscopeDisplayUriAnalysis ( this, this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis );
+
       this.msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
       this.msDisplayDescriptions = new MacroscopeDisplayDescriptions ( this, this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions );
       this.msDisplayKeywords = new MacroscopeDisplayKeywords ( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
@@ -197,6 +201,16 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.KeyUp += this.CallbackSearchTextBoxSearchUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
 
+      
+      
+      // ListViewLinks
+      this.macroscopeOverviewTabPanelInstance.listViewLinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Click += this.CallbackButtonLinksShowAll;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchSourceUrlKeyUp;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchTargetUrlKeyUp;
+      
+      
+      
       // treeViewHierarchy etc...
       this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.NodeMouseClick += this.CallbackHierarchyNodeMouseClick;
       this.macroscopeOverviewTabPanelInstance.listViewRobots.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -205,6 +219,8 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewHrefLang.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewErrors.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+
+
       this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageTitles.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -376,6 +392,11 @@ namespace SEOMacroscope
     private void CallbackHelpGitHubClick ( object sender, EventArgs e )
     {
       Process.Start( "https://github.com/nazuke/SEOMacroscope" );
+    }
+    
+    private void CallbackHelpManualClick ( object sender, EventArgs e )
+    {
+      Process.Start( "https://nazuke.github.io/SEOMacroscope/manual/" );
     }
     
     private void CallbackHelpLicenceClick ( object sender, EventArgs e )
@@ -745,6 +766,13 @@ namespace SEOMacroscope
           );
           break;
 
+        case "tabPageLinks":
+          this.msDisplayLinks.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayLinks )
+          );
+          break;
+
         case "tabPageUriAnalysis":
           this.msDisplayUriAnalysis.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
@@ -864,11 +892,19 @@ namespace SEOMacroscope
 
         for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
         {
+          
           if( lvListView.Columns[ i ].Text == "URL" )
           {
             iUrlCol = i;
             break;
           }
+          else
+          if( lvListView.Columns[ i ].Text == "Source URL" )
+          {
+            iUrlCol = i;
+            break;
+          }
+
         }
 
         if( iUrlCol > -1 )
@@ -1270,6 +1306,58 @@ namespace SEOMacroscope
 
     }
 
+    /** LINKS PANEL TOOL STRIP CALLBACKS **************************************/
+
+    private void CallbackButtonLinksShowAll ( object sender, EventArgs e )
+    {
+      this.msDisplayLinks.ClearData();
+      this.msDisplayLinks.RefreshData(
+        this.JobMaster.GetDocCollection()
+      );
+    }
+
+    private void CallbackSearchTextBoxLinksSearchSourceUrlKeyUp ( object sender, KeyEventArgs e )
+    {
+      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+      switch( e.KeyCode )
+      {
+        case Keys.Return:
+          string UrlFragment = SearchTextBox.Text;
+          DebugMsg( string.Format( "CallbackSearchTextBoxLinksSearchSourceUrlKeyUp: {0}", UrlFragment ) );
+          if( UrlFragment.Length > 0 )
+          {
+            SearchTextBox.Text = UrlFragment;
+            this.msDisplayLinks.ClearData();
+            this.msDisplayLinks.RefreshDataSearchSourceUrls(
+              DocCollection: this.JobMaster.GetDocCollection(),
+              UrlFragment: UrlFragment
+            );
+          }
+          break;
+      }
+    }
+
+    private void CallbackSearchTextBoxLinksSearchTargetUrlKeyUp ( object sender, KeyEventArgs e )
+    {
+      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+      switch( e.KeyCode )
+      {
+        case Keys.Return:
+          string UrlFragment = SearchTextBox.Text;
+          DebugMsg( string.Format( "CallbackSearchTextBoxLinksSearchTargetUrlKeyUp: {0}", UrlFragment ) );
+          if( UrlFragment.Length > 0 )
+          {
+            SearchTextBox.Text = UrlFragment;
+            this.msDisplayLinks.ClearData();
+            this.msDisplayLinks.RefreshDataSearchTargetUrls(
+              DocCollection: this.JobMaster.GetDocCollection(),
+              UrlFragment: UrlFragment
+            );
+          }
+          break;
+      }
+    }
+
     /** SITE OVERVIEW PANEL ***************************************************/
 
     private void StartSiteOverviewTimer ( int Delay )
@@ -1371,6 +1459,7 @@ namespace SEOMacroscope
       
       this.msDisplayErrors.ClearData();
       this.msDisplayRedirectsAudit.ClearData();
+      this.msDisplayLinks.ClearData();
       this.msDisplayUriAnalysis.ClearData();
       
       this.msDisplayTitles.ClearData();
@@ -1422,6 +1511,10 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = true;
+
     }
 
     private void ScanningControlsStart ( Boolean State )
@@ -1445,6 +1538,10 @@ namespace SEOMacroscope
 
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
+
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = false;
 
     }
 
@@ -1470,6 +1567,10 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
 
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = false;
+      
     }
 
     private void ScanningControlsStopped ( Boolean State )
@@ -1494,6 +1595,10 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = true;
+      
     }
 
     private void ScanningControlsReset ( Boolean State )
@@ -1517,6 +1622,10 @@ namespace SEOMacroscope
 
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
+      
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = true;
       
       this.UpdateProgressBarScan( 0 );
     
@@ -1544,6 +1653,10 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = true;
+      
     }
 
     /** MAIN SCANNING THREAD **************************************************/
@@ -2085,6 +2198,36 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );
+        }
+      }
+      Dialog.Dispose();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackSaveUriAnalysisExcelReport ( object sender, EventArgs e )
+    {
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+        string sPath = Dialog.FileName;
+        MacroscopeExcelUriReport msExcelReport = new MacroscopeExcelUriReport ();
+        try
+        {
+          msExcelReport.WriteXslx( this.JobMaster, sPath );
+        }
+        catch( MacroscopeCannotSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
         }
       }
       Dialog.Dispose();

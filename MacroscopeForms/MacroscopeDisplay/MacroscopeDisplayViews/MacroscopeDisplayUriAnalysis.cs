@@ -73,14 +73,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       string sStatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
       string sStatus = msDoc.GetStatusCode().ToString();
       string sChecksum = msDoc.GetChecksum();
       int iCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsChecksumCount( Checksum: sChecksum );
-      string sPairKey = string.Join( "", sUrl );
+      string sPairKey = string.Join( "", Url );
       ListViewItem lvItem = null;
 
       this.lvListView.BeginUpdate();
@@ -92,7 +92,7 @@ namespace SEOMacroscope
         {
 
           lvItem = this.lvListView.Items[ sPairKey ];
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = sStatusCode;   
           lvItem.SubItems[ 2 ].Text = sStatus;
           lvItem.SubItems[ 3 ].Text = iCount.ToString();
@@ -115,7 +115,7 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = sPairKey;
 
-          lvItem.SubItems[ 0 ].Text = sUrl;
+          lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems.Add( sStatusCode );
           lvItem.SubItems.Add( sStatus );
           lvItem.SubItems.Add( iCount.ToString() );

@@ -77,7 +77,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       Boolean bProcess;
@@ -101,7 +101,7 @@ namespace SEOMacroscope
         string sStatus = msDoc.GetStatusCode().ToString();
         string sDestinationURL = msDoc.GetUrlRedirectTo();
 
-        string sPairKey = string.Join( "", sUrl );
+        string sPairKey = string.Join( "", Url );
 
         this.lvListView.BeginUpdate();
         
@@ -123,7 +123,7 @@ namespace SEOMacroscope
             {
 
               lvItem = this.lvListView.Items[ sPairKey ];
-              lvItem.SubItems[ 0 ].Text = sUrl;
+              lvItem.SubItems[ 0 ].Text = Url;
               lvItem.SubItems[ 1 ].Text = sStatusCode;
               lvItem.SubItems[ 2 ].Text = sStatus;
               lvItem.SubItems[ 3 ].Text = sOriginURL;
@@ -147,7 +147,7 @@ namespace SEOMacroscope
 
               lvItem.Name = sPairKey;
 
-              lvItem.SubItems[ 0 ].Text = sUrl;
+              lvItem.SubItems[ 0 ].Text = Url;
               lvItem.SubItems.Add( sStatusCode );
               lvItem.SubItems.Add( sStatus );
               lvItem.SubItems.Add( sOriginURL );

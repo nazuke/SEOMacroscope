@@ -45,19 +45,23 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeHrefLang ( string sLocale, string sUrl )
+    public MacroscopeHrefLang ( string Locale, string Url )
     {
+
       Boolean bCheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
-      Locale = sLocale;
-      Url = sUrl;
+
+      this.Locale = Locale;
+      this.Url = Url;
+
       if( bCheckHrefLang )
       {
-        Available = Check();
+        this.Available = Check();
       }
       else
       {
-        Available = false;
+        this.Available = false;
       }
+
     }
 
     /**************************************************************************/

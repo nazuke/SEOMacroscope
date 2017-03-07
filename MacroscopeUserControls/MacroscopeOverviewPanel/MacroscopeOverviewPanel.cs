@@ -32,149 +32,153 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeOverviewPanel.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeOverviewPanel.
+  /// </summary>
 
-	public partial class MacroscopeOverviewPanel : UserControl
-	{
+  public partial class MacroscopeOverviewPanel : UserControl
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		private MacroscopeColumnSorter lvColumnSorter;
+    private MacroscopeColumnSorter lvColumnSorter;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeOverviewPanel ()
-		{
+    public MacroscopeOverviewPanel ()
+    {
 
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			InitializeComponent();
+      // The InitializeComponent() call is required for Windows Forms designer support.
+      InitializeComponent();
 
-			// TabPanel Properties
-			tabControlMain.Multiline = false;
+      // TabPanel Properties
+      tabControlMain.Multiline = false;
 
-			this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true );
+      this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true );
 
-			// ListView Docking
+      // ListView Docking
 
-			tableLayoutPanelStructure.Dock = DockStyle.Fill;
-			listViewStructure.Dock = DockStyle.Fill;
+      tableLayoutPanelStructure.Dock = DockStyle.Fill;
+      listViewStructure.Dock = DockStyle.Fill;
 
-			treeViewHierarchy.Dock = DockStyle.Fill;
+      treeViewHierarchy.Dock = DockStyle.Fill;
       listViewRobots.Dock = DockStyle.Fill;
       listViewSitemaps.Dock = DockStyle.Fill;
       listViewCanonicalAnalysis.Dock = DockStyle.Fill;
-			listViewHrefLang.Dock = DockStyle.Fill;
-			listViewErrors.Dock = DockStyle.Fill;
-			listViewRedirectsAudit.Dock = DockStyle.Fill;
-			listViewUriAnalysis.Dock = DockStyle.Fill;
-			listViewPageTitles.Dock = DockStyle.Fill;
-			listViewPageDescriptions.Dock = DockStyle.Fill;
-			listViewPageKeywords.Dock = DockStyle.Fill;
-			listViewPageHeadings.Dock = DockStyle.Fill;
-			listViewStylesheets.Dock = DockStyle.Fill;
-			listViewJavascripts.Dock = DockStyle.Fill;
-			listViewImages.Dock = DockStyle.Fill;
-			listViewAudios.Dock = DockStyle.Fill;
-			listViewVideos.Dock = DockStyle.Fill;
-			listViewEmailAddresses.Dock = DockStyle.Fill;
-			listViewTelephoneNumbers.Dock = DockStyle.Fill;
-			listViewHostnames.Dock = DockStyle.Fill;
-			listViewHistory.Dock = DockStyle.Fill;
+      listViewHrefLang.Dock = DockStyle.Fill;
+      listViewErrors.Dock = DockStyle.Fill;
+      listViewRedirectsAudit.Dock = DockStyle.Fill;
+      tableLayoutPanelLinks.Dock = DockStyle.Fill;
+      listViewLinks.Dock = DockStyle.Fill;
+      listViewUriAnalysis.Dock = DockStyle.Fill;
+      listViewPageTitles.Dock = DockStyle.Fill;
+      listViewPageDescriptions.Dock = DockStyle.Fill;
+      listViewPageKeywords.Dock = DockStyle.Fill;
+      listViewPageHeadings.Dock = DockStyle.Fill;
+      listViewStylesheets.Dock = DockStyle.Fill;
+      listViewJavascripts.Dock = DockStyle.Fill;
+      listViewImages.Dock = DockStyle.Fill;
+      listViewAudios.Dock = DockStyle.Fill;
+      listViewVideos.Dock = DockStyle.Fill;
+      listViewEmailAddresses.Dock = DockStyle.Fill;
+      listViewTelephoneNumbers.Dock = DockStyle.Fill;
+      listViewHostnames.Dock = DockStyle.Fill;
+      listViewHistory.Dock = DockStyle.Fill;
 
-			tableLayoutPanelSearchCollection.Dock = DockStyle.Fill;
-			listViewSearchCollection.Dock = DockStyle.Fill;
+      tableLayoutPanelSearchCollection.Dock = DockStyle.Fill;
+      listViewSearchCollection.Dock = DockStyle.Fill;
 
-			// ListView Sorters
-			lvColumnSorter = new MacroscopeColumnSorter ();
+      // ListView Sorters
+      lvColumnSorter = new MacroscopeColumnSorter ();
 
-			listViewStructure.ListViewItemSorter = lvColumnSorter;
+      listViewStructure.ListViewItemSorter = lvColumnSorter;
       listViewRobots.ListViewItemSorter = lvColumnSorter;
       listViewSitemaps.ListViewItemSorter = lvColumnSorter;
       listViewCanonicalAnalysis.ListViewItemSorter = lvColumnSorter;
-			listViewHrefLang.ListViewItemSorter = lvColumnSorter;
-			listViewErrors.ListViewItemSorter = lvColumnSorter;
-			listViewRedirectsAudit.ListViewItemSorter = lvColumnSorter;
-			listViewUriAnalysis.ListViewItemSorter = lvColumnSorter;
-			listViewPageTitles.ListViewItemSorter = lvColumnSorter;
-			listViewPageDescriptions.ListViewItemSorter = lvColumnSorter;
-			listViewPageKeywords.ListViewItemSorter = lvColumnSorter;
-			listViewPageHeadings.ListViewItemSorter = lvColumnSorter;
-			listViewStylesheets.ListViewItemSorter = lvColumnSorter;
-			listViewJavascripts.ListViewItemSorter = lvColumnSorter;
-			listViewImages.ListViewItemSorter = lvColumnSorter;
-			listViewAudios.ListViewItemSorter = lvColumnSorter;
-			listViewVideos.ListViewItemSorter = lvColumnSorter;
-			listViewEmailAddresses.ListViewItemSorter = lvColumnSorter;
-			listViewTelephoneNumbers.ListViewItemSorter = lvColumnSorter;
-			listViewHostnames.ListViewItemSorter = lvColumnSorter;
-			listViewHistory.ListViewItemSorter = lvColumnSorter;
-			listViewSearchCollection.ListViewItemSorter = lvColumnSorter;
+      listViewHrefLang.ListViewItemSorter = lvColumnSorter;
+      listViewErrors.ListViewItemSorter = lvColumnSorter;
+      listViewRedirectsAudit.ListViewItemSorter = lvColumnSorter;
+      listViewLinks.ListViewItemSorter = lvColumnSorter;
+      listViewUriAnalysis.ListViewItemSorter = lvColumnSorter;
+      listViewPageTitles.ListViewItemSorter = lvColumnSorter;
+      listViewPageDescriptions.ListViewItemSorter = lvColumnSorter;
+      listViewPageKeywords.ListViewItemSorter = lvColumnSorter;
+      listViewPageHeadings.ListViewItemSorter = lvColumnSorter;
+      listViewStylesheets.ListViewItemSorter = lvColumnSorter;
+      listViewJavascripts.ListViewItemSorter = lvColumnSorter;
+      listViewImages.ListViewItemSorter = lvColumnSorter;
+      listViewAudios.ListViewItemSorter = lvColumnSorter;
+      listViewVideos.ListViewItemSorter = lvColumnSorter;
+      listViewEmailAddresses.ListViewItemSorter = lvColumnSorter;
+      listViewTelephoneNumbers.ListViewItemSorter = lvColumnSorter;
+      listViewHostnames.ListViewItemSorter = lvColumnSorter;
+      listViewHistory.ListViewItemSorter = lvColumnSorter;
+      listViewSearchCollection.ListViewItemSorter = lvColumnSorter;
 
-			listViewStructure.ColumnClick += this.CallbackColumnClick;
+      listViewStructure.ColumnClick += this.CallbackColumnClick;
       listViewRobots.ColumnClick += this.CallbackColumnClick;
       listViewSitemaps.ColumnClick += this.CallbackColumnClick;
       listViewCanonicalAnalysis.ColumnClick += this.CallbackColumnClick;
-			listViewHrefLang.ColumnClick += this.CallbackColumnClick;
-			listViewErrors.ColumnClick += this.CallbackColumnClick;
-			listViewRedirectsAudit.ColumnClick += this.CallbackColumnClick;
-			listViewUriAnalysis.ColumnClick += this.CallbackColumnClick;
-			listViewPageTitles.ColumnClick += this.CallbackColumnClick;
-			listViewPageDescriptions.ColumnClick += this.CallbackColumnClick;
-			listViewPageKeywords.ColumnClick += this.CallbackColumnClick;
-			listViewPageHeadings.ColumnClick += this.CallbackColumnClick;
-			listViewStylesheets.ColumnClick += this.CallbackColumnClick;
-			listViewJavascripts.ColumnClick += this.CallbackColumnClick;
-			listViewImages.ColumnClick += this.CallbackColumnClick;
-			listViewAudios.ColumnClick += this.CallbackColumnClick;
-			listViewVideos.ColumnClick += this.CallbackColumnClick;
-			listViewEmailAddresses.ColumnClick += this.CallbackColumnClick;
-			listViewTelephoneNumbers.ColumnClick += this.CallbackColumnClick;
-			listViewHostnames.ColumnClick += this.CallbackColumnClick;
-			listViewHistory.ColumnClick += this.CallbackColumnClick;
-			listViewSearchCollection.ColumnClick += this.CallbackColumnClick;
+      listViewHrefLang.ColumnClick += this.CallbackColumnClick;
+      listViewErrors.ColumnClick += this.CallbackColumnClick;
+      listViewRedirectsAudit.ColumnClick += this.CallbackColumnClick;
+      listViewLinks.ColumnClick += this.CallbackColumnClick;
+      listViewUriAnalysis.ColumnClick += this.CallbackColumnClick;
+      listViewPageTitles.ColumnClick += this.CallbackColumnClick;
+      listViewPageDescriptions.ColumnClick += this.CallbackColumnClick;
+      listViewPageKeywords.ColumnClick += this.CallbackColumnClick;
+      listViewPageHeadings.ColumnClick += this.CallbackColumnClick;
+      listViewStylesheets.ColumnClick += this.CallbackColumnClick;
+      listViewJavascripts.ColumnClick += this.CallbackColumnClick;
+      listViewImages.ColumnClick += this.CallbackColumnClick;
+      listViewAudios.ColumnClick += this.CallbackColumnClick;
+      listViewVideos.ColumnClick += this.CallbackColumnClick;
+      listViewEmailAddresses.ColumnClick += this.CallbackColumnClick;
+      listViewTelephoneNumbers.ColumnClick += this.CallbackColumnClick;
+      listViewHostnames.ColumnClick += this.CallbackColumnClick;
+      listViewHistory.ColumnClick += this.CallbackColumnClick;
+      listViewSearchCollection.ColumnClick += this.CallbackColumnClick;
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
-		{
+    private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
+    {
 
-			ListView lvListView = sender as ListView;
+      ListView lvListView = sender as ListView;
 
-			if( e.Column == lvColumnSorter.SortColumn )
-			{
-				if( lvColumnSorter.Order == SortOrder.Ascending )
-				{
-					lvColumnSorter.Order = SortOrder.Descending;
-				}
-				else
-				{
-					lvColumnSorter.Order = SortOrder.Ascending;
-				}
-			}
-			else
-			{
-				lvColumnSorter.SortColumn = e.Column;
-				lvColumnSorter.Order = SortOrder.Ascending;
-			}
+      if( e.Column == lvColumnSorter.SortColumn )
+      {
+        if( lvColumnSorter.Order == SortOrder.Ascending )
+        {
+          lvColumnSorter.Order = SortOrder.Descending;
+        }
+        else
+        {
+          lvColumnSorter.Order = SortOrder.Ascending;
+        }
+      }
+      else
+      {
+        lvColumnSorter.SortColumn = e.Column;
+        lvColumnSorter.Order = SortOrder.Ascending;
+      }
 
-			lvListView.Sort();
+      lvListView.Sort();
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Conditional( "DEVMODE" )]
-		public void DebugMsg ( String sMsg )
-		{
-			System.Diagnostics.Debug.WriteLine( sMsg );
-		}
+    [Conditional( "DEVMODE" )]
+    public void DebugMsg ( String sMsg )
+    {
+      System.Diagnostics.Debug.WriteLine( sMsg );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

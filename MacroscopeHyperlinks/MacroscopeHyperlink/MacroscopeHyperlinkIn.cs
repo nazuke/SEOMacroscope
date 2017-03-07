@@ -45,6 +45,7 @@ namespace SEOMacroscope
     private string UrlOrigin;
     private string UrlTarget;
     private string LinkText;
+    private string LinkTitle;
     private string AltText;
 
     /**************************************************************************/
@@ -54,7 +55,8 @@ namespace SEOMacroscope
       string Method,
       string UrlOrigin,
       string UrlTarget,
-      string LinkText,
+      string LinkText, 
+      string LinkTitle,
       string AltText
     )
     {
@@ -66,6 +68,7 @@ namespace SEOMacroscope
       this.UrlOrigin = UrlOrigin;
       this.UrlTarget = UrlTarget;
       this.LinkText = LinkText;
+      this.LinkTitle = LinkTitle;
       this.AltText = AltText;
 
     }
@@ -105,6 +108,13 @@ namespace SEOMacroscope
       return( this.LinkText );
     }
 
+    /**************************************************************************/
+
+    public string GetLinkTitle ()
+    {
+      return( this.LinkTitle );
+    }
+    
     /**************************************************************************/
 
     public string GetAltText ()

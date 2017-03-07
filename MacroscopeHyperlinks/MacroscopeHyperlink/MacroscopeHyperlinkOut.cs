@@ -28,117 +28,138 @@ using System;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeHyperlinkOut.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeHyperlinkOut.
+  /// </summary>
 
-	public class MacroscopeHyperlinkOut : Macroscope
-	{
+  public class MacroscopeHyperlinkOut : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		private Guid LinkGuid;
+    private Guid LinkGuid;
 
-		private MacroscopeConstants.HyperlinkType HyperlinkType;
+    private MacroscopeConstants.HyperlinkType HyperlinkType;
 
-		private string Method;
+    private string Method;
 
-		private string UrlTarget;
-		private string LinkText;
-		private string AltText;
+    private string UrlTarget;
+    private string LinkText;
+    private string LinkTitle;
+    private string AltText;
 
-		private Boolean Follow;
+    private Boolean DoFollow;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeHyperlinkOut ()
-		{
-			this.LinkGuid = Guid.NewGuid();
-			this.HyperlinkType = MacroscopeConstants.HyperlinkType.TEXT;
-			this.Follow = true;
-		}
+    public MacroscopeHyperlinkOut ()
+    {
+      this.LinkGuid = Guid.NewGuid();
+      this.HyperlinkType = MacroscopeConstants.HyperlinkType.TEXT;
+      this.DoFollow = true;
+      this.LinkText = "";
+      this.LinkTitle = "";
+      this.AltText = "";
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public string GetGuid ()
-		{
-			return( this.LinkGuid.ToString() );
-		}
+    public string GetGuid ()
+    {
+      return( this.LinkGuid.ToString() );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void SetHyperlinkType ( MacroscopeConstants.HyperlinkType hlType )
-		{
-			this.HyperlinkType = hlType;
-		}
+    public void SetHyperlinkType ( MacroscopeConstants.HyperlinkType LinkType )
+    {
+      this.HyperlinkType = LinkType;
+    }
 
-		public MacroscopeConstants.HyperlinkType GetHyperlinkType ()
-		{
-			return( this.HyperlinkType );
-		}
+    public MacroscopeConstants.HyperlinkType GetHyperlinkType ()
+    {
+      return( this.HyperlinkType );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void SetMethod ( string sMethod )
-		{
-			this.Method = sMethod;
-		}
+    public void SetMethod ( string Method )
+    {
+      this.Method = Method;
+    }
 
-		public string GetMethod ()
-		{
-			return( this.Method );
-		}
+    public string GetMethod ()
+    {
+      return( this.Method );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void SetUrlTarget ( string sUrl )
-		{
-			this.UrlTarget = sUrl;
-		}
+    public void SetUrlTarget ( string Url )
+    {
+      this.UrlTarget = Url;
+    }
 
-		public string GetUrlTarget ()
-		{
-			return( this.UrlTarget );
-		}
+    public string GetUrlTarget ()
+    {
+      return( this.UrlTarget );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void SetLinkText ( string sText )
-		{
-			this.LinkText = sText;
-		}
+    public void SetLinkText ( string Text )
+    {
+      this.LinkText = Text;
+    }
 
-		public string GetLinkText ()
-		{
-			return( this.LinkText );
-		}
+    public string GetLinkText ()
+    {
+      return( this.LinkText );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void SetAltText ( string sText )
-		{
-			this.AltText = sText;
-		}
+    public void SetLinkTitle ( string Text )
+    {
+      this.LinkTitle = Text;
+    }
 
-		public string GetAltText ()
-		{
-			return( this.AltText );
-		}
+    public string GetLinkTitle ()
+    {
+      return( this.LinkTitle );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void SetFollow ( Boolean bFollow )
-		{
-			this.Follow = bFollow;
-		}
+    public void SetAltText ( string Text )
+    {
+      this.AltText = Text;
+    }
 
-		public Boolean GetFollow ()
-		{
-			return( this.Follow );
-		}
+    public string GetAltText ()
+    {
+      return( this.AltText );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+    public void SetDoFollow ()
+    {
+      this.DoFollow = true;
+    }
+    
+    public void UnsetDoFollow ()
+    {
+      this.DoFollow = false;
+    }
+
+    public Boolean GetDoFollow ()
+    {
+      return( this.DoFollow );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

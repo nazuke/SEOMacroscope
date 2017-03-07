@@ -148,11 +148,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "IsAllowedFromUrl: {0}", ex.Message ) );
+        DebugMsg( string.Format( "IsAllowedFromUrl 1: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "IsAllowedFromUrl: {0}", ex.Message ) );
+        DebugMsg( string.Format( "IsAllowedFromUrl 2: {0}", ex.Message ) );
       }
 
       if( FromUri != null )
@@ -167,12 +167,21 @@ namespace SEOMacroscope
 
     public Boolean IsInternalUrl ( string Url )
     {
-      Uri uUrl = new Uri ( Url, UriKind.Absolute );
+
       Boolean bIsInternal = false;
-      if( this.IsAllowed( uUrl.Host ) )
+
+      if( Url != null )
       {
-        bIsInternal = true;
+
+        Uri uUrl = new Uri ( Url, UriKind.Absolute );
+
+        if( this.IsAllowed( uUrl.Host ) )
+        {
+          bIsInternal = true;
+        }
+
       }
+
       return( bIsInternal );
     }
 
@@ -180,12 +189,21 @@ namespace SEOMacroscope
 
     public Boolean IsExternalUrl ( string Url )
     {
-      Uri uUrl = new Uri ( Url, UriKind.Absolute );
+
       Boolean bIsExternal = false;
-      if( !this.IsAllowed( uUrl.Host ) )
+
+      if( Url != null )
       {
-        bIsExternal = true;
+      
+        Uri uUrl = new Uri ( Url, UriKind.Absolute );
+      
+        if( !this.IsAllowed( uUrl.Host ) )
+        {
+          bIsExternal = true;
+        }
+      
       }
+
       return( bIsExternal );
     }
 

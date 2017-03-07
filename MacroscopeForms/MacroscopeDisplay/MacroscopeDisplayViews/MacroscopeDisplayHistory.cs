@@ -133,25 +133,25 @@ namespace SEOMacroscope
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
             
-      foreach( string sUrl in History.Keys )
+      foreach( string Url in History.Keys )
       {
 
         string sVisited = "No";
         ListViewItem lvItem = null;
 
-        if( History[ sUrl ] )
+        if( History[ Url ] )
         {
           sVisited = "Yes";
         }
         
         this.lvListView.BeginUpdate();
 
-        if( this.lvListView.Items.ContainsKey( sUrl ) )
+        if( this.lvListView.Items.ContainsKey( Url ) )
         {
 
           try
           {
-            lvItem = this.lvListView.Items[ sUrl ];
+            lvItem = this.lvListView.Items[ Url ];
             lvItem.SubItems[ 1 ].Text = sVisited;
           }
           catch( Exception ex )
@@ -165,9 +165,9 @@ namespace SEOMacroscope
 
           try
           {
-            lvItem = new ListViewItem ( sUrl );
+            lvItem = new ListViewItem ( Url );
             lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = sUrl;
+            lvItem.Name = Url;
             lvItem.SubItems.Add( sVisited );
             this.lvListView.Items.Add( lvItem );
           }
@@ -183,10 +183,10 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
-          if( AllowedHosts.IsInternalUrl( sUrl ) )
+          if( AllowedHosts.IsInternalUrl( Url ) )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
-            if( History[ sUrl ] )
+            if( History[ Url ] )
             {
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
             }

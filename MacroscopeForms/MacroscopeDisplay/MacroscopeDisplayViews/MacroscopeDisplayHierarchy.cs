@@ -128,10 +128,10 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "HIERARCHY: {0}", "BASE" ) );
 
-      foreach( string sUrl in UrlList )
+      foreach( string Url in UrlList )
       {
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
-        this.RenderTreeView( msDoc, sUrl );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        this.RenderTreeView( msDoc, Url );
       }
 
       this.tvTreeView.ExpandAll();

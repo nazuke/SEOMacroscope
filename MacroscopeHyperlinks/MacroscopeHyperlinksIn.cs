@@ -65,7 +65,8 @@ namespace SEOMacroscope
       string Method,
       string UrlOrigin,
       string UrlTarget,
-      string LinkText,
+      string LinkText, 
+      string LinkTitle,
       string AltText
     )
     {
@@ -75,7 +76,8 @@ namespace SEOMacroscope
                                             Method: Method,
                                             UrlOrigin: UrlOrigin,
                                             UrlTarget: UrlTarget,
-                                            LinkText: LinkText,
+                                            LinkText: LinkText, 
+                                            LinkTitle: LinkTitle,
                                             AltText: AltText
                                           );
 

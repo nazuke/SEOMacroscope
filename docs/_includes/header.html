@@ -4,8 +4,8 @@
 
 		<ul class="nav nav-tabs">
 
-			<li role="presentation"><a href="/">Home</a></li>
-			<li role="presentation"><a href="/manual/">Manual</a></li>
+			<li role="presentation"><a href="{{ "/" | relative_url}}">Home</a></li>
+			<li role="presentation"><a href="{{ "/manual/" | relative_url}}">Manual</a></li>
 
 		</ul>
 
@@ -19,6 +19,7 @@
 	<div class="container">
 
 		<h1><a href="{{ "/" | relative_url}}">{{ site.title | escape }}</a></h1>
+
     <h2>The website broken link scanner and SEO tool</h2>
 
 		<!--

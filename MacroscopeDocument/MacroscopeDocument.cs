@@ -825,19 +825,19 @@ namespace SEOMacroscope
     {
       lock( this.Outlinks )
       {
-        foreach( string sUrl in this.Outlinks.Keys )
+        foreach( string Url in this.Outlinks.Keys )
         {
-          yield return sUrl;
+          yield return Url;
         }
       }
     }
 
-    public MacroscopeOutlink GetOutlink ( string sUrl )
+    public MacroscopeOutlink GetOutlink ( string Url )
     {
       MacroscopeOutlink Outlink = null;
-      if( this.Outlinks.ContainsKey( sUrl ) )
+      if( this.Outlinks.ContainsKey( Url ) )
       {
-        Outlink = this.Outlinks[ sUrl ];
+        Outlink = this.Outlinks[ Url ];
       }
       return( Outlink );
     }
@@ -1108,9 +1108,9 @@ namespace SEOMacroscope
 
     /** HrefLang **************************************************************/
 
-    private void SetHreflang ( string sLocale, string sUrl )
+    private void SetHreflang ( string sLocale, string Url )
     {
-      MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( sLocale, sUrl );
+      MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( sLocale, Url );
       this.HrefLang[ sLocale ] = msHrefLang;
     }
 

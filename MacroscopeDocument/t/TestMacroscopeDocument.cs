@@ -47,14 +47,14 @@ namespace SEOMacroscope
 				}
 			};
 
-			foreach( string sUrl in lList ) {
+			foreach( string Url in lList ) {
 
-				MacroscopeDocument msDoc = new MacroscopeDocument ( sUrl );
+				MacroscopeDocument msDoc = new MacroscopeDocument ( Url );
 
 				msDoc.Execute();
 
-				Assert.AreEqual( sUrl, msDoc.GetUrl(), string.Format( "FAIL: {0}", sUrl ) );
-				Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", sUrl ) );
+				Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
+				Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
 			}
 

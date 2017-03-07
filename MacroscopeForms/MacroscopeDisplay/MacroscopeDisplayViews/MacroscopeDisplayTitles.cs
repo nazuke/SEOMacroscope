@@ -72,7 +72,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string sUrl )
+    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
       Boolean bProcess;
@@ -105,7 +105,7 @@ namespace SEOMacroscope
         string sTextLength = sText.Length.ToString();
         int iTextPixelWidth = msDoc.GetTitlePixelWidth();
 
-        string sPairKey = string.Join( "", sUrl, sText );
+        string sPairKey = string.Join( "", Url, sText );
 
         ListViewItem lvItem = null;
 
@@ -121,7 +121,7 @@ namespace SEOMacroscope
           {
 
             lvItem = this.lvListView.Items[ sPairKey ];
-            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
             lvItem.SubItems[ 2 ].Text = sTextLabel;
             lvItem.SubItems[ 3 ].Text = sTextLength;
@@ -144,7 +144,7 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = sPairKey;
 
-            lvItem.SubItems[ 0 ].Text = sUrl;
+            lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems.Add( iTextCount.ToString() );
             lvItem.SubItems.Add( sTextLabel );
             lvItem.SubItems.Add( sTextLength );
