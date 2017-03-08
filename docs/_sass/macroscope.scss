@@ -1,6 +1,10 @@
 body
 {
-	background-color:#FFFFFF;
+	background-color:#000000;
+	background-image:url('../media/images/jumbotron-background.png');
+  background-repeat:no-repeat;
+  background-position:top right;
+	background-attachment:fixed;
 }
 
 /** Jumbotrons ****************************************************************/
@@ -8,11 +12,7 @@ body
 .jumbotron
 {
 
-  background-color:#000000;
-	background-image:url('../media/images/uranus.png');
-  background-repeat:no-repeat;
-  background-position:top right;
-  background-size:40%;
+  background-color:rgba(0,0,0,0.75);
 
   h1, a
   {
