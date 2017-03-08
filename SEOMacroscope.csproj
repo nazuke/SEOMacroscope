@@ -63,6 +63,9 @@
     <Reference Include="ExCSS">
       <HintPath>packages\SR2.Web.ExCSS.2.0.7\lib\portable-net45+sl50+netcore45+wpa81+wp8\ExCSS.dll</HintPath>
     </Reference>
+    <Reference Include="Fastenshtein">
+      <HintPath>packages\Fastenshtein.1.0.0.4\lib\net40-client\Fastenshtein.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -112,8 +115,10 @@
     <Compile Include="MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeInsecureLinks.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeLevenshteinAnalysis.cs" />
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzePageTitles.cs" />
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeDeepKeywordAnalysis.cs" />
+    <Compile Include="MacroscopeAnalysis\t\TestMacroscopeLevenshteinAnalysis.cs" />
     <Compile Include="MacroscopeConstants.cs" />
     <Compile Include="MacroscopeCredentials\MacroscopeCredentialRequest.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />

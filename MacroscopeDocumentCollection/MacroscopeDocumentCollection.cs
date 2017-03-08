@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -180,8 +179,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    // TODO: There may be a bug here, whereby two or more error pages are added multiple times.
+    public void AddDocument ( MacroscopeDocument msDoc )
+    {
+      this.AddDocument( msDoc.GetUrl(), msDoc );
+    }
 
+    // TODO: There may be a bug here, whereby two or more error pages are added multiple times.
     public void AddDocument ( string Url, MacroscopeDocument msDoc )
     {
       lock( this.DocCollection )

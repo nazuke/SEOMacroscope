@@ -31,7 +31,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeJobMaster: IMacroscopeTaskController
+  public class TestMacroscopeJobMaster : IMacroscopeTaskController
   {
 
     /**************************************************************************/
