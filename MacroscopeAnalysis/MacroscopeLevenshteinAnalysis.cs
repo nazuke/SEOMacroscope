@@ -50,7 +50,7 @@ namespace SEOMacroscope
     public MacroscopeLevenshteinAnalysis ( MacroscopeDocument msDoc, int Threshold )
     {
       
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       
       this.msDocOriginal = msDoc;
       this.MonstrousText = msDoc.GetBodyText();

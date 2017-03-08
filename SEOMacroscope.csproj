@@ -214,6 +214,7 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportDescriptions.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetKeywords.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetTitles.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetDuplicateContent.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetRedirectsAudit.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetUriAnalysis.cs" />

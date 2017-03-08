@@ -49,7 +49,9 @@ namespace SEOMacroscope
       this.BuildWorksheetPageLinks( JobMaster, wb, "Links" );
       this.BuildWorksheetPageUriAnalysis( JobMaster, wb, "URI Analysis" );     
       this.BuildWorksheetPageRedirectsAudit( JobMaster, wb, "Redirects Audit" );
-      
+
+      this.BuildWorksheetPageDuplicateContent( JobMaster, wb, "Duplicate Content" );
+
       try
       {
         wb.SaveAs( OutputFilename );

@@ -43,14 +43,16 @@ namespace SEOMacroscope
 			List<string> lList = new List<string> ()
 			{
 				{
-					"https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol"
+					"https://nazuke.github.io/SEOMacroscope/"
 				}
 			};
 
 			foreach( string Url in lList ) {
 
-				MacroscopeDocument msDoc = new MacroscopeDocument ( Url );
+			  MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
 
+			  Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
+			  
 				msDoc.Execute();
 
 				Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );

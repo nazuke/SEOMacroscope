@@ -102,7 +102,8 @@ namespace SEOMacroscope
 
       MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis ( msDoc: msDoc, Threshold: 64 );
 
-      List<string> TargetUrls = new List<string> () { {
+      List<string> TargetUrls = new List<string> () {
+        {
           "https://nazuke.github.io/SEOMacroscope/manual/"
         }
       };
@@ -122,7 +123,7 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
       {
         DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
-        Assert.AreEqual( DocList[ msDocAnalyzed ], 0, string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
+        Assert.AreNotEqual( DocList[ msDocAnalyzed ], 0, string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
       }
 
       return;
