@@ -17,10 +17,15 @@ title: SEO Macroscope
 email: seo.macroscope@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   SEO Macroscope is an open source website broken link checker and SEO tool for Windows.
+
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://nazuke.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-#twitter_username: jekyllrb
+
+url: "https://nazuke.github.io"
+twitter_username: SEOMacroscope
 github_username:  nazuke
+
+# Google Services
+google_analytics: UA-53226030-9
 
 # Build settings
 markdown: kramdown
