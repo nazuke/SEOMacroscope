@@ -30,40 +30,40 @@ using NUnit.Framework;
 namespace SEOMacroscope
 {
 
-	[TestFixture]
-	public class TestMacroscopeDocument
-	{
+  [TestFixture]
+  public class TestMacroscopeDocument
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Test]
-		public void TestHtmlDocument ()
-		{
+    [Test]
+    public void TestHtmlDocument ()
+    {
 
-			List<string> lList = new List<string> ()
-			{
-				{
-					"https://nazuke.github.io/SEOMacroscope/"
-				}
-			};
+      List<string> lList = new List<string> () {
+        {
+          "https://nazuke.github.io/SEOMacroscope/"
+        }
+      };
 
-			foreach( string Url in lList ) {
+      foreach( string Url in lList )
+      {
 
-			  MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
+        MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
 
-			  Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
+        Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 			  
-				msDoc.Execute();
+        msDoc.Execute();
 
-				Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
-				Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
+        Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
+        Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
-			}
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

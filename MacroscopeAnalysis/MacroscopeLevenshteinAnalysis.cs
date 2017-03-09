@@ -53,7 +53,7 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = true;
       
       this.msDocOriginal = msDoc;
-      this.MonstrousText = msDoc.GetBodyText();
+      this.MonstrousText = msDoc.GetBodyText().ToLower();
       this.Monster = new Levenshtein ( MonstrousText );
       this.ComparisonThreshold = Threshold;
       
@@ -74,13 +74,29 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {
 
+        string BodyText = msDocCompare.GetBodyText().ToLower();
+        Boolean DoCheck = false;
+        
+        if( !msDocCompare.GetIsHtml() )
+        {
+          continue;
+        }
+        else
         if( msDocCompare.GetUrl() == this.msDocOriginal.GetUrl() )
         {
           continue;
         }
+        else
+        if( BodyText.Length == 0 )
+        {
+          continue;
+        }
 
-        string BodyText = msDocCompare.GetBodyText();
-        Boolean DoCheck = false;
+        if( msDocOriginal.GetChecksum() == msDocCompare.GetChecksum() )
+        {
+          DocList.Add( msDocCompare, 0 );
+          continue;
+        }
 
         DebugMsg( string.Format( "msDocOriginal: {0}", this.msDocOriginal.GetUrl() ) );
         DebugMsg( string.Format( "this.MonstrousText.Length: {0}", this.MonstrousText.Length ) );
@@ -91,35 +107,49 @@ namespace SEOMacroscope
 
         if( BodyText.Length > this.MonstrousText.Length )
         {
+          
           int iLen = BodyText.Length - this.MonstrousText.Length;
-          DebugMsg( string.Format( "iLen 1: {0}", iLen ) );        
+          
+          DebugMsg( string.Format( "iLen 1: {0}", iLen ) );
+          
           if( iLen <= this.ComparisonThreshold )
           {
             DoCheck = true;
           }
+          
         }
         else
         {
+          
           int iLen = this.MonstrousText.Length - BodyText.Length;
-          DebugMsg( string.Format( "iLen 2: {0}", iLen ) );        
+          
+          DebugMsg( string.Format( "iLen 2: {0}", iLen ) );
+          
           if( iLen <= this.ComparisonThreshold )
           {
             DoCheck = true;
           }
+          
         }
 
         if( DoCheck )
         {
+          
           int Distance = Monster.Distance( BodyText );
-
-          DebugMsg( string.Format( "Distance: {0}", Distance ) );        
-
-
-          DocList.Add( msDocCompare, Distance );
+          
+          DebugMsg( string.Format( "Distance: {0}", Distance ) );
+          
+          if( Distance <= this.ComparisonThreshold )
+          {
+            DocList.Add( msDocCompare, Distance );
+          }
+          
         }
         else
         {
+          
           DebugMsg( string.Format( "DoCheck: {0}", DoCheck ) );
+          
         }
 
       }

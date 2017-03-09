@@ -2009,11 +2009,11 @@ namespace SEOMacroscope
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
-        string sPath = Dialog.FileName;
+        string Path = Dialog.FileName;
 
-        if( File.Exists( sPath ) )
+        if( File.Exists( Path ) )
         {
-          this.CallackScanStartUrlListFileExecute( sPath );
+          this.CallackScanStartUrlListFileExecute( Path );
         }
         else
         {
@@ -2189,7 +2189,9 @@ namespace SEOMacroscope
         MacroscopeExcelHrefLangReport msExcelReport = new MacroscopeExcelHrefLangReport ();
         try
         {
+          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
+          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeCannotSaveExcelFileException ex )
         {
@@ -2198,6 +2200,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
       }
       Dialog.Dispose();
@@ -2219,7 +2225,9 @@ namespace SEOMacroscope
         MacroscopeExcelPageContentsReport msExcelReport = new MacroscopeExcelPageContentsReport ();
         try
         {
+          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
+          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeCannotSaveExcelFileException ex )
         {
@@ -2228,6 +2236,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
       }
       Dialog.Dispose();
@@ -2245,11 +2257,13 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
-        string sPath = Dialog.FileName;
+        string Path = Dialog.FileName;
         MacroscopeExcelUriReport msExcelReport = new MacroscopeExcelUriReport ();
         try
         {
-          msExcelReport.WriteXslx( this.JobMaster, sPath );
+          Cursor.Current = Cursors.WaitCursor;
+          msExcelReport.WriteXslx( this.JobMaster, Path );
+          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeCannotSaveExcelFileException ex )
         {
@@ -2258,6 +2272,46 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
+        }
+      }
+      Dialog.Dispose();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackSaveDuplicateContentExcelReport ( object sender, EventArgs e )
+    {
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+        string Path = Dialog.FileName;
+        MacroscopeExcelDuplicateContent msExcelReport = new MacroscopeExcelDuplicateContent ();
+        try
+        {
+          Cursor.Current = Cursors.WaitCursor;
+          msExcelReport.WriteXslx( this.JobMaster, Path );
+          Cursor.Current = Cursors.Default;
+        }
+        catch( MacroscopeCannotSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
       }
       Dialog.Dispose();

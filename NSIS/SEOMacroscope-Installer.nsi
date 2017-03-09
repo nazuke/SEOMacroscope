@@ -103,6 +103,9 @@ Section uninstall
 	
 	Delete "$INSTDIR\ExCSS.dll"
 
+	Delete "$INSTDIR\Fastenshtein.dll"
+	Delete "$INSTDIR\Fastenshtein.xml"
+
 	Delete "$INSTDIR\HtmlAgilityPack.dll"
 	Delete "$INSTDIR\HtmlAgilityPack.pdb"
 	Delete "$INSTDIR\HtmlAgilityPack.xml"
@@ -116,7 +119,7 @@ Section uninstall
 
 	Delete "$INSTDIR\RobotsTxt.dll"
 	Delete "$INSTDIR\RobotsTxt.xml"
-	
+
 	Delete "$INSTDIR\$SEOMacroscopeExe.exe"
 	Delete "$INSTDIR\$SEOMacroscopeExe.exe.config"
 

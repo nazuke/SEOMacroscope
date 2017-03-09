@@ -145,6 +145,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool EnableLevenshteinDeduplication {
+			get {
+				return ((bool)(this["EnableLevenshteinDeduplication"]));
+			}
+			set {
+				this["EnableLevenshteinDeduplication"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FetchAudio {
 			get {
@@ -380,6 +392,18 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["MaxHeadingDepth"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("64")]
+		public int MaxLevenshteinDistance {
+			get {
+				return ((int)(this["MaxLevenshteinDistance"]));
+			}
+			set {
+				this["MaxLevenshteinDistance"] = value;
 			}
 		}
 		

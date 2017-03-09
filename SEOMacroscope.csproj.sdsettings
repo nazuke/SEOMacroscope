@@ -325,6 +325,9 @@
     <SerializedObject key="ElseNewLinePlacement">
       <NewLinePlacement xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NewLine</NewLinePlacement>
     </SerializedObject>
+    <SerializedObject key="FinallyNewLinePlacement">
+      <NewLinePlacement xmlns="clr-namespace:ICSharpCode.NRefactory.CSharp;assembly=ICSharpCode.NRefactory.CSharp">NewLine</NewLinePlacement>
+    </SerializedObject>
     <Property key="IndentationSize">2</Property>
     <Property key="ConvertTabsToSpaces">True</Property>
   </Properties>

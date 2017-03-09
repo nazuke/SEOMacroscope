@@ -209,12 +209,14 @@
     <Compile Include="MacroscopeReports\MacroscopeCannotSaveExcelFileException.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetBrokenLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\MacroscopeExcelBrokenLinksReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\MacroscopeExcelDuplicateContent.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateEntities.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicatePages.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportHeadings.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\MacroscopeExcelPageContentsReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportDescriptions.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetKeywords.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetTitles.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetDuplicateContent.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetRedirectsAudit.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetUriAnalysis.cs" />
@@ -346,6 +348,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelPageContentsReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelUriReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelDuplicateContent" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />

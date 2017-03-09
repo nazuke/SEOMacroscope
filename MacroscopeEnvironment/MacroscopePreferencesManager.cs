@@ -103,6 +103,9 @@ namespace SEOMacroscope
 
     static Boolean AnalyzeKeywordsInText;
 
+    static Boolean EnableLevenshteinDeduplication;
+    static int MaxLevenshteinDistance;
+
     /**************************************************************************/
 
     static MacroscopePreferencesManager ()
@@ -144,7 +147,10 @@ namespace SEOMacroscope
           CheckHreflangs = Preferences.CheckHreflangs;
           ScanSitesInList = Preferences.ScanSitesInList;
           WarnAboutInsecureLinks = Preferences.WarnAboutInsecureLinks;
-
+          
+          EnableLevenshteinDeduplication = Preferences.EnableLevenshteinDeduplication;
+          MaxLevenshteinDistance = Preferences.MaxLevenshteinDistance;
+          
           FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
           FollowSitemapLinks = Preferences.FollowSitemapLinks;
 
@@ -178,7 +184,7 @@ namespace SEOMacroscope
           DescriptionMaxWords = Preferences.DescriptionMaxWords;
           MaxHeadingDepth = Preferences.MaxHeadingDepth;
           AnalyzeKeywordsInText = Preferences.AnalyzeKeywordsInText;
-
+    
         }
 
       }
@@ -243,7 +249,10 @@ namespace SEOMacroscope
       CheckHreflangs = true;
       ScanSitesInList = false;
       WarnAboutInsecureLinks = true;
-
+      
+      EnableLevenshteinDeduplication = true;
+      MaxLevenshteinDistance = 64;
+      
       // SEO Options
 
       TitleMinLen = 10;
@@ -335,6 +344,9 @@ namespace SEOMacroscope
         Preferences.ScanSitesInList = ScanSitesInList;
         Preferences.WarnAboutInsecureLinks = WarnAboutInsecureLinks;
 
+        Preferences.EnableLevenshteinDeduplication = EnableLevenshteinDeduplication;
+        Preferences.MaxLevenshteinDistance = MaxLevenshteinDistance;
+
         Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
         Preferences.FollowSitemapLinks = FollowSitemapLinks;
 
@@ -384,9 +396,9 @@ namespace SEOMacroscope
       return( HttpProxyHost );
     }
 
-    public static void SetHttpProxyHost ( string sValue )
+    public static void SetHttpProxyHost ( string Value )
     {
-      HttpProxyHost = sValue;
+      HttpProxyHost = Value;
     }
 
     public static int GetHttpProxyPort ()
@@ -394,9 +406,9 @@ namespace SEOMacroscope
       return( HttpProxyPort );
     }
 
-    public static void SetHttpProxyPort ( int iValue )
+    public static void SetHttpProxyPort ( int Value )
     {
-      HttpProxyPort = iValue;
+      HttpProxyPort = Value;
     }
 
     public static void ConfigureHttpProxy ()
@@ -455,9 +467,9 @@ namespace SEOMacroscope
       return( StartUrl );
     }
 
-    public static void SetStartUrl ( string sStartUrl )
+    public static void SetStartUrl ( string Url )
     {
-      StartUrl = sStartUrl;
+      StartUrl = Url;
     }
 
     /**************************************************************************/
@@ -479,9 +491,9 @@ namespace SEOMacroscope
       return( MaxFetchesPerWorker );
     }
 
-    public static void SetMaxFetchesPerWorker ( int iMaxFetchesPerWorker )
+    public static void SetMaxFetchesPerWorker ( int Max )
     {
-      MaxFetchesPerWorker = iMaxFetchesPerWorker;
+      MaxFetchesPerWorker = Max;
     }
 
     /**************************************************************************/
@@ -491,9 +503,9 @@ namespace SEOMacroscope
       return( Depth );
     }
 
-    public static void SetDepth ( int iValue )
+    public static void SetDepth ( int Value )
     {
-      Depth = iValue;
+      Depth = Value;
     }
 
     /**************************************************************************/
@@ -503,9 +515,9 @@ namespace SEOMacroscope
       return( PageLimit );
     }
 
-    public static void SetPageLimit ( int iValue )
+    public static void SetPageLimit ( int Value )
     {
-      PageLimit = iValue;
+      PageLimit = Value;
     }
 
     /** Request Timeout *******************************************************/
@@ -515,9 +527,9 @@ namespace SEOMacroscope
       return( RequestTimeout );
     }
 
-    public static void SetRequestTimeout ( int iValue )
+    public static void SetRequestTimeout ( int Value )
     {
-      RequestTimeout = iValue;
+      RequestTimeout = Value;
     }
 
     /** Maximum Retries *******************************************************/
@@ -527,21 +539,21 @@ namespace SEOMacroscope
       return( MaxRetries );
     }
 
-    public static void SetMaxRetries ( int iValue )
+    public static void SetMaxRetries ( int Value )
     {
-      MaxRetries = iValue;
+      MaxRetries = Value;
     }
 
     /** Domain Spidering Controls *********************************************/
 
-    public static void SetCheckExternalLinks ( Boolean bValue )
-    {
-      CheckExternalLinks = bValue;
-    }
-
     public static Boolean GetCheckExternalLinks ()
     {
       return( CheckExternalLinks );
+    }
+
+    public static void SetCheckExternalLinks ( Boolean State )
+    {
+      CheckExternalLinks = State;
     }
 
     /**************************************************************************/
@@ -551,9 +563,9 @@ namespace SEOMacroscope
       return( CheckHreflangs );
     }
 
-    public static void SetCheckHreflangs ( Boolean bValue )
+    public static void SetCheckHreflangs ( Boolean State )
     {
-      CheckHreflangs = bValue;
+      CheckHreflangs = State;
     }
 
     /**************************************************************************/
@@ -563,9 +575,9 @@ namespace SEOMacroscope
       return( ScanSitesInList );
     }
 
-    public static void SetScanSitesInList ( Boolean bValue )
+    public static void SetScanSitesInList ( Boolean State )
     {
-      ScanSitesInList = bValue;
+      ScanSitesInList = State;
     }
 
     /**************************************************************************/
@@ -575,9 +587,31 @@ namespace SEOMacroscope
       return( WarnAboutInsecureLinks );
     }
 
-    public static void SetWarnAboutInsecureLinks ( Boolean bValue )
+    public static void SetWarnAboutInsecureLinks ( Boolean State )
     {
-      WarnAboutInsecureLinks = bValue;
+      WarnAboutInsecureLinks = State;
+    }
+
+    /** Levenshtein Deduplication *********************************************/
+
+    public static Boolean GetEnableLevenshteinDeduplication ()
+    {
+      return( EnableLevenshteinDeduplication );
+    }
+
+    public static void SetEnableLevenshteinDeduplication ( Boolean State )
+    {
+      EnableLevenshteinDeduplication = State;
+    }
+
+    public static int GetMaxLevenshteinDistance ()
+    {
+      return( MaxLevenshteinDistance );
+    }
+
+    public static void SetMaxLevenshteinDistance ( int Max )
+    {
+      MaxLevenshteinDistance = Max;
     }
 
     /**************************************************************************/
@@ -587,9 +621,9 @@ namespace SEOMacroscope
       return( FollowRobotsProtocol );
     }
 
-    public static void SetFollowRobotsProtocol ( Boolean bState )
+    public static void SetFollowRobotsProtocol ( Boolean State )
     {
-      FollowRobotsProtocol = bState;
+      FollowRobotsProtocol = State;
     }
 
     /**************************************************************************/
@@ -599,9 +633,9 @@ namespace SEOMacroscope
       return( FollowSitemapLinks );
     }
 
-    public static void SetFollowSitemapLinks ( Boolean bState )
+    public static void SetFollowSitemapLinks ( Boolean State )
     {
-      FollowSitemapLinks = bState;
+      FollowSitemapLinks = State;
     }
 
     /**************************************************************************/
@@ -610,9 +644,9 @@ namespace SEOMacroscope
       return( FollowRedirects );
     }
 
-    public static void SetFollowRedirects ( Boolean bState )
+    public static void SetFollowRedirects ( Boolean State )
     {
-      FollowRedirects = bState;
+      FollowRedirects = State;
     }
 
     /**************************************************************************/
@@ -622,9 +656,9 @@ namespace SEOMacroscope
       return( FollowNoFollow );
     }
 
-    public static void SetFollowNoFollow ( Boolean bState )
+    public static void SetFollowNoFollow ( Boolean State )
     {
-      FollowNoFollow = bState;
+      FollowNoFollow = State;
     }
 
     /**************************************************************************/
@@ -634,9 +668,9 @@ namespace SEOMacroscope
       return( FollowCanonicalLinks );
     }
 
-    public static void SetFollowCanonicalLinks ( Boolean bState )
+    public static void SetFollowCanonicalLinks ( Boolean State )
     {
-      FollowCanonicalLinks = bState;
+      FollowCanonicalLinks = State;
     }
 
     /**************************************************************************/
@@ -646,9 +680,9 @@ namespace SEOMacroscope
       return( FollowHrefLangLinks );
     }
 
-    public static void SetFollowHrefLangLinks ( Boolean bState )
+    public static void SetFollowHrefLangLinks ( Boolean State )
     {
-      FollowHrefLangLinks = bState;
+      FollowHrefLangLinks = State;
     }
 
     /**************************************************************************/
@@ -658,9 +692,9 @@ namespace SEOMacroscope
       return( FollowListLinks );
     }
 
-    public static void SetFollowListLinks ( Boolean bState )
+    public static void SetFollowListLinks ( Boolean State )
     {
-      FollowListLinks = bState;
+      FollowListLinks = State;
     }
 
     /**************************************************************************/
@@ -670,9 +704,9 @@ namespace SEOMacroscope
       return( FetchStylesheets );
     }
 
-    public static void SetFetchStylesheets ( Boolean bState )
+    public static void SetFetchStylesheets ( Boolean State )
     {
-      FetchStylesheets = bState;
+      FetchStylesheets = State;
     }
 
     /**************************************************************************/
@@ -682,9 +716,9 @@ namespace SEOMacroscope
       return( FetchJavascripts );
     }
 
-    public static void SetFetchJavascripts ( Boolean bState )
+    public static void SetFetchJavascripts ( Boolean State )
     {
-      FetchJavascripts = bState;
+      FetchJavascripts = State;
     }
 
     /**************************************************************************/
@@ -694,9 +728,9 @@ namespace SEOMacroscope
       return( FetchImages );
     }
 
-    public static void SetFetchImages ( Boolean bState )
+    public static void SetFetchImages ( Boolean State )
     {
-      FetchImages = bState;
+      FetchImages = State;
     }
 
     /**************************************************************************/
@@ -706,9 +740,9 @@ namespace SEOMacroscope
       return( FetchPdfs );
     }
 
-    public static void SetFetchPdfs ( Boolean bState )
+    public static void SetFetchPdfs ( Boolean State )
     {
-      FetchPdfs = bState;
+      FetchPdfs = State;
     }
 
     /**************************************************************************/
@@ -718,9 +752,9 @@ namespace SEOMacroscope
       return( FetchAudio );
     }
 
-    public static void SetFetchAudio ( Boolean bState )
+    public static void SetFetchAudio ( Boolean State )
     {
-      FetchAudio = bState;
+      FetchAudio = State;
     }
 
     /**************************************************************************/
@@ -730,9 +764,9 @@ namespace SEOMacroscope
       return( FetchVideo );
     }
 
-    public static void SetFetchVideo ( Boolean bState )
+    public static void SetFetchVideo ( Boolean State )
     {
-      FetchVideo = bState;
+      FetchVideo = State;
     }
 
     /**************************************************************************/
@@ -742,9 +776,9 @@ namespace SEOMacroscope
       return( FetchXml );
     }
 
-    public static void SetFetchXml ( Boolean bState )
+    public static void SetFetchXml ( Boolean State )
     {
-      FetchXml = bState;
+      FetchXml = State;
     }
 
     /**************************************************************************/
@@ -754,9 +788,9 @@ namespace SEOMacroscope
       return( FetchBinaries );
     }
 
-    public static void SetFetchBinaries ( Boolean bState )
+    public static void SetFetchBinaries ( Boolean State )
     {
-      FetchBinaries = bState;
+      FetchBinaries = State;
     }
 
     /** Per-Job Spidering Options *********************************************/
@@ -766,9 +800,9 @@ namespace SEOMacroscope
       return( CrawlParentDirectories );
     }
 
-    public static void SetCrawlParentDirectories ( Boolean bState )
+    public static void SetCrawlParentDirectories ( Boolean State )
     {
-      CrawlParentDirectories = bState;
+      CrawlParentDirectories = State;
     }
 
     public static Boolean GetCrawlChildDirectories ()
@@ -776,9 +810,9 @@ namespace SEOMacroscope
       return( CrawlChildDirectories );
     }
 
-    public static void SetCrawlChildDirectories ( Boolean bState )
+    public static void SetCrawlChildDirectories ( Boolean State )
     {
-      CrawlChildDirectories = bState;
+      CrawlChildDirectories = State;
     }
 
     /** SEO Options ***********************************************************/
@@ -788,9 +822,9 @@ namespace SEOMacroscope
       return( TitleMinLen );
     }
 
-    public static void SetTitleMinLen ( int iValue )
+    public static void SetTitleMinLen ( int Length )
     {
-      TitleMinLen = iValue;
+      TitleMinLen = Length;
     }
 
     public static int GetTitleMaxLen ()
@@ -798,9 +832,9 @@ namespace SEOMacroscope
       return( TitleMaxLen );
     }
 
-    public static void SetTitleMaxLen ( int iValue )
+    public static void SetTitleMaxLen ( int Length )
     {
-      TitleMaxLen = iValue;
+      TitleMaxLen = Length;
     }
 
     public static int GetTitleMinWords ()
@@ -808,9 +842,9 @@ namespace SEOMacroscope
       return( TitleMinWords );
     }
 
-    public static void SetTitleMinWords ( int iValue )
+    public static void SetTitleMinWords ( int Min )
     {
-      TitleMinWords = iValue;
+      TitleMinWords = Min;
     }
 
     public static int GetTitleMaxWords ()
@@ -818,9 +852,9 @@ namespace SEOMacroscope
       return( TitleMaxWords );
     }
 
-    public static void SetTitleMaxWords ( int iValue )
+    public static void SetTitleMaxWords ( int Max )
     {
-      TitleMaxWords = iValue;
+      TitleMaxWords = Max;
     }
 
     public static int GetTitleMaxPixelWidth ()
@@ -828,9 +862,9 @@ namespace SEOMacroscope
       return( TitleMaxPixelWidth );
     }
 
-    public static void SetTitleMaxPixelWidth ( int iValue )
+    public static void SetTitleMaxPixelWidth ( int Max )
     {
-      TitleMaxPixelWidth = iValue;
+      TitleMaxPixelWidth = Max;
     }
 
     /* ---------------------------------------------------------------------- */
@@ -840,9 +874,9 @@ namespace SEOMacroscope
       return( DescriptionMinLen );
     }
 
-    public static void SetDescriptionMinLen ( int iValue )
+    public static void SetDescriptionMinLen ( int Length )
     {
-      DescriptionMinLen = iValue;
+      DescriptionMinLen = Length;
     }
 
     public static int GetDescriptionMaxLen ()
@@ -850,9 +884,9 @@ namespace SEOMacroscope
       return( DescriptionMaxLen );
     }
 
-    public static void SetDescriptionMaxLen ( int iValue )
+    public static void SetDescriptionMaxLen ( int Length )
     {
-      DescriptionMaxLen = iValue;
+      DescriptionMaxLen = Length;
     }
 
     public static int GetDescriptionMinWords ()
@@ -860,9 +894,9 @@ namespace SEOMacroscope
       return( DescriptionMinWords );
     }
 
-    public static void SetDescriptionMinWords ( int iValue )
+    public static void SetDescriptionMinWords ( int Min )
     {
-      DescriptionMinWords = iValue;
+      DescriptionMinWords = Min;
     }
 
     public static int GetDescriptionMaxWords ()
@@ -870,9 +904,9 @@ namespace SEOMacroscope
       return( DescriptionMaxWords );
     }
 
-    public static void SetDescriptionMaxWords ( int iValue )
+    public static void SetDescriptionMaxWords ( int Max )
     {
-      DescriptionMaxWords = iValue;
+      DescriptionMaxWords = Max;
     }
 
     public static ushort GetMaxHeadingDepth ()
@@ -880,9 +914,9 @@ namespace SEOMacroscope
       return( MaxHeadingDepth );
     }
 
-    public static void SetMaxHeadingDepth ( ushort iValue )
+    public static void SetMaxHeadingDepth ( ushort Depth )
     {
-      MaxHeadingDepth = iValue;
+      MaxHeadingDepth = Depth;
     }
 
     public static Boolean GetAnalyzeKeywordsInText ()
@@ -891,9 +925,9 @@ namespace SEOMacroscope
       return( bState );
     }
 
-    public static void SetAnalyzeKeywordsInText ( Boolean bState )
+    public static void SetAnalyzeKeywordsInText ( Boolean State )
     {
-      AnalyzeKeywordsInText = bState;
+      AnalyzeKeywordsInText = State;
     }
 
     /**************************************************************************/

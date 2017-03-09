@@ -30,12 +30,12 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelUriReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelDuplicateContent : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    public MacroscopeExcelUriReport ()
+    public MacroscopeExcelDuplicateContent ()
     {
     }
 
@@ -46,9 +46,11 @@ namespace SEOMacroscope
 
       var wb = new XLWorkbook ();
 
-      this.BuildWorksheetPageLinks( JobMaster, wb, "Links" );
-      this.BuildWorksheetPageUriAnalysis( JobMaster, wb, "URI Analysis" );     
-      this.BuildWorksheetPageRedirectsAudit( JobMaster, wb, "Redirects Audit" );
+      if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
+      {
+        this.BuildWorksheetPageDuplicatePages( JobMaster, wb, "Duplicate Content" );
+        this.BuildWorksheetPageDuplicateEntities( JobMaster, wb, "Duplicate Entities" );
+      }
 
       try
       {

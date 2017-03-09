@@ -34,6 +34,9 @@
     <Setting Name="DescriptionMinWords" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="EnableLevenshteinDeduplication" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="FetchAudio" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -93,6 +96,9 @@
     </Setting>
     <Setting Name="MaxHeadingDepth" Type="System.UInt16" Scope="User" Roaming="false">
       <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="MaxLevenshteinDistance" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">64</Value>
     </Setting>
     <Setting Name="MaxRetries" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">0</Value>
