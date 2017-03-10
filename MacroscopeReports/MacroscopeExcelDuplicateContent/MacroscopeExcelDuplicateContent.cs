@@ -49,7 +49,10 @@ namespace SEOMacroscope
       if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
       {
         this.BuildWorksheetPageDuplicatePages( JobMaster, wb, "Duplicate Content" );
-        this.BuildWorksheetPageDuplicateEntities( JobMaster, wb, "Duplicate Entities" );
+        this.BuildWorksheetPageDuplicateChecksums( JobMaster, wb, "Duplicate Checksums" );
+        this.BuildWorksheetPageDuplicateEtags( JobMaster, wb, "Duplicate ETags" );
+        this.BuildWorksheetPageDuplicateTitles( JobMaster, wb, "Duplicate Titles" );
+        
       }
 
       try

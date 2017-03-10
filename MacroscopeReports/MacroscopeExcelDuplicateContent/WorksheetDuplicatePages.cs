@@ -65,7 +65,7 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Distance";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Duplicate URL";
+        ws.Cell( iRow, iCol ).Value = "Similar URL";
 
       }
 
@@ -87,6 +87,7 @@ namespace SEOMacroscope
 
         LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis (
           msDoc: msDocLeft,
+          SizeDifference: MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference(),
           Threshold: MacroscopePreferencesManager.GetMaxLevenshteinDistance()
         );
 
@@ -106,21 +107,21 @@ namespace SEOMacroscope
           string UrlDuplicate = msDocDuplicate.GetUrl();
           int Distance = DocList[ msDocDuplicate ];
               
-          this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode.ToString() );
+          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, StatusCode );
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Status.ToString() );
+          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, Status );
           iCol++;
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, UrlLeft );
 
           if( AllowedHosts.IsInternalUrl( Url: UrlLeft ) )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }
           else
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
           }
           
           iCol++;
@@ -129,11 +130,11 @@ namespace SEOMacroscope
           
           if( Distance <= MacroscopePreferencesManager.GetMaxLevenshteinDistance() )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
           }
           else
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }
           
           iCol++;
@@ -142,11 +143,11 @@ namespace SEOMacroscope
               
           if( AllowedHosts.IsInternalUrl( Url: UrlDuplicate ) )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }
           else
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
           }
           
           iRow++;

@@ -36,7 +36,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageDuplicateEntities (
+    private void BuildWorksheetPageDuplicateEtags (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string sWorksheetLabel
@@ -58,24 +58,25 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        string Checksum = msDoc.GetChecksum();
-        
-        if( DuplicatesList.ContainsKey( Checksum ) )
+        string Etag = msDoc.GetEtag();
+
+        if( ( Etag != null ) && ( Etag.Length > 0 ) )
         {
-
-          DuplicatesList[ Checksum ] = DuplicatesList[ Checksum ] + 1;
-
+          
           if( !DuplicatesDocList.ContainsKey( Url ) )
           {
             DuplicatesDocList.Add( Url, msDoc );
           }
 
-        }
-        else
-        {
-
-          DuplicatesList.Add( Checksum, 1 );
-
+          if( DuplicatesList.ContainsKey( Etag ) )
+          {
+            DuplicatesList[ Etag ] = DuplicatesList[ Etag ] + 1;
+          }
+          else
+          {
+            DuplicatesList.Add( Etag, 1 );
+          }
+        
         }
 
       }
@@ -88,10 +89,10 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Status";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Count";
+        ws.Cell( iRow, iCol ).Value = "Occurrences";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Checksum";
+        ws.Cell( iRow, iCol ).Value = "ETag";
         iCol++;   
 
         ws.Cell( iRow, iCol ).Value = "URL";
@@ -102,52 +103,46 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string Url in DuplicatesDocList.Keys )
+      foreach( string Etag in DuplicatesList.Keys )
       {
 
-
-
-        MacroscopeDocument msDoc = DuplicatesDocList[ Url ];
-        string Checksum = msDoc.GetChecksum();
-        
-
-
-        
-
-        
-        
-        
-        if( DuplicatesList[ Checksum ] > 1 )
+        if( DuplicatesList[ Etag ] > 1 )
         {
 
-          iCol = 1;
+          foreach( MacroscopeDocument msDoc in  DuplicatesDocList.Values )
+          {
 
-          int StatusCode = ( int )msDoc.GetStatusCode();
-          HttpStatusCode Status = msDoc.GetStatusCode();
-          int Count = DuplicatesList[ Checksum ];
+            if( msDoc.GetEtag() == Etag )
+            {
+
+              iCol = 1;
+
+              int StatusCode = ( int )msDoc.GetStatusCode();
+              HttpStatusCode Status = msDoc.GetStatusCode();
+              int Occurrences = DuplicatesList[ Etag ];
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode.ToString() );
-          iCol++;
+              this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, StatusCode );
+              iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Status.ToString() );
-          iCol++;
+              this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, Status );
+              iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Count.ToString() );
-          iCol++;
+              this.InsertAndFormatContentCell( ws, iRow, iCol, Occurrences );
+              iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetChecksum() );
-          iCol++;
+              this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetEtag() );
+              iCol++;
 
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, Url );
+              this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
-          iRow++;
-        
+              iRow++;
+            
+            }
+
+          }
+
         }
 
-        
-
-        
-        
       }
 
       {

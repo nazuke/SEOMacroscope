@@ -98,6 +98,9 @@
       <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="MaxLevenshteinDistance" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
+    <Setting Name="MaxLevenshteinSizeDifference" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">64</Value>
     </Setting>
     <Setting Name="MaxRetries" Type="System.Int32" Scope="User" Roaming="false">

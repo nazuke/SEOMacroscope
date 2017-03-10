@@ -110,11 +110,11 @@ namespace SEOMacroscope
 
             if( !msDoc.GetIsExternal() )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
             }
             else
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
             }
 
             iCol++;

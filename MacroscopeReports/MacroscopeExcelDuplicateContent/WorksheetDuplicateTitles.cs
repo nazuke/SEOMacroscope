@@ -24,18 +24,17 @@
 */
 
 using System;
-using System.Collections.Generic;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelPageContentsReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelDuplicateContent : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageHeadings (
+    private void BuildWorksheetPageDuplicateTitles (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string sWorksheetLabel
@@ -54,13 +53,10 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "URL";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Order";
+        ws.Cell( iRow, iCol ).Value = "Occurrences";
+        iCol++;
 
-        for( int i = 1 ; i <= 6 ; i++ )
-        {
-          iCol++;
-          ws.Cell( iRow, iCol ).Value = string.Format( "H{0}", i );
-        }
+        ws.Cell( iRow, iCol ).Value = "Title";
 
       }
 
@@ -86,6 +82,11 @@ namespace SEOMacroscope
             bProcess = true;
           }
           else
+          if( msDoc.GetIsPdf() )
+          {
+            bProcess = true;
+          }
+          else
           {
             bProcess = false;
           }
@@ -93,39 +94,46 @@ namespace SEOMacroscope
           if( bProcess )
           {
 
-            for( ushort iHeadingIndex = 1 ; iHeadingIndex <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; iHeadingIndex++ )
+            string Title = msDoc.GetTitle();
+            int Occurrences = DocCollection.GetStatsTitleCount( Title );
+            
+            if( Occurrences > 1 )
             {
+            
+              iCol = 1;
 
-              List<string> lHeadings = msDoc.GetHeadings( iHeadingIndex );
+              this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
-              for( int iCount = 0 ; iCount < lHeadings.Count ; iCount++ )
+              if( !msDoc.GetIsExternal() )
               {
-
-                iCol = 1;
-
-                this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-
-                if( !msDoc.GetIsExternal() )
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-                }
-                else
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-                }
-
-                iCol++;
-
-                this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ( iCount + 1 ).ToString() ) );
-
-                this.InsertAndFormatContentCell( ws, iRow, ( int )( iHeadingIndex + iCol ), this.FormatIfMissing( lHeadings[ iCount ] ) );
-
-                iRow++;
-
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
               }
+              else
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+              }
+
+              iCol++;
+
+              this.InsertAndFormatContentCell( ws, iRow, iCol, Occurrences );
+
+              if( Occurrences > 1 )
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
+              }
+              else
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+              }
+
+              iCol++;
+
+              this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Title ) );
+
+              iRow++;
             
             }
-
+          
           }
 
         }
@@ -135,7 +143,6 @@ namespace SEOMacroscope
       {
         var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
         var excelTable = rangeData.CreateTable();
-        excelTable.Sort( "URL", XLSortOrder.Ascending, false, true );
       }
 
     }

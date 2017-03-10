@@ -50,8 +50,9 @@ namespace SEOMacroscope
         req.Method = "HEAD";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
-        req.UserAgent = this.UserAgent();
 
+        this.PrepareRequestHttpHeaders( req: req );
+                
         bAuthenticating = this.AuthenticateRequest( req );
       
         MacroscopePreferencesManager.EnableHttpProxy( req );
@@ -73,7 +74,7 @@ namespace SEOMacroscope
       if( res != null )
       {
 
-        this.ProcessHttpHeaders( req, res );
+        this.ProcessResponseHttpHeaders( req, res );
 
         if( bAuthenticating )
         {

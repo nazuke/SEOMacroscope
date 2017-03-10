@@ -115,11 +115,11 @@ namespace SEOMacroscope
 
     /** Crawl Delay ***********************************************************/
 
-    public int GetCrawlDelay ( string sUrl )
+    public int GetCrawlDelay ( string Url )
     {
 
       int iDelay = 0;
-      Robots robot = this.FetchRobot( sUrl );
+      Robots robot = this.FetchRobot( Url );
 
       if( robot != null )
       {
@@ -142,24 +142,24 @@ namespace SEOMacroscope
 
     /** Fetch Robot ***********************************************************/
 
-    public Robots FetchRobot ( string sUrl )
+    public Robots FetchRobot ( string Url )
     {
 
       Robots robot = null;
 
       if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
-        DebugMsg( string.Format( "ROBOTS Disabled: {0}", sUrl ) );
+        DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ) );
         return( robot );
       }
 
-      Uri uBase = new Uri ( sUrl, UriKind.Absolute );
-      Uri uNew = null;
+      Uri uBase = new Uri ( Url, UriKind.Absolute );
+      Uri uRobotsUri = null;
       string sRobotsTxtUrl = null;
 
       try
       {
-        uNew = new Uri (
+        uRobotsUri = new Uri (
           string.Format(
             "{0}://{1}{2}",
             uBase.Scheme,
@@ -169,7 +169,7 @@ namespace SEOMacroscope
           UriKind.Absolute
         );
 
-        sRobotsTxtUrl = uNew.ToString();
+        sRobotsTxtUrl = uRobotsUri.ToString();
 
       }
       catch( InvalidOperationException ex )
@@ -194,7 +194,7 @@ namespace SEOMacroscope
           else
           {
 
-            String sRobotsText = this.FetchRobotTextFile( sRobotsTxtUrl );
+            String sRobotsText = this.FetchRobotTextFile( RobotsUri: uRobotsUri );
 
             if( sRobotsText.Length > 0 )
             {
@@ -214,7 +214,7 @@ namespace SEOMacroscope
 
     /** Fetch Robots Text *****************************************************/
 
-    string FetchRobotTextFile ( string sUrl )
+    string FetchRobotTextFile ( Uri RobotsUri )
     {
       Boolean bProceed = false;
       HttpWebRequest req = null;
@@ -222,7 +222,7 @@ namespace SEOMacroscope
       string RobotText = "";
       string sRawData = "";
 
-      if( !MacroscopeDnsTools.CheckValidHostname( sUrl ) )
+      if( !MacroscopeDnsTools.CheckValidHostname( RobotsUri.ToString() ) )
       {
         DebugMsg( string.Format( "FetchRobotTextFile :: CheckValidHostname: {0}", "NOT OK" ) );
         return( RobotText );
@@ -231,12 +231,13 @@ namespace SEOMacroscope
       try
       {
 
-        req = WebRequest.CreateHttp( sUrl );
+        req = WebRequest.CreateHttp( RobotsUri );
         req.Method = "GET";
         req.Timeout = 30000; // 30 seconds
         req.KeepAlive = false;
         req.UserAgent = this.UserAgent();
-				        
+        req.Host = RobotsUri.Host;
+
         MacroscopePreferencesManager.EnableHttpProxy( req );
 				
         res = ( HttpWebResponse )req.GetResponse();
@@ -247,18 +248,18 @@ namespace SEOMacroscope
       catch( WebException ex )
       {
         DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", sUrl ) );
+        DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", RobotsUri.ToString() ) );
         DebugMsg( string.Format( "FetchRobotTextFile :: WebExceptionStatus: {0}", ex.Status ) );
       }
       catch( NotSupportedException ex )
       {
         DebugMsg( string.Format( "FetchRobotTextFile :: NotSupportedException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "FetchRobotTextFile :: NotSupportedException: {0}", sUrl ) );
+        DebugMsg( string.Format( "FetchRobotTextFile :: NotSupportedException: {0}", RobotsUri.ToString() ) );
       }
       catch( Exception ex )
       {
         DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", ex.Message ) );
-        DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", sUrl ) );
+        DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", RobotsUri.ToString() ) );
       }
 
       if( ( bProceed ) && ( res != null ) )

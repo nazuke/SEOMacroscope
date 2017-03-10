@@ -106,50 +106,50 @@ namespace SEOMacroscope
             this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
             if( !msDoc.GetIsExternal() )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
             }
             else
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
             }
             iCol++;
 
             this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( iOccurrences.ToString() ) );
             if( iOccurrences > 1 )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Orange );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
             }
             else
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
             }
             iCol++;
 
             this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( sDescription ) );
             if( iDescriptionLength <= 0 )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
               ws.Cell( iRow, iCol ).Value = "MISSING";
             }
             else
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
             }
             iCol++;
           
             this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( iDescriptionLength.ToString() ) );
             if( iDescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
             }
             else
             if( iDescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
             }
             else
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
             }
 
             iRow++;

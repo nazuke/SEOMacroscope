@@ -98,11 +98,11 @@ namespace SEOMacroscope
 
             if( AllowedHosts.IsInternalUrl( Url: Url ) )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
             }
             else
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
             }
 
             iCol++;
@@ -111,17 +111,17 @@ namespace SEOMacroscope
 
             if( ( HyperlinkOutUrl.Length > 0 ) && ( AllowedHosts.IsInternalUrl( Url: HyperlinkOutUrl ) ) )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
             }
             else
             if( ( HyperlinkOutUrl.Length > 0 ) && ( AllowedHosts.IsExternalUrl( Url: HyperlinkOutUrl ) ) )
             {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
             }
             else
             {
               this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( HyperlinkOutUrl ) );
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
             }
 
             iCol++;

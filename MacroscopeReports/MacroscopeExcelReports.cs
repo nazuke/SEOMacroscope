@@ -25,6 +25,7 @@
 
 using System;
 using System.Text.RegularExpressions;
+using System.Net;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
@@ -43,21 +44,21 @@ namespace SEOMacroscope
 
     public void InsertAndFormatUrlCell (
       IXLWorksheet ws,
-      int iRow,
-      int iCol,
+      int Row,
+      int Col,
       MacroscopeDocument msDoc
     )
     {
 
-      ws.Cell( iRow, iCol ).Value = msDoc.GetUrl();
+      ws.Cell( Row, Col ).Value = msDoc.GetUrl();
 
       if( !msDoc.GetIsExternal() )
       {
-        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+        ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Green );
       }
       else
       {
-        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+        ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Gray );
       }
 
     }
@@ -66,13 +67,13 @@ namespace SEOMacroscope
 
     public void InsertAndFormatUrlCell (
       IXLWorksheet ws,
-      int iRow,
-      int iCol,
+      int Row,
+      int Col,
       string Url
     )
     {
 
-      ws.Cell( iRow, iCol ).Value = Url;
+      ws.Cell( Row, Col ).Value = Url;
 
     }
 
@@ -80,8 +81,8 @@ namespace SEOMacroscope
 
     public void InsertAndFormatStatusCodeCell (
       IXLWorksheet ws,
-      int iRow,
-      int iCol,
+      int Row,
+      int Col,
       MacroscopeDocument msDoc
     )
     {
@@ -93,26 +94,96 @@ namespace SEOMacroscope
         sValue = "0";
       }
       
-      ws.Cell( iRow, iCol ).Value = sValue;
+      ws.Cell( Row, Col ).Value = sValue;
 
       {
         if( Regex.IsMatch( sValue, "^[2]" ) )
         {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Green );
         }
         else
         if( Regex.IsMatch( sValue, "^[3]" ) )
         {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Goldenrod );
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Goldenrod );
         }
         else
         if( Regex.IsMatch( sValue, "^[45]" ) )
         {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
         }
         else
         {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Blue );
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Blue );
+        }
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void InsertAndFormatStatusCodeCell (
+      IXLWorksheet ws,
+      int Row,
+      int Col,
+      int StatusCode
+    )
+    {
+
+      ws.Cell( Row, Col ).Value = StatusCode.ToString();
+
+      {
+        if( ( StatusCode >= 200 ) && ( StatusCode <= 299 ) )
+        {
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Green );
+        }
+        else
+        if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
+        {
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Goldenrod );
+        }
+        else
+        if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
+        {
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
+        }
+        else
+        {
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Blue );
+        }
+      }
+
+    }
+    
+    /** -------------------------------------------------------------------- **/
+        
+    public void InsertAndFormatStatusCodeCell (
+      IXLWorksheet ws,
+      int Row,
+      int Col,
+      HttpStatusCode StatusCode
+    )
+    {
+
+      ws.Cell( Row, Col ).Value = StatusCode.ToString();
+
+      {
+        if( ( ( int )StatusCode >= 200 ) && ( ( int )StatusCode <= 299 ) )
+        {
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Green );
+        }
+        else
+        if( ( ( int )StatusCode >= 300 ) && ( ( int )StatusCode <= 399 ) )
+        {
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Goldenrod );
+        }
+        else
+        if( ( ( int )StatusCode >= 400 ) && ( ( int )StatusCode <= 599 ) )
+        {
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
+        }
+        else
+        {
+          ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Blue );
         }
       }
 
@@ -122,57 +193,78 @@ namespace SEOMacroscope
 
     public void InsertAndFormatRedirectCell (
       IXLWorksheet ws,
-      int iRow,
-      int iCol,
+      int Row,
+      int Col,
       MacroscopeDocument msDoc
     )
     {
 
       string sValue = msDoc.GetIsRedirect().ToString();
       
-      ws.Cell( iRow, iCol ).Value = sValue;
+      ws.Cell( Row, Col ).Value = sValue;
 
       if( sValue.ToLower() == "true" )
       {
-        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+        ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
       }
       else
       {
-        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+        ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Gray );
       }
 
     }
 
     /**************************************************************************/
 
-    public void InsertAndFormatContentCell ( IXLWorksheet ws, int iRow, int iCol, string sValue )
+    public void InsertAndFormatContentCell (
+      IXLWorksheet ws,
+      int Row,
+      int Col,
+      string Value
+    )
     {
-      ws.Cell( iRow, iCol ).Value = sValue;
-      if( sValue == "MISSING" )
+      ws.Cell( Row, Col ).Value = Value;
+      if( Value == "MISSING" )
       {
-        ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+        ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
       }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void InsertAndFormatContentCell (
+      IXLWorksheet ws, 
+      int Row,
+      int Col,
+      int Value 
+    )
+    {
+      ws.Cell( Row, Col ).Value = Value;
     }
 
     /**************************************************************************/
 
-    public string FormatIfMissing ( string sString )
+    public string FormatIfMissing ( string Value )
     {
-      string sFormatted;
-      if( sString == null )
+
+      string FormattedValue;
+
+      if( Value == null )
       {
-        sFormatted = "MISSING";
+        FormattedValue = "MISSING";
       }
       else
-      if( sString.Length == 0 )
+      if( Value.Length == 0 )
       {
-        sFormatted = "MISSING";
+        FormattedValue = "MISSING";
       }
       else
       {
-        sFormatted = sString;
+        FormattedValue = Value;
       }
-      return( sFormatted );
+
+      return( FormattedValue );
+
     }
 
     /**************************************************************************/

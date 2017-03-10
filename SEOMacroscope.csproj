@@ -210,8 +210,10 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetBrokenLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\MacroscopeExcelBrokenLinksReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\MacroscopeExcelDuplicateContent.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateEntities.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateChecksums.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateEtags.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicatePages.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateTitles.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportHeadings.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\MacroscopeExcelPageContentsReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportDescriptions.cs" />

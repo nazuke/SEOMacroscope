@@ -55,7 +55,9 @@ namespace SEOMacroscope
         req.Method = "GET";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
-        req.UserAgent = this.UserAgent();
+        
+        this.PrepareRequestHttpHeaders( req: req );
+                
         bAuthenticating = this.AuthenticateRequest( req );
                       
         MacroscopePreferencesManager.EnableHttpProxy( req );
@@ -77,7 +79,7 @@ namespace SEOMacroscope
 
         string sRawData = "";
 
-        this.ProcessHttpHeaders( req, res );
+        this.ProcessResponseHttpHeaders( req, res );
 
         // Get Response Body
         try

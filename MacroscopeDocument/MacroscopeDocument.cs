@@ -472,7 +472,6 @@ namespace SEOMacroscope
     public void SetEtag ( string EtagValue )
     {
       this.Etag = EtagValue;
-      this.Checksum = EtagValue;
     }
 
     public string GetEtag ()
@@ -1263,9 +1262,6 @@ namespace SEOMacroscope
     public Boolean Execute ()
     {
 
-      // TODO: Change this, so that the initial HEAD request only runs once,
-      // TODO: and determines of the page is a redirect, as well as the mime type.
-
       TimeDuration fTimeDuration = this.GetTimeDurationDelegate();
       Boolean bDownloadDocument = true;
 
@@ -1461,7 +1457,9 @@ namespace SEOMacroscope
       req.Timeout = this.Timeout;
       req.KeepAlive = false;
       req.AllowAutoRedirect = false;
-      req.UserAgent = this.UserAgent();
+
+      this.PrepareRequestHttpHeaders( req: req );
+
       bAuthenticating = this.AuthenticateRequest( req );
                             
       MacroscopePreferencesManager.EnableHttpProxy( req );
@@ -1496,7 +1494,7 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "HEADERS: {0} => {1}", sKey, res.GetResponseHeader( sKey ) ) );
         }
 
-        this.ProcessHttpHeaders( req, res );
+        this.ProcessResponseHttpHeaders( req, res );
 
         if( bAuthenticating )
         {
@@ -1629,9 +1627,29 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
+    /** HTTP Headers **********************************************************/
 
-    private void ProcessHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
+    // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+    
+    private void PrepareRequestHttpHeaders ( HttpWebRequest req )
+    {
+
+      req.Host = this.GetHostname();
+
+      req.UserAgent = this.UserAgent();
+
+      req.Accept = "*/*";
+      
+      req.Headers.Add( "Accept-Charset", "utf-8, us-ascii" );
+
+      // TODO: Add support for compressed responses
+      //req.Headers.Add( "Accept-Encoding", "gzip, deflate" );
+
+      req.Headers.Add( "Accept-Language", "*" );
+
+    }
+
+    private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
     {
 
       Boolean bIsRedirect = false;

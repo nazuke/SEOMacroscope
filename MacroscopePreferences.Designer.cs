@@ -397,13 +397,25 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("64")]
+		[global::System.Configuration.DefaultSettingValueAttribute("16")]
 		public int MaxLevenshteinDistance {
 			get {
 				return ((int)(this["MaxLevenshteinDistance"]));
 			}
 			set {
 				this["MaxLevenshteinDistance"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("64")]
+		public int MaxLevenshteinSizeDifference {
+			get {
+				return ((int)(this["MaxLevenshteinSizeDifference"]));
+			}
+			set {
+				this["MaxLevenshteinSizeDifference"] = value;
 			}
 		}
 		

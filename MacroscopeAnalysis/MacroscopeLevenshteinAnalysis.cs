@@ -43,11 +43,16 @@ namespace SEOMacroscope
     MacroscopeDocument msDocOriginal;
     string MonstrousText;
     Levenshtein Monster = null;
+    int ComparisonSizeDifference;
     int ComparisonThreshold;
     
     /**************************************************************************/
 	      
-    public MacroscopeLevenshteinAnalysis ( MacroscopeDocument msDoc, int Threshold )
+    public MacroscopeLevenshteinAnalysis (
+      MacroscopeDocument msDoc,
+      int SizeDifference,
+      int Threshold
+    )
     {
       
       this.SuppressDebugMsg = true;
@@ -55,6 +60,7 @@ namespace SEOMacroscope
       this.msDocOriginal = msDoc;
       this.MonstrousText = msDoc.GetBodyText().ToLower();
       this.Monster = new Levenshtein ( MonstrousText );
+      this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
       
     }
@@ -112,7 +118,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "iLen 1: {0}", iLen ) );
           
-          if( iLen <= this.ComparisonThreshold )
+          if( iLen <= this.ComparisonSizeDifference )
           {
             DoCheck = true;
           }
@@ -125,7 +131,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "iLen 2: {0}", iLen ) );
           
-          if( iLen <= this.ComparisonThreshold )
+          if( iLen <= this.ComparisonSizeDifference )
           {
             DoCheck = true;
           }

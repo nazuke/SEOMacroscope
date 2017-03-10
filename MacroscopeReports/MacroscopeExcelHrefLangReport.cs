@@ -135,14 +135,14 @@ namespace SEOMacroscope
           ws.Cell( iRow, iCol ).Value = sSiteLocale;
           if( sSiteLocale == "MISSING" )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
           }
           iCol++;
           
           ws.Cell( iRow, iCol ).Value = sTitle;
           if( sTitle == "MISSING" )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
           }
           iCol++;
           
@@ -171,17 +171,17 @@ namespace SEOMacroscope
 
                 if( JobMaster.GetAllowedHosts().IsInternalUrl( sValue ) )
                 {
-                  ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+                  ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( XLColor.Green );
                 }
                 else
                 {
-                  ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Blue );
+                  ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( XLColor.Blue );
                 }
 
               }
               else
               {
-                ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+                ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Style.Font.SetFontColor( XLColor.Red );
                 ws.Cell( iRow, dicLocaleCols[ sLocale ] ).Value = "MISSING";
               }
               

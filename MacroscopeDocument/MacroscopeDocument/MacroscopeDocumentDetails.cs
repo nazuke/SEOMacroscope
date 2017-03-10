@@ -92,6 +92,7 @@ namespace SEOMacroscope
       slDetails.Add( new KeyValuePair<string,string> ( "AltText", this.GetAltText() ) );
             
       slDetails.Add( new KeyValuePair<string,string> ( "Checksum", this.GetChecksum() ) );
+      slDetails.Add( new KeyValuePair<string,string> ( "ETag", this.GetEtag() ) );
 
       for( ushort iLevel = 1 ; iLevel <= 6 ; iLevel++ )
       {

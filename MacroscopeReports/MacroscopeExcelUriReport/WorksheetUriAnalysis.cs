@@ -89,11 +89,11 @@ namespace SEOMacroscope
 
           if( AllowedHosts.IsInternalUrl( Url: Url ) )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Green );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }
           else
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Gray );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
           }
 
           iCol++;
@@ -110,11 +110,11 @@ namespace SEOMacroscope
           
           if( Count > 1 )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
           }
           else
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Blue );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
           }          
 
           iCol++;
@@ -123,11 +123,11 @@ namespace SEOMacroscope
           
           if( Count > 1 )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Red );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
           }
           else
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( ClosedXML.Excel.XLColor.Blue );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
           }          
 
           iRow++;

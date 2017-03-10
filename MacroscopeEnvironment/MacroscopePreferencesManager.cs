@@ -104,6 +104,7 @@ namespace SEOMacroscope
     static Boolean AnalyzeKeywordsInText;
 
     static Boolean EnableLevenshteinDeduplication;
+    static int MaxLevenshteinSizeDifference;
     static int MaxLevenshteinDistance;
 
     /**************************************************************************/
@@ -149,6 +150,7 @@ namespace SEOMacroscope
           WarnAboutInsecureLinks = Preferences.WarnAboutInsecureLinks;
           
           EnableLevenshteinDeduplication = Preferences.EnableLevenshteinDeduplication;
+          MaxLevenshteinSizeDifference = Preferences.MaxLevenshteinSizeDifference;
           MaxLevenshteinDistance = Preferences.MaxLevenshteinDistance;
           
           FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
@@ -251,7 +253,8 @@ namespace SEOMacroscope
       WarnAboutInsecureLinks = true;
       
       EnableLevenshteinDeduplication = true;
-      MaxLevenshteinDistance = 64;
+      MaxLevenshteinSizeDifference = 64;
+      MaxLevenshteinDistance = 16;
       
       // SEO Options
 
@@ -345,6 +348,7 @@ namespace SEOMacroscope
         Preferences.WarnAboutInsecureLinks = WarnAboutInsecureLinks;
 
         Preferences.EnableLevenshteinDeduplication = EnableLevenshteinDeduplication;
+        Preferences.MaxLevenshteinSizeDifference = MaxLevenshteinSizeDifference;
         Preferences.MaxLevenshteinDistance = MaxLevenshteinDistance;
 
         Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
@@ -602,6 +606,16 @@ namespace SEOMacroscope
     public static void SetEnableLevenshteinDeduplication ( Boolean State )
     {
       EnableLevenshteinDeduplication = State;
+    }
+
+    public static int GetMaxLevenshteinSizeDifference ()
+    {
+      return( MaxLevenshteinSizeDifference );
+    }
+
+    public static void SetMaxLevenshteinSizeDifference ( int Max )
+    {
+      MaxLevenshteinSizeDifference = Max;
     }
 
     public static int GetMaxLevenshteinDistance ()

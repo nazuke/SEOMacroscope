@@ -63,7 +63,7 @@ namespace SEOMacroscope
       
       DebugMsg( string.Format( "msDocDifferent: {0}", msDocDifferent.GetStatusCode() ) );
 
-      MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis ( msDoc: msDoc, Threshold: 64 );
+      MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis ( msDoc: msDoc, SizeDifference: 64, Threshold: 16 );
 
       Dictionary<MacroscopeDocument,int> DocList = LevenshteinAnalysis.AnalyzeDocCollection( DocCollection: DocCollection );
       
@@ -100,7 +100,7 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "msDoc: {0}", msDoc.GetStatusCode() ) );
 
-      MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis ( msDoc: msDoc, Threshold: 64 );
+      MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis ( msDoc: msDoc, SizeDifference: 64, Threshold: 16 );
 
       List<string> TargetUrls = new List<string> () {
         {

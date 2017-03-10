@@ -36,6 +36,16 @@ namespace SEOMacroscope
   public partial class MacroscopePrefsForm : Form
   {
 
+    
+    /*
+
+               EnableLevenshteinDeduplication = Preferences.EnableLevenshteinDeduplication;
+          MaxLevenshteinSizeDifference = Preferences.MaxLevenshteinSizeDifference;
+          MaxLevenshteinDistance = Preferences.MaxLevenshteinDistance;
+     
+     */
+    
+    
     /**************************************************************************/
 
     public MacroscopePrefsForm ()
@@ -132,6 +142,10 @@ namespace SEOMacroscope
         PrefsControl.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
         PrefsControl.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
 
+        PrefsControl.checkBoxEnableLevenshteinDeduplication.Checked = MacroscopePreferencesManager.GetEnableLevenshteinDeduplication();
+        PrefsControl.numericUpDownMaxLevenshteinSizeDifference.Value = MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference();
+        PrefsControl.numericUpDownMaxLevenshteinDistance.Value = MacroscopePreferencesManager.GetMaxLevenshteinDistance();
+
         // SEO Options
 
         PrefsControl.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
@@ -195,6 +209,10 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetCheckHreflangs( PrefsControl.checkBoxCheckHreflangs.Checked );
       MacroscopePreferencesManager.SetScanSitesInList( PrefsControl.checkBoxScanSitesInList.Checked );
       MacroscopePreferencesManager.SetWarnAboutInsecureLinks( PrefsControl.checkBoxWarnAboutInsecureLinks.Checked );
+
+      MacroscopePreferencesManager.SetEnableLevenshteinDeduplication( PrefsControl.checkBoxEnableLevenshteinDeduplication.Checked );
+      MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( ( int )PrefsControl.numericUpDownMaxLevenshteinSizeDifference.Value );
+      MacroscopePreferencesManager.SetMaxLevenshteinDistance( ( int )PrefsControl.numericUpDownMaxLevenshteinDistance.Value );
 
       // SEO Options
 
