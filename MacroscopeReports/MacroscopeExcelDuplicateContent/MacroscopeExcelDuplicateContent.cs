@@ -46,13 +46,13 @@ namespace SEOMacroscope
 
       var wb = new XLWorkbook ();
 
+      this.BuildWorksheetPageDuplicateTitles( JobMaster, wb, "Duplicate Titles" );
+      this.BuildWorksheetPageDuplicateChecksums( JobMaster, wb, "Duplicate Checksums" );
+      this.BuildWorksheetPageDuplicateEtags( JobMaster, wb, "Duplicate ETags" );
+
       if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
       {
         this.BuildWorksheetPageDuplicatePages( JobMaster, wb, "Duplicate Content" );
-        this.BuildWorksheetPageDuplicateChecksums( JobMaster, wb, "Duplicate Checksums" );
-        this.BuildWorksheetPageDuplicateEtags( JobMaster, wb, "Duplicate ETags" );
-        this.BuildWorksheetPageDuplicateTitles( JobMaster, wb, "Duplicate Titles" );
-        
       }
 
       try

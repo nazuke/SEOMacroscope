@@ -66,7 +66,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeader12;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStripTextDocumentDetails;
 		public System.Windows.Forms.ToolStripMenuItem copyTextToolStripMenuItem;
-		private System.Windows.Forms.SplitContainer splitContainerDocumentDetails;
+		public System.Windows.Forms.SplitContainer splitContainerDocumentDetails;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelDocumentDetailsDetails;
 		public System.Windows.Forms.PictureBox pictureBoxDocumentDetailsImage;
 		public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCopyValues;
@@ -266,19 +266,19 @@ namespace SEOMacroscope
 			this.copyTextToolStripMenuItem,
 			this.toolStripMenuItemCopyValues});
 			this.contextMenuStripTextDocumentDetails.Name = "contextMenuStripTextCopy";
-			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(140, 48);
+			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(139, 48);
 			// 
 			// copyTextToolStripMenuItem
 			// 
 			this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
-			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
 			this.copyTextToolStripMenuItem.Text = "Copy Rows";
 			this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyRowsClick);
 			// 
 			// toolStripMenuItemCopyValues
 			// 
 			this.toolStripMenuItemCopyValues.Name = "toolStripMenuItemCopyValues";
-			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(139, 22);
+			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(138, 22);
 			this.toolStripMenuItemCopyValues.Text = "Copy Values";
 			this.toolStripMenuItemCopyValues.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyValuesClick);
 			// 

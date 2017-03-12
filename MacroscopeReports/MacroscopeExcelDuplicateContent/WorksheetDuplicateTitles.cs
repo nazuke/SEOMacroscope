@@ -47,7 +47,7 @@ namespace SEOMacroscope
       int iColMax = 1;
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
-
+      MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
       {
 
         ws.Cell( iRow, iCol ).Value = "URL";
@@ -66,31 +66,29 @@ namespace SEOMacroscope
 
       {
 
-        foreach( string sKey in DocCollection.DocumentKeys() )
+        foreach( string Url in DocCollection.DocumentKeys() )
         {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
           Boolean bProcess = false;
-
-          if( msDoc.GetIsExternal() )
+          
+          if( AllowedHosts.IsInternalUrl( Url: Url ) )
           {
-            bProcess = false;
+            if( msDoc.GetIsHtml() )
+            {
+              bProcess = true;
+            }
+            else
+            if( msDoc.GetIsPdf() )
+            {
+              bProcess = true;
+            }
+            else
+            {
+              bProcess = false;
+            }
           }
-
-          if( msDoc.GetIsHtml() )
-          {
-            bProcess = true;
-          }
-          else
-          if( msDoc.GetIsPdf() )
-          {
-            bProcess = true;
-          }
-          else
-          {
-            bProcess = false;
-          }
-
+          
           if( bProcess )
           {
 

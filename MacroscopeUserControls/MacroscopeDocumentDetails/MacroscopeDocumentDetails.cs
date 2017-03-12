@@ -92,6 +92,8 @@ namespace SEOMacroscope
       this.listViewVideos.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis.ColumnClick += this.CallbackColumnClick;
 
+      this.splitContainerDocumentDetails.Panel2Collapsed = true;
+
     }
 
     /**************************************************************************/
@@ -1224,10 +1226,12 @@ namespace SEOMacroscope
 
       if( msDoc.GetIsImage() )
       {
+        this.splitContainerDocumentDetails.Panel2Collapsed = false;
         this.RenderImagePreview( msDoc );
       }
       else
       {
+        this.splitContainerDocumentDetails.Panel2Collapsed = true;
         ClearDocumentPreviewListView();
       }
 

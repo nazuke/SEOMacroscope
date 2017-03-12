@@ -2303,11 +2303,11 @@ namespace SEOMacroscope
         }
         catch( MacroscopeCannotSaveExcelFileException ex )
         {
-          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
         }
         catch( Exception ex )
         {
-          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
         }
         finally
         {
