@@ -472,6 +472,39 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
+
+    public static string GetHostnameFromUrl ( string Url )
+    {
+
+      Uri uUri = new Uri ( Url, UriKind.Absolute );
+      string Hostname = null;
+      
+      if( uUri != null )
+      {
+        Hostname = uUri.Host;
+      }
+
+      return( Hostname );
+
+    }
+    
+    public static string GetHostnameAndPortFromUrl ( string Url )
+    {
+
+      Uri uUri = new Uri ( Url, UriKind.Absolute );
+      string HostnameAndPort = null;
+      
+      if( uUri != null )
+      {
+        HostnameAndPort = string.Join( ":", uUri.Host, uUri.Port );
+      }
+
+      return( HostnameAndPort );
+
+    }
+    
+    /**************************************************************************/
+    
   }
 
 }

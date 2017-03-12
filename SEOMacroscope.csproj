@@ -95,6 +95,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MacroscopeForms\MacroscopeProgressForms\IMacroscopeProgressForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.Designer.cs">
+      <DependentUpon>MacroscopeDoublePercentageProgressForm.cs</DependentUpon>
+    </Compile>
     <None Include="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -343,6 +348,7 @@
     <Folder Include="MacroscopeForms\MacroscopeTaskParameters" />
     <Folder Include="MacroscopeForms\MacroscopeLicenceForm" />
     <Folder Include="MacroscopeForms\MacroscopeGetCredentialsHttp" />
+    <Folder Include="MacroscopeForms\MacroscopeProgressForms" />
     <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeHyperlinks" />
     <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />

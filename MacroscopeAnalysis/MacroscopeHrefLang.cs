@@ -101,6 +101,8 @@ namespace SEOMacroscope
         req.Method = "HEAD";
         req.Timeout = 10000;
         req.KeepAlive = false;
+        req.Host = MacroscopeUrlTools.GetHostnameFromUrl( this.Url );
+
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();

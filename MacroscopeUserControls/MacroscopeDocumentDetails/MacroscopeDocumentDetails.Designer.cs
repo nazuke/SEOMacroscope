@@ -71,7 +71,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.PictureBox pictureBoxDocumentDetailsImage;
 		public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCopyValues;
 		private System.Windows.Forms.TabPage tabPageHttpHeaders;
-		public System.Windows.Forms.TextBox textBoxHttpHeaders;
+		public System.Windows.Forms.TextBox textBoxHttpResponseHeaders;
 		public System.Windows.Forms.ListView listViewDocInfo;
 		public System.Windows.Forms.TabPage tabPageInsecureLinks;
 		public System.Windows.Forms.TabPage tabPageAudios;
@@ -93,6 +93,8 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeaderVideosItem;
 		public System.Windows.Forms.ColumnHeader columnHeaderImagesTitle;
 		public System.Windows.Forms.ColumnHeader columnHeaderImagesAltText;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelHttpHeaders;
+		public System.Windows.Forms.TextBox textBoxHttpRequestHeaders;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -125,7 +127,9 @@ namespace SEOMacroscope
 			this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemCopyValues = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageHttpHeaders = new System.Windows.Forms.TabPage();
-			this.textBoxHttpHeaders = new System.Windows.Forms.TextBox();
+			this.tableLayoutPanelHttpHeaders = new System.Windows.Forms.TableLayoutPanel();
+			this.textBoxHttpRequestHeaders = new System.Windows.Forms.TextBox();
+			this.textBoxHttpResponseHeaders = new System.Windows.Forms.TextBox();
 			this.tabPageHrefLangAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewHrefLang = new System.Windows.Forms.ListView();
 			this.HrefLangUrl = new System.Windows.Forms.ColumnHeader();
@@ -182,6 +186,7 @@ namespace SEOMacroscope
 			this.tabPageDocumentInfo.SuspendLayout();
 			this.contextMenuStripTextDocumentDetails.SuspendLayout();
 			this.tabPageHttpHeaders.SuspendLayout();
+			this.tableLayoutPanelHttpHeaders.SuspendLayout();
 			this.tabPageHrefLangAnalysis.SuspendLayout();
 			this.tabPageLinksIn.SuspendLayout();
 			this.tabPageLinksOut.SuspendLayout();
@@ -284,7 +289,7 @@ namespace SEOMacroscope
 			// 
 			// tabPageHttpHeaders
 			// 
-			this.tabPageHttpHeaders.Controls.Add(this.textBoxHttpHeaders);
+			this.tabPageHttpHeaders.Controls.Add(this.tableLayoutPanelHttpHeaders);
 			this.tabPageHttpHeaders.Location = new System.Drawing.Point(4, 22);
 			this.tabPageHttpHeaders.Name = "tabPageHttpHeaders";
 			this.tabPageHttpHeaders.Size = new System.Drawing.Size(567, 474);
@@ -292,17 +297,46 @@ namespace SEOMacroscope
 			this.tabPageHttpHeaders.Text = "HTTP Headers";
 			this.tabPageHttpHeaders.UseVisualStyleBackColor = true;
 			// 
-			// textBoxHttpHeaders
+			// tableLayoutPanelHttpHeaders
 			// 
-			this.textBoxHttpHeaders.BackColor = System.Drawing.Color.Black;
-			this.textBoxHttpHeaders.CausesValidation = false;
-			this.textBoxHttpHeaders.ForeColor = System.Drawing.Color.Gold;
-			this.textBoxHttpHeaders.Location = new System.Drawing.Point(20, 20);
-			this.textBoxHttpHeaders.Multiline = true;
-			this.textBoxHttpHeaders.Name = "textBoxHttpHeaders";
-			this.textBoxHttpHeaders.Size = new System.Drawing.Size(200, 200);
-			this.textBoxHttpHeaders.TabIndex = 0;
-			this.textBoxHttpHeaders.WordWrap = false;
+			this.tableLayoutPanelHttpHeaders.ColumnCount = 2;
+			this.tableLayoutPanelHttpHeaders.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanelHttpHeaders.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanelHttpHeaders.Controls.Add(this.textBoxHttpRequestHeaders, 0, 0);
+			this.tableLayoutPanelHttpHeaders.Controls.Add(this.textBoxHttpResponseHeaders, 1, 0);
+			this.tableLayoutPanelHttpHeaders.Location = new System.Drawing.Point(20, 20);
+			this.tableLayoutPanelHttpHeaders.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanelHttpHeaders.Name = "tableLayoutPanelHttpHeaders";
+			this.tableLayoutPanelHttpHeaders.RowCount = 1;
+			this.tableLayoutPanelHttpHeaders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanelHttpHeaders.Size = new System.Drawing.Size(500, 300);
+			this.tableLayoutPanelHttpHeaders.TabIndex = 1;
+			// 
+			// textBoxHttpRequestHeaders
+			// 
+			this.textBoxHttpRequestHeaders.BackColor = System.Drawing.Color.Black;
+			this.textBoxHttpRequestHeaders.CausesValidation = false;
+			this.textBoxHttpRequestHeaders.ForeColor = System.Drawing.Color.Lime;
+			this.textBoxHttpRequestHeaders.Location = new System.Drawing.Point(0, 0);
+			this.textBoxHttpRequestHeaders.Margin = new System.Windows.Forms.Padding(0);
+			this.textBoxHttpRequestHeaders.Multiline = true;
+			this.textBoxHttpRequestHeaders.Name = "textBoxHttpRequestHeaders";
+			this.textBoxHttpRequestHeaders.Size = new System.Drawing.Size(200, 200);
+			this.textBoxHttpRequestHeaders.TabIndex = 1;
+			this.textBoxHttpRequestHeaders.WordWrap = false;
+			// 
+			// textBoxHttpResponseHeaders
+			// 
+			this.textBoxHttpResponseHeaders.BackColor = System.Drawing.Color.Black;
+			this.textBoxHttpResponseHeaders.CausesValidation = false;
+			this.textBoxHttpResponseHeaders.ForeColor = System.Drawing.Color.Gold;
+			this.textBoxHttpResponseHeaders.Location = new System.Drawing.Point(250, 0);
+			this.textBoxHttpResponseHeaders.Margin = new System.Windows.Forms.Padding(0);
+			this.textBoxHttpResponseHeaders.Multiline = true;
+			this.textBoxHttpResponseHeaders.Name = "textBoxHttpResponseHeaders";
+			this.textBoxHttpResponseHeaders.Size = new System.Drawing.Size(200, 200);
+			this.textBoxHttpResponseHeaders.TabIndex = 0;
+			this.textBoxHttpResponseHeaders.WordWrap = false;
 			// 
 			// tabPageHrefLangAnalysis
 			// 
@@ -788,7 +822,8 @@ namespace SEOMacroscope
 			this.tabPageDocumentInfo.ResumeLayout(false);
 			this.contextMenuStripTextDocumentDetails.ResumeLayout(false);
 			this.tabPageHttpHeaders.ResumeLayout(false);
-			this.tabPageHttpHeaders.PerformLayout();
+			this.tableLayoutPanelHttpHeaders.ResumeLayout(false);
+			this.tableLayoutPanelHttpHeaders.PerformLayout();
 			this.tabPageHrefLangAnalysis.ResumeLayout(false);
 			this.tabPageLinksIn.ResumeLayout(false);
 			this.tabPageLinksOut.ResumeLayout(false);

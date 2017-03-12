@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
@@ -72,6 +71,7 @@ namespace SEOMacroscope
     private string AuthenticationRealm;
     private MacroscopeCredential AuthenticationCredential;
 
+    private string RawHttpRequestHeaders;
     private string RawHttpStatusLine;
     private string RawHttpHeaders;
 
@@ -129,7 +129,7 @@ namespace SEOMacroscope
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -192,6 +192,7 @@ namespace SEOMacroscope
       this.UrlRedirectFrom = "";
       this.UrlRedirectTo = "";
 
+      this.RawHttpRequestHeaders = "";
       this.RawHttpStatusLine = "";
       this.RawHttpHeaders = "";
 
@@ -533,6 +534,11 @@ namespace SEOMacroscope
     }
 
     /** HTTP Headers **********************************************************/
+
+    public string GetHttpRequestHeadersAsText ()
+    {
+      return( this.RawHttpRequestHeaders );
+    }
 
     public string GetHttpStatusLineAsText ()
     {
@@ -1646,6 +1652,8 @@ namespace SEOMacroscope
       //req.Headers.Add( "Accept-Encoding", "gzip, deflate" );
 
       req.Headers.Add( "Accept-Language", "*" );
+
+      this.RawHttpRequestHeaders = req.Headers.ToString();
 
     }
 

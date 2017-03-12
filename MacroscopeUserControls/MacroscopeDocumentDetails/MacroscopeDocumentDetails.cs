@@ -52,7 +52,11 @@ namespace SEOMacroscope
 
       // Control Properties
       this.listViewDocumentInfo.Dock = DockStyle.Fill;
-      this.textBoxHttpHeaders.Dock = DockStyle.Fill;
+      
+      this.tableLayoutPanelHttpHeaders.Dock = DockStyle.Fill;
+      this.textBoxHttpRequestHeaders.Dock = DockStyle.Fill;
+      this.textBoxHttpResponseHeaders.Dock = DockStyle.Fill;
+
       this.listViewHrefLang.Dock = DockStyle.Fill;
       this.listViewLinksIn.Dock = DockStyle.Fill;
       this.listViewLinksOut.Dock = DockStyle.Fill;
@@ -148,7 +152,13 @@ namespace SEOMacroscope
     {
 
       this.listViewDocumentInfo.Items.Clear();
-      this.textBoxHttpHeaders.Text = "";
+      
+
+      this.textBoxHttpRequestHeaders.Text = "";
+      this.textBoxHttpResponseHeaders.Text = "";
+      
+      
+      
       this.listViewHrefLang.Items.Clear();
       this.listViewLinksIn.Items.Clear();
       this.listViewLinksOut.Items.Clear();
@@ -293,14 +303,24 @@ namespace SEOMacroscope
 
     private async Task<int> RenderDocumentHttpHeaders ( MacroscopeDocument msDoc )
     {
+      
       int count = 0;
-      this.textBoxHttpHeaders.Text = string.Join(
+      
+      this.textBoxHttpRequestHeaders.Text = string.Join(
+        "",
+        msDoc.GetHttpRequestHeadersAsText()
+      );
+      
+      this.textBoxHttpResponseHeaders.Text = string.Join(
         "",
         msDoc.GetHttpStatusLineAsText(),
         msDoc.GetHttpHeadersAsText()
       );
+      
       count++;
+      
       return( count );
+      
     }
 
     /**************************************************************************/
