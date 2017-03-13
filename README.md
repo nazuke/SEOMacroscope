@@ -24,7 +24,6 @@ Enter the URL of the website to scan into the **Start URL** field, and then clic
 
 Depending on the size and responsiveness of your website, it may take a while to complete the scan.
 
-
 ## FEATURES
 
 There are still going to be many bugs in this version, and many features and functions remain to be implemented.
@@ -53,5 +52,23 @@ However, this beta version is functional enough to be used for many link checkin
 * A scan overview.
 * An HrefLang Matrix of multilingual sites.
 * Page contents, including titles, descriptions, keywords, and headings.
+* Broken links.
+* URI Analysis of the pages crawled.
+* Reporting of duplicate content, including duplicate titles, checksums, ETags, and a Fastenshtein method.
 
 More functionality will be added in the future.
+
+## CREDITS
+
+This project was made a lot easier by the following excellent libraries:
+
+* https://bitbucket.org/cagdas/robotstxt
+* http://htmlagilitypack.codeplex.com/
+* https://github.com/SR2IT/ExCSS
+* http://www.pdfsharp.net/
+* https://github.com/ClosedXML/ClosedXML
+* https://github.com/DanHarltey/Fastenshtein
+
+For testing, the httpbin suite was very useful:
+
+* https://github.com/Runscope/httpbin

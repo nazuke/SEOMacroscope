@@ -48,11 +48,17 @@ namespace SEOMacroscope
       int iCol = 1;
       int iColMax = 1;
 
+      decimal CountOuter = 0;
+      decimal CountInner = 0;
+      decimal DocCount = 0;
+
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
 
       Dictionary<string,int> DuplicatesList = new Dictionary<string, int> ( DocCollection.CountDocuments() );
       Dictionary<string,MacroscopeDocument> DuplicatesDocList = new Dictionary<string, MacroscopeDocument> ( DocCollection.CountDocuments() );
+
+      DocCount = ( decimal )DocCollection.CountDocuments();
 
       foreach( string Url in DocCollection.DocumentKeys() )
       {
@@ -106,11 +112,30 @@ namespace SEOMacroscope
       foreach( string Checksum in DuplicatesList.Keys )
       {
 
+        CountOuter++;
+        CountInner = 0;
+
         if( DuplicatesList[ Checksum ] > 1 )
         {
 
           foreach( MacroscopeDocument msDoc in  DuplicatesDocList.Values )
           {
+            
+            CountInner++;
+            
+            if( DocCount > 0 )
+            {
+              this.ProgressForm.UpdatePercentages(
+                Title: null,
+                Message: null,
+                MajorPercentage: -1,
+                ProgressLabelMajor: string.Format( "Documents Processed: {0}", CountOuter ),
+                MinorPercentage: ( ( decimal )100 / DocCount ) * CountOuter,
+                ProgressLabelMinor: Checksum,
+                SubMinorPercentage: ( ( decimal )100 / DocCount ) * CountInner,
+                ProgressLabelSubMinor: msDoc.GetUrl()
+              );
+            }
 
             if( msDoc.GetChecksum() == Checksum )
             {

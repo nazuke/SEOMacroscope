@@ -2285,21 +2285,35 @@ namespace SEOMacroscope
 
     private void CallbackSaveDuplicateContentExcelReport ( object sender, EventArgs e )
     {
+
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
-        MacroscopeExcelDuplicateContent msExcelReport = new MacroscopeExcelDuplicateContent ();
+
+        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ();
+
+        MacroscopeExcelDuplicateContent msExcelReport = new MacroscopeExcelDuplicateContent (
+                                                          ProgressFormDialogue: ProgressForm
+                                                        );
         try
         {
+
           Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
+
+          ProgressForm.Show();
+
+          msExcelReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
+
           Cursor.Current = Cursors.Default;
+
         }
         catch( MacroscopeCannotSaveExcelFileException ex )
         {
@@ -2311,6 +2325,8 @@ namespace SEOMacroscope
         }
         finally
         {
+          ProgressForm.Close();
+          ProgressForm.Dispose();
           Cursor.Current = Cursors.Default;
         }
       }

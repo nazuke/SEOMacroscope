@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\IMacroscopeProgressForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.Designer.cs">
@@ -190,6 +191,10 @@
     <Compile Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.Designer.cs">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeTriplePercentageProgressForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeTriplePercentageProgressForm.Designer.cs">
+      <DependentUpon>MacroscopeTriplePercentageProgressForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.cs" />
     <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.Designer.cs">
       <DependentUpon>MacroscopeExcludeUrlPatterns.cs</DependentUpon>
@@ -281,6 +286,9 @@
     <EmbeddedResource Include="MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.resx">
       <DependentUpon>MacroscopeGetCredentialsHttp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.resx">
+      <DependentUpon>MacroscopeDoublePercentageProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <EmbeddedResource Include="LICENSE">
       <LogicalName>LICENCE</LogicalName>
@@ -311,6 +319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.resx">
       <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeTriplePercentageProgressForm.resx">
+      <DependentUpon>MacroscopeTriplePercentageProgressForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.resx">
       <DependentUpon>MacroscopeExcludeUrlPatterns.cs</DependentUpon>

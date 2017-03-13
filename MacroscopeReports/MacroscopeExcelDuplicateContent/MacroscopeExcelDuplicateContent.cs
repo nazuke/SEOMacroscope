@@ -30,13 +30,18 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelDuplicateContent : MacroscopeExcelReports
+  public partial class MacroscopeExcelDuplicateContent : MacroscopeExcelReports, IMacroscopeAnalysisPercentageDone
   {
 
     /**************************************************************************/
 
-    public MacroscopeExcelDuplicateContent ()
+    IMacroscopeProgressForm ProgressForm;
+      
+    /**************************************************************************/
+
+    public MacroscopeExcelDuplicateContent ( IMacroscopeProgressForm ProgressFormDialogue )
     {
+      this.ProgressForm = ProgressFormDialogue;
     }
 
     /**************************************************************************/
@@ -46,28 +51,105 @@ namespace SEOMacroscope
 
       var wb = new XLWorkbook ();
 
-      this.BuildWorksheetPageDuplicateTitles( JobMaster, wb, "Duplicate Titles" );
-      this.BuildWorksheetPageDuplicateChecksums( JobMaster, wb, "Duplicate Checksums" );
-      this.BuildWorksheetPageDuplicateEtags( JobMaster, wb, "Duplicate ETags" );
-
+      decimal MajorPercentageDivider = 3;
       if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
       {
-        this.BuildWorksheetPageDuplicatePages( JobMaster, wb, "Duplicate Content" );
+        MajorPercentageDivider = 4;
       }
 
-      try
+      if( !this.ProgressForm.Cancelled() )
       {
-        wb.SaveAs( OutputFilename );
-      }
-      catch( IOException )
-      {
-        MacroscopeCannotSaveExcelFileException CannotSaveExcelFileException;
-        CannotSaveExcelFileException = new MacroscopeCannotSaveExcelFileException (
-          string.Format( "Cannot write to Excel file at {0}", OutputFilename )
+
+        this.ProgressForm.UpdatePercentages(
+          Title: "Processing Titles",
+          Message: "Identifying duplicate titles in collection:",
+          MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )1,
+          ProgressLabelMajor: "Documents Processed",
+          MinorPercentage: 0,
+          ProgressLabelMinor: "",
+          SubMinorPercentage: 0,
+          ProgressLabelSubMinor: ""
         );
-        throw CannotSaveExcelFileException;
-      }
 
+        this.BuildWorksheetPageDuplicateTitles( JobMaster, wb, "Duplicate Titles" );
+
+      }
+      
+      if( !this.ProgressForm.Cancelled() )
+      {   
+
+        this.ProgressForm.UpdatePercentages(
+          Title: "Processing Checksums",
+          Message: "Identifying duplicate checksums in collection:",
+          MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )2,
+          ProgressLabelMajor: "Documents Processed",
+          MinorPercentage: 0,
+          ProgressLabelMinor: "",
+          SubMinorPercentage: 0,
+          ProgressLabelSubMinor: ""
+        );
+      
+        this.BuildWorksheetPageDuplicateChecksums( JobMaster, wb, "Duplicate Checksums" );
+
+      }
+      
+      if( !this.ProgressForm.Cancelled() )
+      {   
+        this.ProgressForm.UpdatePercentages(
+          Title: "Processing ETags",
+          Message: "Identifying duplicate ETags in collection:",
+          MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )3,
+          ProgressLabelMajor: "Documents Processed",
+          MinorPercentage: 0,
+          ProgressLabelMinor: "",
+          SubMinorPercentage: 0,
+          ProgressLabelSubMinor: ""
+        );
+      
+        this.BuildWorksheetPageDuplicateEtags( JobMaster, wb, "Duplicate ETags" );
+      }
+      
+      if( !this.ProgressForm.Cancelled() )
+      {   
+        
+        if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
+        {
+
+          this.ProgressForm.UpdatePercentages(
+            Title: "Applying Levenshtein Distance",
+            Message: "Identifying duplicate documents via Levenshtein Distance in collection:",
+            MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )4,
+            ProgressLabelMajor: "Documents Processed: 0",
+            MinorPercentage: 0,
+            ProgressLabelMinor: "",
+            SubMinorPercentage: 0,
+            ProgressLabelSubMinor: ""
+          );
+
+          this.BuildWorksheetPageDuplicatePages( JobMaster, wb, "Duplicate Content" );
+
+        }
+      
+      }
+      
+      if( !this.ProgressForm.Cancelled() )
+      {
+
+        try
+        {
+          wb.SaveAs( OutputFilename );
+        }
+        catch( IOException )
+        {
+          MacroscopeCannotSaveExcelFileException CannotSaveExcelFileException;
+          CannotSaveExcelFileException = new MacroscopeCannotSaveExcelFileException (
+            string.Format( "Cannot write to Excel file at {0}", OutputFilename )
+          );
+          throw CannotSaveExcelFileException;
+        }
+
+      }
+      
     }
 
     /**************************************************************************/

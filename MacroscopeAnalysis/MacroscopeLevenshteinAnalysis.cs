@@ -40,6 +40,8 @@ namespace SEOMacroscope
 	  
     /**************************************************************************/
 
+    IMacroscopeAnalysisPercentageDone PercentageDone;
+    
     MacroscopeDocument msDocOriginal;
     string MonstrousText;
     Levenshtein Monster = null;
@@ -48,6 +50,26 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 	      
+    public MacroscopeLevenshteinAnalysis (
+      MacroscopeDocument msDoc,
+      int SizeDifference,
+      int Threshold,
+      IMacroscopeAnalysisPercentageDone IPercentageDone
+    )
+    {
+      
+      this.SuppressDebugMsg = true;
+      
+      this.msDocOriginal = msDoc;
+      this.MonstrousText = msDoc.GetBodyText().ToLower();
+      this.Monster = new Levenshtein ( MonstrousText );
+      this.ComparisonSizeDifference = SizeDifference;
+      this.ComparisonThreshold = Threshold;
+      
+      this.PercentageDone = IPercentageDone;
+      
+    }
+
     public MacroscopeLevenshteinAnalysis (
       MacroscopeDocument msDoc,
       int SizeDifference,
@@ -63,6 +85,8 @@ namespace SEOMacroscope
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
       
+      this.PercentageDone = null;
+      
     }
 
     /**************************************************************************/
@@ -76,12 +100,20 @@ namespace SEOMacroscope
       }
       
       Dictionary<MacroscopeDocument,int> DocList = new Dictionary<MacroscopeDocument,int> ( DocCollection.CountDocuments() );
-
+      decimal DocListCount = ( decimal )DocCollection.CountDocuments();
+      decimal Count = 0;
+      
       foreach( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {
 
         string BodyText = msDocCompare.GetBodyText().ToLower();
         Boolean DoCheck = false;
+        
+        Count++;
+        if( DocListCount > 0 )
+        {
+          this.PercentageDone.PercentageDone( ( ( ( decimal )100 / DocListCount ) * Count ), msDocCompare.GetUrl() );
+        }
         
         if( !msDocCompare.GetIsHtml() )
         {

@@ -30,24 +30,133 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
   
-	/// <summary>
-	/// Description of MacroscopeDoublePercentageProgressForm.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeDoublePercentageProgressForm.
+  /// </summary>
 
-	public partial class MacroscopeDoublePercentageProgressForm : Form
-	{
+  public partial class MacroscopeDoublePercentageProgressForm : Form, IMacroscopeProgressForm
+  {
 
     /**************************************************************************/
 
-    public MacroscopeDoublePercentageProgressForm()
-		{
+    private Boolean IsCancelled;
 
-			InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+    /**************************************************************************/
 
+    public MacroscopeDoublePercentageProgressForm ()
+    {
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+    }
+
+    /**************************************************************************/
+    
+    void MacroscopeDoublePercentageProgressFormFormClosing ( object sender, FormClosingEventArgs e )
+    {
+      this.Cancel();
+    }
+    
+    /**************************************************************************/
+
+    public void UpdatePercentages (
+      string Title,
+      string Message,
+      decimal MajorPercentage,
+      string ProgressLabelMajor
+    )
+    {
+    }
+
+    /**************************************************************************/
+    
+    public void UpdatePercentages (
+      string Title,
+      string Message,
+      decimal MajorPercentage,
+      string ProgressLabelMajor,
+      decimal MinorPercentage,
+      string ProgressLabelMinor
+    )
+    {
+
+      if( Title != null )
+      {
+        this.Text = Title;
+      }
+      
+      if( Message != null )
+      {
+        this.labelMessage.Text = Message;
+      }
+      
+      if( MajorPercentage >= 0 )
+      {
+        this.progressBarMajor.Value = (int)MajorPercentage;
+      }
+      
+      if( ProgressLabelMajor != null )
+      {
+        this.labelProgressLabelMajor.Text = ProgressLabelMajor;
+      }
+      
+      if( MinorPercentage >= 0 )
+      {
+        this.progressBarMinor.Value = (int)MinorPercentage;
+      }
+      
+      if( ProgressLabelMinor != null )
+      {
+        this.labelProgressLabelMinor.Text = ProgressLabelMinor;
+      }
+      
+      this.Refresh();
+      
+      return;
+            
     }
 
     /**************************************************************************/
 
-	}
+    public void UpdatePercentages (
+      string Title,
+      string Message,
+      decimal MajorPercentage,
+      string ProgressLabelMajor,
+      decimal MinorPercentage,
+      string ProgressLabelMinor,
+      decimal SubMinorPercentage,
+      string SubProgressLabelMinor
+    )
+    {
+    }
+    
+    /**************************************************************************/
+
+    public void Reset ()
+    {
+      this.Text = "Processing";
+      this.labelMessage.Text = "";
+      this.progressBarMajor.Value = 0;
+      this.labelProgressLabelMajor.Text = "";
+      this.progressBarMinor.Value = 0;
+      this.labelProgressLabelMinor.Text = "";
+    }
+
+    /**************************************************************************/
+
+    public void Cancel ()
+    {
+      this.IsCancelled = true;
+    }
+
+    /**************************************************************************/
+
+    public Boolean Cancelled ()
+    {
+      return( this.IsCancelled );
+    }
+    
+    /**************************************************************************/
+    
+  }
 
 }

@@ -96,7 +96,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 		
     [Conditional( "DEVMODE" )]
-    public static void DebugMsg ( String sMsg, Boolean bFlag )
+    public static void DebugMsg ( string sMsg, Boolean bFlag )
     {
       if( !SuppressStaticDebugMsg )
       {
@@ -105,7 +105,7 @@ namespace SEOMacroscope
     }
 
     [Conditional( "DEVMODE" )]
-    public void DebugMsg ( String sMsg )
+    public void DebugMsg ( string sMsg )
     {
       if( !SuppressDebugMsg )
       {

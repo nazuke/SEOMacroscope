@@ -42,15 +42,23 @@ namespace SEOMacroscope
       string sWorksheetLabel
     )
     {
+      
       var ws = wb.Worksheets.Add( sWorksheetLabel );
 
       int iRow = 1;
       int iCol = 1;
       int iColMax = 1;
 
+      decimal DocCount = 0;
+      decimal DocListCount = 0;
+      decimal CountOuter = 0;
+      decimal CountInner = 0;
+
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
       
+      DocCount = ( decimal )DocCollection.CountDocuments();
+            
       {
 
         ws.Cell( iRow, iCol ).Value = "Status Code";
@@ -76,9 +84,25 @@ namespace SEOMacroscope
       foreach( string UrlLeft in DocCollection.DocumentKeys() )
       {
 
+        MacroscopeDocument msDocLeft = DocCollection.GetDocument( UrlLeft );
         MacroscopeLevenshteinAnalysis LevenshteinAnalysis = null;
 
-        MacroscopeDocument msDocLeft = DocCollection.GetDocument( UrlLeft );
+        CountOuter++;
+        CountInner = 0;
+
+        if( DocCount > 0 )
+        {
+          this.ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: -1,
+            ProgressLabelMajor: string.Format( "Documents Processed: {0}", CountOuter ),
+            MinorPercentage: ( ( decimal )100 / DocCount ) * CountOuter,
+            ProgressLabelMinor: UrlLeft,
+            SubMinorPercentage: 0,
+            ProgressLabelSubMinor: ""
+          );
+        }
 
         if( !msDocLeft.GetIsHtml() )
         {
@@ -88,7 +112,8 @@ namespace SEOMacroscope
         LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis (
           msDoc: msDocLeft,
           SizeDifference: MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference(),
-          Threshold: MacroscopePreferencesManager.GetMaxLevenshteinDistance()
+          Threshold: MacroscopePreferencesManager.GetMaxLevenshteinDistance(),
+          IPercentageDone: this
         );
 
         Dictionary<MacroscopeDocument,int> DocList;
@@ -97,16 +122,35 @@ namespace SEOMacroscope
           DocCollection: DocCollection
         );
 
+        DocListCount = ( decimal )DocList.Count;
+      
+        DebugMsg( string.Format( "DocListCount: {0}", DocListCount ) );
+        
         foreach( MacroscopeDocument msDocDuplicate in DocList.Keys )
         {
-                      
-          iCol = 1;
-            
+
           int StatusCode = ( int )msDocLeft.GetStatusCode();
           HttpStatusCode Status = msDocLeft.GetStatusCode();
           string UrlDuplicate = msDocDuplicate.GetUrl();
           int Distance = DocList[ msDocDuplicate ];
-              
+
+          CountInner++;
+          iCol = 1;
+          
+          if( DocCount > 0 )
+          {
+            this.ProgressForm.UpdatePercentages(
+              Title: null,
+              Message: null,
+              MajorPercentage: -1,
+              ProgressLabelMajor: string.Format( "Documents Processed: {0}", CountOuter ),
+              MinorPercentage: ( ( decimal )100 / DocCount ) * CountOuter,
+              ProgressLabelMinor: UrlLeft,
+              SubMinorPercentage: ( ( decimal )100 / DocListCount ) * CountInner,
+              ProgressLabelSubMinor: UrlDuplicate
+            );
+          }
+
           this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, StatusCode );
           iCol++;
           
@@ -152,6 +196,16 @@ namespace SEOMacroscope
           
           iRow++;
 
+          if( this.ProgressForm.Cancelled() )
+          {
+            break;
+          }
+          
+        }
+
+        if( this.ProgressForm.Cancelled() )
+        {
+          break;
         }
 
       }
@@ -163,6 +217,28 @@ namespace SEOMacroscope
 
       return;
       
+    }
+
+    /**************************************************************************/
+
+    public void PercentageDone ( decimal Percent )
+    {
+    }
+
+    public void PercentageDone ( decimal Percent, string Message )
+    {
+
+      this.ProgressForm.UpdatePercentages(
+        Title: null,
+        Message: null,
+        MajorPercentage: -1,
+        ProgressLabelMajor: null,
+        MinorPercentage: -1,
+        ProgressLabelMinor: null,
+        SubMinorPercentage: Percent,
+        ProgressLabelSubMinor: Message
+      );
+
     }
 
     /**************************************************************************/

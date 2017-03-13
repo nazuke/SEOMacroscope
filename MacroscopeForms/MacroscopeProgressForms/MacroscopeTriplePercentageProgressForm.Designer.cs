@@ -25,7 +25,7 @@
 
 namespace SEOMacroscope
 {
-  partial class MacroscopeDoublePercentageProgressForm
+  partial class MacroscopeTriplePercentageProgressForm
   {
     /// <summary>
     /// Designer variable used to keep track of non-visual components.
@@ -36,6 +36,8 @@ namespace SEOMacroscope
     public System.Windows.Forms.ProgressBar progressBarMinor;
     public System.Windows.Forms.Label labelProgressLabelMajor;
     public System.Windows.Forms.Label labelProgressLabelMinor;
+    public System.Windows.Forms.Label labelProgressLabelSubMinor;
+    public System.Windows.Forms.ProgressBar progressBarSubMinor;
 		
     /// <summary>
     /// Disposes resources used by the form.
@@ -65,66 +67,87 @@ namespace SEOMacroscope
     	this.progressBarMinor = new System.Windows.Forms.ProgressBar();
     	this.labelProgressLabelMajor = new System.Windows.Forms.Label();
     	this.labelProgressLabelMinor = new System.Windows.Forms.Label();
+    	this.labelProgressLabelSubMinor = new System.Windows.Forms.Label();
+    	this.progressBarSubMinor = new System.Windows.Forms.ProgressBar();
     	this.SuspendLayout();
     	// 
     	// labelMessage
     	// 
     	this.labelMessage.Location = new System.Drawing.Point(15, 15);
     	this.labelMessage.Name = "labelMessage";
-    	this.labelMessage.Size = new System.Drawing.Size(450, 23);
+    	this.labelMessage.Size = new System.Drawing.Size(550, 23);
     	this.labelMessage.TabIndex = 0;
     	this.labelMessage.Text = "Message";
     	// 
     	// progressBarMajor
     	// 
-    	this.progressBarMajor.Location = new System.Drawing.Point(15, 50);
+    	this.progressBarMajor.Location = new System.Drawing.Point(15, 80);
     	this.progressBarMajor.Name = "progressBarMajor";
-    	this.progressBarMajor.Size = new System.Drawing.Size(310, 23);
+    	this.progressBarMajor.Size = new System.Drawing.Size(550, 23);
     	this.progressBarMajor.TabIndex = 1;
     	// 
     	// progressBarMinor
     	// 
-    	this.progressBarMinor.Location = new System.Drawing.Point(15, 100);
+    	this.progressBarMinor.Location = new System.Drawing.Point(12, 160);
     	this.progressBarMinor.Name = "progressBarMinor";
-    	this.progressBarMinor.Size = new System.Drawing.Size(310, 23);
+    	this.progressBarMinor.Size = new System.Drawing.Size(553, 23);
     	this.progressBarMinor.TabIndex = 2;
     	// 
     	// labelProgressLabelMajor
     	// 
-    	this.labelProgressLabelMajor.Location = new System.Drawing.Point(341, 50);
+    	this.labelProgressLabelMajor.Location = new System.Drawing.Point(15, 50);
     	this.labelProgressLabelMajor.Name = "labelProgressLabelMajor";
     	this.labelProgressLabelMajor.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-    	this.labelProgressLabelMajor.Size = new System.Drawing.Size(124, 23);
+    	this.labelProgressLabelMajor.Size = new System.Drawing.Size(550, 23);
     	this.labelProgressLabelMajor.TabIndex = 3;
     	this.labelProgressLabelMajor.Text = "labelProgressLabelMajor";
     	// 
     	// labelProgressLabelMinor
     	// 
-    	this.labelProgressLabelMinor.Location = new System.Drawing.Point(341, 100);
+    	this.labelProgressLabelMinor.Location = new System.Drawing.Point(15, 130);
     	this.labelProgressLabelMinor.Name = "labelProgressLabelMinor";
     	this.labelProgressLabelMinor.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-    	this.labelProgressLabelMinor.Size = new System.Drawing.Size(124, 23);
+    	this.labelProgressLabelMinor.Size = new System.Drawing.Size(550, 23);
     	this.labelProgressLabelMinor.TabIndex = 4;
     	this.labelProgressLabelMinor.Text = "labelProgressLabelMinor";
     	// 
-    	// MacroscopeDoublePercentageProgressForm
+    	// labelProgressLabelSubMinor
+    	// 
+    	this.labelProgressLabelSubMinor.Location = new System.Drawing.Point(15, 210);
+    	this.labelProgressLabelSubMinor.Name = "labelProgressLabelSubMinor";
+    	this.labelProgressLabelSubMinor.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+    	this.labelProgressLabelSubMinor.Size = new System.Drawing.Size(550, 23);
+    	this.labelProgressLabelSubMinor.TabIndex = 6;
+    	this.labelProgressLabelSubMinor.Text = "labelProgressLabelSubMinor";
+    	// 
+    	// progressBarSubMinor
+    	// 
+    	this.progressBarSubMinor.Location = new System.Drawing.Point(15, 240);
+    	this.progressBarSubMinor.Name = "progressBarSubMinor";
+    	this.progressBarSubMinor.Size = new System.Drawing.Size(550, 23);
+    	this.progressBarSubMinor.TabIndex = 5;
+    	// 
+    	// MacroscopeTriplePercentageProgressForm
     	// 
     	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
     	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-    	this.ClientSize = new System.Drawing.Size(484, 162);
+    	this.ClientSize = new System.Drawing.Size(584, 312);
+    	this.Controls.Add(this.labelProgressLabelSubMinor);
+    	this.Controls.Add(this.progressBarSubMinor);
     	this.Controls.Add(this.labelProgressLabelMinor);
     	this.Controls.Add(this.labelProgressLabelMajor);
     	this.Controls.Add(this.progressBarMinor);
     	this.Controls.Add(this.progressBarMajor);
     	this.Controls.Add(this.labelMessage);
+    	this.DoubleBuffered = true;
     	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
     	this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
     	this.MaximizeBox = false;
     	this.MinimizeBox = false;
-    	this.Name = "MacroscopeDoublePercentageProgressForm";
+    	this.Name = "MacroscopeTriplePercentageProgressForm";
     	this.ShowInTaskbar = false;
+    	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
     	this.Text = "Processing";
-    	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MacroscopeDoublePercentageProgressFormFormClosing);
     	this.ResumeLayout(false);
 
     }

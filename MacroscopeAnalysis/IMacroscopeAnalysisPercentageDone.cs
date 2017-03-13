@@ -29,45 +29,16 @@ namespace SEOMacroscope
 {
   
   /// <summary>
-  /// Description of IMacroscopeProgressForm.
+  /// Description of IMacroscopeAnalysisPercentageDone.
   /// </summary>
 	
-  public interface IMacroscopeProgressForm
+  public interface IMacroscopeAnalysisPercentageDone
   {
-		
-    void UpdatePercentages (
-      string Title,
-      string Message,
-      decimal MajorPercentage,
-      string ProgressLabelMajor
-    );
-    
-    void UpdatePercentages (
-      string Title,
-      string Message,
-      decimal MajorPercentage,
-      string ProgressLabelMajor,
-      decimal MinorPercentage,
-      string ProgressLabelMinor
-    );
-    
-    void UpdatePercentages (
-      string Title,
-      string Message,
-      decimal MajorPercentage,
-      string ProgressLabelMajor,
-      decimal MinorPercentage,
-      string ProgressLabelMinor,
-      decimal SubMinorPercentage,
-      string ProgressLabelSubMinor
-    );
 
-    void Reset ();
+    void PercentageDone ( decimal Percent );
     
-    void Cancel ();
-    
-    Boolean Cancelled ();
-    
+    void PercentageDone ( decimal Percent, string Message );
+
   }
-
+	
 }
