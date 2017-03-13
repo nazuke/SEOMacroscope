@@ -78,12 +78,12 @@ namespace SEOMacroscope
       if( msDoc.GetIsHtml() )
       {
 
-        Dictionary<string,string> htTelephoneNumbers = msDoc.GetTelephoneNumbers();
+        Dictionary<string,string> TelephoneNumbers = msDoc.GetTelephoneNumbers();
 
-        foreach( string sTelephoneNumber in htTelephoneNumbers.Keys )
+        foreach( string TelephoneNumber in TelephoneNumbers.Keys )
         {
 
-          string sPairKey = string.Join( "", sTelephoneNumber, Url );
+          string sPairKey = string.Join( "", TelephoneNumber, Url );
 
           this.lvListView.BeginUpdate();
 
@@ -94,7 +94,7 @@ namespace SEOMacroscope
             {
 
               ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-              lvItem.SubItems[ 0 ].Text = sTelephoneNumber;
+              lvItem.SubItems[ 0 ].Text = TelephoneNumber;
               lvItem.SubItems[ 1 ].Text = Url;
 
             }
@@ -114,7 +114,7 @@ namespace SEOMacroscope
 
               lvItem.Name = sPairKey;
 
-              lvItem.SubItems[ 0 ].Text = sTelephoneNumber;
+              lvItem.SubItems[ 0 ].Text = TelephoneNumber;
               lvItem.SubItems.Add( Url );
 
               this.lvListView.Items.Add( lvItem );

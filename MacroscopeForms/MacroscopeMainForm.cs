@@ -2333,6 +2333,42 @@ namespace SEOMacroscope
       Dialog.Dispose();
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackSaveContactDetailsExcelReport ( object sender, EventArgs e )
+    {
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+        string Path = Dialog.FileName;
+        MacroscopeExcelContactDetailsReport msExcelReport = new MacroscopeExcelContactDetailsReport ();
+        try
+        {
+          Cursor.Current = Cursors.WaitCursor;
+          msExcelReport.WriteXslx( this.JobMaster, Path );
+          Cursor.Current = Cursors.Default;
+        }
+        catch( MacroscopeCannotSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
+        }
+      }
+      Dialog.Dispose();
+    }
+
     /**************************************************************************/
 
     [Conditional( "DEVMODE" )]

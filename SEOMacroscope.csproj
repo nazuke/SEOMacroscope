@@ -219,6 +219,9 @@
     <Compile Include="MacroscopeReports\MacroscopeCannotSaveExcelFileException.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetBrokenLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\MacroscopeExcelBrokenLinksReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelContactDetailsReport\MacroscopeExcelContactDetailsReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelContactDetailsReport\WorksheetEmailAddresses.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelContactDetailsReport\WorksheetTelephoneNumbers.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\MacroscopeExcelDuplicateContent.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateChecksums.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateEtags.cs" />
@@ -368,6 +371,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelUriReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelDuplicateContent" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelContactDetailsReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />

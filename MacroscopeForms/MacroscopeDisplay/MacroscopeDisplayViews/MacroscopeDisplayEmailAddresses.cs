@@ -78,12 +78,12 @@ namespace SEOMacroscope
       if( msDoc.GetIsHtml() )
       {
 
-        Dictionary<string,string> htEmailAddresses = msDoc.GetEmailAddresses();
+        Dictionary<string,string> EmailAddresses = msDoc.GetEmailAddresses();
 
-        foreach( string sEmailAddress in htEmailAddresses.Keys )
+        foreach( string EmailAddress in EmailAddresses.Keys )
         {
 
-          string sPairKey = string.Join( "", sEmailAddress, Url );
+          string sPairKey = string.Join( "", EmailAddress, Url );
 
           this.lvListView.BeginUpdate();
 
@@ -94,7 +94,7 @@ namespace SEOMacroscope
             {
 
               ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
-              lvItem.SubItems[ 0 ].Text = sEmailAddress;
+              lvItem.SubItems[ 0 ].Text = EmailAddress;
               lvItem.SubItems[ 1 ].Text = Url;
 
             }
@@ -114,7 +114,7 @@ namespace SEOMacroscope
 
               lvItem.Name = sPairKey;
 
-              lvItem.SubItems[ 0 ].Text = sEmailAddress;
+              lvItem.SubItems[ 0 ].Text = EmailAddress;
               lvItem.SubItems.Add( Url );
 
               this.lvListView.Items.Add( lvItem );
