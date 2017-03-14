@@ -24,7 +24,6 @@
 */
 
 using System;
-using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -32,10 +31,10 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeDisplayLinks.
+  /// Description of MacroscopeDisplayHyperlinks.
   /// </summary>
 
-  public sealed class MacroscopeDisplayLinks : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayHyperlinks : MacroscopeDisplayListView
   {
 
     /**************************************************************************/
@@ -44,7 +43,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayLinks ( MacroscopeMainForm MainForm, ListView lvListView )
+    public MacroscopeDisplayHyperlinks ( MacroscopeMainForm MainForm, ListView lvListView )
       : base( MainForm, lvListView )
     {
       
@@ -52,7 +51,7 @@ namespace SEOMacroscope
 
       this.MainForm = MainForm;
       this.lvListView = lvListView;
-      this.UrlCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelLinksUrls;
+      this.UrlCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelHyperlinksUrls;
       
       if( this.MainForm.InvokeRequired )
       {

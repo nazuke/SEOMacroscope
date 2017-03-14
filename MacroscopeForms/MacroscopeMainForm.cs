@@ -58,7 +58,8 @@ namespace SEOMacroscope
     MacroscopeDisplayErrors msDisplayErrors;
     MacroscopeDisplayRedirectsAudit msDisplayRedirectsAudit;
 
-    MacroscopeDisplayLinks msDisplayLinks;
+    //MacroscopeDisplayLinks msDisplayLinks;
+    MacroscopeDisplayHyperlinks msDisplayHyperlinks;
     MacroscopeDisplayUriAnalysis msDisplayUriAnalysis;
 
     MacroscopeDisplayTitles msDisplayTitles;
@@ -165,7 +166,7 @@ namespace SEOMacroscope
       this.msDisplayErrors = new MacroscopeDisplayErrors ( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
       this.msDisplayRedirectsAudit = new MacroscopeDisplayRedirectsAudit ( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit );
 
-      this.msDisplayLinks = new MacroscopeDisplayLinks ( this, this.macroscopeOverviewTabPanelInstance.listViewLinks );
+      this.msDisplayHyperlinks = new MacroscopeDisplayHyperlinks ( this, this.macroscopeOverviewTabPanelInstance.listViewHyperlinks );
       this.msDisplayUriAnalysis = new MacroscopeDisplayUriAnalysis ( this, this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis );
 
       this.msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
@@ -204,10 +205,10 @@ namespace SEOMacroscope
       
       
       // ListViewLinks
-      this.macroscopeOverviewTabPanelInstance.listViewLinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Click += this.CallbackButtonLinksShowAll;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchSourceUrlKeyUp;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchTargetUrlKeyUp;
+      this.macroscopeOverviewTabPanelInstance.listViewHyperlinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Click += this.CallbackButtonLinksShowAll;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchSourceUrlKeyUp;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchTargetUrlKeyUp;
       
       
       
@@ -766,10 +767,19 @@ namespace SEOMacroscope
           );
           break;
 
+      /*
         case "tabPageLinks":
           this.msDisplayLinks.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayLinks )
+          );
+          break;
+        */
+          
+        case "tabPageHyperlinks":
+          this.msDisplayHyperlinks.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHyperlinks )
           );
           break;
 
@@ -1310,8 +1320,8 @@ namespace SEOMacroscope
 
     private void CallbackButtonLinksShowAll ( object sender, EventArgs e )
     {
-      this.msDisplayLinks.ClearData();
-      this.msDisplayLinks.RefreshData(
+      this.msDisplayHyperlinks.ClearData();
+      this.msDisplayHyperlinks.RefreshData(
         this.JobMaster.GetDocCollection()
       );
     }
@@ -1327,8 +1337,8 @@ namespace SEOMacroscope
           if( UrlFragment.Length > 0 )
           {
             SearchTextBox.Text = UrlFragment;
-            this.msDisplayLinks.ClearData();
-            this.msDisplayLinks.RefreshDataSearchSourceUrls(
+            this.msDisplayHyperlinks.ClearData();
+            this.msDisplayHyperlinks.RefreshDataSearchSourceUrls(
               DocCollection: this.JobMaster.GetDocCollection(),
               UrlFragment: UrlFragment
             );
@@ -1348,8 +1358,8 @@ namespace SEOMacroscope
           if( UrlFragment.Length > 0 )
           {
             SearchTextBox.Text = UrlFragment;
-            this.msDisplayLinks.ClearData();
-            this.msDisplayLinks.RefreshDataSearchTargetUrls(
+            this.msDisplayHyperlinks.ClearData();
+            this.msDisplayHyperlinks.RefreshDataSearchTargetUrls(
               DocCollection: this.JobMaster.GetDocCollection(),
               UrlFragment: UrlFragment
             );
@@ -1459,7 +1469,7 @@ namespace SEOMacroscope
       
       this.msDisplayErrors.ClearData();
       this.msDisplayRedirectsAudit.ClearData();
-      this.msDisplayLinks.ClearData();
+      this.msDisplayHyperlinks.ClearData();
       this.msDisplayUriAnalysis.ClearData();
       
       this.msDisplayTitles.ClearData();
@@ -1511,9 +1521,9 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
 
     }
 
@@ -1539,9 +1549,9 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = false;
 
     }
 
@@ -1567,9 +1577,9 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = false;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = false;
       
     }
 
@@ -1595,9 +1605,9 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
       
     }
 
@@ -1623,9 +1633,9 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
       
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
       
       this.UpdateProgressBarScan( 0 );
     
@@ -1653,9 +1663,9 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
       
     }
 

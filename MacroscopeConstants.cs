@@ -69,7 +69,8 @@ namespace SEOMacroscope
     public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
     public const string NamedQueueDisplayErrors = "DisplayErrors";
     public const string NamedQueueDisplayRedirectsAudit = "DisplayRedirectsAudit";
-    public const string NamedQueueDisplayLinks = "DisplayLinks";
+    //public const string NamedQueueDisplayLinks = "DisplayLinks";
+    public const string NamedQueueDisplayHyperlinks = "DisplayHyperlinks";
     public const string NamedQueueDisplayUriAnalysis = "DisplayUriAnalysis";
     public const string NamedQueueDisplayPageTitles = "DisplayPageTitles";
     public const string NamedQueueDisplayPageDescriptions = "DisplayPageDescriptions";

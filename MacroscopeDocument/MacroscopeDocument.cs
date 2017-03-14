@@ -103,11 +103,16 @@ namespace SEOMacroscope
     private string Canonical;
     private Dictionary<string,MacroscopeHrefLang> HrefLang;
 
+    // Inbound links
+    private Boolean ProcessInlinks;
+    
     // Outbound links to pages and linked assets to follow
     private Dictionary<string,MacroscopeOutlink> Outlinks;
 
-    // Outbound hypertext links
+    // Inbound hypertext links
     private Boolean ProcessHyperlinksIn;
+
+    // Outbound hypertext links
     private MacroscopeHyperlinksOut HyperlinksOut;
 
     private Dictionary<string,string> EmailAddresses;
@@ -129,7 +134,7 @@ namespace SEOMacroscope
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -233,6 +238,7 @@ namespace SEOMacroscope
       this.Canonical = "";
       this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
+      this.ProcessInlinks = false;
       this.Outlinks = new Dictionary<string,MacroscopeOutlink> ( 128 );
 
       this.ProcessHyperlinksIn = false;
@@ -249,25 +255,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -817,6 +823,23 @@ namespace SEOMacroscope
     public string GetDateModified ()
     {
       return( this.DateModified.ToShortDateString() );
+    }
+
+    /** Inlinks ***************************************************************/
+    
+    public void SetProcessInlinks ()
+    {
+      this.ProcessInlinks = true;
+    }
+       
+    public void UnsetProcessInlinks ()
+    {
+      this.ProcessInlinks = false;
+    }
+    
+    public Boolean GetProcessInlinks ()
+    {
+      return( this.ProcessInlinks );
     }
 
     /** Outlinks **************************************************************/

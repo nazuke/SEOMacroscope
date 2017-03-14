@@ -155,7 +155,7 @@
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureKeywordAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureSiteSpeed.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTreeView.cs" />
-    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayHyperlinks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayUriAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayAudios.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayCanonical.cs" />

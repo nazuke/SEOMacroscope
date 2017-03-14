@@ -45,8 +45,8 @@ namespace SEOMacroscope
     private MacroscopeSearchIndex SearchIndex;
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
 
+    private Dictionary<string,MacroscopeInlink> StructInlinks;
     private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn;
-    private Dictionary<string,MacroscopeHyperlinksIn> StructlinksIn;
 
     private Dictionary<string,Boolean> StatsHistory;
     private Dictionary<string,int> StatsHostnames;
@@ -88,6 +88,7 @@ namespace SEOMacroscope
 
       this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
 
+      this.StructInlinks = new Dictionary<string,MacroscopeInlink> ( 1024 );
       this.StructHyperlinksIn = new Dictionary<string,MacroscopeHyperlinksIn> ( 1024 );
       
       this.StatsHistory = new Dictionary<string,Boolean> ( 1024 );
@@ -281,6 +282,38 @@ namespace SEOMacroscope
       return( lKeys );
     }
 
+    /** Inlinks ***************************************************************/
+
+    public MacroscopeInlink GetDocumentInlinks ( string Url )
+    {
+    
+      MacroscopeInlink Inlinks = null;
+      
+      lock( this.StructInlinks )
+      {
+
+        if( this.StructInlinks.ContainsKey( Url ) )
+        {
+          Inlinks = this.StructInlinks[ Url ];
+        }
+
+      }
+      
+      return( Inlinks );
+      
+    }
+
+    public IEnumerable<string> IterateInlinks ()
+    {
+      lock( this.StructInlinks )
+      {
+        foreach( string Url in this.StructInlinks.Keys )
+        {
+          yield return Url;
+        }
+      }
+    }
+
     /** HyperlinksIn **********************************************************/
 
     public MacroscopeHyperlinksIn GetDocumentHyperlinksIn ( string Url )
@@ -411,7 +444,18 @@ namespace SEOMacroscope
         {
 
           MacroscopeDocument msDoc = this.GetDocument( UrlTarget );
-
+ 
+          /*
+          try
+          {
+            this.RecalculateInlinks( msDoc );
+          }
+          catch( Exception ex )
+          {
+            this.DebugMsg( string.Format( "RecalculateInlinks: {0}", ex.Message ) );
+          }
+          */
+         
           try
           {
             this.RecalculateHyperlinksIn( msDoc );
@@ -481,6 +525,78 @@ namespace SEOMacroscope
 
     }
 
+    /** Inlinks ***************************************************************/
+
+    /*
+    private void RecalculateInlinks ( MacroscopeDocument msDoc )
+    {
+
+      DebugMsg( string.Format( "RecalculateInlinks: {0} :: {1}", msDoc.GetProcessInlinks(), msDoc.GetUrl() ) );
+
+      if( msDoc.GetProcessInlinks() )
+      {
+
+        DebugMsg( string.Format( "RecalculateInlinks: PROCESSING: {0}", msDoc.GetUrl() ) );
+        
+        msDoc.UnsetProcessInlinks();
+
+        foreach( MacroscopeOutlink Outlink in msDoc.IterateOutlinks() )
+        {
+                  
+          string Url = Outlink.GetAbsoluteUrl();
+          MacroscopeInlink Inlink = null;
+
+          DebugMsg( string.Format( "RecalculateInlinks: URL SOURCE: {0}", msDoc.GetUrl() ) );
+          DebugMsg( string.Format( "RecalculateInlinks: URL TARGET: {0}", Url ) );
+
+          if( Url == msDoc.GetUrl() )
+          {
+            DebugMsg( string.Format( "RecalculateInlinks: SELF: {0}", Url ) );
+            continue;
+          }
+          
+          if( this.StructInlinks.ContainsKey( Url ) )
+          {
+            Inlink = this.StructInlinks[ Url ];
+          }
+          else
+          {
+            Inlink = new MacroscopeInlink ();
+            this.StructInlinks.Add( Url, Inlink );
+          }
+
+          if( Inlink != null )
+          {
+
+            Inlink.Add(
+              LinkType: HyperlinkOut.GetHyperlinkType(),
+              Method: HyperlinkOut.GetMethod(),
+              UrlOrigin: msDoc.GetUrl(),
+              UrlTarget: Url,
+              LinkText: HyperlinkOut.GetLinkText(),
+              LinkTitle: HyperlinkOut.GetLinkTitle(),
+              AltText: HyperlinkOut.GetAltText()
+            );
+
+          }
+          else
+          {
+            DebugMsg( string.Format( "RecalculateInlinks: NULL: {0}", msDoc.GetUrl() ) );
+          }
+
+        }
+
+      }
+      else
+      {
+        
+        DebugMsg( string.Format( "RecalculateInlinks: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
+        
+      }
+
+    }
+    */
+   
     /** Hyperlinks In *********************************************************/
 
     private void RecalculateHyperlinksIn ( MacroscopeDocument msDoc )
@@ -510,14 +626,14 @@ namespace SEOMacroscope
             continue;
           }
           
-          if( StructHyperlinksIn.ContainsKey( Url ) )
+          if( this.StructHyperlinksIn.ContainsKey( Url ) )
           {
-            HyperlinksIn = StructHyperlinksIn[ Url ];
+            HyperlinksIn = this.StructHyperlinksIn[ Url ];
           }
           else
           {
             HyperlinksIn = new MacroscopeHyperlinksIn ();
-            StructHyperlinksIn.Add( Url, HyperlinksIn );
+            this.StructHyperlinksIn.Add( Url, HyperlinksIn );
           }
 
           if( HyperlinksIn != null )
