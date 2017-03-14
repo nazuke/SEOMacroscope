@@ -30,7 +30,7 @@ namespace SEOMacroscope
 {
 
 	/// <summary>
-	/// Description of MacroscopeNamedQueue.
+	/// Create and manage names queues.
 	/// </summary>
 
 	public class MacroscopeNamedQueue : Macroscope
