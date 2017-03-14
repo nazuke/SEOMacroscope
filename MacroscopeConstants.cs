@@ -137,7 +137,7 @@ namespace SEOMacroscope
 
     /** BEGIN: Outlink Types **************************************************/
 
-    public enum OutlinkType
+    public enum InOutLinkType
     {
       SITEMAPXML = 0,
       REDIRECT = 1,

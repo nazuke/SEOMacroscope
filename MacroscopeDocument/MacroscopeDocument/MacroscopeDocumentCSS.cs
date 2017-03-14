@@ -221,7 +221,7 @@ namespace SEOMacroscope
                 );
                 this.AddCssOutlink(
                   AbsoluteUrl: sLinkUrlAbs,
-                  LinkType: MacroscopeConstants.OutlinkType.IMAGE,
+                  LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                   Follow: true
                 );
               }
@@ -241,7 +241,7 @@ namespace SEOMacroscope
                 );
                 this.AddCssOutlink(
                   AbsoluteUrl: sLinkUrlAbs,
-                  LinkType: MacroscopeConstants.OutlinkType.IMAGE,
+                  LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                   Follow: true
                 );
               }
@@ -285,13 +285,14 @@ namespace SEOMacroscope
 
     private MacroscopeOutlink AddCssOutlink (
       string AbsoluteUrl,
-      MacroscopeConstants.OutlinkType LinkType,
+      MacroscopeConstants.InOutLinkType LinkType,
       Boolean Follow
     )
     {
 
       MacroscopeOutlink OutLink = new MacroscopeOutlink (
                                     AbsoluteUrl: AbsoluteUrl,
+                                    SourceUrl: this.GetUrl(),
                                     LinkType: LinkType,
                                     Follow: Follow
                                   );

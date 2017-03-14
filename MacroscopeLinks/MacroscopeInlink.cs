@@ -1,25 +1,25 @@
 ﻿/*
 
-	This file is part of SEOMacroscope.
+  This file is part of SEOMacroscope.
 
-	Copyright 2017 Jason Holland.
+  Copyright 2017 Jason Holland.
 
-	The GitHub repository may be found at:
+  The GitHub repository may be found at:
 
-		https://github.com/nazuke/SEOMacroscope
+    https://github.com/nazuke/SEOMacroscope
 
-	Foobar is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+  Foobar is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-	Foobar is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+  Foobar is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU General Public License
+  along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
@@ -29,17 +29,19 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeOutlink.
+  /// Description of MacroscopeInlink.
   /// </summary>
 
-  public class MacroscopeOutlink : Macroscope
+  public class MacroscopeInlink : Macroscope
   {
 
     /**************************************************************************/
 
-    private MacroscopeConstants.OutlinkType LinkType;
+    private MacroscopeConstants.InOutLinkType LinkType;
 
     private string AbsoluteUrl;
+    
+    private string SourceUrl;
 
     private Boolean DoFollow;
 
@@ -48,13 +50,15 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeOutlink (
+    public MacroscopeInlink (
       string AbsoluteUrl,
-      MacroscopeConstants.OutlinkType LinkType,
+      string SourceUrl,
+      MacroscopeConstants.InOutLinkType LinkType,
       Boolean Follow
     )
     {
       this.AbsoluteUrl = AbsoluteUrl;
+      this.SourceUrl = SourceUrl;
       this.LinkType = LinkType;
       this.DoFollow = Follow;
     }
@@ -70,15 +74,27 @@ namespace SEOMacroscope
     {
       return( this.AbsoluteUrl );
     }
-    
+
+    /** Source URL **********************************************************/
+
+    public void SetSourceUrl ( string SourceUrl )
+    {
+      this.SourceUrl = SourceUrl;
+    }
+
+    public string GetSourceUrl ()
+    {
+      return( this.SourceUrl );
+    }
+
     /** Link Type *************************************************************/
 
-    public void SetLinkType ( MacroscopeConstants.OutlinkType LinkType )
+    public void SetLinkType ( MacroscopeConstants.InOutLinkType LinkType )
     {
       this.LinkType = LinkType;
     }
 
-    public MacroscopeConstants.OutlinkType GetLinkType ()
+    public MacroscopeConstants.InOutLinkType GetLinkType ()
     {
       return( this.LinkType );
     }

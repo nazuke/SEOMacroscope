@@ -211,8 +211,11 @@
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
+    <Compile Include="MacroscopeLinks\MacroscopeInlink.cs" />
     <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueue.cs" />
-    <Compile Include="MacroscopeOutlink\MacroscopeOutlink.cs" />
+    <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueueGeneric.cs" />
+    <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueueItem.cs" />
+    <Compile Include="MacroscopeLinks\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -369,7 +372,7 @@
     <Folder Include="MacroscopeHyperlinks" />
     <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />
     <Folder Include="MacroscopeNamedQueue\t" />
-    <Folder Include="MacroscopeOutlink" />
+    <Folder Include="MacroscopeLinks" />
     <Folder Include="MacroscopeReports\MacroscopeExcelPageContentsReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelUriReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport" />

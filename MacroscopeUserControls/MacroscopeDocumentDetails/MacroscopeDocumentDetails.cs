@@ -463,7 +463,8 @@ namespace SEOMacroscope
 
       if( HyperlinksIn != null )
       {
-        foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks(  ) )
+        
+        foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() )
         {
 
           ListViewItem lvItem = null;
@@ -704,10 +705,10 @@ namespace SEOMacroscope
 
         string sKeyPair = sUrl;
         ListViewItem lvItem = null;
-        MacroscopeConstants.OutlinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
         count++;
         
-        if( LinkType == MacroscopeConstants.OutlinkType.STYLESHEET )
+        if( LinkType == MacroscopeConstants.InOutLinkType.STYLESHEET )
         {
 
           if( lvListView.Items.ContainsKey( sKeyPair ) )
@@ -799,10 +800,10 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
         string sKeyPair = sUrl;
-        MacroscopeConstants.OutlinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
         count++;
         
-        if( LinkType == MacroscopeConstants.OutlinkType.SCRIPT )
+        if( LinkType == MacroscopeConstants.InOutLinkType.SCRIPT )
         {
 
           if( lvListView.Items.ContainsKey( sKeyPair ) )
@@ -894,10 +895,10 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
         string sKeyPair = sUrl;
-        MacroscopeConstants.OutlinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
         count++;
         
-        if( LinkType == MacroscopeConstants.OutlinkType.IMAGE )
+        if( LinkType == MacroscopeConstants.InOutLinkType.IMAGE )
         {
 
           if( lvListView.Items.ContainsKey( sKeyPair ) )
@@ -993,10 +994,10 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
         string sKeyPair = sUrl;
-        MacroscopeConstants.OutlinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
         count++;
         
-        if( LinkType == MacroscopeConstants.OutlinkType.AUDIO )
+        if( LinkType == MacroscopeConstants.InOutLinkType.AUDIO )
         {
 
           if( lvListView.Items.ContainsKey( sKeyPair ) )
@@ -1088,10 +1089,10 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
         string sKeyPair = sUrl;
-        MacroscopeConstants.OutlinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
         count++;
         
-        if( LinkType == MacroscopeConstants.OutlinkType.VIDEO )
+        if( LinkType == MacroscopeConstants.InOutLinkType.VIDEO )
         {
 
           if( lvListView.Items.ContainsKey( sKeyPair ) )

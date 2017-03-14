@@ -129,7 +129,7 @@ namespace SEOMacroscope
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -855,13 +855,14 @@ namespace SEOMacroscope
 
     private MacroscopeOutlink AddDocumentOutlink (
       string AbsoluteUrl,
-      MacroscopeConstants.OutlinkType LinkType,
+      MacroscopeConstants.InOutLinkType LinkType,
       Boolean Follow
     )
     {
 
       MacroscopeOutlink OutLink = new MacroscopeOutlink ( 
                                     AbsoluteUrl: AbsoluteUrl,
+                                    SourceUrl: this.GetUrl(),
                                     LinkType: LinkType,
                                     Follow: Follow
                                   );
@@ -1521,7 +1522,7 @@ namespace SEOMacroscope
             this.UrlRedirectTo = sLinkUrlAbs;
             this.AddDocumentOutlink(
               AbsoluteUrl: sLinkUrlAbs,
-              LinkType: MacroscopeConstants.OutlinkType.REDIRECT,
+              LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
               Follow: true
             );
           }
@@ -1916,7 +1917,7 @@ namespace SEOMacroscope
         Regex reIsHtml = new Regex ( "^(text/html|application/xhtml+xml)", RegexOptions.IgnoreCase );
         Regex reIsCss = new Regex ( "^text/css", RegexOptions.IgnoreCase );
         Regex reIsJavascript = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
-        Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp|x-icon)", RegexOptions.IgnoreCase );
+        Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp|vnd.microsoft.icon|x-icon)", RegexOptions.IgnoreCase );
         Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
         Regex reIsAudio = new Regex ( "^audio/[a-z0-9]+", RegexOptions.IgnoreCase );
         Regex reIsVideo = new Regex ( "^video/[a-z0-9]+", RegexOptions.IgnoreCase );

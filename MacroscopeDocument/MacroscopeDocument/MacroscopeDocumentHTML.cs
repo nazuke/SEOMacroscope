@@ -277,7 +277,7 @@ namespace SEOMacroscope
           
           this.AddHtmlOutlink(
             AbsoluteUrl: sLinkUrlAbs,
-            LinkType: MacroscopeConstants.OutlinkType.CANONICAL,
+            LinkType: MacroscopeConstants.InOutLinkType.CANONICAL,
             Follow: true
           );
           
@@ -420,7 +420,7 @@ namespace SEOMacroscope
               
               MacroscopeOutlink Outlink = this.AddHtmlOutlink(
                                             sLinkUrlAbs,
-                                            MacroscopeConstants.OutlinkType.AHREF,
+                                            MacroscopeConstants.InOutLinkType.AHREF,
                                             true
                                           );
               
@@ -475,7 +475,7 @@ namespace SEOMacroscope
               {
                 this.AddHtmlOutlink(
                   AbsoluteUrl: sLinkUrlAbs,
-                  LinkType: MacroscopeConstants.OutlinkType.META,
+                  LinkType: MacroscopeConstants.InOutLinkType.META,
                   Follow: true
                 );
               }
@@ -500,12 +500,12 @@ namespace SEOMacroscope
 
             string sLinkUrl = nLink.GetAttributeValue( "href", null );
             string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
-            MacroscopeConstants.OutlinkType LinkType = MacroscopeConstants.OutlinkType.LINK;
+            MacroscopeConstants.InOutLinkType LinkType = MacroscopeConstants.InOutLinkType.LINK;
             Boolean bFollow = true;
 
             if( nLink.GetAttributeValue( "hreflang", null ) != null )
             {
-              LinkType = MacroscopeConstants.OutlinkType.HREFLANG;
+              LinkType = MacroscopeConstants.InOutLinkType.HREFLANG;
               if( !MacroscopePreferencesManager.GetFollowHrefLangLinks() )
               {
                 bFollow = false;
@@ -516,7 +516,7 @@ namespace SEOMacroscope
               ( nLink.GetAttributeValue( "rel", null ) != null )
               && ( nLink.GetAttributeValue( "rel", "" ).ToLower() == "stylesheet" ) )
             {
-              LinkType = MacroscopeConstants.OutlinkType.STYLESHEET;
+              LinkType = MacroscopeConstants.InOutLinkType.STYLESHEET;
             }
 
             if( sLinkUrlAbs != null )
@@ -555,7 +555,7 @@ namespace SEOMacroscope
 
               this.AddHtmlOutlink(
                 AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.OutlinkType.IFRAME,
+                LinkType: MacroscopeConstants.InOutLinkType.IFRAME,
                 Follow: true
               );
               
@@ -585,7 +585,7 @@ namespace SEOMacroscope
 
               this.AddHtmlOutlink(
                 AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.OutlinkType.MAP,
+                LinkType: MacroscopeConstants.InOutLinkType.MAP,
                 Follow: true
               );
               
@@ -620,7 +620,7 @@ namespace SEOMacroscope
 
               MacroscopeOutlink Outlink = this.AddHtmlOutlink(
                                             AbsoluteUrl: sLinkUrlAbs,
-                                            LinkType: MacroscopeConstants.OutlinkType.IMAGE,
+                                            LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                                             Follow: true
                                           );
 
@@ -656,7 +656,7 @@ namespace SEOMacroscope
               
               this.AddHtmlOutlink(
                 AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.OutlinkType.SCRIPT,
+                LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
                 Follow: true
               );
               
@@ -690,7 +690,7 @@ namespace SEOMacroscope
               
               this.AddHtmlOutlink(
                 AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.OutlinkType.AUDIO,
+                LinkType: MacroscopeConstants.InOutLinkType.AUDIO,
                 Follow: true
               );
               
@@ -724,7 +724,7 @@ namespace SEOMacroscope
 
               this.AddHtmlOutlink(
                 AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.OutlinkType.VIDEO,
+                LinkType: MacroscopeConstants.InOutLinkType.VIDEO,
                 Follow: true
               );
               
@@ -758,7 +758,7 @@ namespace SEOMacroscope
               
               this.AddHtmlOutlink(
                 AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.OutlinkType.EMBED,
+                LinkType: MacroscopeConstants.InOutLinkType.EMBED,
                 Follow: true
               );
               
@@ -792,7 +792,7 @@ namespace SEOMacroscope
               
               this.AddHtmlOutlink(
                 AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.OutlinkType.OBJECT,
+                LinkType: MacroscopeConstants.InOutLinkType.OBJECT,
                 Follow: true
               );
               
@@ -810,13 +810,14 @@ namespace SEOMacroscope
 
     private MacroscopeOutlink AddHtmlOutlink (
       string AbsoluteUrl,
-      MacroscopeConstants.OutlinkType LinkType,
+      MacroscopeConstants.InOutLinkType LinkType,
       Boolean Follow
     )
     {
 
       MacroscopeOutlink OutLink = new MacroscopeOutlink (
                                     AbsoluteUrl: AbsoluteUrl,
+                                    SourceUrl: this.GetUrl(),
                                     LinkType: LinkType,
                                     Follow: Follow
                                   );

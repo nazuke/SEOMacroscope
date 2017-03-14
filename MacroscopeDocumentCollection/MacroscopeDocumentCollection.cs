@@ -46,6 +46,7 @@ namespace SEOMacroscope
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
 
     private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn;
+    private Dictionary<string,MacroscopeHyperlinksIn> StructlinksIn;
 
     private Dictionary<string,Boolean> StatsHistory;
     private Dictionary<string,int> StatsHostnames;
@@ -413,11 +414,11 @@ namespace SEOMacroscope
 
           try
           {
-            this.RecalculateLinksIn( msDoc );
+            this.RecalculateHyperlinksIn( msDoc );
           }
           catch( Exception ex )
           {
-            this.DebugMsg( string.Format( "RecalculateLinksIn: {0}", ex.Message ) );
+            this.DebugMsg( string.Format( "RecalculateHyperlinksIn: {0}", ex.Message ) );
           }
           
           if( this.StatsHistory.ContainsKey( UrlTarget ) )
@@ -482,15 +483,15 @@ namespace SEOMacroscope
 
     /** Hyperlinks In *********************************************************/
 
-    private void RecalculateLinksIn ( MacroscopeDocument msDoc )
+    private void RecalculateHyperlinksIn ( MacroscopeDocument msDoc )
     {
 
-      DebugMsg( string.Format( "RecalculateLinksIn: {0} :: {1}", msDoc.GetProcessHyperlinksIn(), msDoc.GetUrl() ) );
+      DebugMsg( string.Format( "RecalculateHyperlinksIn: {0} :: {1}", msDoc.GetProcessHyperlinksIn(), msDoc.GetUrl() ) );
 
       if( msDoc.GetProcessHyperlinksIn() )
       {
 
-        DebugMsg( string.Format( "RecalculateLinksIn: PROCESSING: {0}", msDoc.GetUrl() ) );
+        DebugMsg( string.Format( "RecalculateHyperlinksIn: PROCESSING: {0}", msDoc.GetUrl() ) );
         
         msDoc.UnsetProcessHyperlinksIn();
 
@@ -500,12 +501,12 @@ namespace SEOMacroscope
           string Url = HyperlinkOut.GetUrlTarget();
           MacroscopeHyperlinksIn HyperlinksIn = null;
 
-          DebugMsg( string.Format( "RecalculateLinksIn: URL SOURCE: {0}", msDoc.GetUrl() ) );
-          DebugMsg( string.Format( "RecalculateLinksIn: URL TARGET: {0}", Url ) );
+          DebugMsg( string.Format( "RecalculateHyperlinksIn: URL SOURCE: {0}", msDoc.GetUrl() ) );
+          DebugMsg( string.Format( "RecalculateHyperlinksIn: URL TARGET: {0}", Url ) );
 
           if( Url == msDoc.GetUrl() )
           {
-            DebugMsg( string.Format( "RecalculateLinksIn: SELF: {0}", Url ) );
+            DebugMsg( string.Format( "RecalculateHyperlinksIn: SELF: {0}", Url ) );
             continue;
           }
           
@@ -535,7 +536,7 @@ namespace SEOMacroscope
           }
           else
           {
-            DebugMsg( string.Format( "RecalculateLinksIn: NULL: {0}", msDoc.GetUrl() ) );
+            DebugMsg( string.Format( "RecalculateHyperlinksIn: NULL: {0}", msDoc.GetUrl() ) );
           }
 
         }
@@ -544,7 +545,7 @@ namespace SEOMacroscope
       else
       {
         
-        DebugMsg( string.Format( "RecalculateLinksIn: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
+        DebugMsg( string.Format( "RecalculateHyperlinksIn: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
         
       }
 
