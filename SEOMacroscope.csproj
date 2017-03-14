@@ -227,6 +227,9 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateEtags.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicatePages.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateTitles.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\MacroscopeExcelLanguagesReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\WorksheetHrefLangMatrix.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\WorksheetMissingLanguageSpecifier.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportHeadings.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\MacroscopeExcelPageContentsReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportDescriptions.cs" />
@@ -257,7 +260,6 @@
     <Compile Include="MacroscopeForms\MacroscopeMainForm.Designer.cs">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MacroscopeReports\MacroscopeExcelHrefLangReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelOverviewReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports.cs" />
     <Compile Include="MacroscopeStandards\MacroscopeRobots.cs" />
@@ -372,6 +374,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelDuplicateContent" />
     <Folder Include="MacroscopeReports\MacroscopeExcelContactDetailsReport" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelLanguagesReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />

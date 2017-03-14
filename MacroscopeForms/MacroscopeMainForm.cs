@@ -2174,8 +2174,8 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-        
-    private void CallbackSaveHrefLangExcelReport ( object sender, EventArgs e )
+
+    private void CallbackSaveLanguagesExcelReport ( object sender, EventArgs e )
     {
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
@@ -2186,7 +2186,7 @@ namespace SEOMacroscope
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
         string Path = Dialog.FileName;
-        MacroscopeExcelHrefLangReport msExcelReport = new MacroscopeExcelHrefLangReport ();
+        MacroscopeExcelLanguagesReport msExcelReport = new MacroscopeExcelLanguagesReport ();
         try
         {
           Cursor.Current = Cursors.WaitCursor;
@@ -2209,7 +2209,7 @@ namespace SEOMacroscope
       Dialog.Dispose();
     }
 
-    /** -------------------------------------------------------------------- **/    
+    /** -------------------------------------------------------------------- **/
 
     private void CallbackSavePageContentsExcelReport ( object sender, EventArgs e )
     {
