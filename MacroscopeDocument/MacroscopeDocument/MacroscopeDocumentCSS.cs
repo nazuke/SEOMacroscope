@@ -264,12 +264,12 @@ namespace SEOMacroscope
     {
 
       string sLinkUrlAbs = null;
-      string sLinkUrlCleaned = MacroscopeUrlTools.CleanUrlCss( sBackgroundImageUrl );
+      string sLinkUrlCleaned = MacroscopeUrlUtils.CleanUrlCss( sBackgroundImageUrl );
 
       if( sLinkUrlCleaned != null )
       {
 
-        sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrlCleaned );
+        sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrlCleaned );
 
         DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", sLinkUrlCleaned ) );
         DebugMsg( string.Format( "ProcessCssBackImageUrl: this.Url: {0}", this.DocUrl ) );

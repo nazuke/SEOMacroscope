@@ -450,7 +450,7 @@ namespace SEOMacroscope
       string sStartUrl = this.GetUrl();
       this.StartUrlDirty = true;
 
-      if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) )
+      if( MacroscopeUrlUtils.ValidateUrl( sStartUrl ) )
       {
         MacroscopePreferencesManager.SetStartUrl( sStartUrl );
       }
@@ -494,7 +494,7 @@ namespace SEOMacroscope
 
       string sStartUrl = this.GetUrl();
 
-      if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) )
+      if( MacroscopeUrlUtils.ValidateUrl( sStartUrl ) )
       {
 
         this.ScanningControlsStart( true );
@@ -547,7 +547,7 @@ namespace SEOMacroscope
 
           this.SetUrl( sStartUrl );
 
-          if( MacroscopeUrlTools.ValidateUrl( sStartUrl ) )
+          if( MacroscopeUrlUtils.ValidateUrl( sStartUrl ) )
           {
 
             this.ScanningControlsStart( true );

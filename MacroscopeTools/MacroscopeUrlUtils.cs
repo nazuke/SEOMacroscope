@@ -31,17 +31,17 @@ using System.Web;
 namespace SEOMacroscope
 {
 
-  public class MacroscopeUrlTools : Macroscope
+  public class MacroscopeUrlUtils : Macroscope
   {
 
     /**************************************************************************/
 
-    static MacroscopeUrlTools ()
+    static MacroscopeUrlUtils ()
     {
       SuppressStaticDebugMsg = true;
     }
 
-    public MacroscopeUrlTools ()
+    public MacroscopeUrlUtils ()
     {
       SuppressDebugMsg = true;
     }

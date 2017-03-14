@@ -297,7 +297,7 @@ namespace SEOMacroscope
 
       if( this.JobMaster.GetDepth() > 0 )
       {
-        int Depth = MacroscopeUrlTools.FindUrlDepth( Url );
+        int Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
         if( Depth > this.JobMaster.GetDepth() )
         {
           DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );

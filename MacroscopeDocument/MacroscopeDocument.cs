@@ -281,7 +281,7 @@ namespace SEOMacroscope
         this.DeepKeywordAnalysis.Add( new Dictionary<string,int> ( 256 ) );
       }
 
-      this.Depth = MacroscopeUrlTools.FindUrlDepth( Url );
+      this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
 
     }
 
@@ -1513,7 +1513,7 @@ namespace SEOMacroscope
           this.IsRedirect = true;
           string sLocation = res.GetResponseHeader( "Location" );
           sLocation = Uri.UnescapeDataString( sLocation );
-          string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLocation );
+          string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLocation );
 
           if( sLinkUrlAbs != null )
           {

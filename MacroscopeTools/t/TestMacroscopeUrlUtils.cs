@@ -31,7 +31,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeUrlTools
+  public class TestMacroscopeUrlUtils
   {
 
     /**************************************************************************/
@@ -59,7 +59,7 @@ namespace SEOMacroscope
 
       foreach( string sRelativeUrl in htUrls.Keys )
       {
-        string sAbsoluteUrl = MacroscopeUrlTools.MakeUrlAbsolute( sUrl, sRelativeUrl );
+        string sAbsoluteUrl = MacroscopeUrlUtils.MakeUrlAbsolute( sUrl, sRelativeUrl );
         Assert.AreEqual( htUrls[ sRelativeUrl ], sAbsoluteUrl, "DO NOT MATCH" );
       }
 
@@ -96,7 +96,7 @@ namespace SEOMacroscope
 			};
 
 			foreach( string sUrl in htUrls.Keys ) {
-				Boolean bIsValid = MacroscopeUrlTools.ValidateUrl( sUrl );
+				Boolean bIsValid = MacroscopeUrlUtils.ValidateUrl( sUrl );
 				Assert.AreEqual( htUrls[ sUrl ], bIsValid, string.Format( "NOT VALID: {0}", sUrl ) );
 			}
 
@@ -157,7 +157,7 @@ namespace SEOMacroscope
       };
 
       foreach( string sProperty in htProperties.Keys ) {
-        string sCleaned = MacroscopeUrlTools.CleanUrlCss ( sProperty );
+        string sCleaned = MacroscopeUrlUtils.CleanUrlCss ( sProperty );
         Assert.AreEqual( htProperties[ sProperty ], sCleaned, string.Format( "NOT VALID: {0}", sCleaned ) );
       }
 

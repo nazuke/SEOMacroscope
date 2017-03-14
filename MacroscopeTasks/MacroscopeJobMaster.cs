@@ -219,7 +219,7 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
 
-      this.StartUrl = MacroscopeUrlTools.SanitizeUrl( this.StartUrl );
+      this.StartUrl = MacroscopeUrlUtils.SanitizeUrl( this.StartUrl );
       
       this.DetermineStartingDirectory();
       

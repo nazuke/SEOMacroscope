@@ -273,7 +273,7 @@ namespace SEOMacroscope
         if( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
         {
           
-          string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, this.Canonical );
+          string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, this.Canonical );
           
           this.AddHtmlOutlink(
             AbsoluteUrl: sLinkUrlAbs,
@@ -315,7 +315,7 @@ namespace SEOMacroscope
           if( sLinkUrl != null )
           {
 
-            sLinkUrlAbsolute = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            sLinkUrlAbsolute = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             if( sLinkUrlAbsolute != null )
             {
@@ -411,7 +411,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
             string sTitle = nLink.GetAttributeValue( "title", "" );
             string sAltText = nLink.GetAttributeValue( "alt", "" );
 
@@ -466,7 +466,7 @@ namespace SEOMacroscope
             if( ( sLinkUrl != null ) && ( sLinkUrl.Length > 0 ) )
             {
 
-              string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+              string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
               DebugMsg( string.Format( "META: 1 :: {0}", sLinkUrl ) );
               DebugMsg( string.Format( "META: 2 :: {0}", sLinkUrlAbs ) );
@@ -499,7 +499,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
             MacroscopeConstants.OutlinkType LinkType = MacroscopeConstants.OutlinkType.LINK;
             Boolean bFollow = true;
 
@@ -545,7 +545,7 @@ namespace SEOMacroscope
           foreach( HtmlNode nLink in nOutlinks )
           {
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "IFRAME: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "IFRAME: 2 :: {0}", sLinkUrlAbs ) );
@@ -578,7 +578,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             if( sLinkUrlAbs != null )
             {
@@ -608,7 +608,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
             string sTitle = nLink.GetAttributeValue( "title", "" );
             string sAltText = nLink.GetAttributeValue( "alt", "" );
             
@@ -649,7 +649,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             if( sLinkUrlAbs != null )
             {
@@ -680,7 +680,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "AUDIO: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "AUDIO: 2 :: {0}", sLinkUrlAbs ) );
@@ -714,7 +714,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "VIDEO: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "VIDEO: 2 :: {0}", sLinkUrlAbs ) );
@@ -748,7 +748,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "EMBED: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "EMBED: 2 :: {0}", sLinkUrlAbs ) );
@@ -782,7 +782,7 @@ namespace SEOMacroscope
           {
 
             string sLinkUrl = nLink.GetAttributeValue( "data", null );
-            string sLinkUrlAbs = MacroscopeUrlTools.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
 
             DebugMsg( string.Format( "OBJECT: 1 :: {0}", sLinkUrl ) );
             DebugMsg( string.Format( "OBJECT: 2 :: {0}", sLinkUrlAbs ) );

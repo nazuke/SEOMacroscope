@@ -211,6 +211,7 @@
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
+    <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeOutlink\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
@@ -246,12 +247,11 @@
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeColumnSorter.cs" />
     <Compile Include="MacroscopeTools\MacroscopeDecimalSorter.cs" />
-    <Compile Include="MacroscopeTools\MacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeTools\MacroscopePdfTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeStringTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlLoader.cs" />
-    <Compile Include="MacroscopeTools\MacroscopeUrlTools.cs" />
-    <Compile Include="MacroscopeTools\t\TestMacroscopeUrlTools.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeUrlUtils.cs" />
+    <Compile Include="MacroscopeTools\t\TestMacroscopeUrlUtils.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.Designer.cs">
       <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
@@ -368,6 +368,7 @@
     <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeHyperlinks" />
     <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />
+    <Folder Include="MacroscopeNamedQueue\t" />
     <Folder Include="MacroscopeOutlink" />
     <Folder Include="MacroscopeReports\MacroscopeExcelPageContentsReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelUriReport" />
@@ -394,6 +395,7 @@
     <Folder Include="MacroscopeUserControls\MacroscopeOverviewPanel" />
     <Folder Include="MacroscopeUserControls\MacroscopeSiteStructurePanel" />
     <Folder Include="MacroscopeSearch" />
+    <Folder Include="MacroscopeNamedQueue" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
