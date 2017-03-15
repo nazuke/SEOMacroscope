@@ -30,35 +30,35 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeCannotSaveExcelFileException.
+  /// Description of MacroscopeSaveExcelFileException.
   /// </summary>
 
-  public class MacroscopeCannotSaveExcelFileException : Exception, ISerializable
+  public class MacroscopeSaveExcelFileException : Exception, ISerializable
   {
 
     /**************************************************************************/
 
-    public MacroscopeCannotSaveExcelFileException ()
+    public MacroscopeSaveExcelFileException ()
     {
     }
 
     /**************************************************************************/
 
-    public MacroscopeCannotSaveExcelFileException ( string message )
+    public MacroscopeSaveExcelFileException ( string message )
       : base( message )
     {
     }
 
     /**************************************************************************/
 
-    public MacroscopeCannotSaveExcelFileException ( string message, Exception innerException )
+    public MacroscopeSaveExcelFileException ( string message, Exception innerException )
       : base( message, innerException )
     {
     }
 
     /**************************************************************************/
 
-    protected MacroscopeCannotSaveExcelFileException ( SerializationInfo info, StreamingContext context )
+    protected MacroscopeSaveExcelFileException ( SerializationInfo info, StreamingContext context )
       : base( info, context )
     {
     }

@@ -145,7 +145,6 @@ namespace SEOMacroscope
     	this.MaximizeBox = false;
     	this.MinimizeBox = false;
     	this.Name = "MacroscopeTriplePercentageProgressForm";
-    	this.ShowInTaskbar = false;
     	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
     	this.Text = "Processing";
     	this.ResumeLayout(false);

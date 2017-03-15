@@ -41,13 +41,12 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private MacroscopeJobMaster JobMaster;
-    
     private MacroscopeDocumentCollection DocCollection;
-    
     private MacroscopeAllowedHosts AllowedHosts;
-    
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
+    private int CrawlDelay;
+    
     /**************************************************************************/
 
     public MacroscopeJobWorker ( MacroscopeJobMaster JobMaster )
@@ -62,6 +61,19 @@ namespace SEOMacroscope
       this.AllowedHosts = this.JobMaster.GetAllowedHosts();
 
       this.IncludeExcludeUrls = this.JobMaster.GetIncludeExcludeUrls();
+
+      if( MacroscopePreferencesManager.GetCrawlDelay() > 0 )
+      {
+        this.CrawlDelay = MacroscopePreferencesManager.GetCrawlDelay();
+      }
+
+      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      {
+        if( this.JobMaster.GetCrawlDelay() > 0 )
+        {
+          this.CrawlDelay = this.JobMaster.GetCrawlDelay();
+        }
+      }
 
     }
 
@@ -85,25 +97,25 @@ namespace SEOMacroscope
         else
         {
 
-          string sUrl = this.JobMaster.GetUrlQueueItem();
+          string Url = this.JobMaster.GetUrlQueueItem();
 
-          if( sUrl != null )
+          if( Url != null )
           {
-            if( !this.CheckIncludeExcludeUrl( sUrl ) )
+            if( !this.CheckIncludeExcludeUrl( Url ) )
             {
-              sUrl = null;
+              Url = null;
             }
           }
 
-          if( sUrl != null )
+          if( Url != null )
           {
 
             if(
               !MacroscopePreferencesManager.GetCrawlParentDirectories()
               && !MacroscopePreferencesManager.GetCrawlChildDirectories()
-              && sUrl != this.JobMaster.GetStartUrl() )
+              && Url != this.JobMaster.GetStartUrl() )
             {
-              sUrl = null;
+              Url = null;
             }
             else
             if(
@@ -111,65 +123,61 @@ namespace SEOMacroscope
               || !MacroscopePreferencesManager.GetCrawlChildDirectories() )
             {
 
-              DebugMsg( string.Format( "Running Parent/Child Check: {0}", sUrl ) ); 
+              DebugMsg( string.Format( "Running Parent/Child Check: {0}", Url ) ); 
 
               if( 
                 MacroscopePreferencesManager.GetCrawlParentDirectories()
-                && ( sUrl != null ) )
+                && ( Url != null ) )
               {
-                if( !this.JobMaster.IsWithinParentDirectory( sUrl ) )
+                if( !this.JobMaster.IsWithinParentDirectory( Url ) )
                 {
-                  sUrl = null;
+                  Url = null;
                 }
               }
               
               if( 
                 MacroscopePreferencesManager.GetCrawlChildDirectories()
-                && ( sUrl != null ) )
+                && ( Url != null ) )
               {
-                if( !this.JobMaster.IsWithinChildDirectory( sUrl ) )
+                if( !this.JobMaster.IsWithinChildDirectory( Url ) )
                 {
-                  sUrl = null;
+                  Url = null;
                 }
               }
 
             }
             else
             {
-              DebugMsg( string.Format( "Skipping Parent/Child Check: {0}", sUrl ) ); 
+              DebugMsg( string.Format( "Skipping Parent/Child Check: {0}", Url ) ); 
             }
 
           }
 
-          if( sUrl != null )
+          if( Url != null )
           {
 
-            DebugMsg( string.Format( "Execute: {0}", sUrl ) );
+            DebugMsg( string.Format( "Execute: {0}", Url ) );
 
-            int iTries = MacroscopePreferencesManager.GetMaxRetries();
+            int Tries = MacroscopePreferencesManager.GetMaxRetries();
 
             do
             {
-              if( this.Fetch( sUrl ) )
+              if( this.Fetch( Url ) )
               {
-                this.JobMaster.NotifyWorkersFetched( sUrl );
+                this.JobMaster.NotifyWorkersFetched( Url );
                 break;
               }
               else
               {
-                DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", iTries, sUrl ) );
+                DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
               }
-              iTries--;
-            } while( iTries > 0 );
+              Tries--;
+            } while( Tries > 0 );
 
-            if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+            if( this.CrawlDelay > 0 )
             {
-              int iCrawlDelay = this.JobMaster.GetCrawlDelay();
-              if( iCrawlDelay > 0 )
-              {
-                DebugMsg( string.Format( "Sleeping for {0} seconds...", iCrawlDelay ) );
-                Thread.Sleep( iCrawlDelay * 1000 );
-              }
+              DebugMsg( string.Format( "CRAWL DELAY: Sleeping for {0} seconds...", this.CrawlDelay ) );
+              Thread.Sleep( CrawlDelay * 1000 );
             }
 
           }

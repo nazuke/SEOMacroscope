@@ -54,7 +54,8 @@ namespace SEOMacroscope
     static int PageLimit;
     static int RequestTimeout;
     static int MaxRetries;
-
+    static int CrawlDelay;
+    
     static Boolean CheckExternalLinks;
 
     static Boolean FollowRobotsProtocol;
@@ -142,6 +143,7 @@ namespace SEOMacroscope
           PageLimit = Preferences.PageLimit;
           RequestTimeout = Preferences.RequestTimeout;
           MaxRetries = Preferences.MaxRetries;
+          CrawlDelay = Preferences.CrawlDelay;
 
           CheckExternalLinks = Preferences.CheckExternalLinks;
 
@@ -220,7 +222,8 @@ namespace SEOMacroscope
       PageLimit = -1;
       RequestTimeout = 30;
       MaxRetries = 0;
-
+      CrawlDelay = 0;
+          
       CheckExternalLinks = false;
 
       FollowRobotsProtocol = true;
@@ -316,6 +319,16 @@ namespace SEOMacroscope
         MaxRetries = 10;
       }
 
+      if( CrawlDelay < 0 )
+      {
+        CrawlDelay = 0;
+      }
+      else
+      if( CrawlDelay > 60 )
+      {
+        CrawlDelay = 60;
+      }
+
       SavePreferences();
 
     }
@@ -340,6 +353,7 @@ namespace SEOMacroscope
         Preferences.PageLimit = PageLimit;
         Preferences.RequestTimeout = RequestTimeout;
         Preferences.MaxRetries = MaxRetries;
+        Preferences.CrawlDelay = CrawlDelay;
 
         Preferences.CheckExternalLinks = CheckExternalLinks;
 
@@ -546,6 +560,18 @@ namespace SEOMacroscope
     public static void SetMaxRetries ( int Value )
     {
       MaxRetries = Value;
+    }
+
+    /** Crawl Delay ***********************************************************/
+
+    public static int GetCrawlDelay ()
+    {
+      return( CrawlDelay );
+    }
+
+    public static void SetCrawlDelay ( int Value )
+    {
+      CrawlDelay = Value;
     }
 
     /** Domain Spidering Controls *********************************************/

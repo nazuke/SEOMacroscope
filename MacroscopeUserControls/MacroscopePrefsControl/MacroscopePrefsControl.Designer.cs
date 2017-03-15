@@ -111,6 +111,8 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Label label22;
 		public System.Windows.Forms.NumericUpDown numericUpDownMaxLevenshteinDistance;
 		public System.Windows.Forms.CheckBox checkBoxEnableLevenshteinDeduplication;
+		private System.Windows.Forms.Label label17;
+		public System.Windows.Forms.NumericUpDown numericUpDownCrawlDelay;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -149,6 +151,8 @@ namespace SEOMacroscope
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
 			this.checkBoxCheckExternalLinks = new System.Windows.Forms.CheckBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.label17 = new System.Windows.Forms.Label();
+			this.numericUpDownCrawlDelay = new System.Windows.Forms.NumericUpDown();
 			this.label15 = new System.Windows.Forms.Label();
 			this.numericUpDownRequestTimeout = new System.Windows.Forms.NumericUpDown();
 			this.label14 = new System.Windows.Forms.Label();
@@ -223,6 +227,7 @@ namespace SEOMacroscope
 			this.groupBox10.SuspendLayout();
 			this.groupBox7.SuspendLayout();
 			this.groupBox4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownCrawlDelay)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownRequestTimeout)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxRetries)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxThreads)).BeginInit();
@@ -423,6 +428,8 @@ namespace SEOMacroscope
 			// groupBox4
 			// 
 			this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox4.Controls.Add(this.label17);
+			this.groupBox4.Controls.Add(this.numericUpDownCrawlDelay);
 			this.groupBox4.Controls.Add(this.label15);
 			this.groupBox4.Controls.Add(this.numericUpDownRequestTimeout);
 			this.groupBox4.Controls.Add(this.label14);
@@ -436,23 +443,55 @@ namespace SEOMacroscope
 			this.groupBox4.Location = new System.Drawing.Point(10, 250);
 			this.groupBox4.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(500, 180);
+			this.groupBox4.Size = new System.Drawing.Size(500, 120);
 			this.groupBox4.TabIndex = 4;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Spidering Limits";
 			// 
+			// label17
+			// 
+			this.label17.Location = new System.Drawing.Point(330, 20);
+			this.label17.Margin = new System.Windows.Forms.Padding(0);
+			this.label17.Name = "label17";
+			this.label17.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label17.Size = new System.Drawing.Size(150, 20);
+			this.label17.TabIndex = 14;
+			this.label17.Text = "Crawl Delay (seconds)";
+			// 
+			// numericUpDownCrawlDelay
+			// 
+			this.numericUpDownCrawlDelay.CausesValidation = false;
+			this.numericUpDownCrawlDelay.Location = new System.Drawing.Point(260, 20);
+			this.numericUpDownCrawlDelay.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownCrawlDelay.Maximum = new decimal(new int[] {
+			60,
+			0,
+			0,
+			0});
+			this.numericUpDownCrawlDelay.Name = "numericUpDownCrawlDelay";
+			this.numericUpDownCrawlDelay.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownCrawlDelay.TabIndex = 4;
+			this.numericUpDownCrawlDelay.Value = new decimal(new int[] {
+			30,
+			0,
+			0,
+			0});
+			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(146, 112);
+			this.label15.Location = new System.Drawing.Point(330, 50);
+			this.label15.Margin = new System.Windows.Forms.Padding(0);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(200, 23);
+			this.label15.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label15.Size = new System.Drawing.Size(150, 20);
 			this.label15.TabIndex = 12;
 			this.label15.Text = "Request timeout (seconds)";
 			// 
 			// numericUpDownRequestTimeout
 			// 
 			this.numericUpDownRequestTimeout.CausesValidation = false;
-			this.numericUpDownRequestTimeout.Location = new System.Drawing.Point(20, 110);
+			this.numericUpDownRequestTimeout.Location = new System.Drawing.Point(260, 50);
+			this.numericUpDownRequestTimeout.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownRequestTimeout.Maximum = new decimal(new int[] {
 			50,
 			0,
@@ -464,8 +503,8 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownRequestTimeout.Name = "numericUpDownRequestTimeout";
-			this.numericUpDownRequestTimeout.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownRequestTimeout.TabIndex = 4;
+			this.numericUpDownRequestTimeout.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownRequestTimeout.TabIndex = 5;
 			this.numericUpDownRequestTimeout.Value = new decimal(new int[] {
 			30,
 			0,
@@ -474,24 +513,27 @@ namespace SEOMacroscope
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(146, 142);
+			this.label14.Location = new System.Drawing.Point(330, 80);
+			this.label14.Margin = new System.Windows.Forms.Padding(0);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(200, 23);
+			this.label14.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label14.Size = new System.Drawing.Size(150, 20);
 			this.label14.TabIndex = 10;
 			this.label14.Text = "Maximum fetch retries";
 			// 
 			// numericUpDownMaxRetries
 			// 
 			this.numericUpDownMaxRetries.CausesValidation = false;
-			this.numericUpDownMaxRetries.Location = new System.Drawing.Point(20, 140);
+			this.numericUpDownMaxRetries.Location = new System.Drawing.Point(260, 80);
+			this.numericUpDownMaxRetries.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownMaxRetries.Maximum = new decimal(new int[] {
 			10,
 			0,
 			0,
 			0});
 			this.numericUpDownMaxRetries.Name = "numericUpDownMaxRetries";
-			this.numericUpDownMaxRetries.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownMaxRetries.TabIndex = 5;
+			this.numericUpDownMaxRetries.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownMaxRetries.TabIndex = 6;
 			this.numericUpDownMaxRetries.Value = new decimal(new int[] {
 			10,
 			0,
@@ -500,15 +542,18 @@ namespace SEOMacroscope
 			// 
 			// label13
 			// 
-			this.label13.Location = new System.Drawing.Point(146, 22);
+			this.label13.Location = new System.Drawing.Point(90, 20);
+			this.label13.Margin = new System.Windows.Forms.Padding(0);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(200, 23);
+			this.label13.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label13.Size = new System.Drawing.Size(150, 20);
 			this.label13.TabIndex = 9;
 			this.label13.Text = "Maximum worker threads";
 			// 
 			// numericUpDownMaxThreads
 			// 
 			this.numericUpDownMaxThreads.Location = new System.Drawing.Point(20, 20);
+			this.numericUpDownMaxThreads.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownMaxThreads.Maximum = new decimal(new int[] {
 			64,
 			0,
@@ -520,7 +565,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownMaxThreads.Name = "numericUpDownMaxThreads";
-			this.numericUpDownMaxThreads.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownMaxThreads.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownMaxThreads.TabIndex = 1;
 			this.numericUpDownMaxThreads.Value = new decimal(new int[] {
 			4,
@@ -530,23 +575,28 @@ namespace SEOMacroscope
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(146, 82);
+			this.label11.Location = new System.Drawing.Point(90, 80);
+			this.label11.Margin = new System.Windows.Forms.Padding(0);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(200, 23);
+			this.label11.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label11.Size = new System.Drawing.Size(150, 20);
 			this.label11.TabIndex = 5;
-			this.label11.Text = "Maximum pages fetched";
+			this.label11.Text = "Maximum pages to fetch";
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(146, 52);
+			this.label12.Location = new System.Drawing.Point(90, 50);
+			this.label12.Margin = new System.Windows.Forms.Padding(0);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(200, 23);
+			this.label12.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label12.Size = new System.Drawing.Size(150, 20);
 			this.label12.TabIndex = 4;
 			this.label12.Text = "Maximum page depth";
 			// 
 			// numericUpDownPageLimit
 			// 
 			this.numericUpDownPageLimit.Location = new System.Drawing.Point(20, 80);
+			this.numericUpDownPageLimit.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownPageLimit.Maximum = new decimal(new int[] {
 			1000000000,
 			0,
@@ -558,7 +608,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownPageLimit.Name = "numericUpDownPageLimit";
-			this.numericUpDownPageLimit.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownPageLimit.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownPageLimit.TabIndex = 3;
 			this.numericUpDownPageLimit.Value = new decimal(new int[] {
 			10000,
@@ -569,6 +619,7 @@ namespace SEOMacroscope
 			// numericUpDownDepth
 			// 
 			this.numericUpDownDepth.Location = new System.Drawing.Point(20, 50);
+			this.numericUpDownDepth.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownDepth.Maximum = new decimal(new int[] {
 			10000,
 			0,
@@ -580,7 +631,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownDepth.Name = "numericUpDownDepth";
-			this.numericUpDownDepth.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownDepth.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownDepth.TabIndex = 2;
 			this.numericUpDownDepth.Value = new decimal(new int[] {
 			100,
@@ -599,7 +650,7 @@ namespace SEOMacroscope
 			this.groupBox1.Controls.Add(this.checkBoxFetchImages);
 			this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
 			this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
-			this.groupBox1.Location = new System.Drawing.Point(10, 440);
+			this.groupBox1.Location = new System.Drawing.Point(10, 380);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(500, 120);
@@ -796,9 +847,10 @@ namespace SEOMacroscope
 			// 
 			// labelMaxLevenshteinSizeDifference
 			// 
-			this.labelMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(146, 52);
+			this.labelMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(96, 50);
 			this.labelMaxLevenshteinSizeDifference.Name = "labelMaxLevenshteinSizeDifference";
-			this.labelMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(250, 23);
+			this.labelMaxLevenshteinSizeDifference.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.labelMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(250, 20);
 			this.labelMaxLevenshteinSizeDifference.TabIndex = 9;
 			this.labelMaxLevenshteinSizeDifference.Text = "Maximum Levenshtein Text Length Difference";
 			// 
@@ -811,7 +863,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownMaxLevenshteinSizeDifference.Name = "numericUpDownMaxLevenshteinSizeDifference";
-			this.numericUpDownMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownMaxLevenshteinSizeDifference.TabIndex = 2;
 			this.numericUpDownMaxLevenshteinSizeDifference.Value = new decimal(new int[] {
 			64,
@@ -821,9 +873,10 @@ namespace SEOMacroscope
 			// 
 			// label22
 			// 
-			this.label22.Location = new System.Drawing.Point(146, 82);
+			this.label22.Location = new System.Drawing.Point(96, 80);
 			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(250, 23);
+			this.label22.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label22.Size = new System.Drawing.Size(250, 20);
 			this.label22.TabIndex = 4;
 			this.label22.Text = "Levenshtein Edit Distance Threshold";
 			// 
@@ -836,7 +889,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownMaxLevenshteinDistance.Name = "numericUpDownMaxLevenshteinDistance";
-			this.numericUpDownMaxLevenshteinDistance.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownMaxLevenshteinDistance.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownMaxLevenshteinDistance.TabIndex = 3;
 			this.numericUpDownMaxLevenshteinDistance.Value = new decimal(new int[] {
 			16,
@@ -885,22 +938,24 @@ namespace SEOMacroscope
 			this.groupBox2.Location = new System.Drawing.Point(10, 10);
 			this.groupBox2.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(500, 190);
+			this.groupBox2.Size = new System.Drawing.Size(500, 160);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Page Title Policies";
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(146, 152);
+			this.label16.Location = new System.Drawing.Point(323, 28);
+			this.label16.Margin = new System.Windows.Forms.Padding(0);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(200, 23);
+			this.label16.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label16.Size = new System.Drawing.Size(160, 20);
 			this.label16.TabIndex = 9;
 			this.label16.Text = "Minimum title pixel width";
 			// 
 			// numericUpDownTitleMaxPixelWidth
 			// 
-			this.numericUpDownTitleMaxPixelWidth.Location = new System.Drawing.Point(20, 150);
+			this.numericUpDownTitleMaxPixelWidth.Location = new System.Drawing.Point(250, 28);
 			this.numericUpDownTitleMaxPixelWidth.Maximum = new decimal(new int[] {
 			1000,
 			0,
@@ -912,7 +967,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownTitleMaxPixelWidth.Name = "numericUpDownTitleMaxPixelWidth";
-			this.numericUpDownTitleMaxPixelWidth.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownTitleMaxPixelWidth.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownTitleMaxPixelWidth.TabIndex = 5;
 			this.numericUpDownTitleMaxPixelWidth.Value = new decimal(new int[] {
 			100,
@@ -922,33 +977,41 @@ namespace SEOMacroscope
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(146, 122);
+			this.label4.Location = new System.Drawing.Point(93, 120);
+			this.label4.Margin = new System.Windows.Forms.Padding(0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(200, 23);
+			this.label4.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label4.Size = new System.Drawing.Size(120, 20);
 			this.label4.TabIndex = 7;
 			this.label4.Text = "Maximum title words";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(146, 92);
+			this.label3.Location = new System.Drawing.Point(93, 90);
+			this.label3.Margin = new System.Windows.Forms.Padding(0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(200, 23);
+			this.label3.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label3.Size = new System.Drawing.Size(120, 20);
 			this.label3.TabIndex = 6;
 			this.label3.Text = "Minimum title words";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(146, 62);
+			this.label2.Location = new System.Drawing.Point(93, 60);
+			this.label2.Margin = new System.Windows.Forms.Padding(0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(200, 23);
+			this.label2.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label2.Size = new System.Drawing.Size(120, 20);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Maximum title length";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(146, 32);
+			this.label1.Location = new System.Drawing.Point(93, 30);
+			this.label1.Margin = new System.Windows.Forms.Padding(0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(200, 23);
+			this.label1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label1.Size = new System.Drawing.Size(120, 20);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "Minimum title length";
 			// 
@@ -961,7 +1024,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownTitleMaxWords.Name = "numericUpDownTitleMaxWords";
-			this.numericUpDownTitleMaxWords.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownTitleMaxWords.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownTitleMaxWords.TabIndex = 4;
 			this.numericUpDownTitleMaxWords.Value = new decimal(new int[] {
 			1,
@@ -978,7 +1041,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownTitleMinWords.Name = "numericUpDownTitleMinWords";
-			this.numericUpDownTitleMinWords.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownTitleMinWords.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownTitleMinWords.TabIndex = 3;
 			this.numericUpDownTitleMinWords.Value = new decimal(new int[] {
 			1,
@@ -995,7 +1058,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownTitleMaxLen.Name = "numericUpDownTitleMaxLen";
-			this.numericUpDownTitleMaxLen.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownTitleMaxLen.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownTitleMaxLen.TabIndex = 2;
 			this.numericUpDownTitleMaxLen.Value = new decimal(new int[] {
 			1,
@@ -1012,7 +1075,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownTitleMinLen.Name = "numericUpDownTitleMinLen";
-			this.numericUpDownTitleMinLen.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownTitleMinLen.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownTitleMinLen.TabIndex = 1;
 			this.numericUpDownTitleMinLen.Value = new decimal(new int[] {
 			1,
@@ -1030,7 +1093,7 @@ namespace SEOMacroscope
 			this.groupBox3.Controls.Add(this.numericUpDownDescriptionMinWords);
 			this.groupBox3.Controls.Add(this.numericUpDownDescriptionMaxLen);
 			this.groupBox3.Controls.Add(this.numericUpDownDescriptionMinLen);
-			this.groupBox3.Location = new System.Drawing.Point(10, 210);
+			this.groupBox3.Location = new System.Drawing.Point(10, 180);
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(500, 160);
@@ -1040,33 +1103,41 @@ namespace SEOMacroscope
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(146, 122);
+			this.label5.Location = new System.Drawing.Point(93, 120);
+			this.label5.Margin = new System.Windows.Forms.Padding(0);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(200, 23);
+			this.label5.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label5.Size = new System.Drawing.Size(200, 20);
 			this.label5.TabIndex = 15;
 			this.label5.Text = "Maximum description words";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(146, 92);
+			this.label6.Location = new System.Drawing.Point(93, 90);
+			this.label6.Margin = new System.Windows.Forms.Padding(0);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(200, 23);
+			this.label6.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label6.Size = new System.Drawing.Size(200, 20);
 			this.label6.TabIndex = 14;
 			this.label6.Text = "Minimum description words";
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(146, 62);
+			this.label7.Location = new System.Drawing.Point(93, 60);
+			this.label7.Margin = new System.Windows.Forms.Padding(0);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(200, 23);
+			this.label7.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label7.Size = new System.Drawing.Size(200, 20);
 			this.label7.TabIndex = 13;
 			this.label7.Text = "Maximum description length";
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(146, 32);
+			this.label8.Location = new System.Drawing.Point(93, 30);
+			this.label8.Margin = new System.Windows.Forms.Padding(0);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(200, 23);
+			this.label8.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label8.Size = new System.Drawing.Size(200, 20);
 			this.label8.TabIndex = 12;
 			this.label8.Text = "Minimum description length";
 			// 
@@ -1079,7 +1150,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownDescriptionMaxWords.Name = "numericUpDownDescriptionMaxWords";
-			this.numericUpDownDescriptionMaxWords.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownDescriptionMaxWords.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownDescriptionMaxWords.TabIndex = 4;
 			this.numericUpDownDescriptionMaxWords.Value = new decimal(new int[] {
 			1,
@@ -1096,7 +1167,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownDescriptionMinWords.Name = "numericUpDownDescriptionMinWords";
-			this.numericUpDownDescriptionMinWords.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownDescriptionMinWords.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownDescriptionMinWords.TabIndex = 3;
 			this.numericUpDownDescriptionMinWords.Value = new decimal(new int[] {
 			1,
@@ -1118,7 +1189,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownDescriptionMaxLen.Name = "numericUpDownDescriptionMaxLen";
-			this.numericUpDownDescriptionMaxLen.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownDescriptionMaxLen.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownDescriptionMaxLen.TabIndex = 2;
 			this.numericUpDownDescriptionMaxLen.Value = new decimal(new int[] {
 			1,
@@ -1140,7 +1211,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownDescriptionMinLen.Name = "numericUpDownDescriptionMinLen";
-			this.numericUpDownDescriptionMinLen.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownDescriptionMinLen.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownDescriptionMinLen.TabIndex = 1;
 			this.numericUpDownDescriptionMinLen.Value = new decimal(new int[] {
 			1,
@@ -1152,7 +1223,7 @@ namespace SEOMacroscope
 			// 
 			this.groupBox9.Controls.Add(this.label18);
 			this.groupBox9.Controls.Add(this.numericUpDownMaxHeadingDepth);
-			this.groupBox9.Location = new System.Drawing.Point(10, 380);
+			this.groupBox9.Location = new System.Drawing.Point(10, 350);
 			this.groupBox9.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox9.Name = "groupBox9";
 			this.groupBox9.Size = new System.Drawing.Size(500, 70);
@@ -1162,9 +1233,11 @@ namespace SEOMacroscope
 			// 
 			// label18
 			// 
-			this.label18.Location = new System.Drawing.Point(146, 32);
+			this.label18.Location = new System.Drawing.Point(93, 30);
+			this.label18.Margin = new System.Windows.Forms.Padding(0);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(200, 23);
+			this.label18.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label18.Size = new System.Drawing.Size(200, 20);
 			this.label18.TabIndex = 12;
 			this.label18.Text = "Analyze heading elements cutoff";
 			// 
@@ -1182,7 +1255,7 @@ namespace SEOMacroscope
 			0,
 			0});
 			this.numericUpDownMaxHeadingDepth.Name = "numericUpDownMaxHeadingDepth";
-			this.numericUpDownMaxHeadingDepth.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownMaxHeadingDepth.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownMaxHeadingDepth.TabIndex = 1;
 			this.numericUpDownMaxHeadingDepth.Value = new decimal(new int[] {
 			2,
@@ -1194,7 +1267,7 @@ namespace SEOMacroscope
 			// 
 			this.groupBox12.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox12.Controls.Add(this.checkBoxAnalyzeKeywordsInText);
-			this.groupBox12.Location = new System.Drawing.Point(10, 460);
+			this.groupBox12.Location = new System.Drawing.Point(10, 430);
 			this.groupBox12.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Size = new System.Drawing.Size(500, 60);
@@ -1261,14 +1334,14 @@ namespace SEOMacroscope
 			// 
 			// numericUpDownHttpProxyPort
 			// 
-			this.numericUpDownHttpProxyPort.Location = new System.Drawing.Point(97, 50);
+			this.numericUpDownHttpProxyPort.Location = new System.Drawing.Point(147, 50);
 			this.numericUpDownHttpProxyPort.Maximum = new decimal(new int[] {
 			65535,
 			0,
 			0,
 			0});
 			this.numericUpDownHttpProxyPort.Name = "numericUpDownHttpProxyPort";
-			this.numericUpDownHttpProxyPort.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDownHttpProxyPort.Size = new System.Drawing.Size(70, 20);
 			this.numericUpDownHttpProxyPort.TabIndex = 2;
 			this.numericUpDownHttpProxyPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.numericUpDownHttpProxyPort.Value = new decimal(new int[] {
@@ -1292,6 +1365,7 @@ namespace SEOMacroscope
 			this.groupBox10.ResumeLayout(false);
 			this.groupBox7.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownCrawlDelay)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownRequestTimeout)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxRetries)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxThreads)).EndInit();

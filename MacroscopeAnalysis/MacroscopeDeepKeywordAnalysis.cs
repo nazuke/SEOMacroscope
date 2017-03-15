@@ -38,9 +38,20 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    Dictionary<string,string> DocList;
+    
+    /**************************************************************************/
+
     public MacroscopeDeepKeywordAnalysis ()
     {
       this.SuppressDebugMsg = true;
+      this.DocList = null;
+    }
+    
+    public MacroscopeDeepKeywordAnalysis ( Dictionary<string,string> DocList )
+    {
+      this.SuppressDebugMsg = true;
+      this.DocList = DocList;
     }
 
     /**************************************************************************/

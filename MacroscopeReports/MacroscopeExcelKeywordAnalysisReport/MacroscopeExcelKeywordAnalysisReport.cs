@@ -25,17 +25,18 @@
 
 using System;
 using System.IO;
+using System.Collections.Generic;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelPageContentsReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelKeywordAnalysisReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    public MacroscopeExcelPageContentsReport ()
+    public MacroscopeExcelKeywordAnalysisReport ()
     {
     }
 
@@ -46,22 +47,22 @@ namespace SEOMacroscope
 
       var wb = new XLWorkbook ();
 
-      DebugMsg( string.Format( "EXCEL OutputFilename: {0}", OutputFilename ) );
-
-      this.BuildWorksheetPageTitles( JobMaster, wb, "Page Titles" );
-      this.BuildWorksheetPageDescriptions( JobMaster, wb, "Page Descriptions" );
-      this.BuildWorksheetPageKeywords( JobMaster, wb, "Page Keywords" );
-      this.BuildWorksheetPageHeadings( JobMaster, wb, "Page Headings" );
-
+      for( int i = 0 ; i <= 3 ; i++ )
+      {
+        Dictionary<string,int> DicTerms = JobMaster.GetDocCollection().GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
+        this.BuildWorksheetKeywordTerms( JobMaster, wb, string.Format( "{0} Word Term", i + 1 ), DicTerms );
+      }
+            
       try
       {
         wb.SaveAs( OutputFilename );
       }
       catch( IOException )
       {
-        MacroscopeSaveExcelFileException CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
-                                                                          string.Format( "Cannot write to Excel file at {0}", OutputFilename )
-                                                                        );
+        MacroscopeSaveExcelFileException CannotSaveExcelFileException;
+        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
+          string.Format( "Cannot write to Excel file at {0}", OutputFilename )
+        );
         throw CannotSaveExcelFileException;
       }
 

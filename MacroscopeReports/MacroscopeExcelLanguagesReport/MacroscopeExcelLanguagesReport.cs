@@ -56,8 +56,8 @@ namespace SEOMacroscope
       }
       catch( IOException )
       {
-        MacroscopeCannotSaveExcelFileException CannotSaveExcelFileException;
-        CannotSaveExcelFileException = new MacroscopeCannotSaveExcelFileException (
+        MacroscopeSaveExcelFileException CannotSaveExcelFileException;
+        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
           string.Format( "Cannot write to Excel file at {0}", OutputFilename )
         );
         throw CannotSaveExcelFileException;

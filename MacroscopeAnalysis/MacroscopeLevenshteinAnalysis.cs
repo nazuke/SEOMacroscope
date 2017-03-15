@@ -35,18 +35,20 @@ namespace SEOMacroscope
   /// </summary>
   /// 
   
+  // TODO: optimize this such that the same document pair are not processed twice
+  
   public class MacroscopeLevenshteinAnalysis : Macroscope
   {
 	  
     /**************************************************************************/
 
-    IMacroscopeAnalysisPercentageDone PercentageDone;
+    private IMacroscopeAnalysisPercentageDone PercentageDone;
     
-    MacroscopeDocument msDocOriginal;
-    string MonstrousText;
-    Levenshtein Monster = null;
-    int ComparisonSizeDifference;
-    int ComparisonThreshold;
+    private readonly MacroscopeDocument msDocOriginal;
+    private string MonstrousText;
+    private Levenshtein Monster = null;
+    private int ComparisonSizeDifference;
+    private int ComparisonThreshold;
     
     /**************************************************************************/
 	      

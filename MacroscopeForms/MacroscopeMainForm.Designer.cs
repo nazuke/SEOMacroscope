@@ -79,6 +79,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem brokenLinksExcelReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem duplicateContentExcelReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem contactDetailsExcelReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem keywordAnalysisExcelReportToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -119,10 +120,10 @@ namespace SEOMacroscope
 			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.brokenLinksExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generatePageContentsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveURIAnalysisExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.duplicateContentExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contactDetailsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeBlogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -150,6 +151,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
+			this.keywordAnalysisExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -295,6 +297,7 @@ namespace SEOMacroscope
 			this.brokenLinksExcelReportToolStripMenuItem,
 			this.generatePageContentsExcelReportToolStripMenuItem,
 			this.saveURIAnalysisExcelReportToolStripMenuItem,
+			this.keywordAnalysisExcelReportToolStripMenuItem,
 			this.duplicateContentExcelReportToolStripMenuItem,
 			this.generateHrefLangExcelReportToolStripMenuItem,
 			this.contactDetailsExcelReportToolStripMenuItem});
@@ -318,15 +321,6 @@ namespace SEOMacroscope
 			this.brokenLinksExcelReportToolStripMenuItem.Text = "Broken Links Excel Report";
 			this.brokenLinksExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveBrokenLinksExcelReport);
 			// 
-			// generateHrefLangExcelReportToolStripMenuItem
-			// 
-			this.generateHrefLangExcelReportToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.generateHrefLangExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.generateHrefLangExcelReportToolStripMenuItem.Name = "generateHrefLangExcelReportToolStripMenuItem";
-			this.generateHrefLangExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.generateHrefLangExcelReportToolStripMenuItem.Text = "Languages Excel Report";
-			this.generateHrefLangExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveLanguagesExcelReport);
-			// 
 			// generatePageContentsExcelReportToolStripMenuItem
 			// 
 			this.generatePageContentsExcelReportToolStripMenuItem.Name = "generatePageContentsExcelReportToolStripMenuItem";
@@ -347,6 +341,15 @@ namespace SEOMacroscope
 			this.duplicateContentExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
 			this.duplicateContentExcelReportToolStripMenuItem.Text = "Duplicate Content Excel Report";
 			this.duplicateContentExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveDuplicateContentExcelReport);
+			// 
+			// generateHrefLangExcelReportToolStripMenuItem
+			// 
+			this.generateHrefLangExcelReportToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.generateHrefLangExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.generateHrefLangExcelReportToolStripMenuItem.Name = "generateHrefLangExcelReportToolStripMenuItem";
+			this.generateHrefLangExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.generateHrefLangExcelReportToolStripMenuItem.Text = "Languages Excel Report";
+			this.generateHrefLangExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveLanguagesExcelReport);
 			// 
 			// contactDetailsExcelReportToolStripMenuItem
 			// 
@@ -622,6 +625,13 @@ namespace SEOMacroscope
 			this.macroscopeSiteStructurePanelInstance.Name = "macroscopeSiteStructurePanelInstance";
 			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
+			// 
+			// keywordAnalysisExcelReportToolStripMenuItem
+			// 
+			this.keywordAnalysisExcelReportToolStripMenuItem.Name = "keywordAnalysisExcelReportToolStripMenuItem";
+			this.keywordAnalysisExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.keywordAnalysisExcelReportToolStripMenuItem.Text = "Keyword Analysis Excel Report";
+			this.keywordAnalysisExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveKeywordAnalysisExcelReport);
 			// 
 			// MacroscopeMainForm
 			// 

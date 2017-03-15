@@ -99,6 +99,9 @@ namespace SEOMacroscope
         PrefsControl.numericUpDownPageLimit.Minimum = -1;
         PrefsControl.numericUpDownPageLimit.Maximum = 10000;
 
+        PrefsControl.numericUpDownCrawlDelay.Minimum = 0;
+        PrefsControl.numericUpDownCrawlDelay.Maximum = 60;
+
         PrefsControl.numericUpDownMaxRetries.Minimum = 0;
         PrefsControl.numericUpDownMaxRetries.Maximum = 10;
 
@@ -116,6 +119,7 @@ namespace SEOMacroscope
         PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
         PrefsControl.numericUpDownDepth.Value = MacroscopePreferencesManager.GetDepth();
         PrefsControl.numericUpDownPageLimit.Value = MacroscopePreferencesManager.GetPageLimit();
+        PrefsControl.numericUpDownCrawlDelay.Value = MacroscopePreferencesManager.GetCrawlDelay();
         PrefsControl.numericUpDownRequestTimeout.Value = ( Decimal )MacroscopePreferencesManager.GetRequestTimeout();
         PrefsControl.numericUpDownMaxRetries.Value = ( Decimal )MacroscopePreferencesManager.GetMaxRetries();
 
@@ -184,6 +188,7 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetMaxThreads( ( int )PrefsControl.numericUpDownMaxThreads.Value );
       MacroscopePreferencesManager.SetDepth( ( int )PrefsControl.numericUpDownDepth.Value );
       MacroscopePreferencesManager.SetPageLimit( ( int )PrefsControl.numericUpDownPageLimit.Value );
+      MacroscopePreferencesManager.SetCrawlDelay( ( int )PrefsControl.numericUpDownCrawlDelay.Value );
       MacroscopePreferencesManager.SetRequestTimeout( ( int )PrefsControl.numericUpDownRequestTimeout.Value );
       MacroscopePreferencesManager.SetMaxRetries( ( int )PrefsControl.numericUpDownMaxRetries.Value );
 

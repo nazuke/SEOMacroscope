@@ -47,9 +47,9 @@ namespace SEOMacroscope
       int iCol = 1;
       int iColMax = 1;
 
-      Dictionary<string,string> htLocales = JobMaster.GetLocales();
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
-
+      MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
+      
       {
 
         ws.Cell( iRow, iCol ).Value = "URL";
@@ -75,35 +75,42 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
-        Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
-
-        string SiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
-        string Title = this.FormatIfMissing( msDoc.GetTitle() );
-
-        iCol = 1;
-
-        this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-
-        iCol++;
-
-        this.InsertAndFormatContentCell( ws, iRow, iCol, SiteLocale );
-
-        if( SiteLocale == "MISSING" )
-        {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-        }
-
-        iCol++;
+        string SiteLocale = msDoc.GetLocale();
           
-        this.InsertAndFormatContentCell( ws, iRow, iCol, Title );
-
-        if( Title == "MISSING" )
+        if(
+          AllowedHosts.IsAllowedFromUrl( msDoc.GetUrl() )
+          && string.IsNullOrEmpty( SiteLocale ) )
         {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+
+          string SiteLocaleFormatted = this.FormatIfMissing( SiteLocale );
+          string Title = this.FormatIfMissing( msDoc.GetTitle() );
+        
+          iCol = 1;
+
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, SiteLocaleFormatted );
+
+          if( SiteLocaleFormatted == "MISSING" )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+
+          iCol++;
+          
+          this.InsertAndFormatContentCell( ws, iRow, iCol, Title );
+
+          if( Title == "MISSING" )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+
+          iRow++;
+        
         }
-
-        iRow++;
-
+        
       }
 
       {

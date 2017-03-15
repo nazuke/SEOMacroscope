@@ -220,7 +220,7 @@
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="MacroscopeReports\MacroscopeCannotSaveExcelFileException.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeSaveExcelFileException.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetBrokenLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\MacroscopeExcelBrokenLinksReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelContactDetailsReport\MacroscopeExcelContactDetailsReport.cs" />
@@ -231,6 +231,8 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateEtags.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicatePages.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateTitles.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelKeywordAnalysisReport\MacroscopeExcelKeywordAnalysisReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelKeywordAnalysisReport\WorksheetKeywordTerms.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\MacroscopeExcelLanguagesReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\WorksheetHrefLangMatrix.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\WorksheetMissingLanguageSpecifier.cs" />
@@ -379,6 +381,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelDuplicateContent" />
     <Folder Include="MacroscopeReports\MacroscopeExcelContactDetailsReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelLanguagesReport" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelKeywordAnalysisReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />

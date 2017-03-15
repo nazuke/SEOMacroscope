@@ -120,11 +120,6 @@ namespace SEOMacroscope
     )
     {
 
-      this.DebugMsg( string.Format( "Message: {0}", Message ) );
-      this.DebugMsg( string.Format( "MajorPercentage: {0}", MajorPercentage ) );
-      this.DebugMsg( string.Format( "MinorPercentage: {0}", MinorPercentage ) );
-      this.DebugMsg( string.Format( "SubMinorPercentage: {0}", SubMinorPercentage ) );
-
       try
       {
         

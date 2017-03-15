@@ -59,6 +59,7 @@ namespace SEOMacroscope
     
     private Dictionary<string,decimal> StatsDurations;
     
+    private Dictionary<string,string> StatsDeepKeywordAnalysisDocs;
     private List<Dictionary<string,int>> StatsDeepKeywordAnalysis;
 
     private int StatsUrlsInternal;
@@ -102,6 +103,7 @@ namespace SEOMacroscope
 
       this.StatsDurations = new Dictionary<string,decimal> ( 1024 );
 
+      this.StatsDeepKeywordAnalysisDocs = new Dictionary<string,string> ( 1024 );
       this.StatsDeepKeywordAnalysis = new  List<Dictionary<string,int>> ( 4 );
       for( int i = 0 ; i <= 3 ; i++ )
       {
@@ -1240,6 +1242,10 @@ namespace SEOMacroscope
                   Terms: this.StatsDeepKeywordAnalysis[ i ],
                   Words: i + 1
                 );
+                
+                
+                //Dictionary<string,string> StatsDeepKeywordAnalysisDocs;
+                
               }
             }
           }

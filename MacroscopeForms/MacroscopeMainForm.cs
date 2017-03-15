@@ -2141,7 +2141,7 @@ namespace SEOMacroscope
         {
           msExcelReport.WriteXslx( this.JobMaster, Path );
         }
-        catch( MacroscopeCannotSaveExcelFileException ex )
+        catch( MacroscopeSaveExcelFileException ex )
         {
           this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
         }
@@ -2171,7 +2171,7 @@ namespace SEOMacroscope
         {
           msExcelReport.WriteXslx( this.JobMaster, Path );
         }
-        catch( MacroscopeCannotSaveExcelFileException ex )
+        catch( MacroscopeSaveExcelFileException ex )
         {
           this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );
         }
@@ -2203,7 +2203,7 @@ namespace SEOMacroscope
           msExcelReport.WriteXslx( this.JobMaster, Path );
           Cursor.Current = Cursors.Default;
         }
-        catch( MacroscopeCannotSaveExcelFileException ex )
+        catch( MacroscopeSaveExcelFileException ex )
         {
           this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );
         }
@@ -2239,7 +2239,7 @@ namespace SEOMacroscope
           msExcelReport.WriteXslx( this.JobMaster, Path );
           Cursor.Current = Cursors.Default;
         }
-        catch( MacroscopeCannotSaveExcelFileException ex )
+        catch( MacroscopeSaveExcelFileException ex )
         {
           this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );
         }
@@ -2275,13 +2275,49 @@ namespace SEOMacroscope
           msExcelReport.WriteXslx( this.JobMaster, Path );
           Cursor.Current = Cursors.Default;
         }
-        catch( MacroscopeCannotSaveExcelFileException ex )
+        catch( MacroscopeSaveExcelFileException ex )
         {
           this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
         }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
+        }
+      }
+      Dialog.Dispose();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackSaveKeywordAnalysisExcelReport ( object sender, EventArgs e )
+    {
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+        string Path = Dialog.FileName;
+        MacroscopeExcelKeywordAnalysisReport msExcelReport = new MacroscopeExcelKeywordAnalysisReport ();
+        try
+        {
+          Cursor.Current = Cursors.WaitCursor;
+          msExcelReport.WriteXslx( this.JobMaster, Path );
+          Cursor.Current = Cursors.Default;
+        }
+        catch( MacroscopeSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Keyword Analysis Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Keyword Analysis Excel Report", ex.Message );
         }
         finally
         {
@@ -2325,7 +2361,7 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.Default;
 
         }
-        catch( MacroscopeCannotSaveExcelFileException ex )
+        catch( MacroscopeSaveExcelFileException ex )
         {
           this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
         }
@@ -2363,7 +2399,7 @@ namespace SEOMacroscope
           msExcelReport.WriteXslx( this.JobMaster, Path );
           Cursor.Current = Cursors.Default;
         }
-        catch( MacroscopeCannotSaveExcelFileException ex )
+        catch( MacroscopeSaveExcelFileException ex )
         {
           this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );
         }

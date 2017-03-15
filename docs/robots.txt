@@ -1,0 +1,8 @@
+User-agent: SEOMacroscope
+
+Allow: /
+
+
+User-agent: *
+
+Allow: /

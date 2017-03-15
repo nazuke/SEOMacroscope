@@ -122,7 +122,6 @@ namespace SEOMacroscope
     	this.MaximizeBox = false;
     	this.MinimizeBox = false;
     	this.Name = "MacroscopeDoublePercentageProgressForm";
-    	this.ShowInTaskbar = false;
     	this.Text = "Processing";
     	this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MacroscopeDoublePercentageProgressFormFormClosing);
     	this.ResumeLayout(false);
