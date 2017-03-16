@@ -38,8 +38,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    Dictionary<string,string> DocList;
-    
+    // Keyword Term / MacroscopeDocumentList
+    Dictionary<string,MacroscopeDocumentList> DocList;
+
     /**************************************************************************/
 
     public MacroscopeDeepKeywordAnalysis ()
@@ -48,7 +49,7 @@ namespace SEOMacroscope
       this.DocList = null;
     }
     
-    public MacroscopeDeepKeywordAnalysis ( Dictionary<string,string> DocList )
+    public MacroscopeDeepKeywordAnalysis ( Dictionary<string,MacroscopeDocumentList> DocList )
     {
       this.SuppressDebugMsg = true;
       this.DocList = DocList;
@@ -62,6 +63,7 @@ namespace SEOMacroscope
       int Words
     )
     {
+
       if( Words == 1 )
       {
         this.AnalyzeTerm(
@@ -78,25 +80,93 @@ namespace SEOMacroscope
           Words: Words
         );
       }
+
+    }
+
+    public void Analyze (
+      MacroscopeDocument msDoc,
+      string Text,
+      Dictionary<string,int> Terms,
+      int Words
+    )
+    {
+
+      Dictionary<string,int> TermsList = null;
+
+      if( Words == 1 )
+      {
+        TermsList = this.AnalyzeTerm(
+          Text: Text,
+          Terms: Terms
+        );
+      }
+      else
+      if( Words > 1 )
+      {
+        TermsList = this.AnalyzePhrase(
+          Text: Text,
+          Terms: Terms,
+          Words: Words
+        );
+      }
+
+      if( ( this.DocList != null ) && ( TermsList != null ) )
+      {
+
+        lock( this.DocList )
+        {
+
+          foreach( string KeywordTerm in TermsList.Keys )
+          {
+
+            MacroscopeDocumentList DocumentList;
+            
+            if( this.DocList.ContainsKey( KeywordTerm ) )
+            {
+              DocumentList = this.DocList[ KeywordTerm ];
+            }
+            else
+            {
+              DocumentList = new MacroscopeDocumentList ();
+              this.DocList.Add( KeywordTerm, DocumentList );
+            }
+            
+            DocumentList.AddDocument( msDoc );
+
+          }
+
+        }
+
+      }
+
     }
 
     /** Analyze 1 Word ********************************************************/
 
-    private void AnalyzeTerm (
+    private Dictionary<string,int> AnalyzeTerm (
       string Text,
       Dictionary<string,int> Terms
     )
     {
+
+      Dictionary<string,int> TermsList = new Dictionary<string,int> ();
+
       if( Text.Length > 0 )
       {
+
         string [] Chunks = Text.Split( ' ' );
+
         if( Chunks.Length > 0 )
         {
+
           for( int i = 0 ; i < Chunks.Length ; i++ )
           {
+
             string sTerm = Chunks[ i ];
+
             if( sTerm.Length > 0 )
             {
+
               if( Terms.ContainsKey( sTerm ) )
               {
                 Terms[ sTerm ] += 1;
@@ -105,21 +175,39 @@ namespace SEOMacroscope
               {
                 Terms.Add( sTerm, 1 );
               }
+
+              if( TermsList.ContainsKey( sTerm ) )
+              {
+                TermsList[ sTerm ] += 1;
+              }
+              else
+              {
+                TermsList.Add( sTerm, 1 );
+              }
+
             }
+
           }
+
         }
+
       }
+
+      return( TermsList );
+
     }
 
     /** Analyze Multi-Word Phrases ********************************************/
 
-    private void AnalyzePhrase (
+    private Dictionary<string,int> AnalyzePhrase (
       string Text,
       Dictionary<string,int> Terms,
       int Words
     )
     {
 
+      Dictionary<string,int> TermsList = new Dictionary<string,int> ();
+            
       if( Text.Length > 0 )
       {
 
@@ -159,6 +247,15 @@ namespace SEOMacroscope
                   Terms.Add( sTerm, 1 );
                 }
 
+                if( TermsList.ContainsKey( sTerm ) )
+                {
+                  TermsList[ sTerm ] += 1;
+                }
+                else
+                {
+                  TermsList.Add( sTerm, 1 );
+                }
+              
               }
               
             }
@@ -168,6 +265,8 @@ namespace SEOMacroscope
         }
         
       }
+
+      return( TermsList );
 
     }
 

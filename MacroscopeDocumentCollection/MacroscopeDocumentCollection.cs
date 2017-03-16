@@ -59,7 +59,7 @@ namespace SEOMacroscope
     
     private Dictionary<string,decimal> StatsDurations;
     
-    private Dictionary<string,string> StatsDeepKeywordAnalysisDocs;
+    private Dictionary<string,MacroscopeDocumentList> StatsDeepKeywordAnalysisDocs;
     private List<Dictionary<string,int>> StatsDeepKeywordAnalysis;
 
     private int StatsUrlsInternal;
@@ -87,8 +87,6 @@ namespace SEOMacroscope
 
       this.SearchIndex = new MacroscopeSearchIndex ();
 
-      this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
-
       this.StructInlinks = new Dictionary<string,MacroscopeInlink> ( 1024 );
       this.StructHyperlinksIn = new Dictionary<string,MacroscopeHyperlinksIn> ( 1024 );
       
@@ -103,13 +101,15 @@ namespace SEOMacroscope
 
       this.StatsDurations = new Dictionary<string,decimal> ( 1024 );
 
-      this.StatsDeepKeywordAnalysisDocs = new Dictionary<string,string> ( 1024 );
+      this.StatsDeepKeywordAnalysisDocs = new Dictionary<string,MacroscopeDocumentList> ( 1024 );
       this.StatsDeepKeywordAnalysis = new  List<Dictionary<string,int>> ( 4 );
       for( int i = 0 ; i <= 3 ; i++ )
       {
         this.StatsDeepKeywordAnalysis.Add( new Dictionary<string,int> ( 1024 ) );
       }
 
+      this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ( DocList: this.StatsDeepKeywordAnalysisDocs );
+            
       this.StatsUrlsInternal = 0;
       this.StatsUrlsExternal = 0;
       this.StatsUrlsSitemaps = 0;
@@ -1205,6 +1205,10 @@ namespace SEOMacroscope
             this.StatsDeepKeywordAnalysis[ i ].Clear();
           }
         }
+        lock( this.StatsDeepKeywordAnalysisDocs )
+        {
+          this.StatsDeepKeywordAnalysisDocs.Clear();
+        }
       }
     }
 
@@ -1230,7 +1234,6 @@ namespace SEOMacroscope
         
         if( sLang != null )
         {
-          DebugMsg( string.Format( "RecalculateStatsDeepKeywordAnalysis: GetLang {0}", msDoc.GetLang() ) );
           if( Regex.IsMatch( msDoc.GetLang(), "^(x-default|en|fr|de|it|es|po)", RegexOptions.IgnoreCase ) )
           {
             lock( this.StatsDeepKeywordAnalysis )
@@ -1238,14 +1241,11 @@ namespace SEOMacroscope
               for( int i = 0 ; i <= 3 ; i++ )
               {
                 this.AnalyzeKeywords.Analyze(
+                  msDoc: msDoc,
                   Text: msDoc.GetBodyText(),
                   Terms: this.StatsDeepKeywordAnalysis[ i ],
                   Words: i + 1
                 );
-                
-                
-                //Dictionary<string,string> StatsDeepKeywordAnalysisDocs;
-                
               }
             }
           }
@@ -1259,19 +1259,8 @@ namespace SEOMacroscope
     {
       
       int iWordsOffset = Words - 1;
-      
-      DebugMsg( string.Format( "GetDeepKeywordAnalysisAsDictonary: Words: {0}", Words ) );
-      DebugMsg( string.Format( "GetDeepKeywordAnalysisAsDictonary: iWordsOffset: {0}", iWordsOffset ) );
-      
-      DebugMsg( string.Format( "GetDeepKeywordAnalysisAsDictonary: this.StatsDeepKeywordAnalysis: {0}", this.StatsDeepKeywordAnalysis[ iWordsOffset ].Count ) );
-      
-            
       Dictionary<string,int> Terms = new Dictionary<string,int> ( this.StatsDeepKeywordAnalysis[ iWordsOffset ].Count );
-      
-      
-      DebugMsg( string.Format( "GetDeepKeywordAnalysisAsDictonary: Terms: {0}", Terms.Count ) );
-      
-      
+
       lock( this.StatsDeepKeywordAnalysis[iWordsOffset] )
       {
         foreach( string sTerm in this.StatsDeepKeywordAnalysis[iWordsOffset].Keys )
@@ -1282,6 +1271,20 @@ namespace SEOMacroscope
       
       return( Terms );
       
+    }
+
+    public MacroscopeDocumentList GetDeepKeywordAnalysDocumentList ( string KeywordTerm )
+    {
+
+      MacroscopeDocumentList DocumentList = null;      
+
+      if( this.StatsDeepKeywordAnalysisDocs.ContainsKey( KeywordTerm ) )
+      {
+        DocumentList = this.StatsDeepKeywordAnalysisDocs[ KeywordTerm ];
+      }
+
+      return( DocumentList );
+
     }
 
     /** Search Index **********************************************************/

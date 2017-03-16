@@ -57,6 +57,9 @@ namespace SEOMacroscope
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Term";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "URL";
 
       }
 
@@ -67,15 +70,26 @@ namespace SEOMacroscope
       foreach( string Term in DicTerms.Keys )
       {
 
-        iCol = 1;
+        MacroscopeDocumentList DocumentList = DocCollection.GetDeepKeywordAnalysDocumentList( Term );
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DicTerms[ Term ].ToString() ) );
+        foreach( MacroscopeDocument msDoc in DocumentList.IterateDocuments() )
+        {
 
-        iCol++;
+          iCol = 1;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Term ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DicTerms[ Term ].ToString() ) );
 
-        iRow++;
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Term ) );
+
+          iCol++;
+                    
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc.GetUrl() );
+                    
+          iRow++;
+        
+        }
 
       }
 
