@@ -64,9 +64,11 @@ namespace SEOMacroscope
     )
     {
 
+      Dictionary<string,int> TermsList = null;
+
       if( Words == 1 )
       {
-        this.AnalyzeTerm(
+        TermsList = this.AnalyzeTerm(
           Text: Text,
           Terms: Terms
         );
@@ -74,15 +76,19 @@ namespace SEOMacroscope
       else
       if( Words > 1 )
       {
-        this.AnalyzePhrase(
+        TermsList = this.AnalyzePhrase(
           Text: Text,
           Terms: Terms,
           Words: Words
         );
       }
+      
+      TermsList = null; // Discard list
 
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     public void Analyze (
       MacroscopeDocument msDoc,
       string Text,

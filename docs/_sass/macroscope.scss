@@ -1,12 +1,44 @@
+/** Variables *****************************************************************/
+
+$color-black: #000000;
+$color-white: #FFFFFF;
+$color-purple: #9724A1;
+
 /** Body **********************************************************************/
 
 body
 {
-	background-color:#000000;
+	background-color:$color-black;
 	background-image:url('../media/images/jumbotron-background.png');
   background-repeat:no-repeat;
   background-position:top right;
 	background-attachment:fixed;
+}
+
+/** Navigation ****************************************************************/
+
+[role="navigation"] .nav-tabs
+{
+	border-width:0px;
+
+	[role="presentation"] a
+	{
+		color:$color-white;
+	}
+
+	[role="presentation"] a
+	{
+		border-width:0px 0px 1px 0px;
+		border-radius:0px;
+	}
+
+	[role="presentation"] a:hover
+	{
+		color:$color-purple;
+		background-color:rgba(0,0,0,0);
+		border-color:$color-purple;
+	}
+
 }
 
 /** Jumbotrons ****************************************************************/
@@ -33,9 +65,9 @@ body
 
 main
 {
-	
+
   background-color:rgba(0,0,0,0.75);
-	
+
 	h1,
 	h2,
 	h3,

@@ -43,7 +43,7 @@ namespace SEOMacroscope
 
     public MacroscopeDocumentList ()
     {
-      this.DocumentList = new Dictionary<string,MacroscopeDocument> ( 1024 );
+      this.DocumentList = new Dictionary<string,MacroscopeDocument> ( 16 );
     }
 
     /**************************************************************************/
