@@ -29,7 +29,7 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeOutlink.
+  /// Description of MacroscopeConstants.
   /// </summary>
 
   public static class MacroscopeConstants

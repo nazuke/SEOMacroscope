@@ -58,7 +58,7 @@ namespace SEOMacroscope
     MacroscopeDisplayErrors msDisplayErrors;
     MacroscopeDisplayRedirectsAudit msDisplayRedirectsAudit;
 
-    //MacroscopeDisplayLinks msDisplayLinks;
+    MacroscopeDisplayLinks msDisplayLinks;
     MacroscopeDisplayHyperlinks msDisplayHyperlinks;
     MacroscopeDisplayUriAnalysis msDisplayUriAnalysis;
 
@@ -166,6 +166,7 @@ namespace SEOMacroscope
       this.msDisplayErrors = new MacroscopeDisplayErrors ( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
       this.msDisplayRedirectsAudit = new MacroscopeDisplayRedirectsAudit ( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit );
 
+      this.msDisplayLinks = new MacroscopeDisplayLinks ( this, this.macroscopeOverviewTabPanelInstance.listViewLinks );
       this.msDisplayHyperlinks = new MacroscopeDisplayHyperlinks ( this, this.macroscopeOverviewTabPanelInstance.listViewHyperlinks );
       this.msDisplayUriAnalysis = new MacroscopeDisplayUriAnalysis ( this, this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis );
 
@@ -205,10 +206,16 @@ namespace SEOMacroscope
       
       
       // ListViewLinks
+      this.macroscopeOverviewTabPanelInstance.listViewLinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Click += this.CallbackButtonLinksShowAll;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchSourceUrlKeyUp;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchTargetUrlKeyUp;
+            
+      // ListViewHyperlinks
       this.macroscopeOverviewTabPanelInstance.listViewHyperlinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Click += this.CallbackButtonLinksShowAll;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchSourceUrlKeyUp;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchTargetUrlKeyUp;
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Click += this.CallbackButtonHyperlinksShowAll;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp;
+      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp;
       
       
       
@@ -767,14 +774,12 @@ namespace SEOMacroscope
           );
           break;
 
-      /*
         case "tabPageLinks":
           this.msDisplayLinks.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayLinks )
           );
           break;
-        */
           
         case "tabPageHyperlinks":
           this.msDisplayHyperlinks.RefreshData(
@@ -1320,8 +1325,8 @@ namespace SEOMacroscope
 
     private void CallbackButtonLinksShowAll ( object sender, EventArgs e )
     {
-      this.msDisplayHyperlinks.ClearData();
-      this.msDisplayHyperlinks.RefreshData(
+      this.msDisplayLinks.ClearData();
+      this.msDisplayLinks.RefreshData(
         this.JobMaster.GetDocCollection()
       );
     }
@@ -1337,8 +1342,8 @@ namespace SEOMacroscope
           if( UrlFragment.Length > 0 )
           {
             SearchTextBox.Text = UrlFragment;
-            this.msDisplayHyperlinks.ClearData();
-            this.msDisplayHyperlinks.RefreshDataSearchSourceUrls(
+            this.msDisplayLinks.ClearData();
+            this.msDisplayLinks.RefreshDataSearchSourceUrls(
               DocCollection: this.JobMaster.GetDocCollection(),
               UrlFragment: UrlFragment
             );
@@ -1355,6 +1360,58 @@ namespace SEOMacroscope
         case Keys.Return:
           string UrlFragment = SearchTextBox.Text;
           DebugMsg( string.Format( "CallbackSearchTextBoxLinksSearchTargetUrlKeyUp: {0}", UrlFragment ) );
+          if( UrlFragment.Length > 0 )
+          {
+            SearchTextBox.Text = UrlFragment;
+            this.msDisplayLinks.ClearData();
+            this.msDisplayLinks.RefreshDataSearchTargetUrls(
+              DocCollection: this.JobMaster.GetDocCollection(),
+              UrlFragment: UrlFragment
+            );
+          }
+          break;
+      }
+    }
+
+    /** HYPERLINKS PANEL TOOL STRIP CALLBACKS **************************************/
+
+    private void CallbackButtonHyperlinksShowAll ( object sender, EventArgs e )
+    {
+      this.msDisplayHyperlinks.ClearData();
+      this.msDisplayHyperlinks.RefreshData(
+        this.JobMaster.GetDocCollection()
+      );
+    }
+
+    private void CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp ( object sender, KeyEventArgs e )
+    {
+      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+      switch( e.KeyCode )
+      {
+        case Keys.Return:
+          string UrlFragment = SearchTextBox.Text;
+          DebugMsg( string.Format( "CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp: {0}", UrlFragment ) );
+          if( UrlFragment.Length > 0 )
+          {
+            SearchTextBox.Text = UrlFragment;
+            this.msDisplayHyperlinks.ClearData();
+            this.msDisplayHyperlinks.RefreshDataSearchSourceUrls(
+              DocCollection: this.JobMaster.GetDocCollection(),
+              UrlFragment: UrlFragment
+            );
+          }
+          break;
+      }
+    }
+
+    private void CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp ( object sender, KeyEventArgs e )
+    {
+      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+      switch( e.KeyCode )
+      {
+        case Keys.Return:
+          string UrlFragment = SearchTextBox.Text;
+          DebugMsg( string.Format( "CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp: {0}", UrlFragment ) );
           if( UrlFragment.Length > 0 )
           {
             SearchTextBox.Text = UrlFragment;
@@ -1469,6 +1526,8 @@ namespace SEOMacroscope
       
       this.msDisplayErrors.ClearData();
       this.msDisplayRedirectsAudit.ClearData();
+
+      this.msDisplayLinks.ClearData();
       this.msDisplayHyperlinks.ClearData();
       this.msDisplayUriAnalysis.ClearData();
       

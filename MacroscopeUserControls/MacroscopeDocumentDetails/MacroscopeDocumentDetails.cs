@@ -51,15 +51,16 @@ namespace SEOMacroscope
       InitializeComponent();
 
       // Control Properties
+      this.tabControlDocument.Multiline = false;
       this.listViewDocumentInfo.Dock = DockStyle.Fill;
-      
       this.tableLayoutPanelHttpHeaders.Dock = DockStyle.Fill;
       this.textBoxHttpRequestHeaders.Dock = DockStyle.Fill;
       this.textBoxHttpResponseHeaders.Dock = DockStyle.Fill;
-
       this.listViewHrefLang.Dock = DockStyle.Fill;
       this.listViewLinksIn.Dock = DockStyle.Fill;
       this.listViewLinksOut.Dock = DockStyle.Fill;
+      this.listViewHyperlinksIn.Dock = DockStyle.Fill;
+      this.listViewHyperlinksOut.Dock = DockStyle.Fill;
       this.listViewInsecureLinks.Dock = DockStyle.Fill;
       this.listViewImages.Dock = DockStyle.Fill;
       this.listViewStylesheets.Dock = DockStyle.Fill;
@@ -77,6 +78,8 @@ namespace SEOMacroscope
       this.listViewHrefLang.ListViewItemSorter = lvColumnSorter;
       this.listViewLinksIn.ListViewItemSorter = lvColumnSorter;
       this.listViewLinksOut.ListViewItemSorter = lvColumnSorter;
+      this.listViewHyperlinksIn.ListViewItemSorter = lvColumnSorter;
+      this.listViewHyperlinksOut.ListViewItemSorter = lvColumnSorter;
       this.listViewInsecureLinks.ListViewItemSorter = lvColumnSorter;
       this.listViewImages.ListViewItemSorter = lvColumnSorter;
       this.listViewStylesheets.ListViewItemSorter = lvColumnSorter;
@@ -88,6 +91,8 @@ namespace SEOMacroscope
       this.listViewHrefLang.ColumnClick += this.CallbackColumnClick;
       this.listViewLinksIn.ColumnClick += this.CallbackColumnClick;
       this.listViewLinksOut.ColumnClick += this.CallbackColumnClick;
+      this.listViewHyperlinksIn.ColumnClick += this.CallbackColumnClick;
+      this.listViewHyperlinksOut.ColumnClick += this.CallbackColumnClick;
       this.listViewInsecureLinks.ColumnClick += this.CallbackColumnClick;
       this.listViewImages.ColumnClick += this.CallbackColumnClick;
       this.listViewStylesheets.ColumnClick += this.CallbackColumnClick;
@@ -156,12 +161,12 @@ namespace SEOMacroscope
 
       this.textBoxHttpRequestHeaders.Text = "";
       this.textBoxHttpResponseHeaders.Text = "";
-      
-      
-      
+
       this.listViewHrefLang.Items.Clear();
       this.listViewLinksIn.Items.Clear();
       this.listViewLinksOut.Items.Clear();
+      this.listViewHyperlinksIn.Items.Clear();
+      this.listViewHyperlinksOut.Items.Clear();
       this.listViewInsecureLinks.Items.Clear();
       this.listViewImages.Items.Clear();
       this.listViewStylesheets.Items.Clear();
@@ -223,7 +228,7 @@ namespace SEOMacroscope
 
       Cursor.Current = Cursors.WaitCursor;
 
-      int [] count = new int[12];
+      int [] count = new int[14];
       int count_i = 0;
       
       count[ count_i++ ] = await this.RenderDocumentDetails( msDoc );
@@ -231,9 +236,11 @@ namespace SEOMacroscope
       count[ count_i++ ] = await this.RenderDocumentHttpHeaders( msDoc );
       
       count[ count_i++ ] = await this.RenderDocumentHrefLang( msDoc, JobMaster.GetLocales(), JobMaster.GetDocCollection() );
-      
-      count[ count_i++ ] = await this.RenderListViewHyperlinksIn( msDoc );
 
+      count[ count_i++ ] = await this.RenderListViewLinksIn( msDoc );
+      count[ count_i++ ] = await this.RenderListViewLinksOut( msDoc );
+
+      count[ count_i++ ] = await this.RenderListViewHyperlinksIn( msDoc );
       count[ count_i++ ] = await this.RenderListViewHyperlinksOut( msDoc );
 
       count[ count_i++ ] = await this.RenderListViewInsecureLinks( msDoc );
@@ -448,12 +455,164 @@ namespace SEOMacroscope
       return( count );
     }
 
+    /** Links In *********************************************************/
+
+    private async Task<int> RenderListViewLinksIn ( MacroscopeDocument msDoc )
+    {
+
+      ListView lvListView = this.listViewLinksIn;
+      MacroscopeLinkList LinksIn = msDoc.GetLinksIn();
+      int count = 0;
+
+      lvListView.BeginUpdate();
+            
+      lvListView.Items.Clear();
+
+      if( LinksIn != null )
+      {
+        
+        foreach( MacroscopeLink Link in LinksIn.IterateLinks() )
+        {
+
+          ListViewItem lvItem = null;
+          string sPairKey = Link.GetLinkGuid().ToString();
+          count++;
+          
+          if( lvListView.Items.ContainsKey( sPairKey ) )
+          {
+
+            try
+            {
+
+              lvItem = lvListView.Items[ sPairKey ];
+              lvItem.SubItems[ 0 ].Text = Link.GetLinkType().ToString();
+              lvItem.SubItems[ 1 ].Text = Link.GetSourceUrl();
+              lvItem.SubItems[ 2 ].Text = Link.GetTargetUrl();
+              lvItem.SubItems[ 3 ].Text = Link.GetDoFollow().ToString();
+              lvItem.SubItems[ 4 ].Text = Link.GetAltText();
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewLinksIn 1: {0}", ex.Message ) );
+            }
+
+          }
+          else
+          {
+
+            try
+            {
+
+              lvItem = new ListViewItem ( sPairKey );
+              lvItem.UseItemStyleForSubItems = false;
+              lvItem.Name = sPairKey;
+
+              lvItem.SubItems[ 0 ].Text = Link.GetLinkType().ToString();
+              lvItem.SubItems.Add( Link.GetSourceUrl() );
+              lvItem.SubItems.Add( Link.GetTargetUrl() );
+              lvItem.SubItems.Add( Link.GetDoFollow().ToString() );
+              lvItem.SubItems.Add( Link.GetAltText() );
+
+              lvListView.Items.Add( lvItem );
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewLinksIn 2: {0}", ex.Message ) );
+            }
+
+          }
+
+        }
+
+      }
+
+      lvListView.EndUpdate();
+          
+      return( count );
+      
+    }
+
+    /** Links Out ********************************************************/
+
+    private async Task<int> RenderListViewLinksOut ( MacroscopeDocument msDoc )
+    {
+
+      ListView lvListView = this.listViewLinksOut;
+      int count = 0;
+
+      lvListView.BeginUpdate();
+            
+      lvListView.Items.Clear();
+
+      foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
+      {
+
+        ListViewItem lvItem = null;
+        string sPairKey = Link.GetLinkGuid().ToString();
+        count++;
+          
+        if( lvListView.Items.ContainsKey( sPairKey ) )
+        {
+
+          try
+          {
+
+            lvItem = lvListView.Items[ sPairKey ];
+            lvItem.SubItems[ 0 ].Text = Link.GetLinkType().ToString();
+            lvItem.SubItems[ 1 ].Text = Link.GetSourceUrl();
+            lvItem.SubItems[ 2 ].Text = Link.GetTargetUrl();
+            lvItem.SubItems[ 3 ].Text = Link.GetDoFollow().ToString();
+            lvItem.SubItems[ 4 ].Text = Link.GetAltText();
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "RenderListViewLinksOut 1: {0}", ex.Message ) );
+          }
+
+        }
+        else
+        {
+
+          try
+          {
+
+            lvItem = new ListViewItem ( sPairKey );
+            lvItem.UseItemStyleForSubItems = false;
+            lvItem.Name = sPairKey;
+
+            lvItem.SubItems[ 0 ].Text = Link.GetLinkType().ToString();
+            lvItem.SubItems.Add( Link.GetSourceUrl() );
+            lvItem.SubItems.Add( Link.GetTargetUrl() );
+            lvItem.SubItems.Add( Link.GetDoFollow().ToString() );
+            lvItem.SubItems.Add( Link.GetAltText() );
+
+            lvListView.Items.Add( lvItem );
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "RenderListViewLinksOut 2: {0}", ex.Message ) );
+          }
+
+        }
+
+      }
+
+      lvListView.EndUpdate();
+          
+      return( count );
+      
+    }
+
     /** Hyperlinks In *********************************************************/
 
     private async Task<int> RenderListViewHyperlinksIn ( MacroscopeDocument msDoc )
     {
 
-      ListView lvListView = this.listViewLinksIn;
+      ListView lvListView = this.listViewHyperlinksIn;
       MacroscopeHyperlinksIn HyperlinksIn = msDoc.GetHyperlinksIn();
       int count = 0;
 
@@ -532,7 +691,7 @@ namespace SEOMacroscope
     private async Task<int> RenderListViewHyperlinksOut ( MacroscopeDocument msDoc )
     {
 
-      ListView lvListView = this.listViewLinksOut;
+      ListView lvListView = this.listViewHyperlinksOut;
       MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
       int count = 0;
       

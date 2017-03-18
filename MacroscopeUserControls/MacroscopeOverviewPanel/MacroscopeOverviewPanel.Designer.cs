@@ -209,6 +209,24 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksLinkText;
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksLinkTitle;
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksLinkAltText;
+		public System.Windows.Forms.TabPage tabPageLinks;
+		public System.Windows.Forms.TableLayoutPanel tableLayoutPanelLinks;
+		public System.Windows.Forms.ToolStrip toolStrip2;
+		public System.Windows.Forms.ToolStripButton toolStripButtonLinksShowAll;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+		private System.Windows.Forms.ToolStripLabel toolStripLabel6;
+		public System.Windows.Forms.ToolStripTextBox toolStripTextBoxLinksSearchSourceUrls;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+		private System.Windows.Forms.ToolStripLabel toolStripLabel7;
+		public System.Windows.Forms.ToolStripTextBox toolStripTextBoxLinksSearchTargetUrls;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+		public System.Windows.Forms.ToolStripLabel toolStripLabelLinksUrls;
+		public System.Windows.Forms.ListView listViewLinks;
+		public System.Windows.Forms.ColumnHeader columnHeaderLinksOutClass;
+		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutSourceUrl;
+		public System.Windows.Forms.ColumnHeader columnHeaderLinksOutTargetUrl;
+		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutFollow;
+		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutAltText;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -313,6 +331,24 @@ namespace SEOMacroscope
 			this.columnHeaderHostnameName = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderHostnameCount = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderHostnameInternal = new System.Windows.Forms.ColumnHeader();
+			this.tabPageLinks = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanelLinks = new System.Windows.Forms.TableLayoutPanel();
+			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+			this.toolStripButtonLinksShowAll = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripLabel6 = new System.Windows.Forms.ToolStripLabel();
+			this.toolStripTextBoxLinksSearchSourceUrls = new System.Windows.Forms.ToolStripTextBox();
+			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripLabel7 = new System.Windows.Forms.ToolStripLabel();
+			this.toolStripTextBoxLinksSearchTargetUrls = new System.Windows.Forms.ToolStripTextBox();
+			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripLabelLinksUrls = new System.Windows.Forms.ToolStripLabel();
+			this.listViewLinks = new System.Windows.Forms.ListView();
+			this.columnHeaderLinksOutClass = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderLinksOutSourceUrl = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderLinksOutTargetUrl = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderLinksOutFollow = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderLinksOutAltText = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHyperlinks = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanelHyperlinks = new System.Windows.Forms.TableLayoutPanel();
 			this.listViewHyperlinks = new System.Windows.Forms.ListView();
@@ -427,6 +463,9 @@ namespace SEOMacroscope
 			this.tabPageRedirectsAudit.SuspendLayout();
 			this.tabPageErrors.SuspendLayout();
 			this.tabPageHostnames.SuspendLayout();
+			this.tabPageLinks.SuspendLayout();
+			this.tableLayoutPanelLinks.SuspendLayout();
+			this.toolStrip2.SuspendLayout();
 			this.tabPageHyperlinks.SuspendLayout();
 			this.tableLayoutPanelHyperlinks.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -457,6 +496,7 @@ namespace SEOMacroscope
 			this.tabControlMain.Controls.Add(this.tabPageRedirectsAudit);
 			this.tabControlMain.Controls.Add(this.tabPageErrors);
 			this.tabControlMain.Controls.Add(this.tabPageHostnames);
+			this.tabControlMain.Controls.Add(this.tabPageLinks);
 			this.tabControlMain.Controls.Add(this.tabPageHyperlinks);
 			this.tabControlMain.Controls.Add(this.tabPageUriAnalysis);
 			this.tabControlMain.Controls.Add(this.tabPagePageTitles);
@@ -1160,6 +1200,148 @@ namespace SEOMacroscope
 			// columnHeaderHostnameInternal
 			// 
 			this.columnHeaderHostnameInternal.Text = "Internal";
+			// 
+			// tabPageLinks
+			// 
+			this.tabPageLinks.Controls.Add(this.tableLayoutPanelLinks);
+			this.tabPageLinks.Location = new System.Drawing.Point(4, 58);
+			this.tabPageLinks.Name = "tabPageLinks";
+			this.tabPageLinks.Size = new System.Drawing.Size(792, 438);
+			this.tabPageLinks.TabIndex = 26;
+			this.tabPageLinks.Text = "Links";
+			this.tabPageLinks.UseVisualStyleBackColor = true;
+			// 
+			// tableLayoutPanelLinks
+			// 
+			this.tableLayoutPanelLinks.ColumnCount = 1;
+			this.tableLayoutPanelLinks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelLinks.Controls.Add(this.toolStrip2, 0, 0);
+			this.tableLayoutPanelLinks.Controls.Add(this.listViewLinks, 0, 1);
+			this.tableLayoutPanelLinks.Location = new System.Drawing.Point(46, 19);
+			this.tableLayoutPanelLinks.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanelLinks.Name = "tableLayoutPanelLinks";
+			this.tableLayoutPanelLinks.RowCount = 2;
+			this.tableLayoutPanelLinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tableLayoutPanelLinks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelLinks.Size = new System.Drawing.Size(700, 400);
+			this.tableLayoutPanelLinks.TabIndex = 4;
+			// 
+			// toolStrip2
+			// 
+			this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripButtonLinksShowAll,
+			this.toolStripSeparator11,
+			this.toolStripLabel6,
+			this.toolStripTextBoxLinksSearchSourceUrls,
+			this.toolStripSeparator12,
+			this.toolStripLabel7,
+			this.toolStripTextBoxLinksSearchTargetUrls,
+			this.toolStripSeparator13,
+			this.toolStripLabelLinksUrls});
+			this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip2.Name = "toolStrip2";
+			this.toolStrip2.Padding = new System.Windows.Forms.Padding(0);
+			this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.toolStrip2.Size = new System.Drawing.Size(700, 28);
+			this.toolStrip2.TabIndex = 1;
+			this.toolStrip2.Text = "toolStrip2";
+			// 
+			// toolStripButtonLinksShowAll
+			// 
+			this.toolStripButtonLinksShowAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonLinksShowAll.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLinksShowAll.Image")));
+			this.toolStripButtonLinksShowAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonLinksShowAll.Name = "toolStripButtonLinksShowAll";
+			this.toolStripButtonLinksShowAll.Size = new System.Drawing.Size(55, 25);
+			this.toolStripButtonLinksShowAll.Text = "Show all";
+			// 
+			// toolStripSeparator11
+			// 
+			this.toolStripSeparator11.Name = "toolStripSeparator11";
+			this.toolStripSeparator11.Size = new System.Drawing.Size(6, 28);
+			// 
+			// toolStripLabel6
+			// 
+			this.toolStripLabel6.Name = "toolStripLabel6";
+			this.toolStripLabel6.Size = new System.Drawing.Size(112, 25);
+			this.toolStripLabel6.Text = "Search source URLs:";
+			// 
+			// toolStripTextBoxLinksSearchSourceUrls
+			// 
+			this.toolStripTextBoxLinksSearchSourceUrls.Name = "toolStripTextBoxLinksSearchSourceUrls";
+			this.toolStripTextBoxLinksSearchSourceUrls.Size = new System.Drawing.Size(150, 28);
+			// 
+			// toolStripSeparator12
+			// 
+			this.toolStripSeparator12.Name = "toolStripSeparator12";
+			this.toolStripSeparator12.Size = new System.Drawing.Size(6, 28);
+			// 
+			// toolStripLabel7
+			// 
+			this.toolStripLabel7.Name = "toolStripLabel7";
+			this.toolStripLabel7.Size = new System.Drawing.Size(108, 25);
+			this.toolStripLabel7.Text = "Search target URLs:";
+			// 
+			// toolStripTextBoxLinksSearchTargetUrls
+			// 
+			this.toolStripTextBoxLinksSearchTargetUrls.Name = "toolStripTextBoxLinksSearchTargetUrls";
+			this.toolStripTextBoxLinksSearchTargetUrls.Size = new System.Drawing.Size(150, 28);
+			// 
+			// toolStripSeparator13
+			// 
+			this.toolStripSeparator13.Name = "toolStripSeparator13";
+			this.toolStripSeparator13.Size = new System.Drawing.Size(6, 28);
+			// 
+			// toolStripLabelLinksUrls
+			// 
+			this.toolStripLabelLinksUrls.Name = "toolStripLabelLinksUrls";
+			this.toolStripLabelLinksUrls.Size = new System.Drawing.Size(45, 25);
+			this.toolStripLabelLinksUrls.Text = "URLs: 0";
+			// 
+			// listViewLinks
+			// 
+			this.listViewLinks.CausesValidation = false;
+			this.listViewLinks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderLinksOutClass,
+			this.columnHeaderLinksOutSourceUrl,
+			this.columnHeaderLinksOutTargetUrl,
+			this.columnHeaderLinksOutFollow,
+			this.columnHeaderLinksOutAltText});
+			this.listViewLinks.FullRowSelect = true;
+			this.listViewLinks.GridLines = true;
+			this.listViewLinks.Location = new System.Drawing.Point(0, 28);
+			this.listViewLinks.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewLinks.Name = "listViewLinks";
+			this.listViewLinks.Size = new System.Drawing.Size(500, 200);
+			this.listViewLinks.TabIndex = 4;
+			this.listViewLinks.UseCompatibleStateImageBehavior = false;
+			this.listViewLinks.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeaderLinksOutClass
+			// 
+			this.columnHeaderLinksOutClass.Text = "Class";
+			this.columnHeaderLinksOutClass.Width = 100;
+			// 
+			// columnHeaderLinksOutSourceUrl
+			// 
+			this.columnHeaderLinksOutSourceUrl.Text = "Source URL";
+			this.columnHeaderLinksOutSourceUrl.Width = 300;
+			// 
+			// columnHeaderLinksOutTargetUrl
+			// 
+			this.columnHeaderLinksOutTargetUrl.Text = "Target URL";
+			this.columnHeaderLinksOutTargetUrl.Width = 300;
+			// 
+			// columnHeaderLinksOutFollow
+			// 
+			this.columnHeaderLinksOutFollow.DisplayIndex = 4;
+			this.columnHeaderLinksOutFollow.Text = "Follow";
+			// 
+			// columnHeaderLinksOutAltText
+			// 
+			this.columnHeaderLinksOutAltText.DisplayIndex = 3;
+			this.columnHeaderLinksOutAltText.Text = "Alt Text";
 			// 
 			// tabPageHyperlinks
 			// 
@@ -2023,6 +2205,11 @@ namespace SEOMacroscope
 			this.tabPageRedirectsAudit.ResumeLayout(false);
 			this.tabPageErrors.ResumeLayout(false);
 			this.tabPageHostnames.ResumeLayout(false);
+			this.tabPageLinks.ResumeLayout(false);
+			this.tableLayoutPanelLinks.ResumeLayout(false);
+			this.tableLayoutPanelLinks.PerformLayout();
+			this.toolStrip2.ResumeLayout(false);
+			this.toolStrip2.PerformLayout();
 			this.tabPageHyperlinks.ResumeLayout(false);
 			this.tableLayoutPanelHyperlinks.ResumeLayout(false);
 			this.tableLayoutPanelHyperlinks.PerformLayout();

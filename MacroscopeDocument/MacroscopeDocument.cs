@@ -842,24 +842,19 @@ namespace SEOMacroscope
       return( this.ProcessInlinks );
     }
 
+    public MacroscopeLinkList GetLinksIn ()
+    {
+      MacroscopeLinkList DocumentLinksIn = this.DocCollection.GetDocumentInlinks( this.GetUrl() );
+      return( DocumentLinksIn );
+    }
+
     /** Outlinks **************************************************************/
 
     public Dictionary<string,MacroscopeLink> GetOutlinks ()
     {
       return( this.Outlinks );
     }
-/*
-    public IEnumerable<string> IterateOutlinks ()
-    {
-      lock( this.Outlinks )
-      {
-        foreach( string Url in this.Outlinks.Keys )
-        {
-          yield return Url;
-        }
-      }
-    }
-  */  
+
     public IEnumerable<MacroscopeLink> IterateOutlinks ()
     {
       lock( this.Outlinks )

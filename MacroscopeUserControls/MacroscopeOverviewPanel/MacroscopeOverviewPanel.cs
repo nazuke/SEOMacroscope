@@ -68,8 +68,13 @@ namespace SEOMacroscope
       listViewHrefLang.Dock = DockStyle.Fill;
       listViewErrors.Dock = DockStyle.Fill;
       listViewRedirectsAudit.Dock = DockStyle.Fill;
+      
+      tableLayoutPanelLinks.Dock = DockStyle.Fill;
+      listViewLinks.Dock = DockStyle.Fill;
+      
       tableLayoutPanelHyperlinks.Dock = DockStyle.Fill;
       listViewHyperlinks.Dock = DockStyle.Fill;
+      
       listViewUriAnalysis.Dock = DockStyle.Fill;
       listViewPageTitles.Dock = DockStyle.Fill;
       listViewPageDescriptions.Dock = DockStyle.Fill;
@@ -98,6 +103,7 @@ namespace SEOMacroscope
       listViewHrefLang.ListViewItemSorter = lvColumnSorter;
       listViewErrors.ListViewItemSorter = lvColumnSorter;
       listViewRedirectsAudit.ListViewItemSorter = lvColumnSorter;
+      listViewLinks.ListViewItemSorter = lvColumnSorter;
       listViewHyperlinks.ListViewItemSorter = lvColumnSorter;
       listViewUriAnalysis.ListViewItemSorter = lvColumnSorter;
       listViewPageTitles.ListViewItemSorter = lvColumnSorter;
@@ -122,6 +128,7 @@ namespace SEOMacroscope
       listViewHrefLang.ColumnClick += this.CallbackColumnClick;
       listViewErrors.ColumnClick += this.CallbackColumnClick;
       listViewRedirectsAudit.ColumnClick += this.CallbackColumnClick;
+      listViewLinks.ColumnClick += this.CallbackColumnClick;
       listViewHyperlinks.ColumnClick += this.CallbackColumnClick;
       listViewUriAnalysis.ColumnClick += this.CallbackColumnClick;
       listViewPageTitles.ColumnClick += this.CallbackColumnClick;

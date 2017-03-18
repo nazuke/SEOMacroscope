@@ -36,7 +36,9 @@ namespace SEOMacroscope
   {
 
     /**************************************************************************/
-
+    
+    private Guid LinkGuid;
+    
     private MacroscopeConstants.InOutLinkType LinkType;
 
     private string SourceUrl;
@@ -56,13 +58,26 @@ namespace SEOMacroscope
       Boolean Follow
     )
     {
-      this.SourceUrl = SourceUrl;     
-      this.TargetUrl = TargetUrl;      
+      
+      this.LinkGuid = Guid.NewGuid();
+            
       this.LinkType = LinkType;
+
+      this.SourceUrl = SourceUrl;
+      this.TargetUrl = TargetUrl;      
+
       this.DoFollow = Follow;
+      
     }
 
-    /** Source URL **********************************************************/
+    /** GUID ******************************************************************/
+    
+    public Guid GetLinkGuid ()
+    {
+      return( this.LinkGuid );
+    }
+    
+    /** Source URL ************************************************************/
 
     public void SetSourceUrl ( string SourceUrl )
     {
@@ -74,7 +89,7 @@ namespace SEOMacroscope
       return( this.SourceUrl );
     }
     
-    /** Target URL **********************************************************/
+    /** Target URL ************************************************************/
 
     public void SetTargetUrl ( string TargetUrl )
     {

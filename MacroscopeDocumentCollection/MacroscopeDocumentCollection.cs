@@ -563,9 +563,7 @@ namespace SEOMacroscope
 
           if( Inlinks != null )
           {
-
             Inlinks.Add( Link: Link );
-
           }
           else
           {
@@ -577,9 +575,7 @@ namespace SEOMacroscope
       }
       else
       {
-        
         DebugMsg( string.Format( "RecalculateInlinks: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
-        
       }
 
     }

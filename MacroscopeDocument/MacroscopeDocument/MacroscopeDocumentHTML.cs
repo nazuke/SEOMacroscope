@@ -619,10 +619,10 @@ namespace SEOMacroscope
             {
 
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                            AbsoluteUrl: sLinkUrlAbs,
-                                            LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                                            Follow: true
-                                          );
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                                         Follow: true
+                                       );
 
               if( Outlink != null )
               {
