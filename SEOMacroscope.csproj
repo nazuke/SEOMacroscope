@@ -212,11 +212,13 @@
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
-    <Compile Include="MacroscopeLinks\MacroscopeInlink.cs" />
+    <None Include="MacroscopeLinks\MacroscopeInlink.cs" />
+    <Compile Include="MacroscopeLinks\MacroscopeLink.cs" />
+    <Compile Include="MacroscopeLinks\MacroscopeLinkList.cs" />
     <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueueGeneric.cs" />
     <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueueItem.cs" />
-    <Compile Include="MacroscopeLinks\MacroscopeOutlink.cs" />
+    <None Include="MacroscopeLinks\MacroscopeOutlink.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>

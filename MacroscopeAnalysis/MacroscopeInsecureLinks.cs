@@ -50,7 +50,7 @@ namespace SEOMacroscope
     {
       if( msDoc.GetIsSecureUrl() )
       {
-        Dictionary<string,MacroscopeOutlink> DocDic = msDoc.GetOutlinks();
+        Dictionary<string,MacroscopeLink> DocDic = msDoc.GetOutlinks();
         foreach( string Url in DocDic.Keys )
         {
           if( Regex.IsMatch( Url, "^http://", RegexOptions.IgnoreCase ) )

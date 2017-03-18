@@ -283,16 +283,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private MacroscopeOutlink AddCssOutlink (
+    private MacroscopeLink AddCssOutlink (
       string AbsoluteUrl,
       MacroscopeConstants.InOutLinkType LinkType,
       Boolean Follow
     )
     {
 
-      MacroscopeOutlink OutLink = new MacroscopeOutlink (
-                                    AbsoluteUrl: AbsoluteUrl,
+      MacroscopeLink OutLink = new MacroscopeLink (
                                     SourceUrl: this.GetUrl(),
+                                    TargetUrl: AbsoluteUrl,
                                     LinkType: LinkType,
                                     Follow: Follow
                                   );

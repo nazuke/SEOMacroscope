@@ -409,10 +409,9 @@ namespace SEOMacroscope
         return;
       }
 
-      foreach( string sUrl in msDoc.IterateOutlinks() )
+      foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
       {
 
-        MacroscopeOutlink Outlink = msDoc.GetOutlink( sUrl );
         Boolean bProceed = true;
 
         if( !Outlink.GetDoFollow() )
@@ -420,12 +419,12 @@ namespace SEOMacroscope
           continue;
         }
 
-        if( Outlink.GetAbsoluteUrl() == null )
+        if( Outlink.GetTargetUrl() == null )
         {
           continue;
         }
 
-        if( this.JobMaster.SeenHistoryItem( Outlink.GetAbsoluteUrl() ) )
+        if( this.JobMaster.SeenHistoryItem( Outlink.GetTargetUrl() ) )
         {
           continue;
         }
@@ -449,7 +448,7 @@ namespace SEOMacroscope
         if( bProceed )
         {
 
-          this.JobMaster.AddUrlQueueItem( Outlink.GetAbsoluteUrl() );
+          this.JobMaster.AddUrlQueueItem( Outlink.GetTargetUrl() );
 
         }
 

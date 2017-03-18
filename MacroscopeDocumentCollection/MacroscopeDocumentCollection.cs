@@ -45,7 +45,7 @@ namespace SEOMacroscope
     private MacroscopeSearchIndex SearchIndex;
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
 
-    private Dictionary<string,MacroscopeInlink> StructInlinks;
+    private Dictionary<string,MacroscopeLinkList> StructInlinks;
     private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn;
 
     private Dictionary<string,Boolean> StatsHistory;
@@ -87,7 +87,7 @@ namespace SEOMacroscope
 
       this.SearchIndex = new MacroscopeSearchIndex ();
 
-      this.StructInlinks = new Dictionary<string,MacroscopeInlink> ( 1024 );
+      this.StructInlinks = new Dictionary<string,MacroscopeLinkList> ( 1024 );
       this.StructHyperlinksIn = new Dictionary<string,MacroscopeHyperlinksIn> ( 1024 );
       
       this.StatsHistory = new Dictionary<string,Boolean> ( 1024 );
@@ -286,10 +286,10 @@ namespace SEOMacroscope
 
     /** Inlinks ***************************************************************/
 
-    public MacroscopeInlink GetDocumentInlinks ( string Url )
+    public MacroscopeLinkList GetDocumentInlinks ( string Url )
     {
     
-      MacroscopeInlink Inlinks = null;
+      MacroscopeLinkList Inlinks = null;
       
       lock( this.StructInlinks )
       {
@@ -447,7 +447,6 @@ namespace SEOMacroscope
 
           MacroscopeDocument msDoc = this.GetDocument( UrlTarget );
  
-          /*
           try
           {
             this.RecalculateInlinks( msDoc );
@@ -456,7 +455,6 @@ namespace SEOMacroscope
           {
             this.DebugMsg( string.Format( "RecalculateInlinks: {0}", ex.Message ) );
           }
-          */
          
           try
           {
@@ -529,7 +527,6 @@ namespace SEOMacroscope
 
     /** Inlinks ***************************************************************/
 
-    /*
     private void RecalculateInlinks ( MacroscopeDocument msDoc )
     {
 
@@ -542,14 +539,11 @@ namespace SEOMacroscope
         
         msDoc.UnsetProcessInlinks();
 
-        foreach( MacroscopeOutlink Outlink in msDoc.IterateOutlinks() )
+        foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
         {
-                  
-          string Url = Outlink.GetAbsoluteUrl();
-          MacroscopeInlink Inlink = null;
 
-          DebugMsg( string.Format( "RecalculateInlinks: URL SOURCE: {0}", msDoc.GetUrl() ) );
-          DebugMsg( string.Format( "RecalculateInlinks: URL TARGET: {0}", Url ) );
+          string Url = Link.GetTargetUrl();
+          MacroscopeLinkList Inlinks = null;
 
           if( Url == msDoc.GetUrl() )
           {
@@ -559,26 +553,18 @@ namespace SEOMacroscope
           
           if( this.StructInlinks.ContainsKey( Url ) )
           {
-            Inlink = this.StructInlinks[ Url ];
+            Inlinks = this.StructInlinks[ Url ];
           }
           else
           {
-            Inlink = new MacroscopeInlink ();
-            this.StructInlinks.Add( Url, Inlink );
+            Inlinks = new MacroscopeLinkList ();
+            this.StructInlinks.Add( Url, Inlinks );
           }
 
-          if( Inlink != null )
+          if( Inlinks != null )
           {
 
-            Inlink.Add(
-              LinkType: HyperlinkOut.GetHyperlinkType(),
-              Method: HyperlinkOut.GetMethod(),
-              UrlOrigin: msDoc.GetUrl(),
-              UrlTarget: Url,
-              LinkText: HyperlinkOut.GetLinkText(),
-              LinkTitle: HyperlinkOut.GetLinkTitle(),
-              AltText: HyperlinkOut.GetAltText()
-            );
+            Inlinks.Add( Link: Link );
 
           }
           else
@@ -597,7 +583,6 @@ namespace SEOMacroscope
       }
 
     }
-    */
    
     /** Hyperlinks In *********************************************************/
 

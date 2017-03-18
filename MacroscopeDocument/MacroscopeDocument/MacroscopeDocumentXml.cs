@@ -217,19 +217,19 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private MacroscopeOutlink AddSitemapXmlOutlink (
+    private MacroscopeLink AddSitemapXmlOutlink (
       string AbsoluteUrl,
       MacroscopeConstants.InOutLinkType LinkType,
       Boolean Follow
     )
     {
 
-      MacroscopeOutlink OutLink = new MacroscopeOutlink (
-                                    AbsoluteUrl: AbsoluteUrl,
-                                    SourceUrl: this.GetUrl(),
-                                    LinkType: LinkType,
-                                    Follow: Follow
-                                  );
+      MacroscopeLink OutLink = new MacroscopeLink (
+                                 SourceUrl: this.GetUrl(),
+                                 TargetUrl: AbsoluteUrl,
+                                 LinkType: LinkType,
+                                 Follow: Follow
+                               );
 
       if( this.Outlinks.ContainsKey( AbsoluteUrl ) )
       {

@@ -418,11 +418,11 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
               
-              MacroscopeOutlink Outlink = this.AddHtmlOutlink(
-                                            sLinkUrlAbs,
-                                            MacroscopeConstants.InOutLinkType.AHREF,
-                                            true
-                                          );
+              MacroscopeLink Outlink = this.AddHtmlOutlink( 
+                                         sLinkUrlAbs,
+                                         MacroscopeConstants.InOutLinkType.AHREF,
+                                         true
+                                       );
               
               if( Outlink != null )
               {
@@ -618,7 +618,7 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
 
-              MacroscopeOutlink Outlink = this.AddHtmlOutlink(
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
                                             AbsoluteUrl: sLinkUrlAbs,
                                             LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                                             Follow: true
@@ -808,19 +808,19 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private MacroscopeOutlink AddHtmlOutlink (
+    private MacroscopeLink AddHtmlOutlink (
       string AbsoluteUrl,
       MacroscopeConstants.InOutLinkType LinkType,
       Boolean Follow
     )
     {
 
-      MacroscopeOutlink OutLink = new MacroscopeOutlink (
-                                    AbsoluteUrl: AbsoluteUrl,
-                                    SourceUrl: this.GetUrl(),
-                                    LinkType: LinkType,
-                                    Follow: Follow
-                                  );
+      MacroscopeLink OutLink = new MacroscopeLink (
+                                 TargetUrl: AbsoluteUrl,
+                                 SourceUrl: this.GetUrl(),
+                                 LinkType: LinkType,
+                                 Follow: Follow
+                               );
 
       if( this.Outlinks.ContainsKey( AbsoluteUrl ) )
       {

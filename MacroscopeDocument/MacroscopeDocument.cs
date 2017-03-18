@@ -107,7 +107,7 @@ namespace SEOMacroscope
     private Boolean ProcessInlinks;
     
     // Outbound links to pages and linked assets to follow
-    private Dictionary<string,MacroscopeOutlink> Outlinks;
+    private Dictionary<string,MacroscopeLink> Outlinks;
 
     // Inbound hypertext links
     private Boolean ProcessHyperlinksIn;
@@ -239,7 +239,7 @@ namespace SEOMacroscope
       this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
       this.ProcessInlinks = false;
-      this.Outlinks = new Dictionary<string,MacroscopeOutlink> ( 128 );
+      this.Outlinks = new Dictionary<string,MacroscopeLink> ( 128 );
 
       this.ProcessHyperlinksIn = false;
       this.HyperlinksOut = new MacroscopeHyperlinksOut ();
@@ -844,11 +844,11 @@ namespace SEOMacroscope
 
     /** Outlinks **************************************************************/
 
-    public Dictionary<string,MacroscopeOutlink> GetOutlinks ()
+    public Dictionary<string,MacroscopeLink> GetOutlinks ()
     {
       return( this.Outlinks );
     }
-
+/*
     public IEnumerable<string> IterateOutlinks ()
     {
       lock( this.Outlinks )
@@ -859,10 +859,21 @@ namespace SEOMacroscope
         }
       }
     }
-
-    public MacroscopeOutlink GetOutlink ( string Url )
+  */  
+    public IEnumerable<MacroscopeLink> IterateOutlinks ()
     {
-      MacroscopeOutlink Outlink = null;
+      lock( this.Outlinks )
+      {
+        foreach( string Url in this.Outlinks.Keys )
+        {
+          yield return this.GetOutlink( Url: Url );
+        }
+      }
+    }
+
+    public MacroscopeLink GetOutlink ( string Url )
+    {
+      MacroscopeLink Outlink = null;
       if( this.Outlinks.ContainsKey( Url ) )
       {
         Outlink = this.Outlinks[ Url ];
@@ -876,19 +887,19 @@ namespace SEOMacroscope
       return( iCount );
     }
 
-    private MacroscopeOutlink AddDocumentOutlink (
+    private MacroscopeLink AddDocumentOutlink (
       string AbsoluteUrl,
       MacroscopeConstants.InOutLinkType LinkType,
       Boolean Follow
     )
     {
 
-      MacroscopeOutlink OutLink = new MacroscopeOutlink ( 
-                                    AbsoluteUrl: AbsoluteUrl,
-                                    SourceUrl: this.GetUrl(),
-                                    LinkType: LinkType,
-                                    Follow: Follow
-                                  );
+      MacroscopeLink OutLink = new MacroscopeLink ( 
+                                 SourceUrl: this.GetUrl(),
+                                 TargetUrl: AbsoluteUrl,
+                                 LinkType: LinkType,
+                                 Follow: Follow
+                               );
 
       if( this.Outlinks.ContainsKey( AbsoluteUrl ) )
       {
