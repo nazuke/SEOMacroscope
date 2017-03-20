@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -40,14 +41,14 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private ToolStripLabel UrlCount;
-
+        
     /**************************************************************************/
 
     public MacroscopeDisplayLinks ( MacroscopeMainForm MainForm, ListView lvListView )
       : base( MainForm, lvListView )
     {
       
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.MainForm = MainForm;
       this.lvListView = lvListView;
@@ -163,6 +164,52 @@ namespace SEOMacroscope
 
     }
 
+    
+    /**************************************************************************/
+   
+    /*
+    public void RenderListViewLinks (
+      MacroscopeDocumentCollection DocCollection,
+      List<string> UrlList
+    )
+    {
+      
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )UrlList.Count;
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Displaying Links",
+        Message: "Processing links in document collection for display:",
+        MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+        ProgressLabelMajor: "Documents Processed"
+      );
+      
+      foreach( string Url in UrlList )
+      {
+        
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+
+        this.RenderListView( msDoc, Url );
+        
+        Count++;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+          ProgressLabelMajor: null
+        );
+        
+      }
+      
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+    }
+    */
+   
     /**************************************************************************/
 
     public void RenderListViewSearchSourceUrls (
@@ -171,6 +218,18 @@ namespace SEOMacroscope
     )
     {
 
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Displaying Links",
+        Message: "Processing links in document collection for display:",
+        MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+        ProgressLabelMajor: "Documents Processed"
+      );
+      
       foreach( string Url in DocCollection.DocumentKeys() )
       {
 
@@ -186,8 +245,21 @@ namespace SEOMacroscope
 
         }
 
+        Count++;
+                
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+          ProgressLabelMajor: null
+        );
+        
       }
 
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+      
     }
 
     /**************************************************************************/
@@ -321,7 +393,7 @@ namespace SEOMacroscope
       this.lvListView.EndUpdate();
 
       this.UrlCount.Text = string.Format( "URLs: {0}", lvListView.Items.Count );
-              
+
     }
 
     /**************************************************************************/

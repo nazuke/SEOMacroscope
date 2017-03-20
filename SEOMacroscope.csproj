@@ -98,6 +98,10 @@
     <Compile Include="MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.Designer.cs">
+      <DependentUpon>MacroscopeSinglePercentageProgressForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\IMacroscopeProgressForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.Designer.cs">
@@ -295,6 +299,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.resx">
+      <DependentUpon>MacroscopeSinglePercentageProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.resx">
       <DependentUpon>MacroscopeGetCredentialsHttp.cs</DependentUpon>
     </EmbeddedResource>

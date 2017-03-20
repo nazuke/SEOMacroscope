@@ -292,11 +292,54 @@ namespace SEOMacroscope
       List<string> UrlList
     )
     {
+      
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+     
+      if( UrlList.Count == 0 )
+      {
+        return;
+      }
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )UrlList.Count;
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: "Documents Processed"
+      );
+      
       foreach( string Url in UrlList )
       {
+      
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+      
         this.RenderListView( msDoc, Url );
+        
+        Count++; 
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: null
+        );
+                
       }
+      
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+      
     }
 
     /** Render Document List **************************************************/
