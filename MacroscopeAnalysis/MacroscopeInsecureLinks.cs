@@ -48,17 +48,26 @@ namespace SEOMacroscope
 
     public void Analyze ( MacroscopeDocument msDoc )
     {
+      
       if( msDoc.GetIsSecureUrl() )
       {
-        Dictionary<string,MacroscopeLink> DocDic = msDoc.GetOutlinks();
-        foreach( string Url in DocDic.Keys )
+        
+        MacroscopeLinkList LinkList = msDoc.GetOutlinks();
+        
+        foreach( MacroscopeLink Link in LinkList.IterateLinks() )
         {
+        
+          string Url = Link.GetTargetUrl();
+          
           if( Regex.IsMatch( Url, "^http://", RegexOptions.IgnoreCase ) )
           {
             msDoc.AddInsecureLink( Url );
           }
+          
         }
+        
       }
+      
     }
 
     /**************************************************************************/

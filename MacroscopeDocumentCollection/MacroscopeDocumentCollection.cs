@@ -532,6 +532,10 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "RecalculateInlinks: {0} :: {1}", msDoc.GetProcessInlinks(), msDoc.GetUrl() ) );
 
+      
+      Boolean ProcessInlinks = msDoc.GetProcessInlinks();
+
+
       if( msDoc.GetProcessInlinks() )
       {
 
@@ -592,6 +596,7 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "RecalculateHyperlinksIn: PROCESSING: {0}", msDoc.GetUrl() ) );
         
+        msDoc.UnsetProcessInlinks();
         msDoc.UnsetProcessHyperlinksIn();
 
         foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks() )

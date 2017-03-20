@@ -231,16 +231,8 @@ namespace SEOMacroscope
                                  Follow: Follow
                                );
 
-      if( this.Outlinks.ContainsKey( AbsoluteUrl ) )
-      {
-        this.Outlinks.Remove( AbsoluteUrl );
-        this.Outlinks.Add( AbsoluteUrl, OutLink );
-      }
-      else
-      {
-        this.Outlinks.Add( AbsoluteUrl, OutLink );
-      }
-
+      this.Outlinks.Add( OutLink );
+      
       return( OutLink );
             
     }

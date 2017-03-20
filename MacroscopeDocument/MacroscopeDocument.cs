@@ -107,7 +107,8 @@ namespace SEOMacroscope
     private Boolean ProcessInlinks;
     
     // Outbound links to pages and linked assets to follow
-    private Dictionary<string,MacroscopeLink> Outlinks;
+    //private Dictionary<string,MacroscopeLink> Outlinks;
+    private MacroscopeLinkList Outlinks;
 
     // Inbound hypertext links
     private Boolean ProcessHyperlinksIn;
@@ -239,7 +240,7 @@ namespace SEOMacroscope
       this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
       this.ProcessInlinks = false;
-      this.Outlinks = new Dictionary<string,MacroscopeLink> ( 128 );
+      this.Outlinks = new MacroscopeLinkList ();
 
       this.ProcessHyperlinksIn = false;
       this.HyperlinksOut = new MacroscopeHyperlinksOut ();
@@ -255,25 +256,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
@@ -850,7 +851,7 @@ namespace SEOMacroscope
 
     /** Outlinks **************************************************************/
 
-    public Dictionary<string,MacroscopeLink> GetOutlinks ()
+    public MacroscopeLinkList GetOutlinks ()
     {
       return( this.Outlinks );
     }
@@ -859,26 +860,16 @@ namespace SEOMacroscope
     {
       lock( this.Outlinks )
       {
-        foreach( string Url in this.Outlinks.Keys )
+        foreach( MacroscopeLink Link in this.Outlinks.IterateLinks() )
         {
-          yield return this.GetOutlink( Url: Url );
+          yield return Link;
         }
       }
     }
 
-    public MacroscopeLink GetOutlink ( string Url )
-    {
-      MacroscopeLink Outlink = null;
-      if( this.Outlinks.ContainsKey( Url ) )
-      {
-        Outlink = this.Outlinks[ Url ];
-      }
-      return( Outlink );
-    }
-
     public int CountOutlinks ()
     {
-      int iCount = this.GetOutlinks().Count;
+      int iCount = this.Outlinks.Count();
       return( iCount );
     }
 
@@ -896,16 +887,8 @@ namespace SEOMacroscope
                                  Follow: Follow
                                );
 
-      if( this.Outlinks.ContainsKey( AbsoluteUrl ) )
-      {
-        this.Outlinks.Remove( AbsoluteUrl );
-        this.Outlinks.Add( AbsoluteUrl, OutLink );
-      }
-      else
-      {
-        this.Outlinks.Add( AbsoluteUrl, OutLink );
-      }
-      
+      this.Outlinks.Add( OutLink );
+
       return( OutLink );
 
     }
@@ -962,6 +945,7 @@ namespace SEOMacroscope
       
       if( msDoc != null )
       {
+        msDoc.SetProcessInlinks();
         msDoc.SetProcessHyperlinksIn();
       }
 
@@ -1303,6 +1287,7 @@ namespace SEOMacroscope
 
       this.ClearIsDirty();
 
+      this.SetProcessInlinks();
       this.SetProcessHyperlinksIn();
             
       try
@@ -1487,6 +1472,7 @@ namespace SEOMacroscope
       string sErrorCondition = null;
       Boolean bAuthenticating = false;
 
+      this.SetProcessInlinks();
       this.SetProcessHyperlinksIn();
             
       req.Method = "HEAD";

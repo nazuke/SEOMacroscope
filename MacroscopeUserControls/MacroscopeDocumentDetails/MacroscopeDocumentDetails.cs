@@ -851,7 +851,7 @@ namespace SEOMacroscope
     {
 
       ListView lvListView = this.listViewStylesheets;
-      Dictionary<string,MacroscopeLink> DicOutlinks = msDoc.GetOutlinks();
+      MacroscopeLinkList LinkList = msDoc.GetOutlinks();
       int iCount = 1;
       int count = 0;
             
@@ -859,12 +859,13 @@ namespace SEOMacroscope
             
       lvListView.Items.Clear();
 
-      foreach( string sUrl in DicOutlinks.Keys )
+      foreach( MacroscopeLink Link in LinkList.IterateLinks() )
       {
 
+        string sUrl = Link.GetTargetUrl();
         string sKeyPair = sUrl;
         ListViewItem lvItem = null;
-        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         count++;
         
         if( LinkType == MacroscopeConstants.InOutLinkType.STYLESHEET )
@@ -878,7 +879,7 @@ namespace SEOMacroscope
 
               lvItem = lvListView.Items[ sKeyPair ];
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems[ 1 ].Text = DicOutlinks[ sUrl ].GetTargetUrl();
+              lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
 
             }
             catch( Exception ex )
@@ -898,7 +899,7 @@ namespace SEOMacroscope
               lvItem.Name = sKeyPair;
 
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems.Add( DicOutlinks[ sUrl ].GetTargetUrl() );
+              lvItem.SubItems.Add( Link.GetTargetUrl() );
 
               lvListView.Items.Add( lvItem );
 
@@ -919,7 +920,7 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
-          if( JobMaster.GetAllowedHosts().IsInternalUrl( DicOutlinks[ sUrl ].GetTargetUrl() ) )
+          if( JobMaster.GetAllowedHosts().IsInternalUrl( Link.GetTargetUrl() ) )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
             lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
@@ -946,7 +947,7 @@ namespace SEOMacroscope
     {
 
       ListView lvListView = this.listViewJavascripts;
-      Dictionary<string,MacroscopeLink> DicOutlinks = msDoc.GetOutlinks();
+      MacroscopeLinkList LinkList = msDoc.GetOutlinks();
       int iCount = 1;
       int count = 0;
             
@@ -954,12 +955,13 @@ namespace SEOMacroscope
             
       lvListView.Items.Clear();
 
-      foreach( string sUrl in DicOutlinks.Keys )
+      foreach( MacroscopeLink Link in LinkList.IterateLinks() )
       {
 
         ListViewItem lvItem = null;
+        string sUrl = Link.GetTargetUrl();
         string sKeyPair = sUrl;
-        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         count++;
         
         if( LinkType == MacroscopeConstants.InOutLinkType.SCRIPT )
@@ -973,7 +975,7 @@ namespace SEOMacroscope
 
               lvItem = lvListView.Items[ sKeyPair ];
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems[ 1 ].Text = DicOutlinks[ sUrl ].GetTargetUrl();
+              lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
 
             }
             catch( Exception ex )
@@ -993,7 +995,7 @@ namespace SEOMacroscope
               lvItem.Name = sKeyPair;
 
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems.Add( DicOutlinks[ sUrl ].GetTargetUrl() );
+              lvItem.SubItems.Add( Link.GetTargetUrl() );
 
               lvListView.Items.Add( lvItem );
 
@@ -1014,7 +1016,7 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
-          if( JobMaster.GetAllowedHosts().IsInternalUrl( DicOutlinks[ sUrl ].GetTargetUrl() ) )
+          if( JobMaster.GetAllowedHosts().IsInternalUrl( Link.GetTargetUrl() ) )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
             lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
@@ -1041,7 +1043,7 @@ namespace SEOMacroscope
     {
 
       ListView lvListView = this.listViewImages;
-      Dictionary<string,MacroscopeLink> DicOutlinks = msDoc.GetOutlinks();
+      MacroscopeLinkList LinkList = msDoc.GetOutlinks();
       int iCount = 1;
       int count = 0;
             
@@ -1049,12 +1051,13 @@ namespace SEOMacroscope
             
       lvListView.Items.Clear();
 
-      foreach( string sUrl in DicOutlinks.Keys )
+      foreach( MacroscopeLink Link in LinkList.IterateLinks() )
       {
 
         ListViewItem lvItem = null;
+        string sUrl = Link.GetTargetUrl();
         string sKeyPair = sUrl;
-        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         count++;
         
         if( LinkType == MacroscopeConstants.InOutLinkType.IMAGE )
@@ -1068,9 +1071,9 @@ namespace SEOMacroscope
 
               lvItem = lvListView.Items[ sKeyPair ];
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems[ 1 ].Text = DicOutlinks[ sUrl ].GetTargetUrl();
-              lvItem.SubItems[ 2 ].Text = DicOutlinks[ sUrl ].GetTitle();
-              lvItem.SubItems[ 3 ].Text = DicOutlinks[ sUrl ].GetAltText();
+              lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
+              lvItem.SubItems[ 2 ].Text = Link.GetTitle();
+              lvItem.SubItems[ 3 ].Text = Link.GetAltText();
               
             }
             catch( Exception ex )
@@ -1090,9 +1093,9 @@ namespace SEOMacroscope
               lvItem.Name = sKeyPair;
 
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems.Add( DicOutlinks[ sUrl ].GetTargetUrl() );
-              lvItem.SubItems.Add( DicOutlinks[ sUrl ].GetTitle() );
-              lvItem.SubItems.Add( DicOutlinks[ sUrl ].GetAltText() );
+              lvItem.SubItems.Add( Link.GetTargetUrl() );
+              lvItem.SubItems.Add( Link.GetTitle() );
+              lvItem.SubItems.Add( Link.GetAltText() );
 
               lvListView.Items.Add( lvItem );
 
@@ -1113,7 +1116,7 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
-          if( JobMaster.GetAllowedHosts().IsInternalUrl( DicOutlinks[ sUrl ].GetTargetUrl() ) )
+          if( JobMaster.GetAllowedHosts().IsInternalUrl( Link.GetTargetUrl() ) )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
             lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
@@ -1140,7 +1143,7 @@ namespace SEOMacroscope
     {
 
       ListView lvListView = this.listViewAudios;
-      Dictionary<string,MacroscopeLink> DicOutlinks = msDoc.GetOutlinks();
+      MacroscopeLinkList LinkList = msDoc.GetOutlinks();
       int iCount = 1;
       int count = 0;
             
@@ -1148,12 +1151,13 @@ namespace SEOMacroscope
             
       lvListView.Items.Clear();
 
-      foreach( string sUrl in DicOutlinks.Keys )
+      foreach( MacroscopeLink Link in LinkList.IterateLinks() )
       {
 
         ListViewItem lvItem = null;
+        string sUrl = Link.GetTargetUrl();
         string sKeyPair = sUrl;
-        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         count++;
         
         if( LinkType == MacroscopeConstants.InOutLinkType.AUDIO )
@@ -1167,7 +1171,7 @@ namespace SEOMacroscope
 
               lvItem = lvListView.Items[ sKeyPair ];
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems[ 1 ].Text = DicOutlinks[ sUrl ].GetTargetUrl();
+              lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
 
             }
             catch( Exception ex )
@@ -1187,7 +1191,7 @@ namespace SEOMacroscope
               lvItem.Name = sKeyPair;
 
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems.Add( DicOutlinks[ sUrl ].GetTargetUrl() );
+              lvItem.SubItems.Add( Link.GetTargetUrl() );
 
               lvListView.Items.Add( lvItem );
 
@@ -1208,7 +1212,7 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
-          if( JobMaster.GetAllowedHosts().IsInternalUrl( DicOutlinks[ sUrl ].GetTargetUrl() ) )
+          if( JobMaster.GetAllowedHosts().IsInternalUrl( Link.GetTargetUrl() ) )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
             lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
@@ -1235,7 +1239,7 @@ namespace SEOMacroscope
     {
 
       ListView lvListView = this.listViewVideos;
-      Dictionary<string,MacroscopeLink> DicOutlinks = msDoc.GetOutlinks();
+      MacroscopeLinkList LinkList = msDoc.GetOutlinks();
       int iCount = 1;
       int count = 0;
             
@@ -1243,12 +1247,13 @@ namespace SEOMacroscope
       
       lvListView.Items.Clear();
 
-      foreach( string sUrl in DicOutlinks.Keys )
+      foreach( MacroscopeLink Link in LinkList.IterateLinks() )
       {
 
         ListViewItem lvItem = null;
+        string sUrl = Link.GetTargetUrl();
         string sKeyPair = sUrl;
-        MacroscopeConstants.InOutLinkType LinkType = DicOutlinks[ sUrl ].GetLinkType();
+        MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         count++;
         
         if( LinkType == MacroscopeConstants.InOutLinkType.VIDEO )
@@ -1262,7 +1267,7 @@ namespace SEOMacroscope
 
               lvItem = lvListView.Items[ sKeyPair ];
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems[ 1 ].Text = DicOutlinks[ sUrl ].GetTargetUrl();
+              lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
 
             }
             catch( Exception ex )
@@ -1282,7 +1287,7 @@ namespace SEOMacroscope
               lvItem.Name = sKeyPair;
 
               lvItem.SubItems[ 0 ].Text = iCount.ToString();
-              lvItem.SubItems.Add( DicOutlinks[ sUrl ].GetTargetUrl() );
+              lvItem.SubItems.Add( Link.GetTargetUrl() );
 
               lvListView.Items.Add( lvItem );
 
@@ -1303,7 +1308,7 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
-          if( JobMaster.GetAllowedHosts().IsInternalUrl( DicOutlinks[ sUrl ].GetTargetUrl() ) )
+          if( JobMaster.GetAllowedHosts().IsInternalUrl( Link.GetTargetUrl() ) )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
             lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
