@@ -277,12 +277,49 @@ namespace SEOMacroscope
 
     public void RenderListView ( MacroscopeDocumentCollection DocCollection )
     {
-      DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+            
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );  
+            
       foreach( string Url in DocCollection.DocumentKeys() )
       {
+        
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        
         this.RenderListView( msDoc, Url );
+        
+        Count++; 
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+
       }
+     
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+      
     }
 
     /** Render List ***********************************************************/
@@ -314,7 +351,7 @@ namespace SEOMacroscope
         Title: "Preparing Display",
         Message: "Processing document collection for display:",
         MajorPercentage: MajorPercentage,
-        ProgressLabelMajor: "Documents Processed"
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
       );
       
       foreach( string Url in UrlList )
@@ -331,7 +368,7 @@ namespace SEOMacroscope
           Title: null,
           Message: null,
           MajorPercentage: MajorPercentage,
-          ProgressLabelMajor: null
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
         );
                 
       }
@@ -346,11 +383,49 @@ namespace SEOMacroscope
 
     public void RenderListView ( List<MacroscopeDocument> DocList )
     {
+      
+      if( DocList.Count == 0 )
+      {
+        return;
+      }
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocList.Count;
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );
+      
       for( int i = 0 ; i < DocList.Count ; i++ )
       {
+        
         MacroscopeDocument msDoc = DocList[ i ];
+        
         this.RenderListView( msDoc, msDoc.GetUrl() );
+        
+        Count++; 
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+                
       }
+      
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+    
     }
 
     /** Render Filtered DocCollection *******************************************/
@@ -360,17 +435,53 @@ namespace SEOMacroscope
       MacroscopeConstants.DocumentType DocumentType
     )
     {
-      DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );
+
       foreach( string Url in DocCollection.DocumentKeys() )
       {
+        
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        
         if(
           ( msDoc.GetDocumentType() == DocumentType )
           || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
         {
           this.RenderListView( msDoc, Url );
         }
+        
+        Count++;
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+                
       }
+      
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
     }
 
     /** Render DocCollection Filtered by URL Fragment *************************/
@@ -380,15 +491,51 @@ namespace SEOMacroscope
       string UrlFragment
     )
     {
-      DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+     
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );
+
       foreach( string Url in DocCollection.DocumentKeys() )
       {
+        
         if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
         {
           MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
           this.RenderListView( msDoc, Url );
         }
+        
+        Count++; 
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+                
       }
+      
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+      
     }
 
     /** Render One ************************************************************/

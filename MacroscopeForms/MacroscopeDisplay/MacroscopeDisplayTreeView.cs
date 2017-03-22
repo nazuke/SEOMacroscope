@@ -62,14 +62,18 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
+              Cursor.Current = Cursors.WaitCursor;
               this.RenderTreeView( DocCollection );
+              Cursor.Current = Cursors.Default;
             }
           )
         );
       }
       else
       {
+        Cursor.Current = Cursors.WaitCursor;
         this.RenderTreeView( DocCollection );
+        Cursor.Current = Cursors.Default;
       }
     }
 
@@ -77,12 +81,49 @@ namespace SEOMacroscope
 
     public void RenderTreeView ( MacroscopeDocumentCollection DocCollection )
     {
-      DebugMsg( string.Format( "RenderListView: {0}", "BASE" ) );
+      
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );
+
       foreach( string Url in DocCollection.DocumentKeys() )
       {
+
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+
         this.RenderTreeView( msDoc, Url );
+
+        Count++;
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+                
       }
+      
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+
     }
 
     /** Render One ************************************************************/

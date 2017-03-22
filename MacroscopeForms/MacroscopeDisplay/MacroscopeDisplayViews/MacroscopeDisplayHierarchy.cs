@@ -124,20 +124,61 @@ namespace SEOMacroscope
     )
     {
 
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+      
+      if( UrlList.Count == 0 )
+      {
+        return;
+      }
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )UrlList.Count;
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );
+
       this.tvTreeView.BeginUpdate();
 
       DebugMsg( string.Format( "HIERARCHY: {0}", "BASE" ) );
 
       foreach( string Url in UrlList )
       {
+        
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        
         this.RenderTreeView( msDoc, Url );
+        
+        Count++;
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+                
       }
 
       this.tvTreeView.ExpandAll();
 
       this.tvTreeView.EndUpdate();
 
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+      
     }
 
     /**************************************************************************/

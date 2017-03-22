@@ -87,14 +87,24 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              this.RenderListView( DocCollection: DocCollection, LocalesList: LocalesList );
+              Cursor.Current = Cursors.WaitCursor;
+              this.RenderListView(
+                DocCollection: DocCollection,
+                LocalesList: LocalesList
+              );
+              Cursor.Current = Cursors.Default;
             }
           )
         );
       }
       else
       {
-        this.RenderListView( DocCollection, LocalesList );
+        Cursor.Current = Cursors.WaitCursor;
+        this.RenderListView(
+          DocCollection: DocCollection,
+          LocalesList: LocalesList
+        );
+        Cursor.Current = Cursors.Default;
       }
     }
 
@@ -106,11 +116,35 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderListView ( MacroscopeDocumentCollection DocCollection, Dictionary<string,string> LocalesList )
+    private void RenderListView (
+      MacroscopeDocumentCollection DocCollection,
+      Dictionary<string,string> LocalesList
+    )
     {
 
+      
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       Hashtable htLocaleCols = new Hashtable ();
+
+      
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+            
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );  
 
       this.lvListView.Items.Clear();
       this.lvListView.Columns.Clear();
@@ -211,17 +245,17 @@ namespace SEOMacroscope
                   lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
                 }
 
-                if( ( (int)StatusCode >= 100 ) && ( (int)StatusCode <= 299 ) )
+                if( ( ( int )StatusCode >= 100 ) && ( ( int )StatusCode <= 299 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Green;
                 }
                 else
-                if( ( (int)StatusCode >= 300 ) && ( (int)StatusCode <= 399 ) )
+                if( ( ( int )StatusCode >= 300 ) && ( ( int )StatusCode <= 399 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Orange;
                 }
                 else
-                if( ( (int)StatusCode >= 400 ) && ( (int)StatusCode <= 599 ) )
+                if( ( ( int )StatusCode >= 400 ) && ( ( int )StatusCode <= 599 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Red;
                 }
@@ -281,6 +315,16 @@ namespace SEOMacroscope
 
         }
 
+        Count++;
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+        
       }
 
       this.lvListView.EndUpdate();
@@ -292,6 +336,10 @@ namespace SEOMacroscope
       this.lvListView.Columns[ "Title" ].Width = 300;
       this.lvListView.Columns[ "URL" ].Width = 300;
 
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+      
     }
 
     /**************************************************************************/

@@ -164,52 +164,6 @@ namespace SEOMacroscope
 
     }
 
-    
-    /**************************************************************************/
-   
-    /*
-    public void RenderListViewLinks (
-      MacroscopeDocumentCollection DocCollection,
-      List<string> UrlList
-    )
-    {
-      
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
-      decimal Count = 0;
-      decimal TotalDocs = ( decimal )UrlList.Count;
-      ProgressForm.Show();
-      
-      ProgressForm.UpdatePercentages(
-        Title: "Displaying Links",
-        Message: "Processing links in document collection for display:",
-        MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
-        ProgressLabelMajor: "Documents Processed"
-      );
-      
-      foreach( string Url in UrlList )
-      {
-        
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-
-        this.RenderListView( msDoc, Url );
-        
-        Count++;
-        
-        ProgressForm.UpdatePercentages(
-          Title: null,
-          Message: null,
-          MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
-          ProgressLabelMajor: null
-        );
-        
-      }
-      
-      ProgressForm.Close();
-      
-      ProgressForm.Dispose();
-    }
-    */
-   
     /**************************************************************************/
 
     public void RenderListViewSearchSourceUrls (
@@ -270,6 +224,19 @@ namespace SEOMacroscope
     )
     {
 
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Displaying Links",
+        Message: "Processing links in document collection for display:",
+        MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );
+      
+      
       foreach( string Url in DocCollection.DocumentKeys() )
       {
 
@@ -284,8 +251,21 @@ namespace SEOMacroscope
           );
         }
 
+        Count++;
+                
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+                
       }
 
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+      
     }
 
     /**************************************************************************/

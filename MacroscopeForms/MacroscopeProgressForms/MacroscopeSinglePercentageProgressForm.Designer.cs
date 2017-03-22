@@ -100,6 +100,7 @@ namespace SEOMacroscope
     	this.MaximizeBox = false;
     	this.MinimizeBox = false;
     	this.Name = "MacroscopeSinglePercentageProgressForm";
+    	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
     	this.Text = "Processing";
     	this.ResumeLayout(false);
 
