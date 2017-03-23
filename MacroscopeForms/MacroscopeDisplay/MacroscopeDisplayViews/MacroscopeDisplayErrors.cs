@@ -77,30 +77,30 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public new void RefreshData ( MacroscopeDocumentCollection DocCollection )
-    {
-      if( this.MainForm.InvokeRequired )
-      {
-        this.MainForm.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.RenderListView( DocCollection );
-            }
-          )
-        );
-      }
-      else
-      {
-        this.RenderListView( DocCollection );
-      }
-    }
-
-    /**************************************************************************/
-
-    public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
+    public override void RenderListView ( MacroscopeDocumentCollection DocCollection )
     {
 
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+            
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );  
+
+      this.lvListView.BeginUpdate();
+                    
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
@@ -125,7 +125,23 @@ namespace SEOMacroscope
           RemoveFromListView( msDoc.GetUrl() );
         }
 
+        Count++; 
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+
       }
+     
+      this.lvListView.EndUpdate();
+                    
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
 
     }
 

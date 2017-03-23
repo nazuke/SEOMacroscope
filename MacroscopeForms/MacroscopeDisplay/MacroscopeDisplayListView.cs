@@ -275,7 +275,7 @@ namespace SEOMacroscope
 
     /** Render Entire DocCollection *******************************************/
 
-    public void RenderListView ( MacroscopeDocumentCollection DocCollection )
+    public virtual void RenderListView ( MacroscopeDocumentCollection DocCollection )
     {
 
       if( DocCollection.CountDocuments() == 0 )

@@ -111,7 +111,10 @@ namespace SEOMacroscope
             {
               lock( this.lvListView )
               {
-                this.RenderListView( History );
+                Cursor.Current = Cursors.WaitCursor;
+                this.RenderListView( History: History );
+                Cursor.Current = Cursors.Default;
+
               }
             }
           )
@@ -121,7 +124,9 @@ namespace SEOMacroscope
       {
         lock( this.lvListView )
         {
-          this.RenderListView( History );
+          Cursor.Current = Cursors.WaitCursor;
+          this.RenderListView( History: History );
+          Cursor.Current = Cursors.Default;
         }
       }
     }
@@ -131,20 +136,38 @@ namespace SEOMacroscope
     private void RenderListView ( Dictionary<string,Boolean> History )
     {
 
+      if( History.Count == 0 )
+      {
+        return;
+      }
+      
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-            
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )History.Count;
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      ProgressForm.Show();
+      
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing document collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+      );  
+      
+      this.lvListView.BeginUpdate();
+              
       foreach( string Url in History.Keys )
       {
 
-        string sVisited = "No";
         ListViewItem lvItem = null;
+        string sVisited = "No";
 
         if( History[ Url ] )
         {
           sVisited = "Yes";
         }
-        
-        this.lvListView.BeginUpdate();
 
         if( this.lvListView.Items.ContainsKey( Url ) )
         {
@@ -185,7 +208,7 @@ namespace SEOMacroscope
 
           if( AllowedHosts.IsInternalUrl( Url ) )
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+            lvItem.SubItems[ 0 ].ForeColor = Color.Green;
             if( History[ Url ] )
             {
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
@@ -202,11 +225,25 @@ namespace SEOMacroscope
           }
 
         }
-                
-        this.lvListView.EndUpdate();
+
+        Count++;
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
 
       }
 
+      this.lvListView.EndUpdate();
+              
+      ProgressForm.Close();
+      
+      ProgressForm.Dispose();
+      
     }
 
     /**************************************************************************/
