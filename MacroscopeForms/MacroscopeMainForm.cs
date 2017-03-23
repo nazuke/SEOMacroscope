@@ -1323,6 +1323,7 @@ namespace SEOMacroscope
     private void CallbackSearchCollectionButtonClear ( object sender, EventArgs e )
     {
       this.msDisplaySearchCollection.ClearData();
+      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionDocumentsNumber.Text = string.Format( "Documents: {0}", 0 );
     }
 
     private void CallbackSearchCollectionTextBoxSearchKeyUp ( object sender, KeyEventArgs e )

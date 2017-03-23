@@ -34,14 +34,22 @@ namespace SEOMacroscope
   {
 
     /**************************************************************************/
+        
+    private ToolStripLabel DocumentCount;
+        
+    /**************************************************************************/
 
-    public MacroscopeDisplaySearchCollection ( MacroscopeMainForm MainForm, ListView lvListView )
+    public MacroscopeDisplaySearchCollection (
+      MacroscopeMainForm MainForm,
+      ListView lvListView
+    )
       : base( MainForm, lvListView )
     {
 
       this.MainForm = MainForm;
       this.lvListView = lvListView;
-
+      this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionDocumentsNumber;
+      
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -127,6 +135,8 @@ namespace SEOMacroscope
 
       }
 
+      this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
+              
     }
 
     /**************************************************************************/

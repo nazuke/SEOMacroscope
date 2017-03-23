@@ -40,17 +40,17 @@ namespace SEOMacroscope
     public void TestHtmlDocument ()
     {
 
-      List<string> lList = new List<string> () {
+      List<string> UrlList = new List<string> () {
         {
           "https://nazuke.github.io/SEOMacroscope/"
         }
       };
 
-      foreach( string Url in lList )
+      foreach( string Url in UrlList )
       {
 
         MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
-
+        
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 			  
         msDoc.Execute();
