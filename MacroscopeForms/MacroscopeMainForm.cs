@@ -31,6 +31,7 @@ using System.Timers;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -539,11 +540,72 @@ namespace SEOMacroscope
     {
 
       this.JobMaster.ClearAllQueues();
-      this.JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE, TaskController: this );
+      this.JobMaster = new MacroscopeJobMaster (
+        RunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE,
+        TaskController: this
+      );
       this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
       this.ClearDisplay();
 
-      MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader ( JobMaster: this.JobMaster, Path: Path );
+      MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader (
+                                                  JobMaster: this.JobMaster,
+                                                  Path: Path
+                                                );
+
+      if( msUrlListLoader != null )
+      {
+
+        if( msUrlListLoader.Execute() )
+        {
+
+          string sStartUrl = msUrlListLoader.GetUrlListItem( 0 );
+
+          this.SetUrl( sStartUrl );
+
+          if( MacroscopeUrlUtils.ValidateUrl( sStartUrl ) )
+          {
+
+            this.ScanningControlsStart( true );
+
+            MacroscopePreferencesManager.SetStartUrl( sStartUrl );
+
+            MacroscopePreferencesManager.SavePreferences();
+
+            this.ThreadScanner = new Thread ( new ThreadStart ( this.ScanningThread ) );
+            this.ThreadScanner.Start();
+
+          }
+          else
+          {
+            DialogueBoxStartUrlInvalid();
+          }
+
+        }
+        else
+        {
+          DialogueBoxError( "Load URL List Error", "The URL list specified could not loaded" );
+        }
+      }
+
+    }
+
+    /** SCAN FROM URL TEXT LIST ***********************************************/
+
+    private void CallackScanStartUrlListFromClipboardExecute ( string [] UrlListText )
+    {
+
+      this.JobMaster.ClearAllQueues();
+      this.JobMaster = new MacroscopeJobMaster (
+        RunTimeMode: MacroscopeConstants.RunTimeMode.LISTTEXT,
+        TaskController: this
+      );
+      this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
+      this.ClearDisplay();
+
+      MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader (
+                                                  JobMaster: this.JobMaster,
+                                                  UrlListText: UrlListText
+                                                );
 
       if( msUrlListLoader != null )
       {
@@ -691,8 +753,6 @@ namespace SEOMacroscope
 
       this.SemaphoreOverviewTabPages.WaitOne();
 
-      //DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE ACQUIRED" ) );
-
       TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
       string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
 
@@ -703,8 +763,6 @@ namespace SEOMacroscope
       }
 
       this.SemaphoreOverviewTabPages.Release( 1 );
-
-      //DebugMsg( string.Format( "CallbackTabPageTimerExec: {0}", "SEMAPHORE RELEASED" ) );
 
     }
 
@@ -2092,6 +2150,22 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
+
+    }
+
+    private void CallbackLoadUrlListTextFromClipboard ( object sender, EventArgs e )
+    {
+
+      MacroscopeLoadUrlListFromClipboard LoadUrlListDialogue = new MacroscopeLoadUrlListFromClipboard ();
+
+      if( LoadUrlListDialogue.ShowDialog() == DialogResult.OK )
+      {
+        string UrlListText = LoadUrlListDialogue.GetUrlsText();
+        string [] UrlList = Regex.Split( UrlListText, "[\r\n]", RegexOptions.Singleline );
+        this.CallackScanStartUrlListFromClipboardExecute( UrlList );     
+      }
+            
+      LoadUrlListDialogue.Dispose();
 
     }
 

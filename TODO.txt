@@ -1,5 +1,1 @@
 ﻿Add overview panel for listing documents with specific linked assets. For example, filter by "documents that contain video" or "documents that contain images".
-
-Add overview panel for "slow pages".
-
-Add more tabs to document info panel, such as audio, video, etc...

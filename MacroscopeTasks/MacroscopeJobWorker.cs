@@ -406,7 +406,10 @@ namespace SEOMacroscope
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
       {
         DebugMsg( string.Format( "ProcessOutlinks LISTMODE: {0}", this.JobMaster.GetRunTimeMode() ) );
-        return;
+        if( !MacroscopePreferencesManager.GetScanSitesInList() )
+        {
+          return;
+        }
       }
 
       foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )

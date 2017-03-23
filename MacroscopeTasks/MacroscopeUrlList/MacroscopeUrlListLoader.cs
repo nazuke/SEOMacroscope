@@ -31,115 +31,134 @@ using System.Text.RegularExpressions;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeUrlListLoader.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeUrlListLoader.
+  /// </summary>
 
-	public class MacroscopeUrlListLoader : Macroscope
-	{
+  public class MacroscopeUrlListLoader : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		MacroscopeJobMaster JobMaster;
-		string Path;
-		List<string> UrlList;
+    MacroscopeJobMaster JobMaster;
+    string Path;
+    string [] UrlListText;
+    List<string> UrlList;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeUrlListLoader ( MacroscopeJobMaster JobMaster, string Path )
-		{
-			this.JobMaster = JobMaster;
-			this.Path = Path;
-			this.UrlList = new List<string> ();
-		}
+    public MacroscopeUrlListLoader ( MacroscopeJobMaster JobMaster, string Path )
+    {
+      this.JobMaster = JobMaster;
+      this.Path = Path;
+      this.UrlListText = new string[0];
+      this.UrlList = new List<string> ();
+    }
 
-		/**************************************************************************/
+    public MacroscopeUrlListLoader ( MacroscopeJobMaster JobMaster, string [] UrlListText )
+    {
+      this.JobMaster = JobMaster;
+      this.Path = null;
+      this.UrlListText = UrlListText;
+      this.UrlList = new List<string> ();
+    }
 
-		public Boolean Execute ()
-		{
-			Boolean bSuccess = false;
-			MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
+    /**************************************************************************/
 
-			this.CleanseList();
+    public Boolean Execute ()
+    {
+      Boolean bSuccess = false;
+      MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
 
-			if( this.UrlList.Count > 0 )
-			{
+      this.CleanseList();
 
-			  this.JobMaster.SetRunTimeMode( RunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE );
+      if( this.UrlList.Count > 0 )
+      {
 
-				for( int i = 0 ; i < this.UrlList.Count ; i++ )
-				{
-					string sUrl = this.UrlList[ i ];
-					AllowedHosts.AddFromUrl( sUrl );
-					this.JobMaster.AddUrlQueueItem( sUrl );
-				}
+        this.JobMaster.SetRunTimeMode( RunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE );
 
-				bSuccess = true;
-			}
+        for( int i = 0 ; i < this.UrlList.Count ; i++ )
+        {
+          string sUrl = this.UrlList[ i ];
+          AllowedHosts.AddFromUrl( sUrl );
+          this.JobMaster.AddUrlQueueItem( sUrl );
+        }
 
-			return( bSuccess );
-		}
+        bSuccess = true;
+      }
 
-		/**************************************************************************/
+      return( bSuccess );
+    }
 
-		Boolean CleanseList ()
-		{
+    /**************************************************************************/
 
-			Boolean bSuccess = false;
-			string [] saUrls = null;
+    private Boolean CleanseList ()
+    {
 
-			try
-			{
-				saUrls = File.ReadAllLines( this.Path );
-			}
-			catch( FileLoadException ex )
-			{
-				DebugMsg( string.Format( "FileLoadException: {0}", ex.Message ) );
-			}
+      Boolean bSuccess = false;
+      string [] saUrls = null;
 
-			if( ( saUrls != null ) && ( saUrls.Length > 0 ) )
-			{
-				for( int i = 0 ; i < saUrls.Length ; i++ )
-				{
-					string sUrl = saUrls[ i ];
-					sUrl = Regex.Replace( sUrl, "^\\s+", "" );
-					sUrl = Regex.Replace( sUrl, "\\s+$", "" );
-					if( sUrl.Length > 0 )
-					{
-						if( Uri.IsWellFormedUriString( sUrl, UriKind.Absolute ) )
-						{
-							DebugMsg( string.Format( "CleanseList Adding: {0}", sUrl ) );
-							this.UrlList.Add( sUrl );
-						}
-					}
-				}
-				bSuccess = true;
-			}
+      if( this.Path != null )
+      {
 
-			return( bSuccess );
-		}
+        try
+        {
+          saUrls = File.ReadAllLines( this.Path );
+        }
+        catch( FileLoadException ex )
+        {
+          DebugMsg( string.Format( "FileLoadException: {0}", ex.Message ) );
+        }
 
-		/**************************************************************************/
+      }
+      else
+      {
+        saUrls = this.UrlListText;
+      }
 
-		public string GetUrlListItem ( int Item )
-		{
-			string sUrl = null;
-			try
-			{
-				if( this.UrlList[ Item ].Length > 0 )
-				{
-					sUrl = this.UrlList[ Item ];
-				}
-			}
-			catch( Exception ex )
-			{
-				DebugMsg( string.Format( "GetUrlListItem: {0}", ex.Message ) );
-			}
-			return( sUrl );
-		}
+      if( ( saUrls != null ) && ( saUrls.Length > 0 ) )
+      {
+        for( int i = 0 ; i < saUrls.Length ; i++ )
+        {
+          string sUrl = saUrls[ i ];
+          sUrl = Regex.Replace( sUrl, "^\\s+", "" );
+          sUrl = Regex.Replace( sUrl, "\\s+$", "" );
+          if( sUrl.Length > 0 )
+          {
+            if( Uri.IsWellFormedUriString( sUrl, UriKind.Absolute ) )
+            {
+              DebugMsg( string.Format( "CleanseList Adding: {0}", sUrl ) );
+              this.UrlList.Add( sUrl );
+            }
+          }
+        }
+        bSuccess = true;
+      }
 
-		/**************************************************************************/
+      return( bSuccess );
+    }
 
-	}
+    /**************************************************************************/
+
+    public string GetUrlListItem ( int Item )
+    {
+      string sUrl = null;
+      try
+      {
+        if( this.UrlList[ Item ].Length > 0 )
+        {
+          sUrl = this.UrlList[ Item ];
+        }
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "GetUrlListItem: {0}", ex.Message ) );
+      }
+      return( sUrl );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

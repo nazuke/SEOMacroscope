@@ -106,7 +106,10 @@ namespace SEOMacroscope
               delegate
               {
                 Cursor.Current = Cursors.WaitCursor;
-                this.RenderKeywordAnalysisListView( this.lvListViews[ i ], DicTerms );
+                this.RenderKeywordAnalysisListView(
+                  this.lvListViews[ i ],
+                  DicTerms
+                );
                 Cursor.Current = Cursors.Default;
               }
             )
@@ -115,7 +118,10 @@ namespace SEOMacroscope
         else
         {
           Cursor.Current = Cursors.WaitCursor;
-          this.RenderKeywordAnalysisListView( this.lvListViews[ i ], DicTerms );
+          this.RenderKeywordAnalysisListView(
+            this.lvListViews[ i ],
+            DicTerms
+          );
           Cursor.Current = Cursors.Default;
         }
       
@@ -183,9 +189,9 @@ namespace SEOMacroscope
         {
           lvItem.ForeColor = Color.Blue;
         }
-
+        
       }
-
+      
       lvListView.EndUpdate();
 
     }

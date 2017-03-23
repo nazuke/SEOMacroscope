@@ -98,6 +98,10 @@
     <Compile Include="MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
+      <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.Designer.cs">
       <DependentUpon>MacroscopeSinglePercentageProgressForm.cs</DependentUpon>
@@ -299,6 +303,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.resx">
+      <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.resx">
       <DependentUpon>MacroscopeSinglePercentageProgressForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -379,6 +386,7 @@
     <Folder Include="MacroscopeForms\MacroscopeLicenceForm" />
     <Folder Include="MacroscopeForms\MacroscopeGetCredentialsHttp" />
     <Folder Include="MacroscopeForms\MacroscopeProgressForms" />
+    <Folder Include="MacroscopeForms\MacroscopeLoadUrlList" />
     <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeHyperlinks" />
     <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />
@@ -411,6 +419,9 @@
     <Folder Include="MacroscopeUserControls\MacroscopeSiteStructurePanel" />
     <Folder Include="MacroscopeSearch" />
     <Folder Include="MacroscopeNamedQueue" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ProfilingSessions\Session20170323_170729.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
