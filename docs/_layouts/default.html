@@ -5,28 +5,23 @@
 
   <body>
 
-
 		{% include header.html %}
 
-
 		<main class="container" aria-label="Content">
-
-			{{ content }}
-
+      <div class="row">
+        <div class="xs-col-1 sm-col-1 md-col-1 lg-col-1">&nbsp;</div>
+        <div class="xs-col-10 sm-col-10 md-col-10 lg-col-10">
+          {{ content }}
+        </div>
+      </div>
     </main>
-
 
     {% include footer.html %}
 
-
 		<!-- BEGIN: jQuery and Bootstrap JavaScript -->
-
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
 		<!-- END: jQuery and Bootstrap JavaScript -->
-
 
 	</body>
 
