@@ -4,12 +4,18 @@ layout: default
 
 <article class="row">
 
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title | escape }}</h1>
-  </header>
+  <div class="xs-col-1 sm-col-1 md-col-1 lg-col-1">&nbsp;</div>
 
-  <div class="post-content">
-    {{ content }}
+  <div class="xs-col-10 sm-col-10 md-col-10 lg-col-10">
+
+    <header class="post-header">
+      <h1 class="post-title">{{ page.title | escape }}</h1>
+    </header>
+
+    <div class="post-content">
+      {{ content }}
+    </div>
+
   </div>
 
 </article>
