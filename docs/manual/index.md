@@ -35,4 +35,4 @@ How to export crawled data to Excel report files.
 
 Explanations of how SEO Macroscope deals with a few details under the hood.
 
-> [Go to task concepts pages](concepts/)
+> [Go to concepts pages](concepts/)
