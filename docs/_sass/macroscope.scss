@@ -1,42 +1,45 @@
 /** Variables *****************************************************************/
 
-$color-black: #000000;
-$color-white: #FFFFFF;
-$color-purple: #9724A1;
+$color-black:#000000;
+$color-white:#FFFFFF;
+$color-orange:#FF8800;
+$color-purple:#9724A1;
+$color-dark-grey:#444444;
+$color-medium-grey:#888888;
+$color-light-grey:#EEEEEE;
+$color-transparent:rgba(0,0,0,0);
 
 /** Body **********************************************************************/
 
 body
 {
-	background-color:$color-black;
-	background-image:url('../media/images/jumbotron-background.png');
-  background-repeat:no-repeat;
-  background-position:top right;
-	background-attachment:fixed;
+	background-color:$color-light-grey;
 }
 
 /** Navigation ****************************************************************/
 
 [role="navigation"] .nav-tabs
 {
+	font-weight:bold;
+
 	border-width:0px;
+	margin:0px 0px 0px 0px;
 
-	[role="presentation"] a
+	[role="presentation"] a,
+	[role="presentation"] a:visited
 	{
-		color:$color-white;
-	}
-
-	[role="presentation"] a
-	{
-		border-width:0px 0px 1px 0px;
+		color:$color-purple;
+		border-width:2px 0px 0px 0px;
 		border-radius:0px;
+		border-color:$color-purple;
+
 	}
 
 	[role="presentation"] a:hover
 	{
-		color:$color-purple;
-		background-color:rgba(0,0,0,0);
-		border-color:$color-purple;
+		color:$color-orange;
+		background-color:$color-transparent;
+		border-color:$color-orange;
 	}
 
 }
@@ -46,27 +49,29 @@ body
 .jumbotron
 {
 
-  background-color:rgba(0,0,0,0.75);
+	background-color:$color-black;
+	background-image:url('../media/images/jumbotron-background.png');
+  background-repeat:no-repeat;
+  background-position:top right;
 
   h1, a
   {
-    color:#FF8800;
+    color:$color-orange;
+		text-shadow:0px 0px 3px $color-black;
   }
 
   h2
   {
-    color:#AAAAAA;
+    color:$color-white;
+		text-shadow:0px 0px 3px $color-black;
   }
 
 }
-
 
 /** Typography ****************************************************************/
 
 main
 {
-
-  background-color:rgba(0,0,0,0.75);
 
 	h1,
 	h2,
@@ -77,28 +82,44 @@ main
 	p,
 	li
 	{
-		color:#FFFFFF;
+		color:$color-dark-grey;
 	}
 
 }
 
+a
+{
+	color:$color-purple;
+	&:visited {
+		color:$color-purple;
+	}
+	&:hover {
+		color:$color-orange;
+	}
+}
 
+blockquote
+{
+	border-left-color:$color-purple;
+}
 
+/** Images ********************************************************************/
 
-
-
-
-
-
-
-
+.box-shadow
+{
+	box-shadow:0px 0px 10px $color-medium-grey;
+}
 
 /** Footer ********************************************************************/
 
 footer
 {
   background-color:#EEEEEE;
-  margin:100px 0px 0px 0px;
+	margin:50px 0px 0px 0px;
+	padding:10px 0px 10px 0px;
+	border-style:solid;
+	border-width:1px 0px 0px 0px;
+	border-color:$color-medium-grey;
 }
 
 /******************************************************************************/

@@ -5,4 +5,4 @@
 layout: home
 ---
 
-![The SEO Macroscope application window.](manual/images/application-001.png)
+![The SEO Macroscope application window.](manual/images/application-001.png){: .img-responsive .box-shadow}
