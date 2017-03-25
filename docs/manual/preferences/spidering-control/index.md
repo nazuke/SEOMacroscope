@@ -63,7 +63,7 @@ Set low values to begin with.
 
 #### Maximum Worker Threads
 
-SEO Macroscope uses a threaded model to manage crawler workers.
+SEO Macroscope uses a threaded model to manage crawl workers.
 
 To be conservative, set the number of threads to 1 initially.
 
@@ -95,4 +95,60 @@ Set this to the number of attempts that SEO Macroscope should make when retrievi
 
 If you have a fast web server, then set this to a reasonably low value. Setting it too high may slow down the overall crawl if your web server is slow to respond.
 
-TBD
+### Fetch Document Types
+
+Please note that HTML documents are *always* crawled.
+
+Otherwise, to speed things up, we can exclude document types that we are not interested in crawling.
+
+In general, excluded document types will still have a HEAD request issued against them, but they will not be downloaded and crawled further.
+
+#### CSS stylesheets
+
+Enabling this option will cause CSS stylesheets to be fetched, and crawled.
+
+Please not that currently, there is partial support for crawling further linked assets, such as background images, within stylesheets.
+
+#### Javascripts
+
+Enabling this option will cause Javascripts to be downloaded and analyzed.
+
+Beyond that, no further crawling occurs with Javascripts.
+
+#### Images
+
+Enabling this option will cause images to be downloaded and analyzed.
+
+Beyond that, no further crawling occurs with images.
+
+#### PDFs
+
+Enabling this option will cause PDF files to be downloaded, and if possible, processed and analyzed.
+
+If this option is enabled, PDF texts will be processed in the same manner as HTML text, including having their keyword terms analyzed, and Levenshtein processing applied.
+
+This option is off by default. Please note that enabling this option may use a lot more bandwidth.
+
+#### Audio files
+
+Enabling this option will cause audio files to be downloaded and analyzed.
+
+Beyond that, no further crawling occurs with audio files.
+
+#### Video files
+
+Enabling this option will cause video files to be downloaded and analyzed.
+
+Beyond that, no further crawling occurs with video files.
+
+#### XML files
+
+Enabling this option will cause XML files to be downloaded, analyzed, and if applicable, crawled further.
+
+This also includes Google Sitemap XML files. Disabling this option will cause those to not be downloaded and crawled.
+
+#### Binary files
+
+Binary files are any other file type for which no specific handling occurs.
+
+For example, a linked .EXE file will have a HEAD request issued against it, to check that it is not a broken link, but disabling this option will not download the file itself.

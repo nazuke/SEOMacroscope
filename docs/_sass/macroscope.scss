@@ -16,6 +16,41 @@ body
 	background-color:$color-light-grey;
 }
 
+/** Typography ****************************************************************/
+
+main
+{
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p,
+	li
+	{
+		color:$color-dark-grey;
+	}
+
+}
+
+a
+{
+	color:$color-purple;
+	&:visited {
+		color:$color-purple;
+	}
+	&:hover {
+		color:$color-orange;
+	}
+}
+
+blockquote
+{
+	border-left-color:$color-purple;
+}
+
 /** Navigation ****************************************************************/
 
 [role="navigation"] .nav-tabs
@@ -66,41 +101,6 @@ body
 		text-shadow:0px 0px 3px $color-black;
   }
 
-}
-
-/** Typography ****************************************************************/
-
-main
-{
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	p,
-	li
-	{
-		color:$color-dark-grey;
-	}
-
-}
-
-a
-{
-	color:$color-purple;
-	&:visited {
-		color:$color-purple;
-	}
-	&:hover {
-		color:$color-orange;
-	}
-}
-
-blockquote
-{
-	border-left-color:$color-purple;
 }
 
 /** Images ********************************************************************/
