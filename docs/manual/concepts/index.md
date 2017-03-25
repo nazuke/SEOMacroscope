@@ -3,9 +3,8 @@ layout: page
 title: "SEO Macroscope Manual :: Concepts"
 ---
 
-## Concepts
-
 Explanations of how SEO Macroscope deals with a few details under the hood.
+{: .lead }
 
 ### "Internal" and "External" Hosts
 
