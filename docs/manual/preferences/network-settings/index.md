@@ -1,12 +1,12 @@
 ---
 layout: page
-title: "SEO Macroscope Manual :: Preferences :: Network Settings"
+title: "Preferences :: Network Settings"
 ---
-
-![SEO Macroscope spidering control preferences](../../images/preferences-network-settings.png){: .img-responsive .box-shadow}
 
 Configure your network settings here.
 {: .lead }
+
+![SEO Macroscope spidering control preferences](../../images/preferences-network-settings.png){: .img-responsive .box-shadow}
 
 ## HTTP Proxy
 

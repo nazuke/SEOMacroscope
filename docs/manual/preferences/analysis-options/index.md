@@ -1,12 +1,12 @@
 ---
 layout: page
-title: "SEO Macroscope Manual :: Preferences :: Analysis Options"
+title: "Preferences :: Analysis Options"
 ---
-
-![SEO Macroscope spidering control preferences](../../images/preferences-analysis-options.png){: .img-responsive .box-shadow}
 
 Set further localization, list processing, and analysis options here.
 {: .lead }
+
+![SEO Macroscope spidering control preferences](../../images/preferences-analysis-options.png){: .img-responsive .box-shadow}
 
 ## Localized Pages
 

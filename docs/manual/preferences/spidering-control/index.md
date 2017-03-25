@@ -1,12 +1,12 @@
 ---
 layout: page
-title: "SEO Macroscope Manual :: Preferences :: Spidering Control"
+title: "Preferences :: Spidering Control"
 ---
-
-![SEO Macroscope spidering control preferences](../../images/preferences-spidering-control.png){: .img-responsive .box-shadow}
 
 These settings control how SEO Macroscope crawls the links on your site.
 {: .lead }
+
+![SEO Macroscope spidering control preferences](../../images/preferences-spidering-control.png){: .img-responsive .box-shadow}
 
 ## Standards
 
