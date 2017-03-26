@@ -36,16 +36,6 @@ namespace SEOMacroscope
   public partial class MacroscopePrefsForm : Form
   {
 
-    
-    /*
-
-               EnableLevenshteinDeduplication = Preferences.EnableLevenshteinDeduplication;
-          MaxLevenshteinSizeDifference = Preferences.MaxLevenshteinSizeDifference;
-          MaxLevenshteinDistance = Preferences.MaxLevenshteinDistance;
-     
-     */
-    
-    
     /**************************************************************************/
 
     public MacroscopePrefsForm ()
@@ -88,6 +78,10 @@ namespace SEOMacroscope
         
     private void SetPrefsFormControlFields ( MacroscopePrefsControl PrefsControl )
     {
+
+      { // Configure Display Options
+        PrefsControl.checkBoxPauseDisplayDuringScan.Checked = MacroscopePreferencesManager.GetPauseDisplayDuringScan();
+      }
 
       { //Configure Form Fields
 
@@ -177,6 +171,10 @@ namespace SEOMacroscope
     {
 
       MacroscopePrefsControl PrefsControl = this.macroscopePrefsControlInstance;
+
+      // Configure Display Options
+      
+      MacroscopePreferencesManager.SetPauseDisplayDuringScan( PrefsControl.checkBoxPauseDisplayDuringScan.Checked );
 
       // WebProxy Options
 

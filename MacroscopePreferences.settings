@@ -115,6 +115,9 @@
     <Setting Name="PageLimit" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">-1</Value>
     </Setting>
+    <Setting Name="PauseDisplayDuringScan" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="RequestTimeout" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">30</Value>
     </Setting>

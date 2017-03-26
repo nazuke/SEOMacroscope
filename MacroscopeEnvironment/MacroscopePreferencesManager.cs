@@ -39,6 +39,9 @@ namespace SEOMacroscope
     static MacroscopePreferences Preferences;
     static WebProxy wpProxy = null;
 
+    // Display Options
+    static Boolean PauseDisplayDuringScan;
+    
     // WebProxy Options
     static string HttpProxyHost;
     static int HttpProxyPort;
@@ -131,6 +134,9 @@ namespace SEOMacroscope
         else
         {
 
+    
+          PauseDisplayDuringScan = Preferences.PauseDisplayDuringScan;
+    
           HttpProxyHost = Preferences.HttpProxyHost;
           HttpProxyPort = Preferences.HttpProxyPort;
 
@@ -208,6 +214,10 @@ namespace SEOMacroscope
     public static void SetDefaultValues ()
     {
 
+      // Display Options
+      
+      PauseDisplayDuringScan = false;
+                
       // WebProxy Options
 
       HttpProxyHost = "";
@@ -341,6 +351,8 @@ namespace SEOMacroscope
       if( Preferences != null )
       {
 
+        Preferences.PauseDisplayDuringScan = PauseDisplayDuringScan;
+              
         Preferences.HttpProxyHost = HttpProxyHost;
         Preferences.HttpProxyPort = HttpProxyPort;
 
@@ -405,6 +417,18 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /** Display Options *******************************************************/
+
+    public static Boolean GetPauseDisplayDuringScan ()
+    {
+      return( PauseDisplayDuringScan );
+    }
+
+    public static void SetPauseDisplayDuringScan ( Boolean State )
+    {
+      PauseDisplayDuringScan = State;
     }
 
     /** HTTP Proxy ************************************************************/

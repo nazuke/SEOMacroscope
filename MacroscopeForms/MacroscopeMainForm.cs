@@ -695,6 +695,7 @@ namespace SEOMacroscope
             delegate
             {
               this.ScanningControlsComplete( true );
+              this.UpdateFocusedTabPage();
             }
           )
         );
@@ -702,6 +703,7 @@ namespace SEOMacroscope
       else
       {
         this.ScanningControlsComplete( true );
+        this.UpdateFocusedTabPage();
       }
     }
 
@@ -750,20 +752,15 @@ namespace SEOMacroscope
 
     private void CallbackTabPageTimerExec ()
     {
-
-      this.SemaphoreOverviewTabPages.WaitOne();
-
-      TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-      string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
-
-      if( this.JobMaster.PeekUpdateDisplayQueue() )
+      if( !MacroscopePreferencesManager.GetPauseDisplayDuringScan() )
       {
-        this.UpdateTabPage( sTabPageName );
-        this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
+        DebugMsg( string.Format( "GetPauseDisplayDuringScan: {0}", "UNPAUSED" ) );
+        this.UpdateFocusedTabPage();
       }
-
-      this.SemaphoreOverviewTabPages.Release( 1 );
-
+      else
+      {
+        DebugMsg( string.Format( "GetPauseDisplayDuringScan: {0}", "PAUSED" ) );
+      }
     }
 
     private void CallbackTabControlDisplaySelectedIndexChanged ( Object sender, EventArgs e )
@@ -771,6 +768,24 @@ namespace SEOMacroscope
       TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
       string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
       this.UpdateTabPage( sTabPageName );
+    }
+
+    private void UpdateFocusedTabPage ()
+    {
+
+      this.SemaphoreOverviewTabPages.WaitOne();
+
+      TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+      string TabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+
+      if( this.JobMaster.PeekUpdateDisplayQueue() )
+      {
+        this.UpdateTabPage( TabPageName );
+        this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
+      }
+
+      this.SemaphoreOverviewTabPages.Release( 1 );
+
     }
 
     private void UpdateTabPage ( string TabName )
