@@ -139,7 +139,7 @@ namespace SEOMacroscope
         {
           if( this.DetectSitemapXmlDocument( XmlDoc ) )
           {
-            DebugMsg( string.Format( "ProcessXmlPage: {0}", "SITEMAP DETECTED" ) );
+            DebugMsg( string.Format( "ProcessXmlPage: {0} :: {1}", "SITEMAP DETECTED", this.GetUrl() ) );
             this.SetIsSitemapXml();
             this.ProcessSitemapXmlOutlinks( XmlDoc );
           }
@@ -163,6 +163,9 @@ namespace SEOMacroscope
       // Reference: https://www.sitemaps.org/protocol.html
       Boolean bIsSitemapXml = false;
       string sXmlns = XmlDoc.DocumentElement.GetAttribute( "xmlns" );
+
+      DebugMsg( string.Format( "DetectSitemapXmlDocument sXmlns: {0} :: {1}", sXmlns, this.GetUrl() ) );
+
       if( sXmlns != null )
       {
         if( sXmlns == MacroscopeConstants.SitemapXmlNamespace )

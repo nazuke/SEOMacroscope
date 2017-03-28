@@ -135,7 +135,7 @@ namespace SEOMacroscope
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -997,17 +997,24 @@ namespace SEOMacroscope
 
     /** Title *****************************************************************/
 
-    public void SetTitle ( string TitleText, MacroscopeConstants.TextProcessingMode ProcessingMode )
+    public void SetTitle (
+      string TitleText,
+      MacroscopeConstants.TextProcessingMode ProcessingMode
+    )
     {
 
-      string sValue = TitleText;
+      string Value = TitleText;
 
       if( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
       {
-        sValue = HtmlEntity.DeEntitize( TitleText );
+        Value = HtmlEntity.DeEntitize( TitleText );
       }
 
-      this.Title = sValue;
+      Value = Regex.Replace( Value, "[\\s]+", " ", RegexOptions.Singleline );
+      Value = Regex.Replace( Value, "[^\\w\\d]+", " ", RegexOptions.Singleline );
+      Value = Value.Trim();
+
+      this.Title = Value;
 
     }
 
