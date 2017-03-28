@@ -185,7 +185,9 @@ namespace SEOMacroscope
         }
 
         iMaxFetches--;
-
+        
+        Thread.Yield();
+        
       }
 
       this.JobMaster.NotifyWorkersDone();

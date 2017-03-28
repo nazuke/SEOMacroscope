@@ -121,16 +121,6 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-
-    private void TabControlSiteStructureClick ( object sender, EventArgs e )
-    {
-    }
-
-    private void TabControlKeywordAnalysisPhrasesClick ( object sender, EventArgs e )
-    {
-    }
-
-    /**************************************************************************/
     
   }
 

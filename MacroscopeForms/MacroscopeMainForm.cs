@@ -282,14 +282,6 @@ namespace SEOMacroscope
       );
       
       this.macroscopeSiteStructurePanelInstance.Dock = DockStyle.Fill;
-      
-      this.msSiteStructureKeywordAnalysis = new MacroscopeDisplayStructureKeywordAnalysis (
-        this,
-        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis1,
-        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis2,
-        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis3,
-        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis4
-      );
 
       this.msSiteStructureSiteSpeed = new MacroscopeDisplayStructureSiteSpeed (
         this,
@@ -297,6 +289,23 @@ namespace SEOMacroscope
         this.macroscopeSiteStructurePanelInstance.listViewSiteSpeedFastest,
         this.macroscopeSiteStructurePanelInstance.toolStripLabelSiteSpeedAverage
       );
+
+      this.msSiteStructureKeywordAnalysis = new MacroscopeDisplayStructureKeywordAnalysis (
+        this,
+        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis1,
+        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis2,
+        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis3,
+        this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis4
+      );
+      
+
+      this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis1.Click += this.CallbackListViewSiteStructureKeywordsSearch;
+      this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis2.Click += this.CallbackListViewSiteStructureKeywordsSearch;
+      this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis3.Click += this.CallbackListViewSiteStructureKeywordsSearch;
+      this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis4.Click += this.CallbackListViewSiteStructureKeywordsSearch;
+
+      
+
 
     }
 
@@ -754,12 +763,7 @@ namespace SEOMacroscope
     {
       if( !MacroscopePreferencesManager.GetPauseDisplayDuringScan() )
       {
-        DebugMsg( string.Format( "GetPauseDisplayDuringScan: {0}", "UNPAUSED" ) );
         this.UpdateFocusedTabPage();
-      }
-      else
-      {
-        DebugMsg( string.Format( "GetPauseDisplayDuringScan: {0}", "PAUSED" ) );
       }
     }
 
@@ -1556,17 +1560,9 @@ namespace SEOMacroscope
 
     private void CallbackSiteOverviewTimerExec ()
     {
-      
       this.SemaphoreSiteStructureDisplay.WaitOne();
-
-      //DebugMsg( string.Format( "SemaphoreSiteStructureDisplay: {0}", "OBTAINED" ) );
-              
       this.UpdateSiteOverview();
-      
       this.SemaphoreSiteStructureDisplay.Release( 1 );
-      
-      //DebugMsg( string.Format( "SemaphoreSiteStructureDisplay: {0}", "RELEASED" ) );
-    
     }
 
     private void UpdateSiteOverview ()
@@ -1581,6 +1577,60 @@ namespace SEOMacroscope
       {
         this.msSiteStructureKeywordAnalysis.RefreshKeywordAnalysisData( this.JobMaster.GetDocCollection() );
       }
+    }
+
+    /** SITE OVERVIEW PANEL CALLBACKS *****************************************/
+
+    private void CallbackListViewSiteStructureKeywordsSearch ( object sender, EventArgs e )
+    {
+
+      ListView lvListView = ( ListView )sender;
+      string KeywordTerm = "";
+      int TermCol = -1;
+
+      this.msDisplaySearchCollection.ClearData();
+              
+      for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+      {
+        if( lvListView.Columns[ i ].Text == "Term" )
+        {
+          TermCol = i;
+          break;
+        }
+      }
+
+      if( TermCol > -1 )
+      {
+          
+        TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+        MacroscopeSearchIndex SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
+
+        tcDisplay.SelectedIndex = tcDisplay.TabPages.IndexOfKey( "tabPageSearch" );
+
+        foreach( ListViewItem lvItem in lvListView.SelectedItems )
+        {
+
+          KeywordTerm = lvItem.SubItems[ TermCol ].Text;
+          string sText = MacroscopeStringTools.CleanBodyText( KeywordTerm );
+
+          if( sText.Length > 0 )
+          {
+            List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
+                                                 MacroscopeSearchIndex.SearchMode.AND,
+                                                 sText.Split( ' ' )
+                                               );
+            this.msDisplaySearchCollection.RefreshData( DocList );
+          }
+
+        }
+          
+      }
+      else
+      {
+        MessageBox.Show( "Term column not found" );
+        this.msDisplaySearchCollection.ClearData();
+      }
+
     }
 
     /** Whole Display *********************************************************/

@@ -152,7 +152,6 @@ namespace SEOMacroscope
 			this.tabControlSiteStructure.SelectedIndex = 0;
 			this.tabControlSiteStructure.Size = new System.Drawing.Size(440, 440);
 			this.tabControlSiteStructure.TabIndex = 0;
-			this.tabControlSiteStructure.Click += new System.EventHandler(this.TabControlSiteStructureClick);
 			// 
 			// tabPageSiteOverview
 			// 
@@ -338,7 +337,6 @@ namespace SEOMacroscope
 			this.tabControlKeywordAnalysisPhrases.SelectedIndex = 0;
 			this.tabControlKeywordAnalysisPhrases.Size = new System.Drawing.Size(400, 300);
 			this.tabControlKeywordAnalysisPhrases.TabIndex = 1;
-			this.tabControlKeywordAnalysisPhrases.Click += new System.EventHandler(this.TabControlKeywordAnalysisPhrasesClick);
 			// 
 			// tabPageKeywordAnalysisPhrases1
 			// 
@@ -355,6 +353,7 @@ namespace SEOMacroscope
 			this.listViewKeywordAnalysis1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderKeywordAnalysisOccurrences,
 			this.columnHeaderKeywordAnalysisTerm});
+			this.listViewKeywordAnalysis1.FullRowSelect = true;
 			this.listViewKeywordAnalysis1.GridLines = true;
 			this.listViewKeywordAnalysis1.Location = new System.Drawing.Point(20, 20);
 			this.listViewKeywordAnalysis1.Name = "listViewKeywordAnalysis1";
@@ -388,6 +387,7 @@ namespace SEOMacroscope
 			this.listViewKeywordAnalysis2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeader1,
 			this.columnHeader2});
+			this.listViewKeywordAnalysis2.FullRowSelect = true;
 			this.listViewKeywordAnalysis2.GridLines = true;
 			this.listViewKeywordAnalysis2.Location = new System.Drawing.Point(20, 20);
 			this.listViewKeywordAnalysis2.Name = "listViewKeywordAnalysis2";
@@ -421,6 +421,7 @@ namespace SEOMacroscope
 			this.listViewKeywordAnalysis3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeader3,
 			this.columnHeader4});
+			this.listViewKeywordAnalysis3.FullRowSelect = true;
 			this.listViewKeywordAnalysis3.GridLines = true;
 			this.listViewKeywordAnalysis3.Location = new System.Drawing.Point(20, 20);
 			this.listViewKeywordAnalysis3.Name = "listViewKeywordAnalysis3";
@@ -454,6 +455,7 @@ namespace SEOMacroscope
 			this.listViewKeywordAnalysis4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeader5,
 			this.columnHeader6});
+			this.listViewKeywordAnalysis4.FullRowSelect = true;
 			this.listViewKeywordAnalysis4.GridLines = true;
 			this.listViewKeywordAnalysis4.Location = new System.Drawing.Point(20, 20);
 			this.listViewKeywordAnalysis4.Name = "listViewKeywordAnalysis4";
