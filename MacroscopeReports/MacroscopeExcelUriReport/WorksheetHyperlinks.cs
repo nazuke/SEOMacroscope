@@ -34,7 +34,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageLinks (
+    private void BuildWorksheetPageHyperlinks(
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string sWorksheetLabel
@@ -51,29 +51,20 @@ namespace SEOMacroscope
 
       {
 
-        ws.Cell( iRow, iCol ).Value = "URL";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Link Type";
-        iCol++;
-
         ws.Cell( iRow, iCol ).Value = "Source URL";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Target URL";
         iCol++;
-       
-        ws.Cell( iRow, iCol ).Value = "Follow";
+
+        ws.Cell( iRow, iCol ).Value = "Link Text";
         iCol++;
         
-        ws.Cell( iRow, iCol ).Value = "Alt Text";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Raw Source URL";
+        ws.Cell( iRow, iCol ).Value = "Title Text";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Raw Target URL";
-        
+        ws.Cell( iRow, iCol ).Value = "Alt Text";
+
       }
 
       iColMax = iCol;
@@ -86,35 +77,19 @@ namespace SEOMacroscope
         {
 
           MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+          MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
 
-          foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
+          foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
           {
 
-            string LinkType = Link.GetLinkType().ToString();
-            
-            string SourceUrl = Link.GetSourceUrl();
-            string TargetUrl = Link.GetTargetUrl();
+            string HyperlinkOutUrl = HyperlinkOut.GetUrlTarget();
+            string LinkText = HyperlinkOut.GetLinkText();    
+            string LinkTitle = HyperlinkOut.GetLinkTitle();      
+            string AltText = HyperlinkOut.GetAltText();       
 
-            string Follow = Link.GetDoFollow().ToString();
-
-            string AltText = Link.GetAltText();
-        
-            string RawSourceUrl = Link.GetRawSourceUrl();
-            string RawTargetUrl = Link.GetRawTargetUrl();
-
-            if( string.IsNullOrEmpty( AltText ) )
+            if( HyperlinkOutUrl == null )
             {
-              AltText = "";
-            }
-
-            if( string.IsNullOrEmpty( RawSourceUrl ) )
-            {
-              RawSourceUrl = "";
-            }
-
-            if( string.IsNullOrEmpty( RawTargetUrl ) )
-            {
-              RawTargetUrl = "";
+              HyperlinkOutUrl = "";
             }
 
             iCol = 1;
@@ -132,31 +107,33 @@ namespace SEOMacroscope
 
             iCol++;
 
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkType ) );
-            
+            this.InsertAndFormatUrlCell( ws, iRow, iCol, HyperlinkOutUrl );
+
+            if( ( HyperlinkOutUrl.Length > 0 ) && ( AllowedHosts.IsInternalUrl( Url: HyperlinkOutUrl ) ) )
+            {
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+            }
+            else
+            if( ( HyperlinkOutUrl.Length > 0 ) && ( AllowedHosts.IsExternalUrl( Url: HyperlinkOutUrl ) ) )
+            {
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+            }
+            else
+            {
+              this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( HyperlinkOutUrl ) );
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+            }
+
             iCol++;
-                        
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( SourceUrl ) );
-            
+
+            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkText ) );
+
             iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TargetUrl ) );
-            
+            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkTitle ) );
+
             iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Follow ) );
-            
-            iCol++;
-            
+
             this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( AltText ) );
-            
-            iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( RawSourceUrl ) );
-            
-            iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( RawTargetUrl ) );
 
             iRow++;
 

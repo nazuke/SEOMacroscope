@@ -208,43 +208,63 @@ namespace SEOMacroscope
           {
 
             case "background-image":
+
               sBackgroundImageUrl = pProp.Term.ToString();
               sLinkUrlAbs = this.ProcessCssBackImageUrl( sBackgroundImageUrl );
+
               DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", sBackgroundImageUrl ) );
               DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", sLinkUrlAbs ) );
+
               if( sLinkUrlAbs != null )
               {
+
                 // TODO: Verify that this actually works:
+
                 this.HyperlinksOut.Add(
                   LinkType: MacroscopeConstants.HyperlinkType.CSS,
                   UrlTarget: sLinkUrlAbs
                 );
-                this.AddCssOutlink(
-                  AbsoluteUrl: sLinkUrlAbs,
-                  LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                  Follow: true
-                );
+
+                MacroscopeLink Outlink = this.AddCssOutlink(
+                                           AbsoluteUrl: sLinkUrlAbs,
+                                           LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                                           Follow: true
+                                         );
+                
+                Outlink.SetRawTargetUrl( sBackgroundImageUrl );
+
               }
+
               break;
 
             case "background":
+
               sBackgroundImageUrl = pProp.Term.ToString();
               sLinkUrlAbs = this.ProcessCssBackImageUrl( sBackgroundImageUrl );
+
               DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", sBackgroundImageUrl ) );
               DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", sLinkUrlAbs ) );
+
               if( sLinkUrlAbs != null )
               {     
+
                 // TODO: Verify that this actually works:
-                this.HyperlinksOut.Add( 
+
+                this.HyperlinksOut.Add(
                   LinkType: MacroscopeConstants.HyperlinkType.CSS,
                   UrlTarget: sLinkUrlAbs
                 );
-                this.AddCssOutlink(
-                  AbsoluteUrl: sLinkUrlAbs,
-                  LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                  Follow: true
-                );
+
+                MacroscopeLink Outlink = this.AddCssOutlink(
+                                           AbsoluteUrl: sLinkUrlAbs,
+                                           LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                                           Follow: true
+                                         );
+                
+                Outlink.SetRawTargetUrl( sBackgroundImageUrl );
+                
               }
+              
               break;
 
             default:

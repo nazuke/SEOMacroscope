@@ -204,8 +204,6 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.KeyUp += this.CallbackSearchTextBoxSearchUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
 
-      
-      
       // ListViewLinks
       this.macroscopeOverviewTabPanelInstance.listViewLinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Click += this.CallbackButtonLinksShowAll;
@@ -217,9 +215,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Click += this.CallbackButtonHyperlinksShowAll;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp;
-      
-      
-      
+
       // treeViewHierarchy etc...
       this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.NodeMouseClick += this.CallbackHierarchyNodeMouseClick;
       this.macroscopeOverviewTabPanelInstance.listViewRobots.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -228,7 +224,6 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewHrefLang.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewErrors.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-
 
       this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageTitles.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -297,15 +292,11 @@ namespace SEOMacroscope
         this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis3,
         this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis4
       );
-      
 
       this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis1.Click += this.CallbackListViewSiteStructureKeywordsSearch;
       this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis2.Click += this.CallbackListViewSiteStructureKeywordsSearch;
       this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis3.Click += this.CallbackListViewSiteStructureKeywordsSearch;
       this.macroscopeSiteStructurePanelInstance.listViewKeywordAnalysis4.Click += this.CallbackListViewSiteStructureKeywordsSearch;
-
-      
-
 
     }
 
@@ -1033,11 +1024,19 @@ namespace SEOMacroscope
 
         for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
         {
+          
           if( lvListView.Columns[ i ].Text == "URL" )
           {
             iUrlCol = i;
             break;
           }
+          else
+          if( lvListView.Columns[ i ].Text == "Source URL" )
+          {
+            iUrlCol = i;
+            break;
+          }
+          
         }
 
         if( iUrlCol > -1 )
@@ -1072,6 +1071,7 @@ namespace SEOMacroscope
 
       lock( lvListView )
       {
+        
         for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
         {
           if( lvListView.Columns[ i ].Text == "URL" )
@@ -1079,6 +1079,13 @@ namespace SEOMacroscope
             iUrlCol = i;
             break;
           }
+          else
+          if( lvListView.Columns[ i ].Text == "Source URL" )
+          {
+            iUrlCol = i;
+            break;
+          }
+                    
         }
         if( iUrlCol > -1 )
         {
@@ -1115,11 +1122,19 @@ namespace SEOMacroscope
       {
         for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
         {
+          
           if( lvListView.Columns[ i ].Text == "URL" )
           {
             iUrlCol = i;
             break;
           }
+          else
+          if( lvListView.Columns[ i ].Text == "Source URL" )
+          {
+            iUrlCol = i;
+            break;
+          }
+                    
         }
         if( iUrlCol > -1 )
         {
@@ -1154,11 +1169,19 @@ namespace SEOMacroscope
       {
         for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
         {
+          
           if( lvListView.Columns[ i ].Text == "URL" )
           {
             iUrlCol = i;
             break;
           }
+          else
+          if( lvListView.Columns[ i ].Text == "Source URL" )
+          {
+            iUrlCol = i;
+            break;
+          }
+                    
         }
         if( iUrlCol > -1 )
         {

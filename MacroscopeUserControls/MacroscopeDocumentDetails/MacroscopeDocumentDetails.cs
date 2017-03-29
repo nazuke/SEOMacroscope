@@ -143,12 +143,24 @@ namespace SEOMacroscope
     
     private void CallbackDocumentDetailsContextMenuStripCopyRowsClick ( object sender, EventArgs e )
     {
-      this.CopyListViewRowsTextToClipboard( this.listViewDocumentInfo );
+      
+      ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
+      ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
+      ListView lvListView = msOwner.SourceControl as ListView;
+
+      this.CopyListViewRowsTextToClipboard( lvListView );
+
     }
 
     private void CallbackDocumentDetailsContextMenuStripCopyValuesClick ( object sender, EventArgs e )
     {
-      this.CopyListViewValuesTextToClipboard( this.listViewDocumentInfo );
+      
+      ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
+      ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
+      ListView lvListView = msOwner.SourceControl as ListView;
+
+      this.CopyListViewValuesTextToClipboard( lvListView );
+
     }
     
     /**************************************************************************/
@@ -157,7 +169,6 @@ namespace SEOMacroscope
     {
 
       this.listViewDocumentInfo.Items.Clear();
-      
 
       this.textBoxHttpRequestHeaders.Text = "";
       this.textBoxHttpResponseHeaders.Text = "";
@@ -185,8 +196,6 @@ namespace SEOMacroscope
     public Boolean UpdateDisplay ( MacroscopeJobMaster JobMaster, string sUrl )
     {
 
-      // TODO: This blows up if the page is from a redirect. Probably need to use the original URL
-
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
 
@@ -212,12 +221,8 @@ namespace SEOMacroscope
         return( true );
 
       }
-      else
-      {
 
-        return( false );
-
-      }
+      return( false );
 
     }
 
@@ -490,6 +495,8 @@ namespace SEOMacroscope
               lvItem.SubItems[ 2 ].Text = Link.GetTargetUrl();
               lvItem.SubItems[ 3 ].Text = Link.GetDoFollow().ToString();
               lvItem.SubItems[ 4 ].Text = Link.GetAltText();
+              lvItem.SubItems[ 5 ].Text = Link.GetRawSourceUrl();
+              lvItem.SubItems[ 6 ].Text = Link.GetRawTargetUrl();
 
             }
             catch( Exception ex )
@@ -513,6 +520,8 @@ namespace SEOMacroscope
               lvItem.SubItems.Add( Link.GetTargetUrl() );
               lvItem.SubItems.Add( Link.GetDoFollow().ToString() );
               lvItem.SubItems.Add( Link.GetAltText() );
+              lvItem.SubItems.Add( Link.GetRawSourceUrl() );         
+              lvItem.SubItems.Add( Link.GetRawTargetUrl() );
 
               lvListView.Items.Add( lvItem );
 
@@ -565,6 +574,8 @@ namespace SEOMacroscope
             lvItem.SubItems[ 2 ].Text = Link.GetTargetUrl();
             lvItem.SubItems[ 3 ].Text = Link.GetDoFollow().ToString();
             lvItem.SubItems[ 4 ].Text = Link.GetAltText();
+            lvItem.SubItems[ 5 ].Text = Link.GetRawSourceUrl();
+            lvItem.SubItems[ 6 ].Text = Link.GetRawTargetUrl();
 
           }
           catch( Exception ex )
@@ -588,7 +599,9 @@ namespace SEOMacroscope
             lvItem.SubItems.Add( Link.GetTargetUrl() );
             lvItem.SubItems.Add( Link.GetDoFollow().ToString() );
             lvItem.SubItems.Add( Link.GetAltText() );
-
+            lvItem.SubItems.Add( Link.GetRawSourceUrl() );         
+            lvItem.SubItems.Add( Link.GetRawTargetUrl() );
+              
             lvListView.Items.Add( lvItem );
 
           }
@@ -728,7 +741,7 @@ namespace SEOMacroscope
               lvItem.SubItems[ 2 ].Text = HyperlinkOut.GetUrlTarget();
               lvItem.SubItems[ 3 ].Text = HyperlinkOut.GetLinkText();
               lvItem.SubItems[ 4 ].Text = HyperlinkOut.GetAltText();
-              lvItem.SubItems[ 5 ].Text = DoFollow;
+              lvItem.SubItems[ 5 ].Text = DoFollow;          
 
             }
             catch( Exception ex )

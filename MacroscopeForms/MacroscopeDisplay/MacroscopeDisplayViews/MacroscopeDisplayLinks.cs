@@ -288,9 +288,22 @@ namespace SEOMacroscope
         string AltText = Link.GetAltText();
         string AltTextLabel = AltText;
         
+        string RawSourceUrl = Link.GetRawSourceUrl();
+        string RawTargetUrl = Link.GetRawTargetUrl();
+
         if( string.IsNullOrEmpty( AltText ) )
         {
           AltTextLabel = "";
+        }
+
+        if( string.IsNullOrEmpty( RawSourceUrl ) )
+        {
+          RawSourceUrl = "";
+        }
+
+        if( string.IsNullOrEmpty( RawTargetUrl ) )
+        {
+          RawTargetUrl = "";
         }
 
         if( this.lvListView.Items.ContainsKey( sPairKey ) )
@@ -306,6 +319,8 @@ namespace SEOMacroscope
             lvItem.SubItems[ 2 ].Text = UrlTarget;
             lvItem.SubItems[ 3 ].Text = Follow;
             lvItem.SubItems[ 4 ].Text = AltTextLabel;
+            lvItem.SubItems[ 5 ].Text = RawSourceUrl;
+            lvItem.SubItems[ 6 ].Text = RawTargetUrl;
 
           }
           catch( Exception ex )
@@ -329,6 +344,8 @@ namespace SEOMacroscope
             lvItem.SubItems.Add( UrlTarget );
             lvItem.SubItems.Add( Follow );
             lvItem.SubItems.Add( AltTextLabel );
+            lvItem.SubItems.Add( RawSourceUrl );
+            lvItem.SubItems.Add( RawTargetUrl );
 
             this.lvListView.Items.Add( lvItem );
 

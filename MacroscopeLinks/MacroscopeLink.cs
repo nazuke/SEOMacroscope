@@ -49,6 +49,9 @@ namespace SEOMacroscope
     private string Title;
     private string AltText;
 
+    private string RawSourceUrl;
+    private string RawTargetUrl;
+
     /**************************************************************************/
 
     public MacroscopeLink (
@@ -67,7 +70,10 @@ namespace SEOMacroscope
       this.TargetUrl = TargetUrl;      
 
       this.DoFollow = Follow;
-      
+
+      this.RawSourceUrl = SourceUrl;
+      this.RawTargetUrl = TargetUrl;
+
     }
 
     /** GUID ******************************************************************/
@@ -152,6 +158,30 @@ namespace SEOMacroscope
     public string GetAltText ()
     {
       return( this.AltText );
+    }
+
+    /** Raw Source URL ************************************************************/
+
+    public void SetRawSourceUrl ( string SourceUrl )
+    {
+      this.RawSourceUrl = SourceUrl;
+    }
+
+    public string GetRawSourceUrl ()
+    {
+      return( this.RawSourceUrl );
+    }
+    
+    /** Raw Target URL ************************************************************/
+
+    public void SetRawTargetUrl ( string TargetUrl )
+    {
+      this.RawTargetUrl = TargetUrl;
+    }
+
+    public string GetRawTargetUrl ()
+    {
+      return( this.RawTargetUrl );
     }
 
     /**************************************************************************/

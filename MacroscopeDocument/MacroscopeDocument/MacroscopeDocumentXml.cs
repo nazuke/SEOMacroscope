@@ -206,10 +206,15 @@ namespace SEOMacroscope
 
           if( sLinkUrl != null )
           {
-            this.AddSitemapXmlOutlink(
-              AbsoluteUrl: sLinkUrl,
-              LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
-              Follow: true );
+            
+            MacroscopeLink Outlink = this.AddSitemapXmlOutlink(
+                                       AbsoluteUrl: sLinkUrl,
+                                       LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
+                                       Follow: true
+                                     );
+            
+            Outlink.SetRawTargetUrl( sLinkUrl );
+            
           }
 
         }

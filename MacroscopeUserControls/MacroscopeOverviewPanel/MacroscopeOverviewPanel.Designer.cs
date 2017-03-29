@@ -227,6 +227,8 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ColumnHeader columnHeaderLinksOutTargetUrl;
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutFollow;
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutAltText;
+		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutRawSourceUrl;
+		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutRawTargtUrl;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -349,6 +351,8 @@ namespace SEOMacroscope
 			this.columnHeaderLinksOutTargetUrl = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderLinksOutFollow = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderLinksOutAltText = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderLinksOutRawSourceUrl = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderLinksOutRawTargtUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHyperlinks = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanelHyperlinks = new System.Windows.Forms.TableLayoutPanel();
 			this.listViewHyperlinks = new System.Windows.Forms.ListView();
@@ -486,6 +490,7 @@ namespace SEOMacroscope
 			// 
 			// tabControlMain
 			// 
+			this.tabControlMain.ContextMenuStrip = this.contextMenuStripStructure;
 			this.tabControlMain.Controls.Add(this.tabPageStructureOverview);
 			this.tabControlMain.Controls.Add(this.tabPageHierarchy);
 			this.tabControlMain.Controls.Add(this.tabPageSearch);
@@ -664,70 +669,70 @@ namespace SEOMacroscope
 			// allDocumentTypesToolStripMenuItem
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.allDocumentTypesToolStripMenuItem.Tag = "ALL";
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
 			// 
 			// HtmlToolStripMenuItem
 			// 
 			this.HtmlToolStripMenuItem.Name = "HtmlToolStripMenuItem";
-			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.HtmlToolStripMenuItem.Tag = "HTML";
 			this.HtmlToolStripMenuItem.Text = "HTML";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.stylesheetsToolStripMenuItem.Tag = "CSS";
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.javaScriptsToolStripMenuItem.Tag = "JAVASCRIPT";
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.imagesToolStripMenuItem.Tag = "IMAGE";
 			this.imagesToolStripMenuItem.Text = "Images";
 			// 
 			// PdfsToolStripMenuItem
 			// 
 			this.PdfsToolStripMenuItem.Name = "PdfsToolStripMenuItem";
-			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.PdfsToolStripMenuItem.Tag = "PDF";
 			this.PdfsToolStripMenuItem.Text = "PDFs";
 			// 
 			// audioToolStripMenuItem
 			// 
 			this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
-			this.audioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.audioToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.audioToolStripMenuItem.Tag = "AUDIO";
 			this.audioToolStripMenuItem.Text = "Audio Files";
 			// 
 			// videoToolStripMenuItem
 			// 
 			this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
-			this.videoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.videoToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.videoToolStripMenuItem.Tag = "VIDEO";
 			this.videoToolStripMenuItem.Text = "Video Files";
 			// 
 			// sitemapXMLToolStripMenuItem
 			// 
 			this.sitemapXMLToolStripMenuItem.Name = "sitemapXMLToolStripMenuItem";
-			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.sitemapXMLToolStripMenuItem.Tag = "SITEMAPXML";
 			this.sitemapXMLToolStripMenuItem.Text = "XML Sitemaps";
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.miscellaneousToolStripMenuItem.Tag = "MISC";
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
 			// 
@@ -1307,7 +1312,10 @@ namespace SEOMacroscope
 			this.columnHeaderLinksOutSourceUrl,
 			this.columnHeaderLinksOutTargetUrl,
 			this.columnHeaderLinksOutFollow,
-			this.columnHeaderLinksOutAltText});
+			this.columnHeaderLinksOutAltText,
+			this.columnHeaderLinksOutRawSourceUrl,
+			this.columnHeaderLinksOutRawTargtUrl});
+			this.listViewLinks.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewLinks.FullRowSelect = true;
 			this.listViewLinks.GridLines = true;
 			this.listViewLinks.Location = new System.Drawing.Point(0, 28);
@@ -1342,6 +1350,16 @@ namespace SEOMacroscope
 			// 
 			this.columnHeaderLinksOutAltText.DisplayIndex = 3;
 			this.columnHeaderLinksOutAltText.Text = "Alt Text";
+			// 
+			// columnHeaderLinksOutRawSourceUrl
+			// 
+			this.columnHeaderLinksOutRawSourceUrl.Text = "Raw Source URL";
+			this.columnHeaderLinksOutRawSourceUrl.Width = 300;
+			// 
+			// columnHeaderLinksOutRawTargtUrl
+			// 
+			this.columnHeaderLinksOutRawTargtUrl.Text = "Raw Target URL";
+			this.columnHeaderLinksOutRawTargtUrl.Width = 300;
 			// 
 			// tabPageHyperlinks
 			// 

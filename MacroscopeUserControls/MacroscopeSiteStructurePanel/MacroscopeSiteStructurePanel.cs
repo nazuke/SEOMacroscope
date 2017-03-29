@@ -52,6 +52,7 @@ namespace SEOMacroscope
       this.lvColumnSorter = new MacroscopeColumnSorter ();
 
       // Site Overview
+      
       this.tabControlSiteStructure.Dock = DockStyle.Fill;
       this.splitContainerSiteOverview.Dock = DockStyle.Fill;
       this.treeViewSiteOverview.Dock = DockStyle.Fill;

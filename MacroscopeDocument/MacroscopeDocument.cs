@@ -256,25 +256,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -1540,13 +1540,18 @@ namespace SEOMacroscope
 
           if( sLinkUrlAbs != null )
           {
+            
             this.UrlRedirectFrom = sOriginalUrl;
             this.UrlRedirectTo = sLinkUrlAbs;
-            this.AddDocumentOutlink(
-              AbsoluteUrl: sLinkUrlAbs,
-              LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
-              Follow: true
-            );
+            
+            MacroscopeLink OutLink = this.AddDocumentOutlink(
+                                       AbsoluteUrl: sLinkUrlAbs,
+                                       LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
+                                       Follow: true
+                                     );
+            
+            OutLink.SetRawTargetUrl( res.GetResponseHeader( "Location" ) );
+          
           }
 
         }

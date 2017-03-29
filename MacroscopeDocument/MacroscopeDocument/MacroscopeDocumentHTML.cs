@@ -269,17 +269,21 @@ namespace SEOMacroscope
       {
 
         this.Canonical = nNode.GetAttributeValue( "href", "" );
+        
         DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
+        
         if( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
         {
           
           string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, this.Canonical );
           
-          this.AddHtmlOutlink(
-            AbsoluteUrl: sLinkUrlAbs,
-            LinkType: MacroscopeConstants.InOutLinkType.CANONICAL,
-            Follow: true
-          );
+          MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                     AbsoluteUrl: sLinkUrlAbs,
+                                     LinkType: MacroscopeConstants.InOutLinkType.CANONICAL,
+                                     Follow: true
+                                   );
+          
+          Outlink.SetRawTargetUrl( this.Canonical );
           
         }
 
@@ -428,6 +432,7 @@ namespace SEOMacroscope
               {
                 Outlink.SetTitle( Title: sTitle );
                 Outlink.SetAltText( AltText: sAltText );
+                Outlink.SetRawTargetUrl( sLinkUrl );
               }
 
             }
@@ -473,11 +478,15 @@ namespace SEOMacroscope
 
               if( sLinkUrlAbs != null )
               {
-                this.AddHtmlOutlink(
-                  AbsoluteUrl: sLinkUrlAbs,
-                  LinkType: MacroscopeConstants.InOutLinkType.META,
-                  Follow: true
-                );
+                
+                MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                           AbsoluteUrl: sLinkUrlAbs,
+                                           LinkType: MacroscopeConstants.InOutLinkType.META,
+                                           Follow: true
+                                         );
+                
+                Outlink.SetRawTargetUrl( sLinkUrl );
+                
               }
 
             }
@@ -521,11 +530,15 @@ namespace SEOMacroscope
 
             if( sLinkUrlAbs != null )
             {
-              this.AddHtmlOutlink(
-                AbsoluteUrl: sLinkUrlAbs,
-                LinkType: LinkType,
-                Follow: bFollow
-              );
+              
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: LinkType,
+                                         Follow: bFollow
+                                       );
+              
+              Outlink.SetRawTargetUrl( sLinkUrl );
+              
             }
 
           }
@@ -553,11 +566,13 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
 
-              this.AddHtmlOutlink(
-                AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.IFRAME,
-                Follow: true
-              );
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: MacroscopeConstants.InOutLinkType.IFRAME,
+                                         Follow: true
+                                       );
+              
+              Outlink.SetRawTargetUrl( sLinkUrl );
               
             }
 
@@ -583,11 +598,13 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
 
-              this.AddHtmlOutlink(
-                AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.MAP,
-                Follow: true
-              );
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: MacroscopeConstants.InOutLinkType.MAP,
+                                         Follow: true
+                                       );
+              
+              Outlink.SetRawTargetUrl( sLinkUrl );
               
             }
 
@@ -628,6 +645,7 @@ namespace SEOMacroscope
               {
                 Outlink.SetTitle( Title: sTitle );
                 Outlink.SetAltText( AltText: sAltText );
+                Outlink.SetRawTargetUrl( sLinkUrl );
               }
 
             }
@@ -654,11 +672,13 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
               
-              this.AddHtmlOutlink(
-                AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
-                Follow: true
-              );
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
+                                         Follow: true
+                                       );
+              
+              Outlink.SetRawTargetUrl( sLinkUrl );
               
             }
 
@@ -688,11 +708,13 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
               
-              this.AddHtmlOutlink(
-                AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.AUDIO,
-                Follow: true
-              );
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: MacroscopeConstants.InOutLinkType.AUDIO,
+                                         Follow: true
+                                       );
+              
+              Outlink.SetRawTargetUrl( sLinkUrl );
               
             }
 
@@ -722,11 +744,13 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
 
-              this.AddHtmlOutlink(
-                AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.VIDEO,
-                Follow: true
-              );
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: MacroscopeConstants.InOutLinkType.VIDEO,
+                                         Follow: true
+                                       );
+              
+              Outlink.SetRawTargetUrl( sLinkUrl );
               
             }
 
@@ -756,11 +780,13 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
               
-              this.AddHtmlOutlink(
-                AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.EMBED,
-                Follow: true
-              );
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: MacroscopeConstants.InOutLinkType.EMBED,
+                                         Follow: true
+                                       );
+              
+              Outlink.SetRawTargetUrl( sLinkUrl );
               
             }
 
@@ -790,11 +816,13 @@ namespace SEOMacroscope
             if( sLinkUrlAbs != null )
             {
               
-              this.AddHtmlOutlink(
-                AbsoluteUrl: sLinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.OBJECT,
-                Follow: true
-              );
+              MacroscopeLink Outlink = this.AddHtmlOutlink(
+                                         AbsoluteUrl: sLinkUrlAbs,
+                                         LinkType: MacroscopeConstants.InOutLinkType.OBJECT,
+                                         Follow: true
+                                       );
+              
+              Outlink.SetRawTargetUrl( sLinkUrl );
               
             }
 

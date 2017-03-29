@@ -263,6 +263,7 @@ namespace SEOMacroscope
 			this.listViewSiteSpeedSlowest.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderSiteSpeedTime,
 			this.columnHeaderSiteSpeedTimeUrl});
+			this.listViewSiteSpeedSlowest.FullRowSelect = true;
 			this.listViewSiteSpeedSlowest.GridLines = true;
 			this.listViewSiteSpeedSlowest.Location = new System.Drawing.Point(20, 20);
 			this.listViewSiteSpeedSlowest.Name = "listViewSiteSpeedSlowest";
@@ -296,6 +297,7 @@ namespace SEOMacroscope
 			this.listViewSiteSpeedFastest.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeader7,
 			this.columnHeader8});
+			this.listViewSiteSpeedFastest.FullRowSelect = true;
 			this.listViewSiteSpeedFastest.GridLines = true;
 			this.listViewSiteSpeedFastest.Location = new System.Drawing.Point(20, 20);
 			this.listViewSiteSpeedFastest.Name = "listViewSiteSpeedFastest";
