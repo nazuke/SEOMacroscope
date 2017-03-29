@@ -101,10 +101,10 @@ namespace SEOMacroscope
         ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
       );
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        string Url = msDoc.GetUrl();
 
         this.RenderTreeView( msDoc, Url );
 

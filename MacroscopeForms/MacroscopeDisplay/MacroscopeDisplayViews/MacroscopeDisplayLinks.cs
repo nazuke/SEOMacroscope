@@ -175,6 +175,7 @@ namespace SEOMacroscope
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
+      
       ProgressForm.Show();
       
       ProgressForm.UpdatePercentages(
@@ -183,15 +184,15 @@ namespace SEOMacroscope
         MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
         ProgressLabelMajor: "Documents Processed"
       );
-      
-      foreach( string Url in DocCollection.DocumentKeys() )
+
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
+
+        string Url = msDoc.GetUrl();
 
         if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
         {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-          
           this.RenderListView(
             msDoc: msDoc,
             Url: Url 
@@ -235,12 +236,11 @@ namespace SEOMacroscope
         MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
         ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
       );
-      
-      
-      foreach( string Url in DocCollection.DocumentKeys() )
+
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        string Url = msDoc.GetUrl();
 
         if( msDoc != null )
         {

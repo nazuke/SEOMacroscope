@@ -111,10 +111,10 @@ namespace SEOMacroscope
         SortedList<decimal,string> SortedListSlowest = new SortedList<decimal, string> ( MeasurePages, this.DecimalSorterDescending );
         SortedList<decimal,string> SortedListFastest = new SortedList<decimal, string> ( MeasurePages, this.DecimalSorterAscending );
 
-        foreach( string sUrl in DocCollection.DocumentKeys() )
+        foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
         {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+          string sUrl = msDoc.GetUrl();
           decimal Duration = msDoc.GetDurationInSeconds();
 
           if( !msDoc.GetIsExternal() && msDoc.GetWasDownloaded() )

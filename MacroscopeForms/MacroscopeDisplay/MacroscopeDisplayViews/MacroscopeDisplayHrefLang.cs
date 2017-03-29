@@ -169,10 +169,9 @@ namespace SEOMacroscope
 
       }
 
-      foreach( string sKeyUrl in DocCollection.DocumentKeys() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sKeyUrl );
         Boolean bProceed = false;
 
         if( !msDoc.GetIsExternal() )
@@ -193,6 +192,7 @@ namespace SEOMacroscope
           {
 
             string sDocUrl = msDoc.GetUrl();
+            string sKeyUrl = sDocUrl;
             HttpStatusCode StatusCode = msDoc.GetStatusCode();
             string sDocLocale = msDoc.GetLocale();
             string sDocTitle = msDoc.GetTitle();

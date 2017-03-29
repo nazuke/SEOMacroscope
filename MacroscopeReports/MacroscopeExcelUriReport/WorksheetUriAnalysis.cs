@@ -71,68 +71,64 @@ namespace SEOMacroscope
 
       iRow++;
 
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        foreach( string Url in DocCollection.DocumentKeys() )
-        {
-
-          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
                     
-          string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-          string Status = msDoc.GetStatusCode().ToString();
-          string Checksum = msDoc.GetChecksum();
-          int Count = DocCollection.GetStatsChecksumCount( Checksum: Checksum );
+        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+        string Status = msDoc.GetStatusCode().ToString();
+        string Checksum = msDoc.GetChecksum();
+        int Count = DocCollection.GetStatsChecksumCount( Checksum: Checksum );
 
-          iCol = 1;
+        iCol = 1;
 
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+        this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
-          if( AllowedHosts.IsInternalUrl( Url: Url ) )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-          }
-
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode );
-          
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
-          
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Count.ToString() );
-          
-          if( Count > 1 )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
-          }          
-
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Checksum );
-          
-          if( Count > 1 )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
-          }          
-
-          iRow++;
-
+        if( AllowedHosts.IsInternalUrl( Url: Url ) )
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
         }
+        else
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+        }
+
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode );
+          
+        iCol++;
+          
+        this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
+          
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, Count.ToString() );
+          
+        if( Count > 1 )
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+        }
+        else
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
+        }          
+
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, Checksum );
+          
+        if( Count > 1 )
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+        }
+        else
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
+        }          
+
+        iRow++;
 
       }
 

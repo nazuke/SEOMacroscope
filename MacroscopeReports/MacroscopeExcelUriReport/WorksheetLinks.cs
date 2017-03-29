@@ -80,87 +80,83 @@ namespace SEOMacroscope
 
       iRow++;
 
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        foreach( string Url in DocCollection.DocumentKeys() )
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+
+        foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
         {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-
-          foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
-          {
-
-            string LinkType = Link.GetLinkType().ToString();
+          string LinkType = Link.GetLinkType().ToString();
             
-            string SourceUrl = Link.GetSourceUrl();
-            string TargetUrl = Link.GetTargetUrl();
+          string SourceUrl = Link.GetSourceUrl();
+          string TargetUrl = Link.GetTargetUrl();
 
-            string Follow = Link.GetDoFollow().ToString();
+          string Follow = Link.GetDoFollow().ToString();
 
-            string AltText = Link.GetAltText();
+          string AltText = Link.GetAltText();
         
-            string RawSourceUrl = Link.GetRawSourceUrl();
-            string RawTargetUrl = Link.GetRawTargetUrl();
+          string RawSourceUrl = Link.GetRawSourceUrl();
+          string RawTargetUrl = Link.GetRawTargetUrl();
 
-            if( string.IsNullOrEmpty( AltText ) )
-            {
-              AltText = "";
-            }
-
-            if( string.IsNullOrEmpty( RawSourceUrl ) )
-            {
-              RawSourceUrl = "";
-            }
-
-            if( string.IsNullOrEmpty( RawTargetUrl ) )
-            {
-              RawTargetUrl = "";
-            }
-
-            iCol = 1;
-
-            this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-
-            if( AllowedHosts.IsInternalUrl( Url: Url ) )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-            }
-            else
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-            }
-
-            iCol++;
-
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkType ) );
-            
-            iCol++;
-                        
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( SourceUrl ) );
-            
-            iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TargetUrl ) );
-            
-            iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Follow ) );
-            
-            iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( AltText ) );
-            
-            iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( RawSourceUrl ) );
-            
-            iCol++;
-            
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( RawTargetUrl ) );
-
-            iRow++;
-
+          if( string.IsNullOrEmpty( AltText ) )
+          {
+            AltText = "";
           }
+
+          if( string.IsNullOrEmpty( RawSourceUrl ) )
+          {
+            RawSourceUrl = "";
+          }
+
+          if( string.IsNullOrEmpty( RawTargetUrl ) )
+          {
+            RawTargetUrl = "";
+          }
+
+          iCol = 1;
+
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+
+          if( AllowedHosts.IsInternalUrl( Url: Url ) )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+          }
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkType ) );
+            
+          iCol++;
+                        
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( SourceUrl ) );
+            
+          iCol++;
+            
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TargetUrl ) );
+            
+          iCol++;
+            
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Follow ) );
+            
+          iCol++;
+            
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( AltText ) );
+            
+          iCol++;
+            
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( RawSourceUrl ) );
+            
+          iCol++;
+            
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( RawTargetUrl ) );
+
+          iRow++;
 
         }
 

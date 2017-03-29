@@ -68,70 +68,66 @@ namespace SEOMacroscope
 
       iRow++;
 
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        foreach( string Url in DocCollection.DocumentKeys() )
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+
+        if( !msDoc.GetIsRedirect() )
         {
-
-          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-
-          if( !msDoc.GetIsRedirect() )
-          {
-            continue;
-          }
-
-          string OriginURL = msDoc.GetUrlRedirectFrom();
-          string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-          string Status = msDoc.GetStatusCode().ToString();
-          string DestinationURL = msDoc.GetUrlRedirectTo();
-
-          if( OriginURL == null )
-          {
-            continue;
-          }
-
-          if( DestinationURL == null )
-          {
-            continue;
-          }
-
-          iCol = 1;
-
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, OriginURL );
-
-          if( AllowedHosts.IsInternalUrl( Url: OriginURL ) )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-          }
-
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode );
-          
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
-          
-          iCol++;
-
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, DestinationURL );
-
-          if( AllowedHosts.IsInternalUrl( Url: DestinationURL ) )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-          }
-
-          iRow++;
-
+          continue;
         }
+
+        string OriginURL = msDoc.GetUrlRedirectFrom();
+        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+        string Status = msDoc.GetStatusCode().ToString();
+        string DestinationURL = msDoc.GetUrlRedirectTo();
+
+        if( OriginURL == null )
+        {
+          continue;
+        }
+
+        if( DestinationURL == null )
+        {
+          continue;
+        }
+
+        iCol = 1;
+
+        this.InsertAndFormatUrlCell( ws, iRow, iCol, OriginURL );
+
+        if( AllowedHosts.IsInternalUrl( Url: OriginURL ) )
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+        }
+        else
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+        }
+
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode );
+          
+        iCol++;
+          
+        this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
+          
+        iCol++;
+
+        this.InsertAndFormatUrlCell( ws, iRow, iCol, DestinationURL );
+
+        if( AllowedHosts.IsInternalUrl( Url: DestinationURL ) )
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+        }
+        else
+        {
+          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+        }
+
+        iRow++;
 
       }
 

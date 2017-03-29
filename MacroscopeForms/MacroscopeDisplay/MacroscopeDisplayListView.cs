@@ -296,11 +296,11 @@ namespace SEOMacroscope
         MajorPercentage: MajorPercentage,
         ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
       );  
-            
-      foreach( string Url in DocCollection.DocumentKeys() )
+
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
         
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        string Url = msDoc.GetUrl();
         
         this.RenderListView( msDoc, Url );
         
@@ -455,10 +455,10 @@ namespace SEOMacroscope
         ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
       );
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
         
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        string Url = msDoc.GetUrl();
         
         if(
           ( msDoc.GetDocumentType() == DocumentType )
@@ -511,12 +511,13 @@ namespace SEOMacroscope
         ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
       );
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
         
+        string Url = msDoc.GetUrl();
+
         if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
         {
-          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
           this.RenderListView( msDoc, Url );
         }
         

@@ -68,90 +68,86 @@ namespace SEOMacroscope
 
       iRow++;
 
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        foreach( string Url in DocCollection.DocumentKeys() )
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( Url );
+        int StatusCode = ( int )msDoc.GetStatusCode();
+        string Status = msDoc.GetStatusCode().ToString();
+          
+        if(
+          ( StatusCode >= 400 )
+          && ( StatusCode <= 599 )
+          && ( HyperlinksIn != null ) )
         {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-          MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( Url );
-          int StatusCode = ( int )msDoc.GetStatusCode();
-          string Status = msDoc.GetStatusCode().ToString();
-          
-          if(
-            ( StatusCode >= 400 )
-            && ( StatusCode <= 599 )
-            && ( HyperlinksIn != null ) )
+          foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() )
           {
 
-            foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() )
+            string OriginUrl = HyperlinkIn.GetUrlOrigin();
+
+            if(
+              ( OriginUrl != null )
+              && ( OriginUrl.Length > 0 ) )
             {
+          
+              iCol = 1;
 
-              string OriginUrl = HyperlinkIn.GetUrlOrigin();
-
-              if(
-                ( OriginUrl != null )
-                && ( OriginUrl.Length > 0 ) )
+              this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode.ToString() );
+          
+              if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
               {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+              }
+              else
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
+              }
+
+              iCol++;
           
-                iCol = 1;
+              this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
 
-                this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode.ToString() );
-          
-                if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-                }
-                else
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
-                }
-
-                iCol++;
-          
-                this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
-
-                if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-                }
-                else
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
-                }
-              
-                iCol++;
-
-                this.InsertAndFormatUrlCell( ws, iRow, iCol, OriginUrl );
-
-                if( AllowedHosts.IsInternalUrl( Url: OriginUrl ) )
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-                }
-                else
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-                }
-
-                iCol++;
-
-                this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-
-                if( AllowedHosts.IsInternalUrl( Url: Url ) )
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-                }
-                else
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-                }
-
-                iRow++;
-
+              if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+              }
+              else
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
               }
               
+              iCol++;
+
+              this.InsertAndFormatUrlCell( ws, iRow, iCol, OriginUrl );
+
+              if( AllowedHosts.IsInternalUrl( Url: OriginUrl ) )
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+              }
+              else
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+              }
+
+              iCol++;
+
+              this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+
+              if( AllowedHosts.IsInternalUrl( Url: Url ) )
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+              }
+              else
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+              }
+
+              iRow++;
+
             }
-            
+
           }
           
         }

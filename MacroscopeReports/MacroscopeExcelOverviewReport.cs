@@ -121,57 +121,52 @@ namespace SEOMacroscope
 
       iRow++;
 
+      foreach( string sKey in DocCollection.DocumentKeys() )
       {
 
-        foreach( string sKey in DocCollection.DocumentKeys() )
-        {
+        iCol = 1;
 
-          iCol = 1;
+        MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+        this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+        iCol++;
 
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-          iCol++;
-
-          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
-          iCol++;
+        this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
+        iCol++;
           
-          this.InsertAndFormatRedirectCell( ws, iRow, iCol, msDoc );
-          iCol++;
+        this.InsertAndFormatRedirectCell( ws, iRow, iCol, msDoc );
+        iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDurationInSecondsFormatted().ToString() ) );
-          iCol++;
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDurationInSecondsFormatted().ToString() ) );
+        iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetMimeType() ) );
-          iCol++;
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetMimeType() ) );
+        iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetLocale() ) );
-          iCol++;
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetLocale() ) );
+        iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateServer() ) );
-          iCol++;
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateServer() ) );
+        iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateModified() ) );
-          iCol++;
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateModified() ) );
+        iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCanonical() ) );
-          iCol++;
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCanonical() ) );
+        iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitle() ) );
-          iCol++;
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitle() ) );
+        iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetErrorCondition() ) );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetErrorCondition() ) );
 
-          iRow++;
-
-        }
+        iRow++;
 
       }
 
       {
         var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
         var excelTable = rangeData.CreateTable();
-        excelTable.Sort( "Address", XLSortOrder.Ascending, false, true );
       }
 
     }

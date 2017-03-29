@@ -34,7 +34,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageHyperlinks(
+    private void BuildWorksheetPageHyperlinks (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string sWorksheetLabel
@@ -71,73 +71,69 @@ namespace SEOMacroscope
 
       iRow++;
 
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        foreach( string Url in DocCollection.DocumentKeys() )
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
+
+        foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
         {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-          MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
+          string HyperlinkOutUrl = HyperlinkOut.GetUrlTarget();
+          string LinkText = HyperlinkOut.GetLinkText();    
+          string LinkTitle = HyperlinkOut.GetLinkTitle();      
+          string AltText = HyperlinkOut.GetAltText();       
 
-          foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
+          if( HyperlinkOutUrl == null )
           {
-
-            string HyperlinkOutUrl = HyperlinkOut.GetUrlTarget();
-            string LinkText = HyperlinkOut.GetLinkText();    
-            string LinkTitle = HyperlinkOut.GetLinkTitle();      
-            string AltText = HyperlinkOut.GetAltText();       
-
-            if( HyperlinkOutUrl == null )
-            {
-              HyperlinkOutUrl = "";
-            }
-
-            iCol = 1;
-
-            this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-
-            if( AllowedHosts.IsInternalUrl( Url: Url ) )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-            }
-            else
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-            }
-
-            iCol++;
-
-            this.InsertAndFormatUrlCell( ws, iRow, iCol, HyperlinkOutUrl );
-
-            if( ( HyperlinkOutUrl.Length > 0 ) && ( AllowedHosts.IsInternalUrl( Url: HyperlinkOutUrl ) ) )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-            }
-            else
-            if( ( HyperlinkOutUrl.Length > 0 ) && ( AllowedHosts.IsExternalUrl( Url: HyperlinkOutUrl ) ) )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-            }
-            else
-            {
-              this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( HyperlinkOutUrl ) );
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-            }
-
-            iCol++;
-
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkText ) );
-
-            iCol++;
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkTitle ) );
-
-            iCol++;
-
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( AltText ) );
-
-            iRow++;
-
+            HyperlinkOutUrl = "";
           }
+
+          iCol = 1;
+
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+
+          if( AllowedHosts.IsInternalUrl( Url: Url ) )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+          }
+
+          iCol++;
+
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, HyperlinkOutUrl );
+
+          if( ( HyperlinkOutUrl.Length > 0 ) && ( AllowedHosts.IsInternalUrl( Url: HyperlinkOutUrl ) ) )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+          else
+          if( ( HyperlinkOutUrl.Length > 0 ) && ( AllowedHosts.IsExternalUrl( Url: HyperlinkOutUrl ) ) )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+          }
+          else
+          {
+            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( HyperlinkOutUrl ) );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkText ) );
+
+          iCol++;
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkTitle ) );
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( AltText ) );
+
+          iRow++;
 
         }
 

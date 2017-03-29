@@ -70,126 +70,122 @@ namespace SEOMacroscope
 
       iRow++;
 
+      foreach( string sKey in DocCollection.DocumentKeys() )
       {
 
-        foreach( string sKey in DocCollection.DocumentKeys() )
+        MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+        Boolean bProcess = false;
+
+        if( msDoc.GetIsExternal() )
+        {
+          bProcess = false;
+        }
+
+        if( msDoc.GetIsHtml() )
+        {
+          bProcess = true;
+        }
+        else
+        if( msDoc.GetIsPdf() )
+        {
+          bProcess = true;
+        }
+        else
+        {
+          bProcess = false;
+        }
+
+        if( bProcess )
         {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
-          Boolean bProcess = false;
+          iCol = 1;
 
-          if( msDoc.GetIsExternal() )
-          {
-            bProcess = false;
-          }
+          string Title = msDoc.GetTitle();
+          int Occurrences = DocCollection.GetStatsTitleCount( Title );
+          int TitleLength = msDoc.GetTitleLength();
+          int TitlePixelWidth = msDoc.GetTitlePixelWidth();
 
-          if( msDoc.GetIsHtml() )
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+
+          if( !msDoc.GetIsExternal() )
           {
-            bProcess = true;
-          }
-          else
-          if( msDoc.GetIsPdf() )
-          {
-            bProcess = true;
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }
           else
           {
-            bProcess = false;
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
           }
 
-          if( bProcess )
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
+
+          if( Occurrences > 1 )
           {
-
-            iCol = 1;
-
-            string Title = msDoc.GetTitle();
-            int Occurrences = DocCollection.GetStatsTitleCount( Title );
-            int TitleLength = msDoc.GetTitleLength();
-            int TitlePixelWidth = msDoc.GetTitlePixelWidth();
-
-            this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-
-            if( !msDoc.GetIsExternal() )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-            }
-            else
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-            }
-
-            iCol++;
-
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
-
-            if( Occurrences > 1 )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
-            }
-            else
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-            }
-
-            iCol++;
-
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Title ) );
-
-            if( TitleLength <= 0 )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-              ws.Cell( iRow, iCol ).Value = "MISSING";
-            }
-            else
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-            }
-
-            iCol++;
-          
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TitleLength.ToString() ) );
-
-            if( TitleLength < MacroscopePreferencesManager.GetTitleMinLen() )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-            }
-            else
-            if( TitleLength > MacroscopePreferencesManager.GetTitleMaxLen() )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-            }
-            else
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-            }
-
-            iCol++;
-          
-            this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TitlePixelWidth.ToString() ) );
-          
-            if( TitlePixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-            }
-            else
-            if( TitlePixelWidth >= ( MacroscopePreferencesManager.GetTitleMaxPixelWidth() - 20 ) )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-            }
-            else
-            if( TitlePixelWidth <= 0 )
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
-            }
-            else
-            {
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-            }
-
-            iRow++;
-          
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }
 
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Title ) );
+
+          if( TitleLength <= 0 )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+            ws.Cell( iRow, iCol ).Value = "MISSING";
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+
+          iCol++;
+          
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TitleLength.ToString() ) );
+
+          if( TitleLength < MacroscopePreferencesManager.GetTitleMinLen() )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+          else
+          if( TitleLength > MacroscopePreferencesManager.GetTitleMaxLen() )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+
+          iCol++;
+          
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TitlePixelWidth.ToString() ) );
+          
+          if( TitlePixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+          else
+          if( TitlePixelWidth >= ( MacroscopePreferencesManager.GetTitleMaxPixelWidth() - 20 ) )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+          else
+          if( TitlePixelWidth <= 0 )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+
+          iRow++;
+          
         }
 
       }
@@ -197,7 +193,6 @@ namespace SEOMacroscope
       {
         var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
         var excelTable = rangeData.CreateTable();
-        excelTable.Sort( "URL", XLSortOrder.Ascending, false, true );
       }
 
     }

@@ -257,11 +257,14 @@ namespace SEOMacroscope
 
     public IEnumerable<MacroscopeDocument> IterateDocuments ()
     {
-      lock( this.DocCollection )
+      if( this.DocCollection.Count > 0 )
       {
-        foreach( string Url in this.DocumentKeys() )
+        lock( this.DocCollection )
         {
-          yield return this.DocCollection[ Url ];
+          foreach( string Url in this.DocCollection.Keys )
+          {
+            yield return this.DocCollection[ Url ];
+          }
         }
       }
     }
@@ -401,7 +404,7 @@ namespace SEOMacroscope
 
     public void AddWorkerRecalculateDocCollectionQueue ()
     {
-      this.NamedQueue.AddToNamedQueue( MacroscopeConstants.RecalculateDocCollection, "calc" );
+      this.NamedQueue.AddToNamedQueue( MacroscopeConstants.RecalculateDocCollection, "c" );
     }
 
     /**************************************************************************/

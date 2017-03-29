@@ -68,62 +68,58 @@ namespace SEOMacroscope
 
       iRow++;
 
+      foreach( string sKey in DocCollection.DocumentKeys() )
       {
 
-        foreach( string sKey in DocCollection.DocumentKeys() )
+        MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+        Boolean bProcess = false;
+
+        if( msDoc.GetIsExternal() )
+        {
+          bProcess = false;
+        }
+
+        if( msDoc.GetIsHtml() )
+        {
+          bProcess = true;
+        }
+        else
+        {
+          bProcess = false;
+        }
+
+        if( bProcess )
         {
 
-          MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
-          Boolean bProcess = false;
-
-          if( msDoc.GetIsExternal() )
-          {
-            bProcess = false;
-          }
-
-          if( msDoc.GetIsHtml() )
-          {
-            bProcess = true;
-          }
-          else
-          {
-            bProcess = false;
-          }
-
-          if( bProcess )
+          for( ushort iHeadingIndex = 1 ; iHeadingIndex <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; iHeadingIndex++ )
           {
 
-            for( ushort iHeadingIndex = 1 ; iHeadingIndex <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; iHeadingIndex++ )
+            List<string> lHeadings = msDoc.GetHeadings( iHeadingIndex );
+
+            for( int iCount = 0 ; iCount < lHeadings.Count ; iCount++ )
             {
 
-              List<string> lHeadings = msDoc.GetHeadings( iHeadingIndex );
+              iCol = 1;
 
-              for( int iCount = 0 ; iCount < lHeadings.Count ; iCount++ )
+              this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+
+              if( !msDoc.GetIsExternal() )
               {
-
-                iCol = 1;
-
-                this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-
-                if( !msDoc.GetIsExternal() )
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-                }
-                else
-                {
-                  ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-                }
-
-                iCol++;
-
-                this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ( iCount + 1 ).ToString() ) );
-
-                this.InsertAndFormatContentCell( ws, iRow, ( int )( iHeadingIndex + iCol ), this.FormatIfMissing( lHeadings[ iCount ] ) );
-
-                iRow++;
-
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
               }
-            
+              else
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+              }
+
+              iCol++;
+
+              this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ( iCount + 1 ).ToString() ) );
+
+              this.InsertAndFormatContentCell( ws, iRow, ( int )( iHeadingIndex + iCol ), this.FormatIfMissing( lHeadings[ iCount ] ) );
+
+              iRow++;
+
             }
 
           }
@@ -135,7 +131,6 @@ namespace SEOMacroscope
       {
         var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
         var excelTable = rangeData.CreateTable();
-        excelTable.Sort( "URL", XLSortOrder.Ascending, false, true );
       }
 
     }

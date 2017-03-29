@@ -166,7 +166,6 @@ namespace SEOMacroscope
       {
         var rangeData = ws.Range( 1, 1, iRow - 1, iColMax - 1 );
         var excelTable = rangeData.CreateTable();
-        excelTable.Sort( "Title", XLSortOrder.Ascending, false, true );
       }
 
     }
