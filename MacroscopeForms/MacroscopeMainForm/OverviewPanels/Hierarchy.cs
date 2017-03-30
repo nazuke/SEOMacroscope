@@ -44,20 +44,20 @@ namespace SEOMacroscope
     private void CallbackHierarchyNodeMouseClick ( object sender, TreeNodeMouseClickEventArgs e )
     {
 
-      string sUrl = null;
+      string Url = null;
 
       try
       {
-        sUrl = e.Node.Tag.ToString();
+        Url = e.Node.Tag.ToString();
       }
       catch( Exception ex )
       {
         DebugMsg( string.Format( "CallbackHierarchyNodeMouseClick: {0}", ex.Message ) );
       }
 
-      if( sUrl != null )
+      if( Url != null )
       {
-        this.macroscopeDocumentDetailsInstance.UpdateDisplay( this.JobMaster, sUrl );
+        this.macroscopeDocumentDetailsInstance.UpdateDisplay( this.JobMaster, Url );
       }
       else
       {

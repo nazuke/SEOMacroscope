@@ -353,15 +353,16 @@ namespace SEOMacroscope
             
       lvListView.Items.Clear();
 
-      foreach( KeyValuePair<string,string> KP in msDoc.IterateMetaHeaders() )
+      foreach( KeyValuePair<string,string> KP in msDoc.IterateMetaTags() )
       {
 
         ListViewItem lvItem = null;
         string MetaName = KP.Key;
         string MetaContent = KP.Value;
         string PairKey = string.Join( "::", MetaName, MetaContent );
+
         count++;
-        
+
         if( lvListView.Items.ContainsKey( PairKey ) )
         {
 
@@ -390,7 +391,7 @@ namespace SEOMacroscope
             lvItem.Name = PairKey;
 
             lvItem.SubItems[ 0 ].Text = MetaName;
-            lvItem.SubItems[ 1 ].Text = MetaContent;
+            lvItem.SubItems.Add( MetaContent );
 
             lvListView.Items.Add( lvItem );
 

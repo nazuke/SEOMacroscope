@@ -66,9 +66,9 @@ namespace SEOMacroscope
     
     private static string GetVersion ()
     {
-      string sLocation = Assembly.GetExecutingAssembly().Location;
-      string sVersion = FileVersionInfo.GetVersionInfo( sLocation ).ProductVersion;
-      return( sVersion );
+      string Location = Assembly.GetExecutingAssembly().Location;
+      string Version = FileVersionInfo.GetVersionInfo( Location ).ProductVersion;
+      return( Version );
     }
 
     /**************************************************************************/
@@ -83,33 +83,40 @@ namespace SEOMacroscope
     private string _UserAgent ()
     {
       #if (DEBUG)
-      const string sUserAgent = "BOT";
+      const string MyUserAgent = "BOT";
       #else
-      string sLocation = Assembly.GetExecutingAssembly().Location;
-      string sName = FileVersionInfo.GetVersionInfo( sLocation ).ProductName;
-      string sVersion = FileVersionInfo.GetVersionInfo( sLocation ).ProductVersion;
-      string sUserAgent = string.Format( "{0}/{1}", sName, sVersion );
+      string Location = Assembly.GetExecutingAssembly().Location;
+      string Name = FileVersionInfo.GetVersionInfo( Location ).ProductName;
+      string Version = FileVersionInfo.GetVersionInfo( Location ).ProductVersion;
+      string MyUserAgent = string.Format( "{0}/{1}", Name, Version );
       #endif
-      return( sUserAgent );
+      return( MyUserAgent );
     }
 
     /**************************************************************************/
 		
     [Conditional( "DEVMODE" )]
-    public static void DebugMsg ( string sMsg, Boolean bFlag )
+    public static void DebugMsg ( string Msg, Boolean Flag )
     {
       if( !SuppressStaticDebugMsg )
       {
-        System.Diagnostics.Debug.WriteLine( sMsg );
+        Debug.WriteLine( Msg );
       }
     }
 
     [Conditional( "DEVMODE" )]
-    public void DebugMsg ( string sMsg )
+    public void DebugMsg ( string Msg )
     {
       if( !SuppressDebugMsg )
       {
-        System.Diagnostics.Debug.WriteLine( string.Format( "TID:{0} :: {1} :: {2}", Thread.CurrentThread.ManagedThreadId, this.GetType(), sMsg ) );
+        Debug.WriteLine(
+          string.Format(
+          "TID:{0} :: {1} :: {2}",
+          Thread.CurrentThread.ManagedThreadId,
+          this.GetType(),
+          Msg
+         )
+        );
       }
     }
 

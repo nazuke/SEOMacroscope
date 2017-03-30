@@ -92,8 +92,13 @@ namespace SEOMacroscope
         this.lvListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
         this.lvListView.Columns.Add( MacroscopeConstants.Lang, MacroscopeConstants.Lang );
         this.lvListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
+        
+        this.lvListView.Columns.Add( MacroscopeConstants.Inlinks, MacroscopeConstants.Inlinks );
+        this.lvListView.Columns.Add( MacroscopeConstants.Outlinks, MacroscopeConstants.Outlinks );
+        
         this.lvListView.Columns.Add( MacroscopeConstants.Inhyperlinks, MacroscopeConstants.Inhyperlinks );
         this.lvListView.Columns.Add( MacroscopeConstants.Outhyperlinks, MacroscopeConstants.Outhyperlinks );
+        
         this.lvListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
         this.lvListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
         this.lvListView.Columns.Add( MacroscopeConstants.Description, MacroscopeConstants.Description );
@@ -144,12 +149,12 @@ namespace SEOMacroscope
         htItems[ MacroscopeConstants.ContentType ] = msDoc.GetMimeType();
 
         {
-          string sLang = msDoc.GetLang();
-          if( sLang == null )
+          string Lang = msDoc.GetLang();
+          if( Lang == null )
           {
-            sLang = "";
+            Lang = "";
           }
-          htItems[ MacroscopeConstants.Lang ] = sLang;
+          htItems[ MacroscopeConstants.Lang ] = Lang;
         }
 
         htItems[ MacroscopeConstants.DateServer ] = msDoc.GetDateServer();
@@ -157,6 +162,9 @@ namespace SEOMacroscope
 
         htItems[ MacroscopeConstants.Canonical ] = msDoc.GetCanonical();
 
+        htItems[ MacroscopeConstants.Inlinks ] = msDoc.CountInlinks();
+        htItems[ MacroscopeConstants.Outlinks ] = msDoc.CountOutlinks();
+        
         htItems[ MacroscopeConstants.Inhyperlinks ] = msDoc.CountHyperlinksIn();
         htItems[ MacroscopeConstants.Outhyperlinks ] = msDoc.CountHyperlinksOut();
 

@@ -65,18 +65,18 @@ namespace SEOMacroscope
 
           MacroscopeSearchIndex SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
 
-          string sText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
+          string SearchText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
 
-          if( sText.Length > 0 )
+          if( SearchText.Length > 0 )
           {
 
-            SearchTextBox.Text = sText;
+            SearchTextBox.Text = SearchText;
 
-            DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp sText: {0}", sText ) );
+            DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp sText: {0}", SearchText ) );
 
             List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
                                                  MacroscopeSearchIndex.SearchMode.AND,
-                                                 sText.Split( ' ' )
+                                                 SearchText.Split( ' ' )
                                                );
 
             this.msDisplaySearchCollection.ClearData();

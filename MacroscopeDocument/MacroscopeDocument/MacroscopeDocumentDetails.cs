@@ -72,6 +72,8 @@ namespace SEOMacroscope
 
       slDetails.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect().ToString() ) );
       slDetails.Add( new KeyValuePair<string,string> ( "Redirected From", this.UrlRedirectFrom ) );
+      
+      slDetails.Add( new KeyValuePair<string,string> ( "Referrer Meta Tag", this.GetMetaTag("referrer") ) );
 
       slDetails.Add( new KeyValuePair<string,string> ( "Links In Count", this.CountHyperlinksIn().ToString() ) );
       slDetails.Add( new KeyValuePair<string,string> ( "Links Out Count", this.CountHyperlinksOut().ToString() ) );

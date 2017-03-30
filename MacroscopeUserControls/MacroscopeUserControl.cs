@@ -30,99 +30,114 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	public partial class MacroscopeUserControl : UserControl
-	{
+  public partial class MacroscopeUserControl : UserControl
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeUserControl ()
-		{
-		}
+    public MacroscopeUserControl ()
+    {
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void CopyListViewRowsTextToClipboard ( ListView lvListView )
-		{
+    public void CopyListViewRowsTextToClipboard ( ListView lvListView )
+    {
 
-			string sTextToCopy = "";
+      string sTextToCopy = "";
 
-			foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
+      foreach( ListViewItem lvItem in lvListView.SelectedItems )
+      {
 
-				sTextToCopy += lvItem.Text;
+        sTextToCopy += lvItem.Text;
 
-				for( int i = 1; i < lvItem.SubItems.Count; i++ ) {
-					sTextToCopy += "\t" + lvItem.SubItems[ i ].Text;
-				}
+        for( int i = 1 ; i < lvItem.SubItems.Count ; i++ )
+        {
+          sTextToCopy += "\t" + lvItem.SubItems[ i ].Text;
+        }
 
-				sTextToCopy += "\n";
+        sTextToCopy += "\n";
 
-			}
+      }
 
-			try {
-				this.CopyTextToClipboard( sTextToCopy );
-			} catch( Exception ex ) {
-				MessageBox.Show( ex.Message );
-			}
+      try
+      {
+        this.CopyTextToClipboard( sTextToCopy );
+      }
+      catch( Exception ex )
+      {
+        MessageBox.Show( ex.Message );
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void CopyListViewValuesTextToClipboard ( ListView lvListView )
-		{
+    public void CopyListViewValuesTextToClipboard ( ListView lvListView )
+    {
 
-			string sTextToCopy = "";
+      string sTextToCopy = "";
 
-			foreach( ListViewItem lvItem in lvListView.SelectedItems ) {
+      foreach( ListViewItem lvItem in lvListView.SelectedItems )
+      {
 
-				for( int i = 1; i < lvItem.SubItems.Count; i++ ) {
+        for( int i = 1 ; i < lvItem.SubItems.Count ; i++ )
+        {
 
-					if( i > 1 ) {
-						sTextToCopy += "\t";
-					}
+          if( i > 1 )
+          {
+            sTextToCopy += "\t";
+          }
 
-					sTextToCopy += lvItem.SubItems[ i ].Text;
+          sTextToCopy += lvItem.SubItems[ i ].Text;
 
-				}
+        }
 
-				sTextToCopy += "\n";
+        sTextToCopy += "\n";
 
-			}
+      }
 
-			try {
-				this.CopyTextToClipboard( sTextToCopy );
-			} catch( Exception ex ) {
-				MessageBox.Show( ex.Message );
-			}
+      try
+      {
+        this.CopyTextToClipboard( sTextToCopy );
+      }
+      catch( Exception ex )
+      {
+        MessageBox.Show( ex.Message );
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void CopyTextToClipboard ( string sText )
-		{
-			int iCount = 10;
-			while( iCount > 0 ) {
-				try {
-					Clipboard.SetText( sText );
-					break;
-				} catch( Exception ex ) {
-					DebugMsg( ex.Message );
-				}
-				iCount--;
-			}
-		}
+    public void CopyTextToClipboard ( string sText )
+    {
+      int iCount = 10;
+      while( iCount > 0 )
+      {
+        try
+        {
+          Clipboard.SetText( sText );
+          break;
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( ex.Message );
+        }
+        iCount--;
+      }
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Conditional( "DEVMODE" )]
-		public void DebugMsg ( String sMsg )
-		{
-			System.Diagnostics.Debug.WriteLine( sMsg );
-		}
+    [Conditional( "DEVMODE" )]
+    public void DebugMsg ( String sMsg )
+    {
+      Debug.WriteLine( sMsg );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

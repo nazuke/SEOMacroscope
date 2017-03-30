@@ -104,7 +104,7 @@ namespace SEOMacroscope
     private Dictionary<string,MacroscopeHrefLang> HrefLang;
 
     private Dictionary<string,string> MetaHeaders;
-
+    
     // Inbound links
     private Boolean ProcessInlinks;
     
@@ -137,7 +137,7 @@ namespace SEOMacroscope
     private int Depth;
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -242,7 +242,7 @@ namespace SEOMacroscope
       this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
       this.MetaHeaders = new Dictionary<string,string> ( 8 );
-
+      
       this.ProcessInlinks = false;
       this.Outlinks = new MacroscopeLinkList ();
 
@@ -260,25 +260,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
@@ -853,6 +853,17 @@ namespace SEOMacroscope
       return( DocumentLinksIn );
     }
 
+    public int CountInlinks ()
+    {
+      MacroscopeLinkList LinksIn = this.GetLinksIn();
+      int Count = 0;
+      if( LinksIn != null )
+      {
+        Count = LinksIn.Count();
+      }
+      return( Count );
+    }
+        
     /** Outlinks **************************************************************/
 
     public MacroscopeLinkList GetOutlinks ()
@@ -1151,7 +1162,7 @@ namespace SEOMacroscope
 
     /** META Headers **********************************************************/
 
-    public IEnumerable<KeyValuePair<string,string>> IterateMetaHeaders ()
+    public IEnumerable<KeyValuePair<string,string>> IterateMetaTags ()
     {
       lock( this.MetaHeaders )
       {
@@ -1161,6 +1172,16 @@ namespace SEOMacroscope
           yield return KP;
         }
       }
+    }
+
+    public string GetMetaTag ( string Key )
+    {
+      string Value = "";
+      if( this.MetaHeaders.ContainsKey( Key ) )
+      {
+        Value = this.MetaHeaders[ Key ];
+      }
+      return( Value );
     }
 
     /** Headings **************************************************************/
