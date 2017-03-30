@@ -243,9 +243,9 @@ namespace SEOMacroscope
     {
       lock( this.Hostnames )
       {
-        foreach( string sUrl in this.Hostnames.Keys )
+        foreach( string Url in this.Hostnames.Keys )
         {
-          DebugMsg( string.Format( "ALLOWED_HOST: {0}", sUrl ) );
+          DebugMsg( string.Format( "ALLOWED_HOST: {0}", Url ) );
         }
       }
     }

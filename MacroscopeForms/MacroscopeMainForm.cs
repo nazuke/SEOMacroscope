@@ -127,8 +127,7 @@ namespace SEOMacroscope
       this.SemaphoreSiteStructureDisplay = new Semaphore ( 0, 1 );
       this.SemaphoreSiteStructureDisplay.Release( 1 );
 
-      //this.StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
-      this.StartTabPageTimer( Delay: 4000 ); // BROKEN // 4000ms
+      this.StartTabPageTimer( Delay: 4000 ); // 4000ms
       this.StartSiteOverviewTimer( Delay: 4000 ); // 4000ms
       this.StartStatusBarTimer( Delay: 1000 ); // 1000ms
 
@@ -195,6 +194,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
 
       // listViewStructure
+      
       this.macroscopeOverviewTabPanelInstance.listViewStructure.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Click += this.CallbackStructureButtonShowAll;
       foreach( ToolStripDropDownItem ddItem in this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.DropDownItems )
@@ -205,18 +205,21 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
 
       // ListViewLinks
+      
       this.macroscopeOverviewTabPanelInstance.listViewLinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Click += this.CallbackButtonLinksShowAll;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchSourceUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchTargetUrlKeyUp;
             
       // ListViewHyperlinks
+      
       this.macroscopeOverviewTabPanelInstance.listViewHyperlinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Click += this.CallbackButtonHyperlinksShowAll;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp;
 
       // treeViewHierarchy etc...
+      
       this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.NodeMouseClick += this.CallbackHierarchyNodeMouseClick;
       this.macroscopeOverviewTabPanelInstance.listViewRobots.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewSitemaps.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -238,6 +241,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewHistory.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
       // listViewSearchCollection
+      
       this.macroscopeOverviewTabPanelInstance.listViewSearchCollection.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Click += this.CallbackSearchCollectionButtonClear;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.KeyUp += this.CallbackSearchCollectionTextBoxSearchKeyUp;
@@ -1333,199 +1337,6 @@ namespace SEOMacroscope
       }
     }
 
-    /** HIERARCHY PANEL CALLBACKS *********************************************/
-
-    private void CallbackHierarchyNodeMouseClick ( object sender, TreeNodeMouseClickEventArgs e )
-    {
-
-      string sUrl = null;
-
-      try
-      {
-        sUrl = e.Node.Tag.ToString();
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "CallbackHierarchyNodeMouseClick: {0}", ex.Message ) );
-      }
-
-      if( sUrl != null )
-      {
-        this.macroscopeDocumentDetailsInstance.UpdateDisplay( this.JobMaster, sUrl );
-      }
-      else
-      {
-        this.macroscopeDocumentDetailsInstance.ClearData();
-      }
-
-    }
-
-    /** SEARCH COLLECTION PANEL CALLBACKS *************************************/
-
-    private void CallbackSearchCollectionButtonClear ( object sender, EventArgs e )
-    {
-      this.msDisplaySearchCollection.ClearData();
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionDocumentsNumber.Text = string.Format( "Documents: {0}", 0 );
-    }
-
-    private void CallbackSearchCollectionTextBoxSearchKeyUp ( object sender, KeyEventArgs e )
-    {
-
-      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
-
-      DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp: {0}", "CALLED" ) );
-
-      switch( e.KeyCode )
-      {
-
-        case Keys.Return:
-
-          DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp: {0}", "RETURN" ) );
-
-          MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
-
-          string sText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
-
-          if( sText.Length > 0 )
-          {
-
-            SearchTextBox.Text = sText;
-
-            DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp sText: {0}", sText ) );
-
-            List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
-                                                 MacroscopeSearchIndex.SearchMode.AND,
-                                                 sText.Split( ' ' )
-                                               );
-
-            this.msDisplaySearchCollection.ClearData();
-
-            DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp DocList: {0}", DocList.Count ) );
-
-            this.msDisplaySearchCollection.RefreshData( DocList );
-
-          }
-
-          break;
-
-        case Keys.Escape:
-
-          DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp: {0}", "ESCAPE" ) );
-          SearchTextBox.Text = "";
-
-          break;
-
-        default:
-          break;
-
-      }
-
-    }
-
-    /** LINKS PANEL TOOL STRIP CALLBACKS **************************************/
-
-    private void CallbackButtonLinksShowAll ( object sender, EventArgs e )
-    {
-      this.msDisplayLinks.ClearData();
-      this.msDisplayLinks.RefreshData(
-        this.JobMaster.GetDocCollection()
-      );
-    }
-
-    private void CallbackSearchTextBoxLinksSearchSourceUrlKeyUp ( object sender, KeyEventArgs e )
-    {
-      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
-      switch( e.KeyCode )
-      {
-        case Keys.Return:
-          string UrlFragment = SearchTextBox.Text;
-          DebugMsg( string.Format( "CallbackSearchTextBoxLinksSearchSourceUrlKeyUp: {0}", UrlFragment ) );
-          if( UrlFragment.Length > 0 )
-          {
-            SearchTextBox.Text = UrlFragment;
-            this.msDisplayLinks.ClearData();
-            this.msDisplayLinks.RefreshDataSearchSourceUrls(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlFragment: UrlFragment
-            );
-          }
-          break;
-      }
-    }
-
-    private void CallbackSearchTextBoxLinksSearchTargetUrlKeyUp ( object sender, KeyEventArgs e )
-    {
-      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
-      switch( e.KeyCode )
-      {
-        case Keys.Return:
-          string UrlFragment = SearchTextBox.Text;
-          DebugMsg( string.Format( "CallbackSearchTextBoxLinksSearchTargetUrlKeyUp: {0}", UrlFragment ) );
-          if( UrlFragment.Length > 0 )
-          {
-            SearchTextBox.Text = UrlFragment;
-            this.msDisplayLinks.ClearData();
-            this.msDisplayLinks.RefreshDataSearchTargetUrls(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlFragment: UrlFragment
-            );
-          }
-          break;
-      }
-    }
-
-    /** HYPERLINKS PANEL TOOL STRIP CALLBACKS **************************************/
-
-    private void CallbackButtonHyperlinksShowAll ( object sender, EventArgs e )
-    {
-      this.msDisplayHyperlinks.ClearData();
-      this.msDisplayHyperlinks.RefreshData(
-        this.JobMaster.GetDocCollection()
-      );
-    }
-
-    private void CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp ( object sender, KeyEventArgs e )
-    {
-      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
-      switch( e.KeyCode )
-      {
-        case Keys.Return:
-          string UrlFragment = SearchTextBox.Text;
-          DebugMsg( string.Format( "CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp: {0}", UrlFragment ) );
-          if( UrlFragment.Length > 0 )
-          {
-            SearchTextBox.Text = UrlFragment;
-            this.msDisplayHyperlinks.ClearData();
-            this.msDisplayHyperlinks.RefreshDataSearchSourceUrls(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlFragment: UrlFragment
-            );
-          }
-          break;
-      }
-    }
-
-    private void CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp ( object sender, KeyEventArgs e )
-    {
-      ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
-      switch( e.KeyCode )
-      {
-        case Keys.Return:
-          string UrlFragment = SearchTextBox.Text;
-          DebugMsg( string.Format( "CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp: {0}", UrlFragment ) );
-          if( UrlFragment.Length > 0 )
-          {
-            SearchTextBox.Text = UrlFragment;
-            this.msDisplayHyperlinks.ClearData();
-            this.msDisplayHyperlinks.RefreshDataSearchTargetUrls(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlFragment: UrlFragment
-            );
-          }
-          break;
-      }
-    }
-
     /** SITE OVERVIEW PANEL ***************************************************/
 
     private void StartSiteOverviewTimer ( int Delay )
@@ -1815,6 +1626,8 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
       
+      this.UpdateProgressBarScan( 0 );
+
     }
 
     private void ScanningControlsReset ( Boolean State )
@@ -1916,158 +1729,6 @@ namespace SEOMacroscope
 
       }
 
-    }
-
-    /** Scan Progress Bar *****************************************************/
-
-    private void StartProgressBarScanTimer ( int Delay )
-    {
-      this.TimerProgressBarScan = new System.Timers.Timer ( Delay );
-      this.TimerProgressBarScan.Elapsed += this.CallbackProgressBarScanTimer;
-      this.TimerProgressBarScan.AutoReset = true;
-      this.TimerProgressBarScan.Enabled = true;
-      this.TimerProgressBarScan.Start();
-    }
-
-    private void StopProgressBarScanTimer ()
-    {
-      try
-      {
-        this.TimerProgressBarScan.Stop();
-        this.TimerProgressBarScan.Dispose();
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "StopProgressBarScanTimer: {0}", ex.Message ) );
-      }
-    }
-
-    private void CallbackProgressBarScanTimer ( Object self, ElapsedEventArgs e )
-    {
-      if( this.InvokeRequired )
-      {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.UpdateProgressBarScan();
-            }
-          )
-        );
-      }
-      else
-      {
-        this.UpdateProgressBarScan();
-      }
-    }
-
-    private void UpdateProgressBarScan ( int Percentage )
-    {
-      if( this.InvokeRequired )
-      {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.ProgressBarScan.Value = Percentage;    
-            }
-          )
-        );
-      }
-      else
-      {
-        this.ProgressBarScan.Value = Percentage;    
-      }
-    }
-        
-    private void UpdateProgressBarScan ()
-    {
-
-      int iPercentage = 0;
-
-      if( this.JobMaster != null )
-      {
-
-        List<decimal> Counts = this.JobMaster.GetProgress();
-        decimal iTotal = Counts[ 0 ];
-        decimal iProcessed = Counts[ 1 ];
-        decimal iQueued = Counts[ 2 ];
-        iPercentage = ( int )( ( 100 / iTotal ) * iProcessed );
-
-        if( iPercentage < 0 )
-        {
-          iPercentage = 0;
-        }
-        else
-        if( iPercentage > 100 )
-        {
-          iPercentage = 100;
-        }
-
-        //DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
-
-      }
-
-      //DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
-
-      this.ProgressBarScan.Value = iPercentage;
-
-    }
-
-    /** Status Bar ************************************************************/
-
-    private void StartStatusBarTimer ( int Delay )
-    {
-      this.TimerStatusBar = new System.Timers.Timer ( Delay );
-      this.TimerStatusBar.Elapsed += this.CallbackStatusBarTimer;
-      this.TimerStatusBar.AutoReset = true;
-      this.TimerStatusBar.Enabled = true;
-      this.TimerStatusBar.Start();
-    }
-
-    private void StopStatusBarTimer ()
-    {
-      try
-      {
-        this.TimerStatusBar.Stop();
-        this.TimerStatusBar.Dispose();
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "StopStatusBarTimer: {0}", ex.Message ) );
-      }
-    }
-
-    private void CallbackStatusBarTimer ( Object self, ElapsedEventArgs e )
-    {
-      if( this.InvokeRequired )
-      {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.UpdateStatusBar();
-            }
-          )
-        );
-      }
-      else
-      {
-        this.UpdateStatusBar();
-      }
-    }
-
-    private void UpdateStatusBar ()
-    {
-      if( this.JobMaster != null )
-      {
-        this.toolStripThreads.Text = string.Format( "Threads: {0}", this.JobMaster.CountRunningThreads() );
-        this.toolStripUrlCount.Text = string.Format( "URLs in Queue: {0}", this.JobMaster.CountUrlQueueItems() );
-        this.toolStripFound.Text = string.Format( "URLs Crawled: {0}", this.JobMaster.GetDocCollection().CountDocuments() );
-      }
     }
 
     /** Authentication Dialogue Timer *****************************************/

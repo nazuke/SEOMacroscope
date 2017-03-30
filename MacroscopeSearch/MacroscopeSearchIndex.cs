@@ -44,13 +44,13 @@ namespace SEOMacroscope
       AND = 2
     }
 
-    // sUrl, MacroscopeDocument
+    // Url, MacroscopeDocument
     private Dictionary<string,MacroscopeDocument> DocumentIndex;
 
-    // sUrl, sInvertedIndex ( sKeyword, Boolean )
+    // Url, InvertedIndex ( sKeyword, Boolean )
     private Dictionary<string,Dictionary<string,Boolean>> ForwardIndex;
 
-    // sUrl, DocumentIndex
+    // Url, DocumentIndex
     private Dictionary<string,Dictionary<string,MacroscopeDocument>> InvertedIndex;
 
     /**************************************************************************/
@@ -182,9 +182,9 @@ namespace SEOMacroscope
         if( InvertedIndex.ContainsKey( Terms[ i ] ) )
         {
 
-          foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
+          foreach( string Url in InvertedIndex[Terms[i]].Keys )
           {
-            DocList.Add( InvertedIndex[ Terms[ i ] ][ sUrl ] );
+            DocList.Add( InvertedIndex[ Terms[ i ] ][ Url ] );
           }
 
         }
@@ -210,10 +210,10 @@ namespace SEOMacroscope
         if( InvertedIndex.ContainsKey( Terms[ i ] ) )
         {
 
-          foreach( string sUrl in InvertedIndex[Terms[i]].Keys )
+          foreach( string Url in InvertedIndex[Terms[i]].Keys )
           {
 
-            MacroscopeDocument msDoc = InvertedIndex[ Terms[ i ] ][ sUrl ];
+            MacroscopeDocument msDoc = InvertedIndex[ Terms[ i ] ][ Url ];
             if( DocListGather.ContainsKey( msDoc ) )
             {
               DocListGather[ msDoc ] = DocListGather[ msDoc ] + 1;

@@ -222,7 +222,7 @@ namespace SEOMacroscope
       string RobotText = "";
       string sRawData = "";
 
-      if( !MacroscopeDnsTools.CheckValidHostname( RobotsUri.ToString() ) )
+      if( !MacroscopeDnsTools.CheckValidHostname( Url: RobotsUri.ToString() ) )
       {
         DebugMsg( string.Format( "FetchRobotTextFile :: CheckValidHostname: {0}", "NOT OK" ) );
         return( RobotText );

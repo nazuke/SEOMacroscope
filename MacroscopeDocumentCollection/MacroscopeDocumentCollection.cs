@@ -597,12 +597,14 @@ namespace SEOMacroscope
       if( msDoc.GetProcessHyperlinksIn() )
       {
 
+        MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
+
         DebugMsg( string.Format( "RecalculateHyperlinksIn: PROCESSING: {0}", msDoc.GetUrl() ) );
         
         msDoc.UnsetProcessInlinks();
         msDoc.UnsetProcessHyperlinksIn();
 
-        foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.GetHyperlinksOut().IterateLinks() )
+        foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
         {
                   
           string Url = HyperlinkOut.GetUrlTarget();
@@ -690,26 +692,26 @@ namespace SEOMacroscope
 
     private void RecalculateStatsHostnames ( MacroscopeDocument msDoc )
     {
-      string sUrl = msDoc.GetUrl();
-      string sText = msDoc.GetHostname();
+      string Url = msDoc.GetUrl();
+      string Text = msDoc.GetHostname();
 
-      if( ( sText != null ) && ( sText.Length > 0 ) )
+      if( ( Text != null ) && ( Text.Length > 0 ) )
       {
 
-        sText = sText.ToLower();
+        Text = Text.ToLower();
 
-        if( this.StatsHostnames.ContainsKey( sText ) )
+        if( this.StatsHostnames.ContainsKey( Text ) )
         {
           lock( this.StatsHostnames )
           {
-            this.StatsHostnames[ sText ] = this.StatsHostnames[ sText ] + 1;
+            this.StatsHostnames[ Text ] = this.StatsHostnames[ Text ] + 1;
           }
         }
         else
         {
           lock( this.StatsHostnames )
           {
-            this.StatsHostnames.Add( sText, 1 );
+            this.StatsHostnames.Add( Text, 1 );
           }
         }
 
@@ -757,22 +759,22 @@ namespace SEOMacroscope
       if( bProcess )
       {
 
-        string sUrl = msDoc.GetUrl();
-        string sText = msDoc.GetTitle();
-        string sHashed = sText.GetHashCode().ToString();
+        string Url = msDoc.GetUrl();
+        string Text = msDoc.GetTitle();
+        string Hashed = Text.GetHashCode().ToString();
 
-        if( this.StatsTitles.ContainsKey( sHashed ) )
+        if( this.StatsTitles.ContainsKey( Hashed ) )
         {
           lock( this.StatsTitles )
           {
-            this.StatsTitles[ sHashed ] = this.StatsTitles[ sHashed ] + 1;
+            this.StatsTitles[ Hashed ] = this.StatsTitles[ Hashed ] + 1;
           }
         }
         else
         {
           lock( this.StatsTitles )
           {
-            this.StatsTitles.Add( sHashed, 1 );
+            this.StatsTitles.Add( Hashed, 1 );
           }
         }
 
@@ -820,22 +822,22 @@ namespace SEOMacroscope
       if( bProcess )
       {
 
-        string sUrl = msDoc.GetUrl();
-        string sText = msDoc.GetDescription();
-        string sHashed = sText.GetHashCode().ToString();
+        string Url = msDoc.GetUrl();
+        string Text = msDoc.GetDescription();
+        string Hashed = Text.GetHashCode().ToString();
 
-        if( this.StatsDescriptions.ContainsKey( sHashed ) )
+        if( this.StatsDescriptions.ContainsKey( Hashed ) )
         {
           lock( this.StatsDescriptions )
           {
-            this.StatsDescriptions[ sHashed ] = this.StatsDescriptions[ sHashed ] + 1;
+            this.StatsDescriptions[ Hashed ] = this.StatsDescriptions[ Hashed ] + 1;
           }
         }
         else
         {
           lock( this.StatsDescriptions )
           {
-            this.StatsDescriptions.Add( sHashed, 1 );
+            this.StatsDescriptions.Add( Hashed, 1 );
           }
         }
 
@@ -878,22 +880,22 @@ namespace SEOMacroscope
       if( bProcess )
       {
 
-        string sUrl = msDoc.GetUrl();
-        string sText = msDoc.GetKeywords();
-        string sHashed = sText.GetHashCode().ToString();
+        string Url = msDoc.GetUrl();
+        string Text = msDoc.GetKeywords();
+        string Hashed = Text.GetHashCode().ToString();
 
-        if( this.StatsKeywords.ContainsKey( sHashed ) )
+        if( this.StatsKeywords.ContainsKey( Hashed ) )
         {
           lock( this.StatsKeywords )
           {
-            this.StatsKeywords[ sHashed ] = this.StatsKeywords[ sHashed ] + 1;
+            this.StatsKeywords[ Hashed ] = this.StatsKeywords[ Hashed ] + 1;
           }
         }
         else
         {
           lock( this.StatsKeywords )
           {
-            this.StatsKeywords.Add( sHashed, 1 );
+            this.StatsKeywords.Add( Hashed, 1 );
           }
         }
         

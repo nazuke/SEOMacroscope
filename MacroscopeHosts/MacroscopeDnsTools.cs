@@ -44,7 +44,7 @@ namespace SEOMacroscope
 
 		/** Check Hostnames *******************************************************/
 
-		public static Boolean CheckValidHostname ( string sUrl )
+		public static Boolean CheckValidHostname ( string Url )
 		{
 
 			Boolean bSuccess = false;
@@ -53,7 +53,7 @@ namespace SEOMacroscope
 
 			try
 			{
-				RobotUri = new Uri ( sUrl, UriKind.Absolute );
+				RobotUri = new Uri ( Url, UriKind.Absolute );
 				sHostname = RobotUri.Host;
 			}
 			catch( InvalidOperationException ex )

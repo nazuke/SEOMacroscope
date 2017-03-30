@@ -67,7 +67,7 @@ namespace SEOMacroscope
 
     public Boolean Execute ()
     {
-      Boolean bSuccess = false;
+      Boolean Success = false;
       MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
 
       this.CleanseList();
@@ -79,15 +79,15 @@ namespace SEOMacroscope
 
         for( int i = 0 ; i < this.UrlList.Count ; i++ )
         {
-          string sUrl = this.UrlList[ i ];
-          AllowedHosts.AddFromUrl( sUrl );
-          this.JobMaster.AddUrlQueueItem( sUrl );
+          string Url = this.UrlList[ i ];
+          AllowedHosts.AddFromUrl( Url );
+          this.JobMaster.AddUrlQueueItem( Url );
         }
 
-        bSuccess = true;
+        Success = true;
       }
 
-      return( bSuccess );
+      return( Success );
     }
 
     /**************************************************************************/
@@ -96,14 +96,14 @@ namespace SEOMacroscope
     {
 
       Boolean bSuccess = false;
-      string [] saUrls = null;
+      string [] Urls = null;
 
       if( this.Path != null )
       {
 
         try
         {
-          saUrls = File.ReadAllLines( this.Path );
+          Urls = File.ReadAllLines( this.Path );
         }
         catch( FileLoadException ex )
         {
@@ -113,22 +113,22 @@ namespace SEOMacroscope
       }
       else
       {
-        saUrls = this.UrlListText;
+        Urls = this.UrlListText;
       }
 
-      if( ( saUrls != null ) && ( saUrls.Length > 0 ) )
+      if( ( Urls != null ) && ( Urls.Length > 0 ) )
       {
-        for( int i = 0 ; i < saUrls.Length ; i++ )
+        for( int i = 0 ; i < Urls.Length ; i++ )
         {
-          string sUrl = saUrls[ i ];
-          sUrl = Regex.Replace( sUrl, "^\\s+", "" );
-          sUrl = Regex.Replace( sUrl, "\\s+$", "" );
-          if( sUrl.Length > 0 )
+          string Url = Urls[ i ];
+          Url = Regex.Replace( Url, "^\\s+", "" );
+          Url = Regex.Replace( Url, "\\s+$", "" );
+          if( Url.Length > 0 )
           {
-            if( Uri.IsWellFormedUriString( sUrl, UriKind.Absolute ) )
+            if( Uri.IsWellFormedUriString( Url, UriKind.Absolute ) )
             {
-              DebugMsg( string.Format( "CleanseList Adding: {0}", sUrl ) );
-              this.UrlList.Add( sUrl );
+              DebugMsg( string.Format( "CleanseList Adding: {0}", Url ) );
+              this.UrlList.Add( Url );
             }
           }
         }
@@ -142,19 +142,19 @@ namespace SEOMacroscope
 
     public string GetUrlListItem ( int Item )
     {
-      string sUrl = null;
+      string Url = null;
       try
       {
         if( this.UrlList[ Item ].Length > 0 )
         {
-          sUrl = this.UrlList[ Item ];
+          Url = this.UrlList[ Item ];
         }
       }
       catch( Exception ex )
       {
         DebugMsg( string.Format( "GetUrlListItem: {0}", ex.Message ) );
       }
-      return( sUrl );
+      return( Url );
     }
 
     /**************************************************************************/

@@ -114,7 +114,7 @@ namespace SEOMacroscope
         foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
         {
 
-          string sUrl = msDoc.GetUrl();
+          string Url = msDoc.GetUrl();
           decimal Duration = msDoc.GetDurationInSeconds();
 
           if( !msDoc.GetIsExternal() && msDoc.GetWasDownloaded() )
@@ -125,11 +125,11 @@ namespace SEOMacroscope
           
             if( SortedListAll.ContainsKey( Duration ) )
             {
-              SortedListAll[ Duration ] = msDoc.GetUrl();
+              SortedListAll[ Duration ] = Url;
             }
             else
             {
-              SortedListAll.Add( Duration, msDoc.GetUrl() );
+              SortedListAll.Add( Duration, Url );
             }
           
           }

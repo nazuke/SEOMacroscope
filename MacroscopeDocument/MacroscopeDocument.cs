@@ -103,6 +103,8 @@ namespace SEOMacroscope
     private string Canonical;
     private Dictionary<string,MacroscopeHrefLang> HrefLang;
 
+    private Dictionary<string,string> MetaHeaders;
+
     // Inbound links
     private Boolean ProcessInlinks;
     
@@ -238,6 +240,8 @@ namespace SEOMacroscope
 
       this.Canonical = "";
       this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
+
+      this.MetaHeaders = new Dictionary<string,string> ( 8 );
 
       this.ProcessInlinks = false;
       this.Outlinks = new MacroscopeLinkList ();
@@ -1145,6 +1149,20 @@ namespace SEOMacroscope
       return( this.HrefLang );
     }
 
+    /** META Headers **********************************************************/
+
+    public IEnumerable<KeyValuePair<string,string>> IterateMetaHeaders ()
+    {
+      lock( this.MetaHeaders )
+      {
+        foreach( string Key  in this.MetaHeaders.Keys )
+        {
+          KeyValuePair<string,string> KP = new KeyValuePair<string,string> ( Key, this.MetaHeaders[ Key ] );
+          yield return KP;
+        }
+      }
+    }
+
     /** Headings **************************************************************/
 
     public void AddHeading ( ushort iLevel, string sString )
@@ -1878,24 +1896,24 @@ namespace SEOMacroscope
         if( sHeader.ToLower().Equals( "link" ) )
         {
 
-          string sUrl = null;
-          string sRel = null;
-          string sRaw = res.GetResponseHeader( sHeader );
+          string Url = null;
+          string Rel = null;
+          string Raw = res.GetResponseHeader( sHeader );
 
-          MatchCollection matches = Regex.Matches( sRaw, "<([^<>]+)>\\s*;\\srel=\"([^\"]+)\"" );
+          MatchCollection matches = Regex.Matches( Raw, "<([^<>]+)>\\s*;\\srel=\"([^\"]+)\"" );
 
           foreach( Match match in matches )
           {
-            sUrl = match.Groups[ 1 ].Value;
-            sRel = match.Groups[ 2 ].Value;
+            Url = match.Groups[ 1 ].Value;
+            Rel = match.Groups[ 2 ].Value;
           }
 
-          if( ( sRel != null ) && ( sRel.ToLower() == "canonical" ) )
+          if( ( Rel != null ) && ( Rel.ToLower() == "canonical" ) )
           {
 
-            if( ( sUrl != null ) && ( sUrl.Length > 0 ) )
+            if( ( Url != null ) && ( Url.Length > 0 ) )
             {
-              this.SetCanonical( sUrl );
+              this.SetCanonical( Url );
             }
           }
 

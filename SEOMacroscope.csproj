@@ -102,6 +102,32 @@
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
       <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Audio.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\CanonicalAnalysis.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\EmailAddresses.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Errors.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Hierarchy.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\History.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Hostnames.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\HrefLangAnalysis.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Hyperlinks.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Images.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Javascripts.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Links.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\MetaDescriptions.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\MetaKeywords.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Overview.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\PageHeadings.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\PageTitles.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\RedirectsAudit.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\RobotsPanel.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\SearchCollection.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Stylesheets.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\TelephoneNumbers.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\UriAnalysis.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Videos.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\ProgressBar.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\StatusBar.cs" />
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.Designer.cs">
       <DependentUpon>MacroscopeSinglePercentageProgressForm.cs</DependentUpon>
@@ -381,6 +407,7 @@
     <Folder Include="MacroscopeCredentials\t" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
+    <Folder Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
     <Folder Include="MacroscopeForms\MacroscopeTaskParameters" />
@@ -388,6 +415,7 @@
     <Folder Include="MacroscopeForms\MacroscopeGetCredentialsHttp" />
     <Folder Include="MacroscopeForms\MacroscopeProgressForms" />
     <Folder Include="MacroscopeForms\MacroscopeLoadUrlList" />
+    <Folder Include="MacroscopeForms\MacroscopeMainForm" />
     <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeHyperlinks" />
     <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />
@@ -423,6 +451,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProfilingSessions\Session20170323_170729.sdps" />
+    <Content Include="ProfilingSessions\Session20170330_163800.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

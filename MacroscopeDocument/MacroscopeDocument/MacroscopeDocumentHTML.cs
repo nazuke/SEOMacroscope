@@ -233,6 +233,45 @@ namespace SEOMacroscope
             this.ExtractHrefLangAlternates( HtmlDoc );
           }
 
+          { // Process META Tags
+            // https://moz.com/blog/meta-referrer-tag
+
+            HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//head/meta" );
+
+            if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+            {
+
+              foreach( HtmlNode MetaNode in NodeCollection )
+              {
+
+                string MetaName = MetaNode.GetAttributeValue( "name", null );        
+                string MetaContent = MetaNode.GetAttributeValue( "content", null );
+
+                if( ( !string.IsNullOrEmpty( MetaName ) ) && ( !string.IsNullOrEmpty( MetaContent ) ) )
+                {
+
+                  DebugMsg( string.Format( "META: {0} :: {1}", MetaName, MetaContent ) );
+
+                  lock( this.MetaHeaders )
+                  {
+                    if( this.MetaHeaders.ContainsKey( MetaName ) )
+                    {
+                      this.MetaHeaders[ MetaName ] = MetaContent;
+                    }
+                    else
+                    {
+                      this.MetaHeaders.Add( MetaName, MetaContent );
+                    }
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
           { // Process Body Text
             string sText = this.ProcessHtmlBodyText( sRawData );
             if( sText != null )
@@ -303,48 +342,51 @@ namespace SEOMacroscope
     private void ProcessHtmlHyperlinksOut ( HtmlDocument HtmlDoc )
     {
 
-      HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
+      HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
-      if( nOutlinks != null )
+      if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
       {
 
-        foreach( HtmlNode nLink in nOutlinks )
+        foreach( HtmlNode LinkNode in NodeCollection )
         {
 
           MacroscopeHyperlinkOut HyperlinkOut = null;
-          string sLinkUrl = nLink.GetAttributeValue( "href", null );
-          string sLinkUrlAbsolute = null;
-          string sLinkTitle = nLink.GetAttributeValue( "title", "" );
+          string LinkUrl = LinkNode.GetAttributeValue( "href", null );
+          string LinkUrlAbsolute = null;
+          string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
           
-          if( sLinkUrl != null )
+          DebugMsg( string.Format( "ImageNode: {0}", this.GetUrl() ) );
+          
+          
+          if( LinkUrl != null )
           {
 
-            sLinkUrlAbsolute = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            LinkUrlAbsolute = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-            if( sLinkUrlAbsolute != null )
+            if( LinkUrlAbsolute != null )
             {
 
-              this.SetProcessHyperlinksInForUrl( Url: sLinkUrlAbsolute );
+              this.SetProcessHyperlinksInForUrl( Url: LinkUrlAbsolute );
 
               HyperlinkOut = this.HyperlinksOut.Add(
                 LinkType: MacroscopeConstants.HyperlinkType.TEXT,
-                UrlTarget: sLinkUrlAbsolute
+                UrlTarget: LinkUrlAbsolute
               );
 
-              if( sLinkTitle.Length > 0 )
+              if( LinkTitle.Length > 0 )
               {
-                sLinkTitle = HtmlEntity.DeEntitize( sLinkTitle );
-                if( sLinkTitle.Length > 0 )
-                  HyperlinkOut.SetLinkTitle( sLinkTitle );
+                LinkTitle = HtmlEntity.DeEntitize( LinkTitle );
+                if( LinkTitle.Length > 0 )
+                  HyperlinkOut.SetLinkTitle( LinkTitle );
               }
 
               { // FOLLOW / NOFOLLOW
 
-                string sRel = nLink.GetAttributeValue( "rel", null );
+                string Rel = LinkNode.GetAttributeValue( "rel", null );
 
-                if( sRel != null )
+                if( Rel != null )
                 {
-                  if( sRel.ToLower().Contains( "nofollow" ) )
+                  if( Rel.ToLower().Contains( "nofollow" ) )
                     HyperlinkOut.UnsetDoFollow();
                 }
 
@@ -352,37 +394,37 @@ namespace SEOMacroscope
 
               { // TEXT LINK
 
-                string sLinkText = nLink.InnerText;
+                string LinkText = LinkNode.InnerText;
 
-                if( ( sLinkText != null ) && ( sLinkText.Length > 0 ) )
+                if( ( LinkText != null ) && ( LinkText.Length > 0 ) )
                 {
-                  sLinkText = HtmlEntity.DeEntitize( sLinkText );
-                  if( sLinkText.Length > 0 )
-                    HyperlinkOut.SetLinkText( sLinkText );
+                  LinkText = HtmlEntity.DeEntitize( LinkText );
+                  if( LinkText.Length > 0 )
+                    HyperlinkOut.SetLinkText( LinkText );
                 }
             
               }
 
               { // IMAGE LINK
 
-                HtmlNode nImage = nLink.SelectSingleNode( "descendant::img" );
+                HtmlNode ImageNode = LinkNode.SelectSingleNode( "descendant::img" );
 
-                if( nImage != null )
+                if( ImageNode != null )
                 {
 
-                  DebugMsg( string.Format( "nImage: {0}", this.GetUrl() ) );
-                  DebugMsg( string.Format( "nImage: SRC: {0}", nImage.GetAttributeValue( "src", "UNKNOWN" ) ) );
-                  DebugMsg( string.Format( "nImage: {0}", nImage ) );
+                  DebugMsg( string.Format( "ImageNode: {0}", this.GetUrl() ) );
+                  DebugMsg( string.Format( "ImageNode: SRC: {0}", ImageNode.GetAttributeValue( "src", "UNKNOWN" ) ) );
+                  DebugMsg( string.Format( "ImageNode: {0}", ImageNode ) );
 
                   HyperlinkOut.SetHyperlinkType( MacroscopeConstants.HyperlinkType.IMAGE );
-                  string sAltText = nLink.GetAttributeValue( "alt", "" );
+                  string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
               
-                  DebugMsg( string.Format( "nImage: sAltText: {0}", sAltText ) );
+                  DebugMsg( string.Format( "ImageNode: LinkAltText: {0}", LinkAltText ) );
                             
-                  if( ( sAltText != null ) && ( sAltText.Length > 0 ) )
+                  if( ( LinkAltText != null ) && ( LinkAltText.Length > 0 ) )
                   {
-                    sAltText = HtmlEntity.DeEntitize( sAltText );
-                    HyperlinkOut.SetAltText( sAltText );
+                    LinkAltText = HtmlEntity.DeEntitize( LinkAltText );
+                    HyperlinkOut.SetAltText( LinkAltText );
                   }
               
                 }
@@ -406,33 +448,36 @@ namespace SEOMacroscope
 
       { // A HREF links ------------------------------------------------------//
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
-            string sTitle = nLink.GetAttributeValue( "title", "" );
-            string sAltText = nLink.GetAttributeValue( "alt", "" );
+            string LinkUrl = LinkNode.GetAttributeValue( "href", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
+            string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
 
-            if( sLinkUrlAbs != null )
+            DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF :    LinkUrl : {0}", LinkUrl ) );
+            DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF : LinkUrlAbs : {0}", LinkUrlAbs ) );
+
+            if( LinkUrlAbs != null )
             {
               
               MacroscopeLink Outlink = this.AddHtmlOutlink( 
-                                         sLinkUrlAbs,
+                                         LinkUrlAbs,
                                          MacroscopeConstants.InOutLinkType.AHREF,
                                          true
                                        );
               
               if( Outlink != null )
               {
-                Outlink.SetTitle( Title: sTitle );
-                Outlink.SetAltText( AltText: sAltText );
-                Outlink.SetRawTargetUrl( sLinkUrl );
+                Outlink.SetTitle( Title: LinkTitle );
+                Outlink.SetAltText( AltText: LinkAltText );
+                Outlink.SetRawTargetUrl( LinkUrl );
               }
 
             }
@@ -446,46 +491,43 @@ namespace SEOMacroscope
       { // META elements -----------------------------------------------------//
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//meta[@content]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//meta[@content]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = null;
-            string sContent = nLink.GetAttributeValue( "content", null );
+            string LinkUrl = null;
+            string Content = LinkNode.GetAttributeValue( "content", null );
 
-            MatchCollection reMatches = Regex.Matches( sContent, "^\\s*[0-9]+;\\s*url=([^\\s]+)\\s*$" );
+            MatchCollection reMatches = Regex.Matches( Content, "^\\s*[0-9]+;\\s*url=([^\\s]+)\\s*$" );
 
             for( int i = 0 ; i < reMatches.Count ; i++ )
             {
               if( reMatches[ i ].Groups[ 0 ].Value.Length > 0 )
               {
-                sLinkUrl = reMatches[ i ].Groups[ 0 ].Value;
+                LinkUrl = reMatches[ i ].Groups[ 0 ].Value;
                 break;
               }
             }
 
-            if( ( sLinkUrl != null ) && ( sLinkUrl.Length > 0 ) )
+            if( ( LinkUrl != null ) && ( LinkUrl.Length > 0 ) )
             {
 
-              string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+              string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-              DebugMsg( string.Format( "META: 1 :: {0}", sLinkUrl ) );
-              DebugMsg( string.Format( "META: 2 :: {0}", sLinkUrlAbs ) );
-
-              if( sLinkUrlAbs != null )
+              if( LinkUrlAbs != null )
               {
                 
                 MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                           AbsoluteUrl: sLinkUrlAbs,
+                                           AbsoluteUrl: LinkUrlAbs,
                                            LinkType: MacroscopeConstants.InOutLinkType.META,
                                            Follow: true
                                          );
                 
-                Outlink.SetRawTargetUrl( sLinkUrl );
+                Outlink.SetRawTargetUrl( LinkUrl );
                 
               }
 
@@ -499,20 +541,20 @@ namespace SEOMacroscope
 
       { // LINK element links
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//link[@href]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//link[@href]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string LinkUrl = LinkNode.GetAttributeValue( "href", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
             MacroscopeConstants.InOutLinkType LinkType = MacroscopeConstants.InOutLinkType.LINK;
             Boolean bFollow = true;
 
-            if( nLink.GetAttributeValue( "hreflang", null ) != null )
+            if( LinkNode.GetAttributeValue( "hreflang", null ) != null )
             {
               LinkType = MacroscopeConstants.InOutLinkType.HREFLANG;
               if( !MacroscopePreferencesManager.GetFollowHrefLangLinks() )
@@ -522,22 +564,22 @@ namespace SEOMacroscope
             }
 
             if(
-              ( nLink.GetAttributeValue( "rel", null ) != null )
-              && ( nLink.GetAttributeValue( "rel", "" ).ToLower() == "stylesheet" ) )
+              ( LinkNode.GetAttributeValue( "rel", null ) != null )
+              && ( LinkNode.GetAttributeValue( "rel", "" ).ToLower() == "stylesheet" ) )
             {
               LinkType = MacroscopeConstants.InOutLinkType.STYLESHEET;
             }
 
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
               
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: LinkType,
                                          Follow: bFollow
                                        );
               
-              Outlink.SetRawTargetUrl( sLinkUrl );
+              Outlink.SetRawTargetUrl( LinkUrl );
               
             }
 
@@ -550,29 +592,26 @@ namespace SEOMacroscope
       { // IFRAME element links -----------------------------------------------//
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//iframe[@src]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//iframe[@src]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
-            string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string LinkUrl = LinkNode.GetAttributeValue( "src", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-            DebugMsg( string.Format( "IFRAME: 1 :: {0}", sLinkUrl ) );
-            DebugMsg( string.Format( "IFRAME: 2 :: {0}", sLinkUrlAbs ) );
-
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
 
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: MacroscopeConstants.InOutLinkType.IFRAME,
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( sLinkUrl );
+              Outlink.SetRawTargetUrl( LinkUrl );
               
             }
 
@@ -584,27 +623,27 @@ namespace SEOMacroscope
 
       { // MAP HREF links
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//map/area[@href]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//map/area[@href]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "href", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string LinkUrl = LinkNode.GetAttributeValue( "href", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
 
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: MacroscopeConstants.InOutLinkType.MAP,
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( sLinkUrl );
+              Outlink.SetRawTargetUrl( LinkUrl );
               
             }
 
@@ -616,36 +655,33 @@ namespace SEOMacroscope
 
       { // IMG element links -----------------------------------------------//
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//img[@src]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//img[@src]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
-            string sTitle = nLink.GetAttributeValue( "title", "" );
-            string sAltText = nLink.GetAttributeValue( "alt", "" );
+            string LinkUrl = LinkNode.GetAttributeValue( "src", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
+            string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
             
-            DebugMsg( string.Format( "IMAGE: 1 :: {0}", sLinkUrl ) );
-            DebugMsg( string.Format( "IMAGE: 2 :: {0}", sLinkUrlAbs ) );
-
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
 
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                                          Follow: true
                                        );
 
               if( Outlink != null )
               {
-                Outlink.SetTitle( Title: sTitle );
-                Outlink.SetAltText( AltText: sAltText );
-                Outlink.SetRawTargetUrl( sLinkUrl );
+                Outlink.SetTitle( Title: LinkTitle );
+                Outlink.SetAltText( AltText: LinkAltText );
+                Outlink.SetRawTargetUrl( TargetUrl: LinkUrl );
               }
 
             }
@@ -658,27 +694,27 @@ namespace SEOMacroscope
 
       { // SCRIPT element links ----------------------------------------------//
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//script[@src]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//script[@src]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string LinkUrl = LinkNode.GetAttributeValue( "src", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
               
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( sLinkUrl );
+              Outlink.SetRawTargetUrl( LinkUrl );
               
             }
 
@@ -691,30 +727,27 @@ namespace SEOMacroscope
       { // AUDIO element links -----------------------------------------------//
         // https://developer.mozilla.org/en/docs/Web/HTML/Element/audio
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "(//audio[@src]|//audio/source[@src]|//audio/track[@src])" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//audio[@src]|//audio/source[@src]|//audio/track[@src])" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string LinkUrl = LinkNode.GetAttributeValue( "src", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-            DebugMsg( string.Format( "AUDIO: 1 :: {0}", sLinkUrl ) );
-            DebugMsg( string.Format( "AUDIO: 2 :: {0}", sLinkUrlAbs ) );
-
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
               
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: MacroscopeConstants.InOutLinkType.AUDIO,
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( sLinkUrl );
+              Outlink.SetRawTargetUrl( LinkUrl );
               
             }
 
@@ -727,30 +760,27 @@ namespace SEOMacroscope
       { // VIDEO element links -----------------------------------------------//
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "(//video[@src]|//video/source[@src]|//video/track[@src])" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//video[@src]|//video/source[@src]|//video/track[@src])" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string LinkUrl = LinkNode.GetAttributeValue( "src", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-            DebugMsg( string.Format( "VIDEO: 1 :: {0}", sLinkUrl ) );
-            DebugMsg( string.Format( "VIDEO: 2 :: {0}", sLinkUrlAbs ) );
-
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
 
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: MacroscopeConstants.InOutLinkType.VIDEO,
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( sLinkUrl );
+              Outlink.SetRawTargetUrl( LinkUrl );
               
             }
 
@@ -763,30 +793,27 @@ namespace SEOMacroscope
       { // EMBED element links -----------------------------------------------//
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/embed
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//embed[@src]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//embed[@src]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "src", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string LinkUrl = LinkNode.GetAttributeValue( "src", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-            DebugMsg( string.Format( "EMBED: 1 :: {0}", sLinkUrl ) );
-            DebugMsg( string.Format( "EMBED: 2 :: {0}", sLinkUrlAbs ) );
-
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
               
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: MacroscopeConstants.InOutLinkType.EMBED,
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( sLinkUrl );
+              Outlink.SetRawTargetUrl( LinkUrl );
               
             }
 
@@ -799,30 +826,27 @@ namespace SEOMacroscope
       { // OBJECT element links ----------------------------------------------//
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object
 
-        HtmlNodeCollection nOutlinks = HtmlDoc.DocumentNode.SelectNodes( "//object[@data]" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//object[@data]" );
 
-        if( nOutlinks != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode nLink in nOutlinks )
+          foreach( HtmlNode LinkNode in NodeCollection )
           {
 
-            string sLinkUrl = nLink.GetAttributeValue( "data", null );
-            string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrl );
+            string LinkUrl = LinkNode.GetAttributeValue( "data", null );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
 
-            DebugMsg( string.Format( "OBJECT: 1 :: {0}", sLinkUrl ) );
-            DebugMsg( string.Format( "OBJECT: 2 :: {0}", sLinkUrlAbs ) );
-
-            if( sLinkUrlAbs != null )
+            if( LinkUrlAbs != null )
             {
               
               MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: sLinkUrlAbs,
+                                         AbsoluteUrl: LinkUrlAbs,
                                          LinkType: MacroscopeConstants.InOutLinkType.OBJECT,
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( sLinkUrl );
+              Outlink.SetRawTargetUrl( LinkUrl );
               
             }
 

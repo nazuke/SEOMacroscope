@@ -31,126 +31,131 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeColumnSorter.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeColumnSorter.
+  /// </summary>
 
-	public class MacroscopeColumnSorter : Macroscope, IComparer
-	{
+  public class MacroscopeColumnSorter : Macroscope, IComparer
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		private int ColumnToSort;
-		private SortOrder OrderOfSort;
-		private CaseInsensitiveComparer ObjectCompare;
+    private int ColumnToSort;
+    private SortOrder OrderOfSort;
+    private CaseInsensitiveComparer ObjectCompare;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeColumnSorter ()
-		{
-			this.ColumnToSort = 0;
-			this.OrderOfSort = SortOrder.None;
-			this.ObjectCompare = new CaseInsensitiveComparer ();
-		}
+    public MacroscopeColumnSorter ()
+    {
+      this.ColumnToSort = 0;
+      this.OrderOfSort = SortOrder.None;
+      this.ObjectCompare = new CaseInsensitiveComparer ();
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public int Compare ( object x, object y )
-		{
+    public int Compare ( object x, object y )
+    {
 
-			int compareResult;
-			ListViewItem listviewX, listviewY;
+      int compareResult;
+      ListViewItem listviewX, listviewY;
 
-			listviewX = ( ListViewItem )x;
-			listviewY = ( ListViewItem )y;
+      listviewX = ( ListViewItem )x;
+      listviewY = ( ListViewItem )y;
 
-			object [] ObjectPair = DetermineValueType(
-				                       listviewX.SubItems[ ColumnToSort ].Text,
-				                       listviewY.SubItems[ ColumnToSort ].Text
-			                       );
+      if( this.ColumnToSort > listviewX.SubItems.Count )
+      {
+        return 0;
+      }
 
-			compareResult = ObjectCompare.Compare( ObjectPair[ 0 ], ObjectPair[ 1 ] );
+      object [] ObjectPair = DetermineValueType(
+                            listviewX.SubItems[ this.ColumnToSort ].Text,
+                            listviewY.SubItems[ this.ColumnToSort ].Text
+                          );
 
-			if( OrderOfSort == SortOrder.Ascending )
-			{
-				return compareResult;
-			}
-			else
-			if( OrderOfSort == SortOrder.Descending )
-			{
-				return ( -compareResult );
-			}
-			else
-			{
-				return 0;
-			}
+      compareResult = ObjectCompare.Compare( ObjectPair[ 0 ], ObjectPair[ 1 ] );
 
-		}
+      if( this.OrderOfSort == SortOrder.Ascending )
+      {
+        return compareResult;
+      }
+      else
+      if( this.OrderOfSort == SortOrder.Descending )
+      {
+        return ( -compareResult );
+      }
+      else
+      {
+        return 0;
+      }
 
-		/**************************************************************************/
+    }
 
-		public int SortColumn
-		{
-			set
-			{
-				ColumnToSort = value;
-			}
-			get
-			{
-				return ColumnToSort;
-			}
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public int SortColumn
+    {
+      set
+      {
+        this.ColumnToSort = value;
+      }
+      get
+      {
+        return this.ColumnToSort;
+      }
+    }
 
-		public SortOrder Order
-		{
-			set
-			{
-				OrderOfSort = value;
-			}
-			get
-			{
-				return OrderOfSort;
-			}
-		}
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public SortOrder Order
+    {
+      set
+      {
+        this.OrderOfSort = value;
+      }
+      get
+      {
+        return this.OrderOfSort;
+      }
+    }
 
-		object[] DetermineValueType ( string sTextX, string sTextY )
-		{
-			object [] ObjectPair = new object[2];
+    /**************************************************************************/
 
-			ObjectPair[ 0 ] = sTextX;
-			ObjectPair[ 1 ] = sTextY;
+    object[] DetermineValueType ( string sTextX, string sTextY )
+    {
+      object [] ObjectPair = new object[2];
 
-			if(
-				Regex.IsMatch( sTextX, "^[0-9]+$" )
-				&& Regex.IsMatch( sTextY, "^[0-9]+$" ) )
-			{
-				decimal DecimalX = decimal.Parse( sTextX );
-				decimal DecimalY = decimal.Parse( sTextY );
-				ObjectPair[ 0 ] = DecimalX;
-				ObjectPair[ 1 ] = DecimalY;
-			}
+      ObjectPair[ 0 ] = sTextX;
+      ObjectPair[ 1 ] = sTextY;
 
-			if(
-				Regex.IsMatch( sTextX, "^[0-9]+\\.[0-9]+$" )
-				&& Regex.IsMatch( sTextY, "^[0-9]+\\.[0-9]+$" ) )
-			{
-				decimal DecimalX = decimal.Parse( sTextX );
-				decimal DecimalY = decimal.Parse( sTextY );
-				ObjectPair[ 0 ] = DecimalX;
-				ObjectPair[ 1 ] = DecimalY;
-			}
+      if(
+        Regex.IsMatch( sTextX, "^[0-9]+$" )
+        && Regex.IsMatch( sTextY, "^[0-9]+$" ) )
+      {
+        decimal DecimalX = decimal.Parse( sTextX );
+        decimal DecimalY = decimal.Parse( sTextY );
+        ObjectPair[ 0 ] = DecimalX;
+        ObjectPair[ 1 ] = DecimalY;
+      }
 
-			// TODO: Add dates, etc.
+      if(
+        Regex.IsMatch( sTextX, "^[0-9]+\\.[0-9]+$" )
+        && Regex.IsMatch( sTextY, "^[0-9]+\\.[0-9]+$" ) )
+      {
+        decimal DecimalX = decimal.Parse( sTextX );
+        decimal DecimalY = decimal.Parse( sTextY );
+        ObjectPair[ 0 ] = DecimalX;
+        ObjectPair[ 1 ] = DecimalY;
+      }
 
-			return( ObjectPair );
-		}
+      // TODO: Add dates, etc.
 
-		/**************************************************************************/
+      return( ObjectPair );
+    }
 
-	}
+    /**************************************************************************/
+
+  }
 
 }

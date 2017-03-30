@@ -280,8 +280,6 @@ namespace SEOMacroscope
 
             SemaphoreWorkers.WaitOne();
 
-            //DebugMsg( string.Format( "SpawnWorkers THREADS: {0} :: {1}", this.ThreadsMax, this.CountRunningThreads() ) );
-
             Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 
             if( bNewThread )
@@ -343,14 +341,13 @@ namespace SEOMacroscope
 
     public Boolean WorkersStopped ()
     {
-      Boolean bIsStopped = false;
-      int iThreadCount = this.CountRunningThreads();
-      if( iThreadCount == 0 )
+      Boolean IsStopped = false;
+      if( this.CountRunningThreads() == 0 )
       {
-        bIsStopped = true;
+        IsStopped = true;
       }
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
-      return( bIsStopped );
+      return( IsStopped );
     }
 
     /** Track Thread Count ****************************************************/
@@ -395,9 +392,7 @@ namespace SEOMacroscope
 
     public int CountRunningThreads ()
     {
-      int iRunningThreads = 0;
-      iRunningThreads = this.ThreadsRunning;
-      return( iRunningThreads );
+      return( this.ThreadsRunning );
     }
 
     /** Queues ****************************************************************/
@@ -1028,15 +1023,15 @@ namespace SEOMacroscope
 
     public Dictionary<string,Boolean> GetBlockedByRobotsList ()
     {
-      Dictionary<string,Boolean> dicCopy = new Dictionary<string,Boolean> ();
+      Dictionary<string,Boolean> DicCopy = new Dictionary<string,Boolean> ();
       lock( this.BlockedByRobots )
       {
-        foreach( string sUrl in this.BlockedByRobots.Keys )
+        foreach( string Url in this.BlockedByRobots.Keys )
         {
-          dicCopy.Add( sUrl, this.BlockedByRobots[ sUrl ] );
+          DicCopy.Add( Url, this.BlockedByRobots[ Url ] );
         }
       }
-      return( dicCopy );
+      return( DicCopy );
     }
 
     /**************************************************************************/

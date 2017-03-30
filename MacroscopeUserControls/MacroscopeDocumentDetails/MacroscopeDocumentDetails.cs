@@ -56,6 +56,7 @@ namespace SEOMacroscope
       this.tableLayoutPanelHttpHeaders.Dock = DockStyle.Fill;
       this.textBoxHttpRequestHeaders.Dock = DockStyle.Fill;
       this.textBoxHttpResponseHeaders.Dock = DockStyle.Fill;
+      this.listViewMetaTags.Dock = DockStyle.Fill;
       this.listViewHrefLang.Dock = DockStyle.Fill;
       this.listViewLinksIn.Dock = DockStyle.Fill;
       this.listViewLinksOut.Dock = DockStyle.Fill;
@@ -75,6 +76,7 @@ namespace SEOMacroscope
       // ListView Sorters
       this.lvColumnSorter = new MacroscopeColumnSorter ();
 
+      this.listViewMetaTags.ListViewItemSorter = lvColumnSorter;
       this.listViewHrefLang.ListViewItemSorter = lvColumnSorter;
       this.listViewLinksIn.ListViewItemSorter = lvColumnSorter;
       this.listViewLinksOut.ListViewItemSorter = lvColumnSorter;
@@ -88,6 +90,7 @@ namespace SEOMacroscope
       this.listViewVideos.ListViewItemSorter = lvColumnSorter;
       this.listViewKeywordAnalysis.ListViewItemSorter = lvColumnSorter;
 
+      this.listViewMetaTags.ColumnClick += this.CallbackColumnClick;
       this.listViewHrefLang.ColumnClick += this.CallbackColumnClick;
       this.listViewLinksIn.ColumnClick += this.CallbackColumnClick;
       this.listViewLinksOut.ColumnClick += this.CallbackColumnClick;
@@ -173,6 +176,7 @@ namespace SEOMacroscope
       this.textBoxHttpRequestHeaders.Text = "";
       this.textBoxHttpResponseHeaders.Text = "";
 
+      this.listViewMetaTags.Items.Clear();
       this.listViewHrefLang.Items.Clear();
       this.listViewLinksIn.Items.Clear();
       this.listViewLinksOut.Items.Clear();
@@ -233,13 +237,15 @@ namespace SEOMacroscope
 
       Cursor.Current = Cursors.WaitCursor;
 
-      int [] count = new int[14];
+      int [] count = new int[15];
       int count_i = 0;
       
       count[ count_i++ ] = await this.RenderDocumentDetails( msDoc );
 
       count[ count_i++ ] = await this.RenderDocumentHttpHeaders( msDoc );
       
+      count[ count_i++ ] = await this.RenderListViewMetaTags( msDoc );
+
       count[ count_i++ ] = await this.RenderDocumentHrefLang( msDoc, JobMaster.GetLocales(), JobMaster.GetDocCollection() );
 
       count[ count_i++ ] = await this.RenderListViewLinksIn( msDoc );
@@ -335,8 +341,77 @@ namespace SEOMacroscope
       
     }
 
-    /**************************************************************************/
+    /** META Tags *************************************************************/
 
+    private async Task<int> RenderListViewMetaTags ( MacroscopeDocument msDoc )
+    {
+
+      ListView lvListView = this.listViewMetaTags;
+      int count = 0;
+      
+      lvListView.BeginUpdate();
+            
+      lvListView.Items.Clear();
+
+      foreach( KeyValuePair<string,string> KP in msDoc.IterateMetaHeaders() )
+      {
+
+        ListViewItem lvItem = null;
+        string MetaName = KP.Key;
+        string MetaContent = KP.Value;
+        string PairKey = string.Join( "::", MetaName, MetaContent );
+        count++;
+        
+        if( lvListView.Items.ContainsKey( PairKey ) )
+        {
+
+          try
+          {
+
+            lvItem = lvListView.Items[ PairKey ];
+            lvItem.SubItems[ 0 ].Text = MetaName;
+            lvItem.SubItems[ 1 ].Text = MetaContent;
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "RenderListViewMetaTags 1: {0}", ex.Message ) );
+          }
+
+        }
+        else
+        {
+
+          try
+          {
+
+            lvItem = new ListViewItem ( PairKey );
+            lvItem.UseItemStyleForSubItems = false;
+            lvItem.Name = PairKey;
+
+            lvItem.SubItems[ 0 ].Text = MetaName;
+            lvItem.SubItems[ 1 ].Text = MetaContent;
+
+            lvListView.Items.Add( lvItem );
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "RenderListViewMetaTags 2: {0}", ex.Message ) );
+          }
+
+        }
+
+      }
+      
+      lvListView.EndUpdate();
+            
+      return( count );
+      
+    }
+
+    /** HrefLang Tags *********************************************************/
+        
     private async Task<int> RenderDocumentHrefLang ( MacroscopeDocument msDoc, Dictionary<string,string> htLocales, MacroscopeDocumentCollection DocCollection )
     {
 

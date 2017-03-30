@@ -271,7 +271,7 @@ namespace SEOMacroscope
 
       }
 
-      if( !MacroscopeDnsTools.CheckValidHostname( Url ) )
+      if( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) )
       {
         DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
         msDoc.SetStatusCode( HttpStatusCode.BadGateway );
@@ -383,16 +383,16 @@ namespace SEOMacroscope
     {
 
       string sLocale = msDoc.GetLocale();
-      Dictionary<string,MacroscopeHrefLang> dicHrefLangs = msDoc.GetHrefLangs();
+      Dictionary<string,MacroscopeHrefLang> HrefLangs = msDoc.GetHrefLangs();
 
       if( sLocale != null )
       {
         this.JobMaster.AddLocales( sLocale );
       }
 
-      foreach( string sKeyLocale in dicHrefLangs.Keys )
+      foreach( string KeyLocale in HrefLangs.Keys )
       {
-        this.JobMaster.AddLocales( sKeyLocale );
+        this.JobMaster.AddLocales( KeyLocale );
       }
 
     }

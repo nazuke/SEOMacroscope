@@ -113,6 +113,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksInRawTargetUrl;
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutRawSourceUrl;
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutRawTargetUrl;
+		private System.Windows.Forms.TabPage tabPageMetaTags;
+		public System.Windows.Forms.ListView listViewMetaTags;
+		public System.Windows.Forms.ColumnHeader columnHeaderMetaTagsName;
+		public System.Windows.Forms.ColumnHeader columnHeaderMetaTagsContent;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -148,6 +152,10 @@ namespace SEOMacroscope
 			this.tableLayoutPanelHttpHeaders = new System.Windows.Forms.TableLayoutPanel();
 			this.textBoxHttpRequestHeaders = new System.Windows.Forms.TextBox();
 			this.textBoxHttpResponseHeaders = new System.Windows.Forms.TextBox();
+			this.tabPageMetaTags = new System.Windows.Forms.TabPage();
+			this.listViewMetaTags = new System.Windows.Forms.ListView();
+			this.columnHeaderMetaTagsName = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderMetaTagsContent = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHrefLangAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewHrefLang = new System.Windows.Forms.ListView();
 			this.HrefLangUrl = new System.Windows.Forms.ColumnHeader();
@@ -223,6 +231,7 @@ namespace SEOMacroscope
 			this.contextMenuStripTextDocumentDetails.SuspendLayout();
 			this.tabPageHttpHeaders.SuspendLayout();
 			this.tableLayoutPanelHttpHeaders.SuspendLayout();
+			this.tabPageMetaTags.SuspendLayout();
 			this.tabPageHrefLangAnalysis.SuspendLayout();
 			this.tabPageLinksIn.SuspendLayout();
 			this.tabPageLinksOut.SuspendLayout();
@@ -247,6 +256,7 @@ namespace SEOMacroscope
 			// 
 			this.tabControlDocument.Controls.Add(this.tabPageDocumentInfo);
 			this.tabControlDocument.Controls.Add(this.tabPageHttpHeaders);
+			this.tabControlDocument.Controls.Add(this.tabPageMetaTags);
 			this.tabControlDocument.Controls.Add(this.tabPageHrefLangAnalysis);
 			this.tabControlDocument.Controls.Add(this.tabPageLinksIn);
 			this.tabControlDocument.Controls.Add(this.tabPageLinksOut);
@@ -311,7 +321,7 @@ namespace SEOMacroscope
 			this.copyTextToolStripMenuItem,
 			this.toolStripMenuItemCopyValues});
 			this.contextMenuStripTextDocumentDetails.Name = "contextMenuStripTextCopy";
-			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(153, 70);
+			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(140, 48);
 			// 
 			// copyTextToolStripMenuItem
 			// 
@@ -377,6 +387,43 @@ namespace SEOMacroscope
 			this.textBoxHttpResponseHeaders.Size = new System.Drawing.Size(200, 200);
 			this.textBoxHttpResponseHeaders.TabIndex = 0;
 			this.textBoxHttpResponseHeaders.WordWrap = false;
+			// 
+			// tabPageMetaTags
+			// 
+			this.tabPageMetaTags.Controls.Add(this.listViewMetaTags);
+			this.tabPageMetaTags.Location = new System.Drawing.Point(4, 40);
+			this.tabPageMetaTags.Name = "tabPageMetaTags";
+			this.tabPageMetaTags.Size = new System.Drawing.Size(567, 456);
+			this.tabPageMetaTags.TabIndex = 14;
+			this.tabPageMetaTags.Text = "META Tags";
+			this.tabPageMetaTags.UseVisualStyleBackColor = true;
+			// 
+			// listViewMetaTags
+			// 
+			this.listViewMetaTags.CausesValidation = false;
+			this.listViewMetaTags.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderMetaTagsName,
+			this.columnHeaderMetaTagsContent});
+			this.listViewMetaTags.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewMetaTags.FullRowSelect = true;
+			this.listViewMetaTags.GridLines = true;
+			this.listViewMetaTags.Location = new System.Drawing.Point(20, 20);
+			this.listViewMetaTags.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewMetaTags.Name = "listViewMetaTags";
+			this.listViewMetaTags.Size = new System.Drawing.Size(500, 200);
+			this.listViewMetaTags.TabIndex = 1;
+			this.listViewMetaTags.UseCompatibleStateImageBehavior = false;
+			this.listViewMetaTags.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeaderMetaTagsName
+			// 
+			this.columnHeaderMetaTagsName.Text = "Name";
+			this.columnHeaderMetaTagsName.Width = 200;
+			// 
+			// columnHeaderMetaTagsContent
+			// 
+			this.columnHeaderMetaTagsContent.Text = "Content";
+			this.columnHeaderMetaTagsContent.Width = 400;
 			// 
 			// tabPageHrefLangAnalysis
 			// 
@@ -1002,6 +1049,7 @@ namespace SEOMacroscope
 			this.tabPageHttpHeaders.ResumeLayout(false);
 			this.tableLayoutPanelHttpHeaders.ResumeLayout(false);
 			this.tableLayoutPanelHttpHeaders.PerformLayout();
+			this.tabPageMetaTags.ResumeLayout(false);
 			this.tabPageHrefLangAnalysis.ResumeLayout(false);
 			this.tabPageLinksIn.ResumeLayout(false);
 			this.tabPageLinksOut.ResumeLayout(false);
