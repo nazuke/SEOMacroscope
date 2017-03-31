@@ -44,7 +44,7 @@ namespace SEOMacroscope
       const string DupeUrl = "https://nazuke.github.io/SEOMacroscope/index.html";
 
       MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
                                         TaskController: this
                                       );
 
@@ -88,7 +88,7 @@ namespace SEOMacroscope
       const string StartUrl = "https://nazuke.github.io/SEOMacroscope/";
 
       MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
                                         TaskController: this
                                       );
 

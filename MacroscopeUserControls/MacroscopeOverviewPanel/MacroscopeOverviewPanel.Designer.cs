@@ -254,9 +254,6 @@ namespace SEOMacroscope
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroscopeOverviewPanel));
 			this.tabControlMain = new System.Windows.Forms.TabControl();
-			this.tabPageStructureOverview = new System.Windows.Forms.TabPage();
-			this.tableLayoutPanelStructure = new System.Windows.Forms.TableLayoutPanel();
-			this.listViewStructure = new System.Windows.Forms.ListView();
 			this.contextMenuStripStructure = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItemOpenInBrowser = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -264,6 +261,9 @@ namespace SEOMacroscope
 			this.toolStripMenuItemRemoveFromAllowedHosts = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripMenuItemResetEntry = new System.Windows.Forms.ToolStripMenuItem();
+			this.tabPageStructureOverview = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanelStructure = new System.Windows.Forms.TableLayoutPanel();
+			this.listViewStructure = new System.Windows.Forms.ListView();
 			this.toolStripSearch = new System.Windows.Forms.ToolStrip();
 			this.toolStripStructureFilterMenu = new System.Windows.Forms.ToolStripDropDownButton();
 			this.allDocumentTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -452,9 +452,9 @@ namespace SEOMacroscope
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.tabControlMain.SuspendLayout();
+			this.contextMenuStripStructure.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
-			this.contextMenuStripStructure.SuspendLayout();
 			this.toolStripSearch.SuspendLayout();
 			this.tabPageHierarchy.SuspendLayout();
 			this.tabPageSearch.SuspendLayout();
@@ -490,7 +490,6 @@ namespace SEOMacroscope
 			// 
 			// tabControlMain
 			// 
-			this.tabControlMain.ContextMenuStrip = this.contextMenuStripStructure;
 			this.tabControlMain.Controls.Add(this.tabPageStructureOverview);
 			this.tabControlMain.Controls.Add(this.tabPageHierarchy);
 			this.tabControlMain.Controls.Add(this.tabPageSearch);
@@ -524,54 +523,6 @@ namespace SEOMacroscope
 			this.tabControlMain.SelectedIndex = 0;
 			this.tabControlMain.Size = new System.Drawing.Size(800, 500);
 			this.tabControlMain.TabIndex = 0;
-			// 
-			// tabPageStructureOverview
-			// 
-			this.tabPageStructureOverview.Controls.Add(this.tableLayoutPanelStructure);
-			this.tabPageStructureOverview.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.tabPageStructureOverview.Location = new System.Drawing.Point(4, 58);
-			this.tabPageStructureOverview.Margin = new System.Windows.Forms.Padding(0);
-			this.tabPageStructureOverview.Name = "tabPageStructureOverview";
-			this.tabPageStructureOverview.Size = new System.Drawing.Size(792, 438);
-			this.tabPageStructureOverview.TabIndex = 0;
-			this.tabPageStructureOverview.Text = "Structure Overview";
-			this.tabPageStructureOverview.UseVisualStyleBackColor = true;
-			// 
-			// tableLayoutPanelStructure
-			// 
-			this.tableLayoutPanelStructure.ColumnCount = 1;
-			this.tableLayoutPanelStructure.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelStructure.Controls.Add(this.listViewStructure, 0, 1);
-			this.tableLayoutPanelStructure.Controls.Add(this.toolStripSearch, 0, 0);
-			this.tableLayoutPanelStructure.Location = new System.Drawing.Point(20, 20);
-			this.tableLayoutPanelStructure.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanelStructure.Name = "tableLayoutPanelStructure";
-			this.tableLayoutPanelStructure.RowCount = 2;
-			this.tableLayoutPanelStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tableLayoutPanelStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelStructure.Size = new System.Drawing.Size(700, 400);
-			this.tableLayoutPanelStructure.TabIndex = 2;
-			// 
-			// listViewStructure
-			// 
-			this.listViewStructure.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.listViewStructure.BackColor = System.Drawing.SystemColors.Window;
-			this.listViewStructure.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.listViewStructure.CausesValidation = false;
-			this.listViewStructure.ContextMenuStrip = this.contextMenuStripStructure;
-			this.listViewStructure.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.listViewStructure.FullRowSelect = true;
-			this.listViewStructure.GridLines = true;
-			this.listViewStructure.LabelWrap = false;
-			this.listViewStructure.Location = new System.Drawing.Point(250, 114);
-			this.listViewStructure.Margin = new System.Windows.Forms.Padding(0);
-			this.listViewStructure.MultiSelect = false;
-			this.listViewStructure.Name = "listViewStructure";
-			this.listViewStructure.ShowGroups = false;
-			this.listViewStructure.Size = new System.Drawing.Size(200, 200);
-			this.listViewStructure.TabIndex = 0;
-			this.listViewStructure.UseCompatibleStateImageBehavior = false;
-			this.listViewStructure.View = System.Windows.Forms.View.Details;
 			// 
 			// contextMenuStripStructure
 			// 
@@ -622,6 +573,54 @@ namespace SEOMacroscope
 			this.toolStripMenuItemResetEntry.Size = new System.Drawing.Size(247, 22);
 			this.toolStripMenuItemResetEntry.Text = "Retry fetch";
 			this.toolStripMenuItemResetEntry.ToolTipText = "Try and fetch this page again";
+			// 
+			// tabPageStructureOverview
+			// 
+			this.tabPageStructureOverview.Controls.Add(this.tableLayoutPanelStructure);
+			this.tabPageStructureOverview.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.tabPageStructureOverview.Location = new System.Drawing.Point(4, 58);
+			this.tabPageStructureOverview.Margin = new System.Windows.Forms.Padding(0);
+			this.tabPageStructureOverview.Name = "tabPageStructureOverview";
+			this.tabPageStructureOverview.Size = new System.Drawing.Size(792, 438);
+			this.tabPageStructureOverview.TabIndex = 0;
+			this.tabPageStructureOverview.Text = "Structure Overview";
+			this.tabPageStructureOverview.UseVisualStyleBackColor = true;
+			// 
+			// tableLayoutPanelStructure
+			// 
+			this.tableLayoutPanelStructure.ColumnCount = 1;
+			this.tableLayoutPanelStructure.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelStructure.Controls.Add(this.listViewStructure, 0, 1);
+			this.tableLayoutPanelStructure.Controls.Add(this.toolStripSearch, 0, 0);
+			this.tableLayoutPanelStructure.Location = new System.Drawing.Point(20, 20);
+			this.tableLayoutPanelStructure.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanelStructure.Name = "tableLayoutPanelStructure";
+			this.tableLayoutPanelStructure.RowCount = 2;
+			this.tableLayoutPanelStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tableLayoutPanelStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelStructure.Size = new System.Drawing.Size(700, 400);
+			this.tableLayoutPanelStructure.TabIndex = 2;
+			// 
+			// listViewStructure
+			// 
+			this.listViewStructure.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.listViewStructure.BackColor = System.Drawing.SystemColors.Window;
+			this.listViewStructure.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.listViewStructure.CausesValidation = false;
+			this.listViewStructure.ContextMenuStrip = this.contextMenuStripStructure;
+			this.listViewStructure.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.listViewStructure.FullRowSelect = true;
+			this.listViewStructure.GridLines = true;
+			this.listViewStructure.LabelWrap = false;
+			this.listViewStructure.Location = new System.Drawing.Point(250, 114);
+			this.listViewStructure.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewStructure.MultiSelect = false;
+			this.listViewStructure.Name = "listViewStructure";
+			this.listViewStructure.ShowGroups = false;
+			this.listViewStructure.Size = new System.Drawing.Size(200, 200);
+			this.listViewStructure.TabIndex = 0;
+			this.listViewStructure.UseCompatibleStateImageBehavior = false;
+			this.listViewStructure.View = System.Windows.Forms.View.Details;
 			// 
 			// toolStripSearch
 			// 
@@ -1756,6 +1755,7 @@ namespace SEOMacroscope
 			this.columnHeaderHeadingsH4,
 			this.columnHeaderHeadingsH5,
 			this.columnHeaderHeadingsH6});
+			this.listViewPageHeadings.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewPageHeadings.FullRowSelect = true;
 			this.listViewPageHeadings.GridLines = true;
 			this.listViewPageHeadings.Location = new System.Drawing.Point(10, 10);
@@ -2205,10 +2205,10 @@ namespace SEOMacroscope
 			this.Name = "MacroscopeOverviewPanel";
 			this.Size = new System.Drawing.Size(800, 500);
 			this.tabControlMain.ResumeLayout(false);
+			this.contextMenuStripStructure.ResumeLayout(false);
 			this.tabPageStructureOverview.ResumeLayout(false);
 			this.tableLayoutPanelStructure.ResumeLayout(false);
 			this.tableLayoutPanelStructure.PerformLayout();
-			this.contextMenuStripStructure.ResumeLayout(false);
 			this.toolStripSearch.ResumeLayout(false);
 			this.toolStripSearch.PerformLayout();
 			this.tabPageHierarchy.ResumeLayout(false);

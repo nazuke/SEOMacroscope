@@ -67,6 +67,7 @@ namespace SEOMacroscope
 
     public Boolean Execute ()
     {
+      
       Boolean Success = false;
       MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
 
@@ -75,7 +76,9 @@ namespace SEOMacroscope
       if( this.UrlList.Count > 0 )
       {
 
-        this.JobMaster.SetRunTimeMode( RunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE );
+        this.JobMaster.SetRunTimeMode(
+          JobRunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE
+        );
 
         for( int i = 0 ; i < this.UrlList.Count ; i++ )
         {
@@ -88,6 +91,7 @@ namespace SEOMacroscope
       }
 
       return( Success );
+      
     }
 
     /**************************************************************************/

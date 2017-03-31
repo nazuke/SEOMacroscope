@@ -103,26 +103,26 @@ namespace SEOMacroscope
       if( bProcess )
       {
 
-        string sText = msDoc.GetKeywords();
-        int iTextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( sText );
-        int iKeywordsLength = msDoc.GetKeywordsLength();
-        int iTextNumber = msDoc.GetKeywordsCount();
-        string sPairKey = string.Join( "", Url, sText );
+        string Text = msDoc.GetKeywords();
+        int TextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( Text );
+        int KeywordsLength = msDoc.GetKeywordsLength();
+        int TextNumber = msDoc.GetKeywordsCount();
+        string PairKey = string.Join( "", Url, Text );
 
         ListViewItem lvItem = null;
           
-        if( this.lvListView.Items.ContainsKey( sPairKey ) )
+        if( this.lvListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ sPairKey ];
+            lvItem = this.lvListView.Items[ PairKey ];
             lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems[ 1 ].Text = iTextCount.ToString();
-            lvItem.SubItems[ 2 ].Text = sText;
-            lvItem.SubItems[ 3 ].Text = iKeywordsLength.ToString();
-            lvItem.SubItems[ 4 ].Text = iTextNumber.ToString();
+            lvItem.SubItems[ 1 ].Text = TextCount.ToString();
+            lvItem.SubItems[ 2 ].Text = Text;
+            lvItem.SubItems[ 3 ].Text = KeywordsLength.ToString();
+            lvItem.SubItems[ 4 ].Text = TextNumber.ToString();
 
           }
           catch( Exception ex )
@@ -137,15 +137,15 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( sPairKey );
+            lvItem = new ListViewItem ( PairKey );
             lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = sPairKey;
+            lvItem.Name = PairKey;
 
             lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems.Add( iTextCount.ToString() );
-            lvItem.SubItems.Add( sText );
-            lvItem.SubItems.Add( iKeywordsLength.ToString() );
-            lvItem.SubItems.Add( iTextNumber.ToString() );
+            lvItem.SubItems.Add( TextCount.ToString() );
+            lvItem.SubItems.Add( Text );
+            lvItem.SubItems.Add( KeywordsLength.ToString() );
+            lvItem.SubItems.Add( TextNumber.ToString() );
 
             this.lvListView.Items.Add( lvItem );
 
@@ -162,8 +162,32 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
-          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          // URL -------------------------------------------------------------//
+          
+          if( !msDoc.GetIsExternal() )
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+          }
 
+          // Check Missing Text ----------------------------------------------//
+
+          if( KeywordsLength <= 0 )
+          {
+            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+            lvItem.SubItems[ 4 ].ForeColor = Color.Red;
+          }
+          else
+          {
+            lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+            lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+            lvItem.SubItems[ 4 ].ForeColor = Color.Green;
+          }
+          
         }
 
       }

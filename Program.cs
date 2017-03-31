@@ -31,38 +31,60 @@ using System.Windows.Forms;
 namespace SEOMacroscope
 {
 
-	internal sealed class Program
-	{
+  internal sealed class Program
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[STAThread]
-		private static void Main ( string[] args )
-		{
-			ThreadPool.SetMaxThreads( 256, 256 );
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault( false );
-			Application.Run( new MacroscopeMainForm () );
-		}
+    [STAThread]
+    private static void Main ( string [] args )
+    {
 
-		/**************************************************************************/
+      InitializeEventLog();
+      
+      ThreadPool.SetMaxThreads( 256, 256 );
 
-		public static void Exit ()
-		{
-			DebugMsg( "Program: Exiting" );
-			Application.Exit();
-		}
+      Application.EnableVisualStyles();
 
-		/**************************************************************************/
+      Application.SetCompatibleTextRenderingDefault( false );
 
-		[Conditional( "DEVMODE" )]
-		static void DebugMsg ( String sMsg )
-		{
-			System.Diagnostics.Debug.WriteLine( sMsg );
-		}
+      Application.Run( new MacroscopeMainForm () );
 
-		/**************************************************************************/
+    }
 
-	}
+    /**************************************************************************/
+
+    public static void Exit ()
+    {
+      DebugMsg( "Program: Exiting" );
+      Application.Exit();
+    }
+
+    /**************************************************************************/
+
+    private static void InitializeEventLog ()
+    {
+      /*
+      if( !EventLog.SourceExists( MacroscopeConstants.MainEventLogSourceName ) )
+      {
+        EventLog.CreateEventSource(
+          MacroscopeConstants.MainEventLogSourceName,
+          MacroscopeConstants.MainEventLogJobMaster
+        );
+      }
+      */
+    }
+
+    /**************************************************************************/
+
+    [Conditional( "DEVMODE" )]
+    static void DebugMsg ( String sMsg )
+    {
+      System.Diagnostics.Debug.WriteLine( sMsg );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

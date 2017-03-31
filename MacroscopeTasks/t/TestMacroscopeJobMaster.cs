@@ -40,7 +40,10 @@ namespace SEOMacroscope
     public void TestIsWithinParentDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
+                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+                                        TaskController: this
+                                      );
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
@@ -63,7 +66,7 @@ namespace SEOMacroscope
         }, {
           "http://www.companyname.com/path/index.php"
         },
-         {
+        {
           "http://www.companyname.com/"
         }
       };
@@ -85,20 +88,21 @@ namespace SEOMacroscope
     public void TestIsNotWithinParentDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
+                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+                                        TaskController: this
+                                      );
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
-      List<string> TargetUrls = new List<string> () {
-        {
+      List<string> TargetUrls = new List<string> () { {
           "http://www.companyname.com/path/to/some/deep/folder/sub-folder/index.html"
-        }, {
+        },
+        {
           "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
-        },
-        {
+        }, {
           "http://www.companyname.com/images/some-image.jpg"
-        },
-        {
+        }, {
           "http://www.companyname.com/path/to/some/folder/media/image"
         }
       };
@@ -120,14 +124,17 @@ namespace SEOMacroscope
     public void TestIsWithinChildDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
+                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+                                        TaskController: this
+                                      );
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
-      List<string> TargetUrls = new List<string> () {
-        {
+      List<string> TargetUrls = new List<string> () { {
           "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
-        }, {
+        },
+        {
           "http://www.companyname.com/path/to/some/deep/folder/sub-folder/image"
         }
       };
@@ -149,17 +156,19 @@ namespace SEOMacroscope
     public void TestIsNotWithinChildDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
+                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+                                        TaskController: this
+                                      );
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html";
 
-      List<string> TargetUrls = new List<string> () { {
+      List<string> TargetUrls = new List<string> () {
+        {
           "http://www.companyname.com/path/to/some/deep/folder/index.html"
-        },
-        {
+        }, {
           "http://www.companyname.com/path/to/some/folder/image"
-        },
-        {
+        }, {
           "http://www.companyname.com/folder/image"
         }
       };
@@ -181,8 +190,9 @@ namespace SEOMacroscope
     {
     }
 
-    public MacroscopeCredentialsHttp IGetCredentialsHttp () {
-      MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp();
+    public MacroscopeCredentialsHttp IGetCredentialsHttp ()
+    {
+      MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp ();
       return( CredentialsHttp );
     }
 

@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -41,6 +42,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    //private EventLog JobMasterLog;
+    //private Guid JobGuid;
+    //private long JobMasterInstanceCounter = 1;
+    
     private MacroscopeConstants.RunTimeMode RunTimeMode;
 
     private IMacroscopeTaskController TaskController;
@@ -82,30 +87,39 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     public MacroscopeJobMaster (
-      MacroscopeConstants.RunTimeMode RunTimeMode
+      MacroscopeConstants.RunTimeMode JobRunTimeMode
     )
     {
       this.SuppressDebugMsg = true;
       this.TaskController = null;
-      InitializeJobMaster( RunTimeMode: RunTimeMode );
+      InitializeJobMaster( JobRunTimeMode: JobRunTimeMode );
     }
 
     public MacroscopeJobMaster (
-      MacroscopeConstants.RunTimeMode RunTimeMode,
+      MacroscopeConstants.RunTimeMode JobRunTimeMode,
       IMacroscopeTaskController TaskController
     )
     {
       this.SuppressDebugMsg = true;
       this.TaskController = TaskController;
-      InitializeJobMaster( RunTimeMode: RunTimeMode );
+      InitializeJobMaster( JobRunTimeMode: JobRunTimeMode );
     }
 
     /**************************************************************************/
 
-    private void InitializeJobMaster ( MacroscopeConstants.RunTimeMode RunTimeMode )
+    private void InitializeJobMaster ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
     {
 
-      this.RunTimeMode = RunTimeMode;
+      /*
+      {
+        this.JobMasterLog = new EventLog ();
+        this.JobMasterLog.Source = MacroscopeConstants.MainEventLogSourceName;
+        this.JobGuid = Guid.NewGuid();
+        this.LogEntry( string.Format( "Starting Job" ) );
+      }
+      */
+     
+      this.RunTimeMode = JobRunTimeMode;
       
       this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
       
@@ -182,11 +196,34 @@ namespace SEOMacroscope
       this.SemaphoreWorkers.Dispose();
     }
 
+    /** Event Log *************************************************************/
+    
+    /*
+    private void LogEntry ( string Message )
+    {
+
+      string [] Messages = {
+        string.Format(
+          "{0} :: {1}",
+          this.JobGuid,
+          Message
+        )
+      };
+
+      EventInstance ev = new EventInstance ( JobMasterInstanceCounter, 1 );
+
+      this.JobMasterLog.WriteEvent( ev, Messages );
+
+      this.JobMasterInstanceCounter++;
+
+    }
+    */
+   
     /** Runtime Mode **********************************************************/
 
-    public void SetRunTimeMode ( MacroscopeConstants.RunTimeMode RunTimeMode )
+    public void SetRunTimeMode ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
     {
-      this.RunTimeMode = RunTimeMode;
+      this.RunTimeMode = JobRunTimeMode;
     }
 
     public MacroscopeConstants.RunTimeMode GetRunTimeMode ()
@@ -219,6 +256,8 @@ namespace SEOMacroscope
     {
 
       DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
+
+      //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
 
       this.StartUrl = MacroscopeUrlUtils.SanitizeUrl( this.StartUrl );
       
@@ -409,31 +448,31 @@ namespace SEOMacroscope
       return( NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue ) );
     }
 
-    public void AddUpdateDisplayQueue ( string sUrl )
+    public void AddUpdateDisplayQueue ( string Url )
     {
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayLinks, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHyperlinks, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStylesheets, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayImages, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayJavascripts, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayAudios, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayVideos, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, sUrl );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, sUrl );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayLinks, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHyperlinks, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStylesheets, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayImages, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayJavascripts, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayAudios, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayVideos, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, Url );
     }
 
     public List<string> DrainDisplayQueueAsList ( string NamedQueueName )

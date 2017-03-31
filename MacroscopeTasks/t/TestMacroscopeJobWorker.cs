@@ -30,37 +30,40 @@ using NUnit.Framework;
 namespace SEOMacroscope
 {
 
-	[TestFixture]
-	public class TestMacroscopeJobWorker
-	{
+  [TestFixture]
+  public class TestMacroscopeJobWorker
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		//[Test] // Not implemented
-		public void TestWorker ()
-		{
-			List<string> alUrls = new List<string> ()
-			{
-				{
-					"http://localhost/"
-				}
-			};
+    //[Test] // Not implemented
+    public void TestWorker ()
+    {
+      List<string> alUrls = new List<string> () {
+        {
+          "http://localhost/"
+        }
+      };
 
-			for( int i = 0; i < alUrls.Count; i++ ) {
+      for( int i = 0 ; i < alUrls.Count ; i++ )
+      {
 
-			  MacroscopeJobMaster JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
-				MacroscopeJobWorker Worker = new MacroscopeJobWorker ( JobMaster );
+        MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
+                                       JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE
+                                     );
+        
+        MacroscopeJobWorker Worker = new MacroscopeJobWorker ( JobMaster );
 
-				JobMaster.AddUrlQueueItem( alUrls[ i ] );
+        JobMaster.AddUrlQueueItem( alUrls[ i ] );
 
-				Worker.Execute();
+        Worker.Execute();
 
-			}
+      }
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -79,27 +80,30 @@ namespace SEOMacroscope
     protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
-      for( ushort i = 1 ; i <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; i++ )
+      for( ushort HeadingLevel = 1 ; HeadingLevel <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; HeadingLevel++ )
       {
 
-        List<string> lHeadings = msDoc.GetHeadings( i );
+        List<string> HeadingsList = msDoc.GetHeadings( HeadingLevel );
 
-        for( int iCount = 0 ; iCount < lHeadings.Count ; iCount++ )
+        for( int Count = 0 ; Count < HeadingsList.Count ; Count++ )
         {
 
-          string sPairKey = string.Join( "::", Url, i, iCount );
-          int iHeadingIndex = i + 1;
+          ListViewItem lvItem = null;
+          string PairKey = string.Join( "::", Url, HeadingLevel, Count );
+          int HeadingColIndex = HeadingLevel + 1;
 
-          if( this.lvListView.Items.ContainsKey( sPairKey ) )
+          string TextLabel = HeadingsList[ Count ];
+                        
+          if( this.lvListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+              lvItem = this.lvListView.Items[ PairKey ];
               lvItem.SubItems[ 0 ].Text = Url;
-              lvItem.SubItems[ 1 ].Text = ( iCount + 1 ).ToString();
-              lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
+              lvItem.SubItems[ 1 ].Text = ( Count + 1 ).ToString();
+              lvItem.SubItems[ HeadingColIndex ].Text = TextLabel;
 
             }
             catch( Exception ex )
@@ -114,19 +118,20 @@ namespace SEOMacroscope
             try
             {
 
-              ListViewItem lvItem = new ListViewItem ( sPairKey );
+              lvItem = new ListViewItem ( PairKey );
+              lvItem.UseItemStyleForSubItems = false;
 
-              lvItem.Name = sPairKey;
+              lvItem.Name = PairKey;
 
               lvItem.SubItems[ 0 ].Text = Url;
-              lvItem.SubItems.Add( ( iCount + 1 ).ToString() );
+              lvItem.SubItems.Add( ( Count + 1 ).ToString() );
 
               for( ushort k = 1 ; k <= 6 ; k++ )
               {
                 lvItem.SubItems.Add( "" );
               }
 
-              lvItem.SubItems[ iHeadingIndex ].Text = lHeadings[ iCount ];
+              lvItem.SubItems[ HeadingColIndex ].Text = TextLabel;
 
               this.lvListView.Items.Add( lvItem );
 
@@ -138,6 +143,36 @@ namespace SEOMacroscope
 
           }
 
+          if( lvItem != null )
+          {
+
+            lvItem.ForeColor = Color.Blue;
+
+            // URL -----------------------------------------------------------//
+          
+            if( !msDoc.GetIsExternal() )
+            {
+              lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+            }
+
+            // Check Missing H1 ----------------------------------------------//
+
+            if( ( HeadingLevel == 1 ) && string.IsNullOrEmpty( TextLabel ) )
+            {
+              lvItem.SubItems[ HeadingColIndex ].Text = "MISSING";
+              lvItem.SubItems[ HeadingColIndex ].ForeColor = Color.Red;
+            }
+            else
+            {
+              lvItem.SubItems[ HeadingColIndex ].ForeColor = Color.Green;
+            }
+          
+          }
+
         }
 
       }
@@ -147,4 +182,5 @@ namespace SEOMacroscope
     /**************************************************************************/
 
   }
+  
 }

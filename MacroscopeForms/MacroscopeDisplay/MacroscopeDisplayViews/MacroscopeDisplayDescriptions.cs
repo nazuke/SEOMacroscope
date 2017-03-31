@@ -159,8 +159,19 @@ namespace SEOMacroscope
 
           lvItem.ForeColor = Color.Blue;
 
-          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
-                    
+          // URL -------------------------------------------------------------//
+          
+          if( !msDoc.GetIsExternal() )
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+          }
+          
+          // Check Description Length ----------------------------------------//
+          
           if( iDescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
           {
             lvItem.SubItems[ 3 ].ForeColor = Color.Red;

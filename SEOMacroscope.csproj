@@ -25,13 +25,12 @@
     <StartupObject>SEOMacroscope.Program</StartupObject>
     <ApplicationIcon>BlenderProjects\application-icon\MacroscopeIcon-64x64.ico</ApplicationIcon>
     <CodeAnalysisRules>-Microsoft.Naming#CA1704;-Microsoft.Naming#CA1709</CodeAnalysisRules>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
     <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
+    <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>

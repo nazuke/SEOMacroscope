@@ -102,7 +102,11 @@ namespace SEOMacroscope
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-      this.JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
+      this.JobMaster = new MacroscopeJobMaster (
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
+      );
+      
       this.CredentialsHttp = new MacroscopeCredentialsHttp ();
 
       this.IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
@@ -515,7 +519,10 @@ namespace SEOMacroscope
         if( this.StartUrlDirty )
         {
           this.JobMaster.ClearAllQueues();
-          this.JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
+          this.JobMaster = new MacroscopeJobMaster (
+            JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+            TaskController: this
+          );
           this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
           this.ClearDisplay();
           this.StartUrlDirty = false;
@@ -545,7 +552,7 @@ namespace SEOMacroscope
 
       this.JobMaster.ClearAllQueues();
       this.JobMaster = new MacroscopeJobMaster (
-        RunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE,
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE,
         TaskController: this
       );
       this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
@@ -600,7 +607,7 @@ namespace SEOMacroscope
 
       this.JobMaster.ClearAllQueues();
       this.JobMaster = new MacroscopeJobMaster (
-        RunTimeMode: MacroscopeConstants.RunTimeMode.LISTTEXT,
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LISTTEXT,
         TaskController: this
       );
       this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
@@ -678,7 +685,10 @@ namespace SEOMacroscope
 
         this.JobMaster.ClearAllQueues();
 
-        this.JobMaster = new MacroscopeJobMaster ( RunTimeMode: MacroscopeConstants.RunTimeMode.LIVE, TaskController: this );
+        this.JobMaster = new MacroscopeJobMaster (
+          JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+          TaskController: this
+        );
 
         this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
 

@@ -35,6 +35,13 @@ namespace SEOMacroscope
   public static class MacroscopeConstants
   {
 
+    /** BEGIN: Event Logs *****************************************************/
+
+    public const string MainEventLogSourceName = "SEO Macroscope";
+    public const string MainEventLogJobMaster = "JobMaster";
+
+    /** END: Event Logs *******************************************************/
+
     /** BEGIN: Runtime Modes **************************************************/
 
     public enum RunTimeMode

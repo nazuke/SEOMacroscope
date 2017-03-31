@@ -145,7 +145,10 @@ namespace SEOMacroscope
     
     public MacroscopeDocument CreateDocument ( string Url )
     {
-      MacroscopeDocument msDoc = new MacroscopeDocument ( DocumentCollection: this, Url: Url );
+      MacroscopeDocument msDoc = new MacroscopeDocument (
+                                   DocumentCollection: this,
+                                   Url: Url
+                                 );
       return( msDoc );
     }
 
@@ -291,21 +294,15 @@ namespace SEOMacroscope
 
     public MacroscopeLinkList GetDocumentInlinks ( string Url )
     {
-    
       MacroscopeLinkList Inlinks = null;
-      
       lock( this.StructInlinks )
       {
-
         if( this.StructInlinks.ContainsKey( Url ) )
         {
           Inlinks = this.StructInlinks[ Url ];
         }
-
       }
-      
       return( Inlinks );
-      
     }
 
     public IEnumerable<string> IterateInlinks ()
@@ -432,8 +429,6 @@ namespace SEOMacroscope
     public void RecalculateDocCollection ()
     {
 
-      this.DebugMsg( string.Format( "RecalculateDocCollection: CALLED" ) );
-
       SemaphoreRecalc.WaitOne();
 
       lock( this.DocCollection )
@@ -449,7 +444,7 @@ namespace SEOMacroscope
         {
 
           MacroscopeDocument msDoc = this.GetDocument( UrlTarget );
- 
+
           try
           {
             this.RecalculateInlinks( msDoc );
@@ -564,8 +559,13 @@ namespace SEOMacroscope
           }
           else
           {
+
             Inlinks = new MacroscopeLinkList ();
+
             this.StructInlinks.Add( Url, Inlinks );
+
+            //this.JobMaster.AddUpdateDisplayQueue( Url: msDoc.GetUrl() ); // Too slow
+
           }
 
           if( Inlinks != null )
