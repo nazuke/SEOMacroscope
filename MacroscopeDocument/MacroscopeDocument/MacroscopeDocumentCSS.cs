@@ -317,7 +317,6 @@ namespace SEOMacroscope
                                  Follow: Follow
                                );
 
-      
       this.Outlinks.Add( OutLink );
 
       return( OutLink );

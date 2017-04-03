@@ -868,8 +868,8 @@ namespace SEOMacroscope
     {
 
       MacroscopeLink OutLink = new MacroscopeLink (
-                                 TargetUrl: AbsoluteUrl,
                                  SourceUrl: this.GetUrl(),
+                                 TargetUrl: AbsoluteUrl,
                                  LinkType: LinkType,
                                  Follow: Follow
                                );

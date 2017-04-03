@@ -1718,6 +1718,22 @@ namespace SEOMacroscope
         ThreadUpdateSiteOverviewKeywordAnalysis.Start();
       }
 
+      if( this.InvokeRequired )
+      {
+        this.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.UpdateFocusedTabPage();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.UpdateFocusedTabPage();
+      }
+
       DebugMsg( "Scanning Thread: Done." );
 
     }
