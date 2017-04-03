@@ -81,6 +81,7 @@ namespace SEOMacroscope
 
       { // Configure Display Options
         PrefsControl.checkBoxPauseDisplayDuringScan.Checked = MacroscopePreferencesManager.GetPauseDisplayDuringScan();
+        PrefsControl.checkBoxShowProgressDialogues.Checked = MacroscopePreferencesManager.GetShowProgressDialogues();
       }
 
       { //Configure Form Fields
@@ -175,6 +176,7 @@ namespace SEOMacroscope
       // Configure Display Options
       
       MacroscopePreferencesManager.SetPauseDisplayDuringScan( PrefsControl.checkBoxPauseDisplayDuringScan.Checked );
+      MacroscopePreferencesManager.SetShowProgressDialogues( PrefsControl.checkBoxShowProgressDialogues.Checked );
 
       // WebProxy Options
 

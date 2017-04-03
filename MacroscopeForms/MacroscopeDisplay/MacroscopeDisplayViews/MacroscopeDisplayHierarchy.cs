@@ -139,14 +139,19 @@ namespace SEOMacroscope
       decimal TotalDocs = ( decimal )UrlList.Count;
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
       
-      ProgressForm.Show();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+            
+        ProgressForm.Show();
       
-      ProgressForm.UpdatePercentages(
-        Title: "Preparing Display",
-        Message: "Processing document collection for display:",
-        MajorPercentage: MajorPercentage,
-        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-      );
+        ProgressForm.UpdatePercentages(
+          Title: "Preparing Display",
+          Message: "Processing document collection for display:",
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+      
+      }
 
       this.tvTreeView.BeginUpdate();
 
@@ -175,7 +180,10 @@ namespace SEOMacroscope
 
       this.tvTreeView.EndUpdate();
 
-      ProgressForm.Close();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.Close();
+      }
       
       ProgressForm.Dispose();
       

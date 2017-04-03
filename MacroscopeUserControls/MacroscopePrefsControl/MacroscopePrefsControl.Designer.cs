@@ -117,6 +117,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
 		private System.Windows.Forms.GroupBox groupBox15;
 		public System.Windows.Forms.CheckBox checkBoxPauseDisplayDuringScan;
+		public System.Windows.Forms.CheckBox checkBoxShowProgressDialogues;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -217,15 +218,16 @@ namespace SEOMacroscope
 			this.numericUpDownMaxHeadingDepth = new System.Windows.Forms.NumericUpDown();
 			this.groupBox12 = new System.Windows.Forms.GroupBox();
 			this.checkBoxAnalyzeKeywordsInText = new System.Windows.Forms.CheckBox();
+			this.tabPageDisplaySettings = new System.Windows.Forms.TabPage();
+			this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupBox15 = new System.Windows.Forms.GroupBox();
+			this.checkBoxPauseDisplayDuringScan = new System.Windows.Forms.CheckBox();
 			this.tabPageNetworkSettings = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
-			this.tabPageDisplaySettings = new System.Windows.Forms.TabPage();
-			this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
-			this.groupBox15 = new System.Windows.Forms.GroupBox();
-			this.checkBoxPauseDisplayDuringScan = new System.Windows.Forms.CheckBox();
+			this.checkBoxShowProgressDialogues = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -266,13 +268,13 @@ namespace SEOMacroscope
 			this.groupBox9.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHeadingDepth)).BeginInit();
 			this.groupBox12.SuspendLayout();
+			this.tabPageDisplaySettings.SuspendLayout();
+			this.flowLayoutPanel5.SuspendLayout();
+			this.groupBox15.SuspendLayout();
 			this.tabPageNetworkSettings.SuspendLayout();
 			this.flowLayoutPanel4.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).BeginInit();
-			this.tabPageDisplaySettings.SuspendLayout();
-			this.flowLayoutPanel5.SuspendLayout();
-			this.groupBox15.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label9
@@ -1296,6 +1298,48 @@ namespace SEOMacroscope
 			this.checkBoxAnalyzeKeywordsInText.Text = "Analyze keywords in text";
 			this.checkBoxAnalyzeKeywordsInText.UseVisualStyleBackColor = true;
 			// 
+			// tabPageDisplaySettings
+			// 
+			this.tabPageDisplaySettings.Controls.Add(this.flowLayoutPanel5);
+			this.tabPageDisplaySettings.Location = new System.Drawing.Point(4, 22);
+			this.tabPageDisplaySettings.Name = "tabPageDisplaySettings";
+			this.tabPageDisplaySettings.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageDisplaySettings.Size = new System.Drawing.Size(592, 761);
+			this.tabPageDisplaySettings.TabIndex = 4;
+			this.tabPageDisplaySettings.Text = "Display Settings";
+			this.tabPageDisplaySettings.UseVisualStyleBackColor = true;
+			// 
+			// flowLayoutPanel5
+			// 
+			this.flowLayoutPanel5.Controls.Add(this.groupBox15);
+			this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+			this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+			this.flowLayoutPanel5.Size = new System.Drawing.Size(586, 755);
+			this.flowLayoutPanel5.TabIndex = 0;
+			// 
+			// groupBox15
+			// 
+			this.groupBox15.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox15.Controls.Add(this.checkBoxShowProgressDialogues);
+			this.groupBox15.Controls.Add(this.checkBoxPauseDisplayDuringScan);
+			this.groupBox15.Location = new System.Drawing.Point(10, 10);
+			this.groupBox15.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox15.Name = "groupBox15";
+			this.groupBox15.Size = new System.Drawing.Size(500, 90);
+			this.groupBox15.TabIndex = 3;
+			this.groupBox15.TabStop = false;
+			this.groupBox15.Text = "Overview Panels";
+			// 
+			// checkBoxPauseDisplayDuringScan
+			// 
+			this.checkBoxPauseDisplayDuringScan.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxPauseDisplayDuringScan.Name = "checkBoxPauseDisplayDuringScan";
+			this.checkBoxPauseDisplayDuringScan.Size = new System.Drawing.Size(160, 24);
+			this.checkBoxPauseDisplayDuringScan.TabIndex = 1;
+			this.checkBoxPauseDisplayDuringScan.Text = "Pause display during scan";
+			this.checkBoxPauseDisplayDuringScan.UseVisualStyleBackColor = true;
+			// 
 			// tabPageNetworkSettings
 			// 
 			this.tabPageNetworkSettings.Controls.Add(this.flowLayoutPanel4);
@@ -1362,46 +1406,14 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
-			// tabPageDisplaySettings
+			// checkBoxShowProgressDialogues
 			// 
-			this.tabPageDisplaySettings.Controls.Add(this.flowLayoutPanel5);
-			this.tabPageDisplaySettings.Location = new System.Drawing.Point(4, 22);
-			this.tabPageDisplaySettings.Name = "tabPageDisplaySettings";
-			this.tabPageDisplaySettings.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageDisplaySettings.Size = new System.Drawing.Size(592, 761);
-			this.tabPageDisplaySettings.TabIndex = 4;
-			this.tabPageDisplaySettings.Text = "Display Settings";
-			this.tabPageDisplaySettings.UseVisualStyleBackColor = true;
-			// 
-			// flowLayoutPanel5
-			// 
-			this.flowLayoutPanel5.Controls.Add(this.groupBox15);
-			this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 3);
-			this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-			this.flowLayoutPanel5.Size = new System.Drawing.Size(586, 755);
-			this.flowLayoutPanel5.TabIndex = 0;
-			// 
-			// groupBox15
-			// 
-			this.groupBox15.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox15.Controls.Add(this.checkBoxPauseDisplayDuringScan);
-			this.groupBox15.Location = new System.Drawing.Point(10, 10);
-			this.groupBox15.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-			this.groupBox15.Name = "groupBox15";
-			this.groupBox15.Size = new System.Drawing.Size(500, 60);
-			this.groupBox15.TabIndex = 3;
-			this.groupBox15.TabStop = false;
-			this.groupBox15.Text = "Overview Panels";
-			// 
-			// checkBoxPauseDisplayDuringScan
-			// 
-			this.checkBoxPauseDisplayDuringScan.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxPauseDisplayDuringScan.Name = "checkBoxPauseDisplayDuringScan";
-			this.checkBoxPauseDisplayDuringScan.Size = new System.Drawing.Size(160, 24);
-			this.checkBoxPauseDisplayDuringScan.TabIndex = 1;
-			this.checkBoxPauseDisplayDuringScan.Text = "Pause display during scan";
-			this.checkBoxPauseDisplayDuringScan.UseVisualStyleBackColor = true;
+			this.checkBoxShowProgressDialogues.Location = new System.Drawing.Point(20, 50);
+			this.checkBoxShowProgressDialogues.Name = "checkBoxShowProgressDialogues";
+			this.checkBoxShowProgressDialogues.Size = new System.Drawing.Size(160, 24);
+			this.checkBoxShowProgressDialogues.TabIndex = 2;
+			this.checkBoxShowProgressDialogues.Text = "Show progress dialogues";
+			this.checkBoxShowProgressDialogues.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 
@@ -1450,15 +1462,15 @@ namespace SEOMacroscope
 			this.groupBox9.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHeadingDepth)).EndInit();
 			this.groupBox12.ResumeLayout(false);
+			this.tabPageDisplaySettings.ResumeLayout(false);
+			this.flowLayoutPanel5.ResumeLayout(false);
+			this.groupBox15.ResumeLayout(false);
 			this.tabPageNetworkSettings.ResumeLayout(false);
 			this.tabPageNetworkSettings.PerformLayout();
 			this.flowLayoutPanel4.ResumeLayout(false);
 			this.groupBox8.ResumeLayout(false);
 			this.groupBox8.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).EndInit();
-			this.tabPageDisplaySettings.ResumeLayout(false);
-			this.flowLayoutPanel5.ResumeLayout(false);
-			this.groupBox15.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

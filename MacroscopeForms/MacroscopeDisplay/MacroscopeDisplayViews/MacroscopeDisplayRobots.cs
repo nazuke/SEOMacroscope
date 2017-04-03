@@ -113,15 +113,20 @@ namespace SEOMacroscope
       decimal TotalDocs = ( decimal )dicBlocked.Count;
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
       
-      ProgressForm.Show();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        
+        ProgressForm.Show();
       
-      ProgressForm.UpdatePercentages(
-        Title: "Preparing Display",
-        Message: "Processing document collection for display:",
-        MajorPercentage: MajorPercentage,
-        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-      );  
+        ProgressForm.UpdatePercentages(
+          Title: "Preparing Display",
+          Message: "Processing document collection for display:",
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );  
 
+      }
+            
       foreach( string Url in dicBlocked.Keys )
       {
 
@@ -140,7 +145,10 @@ namespace SEOMacroscope
 
       }
      
-      ProgressForm.Close();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.Close();
+      }
       
       ProgressForm.Dispose();
 

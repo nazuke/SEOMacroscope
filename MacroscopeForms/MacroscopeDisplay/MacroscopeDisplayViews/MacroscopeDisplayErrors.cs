@@ -90,15 +90,20 @@ namespace SEOMacroscope
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
       
-      ProgressForm.Show();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+              
+        ProgressForm.Show();
       
-      ProgressForm.UpdatePercentages(
-        Title: "Preparing Display",
-        Message: "Processing document collection for display:",
-        MajorPercentage: MajorPercentage,
-        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-      );  
+        ProgressForm.UpdatePercentages(
+          Title: "Preparing Display",
+          Message: "Processing document collection for display:",
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );  
 
+      }
+            
       this.lvListView.BeginUpdate();
                     
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
@@ -122,24 +127,32 @@ namespace SEOMacroscope
         }
         else
         {
-          RemoveFromListView( msDoc.GetUrl() );
+          this.RemoveFromListView( Url: msDoc.GetUrl() );
         }
 
-        Count++; 
-        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        {
+                
+          Count++;
+          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
         
-        ProgressForm.UpdatePercentages(
-          Title: null,
-          Message: null,
-          MajorPercentage: MajorPercentage,
-          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );
+          ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: MajorPercentage,
+            ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+          );
+        
+        }
 
       }
      
       this.lvListView.EndUpdate();
                     
-      ProgressForm.Close();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.Close();
+      }
       
       ProgressForm.Dispose();
 
@@ -150,24 +163,24 @@ namespace SEOMacroscope
     protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
-      string sPairKey = Url;
-      string sStatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-      string sStatus = msDoc.GetStatusCode().ToString();
       ListViewItem lvItem = null;
+      string PairKey = Url;
+      string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+      string Status = msDoc.GetStatusCode().ToString();
 
       this.lvListView.BeginUpdate();
 
-      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      if( this.lvListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem = this.lvListView.Items[ PairKey ];
 
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = sStatusCode;
-          lvItem.SubItems[ 2 ].Text = sStatus;
+          lvItem.SubItems[ 1 ].Text = StatusCode;
+          lvItem.SubItems[ 2 ].Text = Status;
           lvItem.SubItems[ 3 ].Text = msDoc.GetErrorCondition();
 
         }
@@ -183,13 +196,13 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( PairKey );
           lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = sPairKey;
+          lvItem.Name = PairKey;
 
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems.Add( sStatusCode );
-          lvItem.SubItems.Add( sStatus );
+          lvItem.SubItems.Add( StatusCode );
+          lvItem.SubItems.Add( Status );
           lvItem.SubItems.Add( msDoc.GetErrorCondition() );
 
           this.lvListView.Items.Add( lvItem );
@@ -206,30 +219,39 @@ namespace SEOMacroscope
       {
 
         lvItem.ForeColor = Color.Blue;
-
-        if( Regex.IsMatch( sStatusCode, "^[2]" ) )
+        
+        try
         {
-          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-          lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+          
+          if( Regex.IsMatch( StatusCode, "^[2]" ) )
+          {
+            lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+            lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+          }
+          else
+          if( Regex.IsMatch( StatusCode, "^[3]" ) )
+          {
+            lvItem.SubItems[ 1 ].ForeColor = Color.Goldenrod;
+            lvItem.SubItems[ 2 ].ForeColor = Color.Goldenrod;
+          }
+          else
+          if( Regex.IsMatch( StatusCode, "^[45]" ) )
+          {
+            lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+          }
+          else
+          {
+            lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
+            lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
+          }
+          
         }
-        else
-        if( Regex.IsMatch( sStatusCode, "^[3]" ) )
+        catch( Exception ex )
         {
-          lvItem.SubItems[ 1 ].ForeColor = Color.Goldenrod;
-          lvItem.SubItems[ 2 ].ForeColor = Color.Goldenrod;
+          this.DebugMsg( string.Format( "MacroscopeDisplayErrors 3: {0}", ex.Message ) );
         }
-        else
-        if( Regex.IsMatch( sStatusCode, "^[45]" ) )
-        {
-          lvItem.SubItems[ 1 ].ForeColor = Color.Red;
-          lvItem.SubItems[ 2 ].ForeColor = Color.Red;
-        }
-        else
-        {
-          lvItem.SubItems[ 1 ].ForeColor = Color.Blue;
-          lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
-        }
-
+        
       }
 
       this.lvListView.EndUpdate();
@@ -241,15 +263,18 @@ namespace SEOMacroscope
     private void RemoveFromListView ( string Url )
     {
 
-      string sPairKey = Url;
+      string PairKey = Url;
 
-      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      if( this.lvListView.Items.ContainsKey( PairKey ) )
       {
 
         this.lvListView.BeginUpdate();
-
-        this.lvListView.Items.Remove( this.lvListView.Items[ sPairKey ] );
-
+        
+        lock( this.lvListView.Items )
+        {
+          this.lvListView.Items.Remove( this.lvListView.Items[ PairKey ] );
+        }
+        
         this.lvListView.EndUpdate();
 
       }

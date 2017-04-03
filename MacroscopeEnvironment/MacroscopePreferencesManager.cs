@@ -41,6 +41,7 @@ namespace SEOMacroscope
 
     // Display Options
     static Boolean PauseDisplayDuringScan;
+    static Boolean ShowProgressDialogues;
     
     // WebProxy Options
     static string HttpProxyHost;
@@ -134,9 +135,9 @@ namespace SEOMacroscope
         else
         {
 
-    
           PauseDisplayDuringScan = Preferences.PauseDisplayDuringScan;
-    
+          ShowProgressDialogues = Preferences.ShowProgressDialogues;
+          
           HttpProxyHost = Preferences.HttpProxyHost;
           HttpProxyPort = Preferences.HttpProxyPort;
 
@@ -217,6 +218,7 @@ namespace SEOMacroscope
       // Display Options
       
       PauseDisplayDuringScan = false;
+      ShowProgressDialogues = true;
                 
       // WebProxy Options
 
@@ -352,7 +354,8 @@ namespace SEOMacroscope
       {
 
         Preferences.PauseDisplayDuringScan = PauseDisplayDuringScan;
-              
+        Preferences.ShowProgressDialogues = ShowProgressDialogues;
+                        
         Preferences.HttpProxyHost = HttpProxyHost;
         Preferences.HttpProxyPort = HttpProxyPort;
 
@@ -429,6 +432,16 @@ namespace SEOMacroscope
     public static void SetPauseDisplayDuringScan ( Boolean State )
     {
       PauseDisplayDuringScan = State;
+    }
+
+    public static Boolean GetShowProgressDialogues ()
+    {
+      return( ShowProgressDialogues );
+    }
+
+    public static void SetShowProgressDialogues ( Boolean State )
+    {
+      ShowProgressDialogues = State;
     }
 
     /** HTTP Proxy ************************************************************/
