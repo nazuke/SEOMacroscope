@@ -15,4 +15,4 @@ The most recent additions are:
 
 Additionally, I've added a new **Links** tab to the Overview panels, which gives a live and searchable from/to link map of the spidered collection.
 
-I'm working towards another beta release, but currently, the source code can be checked out directly from GitHub. Please take a look on the [Downloads]({{ site.url }}/downloads/) page for where to grab the source code.
+I'm working towards another beta release, but currently, the source code can be checked out directly from GitHub. Please take a look on the [Downloads]({{ "/downloads/" | relative_url }}) page for where to grab the source code.

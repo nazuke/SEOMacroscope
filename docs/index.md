@@ -5,7 +5,7 @@ layout: home
 **SEO Macroscope** for Microsoft Windows is a website broken link checking and scanning tool, with some technical SEO functionality.
 {: .lead }
 
-![The SEO Macroscope application window.]({{ site.url }}/manual/images/application-001.png){: .img-responsive .box-shadow}
+![The SEO Macroscope application window.]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
 
 Check out the source code repository at [https://github.com/nazuke/SEOMacroscope](https://github.com/nazuke/SEOMacroscope).
 

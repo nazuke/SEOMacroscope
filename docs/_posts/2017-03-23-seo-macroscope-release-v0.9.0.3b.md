@@ -10,7 +10,7 @@ The third beta of SEO Macroscope has been released. Source code and an installer
 
 * [https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.3b](https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.3b)
 
-Please check the [downloads page]({{ site.url }}/downloads/) for more recent versions.
+Please check the [downloads page]({{ "/downloads/" | relative_url }}) for more recent versions.
 
 I've reworked the tracking of linked documents, and hyperlinks across the crawled collection.
 
@@ -20,4 +20,4 @@ Next, I plan on writing the rest of the manual, and work towards a version 1.0 r
 
 This version, however, seems to be firming up to be pretty useful for everyday work. So far, it's been helping me to find rogue branding on my company's site, amongst other things.
 
-![SEO Macroscope Application Window]({{ site.url }}/manual/images/application-001.png){: .img-responsive .box-shadow}
+![SEO Macroscope Application Window]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}

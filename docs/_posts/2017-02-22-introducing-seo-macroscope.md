@@ -8,7 +8,7 @@ excerpt: SEO Macroscope is a new broken link scanner and SEO tool.
 As a long time user of the excellent [Xenu Link Sleuth](http://home.snafu.de/tilman/xenulink.html), I've been wanting to have something that does the basic job of link checking, but also offers a few more features that I need to use from time to time.
 {: .lead }
 
-![SEO Macroscope main application window]({{ site.url }}/manual/images/application-001.png){: .img-responsive .box-shadow}
+![SEO Macroscope main application window]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
 
 I've taken a look around every now and then to see if there's an open source application like Xenu, but have not found something suitable yet.
 
