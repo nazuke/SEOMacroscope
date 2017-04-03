@@ -1,7 +1,7 @@
 User-agent: SEOMacroscope
 
 Allow: /
-
+Crawl-Delay: 1
 
 User-agent: *
 

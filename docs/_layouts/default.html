@@ -8,14 +8,16 @@
 		{% include header.html %}
 
 		<main class="container" aria-label="Content">
-      {{ content }}
-    </main>
 
-    <div class="container">
-      <div class="row">
-        {% include google-adsense.html %}
-      </div>
-    </div>
+      {{ content }}
+
+      <section class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          {% include google-adsense.html %}
+        </div>
+      </section>
+
+    </main>
 
     {% include footer.html %}
 

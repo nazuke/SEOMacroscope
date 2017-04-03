@@ -2,14 +2,31 @@
 layout: default
 ---
 
-<article class="row">
+<section class="row">
 
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title | escape }}</h1>
-  </header>
+  <article class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-  <div class="post-content">
-    {{ content }}
+    <header class="post-header">
+      <h1 class="post-title">{{ page.title | escape }}</h1>
+    </header>
+
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+  </article>
+
+  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+
+    <div>
+      <h2>Related Products</h1>
+      <div>{% include amazon-earnings.html %}</div>
+    </div>
+
+    <div>
+      {% include google-adsense.html %}
+    </div>
+
   </div>
 
-</article>
+</section>
