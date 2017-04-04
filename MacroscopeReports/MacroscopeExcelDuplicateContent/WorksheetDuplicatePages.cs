@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
@@ -207,6 +208,8 @@ namespace SEOMacroscope
         {
           break;
         }
+
+        Thread.Yield();
 
       }
 

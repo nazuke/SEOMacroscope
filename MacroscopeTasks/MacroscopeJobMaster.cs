@@ -597,6 +597,25 @@ namespace SEOMacroscope
 
     }
 
+    public void RetryTimedOutLinks ()
+    {
+      foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
+      {
+        string Url = msDoc.GetUrl();
+        switch( msDoc.GetStatusCode() )
+        {
+          case HttpStatusCode.RequestTimeout:
+            this.ResetLink( Url );
+            break;
+          case HttpStatusCode.GatewayTimeout:
+            this.ResetLink( Url );
+            break;
+          default:
+            break;
+        }
+      }
+    }
+
     public void RetryLink ( string Url )
     {
       this.ResetLink( Url );
@@ -604,26 +623,17 @@ namespace SEOMacroscope
 
     private void ResetLink ( string Url )
     {
-
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
-
       if( msDoc != null )
       {
-
         msDoc.SetIsDirty();
-
         this.ResetHistoryItem( Url );
-
         this.AddUrlQueueItem( Url );
-
       }
       else
       {
-
         DebugMsg( string.Format( "ResetLink ERROR: {0}", Url ) );
-
       }
-
     }
 
     /** Start URL *************************************************************/

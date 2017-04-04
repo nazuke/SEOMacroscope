@@ -403,7 +403,7 @@ namespace SEOMacroscope
 
     private void CallbackHelpBlogClick ( object sender, EventArgs e )
     {
-      Process.Start( "https://seo-macroscope.blogspot.com/" );
+      Process.Start( "https://nazuke.github.io/SEOMacroscope/blog/" );
     }
 
     private void CallbackHelpGitHubClick ( object sender, EventArgs e )
@@ -1539,6 +1539,7 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = false;
 
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
+      this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
       this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
@@ -1567,7 +1568,8 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = false;
 
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
-
+      this.toolStripButtonRetryTimedOutLinks.Enabled = false;
+      
       this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = false;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = false;
@@ -1595,7 +1597,8 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = false;
 
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
-
+      this.toolStripButtonRetryTimedOutLinks.Enabled = false;
+      
       this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = false;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = false;
@@ -1623,6 +1626,7 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = true;
 
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
+      this.toolStripButtonRetryTimedOutLinks.Enabled = false;
 
       this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
@@ -1653,6 +1657,7 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = false;
 
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
+      this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
       this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
@@ -1683,6 +1688,7 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = true;
 
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
+      this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
       this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
@@ -1882,13 +1888,14 @@ namespace SEOMacroscope
 
     private void CallbackRetryBrokenLinksClick ( object sender, EventArgs e )
     {
-
-      DebugMsg( string.Format( "CallbackRetryBrokenLinksClick: {0}", "CALLED" ) );
-
       this.JobMaster.RetryBrokenLinks();
-
       this.RerunScanQueue();
+    }
 
+    private void CallbackRetryTimedOutLinksClick ( object sender, EventArgs e )
+    {
+      this.JobMaster.RetryTimedOutLinks();
+      this.RerunScanQueue();
     }
 
     /**************************************************************************/
@@ -2030,298 +2037,6 @@ namespace SEOMacroscope
     private void CallbackClearHTTPAuthenticationToolStripMenuItemClick ( object sender, EventArgs e )
     {
       this.CredentialsHttp.ClearAll();
-    }
-
-    /** Report Save Dialogue Boxes ********************************************/
-
-    private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
-    {
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-      Dialog.FilterIndex = 2;
-      Dialog.RestoreDirectory = true;
-      Dialog.DefaultExt = "xlsx";
-      Dialog.AddExtension = true;
-      if( Dialog.ShowDialog() == DialogResult.OK )
-      {
-        string Path = Dialog.FileName;
-        MacroscopeExcelOverviewReport msExcelReport = new MacroscopeExcelOverviewReport ();
-        try
-        {
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
-        }
-      }
-      Dialog.Dispose();
-    }
-
-    /** -------------------------------------------------------------------- **/  
-
-    private void CallbackSaveBrokenLinksExcelReport ( object sender, EventArgs e )
-    {
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-      Dialog.FilterIndex = 2;
-      Dialog.RestoreDirectory = true;
-      Dialog.DefaultExt = "xlsx";
-      Dialog.AddExtension = true;
-      if( Dialog.ShowDialog() == DialogResult.OK )
-      {
-        string Path = Dialog.FileName;
-        MacroscopeExcelBrokenLinksReport msExcelReport = new MacroscopeExcelBrokenLinksReport ();
-        try
-        {
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );
-        }
-      }
-      Dialog.Dispose();
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void CallbackSaveLanguagesExcelReport ( object sender, EventArgs e )
-    {
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-      Dialog.FilterIndex = 2;
-      Dialog.RestoreDirectory = true;
-      Dialog.DefaultExt = "xlsx";
-      Dialog.AddExtension = true;
-      if( Dialog.ShowDialog() == DialogResult.OK )
-      {
-        string Path = Dialog.FileName;
-        MacroscopeExcelLanguagesReport msExcelReport = new MacroscopeExcelLanguagesReport ();
-        try
-        {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );
-        }
-        finally
-        {
-          Cursor.Current = Cursors.Default;
-        }
-      }
-      Dialog.Dispose();
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void CallbackSavePageContentsExcelReport ( object sender, EventArgs e )
-    {
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-      Dialog.FilterIndex = 2;
-      Dialog.RestoreDirectory = true;
-      Dialog.DefaultExt = "xlsx";
-      Dialog.AddExtension = true;
-      if( Dialog.ShowDialog() == DialogResult.OK )
-      {
-        string Path = Dialog.FileName;
-        MacroscopeExcelPageContentsReport msExcelReport = new MacroscopeExcelPageContentsReport ();
-        try
-        {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );
-        }
-        finally
-        {
-          Cursor.Current = Cursors.Default;
-        }
-      }
-      Dialog.Dispose();
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void CallbackSaveUriAnalysisExcelReport ( object sender, EventArgs e )
-    {
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-      Dialog.FilterIndex = 2;
-      Dialog.RestoreDirectory = true;
-      Dialog.DefaultExt = "xlsx";
-      Dialog.AddExtension = true;
-      if( Dialog.ShowDialog() == DialogResult.OK )
-      {
-        string Path = Dialog.FileName;
-        MacroscopeExcelUriReport msExcelReport = new MacroscopeExcelUriReport ();
-        try
-        {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
-        }
-        finally
-        {
-          Cursor.Current = Cursors.Default;
-        }
-      }
-      Dialog.Dispose();
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void CallbackSaveKeywordAnalysisExcelReport ( object sender, EventArgs e )
-    {
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-      Dialog.FilterIndex = 2;
-      Dialog.RestoreDirectory = true;
-      Dialog.DefaultExt = "xlsx";
-      Dialog.AddExtension = true;
-      if( Dialog.ShowDialog() == DialogResult.OK )
-      {
-        string Path = Dialog.FileName;
-        MacroscopeExcelKeywordAnalysisReport msExcelReport = new MacroscopeExcelKeywordAnalysisReport ();
-        try
-        {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving Keyword Analysis Excel Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving Keyword Analysis Excel Report", ex.Message );
-        }
-        finally
-        {
-          Cursor.Current = Cursors.Default;
-        }
-      }
-      Dialog.Dispose();
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void CallbackSaveDuplicateContentExcelReport ( object sender, EventArgs e )
-    {
-
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-      Dialog.FilterIndex = 2;
-      Dialog.RestoreDirectory = true;
-      Dialog.DefaultExt = "xlsx";
-      Dialog.AddExtension = true;
-
-      if( Dialog.ShowDialog() == DialogResult.OK )
-      {
-
-        string Path = Dialog.FileName;
-
-        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ();
-
-        MacroscopeExcelDuplicateContent msExcelReport = new MacroscopeExcelDuplicateContent (
-                                                          ProgressFormDialogue: ProgressForm
-                                                        );
-        try
-        {
-
-          Cursor.Current = Cursors.WaitCursor;
-
-          ProgressForm.Show();
-
-          msExcelReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
-
-          Cursor.Current = Cursors.Default;
-
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
-        }
-        finally
-        {
-          ProgressForm.Close();
-          ProgressForm.Dispose();
-          Cursor.Current = Cursors.Default;
-        }
-      }
-      Dialog.Dispose();
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void CallbackSaveContactDetailsExcelReport ( object sender, EventArgs e )
-    {
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-      Dialog.FilterIndex = 2;
-      Dialog.RestoreDirectory = true;
-      Dialog.DefaultExt = "xlsx";
-      Dialog.AddExtension = true;
-      if( Dialog.ShowDialog() == DialogResult.OK )
-      {
-        string Path = Dialog.FileName;
-        MacroscopeExcelContactDetailsReport msExcelReport = new MacroscopeExcelContactDetailsReport ();
-        try
-        {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );
-        }
-        finally
-        {
-          Cursor.Current = Cursors.Default;
-        }
-      }
-      Dialog.Dispose();
     }
 
     /**************************************************************************/

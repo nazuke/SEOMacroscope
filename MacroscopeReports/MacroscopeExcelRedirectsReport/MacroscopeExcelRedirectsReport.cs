@@ -30,12 +30,12 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelUriReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelRedirectsReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    public MacroscopeExcelUriReport ()
+    public MacroscopeExcelRedirectsReport ()
     {
     }
 
@@ -46,9 +46,7 @@ namespace SEOMacroscope
 
       var wb = new XLWorkbook ();
 
-      this.BuildWorksheetPageLinks( JobMaster, wb, "Links" );
-      this.BuildWorksheetPageHyperlinks( JobMaster, wb, "Hyperlinks" );
-      this.BuildWorksheetPageUriAnalysis( JobMaster, wb, "URI Analysis" );     
+      this.BuildWorksheetPageRedirectsAudit( JobMaster, wb, "Redirects Audit" );
 
       try
       {

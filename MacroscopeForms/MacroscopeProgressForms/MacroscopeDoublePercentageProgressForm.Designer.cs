@@ -120,7 +120,6 @@ namespace SEOMacroscope
     	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
     	this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
     	this.MaximizeBox = false;
-    	this.MinimizeBox = false;
     	this.Name = "MacroscopeDoublePercentageProgressForm";
     	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
     	this.Text = "Processing";

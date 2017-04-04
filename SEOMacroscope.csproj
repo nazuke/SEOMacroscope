@@ -100,6 +100,7 @@
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
       <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\ExcelReports\ExcelReportsCallbacks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Audio.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\CanonicalAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\EmailAddresses.cs" />
@@ -254,6 +255,8 @@
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="MacroscopeReports\MacroscopeExcelRedirectsReport\MacroscopeExcelRedirectsReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelRedirectsReport\WorksheetRedirectsAudit.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetHyperlinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeSaveExcelFileException.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetBrokenLinks.cs" />
@@ -277,9 +280,10 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetKeywords.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetTitles.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetLinks.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetRedirectsAudit.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetUriAnalysis.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\MacroscopeExcelUriReport.cs" />
+    <Compile Include="MacroscopeReports\MaroscopeExcelRemarksReport\MaroscopeExcelRemarksReport.cs" />
+    <Compile Include="MacroscopeReports\MaroscopeExcelRemarksReport\WorksheetObservations.cs" />
     <Compile Include="MacroscopeSearch\MacroscopeSearchIndex.cs" />
     <Compile Include="MacroscopeTasks\IMacroscopeTaskController.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
@@ -405,6 +409,7 @@
     <Folder Include="MacroscopeCredentials\t" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
+    <Folder Include="MacroscopeForms\MacroscopeMainForm\ExcelReports" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
@@ -426,6 +431,8 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelContactDetailsReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelLanguagesReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelKeywordAnalysisReport" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelRedirectsReport" />
+    <Folder Include="MacroscopeReports\MaroscopeExcelRemarksReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />

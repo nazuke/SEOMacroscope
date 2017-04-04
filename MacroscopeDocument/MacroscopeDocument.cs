@@ -136,8 +136,10 @@ namespace SEOMacroscope
 
     private int Depth;
 
+    private List<string> Remarks;
+
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -293,6 +295,8 @@ namespace SEOMacroscope
       }
 
       this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
+
+      this.Remarks = new List<string> ();
 
     }
 
@@ -1323,6 +1327,27 @@ namespace SEOMacroscope
       return( this.Depth );
     }
 
+    /** Remarks ***************************************************************/
+
+    public void AddRemark ( string Observation )
+    {
+      lock( this.Remarks )
+      {
+        this.Remarks.Add( Observation );
+      }
+    }
+
+    public IEnumerable<string> IterateRemarks ()
+    {
+      lock( this.Remarks )
+      {
+        foreach( string Observation in this.Remarks )
+        {
+          yield return Observation;
+        }
+      }
+    }
+
     /** Executor **************************************************************/
 
     public Boolean Execute ()
@@ -1889,12 +1914,14 @@ namespace SEOMacroscope
 
         if( sHeader.ToLower().Equals( "date" ) )
         {
-          this.DateServer = DateTime.Parse( res.GetResponseHeader( sHeader ) );
+          string DateString = res.GetResponseHeader( sHeader );
+          this.DateServer = this.ParseHttpDate( HeaderField: sHeader, DateString: DateString );
         }
 
         if( sHeader.ToLower().Equals( "last-modified" ) )
         {
-          this.DateModified = DateTime.Parse( res.GetResponseHeader( sHeader ) );
+          string DateString = res.GetResponseHeader( sHeader );
+          this.DateModified = this.ParseHttpDate( HeaderField: sHeader, DateString: DateString );
         }
 
         if( sHeader.ToLower().Equals( "content-encoding" ) )
@@ -2054,6 +2081,27 @@ namespace SEOMacroscope
       {
         this.SetIsSecureUrl( true );
       }
+
+    }
+
+    /**************************************************************************/
+
+    private DateTime ParseHttpDate ( string HeaderField, string DateString )
+    {
+
+      DateTime ParsedDate = DateTime.Now;
+
+      try
+      {
+        ParsedDate = DateTime.Parse( DateString );
+      }
+      catch( FormatException ex )
+      {
+        DebugMsg( string.Format( "ParseHttpDate: {0}", ex.Message ) );
+        this.AddRemark( Observation: string.Format( "Bad HTTP Date in \"{0}\": \"{1}\"", HeaderField, DateString ) );
+      }
+
+      return( ParsedDate );
 
     }
 

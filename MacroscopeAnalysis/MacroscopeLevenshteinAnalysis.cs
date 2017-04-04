@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Fastenshtein;
 
 namespace SEOMacroscope
@@ -192,6 +193,8 @@ namespace SEOMacroscope
           
         }
 
+        Thread.Yield();
+        
       }
 
       return( DocList );
