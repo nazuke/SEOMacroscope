@@ -8,7 +8,7 @@
 
 **SEO Macroscope** for Microsoft Windows is a website broken link checking and scanning tool, with some technical SEO functionality.
 
-More information about how SEO Macroscope may be used for everyday tasks may be found in the blog at [https://seo-macroscope.blogspot.com/](https://seo-macroscope.blogspot.com/).
+More information about how SEO Macroscope may be used for everyday tasks may be found in the blog at [https://nazuke.github.io/SEOMacroscope/blog/](https://nazuke.github.io/SEOMacroscope/blog/).
 
 ## INSTALLATION
 
