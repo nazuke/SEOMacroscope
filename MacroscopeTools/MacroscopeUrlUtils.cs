@@ -26,7 +26,6 @@
 using System;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace SEOMacroscope
 {

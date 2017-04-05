@@ -104,15 +104,11 @@ namespace SEOMacroscope
 						msStream = new MemoryStream ( aRawData );
 					}
 
+			  } catch( WebException ex ) {
 
-				} catch( WebException ex ) {
+			    this.DebugMsg( string.Format( "LoadFromUrl :: WebException: {0}", ex.Message ) );
 
-
-
-					this.DebugMsg( string.Format( "LoadFromUrl :: WebException: {0}", ex.Message ) );
-
-
-				}
+			  }
 
 				res.Close();
 

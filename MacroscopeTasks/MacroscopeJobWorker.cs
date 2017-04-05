@@ -162,18 +162,24 @@ namespace SEOMacroscope
 
             do
             {
+              
               DebugMsg( string.Format( "Trying Fetch: {0} :: {1}", Tries, Url ) );
-              if( this.Fetch( Url ) )
-              {
-                this.JobMaster.NotifyWorkersFetched( Url );
-                break;
-              }
-              else
+              
+              if( 
+                ( this.Fetch( Url ) == MacroscopeConstants.FetchStatus.ERROR )
+                || ( this.Fetch( Url ) == MacroscopeConstants.FetchStatus.ERROR ) )
               {
                 DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
                 Thread.Sleep( 1000 );
               }
+              else
+              {
+                this.JobMaster.NotifyWorkersFetched( Url );
+                break;
+              }
+              
               Tries--;
+            
             } while( Tries > 0 );
 
             if( this.CrawlDelay > 0 )
@@ -198,7 +204,7 @@ namespace SEOMacroscope
 
     /** Check Include/Exclude URL *********************************************/
 
-    Boolean CheckIncludeExcludeUrl ( string Url )
+    private Boolean CheckIncludeExcludeUrl ( string Url )
     {
 
       Boolean bSuccess = true;
@@ -235,11 +241,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    Boolean Fetch ( string Url )
+    private MacroscopeConstants.FetchStatus Fetch ( string Url )
     {
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
-      Boolean bResult = false;
+      MacroscopeConstants.FetchStatus Result = MacroscopeConstants.FetchStatus.VOID;
 
       if( msDoc != null )
       {
@@ -277,14 +283,16 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
         msDoc.SetStatusCode( HttpStatusCode.BadGateway );
-        return( bResult );
+        Result = MacroscopeConstants.FetchStatus.NETWORK_ERROR;
+        return( Result );
       }
 
       if( !this.JobMaster.GetRobots().ApplyRobotRule( Url ) )
       {
         DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
         this.JobMaster.AddToBlockedByRobots( Url );
-        return( bResult );
+        Result = MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED;
+        return( Result );
       }
       else
       {
@@ -303,7 +311,8 @@ namespace SEOMacroscope
       {
         if( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
         {
-          return( bResult );
+          Result = MacroscopeConstants.FetchStatus.ALREADY_SEEN;
+          return( Result );
         }
       }
 
@@ -313,7 +322,8 @@ namespace SEOMacroscope
         if( Depth > this.JobMaster.GetDepth() )
         {
           DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
-          return( bResult );
+          Result = MacroscopeConstants.FetchStatus.SKIPPED;
+          return( Result );
         }
       }
 
@@ -367,15 +377,16 @@ namespace SEOMacroscope
 
         }
 
-        bResult = true;
+        Result = MacroscopeConstants.FetchStatus.SUCCESS;
 
       }
       else
       {
         DebugMsg( string.Format( "EXECUTE FAILED: {0}", Url ) );
+        Result = MacroscopeConstants.FetchStatus.ERROR;
       }
 
-      return( bResult );
+      return( Result );
 
     }
 

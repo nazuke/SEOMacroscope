@@ -98,6 +98,21 @@ namespace SEOMacroscope
 
     /** END: Named Queues *****************************************************/
 
+    /** BEGIN: Fetch Status ***************************************************/
+
+    public enum FetchStatus
+    {
+      VOID = 0,
+      ERROR = 1,
+      SUCCESS = 2,
+      NETWORK_ERROR = 3,
+      ROBOTS_DISALLOWED = 4,
+      ALREADY_SEEN = 5,
+      SKIPPED = 6
+    }
+
+    /** END: Fetch Status *****************************************************/
+
     /** BEGIN: Authentication Types *******************************************/
 
     public enum AuthenticationType

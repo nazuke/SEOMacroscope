@@ -1007,9 +1007,9 @@ namespace SEOMacroscope
 
     public void AddLocales ( string Locale )
     {
-      if( !this.Locales.ContainsKey( Locale ) )
+      lock( this.Locales )
       {
-        lock( this.Locales )
+        if( !this.Locales.ContainsKey( Locale ) )
         {
           this.Locales[ Locale ] = Locale;
         }
@@ -1050,9 +1050,9 @@ namespace SEOMacroscope
 
     public void AddToBlockedByRobots ( string Url )
     {
-      if( !this.BlockedByRobots.ContainsKey( Url ) )
+      lock( this.BlockedByRobots )
       {
-        lock( this.BlockedByRobots )
+        if( !this.BlockedByRobots.ContainsKey( Url ) )
         {
           this.BlockedByRobots[ Url ] = true;
         }
@@ -1061,9 +1061,9 @@ namespace SEOMacroscope
 
     public void RemoveFromBlockedByRobots ( string Url )
     {
-      if( this.BlockedByRobots.ContainsKey( Url ) )
+      lock( this.BlockedByRobots )
       {
-        lock( this.BlockedByRobots )
+        if( this.BlockedByRobots.ContainsKey( Url ) )
         {
           this.BlockedByRobots.Remove( Url );
         }
