@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Runtime;
 using Fastenshtein;
 
 namespace SEOMacroscope
@@ -43,13 +44,15 @@ namespace SEOMacroscope
 	  
     /**************************************************************************/
 
+    private const long EstimateMemoryAllocation = 8192;
     private IMacroscopeAnalysisPercentageDone PercentageDone;
     
     private readonly MacroscopeDocument msDocOriginal;
     private string MonstrousText;
-    private Levenshtein Monster = null;
+    private Levenshtein Monster;
     private int ComparisonSizeDifference;
     private int ComparisonThreshold;
+    private Dictionary<string,Boolean> CrossCheck;
     
     /**************************************************************************/
 	      
@@ -57,6 +60,7 @@ namespace SEOMacroscope
       MacroscopeDocument msDoc,
       int SizeDifference,
       int Threshold,
+      Dictionary<string,Boolean> CrossCheckList,
       IMacroscopeAnalysisPercentageDone IPercentageDone
     )
     {
@@ -69,6 +73,8 @@ namespace SEOMacroscope
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
       
+      this.CrossCheck = CrossCheckList;
+      
       this.PercentageDone = IPercentageDone;
       
     }
@@ -76,7 +82,8 @@ namespace SEOMacroscope
     public MacroscopeLevenshteinAnalysis (
       MacroscopeDocument msDoc,
       int SizeDifference,
-      int Threshold
+      int Threshold,
+      Dictionary<string,Boolean> CrossCheckList
     )
     {
       
@@ -88,24 +95,81 @@ namespace SEOMacroscope
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
       
+      this.CrossCheck = CrossCheckList;
+            
       this.PercentageDone = null;
       
     }
 
     /**************************************************************************/
 
-    public Dictionary<MacroscopeDocument,int> AnalyzeDocCollection ( MacroscopeDocumentCollection DocCollection )
+    public Dictionary<MacroscopeDocument,int> AnalyzeDocCollection (
+      MacroscopeDocumentCollection DocCollection
+    )
     {
 
-      if( Monster == null )
+      if( this.Monster.GetType() != typeof( Levenshtein ) )
       {
         throw new Exception ( "MacroscopeLevenshteinAnalysis not initialized" );
       }
       
+      MemoryFailPoint MemGate = null;
       Dictionary<MacroscopeDocument,int> DocList = new Dictionary<MacroscopeDocument,int> ( DocCollection.CountDocuments() );
       decimal DocListCount = ( decimal )DocCollection.CountDocuments();
       decimal Count = 0;
-      
+
+
+        
+      long memBefore = 0;
+      long memAfter = 0;
+      long memDiff = 0;
+
+      // https://msdn.microsoft.com/en-us/library/system.runtime.gcsettings.largeobjectheapcompactionmode%28v=vs.110%29.aspx
+      GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
+      GC.Collect();      
+
+      memBefore = GC.GetTotalMemory( true );
+
+      /*
+      {
+        
+        long MemoryEstimateBytes = 0;
+        int MemoryEstimateMegabytes = 0;
+        long DocumentCount = 0;
+
+        foreach( MacroscopeDocument msDocCheck in DocCollection.IterateDocuments() )
+        {
+          if( !msDocCheck.GetIsExternal() )
+          {
+            DocumentCount++;
+          }
+        }
+
+        MemoryEstimateBytes = EstimateMemoryAllocation * DocumentCount;
+        MemoryEstimateMegabytes = ( int )( MemoryEstimateBytes / ( long )1024 );
+
+        try
+        {
+
+          DebugMsg( string.Format( "MemoryEstimateBytes: {0}", MemoryEstimateBytes ) );
+          DebugMsg( string.Format( "MemoryEstimateMegabytes: {0}", MemoryEstimateMegabytes ) );
+
+          MemGate = new MemoryFailPoint ( MemoryEstimateMegabytes );
+
+        }
+        catch( InsufficientMemoryException ex )
+        {
+        
+          throw new MacroscopeInsufficientMemoryException (
+            message: string.Format( "Insufficient memory to execute Levenshtein analysis. {0}MB Required", MemoryEstimateMegabytes ),
+            innerException: ex
+          );
+        
+        }
+
+      }
+      */
+
       foreach( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {
 
@@ -113,9 +177,20 @@ namespace SEOMacroscope
         Boolean DoCheck = false;
         
         Count++;
-        if( DocListCount > 0 )
+
+        if( ( this.PercentageDone != null ) && ( DocListCount > 0 ) )
         {
           this.PercentageDone.PercentageDone( ( ( ( decimal )100 / DocListCount ) * Count ), msDocCompare.GetUrl() );
+        }
+        
+        if( CrossCheckDocuments( msDocCompare: msDocCompare ) )
+        {
+          continue;
+        }
+        
+        if( msDocCompare.GetIsExternal() )
+        {
+          continue;
         }
         
         if( !msDocCompare.GetIsHtml() )
@@ -139,19 +214,19 @@ namespace SEOMacroscope
           continue;
         }
 
-        DebugMsg( string.Format( "msDocOriginal: {0}", this.msDocOriginal.GetUrl() ) );
-        DebugMsg( string.Format( "this.MonstrousText.Length: {0}", this.MonstrousText.Length ) );
-        DebugMsg( string.Format( "msDocCompare: {0}", msDocCompare.GetUrl() ) );
-        DebugMsg( string.Format( "BodyText.Length: {0}", BodyText.Length ) );        
+        //DebugMsg( string.Format( "msDocOriginal: {0}", this.msDocOriginal.GetUrl() ) );
+        //DebugMsg( string.Format( "this.MonstrousText.Length: {0}", this.MonstrousText.Length ) );
+        //DebugMsg( string.Format( "msDocCompare: {0}", msDocCompare.GetUrl() ) );
+        //DebugMsg( string.Format( "BodyText.Length: {0}", BodyText.Length ) );        
 
-        DebugMsg( string.Format( "this.ComparisonThreshold: {0}", this.ComparisonThreshold ) );        
+        //DebugMsg( string.Format( "this.ComparisonThreshold: {0}", this.ComparisonThreshold ) );        
 
         if( BodyText.Length > this.MonstrousText.Length )
         {
           
           int iLen = BodyText.Length - this.MonstrousText.Length;
           
-          DebugMsg( string.Format( "iLen 1: {0}", iLen ) );
+          //DebugMsg( string.Format( "iLen 1: {0}", iLen ) );
           
           if( iLen <= this.ComparisonSizeDifference )
           {
@@ -164,7 +239,7 @@ namespace SEOMacroscope
           
           int iLen = this.MonstrousText.Length - BodyText.Length;
           
-          DebugMsg( string.Format( "iLen 2: {0}", iLen ) );
+          //DebugMsg( string.Format( "iLen 2: {0}", iLen ) );
           
           if( iLen <= this.ComparisonSizeDifference )
           {
@@ -176,9 +251,9 @@ namespace SEOMacroscope
         if( DoCheck )
         {
           
-          int Distance = Monster.Distance( BodyText );
+          int Distance = this.Monster.Distance( BodyText );
           
-          DebugMsg( string.Format( "Distance: {0}", Distance ) );
+          //DebugMsg( string.Format( "Distance: {0}", Distance ) );
           
           if( Distance <= this.ComparisonThreshold )
           {
@@ -189,7 +264,7 @@ namespace SEOMacroscope
         else
         {
           
-          DebugMsg( string.Format( "DoCheck: {0}", DoCheck ) );
+          //DebugMsg( string.Format( "DoCheck: {0}", DoCheck ) );
           
         }
 
@@ -197,8 +272,60 @@ namespace SEOMacroscope
         
       }
 
+      memAfter = GC.GetTotalMemory( false );
+      memDiff = memAfter - memBefore;
+      
+      DebugMsg( string.Format( "memBefore: {0}", memBefore ) );        
+      DebugMsg( string.Format( "memAfter: {0}", memAfter ) );        
+      DebugMsg( string.Format( "memDiff: {0}", memDiff ) );
+      
       return( DocList );
 
+    }
+
+    /**************************************************************************/
+
+    private Boolean CrossCheckDocuments ( MacroscopeDocument msDocCompare )
+    {
+
+      Boolean CrossChecked = false;
+
+      string Key1 = string.Join( "::", this.msDocOriginal.GetChecksum(), msDocCompare.GetChecksum() );
+      string Key2 = string.Join( "::", msDocCompare.GetChecksum(), this.msDocOriginal.GetChecksum() );
+
+      lock( this.CrossCheck )
+      {
+
+        if( this.CrossCheck.ContainsKey( Key1 ) )
+        {
+          CrossChecked = true;
+        }
+        else
+        {
+          this.CrossCheck.Add( Key1, true );
+        }
+
+        if( this.CrossCheck.ContainsKey( Key2 ) )
+        {
+          CrossChecked = true;
+        }
+        else
+        {
+          this.CrossCheck.Add( Key2, true );
+        }
+
+      }
+
+      return( CrossChecked );
+
+    }
+
+    /**************************************************************************/
+
+    public static Dictionary<string,Boolean> GetCrossCheckList ( int Capacity )
+    {
+      Dictionary<string,Boolean> CrossCheck = new Dictionary<string,Boolean> ( Capacity );
+      return( CrossCheck );
     }
 
     /**************************************************************************/

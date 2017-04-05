@@ -42,81 +42,84 @@ namespace SEOMacroscope
     public List<KeyValuePair<string,string>> DetailDocumentDetails ()
     {
 
-      List<KeyValuePair<string,string>> slDetails = new List<KeyValuePair<string,string>> ();
+      List<KeyValuePair<string,string>> DetailsList = new List<KeyValuePair<string,string>> ();
 
-      slDetails.Add( new KeyValuePair<string,string> ( "URL", this.GetUrl() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "URL", this.GetUrl() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Status Code", ( ( int )this.GetStatusCode() ).ToString() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Status", this.GetStatusCode().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Status Code", ( ( int )this.GetStatusCode() ).ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Status", this.GetStatusCode().ToString() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Error Condition", this.GetErrorCondition() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Crawled Date", this.CrawledDate.ToString() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Duration (seconds)", this.GetDurationInSecondsFormatted() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Error Condition", this.GetErrorCondition() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "HTST Policy Enabled", this.HypertextStrictTransportPolicy.ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Duration (seconds)", this.GetDurationInSecondsFormatted() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Content Type", this.GetMimeType() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Content Length", this.ContentLength.ToString() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Encoding", this.ContentEncoding ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "HTST Policy Enabled", this.HypertextStrictTransportPolicy.ToString() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Compressed", this.GetIsCompressed().ToString() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Compression Method", this.GetCompressionMethod() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Content Type", this.GetMimeType() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Content Length", this.ContentLength.ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Encoding", this.ContentEncoding ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Date", this.GetDateServer() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Compressed", this.GetIsCompressed().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Compression Method", this.GetCompressionMethod() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Language", this.GetLang() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Character Set", this.GetCharacterSet() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Date", this.GetDateServer() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Expires", this.GetDateExpires() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Language", this.GetLang() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Character Set", this.GetCharacterSet() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect().ToString() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Redirected From", this.UrlRedirectFrom ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
+
+      DetailsList.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Redirected From", this.UrlRedirectFrom ) );
       
-      slDetails.Add( new KeyValuePair<string,string> ( "Referrer Meta Tag", this.GetMetaTag("referrer") ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Referrer Meta Tag", this.GetMetaTag( "referrer" ) ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Links In Count", this.CountHyperlinksIn().ToString() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Links Out Count", this.CountHyperlinksOut().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Links In Count", this.CountHyperlinksIn().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Links Out Count", this.CountHyperlinksOut().ToString() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "HrefLang Count", this.GetHrefLangs().Count.ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "HrefLang Count", this.GetHrefLangs().Count.ToString() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Title", this.GetTitle() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Title Length", this.GetTitleLength().ToString() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Title Pixel Width", this.GetTitlePixelWidth().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Title", this.GetTitle() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Title Length", this.GetTitleLength().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Title Pixel Width", this.GetTitlePixelWidth().ToString() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Description", this.GetDescription() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Description Length", this.GetDescriptionLength().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Description", this.GetDescription() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Description Length", this.GetDescriptionLength().ToString() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Keywords", this.GetKeywords() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Keywords", this.GetKeywords() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
 
-      slDetails.Add( new KeyValuePair<string,string> ( "AltText", this.GetAltText() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "AltText", this.GetAltText() ) );
             
-      slDetails.Add( new KeyValuePair<string,string> ( "Checksum", this.GetChecksum() ) );
-      slDetails.Add( new KeyValuePair<string,string> ( "ETag", this.GetEtag() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Checksum", this.GetChecksum() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "ETag", this.GetEtag() ) );
 
-      for( ushort iLevel = 1 ; iLevel <= 6 ; iLevel++ )
+      for( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
       {
-        string sHeading;
-        if( this.GetHeadings( iLevel ).Count > 0 )
+        string HeadingText;
+        if( this.GetHeadings( HeadingLevel ).Count > 0 )
         {
-          sHeading = this.GetHeadings( iLevel )[ 0 ].ToString();
+          HeadingText = this.GetHeadings( HeadingLevel )[ 0 ];
         }
         else
         {
-          sHeading = null;
+          HeadingText = null;
         }
-        if( sHeading != null )
+        if( HeadingText != null )
         {
-          slDetails.Add( new KeyValuePair<string,string> ( string.Format( "H{0}", iLevel ), sHeading ) );
-          slDetails.Add( new KeyValuePair<string,string> ( string.Format( "H{0} Length", iLevel ), sHeading.Length.ToString() ) );
+          DetailsList.Add( new KeyValuePair<string,string> ( string.Format( "H{0}", HeadingLevel ), HeadingText ) );
+          DetailsList.Add( new KeyValuePair<string,string> ( string.Format( "H{0} Length", HeadingLevel ), HeadingText.Length.ToString() ) );
         }
       }
 
-      slDetails.Add( new KeyValuePair<string,string> ( "Page Depth", this.Depth.ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Page Depth", this.Depth.ToString() ) );
 
-      return( slDetails );
+      return( DetailsList );
 
     }
 

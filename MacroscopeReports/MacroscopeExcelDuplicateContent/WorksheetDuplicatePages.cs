@@ -57,7 +57,8 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      
+      Dictionary<string,Boolean> CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList( Capacity: DocCollection.CountDocuments() );
+            
       DocCount = ( decimal )DocCollection.CountDocuments();
             
       {
@@ -105,6 +106,11 @@ namespace SEOMacroscope
           );
         }
 
+        if( msDocLeft.GetIsExternal() )
+        {
+          continue;
+        }
+
         if( !msDocLeft.GetIsHtml() )
         {
           continue;
@@ -114,6 +120,7 @@ namespace SEOMacroscope
           msDoc: msDocLeft,
           SizeDifference: MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference(),
           Threshold: MacroscopePreferencesManager.GetMaxLevenshteinDistance(),
+          CrossCheckList: CrossCheckList,
           IPercentageDone: this
         );
 

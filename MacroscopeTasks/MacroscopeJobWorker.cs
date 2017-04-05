@@ -162,6 +162,7 @@ namespace SEOMacroscope
 
             do
             {
+              DebugMsg( string.Format( "Trying Fetch: {0} :: {1}", Tries, Url ) );
               if( this.Fetch( Url ) )
               {
                 this.JobMaster.NotifyWorkersFetched( Url );
@@ -170,6 +171,7 @@ namespace SEOMacroscope
               else
               {
                 DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
+                Thread.Sleep( 1000 );
               }
               Tries--;
             } while( Tries > 0 );

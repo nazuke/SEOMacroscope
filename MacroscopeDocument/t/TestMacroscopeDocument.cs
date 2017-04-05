@@ -31,7 +31,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeDocument
+  public class TestMacroscopeDocument : Macroscope
   {
 
     /**************************************************************************/
@@ -52,10 +52,17 @@ namespace SEOMacroscope
         MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
         
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
-			  
-        msDoc.Execute();
-
+        try
+        {
+          msDoc.Execute();          
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+          DebugMsg( string.Format( "Exception: {0}", ex.StackTrace ) );
+        }
         Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
+        
         Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
       }

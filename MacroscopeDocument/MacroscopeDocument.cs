@@ -48,6 +48,8 @@ namespace SEOMacroscope
 
     private Boolean IsDirty;
 
+    private DateTime CrawledDate;
+    
     private string DocUrl;
     private int Timeout;
 
@@ -99,6 +101,7 @@ namespace SEOMacroscope
 
     private DateTime DateServer;
     private DateTime DateModified;
+    private DateTime DateExpires;
 
     private string Canonical;
     private Dictionary<string,MacroscopeHrefLang> HrefLang;
@@ -184,12 +187,14 @@ namespace SEOMacroscope
     private void InitializeDocument ( string Url )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       DocCollection = null;
       
       this.IsDirty = true;
 
+      this.CrawledDate = DateTime.UtcNow;
+          
       this.DocUrl = Url;
       this.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
 
@@ -239,6 +244,7 @@ namespace SEOMacroscope
 
       this.DateServer = new DateTime ();
       this.DateModified = new DateTime ();
+      this.DateExpires = new DateTime ();
 
       this.Canonical = "";
       this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
@@ -824,6 +830,11 @@ namespace SEOMacroscope
 
     /** Dates *****************************************************************/
 
+    public string GetCrawledDate ()
+    {
+      return( this.CrawledDate.ToShortDateString() );
+    }
+
     public string GetDateServer ()
     {
       return( this.DateServer.ToShortDateString() );
@@ -832,6 +843,11 @@ namespace SEOMacroscope
     public string GetDateModified ()
     {
       return( this.DateModified.ToShortDateString() );
+    }
+
+    public string GetDateExpires ()
+    {
+      return( this.DateExpires.ToShortDateString() );
     }
 
     /** Inlinks ***************************************************************/
@@ -1399,6 +1415,8 @@ namespace SEOMacroscope
       if( bDownloadDocument )
       {
 
+        this.CrawledDate = DateTime.UtcNow;
+              
         if( this.GetIsHtml() )
         {
           
@@ -1556,6 +1574,8 @@ namespace SEOMacroscope
       bAuthenticating = this.AuthenticateRequest( req );
                             
       MacroscopePreferencesManager.EnableHttpProxy( req );
+
+      this.CrawledDate = DateTime.UtcNow;
 
       try
       {
@@ -1873,19 +1893,19 @@ namespace SEOMacroscope
       }
 
       // Probe HTTP Headers
-      foreach( string sHeader in res.Headers )
+      foreach( string HttpHeaderName in res.Headers )
       {
 
-        //DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", sHeader, res.GetResponseHeader( sHeader ) ) );
+        //DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", HttpHeaderName, res.GetResponseHeader( sHeader ) ) );
 
-        if( sHeader.ToLower().Equals( "www-authenticate" ) )
+        if( HttpHeaderName.ToLower().Equals( "www-authenticate" ) )
         {
           
           // EXAMPLE: WWW-Authenticate: Basic realm="Access to the staging site"
 
           string sAuthenticationType = "";    
           string sAuthenticationRealm = "";
-          string sValue = res.GetResponseHeader( sHeader );
+          string sValue = res.GetResponseHeader( HttpHeaderName );
 
           MatchCollection matches = Regex.Matches( sValue, "^\\s*(Basic)\\s+realm=\"([^\"]+)\"", RegexOptions.IgnoreCase );
 
@@ -1912,28 +1932,34 @@ namespace SEOMacroscope
 
         }
 
-        if( sHeader.ToLower().Equals( "date" ) )
+        if( HttpHeaderName.ToLower().Equals( "date" ) )
         {
-          string DateString = res.GetResponseHeader( sHeader );
-          this.DateServer = this.ParseHttpDate( HeaderField: sHeader, DateString: DateString );
+          string DateString = res.GetResponseHeader( HttpHeaderName );
+          this.DateServer = this.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
         }
 
-        if( sHeader.ToLower().Equals( "last-modified" ) )
+        if( HttpHeaderName.ToLower().Equals( "last-modified" ) )
         {
-          string DateString = res.GetResponseHeader( sHeader );
-          this.DateModified = this.ParseHttpDate( HeaderField: sHeader, DateString: DateString );
+          string DateString = res.GetResponseHeader( HttpHeaderName );
+          this.DateModified = this.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
         }
 
-        if( sHeader.ToLower().Equals( "content-encoding" ) )
+        if( HttpHeaderName.ToLower().Equals( "expires" ) )
+        {
+          string DateString = res.GetResponseHeader( HttpHeaderName );
+          this.DateExpires = this.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
+        }
+
+        if( HttpHeaderName.ToLower().Equals( "content-encoding" ) )
         {
           this.IsCompressed = true;
-          this.CompressionMethod = res.GetResponseHeader( sHeader );
+          this.CompressionMethod = res.GetResponseHeader( HttpHeaderName );
         }
 
         // Process HTST Policy
         // https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
         // Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-        if( sHeader.ToLower().Equals( "strict-transport-security" ) )
+        if( HttpHeaderName.ToLower().Equals( "strict-transport-security" ) )
         {
           this.HypertextStrictTransportPolicy = true;
           // TODO: implement includeSubDomains
@@ -1941,12 +1967,12 @@ namespace SEOMacroscope
 
         // Canonical HTTP Header
         // Link: <http://www.example.com/downloads/white-paper.pdf>; rel="canonical"
-        if( sHeader.ToLower().Equals( "link" ) )
+        if( HttpHeaderName.ToLower().Equals( "link" ) )
         {
 
           string Url = null;
           string Rel = null;
-          string Raw = res.GetResponseHeader( sHeader );
+          string Raw = res.GetResponseHeader( HttpHeaderName );
 
           MatchCollection matches = Regex.Matches( Raw, "<([^<>]+)>\\s*;\\srel=\"([^\"]+)\"" );
 
@@ -1969,16 +1995,16 @@ namespace SEOMacroscope
 
         // Probe Character Set
         // TODO: implement this
-        if( sHeader.ToLower().Equals( "content-type" ) )
+        if( HttpHeaderName.ToLower().Equals( "content-type" ) )
         {
           //string sCharSet = "";
           this.CharSet = null;
         }
 
         // Process Etag
-        if( sHeader.ToLower().Equals( "etag" ) )
+        if( HttpHeaderName.ToLower().Equals( "etag" ) )
         {
-          string ETag = res.GetResponseHeader( sHeader );
+          string ETag = res.GetResponseHeader( HttpHeaderName );
           if( ( ETag != null ) && ( ETag.Length > 0 ) )
           {
             ETag = Regex.Replace( ETag, "[\"'\\s]+", "", RegexOptions.Singleline );
@@ -1996,7 +2022,7 @@ namespace SEOMacroscope
       {
         if( this.DateServer.Date == new DateTime ().Date )
         {
-          this.DateServer = new DateTime ();
+          this.DateServer = DateTime.UtcNow;
         }
         if( this.DateModified.Date == new DateTime ().Date )
         {
@@ -2089,7 +2115,7 @@ namespace SEOMacroscope
     private DateTime ParseHttpDate ( string HeaderField, string DateString )
     {
 
-      DateTime ParsedDate = DateTime.Now;
+      DateTime ParsedDate = DateTime.UtcNow;
 
       try
       {

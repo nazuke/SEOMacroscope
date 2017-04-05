@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
+    <Compile Include="MacroscopeExceptions\MacroscopeInsufficientMemoryException.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
@@ -453,6 +454,7 @@
     <Folder Include="MacroscopeUserControls\MacroscopeSiteStructurePanel" />
     <Folder Include="MacroscopeSearch" />
     <Folder Include="MacroscopeNamedQueue" />
+    <Folder Include="MacroscopeExceptions" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProfilingSessions\Session20170323_170729.sdps" />

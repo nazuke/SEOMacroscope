@@ -86,6 +86,7 @@ namespace SEOMacroscope
 
         this.lvListView.Columns.Add( MacroscopeConstants.Duration, MacroscopeConstants.Duration );
 
+        this.lvListView.Columns.Add( MacroscopeConstants.DateCrawled, MacroscopeConstants.DateCrawled );
         this.lvListView.Columns.Add( MacroscopeConstants.DateServer, MacroscopeConstants.DateServer );
         this.lvListView.Columns.Add( MacroscopeConstants.DateModified, MacroscopeConstants.DateModified );
 
@@ -157,8 +158,11 @@ namespace SEOMacroscope
           htItems[ MacroscopeConstants.Lang ] = Lang;
         }
 
+        htItems[ MacroscopeConstants.DateCrawled ] = msDoc.GetCrawledDate();
+        
         htItems[ MacroscopeConstants.DateServer ] = msDoc.GetDateServer();
         htItems[ MacroscopeConstants.DateModified ] = msDoc.GetDateModified();
+        htItems[ MacroscopeConstants.DateExpires ] = msDoc.GetDateExpires();
 
         htItems[ MacroscopeConstants.Canonical ] = msDoc.GetCanonical();
 

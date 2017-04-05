@@ -50,6 +50,8 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
 
+      Dictionary<string,Boolean> CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList( Capacity: DocCollection.CountDocuments() );
+
       MacroscopeDocument msDoc = DocCollection.CreateDocument( StartUrl );
       MacroscopeDocument msDocDifferent = DocCollection.CreateDocument( DupeUrl );
       
@@ -63,18 +65,28 @@ namespace SEOMacroscope
       
       DebugMsg( string.Format( "msDocDifferent: {0}", msDocDifferent.GetStatusCode() ) );
 
-      MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis ( msDoc: msDoc, SizeDifference: 64, Threshold: 16 );
-
-      Dictionary<MacroscopeDocument,int> DocList = LevenshteinAnalysis.AnalyzeDocCollection( DocCollection: DocCollection );
-      
-      DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
-
-      foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
+      for( int i = 1 ; i <= 100 ; i++ )
       {
-        DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
-        Assert.AreEqual( DocList[ msDocAnalyzed ], 0, string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
-      }
 
+        MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis (
+                                                            msDoc: msDoc,
+                                                            SizeDifference: 64,
+                                                            Threshold: 16,
+                                                            CrossCheckList: CrossCheckList
+                                                          );
+
+        Dictionary<MacroscopeDocument,int> DocList = LevenshteinAnalysis.AnalyzeDocCollection( DocCollection: DocCollection );
+      
+        DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
+
+        foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
+        {
+          DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
+          Assert.AreEqual( DocList[ msDocAnalyzed ], 0, string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
+        }
+
+      }
+    
       return;
       
     }
@@ -94,16 +106,26 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
       
+      Dictionary<string,Boolean> CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList( Capacity: DocCollection.CountDocuments() );
+            
       MacroscopeDocument msDoc = DocCollection.CreateDocument( StartUrl );
       msDoc.Execute();
       DocCollection.AddDocument( msDoc );
 
       DebugMsg( string.Format( "msDoc: {0}", msDoc.GetStatusCode() ) );
 
-      MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis ( msDoc: msDoc, SizeDifference: 64, Threshold: 16 );
+      MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis (
+                                                            msDoc: msDoc,
+                                                            SizeDifference: 64,
+                                                            Threshold: 16,
+                                                            CrossCheckList: CrossCheckList
+                                                          );
 
-      List<string> TargetUrls = new List<string> () {
-        {
+      List<string> TargetUrls = new List<string> () { {
+          "https://nazuke.github.io/SEOMacroscope/blog/"
+        }, {
+          "https://nazuke.github.io/SEOMacroscope/downloads/"
+        }, {
           "https://nazuke.github.io/SEOMacroscope/manual/"
         }
       };
@@ -116,16 +138,34 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "msDocTarget: {0}", msDocTarget.GetStatusCode() ) );
       }
 
-      Dictionary<MacroscopeDocument,int> DocList = LevenshteinAnalysis.AnalyzeDocCollection( DocCollection: DocCollection );
-      
-      DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
-
-      foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
+      for( int i = 1 ; i <= 10 ; i++ )
       {
-        DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
-        Assert.AreNotEqual( DocList[ msDocAnalyzed ], 0, string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
-      }
 
+        Dictionary<MacroscopeDocument,int> DocList = LevenshteinAnalysis.AnalyzeDocCollection(
+                                                       DocCollection: DocCollection
+                                                     );
+
+        DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
+
+        foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
+        {
+        
+          DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
+        
+          Assert.AreNotEqual(
+            DocList[ msDocAnalyzed ],
+            0,
+            string.Format(
+              "FAIL: {0} => {1}",
+              DocList[ msDocAnalyzed ],
+              msDocAnalyzed.GetUrl()
+            )
+          );
+        
+        }
+
+      }
+      
       return;
       
     }

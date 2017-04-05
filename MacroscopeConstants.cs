@@ -178,8 +178,10 @@ namespace SEOMacroscope
 
     public const string Duration = "Duration (seconds)";
 
+    public const string DateCrawled = "Crawled Date";
     public const string DateServer = "Server Date";
     public const string DateModified = "Modified Date";
+    public const string DateExpires = "Expires Date";
 
     public const string ContentType = "Content Type";
     public const string Lang = "Lang";

@@ -58,13 +58,13 @@ namespace SEOMacroscope
     public MacroscopeSearchIndex ()
     {
 
-      SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
-      DocumentIndex = new Dictionary<string, MacroscopeDocument> ( 4096 );
+      this.DocumentIndex = new Dictionary<string, MacroscopeDocument> ( 4096 );
 
-      ForwardIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
+      this.ForwardIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
 
-      InvertedIndex = new Dictionary<string, Dictionary<string,MacroscopeDocument>> ( 4096 );
+      this.InvertedIndex = new Dictionary<string, Dictionary<string,MacroscopeDocument>> ( 4096 );
 
     }
 
@@ -222,7 +222,6 @@ namespace SEOMacroscope
             {
               DocListGather.Add( msDoc, 1 );
             }
-
 
           }
 

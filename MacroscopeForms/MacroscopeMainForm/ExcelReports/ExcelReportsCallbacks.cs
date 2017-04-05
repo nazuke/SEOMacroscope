@@ -310,6 +310,10 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
         }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+        }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
