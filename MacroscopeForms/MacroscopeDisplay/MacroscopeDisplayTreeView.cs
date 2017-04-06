@@ -104,6 +104,11 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
+        if( msDoc == null )
+        {
+          continue;
+        }
+              
         string Url = msDoc.GetUrl();
 
         this.RenderTreeView( msDoc, Url );

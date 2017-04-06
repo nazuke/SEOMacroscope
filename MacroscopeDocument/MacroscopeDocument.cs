@@ -268,25 +268,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -1169,10 +1169,11 @@ namespace SEOMacroscope
 
     /** HrefLang **************************************************************/
 
-    private void SetHreflang ( string sLocale, string Url )
+    private void SetHreflang ( string HrefLangLocale, string Url )
     {
-      MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( sLocale, Url );
-      this.HrefLang[ sLocale ] = msHrefLang;
+      string LocaleProcessed = HrefLangLocale.ToLower();
+      MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( LocaleProcessed, Url );
+      this.HrefLang[ LocaleProcessed ] = msHrefLang;
     }
 
     public Dictionary<string,MacroscopeHrefLang> GetHrefLangs ()

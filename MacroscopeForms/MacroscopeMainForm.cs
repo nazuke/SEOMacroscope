@@ -732,18 +732,25 @@ namespace SEOMacroscope
       this.TimerTabPages.Start();
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void StopTabPageTimer ()
     {
-      try
+      if( this.TimerTabPages != null )
       {
-        this.TimerTabPages.Stop();
-        this.TimerTabPages.Dispose();
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "StopTabPageTimer: {0}", ex.Message ) );
+        try
+        {
+          this.TimerTabPages.Stop();
+          this.TimerTabPages.Dispose();
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "StopTabPageTimer: {0}", ex.Message ) );
+        }
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void CallbackTabPageTimer ( Object self, ElapsedEventArgs e )
     {
@@ -764,6 +771,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void CallbackTabPageTimerExec ()
     {
       if( !MacroscopePreferencesManager.GetPauseDisplayDuringScan() )
@@ -772,12 +781,16 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void CallbackTabControlDisplaySelectedIndexChanged ( Object sender, EventArgs e )
     {
       TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
       string sTabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
       this.UpdateTabPage( sTabPageName );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void UpdateFocusedTabPage ()
     {
@@ -796,6 +809,8 @@ namespace SEOMacroscope
       this.SemaphoreOverviewTabPages.Release( 1 );
 
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void UpdateTabPage ( string TabName )
     {
@@ -1074,6 +1089,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void CallbackAddToAllowedHosts ( object sender, EventArgs e )
     {
 
@@ -1123,6 +1140,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void CallbackRemoveFromAllowedHosts ( object sender, EventArgs e )
     {
 
@@ -1169,6 +1188,8 @@ namespace SEOMacroscope
       }
 
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void CallbackRetryFetchClick ( object sender, EventArgs e )
     {
@@ -1372,14 +1393,17 @@ namespace SEOMacroscope
 
     private void StopSiteOverviewTimer ()
     {
-      try
+      if( this.TimerSiteOverview != null )
       {
-        this.TimerSiteOverview.Stop();
-        this.TimerSiteOverview.Dispose();
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "StopSiteOverviewTimer: {0}", ex.Message ) );
+        try
+        {
+          this.TimerSiteOverview.Stop();
+          this.TimerSiteOverview.Dispose();
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "StopSiteOverviewTimer: {0}", ex.Message ) );
+        }
       }
     }
 
@@ -1776,14 +1800,17 @@ namespace SEOMacroscope
 
     private void StopAuthenticationTimer ()
     {
-      try
+      if( this.TimerAuthentication != null )
       {
-        this.TimerAuthentication.Stop();
-        this.TimerAuthentication.Dispose();
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "StopAuthenticationTimer: {0}", ex.Message ) );
+        try
+        {
+          this.TimerAuthentication.Stop();
+          this.TimerAuthentication.Dispose();
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "StopAuthenticationTimer: {0}", ex.Message ) );
+        }
       }
     }
 

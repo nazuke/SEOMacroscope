@@ -50,27 +50,32 @@ namespace SEOMacroscope
     public static Boolean ValidateUrl ( string Url )
     {
 
-      Boolean bIsValid = false;
+      Boolean IsValid = false;
 
-      try
+      if( Url.StartsWith( "http", StringComparison.Ordinal ) )
       {
-
-        Uri uUri = new Uri ( Url, UriKind.Absolute );
-
-        if( uUri != null )
+      
+        try
         {
-          bIsValid = true;
+
+          Uri CheckUri = new Uri ( Url, UriKind.Absolute );
+
+          if( CheckUri != null )
+          {
+            IsValid = true;
+          }
+
         }
+        catch( UriFormatException ex )
+        {
 
+          DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
+
+        }
+      
       }
-      catch( UriFormatException ex )
-      {
-
-        DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
-
-      }
-
-      return( bIsValid );
+         
+      return( IsValid );
 
     }
 
@@ -106,6 +111,8 @@ namespace SEOMacroscope
       Regex reUnsupportedScheme = new Regex ( "^[^:]+:" );
 
       Url = HtmlEntity.DeEntitize( Url );
+
+      Url = Uri.UnescapeDataString( Url );
 
       if( !Regex.IsMatch( Url, "^(https?:|/|#)" ) )
       {

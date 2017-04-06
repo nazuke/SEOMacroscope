@@ -38,43 +38,51 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    Dictionary<string,Robots> RobotsDic;
+    Dictionary<string,Robots> RobotsSquad;
+    
+    Dictionary<Uri,Boolean> BadRobots;
 
     /**************************************************************************/
 
     public MacroscopeRobots ()
     {
-      RobotsDic = new Dictionary<string,Robots> ( 32 );
+
+      this.SuppressDebugMsg = false;
+
+      this.RobotsSquad = new Dictionary<string,Robots> ( 32 );
+
+      this.BadRobots = new Dictionary<Uri,Boolean> ( 32 );
+
     }
 
     /** ROBOT RULES ***********************************************************/
 
-    public Boolean ApplyRobotRule ( string sUrl )
+    public Boolean ApplyRobotRule ( string Url )
     {
 
-      Boolean bAllowed = false;
+      Boolean Allowed = false;
 
       if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
-        DebugMsg( string.Format( "ROBOTS Disabled: {0}", sUrl ) );
+        DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ) );
         return( true );
       }
       else
       {
 
-        Robots robot = this.FetchRobot( sUrl );
-        Uri uBase = new Uri ( sUrl, UriKind.Absolute );
+        Robots robot = this.FetchRobot( Url: Url );
+        Uri uBase = new Uri ( Url, UriKind.Absolute );
 
         if( ( robot != null ) && ( uBase != null ) )
         {
 
           if( robot.IsPathAllowed( "*", uBase.AbsolutePath ) )
           {
-            bAllowed = true;
+            Allowed = true;
           }
           else
           {
-            DebugMsg( string.Format( "ROBOTS Disallowed: {0}", sUrl ) );
+            DebugMsg( string.Format( "ROBOTS Disallowed: {0}", Url ) );
             DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", uBase.AbsolutePath ) );
           }
 
@@ -82,17 +90,17 @@ namespace SEOMacroscope
 
       }
 
-      return( bAllowed );
+      return( Allowed );
 
     }
 
     /** Sitemaps **************************************************************/
 
-    public List<string> GetSitemapsAsList ( string sUrl )
+    public List<string> GetSitemapsAsList ( string Url )
     {
 
       List<string> SitemapsList = new List<string> ();
-      Robots robot = this.FetchRobot( sUrl );
+      Robots robot = this.FetchRobot( Url: Url );
 
       if( robot != null )
       {
@@ -118,25 +126,30 @@ namespace SEOMacroscope
     public int GetCrawlDelay ( string Url )
     {
 
-      int iDelay = 0;
-      Robots robot = this.FetchRobot( Url );
+      int Delay = 0;
+      Robots robot = this.FetchRobot( Url: Url );
 
       if( robot != null )
       {
 
-        long iGetCrawlDelay = robot.CrawlDelay( "*" );
+        long CrawlDelayTime = robot.CrawlDelay( this.UserAgent() );
 
-        if( iGetCrawlDelay > 0 )
+        if( CrawlDelayTime == 0 )
         {
-          iDelay = ( int )( iGetCrawlDelay / 1000 );
+          CrawlDelayTime = robot.CrawlDelay( "*" );
         }
 
-        DebugMsg( string.Format( "ROBOTS iGetCrawlDelay: {0}", iGetCrawlDelay ) );
-        DebugMsg( string.Format( "ROBOTS iDelay: {0}", iDelay ) );
+        if( CrawlDelayTime > 0 )
+        {
+          Delay = ( int )( CrawlDelayTime / 1000 );
+        }
+
+        DebugMsg( string.Format( "ROBOTS CrawlDelayTime: {0}", CrawlDelayTime ) );
+        DebugMsg( string.Format( "ROBOTS Delay: {0}", Delay ) );
 
       }
 
-      return( iDelay );
+      return( Delay );
 
     }
 
@@ -153,23 +166,23 @@ namespace SEOMacroscope
         return( robot );
       }
 
-      Uri uBase = new Uri ( Url, UriKind.Absolute );
-      Uri uRobotsUri = null;
-      string sRobotsTxtUrl = null;
+      Uri BaseUri = new Uri ( Url, UriKind.Absolute );
+      Uri RobotsUri = null;
+      string RobotsTxtUrl = null;
 
       try
       {
-        uRobotsUri = new Uri (
+        RobotsUri = new Uri (
           string.Format(
             "{0}://{1}{2}",
-            uBase.Scheme,
-            uBase.Host,
+            BaseUri.Scheme,
+            BaseUri.Host,
             "/robots.txt"
           ),
           UriKind.Absolute
         );
 
-        sRobotsTxtUrl = uRobotsUri.ToString();
+        RobotsTxtUrl = RobotsUri.ToString();
 
       }
       catch( InvalidOperationException ex )
@@ -181,25 +194,35 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
       }
 
-      if( sRobotsTxtUrl != null )
+      /*
+      lock( this.BadRobots )
+      {
+        if( !this.BadRobots.ContainsKey( RobotsUri ) )
+        {
+          return( robot );
+        }
+      }
+      */
+     
+      if( !string.IsNullOrEmpty( RobotsTxtUrl ) )
       {
 
-        lock( this.RobotsDic )
+        lock( this.RobotsSquad )
         {
 
-          if( this.RobotsDic.ContainsKey( sRobotsTxtUrl ) )
+          if( this.RobotsSquad.ContainsKey( RobotsTxtUrl ) )
           {
-            robot = this.RobotsDic[ sRobotsTxtUrl ];
+            robot = this.RobotsSquad[ RobotsTxtUrl ];
           }
           else
           {
 
-            String sRobotsText = this.FetchRobotTextFile( RobotsUri: uRobotsUri );
+            String RobotsText = this.FetchRobotTextFile( RobotsUri: RobotsUri );
 
-            if( sRobotsText.Length > 0 )
+            if( RobotsText.Length > 0 )
             {
-              robot = new Robots ( sRobotsText );
-              this.RobotsDic.Add( sRobotsTxtUrl, robot );
+              robot = new Robots ( content: RobotsText );
+              this.RobotsSquad.Add( RobotsTxtUrl, robot );
             }
 
           }
@@ -216,11 +239,11 @@ namespace SEOMacroscope
 
     string FetchRobotTextFile ( Uri RobotsUri )
     {
-      Boolean bProceed = false;
+      Boolean Proceed = false;
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string RobotText = "";
-      string sRawData = "";
+      string RawData = "";
 
       if( !MacroscopeDnsTools.CheckValidHostname( Url: RobotsUri.ToString() ) )
       {
@@ -242,7 +265,7 @@ namespace SEOMacroscope
 				
         res = ( HttpWebResponse )req.GetResponse();
 				
-        bProceed = true;
+        Proceed = true;
 
       }
       catch( WebException ex )
@@ -262,32 +285,48 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", RobotsUri.ToString() ) );
       }
 
-      if( ( bProceed ) && ( res != null ) )
+      if( ( Proceed ) && ( res != null ) )
       {
+
         try
         {
           Stream sStream = res.GetResponseStream();
           StreamReader srRead = new StreamReader ( sStream );
-          sRawData = srRead.ReadToEnd();
+          RawData = srRead.ReadToEnd();
         }
         catch( WebException ex )
         {
-          DebugMsg( string.Format( "FetchRobotTextFile: WebException", ex.Message ) );
-          sRawData = "";
+          DebugMsg( string.Format( "FetchRobotTextFile: WebException: {0}", ex.Message ) );
+          RawData = "";
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "FetchRobotTextFile: Exception", ex.Message ) );
-          sRawData = "";
+          DebugMsg( string.Format( "FetchRobotTextFile: Exception: {0}", ex.Message ) );
+          RawData = "";
         }
+
+      }
+      else
+      {
+
+        lock( this.BadRobots )
+        {
+          if( !this.BadRobots.ContainsKey( RobotsUri ) )
+          {
+            this.BadRobots.Add( RobotsUri, true );
+            RobotText = "";
+          }
+        }
+
       }
 
-      if( sRawData.Length > 0 )
+      if( !string.IsNullOrEmpty( RawData ) )
       {
-        RobotText = sRawData;
+        RobotText = RawData;
       }
 
       return( RobotText );
+      
     }
 
     /**************************************************************************/

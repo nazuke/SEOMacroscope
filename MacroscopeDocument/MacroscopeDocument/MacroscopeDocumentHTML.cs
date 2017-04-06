@@ -154,14 +154,21 @@ namespace SEOMacroscope
             this.Locale = msLocale.ProbeLocale( HtmlDoc );
             if( this.Locale != null )
             {
-              this.SetHreflang( this.Locale, this.DocUrl );
+              this.SetHreflang( HrefLangLocale: this.Locale, Url: this.DocUrl );
             }
           }
 
           { // Probe Character Set
             try
             {
-              this.SetCharacterSet( HtmlDoc.DeclaredEncoding.EncodingName );
+              if( HtmlDoc.DeclaredEncoding != null )
+              {
+                this.SetCharacterSet( HtmlDoc.DeclaredEncoding.EncodingName );
+              }
+              else
+              {
+                this.SetCharacterSet( "" );
+              }
             }
             catch( Exception ex )
             {
@@ -569,6 +576,13 @@ namespace SEOMacroscope
             {
               LinkType = MacroscopeConstants.InOutLinkType.STYLESHEET;
             }
+            else
+            if(
+              ( LinkNode.GetAttributeValue( "rel", null ) != null )
+              && ( LinkNode.GetAttributeValue( "rel", "" ).ToLower() == "alternate" ) )
+            {
+              LinkType = MacroscopeConstants.InOutLinkType.ALTERNATE;
+            }
 
             if( LinkUrlAbs != null )
             {
@@ -930,45 +944,57 @@ namespace SEOMacroscope
 
     private void ExtractHtmlHeadings ( HtmlDocument HtmlDoc )
     {
-      for( ushort iLevel = 1 ; iLevel <= 6 ; iLevel++ )
+
+      for( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
       {
-        HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( string.Format( "//h{0}", iLevel ) );
-        if( nNodes != null )
+
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes(
+                                              string.Format( "//h{0}", HeadingLevel )
+                                            );
+
+        if( NodeCollection != null )
         {
-          foreach( HtmlNode nNode in nNodes )
+
+          foreach( HtmlNode Node in NodeCollection )
           {
-            string sText = nNode.InnerText;
-            if( sText != null )
+
+            string HeadingText = Node.InnerText;
+
+            if( HeadingText != null )
             {
-              this.AddHeading( iLevel, sText );
+              this.AddHeading( HeadingLevel, HeadingText );
             }
+            
           }
+          
         }
+        
       }
+      
     }
 
     /**************************************************************************/
 
-    string ProcessHtmlBodyText ( string sHtml )
+    string ProcessHtmlBodyText ( string HtmlCode )
     {
 
       HtmlDocument HtmlDoc = new HtmlDocument ();
       List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
-      string sText = "";
+      string BodyTextProcessed = "";
 
-      HtmlDoc.LoadHtml( sHtml );
+      HtmlDoc.LoadHtml( HtmlCode );
 
       if( HtmlDoc != null )
       {
         
-        HtmlNodeCollection nNodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//script|//style)" );
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//script|//style)" );
       
-        if( nNodeCollection != null )
+        if( NodeCollection != null )
         {
           
-          foreach( HtmlNode nNode in nNodeCollection )
+          foreach( HtmlNode Node in NodeCollection )
           {
-            NodesToRemove.Add( nNode );
+            NodesToRemove.Add( Node );
           }
 
           for( int i = 0 ; i < NodesToRemove.Count ; i++ )
@@ -978,62 +1004,88 @@ namespace SEOMacroscope
                   
         }
 
-        sText = HtmlDoc.DocumentNode.InnerText;
-        sText = Regex.Replace( sText, "<!--.*?-->", "", RegexOptions.Singleline );
+        BodyTextProcessed = HtmlDoc.DocumentNode.InnerText;
+        BodyTextProcessed = Regex.Replace( BodyTextProcessed, "<!--.*?-->", "", RegexOptions.Singleline );
         
       }
       
-      return( sText );
+      return( BodyTextProcessed );
     }
 
     /** Extract Email Addresses ***********************************************/
 
     private void ExtractHtmlEmailAddresses ( HtmlDocument HtmlDoc )
     {
-      HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
-      if( nNodes != null )
+
+      HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
+
+      if( NodeCollection != null )
       {
-        foreach( HtmlNode nLink in nNodes )
+
+        foreach( HtmlNode LinkNode in NodeCollection )
         {
-          string sLinkUrl = nLink.GetAttributeValue( "href", null );
-          if( sLinkUrl != null )
+
+          string LinkUrl = LinkNode.GetAttributeValue( "href", null );
+
+          if( LinkUrl != null )
           {
-            if( Regex.IsMatch( sLinkUrl, "^mailto:" ) )
+
+            if( Regex.IsMatch( LinkUrl, "^mailto:" ) )
             {
-              MatchCollection reMatches = Regex.Matches( sLinkUrl, "^mailto:([^?]+)" );
+
+              MatchCollection reMatches = Regex.Matches( LinkUrl, "^mailto:([^?]+)" );
+
               foreach( Match reMatch in reMatches )
               {
                 this.AddEmailAddress( EmailAddress: reMatch.Groups[ 1 ].Value );
               }
+              
             }
+            
           }
+          
         }
+        
       }
+      
     }
 
     /** Extract Telephone Numbers *********************************************/
 
     private void ExtractHtmlTelephoneNumbers ( HtmlDocument HtmlDoc )
     {
-      HtmlNodeCollection nNodes = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
-      if( nNodes != null )
+
+      HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
+
+      if( NodeCollection != null )
       {
-        foreach( HtmlNode nLink in nNodes )
+
+        foreach( HtmlNode LinkNode in NodeCollection )
         {
-          string sLinkUrl = nLink.GetAttributeValue( "href", null );
-          if( sLinkUrl != null )
+
+          string LinkUrl = LinkNode.GetAttributeValue( "href", null );
+
+          if( LinkUrl != null )
           {
-            if( Regex.IsMatch( sLinkUrl, "^tel:" ) )
+
+            if( Regex.IsMatch( LinkUrl, "^tel:" ) )
             {
-              MatchCollection reMatches = Regex.Matches( sLinkUrl, "^tel:(.+)" );
+
+              MatchCollection reMatches = Regex.Matches( LinkUrl, "^tel:(.+)" );
+
               foreach( Match reMatch in reMatches )
               {
                 this.AddTelephoneNumber( TelephoneNumber: reMatch.Groups[ 1 ].Value );
               }
+              
             }
+            
           }
+          
         }
+        
       }
+      
     }
 
     /** Sniff Charset *********************************************************/

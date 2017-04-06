@@ -297,9 +297,9 @@ namespace SEOMacroscope
     private void SpawnWorkers ()
     {
 
-      Boolean bDoRun = true;
+      Boolean DoRun = true;
 
-      while( bDoRun == true )
+      while( DoRun == true )
       {
 
         if( this.GetThreadsStop() )
@@ -307,7 +307,7 @@ namespace SEOMacroscope
 
           DebugMsg( string.Format( "SpawnWorkers: {0}", "STOPPING" ) );
 
-          bDoRun = false;
+          DoRun = false;
           break;
 
         }
@@ -319,9 +319,9 @@ namespace SEOMacroscope
 
             SemaphoreWorkers.WaitOne();
 
-            Boolean bNewThread = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
+            Boolean NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 
-            if( bNewThread )
+            if( NewThreadStarted )
             {
               Thread.Sleep( 100 );
             }
@@ -334,7 +334,7 @@ namespace SEOMacroscope
             ( this.CountRunningThreads() == 0 )
             && ( !this.PeekUrlQueue() ) )
           {
-            bDoRun = false;
+            DoRun = false;
           }
 
         }
@@ -347,16 +347,27 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void StartWorker ( object thContext )
     {
+
       if( !this.GetThreadsStop() )
       {
+
         MacroscopeJobWorker JobWorker = new MacroscopeJobWorker ( this );
+
         this.IncRunningThreads();
+
         JobWorker.Execute();
+
       }
+
       SemaphoreWorkers.Release( 1 );
+
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void NotifyWorkersFetched ( string Url )
     {
@@ -367,26 +378,37 @@ namespace SEOMacroscope
       this.UpdateProgress( Url, true );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void NotifyWorkersDone ()
     {
       this.DecRunningThreads();
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void StopWorkers ()
     {
       this.SetThreadsStop( true );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public Boolean WorkersStopped ()
     {
+
       Boolean IsStopped = false;
+
       if( this.CountRunningThreads() == 0 )
       {
         IsStopped = true;
       }
+
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
+
       return( IsStopped );
+
     }
 
     /** Track Thread Count ****************************************************/
@@ -396,15 +418,21 @@ namespace SEOMacroscope
       this.ThreadsStop = Stopped;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public Boolean GetThreadsStop ()
     {
       return( this.ThreadsStop );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void AdjustThreadsMax ()
     {
       ThreadsMax = MacroscopePreferencesManager.GetMaxThreads();
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void IncRunningThreads ()
     {
@@ -412,6 +440,8 @@ namespace SEOMacroscope
       this.ThreadsDict[ iThreadId ] = true;
       this.ThreadsRunning++;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void DecRunningThreads ()
     {
@@ -428,6 +458,8 @@ namespace SEOMacroscope
         this.ThreadsRunning--;
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int CountRunningThreads ()
     {
@@ -447,6 +479,8 @@ namespace SEOMacroscope
     {
       return( NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue ) );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void AddUpdateDisplayQueue ( string Url )
     {
@@ -475,6 +509,8 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, Url );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public List<string> DrainDisplayQueueAsList ( string NamedQueueName )
     {
       return( this.NamedQueue.DrainNamedQueueItemsAsList( NamedQueueName ) );
@@ -486,6 +522,8 @@ namespace SEOMacroscope
     {
       return( this.NamedQueue.GetNamedQueueItemsAsList( MacroscopeConstants.NamedQueueUrlList ) );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void AddUrlQueueItem ( string Url )
     {
@@ -499,21 +537,29 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetUrlQueueItem ()
     {
       return( this.NamedQueue.GetNamedQueueItem( MacroscopeConstants.NamedQueueUrlList ) );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public List<string> DrainUrlQueueAsList ()
     {
       return( this.NamedQueue.DrainNamedQueueItemsAsList( MacroscopeConstants.NamedQueueUrlList, 5 ) );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public Boolean PeekUrlQueue ()
     {
       Boolean bPeek = this.NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
       return( bPeek );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int CountUrlQueueItems ()
     {
@@ -597,6 +643,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void RetryTimedOutLinks ()
     {
       foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
@@ -615,6 +663,8 @@ namespace SEOMacroscope
         }
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void RetryLink ( string Url )
     {
@@ -723,6 +773,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public Boolean IsWithinParentDirectory ( string Url )
     {
 
@@ -766,6 +818,8 @@ namespace SEOMacroscope
       return( IsWithin );
       
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public Boolean IsWithinChildDirectory ( string Url )
     {
@@ -824,6 +878,8 @@ namespace SEOMacroscope
       }
     }
     
+    /** -------------------------------------------------------------------- **/
+
     public void VisitedHistoryItem ( string Url )
     {
       if( this.History.ContainsKey( Url ) )
@@ -834,6 +890,8 @@ namespace SEOMacroscope
         }
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void ResetHistoryItem ( string Url )
     {
@@ -846,6 +904,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public Boolean SeenHistoryItem ( string Url )
     {
       Boolean bSeen = false;
@@ -855,6 +915,8 @@ namespace SEOMacroscope
       }
       return( bSeen );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public Dictionary<string,Boolean> GetHistory ()
     {
@@ -869,6 +931,8 @@ namespace SEOMacroscope
       return( HistoryCopy );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void ClearHistory ()
     {
       lock( this.History )
@@ -876,6 +940,8 @@ namespace SEOMacroscope
         this.History.Clear();
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int CountHistory ()
     {
@@ -891,6 +957,8 @@ namespace SEOMacroscope
       this.Progress.Add( "done", new Dictionary<string,Boolean> ( 4096 ) );
       this.Progress.Add( "wait", new Dictionary<string,Boolean> ( 4096 ) );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void AddToProgress ( string Url )
     {
@@ -923,6 +991,8 @@ namespace SEOMacroscope
       }
 
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void UpdateProgress ( string Url, Boolean State )
     {
@@ -972,6 +1042,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public List<decimal> GetProgress ()
     {
       List<decimal> Counts = new List<decimal> ( 3 );
@@ -1005,6 +1077,8 @@ namespace SEOMacroscope
       return( this.Locales );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void AddLocales ( string Locale )
     {
       lock( this.Locales )
@@ -1023,15 +1097,21 @@ namespace SEOMacroscope
       return( this.Robots );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void SetCrawlDelay ( string Url )
     {
       this.CrawlDelay = this.Robots.GetCrawlDelay( Url );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public int GetCrawlDelay ()
     {
       return( this.CrawlDelay );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void ProbeRobotsFile ( string Url )
     {
@@ -1048,6 +1128,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void AddToBlockedByRobots ( string Url )
     {
       lock( this.BlockedByRobots )
@@ -1059,6 +1141,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void RemoveFromBlockedByRobots ( string Url )
     {
       lock( this.BlockedByRobots )
@@ -1069,6 +1153,8 @@ namespace SEOMacroscope
         }
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public Dictionary<string,Boolean> GetBlockedByRobotsList ()
     {

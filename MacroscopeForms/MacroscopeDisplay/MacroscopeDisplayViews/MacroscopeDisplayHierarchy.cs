@@ -162,7 +162,10 @@ namespace SEOMacroscope
         
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         
-        this.RenderTreeView( msDoc, Url );
+        if( msDoc != null )
+        {
+          this.RenderTreeView( msDoc, Url );
+        }
         
         Count++;
         MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;

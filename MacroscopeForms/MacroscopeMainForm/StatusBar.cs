@@ -48,14 +48,17 @@ namespace SEOMacroscope
         
     private void StopStatusBarTimer ()
     {
-      try
+      if( this.TimerStatusBar != null )
       {
-        this.TimerStatusBar.Stop();
-        this.TimerStatusBar.Dispose();
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "StopStatusBarTimer: {0}", ex.Message ) );
+        try
+        {
+          this.TimerStatusBar.Stop();
+          this.TimerStatusBar.Dispose();
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "StopStatusBarTimer: {0}", ex.Message ) );
+        }
       }
     }
 

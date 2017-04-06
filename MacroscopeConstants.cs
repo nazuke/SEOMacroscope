@@ -177,7 +177,8 @@ namespace SEOMacroscope
       AUDIO = 12,
       VIDEO = 13,
       EMBED = 14,
-      OBJECT = 15
+      OBJECT = 15,
+      ALTERNATE = 16
     }
 
     /** END: Outlink Types ****************************************************/

@@ -149,6 +149,11 @@ namespace SEOMacroscope
     )
     {
 
+      if( msDoc == null )
+      {
+        return;
+      }
+
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -305,10 +310,11 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
         
-        string Url = msDoc.GetUrl();
-        
-        this.RenderListView( msDoc, Url );
-        
+        if( msDoc != null )
+        {
+          this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
+        }
+
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
       
@@ -377,8 +383,11 @@ namespace SEOMacroscope
       
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
       
-        this.RenderListView( msDoc, Url );
-        
+        if( msDoc != null )
+        {
+          this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
+        }
+
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
       
@@ -439,7 +448,10 @@ namespace SEOMacroscope
         
         MacroscopeDocument msDoc = DocList[ i ];
         
-        this.RenderListView( msDoc, msDoc.GetUrl() );
+        if( msDoc != null )
+        {
+          this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
+        }
         
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
@@ -501,14 +513,15 @@ namespace SEOMacroscope
 
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-        
-        string Url = msDoc.GetUrl();
-        
-        if(
-          ( msDoc.GetDocumentType() == DocumentType )
-          || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
+
+        if( msDoc != null )
         {
-          this.RenderListView( msDoc, Url );
+          if(
+            ( msDoc.GetDocumentType() == DocumentType )
+            || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
+          {
+            this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
+          }
         }
         
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
@@ -571,11 +584,13 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
         
-        string Url = msDoc.GetUrl();
-
-        if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
+        if( msDoc != null )
         {
-          this.RenderListView( msDoc, Url );
+          string Url = msDoc.GetUrl();
+          if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
+          {
+            this.RenderListView( msDoc: msDoc, Url: Url );
+          }
         }
         
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )

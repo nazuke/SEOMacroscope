@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace SEOMacroscope
 {
@@ -94,6 +95,10 @@ namespace SEOMacroscope
     public void RefreshKeywordAnalysisData ( MacroscopeDocumentCollection DocCollection )
     {
 
+      Stopwatch swDuration = new Stopwatch ();
+      long lDuration;
+      swDuration.Start();
+
       for( int i = 0 ; i <= 3 ; i++ )
       {
 
@@ -126,6 +131,10 @@ namespace SEOMacroscope
         }
       
       }
+
+      swDuration.Stop();
+      lDuration = swDuration.ElapsedMilliseconds;
+      DebugMsg( string.Format( "RefreshKeywordAnalysisData DURATION: {0}", lDuration ) );
 
     }
 

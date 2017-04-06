@@ -90,6 +90,11 @@ namespace SEOMacroscope
         this.lvListView.Columns.Add( MacroscopeConstants.DateServer, MacroscopeConstants.DateServer );
         this.lvListView.Columns.Add( MacroscopeConstants.DateModified, MacroscopeConstants.DateModified );
 
+        this.lvListView.Columns.Add( MacroscopeConstants.DateExpires, MacroscopeConstants.DateExpires );
+
+        
+        
+        
         this.lvListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
         this.lvListView.Columns.Add( MacroscopeConstants.Lang, MacroscopeConstants.Lang );
         this.lvListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
@@ -305,11 +310,11 @@ namespace SEOMacroscope
     private void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () {
-        {
+      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
           MacroscopeConstants.Url,
           300
-        }, {
+        },
+        {
           MacroscopeConstants.Title,
           300
         }
@@ -333,14 +338,14 @@ namespace SEOMacroscope
     {
 
       List<string> lColDataWidth = new List<string> () {
-          MacroscopeConstants.Url,
-        MacroscopeConstants.DateServer,
-          MacroscopeConstants.DateModified,
-        MacroscopeConstants.Title
+        MacroscopeConstants.Url,
+          MacroscopeConstants.DateServer,
+        MacroscopeConstants.DateModified,
+          MacroscopeConstants.Title
       };
 
       List<string> lColHeaderWidth = new List<string> () {
-          MacroscopeConstants.DateModified
+        MacroscopeConstants.DateModified
       };
 
       foreach( string sColName in lColDataWidth )

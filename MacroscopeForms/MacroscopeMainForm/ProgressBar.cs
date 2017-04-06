@@ -49,14 +49,17 @@ namespace SEOMacroscope
         
     private void StopProgressBarScanTimer ()
     {
-      try
+      if( this.TimerProgressBarScan != null )
       {
-        this.TimerProgressBarScan.Stop();
-        this.TimerProgressBarScan.Dispose();
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "StopProgressBarScanTimer: {0}", ex.Message ) );
+        try
+        {
+          this.TimerProgressBarScan.Stop();
+          this.TimerProgressBarScan.Dispose();
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "StopProgressBarScanTimer: {0}", ex.Message ) );
+        }
       }
     }
 
@@ -116,7 +119,15 @@ namespace SEOMacroscope
         decimal iTotal = Counts[ 0 ];
         decimal iProcessed = Counts[ 1 ];
         decimal iQueued = Counts[ 2 ];
-        iPercentage = ( int )( ( 100 / iTotal ) * iProcessed );
+        
+        if( iTotal > 0 )
+        {
+          iPercentage = ( int )( ( 100 / iTotal ) * iProcessed );
+        }
+        else
+        {
+          iPercentage = 0;
+        }
 
         if( iPercentage < 0 )
         {

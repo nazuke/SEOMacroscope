@@ -68,32 +68,32 @@ namespace SEOMacroscope
     private string GenerateKey ( string Domain, string Realm )
     {
 
-      string sKey = null;
-      string sQuickKey = string.Join( "::", Domain, Realm );
+      string Key = null;
+      string QuickKey = string.Join( "::", Domain, Realm );
 
-      if( this.Memo.ContainsKey( sQuickKey ) )
+      if( this.Memo.ContainsKey( QuickKey ) )
       {
-        sKey = this.Memo[ sQuickKey ];
+        Key = this.Memo[ QuickKey ];
       }
       else
       {
 
         HashAlgorithm Digest = HashAlgorithm.Create( "SHA256" );
-        byte [] BytesIn = Encoding.UTF8.GetBytes( sQuickKey );
+        byte [] BytesIn = Encoding.UTF8.GetBytes( QuickKey );
         byte [] Hashed = Digest.ComputeHash( BytesIn );
-        StringBuilder sbString = new StringBuilder ();
+        StringBuilder Buf = new StringBuilder ();
 
         for( int i = 0 ; i < Hashed.Length ; i++ )
         {
-          sbString.Append( Hashed[ i ].ToString( "X2" ) );
+          Buf.Append( Hashed[ i ].ToString( "X2" ) );
         }
 
-        sKey = sbString.ToString();
-        this.Memo[ sQuickKey ] = sKey;
+        Key = Buf.ToString();
+        this.Memo[ QuickKey ] = Key;
 
       }
 
-      return( sKey );
+      return( Key );
     }
 
     public string TestGenerateKey ( string Domain, string Realm )
@@ -132,16 +132,18 @@ namespace SEOMacroscope
     public Boolean PeekCredentialRequest ()
     {
 
-      Boolean bResult = false;
+      Boolean Result = false;
 
       lock( this.CredentialRequests )
       {
 
         try
         {
-          if( this.CredentialRequests.Peek() != null )
+          
+          if( ( this.CredentialRequests.Count > 0 )
+              && ( this.CredentialRequests.Peek() != null ) )
           {
-            bResult = true;
+            Result = true;
           }
         }
         catch( Exception ex )
@@ -151,7 +153,7 @@ namespace SEOMacroscope
 
       }
 
-      return( bResult );
+      return( Result );
 
     }
 
@@ -203,14 +205,14 @@ namespace SEOMacroscope
     public void AddCredential ( string Domain, string Realm, string Username, string Password )
     {
 
-      string sKey = this.GenerateKey( Domain, Realm );
+      string Key = this.GenerateKey( Domain, Realm );
       
       lock( this.Credentials )
       {
 
-        if( this.Credentials.ContainsKey( sKey ) )
+        if( this.Credentials.ContainsKey( Key ) )
         {
-          this.Credentials.Remove( sKey );
+          this.Credentials.Remove( Key );
         }
 
         MacroscopeCredential Credential = new MacroscopeCredential (
@@ -221,7 +223,7 @@ namespace SEOMacroscope
                                             Password: Password
                                           );
 
-        this.Credentials.Add( sKey, Credential );
+        this.Credentials.Add( Key, Credential );
 
       }
 
@@ -232,20 +234,20 @@ namespace SEOMacroscope
     public Boolean CredentialExists ( string Domain, string Realm )
     {
 
-      string sKey = this.GenerateKey( Domain, Realm );
-      Boolean bResult = false;
+      string Key = this.GenerateKey( Domain, Realm );
+      Boolean Result = false;
       
       lock( this.Credentials )
       {
 
-        if( this.Credentials.ContainsKey( sKey ) )
+        if( this.Credentials.ContainsKey( Key ) )
         {
-          bResult = true;
+          Result = true;
         }
 
       }
       
-      return( bResult );
+      return( Result );
       
     }
 
@@ -254,14 +256,14 @@ namespace SEOMacroscope
     public void RemoveCredential ( string Domain, string Realm )
     {
 
-      string sKey = this.GenerateKey( Domain, Realm );
+      string Key = this.GenerateKey( Domain, Realm );
             
       lock( this.Credentials )
       {
 
-        if( this.Credentials.ContainsKey( sKey ) )
+        if( this.Credentials.ContainsKey( Key ) )
         {
-          this.Credentials.Remove( sKey );
+          this.Credentials.Remove( Key );
         }
 
       }

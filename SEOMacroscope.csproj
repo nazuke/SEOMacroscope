@@ -95,6 +95,8 @@
   <ItemGroup>
     <Compile Include="MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
+    <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
+    <Compile Include="MacroscopeExceptions\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeInsufficientMemoryException.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.cs" />
@@ -164,7 +166,6 @@
     <Compile Include="MacroscopeConstants.cs" />
     <Compile Include="MacroscopeCredentials\MacroscopeCredentialRequest.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
-    <Compile Include="MacroscopeDocument\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentAudio.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentBinary.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentCSS.cs" />
