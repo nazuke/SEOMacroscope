@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -95,46 +96,87 @@ namespace SEOMacroscope
     public void RefreshKeywordAnalysisData ( MacroscopeDocumentCollection DocCollection )
     {
 
-      Stopwatch swDuration = new Stopwatch ();
-      long lDuration;
-      swDuration.Start();
+      if( DocCollection.CountDocuments() == 0 )
+      {
+        return;
+      }
+
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              Cursor.Current = Cursors.WaitCursor;
+              this.RefreshKeywordAnalysisDataProgress( DocCollection: DocCollection );
+              Cursor.Current = Cursors.Default;
+            }
+          )
+        );
+      }
+      else
+      {
+        Cursor.Current = Cursors.WaitCursor;
+        this.RefreshKeywordAnalysisDataProgress( DocCollection: DocCollection );
+        Cursor.Current = Cursors.Default;
+      }
+
+    }
+
+    /**************************************************************************/
+
+    public void RefreshKeywordAnalysisDataProgress ( MacroscopeDocumentCollection DocCollection )
+    {
+
+      MacroscopeDoublePercentageProgressForm ProgressForm = new MacroscopeDoublePercentageProgressForm ();
+
+      decimal MajorPercentage = 0;
+
+      ProgressForm.UpdatePercentages(
+        Title: "Preparing Display",
+        Message: "Processing keyword terms collection for display:",
+        MajorPercentage: MajorPercentage,
+        ProgressLabelMajor: ""/*,       
+          MinorPercentage: 0,
+          ProgressLabelMinor: ""*/
+      );  
+
+      try
+      {
+        ProgressForm.Show();
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "ProgressForm.Show(): {0}", ex.Message ) );
+      }
 
       for( int i = 0 ; i <= 3 ; i++ )
       {
 
         Dictionary<string,int> DicTerms = DocCollection.GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
 
-        if( this.MainForm.InvokeRequired )
-        {
-          this.MainForm.Invoke(
-            new MethodInvoker (
-              delegate
-              {
-                Cursor.Current = Cursors.WaitCursor;
-                this.RenderKeywordAnalysisListView(
-                  this.lvListViews[ i ],
-                  DicTerms
-                );
-                Cursor.Current = Cursors.Default;
-              }
-            )
-          );
-        }
-        else
-        {
-          Cursor.Current = Cursors.WaitCursor;
-          this.RenderKeywordAnalysisListView(
-            this.lvListViews[ i ],
-            DicTerms
-          );
-          Cursor.Current = Cursors.Default;
-        }
-      
+        MajorPercentage = ( ( decimal )100 / ( decimal )4 ) * ( decimal )( i + 1 );
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "{0} Word Keywords", i + 1 ),       
+          MinorPercentage: 0,
+          ProgressLabelMinor: ""
+        );
+
+        this.RenderKeywordAnalysisListView(
+          lvListView: this.lvListViews[ i ],
+          DicTerms: DicTerms,
+          ProgressForm: ProgressForm
+        );
+
       }
 
-      swDuration.Stop();
-      lDuration = swDuration.ElapsedMilliseconds;
-      DebugMsg( string.Format( "RefreshKeywordAnalysisData DURATION: {0}", lDuration ) );
+      ProgressForm.Close();
+
+      ProgressForm.Dispose();
 
     }
 
@@ -142,66 +184,97 @@ namespace SEOMacroscope
     
     private void RenderKeywordAnalysisListView (
       ListView lvListView,
-      Dictionary<string,int> DicTerms
+      Dictionary<string,int> DicTerms,
+      MacroscopeDoublePercentageProgressForm ProgressForm
     )
     {
 
-      lvListView.BeginUpdate();
-            
-      foreach( string sTerm in DicTerms.Keys )
+      decimal Count = 0;
+      decimal TotalTerms = ( decimal )DicTerms.Count;
+      decimal MinorPercentage = 0;
+
+      if( TotalTerms <= 0 )
       {
-
-        string sKeyPair = sTerm;
-        ListViewItem lvItem = null;
-
-        if( lvListView.Items.ContainsKey( sKeyPair ) )
-        {
-
-          try
-          {
-
-            lvItem = lvListView.Items[ sKeyPair ];
-            lvItem.SubItems[ 0 ].Text = DicTerms[ sTerm ].ToString();
-            lvItem.SubItems[ 1 ].Text = sTerm;
-
-          }
-          catch( Exception ex )
-          {
-            DebugMsg( string.Format( "MacroscopeDisplayStructureKeywordAnalysis 1: {0}", ex.Message ) );
-          }
-
-        }
-        else
-        {
-
-          try
-          {
-
-            lvItem = new ListViewItem ( sKeyPair );
-            lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = sKeyPair;
-
-            lvItem.SubItems[ 0 ].Text = DicTerms[ sTerm ].ToString();
-            lvItem.SubItems.Add( sTerm );
-
-            lvListView.Items.Add( lvItem );
-
-          }
-          catch( Exception ex )
-          {
-            DebugMsg( string.Format( "MacroscopeDisplayStructureKeywordAnalysis 2: {0}", ex.Message ) );
-          }
-
-        }
-        
-        if( lvItem != null )
-        {
-          lvItem.ForeColor = Color.Blue;
-        }
-        
+        return;
       }
       
-      lvListView.EndUpdate();
+      try
+      {
+
+        lvListView.BeginUpdate();
+            
+        foreach( string KeywordTerm in DicTerms.Keys )
+        {
+
+          string sKeyPair = KeywordTerm;
+          ListViewItem lvItem = null;
+
+          if( lvListView.Items.ContainsKey( sKeyPair ) )
+          {
+
+            try
+            {
+
+              lvItem = lvListView.Items[ sKeyPair ];
+              lvItem.SubItems[ 0 ].Text = DicTerms[ KeywordTerm ].ToString();
+              lvItem.SubItems[ 1 ].Text = KeywordTerm;
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "MacroscopeDisplayStructureKeywordAnalysis 1: {0}", ex.Message ) );
+            }
+
+          }
+          else
+          {
+
+            try
+            {
+
+              lvItem = new ListViewItem ( sKeyPair );
+              lvItem.UseItemStyleForSubItems = false;
+              lvItem.Name = sKeyPair;
+
+              lvItem.SubItems[ 0 ].Text = DicTerms[ KeywordTerm ].ToString();
+              lvItem.SubItems.Add( KeywordTerm );
+
+              lvListView.Items.Add( lvItem );
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "MacroscopeDisplayStructureKeywordAnalysis 2: {0}", ex.Message ) );
+            }
+
+          }
+        
+          if( lvItem != null )
+          {
+            lvItem.ForeColor = Color.Blue;
+          }
+
+          Count++;
+          MinorPercentage = ( ( decimal )100 / TotalTerms ) * Count;
+        
+          ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: -1,
+            ProgressLabelMajor: null,       
+            MinorPercentage: MinorPercentage,
+            ProgressLabelMinor: string.Format( "Keyword: {0}", Count )
+          );
+
+        }
+
+        lvListView.EndUpdate();
+
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "MacroscopeDisplayStructureKeywordAnalysis 3: {0}", ex.Message ) );
+      }
 
     }
 

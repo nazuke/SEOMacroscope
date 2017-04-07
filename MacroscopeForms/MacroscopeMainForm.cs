@@ -1816,20 +1816,27 @@ namespace SEOMacroscope
 
     private void CallbackAuthenticationTimer ( Object self, ElapsedEventArgs e )
     {
-      if( this.InvokeRequired )
+      try
       {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.ShowAuthenticationDialogue();
-            }
-          )
-        );
+        if( this.InvokeRequired )
+        {
+          this.Invoke(
+            new MethodInvoker (
+              delegate
+              {
+                this.ShowAuthenticationDialogue();
+              }
+            )
+          );
+        }
+        else
+        {
+          this.ShowAuthenticationDialogue();
+        }
       }
-      else
+      catch( Exception ex )
       {
-        this.ShowAuthenticationDialogue();
+        DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", ex.Message ) );
       }
     }
 

@@ -26,6 +26,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace SEOMacroscope
 {
@@ -68,28 +69,39 @@ namespace SEOMacroscope
       string ProgressLabelMajor
     )
     {
-      if( Title != null )
+      try
       {
-        this.Text = Title;
-      }
+
+        if( Title != null )
+        {
+          this.Text = Title;
+        }
       
-      if( Message != null )
-      {
-        this.labelMessage.Text = Message;
-      }
+        if( Message != null )
+        {
+          this.labelMessage.Text = Message;
+        }
       
-      if( MajorPercentage >= 0 )
-      {
-        this.progressBarMajor.Value = ( int )MajorPercentage;
-      }
+        if( MajorPercentage >= 0 )
+        {
+          this.progressBarMajor.Value = ( int )MajorPercentage;
+        }
       
-      if( ProgressLabelMajor != null )
+        if( ProgressLabelMajor != null )
+        {
+          this.labelProgressLabelMajor.Text = ProgressLabelMajor;
+        }
+
+      }
+      catch( Exception ex )
       {
-        this.labelProgressLabelMajor.Text = ProgressLabelMajor;
+        this.DebugMsg( ex.Message );
       }
 
       this.Refresh();
       
+      Application.DoEvents();
+            
       return;
       
     }
@@ -147,7 +159,15 @@ namespace SEOMacroscope
     }
     
     /**************************************************************************/
-    
+
+    [Conditional( "DEVMODE" )]
+    private void DebugMsg ( string sMsg )
+    {
+      Debug.WriteLine( string.Format( "TID:{0} :: {1}", this.GetType(), sMsg ) );
+    }
+
+    /**************************************************************************/
+
   }
 
 }

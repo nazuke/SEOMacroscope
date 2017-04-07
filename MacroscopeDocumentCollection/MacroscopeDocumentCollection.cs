@@ -145,7 +145,7 @@ namespace SEOMacroscope
 
     }
 
-    /** Create Document Methods *******************************************/
+    /** Create Document Methods ***********************************************/
     
     public MacroscopeDocument CreateDocument ( string Url )
     {
@@ -432,10 +432,13 @@ namespace SEOMacroscope
 
     private void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
     {
+
       try
       {
-        Boolean bDrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
-        if( bDrainQueue )
+
+        Boolean DrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
+
+        if( DrainQueue )
         {
           this.TimerRecalc.Interval = 2000;
           this.RecalculateDocCollection();
@@ -444,11 +447,13 @@ namespace SEOMacroscope
         {
           this.TimerRecalc.Interval = 10000;
         }
+
       }
       catch( Exception ex )
       {
         DebugMsg( string.Format( "WorkerRecalculateDocCollection: {0}", ex.Message ) );
       }
+
     }
 
     /**************************************************************************/
@@ -1155,6 +1160,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public decimal GetStatsDurationAverage ()
     {
       
@@ -1184,6 +1191,8 @@ namespace SEOMacroscope
       return( Average );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public decimal GetStatsDurationsFastest ()
     {
       decimal Fastest = -1; 
@@ -1210,6 +1219,8 @@ namespace SEOMacroscope
       return( Fastest );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public decimal GetStatsDurationsSlowest ()
     {
       decimal Slowest = -1; 
@@ -1235,6 +1246,8 @@ namespace SEOMacroscope
       } 
       return( Slowest );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void RecalculateStatsDurations ( MacroscopeDocument msDoc )
     {
@@ -1272,6 +1285,8 @@ namespace SEOMacroscope
         }
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void RecalculateStatsDeepKeywordAnalysis ( MacroscopeDocument msDoc )
     {
@@ -1316,6 +1331,8 @@ namespace SEOMacroscope
       
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ( int Words )
     {
       
@@ -1333,6 +1350,8 @@ namespace SEOMacroscope
       return( Terms );
       
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public MacroscopeDocumentList GetDeepKeywordAnalysDocumentList ( string KeywordTerm )
     {

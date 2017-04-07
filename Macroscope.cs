@@ -111,13 +111,26 @@ namespace SEOMacroscope
       {
         Debug.WriteLine(
           string.Format(
+            "TID:{0} :: {1} :: {2}",
+            Thread.CurrentThread.ManagedThreadId,
+            this.GetType(),
+            Msg
+          )
+        );
+      }
+    }
+    
+    [Conditional( "DEVMODE" )]
+    public void DebugMsgForced ( string Msg )
+    {
+      Debug.WriteLine(
+        string.Format(
           "TID:{0} :: {1} :: {2}",
           Thread.CurrentThread.ManagedThreadId,
           this.GetType(),
           Msg
-         )
-        );
-      }
+        )
+      );
     }
 
     /**************************************************************************/

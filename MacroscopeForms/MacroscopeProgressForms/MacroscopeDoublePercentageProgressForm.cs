@@ -26,6 +26,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace SEOMacroscope
 {
@@ -45,14 +46,38 @@ namespace SEOMacroscope
 
     public MacroscopeDoublePercentageProgressForm ()
     {
+
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+
+      this.IsCancelled = false;
+
+      this.FormClosing += this.CallbackFormClosing;
+
+      this.KeyUp += this.CallbackKeyUp;
+      
     }
 
     /**************************************************************************/
     
-    void MacroscopeDoublePercentageProgressFormFormClosing ( object sender, FormClosingEventArgs e )
+    void CallbackFormClosing ( object sender, FormClosingEventArgs e )
     {
       this.Cancel();
+    }
+    
+    /**************************************************************************/
+
+    private void CallbackKeyUp ( object sender, KeyEventArgs e )
+    {
+      this.DebugMsg( string.Format( "CallbackKeyUp: {0}", "CALLED" ) );
+      switch( e.KeyCode )
+      {
+        case Keys.Escape:
+          this.DebugMsg( string.Format( "CallbackKeyUp: {0}", "Escape" ) );
+          this.Cancel();
+          break;
+        default:
+          break;
+      }
     }
     
     /**************************************************************************/
@@ -78,40 +103,57 @@ namespace SEOMacroscope
     )
     {
 
-      if( Title != null )
+      try
       {
-        this.Text = Title;
-      }
+        
+        if( Title != null )
+        {
+          this.Text = Title;
+          this.Refresh();
+        }
       
-      if( Message != null )
+        if( Message != null )
+        {
+          this.labelMessage.Text = Message;
+          this.labelMessage.Refresh();
+        }
+      
+        if( MajorPercentage >= 0 )
+        {
+          this.progressBarMajor.Value = ( int )MajorPercentage;
+          this.progressBarMajor.Refresh();
+        }
+      
+        if( ProgressLabelMajor != null )
+        {
+          this.labelProgressLabelMajor.Text = ProgressLabelMajor;
+          this.labelProgressLabelMajor.Refresh();
+        }
+      
+        if( MinorPercentage >= 0 )
+        {
+          this.progressBarMinor.Value = ( int )MinorPercentage;
+          this.progressBarMinor.Refresh();
+        }
+      
+        if( ProgressLabelMinor != null )
+        {
+          this.labelProgressLabelMinor.Text = ProgressLabelMinor;
+          this.labelProgressLabelMinor.Refresh();
+        }
+
+      }
+      catch( Exception ex )
       {
-        this.labelMessage.Text = Message;
+        this.DebugMsg( ex.Message );
       }
-      
-      if( MajorPercentage >= 0 )
-      {
-        this.progressBarMajor.Value = (int)MajorPercentage;
-      }
-      
-      if( ProgressLabelMajor != null )
-      {
-        this.labelProgressLabelMajor.Text = ProgressLabelMajor;
-      }
-      
-      if( MinorPercentage >= 0 )
-      {
-        this.progressBarMinor.Value = (int)MinorPercentage;
-      }
-      
-      if( ProgressLabelMinor != null )
-      {
-        this.labelProgressLabelMinor.Text = ProgressLabelMinor;
-      }
-      
+
       this.Refresh();
-      
+
+      Application.DoEvents();
+
       return;
-            
+      
     }
 
     /**************************************************************************/
@@ -156,7 +198,15 @@ namespace SEOMacroscope
     }
     
     /**************************************************************************/
-    
+
+    [Conditional( "DEVMODE" )]
+    private void DebugMsg ( string sMsg )
+    {
+      Debug.WriteLine( string.Format( "TID:{0} :: {1}", this.GetType(), sMsg ) );
+    }
+
+    /**************************************************************************/
+
   }
 
 }

@@ -66,20 +66,27 @@ namespace SEOMacroscope
         
     private void CallbackStatusBarTimer ( Object self, ElapsedEventArgs e )
     {
-      if( this.InvokeRequired )
+      try
       {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.UpdateStatusBar();
-            }
-          )
-        );
+        if( this.InvokeRequired )
+        {
+          this.Invoke(
+            new MethodInvoker (
+              delegate
+              {
+                this.UpdateStatusBar();
+              }
+            )
+          );
+        }
+        else
+        {
+          this.UpdateStatusBar();
+        }
       }
-      else
+      catch( Exception ex )
       {
-        this.UpdateStatusBar();
+        DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", ex.Message ) );
       }
     }
 

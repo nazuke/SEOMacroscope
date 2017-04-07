@@ -187,15 +187,15 @@ namespace SEOMacroscope
         htItems[ MacroscopeConstants.KeywordsLen ] = msDoc.GetKeywordsLength();
         htItems[ MacroscopeConstants.KeywordsCount ] = msDoc.GetKeywordsCount();
 
-        for( ushort iLevel = 1 ; iLevel <= MaxHeadingsDisplayed ; iLevel++ )
+        for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
         {
-          List<string> aHeadings = msDoc.GetHeadings( iLevel );
-          string sText = "";
-          if( aHeadings.Count > 0 )
+          List<string> HeadingList = msDoc.GetHeadings( HeadingLevel: HeadingLevel );
+          string HeadingText = "";
+          if( HeadingList.Count > 0 )
           {
-            sText = aHeadings[ 0 ];
+            HeadingText = HeadingList[ 0 ];
           }
-          htItems[ string.Format( MacroscopeConstants.Hn, iLevel ) ] = sText;
+          htItems[ string.Format( MacroscopeConstants.Hn, HeadingLevel ) ] = HeadingText;
         }
 
         htItems[ MacroscopeConstants.ErrorCondition ] = msDoc.GetErrorCondition();

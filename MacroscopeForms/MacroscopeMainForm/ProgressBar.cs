@@ -61,6 +61,21 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "StopProgressBarScanTimer: {0}", ex.Message ) );
         }
       }
+      if( this.InvokeRequired )
+      {
+        this.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.ProgressBarScan.Value = 0;    
+            }
+          )
+        );
+      }
+      else
+      {
+        this.ProgressBarScan.Value = 0;    
+      }
     }
 
     /**************************************************************************/

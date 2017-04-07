@@ -1216,24 +1216,24 @@ namespace SEOMacroscope
       }
     }
 
-    public List<string> GetHeadings ( ushort iLevel )
+    public List<string> GetHeadings ( ushort HeadingLevel )
     {
-      List<string> lHeadings = new List<string> ();
-      if( this.Headings.ContainsKey( iLevel ) )
+      List<string> HeadingList = new List<string> ();
+      if( this.Headings.ContainsKey( HeadingLevel ) )
       {
-        lHeadings = this.Headings[ iLevel ];
+        HeadingList = this.Headings[ HeadingLevel ];
       }
-      return( lHeadings );
+      return( HeadingList );
     }
 
     /** Body Text *************************************************************/
 
-    public void SetBodyText ( string sText )
+    public void SetBodyText ( string Text )
     {
-      if( ( sText != null ) && ( sText.Length > 0 ) )
+      if( ( Text != null ) && ( Text.Length > 0 ) )
       {
-        sText = MacroscopeStringTools.CleanBodyText( sText );
-        this.BodyText = sText;
+        Text = MacroscopeStringTools.CleanBodyText( Text );
+        this.BodyText = Text;
       }
       else
       {
@@ -1251,19 +1251,19 @@ namespace SEOMacroscope
     private void ExecuteDeepKeywordAnalysis ()
     {
       
-      Boolean bProceed = false;
+      Boolean Proceed = false;
 
       if( this.GetIsHtml() )
       {
-        bProceed = true;
+        Proceed = true;
       }
       else
       if( this.GetIsPdf() )
       {
-        bProceed = true;
+        Proceed = true;
       }
       
-      if( bProceed )
+      if( Proceed )
       {
 
         MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
@@ -1290,13 +1290,13 @@ namespace SEOMacroscope
 
     public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ( int Words )
     {
-      int iWordsOffset = Words - 1;
+      int WordsOffset = Words - 1;
       Dictionary<string,int> Terms = new Dictionary<string,int> ( this.DeepKeywordAnalysis.Count );
       lock( this.DeepKeywordAnalysis )
       {
-        foreach( string sTerm in this.DeepKeywordAnalysis[iWordsOffset].Keys )
+        foreach( string Term in this.DeepKeywordAnalysis[WordsOffset].Keys )
         {
-          Terms.Add( sTerm, this.DeepKeywordAnalysis[ iWordsOffset ][ sTerm ] );
+          Terms.Add( Term, this.DeepKeywordAnalysis[ WordsOffset ][ Term ] );
         }
       }
       return( Terms );
