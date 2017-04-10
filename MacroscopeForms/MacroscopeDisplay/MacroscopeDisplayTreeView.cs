@@ -104,6 +104,8 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
+        Application.DoEvents();
+
         if( msDoc == null )
         {
           continue;

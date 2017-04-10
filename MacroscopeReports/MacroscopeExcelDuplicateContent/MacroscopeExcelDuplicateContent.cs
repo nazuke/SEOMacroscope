@@ -151,6 +151,28 @@ namespace SEOMacroscope
       }
       
     }
+    
+    /**************************************************************************/
+
+    public void PercentageDone ( decimal Percent )
+    {
+    }
+
+    public void PercentageDone ( decimal Percent, string Message )
+    {
+
+      this.ProgressForm.UpdatePercentages(
+        Title: null,
+        Message: null,
+        MajorPercentage: -1,
+        ProgressLabelMajor: null,
+        MinorPercentage: -1,
+        ProgressLabelMinor: null,
+        SubMinorPercentage: Percent,
+        ProgressLabelSubMinor: Message
+      );
+
+    }
 
     /**************************************************************************/
 

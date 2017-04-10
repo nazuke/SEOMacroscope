@@ -66,7 +66,7 @@ namespace SEOMacroscope
     private int StatsUrlsExternal;
     private int StatsUrlsSitemaps;
 
-    private Semaphore SemaphoreRecalc;
+    private object LockerRecalc;
     private System.Timers.Timer TimerRecalc;
 
     /**************************************************************************/
@@ -114,7 +114,7 @@ namespace SEOMacroscope
       this.StatsUrlsExternal = 0;
       this.StatsUrlsSitemaps = 0;
 
-      this.SemaphoreRecalc = new Semaphore ( 0, 1 );
+      this.LockerRecalc = new object ();
       this.StartRecalcTimer();
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
@@ -299,9 +299,9 @@ namespace SEOMacroscope
           }
           
         }
-        
+
       }
-      
+
     }
 
     /**************************************************************************/
@@ -407,8 +407,6 @@ namespace SEOMacroscope
     private void StartRecalcTimer ()
     {
       this.DebugMsg( string.Format( "StartRecalcTimer: {0}", "STARTING..." ) );
-      SemaphoreRecalc.Release( 1 );
-      this.DebugMsg( string.Format( "StartRecalcTimer SemaphoreRecalc: {0}", "RELEASED" ) );
       this.TimerRecalc = new System.Timers.Timer ( 2000 );
       this.TimerRecalc.Elapsed += this.WorkerRecalculateDocCollection;
       this.TimerRecalc.AutoReset = true;
@@ -488,97 +486,98 @@ namespace SEOMacroscope
     public void RecalculateDocCollection ()
     {
 
-      SemaphoreRecalc.WaitOne();
-
-      lock( this.DocCollection )
+      lock( this.LockerRecalc )
       {
 
-        MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
-
-        this.StatsUrlsInternal = 0;
-        this.StatsUrlsExternal = 0;
-        this.StatsUrlsSitemaps = 0;
-
-        foreach( string UrlTarget in this.DocCollection.Keys )
+        lock( this.DocCollection )
         {
 
-          MacroscopeDocument msDoc = this.GetDocument( UrlTarget );
+          MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
 
-          try
-          {
-            this.RecalculateInlinks( msDoc );
-          }
-          catch( Exception ex )
-          {
-            this.DebugMsg( string.Format( "RecalculateInlinks: {0}", ex.Message ) );
-          }
-         
-          try
-          {
-            this.RecalculateHyperlinksIn( msDoc );
-          }
-          catch( Exception ex )
-          {
-            this.DebugMsg( string.Format( "RecalculateHyperlinksIn: {0}", ex.Message ) );
-          }
-          
-          if( this.StatsHistory.ContainsKey( UrlTarget ) )
+          this.StatsUrlsInternal = 0;
+          this.StatsUrlsExternal = 0;
+          this.StatsUrlsSitemaps = 0;
+
+          foreach( string UrlTarget in this.DocCollection.Keys )
           {
 
-            this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", UrlTarget ) );
+            MacroscopeDocument msDoc = this.GetDocument( UrlTarget );
 
-          }
-          else
-          {
-
-            this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", UrlTarget ) );
-
-            this.StatsHistory.Add( UrlTarget, true );
-
-            this.RecalculateStatsHostnames( msDoc );
-
-            this.RecalculateStatsTitles( msDoc );
-
-            this.RecalculateStatsDescriptions( msDoc );
-
-            this.RecalculateStatsKeywords( msDoc );
-
-            this.RecalculateStatsWarnings( msDoc );
-
-            this.RecalculateStatsErrors( msDoc );
-
-            this.RecalculateStatsChecksums( msDoc );
-
-            this.RecalculateStatsDurations( msDoc );
-            
-            if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+            try
             {
-              this.RecalculateStatsDeepKeywordAnalysis( msDoc );
+              this.RecalculateInlinks( msDoc );
             }
+            catch( Exception ex )
+            {
+              this.DebugMsg( string.Format( "RecalculateInlinks: {0}", ex.Message ) );
+            }
+         
+            try
+            {
+              this.RecalculateHyperlinksIn( msDoc );
+            }
+            catch( Exception ex )
+            {
+              this.DebugMsg( string.Format( "RecalculateHyperlinksIn: {0}", ex.Message ) );
+            }
+          
+            if( this.StatsHistory.ContainsKey( UrlTarget ) )
+            {
+
+              this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", UrlTarget ) );
+
+            }
+            else
+            {
+
+              this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", UrlTarget ) );
+
+              this.StatsHistory.Add( UrlTarget, true );
+
+              this.RecalculateStatsHostnames( msDoc );
+
+              this.RecalculateStatsTitles( msDoc );
+
+              this.RecalculateStatsDescriptions( msDoc );
+
+              this.RecalculateStatsKeywords( msDoc );
+
+              this.RecalculateStatsWarnings( msDoc );
+
+              this.RecalculateStatsErrors( msDoc );
+
+              this.RecalculateStatsChecksums( msDoc );
+
+              this.RecalculateStatsDurations( msDoc );
             
-            this.AddDocumentToSearchIndex( msDoc );
+              if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+              {
+                this.RecalculateStatsDeepKeywordAnalysis( msDoc );
+              }
+            
+              this.AddDocumentToSearchIndex( msDoc );
 
-          }
+            }
 
-          if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
-          {
-            this.StatsUrlsInternal++;
-          }
-          else
-          {
-            this.StatsUrlsExternal++;
-          }
+            if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
+            {
+              this.StatsUrlsInternal++;
+            }
+            else
+            {
+              this.StatsUrlsExternal++;
+            }
 
-          if( msDoc.GetIsSitemapXml() )
-          {
-            this.StatsUrlsSitemaps++;
+            if( msDoc.GetIsSitemapXml() )
+            {
+              this.StatsUrlsSitemaps++;
+            }
+
           }
 
         }
 
       }
-
-      SemaphoreRecalc.Release();
 
     }
 

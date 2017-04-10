@@ -51,15 +51,17 @@ namespace SEOMacroscope
     public void AddDocument ( MacroscopeDocument msDoc )
     {
 
+      string Url = msDoc.GetUrl();
+      
       lock( this.DocumentList )
       {
 
-        if( this.DocumentList.ContainsKey( msDoc.GetUrl() ) )
+        if( this.DocumentList.ContainsKey( Url ) )
         {
-          this.DocumentList.Remove( msDoc.GetUrl() );
+          this.DocumentList.Remove( Url );
         }
 
-        this.DocumentList.Add( msDoc.GetUrl(), msDoc );
+        this.DocumentList.Add( Url, msDoc );
 
       }
 
@@ -70,12 +72,14 @@ namespace SEOMacroscope
     public void RemoveDocument ( MacroscopeDocument msDoc )
     {
 
+      string Url = msDoc.GetUrl();
+            
       lock( this.DocumentList )
       {
 
-        if( this.DocumentList.ContainsKey( msDoc.GetUrl() ) )
+        if( this.DocumentList.ContainsKey( Url ) )
         {
-          this.DocumentList.Remove( msDoc.GetUrl() );
+          this.DocumentList.Remove( Url );
         }
 
       }
@@ -88,17 +92,12 @@ namespace SEOMacroscope
     {
 
       MacroscopeDocument msDoc = null;
-      
-      lock( this.DocumentList )
+
+      if( this.DocumentList.ContainsKey( Url ) )
       {
-
-        if( this.DocumentList.ContainsKey( Url ) )
-        {
-          msDoc = this.DocumentList[ Url ];
-        }
-
+        msDoc = this.DocumentList[ Url ];
       }
-      
+
       return( msDoc );
 
     }
@@ -120,6 +119,13 @@ namespace SEOMacroscope
 
     }
 
+    /**************************************************************************/
+
+    public int CountDocuments ()
+    {
+      return( this.DocumentList.Count );
+    }
+    
     /**************************************************************************/
 
   }

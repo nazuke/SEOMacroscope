@@ -43,7 +43,9 @@ namespace SEOMacroscope
     )
     {
       var ws = wb.Worksheets.Add( WorksheetLabel );
-
+      decimal TermTotal = DicTerms.Count;
+      decimal TermCount = 0;
+      
       int iRow = 1;
       int iCol = 1;
       int iColMax = 1;
@@ -72,8 +74,42 @@ namespace SEOMacroscope
 
         MacroscopeDocumentList DocumentList = DocCollection.GetDeepKeywordAnalysDocumentList( Term );
 
+        decimal DocTotal = ( decimal )DocumentList.CountDocuments();
+        decimal DocCount = 0;
+        TermCount++;
+        
+        if( TermTotal > 0 )
+        {
+          this.ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: -1,
+            ProgressLabelMajor: null,
+            MinorPercentage: ( ( decimal )100 / TermTotal ) * TermCount,
+            ProgressLabelMinor: "Keywords Processed",
+            SubMinorPercentage: -1,
+            ProgressLabelSubMinor: null
+          );
+        }
+
         foreach( MacroscopeDocument msDoc in DocumentList.IterateDocuments() )
         {
+
+          DocCount++;
+        
+          if( DocTotal > 0 )
+          {
+            this.ProgressForm.UpdatePercentages(
+              Title: null,
+              Message: null,
+              MajorPercentage: -1,
+              ProgressLabelMajor: null,
+              MinorPercentage: -1,
+              ProgressLabelMinor: null,
+              SubMinorPercentage: ( ( decimal )100 / DocTotal ) * DocCount,
+              ProgressLabelSubMinor: "Documents Processed"
+            );
+          }
 
           iCol = 1;
 

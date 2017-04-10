@@ -31,13 +31,18 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelKeywordAnalysisReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelKeywordAnalysisReport : MacroscopeExcelReports, IMacroscopeAnalysisPercentageDone
   {
 
     /**************************************************************************/
 
-    public MacroscopeExcelKeywordAnalysisReport ()
+    IMacroscopeProgressForm ProgressForm;
+
+    /**************************************************************************/
+
+    public MacroscopeExcelKeywordAnalysisReport ( IMacroscopeProgressForm ProgressFormDialogue )
     {
+      this.ProgressForm = ProgressFormDialogue;
     }
 
     /**************************************************************************/
@@ -46,11 +51,26 @@ namespace SEOMacroscope
     {
 
       var wb = new XLWorkbook ();
+      const decimal MajorPercentageDivider = 4;
 
       for( int i = 0 ; i <= 3 ; i++ )
       {
+
+        this.ProgressForm.UpdatePercentages(
+          Title: "Processing Keywords",
+          Message: "Processing keyword terms collection:",
+          MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )i + 1,
+          ProgressLabelMajor: "",
+          MinorPercentage: 0,
+          ProgressLabelMinor: "",
+          SubMinorPercentage: 0,
+          ProgressLabelSubMinor: ""
+        );
+
         Dictionary<string,int> DicTerms = JobMaster.GetDocCollection().GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
+
         this.BuildWorksheetKeywordTerms( JobMaster, wb, string.Format( "{0} Word Term", i + 1 ), DicTerms );
+
       }
             
       try
@@ -65,6 +85,28 @@ namespace SEOMacroscope
         );
         throw CannotSaveExcelFileException;
       }
+
+    }
+
+    /**************************************************************************/
+
+    public void PercentageDone ( decimal Percent )
+    {
+    }
+
+    public void PercentageDone ( decimal Percent, string Message )
+    {
+
+      this.ProgressForm.UpdatePercentages(
+        Title: null,
+        Message: null,
+        MajorPercentage: -1,
+        ProgressLabelMajor: null,
+        MinorPercentage: -1,
+        ProgressLabelMinor: null,
+        SubMinorPercentage: Percent,
+        ProgressLabelSubMinor: Message
+      );
 
     }
 

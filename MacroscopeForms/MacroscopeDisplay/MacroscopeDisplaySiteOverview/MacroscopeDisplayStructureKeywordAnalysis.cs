@@ -136,9 +136,9 @@ namespace SEOMacroscope
         Title: "Preparing Display",
         Message: "Processing keyword terms collection for display:",
         MajorPercentage: MajorPercentage,
-        ProgressLabelMajor: ""/*,       
-          MinorPercentage: 0,
-          ProgressLabelMinor: ""*/
+        ProgressLabelMajor: "",       
+        MinorPercentage: 0,
+        ProgressLabelMinor: ""
       );  
 
       try

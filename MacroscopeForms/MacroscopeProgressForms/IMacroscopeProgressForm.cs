@@ -34,7 +34,7 @@ namespace SEOMacroscope
 	
   public interface IMacroscopeProgressForm
   {
-		
+
     void UpdatePercentages (
       string Title,
       string Message,

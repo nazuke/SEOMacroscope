@@ -85,10 +85,10 @@ namespace SEOMacroscope
 
     MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
-    Semaphore SemaphoreOverviewTabPages;
-    Semaphore SemaphoreSiteStructureDisplay;
-    Semaphore SemaphoreAuthenticationDialogue;
-    
+    object LockerOverviewTabPages;
+    object LockerSiteStructureDisplay;
+    object LockerAuthenticationDialogue;
+        
     public System.Timers.Timer TimerProgressBarScan;
     public System.Timers.Timer TimerTabPages;
     public System.Timers.Timer TimerSiteOverview;
@@ -125,19 +125,15 @@ namespace SEOMacroscope
 			this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
       #endif
 
-      this.SemaphoreOverviewTabPages = new Semaphore ( 0, 1 );
-      this.SemaphoreOverviewTabPages.Release( 1 );
-
-      this.SemaphoreSiteStructureDisplay = new Semaphore ( 0, 1 );
-      this.SemaphoreSiteStructureDisplay.Release( 1 );
+      this.LockerOverviewTabPages = new object ();
+      this.LockerSiteStructureDisplay = new object ();
 
       this.StartTabPageTimer( Delay: 4000 ); // 4000ms
       this.StartSiteOverviewTimer( Delay: 4000 ); // 4000ms
       this.StartStatusBarTimer( Delay: 1000 ); // 1000ms
 
       // Authentication Dialogue
-      this.SemaphoreAuthenticationDialogue = new Semaphore ( 0, 1 );
-      this.SemaphoreAuthenticationDialogue.Release( 1 );
+      this.LockerAuthenticationDialogue = new object ();
       this.StartAuthenticationTimer( Delay: 1000 ); // 1000ms
       
       this.ScanningControlsEnable( State: true );
@@ -334,8 +330,6 @@ namespace SEOMacroscope
       }
 
       this.JobMaster = null;
-
-      this.SemaphoreOverviewTabPages.Dispose();
 
       DebugMsg( string.Format( "MacroscopeMainForm Cleanup: DONE." ) );
     }
@@ -795,18 +789,22 @@ namespace SEOMacroscope
     private void UpdateFocusedTabPage ()
     {
 
-      this.SemaphoreOverviewTabPages.WaitOne();
-
-      TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-      string TabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
-
-      if( this.JobMaster.PeekUpdateDisplayQueue() )
+      lock( this.LockerOverviewTabPages )
       {
-        this.UpdateTabPage( TabPageName );
-        this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
-      }
 
-      this.SemaphoreOverviewTabPages.Release( 1 );
+        TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+        string TabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+
+        if( this.JobMaster != null )
+        {
+          if( this.JobMaster.PeekUpdateDisplayQueue() )
+          {
+            this.UpdateTabPage( TabPageName );
+            this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
+          }
+        }
+
+      }
 
     }
 
@@ -1428,9 +1426,10 @@ namespace SEOMacroscope
 
     private void CallbackSiteOverviewTimerExec ()
     {
-      this.SemaphoreSiteStructureDisplay.WaitOne();
-      this.UpdateSiteOverview();
-      this.SemaphoreSiteStructureDisplay.Release( 1 );
+      lock( this.LockerSiteStructureDisplay )
+      {
+        this.UpdateSiteOverview();
+      }
     }
 
     private void UpdateSiteOverview ()
@@ -1763,7 +1762,7 @@ namespace SEOMacroscope
       {
         this.UpdateFocusedTabPage();
       }
-
+     
       DebugMsg( "Scanning Thread: Done." );
 
     }
@@ -1852,59 +1851,56 @@ namespace SEOMacroscope
         if( this.CredentialsHttp.PeekCredentialRequest() )
         {
 
-          this.SemaphoreAuthenticationDialogue.WaitOne();
+          lock( this.LockerAuthenticationDialogue )
+          {
 
-          DebugMsg( string.Format( "SemaphoreAuthenticationDialogue: {0}", "OBTAINED" ) );
-
-          MacroscopeCredentialRequest CredentialRequest = this.CredentialsHttp.DequeueCredentialRequest();
+            MacroscopeCredentialRequest CredentialRequest = this.CredentialsHttp.DequeueCredentialRequest();
           
-          if( this.CredentialsHttp.CredentialExists( CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) )
-          {
-
-            DebugMsg( string.Format( "CredentialExists: {0} :: {1}", CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) );
-
-            bRerun = true;
-            sRerunUrl = CredentialRequest.GetUrl();
-
-          }
-          else
-          {
-
-            MacroscopeGetCredentialsHttp CredentialsForm = new MacroscopeGetCredentialsHttp ();
-
-            CredentialsForm.labelMessage.Text = string.Format(
-              "The website at \"{0}\" is requesting credentials for the Realm \"{1}\"",
-              CredentialRequest.GetDomain(),
-              CredentialRequest.GetRealm()
-            );
-
-            DialogResult CredentialsFormResult = CredentialsForm.ShowDialog();
-
-            if( CredentialsFormResult == DialogResult.OK )
+            if( this.CredentialsHttp.CredentialExists( CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) )
             {
-              string sUsername = CredentialsForm.textBoxUsername.Text;
-              string sPassword = CredentialsForm.maskedTextBoxPassword.Text;
 
-              this.CredentialsHttp.AddCredential(
-                Domain: CredentialRequest.GetDomain(),
-                Realm: CredentialRequest.GetRealm(),
-                Username: sUsername,
-                Password: sPassword
-              );
+              DebugMsg( string.Format( "CredentialExists: {0} :: {1}", CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) );
 
               bRerun = true;
               sRerunUrl = CredentialRequest.GetUrl();
 
             }
+            else
+            {
 
-            CredentialsForm.Dispose();
+              MacroscopeGetCredentialsHttp CredentialsForm = new MacroscopeGetCredentialsHttp ();
 
-          }
+              CredentialsForm.labelMessage.Text = string.Format(
+                "The website at \"{0}\" is requesting credentials for the Realm \"{1}\"",
+                CredentialRequest.GetDomain(),
+                CredentialRequest.GetRealm()
+              );
+
+              DialogResult CredentialsFormResult = CredentialsForm.ShowDialog();
+
+              if( CredentialsFormResult == DialogResult.OK )
+              {
+                string sUsername = CredentialsForm.textBoxUsername.Text;
+                string sPassword = CredentialsForm.maskedTextBoxPassword.Text;
+
+                this.CredentialsHttp.AddCredential(
+                  Domain: CredentialRequest.GetDomain(),
+                  Realm: CredentialRequest.GetRealm(),
+                  Username: sUsername,
+                  Password: sPassword
+                );
+
+                bRerun = true;
+                sRerunUrl = CredentialRequest.GetUrl();
+
+              }
+
+              CredentialsForm.Dispose();
+
+            }
           
-          this.SemaphoreAuthenticationDialogue.Release( 1 );
+          }
       
-          DebugMsg( string.Format( "SemaphoreAuthenticationDialogue: {0}", "RELEASED" ) );
-
         }
 
       }

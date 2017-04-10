@@ -240,16 +240,26 @@ namespace SEOMacroscope
 
     private void CallbackSaveKeywordAnalysisExcelReport ( object sender, EventArgs e )
     {
+
       SaveFileDialog Dialog = new SaveFileDialog ();
+
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
-        MacroscopeExcelKeywordAnalysisReport msExcelReport = new MacroscopeExcelKeywordAnalysisReport ();
+
+        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ();
+
+        MacroscopeExcelKeywordAnalysisReport msExcelReport = new MacroscopeExcelKeywordAnalysisReport (
+                                                               ProgressFormDialogue: ProgressForm
+                                                             );
+        
         try
         {
           Cursor.Current = Cursors.WaitCursor;
@@ -268,8 +278,11 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.Default;
         }
+    
       }
+      
       Dialog.Dispose();
+    
     }
 
     /** -------------------------------------------------------------------- **/

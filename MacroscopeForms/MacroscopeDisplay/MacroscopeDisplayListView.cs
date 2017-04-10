@@ -309,7 +309,9 @@ namespace SEOMacroscope
       
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-        
+
+        Application.DoEvents();
+
         if( msDoc != null )
         {
           this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
@@ -381,6 +383,8 @@ namespace SEOMacroscope
       foreach( string Url in UrlList )
       {
       
+        Application.DoEvents();
+
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
       
         if( msDoc != null )
@@ -513,6 +517,8 @@ namespace SEOMacroscope
 
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
+        
+        Application.DoEvents();
 
         if( msDoc != null )
         {
@@ -584,6 +590,8 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
         
+        Application.DoEvents();
+
         if( msDoc != null )
         {
           string Url = msDoc.GetUrl();
