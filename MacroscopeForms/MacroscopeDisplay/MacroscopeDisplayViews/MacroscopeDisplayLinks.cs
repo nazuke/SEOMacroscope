@@ -172,7 +172,7 @@ namespace SEOMacroscope
     )
     {
 
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm (this.MainForm);
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       
@@ -225,7 +225,7 @@ namespace SEOMacroscope
     )
     {
 
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm (this.MainForm);
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       ProgressForm.Show();

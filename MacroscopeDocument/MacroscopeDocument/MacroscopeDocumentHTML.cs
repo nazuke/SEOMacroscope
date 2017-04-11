@@ -45,7 +45,7 @@ namespace SEOMacroscope
       HtmlDocument HtmlDoc = null;
       HttpWebRequest req = null;
       HttpWebResponse res = null;
-      string sErrorCondition = null;
+      string ResponseErrorCondition = null;
       Boolean bAuthenticating = false;
       
       try
@@ -70,14 +70,14 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
         res = ( HttpWebResponse )ex.Response;
-        sErrorCondition = ex.Status.ToString();
+        ResponseErrorCondition = ex.Status.ToString();
 
       }
 
       if( res != null )
       {
 
-        string sRawData = "";
+        string RawData = "";
 
         this.ProcessResponseHttpHeaders( req, res );
 
@@ -99,9 +99,9 @@ namespace SEOMacroscope
 
           Stream sStream = res.GetResponseStream();
           StreamReader srRead = new StreamReader ( sStream, encUseEncoding );
-          sRawData = srRead.ReadToEnd();
-          this.ContentLength = sRawData.Length; // May need to find bytes length
-          this.SetChecksum( sRawData );
+          RawData = srRead.ReadToEnd();
+          this.ContentLength = RawData.Length; // May need to find bytes length
+          this.SetChecksum( RawData );
           
           this.SetWasDownloaded( true );
 
@@ -120,7 +120,7 @@ namespace SEOMacroscope
             this.SetStatusCode( ( HttpStatusCode )ex.Status );
           }
           
-          sRawData = "";
+          RawData = "";
           this.ContentLength = 0;
 
         }
@@ -129,15 +129,15 @@ namespace SEOMacroscope
 
           DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           this.SetStatusCode( HttpStatusCode.BadRequest );
-          sRawData = "";
+          RawData = "";
           this.ContentLength = 0;
 
         }
 
-        if( sRawData.Length > 0 )
+        if( RawData.Length > 0 )
         {
           HtmlDoc = new HtmlDocument ();
-          HtmlDoc.LoadHtml( sRawData );
+          HtmlDoc.LoadHtml( RawData );
           DebugMsg( string.Format( "htmlDoc: {0}", HtmlDoc ) );
         }
         else
@@ -219,25 +219,30 @@ namespace SEOMacroscope
           }
 
           { // Canonical
-            this.ProcessHtmlCanonical( HtmlDoc );
+            this.ProcessHtmlCanonical( HtmlDoc: HtmlDoc );
           }
 
           { // Outlinks
-            this.ProcessHtmlHyperlinksOut( HtmlDoc );
-            this.ProcessHtmlOutlinks( HtmlDoc );
+            this.ProcessHtmlHyperlinksOut( HtmlDoc: HtmlDoc );
+            this.ProcessHtmlOutlinks( HtmlDoc: HtmlDoc );
+          }
+
+          { // Process Inline CSS Links
+            this.ProcessHtmlInlineCssLinks( HtmlDoc: HtmlDoc );
+            this.ProcessHtmlAttributeCssLinks( HtmlDoc: HtmlDoc );
           }
 
           { // Extract interesting document elements
-            this.ExtractHtmlHeadings( HtmlDoc );
+            this.ExtractHtmlHeadings( HtmlDoc: HtmlDoc );
           }
 
           { // Special Links
-            this.ExtractHtmlEmailAddresses( HtmlDoc );
-            this.ExtractHtmlTelephoneNumbers( HtmlDoc );
+            this.ExtractHtmlEmailAddresses( HtmlDoc: HtmlDoc );
+            this.ExtractHtmlTelephoneNumbers( HtmlDoc: HtmlDoc );
           }
 
           { // HREFLANG Alternatives
-            this.ExtractHrefLangAlternates( HtmlDoc );
+            this.ExtractHrefLangAlternates( HtmlDoc: HtmlDoc );
           }
 
           { // Process META Tags
@@ -280,10 +285,10 @@ namespace SEOMacroscope
           }
 
           { // Process Body Text
-            string sText = this.ProcessHtmlBodyText( sRawData );
-            if( sText != null )
+            string Text = this.ProcessHtmlBodyText( HtmlDoc: HtmlDoc );
+            if( Text != null )
             {
-              this.SetBodyText( sText );
+              this.SetBodyText( Text );
             }
             else
             {
@@ -297,9 +302,9 @@ namespace SEOMacroscope
 
       }
 
-      if( sErrorCondition != null )
+      if( ResponseErrorCondition != null )
       {
-        this.ProcessErrorCondition( sErrorCondition );
+        this.ProcessErrorCondition( ResponseErrorCondition );
       }
 
     }
@@ -872,6 +877,82 @@ namespace SEOMacroscope
 
     }
 
+    /** Process Inline CSS Links **********************************************/
+
+    private void ProcessHtmlInlineCssLinks ( HtmlDocument HtmlDoc )
+    {
+
+      if( HtmlDoc != null )
+      {
+        
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//style" );
+      
+        if( NodeCollection != null )
+        {
+          
+          foreach( HtmlNode Node in NodeCollection )
+          {
+
+            string CssText = Node.InnerText;
+            
+            if( !string.IsNullOrEmpty( CssText ) )
+            {
+              
+              DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", CssText ) );
+
+              ExCSS.Parser ExCssParser = new ExCSS.Parser ();
+              ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssText );
+
+              this.ProcessCssHyperlinksOut( ExCssStylesheet );
+
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+    
+    private void ProcessHtmlAttributeCssLinks ( HtmlDocument HtmlDoc )
+    {
+
+      if( HtmlDoc != null )
+      {
+        
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//*[@style]" );
+      
+        if( NodeCollection != null )
+        {
+          
+          foreach( HtmlNode Node in NodeCollection )
+          {
+
+            string CssText = Node.GetAttributeValue( "style", "" );
+            
+            if( !string.IsNullOrEmpty( CssText ) )
+            {
+              
+              DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", CssText ) );
+
+              ExCSS.Parser ExCssParser = new ExCSS.Parser ();
+              ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssText );
+
+              this.ProcessCssHyperlinksOut( ExCssStylesheet );
+
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
     /**************************************************************************/
 
     private MacroscopeLink AddHtmlOutlink (
@@ -973,16 +1054,13 @@ namespace SEOMacroscope
       
     }
 
-    /**************************************************************************/
+    /** Process Body Text *****************************************************/
 
-    string ProcessHtmlBodyText ( string HtmlCode )
+    string ProcessHtmlBodyText ( HtmlDocument HtmlDoc )
     {
 
-      HtmlDocument HtmlDoc = new HtmlDocument ();
       List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
       string BodyTextProcessed = "";
-
-      HtmlDoc.LoadHtml( HtmlCode );
 
       if( HtmlDoc != null )
       {

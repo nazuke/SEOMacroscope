@@ -349,6 +349,8 @@ namespace SEOMacroscope
         foreach( KeyValuePair<string,string> KP in msDoc.IterateMetaTags() )
         {
 
+          Application.DoEvents();
+                      
           ListViewItem lvItem = null;
           string MetaName = KP.Key;
           string MetaContent = KP.Value;
@@ -458,7 +460,8 @@ namespace SEOMacroscope
             foreach( string sLocale in htLocales.Keys )
             {
 
-
+              Application.DoEvents();
+            
               if( sLocale != null )
               {
 
@@ -557,6 +560,8 @@ namespace SEOMacroscope
           foreach( MacroscopeLink Link in LinksIn.IterateLinks() )
           {
 
+            Application.DoEvents();
+                        
             Count++;
 
             ListViewItem lvItem = null;
@@ -644,6 +649,8 @@ namespace SEOMacroscope
         foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
         {
 
+          Application.DoEvents();
+                      
           Count++;
 
           ListViewItem lvItem = null;
@@ -683,8 +690,8 @@ namespace SEOMacroscope
               lvItem.Name = PairKey;
 
               lvItem.SubItems[ 0 ].Text = Count.ToString();
-              lvItem.SubItems.Add( Link.GetSourceUrl() );
               lvItem.SubItems.Add( Link.GetLinkType().ToString() );
+              lvItem.SubItems.Add( Link.GetSourceUrl() );
               lvItem.SubItems.Add( Link.GetTargetUrl() );
               lvItem.SubItems.Add( Link.GetDoFollow().ToString() );
               lvItem.SubItems.Add( Link.GetAltText() );
@@ -731,6 +738,8 @@ namespace SEOMacroscope
           foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() )
           {
 
+            Application.DoEvents();
+                        
             Count++;
 
             ListViewItem lvItem = null;
@@ -816,6 +825,8 @@ namespace SEOMacroscope
           foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks(  ) )
           {
 
+            Application.DoEvents();
+            
             Count++;
 
             ListViewItem lvItem = null;
@@ -979,6 +990,8 @@ namespace SEOMacroscope
         foreach( MacroscopeLink Link in LinkList.IterateLinks() )
         {
 
+          Application.DoEvents();
+                      
           string sUrl = Link.GetTargetUrl();
           string sKeyPair = sUrl;
           ListViewItem lvItem = null;
@@ -1076,6 +1089,8 @@ namespace SEOMacroscope
         foreach( MacroscopeLink Link in LinkList.IterateLinks() )
         {
 
+          Application.DoEvents();
+                      
           ListViewItem lvItem = null;
           string sUrl = Link.GetTargetUrl();
           string sKeyPair = sUrl;
@@ -1173,6 +1188,8 @@ namespace SEOMacroscope
         foreach( MacroscopeLink Link in LinkList.IterateLinks() )
         {
 
+          Application.DoEvents();
+                      
           ListViewItem lvItem = null;
           string sUrl = Link.GetTargetUrl();
           string sKeyPair = sUrl;
@@ -1274,6 +1291,8 @@ namespace SEOMacroscope
         foreach( MacroscopeLink Link in LinkList.IterateLinks() )
         {
 
+          Application.DoEvents();
+                      
           ListViewItem lvItem = null;
           string sUrl = Link.GetTargetUrl();
           string sKeyPair = sUrl;
@@ -1371,6 +1390,8 @@ namespace SEOMacroscope
         foreach( MacroscopeLink Link in LinkList.IterateLinks() )
         {
 
+          Application.DoEvents();
+                      
           ListViewItem lvItem = null;
           string sUrl = Link.GetTargetUrl();
           string sKeyPair = sUrl;
@@ -1467,6 +1488,8 @@ namespace SEOMacroscope
         foreach( string sTerm in DicTerms.Keys )
         {
 
+          Application.DoEvents();
+                      
           ListViewItem lvItem = null;
           string sKeyPair = sTerm;
         

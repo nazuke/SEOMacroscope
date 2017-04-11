@@ -40,24 +40,35 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private MacroscopeMainForm MainForm;
     private Boolean IsCancelled;
 
     /**************************************************************************/
 
-    public MacroscopeSinglePercentageProgressForm ()
+    public MacroscopeSinglePercentageProgressForm ( MacroscopeMainForm MainForm )
     {
       
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
       
-      this.FormClosing += this.MacroscopeSinglePercentageProgressFormFormClosing;
-    
+      this.MainForm = MainForm;
+      this.IsCancelled = false;
+
+      this.Shown += this.CallbackFormShown;
+      this.FormClosing += this.CallbackFormClosing;
+
     }
 
     /**************************************************************************/
-    
-    void MacroscopeSinglePercentageProgressFormFormClosing ( object sender, FormClosingEventArgs e )
+
+    private void CallbackFormShown ( object sender, EventArgs e )
+    {
+      this.MainForm.Enabled = false;
+    }
+
+    private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
     {
       this.Cancel();
+      this.MainForm.Enabled = true;
     }
     
     /**************************************************************************/

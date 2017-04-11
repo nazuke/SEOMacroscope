@@ -142,7 +142,7 @@ namespace SEOMacroscope
       }
       
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ();
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm (this.MainForm);
       decimal Count = 0;
       decimal TotalDocs = ( decimal )History.Count;
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;

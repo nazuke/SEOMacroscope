@@ -40,7 +40,7 @@ namespace SEOMacroscope
 
       HttpWebRequest req = null;
       HttpWebResponse res = null;
-      string sErrorCondition = null;
+      string ResponseErrorCondition = null;
       Boolean bAuthenticating = false;
       
       try
@@ -67,7 +67,7 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ex.Status ) );
         DebugMsg( string.Format( "ProcessBinaryPage :: WebException: {0}", ( int )ex.Status ) );
 
-        sErrorCondition = ex.Status.ToString();
+        ResponseErrorCondition = ex.Status.ToString();
 
       }
 
@@ -113,9 +113,9 @@ namespace SEOMacroscope
 
       }
 
-      if( sErrorCondition != null )
+      if( ResponseErrorCondition != null )
       {
-        this.ProcessErrorCondition( sErrorCondition );
+        this.ProcessErrorCondition( ResponseErrorCondition );
       }
 
     }

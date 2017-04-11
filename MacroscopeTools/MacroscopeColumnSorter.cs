@@ -124,29 +124,30 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    object[] DetermineValueType ( string sTextX, string sTextY )
+    private object[] DetermineValueType ( string TextX, string TextY )
     {
+      
       object [] ObjectPair = new object[2];
 
-      ObjectPair[ 0 ] = sTextX;
-      ObjectPair[ 1 ] = sTextY;
+      ObjectPair[ 0 ] = TextX;
+      ObjectPair[ 1 ] = TextY;
 
       if(
-        Regex.IsMatch( sTextX, "^[0-9]+$" )
-        && Regex.IsMatch( sTextY, "^[0-9]+$" ) )
+        Regex.IsMatch( TextX, "^[0-9]+$" )
+        && Regex.IsMatch( TextY, "^[0-9]+$" ) )
       {
-        decimal DecimalX = decimal.Parse( sTextX );
-        decimal DecimalY = decimal.Parse( sTextY );
+        decimal DecimalX = decimal.Parse( TextX );
+        decimal DecimalY = decimal.Parse( TextY );
         ObjectPair[ 0 ] = DecimalX;
         ObjectPair[ 1 ] = DecimalY;
       }
 
       if(
-        Regex.IsMatch( sTextX, "^[0-9]+\\.[0-9]+$" )
-        && Regex.IsMatch( sTextY, "^[0-9]+\\.[0-9]+$" ) )
+        Regex.IsMatch( TextX, "^[0-9]+\\.[0-9]+$" )
+        && Regex.IsMatch( TextY, "^[0-9]+\\.[0-9]+$" ) )
       {
-        decimal DecimalX = decimal.Parse( sTextX );
-        decimal DecimalY = decimal.Parse( sTextY );
+        decimal DecimalX = decimal.Parse( TextX );
+        decimal DecimalY = decimal.Parse( TextY );
         ObjectPair[ 0 ] = DecimalX;
         ObjectPair[ 1 ] = DecimalY;
       }
@@ -154,6 +155,7 @@ namespace SEOMacroscope
       // TODO: Add dates, etc.
 
       return( ObjectPair );
+      
     }
 
     /**************************************************************************/

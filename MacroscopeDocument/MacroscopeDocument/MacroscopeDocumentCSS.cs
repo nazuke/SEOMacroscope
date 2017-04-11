@@ -42,7 +42,7 @@ namespace SEOMacroscope
 
       HttpWebRequest req = null;
       HttpWebResponse res = null;
-      string sErrorCondition = null;
+      string ResponseErrorCondition = null;
       Boolean bAuthenticating = false;
       
       DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
@@ -71,14 +71,14 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ex.Status ) );
         DebugMsg( string.Format( "ProcessCssPage :: WebException: {0}", ( int )ex.Status ) );
 
-        sErrorCondition = ex.Status.ToString();
+        ResponseErrorCondition = ex.Status.ToString();
 
       }
 
       if( res != null )
       {
 
-        string sRawData = "";
+        string RawData = "";
 
         this.ProcessResponseHttpHeaders( req, res );
 
@@ -105,9 +105,9 @@ namespace SEOMacroscope
             srRead = new StreamReader ( sStream );
           }
          
-          sRawData = srRead.ReadToEnd();
+          RawData = srRead.ReadToEnd();
 
-          this.ContentLength = sRawData.Length; // May need to find bytes length
+          this.ContentLength = RawData.Length; // May need to find bytes length
          
           this.SetWasDownloaded( true );
 
@@ -126,7 +126,7 @@ namespace SEOMacroscope
             this.SetStatusCode( ( HttpStatusCode )ex.Status );
           }
 
-          sRawData = "";
+          RawData = "";
           this.ContentLength = 0;
 
         }
@@ -139,11 +139,11 @@ namespace SEOMacroscope
 
         }
 
-        if( sRawData.Length > 0 )
+        if( RawData.Length > 0 )
         {
 
-          ExCSS.Parser ExCssParser = new  ExCSS.Parser ();
-          ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( sRawData );
+          ExCSS.Parser ExCssParser = new ExCSS.Parser ();
+          ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( RawData );
 
           this.ProcessCssHyperlinksOut( ExCssStylesheet );
 
@@ -181,9 +181,9 @@ namespace SEOMacroscope
 
       }
 
-      if( sErrorCondition != null )
+      if( ResponseErrorCondition != null )
       {
-        this.ProcessErrorCondition( sErrorCondition );
+        this.ProcessErrorCondition( ResponseErrorCondition );
       }
 
     }

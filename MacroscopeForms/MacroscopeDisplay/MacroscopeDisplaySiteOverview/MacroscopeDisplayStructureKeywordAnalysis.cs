@@ -128,7 +128,7 @@ namespace SEOMacroscope
     public void RefreshKeywordAnalysisDataProgress ( MacroscopeDocumentCollection DocCollection )
     {
 
-      MacroscopeDoublePercentageProgressForm ProgressForm = new MacroscopeDoublePercentageProgressForm ();
+      MacroscopeDoublePercentageProgressForm ProgressForm = new MacroscopeDoublePercentageProgressForm (this.MainForm);
 
       decimal MajorPercentage = 0;
 

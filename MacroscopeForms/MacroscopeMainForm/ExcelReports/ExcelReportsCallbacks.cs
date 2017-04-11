@@ -254,7 +254,7 @@ namespace SEOMacroscope
 
         string Path = Dialog.FileName;
 
-        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ();
+        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
 
         MacroscopeExcelKeywordAnalysisReport msExcelReport = new MacroscopeExcelKeywordAnalysisReport (
                                                                ProgressFormDialogue: ProgressForm
@@ -302,7 +302,7 @@ namespace SEOMacroscope
 
         string Path = Dialog.FileName;
 
-        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ();
+        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
 
         MacroscopeExcelDuplicateContent msExcelReport = new MacroscopeExcelDuplicateContent (
                                                           ProgressFormDialogue: ProgressForm
