@@ -101,15 +101,19 @@ namespace SEOMacroscope
 
         string Text = msDoc.GetTitle();
         string TextLabel = Text;
-        int TextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsTitleCount( Text );
-        string TextLength = Text.Length.ToString();
+        int TextCount = 0;
+        int TextLength = Text.Length;
         int TextPixelWidth = msDoc.GetTitlePixelWidth();
 
         string sPairKey = string.Join( "", Url, Text );
 
         ListViewItem lvItem = null;
 
-        if( Text.Length <= 0 )
+        if( TextLength > 0 )
+        {
+          TextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsTitleCount( Text );
+        }
+        else
         {
           TextLabel = "MISSING";
         }
@@ -124,7 +128,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = TextCount.ToString();
             lvItem.SubItems[ 2 ].Text = TextLabel;
-            lvItem.SubItems[ 3 ].Text = TextLength;
+            lvItem.SubItems[ 3 ].Text = TextLength.ToString();
             lvItem.SubItems[ 4 ].Text = TextPixelWidth.ToString();
 
           }
@@ -147,7 +151,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems.Add( TextCount.ToString() );
             lvItem.SubItems.Add( TextLabel );
-            lvItem.SubItems.Add( TextLength );
+            lvItem.SubItems.Add( TextLength.ToString() );
             lvItem.SubItems.Add( TextPixelWidth.ToString() );
 
             this.lvListView.Items.Add( lvItem );
@@ -178,18 +182,18 @@ namespace SEOMacroscope
           
           // Check Missing Title ---------------------------------------------//
 
-          if( Text.Length <= 0 )
+          if( TextLength <= 0 )
           {
             lvItem.SubItems[ 2 ].Text = "MISSING";
             lvItem.SubItems[ 2 ].ForeColor = Color.Red;
           }
           else
-          if( Text.Length < MacroscopePreferencesManager.GetTitleMinLen() )
+          if( TextLength < MacroscopePreferencesManager.GetTitleMinLen() )
           {
             lvItem.SubItems[ 2 ].ForeColor = Color.Red;
           }
           else
-          if( Text.Length > MacroscopePreferencesManager.GetTitleMaxLen() )
+          if( TextLength > MacroscopePreferencesManager.GetTitleMaxLen() )
           {
             lvItem.SubItems[ 2 ].ForeColor = Color.Red;
           }
@@ -200,12 +204,12 @@ namespace SEOMacroscope
 
           // Check Title Length ----------------------------------------------//
 
-          if( Text.Length < MacroscopePreferencesManager.GetTitleMinLen() )
+          if( TextLength < MacroscopePreferencesManager.GetTitleMinLen() )
           {
             lvItem.SubItems[ 3 ].ForeColor = Color.Red;
           }
           else
-          if( Text.Length > MacroscopePreferencesManager.GetTitleMaxLen() )
+          if( TextLength > MacroscopePreferencesManager.GetTitleMaxLen() )
           {
             lvItem.SubItems[ 3 ].ForeColor = Color.Red;
           }

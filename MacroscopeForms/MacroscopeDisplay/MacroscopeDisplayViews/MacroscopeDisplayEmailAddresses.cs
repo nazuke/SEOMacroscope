@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -80,20 +81,21 @@ namespace SEOMacroscope
 
         Dictionary<string,string> EmailAddresses = msDoc.GetEmailAddresses();
 
+        this.lvListView.BeginUpdate();
+
         foreach( string EmailAddress in EmailAddresses.Keys )
         {
 
           string sPairKey = string.Join( "", EmailAddress, Url );
-
-          this.lvListView.BeginUpdate();
-
+          ListViewItem lvItem = null;
+          
           if( this.lvListView.Items.ContainsKey( sPairKey ) )
           {
 
             try
             {
 
-              ListViewItem lvItem = this.lvListView.Items[ sPairKey ];
+              lvItem = this.lvListView.Items[ sPairKey ];
               lvItem.SubItems[ 0 ].Text = EmailAddress;
               lvItem.SubItems[ 1 ].Text = Url;
 
@@ -110,8 +112,8 @@ namespace SEOMacroscope
             try
             {
 
-              ListViewItem lvItem = new ListViewItem ( sPairKey );
-
+              lvItem = new ListViewItem ( sPairKey );
+              lvItem.UseItemStyleForSubItems = false;
               lvItem.Name = sPairKey;
 
               lvItem.SubItems[ 0 ].Text = EmailAddress;
@@ -127,10 +129,28 @@ namespace SEOMacroscope
 
           }
 
-          this.lvListView.EndUpdate();
+          if( lvItem != null )
+          {
+
+            lvItem.ForeColor = Color.Blue;
+
+            // URL -------------------------------------------------------------//
+          
+            if( !msDoc.GetIsExternal() )
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+            }
+
+          }
 
         }
-
+          
+        this.lvListView.EndUpdate();
+          
       }
 
     }

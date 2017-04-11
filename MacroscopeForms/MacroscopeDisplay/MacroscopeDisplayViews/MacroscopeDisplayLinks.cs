@@ -284,12 +284,17 @@ namespace SEOMacroscope
         string LinkType = Link.GetLinkType().ToString();
         string UrlTarget = Link.GetTargetUrl();
         string PairKey = string.Join( "::", Url, UrlTarget );
-        string Follow = Link.GetDoFollow().ToString();
+        string Follow = "nofollow";
         string AltText = Link.GetAltText();
         string AltTextLabel = AltText;
         
         string RawSourceUrl = Link.GetRawSourceUrl();
         string RawTargetUrl = Link.GetRawTargetUrl();
+
+        if( Link.GetDoFollow() )
+        {
+          Follow = "follow";
+        }
 
         if( string.IsNullOrEmpty( AltText ) )
         {

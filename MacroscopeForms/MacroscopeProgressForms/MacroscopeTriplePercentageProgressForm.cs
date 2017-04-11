@@ -203,6 +203,7 @@ namespace SEOMacroscope
 
     public void Cancel ()
     {
+      DebugMsg( string.Format( "MacroscopeTriplePercentageProgressForm: CANCELLED" ) );
       this.IsCancelled = true;
     }
 

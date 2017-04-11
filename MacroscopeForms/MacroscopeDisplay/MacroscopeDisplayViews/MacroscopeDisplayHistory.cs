@@ -162,11 +162,11 @@ namespace SEOMacroscope
       {
 
         ListViewItem lvItem = null;
-        string sVisited = "No";
+        string Visited = "No";
 
         if( History[ Url ] )
         {
-          sVisited = "Yes";
+          Visited = "Yes";
         }
 
         if( this.lvListView.Items.ContainsKey( Url ) )
@@ -175,7 +175,7 @@ namespace SEOMacroscope
           try
           {
             lvItem = this.lvListView.Items[ Url ];
-            lvItem.SubItems[ 1 ].Text = sVisited;
+            lvItem.SubItems[ 1 ].Text = Visited;
           }
           catch( Exception ex )
           {
@@ -191,7 +191,7 @@ namespace SEOMacroscope
             lvItem = new ListViewItem ( Url );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = Url;
-            lvItem.SubItems.Add( sVisited );
+            lvItem.SubItems.Add( Visited );
             this.lvListView.Items.Add( lvItem );
           }
           catch( Exception ex )

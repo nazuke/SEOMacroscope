@@ -1046,14 +1046,18 @@ namespace SEOMacroscope
 
     public List<decimal> GetProgress ()
     {
+      
       List<decimal> Counts = new List<decimal> ( 3 );
+      
       lock( this.Progress )
       {
         Counts.Add( this.Progress[ "list" ].Count );
         Counts.Add( this.Progress[ "done" ].Count );
         Counts.Add( this.Progress[ "wait" ].Count );
       }
+      
       return( Counts );
+
     }
 
     /** Document Collection ***************************************************/

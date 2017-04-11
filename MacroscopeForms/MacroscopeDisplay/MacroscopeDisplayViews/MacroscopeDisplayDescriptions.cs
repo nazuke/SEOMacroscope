@@ -103,24 +103,34 @@ namespace SEOMacroscope
       if( bProcess )
       {
 
-        string sDescription = msDoc.GetDescription();
-        int iOccurrences = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( sDescription );
-        int iDescriptionLength = msDoc.GetDescriptionLength();
-        string sPairKey = string.Join( "", Url, sDescription );
-
         ListViewItem lvItem = null;
 
-        if( this.lvListView.Items.ContainsKey( sPairKey ) )
+        string Description = msDoc.GetDescription();
+        int Occurrences = 0;
+        int DescriptionLength = msDoc.GetDescriptionLength();
+
+        string PairKey = string.Join( "", Url, Description );
+
+        if( DescriptionLength > 0 )
+        {
+          Occurrences = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( Description );
+        }
+        else
+        {
+          Description = "MISSING";
+        }
+
+        if( this.lvListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ sPairKey ];
+            lvItem = this.lvListView.Items[ PairKey ];
             lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems[ 1 ].Text = iOccurrences.ToString();
-            lvItem.SubItems[ 2 ].Text = sDescription;
-            lvItem.SubItems[ 3 ].Text = iDescriptionLength.ToString();
+            lvItem.SubItems[ 1 ].Text = Occurrences.ToString();
+            lvItem.SubItems[ 2 ].Text = Description;
+            lvItem.SubItems[ 3 ].Text = DescriptionLength.ToString();
 
           }
           catch( Exception ex )
@@ -135,14 +145,14 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( sPairKey );
+            lvItem = new ListViewItem ( PairKey );
             lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = sPairKey;
+            lvItem.Name = PairKey;
 
             lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems.Add( iOccurrences.ToString() );
-            lvItem.SubItems.Add( sDescription );
-            lvItem.SubItems.Add( iDescriptionLength.ToString() );
+            lvItem.SubItems.Add( Occurrences.ToString() );
+            lvItem.SubItems.Add( Description );
+            lvItem.SubItems.Add( DescriptionLength.ToString() );
 
             this.lvListView.Items.Add( lvItem );
 
@@ -172,18 +182,35 @@ namespace SEOMacroscope
           
           // Check Description Length ----------------------------------------//
           
-          if( iDescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
+          if( !msDoc.GetIsExternal() )
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+            if( DescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
+            {
+              lvItem.SubItems[ 0 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+            }
+            else
+            if( DescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
+            {
+              lvItem.SubItems[ 0 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+            }
+            else
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+              lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+              lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+            }
           }
           else
-          if( iDescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-          }
-          else
-          {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+            lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
           }
 
         }

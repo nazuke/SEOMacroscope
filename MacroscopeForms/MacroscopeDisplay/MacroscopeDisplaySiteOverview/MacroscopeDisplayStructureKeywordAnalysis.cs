@@ -143,6 +143,8 @@ namespace SEOMacroscope
 
       try
       {
+        ProgressForm.TopMost = true;
+        //ProgressForm.ControlBox = false;
         ProgressForm.Show();
       }
       catch( Exception ex )
@@ -153,24 +155,31 @@ namespace SEOMacroscope
       for( int i = 0 ; i <= 3 ; i++ )
       {
 
-        Dictionary<string,int> DicTerms = DocCollection.GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
-
-        MajorPercentage = ( ( decimal )100 / ( decimal )4 ) * ( decimal )( i + 1 );
+        Application.DoEvents();
         
-        ProgressForm.UpdatePercentages(
-          Title: null,
-          Message: null,
-          MajorPercentage: MajorPercentage,
-          ProgressLabelMajor: string.Format( "{0} Word Keywords", i + 1 ),       
-          MinorPercentage: 0,
-          ProgressLabelMinor: ""
-        );
+        if( !ProgressForm.Cancelled() )
+        {
 
-        this.RenderKeywordAnalysisListView(
-          lvListView: this.lvListViews[ i ],
-          DicTerms: DicTerms,
-          ProgressForm: ProgressForm
-        );
+          Dictionary<string,int> DicTerms = DocCollection.GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
+
+          MajorPercentage = ( ( decimal )100 / ( decimal )4 ) * ( decimal )( i + 1 );
+        
+          ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: MajorPercentage,
+            ProgressLabelMajor: string.Format( "{0} Word Keywords", i + 1 ),       
+            MinorPercentage: 0,
+            ProgressLabelMinor: ""
+          );
+
+          this.RenderKeywordAnalysisListView(
+            lvListView: this.lvListViews[ i ],
+            DicTerms: DicTerms,
+            ProgressForm: ProgressForm
+          );
+        
+        }
 
       }
 
@@ -265,6 +274,13 @@ namespace SEOMacroscope
             MinorPercentage: MinorPercentage,
             ProgressLabelMinor: string.Format( "Keyword: {0}", Count )
           );
+
+          Application.DoEvents();
+        
+          if( ProgressForm.Cancelled() )
+          {
+            break;
+          }
 
         }
 

@@ -99,10 +99,15 @@ namespace SEOMacroscope
 
           iCol = 1;
 
-          string sKeywords = msDoc.GetKeywords();
-          int iOccurrences = DocCollection.GetStatsKeywordsCount( sKeywords );
-          int iKeywordsLength = msDoc.GetKeywordsLength();
-          int iKeywordsNumber = msDoc.GetKeywordsCount();
+          string Keywords = msDoc.GetKeywords();
+          int Occurrences = 0;
+          int KeywordsLength = msDoc.GetKeywordsLength();
+          int KeywordsNumber = msDoc.GetKeywordsCount();
+
+          if( KeywordsLength > 0 )
+          {
+            Occurrences = DocCollection.GetStatsKeywordsCount( Keywords );
+          }
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
@@ -117,19 +122,19 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( iOccurrences.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( sKeywords ) );
-
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( iKeywordsLength.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Keywords ) );
 
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( iKeywordsNumber.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsLength.ToString() ) );
+
+          iCol++;
+          
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsNumber.ToString() ) );
 
           iRow++;
           

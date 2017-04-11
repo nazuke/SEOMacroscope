@@ -64,15 +64,17 @@ namespace SEOMacroscope
       listviewX = ( ListViewItem )x;
       listviewY = ( ListViewItem )y;
 
-      if( this.ColumnToSort > listviewX.SubItems.Count )
+      if(
+        ( this.ColumnToSort > listviewX.SubItems.Count )
+        || ( this.ColumnToSort > listviewY.SubItems.Count ) )
       {
         return 0;
       }
 
       object [] ObjectPair = DetermineValueType(
-                            listviewX.SubItems[ this.ColumnToSort ].Text,
-                            listviewY.SubItems[ this.ColumnToSort ].Text
-                          );
+                               listviewX.SubItems[ this.ColumnToSort ].Text,
+                               listviewY.SubItems[ this.ColumnToSort ].Text
+                             );
 
       compareResult = ObjectCompare.Compare( ObjectPair[ 0 ], ObjectPair[ 1 ] );
 

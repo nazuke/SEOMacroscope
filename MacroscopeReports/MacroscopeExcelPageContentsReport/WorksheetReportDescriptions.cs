@@ -97,9 +97,14 @@ namespace SEOMacroscope
           
           iCol = 1;
 
-          string sDescription = msDoc.GetDescription();
-          int iOccurrences = DocCollection.GetStatsDescriptionCount( sDescription );
-          int iDescriptionLength = msDoc.GetDescriptionLength();
+          string Description = msDoc.GetDescription();
+          int Occurrences = 0;
+          int DescriptionLength = msDoc.GetDescriptionLength();
+
+          if( DescriptionLength > 0 )
+          {
+           Occurrences = DocCollection.GetStatsDescriptionCount( Description );
+          }
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
           if( !msDoc.GetIsExternal() )
@@ -112,8 +117,8 @@ namespace SEOMacroscope
           }
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( iOccurrences.ToString() ) );
-          if( iOccurrences > 1 )
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
+          if( Occurrences > 1 )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
           }
@@ -123,8 +128,8 @@ namespace SEOMacroscope
           }
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( sDescription ) );
-          if( iDescriptionLength <= 0 )
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Description ) );
+          if( DescriptionLength <= 0 )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
             ws.Cell( iRow, iCol ).Value = "MISSING";
@@ -135,13 +140,13 @@ namespace SEOMacroscope
           }
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( iDescriptionLength.ToString() ) );
-          if( iDescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DescriptionLength.ToString() ) );
+          if( DescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
           }
           else
-          if( iDescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
+          if( DescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
           }

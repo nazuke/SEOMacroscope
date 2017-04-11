@@ -103,14 +103,20 @@ namespace SEOMacroscope
       if( bProcess )
       {
 
+        ListViewItem lvItem = null;
+
         string Text = msDoc.GetKeywords();
-        int TextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( Text );
+        int Occurrences = 0;
         int KeywordsLength = msDoc.GetKeywordsLength();
         int TextNumber = msDoc.GetKeywordsCount();
+
         string PairKey = string.Join( "", Url, Text );
 
-        ListViewItem lvItem = null;
-          
+        if( KeywordsLength > 0 )
+        {
+          Occurrences = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( Text );
+        }
+
         if( this.lvListView.Items.ContainsKey( PairKey ) )
         {
 
@@ -119,7 +125,7 @@ namespace SEOMacroscope
 
             lvItem = this.lvListView.Items[ PairKey ];
             lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems[ 1 ].Text = TextCount.ToString();
+            lvItem.SubItems[ 1 ].Text = Occurrences.ToString();
             lvItem.SubItems[ 2 ].Text = Text;
             lvItem.SubItems[ 3 ].Text = KeywordsLength.ToString();
             lvItem.SubItems[ 4 ].Text = TextNumber.ToString();
@@ -142,7 +148,7 @@ namespace SEOMacroscope
             lvItem.Name = PairKey;
 
             lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems.Add( TextCount.ToString() );
+            lvItem.SubItems.Add( Occurrences.ToString() );
             lvItem.SubItems.Add( Text );
             lvItem.SubItems.Add( KeywordsLength.ToString() );
             lvItem.SubItems.Add( TextNumber.ToString() );
@@ -175,17 +181,29 @@ namespace SEOMacroscope
 
           // Check Missing Text ----------------------------------------------//
 
-          if( KeywordsLength <= 0 )
+          if( !msDoc.GetIsExternal() )
           {
-            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
-            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-            lvItem.SubItems[ 4 ].ForeColor = Color.Red;
+            if( KeywordsLength <= 0 )
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+              lvItem.SubItems[ 4 ].ForeColor = Color.Red;
+            }
+            else
+            {
+              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+              lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+              lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+              lvItem.SubItems[ 4 ].ForeColor = Color.Green;
+            }
           }
           else
           {
-            lvItem.SubItems[ 2 ].ForeColor = Color.Green;
-            lvItem.SubItems[ 3 ].ForeColor = Color.Green;
-            lvItem.SubItems[ 4 ].ForeColor = Color.Green;
+            lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
           }
           
         }

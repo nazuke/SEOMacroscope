@@ -48,7 +48,10 @@ namespace SEOMacroscope
 
       try
       {
-        Url = e.Node.Tag.ToString();
+        if( e.Node.Tag != null )
+        {
+          Url = e.Node.Tag.ToString();
+        }
       }
       catch( Exception ex )
       {

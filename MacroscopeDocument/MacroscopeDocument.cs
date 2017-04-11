@@ -268,25 +268,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
@@ -1107,60 +1107,90 @@ namespace SEOMacroscope
 
     public string GetKeywords ()
     {
-      string sValue;
+
+      string Value;
+
       if( this.Keywords != null )
       {
-        sValue = this.Keywords;
+        Value = this.Keywords;
       }
       else
       {
-        sValue = "";
+        Value = "";
       }
-      return( sValue );
+
+      return( Value );
+
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int GetKeywordsLength ()
     {
-      return( this.GetKeywords().Length );
+      
+      int Length = 0;
+
+      if( this.Keywords != null )
+      {
+        Length = this.Keywords.Length;
+      }
+      
+      return( Length );
+
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     public int GetKeywordsCount ()
     {
-      int uiCount = 0;
-      string [] aKeywords = Regex.Split( this.GetKeywords(), "[\\s,]+" );
-      uiCount = aKeywords.GetLength( 0 );
-      return( uiCount );
+
+      int Count = 0;
+      
+      if(
+        ( this.Keywords != null )
+        && ( this.Keywords.Length > 0 ) )
+      {
+        string [] KeywordsList = Regex.Split( this.Keywords, "[\\s,]+" );
+        Count = KeywordsList.GetLength( 0 );
+      }
+
+      return( Count );
+
     }
 
-    /** AltText **************************************************************/
+    /** AltText ***************************************************************/
 
     public void SetAltText ( string AltText, MacroscopeConstants.TextProcessingMode ProcessingMode )
     {
 
-      string sValue = AltText;
+      string Value = AltText;
 
       if( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
       {
-        sValue = HtmlEntity.DeEntitize( AltText );
+        Value = HtmlEntity.DeEntitize( AltText );
       }
 
-      this.AltText = sValue;
+      this.AltText = Value;
 
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetAltText ()
     {
-      string sValue;
+      string Value;
       if( this.AltText != null )
       {
-        sValue = this.AltText;
+        Value = this.AltText;
       }
       else
       {
-        sValue = "";
+        Value = "";
       }
-      return( sValue );
+      return( Value );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int GetAltTextLength ()
     {

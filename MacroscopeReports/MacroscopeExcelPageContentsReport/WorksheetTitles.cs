@@ -101,9 +101,14 @@ namespace SEOMacroscope
           iCol = 1;
 
           string Title = msDoc.GetTitle();
-          int Occurrences = DocCollection.GetStatsTitleCount( Title );
+          int Occurrences = 0;
           int TitleLength = msDoc.GetTitleLength();
           int TitlePixelWidth = msDoc.GetTitlePixelWidth();
+
+          if( TitleLength > 0 )
+          {
+            Occurrences = DocCollection.GetStatsTitleCount( Title );
+          }
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 

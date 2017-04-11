@@ -222,7 +222,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
 		public System.Windows.Forms.ToolStripLabel toolStripLabelLinksUrls;
 		public System.Windows.Forms.ListView listViewLinks;
-		public System.Windows.Forms.ColumnHeader columnHeaderLinksOutClass;
+		public System.Windows.Forms.ColumnHeader columnHeaderLinksOutLinkType;
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutSourceUrl;
 		public System.Windows.Forms.ColumnHeader columnHeaderLinksOutTargetUrl;
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutFollow;
@@ -254,6 +254,9 @@ namespace SEOMacroscope
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroscopeOverviewPanel));
 			this.tabControlMain = new System.Windows.Forms.TabControl();
+			this.tabPageStructureOverview = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanelStructure = new System.Windows.Forms.TableLayoutPanel();
+			this.listViewStructure = new System.Windows.Forms.ListView();
 			this.contextMenuStripStructure = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItemOpenInBrowser = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -261,9 +264,6 @@ namespace SEOMacroscope
 			this.toolStripMenuItemRemoveFromAllowedHosts = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripMenuItemResetEntry = new System.Windows.Forms.ToolStripMenuItem();
-			this.tabPageStructureOverview = new System.Windows.Forms.TabPage();
-			this.tableLayoutPanelStructure = new System.Windows.Forms.TableLayoutPanel();
-			this.listViewStructure = new System.Windows.Forms.ListView();
 			this.toolStripSearch = new System.Windows.Forms.ToolStrip();
 			this.toolStripStructureFilterMenu = new System.Windows.Forms.ToolStripDropDownButton();
 			this.allDocumentTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -346,7 +346,7 @@ namespace SEOMacroscope
 			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripLabelLinksUrls = new System.Windows.Forms.ToolStripLabel();
 			this.listViewLinks = new System.Windows.Forms.ListView();
-			this.columnHeaderLinksOutClass = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderLinksOutLinkType = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderLinksOutSourceUrl = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderLinksOutTargetUrl = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderLinksOutFollow = new System.Windows.Forms.ColumnHeader();
@@ -452,9 +452,9 @@ namespace SEOMacroscope
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.tabControlMain.SuspendLayout();
-			this.contextMenuStripStructure.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
+			this.contextMenuStripStructure.SuspendLayout();
 			this.toolStripSearch.SuspendLayout();
 			this.tabPageHierarchy.SuspendLayout();
 			this.tabPageSearch.SuspendLayout();
@@ -524,6 +524,54 @@ namespace SEOMacroscope
 			this.tabControlMain.Size = new System.Drawing.Size(800, 500);
 			this.tabControlMain.TabIndex = 0;
 			// 
+			// tabPageStructureOverview
+			// 
+			this.tabPageStructureOverview.Controls.Add(this.tableLayoutPanelStructure);
+			this.tabPageStructureOverview.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.tabPageStructureOverview.Location = new System.Drawing.Point(4, 58);
+			this.tabPageStructureOverview.Margin = new System.Windows.Forms.Padding(0);
+			this.tabPageStructureOverview.Name = "tabPageStructureOverview";
+			this.tabPageStructureOverview.Size = new System.Drawing.Size(792, 438);
+			this.tabPageStructureOverview.TabIndex = 0;
+			this.tabPageStructureOverview.Text = "Structure Overview";
+			this.tabPageStructureOverview.UseVisualStyleBackColor = true;
+			// 
+			// tableLayoutPanelStructure
+			// 
+			this.tableLayoutPanelStructure.ColumnCount = 1;
+			this.tableLayoutPanelStructure.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelStructure.Controls.Add(this.listViewStructure, 0, 1);
+			this.tableLayoutPanelStructure.Controls.Add(this.toolStripSearch, 0, 0);
+			this.tableLayoutPanelStructure.Location = new System.Drawing.Point(20, 20);
+			this.tableLayoutPanelStructure.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanelStructure.Name = "tableLayoutPanelStructure";
+			this.tableLayoutPanelStructure.RowCount = 2;
+			this.tableLayoutPanelStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tableLayoutPanelStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelStructure.Size = new System.Drawing.Size(700, 400);
+			this.tableLayoutPanelStructure.TabIndex = 2;
+			// 
+			// listViewStructure
+			// 
+			this.listViewStructure.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.listViewStructure.BackColor = System.Drawing.SystemColors.Window;
+			this.listViewStructure.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.listViewStructure.CausesValidation = false;
+			this.listViewStructure.ContextMenuStrip = this.contextMenuStripStructure;
+			this.listViewStructure.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+			this.listViewStructure.FullRowSelect = true;
+			this.listViewStructure.GridLines = true;
+			this.listViewStructure.LabelWrap = false;
+			this.listViewStructure.Location = new System.Drawing.Point(250, 114);
+			this.listViewStructure.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewStructure.MultiSelect = false;
+			this.listViewStructure.Name = "listViewStructure";
+			this.listViewStructure.ShowGroups = false;
+			this.listViewStructure.Size = new System.Drawing.Size(200, 200);
+			this.listViewStructure.TabIndex = 0;
+			this.listViewStructure.UseCompatibleStateImageBehavior = false;
+			this.listViewStructure.View = System.Windows.Forms.View.Details;
+			// 
 			// contextMenuStripStructure
 			// 
 			this.contextMenuStripStructure.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -573,54 +621,6 @@ namespace SEOMacroscope
 			this.toolStripMenuItemResetEntry.Size = new System.Drawing.Size(247, 22);
 			this.toolStripMenuItemResetEntry.Text = "Retry fetch";
 			this.toolStripMenuItemResetEntry.ToolTipText = "Try and fetch this page again";
-			// 
-			// tabPageStructureOverview
-			// 
-			this.tabPageStructureOverview.Controls.Add(this.tableLayoutPanelStructure);
-			this.tabPageStructureOverview.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.tabPageStructureOverview.Location = new System.Drawing.Point(4, 58);
-			this.tabPageStructureOverview.Margin = new System.Windows.Forms.Padding(0);
-			this.tabPageStructureOverview.Name = "tabPageStructureOverview";
-			this.tabPageStructureOverview.Size = new System.Drawing.Size(792, 438);
-			this.tabPageStructureOverview.TabIndex = 0;
-			this.tabPageStructureOverview.Text = "Structure Overview";
-			this.tabPageStructureOverview.UseVisualStyleBackColor = true;
-			// 
-			// tableLayoutPanelStructure
-			// 
-			this.tableLayoutPanelStructure.ColumnCount = 1;
-			this.tableLayoutPanelStructure.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelStructure.Controls.Add(this.listViewStructure, 0, 1);
-			this.tableLayoutPanelStructure.Controls.Add(this.toolStripSearch, 0, 0);
-			this.tableLayoutPanelStructure.Location = new System.Drawing.Point(20, 20);
-			this.tableLayoutPanelStructure.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanelStructure.Name = "tableLayoutPanelStructure";
-			this.tableLayoutPanelStructure.RowCount = 2;
-			this.tableLayoutPanelStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tableLayoutPanelStructure.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelStructure.Size = new System.Drawing.Size(700, 400);
-			this.tableLayoutPanelStructure.TabIndex = 2;
-			// 
-			// listViewStructure
-			// 
-			this.listViewStructure.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.listViewStructure.BackColor = System.Drawing.SystemColors.Window;
-			this.listViewStructure.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.listViewStructure.CausesValidation = false;
-			this.listViewStructure.ContextMenuStrip = this.contextMenuStripStructure;
-			this.listViewStructure.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.listViewStructure.FullRowSelect = true;
-			this.listViewStructure.GridLines = true;
-			this.listViewStructure.LabelWrap = false;
-			this.listViewStructure.Location = new System.Drawing.Point(250, 114);
-			this.listViewStructure.Margin = new System.Windows.Forms.Padding(0);
-			this.listViewStructure.MultiSelect = false;
-			this.listViewStructure.Name = "listViewStructure";
-			this.listViewStructure.ShowGroups = false;
-			this.listViewStructure.Size = new System.Drawing.Size(200, 200);
-			this.listViewStructure.TabIndex = 0;
-			this.listViewStructure.UseCompatibleStateImageBehavior = false;
-			this.listViewStructure.View = System.Windows.Forms.View.Details;
 			// 
 			// toolStripSearch
 			// 
@@ -1138,6 +1138,7 @@ namespace SEOMacroscope
 			this.columnHeaderErrorsStatus,
 			this.columnHeaderErrorsDescription});
 			this.listViewErrors.ContextMenuStrip = this.contextMenuStripStructure;
+			this.listViewErrors.FullRowSelect = true;
 			this.listViewErrors.GridLines = true;
 			this.listViewErrors.Location = new System.Drawing.Point(10, 10);
 			this.listViewErrors.Margin = new System.Windows.Forms.Padding(0);
@@ -1307,7 +1308,7 @@ namespace SEOMacroscope
 			// 
 			this.listViewLinks.CausesValidation = false;
 			this.listViewLinks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeaderLinksOutClass,
+			this.columnHeaderLinksOutLinkType,
 			this.columnHeaderLinksOutSourceUrl,
 			this.columnHeaderLinksOutTargetUrl,
 			this.columnHeaderLinksOutFollow,
@@ -1325,10 +1326,10 @@ namespace SEOMacroscope
 			this.listViewLinks.UseCompatibleStateImageBehavior = false;
 			this.listViewLinks.View = System.Windows.Forms.View.Details;
 			// 
-			// columnHeaderLinksOutClass
+			// columnHeaderLinksOutLinkType
 			// 
-			this.columnHeaderLinksOutClass.Text = "Class";
-			this.columnHeaderLinksOutClass.Width = 100;
+			this.columnHeaderLinksOutLinkType.Text = "Link Type";
+			this.columnHeaderLinksOutLinkType.Width = 100;
 			// 
 			// columnHeaderLinksOutSourceUrl
 			// 
@@ -2205,10 +2206,10 @@ namespace SEOMacroscope
 			this.Name = "MacroscopeOverviewPanel";
 			this.Size = new System.Drawing.Size(800, 500);
 			this.tabControlMain.ResumeLayout(false);
-			this.contextMenuStripStructure.ResumeLayout(false);
 			this.tabPageStructureOverview.ResumeLayout(false);
 			this.tableLayoutPanelStructure.ResumeLayout(false);
 			this.tableLayoutPanelStructure.PerformLayout();
+			this.contextMenuStripStructure.ResumeLayout(false);
 			this.toolStripSearch.ResumeLayout(false);
 			this.toolStripSearch.PerformLayout();
 			this.tabPageHierarchy.ResumeLayout(false);

@@ -125,33 +125,33 @@ namespace SEOMacroscope
     private void UpdateProgressBarScan ()
     {
 
-      int iPercentage = 0;
+      int Percentage = 0;
 
       if( this.JobMaster != null )
       {
 
         List<decimal> Counts = this.JobMaster.GetProgress();
-        decimal iTotal = Counts[ 0 ];
-        decimal iProcessed = Counts[ 1 ];
-        decimal iQueued = Counts[ 2 ];
+        decimal Total = Counts[ 0 ];
+        decimal Processed = Counts[ 1 ];
+        decimal Queued = Counts[ 2 ];
         
-        if( iTotal > 0 )
+        if( Total > 0 )
         {
-          iPercentage = ( int )( ( 100 / iTotal ) * iProcessed );
+          Percentage = ( int )( ( 100 / Total ) * Processed );
         }
         else
         {
-          iPercentage = 0;
+          Percentage = 0;
         }
 
-        if( iPercentage < 0 )
+        if( Percentage < 0 )
         {
-          iPercentage = 0;
+          Percentage = 0;
         }
         else
-        if( iPercentage > 100 )
+        if( Percentage > 100 )
         {
-          iPercentage = 100;
+          Percentage = 100;
         }
 
         //DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
@@ -163,7 +163,7 @@ namespace SEOMacroscope
 
       //DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
 
-      this.ProgressBarScan.Value = iPercentage;
+      this.ProgressBarScan.Value = Percentage;
 
     }
 
