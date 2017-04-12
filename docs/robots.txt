@@ -6,3 +6,5 @@ Crawl-Delay: 1
 User-agent: *
 
 Allow: /
+
+https://nazuke.github.io/SEOMacroscope/sitemap.xml
