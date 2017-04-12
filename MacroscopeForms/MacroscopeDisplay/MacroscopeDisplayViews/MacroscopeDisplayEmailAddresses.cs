@@ -81,8 +81,6 @@ namespace SEOMacroscope
 
         Dictionary<string,string> EmailAddresses = msDoc.GetEmailAddresses();
 
-        this.lvListView.BeginUpdate();
-
         foreach( string EmailAddress in EmailAddresses.Keys )
         {
 
@@ -148,9 +146,7 @@ namespace SEOMacroscope
           }
 
         }
-          
-        this.lvListView.EndUpdate();
-          
+
       }
 
     }

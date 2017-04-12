@@ -366,8 +366,8 @@ namespace SEOMacroscope
           string LinkUrl = LinkNode.GetAttributeValue( "href", null );
           string LinkUrlAbsolute = null;
           string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
-          
-          DebugMsg( string.Format( "ImageNode: {0}", this.GetUrl() ) );
+                    
+          DebugMsg( string.Format( "ProcessHtmlHyperlinksOut: {0}", this.GetUrl() ) );
           
           
           if( LinkUrl != null )
@@ -396,9 +396,9 @@ namespace SEOMacroscope
 
                 string Rel = LinkNode.GetAttributeValue( "rel", null );
 
-                if( Rel != null )
+                if( !string.IsNullOrEmpty( Rel ) )
                 {
-                  if( Rel.ToLower().Contains( "nofollow" ) )
+                  if( Rel.ToLower().Equals( "nofollow" ) )
                     HyperlinkOut.UnsetDoFollow();
                 }
 
@@ -887,9 +887,11 @@ namespace SEOMacroscope
         
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//style" );
       
-        if( NodeCollection != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
           
+          DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", NodeCollection.Count ) );
+                        
           foreach( HtmlNode Node in NodeCollection )
           {
 
@@ -925,9 +927,11 @@ namespace SEOMacroscope
         
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//*[@style]" );
       
-        if( NodeCollection != null )
+        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
           
+          DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", NodeCollection.Count ) );
+                    
           foreach( HtmlNode Node in NodeCollection )
           {
 

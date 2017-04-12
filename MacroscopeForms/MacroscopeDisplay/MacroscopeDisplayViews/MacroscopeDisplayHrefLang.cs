@@ -88,10 +88,12 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView(
                 DocCollection: DocCollection,
                 LocalesList: LocalesList
               );
+              this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -100,10 +102,12 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView(
           DocCollection: DocCollection,
           LocalesList: LocalesList
         );
+        this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
     }
@@ -121,18 +125,16 @@ namespace SEOMacroscope
       Dictionary<string,string> LocalesList
     )
     {
-
       
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       Hashtable htLocaleCols = new Hashtable ();
-
       
       if( DocCollection.CountDocuments() == 0 )
       {
         return;
       }
             
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm (this.MainForm);
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
@@ -148,8 +150,6 @@ namespace SEOMacroscope
 
       this.lvListView.Items.Clear();
       this.lvListView.Columns.Clear();
-
-      this.lvListView.BeginUpdate();
 
       {
 
@@ -326,8 +326,6 @@ namespace SEOMacroscope
         );
         
       }
-
-      this.lvListView.EndUpdate();
 
       this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
 

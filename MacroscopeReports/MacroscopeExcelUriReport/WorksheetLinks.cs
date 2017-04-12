@@ -93,12 +93,17 @@ namespace SEOMacroscope
           string SourceUrl = Link.GetSourceUrl();
           string TargetUrl = Link.GetTargetUrl();
 
-          string Follow = Link.GetDoFollow().ToString();
-
           string AltText = Link.GetAltText();
         
           string RawSourceUrl = Link.GetRawSourceUrl();
           string RawTargetUrl = Link.GetRawTargetUrl();
+
+          string DoFollow = "No Follow";
+
+          if( Link.GetDoFollow() )
+          {
+            DoFollow = "Follow";
+          }
 
           if( string.IsNullOrEmpty( AltText ) )
           {
@@ -142,7 +147,7 @@ namespace SEOMacroscope
             
           iCol++;
             
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Follow ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DoFollow ) );
             
           iCol++;
             

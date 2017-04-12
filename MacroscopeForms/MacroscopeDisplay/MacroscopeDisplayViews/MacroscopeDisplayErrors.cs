@@ -103,9 +103,7 @@ namespace SEOMacroscope
         );  
 
       }
-            
-      this.lvListView.BeginUpdate();
-                    
+                   
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
@@ -146,9 +144,7 @@ namespace SEOMacroscope
         }
 
       }
-     
-      this.lvListView.EndUpdate();
-                    
+                  
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.Close();
@@ -167,8 +163,6 @@ namespace SEOMacroscope
       string PairKey = Url;
       string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
       string Status = msDoc.GetStatusCode().ToString();
-
-      this.lvListView.BeginUpdate();
 
       if( this.lvListView.Items.ContainsKey( PairKey ) )
       {
@@ -253,8 +247,6 @@ namespace SEOMacroscope
         }
         
       }
-
-      this.lvListView.EndUpdate();
 
     }
 

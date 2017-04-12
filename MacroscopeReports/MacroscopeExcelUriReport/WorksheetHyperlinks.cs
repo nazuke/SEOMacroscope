@@ -80,7 +80,7 @@ namespace SEOMacroscope
         foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
         {
 
-          string HyperlinkOutUrl = HyperlinkOut.GetUrlTarget();
+          string HyperlinkOutUrl = HyperlinkOut.GetTargetUrl();
           string LinkText = HyperlinkOut.GetLinkText();    
           string LinkTitle = HyperlinkOut.GetLinkTitle();      
           string AltText = HyperlinkOut.GetAltText();       

@@ -172,7 +172,7 @@ namespace SEOMacroscope
     )
     {
 
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm (this.MainForm);
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       
@@ -225,7 +225,7 @@ namespace SEOMacroscope
     )
     {
 
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm (this.MainForm);
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       ProgressForm.Show();
@@ -275,8 +275,6 @@ namespace SEOMacroscope
               
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
 
-      this.lvListView.BeginUpdate();
-
       foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
       {
 
@@ -284,7 +282,7 @@ namespace SEOMacroscope
         string LinkType = Link.GetLinkType().ToString();
         string UrlTarget = Link.GetTargetUrl();
         string PairKey = string.Join( "::", Url, UrlTarget );
-        string Follow = "nofollow";
+        string DoFollow = "No Follow";
         string AltText = Link.GetAltText();
         string AltTextLabel = AltText;
         
@@ -293,7 +291,7 @@ namespace SEOMacroscope
 
         if( Link.GetDoFollow() )
         {
-          Follow = "follow";
+          DoFollow = "Follow";
         }
 
         if( string.IsNullOrEmpty( AltText ) )
@@ -322,7 +320,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].Text = LinkType;
             lvItem.SubItems[ 1 ].Text = Url;
             lvItem.SubItems[ 2 ].Text = UrlTarget;
-            lvItem.SubItems[ 3 ].Text = Follow;
+            lvItem.SubItems[ 3 ].Text = DoFollow;
             lvItem.SubItems[ 4 ].Text = AltTextLabel;
             lvItem.SubItems[ 5 ].Text = RawSourceUrl;
             lvItem.SubItems[ 6 ].Text = RawTargetUrl;
@@ -347,7 +345,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].Text = LinkType;
             lvItem.SubItems.Add( Url );
             lvItem.SubItems.Add( UrlTarget );
-            lvItem.SubItems.Add( Follow );
+            lvItem.SubItems.Add( DoFollow );
             lvItem.SubItems.Add( AltTextLabel );
             lvItem.SubItems.Add( RawSourceUrl );
             lvItem.SubItems.Add( RawTargetUrl );
@@ -388,11 +386,25 @@ namespace SEOMacroscope
             lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
           }
 
+          if( AllowedHosts.IsAllowedFromUrl( UrlTarget ) )
+          {
+            if( Link.GetDoFollow() )
+            {
+              lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+            }
+          }
+          else
+          {
+            lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+          }
+            
         }
 
       }
-
-      this.lvListView.EndUpdate();
 
       this.UrlCount.Text = string.Format( "URLs: {0}", lvListView.Items.Count );
 
@@ -406,18 +418,23 @@ namespace SEOMacroscope
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
 
-      this.lvListView.BeginUpdate();
-
       foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
       {
 
         string LinkType = Link.GetLinkType().ToString();
         string UrlTarget = Link.GetTargetUrl();
         string PairKey = string.Join( "::", Url, UrlTarget );
-        string Follow = Link.GetDoFollow().ToString();
+
         string AltText = Link.GetAltText();
         string AltTextLabel = AltText;
-        
+
+        string DoFollow = "No Follow";
+
+        if( Link.GetDoFollow() )
+        {
+          DoFollow = "Follow";
+        }
+
         if( string.IsNullOrEmpty( AltText ) )
         {
           AltTextLabel = "";
@@ -441,7 +458,7 @@ namespace SEOMacroscope
               lvItem.SubItems[ 0 ].Text = LinkType;
               lvItem.SubItems[ 1 ].Text = Url;
               lvItem.SubItems[ 2 ].Text = UrlTarget;
-              lvItem.SubItems[ 3 ].Text = Follow;
+              lvItem.SubItems[ 3 ].Text = DoFollow;
               lvItem.SubItems[ 4 ].Text = AltTextLabel;
 
             }
@@ -464,7 +481,7 @@ namespace SEOMacroscope
               lvItem.SubItems[ 0 ].Text = LinkType;
               lvItem.SubItems.Add( Url );
               lvItem.SubItems.Add( UrlTarget );
-              lvItem.SubItems.Add( Follow );
+              lvItem.SubItems.Add( DoFollow );
               lvItem.SubItems.Add( AltTextLabel );
 
               this.lvListView.Items.Add( lvItem );
@@ -503,13 +520,27 @@ namespace SEOMacroscope
               lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
             }
 
+            if( AllowedHosts.IsAllowedFromUrl( UrlTarget ) )
+            {
+              if( Link.GetDoFollow() )
+              {
+                lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+              }
+              else
+              {
+                lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+              }
+            }
+            else
+            {
+              lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+            }
+
           }
 
         }
 
       }
-
-      this.lvListView.EndUpdate();
 
       this.UrlCount.Text = string.Format( "URLs: {0}", lvListView.Items.Count );
 

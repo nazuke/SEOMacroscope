@@ -198,8 +198,10 @@ namespace SEOMacroscope
     // TODO: There may be a bug here, whereby two or more error pages are added multiple times.
     public void AddDocument ( string Url, MacroscopeDocument msDoc )
     {
+
       lock( this.DocCollection )
       {
+        
         if( this.DocCollection.ContainsKey( Url ) )
         {
           this.DocCollection.Remove( Url );
@@ -219,8 +221,11 @@ namespace SEOMacroscope
           {
             this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
           }
+          
         }
+        
       }
+      
     }
 
     /**************************************************************************/
@@ -573,6 +578,8 @@ namespace SEOMacroscope
               this.StatsUrlsSitemaps++;
             }
 
+            Thread.Yield();
+            
           }
 
         }
@@ -665,7 +672,7 @@ namespace SEOMacroscope
         foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
         {
                   
-          string Url = HyperlinkOut.GetUrlTarget();
+          string Url = HyperlinkOut.GetTargetUrl();
           MacroscopeHyperlinksIn HyperlinksIn = null;
 
           DebugMsg( string.Format( "RecalculateHyperlinksIn: URL SOURCE: {0}", msDoc.GetUrl() ) );
@@ -693,8 +700,8 @@ namespace SEOMacroscope
             HyperlinksIn.Add(
               LinkType: HyperlinkOut.GetHyperlinkType(),
               Method: HyperlinkOut.GetMethod(),
-              UrlOrigin: msDoc.GetUrl(),
-              UrlTarget: Url,
+              SourceUrl: msDoc.GetUrl(),
+              TargetUrl: Url,
               LinkText: HyperlinkOut.GetLinkText(),
               LinkTitle: HyperlinkOut.GetLinkTitle(),
               AltText: HyperlinkOut.GetAltText()

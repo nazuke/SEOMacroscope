@@ -82,7 +82,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView( JobMaster );
+              this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -91,7 +93,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView( JobMaster );
+        this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
     }
@@ -168,8 +172,6 @@ namespace SEOMacroscope
         sBlocked = "blocked";
       }
 
-      this.lvListView.BeginUpdate();
-            
       if( this.lvListView.Items.ContainsKey( sPairKey ) )
       {
 
@@ -240,8 +242,6 @@ namespace SEOMacroscope
 
       }
 
-      this.lvListView.EndUpdate();
-            
     }
 
     /**************************************************************************/

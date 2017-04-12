@@ -43,12 +43,13 @@ namespace SEOMacroscope
 
     private string Method;
 
-    private string UrlTarget;
+    private string TargetUrl;
+
+    private Boolean DoFollow;
+
     private string LinkText;
     private string LinkTitle;
     private string AltText;
-
-    private Boolean DoFollow;
 
     /**************************************************************************/
 
@@ -95,14 +96,31 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void SetUrlTarget ( string Url )
+    public void SetTargetUrl ( string Url )
     {
-      this.UrlTarget = Url;
+      this.TargetUrl = Url;
     }
 
-    public string GetUrlTarget ()
+    public string GetTargetUrl ()
     {
-      return( this.UrlTarget );
+      return( this.TargetUrl );
+    }
+
+    /**************************************************************************/
+
+    public void SetDoFollow ()
+    {
+      this.DoFollow = true;
+    }
+    
+    public void UnsetDoFollow ()
+    {
+      this.DoFollow = false;
+    }
+
+    public Boolean GetDoFollow ()
+    {
+      return( this.DoFollow );
     }
 
     /**************************************************************************/
@@ -139,23 +157,6 @@ namespace SEOMacroscope
     public string GetAltText ()
     {
       return( this.AltText );
-    }
-
-    /**************************************************************************/
-
-    public void SetDoFollow ()
-    {
-      this.DoFollow = true;
-    }
-    
-    public void UnsetDoFollow ()
-    {
-      this.DoFollow = false;
-    }
-
-    public Boolean GetDoFollow ()
-    {
-      return( this.DoFollow );
     }
 
     /**************************************************************************/

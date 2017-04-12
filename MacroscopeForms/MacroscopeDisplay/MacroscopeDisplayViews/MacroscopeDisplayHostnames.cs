@@ -81,14 +81,22 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
+              Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView( DocCollection );
+              this.lvListView.EndUpdate();
+              Cursor.Current = Cursors.Default;
             }
           )
         );
       }
       else
       {
+        Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView( DocCollection );
+        this.lvListView.EndUpdate();
+        Cursor.Current = Cursors.Default;
       }
     }
 
@@ -96,31 +104,26 @@ namespace SEOMacroscope
 
     public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
     {
-      this.DebugMsg( string.Format( "RenderListView: {0}", "OVERRIDE" ) );
 
-      Dictionary<string,int> sHostnames = DocCollection.GetStatsHostnamesWithCount();
+      Dictionary<string,int> Hostnames = DocCollection.GetStatsHostnamesWithCount();
 
-      this.DebugMsg( string.Format( "MacroscopeDisplayHostnames 1: {0}", sHostnames.Count ) );
-
-      foreach( string sHostname in sHostnames.Keys )
+      foreach( string Hostname in Hostnames.Keys )
       {
-        int iCount = sHostnames[ sHostname ];
-        this.RenderListView( sHostname, iCount );
+        int Count = Hostnames[ Hostname ];
+        this.RenderListView( Hostname, Count );
       }
+
     }
 
     /**************************************************************************/
 
-    public void RenderListView ( string sHostname, int iCount )
+    public void RenderListView ( string Hostname, int Count )
     {
-      string sPairKey = string.Join( "::", "HOST", sHostname );
-
-      this.lvListView.BeginUpdate();
-
-      Boolean bIsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( sHostname );
 
       ListViewItem lvItem = null;
-      
+      Boolean bIsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( Hostname );
+      string sPairKey = string.Join( "::", "HOST", Hostname );
+
       if( this.lvListView.Items.ContainsKey( sPairKey ) )
       {
 
@@ -128,8 +131,8 @@ namespace SEOMacroscope
         {
 
           lvItem = this.lvListView.Items[ sPairKey ];
-          lvItem.SubItems[ 0 ].Text = sHostname;
-          lvItem.SubItems[ 1 ].Text = iCount.ToString();
+          lvItem.SubItems[ 0 ].Text = Hostname;
+          lvItem.SubItems[ 1 ].Text = Count.ToString();
           lvItem.SubItems[ 2 ].Text = bIsInternal.ToString();
 
         }
@@ -149,8 +152,8 @@ namespace SEOMacroscope
 
           lvItem.Name = sPairKey;
 
-          lvItem.SubItems[ 0 ].Text = sHostname;
-          lvItem.SubItems.Add( iCount.ToString() );
+          lvItem.SubItems[ 0 ].Text = Hostname;
+          lvItem.SubItems.Add( Count.ToString() );
           lvItem.SubItems.Add( bIsInternal.ToString() );
 
           this.lvListView.Items.Add( lvItem );
@@ -182,8 +185,6 @@ namespace SEOMacroscope
         }
         
       }
-
-      this.lvListView.EndUpdate();
 
     }
 

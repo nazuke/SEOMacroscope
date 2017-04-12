@@ -83,8 +83,6 @@ namespace SEOMacroscope
       string sPairKey = string.Join( "", Url );
       ListViewItem lvItem = null;
 
-      this.lvListView.BeginUpdate();
-
       if( this.lvListView.Items.ContainsKey( sPairKey ) )
       {
 
@@ -182,8 +180,6 @@ namespace SEOMacroscope
         }
 
       }
-
-      this.lvListView.EndUpdate();
 
     }
 

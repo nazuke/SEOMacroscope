@@ -85,7 +85,7 @@ namespace SEOMacroscope
           foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() )
           {
 
-            string OriginUrl = HyperlinkIn.GetUrlOrigin();
+            string OriginUrl = HyperlinkIn.GetSourceUrl();
 
             if(
               ( OriginUrl != null )

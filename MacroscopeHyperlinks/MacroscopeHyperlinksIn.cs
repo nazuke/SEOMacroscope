@@ -62,8 +62,8 @@ namespace SEOMacroscope
     public MacroscopeHyperlinkIn Add (
       MacroscopeConstants.HyperlinkType LinkType,
       string Method,
-      string UrlOrigin,
-      string UrlTarget,
+      string SourceUrl,
+      string TargetUrl,
       string LinkText, 
       string LinkTitle,
       string AltText
@@ -73,8 +73,8 @@ namespace SEOMacroscope
       MacroscopeHyperlinkIn HyperlinkIn = new MacroscopeHyperlinkIn (
                                             LinkType: LinkType,
                                             Method: Method,
-                                            UrlOrigin: UrlOrigin,
-                                            UrlTarget: UrlTarget,
+                                            SourceUrl: SourceUrl,
+                                            TargetUrl: TargetUrl,
                                             LinkText: LinkText, 
                                             LinkTitle: LinkTitle,
                                             AltText: AltText
@@ -114,7 +114,7 @@ namespace SEOMacroscope
       {
         foreach( MacroscopeHyperlinkIn HyperlinkIn in this.Links )
         {
-          if( HyperlinkIn.GetUrlTarget() == Url )
+          if( HyperlinkIn.GetTargetUrl() == Url )
           {
             LinkPresent = true;
           }

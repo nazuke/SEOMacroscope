@@ -80,9 +80,7 @@ namespace SEOMacroscope
       {
 
         Dictionary<string,string> TelephoneNumbers = msDoc.GetTelephoneNumbers();
-
-        this.lvListView.BeginUpdate();
-                  
+                 
         foreach( string TelephoneNumber in TelephoneNumbers.Keys )
         {
 
@@ -148,8 +146,6 @@ namespace SEOMacroscope
           }
 
         }
-
-        this.lvListView.EndUpdate();
 
       }
 

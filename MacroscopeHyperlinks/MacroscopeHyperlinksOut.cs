@@ -69,7 +69,7 @@ namespace SEOMacroscope
       MacroscopeHyperlinkOut HyperlinkOut = new MacroscopeHyperlinkOut ();
 
       HyperlinkOut.SetHyperlinkType( LinkType );
-      HyperlinkOut.SetUrlTarget( UrlTarget );
+      HyperlinkOut.SetTargetUrl( UrlTarget );
 
       lock( this.Links )
       {
@@ -105,7 +105,7 @@ namespace SEOMacroscope
       {
         foreach( MacroscopeHyperlinkOut HyperlinkOut in this.Links )
         {
-          if( HyperlinkOut.GetUrlTarget() == Url )
+          if( HyperlinkOut.GetTargetUrl() == Url )
           {
             LinkPresent = true;
           }

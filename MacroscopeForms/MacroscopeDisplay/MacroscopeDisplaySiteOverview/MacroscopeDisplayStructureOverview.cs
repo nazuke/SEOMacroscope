@@ -109,6 +109,7 @@ namespace SEOMacroscope
 
     private void ResetTreeView ()
     {
+      
       this.tvTreeView.BeginUpdate();
 
       this.tvTreeView.Nodes.Clear();

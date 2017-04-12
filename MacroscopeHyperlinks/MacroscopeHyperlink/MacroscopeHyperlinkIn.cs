@@ -42,8 +42,9 @@ namespace SEOMacroscope
     private MacroscopeConstants.HyperlinkType HyperlinkType;
 
     private string Method;
-    private string UrlOrigin;
-    private string UrlTarget;
+    private string SourceUrl;
+    private string TargetUrl;
+    private Boolean DoFollow;
     private string LinkText;
     private string LinkTitle;
     private string AltText;
@@ -53,8 +54,8 @@ namespace SEOMacroscope
     public MacroscopeHyperlinkIn (
       MacroscopeConstants.HyperlinkType LinkType,
       string Method,
-      string UrlOrigin,
-      string UrlTarget,
+      string SourceUrl,
+      string TargetUrl,
       string LinkText, 
       string LinkTitle,
       string AltText
@@ -65,11 +66,13 @@ namespace SEOMacroscope
 
       this.HyperlinkType = LinkType;
       this.Method = Method;
-      this.UrlOrigin = UrlOrigin;
-      this.UrlTarget = UrlTarget;
+      this.SourceUrl = SourceUrl;
+      this.TargetUrl = TargetUrl;
       this.LinkText = LinkText;
       this.LinkTitle = LinkTitle;
       this.AltText = AltText;
+
+      this.DoFollow = true;
 
     }
 
@@ -89,16 +92,33 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public string GetUrlOrigin ()
+    public string GetSourceUrl ()
     {
-      return( this.UrlOrigin );
+      return( this.SourceUrl );
     }
 
     /**************************************************************************/
 
-    public string GetUrlTarget ()
+    public string GetTargetUrl ()
     {
-      return( this.UrlTarget );
+      return( this.TargetUrl );
+    }
+
+    /**************************************************************************/
+
+    public void SetDoFollow ()
+    {
+      this.DoFollow = true;
+    }
+    
+    public void UnsetDoFollow ()
+    {
+      this.DoFollow = false;
+    }
+
+    public Boolean GetDoFollow ()
+    {
+      return( this.DoFollow );
     }
 
     /**************************************************************************/

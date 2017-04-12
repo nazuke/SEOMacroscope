@@ -91,8 +91,6 @@ namespace SEOMacroscope
           sCanonicalLabel = "MISSING";
         }
 
-        this.lvListView.BeginUpdate();
-
         if( lvListView.Items.ContainsKey( Url ) )
         {
 
@@ -193,8 +191,6 @@ namespace SEOMacroscope
           
         }
               
-        this.lvListView.EndUpdate();
-
       }
 
     }

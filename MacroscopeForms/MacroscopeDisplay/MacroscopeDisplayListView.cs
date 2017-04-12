@@ -126,7 +126,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView( DocCollection, UrlList );
+              this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -135,7 +137,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView( DocCollection, UrlList );
+        this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -161,7 +165,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView( msDoc, Url );
+              this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -170,7 +176,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView( msDoc, Url );
+        this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -193,7 +201,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView( DocList: DocList );
+              this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -202,7 +212,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView( DocList: DocList );
+        this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -228,7 +240,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
+              this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -237,7 +251,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
+        this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -263,7 +279,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
+              this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -272,7 +290,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
+        this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 

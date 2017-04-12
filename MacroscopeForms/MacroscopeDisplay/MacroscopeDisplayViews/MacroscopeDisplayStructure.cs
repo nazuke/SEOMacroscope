@@ -77,6 +77,8 @@ namespace SEOMacroscope
       if( !this.ListViewConfigured )
       {
 
+        this.lvListView.SuspendLayout();
+        
         // BEGIN: Columns
 
         this.lvListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
@@ -89,12 +91,8 @@ namespace SEOMacroscope
         this.lvListView.Columns.Add( MacroscopeConstants.DateCrawled, MacroscopeConstants.DateCrawled );
         this.lvListView.Columns.Add( MacroscopeConstants.DateServer, MacroscopeConstants.DateServer );
         this.lvListView.Columns.Add( MacroscopeConstants.DateModified, MacroscopeConstants.DateModified );
-
         this.lvListView.Columns.Add( MacroscopeConstants.DateExpires, MacroscopeConstants.DateExpires );
-
-        
-        
-        
+       
         this.lvListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
         this.lvListView.Columns.Add( MacroscopeConstants.Lang, MacroscopeConstants.Lang );
         this.lvListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
@@ -125,6 +123,8 @@ namespace SEOMacroscope
 
         this.ListViewResizeColumnsInitial();
 
+        this.lvListView.ResumeLayout();
+        
         this.ListViewConfigured = true;
 
       }
@@ -202,8 +202,6 @@ namespace SEOMacroscope
 
         // END: Columns ------------------------------------------------------//
 
-        this.lvListView.BeginUpdate();
-
         if( this.lvListView.Items.ContainsKey( Url ) )
         {
           lvItem = this.lvListView.Items[ Url ];
@@ -211,10 +209,11 @@ namespace SEOMacroscope
         else
         {
           lvItem = new ListViewItem ( Url );
+          lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = Url;
-          foreach( string sKey in htItems.Keys )
+          foreach( string Key in htItems.Keys )
           {
-            lvItem.SubItems.Add( sKey );
+            lvItem.SubItems.Add( Key );
           }
           this.lvListView.Items.Add( lvItem );
         }
@@ -222,7 +221,6 @@ namespace SEOMacroscope
         if( lvItem != null )
         {
 
-          lvItem.UseItemStyleForSubItems = false;
           lvItem.ForeColor = Color.Blue;
 
           int iStatusColIndex = this.lvListView.Columns.IndexOfKey( MacroscopeConstants.Status );
@@ -298,8 +296,6 @@ namespace SEOMacroscope
         }
 
         this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
-
-        this.lvListView.EndUpdate();
 
       }
 

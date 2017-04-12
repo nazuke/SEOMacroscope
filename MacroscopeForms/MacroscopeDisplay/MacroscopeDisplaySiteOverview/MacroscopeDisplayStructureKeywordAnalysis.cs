@@ -209,9 +209,7 @@ namespace SEOMacroscope
       
       try
       {
-
-        lvListView.BeginUpdate();
-            
+          
         foreach( string KeywordTerm in DicTerms.Keys )
         {
 
@@ -283,8 +281,6 @@ namespace SEOMacroscope
           }
 
         }
-
-        lvListView.EndUpdate();
 
       }
       catch( Exception ex )

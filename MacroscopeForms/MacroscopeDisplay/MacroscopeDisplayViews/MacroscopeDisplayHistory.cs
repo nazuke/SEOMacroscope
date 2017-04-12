@@ -155,9 +155,7 @@ namespace SEOMacroscope
         MajorPercentage: MajorPercentage,
         ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
       );  
-      
-      this.lvListView.BeginUpdate();
-              
+             
       foreach( string Url in History.Keys )
       {
 
@@ -237,9 +235,7 @@ namespace SEOMacroscope
         );
 
       }
-
-      this.lvListView.EndUpdate();
-              
+            
       ProgressForm.Close();
       
       ProgressForm.Dispose();
