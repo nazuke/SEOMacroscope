@@ -144,7 +144,9 @@ namespace SEOMacroscope
       AUDIO = 7,
       VIDEO = 8,
       XML = 9,
-      SITEMAPXML = 10
+      SITEMAPXML = 10,
+      TEXT = 11,
+      SITEMAPTEXT = 12
     }
 
     /** END: Document Types ***************************************************/
@@ -178,7 +180,8 @@ namespace SEOMacroscope
       VIDEO = 13,
       EMBED = 14,
       OBJECT = 15,
-      ALTERNATE = 16
+      ALTERNATE = 16,
+      SITEMAPTEXT = 17
     }
 
     /** END: Outlink Types ****************************************************/

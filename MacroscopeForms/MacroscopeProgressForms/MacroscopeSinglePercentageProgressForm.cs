@@ -49,7 +49,7 @@ namespace SEOMacroscope
     {
       
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-      
+
       this.MainForm = MainForm;
       this.IsCancelled = false;
 
@@ -59,7 +59,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-
+  
     private void CallbackFormShown ( object sender, EventArgs e )
     {
       this.MainForm.Enabled = false;

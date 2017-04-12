@@ -1121,12 +1121,12 @@ namespace SEOMacroscope
     {
       if( MacroscopePreferencesManager.GetFollowSitemapLinks() )
       {
-        List<string> lSitemaps = Robots.GetSitemapsAsList( Url );
-        if( lSitemaps.Count > 0 )
+        List<string> SitemapList = Robots.GetSitemapsAsList( Url );
+        if( SitemapList.Count > 0 )
         {
-          for( int i = 0 ; i < lSitemaps.Count ; i++ )
+          for( int i = 0 ; i < SitemapList.Count ; i++ )
           {
-            this.AddUrlQueueItem( lSitemaps[ i ] );
+            this.AddUrlQueueItem( SitemapList[ i ] );
           }
         }
       }

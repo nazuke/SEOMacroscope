@@ -60,7 +60,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-
+        
     private void CallbackFormShown ( object sender, EventArgs e )
     {
       this.MainForm.Enabled = false;

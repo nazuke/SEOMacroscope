@@ -142,7 +142,7 @@ namespace SEOMacroscope
     private List<string> Remarks;
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -187,7 +187,7 @@ namespace SEOMacroscope
     private void InitializeDocument ( string Url )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       DocCollection = null;
       
@@ -602,6 +602,8 @@ namespace SEOMacroscope
       return( this.DocumentType );
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public void SetIsBinary ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.BINARY;
@@ -619,6 +621,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public void SetIsHtml ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.HTML;
@@ -636,6 +640,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public void SetIsCss ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.CSS;
@@ -653,11 +659,12 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public void SetIsJavascript ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.JAVASCRIPT;
     }
-
 
     public Boolean GetIsJavascript ()
     {
@@ -670,6 +677,8 @@ namespace SEOMacroscope
         return( false );
       }
     }
+    
+    /** -------------------------------------------------------------------- **/
 
     public void SetIsImage ()
     {
@@ -687,6 +696,8 @@ namespace SEOMacroscope
         return( false );
       }
     }
+    
+    /** -------------------------------------------------------------------- **/
 
     public void SetIsPdf ()
     {
@@ -705,6 +716,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public void SetIsAudio ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.AUDIO;
@@ -722,6 +735,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public void SetIsVideo ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.VIDEO;
@@ -739,6 +754,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public void SetIsXml ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.XML;
@@ -756,6 +773,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public void SetIsSitemapXml ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.SITEMAPXML;
@@ -772,7 +791,45 @@ namespace SEOMacroscope
         return( false );
       }
     }
+    
+    /** -------------------------------------------------------------------- **/
+        
+    public void SetIsText ()
+    {
+      this.DocumentType = MacroscopeConstants.DocumentType.TEXT;
+    }
 
+    public Boolean GetIsText ()
+    {
+      if( this.DocumentType == MacroscopeConstants.DocumentType.TEXT )
+      {
+        return( true );
+      }
+      else
+      {
+        return( false );
+      }
+    }
+    
+    /** -------------------------------------------------------------------- **/
+
+    public void SetIsSitemapText ()
+    {
+      this.DocumentType = MacroscopeConstants.DocumentType.SITEMAPTEXT;
+    }
+
+    public Boolean GetIsSitemapText ()
+    {
+      if( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPTEXT )
+      {
+        return( true );
+      }
+      else
+      {
+        return( false );
+      }
+    }
+    
     /** Compression ***********************************************************/
 
     public Boolean GetIsCompressed ()
@@ -1517,6 +1574,15 @@ namespace SEOMacroscope
 
         }
         else
+        if( this.GetIsText() )
+        {
+          
+          DebugMsg( string.Format( "IS TEXT PAGE: {0}", this.DocUrl ) );
+
+          fTimeDuration( this.ProcessTextPage );
+
+        }
+        else
         if( this.GetIsAudio() )
         {
           
@@ -2072,7 +2138,8 @@ namespace SEOMacroscope
         Regex reIsAudio = new Regex ( "^audio/[a-z0-9]+", RegexOptions.IgnoreCase );
         Regex reIsVideo = new Regex ( "^video/[a-z0-9]+", RegexOptions.IgnoreCase );
         Regex reIsXml = new Regex ( "^(application|text)/(atom\\+xml|xml)", RegexOptions.IgnoreCase );
-
+        Regex reIsText = new Regex ( "^(text)/(plain)", RegexOptions.IgnoreCase );
+        
         if( reIsHtml.IsMatch( this.MimeType ) )
         {
           this.SetIsHtml();
@@ -2111,6 +2178,11 @@ namespace SEOMacroscope
         if( reIsXml.IsMatch( this.MimeType ) )
         {
           this.SetIsXml();
+        }
+        else
+        if( reIsText.IsMatch( this.MimeType ) )
+        {
+          this.SetIsText();
         }
         else
         {

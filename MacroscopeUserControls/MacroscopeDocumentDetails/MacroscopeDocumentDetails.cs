@@ -69,6 +69,7 @@ namespace SEOMacroscope
       this.listViewAudios.Dock = DockStyle.Fill;
       this.listViewVideos.Dock = DockStyle.Fill;
       this.listViewKeywordAnalysis.Dock = DockStyle.Fill;
+      this.textBoxBodyText.Dock = DockStyle.Fill;
 
       this.UrlLoader = new MacroscopeUrlLoader ();
       this.listViewDocInfo.Dock = DockStyle.Fill;
@@ -190,6 +191,8 @@ namespace SEOMacroscope
       this.listViewVideos.Items.Clear();
       this.listViewKeywordAnalysis.Items.Clear();
 
+      this.textBoxBodyText.Text = "";
+        
       this.pictureBoxDocumentDetailsImage.Image = null;
       this.listViewDocInfo.Columns.Clear();
 
@@ -267,6 +270,8 @@ namespace SEOMacroscope
         this.RenderListViewKeywordAnalysis( JobMaster, msDoc );
       }
 
+      this.RenderTextBoxBodyText( JobMaster, msDoc );
+      
       this.RenderDocumentPreview( JobMaster, msDoc );
 
       Cursor.Current = Cursors.Default;
@@ -1741,6 +1746,29 @@ namespace SEOMacroscope
       
       }
       
+    }
+
+    /** Body Text *************************************************************/
+
+    private void RenderTextBoxBodyText ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    {
+
+      TextBox BodyText = this.textBoxBodyText;
+
+      lock( BodyText )
+      {
+        string DocumentText = msDoc.GetBodyText();
+        if( !string.IsNullOrEmpty( DocumentText ) )
+        {
+          BodyText.Text = DocumentText;
+        }
+        else
+        {
+          BodyText.Text = "";
+        }
+
+      }
+
     }
 
     /** Document Preview ******************************************************/

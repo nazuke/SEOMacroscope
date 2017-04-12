@@ -75,9 +75,19 @@ namespace SEOMacroscope
     protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
-      DebugMsg( string.Format( "MacroscopeDisplaySitemaps Url: {0}", Url ) );
+      Boolean Proceed = false;
 
-      if( !msDoc.GetIsSitemapXml() )
+      if( msDoc.GetIsSitemapXml() )
+      {
+        Proceed = true;
+      }
+      else
+      if( msDoc.GetIsSitemapText() )
+      {
+        Proceed = true;
+      }
+      
+      if( !Proceed )
       {
         return;
       }
