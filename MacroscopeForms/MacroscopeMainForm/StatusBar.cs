@@ -26,6 +26,7 @@
 using System;
 using System.Timers;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -66,28 +67,46 @@ namespace SEOMacroscope
         
     private void CallbackStatusBarTimer ( Object self, ElapsedEventArgs e )
     {
-      try
+
+      if( Monitor.TryEnter( LockerTimerStatusBar, 1000 ) )
       {
-        if( this.InvokeRequired )
+         
+        DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", "OBTAINED LOCK" ) );
+                
+        try
         {
-          this.Invoke(
-            new MethodInvoker (
-              delegate
-              {
-                this.UpdateStatusBar();
-              }
-            )
-          );
+          if( this.InvokeRequired )
+          {
+            this.Invoke(
+              new MethodInvoker (
+                delegate
+                {
+                  this.UpdateStatusBar();
+                }
+              )
+            );
+          }
+          else
+          {
+            this.UpdateStatusBar();
+          }
         }
-        else
+        catch( Exception ex )
         {
-          this.UpdateStatusBar();
+          DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", ex.Message ) );
         }
+        finally
+        {
+          Monitor.Exit( LockerTimerStatusBar );
+          DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", "RELEASED LOCK" ) );
+        }
+
       }
-      catch( Exception ex )
+      else
       {
-        DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", ex.Message ) );
+        DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
+      
     }
 
     /**************************************************************************/

@@ -42,7 +42,7 @@ namespace SEOMacroscope
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string ResponseErrorCondition = null;
-      Boolean bAuthenticating = false;
+      Boolean Authenticating = false;
       
       try
       {
@@ -54,7 +54,7 @@ namespace SEOMacroscope
                 
         this.PrepareRequestHttpHeaders( req: req );
                 
-        bAuthenticating = this.AuthenticateRequest( req );
+        Authenticating = this.AuthenticateRequest( req );
                                       
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
@@ -79,7 +79,7 @@ namespace SEOMacroscope
 
         this.ProcessResponseHttpHeaders( req, res );
 
-        if( bAuthenticating )
+        if( Authenticating )
         {
           this.VerifyOrPurgeCredential();
         }
@@ -98,25 +98,25 @@ namespace SEOMacroscope
           try
           {
 
-            Stream sStream = res.GetResponseStream();
-            List<byte> aRawDataList = new List<byte> ();
-            byte [] aRawData;
+            Stream ResponseStream = res.GetResponseStream();
+            List<byte> RawDataList = new List<byte> ();
+            byte [] RawData;
             do
             {
-              int buf = sStream.ReadByte();
+              int buf = ResponseStream.ReadByte();
               if( buf > -1 )
               {
-                aRawDataList.Add( ( byte )buf );
+                RawDataList.Add( ( byte )buf );
               }
               else
               {
                 break;
               }
-            } while( sStream.CanRead );
-            aRawData = aRawDataList.ToArray();
-            this.ContentLength = aRawData.Length;
+            } while( ResponseStream.CanRead );
+            RawData = RawDataList.ToArray();
+            this.ContentLength = RawData.Length;
 
-            pdfTools = new MacroscopePdfTools ( aRawData );
+            pdfTools = new MacroscopePdfTools ( RawData );
 						
             this.SetWasDownloaded( true );
 

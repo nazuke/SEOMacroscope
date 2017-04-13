@@ -85,12 +85,16 @@ namespace SEOMacroscope
 
     MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
-    private object LockerUpdateTabPage = new object ();
-              
-    private object LockerOverviewTabPages;
+    private static object LockerOverviewTabPages = new object ();
     private object LockerSiteStructureDisplay;
     private object LockerAuthenticationDialogue;
-        
+
+    private static object LockerTimerProgressBarScan = new object ();
+    private static object LockerTimerTabPages = new object ();
+    private static object LockerTimerSiteOverview = new object ();
+    private static object LockerTimerStatusBar = new object ();
+    private static object LockerTimerAuthentication = new object ();
+
     public System.Timers.Timer TimerProgressBarScan;
     public System.Timers.Timer TimerTabPages;
     public System.Timers.Timer TimerSiteOverview;
@@ -127,7 +131,6 @@ namespace SEOMacroscope
 			this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
       #endif
 
-      this.LockerOverviewTabPages = new object ();
       this.LockerSiteStructureDisplay = new object ();
 
       this.StartTabPageTimer( Delay: 4000 ); // 4000ms
@@ -750,21 +753,46 @@ namespace SEOMacroscope
 
     private void CallbackTabPageTimer ( Object self, ElapsedEventArgs e )
     {
-      if( this.InvokeRequired )
+
+      if( Monitor.TryEnter( LockerTimerTabPages, 1000 ) )
       {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.CallbackTabPageTimerExec();
-            }
-          )
-        );
+
+        DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "OBTAINED LOCK" ) );
+        
+        try
+        {   
+          if( this.InvokeRequired )
+          {
+            this.Invoke(
+              new MethodInvoker (
+                delegate
+                {
+                  this.CallbackTabPageTimerExec();
+                }
+              )
+            );
+          }
+          else
+          {
+            this.CallbackTabPageTimerExec();
+          }
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "CallbackTabPageTimer: {0}", ex.Message ) );
+        }
+        finally
+        {
+          Monitor.Exit( LockerTimerTabPages );
+          DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "RELEASED LOCK" ) );
+        }
+
       }
       else
       {
-        this.CallbackTabPageTimerExec();
+        DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
+      
     }
 
     /** -------------------------------------------------------------------- **/
@@ -781,12 +809,34 @@ namespace SEOMacroscope
 
     private void CallbackTabControlDisplaySelectedIndexChanged ( Object sender, EventArgs e )
     {
-      lock( this.LockerOverviewTabPages )
+
+      if( Monitor.TryEnter( LockerOverviewTabPages, 250 ) )
       {
-        TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-        string TabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
-        this.UpdateTabPage( TabPageName );
+
+        DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "OBTAINED LOCK" ) );
+        
+        try
+        {   
+          TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+          string TabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+          this.UpdateTabPage( TabPageName );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", ex.Message ) );
+        }
+        finally
+        {
+          Monitor.Exit( LockerOverviewTabPages );
+          DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "RELEASED LOCK" ) );
+        }
+
       }
+      else
+      {
+        DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "CANNOT OBTAIN LOCK" ) );
+      }
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -794,21 +844,41 @@ namespace SEOMacroscope
     private void UpdateFocusedTabPage ()
     {
 
-      lock( this.LockerOverviewTabPages )
+      if( Monitor.TryEnter( LockerOverviewTabPages, 250 ) )
       {
 
-        TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-        string TabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+        DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "OBTAINED LOCK" ) );
+        
+        try
+        {   
 
-        if( this.JobMaster != null )
-        {
-          if( this.JobMaster.PeekUpdateDisplayQueue() )
+          TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+          string TabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
+
+          if( this.JobMaster != null )
           {
-            this.UpdateTabPage( TabPageName );
-            this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
+            if( this.JobMaster.PeekUpdateDisplayQueue() )
+            {
+              this.UpdateTabPage( TabPageName );
+              this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayQueue );
+            }
           }
+
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", ex.Message ) );
+        }
+        finally
+        {
+          Monitor.Exit( LockerOverviewTabPages );
+          DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "RELEASED LOCK" ) );
         }
 
+      }
+      else
+      {
+        DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "CANNOT OBTAIN LOCK" ) );
       }
 
     }
@@ -817,185 +887,180 @@ namespace SEOMacroscope
 
     private void UpdateTabPage ( string TabName )
     {
-
-      lock( this.LockerUpdateTabPage )
+     
+      switch( TabName )
       {
-      
-        switch( TabName )
-        {
 
-          case "tabPageStructureOverview":
-            this.msDisplayStructure.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
-            );
-            break;
+        case "tabPageStructureOverview":
+          this.msDisplayStructure.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
+          );
+          break;
 
-          case "tabPageHierarchy":
-            this.msDisplayHierarchy.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHierarchy )
-            );
-            break;
+        case "tabPageHierarchy":
+          this.msDisplayHierarchy.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHierarchy )
+          );
+          break;
 
-          case "tabPageRobots":
-            this.msDisplayRobots.RefreshData(
-              this.JobMaster
-            );
-            break;
+        case "tabPageRobots":
+          this.msDisplayRobots.RefreshData(
+            this.JobMaster
+          );
+          break;
 
-          case "tabPageSitemaps":
-            this.msDisplaySitemaps.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplaySitemaps )
-            );
-            break;
+        case "tabPageSitemaps":
+          this.msDisplaySitemaps.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplaySitemaps )
+          );
+          break;
           
-          case "tabPageCanonicalAnalysis":
-            this.msDisplayCanonical.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis )
-            );
-            break;
+        case "tabPageCanonicalAnalysis":
+          this.msDisplayCanonical.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis )
+          );
+          break;
 
-          case "tabPageHrefLangAnalysis":
-            this.msDisplayHrefLang.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              LocalesList: JobMaster.GetLocales()
-            );
-            break;
+        case "tabPageHrefLangAnalysis":
+          this.msDisplayHrefLang.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            LocalesList: JobMaster.GetLocales()
+          );
+          break;
 
-          case "tabPageErrors":
-            this.msDisplayErrors.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection()
-            );
-            break;
+        case "tabPageErrors":
+          this.msDisplayErrors.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection()
+          );
+          break;
 
-          case "tabPageRedirectsAudit":
-            this.msDisplayRedirectsAudit.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection()
-            );
-            break;
+        case "tabPageRedirectsAudit":
+          this.msDisplayRedirectsAudit.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection()
+          );
+          break;
 
-          case "tabPageLinks":
-            this.msDisplayLinks.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayLinks )
-            );
-            break;
+        case "tabPageLinks":
+          this.msDisplayLinks.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayLinks )
+          );
+          break;
           
-          case "tabPageHyperlinks":
-            this.msDisplayHyperlinks.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHyperlinks )
-            );
-            break;
+        case "tabPageHyperlinks":
+          this.msDisplayHyperlinks.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHyperlinks )
+          );
+          break;
 
-          case "tabPageUriAnalysis":
-            this.msDisplayUriAnalysis.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayUriAnalysis )
-            );
-            break;
+        case "tabPageUriAnalysis":
+          this.msDisplayUriAnalysis.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayUriAnalysis )
+          );
+          break;
 
-          case "tabPagePageTitles":
-            this.msDisplayTitles.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageTitles )
-            );
-            break;
+        case "tabPagePageTitles":
+          this.msDisplayTitles.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageTitles )
+          );
+          break;
 
-          case "tabPagePageDescriptions":
-            this.msDisplayDescriptions.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageDescriptions )
-            );
-            break;
+        case "tabPagePageDescriptions":
+          this.msDisplayDescriptions.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageDescriptions )
+          );
+          break;
 
-          case "tabPagePageKeywords":
-            this.msDisplayKeywords.RefreshData(
-              this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageKeywords )
-            );
-            break;
+        case "tabPagePageKeywords":
+          this.msDisplayKeywords.RefreshData(
+            this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageKeywords )
+          );
+          break;
 
-          case "tabPagePageHeadings":
-            this.msDisplayHeadings.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageHeadings )
-            );
-            break;
+        case "tabPagePageHeadings":
+          this.msDisplayHeadings.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageHeadings )
+          );
+          break;
 
-          case "tabPageStylesheets":
-            this.msDisplayStylesheets.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStylesheets )
-            );
-            break;
+        case "tabPageStylesheets":
+          this.msDisplayStylesheets.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStylesheets )
+          );
+          break;
 
-          case "tabPageJavascripts":
-            this.msDisplayJavascripts.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayJavascripts )
-            );
-            break;
+        case "tabPageJavascripts":
+          this.msDisplayJavascripts.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayJavascripts )
+          );
+          break;
 
-          case "tabPageImages":
-            this.msDisplayImages.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayImages )
-            );
-            break;
+        case "tabPageImages":
+          this.msDisplayImages.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayImages )
+          );
+          break;
 
-          case "tabPageAudios":
-            this.msDisplayAudios.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayAudios )
-            );
-            break;
+        case "tabPageAudios":
+          this.msDisplayAudios.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayAudios )
+          );
+          break;
 
-          case "tabPageVideos":
-            this.msDisplayVideos.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection(),
-              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayVideos )
-            );
-            break;
+        case "tabPageVideos":
+          this.msDisplayVideos.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayVideos )
+          );
+          break;
 
-          case "tabPageEmailAddresses":
-            this.msDisplayEmailAddresses.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection()
-            );
-            break;
+        case "tabPageEmailAddresses":
+          this.msDisplayEmailAddresses.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection()
+          );
+          break;
 
-          case "tabPageTelephoneNumbers":
-            this.msDisplayTelephoneNumbers.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection()
-            );
-            break;
+        case "tabPageTelephoneNumbers":
+          this.msDisplayTelephoneNumbers.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection()
+          );
+          break;
 
-          case "tabPageHostnames":
-            this.msDisplayHostnames.RefreshData(
-              DocCollection: this.JobMaster.GetDocCollection()
-            );
-            break;
+        case "tabPageHostnames":
+          this.msDisplayHostnames.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection()
+          );
+          break;
 
-          case "tabPageHistory":
-            this.msDisplayHistory.RefreshData(
-              this.JobMaster.GetHistory()
-            );
-            break;
+        case "tabPageHistory":
+          this.msDisplayHistory.RefreshData(
+            this.JobMaster.GetHistory()
+          );
+          break;
 
-          case "tabPageSearch":
-            break;
+        case "tabPageSearch":
+          break;
 
-          default:
-            DebugMsg( string.Format( "UNKNOWN TAB: {0}", TabName ) );
-            break;
+        default:
+          DebugMsg( string.Format( "UNKNOWN TAB: {0}", TabName ) );
+          break;
 
-        }
-      
       }
-
+      
     }
 
     /** ListView Show Document Details on URL Click ***************************/
@@ -1324,6 +1389,8 @@ namespace SEOMacroscope
       );
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void CallbackStructureButtonShowAll ( object sender, EventArgs e )
     {
       this.msDisplayStructure.ClearData();
@@ -1332,6 +1399,8 @@ namespace SEOMacroscope
       );
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void CallbackSearchTextBoxSearchUrlKeyUp ( object sender, KeyEventArgs e )
     {
       ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
@@ -1353,6 +1422,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void CallbackSearchTextBoxSearchKeyUp ( object sender, KeyEventArgs e )
     {
       ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
@@ -1387,6 +1458,8 @@ namespace SEOMacroscope
       this.TimerSiteOverview.Start();
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void SetVelocitySiteOverviewTimer ( int Delay )
     {
       try
@@ -1399,6 +1472,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void StopSiteOverviewTimer ()
     {
       if( this.TimerSiteOverview != null )
@@ -1415,25 +1490,54 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void CallbackSiteOverviewTimer ( Object self, ElapsedEventArgs e )
     {
-      if( this.InvokeRequired )
+      
+      if( Monitor.TryEnter( LockerTimerSiteOverview, 1000 ) )
       {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.CallbackSiteOverviewTimerExec();
-            }
-          )
-        );
+        
+        DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "OBTAINED LOCK" ) );
+        
+        try
+        {
+          if( this.InvokeRequired )
+          {
+            this.Invoke(
+              new MethodInvoker (
+                delegate
+                {
+                  this.CallbackSiteOverviewTimerExec();
+                }
+              )
+            );
+          }
+          else
+          {
+            this.CallbackSiteOverviewTimerExec();
+          }
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", ex.Message ) );
+        }
+        finally
+        {
+          Monitor.Exit( LockerTimerSiteOverview );
+          DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "RELEASED LOCK" ) );
+        }
+        
       }
       else
       {
-        this.CallbackSiteOverviewTimerExec();
+        DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
+            
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void CallbackSiteOverviewTimerExec ()
     {
       lock( this.LockerSiteStructureDisplay )
@@ -1442,12 +1546,16 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void UpdateSiteOverview ()
     {
       this.msSiteStructureOverview.RefreshData( this.JobMaster.GetDocCollection() );
       this.msSiteStructureSiteSpeed.RefreshSiteSpeedData( this.JobMaster.GetDocCollection() );
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void UpdateSiteOverviewKeywordAnalysis ()
     {
       if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
@@ -1807,6 +1915,8 @@ namespace SEOMacroscope
       this.TimerAuthentication.Start();
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void StopAuthenticationTimer ()
     {
       if( this.TimerAuthentication != null )
@@ -1823,32 +1933,54 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     private void CallbackAuthenticationTimer ( Object self, ElapsedEventArgs e )
     {
-      try
+      
+      if( Monitor.TryEnter( LockerTimerAuthentication, 1000 ) )
       {
-        if( this.InvokeRequired )
+
+        DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "OBTAINED LOCK" ) );
+                
+        try
         {
-          this.Invoke(
-            new MethodInvoker (
-              delegate
-              {
-                this.ShowAuthenticationDialogue();
-              }
-            )
-          );
+          if( this.InvokeRequired )
+          {
+            this.Invoke(
+              new MethodInvoker (
+                delegate
+                {
+                  this.ShowAuthenticationDialogue();
+                }
+              )
+            );
+          }
+          else
+          {
+            this.ShowAuthenticationDialogue();
+          }
         }
-        else
+        catch( Exception ex )
         {
-          this.ShowAuthenticationDialogue();
+          DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", ex.Message ) );
         }
+        finally
+        {
+          Monitor.Exit( LockerTimerAuthentication );
+          DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "RELEASED LOCK" ) );
+        }
+              
       }
-      catch( Exception ex )
+      else
       {
-        DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", ex.Message ) );
+        DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
+            
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     private void ShowAuthenticationDialogue ()
     {
       
@@ -1932,6 +2064,8 @@ namespace SEOMacroscope
       this.RerunScanQueue();
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     private void CallbackRetryTimedOutLinksClick ( object sender, EventArgs e )
     {
       this.JobMaster.RetryTimedOutLinks();
@@ -1976,6 +2110,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     private void CallbackLoadUrlListTextFromClipboard ( object sender, EventArgs e )
     {
 
@@ -2011,6 +2147,8 @@ namespace SEOMacroscope
       IncludeUrlPatternsForm.Dispose();
 
     }
+    
+    /** -------------------------------------------------------------------- **/
 
     private void CallbackExcludeUrlItemsClick ( object sender, EventArgs e )
     {
@@ -2030,6 +2168,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     private void CallbackCrawlParentDirectoriesToolStripMenuItemClick ( object sender, EventArgs e )
     {
 
@@ -2052,6 +2192,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     private void CallbackCrawlChildDirectoriesToolStripMenuItemClick ( object sender, EventArgs e )
     {
 
@@ -2074,6 +2216,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     private void CallbackClearHTTPAuthenticationToolStripMenuItemClick ( object sender, EventArgs e )
     {
       this.CredentialsHttp.ClearAll();
@@ -2082,9 +2226,9 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Conditional( "DEVMODE" )]
-    private static void DebugMsg ( String sMsg )
+    private static void DebugMsg ( String Msg )
     {
-      System.Diagnostics.Debug.WriteLine( sMsg );
+      System.Diagnostics.Debug.WriteLine( Msg );
     }
 
     /**************************************************************************/

@@ -91,7 +91,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
+              this.lvListView.BeginUpdate();
               this.RenderListView( DocCollection );
+              this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -100,7 +102,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
+        this.lvListView.BeginUpdate();
         this.RenderListView( DocCollection );
+        this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 

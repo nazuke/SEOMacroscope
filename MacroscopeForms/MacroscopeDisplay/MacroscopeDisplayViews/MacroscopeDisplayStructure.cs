@@ -131,6 +131,30 @@ namespace SEOMacroscope
 
     }
 
+    /**************************************************************************/
+
+    public new void ClearData ()
+    {
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              base.ClearData();
+              this.RenderUrlCount();
+
+            }
+          )
+        );
+      }
+      else
+      {
+        base.ClearData();
+        this.RenderUrlCount();
+      }
+    }
+
     /** Render One ************************************************************/
 
     protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
@@ -295,7 +319,7 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
         }
 
-        this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
+        this.RenderUrlCount();
 
       }
 
@@ -358,6 +382,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private void RenderUrlCount ()
+    {
+      this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
+    }
+        
+    /**************************************************************************/
+        
   }
 
 }

@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Timers;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace SEOMacroscope
 {
@@ -82,21 +83,46 @@ namespace SEOMacroscope
             
     private void CallbackProgressBarScanTimer ( Object self, ElapsedEventArgs e )
     {
-      if( this.InvokeRequired )
+      
+      if( Monitor.TryEnter( LockerTimerProgressBarScan, 1000 ) )
       {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.UpdateProgressBarScan();
-            }
-          )
-        );
+        
+        DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "OBTAINED LOCK" ) );
+       
+        try
+        {
+          if( this.InvokeRequired )
+          {
+            this.Invoke(
+              new MethodInvoker (
+                delegate
+                {
+                  this.UpdateProgressBarScan();
+                }
+              )
+            );
+          }
+          else
+          {
+            this.UpdateProgressBarScan();
+          }
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", ex.Message ) );
+        }
+        finally
+        {
+          Monitor.Exit( LockerTimerProgressBarScan );
+          DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "RELEASED LOCK" ) );
+        }
+        
       }
       else
       {
-        this.UpdateProgressBarScan();
+        DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
+            
     }
     
     /**************************************************************************/

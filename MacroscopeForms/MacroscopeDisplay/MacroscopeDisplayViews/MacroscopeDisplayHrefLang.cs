@@ -139,15 +139,20 @@ namespace SEOMacroscope
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
       
-      ProgressForm.Show();
-      
-      ProgressForm.UpdatePercentages(
-        Title: "Preparing Display",
-        Message: "Processing document collection for display:",
-        MajorPercentage: MajorPercentage,
-        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-      );  
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
 
+        ProgressForm.Show();
+      
+        ProgressForm.UpdatePercentages(
+          Title: "Preparing Display",
+          Message: "Processing document collection for display:",
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );  
+
+      }
+      
       this.lvListView.Items.Clear();
       this.lvListView.Columns.Clear();
 
@@ -315,15 +320,21 @@ namespace SEOMacroscope
 
         }
 
-        Count++;
-        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        {
+          
+          Count++;
+
+          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
         
-        ProgressForm.UpdatePercentages(
-          Title: null,
-          Message: null,
-          MajorPercentage: MajorPercentage,
-          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );
+          ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: MajorPercentage,
+            ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+          );
+        
+        }
         
       }
 

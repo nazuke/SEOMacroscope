@@ -112,7 +112,9 @@ namespace SEOMacroscope
               lock( this.lvListView )
               {
                 Cursor.Current = Cursors.WaitCursor;
+                this.lvListView.BeginUpdate();
                 this.RenderListView( History: History );
+                this.lvListView.EndUpdate();
                 Cursor.Current = Cursors.Default;
 
               }
@@ -125,7 +127,9 @@ namespace SEOMacroscope
         lock( this.lvListView )
         {
           Cursor.Current = Cursors.WaitCursor;
+          this.lvListView.BeginUpdate();
           this.RenderListView( History: History );
+          this.lvListView.EndUpdate();
           Cursor.Current = Cursors.Default;
         }
       }
@@ -142,20 +146,25 @@ namespace SEOMacroscope
       }
       
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm (this.MainForm);
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )History.Count;
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
       
-      ProgressForm.Show();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+
+        ProgressForm.Show();
+
+        ProgressForm.UpdatePercentages(
+          Title: "Preparing Display",
+          Message: "Processing document collection for display:",
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );  
+
+      }
       
-      ProgressForm.UpdatePercentages(
-        Title: "Preparing Display",
-        Message: "Processing document collection for display:",
-        MajorPercentage: MajorPercentage,
-        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-      );  
-             
       foreach( string Url in History.Keys )
       {
 
@@ -224,19 +233,28 @@ namespace SEOMacroscope
 
         }
 
-        Count++;
-        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        {
+          
+          Count++;
+          TotalDocs = ( decimal )History.Count;
+          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
         
-        ProgressForm.UpdatePercentages(
-          Title: null,
-          Message: null,
-          MajorPercentage: MajorPercentage,
-          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );
-
+          ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: MajorPercentage,
+            ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+          );
+          
+        }
+      
       }
             
-      ProgressForm.Close();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.Close();
+      }
       
       ProgressForm.Dispose();
       

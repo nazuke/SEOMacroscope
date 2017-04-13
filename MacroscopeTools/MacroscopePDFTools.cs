@@ -33,53 +33,108 @@ using PdfSharp.Pdf.IO;
 namespace SEOMacroscope
 {
 
-	public class MacroscopePdfTools : Macroscope
-	{
-		/**************************************************************************/
+  public class MacroscopePdfTools : Macroscope
+  {
+    /**************************************************************************/
 
-		private PdfDocument Pdf;
+    private PdfDocument Pdf;
+    private Boolean HasError;
+    private string ErrorMessage;
+		
+    /**************************************************************************/
 
-		/**************************************************************************/
+    public MacroscopePdfTools ( byte [] PdfData )
+    {
 
-		public MacroscopePdfTools ( byte[] aPDF )
-		{
-			try {
-				using( MemoryStream ms = new MemoryStream ( aPDF ) ) {
-					Pdf = PdfReader.Open( ms, PdfDocumentOpenMode.InformationOnly );
-				}
-			} catch( PdfReaderException ex ) {
-				DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
-			} catch( PdfSharpException ex ) {
-				DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
-			}
-		}
+      this.HasError = false;
+      this.ErrorMessage = null;
 
-		/**************************************************************************/
+      try
+      {
 
-		public Dictionary<string,string> GetMetadata()
-		{
-			Dictionary<string,string> dicMetadata = new Dictionary<string,string> ( 32 );
-			if( Pdf != null ) {
-				PdfDocumentInformation pdfInfo = Pdf.Info;
-				dicMetadata.Add( "title", pdfInfo.Title );
-			}
-			return( dicMetadata );
-		}
+        using( MemoryStream ms = new MemoryStream ( PdfData ) )
+        {
+          Pdf = PdfReader.Open( ms, PdfDocumentOpenMode.InformationOnly );
+        }
 
-		/**************************************************************************/
+      }
+      catch( PdfReaderException ex )
+      {
 
-		public string GetTitle()
-		{
-			Dictionary<string,string> dicMetadata = this.GetMetadata();
-			string sTitle = "";
-			if( dicMetadata.ContainsKey( "title" ) ) {
-				sTitle = dicMetadata[ "title" ];
-			}
-			return( sTitle );
-		}
+        DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
+        this.HasError = true;
+        this.ErrorMessage = ex.Message;
 
-		/**************************************************************************/
+      }
+      catch( PdfSharpException ex )
+      {
 
-	}
+        DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
+        this.HasError = true;
+        this.ErrorMessage = ex.Message;
+
+      }
+      catch( Exception ex )
+      {
+
+        DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        this.HasError = true;
+        this.ErrorMessage = ex.Message;
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    public Dictionary<string,string> GetMetadata ()
+    {
+
+      Dictionary<string,string> dicMetadata = new Dictionary<string,string> ( 32 );
+
+      if( Pdf != null )
+      {
+        PdfDocumentInformation pdfInfo = Pdf.Info;
+        dicMetadata.Add( "title", pdfInfo.Title );
+      }
+
+      return( dicMetadata );
+
+    }
+
+    /**************************************************************************/
+
+    public string GetTitle ()
+    {
+
+      Dictionary<string,string> dicMetadata = this.GetMetadata();
+      string sTitle = "";
+
+      if( dicMetadata.ContainsKey( "title" ) )
+      {
+        sTitle = dicMetadata[ "title" ];
+      }
+
+      return( sTitle );
+
+    }
+
+    /**************************************************************************/
+
+    public Boolean GetHasError ()
+    {
+      return( this.HasError );
+    }
+    
+    /**************************************************************************/
+
+    public string GetErrorMessage ()
+    {
+      return( this.ErrorMessage );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

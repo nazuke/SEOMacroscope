@@ -193,76 +193,86 @@ namespace SEOMacroscope
     private void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
     {
 
-      foreach( var rRule in ExCssStylesheet.StyleRules )
+      foreach( var CssRule in ExCssStylesheet.StyleRules )
       {
 
-        int iRule = ExCssStylesheet.StyleRules.IndexOf( rRule );
+        int iRule = ExCssStylesheet.StyleRules.IndexOf( CssRule );
 
         foreach( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties )
         {
           
-          string sBackgroundImageUrl;
-          string sLinkUrlAbs;
+          string BackgroundImageUrl;
+          string LinkUrlAbs;
 
           switch( pProp.Name.ToLower() )
           {
 
             case "background-image":
 
-              sBackgroundImageUrl = pProp.Term.ToString();
-              sLinkUrlAbs = this.ProcessCssBackImageUrl( sBackgroundImageUrl );
-
-              DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", sBackgroundImageUrl ) );
-              DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", sLinkUrlAbs ) );
-
-              if( sLinkUrlAbs != null )
+              if( pProp.Term != null )
               {
-
-                // TODO: Verify that this actually works:
-
-                this.HyperlinksOut.Add(
-                  LinkType: MacroscopeConstants.HyperlinkType.CSS,
-                  UrlTarget: sLinkUrlAbs
-                );
-
-                MacroscopeLink Outlink = this.AddCssOutlink(
-                                           AbsoluteUrl: sLinkUrlAbs,
-                                           LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                                           Follow: true
-                                         );
                 
-                Outlink.SetRawTargetUrl( sBackgroundImageUrl );
+                BackgroundImageUrl = pProp.Term.ToString();
+                LinkUrlAbs = this.ProcessCssBackImageUrl( BackgroundImageUrl );
 
+                DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", BackgroundImageUrl ) );
+                DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", LinkUrlAbs ) );
+
+                if( LinkUrlAbs != null )
+                {
+
+                  // TODO: Verify that this actually works:
+
+                  this.HyperlinksOut.Add(
+                    LinkType: MacroscopeConstants.HyperlinkType.CSS,
+                    UrlTarget: LinkUrlAbs
+                  );
+
+                  MacroscopeLink Outlink = this.AddCssOutlink(
+                                             AbsoluteUrl: LinkUrlAbs,
+                                             LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                                             Follow: true
+                                           );
+                
+                  Outlink.SetRawTargetUrl( BackgroundImageUrl );
+
+                }
+              
               }
 
               break;
 
             case "background":
 
-              sBackgroundImageUrl = pProp.Term.ToString();
-              sLinkUrlAbs = this.ProcessCssBackImageUrl( sBackgroundImageUrl );
+              if( pProp.Term != null )
+              {
+                
+                BackgroundImageUrl = pProp.Term.ToString();
+                LinkUrlAbs = this.ProcessCssBackImageUrl( BackgroundImageUrl );
 
-              DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", sBackgroundImageUrl ) );
-              DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", sLinkUrlAbs ) );
+                DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", BackgroundImageUrl ) );
+                DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", LinkUrlAbs ) );
 
-              if( sLinkUrlAbs != null )
-              {     
+                if( LinkUrlAbs != null )
+                {     
 
-                // TODO: Verify that this actually works:
+                  // TODO: Verify that this actually works:
 
-                this.HyperlinksOut.Add(
-                  LinkType: MacroscopeConstants.HyperlinkType.CSS,
-                  UrlTarget: sLinkUrlAbs
-                );
+                  this.HyperlinksOut.Add(
+                    LinkType: MacroscopeConstants.HyperlinkType.CSS,
+                    UrlTarget: LinkUrlAbs
+                  );
 
-                MacroscopeLink Outlink = this.AddCssOutlink(
-                                           AbsoluteUrl: sLinkUrlAbs,
+                  MacroscopeLink Outlink = this.AddCssOutlink(
+                                           AbsoluteUrl: LinkUrlAbs,
                                            LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                                            Follow: true
                                          );
                 
-                Outlink.SetRawTargetUrl( sBackgroundImageUrl );
+                  Outlink.SetRawTargetUrl( BackgroundImageUrl );
                 
+                }
+              
               }
               
               break;
@@ -280,24 +290,24 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private string ProcessCssBackImageUrl ( string sBackgroundImageUrl )
+    private string ProcessCssBackImageUrl ( string BackgroundImageUrl )
     {
 
-      string sLinkUrlAbs = null;
-      string sLinkUrlCleaned = MacroscopeUrlUtils.CleanUrlCss( sBackgroundImageUrl );
+      string LinkUrlAbs = null;
+      string LinkUrlCleaned = MacroscopeUrlUtils.CleanUrlCss( BackgroundImageUrl );
 
-      if( sLinkUrlCleaned != null )
+      if( LinkUrlCleaned != null )
       {
 
-        sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, sLinkUrlCleaned );
+        LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrlCleaned );
 
-        DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", sLinkUrlCleaned ) );
-        DebugMsg( string.Format( "ProcessCssBackImageUrl: this.Url: {0}", this.DocUrl ) );
-        DebugMsg( string.Format( "ProcessCssBackImageUrl: sLinkUrlAbs: {0}", sLinkUrlAbs ) );
+        DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", LinkUrlCleaned ) );
+        DebugMsg( string.Format( "ProcessCssBackImageUrl: this.DocUrl: {0}", this.DocUrl ) );
+        DebugMsg( string.Format( "ProcessCssBackImageUrl: LinkUrlAbs: {0}", LinkUrlAbs ) );
 
       }
 
-      return( sLinkUrlAbs );
+      return( LinkUrlAbs );
       
     }
 

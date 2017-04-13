@@ -83,6 +83,29 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
+    
+    public new void ClearData ()
+    {
+      if( this.MainForm.InvokeRequired )
+      {
+        this.MainForm.Invoke(
+          new MethodInvoker (
+            delegate
+            {
+              this.lvListView.Items.Clear();
+              this.RenderUrlCount();
+            }
+          )
+        );
+      }
+      else
+      {
+        this.lvListView.Items.Clear();
+        this.RenderUrlCount();
+      }
+    }
+
+    /**************************************************************************/
 
     public void RefreshDataSearchSourceUrls (
       MacroscopeDocumentCollection DocCollection,
@@ -201,7 +224,8 @@ namespace SEOMacroscope
         }
 
         Count++;
-                
+        TotalDocs = ( decimal )DocCollection.CountDocuments();
+        
         ProgressForm.UpdatePercentages(
           Title: null,
           Message: null,
@@ -406,13 +430,12 @@ namespace SEOMacroscope
 
       }
 
-      this.UrlCount.Text = string.Format( "URLs: {0}", lvListView.Items.Count );
+      this.RenderUrlCount();
 
     }
 
     /**************************************************************************/
-    
-    
+
     private void RenderListViewSearchTargetUrls ( MacroscopeDocument msDoc, string Url, string UrlFragment )
     {
 
@@ -542,8 +565,15 @@ namespace SEOMacroscope
 
       }
 
-      this.UrlCount.Text = string.Format( "URLs: {0}", lvListView.Items.Count );
+      this.RenderUrlCount();
 
+    }
+
+    /**************************************************************************/
+    
+    private void RenderUrlCount ()
+    {
+      this.UrlCount.Text = string.Format( "URLs: {0}", lvListView.Items.Count );
     }
 
     /**************************************************************************/

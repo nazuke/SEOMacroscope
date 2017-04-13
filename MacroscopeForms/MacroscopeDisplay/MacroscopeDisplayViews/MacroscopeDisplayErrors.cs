@@ -85,7 +85,7 @@ namespace SEOMacroscope
         return;
       }
             
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm (this.MainForm);
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
@@ -132,6 +132,7 @@ namespace SEOMacroscope
         {
                 
           Count++;
+          TotalDocs = ( decimal )DocCollection.CountDocuments();
           MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
         
           ProgressForm.UpdatePercentages(
