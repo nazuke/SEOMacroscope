@@ -321,7 +321,6 @@ namespace SEOMacroscope
       {
       
         ProgressForm.ControlBox = false;
-        ProgressForm.Show();
       
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
@@ -361,7 +360,7 @@ namespace SEOMacroscope
      
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-        ProgressForm.Close();
+        ProgressForm.DoClose();
       }
             
       ProgressForm.Dispose();
@@ -395,7 +394,6 @@ namespace SEOMacroscope
       {
         
         ProgressForm.ControlBox = false;
-        ProgressForm.Show();
       
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
@@ -437,7 +435,7 @@ namespace SEOMacroscope
       
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-        ProgressForm.Close();
+        ProgressForm.DoClose();
       }
             
       ProgressForm.Dispose();
@@ -463,7 +461,6 @@ namespace SEOMacroscope
       {
       
         ProgressForm.ControlBox = false;
-        ProgressForm.Show();
       
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
@@ -503,7 +500,7 @@ namespace SEOMacroscope
       
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-        ProgressForm.Close();
+        ProgressForm.DoClose();
       }
             
       ProgressForm.Dispose();
@@ -532,7 +529,6 @@ namespace SEOMacroscope
       {
       
         ProgressForm.ControlBox = false;
-        ProgressForm.Show();
       
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
@@ -577,7 +573,7 @@ namespace SEOMacroscope
       
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-        ProgressForm.Close();
+        ProgressForm.DoClose();
       }
             
       ProgressForm.Dispose();
@@ -605,7 +601,6 @@ namespace SEOMacroscope
       {
       
         ProgressForm.ControlBox = false;
-        ProgressForm.Show();
       
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
@@ -649,7 +644,7 @@ namespace SEOMacroscope
       
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-        ProgressForm.Close();
+        ProgressForm.DoClose();
       }
             
       ProgressForm.Dispose();

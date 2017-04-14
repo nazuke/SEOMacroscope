@@ -142,7 +142,7 @@ namespace SEOMacroscope
     private List<string> Remarks;
 
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -268,25 +268,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -889,22 +889,22 @@ namespace SEOMacroscope
 
     public string GetCrawledDate ()
     {
-      return( this.CrawledDate.ToShortDateString() );
+      return( this.CrawledDate.ToLongDateString() );
     }
 
     public string GetDateServer ()
     {
-      return( this.DateServer.ToShortDateString() );
+      return( this.DateServer.ToLongDateString() );
     }
 
     public string GetDateModified ()
     {
-      return( this.DateModified.ToShortDateString() );
+      return( this.DateModified.ToLongDateString() );
     }
 
     public string GetDateExpires ()
     {
-      return( this.DateExpires.ToShortDateString() );
+      return( this.DateExpires.ToLongDateString() );
     }
 
     /** Inlinks ***************************************************************/

@@ -953,6 +953,7 @@ namespace SEOMacroscope
 			this.columnHeaderRobots,
 			this.columnHeaderRobotsBlocked});
 			this.listViewRobots.ContextMenuStrip = this.contextMenuStripStructure;
+			this.listViewRobots.FullRowSelect = true;
 			this.listViewRobots.GridLines = true;
 			this.listViewRobots.Location = new System.Drawing.Point(20, 20);
 			this.listViewRobots.Name = "listViewRobots";
@@ -1186,6 +1187,7 @@ namespace SEOMacroscope
 			this.columnHeaderHostnameName,
 			this.columnHeaderHostnameCount,
 			this.columnHeaderHostnameInternal});
+			this.listViewHostnames.FullRowSelect = true;
 			this.listViewHostnames.GridLines = true;
 			this.listViewHostnames.Location = new System.Drawing.Point(10, 10);
 			this.listViewHostnames.Margin = new System.Windows.Forms.Padding(0);
@@ -2184,6 +2186,7 @@ namespace SEOMacroscope
 			this.HistoryUrl,
 			this.HistoryVisited});
 			this.listViewHistory.ContextMenuStrip = this.contextMenuStripStructure;
+			this.listViewHistory.FullRowSelect = true;
 			this.listViewHistory.GridLines = true;
 			this.listViewHistory.Location = new System.Drawing.Point(10, 10);
 			this.listViewHistory.Margin = new System.Windows.Forms.Padding(0);

@@ -43,6 +43,11 @@ namespace SEOMacroscope
     private MacroscopeMainForm MainForm;
     private Boolean IsCancelled;
 
+    private Boolean FormShown;
+
+    private Stopwatch OperationDuration;
+    private static long OperationDurationLimit = 5000;
+      
     /**************************************************************************/
 
     public MacroscopeSinglePercentageProgressForm ( MacroscopeMainForm MainForm )
@@ -52,12 +57,21 @@ namespace SEOMacroscope
 
       this.MainForm = MainForm;
       this.IsCancelled = false;
+      this.FormShown = false;
 
       this.Shown += this.CallbackFormShown;
       this.FormClosing += this.CallbackFormClosing;
+      
+      this.OperationDuration = new Stopwatch ();
+      this.OperationDuration.Start();
 
     }
 
+    ~MacroscopeSinglePercentageProgressForm ()
+    {
+      this.OperationDuration.Stop();
+    }
+    
     /**************************************************************************/
   
     private void CallbackFormShown ( object sender, EventArgs e )
@@ -70,7 +84,17 @@ namespace SEOMacroscope
       this.Cancel();
       this.MainForm.Enabled = true;
     }
-    
+
+    /**************************************************************************/
+
+    public void DoClose ()
+    {
+      if( this.FormShown )
+      {
+        this.Close();
+      }
+    }
+
     /**************************************************************************/
 
     public void UpdatePercentages (
@@ -80,6 +104,13 @@ namespace SEOMacroscope
       string ProgressLabelMajor
     )
     {
+
+      if( ( !this.FormShown ) && ( this.OperationDuration.ElapsedMilliseconds >= OperationDurationLimit ) )
+      {
+        this.FormShown = true;
+        this.Show();
+      }
+      
       try
       {
 

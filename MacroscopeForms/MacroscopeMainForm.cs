@@ -86,6 +86,7 @@ namespace SEOMacroscope
     MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
     private static object LockerOverviewTabPages = new object ();
+    private static object LockerDocumentDetailsDisplay = new object ();
     private object LockerSiteStructureDisplay;
     private object LockerAuthenticationDialogue;
 
@@ -95,6 +96,7 @@ namespace SEOMacroscope
     private static object LockerTimerStatusBar = new object ();
     private static object LockerTimerAuthentication = new object ();
 
+        
     public System.Timers.Timer TimerProgressBarScan;
     public System.Timers.Timer TimerTabPages;
     public System.Timers.Timer TimerSiteOverview;
@@ -200,7 +202,8 @@ namespace SEOMacroscope
 
       // listViewStructure
       
-      this.macroscopeOverviewTabPanelInstance.listViewStructure.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewStructure.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Click += this.CallbackStructureButtonShowAll;
       foreach( ToolStripDropDownItem ddItem in this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.DropDownItems )
       {
@@ -211,14 +214,14 @@ namespace SEOMacroscope
 
       // ListViewLinks
       
-      this.macroscopeOverviewTabPanelInstance.listViewLinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewLinks.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Click += this.CallbackButtonLinksShowAll;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchSourceUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchTargetUrlKeyUp;
             
       // ListViewHyperlinks
       
-      this.macroscopeOverviewTabPanelInstance.listViewHyperlinks.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewHyperlinks.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Click += this.CallbackButtonHyperlinksShowAll;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp;
@@ -226,28 +229,28 @@ namespace SEOMacroscope
       // treeViewHierarchy etc...
       
       this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.NodeMouseClick += this.CallbackHierarchyNodeMouseClick;
-      this.macroscopeOverviewTabPanelInstance.listViewRobots.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewSitemaps.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewHrefLang.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewErrors.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewRobots.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewSitemaps.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewHrefLang.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewErrors.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
-      this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewPageTitles.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewStylesheets.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewJavascripts.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewImages.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewVideos.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
-      this.macroscopeOverviewTabPanelInstance.listViewHistory.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewPageTitles.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewStylesheets.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewJavascripts.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewImages.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewVideos.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewHistory.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
       // listViewSearchCollection
       
-      this.macroscopeOverviewTabPanelInstance.listViewSearchCollection.Click += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewSearchCollection.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Click += this.CallbackSearchCollectionButtonClear;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.KeyUp += this.CallbackSearchCollectionTextBoxSearchKeyUp;
 
@@ -757,7 +760,7 @@ namespace SEOMacroscope
       if( Monitor.TryEnter( LockerTimerTabPages, 1000 ) )
       {
 
-        DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "OBTAINED LOCK" ) );
+        //DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "OBTAINED LOCK" ) );
         
         try
         {   
@@ -784,7 +787,7 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerTabPages );
-          DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "RELEASED LOCK" ) );
+          //DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "RELEASED LOCK" ) );
         }
 
       }
@@ -813,7 +816,7 @@ namespace SEOMacroscope
       if( Monitor.TryEnter( LockerOverviewTabPages, 250 ) )
       {
 
-        DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "OBTAINED LOCK" ) );
+        //DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "OBTAINED LOCK" ) );
         
         try
         {   
@@ -828,7 +831,7 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerOverviewTabPages );
-          DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "RELEASED LOCK" ) );
+          //DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "RELEASED LOCK" ) );
         }
 
       }
@@ -847,7 +850,7 @@ namespace SEOMacroscope
       if( Monitor.TryEnter( LockerOverviewTabPages, 250 ) )
       {
 
-        DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "OBTAINED LOCK" ) );
+        //DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "OBTAINED LOCK" ) );
         
         try
         {   
@@ -872,7 +875,7 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerOverviewTabPages );
-          DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "RELEASED LOCK" ) );
+          //DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "RELEASED LOCK" ) );
         }
 
       }
@@ -1065,45 +1068,66 @@ namespace SEOMacroscope
 
     /** ListView Show Document Details on URL Click ***************************/
 
-    private void CallbackListViewShowDocumentDetailsOnUrlClick ( object sender, EventArgs e )
+    private void CallbackListViewShowDocumentDetailsOnUrlClick ( object sender, ListViewItemSelectionChangedEventArgs e )
     {
-
-      ListView lvListView = ( ListView )sender;
-      string sUrl = "NONE";
-      int iUrlCol = -1;
-
-      lock( lvListView )
+      
+      if( Monitor.TryEnter( LockerDocumentDetailsDisplay, 250 ) )
       {
 
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        try
         {
+
+          ListView lvListView = ( ListView )sender;
+          ListViewItem lvItem = lvListView.Items[ e.ItemIndex ];
+          string Url = "NONE";
+          int UrlColumn = -1;
+
+          lock( lvListView )
+          {
+
+            this.macroscopeDocumentDetailsInstance.Enabled = false;
+            
+            for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+            {
           
-          if( lvListView.Columns[ i ].Text == "URL" )
-          {
-            iUrlCol = i;
-            break;
-          }
-          else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
-          {
-            iUrlCol = i;
-            break;
+              if( lvListView.Columns[ i ].Text == "URL" )
+              {
+                UrlColumn = i;
+                break;
+              }
+              else
+              if( lvListView.Columns[ i ].Text == "Source URL" )
+              {
+                UrlColumn = i;
+                break;
+              }
+
+            }
+
+            if( UrlColumn > -1 )
+            {
+
+              if( lvItem != null )
+              {
+                Url = lvItem.SubItems[ UrlColumn ].Text;
+                this.macroscopeDocumentDetailsInstance.UpdateDisplay( this.JobMaster, Url );
+              }
+              
+            }
+            else
+            {
+              MessageBox.Show( "URL column not found" );
+              this.macroscopeDocumentDetailsInstance.ClearData();
+            }
+
           }
 
-        }
+          this.macroscopeDocumentDetailsInstance.Enabled = true;
 
-        if( iUrlCol > -1 )
-        {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
-          {
-            sUrl = lvItem.SubItems[ iUrlCol ].Text.ToString();
-            this.macroscopeDocumentDetailsInstance.UpdateDisplay( this.JobMaster, sUrl );
-          }
         }
-        else
+        finally
         {
-          MessageBox.Show( "URL column not found" );
-          this.macroscopeDocumentDetailsInstance.ClearData();
+          Monitor.Exit( LockerDocumentDetailsDisplay );
         }
 
       }
@@ -1118,8 +1142,8 @@ namespace SEOMacroscope
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView lvListView = msOwner.SourceControl as ListView;
-      string sUrl = "NONE";
-      int iUrlCol = -1;
+      string Url = "NONE";
+      int UrlColumn = -1;
 
       lock( lvListView )
       {
@@ -1129,23 +1153,23 @@ namespace SEOMacroscope
           
           if( lvListView.Columns[ i ].Text == "URL" )
           {
-            iUrlCol = i;
+            UrlColumn = i;
             break;
           }
           else
           if( lvListView.Columns[ i ].Text == "Source URL" )
           {
-            iUrlCol = i;
+            UrlColumn = i;
             break;
           }
           
         }
 
-        if( iUrlCol > -1 )
+        if( UrlColumn > -1 )
         {
           foreach( ListViewItem lvItem in lvListView.SelectedItems )
           {
-            sUrl = lvItem.SubItems[ iUrlCol ].Text.ToString();
+            Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
         }
         else
@@ -1155,9 +1179,9 @@ namespace SEOMacroscope
 
       }
 
-      if( sUrl != null )
+      if( Url != null )
       {
-        this.OpenUrlInBrowser( sUrl );
+        this.OpenUrlInBrowser( Url );
       }
 
     }
@@ -1170,8 +1194,8 @@ namespace SEOMacroscope
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView lvListView = msOwner.SourceControl as ListView;
-      string sUrl = "NONE";
-      int iUrlCol = -1;
+      string Url = "NONE";
+      int UrlColumn = -1;
 
       lock( lvListView )
       {
@@ -1180,22 +1204,22 @@ namespace SEOMacroscope
         {
           if( lvListView.Columns[ i ].Text == "URL" )
           {
-            iUrlCol = i;
+            UrlColumn = i;
             break;
           }
           else
           if( lvListView.Columns[ i ].Text == "Source URL" )
           {
-            iUrlCol = i;
+            UrlColumn = i;
             break;
           }
                     
         }
-        if( iUrlCol > -1 )
+        if( UrlColumn > -1 )
         {
           foreach( ListViewItem lvItem in lvListView.SelectedItems )
           {
-            sUrl = lvItem.SubItems[ iUrlCol ].Text.ToString();
+            Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
         }
         else
@@ -1204,10 +1228,10 @@ namespace SEOMacroscope
         }
       }
 
-      if( sUrl != null )
+      if( Url != null )
       {
-        this.JobMaster.GetAllowedHosts().AddFromUrl( sUrl );
-        this.JobMaster.RetryLink( sUrl );
+        this.JobMaster.GetAllowedHosts().AddFromUrl( Url );
+        this.JobMaster.RetryLink( Url );
         this.RerunScanQueue();
       }
 
@@ -1221,8 +1245,8 @@ namespace SEOMacroscope
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView lvListView = msOwner.SourceControl as ListView;
-      string sUrl = "NONE";
-      int iUrlCol = -1;
+      string Url = "NONE";
+      int UrlColumn = -1;
 
       lock( lvListView )
       {
@@ -1231,22 +1255,22 @@ namespace SEOMacroscope
           
           if( lvListView.Columns[ i ].Text == "URL" )
           {
-            iUrlCol = i;
+            UrlColumn = i;
             break;
           }
           else
           if( lvListView.Columns[ i ].Text == "Source URL" )
           {
-            iUrlCol = i;
+            UrlColumn = i;
             break;
           }
                     
         }
-        if( iUrlCol > -1 )
+        if( UrlColumn > -1 )
         {
           foreach( ListViewItem lvItem in lvListView.SelectedItems )
           {
-            sUrl = lvItem.SubItems[ iUrlCol ].Text.ToString();
+            Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
         }
         else
@@ -1255,9 +1279,9 @@ namespace SEOMacroscope
         }
       }
 
-      if( sUrl != null )
+      if( Url != null )
       {
-        this.JobMaster.GetAllowedHosts().RemoveFromUrl( sUrl );
+        this.JobMaster.GetAllowedHosts().RemoveFromUrl( Url );
       }
 
     }
@@ -1270,8 +1294,8 @@ namespace SEOMacroscope
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView lvListView = msOwner.SourceControl as ListView;
-      string sUrl = "NONE";
-      int iUrlCol = -1;
+      string Url = "NONE";
+      int UrlColumn = -1;
 
       lock( lvListView )
       {
@@ -1280,22 +1304,22 @@ namespace SEOMacroscope
           
           if( lvListView.Columns[ i ].Text == "URL" )
           {
-            iUrlCol = i;
+            UrlColumn = i;
             break;
           }
           else
           if( lvListView.Columns[ i ].Text == "Source URL" )
           {
-            iUrlCol = i;
+            UrlColumn = i;
             break;
           }
                     
         }
-        if( iUrlCol > -1 )
+        if( UrlColumn > -1 )
         {
           foreach( ListViewItem lvItem in lvListView.SelectedItems )
           {
-            sUrl = lvItem.SubItems[ iUrlCol ].Text;
+            Url = lvItem.SubItems[ UrlColumn ].Text;
           }
         }
         else
@@ -1304,9 +1328,9 @@ namespace SEOMacroscope
         }
       }
 
-      if( sUrl != null )
+      if( Url != null )
       {
-        this.JobMaster.RetryLink( sUrl );
+        this.JobMaster.RetryLink( Url );
         this.RerunScanQueue();
       }
 
@@ -1317,22 +1341,22 @@ namespace SEOMacroscope
     private void OpenUrlInBrowser ( string Url )
     {
 
-      Uri uUrl = null;
+      Uri OpenUrl = null;
 
       try
       {
-        uUrl = new Uri ( Url );
+        OpenUrl = new Uri ( Url );
       }
       catch( UriFormatException ex )
       {
         MessageBox.Show( ex.Message );
       }
 
-      if( uUrl != null )
+      if( OpenUrl != null )
       {
         try
         {
-          Process.Start( uUrl.ToString() );
+          Process.Start( OpenUrl.ToString() );
         }
         catch( Exception ex )
         {
@@ -1498,7 +1522,7 @@ namespace SEOMacroscope
       if( Monitor.TryEnter( LockerTimerSiteOverview, 1000 ) )
       {
         
-        DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "OBTAINED LOCK" ) );
+        //DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "OBTAINED LOCK" ) );
         
         try
         {
@@ -1525,7 +1549,7 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerSiteOverview );
-          DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "RELEASED LOCK" ) );
+          //DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "RELEASED LOCK" ) );
         }
         
       }
@@ -1941,7 +1965,7 @@ namespace SEOMacroscope
       if( Monitor.TryEnter( LockerTimerAuthentication, 1000 ) )
       {
 
-        DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "OBTAINED LOCK" ) );
+        //DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "OBTAINED LOCK" ) );
                 
         try
         {
@@ -1968,7 +1992,7 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerAuthentication );
-          DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "RELEASED LOCK" ) );
+          //DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "RELEASED LOCK" ) );
         }
               
       }

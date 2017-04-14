@@ -269,7 +269,16 @@ namespace SEOMacroscope
 
       if( !this.PeekUrlQueue() )
       {
+
+        string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.StartUrl );
+
+        if( !string.IsNullOrEmpty( RobotsUrl ) )
+        {
+          this.AddUrlQueueItem( RobotsUrl );
+        }
+
         this.AddUrlQueueItem( this.StartUrl );
+
       }
 
       {

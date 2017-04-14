@@ -312,8 +312,6 @@ namespace SEOMacroscope
 
           Cursor.Current = Cursors.WaitCursor;
 
-          ProgressForm.Show();
-
           msExcelReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
 
           Cursor.Current = Cursors.Default;
@@ -333,8 +331,7 @@ namespace SEOMacroscope
         }
         finally
         {
-          ProgressForm.Close();
-          ProgressForm.Dispose();
+          ProgressForm.DoClose();
           Cursor.Current = Cursors.Default;
         }
       }

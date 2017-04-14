@@ -87,7 +87,7 @@ namespace SEOMacroscope
       if( Monitor.TryEnter( LockerTimerProgressBarScan, 1000 ) )
       {
         
-        DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "OBTAINED LOCK" ) );
+        //DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "OBTAINED LOCK" ) );
        
         try
         {
@@ -114,7 +114,7 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerProgressBarScan );
-          DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "RELEASED LOCK" ) );
+          //DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "RELEASED LOCK" ) );
         }
         
       }
@@ -180,7 +180,7 @@ namespace SEOMacroscope
           Percentage = 100;
         }
 
-        //DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", iTotal ) );
+        //DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", Total ) );
         //DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
         //DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
         //DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );

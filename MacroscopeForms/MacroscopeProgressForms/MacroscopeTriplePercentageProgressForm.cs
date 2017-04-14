@@ -42,6 +42,11 @@ namespace SEOMacroscope
     
     private MacroscopeMainForm MainForm;
     private Boolean IsCancelled;
+
+    private Boolean FormShown;
+
+    private Stopwatch OperationDuration;
+    private static long OperationDurationLimit = 5000;
     
     /**************************************************************************/
 
@@ -52,11 +57,15 @@ namespace SEOMacroscope
 
       this.MainForm = MainForm;
       this.IsCancelled = false;
-
+      this.FormShown = false;
+      
       this.Shown += this.CallbackFormShown;
       this.FormClosing += this.CallbackFormClosing;
       this.KeyUp += this.CallbackKeyUp;
 
+      this.OperationDuration = new Stopwatch ();
+      this.OperationDuration.Start();
+      
     }
 
     /**************************************************************************/
@@ -84,6 +93,16 @@ namespace SEOMacroscope
           break;
         default:
           break;
+      }
+    }
+
+    /**************************************************************************/
+
+    public void DoClose ()
+    {
+      if( this.FormShown )
+      {
+        this.Close();
       }
     }
 
@@ -127,6 +146,12 @@ namespace SEOMacroscope
     )
     {
 
+      if( ( !this.FormShown ) && ( this.OperationDuration.ElapsedMilliseconds >= OperationDurationLimit ) )
+      {
+        this.FormShown = true;
+        this.Show();
+      }
+            
       try
       {
         

@@ -198,16 +198,19 @@ namespace SEOMacroscope
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
-      
-      ProgressForm.Show();
-      
-      ProgressForm.UpdatePercentages(
-        Title: "Displaying Links",
-        Message: "Processing links in document collection for display:",
-        MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
-        ProgressLabelMajor: "Documents Processed"
-      );
 
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        
+        ProgressForm.UpdatePercentages(
+          Title: "Displaying Links",
+          Message: "Processing links in document collection for display:",
+          MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+          ProgressLabelMajor: "Documents Processed"
+        );
+
+      }
+      
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
@@ -223,19 +226,27 @@ namespace SEOMacroscope
 
         }
 
-        Count++;
-        TotalDocs = ( decimal )DocCollection.CountDocuments();
+        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        {
+
+          Count++;
+          TotalDocs = ( decimal )DocCollection.CountDocuments();
         
-        ProgressForm.UpdatePercentages(
-          Title: null,
-          Message: null,
-          MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
-          ProgressLabelMajor: null
-        );
+          ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+            ProgressLabelMajor: null
+          );
+        
+        }
         
       }
 
-      ProgressForm.Close();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.DoClose();
+      }
       
       ProgressForm.Dispose();
       
@@ -252,14 +263,18 @@ namespace SEOMacroscope
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
-      ProgressForm.Show();
       
-      ProgressForm.UpdatePercentages(
-        Title: "Displaying Links",
-        Message: "Processing links in document collection for display:",
-        MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
-        ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-      );
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+
+        ProgressForm.UpdatePercentages(
+          Title: "Displaying Links",
+          Message: "Processing links in document collection for display:",
+          MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+        
+      }
 
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
@@ -275,18 +290,26 @@ namespace SEOMacroscope
           );
         }
 
-        Count++;
+        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        {
+
+          Count++;
                 
-        ProgressForm.UpdatePercentages(
-          Title: null,
-          Message: null,
-          MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
-          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );
-                
+          ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: ( ( decimal )100 / TotalDocs ) * Count,
+            ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+          );
+
+        }
+      
       }
 
-      ProgressForm.Close();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.DoClose();
+      }
       
       ProgressForm.Dispose();
       

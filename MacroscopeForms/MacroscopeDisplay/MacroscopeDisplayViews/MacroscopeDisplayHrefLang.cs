@@ -142,8 +142,6 @@ namespace SEOMacroscope
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
 
-        ProgressForm.Show();
-      
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
           Message: "Processing document collection for display:",
@@ -345,7 +343,10 @@ namespace SEOMacroscope
       this.lvListView.Columns[ "Title" ].Width = 300;
       this.lvListView.Columns[ "URL" ].Width = 300;
 
-      ProgressForm.Close();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.DoClose();
+      }
       
       ProgressForm.Dispose();
       

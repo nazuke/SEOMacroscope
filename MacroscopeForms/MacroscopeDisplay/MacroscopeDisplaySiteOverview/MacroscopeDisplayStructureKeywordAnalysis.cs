@@ -128,24 +128,27 @@ namespace SEOMacroscope
     public void RefreshKeywordAnalysisDataProgress ( MacroscopeDocumentCollection DocCollection )
     {
 
-      MacroscopeDoublePercentageProgressForm ProgressForm = new MacroscopeDoublePercentageProgressForm (this.MainForm);
+      MacroscopeDoublePercentageProgressForm ProgressForm = new MacroscopeDoublePercentageProgressForm ( this.MainForm );
 
       decimal MajorPercentage = 0;
 
-      ProgressForm.UpdatePercentages(
-        Title: "Preparing Display",
-        Message: "Processing keyword terms collection for display:",
-        MajorPercentage: MajorPercentage,
-        ProgressLabelMajor: "",       
-        MinorPercentage: 0,
-        ProgressLabelMinor: ""
-      );  
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {  
+
+        ProgressForm.UpdatePercentages(
+          Title: "Preparing Display",
+          Message: "Processing keyword terms collection for display:",
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: "",       
+          MinorPercentage: 0,
+          ProgressLabelMinor: ""
+        );
+
+      }
 
       try
       {
         ProgressForm.TopMost = true;
-        //ProgressForm.ControlBox = false;
-        ProgressForm.Show();
       }
       catch( Exception ex )
       {
@@ -162,16 +165,22 @@ namespace SEOMacroscope
 
           Dictionary<string,int> DicTerms = DocCollection.GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
 
-          MajorPercentage = ( ( decimal )100 / ( decimal )4 ) * ( decimal )( i + 1 );
+
+          if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+          {
+
+            MajorPercentage = ( ( decimal )100 / ( decimal )4 ) * ( decimal )( i + 1 );
         
-          ProgressForm.UpdatePercentages(
-            Title: null,
-            Message: null,
-            MajorPercentage: MajorPercentage,
-            ProgressLabelMajor: string.Format( "{0} Word Keywords", i + 1 ),       
-            MinorPercentage: 0,
-            ProgressLabelMinor: ""
-          );
+            ProgressForm.UpdatePercentages(
+              Title: null,
+              Message: null,
+              MajorPercentage: MajorPercentage,
+              ProgressLabelMajor: string.Format( "{0} Word Keywords", i + 1 ),       
+              MinorPercentage: 0,
+              ProgressLabelMinor: ""
+            );
+        
+          }
 
           this.RenderKeywordAnalysisListView(
             lvListView: this.lvListViews[ i ],
@@ -183,7 +192,10 @@ namespace SEOMacroscope
 
       }
 
-      ProgressForm.Close();
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.DoClose();
+      }
 
       ProgressForm.Dispose();
 

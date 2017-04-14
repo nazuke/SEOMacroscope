@@ -38,7 +38,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    Dictionary<string,Robots> RobotsSquad;
+    Dictionary<string,Robots> RobotSquad;
     
     Dictionary<Uri,Boolean> BadRobots;
 
@@ -47,9 +47,9 @@ namespace SEOMacroscope
     public MacroscopeRobots ()
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
-      this.RobotsSquad = new Dictionary<string,Robots> ( 32 );
+      this.RobotSquad = new Dictionary<string,Robots> ( 32 );
 
       this.BadRobots = new Dictionary<Uri,Boolean> ( 32 );
 
@@ -153,6 +153,57 @@ namespace SEOMacroscope
 
     }
 
+    /** Generate Robot URL ****************************************************/
+
+    public static string GenerateRobotUrl ( string Url )
+    {
+
+      string RobotUrl = null;
+      
+      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      {
+        
+        DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ), true );
+
+        Uri BaseUri = new Uri ( Url, UriKind.Absolute );
+        Uri RobotsUri = null;
+        string RobotsTxtUrl = null;
+
+        try
+        {
+          
+          RobotsUri = new Uri (
+            string.Format(
+              "{0}://{1}{2}",
+              BaseUri.Scheme,
+              BaseUri.Host,
+              "/robots.txt"
+            ),
+            UriKind.Absolute
+          );
+
+          RobotsTxtUrl = RobotsUri.ToString();
+
+        }
+        catch( InvalidOperationException ex )
+        {
+          DebugMsg( string.Format( "GenerateRobotUrl: {0}", ex.Message ), true );
+        }
+        catch( UriFormatException ex )
+        {
+          DebugMsg( string.Format( "GenerateRobotUrl: {0}", ex.Message ), true );
+        }
+
+        if( !string.IsNullOrEmpty( RobotsTxtUrl ) )
+        {
+          RobotUrl = RobotsTxtUrl;
+        }
+    
+      }
+    
+      return( RobotUrl );
+    }
+
     /** Fetch Robot ***********************************************************/
 
     public Robots FetchRobot ( string Url )
@@ -172,6 +223,7 @@ namespace SEOMacroscope
 
       try
       {
+        
         RobotsUri = new Uri (
           string.Format(
             "{0}://{1}{2}",
@@ -207,12 +259,12 @@ namespace SEOMacroscope
       if( !string.IsNullOrEmpty( RobotsTxtUrl ) )
       {
 
-        lock( this.RobotsSquad )
+        lock( this.RobotSquad )
         {
 
-          if( this.RobotsSquad.ContainsKey( RobotsTxtUrl ) )
+          if( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
           {
-            robot = this.RobotsSquad[ RobotsTxtUrl ];
+            robot = this.RobotSquad[ RobotsTxtUrl ];
           }
           else
           {
@@ -222,7 +274,7 @@ namespace SEOMacroscope
             if( RobotsText.Length > 0 )
             {
               robot = new Robots ( content: RobotsText );
-              this.RobotsSquad.Add( RobotsTxtUrl, robot );
+              this.RobotSquad.Add( RobotsTxtUrl, robot );
             }
 
           }
