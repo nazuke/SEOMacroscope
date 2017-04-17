@@ -60,6 +60,8 @@ namespace SEOMacroscope
     static int MaxRetries;
     static int CrawlDelay;
     
+    static Boolean IgnoreQueries;
+        
     static Boolean CheckExternalLinks;
 
     static Boolean FollowRobotsProtocol;
@@ -152,6 +154,8 @@ namespace SEOMacroscope
           MaxRetries = Preferences.MaxRetries;
           CrawlDelay = Preferences.CrawlDelay;
 
+          IgnoreQueries = Preferences.IgnoreQueries;
+          
           CheckExternalLinks = Preferences.CheckExternalLinks;
 
           CheckHreflangs = Preferences.CheckHreflangs;
@@ -236,6 +240,8 @@ namespace SEOMacroscope
       MaxRetries = 0;
       CrawlDelay = 0;
           
+      IgnoreQueries = false;
+                
       CheckExternalLinks = false;
 
       FollowRobotsProtocol = true;
@@ -370,6 +376,8 @@ namespace SEOMacroscope
         Preferences.MaxRetries = MaxRetries;
         Preferences.CrawlDelay = CrawlDelay;
 
+        Preferences.IgnoreQueries = IgnoreQueries;
+                  
         Preferences.CheckExternalLinks = CheckExternalLinks;
 
         Preferences.CheckHreflangs = CheckHreflangs;
@@ -609,6 +617,18 @@ namespace SEOMacroscope
     public static void SetCrawlDelay ( int Value )
     {
       CrawlDelay = Value;
+    }
+
+    /** Ignore Queries ********************************************************/
+
+    public static Boolean GetIgnoreQueries ()
+    {
+      return( IgnoreQueries );
+    }
+
+    public static void SetIgnoreQueries ( Boolean State )
+    {
+      IgnoreQueries = State;
     }
 
     /** Domain Spidering Controls *********************************************/

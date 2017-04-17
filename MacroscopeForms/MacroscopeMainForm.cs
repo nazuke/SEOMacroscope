@@ -1402,6 +1402,9 @@ namespace SEOMacroscope
         case "SITEMAPXML":
           DocumentType = MacroscopeConstants.DocumentType.SITEMAPXML;
           break;
+        case "SITEMAPTEXT":
+          DocumentType = MacroscopeConstants.DocumentType.SITEMAPTEXT;
+          break;
         case "MISC":
           DocumentType = MacroscopeConstants.DocumentType.BINARY;
           break;

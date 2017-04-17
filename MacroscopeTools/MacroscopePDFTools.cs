@@ -108,14 +108,14 @@ namespace SEOMacroscope
     {
 
       Dictionary<string,string> dicMetadata = this.GetMetadata();
-      string sTitle = "";
+      string Title = "";
 
       if( dicMetadata.ContainsKey( "title" ) )
       {
-        sTitle = dicMetadata[ "title" ];
+        Title = dicMetadata[ "title" ];
       }
 
-      return( sTitle );
+      return( Title );
 
     }
 

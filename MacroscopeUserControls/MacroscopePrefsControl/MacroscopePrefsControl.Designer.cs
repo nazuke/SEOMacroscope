@@ -118,6 +118,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.GroupBox groupBox15;
 		public System.Windows.Forms.CheckBox checkBoxPauseDisplayDuringScan;
 		public System.Windows.Forms.CheckBox checkBoxShowProgressDialogues;
+		public System.Windows.Forms.CheckBox checkBoxIgnoreQueries;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -221,13 +222,14 @@ namespace SEOMacroscope
 			this.tabPageDisplaySettings = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox15 = new System.Windows.Forms.GroupBox();
+			this.checkBoxShowProgressDialogues = new System.Windows.Forms.CheckBox();
 			this.checkBoxPauseDisplayDuringScan = new System.Windows.Forms.CheckBox();
 			this.tabPageNetworkSettings = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
-			this.checkBoxShowProgressDialogues = new System.Windows.Forms.CheckBox();
+			this.checkBoxIgnoreQueries = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -370,6 +372,7 @@ namespace SEOMacroscope
 			// groupBox10
 			// 
 			this.groupBox10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox10.Controls.Add(this.checkBoxIgnoreQueries);
 			this.groupBox10.Controls.Add(this.checkBoxFollowNoFollow);
 			this.groupBox10.Controls.Add(this.checkBoxFollowHrefLangLinks);
 			this.groupBox10.Controls.Add(this.checkBoxFollowCanonicalLinks);
@@ -692,7 +695,7 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFetchXml
 			// 
-			this.checkBoxFetchXml.Location = new System.Drawing.Point(336, 20);
+			this.checkBoxFetchXml.Location = new System.Drawing.Point(340, 20);
 			this.checkBoxFetchXml.Name = "checkBoxFetchXml";
 			this.checkBoxFetchXml.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxFetchXml.TabIndex = 7;
@@ -701,7 +704,7 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFetchBinaries
 			// 
-			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(336, 50);
+			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(340, 50);
 			this.checkBoxFetchBinaries.Name = "checkBoxFetchBinaries";
 			this.checkBoxFetchBinaries.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxFetchBinaries.TabIndex = 8;
@@ -1331,6 +1334,15 @@ namespace SEOMacroscope
 			this.groupBox15.TabStop = false;
 			this.groupBox15.Text = "Overview Panels";
 			// 
+			// checkBoxShowProgressDialogues
+			// 
+			this.checkBoxShowProgressDialogues.Location = new System.Drawing.Point(20, 50);
+			this.checkBoxShowProgressDialogues.Name = "checkBoxShowProgressDialogues";
+			this.checkBoxShowProgressDialogues.Size = new System.Drawing.Size(160, 24);
+			this.checkBoxShowProgressDialogues.TabIndex = 2;
+			this.checkBoxShowProgressDialogues.Text = "Show progress dialogues";
+			this.checkBoxShowProgressDialogues.UseVisualStyleBackColor = true;
+			// 
 			// checkBoxPauseDisplayDuringScan
 			// 
 			this.checkBoxPauseDisplayDuringScan.Location = new System.Drawing.Point(20, 20);
@@ -1406,14 +1418,14 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
-			// checkBoxShowProgressDialogues
+			// checkBoxIgnoreQueries
 			// 
-			this.checkBoxShowProgressDialogues.Location = new System.Drawing.Point(20, 50);
-			this.checkBoxShowProgressDialogues.Name = "checkBoxShowProgressDialogues";
-			this.checkBoxShowProgressDialogues.Size = new System.Drawing.Size(160, 24);
-			this.checkBoxShowProgressDialogues.TabIndex = 2;
-			this.checkBoxShowProgressDialogues.Text = "Show progress dialogues";
-			this.checkBoxShowProgressDialogues.UseVisualStyleBackColor = true;
+			this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(340, 20);
+			this.checkBoxIgnoreQueries.Name = "checkBoxIgnoreQueries";
+			this.checkBoxIgnoreQueries.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxIgnoreQueries.TabIndex = 5;
+			this.checkBoxIgnoreQueries.Text = "Ignore Queries";
+			this.checkBoxIgnoreQueries.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 

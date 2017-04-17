@@ -153,10 +153,10 @@ namespace SEOMacroscope
         { // Title
           if( pdfTools != null )
           {
-            string sTitle = pdfTools.GetTitle();
-            if( sTitle != null )
+            string DocumentTitle = pdfTools.GetTitle();
+            if( DocumentTitle != null )
             {
-              this.SetTitle( sTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
+              this.SetTitle( DocumentTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
               DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
             }
             else

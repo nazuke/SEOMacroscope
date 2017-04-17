@@ -268,25 +268,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
@@ -475,18 +475,18 @@ namespace SEOMacroscope
       return( this.Checksum );
     }
 
-    private string GenerateChecksum ( string sData )
+    private string GenerateChecksum ( string RawData )
     {
       HashAlgorithm Digest = HashAlgorithm.Create( "SHA256" );
-      byte [] BytesIn = Encoding.UTF8.GetBytes( sData );
+      byte [] BytesIn = Encoding.UTF8.GetBytes( RawData );
       byte [] Hashed = Digest.ComputeHash( BytesIn );
       StringBuilder sbString = new StringBuilder ();
       for( int i = 0 ; i < Hashed.Length ; i++ )
       {
         sbString.Append( Hashed[ i ].ToString( "X2" ) );
       }
-      string sChecksum = sbString.ToString();
-      return( sChecksum );
+      string ChecksumValue = sbString.ToString();
+      return( ChecksumValue );
     }
 
     /** Etag Value ************************************************************/
@@ -889,22 +889,22 @@ namespace SEOMacroscope
 
     public string GetCrawledDate ()
     {
-      return( this.CrawledDate.ToLongDateString() );
+      return( this.CrawledDate.ToUniversalTime().ToString( "r" ) );
     }
 
     public string GetDateServer ()
     {
-      return( this.DateServer.ToLongDateString() );
+      return( this.DateServer.ToUniversalTime().ToString( "r" ) );
     }
 
     public string GetDateModified ()
     {
-      return( this.DateModified.ToLongDateString() );
+      return( this.DateModified.ToUniversalTime().ToString( "r" ) );
     }
 
     public string GetDateExpires ()
     {
-      return( this.DateExpires.ToLongDateString() );
+      return( this.DateExpires.ToUniversalTime().ToString( "r" ) );
     }
 
     /** Inlinks ***************************************************************/

@@ -83,18 +83,18 @@ namespace SEOMacroscope
 
         { // Title
           MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
-          string sTitle = null;
+          string DocumentTitle = null;
           foreach( Match match in reMatches )
           {
             if( match.Groups[ 1 ].Value.Length > 0 )
             {
-              sTitle = match.Groups[ 1 ].Value.ToString();
+              DocumentTitle = match.Groups[ 1 ].Value.ToString();
               break;
             }
           }
-          if( sTitle != null )
+          if( DocumentTitle != null )
           {
-            this.SetTitle( sTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
+            this.SetTitle( DocumentTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
             DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
           }
           else

@@ -92,20 +92,20 @@ namespace SEOMacroscope
         return;
       }
 
-      string sPairKey = string.Join( "", Url );
+      string PairKey = string.Join( "", Url );
 
       ListViewItem lvItem = null;
-      int iCount = msDoc.CountOutlinks();
+      int Count = msDoc.CountOutlinks();
 
-      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      if( this.lvListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem = this.lvListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = iCount.ToString();
+          lvItem.SubItems[ 1 ].Text = Count.ToString();
 
         }
         catch( Exception ex )
@@ -120,12 +120,12 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( PairKey );
           lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = sPairKey;
+          lvItem.Name = PairKey;
 
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems.Add( iCount.ToString() );
+          lvItem.SubItems.Add( Count.ToString() );
 
           this.lvListView.Items.Add( lvItem );
 
@@ -142,9 +142,18 @@ namespace SEOMacroscope
 
         lvItem.ForeColor = Color.Blue;
 
-        if( iCount <= 0 )
+        if( !msDoc.GetIsExternal() )
         {
-          lvItem.ForeColor = Color.Orange;
+          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          if( Count <= 0 )
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Red;
+            lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+          }
+        }
+        else
+        {
+          lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
         }
 
       }

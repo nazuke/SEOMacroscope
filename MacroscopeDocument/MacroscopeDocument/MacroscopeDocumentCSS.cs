@@ -93,19 +93,19 @@ namespace SEOMacroscope
 
           DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
-          Stream sStream = res.GetResponseStream();
-          StreamReader srRead;
+          Stream ResponseStream = res.GetResponseStream();
+          StreamReader ResponseStreamReader;
 
           if( this.CharSet != null )
           {
-            srRead = new StreamReader ( sStream, this.CharSet );
+            ResponseStreamReader = new StreamReader ( ResponseStream, this.CharSet );
           }
           else
           {
-            srRead = new StreamReader ( sStream );
+            ResponseStreamReader = new StreamReader ( ResponseStream );
           }
          
-          RawData = srRead.ReadToEnd();
+          RawData = ResponseStreamReader.ReadToEnd();
 
           this.ContentLength = RawData.Length; // May need to find bytes length
          
@@ -157,18 +157,18 @@ namespace SEOMacroscope
         
         { // Title
           MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
-          string sTitle = null;
+          string DocumentTitle = null;
           foreach( Match match in reMatches )
           {
             if( match.Groups[ 1 ].Value.Length > 0 )
             {
-              sTitle = match.Groups[ 1 ].Value.ToString();
+              DocumentTitle = match.Groups[ 1 ].Value.ToString();
               break;
             }
           }
-          if( sTitle != null )
+          if( DocumentTitle != null )
           {
-            this.SetTitle( sTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
+            this.SetTitle( DocumentTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
             DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
           }
           else

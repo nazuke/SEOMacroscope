@@ -536,13 +536,20 @@ namespace SEOMacroscope
 
     public void AddUrlQueueItem ( string Url )
     {
+
+      string NewUrl = Url;
       
-      if( !this.SeenHistoryItem( Url ) )
+      if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
-        this.NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueUrlList, Url );
+        NewUrl = MacroscopeUrlUtils.StripQueryString( NewUrl );
       }
 
-      this.AddToProgress( Url );
+      if( !this.SeenHistoryItem( NewUrl ) )
+      {
+        this.NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueUrlList, NewUrl );
+      }
+
+      this.AddToProgress( NewUrl );
 
     }
 

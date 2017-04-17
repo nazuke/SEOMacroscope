@@ -97,9 +97,9 @@ namespace SEOMacroscope
             encUseEncoding = this.HtmlSniffCharset();
           }
 
-          Stream sStream = res.GetResponseStream();
-          StreamReader srRead = new StreamReader ( sStream, encUseEncoding );
-          RawData = srRead.ReadToEnd();
+          Stream ResponseStream = res.GetResponseStream();
+          StreamReader ResponseStreamReader = new StreamReader ( ResponseStream, encUseEncoding );
+          RawData = ResponseStreamReader.ReadToEnd();
           this.ContentLength = RawData.Length; // May need to find bytes length
           this.SetChecksum( RawData );
           

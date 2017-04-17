@@ -49,7 +49,7 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Status Code", ( ( int )this.GetStatusCode() ).ToString() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Status", this.GetStatusCode().ToString() ) );
 
-      DetailsList.Add( new KeyValuePair<string,string> ( "Crawled Date", this.CrawledDate.ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Crawled Date", this.GetCrawledDate() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Error Condition", this.GetErrorCondition() ) );
 

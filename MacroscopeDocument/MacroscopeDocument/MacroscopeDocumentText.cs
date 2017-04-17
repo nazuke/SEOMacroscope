@@ -93,13 +93,15 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
-          Stream sStream = res.GetResponseStream();
-          StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
-          RawData = srRead.ReadToEnd();
+          Stream ResponseStream = res.GetResponseStream();
+          StreamReader ResponseStreamReader = new StreamReader ( ResponseStream, Encoding.UTF8 ); // Assume UTF-8
+          RawData = ResponseStreamReader.ReadToEnd();
           
           this.ContentLength = RawData.Length; // May need to find bytes length
           
           this.SetWasDownloaded( true );
+          
+          this.SetChecksum( RawData );
         
         }
         catch( WebException ex )
@@ -165,35 +167,54 @@ namespace SEOMacroscope
     Boolean DetectSitemapTextDocument ( List<string> TextDoc )
     {
       
-      Boolean IsSitemapText = true;
+      Boolean IsSitemap = false;
 
       foreach( string Url in TextDoc )
       {
 
-        string UrlProcessing = Regex.Replace( Url, "^\\s*(.+?)\\s*$", "" );
+        string UrlProcessing = Regex.Replace( Url, "\\s+", "" );
 
         if( !string.IsNullOrEmpty( UrlProcessing ) )
         {
-        
+
           try
           {
             Uri SitemapUri = new Uri ( UrlProcessing );
+            if( SitemapUri != null )
+            {
+              if( ( SitemapUri.Scheme == "http" ) || ( SitemapUri.Scheme == "https" ) )
+              {
+                IsSitemap = true;
+              }
+              else
+              {
+                IsSitemap = false;
+                break;
+              }
+            }
           }
-          catch
+          catch( UriFormatException ex )
           {
-            IsSitemapText = false;
-          }
-
-          if( !IsSitemapText )
-          {
+            DebugMsg( string.Format( "DetectSitemapTextDocument: UriFormatException: {0}", ex.Message ) );
+            DebugMsg( string.Format( "DetectSitemapTextDocument: UriFormatException: {0}", this.GetUrl() ) );
+            IsSitemap = false;
             break;
           }
-          
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "DetectSitemapTextDocument: Exception: {0}", ex.Message ) );
+            DebugMsg( string.Format( "DetectSitemapTextDocument: Exception: {0}", this.GetUrl() ) );
+            IsSitemap = false;
+            break;
+          }
+
         }
 
       }
 
-      return( IsSitemapText );
+      DebugMsg( string.Format( "DetectSitemapTextDocument: IsSitemap: {0} :: {1}", IsSitemap, this.GetUrl() ) );
+                  
+      return( IsSitemap );
       
     }
 
@@ -205,14 +226,12 @@ namespace SEOMacroscope
       foreach( string Url in TextDoc )
       {
 
-        string UrlProcessing = Regex.Replace( Url, "^\\s*(.+?)\\s*$", "" );
+        string UrlProcessing = Regex.Replace( Url, "\\s+", "" );
         string UrlCleaned = null;
 
         if( !string.IsNullOrEmpty( UrlProcessing ) )
         {
-        
-          DebugMsg( string.Format( "ProcessSitemapTextOutlinks UrlProcessing: {0}", UrlProcessing ) );
-                      
+
           try
           {
             Uri SitemapUri = new Uri ( UrlProcessing );
@@ -220,11 +239,16 @@ namespace SEOMacroscope
             {
               UrlCleaned = UrlProcessing;
             }
-            DebugMsg( string.Format( "ProcessSitemapTextOutlinks UrlCleaned: {0}", UrlCleaned ) );
+          }
+          catch( UriFormatException ex )
+          {
+            DebugMsg( string.Format( "ProcessSitemapTextOutlinks: {0}", ex.Message ) );
+            UrlCleaned = null;
           }
           catch( Exception ex )
           {
             DebugMsg( string.Format( "ProcessSitemapTextOutlinks: {0}", ex.Message ) );
+            UrlCleaned = null;
           }
 
           if( UrlCleaned != null )

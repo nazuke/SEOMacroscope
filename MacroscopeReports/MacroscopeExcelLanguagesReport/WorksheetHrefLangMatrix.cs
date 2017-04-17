@@ -90,9 +90,9 @@ namespace SEOMacroscope
         MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
         Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 
-        string sSiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
-        string sTitle = this.FormatIfMissing( msDoc.GetTitle() );
-        string sLocaleCol = msDoc.GetLocale();
+        string SiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
+        string Title = this.FormatIfMissing( msDoc.GetTitle() );
+        string LocaleCol = msDoc.GetLocale();
 
         iCol = 1;
 
@@ -102,23 +102,23 @@ namespace SEOMacroscope
         this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = sSiteLocale;
-        if( sSiteLocale == "MISSING" )
+        ws.Cell( iRow, iCol ).Value = SiteLocale;
+        if( SiteLocale == "MISSING" )
         {
           ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
         }
         iCol++;
           
-        ws.Cell( iRow, iCol ).Value = sTitle;
-        if( sTitle == "MISSING" )
+        ws.Cell( iRow, iCol ).Value = Title;
+        if( Title == "MISSING" )
         {
           ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
         }
         iCol++;
           
-        if( sLocaleCol != null )
+        if( LocaleCol != null )
         {
-          ws.Cell( iRow, dicLocaleCols[ sLocaleCol ] ).Value = msDoc.GetUrl();
+          ws.Cell( iRow, dicLocaleCols[ LocaleCol ] ).Value = msDoc.GetUrl();
         }
         else
         {

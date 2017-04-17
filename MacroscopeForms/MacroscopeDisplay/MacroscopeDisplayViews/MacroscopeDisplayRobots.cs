@@ -132,8 +132,8 @@ namespace SEOMacroscope
       foreach( string Url in dicBlocked.Keys )
       {
 
-        Boolean bInternal = JobMaster.GetAllowedHosts().IsInternalUrl( Url );
-        this.RenderListView( Url, dicBlocked[ Url ], bInternal );
+        Boolean IsInternal = JobMaster.GetAllowedHosts().IsInternalUrl( Url );
+        this.RenderListView( Url, dicBlocked[ Url ], IsInternal );
         
         Count++;
         MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
@@ -158,27 +158,27 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderListView ( string Url, Boolean bBlocked, Boolean bInternal )
+    private void RenderListView ( string Url, Boolean IsBlocked, Boolean IsInternal )
     {
 
-      string sPairKey = string.Join( "", Url );
-      string sBlocked = "";
+      string PairKey = string.Join( "", Url );
+      string Blocked = "";
       ListViewItem lvItem = null;
       
-      if( bBlocked )
+      if( IsBlocked )
       {
-        sBlocked = "blocked";
+        Blocked = "BLOCKED";
       }
 
-      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      if( this.lvListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem = this.lvListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = sBlocked;
+          lvItem.SubItems[ 1 ].Text = Blocked;
 
         }
         catch( Exception ex )
@@ -193,12 +193,12 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( PairKey );
           lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = sPairKey;
+          lvItem.Name = PairKey;
 
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems.Add( sBlocked );
+          lvItem.SubItems.Add( Blocked );
 
           this.lvListView.Items.Add( lvItem );
 
@@ -216,26 +216,20 @@ namespace SEOMacroscope
         lvItem.UseItemStyleForSubItems = false;
         lvItem.ForeColor = Color.Blue;
 
-        if( bInternal )
+        if( IsInternal )
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+          if( IsBlocked )
+          {
+            lvItem.SubItems[ 0 ].ForeColor = Color.Red;
+            lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+          }
         }
         else
         {
           lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
-        }
-
-        if( bBlocked )
-        {
-          if( bInternal )
-          {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Red;
-          }
-          else
-          {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
-          }
-          lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+          lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
         }
 
       }

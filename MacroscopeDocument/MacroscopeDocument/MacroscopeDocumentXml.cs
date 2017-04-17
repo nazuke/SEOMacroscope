@@ -76,7 +76,7 @@ namespace SEOMacroscope
       if( res != null )
       {
 
-        string sRawData = "";
+        string RawData = "";
 
         this.ProcessResponseHttpHeaders( req, res );
 
@@ -91,13 +91,15 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
-          Stream sStream = res.GetResponseStream();
-          StreamReader srRead = new StreamReader ( sStream, Encoding.UTF8 ); // Assume UTF-8
-          sRawData = srRead.ReadToEnd();
+          Stream ResponseStream = res.GetResponseStream();
+          StreamReader ResponseStreamReader = new StreamReader ( ResponseStream, Encoding.UTF8 ); // Assume UTF-8
+          RawData = ResponseStreamReader.ReadToEnd();
           
-          this.ContentLength = sRawData.Length; // May need to find bytes length
+          this.ContentLength = RawData.Length; // May need to find bytes length
           
           this.SetWasDownloaded( true );
+          
+          this.SetChecksum( RawData );
         
         }
         catch( WebException ex )
@@ -113,21 +115,21 @@ namespace SEOMacroscope
             this.SetStatusCode( ( HttpStatusCode )ex.Status );
           }
 
-          sRawData = "";
+          RawData = "";
           this.ContentLength = 0;
         }
         catch( Exception ex )
         {
           DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           this.SetStatusCode( HttpStatusCode.BadRequest );
-          sRawData = "";
+          RawData = "";
           this.ContentLength = 0;
         }
 
-        if( sRawData.Length > 0 )
+        if( RawData.Length > 0 )
         {
           XmlDoc = new XmlDocument ();
-          XmlDoc.LoadXml( sRawData );
+          XmlDoc.LoadXml( RawData );
           DebugMsg( string.Format( "XmlDoc: {0}", XmlDoc ) );
         }
         else

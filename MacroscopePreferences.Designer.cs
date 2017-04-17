@@ -385,6 +385,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool IgnoreQueries {
+			get {
+				return ((bool)(this["IgnoreQueries"]));
+			}
+			set {
+				this["IgnoreQueries"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("32")]
 		public int MaxFetchesPerWorker {
 			get {

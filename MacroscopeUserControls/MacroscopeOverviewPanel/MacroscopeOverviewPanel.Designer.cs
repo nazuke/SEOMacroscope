@@ -230,6 +230,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader LinksOutRawSourceUrl;
 		private System.Windows.Forms.ColumnHeader LinksOutRawTargtUrl;
 		private System.Windows.Forms.ColumnHeader HyperlinksFollow;
+		private System.Windows.Forms.ToolStripMenuItem textSitemapsToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -453,6 +454,7 @@ namespace SEOMacroscope
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.textSitemapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
@@ -659,6 +661,7 @@ namespace SEOMacroscope
 			this.audioToolStripMenuItem,
 			this.videoToolStripMenuItem,
 			this.sitemapXMLToolStripMenuItem,
+			this.textSitemapsToolStripMenuItem,
 			this.miscellaneousToolStripMenuItem});
 			this.toolStripStructureFilterMenu.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStructureFilterMenu.Image")));
 			this.toolStripStructureFilterMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -679,7 +682,7 @@ namespace SEOMacroscope
 			this.HtmlToolStripMenuItem.Name = "HtmlToolStripMenuItem";
 			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.HtmlToolStripMenuItem.Tag = "HTML";
-			this.HtmlToolStripMenuItem.Text = "HTML";
+			this.HtmlToolStripMenuItem.Text = "HTML Pages";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
@@ -989,6 +992,7 @@ namespace SEOMacroscope
 			this.columnHeaderSitemapUrl,
 			this.columnHeaderSitemapLinks});
 			this.listViewSitemaps.ContextMenuStrip = this.contextMenuStripStructure;
+			this.listViewSitemaps.FullRowSelect = true;
 			this.listViewSitemaps.GridLines = true;
 			this.listViewSitemaps.Location = new System.Drawing.Point(20, 20);
 			this.listViewSitemaps.Name = "listViewSitemaps";
@@ -2205,6 +2209,13 @@ namespace SEOMacroscope
 			// 
 			this.HistoryVisited.Text = "Visited";
 			this.HistoryVisited.Width = 100;
+			// 
+			// textSitemapsToolStripMenuItem
+			// 
+			this.textSitemapsToolStripMenuItem.Name = "textSitemapsToolStripMenuItem";
+			this.textSitemapsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.textSitemapsToolStripMenuItem.Tag = "SITEMAPTEXT";
+			this.textSitemapsToolStripMenuItem.Text = "Text Sitemaps";
 			// 
 			// MacroscopeOverviewPanel
 			// 

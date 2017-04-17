@@ -83,25 +83,25 @@ namespace SEOMacroscope
     protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
-      string sTitle = msDoc.GetTitle();
-      string sDescription = msDoc.GetDescription();
-      string sKeywords = msDoc.GetKeywords();
+      string Title = msDoc.GetTitle();
+      string Description = msDoc.GetDescription();
+      string Keywords = msDoc.GetKeywords();
 
-      string sPairKey = string.Join( "", Url );
+      string PairKey = string.Join( "", Url );
 
       ListViewItem lvItem = null;
 
-      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      if( this.lvListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem = this.lvListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = sTitle;
-          lvItem.SubItems[ 2 ].Text = sDescription;
-          lvItem.SubItems[ 3 ].Text = sKeywords;
+          lvItem.SubItems[ 1 ].Text = Title;
+          lvItem.SubItems[ 2 ].Text = Description;
+          lvItem.SubItems[ 3 ].Text = Keywords;
 
         }
         catch( Exception ex )
@@ -116,14 +116,14 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( PairKey );
           lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = sPairKey;
+          lvItem.Name = PairKey;
 
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems.Add( sTitle );
-          lvItem.SubItems.Add( sDescription );
-          lvItem.SubItems.Add( sKeywords );
+          lvItem.SubItems.Add( Title );
+          lvItem.SubItems.Add( Description );
+          lvItem.SubItems.Add( Keywords );
 
           this.lvListView.Items.Add( lvItem );
 

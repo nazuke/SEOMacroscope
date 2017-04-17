@@ -200,11 +200,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean UpdateDisplay ( MacroscopeJobMaster JobMaster, string sUrl )
+    public Boolean UpdateDisplay ( MacroscopeJobMaster JobMaster, string Url )
     {
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
-      MacroscopeDocument msDoc = DocCollection.GetDocument( sUrl );
+      MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
 
       if( msDoc != null )
       {
@@ -215,14 +215,26 @@ namespace SEOMacroscope
             new MethodInvoker (
               delegate
               {
-                this.UpdateDocumentDetailsDisplay( JobMaster, msDoc );
+                Cursor.Current = Cursors.WaitCursor;
+                this.UpdateDocumentDetailsDisplay(
+                  JobMaster: JobMaster,
+                  DocCollection: DocCollection,
+                  msDoc: msDoc
+                );
+                Cursor.Current = Cursors.Default;
               }
             )
           );
         }
         else
         {
-          this.UpdateDocumentDetailsDisplay( JobMaster, msDoc );
+          Cursor.Current = Cursors.WaitCursor;
+          this.UpdateDocumentDetailsDisplay(
+            JobMaster: JobMaster,
+            DocCollection: DocCollection,
+            msDoc: msDoc
+          );
+          Cursor.Current = Cursors.Default;
         }
 
         return( true );
@@ -235,17 +247,19 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void UpdateDocumentDetailsDisplay ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void UpdateDocumentDetailsDisplay (
+      MacroscopeJobMaster JobMaster,
+      MacroscopeDocumentCollection DocCollection,
+      MacroscopeDocument msDoc
+    )
     {
-
-      Cursor.Current = Cursors.WaitCursor;
 
       this.RenderDocumentDetails( JobMaster, msDoc );
       this.RenderDocumentHttpHeaders( JobMaster, msDoc );
 
       this.RenderListViewMetaTags( JobMaster, msDoc );
 
-      this.RenderDocumentHrefLang( msDoc, JobMaster.GetLocales(), JobMaster.GetDocCollection() );
+      this.RenderDocumentHrefLang( msDoc, JobMaster.GetLocales(), DocCollection );
 
       this.RenderListViewLinksIn( JobMaster, msDoc );
       this.RenderListViewLinksOut( JobMaster, msDoc );
@@ -273,8 +287,6 @@ namespace SEOMacroscope
       this.RenderTextBoxBodyText( JobMaster, msDoc );
       
       this.RenderDocumentPreview( JobMaster, msDoc );
-
-      Cursor.Current = Cursors.Default;
 
     }
 
@@ -413,7 +425,7 @@ namespace SEOMacroscope
         
     private void RenderDocumentHrefLang (
       MacroscopeDocument msDoc,
-      Dictionary<string,string> htLocales,
+      Dictionary<string,string> Locales,
       MacroscopeDocumentCollection DocCollection
     )
     {
@@ -434,7 +446,7 @@ namespace SEOMacroscope
           lvListView.Columns.Add( "Title", "Title" );
         }
 
-        string sKeyUrl = msDoc.GetUrl();
+        string KeyUrl = msDoc.GetUrl();
 
         if( msDoc.GetIsHtml() )
         {
@@ -446,9 +458,9 @@ namespace SEOMacroscope
 
             {
 
-              ListViewItem lvItem = new ListViewItem ( sKeyUrl );
+              ListViewItem lvItem = new ListViewItem ( KeyUrl );
 
-              lvItem.Name = sKeyUrl;
+              lvItem.Name = KeyUrl;
 
               lvItem.SubItems.Add( "" );
               lvItem.SubItems.Add( "" );
@@ -462,55 +474,55 @@ namespace SEOMacroscope
 
             }
 
-            foreach( string sLocale in htLocales.Keys )
+            foreach( string Locale in Locales.Keys )
             {
 
               Application.DoEvents();
             
-              if( sLocale != null )
+              if( Locale != null )
               {
 
-                if( sLocale == msDoc.GetLocale() )
+                if( Locale == msDoc.GetLocale() )
                 {
                   continue;
                 }
 
-                string sHrefLangUrl = null;
-                string sTitle = "";
-                ListViewItem lvItem = new ListViewItem ( sLocale );
+                string DocHrefLangUrl = null;
+                string Title = "";
+                ListViewItem lvItem = new ListViewItem ( Locale );
 
-                lvItem.Name = sLocale;
+                lvItem.Name = Locale;
 
                 lvItem.SubItems.Add( "" );
                 lvItem.SubItems.Add( "" );
                 lvItem.SubItems.Add( "" );
 
-                if( htHrefLangs.ContainsKey( sLocale ) )
+                if( htHrefLangs.ContainsKey( Locale ) )
                 {
 
-                  MacroscopeHrefLang msHrefLang = htHrefLangs[ sLocale ];
+                  MacroscopeHrefLang msHrefLang = htHrefLangs[ Locale ];
 
                   if( msHrefLang != null )
                   {
 
-                    sHrefLangUrl = msHrefLang.GetUrl();
+                    DocHrefLangUrl = msHrefLang.GetUrl();
 
-                    if( DocCollection.DocumentExists( sHrefLangUrl ) )
+                    if( DocCollection.DocumentExists( DocHrefLangUrl ) )
                     {
-                      sTitle = DocCollection.GetDocument( sHrefLangUrl ).GetTitle();
+                      Title = DocCollection.GetDocument( DocHrefLangUrl ).GetTitle();
                     }
 
                   }
 
                 }
 
-                lvItem.SubItems[ 1 ].Text = sLocale;
-                lvItem.SubItems[ 2 ].Text = sTitle;
+                lvItem.SubItems[ 1 ].Text = Locale;
+                lvItem.SubItems[ 2 ].Text = Title;
 
-                if( sHrefLangUrl != null )
+                if( DocHrefLangUrl != null )
                 {
                   lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
-                  lvItem.SubItems[ 0 ].Text = sHrefLangUrl;
+                  lvItem.SubItems[ 0 ].Text = DocHrefLangUrl;
                 }
                 else
                 {

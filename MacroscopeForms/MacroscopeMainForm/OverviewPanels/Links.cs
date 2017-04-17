@@ -43,10 +43,13 @@ namespace SEOMacroscope
 
     private void CallbackButtonLinksShowAll ( object sender, EventArgs e )
     {
+      
       this.msDisplayLinks.ClearData();
+      
       this.msDisplayLinks.RefreshData(
         this.JobMaster.GetDocCollection()
       );
+      
     }
 
     /**************************************************************************/

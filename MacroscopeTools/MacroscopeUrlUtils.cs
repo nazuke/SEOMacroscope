@@ -100,8 +100,8 @@ namespace SEOMacroscope
     {
 
       string UrlFixed;
-      Uri uBase = new Uri ( BaseUrl, UriKind.Absolute );
-      Uri uNew = null;
+      Uri BaseUri = new Uri ( BaseUrl, UriKind.Absolute );
+      Uri NewUri = null;
 
       Regex reHTTP = new Regex ( "^https?:" );
       Regex reDoubleSlash = new Regex ( "^//" );
@@ -147,10 +147,10 @@ namespace SEOMacroscope
 
         try
         {
-          uNew = new Uri (
+          NewUri = new Uri (
             string.Format(
               "{0}:{1}",
-              uBase.Scheme,
+              BaseUri.Scheme,
               Url
             ),
             UriKind.Absolute
@@ -173,11 +173,11 @@ namespace SEOMacroscope
 
         try
         {
-          uNew = new Uri (
+          NewUri = new Uri (
             string.Format(
               "{0}://{1}{2}",
-              uBase.Scheme,
-              uBase.Host,
+              BaseUri.Scheme,
+              BaseUri.Host,
               Url
             ),
             UriKind.Absolute
@@ -200,11 +200,11 @@ namespace SEOMacroscope
 
         try
         {
-          uNew = new Uri (
+          NewUri = new Uri (
             string.Format(
               "{0}://{1}{2}",
-              uBase.Scheme,
-              uBase.Host,
+              BaseUri.Scheme,
+              BaseUri.Host,
               Url
             ),
             UriKind.Absolute
@@ -231,11 +231,11 @@ namespace SEOMacroscope
 
         try
         {
-          uNew = new Uri (
+          NewUri = new Uri (
             string.Format(
               "{0}://{1}{2}",
-              uBase.Scheme,
-              uBase.Host,
+              BaseUri.Scheme,
+              BaseUri.Host,
               sNewUrl
             ),
             UriKind.Absolute
@@ -258,7 +258,7 @@ namespace SEOMacroscope
 
         try
         {
-          uNew = new Uri ( Url, UriKind.Absolute );
+          NewUri = new Uri ( Url, UriKind.Absolute );
         }
         catch( InvalidOperationException ex )
         {
@@ -283,7 +283,7 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "RELATIVE URL 1: {0}", Url ), true );
 
-        string sBasePath = Regex.Replace( uBase.AbsolutePath, "/[^/]+$", "/" );
+        string sBasePath = Regex.Replace( BaseUri.AbsolutePath, "/[^/]+$", "/" );
         string sNewPath = string.Join( "", sBasePath, Url );
 
         DebugMsg( string.Format( "RELATIVE URL 2: {0}", sBasePath ), true );
@@ -292,11 +292,11 @@ namespace SEOMacroscope
 
         try
         {
-          uNew = new Uri (
+          NewUri = new Uri (
             string.Format(
               "{0}://{1}{2}",
-              uBase.Scheme,
-              uBase.Host,
+              BaseUri.Scheme,
+              BaseUri.Host,
               sNewPath
             ),
             UriKind.Absolute
@@ -314,9 +314,9 @@ namespace SEOMacroscope
 
       }
 
-      if( uNew != null )
+      if( NewUri != null )
       {
-        UrlFixed = uNew.ToString();
+        UrlFixed = NewUri.ToString();
       }
       else
       {
@@ -334,12 +334,12 @@ namespace SEOMacroscope
     public static Boolean VerifySameHost ( string BaseUrL, string Url )
     {
       Boolean Success = false;
-      Uri uBase = null;
-      Uri uNew = null;
+      Uri BaseUri = null;
+      Uri NewUri = null;
 
       try
       {
-        uBase = new Uri ( BaseUrL, UriKind.Absolute );
+        BaseUri = new Uri ( BaseUrL, UriKind.Absolute );
       }
       catch( InvalidOperationException ex )
       {
@@ -359,7 +359,7 @@ namespace SEOMacroscope
 
       try
       {
-        uNew = new Uri ( Url, UriKind.Absolute );
+        NewUri = new Uri ( Url, UriKind.Absolute );
       }
       catch( InvalidOperationException ex )
       {
@@ -379,7 +379,7 @@ namespace SEOMacroscope
 
       try
       {
-        if( ( uBase != null ) && ( uNew != null ) && ( uBase.Host.ToString() == uNew.Host.ToString() ) )
+        if( ( BaseUri != null ) && ( NewUri != null ) && ( BaseUri.Host.ToString() == NewUri.Host.ToString() ) )
         {
           Success = true;
         }
@@ -511,6 +511,59 @@ namespace SEOMacroscope
     
     /**************************************************************************/
     
+    public static string StripQueryString ( string Url )
+    {
+
+      Uri UriBase = new Uri ( Url, UriKind.Absolute );
+      Uri UriNew = null;
+      string NewUrl = null;
+      
+      if( UriBase != null )
+      {
+
+        try
+        {
+          UriNew = new Uri (
+            string.Format(
+              "{0}://{1}{2}",
+              UriBase.Scheme,
+              UriBase.Host,
+              UriBase.AbsolutePath
+            ),
+            UriKind.Absolute
+          );
+
+        }
+        catch( InvalidOperationException ex )
+        {
+          DebugMsg( ex.Message, true );
+        }
+        catch( UriFormatException ex )
+        {
+          DebugMsg( ex.Message, true );
+        }
+      
+        if( UriBase != null )
+        {
+          NewUrl = UriNew.ToString();
+        }
+        else
+        {
+          NewUrl = Url;
+        }
+
+      }
+      else
+      {
+        NewUrl = Url;
+      }
+
+      return( NewUrl );
+
+    }
+      
+    /**************************************************************************/
+
   }
 
 }
