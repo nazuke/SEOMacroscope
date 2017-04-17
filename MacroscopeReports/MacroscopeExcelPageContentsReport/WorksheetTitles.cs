@@ -107,7 +107,7 @@ namespace SEOMacroscope
 
           if( TitleLength > 0 )
           {
-            Occurrences = DocCollection.GetStatsTitleCount( Title );
+            Occurrences = DocCollection.GetStatsTitleCount( msDoc: msDoc );
           }
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );

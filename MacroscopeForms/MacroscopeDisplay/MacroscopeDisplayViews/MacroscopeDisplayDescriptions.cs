@@ -80,7 +80,8 @@ namespace SEOMacroscope
     {
 
       Boolean bProcess;
-
+      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
+      
       if( msDoc.GetIsExternal() )
       {
         return;
@@ -113,7 +114,7 @@ namespace SEOMacroscope
 
         if( DescriptionLength > 0 )
         {
-          Occurrences = this.MainForm.GetJobMaster().GetDocCollection().GetStatsDescriptionCount( Description );
+          Occurrences = DocCollection.GetStatsDescriptionCount( msDoc: msDoc );
         }
         else
         {

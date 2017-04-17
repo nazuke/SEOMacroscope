@@ -113,7 +113,7 @@ namespace SEOMacroscope
         {
 
           string Title = msDoc.GetTitle();
-          int Occurrences = DocCollection.GetStatsTitleCount( Title );
+          int Occurrences = DocCollection.GetStatsTitleCount( msDoc: msDoc );
             
           if( Occurrences > 1 )
           {

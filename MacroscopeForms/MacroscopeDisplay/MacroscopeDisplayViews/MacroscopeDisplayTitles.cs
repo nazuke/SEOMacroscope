@@ -76,7 +76,8 @@ namespace SEOMacroscope
     {
 
       Boolean bProcess;
-
+      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
+      
       if( msDoc.GetIsExternal() )
       {
         return;
@@ -105,26 +106,26 @@ namespace SEOMacroscope
         int TextLength = Text.Length;
         int TextPixelWidth = msDoc.GetTitlePixelWidth();
 
-        string sPairKey = string.Join( "", Url, Text );
+        string PairKey = string.Join( "", Url, Text );
 
         ListViewItem lvItem = null;
 
         if( TextLength > 0 )
         {
-          TextCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsTitleCount( Text );
+          TextCount = DocCollection.GetStatsTitleCount( msDoc: msDoc );
         }
         else
         {
           TextLabel = "MISSING";
         }
 
-        if( this.lvListView.Items.ContainsKey( sPairKey ) )
+        if( this.lvListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ sPairKey ];
+            lvItem = this.lvListView.Items[ PairKey ];
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = TextCount.ToString();
             lvItem.SubItems[ 2 ].Text = TextLabel;
@@ -144,9 +145,9 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( sPairKey );
+            lvItem = new ListViewItem ( PairKey );
             lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = sPairKey;
+            lvItem.Name = PairKey;
 
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems.Add( TextCount.ToString() );
