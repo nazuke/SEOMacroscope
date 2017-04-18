@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Drawing;
 using System.Windows.Forms;
@@ -73,7 +74,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
       
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
@@ -81,14 +86,14 @@ namespace SEOMacroscope
       if( msDoc.GetIsHtml() )
       {
 
-        string sCanonical = msDoc.GetCanonical();
+        string Canonical = msDoc.GetCanonical();
         HttpStatusCode StatusCode = msDoc.GetStatusCode();
-        string sCanonicalLabel = sCanonical;
+        string CanonicalLabel = Canonical;
         ListViewItem lvItem = null;
 
-        if( sCanonical.Length == 0 )
+        if( Canonical.Length == 0 )
         {
-          sCanonicalLabel = "MISSING";
+          CanonicalLabel = "MISSING";
         }
 
         if( lvListView.Items.ContainsKey( Url ) )
@@ -100,7 +105,7 @@ namespace SEOMacroscope
             lvItem = lvListView.Items[ Url ];
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
-            lvItem.SubItems[ 2 ].Text = sCanonicalLabel;
+            lvItem.SubItems[ 2 ].Text = CanonicalLabel;
 
           }
           catch( Exception ex )
@@ -121,7 +126,7 @@ namespace SEOMacroscope
 
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems.Add( StatusCode.ToString() );
-            lvItem.SubItems.Add( sCanonicalLabel );
+            lvItem.SubItems.Add( CanonicalLabel );
 
             lvListView.Items.Add( lvItem );
 
@@ -147,17 +152,17 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
           }
 
-          if( ( (int)StatusCode >= 100 ) && ( (int)StatusCode <= 299 ) )
+          if( ( ( int )StatusCode >= 100 ) && ( ( int )StatusCode <= 299 ) )
           {
             lvItem.SubItems[ 1 ].ForeColor = Color.Green;
           }
           else
-          if( ( (int)StatusCode >= 300 ) && ( (int)StatusCode <= 399 ) )
+          if( ( ( int )StatusCode >= 300 ) && ( ( int )StatusCode <= 399 ) )
           {
             lvItem.SubItems[ 1 ].ForeColor = Color.Orange;
           }
           else
-          if( ( (int)StatusCode >= 400 ) && ( (int)StatusCode <= 599 ) )
+          if( ( ( int )StatusCode >= 400 ) && ( ( int )StatusCode <= 599 ) )
           {
             lvItem.SubItems[ 1 ].ForeColor = Color.Red;
           }
@@ -166,7 +171,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
           }
 
-          if( sCanonical.Length == 0 )
+          if( Canonical.Length == 0 )
           {
             if( AllowedHosts.IsInternalUrl( Url ) )
             {
@@ -179,7 +184,7 @@ namespace SEOMacroscope
           }
           else
           {
-            if( AllowedHosts.IsInternalUrl( sCanonical ) )
+            if( AllowedHosts.IsInternalUrl( Canonical ) )
             {
               lvItem.SubItems[ 2 ].ForeColor = Color.Green;
             }
@@ -193,6 +198,12 @@ namespace SEOMacroscope
               
       }
 
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

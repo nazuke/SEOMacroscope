@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -194,6 +195,8 @@ namespace SEOMacroscope
     )
     {
 
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+            
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
@@ -202,12 +205,18 @@ namespace SEOMacroscope
         if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
         {
 
-          this.RenderListView( msDoc: msDoc, Url: Url );
+          this.RenderListView(
+            ListViewItems: ListViewItems,
+            msDoc: msDoc,
+            Url: Url
+          );
 
         }
 
       }
 
+      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+     
     }
 
     /**************************************************************************/
@@ -218,6 +227,8 @@ namespace SEOMacroscope
     )
     {
 
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+            
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
@@ -226,6 +237,7 @@ namespace SEOMacroscope
         if( msDoc != null )
         {
           this.RenderListViewSearchTargetUrls(
+            ListViewItems: ListViewItems,
             msDoc: msDoc,
             Url: Url,
             UrlFragment: UrlFragment
@@ -233,12 +245,18 @@ namespace SEOMacroscope
         }
 
       }
-
+      
+      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+     
     }
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
               
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
@@ -249,7 +267,7 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
         string UrlTarget = HyperlinkOut.GetTargetUrl();
-        string sPairKey = string.Join( "::", Url, UrlTarget );
+        string PairKey = string.Join( "::", Url, UrlTarget );
         string LinkText = HyperlinkOut.GetLinkText();
         string LinkTitle = HyperlinkOut.GetLinkTitle();
         string AltText = HyperlinkOut.GetAltText();
@@ -280,13 +298,13 @@ namespace SEOMacroscope
           AltTextLabel = "MISSING";
         }
 
-        if( this.lvListView.Items.ContainsKey( sPairKey ) )
+        if( this.lvListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ sPairKey ];
+            lvItem = this.lvListView.Items[ PairKey ];
 
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = UrlTarget;
@@ -308,9 +326,9 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( sPairKey );
+            lvItem = new ListViewItem ( PairKey );
             lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = sPairKey;
+            lvItem.Name = PairKey;
 
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems.Add( UrlTarget );
@@ -318,8 +336,8 @@ namespace SEOMacroscope
             lvItem.SubItems.Add( LinkTextLabel );
             lvItem.SubItems.Add( LinkTitleLabel );
             lvItem.SubItems.Add( AltTextLabel );
-
-            this.lvListView.Items.Add( lvItem );
+                  
+            ListViewItems.Add( lvItem );
 
           }
           catch( Exception ex )
@@ -400,14 +418,17 @@ namespace SEOMacroscope
 
       }
 
-      this.RenderUrlCount();
-              
     }
 
     /**************************************************************************/
     
     
-    private void RenderListViewSearchTargetUrls ( MacroscopeDocument msDoc, string Url, string UrlFragment )
+    private void RenderListViewSearchTargetUrls (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url,
+      string UrlFragment
+    )
     {
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
@@ -494,7 +515,7 @@ namespace SEOMacroscope
               lvItem.SubItems.Add( LinkTitleLabel );
               lvItem.SubItems.Add( AltTextLabel );
 
-              this.lvListView.Items.Add( lvItem );
+              ListViewItems.Add( lvItem );
 
             }
             catch( Exception ex )
@@ -577,19 +598,17 @@ namespace SEOMacroscope
        
       }
 
-      this.RenderUrlCount();
-              
     }
 
     /**************************************************************************/
 
-    private void RenderUrlCount ()
+    protected override void RenderUrlCount ()
     {
-      this.UrlCount.Text = string.Format( "URLs: {0}", lvListView.Items.Count );
+      this.UrlCount.Text = string.Format( "URLs: {0}", this.lvListView.Items.Count );
     }
      
     /**************************************************************************/
-    
+
   }
 
 }

@@ -207,7 +207,7 @@ namespace SEOMacroscope
     private Boolean CheckIncludeExcludeUrl ( string Url )
     {
 
-      Boolean bSuccess = true;
+      Boolean Success = true;
 
       if( this.IncludeExcludeUrls.UseIncludeUrlPatterns() )
       {
@@ -218,7 +218,7 @@ namespace SEOMacroscope
         else
         {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", Url ) );
-          bSuccess = false;
+          Success = false;
         }
       }
 
@@ -227,7 +227,7 @@ namespace SEOMacroscope
         if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) )
         {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", Url ) );
-          bSuccess = false;
+          Success = false;
         }
         else
         {
@@ -235,7 +235,7 @@ namespace SEOMacroscope
         }
       }
 
-      return( bSuccess );
+      return( Success );
 
     }
 

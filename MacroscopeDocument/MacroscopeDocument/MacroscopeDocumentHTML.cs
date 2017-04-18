@@ -368,8 +368,7 @@ namespace SEOMacroscope
           string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
                     
           DebugMsg( string.Format( "ProcessHtmlHyperlinksOut: {0}", this.GetUrl() ) );
-          
-          
+
           if( LinkUrl != null )
           {
 
@@ -457,6 +456,11 @@ namespace SEOMacroscope
 
     private void ProcessHtmlOutlinks ( HtmlDocument HtmlDoc )
     {
+
+      if( this.GetIsExternal() )
+      {
+        return;
+      }
 
       { // A HREF links ------------------------------------------------------//
 

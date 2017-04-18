@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Windows.Forms;
@@ -85,6 +86,8 @@ namespace SEOMacroscope
         return;
       }
             
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+            
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
@@ -119,7 +122,11 @@ namespace SEOMacroscope
 
         if( bProceed )
         {
-          this.RenderListView( msDoc, msDoc.GetUrl() );
+          this.RenderListView( 
+            ListViewItems: ListViewItems,
+            msDoc: msDoc,
+            Url: msDoc.GetUrl()
+          );
         }
         else
         {
@@ -143,7 +150,9 @@ namespace SEOMacroscope
         }
 
       }
-                  
+               
+      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -155,7 +164,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
       ListViewItem lvItem = null;
@@ -198,7 +211,7 @@ namespace SEOMacroscope
           lvItem.SubItems.Add( Status );
           lvItem.SubItems.Add( msDoc.GetErrorCondition() );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -270,6 +283,12 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

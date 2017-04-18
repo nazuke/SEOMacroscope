@@ -128,7 +128,7 @@ namespace SEOMacroscope
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
 			this.buttonOK.TabIndex = 0;
-			this.buttonOK.Text = "OK";
+			this.buttonOK.Text = "Start";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			// 
 			// label1

@@ -268,25 +268,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -1319,7 +1319,7 @@ namespace SEOMacroscope
     {
       if( ( Text != null ) && ( Text.Length > 0 ) )
       {
-        Text = MacroscopeStringTools.CleanBodyText( Text );
+        Text = MacroscopeStringTools.CleanBodyText( msDoc: this );
         this.BodyText = Text;
       }
       else
@@ -1458,7 +1458,7 @@ namespace SEOMacroscope
     {
 
       TimeDuration fTimeDuration = this.GetTimeDurationDelegate();
-      Boolean bDownloadDocument = true;
+      Boolean DoDownloadDocument = true;
 
       this.ClearIsDirty();
 
@@ -1496,11 +1496,11 @@ namespace SEOMacroscope
       {
         if( this.GetIsExternal() )
         {
-          bDownloadDocument = false;
+          DoDownloadDocument = false;
         }
       }
 
-      if( bDownloadDocument )
+      if( DoDownloadDocument )
       {
 
         this.CrawledDate = DateTime.UtcNow;

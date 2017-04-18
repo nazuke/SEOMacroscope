@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -80,7 +81,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
       string Title = msDoc.GetTitle();
@@ -125,7 +130,7 @@ namespace SEOMacroscope
           lvItem.SubItems.Add( Description );
           lvItem.SubItems.Add( Keywords );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -137,6 +142,12 @@ namespace SEOMacroscope
 
       this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
               
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

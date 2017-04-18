@@ -145,6 +145,8 @@ namespace SEOMacroscope
         return;
       }
       
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
+            
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
@@ -193,11 +195,14 @@ namespace SEOMacroscope
 
           try
           {
+
             lvItem = new ListViewItem ( Url );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = Url;
             lvItem.SubItems.Add( Visited );
-            this.lvListView.Items.Add( lvItem );
+
+            ListViewItems.Add( lvItem );
+
           }
           catch( Exception ex )
           {
@@ -248,6 +253,8 @@ namespace SEOMacroscope
         }
       
       }
+            
+      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
             
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {

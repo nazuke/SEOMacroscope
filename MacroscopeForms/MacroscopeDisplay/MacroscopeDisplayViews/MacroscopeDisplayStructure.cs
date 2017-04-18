@@ -157,7 +157,11 @@ namespace SEOMacroscope
 
     /** Render One ************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
       lock( this.lvListView )
@@ -228,18 +232,24 @@ namespace SEOMacroscope
 
         if( this.lvListView.Items.ContainsKey( Url ) )
         {
+
           lvItem = this.lvListView.Items[ Url ];
+
         }
         else
         {
+
           lvItem = new ListViewItem ( Url );
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = Url;
+
           foreach( string Key in htItems.Keys )
           {
             lvItem.SubItems.Add( Key );
           }
-          this.lvListView.Items.Add( lvItem );
+
+          ListViewItems.Add( lvItem );
+
         }
 
         if( lvItem != null )
@@ -319,8 +329,6 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
         }
 
-        this.RenderUrlCount();
-
       }
 
     }
@@ -382,13 +390,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderUrlCount ()
+    protected override void RenderUrlCount ()
     {
-      this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
+      this.DocumentCount.Text = string.Format( "Documents: {0}", this.lvListView.Items.Count );
     }
-        
+
     /**************************************************************************/
-        
+  
   }
 
 }

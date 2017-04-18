@@ -111,7 +111,9 @@ namespace SEOMacroscope
       {
         return;
       }
-            
+           
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
+      
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )dicBlocked.Count;
@@ -133,7 +135,13 @@ namespace SEOMacroscope
       {
 
         Boolean IsInternal = JobMaster.GetAllowedHosts().IsInternalUrl( Url );
-        this.RenderListView( Url, dicBlocked[ Url ], IsInternal );
+
+        this.RenderListView(
+          ListViewItems: ListViewItems,
+          Url: Url,
+          IsBlocked: dicBlocked[ Url ], 
+          IsInternal: IsInternal
+        );
         
         Count++;
         MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
@@ -147,6 +155,8 @@ namespace SEOMacroscope
 
       }
      
+      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+            
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -158,7 +168,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderListView ( string Url, Boolean IsBlocked, Boolean IsInternal )
+    private void RenderListView (
+      List<ListViewItem> ListViewItems,
+      string Url,
+      Boolean IsBlocked,
+      Boolean IsInternal
+    )
     {
 
       string PairKey = string.Join( "", Url );
@@ -200,7 +215,7 @@ namespace SEOMacroscope
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems.Add( Blocked );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -238,7 +253,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView ( List<ListViewItem> ListViewItems, MacroscopeDocument msDoc, string Url )
+    {
+    }
+    
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
     {
     }
 

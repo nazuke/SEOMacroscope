@@ -123,6 +123,11 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader HyperlinksOutCount;
 		public System.Windows.Forms.TabPage tabPageBodyText;
 		public System.Windows.Forms.TextBox textBoxBodyText;
+		private System.Windows.Forms.TabPage tabPageRemarks;
+		public System.Windows.Forms.ListView listViewRemarks;
+		private System.Windows.Forms.ColumnHeader remarksItem;
+		public System.Windows.Forms.ColumnHeader remarksUrl;
+		private System.Windows.Forms.ColumnHeader remarksRemark;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -232,12 +237,17 @@ namespace SEOMacroscope
 			this.listViewKeywordAnalysis = new System.Windows.Forms.ListView();
 			this.columnHeaderKeywordAnalysisOccurences = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderKeywordAnalysisTerm = new System.Windows.Forms.ColumnHeader();
+			this.tabPageBodyText = new System.Windows.Forms.TabPage();
+			this.textBoxBodyText = new System.Windows.Forms.TextBox();
+			this.tabPageRemarks = new System.Windows.Forms.TabPage();
+			this.listViewRemarks = new System.Windows.Forms.ListView();
+			this.remarksItem = new System.Windows.Forms.ColumnHeader();
+			this.remarksUrl = new System.Windows.Forms.ColumnHeader();
+			this.remarksRemark = new System.Windows.Forms.ColumnHeader();
 			this.splitContainerDocumentDetails = new System.Windows.Forms.SplitContainer();
 			this.tableLayoutPanelDocumentDetailsDetails = new System.Windows.Forms.TableLayoutPanel();
 			this.pictureBoxDocumentDetailsImage = new System.Windows.Forms.PictureBox();
 			this.listViewDocInfo = new System.Windows.Forms.ListView();
-			this.tabPageBodyText = new System.Windows.Forms.TabPage();
-			this.textBoxBodyText = new System.Windows.Forms.TextBox();
 			this.tabControlDocument.SuspendLayout();
 			this.tabPageDocumentInfo.SuspendLayout();
 			this.contextMenuStripTextDocumentDetails.SuspendLayout();
@@ -256,13 +266,14 @@ namespace SEOMacroscope
 			this.tabPageAudios.SuspendLayout();
 			this.tabPageVideos.SuspendLayout();
 			this.tabPageKeywordAnalysis.SuspendLayout();
+			this.tabPageBodyText.SuspendLayout();
+			this.tabPageRemarks.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerDocumentDetails)).BeginInit();
 			this.splitContainerDocumentDetails.Panel1.SuspendLayout();
 			this.splitContainerDocumentDetails.Panel2.SuspendLayout();
 			this.splitContainerDocumentDetails.SuspendLayout();
 			this.tableLayoutPanelDocumentDetailsDetails.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDocumentDetailsImage)).BeginInit();
-			this.tabPageBodyText.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControlDocument
@@ -282,6 +293,7 @@ namespace SEOMacroscope
 			this.tabControlDocument.Controls.Add(this.tabPageAudios);
 			this.tabControlDocument.Controls.Add(this.tabPageVideos);
 			this.tabControlDocument.Controls.Add(this.tabPageKeywordAnalysis);
+			this.tabControlDocument.Controls.Add(this.tabPageRemarks);
 			this.tabControlDocument.Controls.Add(this.tabPageBodyText);
 			this.tabControlDocument.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlDocument.Location = new System.Drawing.Point(0, 0);
@@ -312,7 +324,6 @@ namespace SEOMacroscope
 			this.listViewDocumentInfo.FullRowSelect = true;
 			this.listViewDocumentInfo.GridLines = true;
 			this.listViewDocumentInfo.Location = new System.Drawing.Point(20, 20);
-			this.listViewDocumentInfo.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewDocumentInfo.Name = "listViewDocumentInfo";
 			this.listViewDocumentInfo.Size = new System.Drawing.Size(200, 200);
 			this.listViewDocumentInfo.TabIndex = 0;
@@ -335,19 +346,19 @@ namespace SEOMacroscope
 			this.copyTextToolStripMenuItem,
 			this.toolStripMenuItemCopyValues});
 			this.contextMenuStripTextDocumentDetails.Name = "contextMenuStripTextCopy";
-			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(139, 48);
+			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(140, 48);
 			// 
 			// copyTextToolStripMenuItem
 			// 
 			this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
-			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
 			this.copyTextToolStripMenuItem.Text = "Copy Rows";
 			this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyRowsClick);
 			// 
 			// toolStripMenuItemCopyValues
 			// 
 			this.toolStripMenuItemCopyValues.Name = "toolStripMenuItemCopyValues";
-			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(138, 22);
+			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(139, 22);
 			this.toolStripMenuItemCopyValues.Text = "Copy Values";
 			this.toolStripMenuItemCopyValues.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyValuesClick);
 			// 
@@ -369,7 +380,6 @@ namespace SEOMacroscope
 			this.tableLayoutPanelHttpHeaders.Controls.Add(this.textBoxHttpRequestHeaders, 0, 0);
 			this.tableLayoutPanelHttpHeaders.Controls.Add(this.textBoxHttpResponseHeaders, 1, 0);
 			this.tableLayoutPanelHttpHeaders.Location = new System.Drawing.Point(20, 20);
-			this.tableLayoutPanelHttpHeaders.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanelHttpHeaders.Name = "tableLayoutPanelHttpHeaders";
 			this.tableLayoutPanelHttpHeaders.RowCount = 1;
 			this.tableLayoutPanelHttpHeaders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -422,7 +432,6 @@ namespace SEOMacroscope
 			this.listViewMetaTags.FullRowSelect = true;
 			this.listViewMetaTags.GridLines = true;
 			this.listViewMetaTags.Location = new System.Drawing.Point(20, 20);
-			this.listViewMetaTags.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewMetaTags.Name = "listViewMetaTags";
 			this.listViewMetaTags.Size = new System.Drawing.Size(500, 200);
 			this.listViewMetaTags.TabIndex = 1;
@@ -458,7 +467,6 @@ namespace SEOMacroscope
 			this.listViewHrefLang.FullRowSelect = true;
 			this.listViewHrefLang.GridLines = true;
 			this.listViewHrefLang.Location = new System.Drawing.Point(20, 20);
-			this.listViewHrefLang.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewHrefLang.Name = "listViewHrefLang";
 			this.listViewHrefLang.Size = new System.Drawing.Size(200, 200);
 			this.listViewHrefLang.TabIndex = 1;
@@ -496,7 +504,6 @@ namespace SEOMacroscope
 			this.listViewLinksIn.FullRowSelect = true;
 			this.listViewLinksIn.GridLines = true;
 			this.listViewLinksIn.Location = new System.Drawing.Point(20, 20);
-			this.listViewLinksIn.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewLinksIn.Name = "listViewLinksIn";
 			this.listViewLinksIn.Size = new System.Drawing.Size(500, 200);
 			this.listViewLinksIn.TabIndex = 2;
@@ -566,7 +573,6 @@ namespace SEOMacroscope
 			this.listViewLinksOut.FullRowSelect = true;
 			this.listViewLinksOut.GridLines = true;
 			this.listViewLinksOut.Location = new System.Drawing.Point(20, 20);
-			this.listViewLinksOut.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewLinksOut.Name = "listViewLinksOut";
 			this.listViewLinksOut.Size = new System.Drawing.Size(500, 200);
 			this.listViewLinksOut.TabIndex = 3;
@@ -635,7 +641,6 @@ namespace SEOMacroscope
 			this.listViewHyperlinksIn.FullRowSelect = true;
 			this.listViewHyperlinksIn.GridLines = true;
 			this.listViewHyperlinksIn.Location = new System.Drawing.Point(20, 20);
-			this.listViewHyperlinksIn.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewHyperlinksIn.Name = "listViewHyperlinksIn";
 			this.listViewHyperlinksIn.Size = new System.Drawing.Size(200, 200);
 			this.listViewHyperlinksIn.TabIndex = 1;
@@ -698,7 +703,6 @@ namespace SEOMacroscope
 			this.listViewHyperlinksOut.FullRowSelect = true;
 			this.listViewHyperlinksOut.GridLines = true;
 			this.listViewHyperlinksOut.Location = new System.Drawing.Point(20, 20);
-			this.listViewHyperlinksOut.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewHyperlinksOut.Name = "listViewHyperlinksOut";
 			this.listViewHyperlinksOut.Size = new System.Drawing.Size(200, 200);
 			this.listViewHyperlinksOut.TabIndex = 2;
@@ -755,7 +759,6 @@ namespace SEOMacroscope
 			this.listViewInsecureLinks.FullRowSelect = true;
 			this.listViewInsecureLinks.GridLines = true;
 			this.listViewInsecureLinks.Location = new System.Drawing.Point(20, 20);
-			this.listViewInsecureLinks.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewInsecureLinks.Name = "listViewInsecureLinks";
 			this.listViewInsecureLinks.Size = new System.Drawing.Size(200, 200);
 			this.listViewInsecureLinks.TabIndex = 2;
@@ -787,7 +790,6 @@ namespace SEOMacroscope
 			this.listViewStylesheets.FullRowSelect = true;
 			this.listViewStylesheets.GridLines = true;
 			this.listViewStylesheets.Location = new System.Drawing.Point(20, 20);
-			this.listViewStylesheets.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewStylesheets.Name = "listViewStylesheets";
 			this.listViewStylesheets.Size = new System.Drawing.Size(200, 200);
 			this.listViewStylesheets.TabIndex = 1;
@@ -823,7 +825,6 @@ namespace SEOMacroscope
 			this.listViewJavascripts.FullRowSelect = true;
 			this.listViewJavascripts.GridLines = true;
 			this.listViewJavascripts.Location = new System.Drawing.Point(20, 20);
-			this.listViewJavascripts.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewJavascripts.Name = "listViewJavascripts";
 			this.listViewJavascripts.Size = new System.Drawing.Size(200, 200);
 			this.listViewJavascripts.TabIndex = 1;
@@ -862,7 +863,6 @@ namespace SEOMacroscope
 			this.listViewImages.FullRowSelect = true;
 			this.listViewImages.GridLines = true;
 			this.listViewImages.Location = new System.Drawing.Point(20, 20);
-			this.listViewImages.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewImages.Name = "listViewImages";
 			this.listViewImages.Size = new System.Drawing.Size(200, 200);
 			this.listViewImages.TabIndex = 1;
@@ -908,7 +908,6 @@ namespace SEOMacroscope
 			this.listViewAudios.FullRowSelect = true;
 			this.listViewAudios.GridLines = true;
 			this.listViewAudios.Location = new System.Drawing.Point(20, 20);
-			this.listViewAudios.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewAudios.Name = "listViewAudios";
 			this.listViewAudios.Size = new System.Drawing.Size(200, 200);
 			this.listViewAudios.TabIndex = 2;
@@ -945,7 +944,6 @@ namespace SEOMacroscope
 			this.listViewVideos.FullRowSelect = true;
 			this.listViewVideos.GridLines = true;
 			this.listViewVideos.Location = new System.Drawing.Point(20, 20);
-			this.listViewVideos.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewVideos.Name = "listViewVideos";
 			this.listViewVideos.Size = new System.Drawing.Size(200, 200);
 			this.listViewVideos.TabIndex = 3;
@@ -982,7 +980,6 @@ namespace SEOMacroscope
 			this.listViewKeywordAnalysis.FullRowSelect = true;
 			this.listViewKeywordAnalysis.GridLines = true;
 			this.listViewKeywordAnalysis.Location = new System.Drawing.Point(20, 20);
-			this.listViewKeywordAnalysis.Margin = new System.Windows.Forms.Padding(0);
 			this.listViewKeywordAnalysis.Name = "listViewKeywordAnalysis";
 			this.listViewKeywordAnalysis.Size = new System.Drawing.Size(200, 200);
 			this.listViewKeywordAnalysis.TabIndex = 3;
@@ -999,6 +996,67 @@ namespace SEOMacroscope
 			// 
 			this.columnHeaderKeywordAnalysisTerm.Text = "Term";
 			this.columnHeaderKeywordAnalysisTerm.Width = 400;
+			// 
+			// tabPageBodyText
+			// 
+			this.tabPageBodyText.Controls.Add(this.textBoxBodyText);
+			this.tabPageBodyText.Location = new System.Drawing.Point(4, 58);
+			this.tabPageBodyText.Name = "tabPageBodyText";
+			this.tabPageBodyText.Size = new System.Drawing.Size(567, 438);
+			this.tabPageBodyText.TabIndex = 15;
+			this.tabPageBodyText.Text = "Body Text";
+			this.tabPageBodyText.UseVisualStyleBackColor = true;
+			// 
+			// textBoxBodyText
+			// 
+			this.textBoxBodyText.Location = new System.Drawing.Point(20, 20);
+			this.textBoxBodyText.Multiline = true;
+			this.textBoxBodyText.Name = "textBoxBodyText";
+			this.textBoxBodyText.ReadOnly = true;
+			this.textBoxBodyText.Size = new System.Drawing.Size(200, 200);
+			this.textBoxBodyText.TabIndex = 0;
+			// 
+			// tabPageRemarks
+			// 
+			this.tabPageRemarks.Controls.Add(this.listViewRemarks);
+			this.tabPageRemarks.Location = new System.Drawing.Point(4, 58);
+			this.tabPageRemarks.Name = "tabPageRemarks";
+			this.tabPageRemarks.Size = new System.Drawing.Size(567, 438);
+			this.tabPageRemarks.TabIndex = 16;
+			this.tabPageRemarks.Text = "Remarks";
+			this.tabPageRemarks.UseVisualStyleBackColor = true;
+			// 
+			// listViewRemarks
+			// 
+			this.listViewRemarks.CausesValidation = false;
+			this.listViewRemarks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.remarksItem,
+			this.remarksUrl,
+			this.remarksRemark});
+			this.listViewRemarks.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewRemarks.FullRowSelect = true;
+			this.listViewRemarks.GridLines = true;
+			this.listViewRemarks.Location = new System.Drawing.Point(20, 20);
+			this.listViewRemarks.Name = "listViewRemarks";
+			this.listViewRemarks.Size = new System.Drawing.Size(400, 200);
+			this.listViewRemarks.TabIndex = 2;
+			this.listViewRemarks.UseCompatibleStateImageBehavior = false;
+			this.listViewRemarks.View = System.Windows.Forms.View.Details;
+			// 
+			// remarksItem
+			// 
+			this.remarksItem.Text = "Item";
+			this.remarksItem.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// remarksUrl
+			// 
+			this.remarksUrl.Text = "URL";
+			this.remarksUrl.Width = 400;
+			// 
+			// remarksRemark
+			// 
+			this.remarksRemark.Text = "Remark";
+			this.remarksRemark.Width = 200;
 			// 
 			// splitContainerDocumentDetails
 			// 
@@ -1065,26 +1123,6 @@ namespace SEOMacroscope
 			this.listViewDocInfo.UseCompatibleStateImageBehavior = false;
 			this.listViewDocInfo.View = System.Windows.Forms.View.Details;
 			// 
-			// tabPageBodyText
-			// 
-			this.tabPageBodyText.Controls.Add(this.textBoxBodyText);
-			this.tabPageBodyText.Location = new System.Drawing.Point(4, 58);
-			this.tabPageBodyText.Name = "tabPageBodyText";
-			this.tabPageBodyText.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageBodyText.Size = new System.Drawing.Size(567, 438);
-			this.tabPageBodyText.TabIndex = 15;
-			this.tabPageBodyText.Text = "Body Text";
-			this.tabPageBodyText.UseVisualStyleBackColor = true;
-			// 
-			// textBoxBodyText
-			// 
-			this.textBoxBodyText.Location = new System.Drawing.Point(20, 20);
-			this.textBoxBodyText.Multiline = true;
-			this.textBoxBodyText.Name = "textBoxBodyText";
-			this.textBoxBodyText.ReadOnly = true;
-			this.textBoxBodyText.Size = new System.Drawing.Size(200, 200);
-			this.textBoxBodyText.TabIndex = 0;
-			// 
 			// MacroscopeDocumentDetails
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1112,14 +1150,15 @@ namespace SEOMacroscope
 			this.tabPageAudios.ResumeLayout(false);
 			this.tabPageVideos.ResumeLayout(false);
 			this.tabPageKeywordAnalysis.ResumeLayout(false);
+			this.tabPageBodyText.ResumeLayout(false);
+			this.tabPageBodyText.PerformLayout();
+			this.tabPageRemarks.ResumeLayout(false);
 			this.splitContainerDocumentDetails.Panel1.ResumeLayout(false);
 			this.splitContainerDocumentDetails.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerDocumentDetails)).EndInit();
 			this.splitContainerDocumentDetails.ResumeLayout(false);
 			this.tableLayoutPanelDocumentDetailsDetails.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxDocumentDetailsImage)).EndInit();
-			this.tabPageBodyText.ResumeLayout(false);
-			this.tabPageBodyText.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

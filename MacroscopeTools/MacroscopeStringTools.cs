@@ -50,47 +50,101 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static string ReverseString ( string sInput )
+    public static string ReverseString ( string Input )
     {
-      string sOutput = "";
-      for( int i = ( sInput.Length - 1 ) ; i >= 0 ; i-- )
+
+      string Output = "";
+
+      for( int i = ( Input.Length - 1 ) ; i >= 0 ; i-- )
       {
-        sOutput += sInput[ i ];
+        Output += Input[ i ];
       }
-      return( sOutput );
+
+      return( Output );
+
     }
 
     /**************************************************************************/
 
-    public static string[] ReverseStringArray ( string [] sInput )
+    public static string[] ReverseStringArray ( string [] Input )
     {
-      string [] sOutput = new string[sInput.Length];
-      for( int i = 0 ; i < sInput.Length ; i++ )
+
+      string [] Output = new string[Input.Length];
+
+      for( int i = 0 ; i < Input.Length ; i++ )
       {
-        sOutput[ i ] = MacroscopeStringTools.ReverseString( sInput[ i ] );
+        Output[ i ] = MacroscopeStringTools.ReverseString( Input[ i ] );
       }
-      return( sOutput );
+
+      return( Output );
+
     }
 
     /**************************************************************************/
 
-    public static string CleanBodyText ( string sText )
+    public static string CleanBodyText ( MacroscopeDocument msDoc )
     {
 
-      string sCleaned = "";
+      string Text = msDoc.GetBodyText();
+      string CleanedText = "";
 
-      if( ( sText != null ) && ( sText.Length > 0 ) )
+      if( !string.IsNullOrEmpty( Text ) )
       {
-        sCleaned = sText.ToLower();
-        sCleaned = HtmlEntity.DeEntitize( sCleaned );
-        sCleaned = Regex.Replace( sCleaned, "<!.+?>", "########", RegexOptions.Singleline );
-        sCleaned = Regex.Replace( sCleaned, "<!--.+?-->", "########", RegexOptions.Singleline );
-        sCleaned = Regex.Replace( sCleaned, "[\\s]+", " ", RegexOptions.Singleline );
-        sCleaned = Regex.Replace( sCleaned, "[^\\w\\d]+", " ", RegexOptions.Singleline );
-        sCleaned = sCleaned.Trim();
+
+        CleanedText = Text.ToLower();
+
+        try
+        {
+          CleanedText = HtmlEntity.DeEntitize( CleanedText );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
+          msDoc.AddRemark( "Possibly contains invalid HTML Entities." );
+        }
+
+        CleanedText = Regex.Replace( CleanedText, "<!.+?>", "########", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "<!--.+?-->", "########", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "[^\\w\\d]+", " ", RegexOptions.Singleline );
+        CleanedText = CleanedText.Trim();
+
       }
       
-      return( sCleaned );
+      return( CleanedText );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public static string CleanBodyText ( string Text )
+    {
+
+      string CleanedText = "";
+
+      if( !string.IsNullOrEmpty( Text ) )
+      {
+
+        CleanedText = Text.ToLower();
+
+        try
+        {
+          CleanedText = HtmlEntity.DeEntitize( CleanedText );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
+        }
+
+        CleanedText = Regex.Replace( CleanedText, "<!.+?>", "########", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "<!--.+?-->", "########", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "[^\\w\\d]+", " ", RegexOptions.Singleline );
+        CleanedText = CleanedText.Trim();
+
+      }
+      
+      return( CleanedText );
 
     }
 

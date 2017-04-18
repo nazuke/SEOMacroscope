@@ -793,7 +793,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
       
     }
@@ -837,7 +837,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "CANNOT OBTAIN LOCK" ) );
       }
 
     }
@@ -881,7 +881,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "CANNOT OBTAIN LOCK" ) );
       }
 
     }
@@ -899,6 +899,9 @@ namespace SEOMacroscope
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
           );
+          
+          
+          
           break;
 
         case "tabPageHierarchy":
@@ -1370,9 +1373,13 @@ namespace SEOMacroscope
 
     private void CallbackStructureDocumentTypesFilterMenuItemClick ( object sender, EventArgs e )
     {
+
       ToolStripDropDownItem FilterMenuItem = ( ToolStripDropDownItem )sender;
+
       DebugMsg( string.Format( "CallbackSearchCollectionDocumentTypesFilterMenuItemClick: {0}", FilterMenuItem.Tag ) );
+
       MacroscopeConstants.DocumentType DocumentType = MacroscopeConstants.DocumentType.ALL;
+
       switch( FilterMenuItem.Tag.ToString() )
       {
         case "ALL":
@@ -1409,21 +1416,27 @@ namespace SEOMacroscope
           DocumentType = MacroscopeConstants.DocumentType.BINARY;
           break;
       }
+
       this.msDisplayStructure.ClearData();
+
       this.msDisplayStructure.RefreshData(
         this.JobMaster.GetDocCollection(),
         DocumentType
       );
+
     }
 
     /** -------------------------------------------------------------------- **/
     
     private void CallbackStructureButtonShowAll ( object sender, EventArgs e )
     {
+
       this.msDisplayStructure.ClearData();
+
       this.msDisplayStructure.RefreshData(
         this.JobMaster.GetDocCollection()
       );
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1434,15 +1447,15 @@ namespace SEOMacroscope
       switch( e.KeyCode )
       {
         case Keys.Return:
-          string sUrlFragment = SearchTextBox.Text;
-          DebugMsg( string.Format( "CallbackSearchTextBoxSearchUrlKeyUp: {0}", sUrlFragment ) );
-          if( sUrlFragment.Length > 0 )
+          string UrlFragment = SearchTextBox.Text;
+          DebugMsg( string.Format( "CallbackSearchTextBoxSearchUrlKeyUp: {0}", UrlFragment ) );
+          if( UrlFragment.Length > 0 )
           {
-            SearchTextBox.Text = sUrlFragment;
+            SearchTextBox.Text = UrlFragment;
             this.msDisplayStructure.ClearData();
             this.msDisplayStructure.RefreshData(
               DocCollection: this.JobMaster.GetDocCollection(),
-              UrlFragment: sUrlFragment
+              UrlFragment: UrlFragment
             );
           }
           break;
@@ -1459,13 +1472,13 @@ namespace SEOMacroscope
         case Keys.Return:
           DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
           MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
-          string sText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
-          if( sText.Length > 0 )
+          string SearchText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
+          if( SearchText.Length > 0 )
           {
-            SearchTextBox.Text = sText;
+            SearchTextBox.Text = SearchText;
             List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
                                                  MacroscopeSearchIndex.SearchMode.AND,
-                                                 sText.Split( ' ' )
+                                                 SearchText.Split( ' ' )
                                                );
             this.msDisplayStructure.ClearData();
             this.msDisplayStructure.RefreshData( DocList );
@@ -1558,7 +1571,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
             
     }
@@ -1623,13 +1636,13 @@ namespace SEOMacroscope
         {
 
           KeywordTerm = lvItem.SubItems[ TermCol ].Text;
-          string sText = MacroscopeStringTools.CleanBodyText( KeywordTerm );
+          string SearchText = MacroscopeStringTools.CleanBodyText( KeywordTerm );
 
-          if( sText.Length > 0 )
+          if( SearchText.Length > 0 )
           {
             List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
                                                  MacroscopeSearchIndex.SearchMode.AND,
-                                                 sText.Split( ' ' )
+                                                 SearchText.Split( ' ' )
                                                );
             this.msDisplaySearchCollection.RefreshData( DocList );
           }
@@ -2001,7 +2014,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
             
     }

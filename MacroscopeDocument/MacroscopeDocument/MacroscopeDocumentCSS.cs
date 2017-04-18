@@ -193,6 +193,11 @@ namespace SEOMacroscope
     private void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
     {
 
+      if( this.GetIsExternal() )
+      {
+        return;
+      }
+            
       foreach( var CssRule in ExCssStylesheet.StyleRules )
       {
 
@@ -264,10 +269,10 @@ namespace SEOMacroscope
                   );
 
                   MacroscopeLink Outlink = this.AddCssOutlink(
-                                           AbsoluteUrl: LinkUrlAbs,
-                                           LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                                           Follow: true
-                                         );
+                                             AbsoluteUrl: LinkUrlAbs,
+                                             LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                                             Follow: true
+                                           );
                 
                   Outlink.SetRawTargetUrl( BackgroundImageUrl );
                 

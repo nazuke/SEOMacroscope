@@ -114,18 +114,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
-    {
-    }
-
-    /**************************************************************************/
-
     private void RenderListView (
       MacroscopeDocumentCollection DocCollection,
       Dictionary<string,string> LocalesList
     )
     {
-      
+
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       Hashtable htLocaleCols = new Hashtable ();
       
@@ -134,6 +128,8 @@ namespace SEOMacroscope
         return;
       }
             
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
+
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
@@ -194,25 +190,25 @@ namespace SEOMacroscope
           if( htHrefLangs != null )
           {
 
-            string sDocUrl = msDoc.GetUrl();
-            string sKeyUrl = sDocUrl;
+            string DocUrl = msDoc.GetUrl();
+            string PairKey = DocUrl;
             HttpStatusCode StatusCode = msDoc.GetStatusCode();
-            string sDocLocale = msDoc.GetLocale();
-            string sDocTitle = msDoc.GetTitle();
+            string DocLocale = msDoc.GetLocale();
+            string DocTitle = msDoc.GetTitle();
             ListViewItem lvItem;
 
-            if( this.lvListView.Items.ContainsKey( sKeyUrl ) )
+            if( this.lvListView.Items.ContainsKey( PairKey ) )
             {
 
-              lvItem = this.lvListView.Items[ sKeyUrl ];
+              lvItem = this.lvListView.Items[ PairKey ];
 
             }
             else
             {
 
-              lvItem = new ListViewItem ( sKeyUrl );
+              lvItem = new ListViewItem ( PairKey );
               lvItem.UseItemStyleForSubItems = false;
-              lvItem.Name = sKeyUrl;
+              lvItem.Name = PairKey;
 
               lvItem.SubItems.Add( "" );
               lvItem.SubItems.Add( "" );
@@ -224,22 +220,22 @@ namespace SEOMacroscope
                 lvItem.SubItems.Add( "" );
               }
 
-              this.lvListView.Items.Add( lvItem );
+              ListViewItems.Add( lvItem );
 
             }
 
-            if( this.lvListView.Items.ContainsKey( sKeyUrl ) )
+            if( this.lvListView.Items.ContainsKey( PairKey ) )
             {
 
               try
               {
 
-                lvItem.SubItems[ 0 ].Text = sDocUrl;
+                lvItem.SubItems[ 0 ].Text = DocUrl;
                 lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
-                lvItem.SubItems[ 2 ].Text = sDocLocale;
-                lvItem.SubItems[ 3 ].Text = sDocTitle;
+                lvItem.SubItems[ 2 ].Text = DocLocale;
+                lvItem.SubItems[ 3 ].Text = DocTitle;
                
-                if( AllowedHosts.IsInternalUrl( sDocUrl ) )
+                if( AllowedHosts.IsInternalUrl( DocUrl ) )
                 {
                   lvItem.SubItems[ 0 ].ForeColor = Color.Green;
                 }
@@ -311,7 +307,7 @@ namespace SEOMacroscope
             }
             else
             {
-              DebugMsg( string.Format( "MacroscopeDisplayHrefLang MISSING: {0}", sKeyUrl ) );
+              DebugMsg( string.Format( "MacroscopeDisplayHrefLang MISSING: {0}", PairKey ) );
             }
 
           }
@@ -336,6 +332,8 @@ namespace SEOMacroscope
         
       }
 
+      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+
       this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
 
       this.lvListView.Columns[ "Site Locale" ].Width = 100;
@@ -350,6 +348,18 @@ namespace SEOMacroscope
       
       ProgressForm.Dispose();
       
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderListView ( List<ListViewItem> ListViewItems, MacroscopeDocument msDoc, string Url )
+    {
+    }
+    
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

@@ -123,7 +123,7 @@ namespace SEOMacroscope
 
       if( !reHTTP.IsMatch( Url ) )
       {
-        Boolean bSuspect = false;
+        Boolean IsSuspect = false;
         if(
           ( !reDoubleSlash.IsMatch( Url ) )
           && ( !reSlash.IsMatch( Url ) )
@@ -132,10 +132,10 @@ namespace SEOMacroscope
         {
           if( reUnsupportedScheme.IsMatch( Url ) )
           {
-            bSuspect = true;
+            IsSuspect = true;
           }
         }
-        if( bSuspect )
+        if( IsSuspect )
         {
           DebugMsg( string.Format( "STRANGE URL: IS SUSPECT: {0}", Url ), true );
           return( null );
@@ -202,9 +202,10 @@ namespace SEOMacroscope
         {
           NewUri = new Uri (
             string.Format(
-              "{0}://{1}{2}",
+              "{0}://{1}{2}{3}",
               BaseUri.Scheme,
               BaseUri.Host,
+              BaseUri.AbsolutePath,
               Url
             ),
             UriKind.Absolute

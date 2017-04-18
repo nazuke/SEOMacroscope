@@ -626,6 +626,7 @@ namespace SEOMacroscope
 			// 
 			// toolStripSearch
 			// 
+			this.toolStripSearch.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.toolStripSearch.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripSearch.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripStructureFilterMenu,
@@ -671,77 +672,77 @@ namespace SEOMacroscope
 			// allDocumentTypesToolStripMenuItem
 			// 
 			this.allDocumentTypesToolStripMenuItem.Name = "allDocumentTypesToolStripMenuItem";
-			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.allDocumentTypesToolStripMenuItem.Tag = "ALL";
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
 			// 
 			// HtmlToolStripMenuItem
 			// 
 			this.HtmlToolStripMenuItem.Name = "HtmlToolStripMenuItem";
-			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.HtmlToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.HtmlToolStripMenuItem.Tag = "HTML";
 			this.HtmlToolStripMenuItem.Text = "HTML Pages";
 			// 
 			// stylesheetsToolStripMenuItem
 			// 
 			this.stylesheetsToolStripMenuItem.Name = "stylesheetsToolStripMenuItem";
-			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.stylesheetsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.stylesheetsToolStripMenuItem.Tag = "CSS";
 			this.stylesheetsToolStripMenuItem.Text = "Stylesheets";
 			// 
 			// javaScriptsToolStripMenuItem
 			// 
 			this.javaScriptsToolStripMenuItem.Name = "javaScriptsToolStripMenuItem";
-			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.javaScriptsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.javaScriptsToolStripMenuItem.Tag = "JAVASCRIPT";
 			this.javaScriptsToolStripMenuItem.Text = "JavaScripts";
 			// 
 			// imagesToolStripMenuItem
 			// 
 			this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.imagesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.imagesToolStripMenuItem.Tag = "IMAGE";
 			this.imagesToolStripMenuItem.Text = "Images";
 			// 
 			// PdfsToolStripMenuItem
 			// 
 			this.PdfsToolStripMenuItem.Name = "PdfsToolStripMenuItem";
-			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.PdfsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.PdfsToolStripMenuItem.Tag = "PDF";
 			this.PdfsToolStripMenuItem.Text = "PDFs";
 			// 
 			// audioToolStripMenuItem
 			// 
 			this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
-			this.audioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.audioToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.audioToolStripMenuItem.Tag = "AUDIO";
 			this.audioToolStripMenuItem.Text = "Audio Files";
 			// 
 			// videoToolStripMenuItem
 			// 
 			this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
-			this.videoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.videoToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.videoToolStripMenuItem.Tag = "VIDEO";
 			this.videoToolStripMenuItem.Text = "Video Files";
 			// 
 			// sitemapXMLToolStripMenuItem
 			// 
 			this.sitemapXMLToolStripMenuItem.Name = "sitemapXMLToolStripMenuItem";
-			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.sitemapXMLToolStripMenuItem.Tag = "SITEMAPXML";
 			this.sitemapXMLToolStripMenuItem.Text = "XML Sitemaps";
 			// 
 			// textSitemapsToolStripMenuItem
 			// 
 			this.textSitemapsToolStripMenuItem.Name = "textSitemapsToolStripMenuItem";
-			this.textSitemapsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.textSitemapsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.textSitemapsToolStripMenuItem.Tag = "SITEMAPTEXT";
 			this.textSitemapsToolStripMenuItem.Text = "Text Sitemaps";
 			// 
 			// miscellaneousToolStripMenuItem
 			// 
 			this.miscellaneousToolStripMenuItem.Name = "miscellaneousToolStripMenuItem";
-			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.miscellaneousToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.miscellaneousToolStripMenuItem.Tag = "MISC";
 			this.miscellaneousToolStripMenuItem.Text = "Miscellaneous";
 			// 
@@ -891,6 +892,7 @@ namespace SEOMacroscope
 			// toolStripSearchCollection
 			// 
 			this.toolStripSearchCollection.AutoSize = false;
+			this.toolStripSearchCollection.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.toolStripSearchCollection.CanOverflow = false;
 			this.toolStripSearchCollection.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripSearchCollection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1238,6 +1240,7 @@ namespace SEOMacroscope
 			// 
 			// toolStripLinks
 			// 
+			this.toolStripLinks.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.toolStripLinks.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripLinks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripButtonLinksShowAll,
@@ -1448,6 +1451,7 @@ namespace SEOMacroscope
 			// 
 			// toolStripHyperlinks
 			// 
+			this.toolStripHyperlinks.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.toolStripHyperlinks.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripHyperlinks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripButtonHyperlinksShowAll,
