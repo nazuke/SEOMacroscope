@@ -458,9 +458,5 @@
     <Folder Include="MacroscopeNamedQueue" />
     <Folder Include="MacroscopeExceptions" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="ProfilingSessions\Session20170323_170729.sdps" />
-    <Content Include="ProfilingSessions\Session20170330_163800.sdps" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
