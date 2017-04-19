@@ -85,18 +85,18 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean bProcess;
+      Boolean Proceed;
 
       if( msDoc.GetIsRedirect() )
       {
-        bProcess = true;
+        Proceed = true;
       }
       else
       {
-        bProcess = false;
+        Proceed = false;
       }
 
-      if( bProcess )
+      if( Proceed )
       {
       
         MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
@@ -165,7 +165,7 @@ namespace SEOMacroscope
           if( lvItem != null )
           {
 
-            if( !msDoc.GetIsExternal() )
+            if( msDoc.GetIsInternal() )
             {
 
               for( int i = 0 ; i <= 4 ; i++ )

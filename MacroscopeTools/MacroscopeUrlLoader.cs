@@ -31,95 +31,111 @@ using System.Net;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeUrlLoader.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeUrlLoader.
+  /// </summary>
 
-	public class MacroscopeUrlLoader : Macroscope
-	{
+  public class MacroscopeUrlLoader : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeUrlLoader ()
-		{
-		}
+    public MacroscopeUrlLoader ()
+    {
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MemoryStream LoadMemoryStreamFromUrl ( string sUrl, List<string> lExpects )
-		{
-			// TODO: List of expected mime types
-			MemoryStream msStream = null;
-			return( msStream );
-		}
+    public MemoryStream LoadMemoryStreamFromUrl ( string sUrl, List<string> lExpects )
+    {
+      // TODO: List of expected mime types
+      MemoryStream msStream = null;
+      return( msStream );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MemoryStream LoadMemoryStreamFromUrl ( string sUrl )
-		{
+    public MemoryStream LoadMemoryStreamFromUrl ( string Url )
+    {
 
-			HttpWebRequest req = null;
-			HttpWebResponse res = null;
-			MemoryStream msStream = null;
+      HttpWebRequest req = null;
+      HttpWebResponse res = null;
+      MemoryStream msStream = null;
+      
+      try
+      {
 
-			try {
+        req = WebRequest.CreateHttp( Url );
+        req.Method = "GET";
+        req.Timeout = 1000;
+        req.KeepAlive = false;
 
-				req = WebRequest.CreateHttp( sUrl );
-				req.Method = "GET";
-				req.Timeout = 1000;
-				req.KeepAlive = false;
+        MacroscopePreferencesManager.EnableHttpProxy( req );
 
-				MacroscopePreferencesManager.EnableHttpProxy( req );
+        res = ( HttpWebResponse )req.GetResponse();
 
-				res = ( HttpWebResponse )req.GetResponse();
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "LoadFromUrl :: UriFormatException: {0}", ex.Message ) );
+      }
+      catch( WebException ex )
+      {
 
-			} catch( WebException ex ) {
+        this.DebugMsg( string.Format( "LoadFromUrl :: WebException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "LoadFromUrl :: WebException: {0}", Url ) );
 
-				this.DebugMsg( string.Format( "LoadFromUrl :: WebException: {0}", ex.Message ) );
-				this.DebugMsg( string.Format( "LoadFromUrl :: WebException: {0}", sUrl ) );
+      }
 
-			}
+      if( res != null )
+      {
 
-			if( res != null ) {
+        try
+        {
 
-				try {
+          Stream sStream = res.GetResponseStream();
+          List<byte> aRawDataList = new List<byte> ();
+          Byte [] aRawData = new Byte[0];
 
-					Stream sStream = res.GetResponseStream();
-					List<byte> aRawDataList = new List<byte> ();
-					Byte[] aRawData = new Byte[0];
+          do
+          {
+            int buf = sStream.ReadByte();
+            if( buf > -1 )
+            {
+              aRawDataList.Add( ( byte )buf );
+            }
+            else
+            {
+              break;
+            }
+          } while( sStream.CanRead );
 
-					do {
-						int buf = sStream.ReadByte();
-						if( buf > -1 ) {
-							aRawDataList.Add( ( byte )buf );
-						} else {
-							break;
-						}
-					} while( sStream.CanRead );
-
-					aRawData = aRawDataList.ToArray();
+          aRawData = aRawDataList.ToArray();
 
 
-					if( aRawData.Length > 0 ) {
-						msStream = new MemoryStream ( aRawData );
-					}
+          if( aRawData.Length > 0 )
+          {
+            msStream = new MemoryStream ( aRawData );
+          }
 
-			  } catch( WebException ex ) {
+        }
+        catch( WebException ex )
+        {
 
-			    this.DebugMsg( string.Format( "LoadFromUrl :: WebException: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "LoadFromUrl :: WebException: {0}", ex.Message ) );
 
-			  }
+        }
 
-				res.Close();
+        res.Close();
 
-			}
+      }
 
-			return( msStream );
+      return( msStream );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

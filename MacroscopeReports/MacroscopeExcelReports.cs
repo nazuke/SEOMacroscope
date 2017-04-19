@@ -52,7 +52,7 @@ namespace SEOMacroscope
 
       ws.Cell( Row, Col ).Value = msDoc.GetUrl();
 
-      if( !msDoc.GetIsExternal() )
+      if( msDoc.GetIsInternal() )
       {
         ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Green );
       }

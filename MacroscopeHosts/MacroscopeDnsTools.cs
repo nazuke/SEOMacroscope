@@ -47,14 +47,14 @@ namespace SEOMacroscope
 		public static Boolean CheckValidHostname ( string Url )
 		{
 
-			Boolean bSuccess = false;
-			string sHostname = null;
+			Boolean Success = false;
+			string Hostname = null;
 			Uri RobotUri = null;
 
 			try
 			{
 				RobotUri = new Uri ( Url, UriKind.Absolute );
-				sHostname = RobotUri.Host;
+				Hostname = RobotUri.Host;
 			}
 			catch( InvalidOperationException ex )
 			{
@@ -65,12 +65,12 @@ namespace SEOMacroscope
 				DebugMsg( string.Format( "CheckValidHostname: {0}", ex.Message ), true );
 			}
 
-			if( sHostname != null )
+			if( Hostname != null )
 			{
 				IPHostEntry ip = null;
 				try
 				{
-					ip = Dns.GetHostEntry( sHostname );
+					ip = Dns.GetHostEntry( Hostname );
 				}
 				catch( System.Net.Sockets.SocketException ex )
 				{
@@ -82,11 +82,11 @@ namespace SEOMacroscope
 				}
 				if( ip != null )
 				{
-					bSuccess = true;
+					Success = true;
 				}
 			}
 
-			return( bSuccess );
+			return( Success );
 
 		}
 

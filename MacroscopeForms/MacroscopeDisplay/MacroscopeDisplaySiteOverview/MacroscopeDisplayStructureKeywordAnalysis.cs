@@ -76,7 +76,9 @@ namespace SEOMacroscope
             {
               for( int i = 0 ; i <= 3 ; i++ )
               {
+                this.lvListViews[ i ].BeginUpdate();
                 this.lvListViews[ i ].Items.Clear();
+                this.lvListViews[ i ].EndUpdate();
               }
             }
           )
@@ -86,7 +88,9 @@ namespace SEOMacroscope
       {
         for( int i = 0 ; i <= 3 ; i++ )
         {
+          this.lvListViews[ i ].BeginUpdate();
           this.lvListViews[ i ].Items.Clear();
+          this.lvListViews[ i ].EndUpdate();
         }
       }
     }
@@ -158,6 +162,8 @@ namespace SEOMacroscope
       for( int i = 0 ; i <= 3 ; i++ )
       {
 
+        List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+
         Application.DoEvents();
         
         if( !ProgressForm.Cancelled() )
@@ -181,12 +187,19 @@ namespace SEOMacroscope
             );
         
           }
+          
+          this.lvListViews[ i ].BeginUpdate();
 
           this.RenderKeywordAnalysisListView(
+            ListViewItems: ListViewItems,
             lvListView: this.lvListViews[ i ],
             DicTerms: DicTerms,
             ProgressForm: ProgressForm
           );
+               
+          this.lvListViews[ i ].Items.AddRange( ListViewItems.ToArray() );
+      
+          this.lvListViews[ i ].EndUpdate();
         
         }
 
@@ -204,6 +217,7 @@ namespace SEOMacroscope
     /**************************************************************************/
     
     private void RenderKeywordAnalysisListView (
+      List<ListViewItem> ListViewItems,
       ListView lvListView,
       Dictionary<string,int> DicTerms,
       MacroscopeDoublePercentageProgressForm ProgressForm
@@ -225,16 +239,16 @@ namespace SEOMacroscope
         foreach( string KeywordTerm in DicTerms.Keys )
         {
 
-          string sKeyPair = KeywordTerm;
+          string PairKey = KeywordTerm;
           ListViewItem lvItem = null;
 
-          if( lvListView.Items.ContainsKey( sKeyPair ) )
+          if( lvListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              lvItem = lvListView.Items[ sKeyPair ];
+              lvItem = lvListView.Items[ PairKey ];
               lvItem.SubItems[ 0 ].Text = DicTerms[ KeywordTerm ].ToString();
               lvItem.SubItems[ 1 ].Text = KeywordTerm;
 
@@ -251,14 +265,14 @@ namespace SEOMacroscope
             try
             {
 
-              lvItem = new ListViewItem ( sKeyPair );
+              lvItem = new ListViewItem ( PairKey );
               lvItem.UseItemStyleForSubItems = false;
-              lvItem.Name = sKeyPair;
+              lvItem.Name = PairKey;
 
               lvItem.SubItems[ 0 ].Text = DicTerms[ KeywordTerm ].ToString();
               lvItem.SubItems.Add( KeywordTerm );
 
-              lvListView.Items.Add( lvItem );
+              ListViewItems.Add( lvItem );
 
             }
             catch( Exception ex )

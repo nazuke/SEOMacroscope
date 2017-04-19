@@ -84,7 +84,7 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean bProcess;
+      Boolean Proceed;
 
       if( msDoc.GetIsExternal() )
       {
@@ -93,19 +93,19 @@ namespace SEOMacroscope
 
       if( msDoc.GetIsHtml() )
       {
-        bProcess = true;
+        Proceed = true;
       }
       else
       if( msDoc.GetIsPdf() )
       {
-        bProcess = true;
+        Proceed = true;
       }
       else
       {
-        bProcess = false;
+        Proceed = false;
       }
 
-      if( bProcess )
+      if( Proceed )
       {
 
         ListViewItem lvItem = null;
@@ -175,7 +175,7 @@ namespace SEOMacroscope
 
           // URL -------------------------------------------------------------//
           
-          if( !msDoc.GetIsExternal() )
+          if( msDoc.GetIsInternal() )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Green;
           }
@@ -186,7 +186,7 @@ namespace SEOMacroscope
 
           // Check Missing Text ----------------------------------------------//
 
-          if( !msDoc.GetIsExternal() )
+          if( msDoc.GetIsInternal() )
           {
             if( KeywordsLength <= 0 )
             {

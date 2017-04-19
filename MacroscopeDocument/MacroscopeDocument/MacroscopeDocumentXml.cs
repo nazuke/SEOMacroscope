@@ -44,7 +44,7 @@ namespace SEOMacroscope
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string ResponseErrorCondition = null;
-      Boolean bAuthenticating = false;
+      Boolean IsAuthenticating = false;
       
       try
       {
@@ -56,12 +56,17 @@ namespace SEOMacroscope
         
         this.PrepareRequestHttpHeaders( req: req );
 
-        bAuthenticating = this.AuthenticateRequest( req );
+        IsAuthenticating = this.AuthenticateRequest( req );
                                       
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();
 
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ProcessXmlPage :: UriFormatException: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
       }
       catch( WebException ex )
       {
@@ -80,7 +85,7 @@ namespace SEOMacroscope
 
         this.ProcessResponseHttpHeaders( req, res );
 
-        if( bAuthenticating )
+        if( IsAuthenticating )
         {
           this.VerifyOrPurgeCredential();
         }
@@ -134,7 +139,7 @@ namespace SEOMacroscope
         }
         else
         {
-          DebugMsg( string.Format( "sRawData: {0}", "EMPTY" ) );
+          DebugMsg( string.Format( "RawData: {0}", "EMPTY" ) );
         }
 
         if( XmlDoc != null )
@@ -163,20 +168,20 @@ namespace SEOMacroscope
     Boolean DetectSitemapXmlDocument ( XmlDocument XmlDoc )
     {
       // Reference: https://www.sitemaps.org/protocol.html
-      Boolean bIsSitemapXml = false;
-      string sXmlns = XmlDoc.DocumentElement.GetAttribute( "xmlns" );
+      Boolean IsSitemapXml = false;
+      string XmlnsValue = XmlDoc.DocumentElement.GetAttribute( "xmlns" );
 
-      DebugMsg( string.Format( "DetectSitemapXmlDocument sXmlns: {0} :: {1}", sXmlns, this.GetUrl() ) );
+      DebugMsg( string.Format( "DetectSitemapXmlDocument sXmlns: {0} :: {1}", XmlnsValue, this.GetUrl() ) );
 
-      if( sXmlns != null )
+      if( XmlnsValue != null )
       {
-        if( sXmlns == MacroscopeConstants.SitemapXmlNamespace )
+        if( XmlnsValue == MacroscopeConstants.SitemapXmlNamespace )
         {
-          DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", sXmlns ) );
-          bIsSitemapXml = true;
+          DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", XmlnsValue ) );
+          IsSitemapXml = true;
         }
       }
-      return( bIsSitemapXml );
+      return( IsSitemapXml );
     }
 
     /**************************************************************************/
@@ -184,38 +189,38 @@ namespace SEOMacroscope
     private void ProcessSitemapXmlOutlinks ( XmlDocument XmlDoc )
     {
 
-      XmlNodeList nlOutlinks = XmlDoc.GetElementsByTagName( "loc", MacroscopeConstants.SitemapXmlNamespace );
+      XmlNodeList OutlinksList = XmlDoc.GetElementsByTagName( "loc", MacroscopeConstants.SitemapXmlNamespace );
 
-      DebugMsg( string.Format( "ProcessSitemapXmlOutlinks nlOutlinks: {0}", nlOutlinks.Count ) );
+      DebugMsg( string.Format( "ProcessSitemapXmlOutlinks nlOutlinks: {0}", OutlinksList.Count ) );
 
-      if( nlOutlinks != null )
+      if( OutlinksList != null )
       {
 
-        foreach( XmlNode nLoc in nlOutlinks )
+        foreach( XmlNode LinkNode in OutlinksList )
         {
 
-          string sLinkUrl = null;
+          string LinkUrl = null;
 
           try
           {
-            sLinkUrl = nLoc.InnerText;
-            DebugMsg( string.Format( "ProcessSitemapXmlOutlinks sLinkUrl: {0}", sLinkUrl ) );
+            LinkUrl = LinkNode.InnerText;
+            DebugMsg( string.Format( "ProcessSitemapXmlOutlinks sLinkUrl: {0}", LinkUrl ) );
           }
           catch( Exception ex )
           {
             DebugMsg( string.Format( "ProcessSitemapXmlOutlinks: {0}", ex.Message ) );
           }
 
-          if( sLinkUrl != null )
+          if( LinkUrl != null )
           {
             
             MacroscopeLink Outlink = this.AddSitemapXmlOutlink(
-                                       AbsoluteUrl: sLinkUrl,
+                                       AbsoluteUrl: LinkUrl,
                                        LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
                                        Follow: true
                                      );
             
-            Outlink.SetRawTargetUrl( sLinkUrl );
+            Outlink.SetRawTargetUrl( LinkUrl );
             
           }
 

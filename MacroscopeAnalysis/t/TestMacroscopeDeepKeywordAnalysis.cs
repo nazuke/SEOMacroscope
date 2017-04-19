@@ -54,9 +54,9 @@ namespace SEOMacroscope
 
       AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 1 );
 
-      foreach( string sTerm in Terms.Keys )
+      foreach( string Term in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS 1: {0} :: {1}", Terms[ sTerm ], sTerm ) );
+        DebugMsg( string.Format( "TOTALS 1: {0} :: {1}", Terms[ Term ], Term ) );
       }
     }
     
@@ -76,9 +76,9 @@ namespace SEOMacroscope
 
       AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 2 );
 
-      foreach( string sTerm in Terms.Keys )
+      foreach( string Term in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ sTerm ], sTerm ) );
+        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
       }
     }
 
@@ -98,9 +98,9 @@ namespace SEOMacroscope
 
       AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 3 );
 
-      foreach( string sTerm in Terms.Keys )
+      foreach( string Term in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ sTerm ], sTerm ) );
+        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
       }
     }
 
@@ -120,9 +120,9 @@ namespace SEOMacroscope
 
       AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 4 );
 
-      foreach( string sTerm in Terms.Keys )
+      foreach( string Term in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ sTerm ], sTerm ) );
+        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
       }
     }
     

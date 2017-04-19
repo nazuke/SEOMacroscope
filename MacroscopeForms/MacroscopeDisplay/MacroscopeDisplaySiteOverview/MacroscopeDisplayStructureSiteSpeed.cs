@@ -117,7 +117,7 @@ namespace SEOMacroscope
           string Url = msDoc.GetUrl();
           decimal Duration = msDoc.GetDurationInSeconds();
 
-          if( !msDoc.GetIsExternal() && msDoc.GetWasDownloaded() )
+          if( msDoc.GetIsInternal() && msDoc.GetWasDownloaded() )
           {
           
             Count++;
@@ -194,17 +194,17 @@ namespace SEOMacroscope
       foreach( decimal Duration in SortedListSpeed.Keys )
       {
 
-        string sDuration = string.Format( "{0:0.00}", Duration );
+        string DurationFormatted = string.Format( "{0:0.00}", Duration );
         ListViewItem lvItem = null;
 
-        if( lvListView.Items.ContainsKey( sDuration ) )
+        if( lvListView.Items.ContainsKey( DurationFormatted ) )
         {
 
           try
           {
 
-            lvItem = lvListView.Items[ sDuration ];
-            lvItem.SubItems[ 0 ].Text = sDuration;
+            lvItem = lvListView.Items[ DurationFormatted ];
+            lvItem.SubItems[ 0 ].Text = DurationFormatted;
             lvItem.SubItems[ 1 ].Text = SortedListSpeed[ Duration ];
 
           }
@@ -220,12 +220,11 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( sDuration );
+            lvItem = new ListViewItem ( DurationFormatted );
             lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = sDuration;
+            lvItem.Name = DurationFormatted;
 
-            lvItem.SubItems[ 0 ].Text = sDuration;
-            //lvItem.SubItems.Add( sDuration );
+            lvItem.SubItems[ 0 ].Text = DurationFormatted;
             lvItem.SubItems.Add( SortedListSpeed[ Duration ] );
             
             lvListView.Items.Add( lvItem );

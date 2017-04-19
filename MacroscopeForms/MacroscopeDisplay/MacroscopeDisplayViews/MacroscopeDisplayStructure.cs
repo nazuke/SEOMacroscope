@@ -259,13 +259,13 @@ namespace SEOMacroscope
 
           int iStatusColIndex = this.lvListView.Columns.IndexOfKey( MacroscopeConstants.Status );
                         
-          foreach( string sKey in htItems.Keys )
+          foreach( string ItemsKey in htItems.Keys )
           {
 
-            int iColIndex = this.lvListView.Columns.IndexOfKey( sKey );
-            string sText = htItems[ sKey ].ToString();
+            int iColIndex = this.lvListView.Columns.IndexOfKey( ItemsKey );
+            string sText = htItems[ ItemsKey ].ToString();
 
-            if( htItems[ sKey ] != null )
+            if( htItems[ ItemsKey ] != null )
             {
               lvItem.SubItems[ iColIndex ].Text = sText;
             }
@@ -274,7 +274,7 @@ namespace SEOMacroscope
               lvItem.SubItems[ iColIndex ].Text = "";
             }
 
-            if( !msDoc.GetIsExternal() )
+            if( msDoc.GetIsInternal() )
             {
               lvItem.SubItems[ iColIndex ].ForeColor = Color.Green;
             }
@@ -283,7 +283,7 @@ namespace SEOMacroscope
               lvItem.SubItems[ iColIndex ].ForeColor = Color.Gray;
             }
 
-            if( sKey == MacroscopeConstants.StatusCode )
+            if( ItemsKey == MacroscopeConstants.StatusCode )
             {
               if( Regex.IsMatch( sText, "^[2]" ) )
               {
@@ -309,7 +309,7 @@ namespace SEOMacroscope
               }
             }
 
-            if( sKey == MacroscopeConstants.IsRedirect )
+            if( ItemsKey == MacroscopeConstants.IsRedirect )
             {
               if( sText.ToLower() == "true" )
               {

@@ -255,7 +255,10 @@ namespace SEOMacroscope
             {
               Cursor.Current = Cursors.WaitCursor;
               this.lvListView.BeginUpdate();
-              this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
+              this.RenderListView(
+                DocCollection: DocCollection,
+                DocumentType: DocumentType
+              );
               this.RenderUrlCount();
               this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
@@ -267,7 +270,10 @@ namespace SEOMacroscope
       {
         Cursor.Current = Cursors.WaitCursor;
         this.lvListView.BeginUpdate();
-        this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
+        this.RenderListView(
+          DocCollection: DocCollection,
+          DocumentType: DocumentType
+        );
         this.RenderUrlCount();
         this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
@@ -296,7 +302,10 @@ namespace SEOMacroscope
             {
               Cursor.Current = Cursors.WaitCursor;
               this.lvListView.BeginUpdate();
-              this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
+              this.RenderListView(
+                DocCollection: DocCollection,
+                UrlFragment: UrlFragment
+              );
               this.RenderUrlCount();
               this.lvListView.EndUpdate();
               Cursor.Current = Cursors.Default;
@@ -308,7 +317,10 @@ namespace SEOMacroscope
       {
         Cursor.Current = Cursors.WaitCursor;
         this.lvListView.BeginUpdate();
-        this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
+        this.RenderListView(
+          DocCollection: DocCollection,
+          UrlFragment: UrlFragment
+        );
         this.RenderUrlCount();
         this.lvListView.EndUpdate();
         Cursor.Current = Cursors.Default;
@@ -656,16 +668,47 @@ namespace SEOMacroscope
 
         if( msDoc != null )
         {
-          if(
-            ( msDoc.GetDocumentType() == DocumentType )
-            || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
+          
+          switch( DocumentType )
           {
-            this.RenderListView(
-              ListViewItems: ListViewItems,
-              msDoc: msDoc,
-              Url: msDoc.GetUrl()
-            );
+              
+            case MacroscopeConstants.DocumentType.INTERNALURL:
+              if( msDoc.GetIsInternal() )
+              {
+                this.RenderListView(
+                  ListViewItems: ListViewItems,
+                  msDoc: msDoc,
+                  Url: msDoc.GetUrl()
+                );
+              }
+              break;
+              
+            case MacroscopeConstants.DocumentType.EXTERNALURL:
+              if( msDoc.GetIsExternal() )
+              {
+                this.RenderListView(
+                  ListViewItems: ListViewItems,
+                  msDoc: msDoc,
+                  Url: msDoc.GetUrl()
+                );
+              }
+              break;
+              
+            default:
+              if(
+                ( msDoc.GetDocumentType() == DocumentType )
+                || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
+              {
+                this.RenderListView(
+                  ListViewItems: ListViewItems,
+                  msDoc: msDoc,
+                  Url: msDoc.GetUrl()
+                );
+              }
+              break;
+
           }
+
         }
         
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )

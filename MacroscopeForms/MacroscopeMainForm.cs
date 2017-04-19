@@ -1385,6 +1385,12 @@ namespace SEOMacroscope
         case "ALL":
           DocumentType = MacroscopeConstants.DocumentType.ALL;
           break;
+        case "INTERNALURL":
+          DocumentType = MacroscopeConstants.DocumentType.INTERNALURL;
+          break;
+        case "EXTERNALURL":
+          DocumentType = MacroscopeConstants.DocumentType.EXTERNALURL;
+          break;
         case "HTML":
           DocumentType = MacroscopeConstants.DocumentType.HTML;
           break;
@@ -1420,8 +1426,8 @@ namespace SEOMacroscope
       this.msDisplayStructure.ClearData();
 
       this.msDisplayStructure.RefreshData(
-        this.JobMaster.GetDocCollection(),
-        DocumentType
+        DocCollection: this.JobMaster.GetDocCollection(),
+        DocumentType: DocumentType
       );
 
     }
@@ -2024,8 +2030,8 @@ namespace SEOMacroscope
     private void ShowAuthenticationDialogue ()
     {
       
-      Boolean bRerun = false;
-      string sRerunUrl = null;
+      Boolean DoRerun = false;
+      string RerunUrl = null;
       
       if( this.JobMaster != null )
       {
@@ -2043,8 +2049,8 @@ namespace SEOMacroscope
 
               DebugMsg( string.Format( "CredentialExists: {0} :: {1}", CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) );
 
-              bRerun = true;
-              sRerunUrl = CredentialRequest.GetUrl();
+              DoRerun = true;
+              RerunUrl = CredentialRequest.GetUrl();
 
             }
             else
@@ -2072,8 +2078,8 @@ namespace SEOMacroscope
                   Password: sPassword
                 );
 
-                bRerun = true;
-                sRerunUrl = CredentialRequest.GetUrl();
+                DoRerun = true;
+                RerunUrl = CredentialRequest.GetUrl();
 
               }
 
@@ -2087,10 +2093,10 @@ namespace SEOMacroscope
 
       }
 
-      if( bRerun )
+      if( DoRerun )
       {
-        this.JobMaster.AddUrlQueueItem( sRerunUrl );
-        this.JobMaster.RetryLink( sRerunUrl );
+        this.JobMaster.AddUrlQueueItem( RerunUrl );
+        this.JobMaster.RetryLink( RerunUrl );
         this.RerunScanQueue();
       }
 

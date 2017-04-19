@@ -48,12 +48,12 @@ namespace SEOMacroscope
     public MacroscopeHrefLang ( string Locale, string Url )
     {
 
-      Boolean bCheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
+      Boolean CheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
 
       this.Locale = Locale;
       this.Url = Url;
 
-      if( bCheckHrefLang )
+      if( CheckHrefLang )
       {
         this.Available = Check();
       }
@@ -89,10 +89,12 @@ namespace SEOMacroscope
 
     Boolean Check ()
     {
+      
+      // TODO: Increase level of detail here. 
 
       HttpWebRequest req = null;
       HttpWebResponse res = null;
-      Boolean bAvailable = false;
+      Boolean IsAvailableCheck = false;
 
       try
       {
@@ -111,18 +113,22 @@ namespace SEOMacroscope
 
         if( res.StatusCode == HttpStatusCode.OK )
         {
-          bAvailable = true;
+          IsAvailableCheck = true;
         }
 
         res.Close();
 
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "MacroscopeHrefLang :: UriFormatException: {0}", ex.Message ) );
       }
       catch( WebException ex )
       {
         DebugMsg( string.Format( "MacroscopeHrefLang WebException: {0}", ex.Message ) );
       }
 
-      return( bAvailable );
+      return( IsAvailableCheck );
 
     }
 

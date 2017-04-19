@@ -57,30 +57,30 @@ namespace SEOMacroscope
 
 		/**************************************************************************/
 
-		public Boolean IsWithinSameDomain ( string sDomainLeft, string sDomainRight, int iTolerance )
+		public Boolean IsWithinSameDomain ( string DomainLeft, string DomainRight, int AcceptableTolerance )
 		{
 
-			Boolean bIsWithinSameDomain = false;
+			Boolean IsWithinSameDomain = false;
 			int iScore = 0;
 
 			string[] DomainShort;
 			string[] DomainLong;
 
-			string sDomainLeftReversed = MacroscopeStringTools.ReverseString( sDomainLeft );
-			string sDomainRightReversed = MacroscopeStringTools.ReverseString( sDomainRight );
+			string DomainLeftReversed = MacroscopeStringTools.ReverseString( DomainLeft );
+			string DomainRightReversed = MacroscopeStringTools.ReverseString( DomainRight );
 
-			int iScoreThreshold = Tolerance;
+			int ScoreThreshold = AcceptableTolerance;
 
-			if( iTolerance > 0 ) {
-				iScoreThreshold = iTolerance;
+			if( Tolerance > 0 ) {
+				ScoreThreshold = Tolerance;
 			}
 
-			if( sDomainLeftReversed.Length > sDomainRightReversed.Length ) {
-				DomainShort = sDomainRightReversed.Split( '.' );
-				DomainLong = sDomainLeftReversed.Split( '.' );
+			if( DomainLeftReversed.Length > DomainRightReversed.Length ) {
+				DomainShort = DomainRightReversed.Split( '.' );
+				DomainLong = DomainLeftReversed.Split( '.' );
 			} else {
-				DomainShort = sDomainLeftReversed.Split( '.' );
-				DomainLong = sDomainRightReversed.Split( '.' );
+				DomainShort = DomainLeftReversed.Split( '.' );
+				DomainLong = DomainRightReversed.Split( '.' );
 			}
 
 			DomainShort = MacroscopeStringTools.ReverseStringArray( DomainShort );
@@ -103,7 +103,7 @@ namespace SEOMacroscope
 					string.Format(
 						"MATCH CHECK: {0} :: {1} :: {2} :: {3}",
 						i,
-						bIsWithinSameDomain,
+						IsWithinSameDomain,
 						DomainShort[ i ], DomainLong[ i ]
 					)
 				);
@@ -115,16 +115,16 @@ namespace SEOMacroscope
 			DebugMsg( string.Format( "DomainShort.Length: {0}", DomainShort.Length ) );
 
 			if( DomainShort.Length >= 3 ) {
-				if( iScore >= iScoreThreshold ) {
-					bIsWithinSameDomain = true;
+				if( iScore >= ScoreThreshold ) {
+					IsWithinSameDomain = true;
 				}
 			}
 
-			DebugMsg( string.Format( "bIsWithinSameDomain: {0}", bIsWithinSameDomain ) );
+			DebugMsg( string.Format( "bIsWithinSameDomain: {0}", IsWithinSameDomain ) );
 
 			DebugMsg( "" );
 
-			return( bIsWithinSameDomain );
+			return( IsWithinSameDomain );
 
 		}
 

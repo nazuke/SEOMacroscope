@@ -71,19 +71,32 @@ namespace SEOMacroscope
       {
 
         Robots robot = this.FetchRobot( Url: Url );
-        Uri uBase = new Uri ( Url, UriKind.Absolute );
+        Uri BaseUri = null;
 
-        if( ( robot != null ) && ( uBase != null ) )
+        try
+        {
+          BaseUri = new Uri ( Url, UriKind.Absolute );
+        }
+        catch( UriFormatException ex )
+        {
+          DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+        }
+
+        if( ( robot != null ) && ( BaseUri != null ) )
         {
 
-          if( robot.IsPathAllowed( "*", uBase.AbsolutePath ) )
+          if( robot.IsPathAllowed( "*", BaseUri.AbsolutePath ) )
           {
             Allowed = true;
           }
           else
           {
             DebugMsg( string.Format( "ROBOTS Disallowed: {0}", Url ) );
-            DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", uBase.AbsolutePath ) );
+            DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", BaseUri.AbsolutePath ) );
           }
 
         }
@@ -165,13 +178,15 @@ namespace SEOMacroscope
         
         DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ), true );
 
-        Uri BaseUri = new Uri ( Url, UriKind.Absolute );
+        Uri BaseUri = null;
         Uri RobotsUri = null;
         string RobotsTxtUrl = null;
 
         try
         {
-          
+
+          BaseUri = new Uri ( Url, UriKind.Absolute );
+
           RobotsUri = new Uri (
             string.Format(
               "{0}://{1}{2}",
@@ -217,13 +232,15 @@ namespace SEOMacroscope
         return( robot );
       }
 
-      Uri BaseUri = new Uri ( Url, UriKind.Absolute );
+      Uri BaseUri = null;
       Uri RobotsUri = null;
       string RobotsTxtUrl = null;
 
       try
       {
         
+        BaseUri = new Uri ( Url, UriKind.Absolute );
+              
         RobotsUri = new Uri (
           string.Format(
             "{0}://{1}{2}",
@@ -319,6 +336,11 @@ namespace SEOMacroscope
 				
         Proceed = true;
 
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "FetchRobotTextFile :: UriFormatException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", RobotsUri.ToString() ) );
       }
       catch( WebException ex )
       {

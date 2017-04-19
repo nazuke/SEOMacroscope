@@ -259,9 +259,9 @@ namespace SEOMacroscope
         {
           tnNode.Nodes.Clear();
           Dictionary<string,int> dicMessages = DocCollection.GetStatsWarningsCount();
-          foreach( string sKey in dicMessages.Keys )
+          foreach( string MessagesKey in dicMessages.Keys )
           {
-            tnNode.Nodes.Add( string.Format( "{0}: {1}", sKey, dicMessages[ sKey ] ) );
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", MessagesKey, dicMessages[ MessagesKey ] ) );
           }
         }
       }
@@ -273,9 +273,9 @@ namespace SEOMacroscope
         {
           tnNode.Nodes.Clear();
           Dictionary<string,int> dicMessages = DocCollection.GetStatsErrorsCount();
-          foreach( string sKey in dicMessages.Keys )
+          foreach( string MessagesKey in dicMessages.Keys )
           {
-            tnNode.Nodes.Add( string.Format( "{0}: {1}", sKey, dicMessages[ sKey ] ) );
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", MessagesKey, dicMessages[ MessagesKey ] ) );
           }
         }
       }

@@ -571,8 +571,8 @@ namespace SEOMacroscope
 
     public Boolean PeekUrlQueue ()
     {
-      Boolean bPeek = this.NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
-      return( bPeek );
+      Boolean Peek = this.NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
+      return( Peek );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -760,8 +760,25 @@ namespace SEOMacroscope
     public void DetermineStartingDirectory ()
     {
       
-      Uri StartUri = new Uri ( this.GetStartUrl() );
-      string Path = StartUri.AbsolutePath;
+      Uri StartUri = null;
+      string Path = "/";
+
+      try
+      {
+        
+        StartUri = new Uri ( this.GetStartUrl() );
+              
+        Path = StartUri.AbsolutePath;
+              
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
+      }
 
       Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
 
@@ -795,42 +812,60 @@ namespace SEOMacroscope
     {
 
       Boolean IsWithin = false;
-      Uri CurrentUri = new Uri ( Url );
+      Uri CurrentUri = null;
 
-      if(
-        ( CurrentUri.Scheme.ToLower() == "http" )
-        || ( CurrentUri.Scheme.ToLower() == "https" ) )
+      try
+      {
+        CurrentUri = new Uri ( Url );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
+      }
+
+      if( CurrentUri != null )
       {
 
-        string Path = CurrentUri.AbsolutePath;
-        Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
-        if( Path.Length == 0 )
+        if(
+          ( CurrentUri.Scheme.ToLower() == "http" )
+          || ( CurrentUri.Scheme.ToLower() == "https" ) )
         {
-          Path = "/";
-        }
 
-        string CurrentUriString = string.Join(
-                                    "",
-                                    CurrentUri.Scheme,
-                                    "://",
-                                    CurrentUri.Host,
-                                    Path
-                                  );
-
-        int ParentStartingDirectoryLength = this.ParentStartingDirectory.Length;
-        int CurrentUriStringLength = CurrentUriString.Length;
-
-        if( ParentStartingDirectoryLength >= CurrentUriStringLength )
-        {
-          if( this.ParentStartingDirectory.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
+          string Path = CurrentUri.AbsolutePath;
+          Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+          if( Path.Length == 0 )
           {
-            IsWithin = true;
+            Path = "/";
+          }
+
+          string CurrentUriString = string.Join(
+                                      "",
+                                      CurrentUri.Scheme,
+                                      "://",
+                                      CurrentUri.Host,
+                                      Path
+                                    );
+
+          int ParentStartingDirectoryLength = this.ParentStartingDirectory.Length;
+          int CurrentUriStringLength = CurrentUriString.Length;
+
+          if( ParentStartingDirectoryLength >= CurrentUriStringLength )
+          {
+            if( this.ParentStartingDirectory.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
+            {
+              IsWithin = true;
+            }
+
           }
 
         }
 
       }
-
+      
       return( IsWithin );
       
     }
@@ -841,21 +876,37 @@ namespace SEOMacroscope
     {
       
       Boolean IsWithin = false;
-      Uri CurrentUri = new Uri ( Url );
+      Uri CurrentUri = null;
 
-      if(
-        ( CurrentUri.Scheme.ToLower() == "http" )
-        || ( CurrentUri.Scheme.ToLower() == "https" ) )
+      try
+      {
+        CurrentUri = new Uri ( Url );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+      }
+
+      if( CurrentUri != null )
       {
 
-        string Path = CurrentUri.AbsolutePath;
-        Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
-        if( Path.Length == 0 )
+        if(
+          ( CurrentUri.Scheme.ToLower() == "http" )
+          || ( CurrentUri.Scheme.ToLower() == "https" ) )
         {
-          Path = "/";
-        }
 
-        string CurrentUriString = string.Join(
+          string Path = CurrentUri.AbsolutePath;
+          Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+          if( Path.Length == 0 )
+          {
+            Path = "/";
+          }
+
+          string CurrentUriString = string.Join(
                                     "",
                                     CurrentUri.Scheme,
                                     "://",
@@ -863,20 +914,22 @@ namespace SEOMacroscope
                                     Path
                                   );
 
-        int ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
-        int CurrentUriStringLength = CurrentUriString.Length;
+          int ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
+          int CurrentUriStringLength = CurrentUriString.Length;
         
-        if( CurrentUriStringLength >= ChildStartingDirectoryLength )
-        {
-          if( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
+          if( CurrentUriStringLength >= ChildStartingDirectoryLength )
           {
-            IsWithin = true;
+            if( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
+            {
+              IsWithin = true;
+            }
+
           }
-
-        }
         
-      }
+        }
 
+      }
+      
       return( IsWithin );
       
     }
@@ -924,12 +977,12 @@ namespace SEOMacroscope
 
     public Boolean SeenHistoryItem ( string Url )
     {
-      Boolean bSeen = false;
+      Boolean Seen = false;
       if( this.History.ContainsKey( Url ) )
       {
-        bSeen = this.History[ Url ];
+        Seen = this.History[ Url ];
       }
-      return( bSeen );
+      return( Seen );
     }
 
     /** -------------------------------------------------------------------- **/

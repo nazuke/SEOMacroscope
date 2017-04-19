@@ -234,9 +234,9 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Conditional( "DEVMODE" )]
-    private void DebugMsg ( string sMsg )
+    private void DebugMsg ( string Msg )
     {
-      Debug.WriteLine( string.Format( "TID:{0} :: {1}", this.GetType(), sMsg ) );
+      Debug.WriteLine( string.Format( "TID:{0} :: {1}", this.GetType(), Msg ) );
     }
 
     /**************************************************************************/

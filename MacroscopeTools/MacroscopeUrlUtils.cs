@@ -100,7 +100,7 @@ namespace SEOMacroscope
     {
 
       string UrlFixed;
-      Uri BaseUri = new Uri ( BaseUrl, UriKind.Absolute );
+      Uri BaseUri = null;
       Uri NewUri = null;
 
       Regex reHTTP = new Regex ( "^https?:" );
@@ -113,6 +113,24 @@ namespace SEOMacroscope
       Url = HtmlEntity.DeEntitize( Url );
 
       Url = Uri.UnescapeDataString( Url );
+
+      try
+      {
+        BaseUri = new Uri ( BaseUrl, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "MakeUrlAbsolute: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "MakeUrlAbsolute: {0}", ex.Message ), true );
+      }
+
+      if( BaseUri == null )
+      {
+        throw new MacroscopeUriFormatException ( "Malformed Base URI" );
+      }
 
       if( !Regex.IsMatch( Url, "^(https?:|/|#)" ) )
       {
@@ -226,9 +244,9 @@ namespace SEOMacroscope
       if( reHash.IsMatch( Url ) )
       {
 
-        string sNewUrl = Url;
+        string NewUrl = Url;
         Regex reHashRemove = new Regex ( "#.*$", RegexOptions.Singleline );
-        sNewUrl = reHashRemove.Replace( sNewUrl, "" );
+        NewUrl = reHashRemove.Replace( NewUrl, "" );
 
         try
         {
@@ -237,7 +255,7 @@ namespace SEOMacroscope
               "{0}://{1}{2}",
               BaseUri.Scheme,
               BaseUri.Host,
-              sNewUrl
+              NewUrl
             ),
             UriKind.Absolute
           );
@@ -284,11 +302,11 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "RELATIVE URL 1: {0}", Url ), true );
 
-        string sBasePath = Regex.Replace( BaseUri.AbsolutePath, "/[^/]+$", "/" );
-        string sNewPath = string.Join( "", sBasePath, Url );
+        string BasePath = Regex.Replace( BaseUri.AbsolutePath, "/[^/]+$", "/" );
+        string NewPath = string.Join( "", BasePath, Url );
 
-        DebugMsg( string.Format( "RELATIVE URL 2: {0}", sBasePath ), true );
-        DebugMsg( string.Format( "RELATIVE URL 3: {0}", sNewPath ), true );
+        DebugMsg( string.Format( "RELATIVE URL 2: {0}", BasePath ), true );
+        DebugMsg( string.Format( "RELATIVE URL 3: {0}", NewPath ), true );
 
 
         try
@@ -298,7 +316,7 @@ namespace SEOMacroscope
               "{0}://{1}{2}",
               BaseUri.Scheme,
               BaseUri.Host,
-              sNewPath
+              NewPath
             ),
             UriKind.Absolute
           );
@@ -400,11 +418,11 @@ namespace SEOMacroscope
     {
 
       int Depth = 0;
-      Uri uURI = null;
+      Uri DocumentURI = null;
 
       try
       {
-        uURI = new Uri ( Url, UriKind.Absolute );
+        DocumentURI = new Uri ( Url, UriKind.Absolute );
       }
       catch( InvalidOperationException ex )
       {
@@ -415,9 +433,9 @@ namespace SEOMacroscope
         DebugMsg( ex.Message, true );
       }
 
-      if( uURI != null )
+      if( DocumentURI != null )
       {
-        string sPath = uURI.AbsolutePath;
+        string sPath = DocumentURI.AbsolutePath;
         Depth = sPath.Split( '/' ).Length - 1;
       }
 
@@ -483,12 +501,25 @@ namespace SEOMacroscope
     public static string GetHostnameFromUrl ( string Url )
     {
 
-      Uri uUri = new Uri ( Url, UriKind.Absolute );
+      Uri DocumentUri = null;
       string Hostname = null;
       
-      if( uUri != null )
+      try
       {
-        Hostname = uUri.Host;
+        DocumentUri = new Uri ( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "GetHostnameFromUrl: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "GetHostnameFromUrl: {0}", ex.Message ), true );
+      }
+
+      if( DocumentUri != null )
+      {
+        Hostname = DocumentUri.Host;
       }
 
       return( Hostname );
@@ -498,12 +529,25 @@ namespace SEOMacroscope
     public static string GetHostnameAndPortFromUrl ( string Url )
     {
 
-      Uri uUri = new Uri ( Url, UriKind.Absolute );
+      Uri DocumentUri = null;
       string HostnameAndPort = null;
       
-      if( uUri != null )
+      try
       {
-        HostnameAndPort = string.Join( ":", uUri.Host, uUri.Port );
+        DocumentUri = new Uri ( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "GetHostnameAndPortFromUrl: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "GetHostnameAndPortFromUrl: {0}", ex.Message ), true );
+      }
+
+      if( DocumentUri != null )
+      {
+        HostnameAndPort = string.Join( ":", DocumentUri.Host, DocumentUri.Port );
       }
 
       return( HostnameAndPort );
@@ -515,10 +559,23 @@ namespace SEOMacroscope
     public static string StripQueryString ( string Url )
     {
 
-      Uri UriBase = new Uri ( Url, UriKind.Absolute );
+      Uri UriBase = null;
       Uri UriNew = null;
       string NewUrl = null;
-      
+
+      try
+      {
+        UriBase = new Uri ( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "StripQueryString: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "StripQueryString: {0}", ex.Message ), true );
+      }
+
       if( UriBase != null )
       {
 

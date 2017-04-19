@@ -84,7 +84,7 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean bProcess;
+      Boolean Proceed;
       MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
       
       if( msDoc.GetIsExternal() )
@@ -94,19 +94,19 @@ namespace SEOMacroscope
 
       if( msDoc.GetIsHtml() )
       {
-        bProcess = true;
+        Proceed = true;
       }
       else
       if( msDoc.GetIsPdf() )
       {
-        bProcess = true;
+        Proceed = true;
       }
       else
       {
-        bProcess = false;
+        Proceed = false;
       }
 
-      if( bProcess )
+      if( Proceed )
       {
 
         ListViewItem lvItem = null;
@@ -177,7 +177,7 @@ namespace SEOMacroscope
 
           // URL -------------------------------------------------------------//
           
-          if( !msDoc.GetIsExternal() )
+          if( msDoc.GetIsInternal() )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Green;
           }
@@ -188,7 +188,7 @@ namespace SEOMacroscope
           
           // Check Description Length ----------------------------------------//
           
-          if( !msDoc.GetIsExternal() )
+          if( msDoc.GetIsInternal() )
           {
             if( DescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
             {

@@ -108,19 +108,19 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        Boolean bProceed = false;
+        Boolean Proceed = false;
 
         if( ( ( int )msDoc.GetStatusCode() >= 400 ) && ( ( int )msDoc.GetStatusCode() <= 499 ) )
         {
-          bProceed = true;
+          Proceed = true;
         }
         else
         if( ( ( int )msDoc.GetStatusCode() >= 500 ) && ( ( int )msDoc.GetStatusCode() <= 599 ) )
         {
-          bProceed = true;
+          Proceed = true;
         }
 
-        if( bProceed )
+        if( Proceed )
         {
           this.RenderListView( 
             ListViewItems: ListViewItems,

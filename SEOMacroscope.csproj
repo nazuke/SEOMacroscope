@@ -99,6 +99,7 @@
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeInsufficientMemoryException.cs" />
+    <Compile Include="MacroscopeExceptions\MacroscopeUriFormatException.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">

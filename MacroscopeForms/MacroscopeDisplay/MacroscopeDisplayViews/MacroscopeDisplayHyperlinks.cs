@@ -438,7 +438,7 @@ namespace SEOMacroscope
       {
 
         string UrlTarget = HyperlinkOut.GetTargetUrl();
-        string sPairKey = string.Join( "::", Url, UrlTarget );
+        string PairKey = string.Join( "::", Url, UrlTarget );
         string LinkText = HyperlinkOut.GetLinkText();
         string LinkTitle = HyperlinkOut.GetLinkTitle();
         string AltText = HyperlinkOut.GetAltText();
@@ -476,13 +476,13 @@ namespace SEOMacroscope
 
           ListViewItem lvItem = null;
 
-          if( this.lvListView.Items.ContainsKey( sPairKey ) )
+          if( this.lvListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              lvItem = this.lvListView.Items[ sPairKey ];
+              lvItem = this.lvListView.Items[ PairKey ];
 
               lvItem.SubItems[ 0 ].Text = Url;
               lvItem.SubItems[ 1 ].Text = UrlTarget;
@@ -504,9 +504,9 @@ namespace SEOMacroscope
             try
             {
 
-              lvItem = new ListViewItem ( sPairKey );
+              lvItem = new ListViewItem ( PairKey );
               lvItem.UseItemStyleForSubItems = false;
-              lvItem.Name = sPairKey;
+              lvItem.Name = PairKey;
 
               lvItem.SubItems[ 0 ].Text = Url;
               lvItem.SubItems.Add( UrlTarget );

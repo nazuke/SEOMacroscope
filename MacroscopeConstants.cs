@@ -103,12 +103,13 @@ namespace SEOMacroscope
     public enum FetchStatus
     {
       VOID = 0,
-      ERROR = 1,
-      SUCCESS = 2,
-      NETWORK_ERROR = 3,
-      ROBOTS_DISALLOWED = 4,
-      ALREADY_SEEN = 5,
-      SKIPPED = 6
+      OK = 1,
+      ERROR = 2,
+      SUCCESS = 3,
+      NETWORK_ERROR = 4,
+      ROBOTS_DISALLOWED = 5,
+      ALREADY_SEEN = 6,
+      SKIPPED = 7
     }
 
     /** END: Fetch Status *****************************************************/
@@ -135,18 +136,20 @@ namespace SEOMacroscope
     public enum DocumentType
     {
       ALL = 0,
-      BINARY = 1,
-      HTML = 2,
-      CSS = 3,
-      JAVASCRIPT = 4,
-      IMAGE = 5,
-      PDF = 6,
-      AUDIO = 7,
-      VIDEO = 8,
-      XML = 9,
-      SITEMAPXML = 10,
-      TEXT = 11,
-      SITEMAPTEXT = 12
+      INTERNALURL = 1,
+      EXTERNALURL = 2,
+      BINARY = 3,
+      HTML = 4,
+      CSS = 5,
+      JAVASCRIPT = 6,
+      IMAGE = 7,
+      PDF = 8,
+      AUDIO = 9,
+      VIDEO = 10,
+      XML = 11,
+      SITEMAPXML = 12,
+      TEXT = 13,
+      SITEMAPTEXT = 14
     }
 
     /** END: Document Types ***************************************************/

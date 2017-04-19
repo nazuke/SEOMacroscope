@@ -477,26 +477,26 @@ namespace SEOMacroscope
     public static void ConfigureHttpProxy ()
     {
 
-      string sHttpProxyHost;
-      int iHttpProxyPort;
+      string NewHttpProxyHost;
+      int NewHttpProxyPort;
 
       if( HttpProxyHost.Length > 0 )
       {
 
-        sHttpProxyHost = HttpProxyHost;
+        NewHttpProxyHost = HttpProxyHost;
 
         if( HttpProxyPort >= 0 )
         {
-          iHttpProxyPort = HttpProxyPort;
+          NewHttpProxyPort = HttpProxyPort;
         }
         else
         {
-          iHttpProxyPort = 80;
+          NewHttpProxyPort = 80;
         }
 
         DebugMsg( string.Format( "ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort ) );
 
-        wpProxy = new WebProxy ( sHttpProxyHost, iHttpProxyPort );
+        wpProxy = new WebProxy ( NewHttpProxyHost, NewHttpProxyPort );
 
       }
       else
@@ -1018,8 +1018,7 @@ namespace SEOMacroscope
 
     public static Boolean GetAnalyzeKeywordsInText ()
     {
-      Boolean bState = AnalyzeKeywordsInText;
-      return( bState );
+      return( AnalyzeKeywordsInText );
     }
 
     public static void SetAnalyzeKeywordsInText ( Boolean State )

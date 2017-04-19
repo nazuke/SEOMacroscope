@@ -61,6 +61,11 @@ namespace SEOMacroscope
         res = ( HttpWebResponse )req.GetResponse();
 
       }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ProcessPdfPage :: UriFormatException: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
+      }
       catch( WebException ex )
       {
 

@@ -128,7 +128,7 @@ namespace SEOMacroscope
         return;
       }
             
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ();
 
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
@@ -171,23 +171,26 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        Boolean bProceed = false;
+        Boolean Proceed = false;
 
-        if( !msDoc.GetIsExternal() )
+        if( msDoc.GetIsInternal() )
         {
-          bProceed = true;
+
+          Proceed = true;
+
           if( !msDoc.GetIsHtml() )
           {
-            bProceed = false;
+            Proceed = false;
           }
+
         }
 
-        if( bProceed )
+        if( Proceed )
         {
 
-          Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
+          Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
 
-          if( htHrefLangs != null )
+          if( HrefLangsTable != null )
           {
 
             string DocUrl = msDoc.GetUrl();
@@ -224,7 +227,7 @@ namespace SEOMacroscope
 
             }
 
-            if( this.lvListView.Items.ContainsKey( PairKey ) )
+            if( lvItem != null )
             {
 
               try
@@ -263,28 +266,28 @@ namespace SEOMacroscope
                   lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
                 }
 
-                foreach( string sLocale in LocalesList.Keys )
+                foreach( string Locale in LocalesList.Keys )
                 {
 
-                  if( sLocale != null )
+                  if( Locale != null )
                   {
 
-                    string sHrefLangUrl = null;
-                    int iLocale = ( int )htLocaleCols[ sLocale ];
+                    string HrefLangUrl = null;
+                    int iLocale = ( int )htLocaleCols[ Locale ];
 
-                    if( htHrefLangs.ContainsKey( sLocale ) )
+                    if( HrefLangsTable.ContainsKey( Locale ) )
                     {
-                      MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )htHrefLangs[ sLocale ];
+                      MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )HrefLangsTable[ Locale ];
                       if( msHrefLang != null )
                       {
-                        sHrefLangUrl = msHrefLang.GetUrl();
+                        HrefLangUrl = msHrefLang.GetUrl();
                       }
                     }
 
-                    if( sHrefLangUrl != null )
+                    if( HrefLangUrl != null )
                     {
                       lvItem.SubItems[ iLocale ].ForeColor = Color.Blue;
-                      lvItem.SubItems[ iLocale ].Text = sHrefLangUrl;
+                      lvItem.SubItems[ iLocale ].Text = HrefLangUrl;
                     }
                     else
                     {

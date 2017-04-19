@@ -149,7 +149,7 @@ namespace SEOMacroscope
 
         // URL -------------------------------------------------------------//
           
-        if( !msDoc.GetIsExternal() )
+        if( msDoc.GetIsInternal() )
         {
           lvItem.SubItems[ 0 ].ForeColor = Color.Green;
         }

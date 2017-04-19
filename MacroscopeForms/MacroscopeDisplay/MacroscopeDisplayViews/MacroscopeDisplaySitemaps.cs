@@ -147,7 +147,7 @@ namespace SEOMacroscope
 
         lvItem.ForeColor = Color.Blue;
 
-        if( !msDoc.GetIsExternal() )
+        if( msDoc.GetIsInternal() )
         {
           lvItem.SubItems[ 0 ].ForeColor = Color.Green;
           if( Count <= 0 )

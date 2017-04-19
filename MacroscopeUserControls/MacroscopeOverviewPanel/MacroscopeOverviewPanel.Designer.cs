@@ -36,8 +36,8 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ListView listViewStructure;
 		public System.Windows.Forms.TabPage tabPageHostnames;
 		public System.Windows.Forms.ListView listViewHostnames;
-		private System.Windows.Forms.ColumnHeader columnHeaderHostnameName;
-		private System.Windows.Forms.ColumnHeader columnHeaderHostnameCount;
+		private System.Windows.Forms.ColumnHeader HostnameHostname;
+		private System.Windows.Forms.ColumnHeader HostnameCount;
 		public System.Windows.Forms.TabPage tabPageHierarchy;
 		public System.Windows.Forms.TreeView treeViewHierarchy;
 		public System.Windows.Forms.TabPage tabPageCanonicalAnalysis;
@@ -48,9 +48,9 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ListView listViewHrefLang;
 		public System.Windows.Forms.TabPage tabPageRedirectsAudit;
 		public System.Windows.Forms.ListView listViewRedirectsAudit;
-		private System.Windows.Forms.ColumnHeader RedirectsAuditOriginUrl;
+		private System.Windows.Forms.ColumnHeader RedirectsAuditSourceUrl;
 		private System.Windows.Forms.ColumnHeader RedirectsAuditStatusCode;
-		private System.Windows.Forms.ColumnHeader RedirectsAuditDestinationUrl;
+		private System.Windows.Forms.ColumnHeader RedirectsAuditTargetUrl;
 		public System.Windows.Forms.TabPage tabPageUriAnalysis;
 		public System.Windows.Forms.TabPage tabPagePageTitles;
 		public System.Windows.Forms.ListView listViewPageTitles;
@@ -89,10 +89,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeaderKeywordsNumber;
 		private System.Windows.Forms.TabPage tabPageErrors;
 		public System.Windows.Forms.ListView listViewErrors;
-		private System.Windows.Forms.ColumnHeader columnHeaderErrorsUrl;
-		private System.Windows.Forms.ColumnHeader columnHeaderErrorsStatusCode;
-		private System.Windows.Forms.ColumnHeader columnHeaderHostnameInternal;
-		private System.Windows.Forms.ColumnHeader columnHeaderErrorsDescription;
+		private System.Windows.Forms.ColumnHeader ErrorsUrl;
+		private System.Windows.Forms.ColumnHeader ErrorsStatusCode;
+		private System.Windows.Forms.ColumnHeader HostnameInternal;
+		private System.Windows.Forms.ColumnHeader ErrorsDescription;
 		public System.Windows.Forms.ContextMenuStrip contextMenuStripStructure;
 		public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenInBrowser;
 		public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemResetEntry;
@@ -183,13 +183,13 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem audioToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem videoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem sitemapXMLToolStripMenuItem;
-		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisUrl;
-		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisStatusCode;
-		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisChecksum;
-		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisCount;
+		private System.Windows.Forms.ColumnHeader UriAnalysisUrl;
+		private System.Windows.Forms.ColumnHeader UriAnalysisStatusCode;
+		private System.Windows.Forms.ColumnHeader UriAnalysisChecksum;
+		private System.Windows.Forms.ColumnHeader UriAnalysisCount;
 		private System.Windows.Forms.ColumnHeader CanonicalAnalysisStatusCode;
-		private System.Windows.Forms.ColumnHeader columnHeaderErrorsStatus;
-		private System.Windows.Forms.ColumnHeader columnHeaderUriAnalysisStatus;
+		private System.Windows.Forms.ColumnHeader ErrorsStatus;
+		private System.Windows.Forms.ColumnHeader UriAnalysisStatus;
 		public System.Windows.Forms.TabPage tabPageHyperlinks;
 		public System.Windows.Forms.TableLayoutPanel tableLayoutPanelHyperlinks;
 		public System.Windows.Forms.ListView listViewHyperlinks;
@@ -230,6 +230,8 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader LinksOutRawTargtUrl;
 		private System.Windows.Forms.ColumnHeader HyperlinksFollow;
 		private System.Windows.Forms.ToolStripMenuItem textSitemapsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem internalURLsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem externalURLsToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -268,6 +270,8 @@ namespace SEOMacroscope
 			this.toolStripSearch = new System.Windows.Forms.ToolStrip();
 			this.toolStripStructureFilterMenu = new System.Windows.Forms.ToolStripDropDownButton();
 			this.allDocumentTypesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.internalURLsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.externalURLsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.HtmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.stylesheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.javaScriptsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -322,19 +326,19 @@ namespace SEOMacroscope
 			this.listViewRedirectsAudit = new System.Windows.Forms.ListView();
 			this.RedirectsAuditUrl = new System.Windows.Forms.ColumnHeader();
 			this.RedirectsAuditStatusCode = new System.Windows.Forms.ColumnHeader();
-			this.RedirectsAuditOriginUrl = new System.Windows.Forms.ColumnHeader();
-			this.RedirectsAuditDestinationUrl = new System.Windows.Forms.ColumnHeader();
+			this.RedirectsAuditSourceUrl = new System.Windows.Forms.ColumnHeader();
+			this.RedirectsAuditTargetUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageErrors = new System.Windows.Forms.TabPage();
 			this.listViewErrors = new System.Windows.Forms.ListView();
-			this.columnHeaderErrorsUrl = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderErrorsStatusCode = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderErrorsStatus = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderErrorsDescription = new System.Windows.Forms.ColumnHeader();
+			this.ErrorsUrl = new System.Windows.Forms.ColumnHeader();
+			this.ErrorsStatusCode = new System.Windows.Forms.ColumnHeader();
+			this.ErrorsStatus = new System.Windows.Forms.ColumnHeader();
+			this.ErrorsDescription = new System.Windows.Forms.ColumnHeader();
 			this.tabPageHostnames = new System.Windows.Forms.TabPage();
 			this.listViewHostnames = new System.Windows.Forms.ListView();
-			this.columnHeaderHostnameName = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderHostnameCount = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderHostnameInternal = new System.Windows.Forms.ColumnHeader();
+			this.HostnameHostname = new System.Windows.Forms.ColumnHeader();
+			this.HostnameCount = new System.Windows.Forms.ColumnHeader();
+			this.HostnameInternal = new System.Windows.Forms.ColumnHeader();
 			this.tabPageLinks = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanelLinks = new System.Windows.Forms.TableLayoutPanel();
 			this.toolStripLinks = new System.Windows.Forms.ToolStrip();
@@ -376,11 +380,11 @@ namespace SEOMacroscope
 			this.toolStripLabelHyperlinksUrls = new System.Windows.Forms.ToolStripLabel();
 			this.tabPageUriAnalysis = new System.Windows.Forms.TabPage();
 			this.listViewUriAnalysis = new System.Windows.Forms.ListView();
-			this.columnHeaderUriAnalysisUrl = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderUriAnalysisStatusCode = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderUriAnalysisStatus = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderUriAnalysisCount = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderUriAnalysisChecksum = new System.Windows.Forms.ColumnHeader();
+			this.UriAnalysisUrl = new System.Windows.Forms.ColumnHeader();
+			this.UriAnalysisStatusCode = new System.Windows.Forms.ColumnHeader();
+			this.UriAnalysisStatus = new System.Windows.Forms.ColumnHeader();
+			this.UriAnalysisCount = new System.Windows.Forms.ColumnHeader();
+			this.UriAnalysisChecksum = new System.Windows.Forms.ColumnHeader();
 			this.tabPagePageTitles = new System.Windows.Forms.TabPage();
 			this.listViewPageTitles = new System.Windows.Forms.ListView();
 			this.columnHeaderUrl = new System.Windows.Forms.ColumnHeader();
@@ -652,6 +656,8 @@ namespace SEOMacroscope
 			this.toolStripStructureFilterMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripStructureFilterMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.allDocumentTypesToolStripMenuItem,
+			this.internalURLsToolStripMenuItem,
+			this.externalURLsToolStripMenuItem,
 			this.HtmlToolStripMenuItem,
 			this.stylesheetsToolStripMenuItem,
 			this.javaScriptsToolStripMenuItem,
@@ -675,6 +681,20 @@ namespace SEOMacroscope
 			this.allDocumentTypesToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.allDocumentTypesToolStripMenuItem.Tag = "ALL";
 			this.allDocumentTypesToolStripMenuItem.Text = "All Document Types";
+			// 
+			// internalURLsToolStripMenuItem
+			// 
+			this.internalURLsToolStripMenuItem.Name = "internalURLsToolStripMenuItem";
+			this.internalURLsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.internalURLsToolStripMenuItem.Tag = "INTERNALURL";
+			this.internalURLsToolStripMenuItem.Text = "Internal URLs";
+			// 
+			// externalURLsToolStripMenuItem
+			// 
+			this.externalURLsToolStripMenuItem.Name = "externalURLsToolStripMenuItem";
+			this.externalURLsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.externalURLsToolStripMenuItem.Tag = "EXTERNALURL";
+			this.externalURLsToolStripMenuItem.Text = "External URLs";
 			// 
 			// HtmlToolStripMenuItem
 			// 
@@ -1095,8 +1115,8 @@ namespace SEOMacroscope
 			this.listViewRedirectsAudit.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.RedirectsAuditUrl,
 			this.RedirectsAuditStatusCode,
-			this.RedirectsAuditOriginUrl,
-			this.RedirectsAuditDestinationUrl});
+			this.RedirectsAuditSourceUrl,
+			this.RedirectsAuditTargetUrl});
 			this.listViewRedirectsAudit.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewRedirectsAudit.FullRowSelect = true;
 			this.listViewRedirectsAudit.GridLines = true;
@@ -1118,15 +1138,15 @@ namespace SEOMacroscope
 			this.RedirectsAuditStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.RedirectsAuditStatusCode.Width = 100;
 			// 
-			// RedirectsAuditOriginUrl
+			// RedirectsAuditSourceUrl
 			// 
-			this.RedirectsAuditOriginUrl.Text = "Origin URL";
-			this.RedirectsAuditOriginUrl.Width = 300;
+			this.RedirectsAuditSourceUrl.Text = "Source URL";
+			this.RedirectsAuditSourceUrl.Width = 300;
 			// 
-			// RedirectsAuditDestinationUrl
+			// RedirectsAuditTargetUrl
 			// 
-			this.RedirectsAuditDestinationUrl.Text = "Destination URL";
-			this.RedirectsAuditDestinationUrl.Width = 300;
+			this.RedirectsAuditTargetUrl.Text = "Target URL";
+			this.RedirectsAuditTargetUrl.Width = 300;
 			// 
 			// tabPageErrors
 			// 
@@ -1141,10 +1161,10 @@ namespace SEOMacroscope
 			// listViewErrors
 			// 
 			this.listViewErrors.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeaderErrorsUrl,
-			this.columnHeaderErrorsStatusCode,
-			this.columnHeaderErrorsStatus,
-			this.columnHeaderErrorsDescription});
+			this.ErrorsUrl,
+			this.ErrorsStatusCode,
+			this.ErrorsStatus,
+			this.ErrorsDescription});
 			this.listViewErrors.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewErrors.FullRowSelect = true;
 			this.listViewErrors.GridLines = true;
@@ -1155,25 +1175,25 @@ namespace SEOMacroscope
 			this.listViewErrors.UseCompatibleStateImageBehavior = false;
 			this.listViewErrors.View = System.Windows.Forms.View.Details;
 			// 
-			// columnHeaderErrorsUrl
+			// ErrorsUrl
 			// 
-			this.columnHeaderErrorsUrl.Text = "URL";
-			this.columnHeaderErrorsUrl.Width = 300;
+			this.ErrorsUrl.Text = "URL";
+			this.ErrorsUrl.Width = 300;
 			// 
-			// columnHeaderErrorsStatusCode
+			// ErrorsStatusCode
 			// 
-			this.columnHeaderErrorsStatusCode.Text = "Status Code";
-			this.columnHeaderErrorsStatusCode.Width = 150;
+			this.ErrorsStatusCode.Text = "Status Code";
+			this.ErrorsStatusCode.Width = 150;
 			// 
-			// columnHeaderErrorsStatus
+			// ErrorsStatus
 			// 
-			this.columnHeaderErrorsStatus.Text = "Status";
-			this.columnHeaderErrorsStatus.Width = 150;
+			this.ErrorsStatus.Text = "Status";
+			this.ErrorsStatus.Width = 150;
 			// 
-			// columnHeaderErrorsDescription
+			// ErrorsDescription
 			// 
-			this.columnHeaderErrorsDescription.Text = "Error Description";
-			this.columnHeaderErrorsDescription.Width = 300;
+			this.ErrorsDescription.Text = "Error Description";
+			this.ErrorsDescription.Width = 300;
 			// 
 			// tabPageHostnames
 			// 
@@ -1188,9 +1208,9 @@ namespace SEOMacroscope
 			// listViewHostnames
 			// 
 			this.listViewHostnames.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeaderHostnameName,
-			this.columnHeaderHostnameCount,
-			this.columnHeaderHostnameInternal});
+			this.HostnameHostname,
+			this.HostnameCount,
+			this.HostnameInternal});
 			this.listViewHostnames.FullRowSelect = true;
 			this.listViewHostnames.GridLines = true;
 			this.listViewHostnames.Location = new System.Drawing.Point(10, 10);
@@ -1200,18 +1220,18 @@ namespace SEOMacroscope
 			this.listViewHostnames.UseCompatibleStateImageBehavior = false;
 			this.listViewHostnames.View = System.Windows.Forms.View.Details;
 			// 
-			// columnHeaderHostnameName
+			// HostnameHostname
 			// 
-			this.columnHeaderHostnameName.Text = "Hostname";
-			this.columnHeaderHostnameName.Width = 250;
+			this.HostnameHostname.Text = "Hostname";
+			this.HostnameHostname.Width = 250;
 			// 
-			// columnHeaderHostnameCount
+			// HostnameCount
 			// 
-			this.columnHeaderHostnameCount.Text = "Count";
+			this.HostnameCount.Text = "Count";
 			// 
-			// columnHeaderHostnameInternal
+			// HostnameInternal
 			// 
-			this.columnHeaderHostnameInternal.Text = "Internal";
+			this.HostnameInternal.Text = "Internal";
 			// 
 			// tabPageLinks
 			// 
@@ -1537,11 +1557,11 @@ namespace SEOMacroscope
 			// 
 			this.listViewUriAnalysis.CausesValidation = false;
 			this.listViewUriAnalysis.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeaderUriAnalysisUrl,
-			this.columnHeaderUriAnalysisStatusCode,
-			this.columnHeaderUriAnalysisStatus,
-			this.columnHeaderUriAnalysisCount,
-			this.columnHeaderUriAnalysisChecksum});
+			this.UriAnalysisUrl,
+			this.UriAnalysisStatusCode,
+			this.UriAnalysisStatus,
+			this.UriAnalysisCount,
+			this.UriAnalysisChecksum});
 			this.listViewUriAnalysis.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewUriAnalysis.FullRowSelect = true;
 			this.listViewUriAnalysis.GridLines = true;
@@ -1553,32 +1573,32 @@ namespace SEOMacroscope
 			this.listViewUriAnalysis.UseCompatibleStateImageBehavior = false;
 			this.listViewUriAnalysis.View = System.Windows.Forms.View.Details;
 			// 
-			// columnHeaderUriAnalysisUrl
+			// UriAnalysisUrl
 			// 
-			this.columnHeaderUriAnalysisUrl.Text = "URL";
-			this.columnHeaderUriAnalysisUrl.Width = 400;
+			this.UriAnalysisUrl.Text = "URL";
+			this.UriAnalysisUrl.Width = 400;
 			// 
-			// columnHeaderUriAnalysisStatusCode
+			// UriAnalysisStatusCode
 			// 
-			this.columnHeaderUriAnalysisStatusCode.Text = "Status Code";
-			this.columnHeaderUriAnalysisStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeaderUriAnalysisStatusCode.Width = 100;
+			this.UriAnalysisStatusCode.Text = "Status Code";
+			this.UriAnalysisStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.UriAnalysisStatusCode.Width = 100;
 			// 
-			// columnHeaderUriAnalysisStatus
+			// UriAnalysisStatus
 			// 
-			this.columnHeaderUriAnalysisStatus.Text = "Status";
-			this.columnHeaderUriAnalysisStatus.Width = 150;
+			this.UriAnalysisStatus.Text = "Status";
+			this.UriAnalysisStatus.Width = 150;
 			// 
-			// columnHeaderUriAnalysisCount
+			// UriAnalysisCount
 			// 
-			this.columnHeaderUriAnalysisCount.Text = "Occurences";
-			this.columnHeaderUriAnalysisCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeaderUriAnalysisCount.Width = 100;
+			this.UriAnalysisCount.Text = "Occurences";
+			this.UriAnalysisCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.UriAnalysisCount.Width = 100;
 			// 
-			// columnHeaderUriAnalysisChecksum
+			// UriAnalysisChecksum
 			// 
-			this.columnHeaderUriAnalysisChecksum.Text = "Checksum";
-			this.columnHeaderUriAnalysisChecksum.Width = 250;
+			this.UriAnalysisChecksum.Text = "Checksum";
+			this.UriAnalysisChecksum.Width = 250;
 			// 
 			// tabPagePageTitles
 			// 

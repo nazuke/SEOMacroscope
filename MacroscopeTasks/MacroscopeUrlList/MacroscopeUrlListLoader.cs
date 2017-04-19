@@ -99,7 +99,7 @@ namespace SEOMacroscope
     private Boolean CleanseList ()
     {
 
-      Boolean bSuccess = false;
+      Boolean Success = false;
       string [] Urls = null;
 
       if( this.Path != null )
@@ -136,10 +136,10 @@ namespace SEOMacroscope
             }
           }
         }
-        bSuccess = true;
+        Success = true;
       }
 
-      return( bSuccess );
+      return( Success );
     }
 
     /**************************************************************************/
