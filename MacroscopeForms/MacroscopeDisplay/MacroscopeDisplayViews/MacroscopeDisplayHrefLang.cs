@@ -198,7 +198,7 @@ namespace SEOMacroscope
             HttpStatusCode StatusCode = msDoc.GetStatusCode();
             string DocLocale = msDoc.GetLocale();
             string DocTitle = msDoc.GetTitle();
-            ListViewItem lvItem;
+            ListViewItem lvItem = null;
 
             if( this.lvListView.Items.ContainsKey( PairKey ) )
             {

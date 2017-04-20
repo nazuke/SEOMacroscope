@@ -99,26 +99,32 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void MacroscopeDocumentDetailsLoad( object sender, EventArgs e )
+    private void MacroscopeDocumentDetailsLoad ( object sender, EventArgs e )
     {
     }
 
     /**************************************************************************/
 
-    private void CallbackColumnClick( object sender, ColumnClickEventArgs e )
+    private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
     {
 
       ListView lvListView = sender as ListView;
 
       lvListView.ListViewItemSorter = this.lvColumnSorter;
 
-      if( e.Column == lvColumnSorter.SortColumn ) {
-        if( lvColumnSorter.Order == SortOrder.Ascending ) {
+      if( e.Column == lvColumnSorter.SortColumn )
+      {
+        if( lvColumnSorter.Order == SortOrder.Ascending )
+        {
           lvColumnSorter.Order = SortOrder.Descending;
-        } else {
+        }
+        else
+        {
           lvColumnSorter.Order = SortOrder.Ascending;
         }
-      } else {
+      }
+      else
+      {
         lvColumnSorter.SortColumn = e.Column;
         lvColumnSorter.Order = SortOrder.Ascending;
       }
@@ -131,7 +137,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    private void CallbackDocumentDetailsContextMenuStripCopyRowsClick( object sender, EventArgs e )
+    private void CallbackDocumentDetailsContextMenuStripCopyRowsClick ( object sender, EventArgs e )
     {
       
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
@@ -142,7 +148,7 @@ namespace SEOMacroscope
 
     }
 
-    private void CallbackDocumentDetailsContextMenuStripCopyValuesClick( object sender, EventArgs e )
+    private void CallbackDocumentDetailsContextMenuStripCopyValuesClick ( object sender, EventArgs e )
     {
       
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
@@ -155,7 +161,7 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public void ClearData()
+    public void ClearData ()
     {
 
       this.listViewDocumentInfo.Items.Clear();
@@ -187,18 +193,21 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean UpdateDisplay( MacroscopeJobMaster JobMaster, string Url )
+    public Boolean UpdateDisplay ( MacroscopeJobMaster JobMaster, string Url )
     {
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
 
-      if( msDoc != null ) {
+      if( msDoc != null )
+      {
 
-        if( this.InvokeRequired ) {
+        if( this.InvokeRequired )
+        {
           this.Invoke(
             new MethodInvoker (
-              delegate {
+              delegate
+              {
                 Cursor.Current = Cursors.WaitCursor;
                 this.UpdateDocumentDetailsDisplay(
                   JobMaster: JobMaster,
@@ -209,7 +218,9 @@ namespace SEOMacroscope
               }
             )
           );
-        } else {
+        }
+        else
+        {
           Cursor.Current = Cursors.WaitCursor;
           this.UpdateDocumentDetailsDisplay(
             JobMaster: JobMaster,
@@ -229,7 +240,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void UpdateDocumentDetailsDisplay(
+    private void UpdateDocumentDetailsDisplay (
       MacroscopeJobMaster JobMaster,
       MacroscopeDocumentCollection DocCollection,
       MacroscopeDocument msDoc
@@ -241,7 +252,7 @@ namespace SEOMacroscope
 
       this.RenderListViewMetaTags( JobMaster, msDoc );
 
-      this.RenderDocumentHrefLang( msDoc, JobMaster.GetLocales(), DocCollection );
+      this.RenderDocumentHrefLang( msDoc, JobMaster, DocCollection );
 
       this.RenderListViewLinksIn( JobMaster, msDoc );
       this.RenderListViewLinksOut( JobMaster, msDoc );
@@ -261,7 +272,8 @@ namespace SEOMacroscope
             
       this.RenderListViewVideos( JobMaster, msDoc );
 
-      if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() ) {
+      if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+      {
         this.RenderListViewKeywordAnalysis( JobMaster, msDoc );
       }
 
@@ -275,29 +287,34 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderDocumentDetails( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderDocumentDetails ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewDocumentInfo;
       List<KeyValuePair<string,string>> lItems = msDoc.DetailDocumentDetails();
       List<ListViewItem> ListViewItems = new List<ListViewItem> ( lItems.Count );
 
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        for( int i = 0; i < lItems.Count; i++ ) {
+        for( int i = 0 ; i < lItems.Count ; i++ )
+        {
 
           KeyValuePair<string,string> kvItem = lItems[ i ];
         
-          try {
+          try
+          {
             ListViewItem lvItem = new ListViewItem ( kvItem.Key );
             lvItem.Name = kvItem.Key;
             lvItem.SubItems.Add( kvItem.Value );
             ListViewItems.Add( lvItem );
-          } catch( Exception ex ) {
+          }
+          catch( Exception ex )
+          {
             DebugMsg( string.Format( "RenderDocumentDetails: {0}", ex.Message ) );
           }
 
@@ -313,7 +330,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderDocumentHttpHeaders( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderDocumentHttpHeaders ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
           
       this.textBoxHttpRequestHeaders.Text = string.Join(
@@ -331,19 +348,21 @@ namespace SEOMacroscope
 
     /** META Tags *************************************************************/
 
-    private void RenderListViewMetaTags( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewMetaTags ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewMetaTags;
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
       
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        foreach( KeyValuePair<string,string> KP in msDoc.IterateMetaTags() ) {
+        foreach( KeyValuePair<string,string> KP in msDoc.IterateMetaTags() )
+        {
 
           Application.DoEvents();
                       
@@ -352,21 +371,28 @@ namespace SEOMacroscope
           string MetaContent = KP.Value;
           string PairKey = string.Join( "::", MetaName, MetaContent );
 
-          if( lvListView.Items.ContainsKey( PairKey ) ) {
+          if( lvListView.Items.ContainsKey( PairKey ) )
+          {
 
-            try {
+            try
+            {
 
               lvItem = lvListView.Items[ PairKey ];
               lvItem.SubItems[ 0 ].Text = MetaName;
               lvItem.SubItems[ 1 ].Text = MetaContent;
 
-            } catch( Exception ex ) {
+            }
+            catch( Exception ex )
+            {
               DebugMsg( string.Format( "RenderListViewMetaTags 1: {0}", ex.Message ) );
             }
 
-          } else {
+          }
+          else
+          {
 
-            try {
+            try
+            {
 
               lvItem = new ListViewItem ( PairKey );
               lvItem.UseItemStyleForSubItems = false;
@@ -377,7 +403,9 @@ namespace SEOMacroscope
 
               ListViewItems.Add( lvItem );
 
-            } catch( Exception ex ) {
+            }
+            catch( Exception ex )
+            {
               DebugMsg( string.Format( "RenderListViewMetaTags 2: {0}", ex.Message ) );
             }
 
@@ -395,17 +423,20 @@ namespace SEOMacroscope
 
     /** HrefLang Tags *********************************************************/
         
-    private void RenderDocumentHrefLang(
+    private void RenderDocumentHrefLang (
       MacroscopeDocument msDoc,
-      Dictionary<string,string> Locales,
+      MacroscopeJobMaster JobMaster,
       MacroscopeDocumentCollection DocCollection
     )
     {
 
       ListView lvListView = this.listViewHrefLang;
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
+      Dictionary<string,string> Locales = JobMaster.GetLocales();
+      MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
       
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
@@ -420,11 +451,13 @@ namespace SEOMacroscope
 
         string KeyUrl = msDoc.GetUrl();
 
-        if( msDoc.GetIsHtml() ) {
+        if( msDoc.GetIsHtml() )
+        {
 
           Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
 
-          if( htHrefLangs != null ) {
+          if( htHrefLangs != null )
+          {
 
             {
 
@@ -444,35 +477,41 @@ namespace SEOMacroscope
 
             }
 
-            foreach( string Locale in Locales.Keys ) {
+            foreach( string Locale in Locales.Keys )
+            {
 
               Application.DoEvents();
             
-              if( Locale != null ) {
+              if( Locale != null )
+              {
 
-                if( Locale == msDoc.GetLocale() ) {
+                if( Locale == msDoc.GetLocale() )
+                {
                   continue;
                 }
 
                 string DocHrefLangUrl = null;
                 string Title = "";
                 ListViewItem lvItem = new ListViewItem ( Locale );
-
+                lvItem.UseItemStyleForSubItems = false;
                 lvItem.Name = Locale;
 
                 lvItem.SubItems.Add( "" );
                 lvItem.SubItems.Add( "" );
                 lvItem.SubItems.Add( "" );
 
-                if( htHrefLangs.ContainsKey( Locale ) ) {
+                if( htHrefLangs.ContainsKey( Locale ) )
+                {
 
                   MacroscopeHrefLang msHrefLang = htHrefLangs[ Locale ];
 
-                  if( msHrefLang != null ) {
+                  if( msHrefLang != null )
+                  {
 
                     DocHrefLangUrl = msHrefLang.GetUrl();
 
-                    if( DocCollection.DocumentExists( DocHrefLangUrl ) ) {
+                    if( DocCollection.DocumentExists( DocHrefLangUrl ) )
+                    {
                       Title = DocCollection.GetDocument( DocHrefLangUrl ).GetTitle();
                     }
 
@@ -483,10 +522,24 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 1 ].Text = Locale;
                 lvItem.SubItems[ 2 ].Text = Title;
 
-                if( DocHrefLangUrl != null ) {
-                  lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+                if( DocHrefLangUrl != null )
+                {
+                  
+                  if( AllowedHosts.IsInternalUrl( DocHrefLangUrl ) )
+                  {
+                    lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+                  }
+                  else
+                  {
+                    lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
+                  }
+
                   lvItem.SubItems[ 0 ].Text = DocHrefLangUrl;
-                } else {
+
+                }
+                else
+                {
+
                   lvItem.SubItems[ 0 ].ForeColor = Color.Red;
                   lvItem.SubItems[ 0 ].Text = "MISSING";
 
@@ -518,7 +571,7 @@ namespace SEOMacroscope
 
     /** Links In *********************************************************/
 
-    private void RenderListViewLinksIn( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewLinksIn ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewLinksIn;
@@ -527,24 +580,30 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int Count = 0;
 
-      if( LinksIn != null ) {
+      if( LinksIn != null )
+      {
         ListViewItems = new List<ListViewItem> ( LinksIn.Count() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
 
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        if( LinksIn != null ) {
+        if( LinksIn != null )
+        {
 
-          foreach( MacroscopeLink Link in LinksIn.IterateLinks() ) {
+          foreach( MacroscopeLink Link in LinksIn.IterateLinks() )
+          {
 
             Application.DoEvents();
                         
@@ -554,13 +613,16 @@ namespace SEOMacroscope
             string PairKey = string.Join( "____", Count.ToString(), Link.GetLinkGuid().ToString() );
             string DoFollow = "No Follow";
 
-            if( Link.GetDoFollow() ) {
+            if( Link.GetDoFollow() )
+            {
               DoFollow = "Follow";
             }
 
-            if( lvListView.Items.ContainsKey( PairKey ) ) {
+            if( lvListView.Items.ContainsKey( PairKey ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ PairKey ];
                 lvItem.SubItems[ 0 ].Text = Count.ToString();
@@ -572,13 +634,18 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 6 ].Text = Link.GetRawSourceUrl();
                 lvItem.SubItems[ 7 ].Text = Link.GetRawTargetUrl();
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewLinksIn 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( PairKey );
                 lvItem.UseItemStyleForSubItems = false;
@@ -595,39 +662,54 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewLinksIn 2: {0}", ex.Message ) );
               }
 
             }
 
-            if( lvItem != null ) {
+            if( lvItem != null )
+            {
 
               lvItem.ForeColor = Color.Blue;
 
-              if( AllowedHosts.IsAllowedFromUrl( Link.GetSourceUrl() ) ) {
+              if( AllowedHosts.IsAllowedFromUrl( Link.GetSourceUrl() ) )
+              {
                 lvItem.SubItems[ 2 ].ForeColor = Color.Green;
                 lvItem.SubItems[ 5 ].ForeColor = Color.Green;
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
                 lvItem.SubItems[ 5 ].ForeColor = Color.Gray;
               }
             
-              if( AllowedHosts.IsAllowedFromUrl( Link.GetTargetUrl() ) ) {
+              if( AllowedHosts.IsAllowedFromUrl( Link.GetTargetUrl() ) )
+              {
                 lvItem.SubItems[ 3 ].ForeColor = Color.Green;
                 lvItem.SubItems[ 6 ].ForeColor = Color.Green;
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
                 lvItem.SubItems[ 6 ].ForeColor = Color.Gray;
               }
 
-              if( AllowedHosts.IsAllowedFromUrl( Link.GetTargetUrl() ) ) {
-                if( Link.GetDoFollow() ) {
+              if( AllowedHosts.IsAllowedFromUrl( Link.GetTargetUrl() ) )
+              {
+                if( Link.GetDoFollow() )
+                {
                   lvItem.SubItems[ 4 ].ForeColor = Color.Green;
-                } else {
+                }
+                else
+                {
                   lvItem.SubItems[ 4 ].ForeColor = Color.Red;
                 }
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
               } 
 
@@ -647,7 +729,7 @@ namespace SEOMacroscope
 
     /** Links Out ********************************************************/
 
-    private void RenderListViewLinksOut( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewLinksOut ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewLinksOut;
@@ -655,22 +737,27 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int Count = 0;
 
-      if( msDoc != null ) {
+      if( msDoc != null )
+      {
         ListViewItems = new List<ListViewItem> ( msDoc.CountOutlinks() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
 
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        foreach( MacroscopeLink Link in msDoc.IterateOutlinks() ) {
+        foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
+        {
 
           Application.DoEvents();
                       
@@ -681,13 +768,16 @@ namespace SEOMacroscope
 
           string DoFollow = "No Follow";
 
-          if( Link.GetDoFollow() ) {
+          if( Link.GetDoFollow() )
+          {
             DoFollow = "Follow";
           }
             
-          if( lvListView.Items.ContainsKey( PairKey ) ) {
+          if( lvListView.Items.ContainsKey( PairKey ) )
+          {
 
-            try {
+            try
+            {
 
               lvItem = lvListView.Items[ PairKey ];
               lvItem.SubItems[ 0 ].Text = Count.ToString();
@@ -699,13 +789,18 @@ namespace SEOMacroscope
               lvItem.SubItems[ 6 ].Text = Link.GetRawSourceUrl();
               lvItem.SubItems[ 7 ].Text = Link.GetRawTargetUrl();
 
-            } catch( Exception ex ) {
+            }
+            catch( Exception ex )
+            {
               DebugMsg( string.Format( "RenderListViewLinksOut 1: {0}", ex.Message ) );
             }
 
-          } else {
+          }
+          else
+          {
 
-            try {
+            try
+            {
 
               lvItem = new ListViewItem ( PairKey );
               lvItem.UseItemStyleForSubItems = false;
@@ -722,39 +817,54 @@ namespace SEOMacroscope
               
               ListViewItems.Add( lvItem );
 
-            } catch( Exception ex ) {
+            }
+            catch( Exception ex )
+            {
               DebugMsg( string.Format( "RenderListViewLinksOut 2: {0}", ex.Message ) );
             }
 
           }
 
-          if( lvItem != null ) {
+          if( lvItem != null )
+          {
 
             lvItem.ForeColor = Color.Blue;
 
-            if( AllowedHosts.IsAllowedFromUrl( Link.GetSourceUrl() ) ) {
+            if( AllowedHosts.IsAllowedFromUrl( Link.GetSourceUrl() ) )
+            {
               lvItem.SubItems[ 2 ].ForeColor = Color.Green;
               lvItem.SubItems[ 6 ].ForeColor = Color.Green;
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
               lvItem.SubItems[ 6 ].ForeColor = Color.Gray;
             }
             
-            if( AllowedHosts.IsAllowedFromUrl( Link.GetTargetUrl() ) ) {
+            if( AllowedHosts.IsAllowedFromUrl( Link.GetTargetUrl() ) )
+            {
               lvItem.SubItems[ 3 ].ForeColor = Color.Green;
               lvItem.SubItems[ 7 ].ForeColor = Color.Green;
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
               lvItem.SubItems[ 7 ].ForeColor = Color.Gray;
             }
 
-            if( AllowedHosts.IsAllowedFromUrl( Link.GetTargetUrl() ) ) {
-              if( Link.GetDoFollow() ) {
+            if( AllowedHosts.IsAllowedFromUrl( Link.GetTargetUrl() ) )
+            {
+              if( Link.GetDoFollow() )
+              {
                 lvItem.SubItems[ 4 ].ForeColor = Color.Green;
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 4 ].ForeColor = Color.Red;
               }
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
             } 
 
@@ -772,7 +882,7 @@ namespace SEOMacroscope
 
     /** Hyperlinks In *********************************************************/
 
-    private void RenderListViewHyperlinksIn( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewHyperlinksIn ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewHyperlinksIn;
@@ -781,24 +891,30 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int Count = 0;
 
-      if( HyperlinksIn != null ) {
+      if( HyperlinksIn != null )
+      {
         ListViewItems = new List<ListViewItem> ( HyperlinksIn.Count() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
 
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        if( HyperlinksIn != null ) {
+        if( HyperlinksIn != null )
+        {
 
-          foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() ) {
+          foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() )
+          {
 
             Application.DoEvents();
                         
@@ -808,13 +924,16 @@ namespace SEOMacroscope
             string PairKey = string.Join( "____", Count.ToString(), HyperlinkIn.GetLinkGuid().ToString() );
             string DoFollow = "No Follow";
 
-            if( HyperlinkIn.GetDoFollow() ) {
+            if( HyperlinkIn.GetDoFollow() )
+            {
               DoFollow = "Follow";
             }
 
-            if( lvListView.Items.ContainsKey( PairKey ) ) {
+            if( lvListView.Items.ContainsKey( PairKey ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ PairKey ];
                 lvItem.SubItems[ 0 ].Text = Count.ToString();
@@ -825,13 +944,18 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 5 ].Text = HyperlinkIn.GetLinkText();
                 lvItem.SubItems[ 6 ].Text = HyperlinkIn.GetAltText();
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewHyperlinksIn 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( PairKey );
                 lvItem.UseItemStyleForSubItems = false;
@@ -847,35 +971,50 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewHyperlinksIn 2: {0}", ex.Message ) );
               }
 
             }
 
-            if( lvItem != null ) {
+            if( lvItem != null )
+            {
 
               lvItem.ForeColor = Color.Blue;
 
-              if( AllowedHosts.IsAllowedFromUrl( HyperlinkIn.GetSourceUrl() ) ) {
+              if( AllowedHosts.IsAllowedFromUrl( HyperlinkIn.GetSourceUrl() ) )
+              {
                 lvItem.SubItems[ 2 ].ForeColor = Color.Green;
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
               }
             
-              if( AllowedHosts.IsAllowedFromUrl( HyperlinkIn.GetTargetUrl() ) ) {
+              if( AllowedHosts.IsAllowedFromUrl( HyperlinkIn.GetTargetUrl() ) )
+              {
                 lvItem.SubItems[ 3 ].ForeColor = Color.Green;
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
               }
 
-              if( AllowedHosts.IsAllowedFromUrl( HyperlinkIn.GetSourceUrl() ) ) {
-                if( HyperlinkIn.GetDoFollow() ) {
+              if( AllowedHosts.IsAllowedFromUrl( HyperlinkIn.GetSourceUrl() ) )
+              {
+                if( HyperlinkIn.GetDoFollow() )
+                {
                   lvItem.SubItems[ 4 ].ForeColor = Color.Green;
-                } else {
+                }
+                else
+                {
                   lvItem.SubItems[ 4 ].ForeColor = Color.Red;
                 }
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
               } 
 
@@ -895,7 +1034,7 @@ namespace SEOMacroscope
 
     /** Hyperlinks Out ********************************************************/
 
-    private void RenderListViewHyperlinksOut( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewHyperlinksOut ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewHyperlinksOut;
@@ -904,24 +1043,30 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int Count = 0;
 
-      if( HyperlinksOut != null ) {
+      if( HyperlinksOut != null )
+      {
         ListViewItems = new List<ListViewItem> ( HyperlinksOut.Count() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
 
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        lock( HyperlinksOut ) {
+        lock( HyperlinksOut )
+        {
 
-          foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks(  ) ) {
+          foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks(  ) )
+          {
 
             Application.DoEvents();
             
@@ -931,13 +1076,16 @@ namespace SEOMacroscope
             string PairKey = string.Join( "____", Count.ToString(), HyperlinkOut.GetGuid() );
             string DoFollow = "No Follow";
 
-            if( HyperlinkOut.GetDoFollow() ) {
+            if( HyperlinkOut.GetDoFollow() )
+            {
               DoFollow = "Follow";
             }
 
-            if( lvListView.Items.ContainsKey( PairKey ) ) {
+            if( lvListView.Items.ContainsKey( PairKey ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ PairKey ];
                 lvItem.SubItems[ 0 ].Text = Count.ToString();
@@ -949,13 +1097,18 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 6 ].Text = HyperlinkOut.GetAltText();
 
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewHyperlinksOut 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( PairKey );
                 lvItem.UseItemStyleForSubItems = false;
@@ -971,35 +1124,50 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewHyperlinksOut 2: {0}", ex.Message ) );
               }
 
             }
 
-            if( lvItem != null ) {
+            if( lvItem != null )
+            {
 
               lvItem.ForeColor = Color.Blue;
 
-              if( AllowedHosts.IsAllowedFromUrl( msDoc.GetUrl() ) ) {
+              if( AllowedHosts.IsAllowedFromUrl( msDoc.GetUrl() ) )
+              {
                 lvItem.SubItems[ 2 ].ForeColor = Color.Green;
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
               }
             
-              if( AllowedHosts.IsAllowedFromUrl( HyperlinkOut.GetTargetUrl() ) ) {
+              if( AllowedHosts.IsAllowedFromUrl( HyperlinkOut.GetTargetUrl() ) )
+              {
                 lvItem.SubItems[ 3 ].ForeColor = Color.Green;
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
               }
 
-              if( AllowedHosts.IsAllowedFromUrl( HyperlinkOut.GetTargetUrl() ) ) {
-                if( HyperlinkOut.GetDoFollow() ) {
+              if( AllowedHosts.IsAllowedFromUrl( HyperlinkOut.GetTargetUrl() ) )
+              {
+                if( HyperlinkOut.GetDoFollow() )
+                {
                   lvItem.SubItems[ 4 ].ForeColor = Color.Green;
-                } else {
+                }
+                else
+                {
                   lvItem.SubItems[ 4 ].ForeColor = Color.Red;
                 }
-              } else {
+              }
+              else
+              {
                 lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
               } 
 
@@ -1019,50 +1187,63 @@ namespace SEOMacroscope
 
     /** Insecure Links Out ****************************************************/
 
-    private void RenderListViewInsecureLinks( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewInsecureLinks ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewInsecureLinks;
       List<string> DocList = msDoc.GetInsecureLinks();
       List<ListViewItem> ListViewItems = null;
 
-      if( DocList != null ) {
+      if( DocList != null )
+      {
         ListViewItems = new List<ListViewItem> ( DocList.Count );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
 
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        if( DocList.Count > 0 ) {
+        if( DocList.Count > 0 )
+        {
       
-          for( int i = 0; i < DocList.Count; i++ ) {
+          for( int i = 0 ; i < DocList.Count ; i++ )
+          {
 
             ListViewItem lvItem = null;
             string Url = DocList[ i ];
             string PairKey = Url;
 
-            if( lvListView.Items.ContainsKey( Url ) ) {
+            if( lvListView.Items.ContainsKey( Url ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ PairKey ];
                 lvItem.SubItems[ 0 ].Text = Url;
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewInsecureLinks 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( PairKey );
                 lvItem.UseItemStyleForSubItems = false;
@@ -1072,7 +1253,9 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewInsecureLinks 2: {0}", ex.Message ) );
               }
 
@@ -1092,7 +1275,7 @@ namespace SEOMacroscope
 
     /** Stylesheets ***********************************************************/
 
-    private void RenderListViewStylesheets( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewStylesheets ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewStylesheets;
@@ -1101,22 +1284,27 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int iCount = 1;
             
-      if( LinkList != null ) {
+      if( LinkList != null )
+      {
         ListViewItems = new List<ListViewItem> ( LinkList.Count() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
       
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        foreach( MacroscopeLink Link in LinkList.IterateLinks() ) {
+        foreach( MacroscopeLink Link in LinkList.IterateLinks() )
+        {
 
           Application.DoEvents();
                       
@@ -1125,23 +1313,31 @@ namespace SEOMacroscope
           ListViewItem lvItem = null;
           MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         
-          if( LinkType == MacroscopeConstants.InOutLinkType.STYLESHEET ) {
+          if( LinkType == MacroscopeConstants.InOutLinkType.STYLESHEET )
+          {
 
-            if( lvListView.Items.ContainsKey( sKeyPair ) ) {
+            if( lvListView.Items.ContainsKey( sKeyPair ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ sKeyPair ];
                 lvItem.SubItems[ 0 ].Text = iCount.ToString();
                 lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewStylesheets 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( sKeyPair );
                 lvItem.UseItemStyleForSubItems = false;
@@ -1152,7 +1348,9 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewStylesheets 2: {0}", ex.Message ) );
               }
 
@@ -1162,14 +1360,18 @@ namespace SEOMacroscope
 
           }
         
-          if( lvItem != null ) {
+          if( lvItem != null )
+          {
 
             lvItem.ForeColor = Color.Blue;
 
-            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) ) {
+            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) )
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Green;
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
               lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
             }
@@ -1188,7 +1390,7 @@ namespace SEOMacroscope
 
     /** Javascripts ***********************************************************/
 
-    private void RenderListViewJavascripts( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewJavascripts ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewJavascripts;
@@ -1197,22 +1399,27 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int iCount = 1;
            
-      if( LinkList != null ) {
+      if( LinkList != null )
+      {
         ListViewItems = new List<ListViewItem> ( LinkList.Count() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
       
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        foreach( MacroscopeLink Link in LinkList.IterateLinks() ) {
+        foreach( MacroscopeLink Link in LinkList.IterateLinks() )
+        {
 
           Application.DoEvents();
                       
@@ -1221,23 +1428,31 @@ namespace SEOMacroscope
           string sKeyPair = sUrl;
           MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         
-          if( LinkType == MacroscopeConstants.InOutLinkType.SCRIPT ) {
+          if( LinkType == MacroscopeConstants.InOutLinkType.SCRIPT )
+          {
 
-            if( lvListView.Items.ContainsKey( sKeyPair ) ) {
+            if( lvListView.Items.ContainsKey( sKeyPair ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ sKeyPair ];
                 lvItem.SubItems[ 0 ].Text = iCount.ToString();
                 lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewJavascripts 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( sKeyPair );
                 lvItem.UseItemStyleForSubItems = false;
@@ -1248,7 +1463,9 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewJavascripts 2: {0}", ex.Message ) );
               }
 
@@ -1258,14 +1475,18 @@ namespace SEOMacroscope
 
           }
         
-          if( lvItem != null ) {
+          if( lvItem != null )
+          {
 
             lvItem.ForeColor = Color.Blue;
 
-            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) ) {
+            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) )
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Green;
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
               lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
             }
@@ -1284,7 +1505,7 @@ namespace SEOMacroscope
 
     /** Images ****************************************************************/
 
-    private void RenderListViewImages( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewImages ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewImages;
@@ -1293,22 +1514,27 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int iCount = 1;
          
-      if( LinkList != null ) {
+      if( LinkList != null )
+      {
         ListViewItems = new List<ListViewItem> ( LinkList.Count() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
       
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        foreach( MacroscopeLink Link in LinkList.IterateLinks() ) {
+        foreach( MacroscopeLink Link in LinkList.IterateLinks() )
+        {
 
           Application.DoEvents();
                       
@@ -1317,11 +1543,14 @@ namespace SEOMacroscope
           string sKeyPair = sUrl;
           MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         
-          if( LinkType == MacroscopeConstants.InOutLinkType.IMAGE ) {
+          if( LinkType == MacroscopeConstants.InOutLinkType.IMAGE )
+          {
 
-            if( lvListView.Items.ContainsKey( sKeyPair ) ) {
+            if( lvListView.Items.ContainsKey( sKeyPair ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ sKeyPair ];
                 lvItem.SubItems[ 0 ].Text = iCount.ToString();
@@ -1329,13 +1558,18 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 2 ].Text = Link.GetTitle();
                 lvItem.SubItems[ 3 ].Text = Link.GetAltText();
               
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewImages 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( sKeyPair );
                 lvItem.UseItemStyleForSubItems = false;
@@ -1348,7 +1582,9 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewImages 2: {0}", ex.Message ) );
               }
 
@@ -1358,14 +1594,18 @@ namespace SEOMacroscope
 
           }
 
-          if( lvItem != null ) {
+          if( lvItem != null )
+          {
 
             lvItem.ForeColor = Color.Blue;
 
-            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) ) {
+            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) )
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Green;
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
               lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
             }
@@ -1384,7 +1624,7 @@ namespace SEOMacroscope
     
     /** Audios ****************************************************************/
 
-    private void RenderListViewAudios( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewAudios ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewAudios;
@@ -1393,22 +1633,27 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int iCount = 1;
         
-      if( LinkList != null ) {
+      if( LinkList != null )
+      {
         ListViewItems = new List<ListViewItem> ( LinkList.Count() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
       
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        foreach( MacroscopeLink Link in LinkList.IterateLinks() ) {
+        foreach( MacroscopeLink Link in LinkList.IterateLinks() )
+        {
 
           Application.DoEvents();
                       
@@ -1417,23 +1662,31 @@ namespace SEOMacroscope
           string sKeyPair = sUrl;
           MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         
-          if( LinkType == MacroscopeConstants.InOutLinkType.AUDIO ) {
+          if( LinkType == MacroscopeConstants.InOutLinkType.AUDIO )
+          {
 
-            if( lvListView.Items.ContainsKey( sKeyPair ) ) {
+            if( lvListView.Items.ContainsKey( sKeyPair ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ sKeyPair ];
                 lvItem.SubItems[ 0 ].Text = iCount.ToString();
                 lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewAudios 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( sKeyPair );
                 lvItem.UseItemStyleForSubItems = false;
@@ -1444,7 +1697,9 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewAudios 2: {0}", ex.Message ) );
               }
 
@@ -1454,14 +1709,18 @@ namespace SEOMacroscope
 
           }
         
-          if( lvItem != null ) {
+          if( lvItem != null )
+          {
 
             lvItem.ForeColor = Color.Blue;
 
-            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) ) {
+            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) )
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Green;
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
               lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
             }
@@ -1480,7 +1739,7 @@ namespace SEOMacroscope
 
     /** Videos ****************************************************************/
 
-    private void RenderListViewVideos( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewVideos ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewVideos;
@@ -1489,22 +1748,27 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = null;
       int iCount = 1;
            
-      if( LinkList != null ) {
+      if( LinkList != null )
+      {
         ListViewItems = new List<ListViewItem> ( LinkList.Count() );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
       
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
       
         lvListView.Items.Clear();
 
-        foreach( MacroscopeLink Link in LinkList.IterateLinks() ) {
+        foreach( MacroscopeLink Link in LinkList.IterateLinks() )
+        {
 
           Application.DoEvents();
                       
@@ -1513,23 +1777,31 @@ namespace SEOMacroscope
           string sKeyPair = sUrl;
           MacroscopeConstants.InOutLinkType LinkType = Link.GetLinkType();
         
-          if( LinkType == MacroscopeConstants.InOutLinkType.VIDEO ) {
+          if( LinkType == MacroscopeConstants.InOutLinkType.VIDEO )
+          {
 
-            if( lvListView.Items.ContainsKey( sKeyPair ) ) {
+            if( lvListView.Items.ContainsKey( sKeyPair ) )
+            {
 
-              try {
+              try
+              {
 
                 lvItem = lvListView.Items[ sKeyPair ];
                 lvItem.SubItems[ 0 ].Text = iCount.ToString();
                 lvItem.SubItems[ 1 ].Text = Link.GetTargetUrl();
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewVideos 1: {0}", ex.Message ) );
               }
 
-            } else {
+            }
+            else
+            {
 
-              try {
+              try
+              {
 
                 lvItem = new ListViewItem ( sKeyPair );
                 lvItem.UseItemStyleForSubItems = false;
@@ -1540,7 +1812,9 @@ namespace SEOMacroscope
 
                 ListViewItems.Add( lvItem );
 
-              } catch( Exception ex ) {
+              }
+              catch( Exception ex )
+              {
                 DebugMsg( string.Format( "RenderListViewVideos 2: {0}", ex.Message ) );
               }
 
@@ -1550,14 +1824,18 @@ namespace SEOMacroscope
 
           }
         
-          if( lvItem != null ) {
+          if( lvItem != null )
+          {
 
             lvItem.ForeColor = Color.Blue;
 
-            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) ) {
+            if( AllowedHosts.IsInternalUrl( Link.GetTargetUrl() ) )
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Green;
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
               lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
             }
@@ -1576,50 +1854,62 @@ namespace SEOMacroscope
 
     /** Keyword Analysis ******************************************************/
 
-    private void RenderListViewKeywordAnalysis( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewKeywordAnalysis ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewKeywordAnalysis;
       Dictionary<string,int> DicTerms = msDoc.GetDeepKeywordAnalysisAsDictonary( Words: 1 );
       List<ListViewItem> ListViewItems = null;
       
-      if( DicTerms != null ) {
+      if( DicTerms != null )
+      {
         ListViewItems = new List<ListViewItem> ( DicTerms.Count );
-      } else {
+      }
+      else
+      {
         lvListView.BeginUpdate();
         lvListView.Items.Clear();
         lvListView.EndUpdate();
         return;
       }
       
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        foreach( string sTerm in DicTerms.Keys ) {
+        foreach( string sTerm in DicTerms.Keys )
+        {
 
           Application.DoEvents();
                       
           ListViewItem lvItem = null;
           string sKeyPair = sTerm;
         
-          if( lvListView.Items.ContainsKey( sKeyPair ) ) {
+          if( lvListView.Items.ContainsKey( sKeyPair ) )
+          {
 
-            try {
+            try
+            {
 
               lvItem = lvListView.Items[ sKeyPair ];
               lvItem.SubItems[ 0 ].Text = DicTerms[ sTerm ].ToString();
               lvItem.SubItems[ 1 ].Text = sTerm;
 
-            } catch( Exception ex ) {
+            }
+            catch( Exception ex )
+            {
               DebugMsg( string.Format( "RenderListViewKeywordAnalysis 1: {0}", ex.Message ) );
             }
 
-          } else {
+          }
+          else
+          {
 
-            try {
+            try
+            {
 
               lvItem = new ListViewItem ( sKeyPair );
               lvItem.UseItemStyleForSubItems = false;
@@ -1630,13 +1920,16 @@ namespace SEOMacroscope
 
               ListViewItems.Add( lvItem );
 
-            } catch( Exception ex ) {
+            }
+            catch( Exception ex )
+            {
               DebugMsg( string.Format( "RenderListViewKeywordAnalysis 2: {0}", ex.Message ) );
             }
 
           }
         
-          if( lvItem != null ) {
+          if( lvItem != null )
+          {
 
             lvItem.ForeColor = Color.Blue;
 
@@ -1654,7 +1947,7 @@ namespace SEOMacroscope
 
     /** Remarks ***********************************************************/
 
-    private void RenderListViewRemarks( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderListViewRemarks ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       ListView lvListView = this.listViewRemarks;
@@ -1662,13 +1955,15 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
       int Count = 1;
             
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.BeginUpdate();
             
         lvListView.Items.Clear();
 
-        foreach( string Remark in msDoc.IterateRemarks() ) {
+        foreach( string Remark in msDoc.IterateRemarks() )
+        {
 
           Application.DoEvents();
                       
@@ -1678,22 +1973,29 @@ namespace SEOMacroscope
         
 
 
-          if( lvListView.Items.ContainsKey( KeyPair ) ) {
+          if( lvListView.Items.ContainsKey( KeyPair ) )
+          {
 
-            try {
+            try
+            {
 
               lvItem = lvListView.Items[ KeyPair ];
               lvItem.SubItems[ 0 ].Text = Count.ToString();
               lvItem.SubItems[ 1 ].Text = Url;
               lvItem.SubItems[ 2 ].Text = Remark;
 
-            } catch( Exception ex ) {
+            }
+            catch( Exception ex )
+            {
               DebugMsg( string.Format( "RenderListViewJavascripts 1: {0}", ex.Message ) );
             }
 
-          } else {
+          }
+          else
+          {
 
-            try {
+            try
+            {
 
               lvItem = new ListViewItem ( KeyPair );
               lvItem.UseItemStyleForSubItems = false;
@@ -1705,7 +2007,9 @@ namespace SEOMacroscope
 
               ListViewItems.Add( lvItem );
 
-            } catch( Exception ex ) {
+            }
+            catch( Exception ex )
+            {
               DebugMsg( string.Format( "RenderListViewJavascripts 2: {0}", ex.Message ) );
             }
 
@@ -1713,14 +2017,18 @@ namespace SEOMacroscope
 
           Count++;
 
-          if( lvItem != null ) {
+          if( lvItem != null )
+          {
 
             lvItem.ForeColor = Color.Blue;
 
-            if( AllowedHosts.IsInternalUrl( Url ) ) {
+            if( AllowedHosts.IsInternalUrl( Url ) )
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Green;
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-            } else {
+            }
+            else
+            {
               lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
               lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
             }
@@ -1739,21 +2047,26 @@ namespace SEOMacroscope
 
     /** Body Text *************************************************************/
 
-    private void RenderTextBoxBodyText( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderTextBoxBodyText ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
       TextBox BodyText = this.textBoxBodyText;
       string DocumentText = "";
       
-      if( msDoc != null ) {
+      if( msDoc != null )
+      {
         DocumentText = msDoc.GetBodyText();
       }
 
-      lock( BodyText ) {
+      lock( BodyText )
+      {
 
-        if( !string.IsNullOrEmpty( DocumentText ) ) {
+        if( !string.IsNullOrEmpty( DocumentText ) )
+        {
           BodyText.Text = DocumentText;
-        } else {
+        }
+        else
+        {
           BodyText.Text = "";
         }
 
@@ -1765,13 +2078,16 @@ namespace SEOMacroscope
 
     /** Document Preview ******************************************************/
 
-    private void RenderDocumentPreview( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderDocumentPreview ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
-      if( msDoc.GetIsImage() ) {
+      if( msDoc.GetIsImage() )
+      {
         this.splitContainerDocumentDetails.Panel2Collapsed = false;
         this.RenderImagePreview( msDoc );
-      } else {
+      }
+      else
+      {
         this.splitContainerDocumentDetails.Panel2Collapsed = true;
         ClearDocumentPreviewListView();
       }
@@ -1780,7 +2096,7 @@ namespace SEOMacroscope
 
     /** Clear Document Preview ListView ***************************************/
 
-    private void ClearDocumentPreviewListView()
+    private void ClearDocumentPreviewListView ()
     {
       ListView lvListView = this.listViewDocInfo;
       lvListView.Clear();
@@ -1789,29 +2105,37 @@ namespace SEOMacroscope
 
     /** Image Preview *********************************************************/
 
-    private void RenderImagePreview( MacroscopeDocument msDoc )
+    private void RenderImagePreview ( MacroscopeDocument msDoc )
     {
-      if( msDoc.GetIsImage() ) {
+      if( msDoc.GetIsImage() )
+      {
         MemoryStream msStream = this.UrlLoader.LoadMemoryStreamFromUrl( msDoc.GetUrl() );
-        if( msStream != null ) {
+        if( msStream != null )
+        {
           this.pictureBoxDocumentDetailsImage.Image = Image.FromStream( msStream );
           this.RenderImagePreviewListView( msDoc, this.pictureBoxDocumentDetailsImage.Image );
         }
-      } else {
-        try {
+      }
+      else
+      {
+        try
+        {
           this.pictureBoxDocumentDetailsImage.Image = null;
-        } catch( Exception ex ) {
+        }
+        catch( Exception ex )
+        {
           MessageBox.Show( ex.Message );
         }
       }
     }
 
-    private void RenderImagePreviewListView( MacroscopeDocument msDoc, Image iImage )
+    private void RenderImagePreviewListView ( MacroscopeDocument msDoc, Image iImage )
     {
 
       ListView lvListView = this.listViewDocInfo;
 
-      lock( lvListView ) {
+      lock( lvListView )
+      {
               
         lvListView.Clear();
 

@@ -69,7 +69,7 @@ namespace SEOMacroscope
       if( Words == 1 )
       {
         TermsList = this.AnalyzeTerm(
-          Text: Text,
+          Text: Text.ToLower(),
           Terms: Terms
         );
       }
@@ -77,7 +77,7 @@ namespace SEOMacroscope
       if( Words > 1 )
       {
         TermsList = this.AnalyzePhrase(
-          Text: Text,
+          Text: Text.ToLower(),
           Terms: Terms,
           Words: Words
         );
@@ -102,7 +102,7 @@ namespace SEOMacroscope
       if( Words == 1 )
       {
         TermsList = this.AnalyzeTerm(
-          Text: Text,
+          Text: Text.ToLower(),
           Terms: Terms
         );
       }
@@ -110,7 +110,7 @@ namespace SEOMacroscope
       if( Words > 1 )
       {
         TermsList = this.AnalyzePhrase(
-          Text: Text,
+          Text: Text.ToLower(),
           Terms: Terms,
           Words: Words
         );

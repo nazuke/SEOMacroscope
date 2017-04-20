@@ -272,25 +272,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -1150,7 +1150,6 @@ namespace SEOMacroscope
       }
 
       Value = Regex.Replace( Value, "[\\s]+", " ", RegexOptions.Singleline );
-      Value = Regex.Replace( Value, "[^\\w\\d]+", " ", RegexOptions.Singleline );
       Value = Value.Trim();
 
       this.Title = Value;

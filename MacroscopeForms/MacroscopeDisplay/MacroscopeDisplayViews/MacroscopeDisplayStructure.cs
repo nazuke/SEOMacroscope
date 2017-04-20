@@ -111,10 +111,10 @@ namespace SEOMacroscope
         this.lvListView.Columns.Add( MacroscopeConstants.KeywordsLen, MacroscopeConstants.KeywordsLen );
         this.lvListView.Columns.Add( MacroscopeConstants.KeywordsCount, MacroscopeConstants.KeywordsCount );
 
-        for( ushort iLevel = 1 ; iLevel <= MaxHeadingsDisplayed ; iLevel++ )
+        for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
         {
-          string sHeadingLevel = string.Format( MacroscopeConstants.Hn, iLevel );
-          this.lvListView.Columns.Add( sHeadingLevel, sHeadingLevel );
+          string HeadingLevelText = string.Format( MacroscopeConstants.Hn, HeadingLevel );
+          this.lvListView.Columns.Add( HeadingLevelText, HeadingLevelText );
         }
 
         this.lvListView.Columns.Add( MacroscopeConstants.ErrorCondition, MacroscopeConstants.ErrorCondition );

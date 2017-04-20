@@ -26,6 +26,7 @@
 using System;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace SEOMacroscope
 {
@@ -85,13 +86,10 @@ namespace SEOMacroscope
     public static string CleanBodyText ( MacroscopeDocument msDoc )
     {
 
-      string Text = msDoc.GetBodyText();
-      string CleanedText = "";
+      string CleanedText = msDoc.GetBodyText();
 
-      if( !string.IsNullOrEmpty( Text ) )
+      if( !string.IsNullOrEmpty( CleanedText ) )
       {
-
-        CleanedText = Text.ToLower();
 
         try
         {
@@ -103,11 +101,7 @@ namespace SEOMacroscope
           msDoc.AddRemark( "Possibly contains invalid HTML Entities." );
         }
 
-        CleanedText = Regex.Replace( CleanedText, "<!.+?>", "########", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "<!--.+?-->", "########", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "[^\\w\\d]+", " ", RegexOptions.Singleline );
-        CleanedText = CleanedText.Trim();
+        CleanedText = CleanText( Text: CleanedText );
 
       }
       
@@ -120,12 +114,10 @@ namespace SEOMacroscope
     public static string CleanBodyText ( string Text )
     {
 
-      string CleanedText = "";
+      string CleanedText = Text;
 
-      if( !string.IsNullOrEmpty( Text ) )
+      if( !string.IsNullOrEmpty( CleanedText ) )
       {
-
-        CleanedText = Text.ToLower();
 
         try
         {
@@ -136,12 +128,32 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
         }
 
-        CleanedText = Regex.Replace( CleanedText, "<!.+?>", "########", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "<!--.+?-->", "########", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "[^\\w\\d]+", " ", RegexOptions.Singleline );
-        CleanedText = CleanedText.Trim();
+        CleanedText = CleanText( Text: CleanedText );
 
+      }
+      
+      return( CleanedText );
+
+    }
+
+    /**************************************************************************/
+
+    public static string CleanText ( string Text )
+    {
+
+      string CleanedText = "";
+
+      if( !string.IsNullOrEmpty( Text ) )
+      {
+        CleanedText = Text;
+        CleanedText = Regex.Replace( CleanedText, "<!.+?>", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "<!--.+?-->", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "(?<![\\w\\d])([^\\p{L}\\p{N}\\p{Sc}]+)", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "([^\\p{L}\\p{N}\\p{Sc}]+)(?![\\w\\d])", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "([\\p{P}\\p{Sc}]+)(?![\\w\\d])", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
+        CleanedText = CleanedText.Trim();
       }
       
       return( CleanedText );

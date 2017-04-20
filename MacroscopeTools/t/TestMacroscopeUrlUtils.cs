@@ -40,7 +40,7 @@ namespace SEOMacroscope
     public void TestMakeUrlAbsoluteUrls ()
     {
 
-      Hashtable htUrls = new Hashtable () {
+      Hashtable UrlTable = new Hashtable () {
         {
           "path/to/images/picture.gif",
           "http://www.host.com/path/to/page/path/to/images/picture.gif"
@@ -54,14 +54,14 @@ namespace SEOMacroscope
         }
       };
 
-      string sBaseUrl = "http://www.host.com/path/to/page/";
-      string sFilename = "index.html";
-      string sUrl = string.Join( "", sBaseUrl, sFilename );
+      string BaseUrl = "http://www.host.com/path/to/page/";
+      string Filename = "index.html";
+      string Url = string.Join( "", BaseUrl, Filename );
 
-      foreach( string sRelativeUrl in htUrls.Keys )
+      foreach( string RelativeUrl in UrlTable.Keys )
       {
-        string sAbsoluteUrl = MacroscopeUrlUtils.MakeUrlAbsolute( sUrl, sRelativeUrl );
-        Assert.AreEqual( htUrls[ sRelativeUrl ], sAbsoluteUrl, "DO NOT MATCH" );
+        string sAbsoluteUrl = MacroscopeUrlUtils.MakeUrlAbsolute( Url, RelativeUrl );
+        Assert.AreEqual( UrlTable[ RelativeUrl ], sAbsoluteUrl, "DO NOT MATCH" );
       }
 
     }
@@ -110,7 +110,7 @@ namespace SEOMacroscope
     public void TestCleanUrlCss ()
     {
 
-      Hashtable htProperties = new Hashtable () { {
+      Hashtable PropertiesTable = new Hashtable () { {
           "background-image:none;",
           null
         }, {
@@ -146,10 +146,10 @@ namespace SEOMacroscope
         }
       };
 
-      foreach( string PropertyKey in htProperties.Keys )
+      foreach( string PropertyKey in PropertiesTable.Keys )
       {
         string Cleaned = MacroscopeUrlUtils.CleanUrlCss( PropertyKey );
-        Assert.AreEqual( htProperties[ PropertyKey ], Cleaned, string.Format( "NOT VALID: {0}", Cleaned ) );
+        Assert.AreEqual( PropertiesTable[ PropertyKey ], Cleaned, string.Format( "NOT VALID: {0}", Cleaned ) );
       }
 
     }

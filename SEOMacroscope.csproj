@@ -299,6 +299,7 @@
     <Compile Include="MacroscopeTools\MacroscopeStringTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlLoader.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlUtils.cs" />
+    <Compile Include="MacroscopeTools\t\TestMacroscopeStringTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeUrlUtils.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.Designer.cs">
