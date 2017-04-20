@@ -1,8 +1,10 @@
 ---
 layout: post
-title: Introducing SEO Macroscope
-date: 2017-02-22 23:33:00 -09:00
-excerpt: SEO Macroscope is a new broken link scanner and SEO tool.
+title: "Introducing SEO Macroscope"
+date: "2017-02-22 23:33:00 -09:00"
+published: true
+description: "SEO Macroscope is a new broken link scanner and SEO tool."
+excerpt: "SEO Macroscope is a new broken link scanner and SEO tool."
 ---
 
 As a long time user of the excellent [Xenu Link Sleuth](http://home.snafu.de/tilman/xenulink.html), I've been wanting to have something that does the basic job of link checking, but also offers a few more features that I need to use from time to time.

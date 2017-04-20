@@ -1,8 +1,10 @@
 ---
 layout: post
-title: SEO Macroscope Excel Reports
-date: 2017-03-08 12:59:00 -09:00
-excerpt: Generating Excel reports with SEO Macroscope.
+title: "SEO Macroscope Excel Reports"
+date: "2017-03-08 12:59:00 -09:00"
+published: true
+description: "Generating Excel reports with SEO Macroscope."
+excerpt: "Generating Excel reports with SEO Macroscope."
 ---
 
 I've been implementing a few more Excel Reports so that we can actually dump out the information that SEO Macroscope gathers into some sort of useful format for ingestion into other tools.
