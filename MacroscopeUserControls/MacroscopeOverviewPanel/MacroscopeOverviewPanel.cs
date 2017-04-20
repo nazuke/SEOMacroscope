@@ -128,9 +128,9 @@ namespace SEOMacroscope
     private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
     {
 
-      ListView lvListView = sender as ListView;
+      ListView TargetListView = sender as ListView;
       
-      lvListView.ListViewItemSorter = this.lvColumnSorter;
+      TargetListView.ListViewItemSorter = this.lvColumnSorter;
 
       if( e.Column == this.lvColumnSorter.SortColumn )
       {
@@ -149,9 +149,9 @@ namespace SEOMacroscope
         this.lvColumnSorter.Order = SortOrder.Ascending;
       }
 
-      lvListView.Sort();
+      TargetListView.Sort();
 
-      lvListView.ListViewItemSorter = null;
+      TargetListView.ListViewItemSorter = null;
     }
 
     /**************************************************************************/

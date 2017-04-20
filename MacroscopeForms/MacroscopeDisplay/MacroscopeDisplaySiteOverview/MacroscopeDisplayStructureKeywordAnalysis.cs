@@ -40,16 +40,16 @@ namespace SEOMacroscope
 
     private MacroscopeMainForm MainForm;
           
-    private List<ListView> lvListViews = new List<ListView> ( 4 );
+    private List<ListView> TargetListViews = new List<ListView> ( 4 );
 
     /**************************************************************************/
 
     public MacroscopeDisplayStructureKeywordAnalysis (
       MacroscopeMainForm MainForm,
-      ListView lvListView1,
-      ListView lvListView2,
-      ListView lvListView3,
-      ListView lvListView4
+      ListView TargetListView1,
+      ListView TargetListView2,
+      ListView TargetListView3,
+      ListView TargetListView4
     )
     {
 
@@ -57,10 +57,10 @@ namespace SEOMacroscope
       
       this.MainForm = MainForm;
       
-      this.lvListViews.Add( lvListView1 );
-      this.lvListViews.Add( lvListView2 );
-      this.lvListViews.Add( lvListView3 );
-      this.lvListViews.Add( lvListView4 );
+      this.TargetListViews.Add( TargetListView1 );
+      this.TargetListViews.Add( TargetListView2 );
+      this.TargetListViews.Add( TargetListView3 );
+      this.TargetListViews.Add( TargetListView4 );
 
     }
 
@@ -76,9 +76,9 @@ namespace SEOMacroscope
             {
               for( int i = 0 ; i <= 3 ; i++ )
               {
-                this.lvListViews[ i ].BeginUpdate();
-                this.lvListViews[ i ].Items.Clear();
-                this.lvListViews[ i ].EndUpdate();
+                this.TargetListViews[ i ].BeginUpdate();
+                this.TargetListViews[ i ].Items.Clear();
+                this.TargetListViews[ i ].EndUpdate();
               }
             }
           )
@@ -88,9 +88,9 @@ namespace SEOMacroscope
       {
         for( int i = 0 ; i <= 3 ; i++ )
         {
-          this.lvListViews[ i ].BeginUpdate();
-          this.lvListViews[ i ].Items.Clear();
-          this.lvListViews[ i ].EndUpdate();
+          this.TargetListViews[ i ].BeginUpdate();
+          this.TargetListViews[ i ].Items.Clear();
+          this.TargetListViews[ i ].EndUpdate();
         }
       }
     }
@@ -188,18 +188,18 @@ namespace SEOMacroscope
         
           }
           
-          this.lvListViews[ i ].BeginUpdate();
+          this.TargetListViews[ i ].BeginUpdate();
 
           this.RenderKeywordAnalysisListView(
             ListViewItems: ListViewItems,
-            lvListView: this.lvListViews[ i ],
+            TargetListView: this.TargetListViews[ i ],
             DicTerms: DicTerms,
             ProgressForm: ProgressForm
           );
                
-          this.lvListViews[ i ].Items.AddRange( ListViewItems.ToArray() );
+          this.TargetListViews[ i ].Items.AddRange( ListViewItems.ToArray() );
       
-          this.lvListViews[ i ].EndUpdate();
+          this.TargetListViews[ i ].EndUpdate();
         
         }
 
@@ -218,7 +218,7 @@ namespace SEOMacroscope
     
     private void RenderKeywordAnalysisListView (
       List<ListViewItem> ListViewItems,
-      ListView lvListView,
+      ListView TargetListView,
       Dictionary<string,int> DicTerms,
       MacroscopeDoublePercentageProgressForm ProgressForm
     )
@@ -242,13 +242,13 @@ namespace SEOMacroscope
           string PairKey = KeywordTerm;
           ListViewItem lvItem = null;
 
-          if( lvListView.Items.ContainsKey( PairKey ) )
+          if( TargetListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              lvItem = lvListView.Items[ PairKey ];
+              lvItem = TargetListView.Items[ PairKey ];
               lvItem.SubItems[ 0 ].Text = DicTerms[ KeywordTerm ].ToString();
               lvItem.SubItems[ 1 ].Text = KeywordTerm;
 

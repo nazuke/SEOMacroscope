@@ -182,14 +182,14 @@ namespace SEOMacroscope
     /**************************************************************************/
     
     private void RenderSiteSpeedListView (
-      ListView lvListView,
+      ListView TargetListView,
       SortedList<decimal,string> SortedListSpeed
     )
     {
 
-      lvListView.BeginUpdate();
+      TargetListView.BeginUpdate();
 
-      lvListView.Items.Clear();
+      TargetListView.Items.Clear();
             
       foreach( decimal Duration in SortedListSpeed.Keys )
       {
@@ -197,13 +197,13 @@ namespace SEOMacroscope
         string DurationFormatted = string.Format( "{0:0.00}", Duration );
         ListViewItem lvItem = null;
 
-        if( lvListView.Items.ContainsKey( DurationFormatted ) )
+        if( TargetListView.Items.ContainsKey( DurationFormatted ) )
         {
 
           try
           {
 
-            lvItem = lvListView.Items[ DurationFormatted ];
+            lvItem = TargetListView.Items[ DurationFormatted ];
             lvItem.SubItems[ 0 ].Text = DurationFormatted;
             lvItem.SubItems[ 1 ].Text = SortedListSpeed[ Duration ];
 
@@ -227,7 +227,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ 0 ].Text = DurationFormatted;
             lvItem.SubItems.Add( SortedListSpeed[ Duration ] );
             
-            lvListView.Items.Add( lvItem );
+            TargetListView.Items.Add( lvItem );
 
           }
           catch( Exception ex )
@@ -256,7 +256,7 @@ namespace SEOMacroscope
 
       }
       
-      lvListView.EndUpdate();
+      TargetListView.EndUpdate();
 
     }
 

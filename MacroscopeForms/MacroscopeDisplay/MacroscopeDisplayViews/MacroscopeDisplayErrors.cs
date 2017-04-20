@@ -41,12 +41,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayErrors ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayErrors ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -151,7 +151,7 @@ namespace SEOMacroscope
 
       }
                
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
       
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
@@ -176,13 +176,13 @@ namespace SEOMacroscope
       string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
       string Status = msDoc.GetStatusCode().ToString();
 
-      if( this.lvListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ PairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
 
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = StatusCode;
@@ -269,17 +269,17 @@ namespace SEOMacroscope
 
       string PairKey = Url;
 
-      if( this.lvListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         
-        lock( this.lvListView.Items )
+        lock( this.DisplayListView.Items )
         {
-          this.lvListView.Items.Remove( this.lvListView.Items[ PairKey ] );
+          this.DisplayListView.Items.Remove( this.DisplayListView.Items[ PairKey ] );
         }
         
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
 
       }
 

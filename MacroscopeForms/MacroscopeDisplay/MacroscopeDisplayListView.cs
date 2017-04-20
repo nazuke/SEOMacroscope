@@ -37,16 +37,16 @@ namespace SEOMacroscope
 
     public MacroscopeMainForm MainForm;
 
-    public ListView lvListView;
+    public ListView DisplayListView;
 
     protected Boolean ListViewConfigured = false;
         
     /**************************************************************************/
 
-    protected MacroscopeDisplayListView ( MacroscopeMainForm MainForm, ListView lvListView )
+    protected MacroscopeDisplayListView ( MacroscopeMainForm MainForm, ListView TargetListView )
     {
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
     }
 
     /**************************************************************************/
@@ -63,7 +63,7 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              this.lvListView.Items.Clear();
+              this.DisplayListView.Items.Clear();
               this.RenderUrlCount();
             }
           )
@@ -71,7 +71,7 @@ namespace SEOMacroscope
       }
       else
       {
-        this.lvListView.Items.Clear();
+        this.DisplayListView.Items.Clear();
         this.RenderUrlCount();
       }
     }
@@ -93,10 +93,10 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( DocCollection );
               this.RenderUrlCount();
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -105,10 +105,10 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( DocCollection );
         this.RenderUrlCount();
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -134,10 +134,10 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( DocCollection, UrlList );
               this.RenderUrlCount();
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -146,10 +146,10 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( DocCollection, UrlList );
         this.RenderUrlCount();
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -175,10 +175,10 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( msDoc, Url );
               this.RenderUrlCount();
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -187,10 +187,10 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( msDoc, Url );
         this.RenderUrlCount();
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -213,10 +213,10 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( DocList: DocList );
               this.RenderUrlCount();
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -225,10 +225,10 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( DocList: DocList );
         this.RenderUrlCount();
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -254,13 +254,13 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView(
                 DocCollection: DocCollection,
                 DocumentType: DocumentType
               );
               this.RenderUrlCount();
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -269,13 +269,13 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView(
           DocCollection: DocCollection,
           DocumentType: DocumentType
         );
         this.RenderUrlCount();
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -301,13 +301,13 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView(
                 DocCollection: DocCollection,
                 UrlFragment: UrlFragment
               );
               this.RenderUrlCount();
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -316,13 +316,13 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView(
           DocCollection: DocCollection,
           UrlFragment: UrlFragment
         );
         this.RenderUrlCount();
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -385,7 +385,7 @@ namespace SEOMacroscope
         
       }
 
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
      
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
@@ -458,7 +458,7 @@ namespace SEOMacroscope
 
       }
 
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
      
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
@@ -543,7 +543,7 @@ namespace SEOMacroscope
               
       }
 
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
 
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
@@ -616,7 +616,7 @@ namespace SEOMacroscope
               
       }
       
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
             
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
@@ -728,7 +728,7 @@ namespace SEOMacroscope
                 
       }
       
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
             
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
@@ -807,7 +807,7 @@ namespace SEOMacroscope
                 
       }
       
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
             
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {

@@ -44,14 +44,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayHyperlinks ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayHyperlinks ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
       
       this.SuppressDebugMsg = false;
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
       this.UrlCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelHyperlinksUrls;
       
       if( this.MainForm.InvokeRequired )
@@ -92,7 +92,7 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              this.lvListView.Items.Clear();
+              this.DisplayListView.Items.Clear();
               this.RenderUrlCount();
             }
           )
@@ -100,7 +100,7 @@ namespace SEOMacroscope
       }
       else
       {
-        this.lvListView.Items.Clear();
+        this.DisplayListView.Items.Clear();
         this.RenderUrlCount();
       }
     }
@@ -215,7 +215,7 @@ namespace SEOMacroscope
 
       }
 
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
      
     }
 
@@ -246,7 +246,7 @@ namespace SEOMacroscope
 
       }
       
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
      
     }
 
@@ -298,13 +298,13 @@ namespace SEOMacroscope
           AltTextLabel = "MISSING";
         }
 
-        if( this.lvListView.Items.ContainsKey( PairKey ) )
+        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ PairKey ];
+            lvItem = this.DisplayListView.Items[ PairKey ];
 
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = UrlTarget;
@@ -476,13 +476,13 @@ namespace SEOMacroscope
 
           ListViewItem lvItem = null;
 
-          if( this.lvListView.Items.ContainsKey( PairKey ) )
+          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              lvItem = this.lvListView.Items[ PairKey ];
+              lvItem = this.DisplayListView.Items[ PairKey ];
 
               lvItem.SubItems[ 0 ].Text = Url;
               lvItem.SubItems[ 1 ].Text = UrlTarget;
@@ -604,7 +604,7 @@ namespace SEOMacroscope
 
     protected override void RenderUrlCount ()
     {
-      this.UrlCount.Text = string.Format( "URLs: {0}", this.lvListView.Items.Count );
+      this.UrlCount.Text = string.Format( "URLs: {0}", this.DisplayListView.Items.Count );
     }
      
     /**************************************************************************/

@@ -36,12 +36,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayRobots ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayRobots ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -82,9 +82,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( JobMaster );
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -93,9 +93,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( JobMaster );
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
     }
@@ -155,7 +155,7 @@ namespace SEOMacroscope
 
       }
      
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
             
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
@@ -185,13 +185,13 @@ namespace SEOMacroscope
         Blocked = "BLOCKED";
       }
 
-      if( this.lvListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ PairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = Blocked;
 

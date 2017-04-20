@@ -36,12 +36,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayTitles ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayTitles ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -124,13 +124,13 @@ namespace SEOMacroscope
           TextLabel = "MISSING";
         }
 
-        if( this.lvListView.Items.ContainsKey( PairKey ) )
+        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ PairKey ];
+            lvItem = this.DisplayListView.Items[ PairKey ];
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = TextCount.ToString();
             lvItem.SubItems[ 2 ].Text = TextLabel;

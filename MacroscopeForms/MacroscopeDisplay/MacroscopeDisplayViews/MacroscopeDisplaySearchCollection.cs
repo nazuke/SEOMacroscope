@@ -42,13 +42,13 @@ namespace SEOMacroscope
 
     public MacroscopeDisplaySearchCollection (
       MacroscopeMainForm MainForm,
-      ListView lvListView
+      ListView TargetListView
     )
-      : base( MainForm, lvListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
       this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionDocumentsNumber;
       
       if( this.MainForm.InvokeRequired )
@@ -96,13 +96,13 @@ namespace SEOMacroscope
 
       ListViewItem lvItem = null;
 
-      if( this.lvListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ PairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = Title;
           lvItem.SubItems[ 2 ].Text = Description;
@@ -140,7 +140,7 @@ namespace SEOMacroscope
 
       }
 
-      this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
+      this.DocumentCount.Text = string.Format( "Documents: {0}", DisplayListView.Items.Count );
               
     }
 

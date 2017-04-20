@@ -232,7 +232,7 @@ namespace SEOMacroscope
       // Spidering Control
 
       StartUrl = "";
-      MaxThreads = 4;
+      MaxThreads = 2;
       MaxFetchesPerWorker = 64;
       Depth = -1;
       PageLimit = -1;

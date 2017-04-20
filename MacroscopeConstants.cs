@@ -167,24 +167,25 @@ namespace SEOMacroscope
 
     public enum InOutLinkType
     {
-      SITEMAPXML = 0,
-      REDIRECT = 1,
-      LINK = 2,
-      STYLESHEET = 3,
-      CANONICAL = 4,
-      HREFLANG = 5,
-      AHREF = 6,
-      META = 7,
-      IFRAME = 8,
-      MAP = 9,
-      IMAGE = 10,
-      SCRIPT = 11,
-      AUDIO = 12,
-      VIDEO = 13,
-      EMBED = 14,
-      OBJECT = 15,
-      ALTERNATE = 16,
-      SITEMAPTEXT = 17
+      ROBOTSTEXT = 0,
+      SITEMAPXML = 1,
+      SITEMAPTEXT = 2,
+      REDIRECT = 3,
+      LINK = 4,
+      STYLESHEET = 5,
+      CANONICAL = 6,
+      HREFLANG = 7,
+      AHREF = 8,
+      META = 9,
+      IFRAME = 10,
+      MAP = 11,
+      IMAGE = 12,
+      SCRIPT = 13,
+      AUDIO = 14,
+      VIDEO = 15,
+      EMBED = 16,
+      OBJECT = 17,
+      ALTERNATE = 18
     }
 
     /** END: Outlink Types ****************************************************/

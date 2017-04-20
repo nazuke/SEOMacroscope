@@ -36,12 +36,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayTelephoneNumbers ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayTelephoneNumbers ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -91,13 +91,13 @@ namespace SEOMacroscope
           string PairKey = string.Join( "", TelephoneNumber, Url );
           ListViewItem lvItem = null;
           
-          if( this.lvListView.Items.ContainsKey( PairKey ) )
+          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              lvItem = this.lvListView.Items[ PairKey ];
+              lvItem = this.DisplayListView.Items[ PairKey ];
               lvItem.SubItems[ 0 ].Text = TelephoneNumber;
               lvItem.SubItems[ 1 ].Text = Url;
 

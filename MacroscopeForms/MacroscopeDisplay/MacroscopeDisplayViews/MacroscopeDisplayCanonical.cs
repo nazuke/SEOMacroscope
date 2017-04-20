@@ -37,12 +37,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayCanonical ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayCanonical ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -96,13 +96,13 @@ namespace SEOMacroscope
           CanonicalLabel = "MISSING";
         }
 
-        if( lvListView.Items.ContainsKey( Url ) )
+        if( DisplayListView.Items.ContainsKey( Url ) )
         {
 
           try
           {
 
-            lvItem = lvListView.Items[ Url ];
+            lvItem = DisplayListView.Items[ Url ];
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
             lvItem.SubItems[ 2 ].Text = CanonicalLabel;
@@ -128,7 +128,7 @@ namespace SEOMacroscope
             lvItem.SubItems.Add( StatusCode.ToString() );
             lvItem.SubItems.Add( CanonicalLabel );
 
-            lvListView.Items.Add( lvItem );
+            DisplayListView.Items.Add( lvItem );
 
           }
           catch( Exception ex )

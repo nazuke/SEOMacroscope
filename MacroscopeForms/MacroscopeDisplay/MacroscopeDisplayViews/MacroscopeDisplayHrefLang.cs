@@ -38,12 +38,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayHrefLang ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayHrefLang ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -69,7 +69,7 @@ namespace SEOMacroscope
     {
       if( !this.ListViewConfigured )
       {
-        this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
+        this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
         this.ListViewConfigured = true;
       }
     }
@@ -88,12 +88,12 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView(
                 DocCollection: DocCollection,
                 LocalesList: LocalesList
               );
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -102,12 +102,12 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView(
           DocCollection: DocCollection,
           LocalesList: LocalesList
         );
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
     }
@@ -121,7 +121,7 @@ namespace SEOMacroscope
     {
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      Hashtable htLocaleCols = new Hashtable ();
+      Hashtable LocaleColsTable = new Hashtable ();
       
       if( DocCollection.CountDocuments() == 0 )
       {
@@ -147,23 +147,23 @@ namespace SEOMacroscope
 
       }
       
-      this.lvListView.Items.Clear();
-      this.lvListView.Columns.Clear();
+      this.DisplayListView.Items.Clear();
+      this.DisplayListView.Columns.Clear();
 
       {
 
-        int iLocaleColCount = 4;
+        int LocaleColCount = 4;
 
-        this.lvListView.Columns.Add( "URL", "URL" );
-        this.lvListView.Columns.Add( "Status Code", "Status Code" );
-        this.lvListView.Columns.Add( "Site Locale", "Site Locale" );
-        this.lvListView.Columns.Add( "Title", "Title" );
+        this.DisplayListView.Columns.Add( "URL", "URL" );
+        this.DisplayListView.Columns.Add( "Status Code", "Status Code" );
+        this.DisplayListView.Columns.Add( "Site Locale", "Site Locale" );
+        this.DisplayListView.Columns.Add( "Title", "Title" );
 
-        foreach( string sLocale in LocalesList.Keys )
+        foreach( string Locale in LocalesList.Keys )
         {
-          this.lvListView.Columns.Add( sLocale, sLocale );
-          htLocaleCols[ sLocale ] = iLocaleColCount;
-          iLocaleColCount++;
+          this.DisplayListView.Columns.Add( Locale, Locale );
+          LocaleColsTable[ Locale ] = LocaleColCount;
+          LocaleColCount++;
         }
 
       }
@@ -200,10 +200,10 @@ namespace SEOMacroscope
             string DocTitle = msDoc.GetTitle();
             ListViewItem lvItem = null;
 
-            if( this.lvListView.Items.ContainsKey( PairKey ) )
+            if( this.DisplayListView.Items.ContainsKey( PairKey ) )
             {
 
-              lvItem = this.lvListView.Items[ PairKey ];
+              lvItem = this.DisplayListView.Items[ PairKey ];
 
             }
             else
@@ -273,7 +273,7 @@ namespace SEOMacroscope
                   {
 
                     string HrefLangUrl = null;
-                    int iLocale = ( int )htLocaleCols[ Locale ];
+                    int iLocale = ( int )LocaleColsTable[ Locale ];
 
                     if( HrefLangsTable.ContainsKey( Locale ) )
                     {
@@ -335,14 +335,14 @@ namespace SEOMacroscope
         
       }
 
-      this.lvListView.Items.AddRange( ListViewItems.ToArray() );
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
 
-      this.lvListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
+      this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
 
-      this.lvListView.Columns[ "Site Locale" ].Width = 100;
-      this.lvListView.Columns[ "Status Code" ].Width = 80;
-      this.lvListView.Columns[ "Title" ].Width = 300;
-      this.lvListView.Columns[ "URL" ].Width = 300;
+      this.DisplayListView.Columns[ "Site Locale" ].Width = 100;
+      this.DisplayListView.Columns[ "Status Code" ].Width = 80;
+      this.DisplayListView.Columns[ "Title" ].Width = 300;
+      this.DisplayListView.Columns[ "URL" ].Width = 300;
 
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {

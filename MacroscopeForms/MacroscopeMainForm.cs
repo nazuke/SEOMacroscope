@@ -1080,26 +1080,26 @@ namespace SEOMacroscope
         try
         {
 
-          ListView lvListView = ( ListView )sender;
-          ListViewItem lvItem = lvListView.Items[ e.ItemIndex ];
+          ListView TargetListView = ( ListView )sender;
+          ListViewItem lvItem = TargetListView.Items[ e.ItemIndex ];
           string Url = "NONE";
           int UrlColumn = -1;
 
-          lock( lvListView )
+          lock( TargetListView )
           {
 
             this.macroscopeDocumentDetailsInstance.Enabled = false;
             
-            for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+            for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
             {
           
-              if( lvListView.Columns[ i ].Text == "URL" )
+              if( TargetListView.Columns[ i ].Text == "URL" )
               {
                 UrlColumn = i;
                 break;
               }
               else
-              if( lvListView.Columns[ i ].Text == "Source URL" )
+              if( TargetListView.Columns[ i ].Text == "Source URL" )
               {
                 UrlColumn = i;
                 break;
@@ -1144,23 +1144,23 @@ namespace SEOMacroscope
 
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView lvListView = msOwner.SourceControl as ListView;
+      ListView TargetListView = msOwner.SourceControl as ListView;
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( lvListView )
+      lock( TargetListView )
       {
 
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
           
-          if( lvListView.Columns[ i ].Text == "URL" )
+          if( TargetListView.Columns[ i ].Text == "URL" )
           {
             UrlColumn = i;
             break;
           }
           else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
           {
             UrlColumn = i;
             break;
@@ -1170,7 +1170,7 @@ namespace SEOMacroscope
 
         if( UrlColumn > -1 )
         {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
           {
             Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
@@ -1196,22 +1196,22 @@ namespace SEOMacroscope
 
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView lvListView = msOwner.SourceControl as ListView;
+      ListView TargetListView = msOwner.SourceControl as ListView;
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( lvListView )
+      lock( TargetListView )
       {
         
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
-          if( lvListView.Columns[ i ].Text == "URL" )
+          if( TargetListView.Columns[ i ].Text == "URL" )
           {
             UrlColumn = i;
             break;
           }
           else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
           {
             UrlColumn = i;
             break;
@@ -1220,7 +1220,7 @@ namespace SEOMacroscope
         }
         if( UrlColumn > -1 )
         {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
           {
             Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
@@ -1247,22 +1247,22 @@ namespace SEOMacroscope
 
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView lvListView = msOwner.SourceControl as ListView;
+      ListView TargetListView = msOwner.SourceControl as ListView;
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( lvListView )
+      lock( TargetListView )
       {
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
           
-          if( lvListView.Columns[ i ].Text == "URL" )
+          if( TargetListView.Columns[ i ].Text == "URL" )
           {
             UrlColumn = i;
             break;
           }
           else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
           {
             UrlColumn = i;
             break;
@@ -1271,7 +1271,7 @@ namespace SEOMacroscope
         }
         if( UrlColumn > -1 )
         {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
           {
             Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
@@ -1296,22 +1296,22 @@ namespace SEOMacroscope
 
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView lvListView = msOwner.SourceControl as ListView;
+      ListView TargetListView = msOwner.SourceControl as ListView;
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( lvListView )
+      lock( TargetListView )
       {
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
           
-          if( lvListView.Columns[ i ].Text == "URL" )
+          if( TargetListView.Columns[ i ].Text == "URL" )
           {
             UrlColumn = i;
             break;
           }
           else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
           {
             UrlColumn = i;
             break;
@@ -1320,7 +1320,7 @@ namespace SEOMacroscope
         }
         if( UrlColumn > -1 )
         {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
           {
             Url = lvItem.SubItems[ UrlColumn ].Text;
           }
@@ -1615,15 +1615,15 @@ namespace SEOMacroscope
     private void CallbackListViewSiteStructureKeywordsSearch ( object sender, EventArgs e )
     {
 
-      ListView lvListView = ( ListView )sender;
+      ListView TargetListView = ( ListView )sender;
       string KeywordTerm = "";
       int TermCol = -1;
 
       this.msDisplaySearchCollection.ClearData();
               
-      for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+      for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
       {
-        if( lvListView.Columns[ i ].Text == "Term" )
+        if( TargetListView.Columns[ i ].Text == "Term" )
         {
           TermCol = i;
           break;
@@ -1638,7 +1638,7 @@ namespace SEOMacroscope
 
         tcDisplay.SelectedIndex = tcDisplay.TabPages.IndexOfKey( "tabPageSearch" );
 
-        foreach( ListViewItem lvItem in lvListView.SelectedItems )
+        foreach( ListViewItem lvItem in TargetListView.SelectedItems )
         {
 
           KeywordTerm = lvItem.SubItems[ TermCol ].Text;

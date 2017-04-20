@@ -41,12 +41,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void CopyListViewRowsTextToClipboard ( ListView lvListView )
+    public void CopyListViewRowsTextToClipboard ( ListView TargetListView )
     {
 
       string sTextToCopy = "";
 
-      foreach( ListViewItem lvItem in lvListView.SelectedItems )
+      foreach( ListViewItem lvItem in TargetListView.SelectedItems )
       {
 
         sTextToCopy += lvItem.Text;
@@ -73,12 +73,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void CopyListViewValuesTextToClipboard ( ListView lvListView )
+    public void CopyListViewValuesTextToClipboard ( ListView TargetListView )
     {
 
       string sTextToCopy = "";
 
-      foreach( ListViewItem lvItem in lvListView.SelectedItems )
+      foreach( ListViewItem lvItem in TargetListView.SelectedItems )
       {
 
         for( int i = 1 ; i < lvItem.SubItems.Count ; i++ )
