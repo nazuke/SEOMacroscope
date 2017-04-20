@@ -103,12 +103,13 @@ namespace SEOMacroscope
     public enum FetchStatus
     {
       VOID = 0,
-      ERROR = 1,
-      SUCCESS = 2,
-      NETWORK_ERROR = 3,
-      ROBOTS_DISALLOWED = 4,
-      ALREADY_SEEN = 5,
-      SKIPPED = 6
+      OK = 1,
+      ERROR = 2,
+      SUCCESS = 3,
+      NETWORK_ERROR = 4,
+      ROBOTS_DISALLOWED = 5,
+      ALREADY_SEEN = 6,
+      SKIPPED = 7
     }
 
     /** END: Fetch Status *****************************************************/
@@ -135,18 +136,20 @@ namespace SEOMacroscope
     public enum DocumentType
     {
       ALL = 0,
-      BINARY = 1,
-      HTML = 2,
-      CSS = 3,
-      JAVASCRIPT = 4,
-      IMAGE = 5,
-      PDF = 6,
-      AUDIO = 7,
-      VIDEO = 8,
-      XML = 9,
-      SITEMAPXML = 10,
-      TEXT = 11,
-      SITEMAPTEXT = 12
+      INTERNALURL = 1,
+      EXTERNALURL = 2,
+      BINARY = 3,
+      HTML = 4,
+      CSS = 5,
+      JAVASCRIPT = 6,
+      IMAGE = 7,
+      PDF = 8,
+      AUDIO = 9,
+      VIDEO = 10,
+      XML = 11,
+      SITEMAPXML = 12,
+      TEXT = 13,
+      SITEMAPTEXT = 14
     }
 
     /** END: Document Types ***************************************************/
@@ -164,24 +167,25 @@ namespace SEOMacroscope
 
     public enum InOutLinkType
     {
-      SITEMAPXML = 0,
-      REDIRECT = 1,
-      LINK = 2,
-      STYLESHEET = 3,
-      CANONICAL = 4,
-      HREFLANG = 5,
-      AHREF = 6,
-      META = 7,
-      IFRAME = 8,
-      MAP = 9,
-      IMAGE = 10,
-      SCRIPT = 11,
-      AUDIO = 12,
-      VIDEO = 13,
-      EMBED = 14,
-      OBJECT = 15,
-      ALTERNATE = 16,
-      SITEMAPTEXT = 17
+      ROBOTSTEXT = 0,
+      SITEMAPXML = 1,
+      SITEMAPTEXT = 2,
+      REDIRECT = 3,
+      LINK = 4,
+      STYLESHEET = 5,
+      CANONICAL = 6,
+      HREFLANG = 7,
+      AHREF = 8,
+      META = 9,
+      IFRAME = 10,
+      MAP = 11,
+      IMAGE = 12,
+      SCRIPT = 13,
+      AUDIO = 14,
+      VIDEO = 15,
+      EMBED = 16,
+      OBJECT = 17,
+      ALTERNATE = 18
     }
 
     /** END: Outlink Types ****************************************************/

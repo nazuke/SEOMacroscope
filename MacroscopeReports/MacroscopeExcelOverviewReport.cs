@@ -78,16 +78,31 @@ namespace SEOMacroscope
 
       {
 
-        ws.Cell( iRow, iCol ).Value = "Address";
+        ws.Cell( iRow, iCol ).Value = "URL";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Status Code";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Status";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Redirect";
         iCol++;
         
         ws.Cell( iRow, iCol ).Value = "Duration";
+        iCol++;
+       
+        ws.Cell( iRow, iCol ).Value = "Crawled Date";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Server Date";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Modified Date";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Expires Date";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Content-Type";
@@ -96,16 +111,31 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Locale";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Server Date";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Modified Date";
-        iCol++;
-
         ws.Cell( iRow, iCol ).Value = "Canonical";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Title"; 
+        ws.Cell( iRow, iCol ).Value = "Links In";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Links Out";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Hyperlinks In";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Hyperlinks Out";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Title";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Title Length";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Description";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Description Length";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Error Condition";
@@ -133,11 +163,26 @@ namespace SEOMacroscope
 
         this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
         iCol++;
-          
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
+        iCol++;
+
         this.InsertAndFormatRedirectCell( ws, iRow, iCol, msDoc );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDurationInSecondsFormatted().ToString() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCrawledDate() ) );
+        iCol++;
+        
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateServer() ) );
+        iCol++;
+          
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateModified() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateExpires() ) );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetMimeType() ) );
@@ -146,16 +191,31 @@ namespace SEOMacroscope
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetLocale() ) );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateServer() ) );
-        iCol++;
-          
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateModified() ) );
-        iCol++;
-
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCanonical() ) );
         iCol++;
 
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.CountInlinks().ToString() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.CountOutlinks().ToString() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.CountHyperlinksIn().ToString() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.CountHyperlinksOut().ToString() ) );
+        iCol++;
+
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitle() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitleLength().ToString() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDescription() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDescriptionLength().ToString() ) );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetErrorCondition() ) );

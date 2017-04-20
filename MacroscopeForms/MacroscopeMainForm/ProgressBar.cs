@@ -120,7 +120,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
             
     }

@@ -46,7 +46,7 @@ namespace SEOMacroscope
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string ResponseErrorCondition = null;
-      Boolean bAuthenticating = false;
+      Boolean IsAuthenticating = false;
       
       try
       {
@@ -58,17 +58,29 @@ namespace SEOMacroscope
         
         this.PrepareRequestHttpHeaders( req: req );
                 
-        bAuthenticating = this.AuthenticateRequest( req );
+        IsAuthenticating = this.AuthenticateRequest( req );
                       
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();
 
       }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ProcessHtmlPage :: UriFormatException: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
+      }
+      catch( TimeoutException ex )
+      {
+
+        DebugMsg( string.Format( "ProcessHtmlPage :: TimeoutException: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
+
+      }
       catch( WebException ex )
       {
 
-        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "ProcessHtmlPage :: WebException: {0}", ex.Message ) );
         res = ( HttpWebResponse )ex.Response;
         ResponseErrorCondition = ex.Status.ToString();
 
@@ -142,7 +154,7 @@ namespace SEOMacroscope
         }
         else
         {
-          DebugMsg( string.Format( "sRawData: {0}", "EMPTY" ) );
+          DebugMsg( string.Format( "RawData: {0}", "EMPTY" ) );
         }
 
         if( HtmlDoc != null )
@@ -314,22 +326,22 @@ namespace SEOMacroscope
     private void ProcessHtmlCanonical ( HtmlDocument HtmlDoc )
     {
 
-      HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/link[@rel='canonical']" );
+      HtmlNode CanonicalNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/link[@rel='canonical']" );
 
-      if( nNode != null )
+      if( CanonicalNode != null )
       {
 
-        this.Canonical = nNode.GetAttributeValue( "href", "" );
+        this.Canonical = CanonicalNode.GetAttributeValue( "href", "" );
         
         DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
         
         if( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
         {
           
-          string sLinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, this.Canonical );
+          string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, this.Canonical );
           
           MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                     AbsoluteUrl: sLinkUrlAbs,
+                                     AbsoluteUrl: LinkUrlAbs,
                                      LinkType: MacroscopeConstants.InOutLinkType.CANONICAL,
                                      Follow: true
                                    );
@@ -368,8 +380,7 @@ namespace SEOMacroscope
           string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
                     
           DebugMsg( string.Format( "ProcessHtmlHyperlinksOut: {0}", this.GetUrl() ) );
-          
-          
+
           if( LinkUrl != null )
           {
 
@@ -457,6 +468,11 @@ namespace SEOMacroscope
 
     private void ProcessHtmlOutlinks ( HtmlDocument HtmlDoc )
     {
+
+      if( this.GetIsExternal() )
+      {
+        return;
+      }
 
       { // A HREF links ------------------------------------------------------//
 
@@ -564,14 +580,14 @@ namespace SEOMacroscope
             string LinkUrl = LinkNode.GetAttributeValue( "href", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
             MacroscopeConstants.InOutLinkType LinkType = MacroscopeConstants.InOutLinkType.LINK;
-            Boolean bFollow = true;
+            Boolean Follow = true;
 
             if( LinkNode.GetAttributeValue( "hreflang", null ) != null )
             {
               LinkType = MacroscopeConstants.InOutLinkType.HREFLANG;
               if( !MacroscopePreferencesManager.GetFollowHrefLangLinks() )
               {
-                bFollow = false;
+                Follow = false;
               }
             }
 
@@ -595,7 +611,7 @@ namespace SEOMacroscope
               MacroscopeLink Outlink = this.AddHtmlOutlink(
                                          AbsoluteUrl: LinkUrlAbs,
                                          LinkType: LinkType,
-                                         Follow: bFollow
+                                         Follow: Follow
                                        );
               
               Outlink.SetRawTargetUrl( LinkUrl );
@@ -672,7 +688,7 @@ namespace SEOMacroscope
 
       } // -------------------------------------------------------------------//
 
-      { // IMG element links -----------------------------------------------//
+      { // IMG element links -------------------------------------------------// 
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//img[@src]" );
 
@@ -686,7 +702,7 @@ namespace SEOMacroscope
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
             string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
             string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
-            
+
             if( LinkUrlAbs != null )
             {
 
@@ -744,6 +760,7 @@ namespace SEOMacroscope
       } // -------------------------------------------------------------------//
 
       { // AUDIO element links -----------------------------------------------//
+
         // https://developer.mozilla.org/en/docs/Web/HTML/Element/audio
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//audio[@src]|//audio/source[@src]|//audio/track[@src])" );
@@ -777,6 +794,7 @@ namespace SEOMacroscope
       } // -------------------------------------------------------------------//
 
       { // VIDEO element links -----------------------------------------------//
+
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//video[@src]|//video/source[@src]|//video/track[@src])" );
@@ -905,7 +923,7 @@ namespace SEOMacroscope
               ExCSS.Parser ExCssParser = new ExCSS.Parser ();
               ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssText );
 
-              this.ProcessCssHyperlinksOut( ExCssStylesheet );
+              this.ProcessCssOutlinks( ExCssStylesheet );
 
             }
 
@@ -945,7 +963,7 @@ namespace SEOMacroscope
               ExCSS.Parser ExCssParser = new ExCSS.Parser ();
               ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssText );
 
-              this.ProcessCssHyperlinksOut( ExCssStylesheet );
+              this.ProcessCssOutlinks( ExCssStylesheet );
 
             }
 
@@ -965,15 +983,55 @@ namespace SEOMacroscope
       Boolean Follow
     )
     {
+      
+      MacroscopeLink OutLink = null;
+      Boolean Proceed = true;
+      
+      switch( LinkType )
+      {
 
-      MacroscopeLink OutLink = new MacroscopeLink (
-                                 SourceUrl: this.GetUrl(),
-                                 TargetUrl: AbsoluteUrl,
-                                 LinkType: LinkType,
-                                 Follow: Follow
-                               );
+        case MacroscopeConstants.InOutLinkType.STYLESHEET:
+          if( !MacroscopePreferencesManager.GetFetchStylesheets() )
+            Proceed = false;
+          break;
 
-      this.Outlinks.Add( OutLink );
+        case MacroscopeConstants.InOutLinkType.SCRIPT:
+          if( !MacroscopePreferencesManager.GetFetchJavascripts() )
+            Proceed = false;
+          break;
+
+        case MacroscopeConstants.InOutLinkType.IMAGE:
+          if( !MacroscopePreferencesManager.GetFetchImages() )
+            Proceed = false;
+          break;
+
+        case MacroscopeConstants.InOutLinkType.AUDIO:
+          if( !MacroscopePreferencesManager.GetFetchAudio() )
+            Proceed = false;
+          break;
+
+        case MacroscopeConstants.InOutLinkType.VIDEO:
+          if( !MacroscopePreferencesManager.GetFetchVideo() )
+            Proceed = false;
+          break;
+
+      }
+
+      Proceed = true; // TODO: REMOVE THIS
+      
+      if( Proceed )
+      {
+
+        OutLink = new MacroscopeLink (
+          SourceUrl: this.GetUrl(),
+          TargetUrl: AbsoluteUrl,
+          LinkType: LinkType,
+          Follow: Follow
+        );
+
+        this.Outlinks.Add( OutLink );
+
+      }
 
       return( OutLink );
 
@@ -986,36 +1044,36 @@ namespace SEOMacroscope
     private void ExtractHrefLangAlternates ( HtmlDocument HtmlDoc )
     {
 
-      HtmlNodeCollection nlNodeList = HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
+      HtmlNodeCollection NodeList = HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
 
-      if( nlNodeList != null )
+      if( NodeList != null )
       {
 
-        foreach( HtmlNode nNode in nlNodeList )
+        foreach( HtmlNode LinkNode in NodeList )
         {
 
           MacroscopeHrefLang msHrefLang;
-          string sRel = nNode.GetAttributeValue( "rel", "" );
-          string sLocale = nNode.GetAttributeValue( "hreflang", "" );
-          string sHref = nNode.GetAttributeValue( "href", "" );
+          string Rel = LinkNode.GetAttributeValue( "rel", "" );
+          string HrefLangLocale = LinkNode.GetAttributeValue( "hreflang", "" );
+          string Href = LinkNode.GetAttributeValue( "href", "" );
 
-          if( sLocale == "" )
+          if( HrefLangLocale == "" )
           {
             continue;
           }
           else
           {
 
-            if( this.DocUrl == sHref )
+            if( this.DocUrl == Href )
             {
-              sLocale = this.Locale;
+              HrefLangLocale = this.Locale;
             }
 
-            DebugMsg( string.Format( "HREFLANG: {0}, {1}", sLocale, sHref ) );
+            DebugMsg( string.Format( "HREFLANG: {0}, {1}", HrefLangLocale, Href ) );
 
-            msHrefLang = new MacroscopeHrefLang ( sLocale, sHref );
+            msHrefLang = new MacroscopeHrefLang ( HrefLangLocale, Href );
 
-            this.HrefLang[ sLocale ] = msHrefLang;
+            this.HrefLang[ HrefLangLocale ] = msHrefLang;
 
           }
 

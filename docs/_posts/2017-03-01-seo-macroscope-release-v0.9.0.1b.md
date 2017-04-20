@@ -1,9 +1,10 @@
 ---
 layout: post
-title: First Beta Version of SEO Macroscope
-date: 2017-03-01 05:37:00 -09:00
-description: This is the first beta release of SEO Macroscope for Windows, the website link scanning and technical SEO tool.
-excerpt: This is the first beta release of SEO Macroscope for Windows, the website link scanning and technical SEO tool.
+title: "First Beta Version of SEO Macroscope"
+date: "2017-03-01 05:37:00 -09:00"
+published: true
+description: "This is the first beta release of SEO Macroscope for Windows, the website link scanning and technical SEO tool."
+excerpt: "This is the first beta release of SEO Macroscope for Windows, the website link scanning and technical SEO tool."
 ---
 
 This is the first beta release of **SEO Macroscope** for Windows, the website link scanning and technical SEO tool.

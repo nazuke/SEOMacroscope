@@ -149,7 +149,7 @@ namespace SEOMacroscope
     public Boolean PeekNamedQueue ( string Name )
     {
 
-      Boolean bPeek = false;
+      Boolean Peek = false;
 
       if( this.NamedQueues.ContainsKey( Name ) )
       {
@@ -159,14 +159,14 @@ namespace SEOMacroscope
           
           if( this.NamedQueues[ Name ].Count > 0 )
           {
-            bPeek = true;
+            Peek = true;
           }
           
         }
 
       }
 
-      return( bPeek );
+      return( Peek );
 
     }
 

@@ -74,28 +74,28 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
-        Boolean bProcess = false;
+        Boolean Proceed = false;
 
         if( msDoc.GetIsExternal() )
         {
-          bProcess = false;
+          Proceed = false;
         }
 
         if( msDoc.GetIsHtml() )
         {
-          bProcess = true;
+          Proceed = true;
         }
         else
         if( msDoc.GetIsPdf() )
         {
-          bProcess = true;
+          Proceed = true;
         }
         else
         {
-          bProcess = false;
+          Proceed = false;
         }
 
-        if( bProcess )
+        if( Proceed )
         {
 
           iCol = 1;
@@ -112,7 +112,7 @@ namespace SEOMacroscope
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
-          if( !msDoc.GetIsExternal() )
+          if( msDoc.GetIsInternal() )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }

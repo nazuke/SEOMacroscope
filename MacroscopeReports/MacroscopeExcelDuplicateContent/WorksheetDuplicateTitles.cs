@@ -75,7 +75,7 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        Boolean bProcess = false;
+        Boolean Proceed = false;
 
         if( DocCount > 0 )
         {
@@ -96,20 +96,20 @@ namespace SEOMacroscope
         {
           if( msDoc.GetIsHtml() )
           {
-            bProcess = true;
+            Proceed = true;
           }
           else
           if( msDoc.GetIsPdf() )
           {
-            bProcess = true;
+            Proceed = true;
           }
           else
           {
-            bProcess = false;
+            Proceed = false;
           }
         }
           
-        if( bProcess )
+        if( Proceed )
         {
 
           string Title = msDoc.GetTitle();
@@ -122,7 +122,7 @@ namespace SEOMacroscope
 
             this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
-            if( !msDoc.GetIsExternal() )
+            if( msDoc.GetIsInternal() )
             {
               ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
             }

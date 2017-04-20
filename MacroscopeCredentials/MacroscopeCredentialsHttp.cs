@@ -275,15 +275,15 @@ namespace SEOMacroscope
     public MacroscopeCredential GetCredential ( string Domain, string Realm )
     {
 
-      string sKey = this.GenerateKey( Domain, Realm );
+      string Key = this.GenerateKey( Domain, Realm );
       MacroscopeCredential Credential = null;
 
       lock( this.Credentials )
       {
 
-        if( this.Credentials.ContainsKey( sKey ) )
+        if( this.Credentials.ContainsKey( Key ) )
         {
-          Credential = this.Credentials[ sKey ];
+          Credential = this.Credentials[ Key ];
         }
 
       }

@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -41,13 +42,13 @@ namespace SEOMacroscope
 
     public MacroscopeDisplaySearchCollection (
       MacroscopeMainForm MainForm,
-      ListView lvListView
+      ListView TargetListView
     )
-      : base( MainForm, lvListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
       this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionDocumentsNumber;
       
       if( this.MainForm.InvokeRequired )
@@ -80,7 +81,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
       string Title = msDoc.GetTitle();
@@ -91,13 +96,13 @@ namespace SEOMacroscope
 
       ListViewItem lvItem = null;
 
-      if( this.lvListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ PairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = Title;
           lvItem.SubItems[ 2 ].Text = Description;
@@ -125,7 +130,7 @@ namespace SEOMacroscope
           lvItem.SubItems.Add( Description );
           lvItem.SubItems.Add( Keywords );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -135,8 +140,14 @@ namespace SEOMacroscope
 
       }
 
-      this.DocumentCount.Text = string.Format( "Documents: {0}", lvListView.Items.Count );
+      this.DocumentCount.Text = string.Format( "Documents: {0}", DisplayListView.Items.Count );
               
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

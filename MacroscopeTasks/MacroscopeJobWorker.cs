@@ -82,9 +82,9 @@ namespace SEOMacroscope
     public void Execute ()
     {
 
-      int iMaxFetches = MacroscopePreferencesManager.GetMaxFetchesPerWorker();
+      int MaxFetches = MacroscopePreferencesManager.GetMaxFetchesPerWorker();
 
-      while( iMaxFetches > 0 )
+      while( MaxFetches > 0 )
       {
 
         if( this.JobMaster.GetThreadsStop() )
@@ -192,7 +192,7 @@ namespace SEOMacroscope
 
         }
 
-        iMaxFetches--;
+        MaxFetches--;
         
         Thread.Yield();
         
@@ -207,7 +207,7 @@ namespace SEOMacroscope
     private Boolean CheckIncludeExcludeUrl ( string Url )
     {
 
-      Boolean bSuccess = true;
+      Boolean Success = true;
 
       if( this.IncludeExcludeUrls.UseIncludeUrlPatterns() )
       {
@@ -218,7 +218,7 @@ namespace SEOMacroscope
         else
         {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", Url ) );
-          bSuccess = false;
+          Success = false;
         }
       }
 
@@ -227,7 +227,7 @@ namespace SEOMacroscope
         if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) )
         {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", Url ) );
-          bSuccess = false;
+          Success = false;
         }
         else
         {
@@ -235,7 +235,7 @@ namespace SEOMacroscope
         }
       }
 
-      return( bSuccess );
+      return( Success );
 
     }
 
@@ -245,7 +245,7 @@ namespace SEOMacroscope
     {
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
-      MacroscopeConstants.FetchStatus Result = MacroscopeConstants.FetchStatus.VOID;
+      MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
 
       if( msDoc != null )
       {
@@ -279,20 +279,32 @@ namespace SEOMacroscope
 
       }
 
+      msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.OK );
+              
       if( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) )
       {
+
         DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
+
         msDoc.SetStatusCode( HttpStatusCode.BadGateway );
-        Result = MacroscopeConstants.FetchStatus.NETWORK_ERROR;
-        return( Result );
+
+        FetchStatus = MacroscopeConstants.FetchStatus.NETWORK_ERROR;
+
+        msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.NETWORK_ERROR );
+
       }
 
       if( !this.JobMaster.GetRobots().ApplyRobotRule( Url ) )
       {
+
         DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
+
         this.JobMaster.AddToBlockedByRobots( Url );
-        Result = MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED;
-        return( Result );
+
+        FetchStatus = MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED;
+
+        msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED );
+
       }
       else
       {
@@ -311,8 +323,8 @@ namespace SEOMacroscope
       {
         if( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
         {
-          Result = MacroscopeConstants.FetchStatus.ALREADY_SEEN;
-          return( Result );
+          FetchStatus = MacroscopeConstants.FetchStatus.ALREADY_SEEN;
+          return( FetchStatus );
         }
       }
 
@@ -322,8 +334,8 @@ namespace SEOMacroscope
         if( Depth > this.JobMaster.GetDepth() )
         {
           DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
-          Result = MacroscopeConstants.FetchStatus.SKIPPED;
-          return( Result );
+          FetchStatus = MacroscopeConstants.FetchStatus.SKIPPED;
+          return( FetchStatus );
         }
       }
 
@@ -377,16 +389,16 @@ namespace SEOMacroscope
 
         }
 
-        Result = MacroscopeConstants.FetchStatus.SUCCESS;
+        FetchStatus = MacroscopeConstants.FetchStatus.SUCCESS;
 
       }
       else
       {
         DebugMsg( string.Format( "EXECUTE FAILED: {0}", Url ) );
-        Result = MacroscopeConstants.FetchStatus.ERROR;
+        FetchStatus = MacroscopeConstants.FetchStatus.ERROR;
       }
 
-      return( Result );
+      return( FetchStatus );
 
     }
 
@@ -430,7 +442,7 @@ namespace SEOMacroscope
       foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
       {
 
-        Boolean bProceed = true;
+        Boolean Proceed = true;
 
         if( !Outlink.GetDoFollow() )
         {
@@ -459,11 +471,11 @@ namespace SEOMacroscope
           if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() )
           {
             DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.JobMaster.GetPageLimit(), this.JobMaster.GetPageLimitCount() ) );
-            bProceed = false;
+            Proceed = false;
           }
         }
 
-        if( bProceed )
+        if( Proceed )
         {
 
           this.JobMaster.AddUrlQueueItem( Outlink.GetTargetUrl() );

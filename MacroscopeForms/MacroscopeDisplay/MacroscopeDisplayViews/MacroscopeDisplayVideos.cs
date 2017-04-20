@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Drawing;
 using System.Windows.Forms;
@@ -40,12 +41,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayVideos ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayVideos ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -77,7 +78,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
       if( !msDoc.GetIsVideo() )
@@ -85,25 +90,25 @@ namespace SEOMacroscope
         return;
       }
 
-      string sStatusCode = msDoc.GetStatusCode().ToString();
-      string sMimeType = msDoc.GetMimeType();
-      string sFileSize = msDoc.GetContentLength().ToString();
+      string StatusCode = msDoc.GetStatusCode().ToString();
+      string MimeType = msDoc.GetMimeType();
+      string FileSize = msDoc.GetContentLength().ToString();
 
       string sPairKey = string.Join( "", Url );
 
       ListViewItem lvItem = null;
 
-      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( sPairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem = this.DisplayListView.Items[ sPairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = sStatusCode;
-          lvItem.SubItems[ 2 ].Text = sMimeType;
-          lvItem.SubItems[ 3 ].Text = sFileSize;
+          lvItem.SubItems[ 1 ].Text = StatusCode;
+          lvItem.SubItems[ 2 ].Text = MimeType;
+          lvItem.SubItems[ 3 ].Text = FileSize;
 
         }
         catch( Exception ex )
@@ -123,11 +128,11 @@ namespace SEOMacroscope
           lvItem.Name = sPairKey;
 
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems.Add( sStatusCode );
-          lvItem.SubItems.Add( sMimeType );
-          lvItem.SubItems.Add( sFileSize );
+          lvItem.SubItems.Add( StatusCode );
+          lvItem.SubItems.Add( MimeType );
+          lvItem.SubItems.Add( FileSize );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -144,7 +149,7 @@ namespace SEOMacroscope
 
         // URL -------------------------------------------------------------//
           
-        if( !msDoc.GetIsExternal() )
+        if( msDoc.GetIsInternal() )
         {
           lvItem.SubItems[ 0 ].ForeColor = Color.Green;
         }
@@ -166,6 +171,12 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

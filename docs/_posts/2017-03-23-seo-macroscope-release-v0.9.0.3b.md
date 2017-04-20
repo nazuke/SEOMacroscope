@@ -1,8 +1,10 @@
 ---
 layout: post
 title: "New v0.9.0.3b release of SEO Macroscope: The A List"
-date: 2017-03-23 10:28:00 -09:00
-excerpt: The third beta of SEO Macroscope has been released.
+date: "2017-03-23 10:28:00 -09:00"
+published: true
+description: "The third beta of SEO Macroscope has been released."
+excerpt: "The third beta of SEO Macroscope has been released."
 ---
 
 The third beta of SEO Macroscope has been released. Source code and an installer can be found on GitHub at:

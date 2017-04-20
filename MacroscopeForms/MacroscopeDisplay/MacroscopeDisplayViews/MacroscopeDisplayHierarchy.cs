@@ -198,7 +198,7 @@ namespace SEOMacroscope
     )
     {
 
-      TreeNode nCurrentNode = this.tvTreeView.Nodes[ 0 ];
+      TreeNode CurrentNode = this.tvTreeView.Nodes[ 0 ];
       string sPath = string.Join( "/", msDoc.GetHostname(), msDoc.GetPath() );
 
       if( sPath != null )
@@ -215,24 +215,24 @@ namespace SEOMacroscope
 
           string sElementName = lElements[ i ];
 
-          if( nCurrentNode != null )
+          if( CurrentNode != null )
           {
 
-            if( nCurrentNode.Nodes.ContainsKey( sElementName ) )
+            if( CurrentNode.Nodes.ContainsKey( sElementName ) )
             {
 
-              nCurrentNode = nCurrentNode.Nodes[ sElementName ];
+              CurrentNode = CurrentNode.Nodes[ sElementName ];
 
             }
             else
             {
 
-              TreeNode nNewNode = nCurrentNode.Nodes.Add( sElementName );
+              TreeNode nNewNode = CurrentNode.Nodes.Add( sElementName );
               nNewNode.Name = sElementName;
               nNewNode.Text = sElementName;
               nNewNode.Tag = Url;
 
-              nCurrentNode = nNewNode;
+              CurrentNode = nNewNode;
 
             }
 

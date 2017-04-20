@@ -44,14 +44,14 @@ namespace SEOMacroscope
         
     /**************************************************************************/
 
-    public MacroscopeDisplayLinks ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayLinks ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
       
       this.SuppressDebugMsg = true;
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
       this.UrlCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelLinksUrls;
       
       if( this.MainForm.InvokeRequired )
@@ -92,7 +92,7 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              this.lvListView.Items.Clear();
+              this.DisplayListView.Items.Clear();
               this.RenderUrlCount();
             }
           )
@@ -100,7 +100,7 @@ namespace SEOMacroscope
       }
       else
       {
-        this.lvListView.Items.Clear();
+        this.DisplayListView.Items.Clear();
         this.RenderUrlCount();
       }
     }
@@ -194,6 +194,8 @@ namespace SEOMacroscope
       string UrlFragment
     )
     {
+      
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
 
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
@@ -220,6 +222,7 @@ namespace SEOMacroscope
         {
 
           this.RenderListView(
+            ListViewItems: ListViewItems,
             msDoc: msDoc,
             Url: Url 
           );
@@ -243,6 +246,8 @@ namespace SEOMacroscope
         
       }
 
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -259,6 +264,8 @@ namespace SEOMacroscope
       string UrlFragment
     )
     {
+      
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
 
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
@@ -284,6 +291,7 @@ namespace SEOMacroscope
         if( msDoc != null )
         {
           this.RenderListViewSearchTargetUrls(
+            ListViewItems: ListViewItems,
             msDoc: msDoc,
             Url: Url,
             UrlFragment: UrlFragment
@@ -306,6 +314,8 @@ namespace SEOMacroscope
       
       }
 
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+      
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -317,7 +327,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
               
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
@@ -356,13 +370,13 @@ namespace SEOMacroscope
           RawTargetUrl = "";
         }
 
-        if( this.lvListView.Items.ContainsKey( PairKey ) )
+        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ PairKey ];
+            lvItem = this.DisplayListView.Items[ PairKey ];
 
             lvItem.SubItems[ 0 ].Text = LinkType;
             lvItem.SubItems[ 1 ].Text = Url;
@@ -396,8 +410,8 @@ namespace SEOMacroscope
             lvItem.SubItems.Add( AltTextLabel );
             lvItem.SubItems.Add( RawSourceUrl );
             lvItem.SubItems.Add( RawTargetUrl );
-
-            this.lvListView.Items.Add( lvItem );
+            
+            ListViewItems.Add( lvItem );
 
           }
           catch( Exception ex )
@@ -453,13 +467,16 @@ namespace SEOMacroscope
 
       }
 
-      this.RenderUrlCount();
-
     }
 
     /**************************************************************************/
 
-    private void RenderListViewSearchTargetUrls ( MacroscopeDocument msDoc, string Url, string UrlFragment )
+    private void RenderListViewSearchTargetUrls ( 
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url,
+      string UrlFragment 
+    )
     {
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
@@ -493,13 +510,13 @@ namespace SEOMacroscope
 
           ListViewItem lvItem = null;
                   
-          if( this.lvListView.Items.ContainsKey( PairKey ) )
+          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              lvItem = this.lvListView.Items[ PairKey ];
+              lvItem = this.DisplayListView.Items[ PairKey ];
 
               lvItem.SubItems[ 0 ].Text = LinkType;
               lvItem.SubItems[ 1 ].Text = Url;
@@ -530,7 +547,7 @@ namespace SEOMacroscope
               lvItem.SubItems.Add( DoFollow );
               lvItem.SubItems.Add( AltTextLabel );
 
-              this.lvListView.Items.Add( lvItem );
+              ListViewItems.Add( lvItem );
 
             }
             catch( Exception ex )
@@ -588,15 +605,13 @@ namespace SEOMacroscope
 
       }
 
-      this.RenderUrlCount();
-
     }
 
     /**************************************************************************/
     
-    private void RenderUrlCount ()
+    protected override void RenderUrlCount ()
     {
-      this.UrlCount.Text = string.Format( "URLs: {0}", lvListView.Items.Count );
+      this.UrlCount.Text = string.Format( "URLs: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/

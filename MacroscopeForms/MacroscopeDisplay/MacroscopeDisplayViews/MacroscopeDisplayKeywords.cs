@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -39,12 +40,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayKeywords ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayKeywords ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -76,10 +77,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
-      Boolean bProcess;
+      Boolean Proceed;
 
       if( msDoc.GetIsExternal() )
       {
@@ -88,19 +93,19 @@ namespace SEOMacroscope
 
       if( msDoc.GetIsHtml() )
       {
-        bProcess = true;
+        Proceed = true;
       }
       else
       if( msDoc.GetIsPdf() )
       {
-        bProcess = true;
+        Proceed = true;
       }
       else
       {
-        bProcess = false;
+        Proceed = false;
       }
 
-      if( bProcess )
+      if( Proceed )
       {
 
         ListViewItem lvItem = null;
@@ -117,13 +122,13 @@ namespace SEOMacroscope
           Occurrences = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( Text );
         }
 
-        if( this.lvListView.Items.ContainsKey( PairKey ) )
+        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = this.lvListView.Items[ PairKey ];
+            lvItem = this.DisplayListView.Items[ PairKey ];
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = Occurrences.ToString();
             lvItem.SubItems[ 2 ].Text = Text;
@@ -153,7 +158,7 @@ namespace SEOMacroscope
             lvItem.SubItems.Add( KeywordsLength.ToString() );
             lvItem.SubItems.Add( TextNumber.ToString() );
 
-            this.lvListView.Items.Add( lvItem );
+            ListViewItems.Add( lvItem );
 
           }
           catch( Exception ex )
@@ -170,7 +175,7 @@ namespace SEOMacroscope
 
           // URL -------------------------------------------------------------//
           
-          if( !msDoc.GetIsExternal() )
+          if( msDoc.GetIsInternal() )
           {
             lvItem.SubItems[ 0 ].ForeColor = Color.Green;
           }
@@ -181,7 +186,7 @@ namespace SEOMacroscope
 
           // Check Missing Text ----------------------------------------------//
 
-          if( !msDoc.GetIsExternal() )
+          if( msDoc.GetIsInternal() )
           {
             if( KeywordsLength <= 0 )
             {
@@ -210,6 +215,12 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

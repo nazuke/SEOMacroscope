@@ -1,8 +1,10 @@
 ---
 layout: post
-title: Trying out SEO Macroscope
-date: 2017-02-23 01:04:00 -09:00
-excerpt: Clone and build SEO Macroscope.
+title: "Trying out SEO Macroscope"
+date: "2017-02-23 01:04:00 -09:00"
+published: true
+description: "Clone and build SEO Macroscope."
+excerpt: "Clone and build SEO Macroscope."
 ---
 
 Briefly, you can [clone the project from GitHub](https://github.com/nazuke/SEOMacroscope), and then:

@@ -37,16 +37,16 @@ namespace SEOMacroscope
 
     public MacroscopeMainForm MainForm;
 
-    public ListView lvListView;
+    public ListView DisplayListView;
 
     protected Boolean ListViewConfigured = false;
         
     /**************************************************************************/
 
-    protected MacroscopeDisplayListView ( MacroscopeMainForm MainForm, ListView lvListView )
+    protected MacroscopeDisplayListView ( MacroscopeMainForm MainForm, ListView TargetListView )
     {
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
     }
 
     /**************************************************************************/
@@ -63,14 +63,16 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              this.lvListView.Items.Clear();
+              this.DisplayListView.Items.Clear();
+              this.RenderUrlCount();
             }
           )
         );
       }
       else
       {
-        this.lvListView.Items.Clear();
+        this.DisplayListView.Items.Clear();
+        this.RenderUrlCount();
       }
     }
 
@@ -91,9 +93,10 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( DocCollection );
-              this.lvListView.EndUpdate();
+              this.RenderUrlCount();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -102,9 +105,10 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( DocCollection );
-        this.lvListView.EndUpdate();
+        this.RenderUrlCount();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -130,9 +134,10 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( DocCollection, UrlList );
-              this.lvListView.EndUpdate();
+              this.RenderUrlCount();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -141,9 +146,10 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( DocCollection, UrlList );
-        this.lvListView.EndUpdate();
+        this.RenderUrlCount();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -169,9 +175,10 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( msDoc, Url );
-              this.lvListView.EndUpdate();
+              this.RenderUrlCount();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -180,9 +187,10 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( msDoc, Url );
-        this.lvListView.EndUpdate();
+        this.RenderUrlCount();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -205,9 +213,10 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( DocList: DocList );
-              this.lvListView.EndUpdate();
+              this.RenderUrlCount();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -216,9 +225,10 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( DocList: DocList );
-        this.lvListView.EndUpdate();
+        this.RenderUrlCount();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -244,9 +254,13 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
-              this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
-              this.lvListView.EndUpdate();
+              this.DisplayListView.BeginUpdate();
+              this.RenderListView(
+                DocCollection: DocCollection,
+                DocumentType: DocumentType
+              );
+              this.RenderUrlCount();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -255,9 +269,13 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
-        this.RenderListView( DocCollection: DocCollection, DocumentType: DocumentType );
-        this.lvListView.EndUpdate();
+        this.DisplayListView.BeginUpdate();
+        this.RenderListView(
+          DocCollection: DocCollection,
+          DocumentType: DocumentType
+        );
+        this.RenderUrlCount();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
@@ -283,9 +301,13 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
-              this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
-              this.lvListView.EndUpdate();
+              this.DisplayListView.BeginUpdate();
+              this.RenderListView(
+                DocCollection: DocCollection,
+                UrlFragment: UrlFragment
+              );
+              this.RenderUrlCount();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -294,12 +316,84 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
-        this.RenderListView( DocCollection: DocCollection, UrlFragment: UrlFragment );
-        this.lvListView.EndUpdate();
+        this.DisplayListView.BeginUpdate();
+        this.RenderListView(
+          DocCollection: DocCollection,
+          UrlFragment: UrlFragment
+        );
+        this.RenderUrlCount();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
 
+    }
+
+    /** Render One Document *******************************************/
+
+    public virtual void RenderListView ( MacroscopeDocument msDoc, string Url )
+    {
+
+      if( msDoc == null )
+      {
+        return;
+      }
+
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
+      
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      decimal Count = 0;
+      decimal TotalDocs = ( decimal )1;
+      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+      
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+      
+        ProgressForm.ControlBox = false;
+      
+        ProgressForm.UpdatePercentages(
+          Title: "Preparing Display",
+          Message: "Processing document collection for display:",
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );  
+
+      }
+
+      Application.DoEvents();
+
+      if( msDoc != null )
+      {
+        this.RenderListView(
+          ListViewItems: ListViewItems,
+          msDoc: msDoc,
+          Url: msDoc.GetUrl()
+        );
+      }
+
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+      
+        Count++; 
+        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
+        
+        ProgressForm.UpdatePercentages(
+          Title: null,
+          Message: null,
+          MajorPercentage: MajorPercentage,
+          ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
+        );
+        
+      }
+
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+     
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      {
+        ProgressForm.DoClose();
+      }
+            
+      ProgressForm.Dispose();
+      
     }
 
     /** Render Entire DocCollection *******************************************/
@@ -311,7 +405,9 @@ namespace SEOMacroscope
       {
         return;
       }
-            
+
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+      
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
@@ -338,7 +434,11 @@ namespace SEOMacroscope
 
         if( msDoc != null )
         {
-          this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
+          this.RenderListView(
+            ListViewItems: ListViewItems,
+            msDoc: msDoc,
+            Url: msDoc.GetUrl()
+          );
         }
 
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
@@ -357,6 +457,8 @@ namespace SEOMacroscope
         }
 
       }
+
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
      
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
@@ -384,6 +486,8 @@ namespace SEOMacroscope
       {
         return;
       }
+
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( UrlList.Count );
 
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
@@ -413,7 +517,13 @@ namespace SEOMacroscope
       
         if( msDoc != null )
         {
-          this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
+
+          this.RenderListView(
+            ListViewItems: ListViewItems,
+            msDoc: msDoc, Url:
+            msDoc.GetUrl()
+          );
+
         }
 
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
@@ -432,7 +542,9 @@ namespace SEOMacroscope
         }
               
       }
-      
+
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -452,6 +564,8 @@ namespace SEOMacroscope
         return;
       }
 
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocList.Count );
+            
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocList.Count;
@@ -478,7 +592,11 @@ namespace SEOMacroscope
         
         if( msDoc != null )
         {
-          this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
+          this.RenderListView(
+            ListViewItems: ListViewItems,
+            msDoc: msDoc,
+            Url: msDoc.GetUrl()
+          );
         }
         
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
@@ -498,6 +616,8 @@ namespace SEOMacroscope
               
       }
       
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+            
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -520,6 +640,8 @@ namespace SEOMacroscope
         return;
       }
 
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+            
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
@@ -546,12 +668,47 @@ namespace SEOMacroscope
 
         if( msDoc != null )
         {
-          if(
-            ( msDoc.GetDocumentType() == DocumentType )
-            || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
+          
+          switch( DocumentType )
           {
-            this.RenderListView( msDoc: msDoc, Url: msDoc.GetUrl() );
+              
+            case MacroscopeConstants.DocumentType.INTERNALURL:
+              if( msDoc.GetIsInternal() )
+              {
+                this.RenderListView(
+                  ListViewItems: ListViewItems,
+                  msDoc: msDoc,
+                  Url: msDoc.GetUrl()
+                );
+              }
+              break;
+              
+            case MacroscopeConstants.DocumentType.EXTERNALURL:
+              if( msDoc.GetIsExternal() )
+              {
+                this.RenderListView(
+                  ListViewItems: ListViewItems,
+                  msDoc: msDoc,
+                  Url: msDoc.GetUrl()
+                );
+              }
+              break;
+              
+            default:
+              if(
+                ( msDoc.GetDocumentType() == DocumentType )
+                || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
+              {
+                this.RenderListView(
+                  ListViewItems: ListViewItems,
+                  msDoc: msDoc,
+                  Url: msDoc.GetUrl()
+                );
+              }
+              break;
+
           }
+
         }
         
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
@@ -571,6 +728,8 @@ namespace SEOMacroscope
                 
       }
       
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+            
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -592,6 +751,8 @@ namespace SEOMacroscope
         return;
       }
      
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+            
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
@@ -621,7 +782,11 @@ namespace SEOMacroscope
           string Url = msDoc.GetUrl();
           if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
           {
-            this.RenderListView( msDoc: msDoc, Url: Url );
+            this.RenderListView(
+              ListViewItems: ListViewItems,
+              msDoc: msDoc,
+              Url: Url
+            );
           }
         }
         
@@ -642,6 +807,8 @@ namespace SEOMacroscope
                 
       }
       
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+            
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -651,9 +818,13 @@ namespace SEOMacroscope
       
     }
 
-    /** Render One ************************************************************/
+    /** Override Render One ***************************************************/
 
-    abstract protected void RenderListView ( MacroscopeDocument msDoc, string Url );
+    abstract protected void RenderListView ( List<ListViewItem> ListViewItems, MacroscopeDocument msDoc, string Url );
+
+    /** Override Render URL Count *********************************************/
+
+    abstract protected void RenderUrlCount ();
 
     /**************************************************************************/
 

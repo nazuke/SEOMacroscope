@@ -90,15 +90,21 @@ blockquote
   background-position:top right;
 	box-shadow:0px 10px 10px $color-medium-grey;
 
-  h1,
+	.product-title
+	{
+		font-size:40px;
+	}
+
+  .product-title,
 	a
   {
     color:$color-orange;
 		text-shadow:0px 0px 3px $color-black;
   }
 
-  h2
+  .product-slogan
   {
+		font-size:24px;
     color:$color-white;
 		text-shadow:0px 0px 3px $color-black;
   }

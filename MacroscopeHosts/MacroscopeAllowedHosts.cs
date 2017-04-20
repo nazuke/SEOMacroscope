@@ -72,8 +72,27 @@ namespace SEOMacroscope
 
     public void AddFromUrl ( string Url )
     {
-      Uri uFromUrl = new Uri ( Url, UriKind.Absolute );
-      this.Add( uFromUrl.Host );
+
+      Uri FromUrl = null;
+
+      try
+      {
+        FromUrl = new Uri ( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "AddFromUrl: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "AddFromUrl: {0}", ex.Message ) );
+      }
+
+      if( FromUrl != null )
+      {
+        this.Add( FromUrl.Host );
+      }
+
     }
 
     /**************************************************************************/
@@ -90,8 +109,27 @@ namespace SEOMacroscope
 
     public void RemoveFromUrl ( string Url )
     {
-      Uri uFromUrl = new Uri ( Url, UriKind.Absolute );
-      this.Remove( uFromUrl.Host );
+
+      Uri FromUrl = null;
+
+      try
+      {
+        FromUrl = new Uri ( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "RemoveFromUrl: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "RemoveFromUrl: {0}", ex.Message ) );
+      }
+
+      if( FromUrl != null )
+      {
+        this.Remove( FromUrl.Host );
+      }
+
     }
 
     /**************************************************************************/
@@ -126,12 +164,12 @@ namespace SEOMacroscope
 
     public Boolean IsAllowed ( string Hostname )
     {
-      Boolean bIsAllowed = false;
+      Boolean IsAllowed = false;
       if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        bIsAllowed = this.Hostnames[ Hostname ];
+        IsAllowed = this.Hostnames[ Hostname ];
       }
-      return( bIsAllowed );
+      return( IsAllowed );
     }
 
     /**************************************************************************/
@@ -168,21 +206,38 @@ namespace SEOMacroscope
     public Boolean IsInternalUrl ( string Url )
     {
 
-      Boolean bIsInternal = false;
+      Boolean IsInternal = false;
 
       if( Url != null )
       {
 
-        Uri uUrl = new Uri ( Url, UriKind.Absolute );
+        Uri DocumentUrl = null;
 
-        if( this.IsAllowed( uUrl.Host ) )
+        try
         {
-          bIsInternal = true;
+          DocumentUrl = new Uri ( Url, UriKind.Absolute );
+        }
+        catch( UriFormatException ex )
+        {
+          DebugMsg( string.Format( "IsInternalUrl: {0}", ex.Message ) );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "IsInternalUrl: {0}", ex.Message ) );
+        }
+
+        if( DocumentUrl != null )
+        {
+          if( this.IsAllowed( DocumentUrl.Host ) )
+          {
+            IsInternal = true;
+          }
         }
 
       }
 
-      return( bIsInternal );
+      return( IsInternal );
+      
     }
 
     /**************************************************************************/
@@ -190,50 +245,93 @@ namespace SEOMacroscope
     public Boolean IsExternalUrl ( string Url )
     {
 
-      Boolean bIsExternal = false;
+      Boolean IsExternal = false;
 
       if( Url != null )
       {
       
-        Uri uUrl = new Uri ( Url, UriKind.Absolute );
-      
-        if( !this.IsAllowed( uUrl.Host ) )
+        Uri DocumentUrl = null;
+
+        try
         {
-          bIsExternal = true;
+          DocumentUrl = new Uri ( Url, UriKind.Absolute );
         }
-      
+        catch( UriFormatException ex )
+        {
+          DebugMsg( string.Format( "IsExternalUrl: {0}", ex.Message ) );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "IsExternalUrl: {0}", ex.Message ) );
+        }
+
+        if( DocumentUrl != null )
+        {
+          if( !this.IsAllowed( DocumentUrl.Host ) )
+          {
+            IsExternal = true;
+          }
+        }
+                
       }
 
-      return( bIsExternal );
+      return( IsExternal );
+      
     }
 
     /**************************************************************************/
 
     public static string ParseHostnameFromUrl ( string Url )
     {
-      Uri uUrl = new Uri ( Url, UriKind.Absolute );
-      string sHostname = uUrl.Host;
-      return( sHostname );
+
+      string Hostname = null;
+      Uri DocumentUrl = null;
+
+      try
+      {
+        DocumentUrl = new Uri ( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
+      }
+
+      if( DocumentUrl != null )
+      {
+        Hostname = DocumentUrl.Host;
+      }
+      
+      return( Hostname );
+      
     }
 
     /**************************************************************************/
 
     public Boolean IsWithinAllowedDomain ( string Hostname )
     {
+      
       // TODO: This does not work.
-      Boolean bAllowed = false;
+
+      Boolean IsAllowedInDomain = false;
+
       lock( this.Hostnames )
       {
-        foreach( string sAllowedHostname in this.Hostnames.Keys )
+        foreach( string AllowedHostname in this.Hostnames.Keys )
         {
-          if( this.DomainWrangler.IsWithinSameDomain( Hostname, sAllowedHostname ) )
+          if( this.DomainWrangler.IsWithinSameDomain( Hostname, AllowedHostname ) )
           {
-            bAllowed = true;
+            IsAllowedInDomain = true;
             break;
           }
         }
       }
-      return( bAllowed );
+
+      return( IsAllowedInDomain );
+
     }
 
     /**************************************************************************/

@@ -104,7 +104,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
       
     }

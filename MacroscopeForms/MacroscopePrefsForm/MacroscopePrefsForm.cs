@@ -128,7 +128,7 @@ namespace SEOMacroscope
         PrefsControl.checkBoxFollowHrefLangLinks.Checked = MacroscopePreferencesManager.GetFollowHrefLangLinks();
 
         PrefsControl.checkBoxFetchStylesheets.Checked = MacroscopePreferencesManager.GetFetchStylesheets();
-        PrefsControl.checkBoxFetchJavascripts.Checked = MacroscopePreferencesManager.GetFetchImages();
+        PrefsControl.checkBoxFetchJavascripts.Checked = MacroscopePreferencesManager.GetFetchJavascripts();
         PrefsControl.checkBoxFetchImages.Checked = MacroscopePreferencesManager.GetFetchImages();
         PrefsControl.checkBoxFetchPdfs.Checked = MacroscopePreferencesManager.GetFetchPdfs();
         PrefsControl.checkBoxFetchAudio.Checked = MacroscopePreferencesManager.GetFetchAudio();

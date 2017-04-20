@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Windows.Forms;
@@ -40,12 +41,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayErrors ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayErrors ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -85,6 +86,8 @@ namespace SEOMacroscope
         return;
       }
             
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+            
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
@@ -105,21 +108,25 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        Boolean bProceed = false;
+        Boolean Proceed = false;
 
         if( ( ( int )msDoc.GetStatusCode() >= 400 ) && ( ( int )msDoc.GetStatusCode() <= 499 ) )
         {
-          bProceed = true;
+          Proceed = true;
         }
         else
         if( ( ( int )msDoc.GetStatusCode() >= 500 ) && ( ( int )msDoc.GetStatusCode() <= 599 ) )
         {
-          bProceed = true;
+          Proceed = true;
         }
 
-        if( bProceed )
+        if( Proceed )
         {
-          this.RenderListView( msDoc, msDoc.GetUrl() );
+          this.RenderListView( 
+            ListViewItems: ListViewItems,
+            msDoc: msDoc,
+            Url: msDoc.GetUrl()
+          );
         }
         else
         {
@@ -143,7 +150,9 @@ namespace SEOMacroscope
         }
 
       }
-                  
+               
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+      
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
@@ -155,7 +164,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
       ListViewItem lvItem = null;
@@ -163,13 +176,13 @@ namespace SEOMacroscope
       string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
       string Status = msDoc.GetStatusCode().ToString();
 
-      if( this.lvListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ PairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
 
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = StatusCode;
@@ -198,7 +211,7 @@ namespace SEOMacroscope
           lvItem.SubItems.Add( Status );
           lvItem.SubItems.Add( msDoc.GetErrorCondition() );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -256,20 +269,26 @@ namespace SEOMacroscope
 
       string PairKey = Url;
 
-      if( this.lvListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         
-        lock( this.lvListView.Items )
+        lock( this.DisplayListView.Items )
         {
-          this.lvListView.Items.Remove( this.lvListView.Items[ PairKey ] );
+          this.DisplayListView.Items.Remove( this.DisplayListView.Items[ PairKey ] );
         }
         
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

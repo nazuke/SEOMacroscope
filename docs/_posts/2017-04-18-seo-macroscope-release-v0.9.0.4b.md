@@ -1,8 +1,10 @@
 ---
 layout: post
 title: "New v0.9.0.4b release of SEO Macroscope: Relativity"
-date: 2017-04-18 00:15:00 -09:00
-excerpt: The fourth and final beta of SEO Macroscope has been released.
+date: "2017-04-18 00:15:00 -09:00"
+published: true
+description: "The fourth and final beta of SEO Macroscope has been released."
+excerpt: "The fourth and final beta of SEO Macroscope has been released."
 ---
 
 This will hopefully be the final beta of SEO Macroscope before I bump the version number to 1.0. Source code and an installer can be found on GitHub at:

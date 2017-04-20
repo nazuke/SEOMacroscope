@@ -96,31 +96,6 @@ namespace SEOMacroscope
       // ListView Sorters
       this.lvColumnSorter = new MacroscopeColumnSorter ();
 
-      this.listViewStructure.ListViewItemSorter = lvColumnSorter;
-      this.listViewRobots.ListViewItemSorter = lvColumnSorter;
-      this.listViewSitemaps.ListViewItemSorter = lvColumnSorter;
-      this.listViewCanonicalAnalysis.ListViewItemSorter = lvColumnSorter;
-      this.listViewHrefLang.ListViewItemSorter = lvColumnSorter;
-      this.listViewErrors.ListViewItemSorter = lvColumnSorter;
-      this.listViewRedirectsAudit.ListViewItemSorter = lvColumnSorter;
-      this.listViewLinks.ListViewItemSorter = lvColumnSorter;
-      this.listViewHyperlinks.ListViewItemSorter = lvColumnSorter;
-      this.listViewUriAnalysis.ListViewItemSorter = lvColumnSorter;
-      this.listViewPageTitles.ListViewItemSorter = lvColumnSorter;
-      this.listViewPageDescriptions.ListViewItemSorter = lvColumnSorter;
-      this.listViewPageKeywords.ListViewItemSorter = lvColumnSorter;
-      this.listViewPageHeadings.ListViewItemSorter = lvColumnSorter;
-      this.listViewStylesheets.ListViewItemSorter = lvColumnSorter;
-      this.listViewJavascripts.ListViewItemSorter = lvColumnSorter;
-      this.listViewImages.ListViewItemSorter = lvColumnSorter;
-      this.listViewAudios.ListViewItemSorter = lvColumnSorter;
-      this.listViewVideos.ListViewItemSorter = lvColumnSorter;
-      this.listViewEmailAddresses.ListViewItemSorter = lvColumnSorter;
-      this.listViewTelephoneNumbers.ListViewItemSorter = lvColumnSorter;
-      this.listViewHostnames.ListViewItemSorter = lvColumnSorter;
-      this.listViewHistory.ListViewItemSorter = lvColumnSorter;
-      this.listViewSearchCollection.ListViewItemSorter = lvColumnSorter;
-
       this.listViewStructure.ColumnClick += this.CallbackColumnClick;
       this.listViewRobots.ColumnClick += this.CallbackColumnClick;
       this.listViewSitemaps.ColumnClick += this.CallbackColumnClick;
@@ -153,7 +128,9 @@ namespace SEOMacroscope
     private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
     {
 
-      ListView lvListView = sender as ListView;
+      ListView TargetListView = sender as ListView;
+      
+      TargetListView.ListViewItemSorter = this.lvColumnSorter;
 
       if( e.Column == this.lvColumnSorter.SortColumn )
       {
@@ -172,8 +149,9 @@ namespace SEOMacroscope
         this.lvColumnSorter.Order = SortOrder.Ascending;
       }
 
-      lvListView.Sort();
+      TargetListView.Sort();
 
+      TargetListView.ListViewItemSorter = null;
     }
 
     /**************************************************************************/

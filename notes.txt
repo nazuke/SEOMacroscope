@@ -6,3 +6,10 @@ HTTP Protocol tests: http://httpbin.org/
 Google Search Console API Documentation:
 
 https://developers.google.com/webmaster-tools/
+
+
+
+
+
+
+http://10.0.1.8:4000/manual/

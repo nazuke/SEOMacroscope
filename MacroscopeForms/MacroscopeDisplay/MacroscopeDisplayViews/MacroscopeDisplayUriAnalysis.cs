@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Windows.Forms;
@@ -36,12 +37,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayUriAnalysis ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayUriAnalysis ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -73,28 +74,32 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
-      string sStatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-      string sStatus = msDoc.GetStatusCode().ToString();
-      string sChecksum = msDoc.GetChecksum();
-      int iCount = this.MainForm.GetJobMaster().GetDocCollection().GetStatsChecksumCount( Checksum: sChecksum );
-      string sPairKey = string.Join( "", Url );
+      string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+      string Status = msDoc.GetStatusCode().ToString();
+      string Checksum = msDoc.GetChecksum();
+      int Count = this.MainForm.GetJobMaster().GetDocCollection().GetStatsChecksumCount( Checksum: Checksum );
+      string PairKey = string.Join( "", Url );
       ListViewItem lvItem = null;
 
-      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = sStatusCode;   
-          lvItem.SubItems[ 2 ].Text = sStatus;
-          lvItem.SubItems[ 3 ].Text = iCount.ToString();
-          lvItem.SubItems[ 4 ].Text = sChecksum;
+          lvItem.SubItems[ 1 ].Text = StatusCode;   
+          lvItem.SubItems[ 2 ].Text = Status;
+          lvItem.SubItems[ 3 ].Text = Count.ToString();
+          lvItem.SubItems[ 4 ].Text = Checksum;
 
         }
         catch( Exception ex )
@@ -109,17 +114,17 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( PairKey );
           lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = sPairKey;
+          lvItem.Name = PairKey;
 
           lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems.Add( sStatusCode );
-          lvItem.SubItems.Add( sStatus );
-          lvItem.SubItems.Add( iCount.ToString() );
-          lvItem.SubItems.Add( sChecksum );
+          lvItem.SubItems.Add( StatusCode );
+          lvItem.SubItems.Add( Status );
+          lvItem.SubItems.Add( Count.ToString() );
+          lvItem.SubItems.Add( Checksum );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -134,7 +139,7 @@ namespace SEOMacroscope
 
         lvItem.ForeColor = Color.Blue;
 
-        if( !msDoc.GetIsExternal() )
+        if( msDoc.GetIsInternal() )
         {
           lvItem.SubItems[ 0 ].ForeColor = Color.Green;
         }
@@ -143,19 +148,19 @@ namespace SEOMacroscope
           lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
         }
 
-        if( Regex.IsMatch( sStatusCode, "^[2]" ) )
+        if( Regex.IsMatch( StatusCode, "^[2]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Green;
           lvItem.SubItems[ 2 ].ForeColor = Color.Green;
         }
         else
-        if( Regex.IsMatch( sStatusCode, "^[3]" ) )
+        if( Regex.IsMatch( StatusCode, "^[3]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Goldenrod;
           lvItem.SubItems[ 2 ].ForeColor = Color.Goldenrod;
         }
         else
-        if( Regex.IsMatch( sStatusCode, "^[45]" ) )
+        if( Regex.IsMatch( StatusCode, "^[45]" ) )
         {
           lvItem.SubItems[ 1 ].ForeColor = Color.Red;
           lvItem.SubItems[ 2 ].ForeColor = Color.Red;
@@ -166,7 +171,7 @@ namespace SEOMacroscope
           lvItem.SubItems[ 2 ].ForeColor = Color.Blue;
         }
 
-        if( iCount > 1 )
+        if( Count > 1 )
         {
           lvItem.SubItems[ 2 ].ForeColor = Color.Red;
           lvItem.SubItems[ 3 ].ForeColor = Color.Red;
@@ -181,6 +186,12 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

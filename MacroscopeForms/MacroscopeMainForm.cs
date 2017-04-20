@@ -793,7 +793,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
       
     }
@@ -837,7 +837,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "CANNOT OBTAIN LOCK" ) );
       }
 
     }
@@ -881,7 +881,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "CANNOT OBTAIN LOCK" ) );
       }
 
     }
@@ -899,6 +899,9 @@ namespace SEOMacroscope
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
           );
+          
+          
+          
           break;
 
         case "tabPageHierarchy":
@@ -1077,26 +1080,26 @@ namespace SEOMacroscope
         try
         {
 
-          ListView lvListView = ( ListView )sender;
-          ListViewItem lvItem = lvListView.Items[ e.ItemIndex ];
+          ListView TargetListView = ( ListView )sender;
+          ListViewItem lvItem = TargetListView.Items[ e.ItemIndex ];
           string Url = "NONE";
           int UrlColumn = -1;
 
-          lock( lvListView )
+          lock( TargetListView )
           {
 
             this.macroscopeDocumentDetailsInstance.Enabled = false;
             
-            for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+            for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
             {
           
-              if( lvListView.Columns[ i ].Text == "URL" )
+              if( TargetListView.Columns[ i ].Text == "URL" )
               {
                 UrlColumn = i;
                 break;
               }
               else
-              if( lvListView.Columns[ i ].Text == "Source URL" )
+              if( TargetListView.Columns[ i ].Text == "Source URL" )
               {
                 UrlColumn = i;
                 break;
@@ -1141,23 +1144,23 @@ namespace SEOMacroscope
 
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView lvListView = msOwner.SourceControl as ListView;
+      ListView TargetListView = msOwner.SourceControl as ListView;
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( lvListView )
+      lock( TargetListView )
       {
 
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
           
-          if( lvListView.Columns[ i ].Text == "URL" )
+          if( TargetListView.Columns[ i ].Text == "URL" )
           {
             UrlColumn = i;
             break;
           }
           else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
           {
             UrlColumn = i;
             break;
@@ -1167,7 +1170,7 @@ namespace SEOMacroscope
 
         if( UrlColumn > -1 )
         {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
           {
             Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
@@ -1193,22 +1196,22 @@ namespace SEOMacroscope
 
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView lvListView = msOwner.SourceControl as ListView;
+      ListView TargetListView = msOwner.SourceControl as ListView;
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( lvListView )
+      lock( TargetListView )
       {
         
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
-          if( lvListView.Columns[ i ].Text == "URL" )
+          if( TargetListView.Columns[ i ].Text == "URL" )
           {
             UrlColumn = i;
             break;
           }
           else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
           {
             UrlColumn = i;
             break;
@@ -1217,7 +1220,7 @@ namespace SEOMacroscope
         }
         if( UrlColumn > -1 )
         {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
           {
             Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
@@ -1244,22 +1247,22 @@ namespace SEOMacroscope
 
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView lvListView = msOwner.SourceControl as ListView;
+      ListView TargetListView = msOwner.SourceControl as ListView;
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( lvListView )
+      lock( TargetListView )
       {
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
           
-          if( lvListView.Columns[ i ].Text == "URL" )
+          if( TargetListView.Columns[ i ].Text == "URL" )
           {
             UrlColumn = i;
             break;
           }
           else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
           {
             UrlColumn = i;
             break;
@@ -1268,7 +1271,7 @@ namespace SEOMacroscope
         }
         if( UrlColumn > -1 )
         {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
           {
             Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
           }
@@ -1293,22 +1296,22 @@ namespace SEOMacroscope
 
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView lvListView = msOwner.SourceControl as ListView;
+      ListView TargetListView = msOwner.SourceControl as ListView;
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( lvListView )
+      lock( TargetListView )
       {
-        for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
           
-          if( lvListView.Columns[ i ].Text == "URL" )
+          if( TargetListView.Columns[ i ].Text == "URL" )
           {
             UrlColumn = i;
             break;
           }
           else
-          if( lvListView.Columns[ i ].Text == "Source URL" )
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
           {
             UrlColumn = i;
             break;
@@ -1317,7 +1320,7 @@ namespace SEOMacroscope
         }
         if( UrlColumn > -1 )
         {
-          foreach( ListViewItem lvItem in lvListView.SelectedItems )
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
           {
             Url = lvItem.SubItems[ UrlColumn ].Text;
           }
@@ -1370,13 +1373,23 @@ namespace SEOMacroscope
 
     private void CallbackStructureDocumentTypesFilterMenuItemClick ( object sender, EventArgs e )
     {
+
       ToolStripDropDownItem FilterMenuItem = ( ToolStripDropDownItem )sender;
+
       DebugMsg( string.Format( "CallbackSearchCollectionDocumentTypesFilterMenuItemClick: {0}", FilterMenuItem.Tag ) );
+
       MacroscopeConstants.DocumentType DocumentType = MacroscopeConstants.DocumentType.ALL;
+
       switch( FilterMenuItem.Tag.ToString() )
       {
         case "ALL":
           DocumentType = MacroscopeConstants.DocumentType.ALL;
+          break;
+        case "INTERNALURL":
+          DocumentType = MacroscopeConstants.DocumentType.INTERNALURL;
+          break;
+        case "EXTERNALURL":
+          DocumentType = MacroscopeConstants.DocumentType.EXTERNALURL;
           break;
         case "HTML":
           DocumentType = MacroscopeConstants.DocumentType.HTML;
@@ -1409,21 +1422,27 @@ namespace SEOMacroscope
           DocumentType = MacroscopeConstants.DocumentType.BINARY;
           break;
       }
+
       this.msDisplayStructure.ClearData();
+
       this.msDisplayStructure.RefreshData(
-        this.JobMaster.GetDocCollection(),
-        DocumentType
+        DocCollection: this.JobMaster.GetDocCollection(),
+        DocumentType: DocumentType
       );
+
     }
 
     /** -------------------------------------------------------------------- **/
     
     private void CallbackStructureButtonShowAll ( object sender, EventArgs e )
     {
+
       this.msDisplayStructure.ClearData();
+
       this.msDisplayStructure.RefreshData(
         this.JobMaster.GetDocCollection()
       );
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1434,15 +1453,15 @@ namespace SEOMacroscope
       switch( e.KeyCode )
       {
         case Keys.Return:
-          string sUrlFragment = SearchTextBox.Text;
-          DebugMsg( string.Format( "CallbackSearchTextBoxSearchUrlKeyUp: {0}", sUrlFragment ) );
-          if( sUrlFragment.Length > 0 )
+          string UrlFragment = SearchTextBox.Text;
+          DebugMsg( string.Format( "CallbackSearchTextBoxSearchUrlKeyUp: {0}", UrlFragment ) );
+          if( UrlFragment.Length > 0 )
           {
-            SearchTextBox.Text = sUrlFragment;
+            SearchTextBox.Text = UrlFragment;
             this.msDisplayStructure.ClearData();
             this.msDisplayStructure.RefreshData(
               DocCollection: this.JobMaster.GetDocCollection(),
-              UrlFragment: sUrlFragment
+              UrlFragment: UrlFragment
             );
           }
           break;
@@ -1459,13 +1478,13 @@ namespace SEOMacroscope
         case Keys.Return:
           DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
           MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
-          string sText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
-          if( sText.Length > 0 )
+          string SearchText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
+          if( SearchText.Length > 0 )
           {
-            SearchTextBox.Text = sText;
+            SearchTextBox.Text = SearchText;
             List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
                                                  MacroscopeSearchIndex.SearchMode.AND,
-                                                 sText.Split( ' ' )
+                                                 SearchText.Split( ' ' )
                                                );
             this.msDisplayStructure.ClearData();
             this.msDisplayStructure.RefreshData( DocList );
@@ -1558,7 +1577,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
             
     }
@@ -1596,15 +1615,15 @@ namespace SEOMacroscope
     private void CallbackListViewSiteStructureKeywordsSearch ( object sender, EventArgs e )
     {
 
-      ListView lvListView = ( ListView )sender;
+      ListView TargetListView = ( ListView )sender;
       string KeywordTerm = "";
       int TermCol = -1;
 
       this.msDisplaySearchCollection.ClearData();
               
-      for( int i = 0 ; i < lvListView.Columns.Count ; i++ )
+      for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
       {
-        if( lvListView.Columns[ i ].Text == "Term" )
+        if( TargetListView.Columns[ i ].Text == "Term" )
         {
           TermCol = i;
           break;
@@ -1619,17 +1638,17 @@ namespace SEOMacroscope
 
         tcDisplay.SelectedIndex = tcDisplay.TabPages.IndexOfKey( "tabPageSearch" );
 
-        foreach( ListViewItem lvItem in lvListView.SelectedItems )
+        foreach( ListViewItem lvItem in TargetListView.SelectedItems )
         {
 
           KeywordTerm = lvItem.SubItems[ TermCol ].Text;
-          string sText = MacroscopeStringTools.CleanBodyText( KeywordTerm );
+          string SearchText = MacroscopeStringTools.CleanBodyText( KeywordTerm );
 
-          if( sText.Length > 0 )
+          if( SearchText.Length > 0 )
           {
             List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
                                                  MacroscopeSearchIndex.SearchMode.AND,
-                                                 sText.Split( ' ' )
+                                                 SearchText.Split( ' ' )
                                                );
             this.msDisplaySearchCollection.RefreshData( DocList );
           }
@@ -2001,7 +2020,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+        //DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
             
     }
@@ -2011,8 +2030,8 @@ namespace SEOMacroscope
     private void ShowAuthenticationDialogue ()
     {
       
-      Boolean bRerun = false;
-      string sRerunUrl = null;
+      Boolean DoRerun = false;
+      string RerunUrl = null;
       
       if( this.JobMaster != null )
       {
@@ -2030,8 +2049,8 @@ namespace SEOMacroscope
 
               DebugMsg( string.Format( "CredentialExists: {0} :: {1}", CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) );
 
-              bRerun = true;
-              sRerunUrl = CredentialRequest.GetUrl();
+              DoRerun = true;
+              RerunUrl = CredentialRequest.GetUrl();
 
             }
             else
@@ -2059,8 +2078,8 @@ namespace SEOMacroscope
                   Password: sPassword
                 );
 
-                bRerun = true;
-                sRerunUrl = CredentialRequest.GetUrl();
+                DoRerun = true;
+                RerunUrl = CredentialRequest.GetUrl();
 
               }
 
@@ -2074,10 +2093,10 @@ namespace SEOMacroscope
 
       }
 
-      if( bRerun )
+      if( DoRerun )
       {
-        this.JobMaster.AddUrlQueueItem( sRerunUrl );
-        this.JobMaster.RetryLink( sRerunUrl );
+        this.JobMaster.AddUrlQueueItem( RerunUrl );
+        this.JobMaster.RetryLink( RerunUrl );
         this.RerunScanQueue();
       }
 

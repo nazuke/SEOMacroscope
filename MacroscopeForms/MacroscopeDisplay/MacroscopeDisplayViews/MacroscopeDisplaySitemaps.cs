@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -35,12 +36,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplaySitemaps ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplaySitemaps ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -72,7 +73,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
       Boolean Proceed = false;
@@ -97,13 +102,13 @@ namespace SEOMacroscope
       ListViewItem lvItem = null;
       int Count = msDoc.CountOutlinks();
 
-      if( this.lvListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ PairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = Count.ToString();
 
@@ -127,7 +132,7 @@ namespace SEOMacroscope
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems.Add( Count.ToString() );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -142,7 +147,7 @@ namespace SEOMacroscope
 
         lvItem.ForeColor = Color.Blue;
 
-        if( !msDoc.GetIsExternal() )
+        if( msDoc.GetIsInternal() )
         {
           lvItem.SubItems[ 0 ].ForeColor = Color.Green;
           if( Count <= 0 )
@@ -158,6 +163,12 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

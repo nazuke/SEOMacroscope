@@ -1,8 +1,10 @@
 ---
 layout: post
-title: Canonical URL Analysis with SEO Macroscope
-date: 2017-02-23 18:44:00 -09:00
-excerpt: Clone and build SEO Macroscope.
+title: "Canonical URL Analysis with SEO Macroscope"
+date: "2017-02-23 18:44:00 -09:00"
+published: true
+description: "Clone and build SEO Macroscope."
+excerpt: "Clone and build SEO Macroscope."
 ---
 
 One of the first features I implemented was canonical URL analysis. This is a very important directive to use on your websites, to prevent duplicate content from being indexed by the search engines.

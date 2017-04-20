@@ -38,17 +38,17 @@ namespace SEOMacroscope
 
     private MacroscopeMainForm MainForm;
 
-    private ListView lvListView;
+    private ListView DisplayListView;
 
     private Boolean ListViewConfigured = false;
     
     /**************************************************************************/
 
-    public MacroscopeDisplayHistory ( MacroscopeMainForm MainForm, ListView lvListView )
+    public MacroscopeDisplayHistory ( MacroscopeMainForm MainForm, ListView TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -88,14 +88,14 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              this.lvListView.Items.Clear();
+              this.DisplayListView.Items.Clear();
             }
           )
         );
       }
       else
       {
-        this.lvListView.Items.Clear();
+        this.DisplayListView.Items.Clear();
       }
     }
 
@@ -109,12 +109,12 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              lock( this.lvListView )
+              lock( this.DisplayListView )
               {
                 Cursor.Current = Cursors.WaitCursor;
-                this.lvListView.BeginUpdate();
+                this.DisplayListView.BeginUpdate();
                 this.RenderListView( History: History );
-                this.lvListView.EndUpdate();
+                this.DisplayListView.EndUpdate();
                 Cursor.Current = Cursors.Default;
 
               }
@@ -124,12 +124,12 @@ namespace SEOMacroscope
       }
       else
       {
-        lock( this.lvListView )
+        lock( this.DisplayListView )
         {
           Cursor.Current = Cursors.WaitCursor;
-          this.lvListView.BeginUpdate();
+          this.DisplayListView.BeginUpdate();
           this.RenderListView( History: History );
-          this.lvListView.EndUpdate();
+          this.DisplayListView.EndUpdate();
           Cursor.Current = Cursors.Default;
         }
       }
@@ -145,6 +145,8 @@ namespace SEOMacroscope
         return;
       }
       
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
+            
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
@@ -174,12 +176,12 @@ namespace SEOMacroscope
           Visited = "Yes";
         }
 
-        if( this.lvListView.Items.ContainsKey( Url ) )
+        if( this.DisplayListView.Items.ContainsKey( Url ) )
         {
 
           try
           {
-            lvItem = this.lvListView.Items[ Url ];
+            lvItem = this.DisplayListView.Items[ Url ];
             lvItem.SubItems[ 1 ].Text = Visited;
           }
           catch( Exception ex )
@@ -193,11 +195,14 @@ namespace SEOMacroscope
 
           try
           {
+
             lvItem = new ListViewItem ( Url );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = Url;
             lvItem.SubItems.Add( Visited );
-            this.lvListView.Items.Add( lvItem );
+
+            ListViewItems.Add( lvItem );
+
           }
           catch( Exception ex )
           {
@@ -248,6 +253,8 @@ namespace SEOMacroscope
         }
       
       }
+            
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
             
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {

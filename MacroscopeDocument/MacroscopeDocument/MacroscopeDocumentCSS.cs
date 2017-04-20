@@ -43,7 +43,7 @@ namespace SEOMacroscope
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string ResponseErrorCondition = null;
-      Boolean bAuthenticating = false;
+      Boolean IsAuthenticating = false;
       
       DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 
@@ -57,11 +57,23 @@ namespace SEOMacroscope
 
         this.PrepareRequestHttpHeaders( req: req );
                 
-        bAuthenticating = this.AuthenticateRequest( req );
+        IsAuthenticating = this.AuthenticateRequest( req );
                                       
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();
+
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ProcessCssPage :: UriFormatException: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
+      }
+      catch( TimeoutException ex )
+      {
+
+        DebugMsg( string.Format( "ProcessCssPage :: TimeoutException: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
 
       }
       catch( WebException ex )
@@ -82,7 +94,7 @@ namespace SEOMacroscope
 
         this.ProcessResponseHttpHeaders( req, res );
 
-        if( bAuthenticating )
+        if( IsAuthenticating )
         {
           this.VerifyOrPurgeCredential();
         }
@@ -145,7 +157,7 @@ namespace SEOMacroscope
           ExCSS.Parser ExCssParser = new ExCSS.Parser ();
           ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( RawData );
 
-          this.ProcessCssHyperlinksOut( ExCssStylesheet );
+          this.ProcessCssOutlinks( ExCssStylesheet );
 
         }
         else
@@ -190,9 +202,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessCssHyperlinksOut ( ExCSS.StyleSheet ExCssStylesheet )
+    private void ProcessCssOutlinks ( ExCSS.StyleSheet ExCssStylesheet )
     {
 
+      if( this.GetIsExternal() )
+      {
+        return;
+      }
+            
       foreach( var CssRule in ExCssStylesheet.StyleRules )
       {
 
@@ -264,10 +281,10 @@ namespace SEOMacroscope
                   );
 
                   MacroscopeLink Outlink = this.AddCssOutlink(
-                                           AbsoluteUrl: LinkUrlAbs,
-                                           LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                                           Follow: true
-                                         );
+                                             AbsoluteUrl: LinkUrlAbs,
+                                             LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                                             Follow: true
+                                           );
                 
                   Outlink.SetRawTargetUrl( BackgroundImageUrl );
                 
@@ -299,8 +316,15 @@ namespace SEOMacroscope
       if( LinkUrlCleaned != null )
       {
 
-        LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrlCleaned );
-
+        try
+        {
+          LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrlCleaned );
+        }
+        catch( MacroscopeUriFormatException ex )
+        {
+          DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", ex.Message ) );
+        }
+        
         DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", LinkUrlCleaned ) );
         DebugMsg( string.Format( "ProcessCssBackImageUrl: this.DocUrl: {0}", this.DocUrl ) );
         DebugMsg( string.Format( "ProcessCssBackImageUrl: LinkUrlAbs: {0}", LinkUrlAbs ) );

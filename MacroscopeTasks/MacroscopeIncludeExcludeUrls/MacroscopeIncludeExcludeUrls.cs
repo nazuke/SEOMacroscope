@@ -59,39 +59,45 @@ namespace SEOMacroscope
 
       this.IncludeUrlPatternsList.Clear();
 
-      foreach( string sLine in Regex.Split( IncludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
+      foreach( string Line in Regex.Split( IncludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
       {
-        DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", sLine ) );
-        if( sLine.Length > 0 )
+        DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", Line ) );
+        if( Line.Length > 0 )
         {
-          this.IncludeUrlPatternsList.Add( sLine );
+          this.IncludeUrlPatternsList.Add( Line );
         }
       }
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string FetchIncludeUrlPatterns ()
     {
-      string sText = string.Join( "\r\n", this.IncludeUrlPatternsList );
-      return( sText );
+      string Text = string.Join( "\r\n", this.IncludeUrlPatternsList );
+      return( Text );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public Boolean UseIncludeUrlPatterns ()
     {
-      Boolean bUse = false;
+      Boolean IncludePatterns = false;
 
       int Count = this.IncludeUrlPatternsList.Count;
 
       if( Count > 0 )
       {
-        bUse = true;
+        IncludePatterns = true;
       }
-      return( bUse );
+      return( IncludePatterns );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public Boolean MatchesIncludeUrlPattern ( string Url )
     {
-      Boolean bMatch = false;
+      Boolean PatternMatches = false;
 
       // TODO: Implement this.
 
@@ -100,7 +106,7 @@ namespace SEOMacroscope
         if( Url.IndexOf( this.IncludeUrlPatternsList[ i ], StringComparison.Ordinal ) >= 0 )
         {
           DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-          bMatch = true;
+          PatternMatches = true;
           break;
         }
         else
@@ -109,7 +115,7 @@ namespace SEOMacroscope
         }
       }
 
-      return( bMatch );
+      return( PatternMatches );
     }
 
     /** Exclude URL Patterns **************************************************/
@@ -119,36 +125,42 @@ namespace SEOMacroscope
 
       this.ExcludeUrlPatternsList.Clear();
 
-      foreach( string sLine in Regex.Split( ExcludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
+      foreach( string Line in Regex.Split( ExcludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
       {
-        DebugMsg( string.Format( "LoadExcludeUrlPatterns: {0}", sLine ) );
-        if( sLine.Length > 0 )
+        DebugMsg( string.Format( "LoadExcludeUrlPatterns: {0}", Line ) );
+        if( Line.Length > 0 )
         {
-          this.ExcludeUrlPatternsList.Add( sLine );
+          this.ExcludeUrlPatternsList.Add( Line );
         }
       }
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string FetchExcludeUrlPatterns ()
     {
-      string sText = string.Join( "\r\n", this.ExcludeUrlPatternsList );
-      return( sText );
+      string Text = string.Join( "\r\n", this.ExcludeUrlPatternsList );
+      return( Text );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public Boolean UseExcludeUrlPatterns ()
     {
-      Boolean bUse = false;
+      Boolean ExcludePatterns = false;
       if( this.ExcludeUrlPatternsList.Count > 0 )
       {
-        bUse = true;
+        ExcludePatterns = true;
       }
-      return( bUse );
+      return( ExcludePatterns );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public Boolean MatchesExcludeUrlPattern ( string Url )
     {
-      Boolean bMatch = false;
+      Boolean PatternMatches = false;
 
       // TODO: Implement this.
 
@@ -162,7 +174,7 @@ namespace SEOMacroscope
         {
           DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0}", i ) );
           DebugMsg( string.Format( "MatchesIncludeUrlPattern: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-          bMatch = true;
+          PatternMatches = true;
           break;
         }
         else
@@ -172,7 +184,7 @@ namespace SEOMacroscope
         }
       }
 
-      return( bMatch );
+      return( PatternMatches );
     }
 
     /**************************************************************************/

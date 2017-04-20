@@ -40,27 +40,28 @@ namespace SEOMacroscope
     public void TestMakeUrlAbsoluteUrls ()
     {
 
-      Hashtable htUrls = new Hashtable () { {
+      Hashtable UrlTable = new Hashtable () {
+        {
           "path/to/images/picture.gif",
           "http://www.host.com/path/to/page/path/to/images/picture.gif"
-        },
-        {
+        }, {
           "../path/to/images/picture.gif" ,
           "http://www.host.com/path/to/path/to/images/picture.gif"
-        }, {
+        },
+        {
           "../../path/to/images/picture.gif" ,
           "http://www.host.com/path/path/to/images/picture.gif"
         }
       };
 
-      string sBaseUrl = "http://www.host.com/path/to/page/";
-      string sFilename = "index.html";
-      string sUrl = string.Join( "", sBaseUrl, sFilename );
+      string BaseUrl = "http://www.host.com/path/to/page/";
+      string Filename = "index.html";
+      string Url = string.Join( "", BaseUrl, Filename );
 
-      foreach( string sRelativeUrl in htUrls.Keys )
+      foreach( string RelativeUrl in UrlTable.Keys )
       {
-        string sAbsoluteUrl = MacroscopeUrlUtils.MakeUrlAbsolute( sUrl, sRelativeUrl );
-        Assert.AreEqual( htUrls[ sRelativeUrl ], sAbsoluteUrl, "DO NOT MATCH" );
+        string sAbsoluteUrl = MacroscopeUrlUtils.MakeUrlAbsolute( Url, RelativeUrl );
+        Assert.AreEqual( UrlTable[ RelativeUrl ], sAbsoluteUrl, "DO NOT MATCH" );
       }
 
     }
@@ -71,100 +72,90 @@ namespace SEOMacroscope
     public void TestValidateUrls ()
     {
 
-      Hashtable htUrls = new Hashtable () {
-        {
+      Hashtable htUrls = new Hashtable () { {
           "http://www.host.com/",
           true
-        }, {
+        },
+        {
           "http://www.host.com/index.html",
           true
-        },
-        {
+        }, {
           "http://www.host.com/path/path/to/images/picture.gif",
           true
-        }, {
+        },
+        {
           "http://www.host.com/??",
           true
-        },
-        {
+        }, {
           "http://www.host.com/ ",
           true
-        }, {
-					"http://   www.host.com/",
-					false
-				}
-			};
-
-			foreach( string sUrl in htUrls.Keys ) {
-				Boolean bIsValid = MacroscopeUrlUtils.ValidateUrl( sUrl );
-				Assert.AreEqual( htUrls[ sUrl ], bIsValid, string.Format( "NOT VALID: {0}", sUrl ) );
-			}
-
-		}
-
-		/**************************************************************************/
-
-		[Test]
-    public void TestCleanUrlCss ()
-    {
-
-      Hashtable htProperties = new Hashtable ()
-      {
-        {
-          "background-image:none;",
-          null
         },
         {
-          "background: #0b7bee url(none) no-repeat center center/cover;",
-          null
-        },          
-        {
-          "background: #0b7bee url(images/video-bg.jpg) no-repeat center center/cover;",
-          "images/video-bg.jpg"
-        },  
-        {
-          "background: #0b7bee url(\"images/video-bg.jpg\") no-repeat center center/cover;",
-          "images/video-bg.jpg"
-        },
-        {
-          "src: url(\"fonts/company/latin-e-bold-eot.eot\");",
-          "fonts/company/latin-e-bold-eot.eot"
-        },         
-        {
-          "src: url(\"fonts/company/latin-e-bold-eot.eot?#iefix\") format(\"embedded-opentype\"),url(\"fonts/company/latin-e-bold-woff.woff\") format(\"woff\"),url(\"fonts/company/latin-e-bold-ttf.ttf\") format(\"truetype\");",
-          "fonts/company/latin-e-bold-eot.eot?#iefix"
-        },
-        {
-          "background: #ffffff url(images/services/features-background.png) no-repeat left bottom;",
-          "images/services/features-background.png"
-        },
-        {
-          "background: transparent url(\"images/home/mouse.png\") no-repeat 90% top;",
-          "images/home/mouse.png"
-        },
-        {
-          "background: #0b7bee url(images/services/features-background_hover.png) no-repeat left bottom;",
-          "images/services/features-background_hover.png"
-        },
-        {
-          "background-image: url(\"images/global/page-head-trans.png\");",
-          "images/global/page-head-trans.png"
-        },
-        {
-          "background-image: url(\"images/heroes/hero.jpg\");",
-          "images/heroes/hero.jpg"
+          "http://   www.host.com/",
+          false
         }
       };
 
-      foreach( string sProperty in htProperties.Keys ) {
-        string sCleaned = MacroscopeUrlUtils.CleanUrlCss ( sProperty );
-        Assert.AreEqual( htProperties[ sProperty ], sCleaned, string.Format( "NOT VALID: {0}", sCleaned ) );
+      foreach( string Url in htUrls.Keys )
+      {
+        Boolean IsValid = MacroscopeUrlUtils.ValidateUrl( Url );
+        Assert.AreEqual( htUrls[ Url ], IsValid, string.Format( "NOT VALID: {0}", Url ) );
       }
 
     }
 
     /**************************************************************************/
 
-	}
+    [Test]
+    public void TestCleanUrlCss ()
+    {
+
+      Hashtable PropertiesTable = new Hashtable () { {
+          "background-image:none;",
+          null
+        }, {
+          "background: #0b7bee url(none) no-repeat center center/cover;",
+          null
+        }, {
+          "background: #0b7bee url(images/video-bg.jpg) no-repeat center center/cover;",
+          "images/video-bg.jpg"
+        }, {
+          "background: #0b7bee url(\"images/video-bg.jpg\") no-repeat center center/cover;",
+          "images/video-bg.jpg"
+        }, {
+          "src: url(\"fonts/company/latin-e-bold-eot.eot\");",
+          "fonts/company/latin-e-bold-eot.eot"
+        }, {
+          "src: url(\"fonts/company/latin-e-bold-eot.eot?#iefix\") format(\"embedded-opentype\"),url(\"fonts/company/latin-e-bold-woff.woff\") format(\"woff\"),url(\"fonts/company/latin-e-bold-ttf.ttf\") format(\"truetype\");",
+          "fonts/company/latin-e-bold-eot.eot?#iefix"
+        }, {
+          "background: #ffffff url(images/services/features-background.png) no-repeat left bottom;",
+          "images/services/features-background.png"
+        }, {
+          "background: transparent url(\"images/home/mouse.png\") no-repeat 90% top;",
+          "images/home/mouse.png"
+        }, {
+          "background: #0b7bee url(images/services/features-background_hover.png) no-repeat left bottom;",
+          "images/services/features-background_hover.png"
+        }, {
+          "background-image: url(\"images/global/page-head-trans.png\");",
+          "images/global/page-head-trans.png"
+        }, {
+          "background-image: url(\"images/heroes/hero.jpg\");",
+          "images/heroes/hero.jpg"
+        }
+      };
+
+      foreach( string PropertyKey in PropertiesTable.Keys )
+      {
+        string Cleaned = MacroscopeUrlUtils.CleanUrlCss( PropertyKey );
+        Assert.AreEqual( PropertiesTable[ PropertyKey ], Cleaned, string.Format( "NOT VALID: {0}", Cleaned ) );
+      }
+
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

@@ -40,16 +40,16 @@ namespace SEOMacroscope
 
     private MacroscopeMainForm MainForm;
           
-    private List<ListView> lvListViews = new List<ListView> ( 4 );
+    private List<ListView> TargetListViews = new List<ListView> ( 4 );
 
     /**************************************************************************/
 
     public MacroscopeDisplayStructureKeywordAnalysis (
       MacroscopeMainForm MainForm,
-      ListView lvListView1,
-      ListView lvListView2,
-      ListView lvListView3,
-      ListView lvListView4
+      ListView TargetListView1,
+      ListView TargetListView2,
+      ListView TargetListView3,
+      ListView TargetListView4
     )
     {
 
@@ -57,10 +57,10 @@ namespace SEOMacroscope
       
       this.MainForm = MainForm;
       
-      this.lvListViews.Add( lvListView1 );
-      this.lvListViews.Add( lvListView2 );
-      this.lvListViews.Add( lvListView3 );
-      this.lvListViews.Add( lvListView4 );
+      this.TargetListViews.Add( TargetListView1 );
+      this.TargetListViews.Add( TargetListView2 );
+      this.TargetListViews.Add( TargetListView3 );
+      this.TargetListViews.Add( TargetListView4 );
 
     }
 
@@ -76,7 +76,9 @@ namespace SEOMacroscope
             {
               for( int i = 0 ; i <= 3 ; i++ )
               {
-                this.lvListViews[ i ].Items.Clear();
+                this.TargetListViews[ i ].BeginUpdate();
+                this.TargetListViews[ i ].Items.Clear();
+                this.TargetListViews[ i ].EndUpdate();
               }
             }
           )
@@ -86,7 +88,9 @@ namespace SEOMacroscope
       {
         for( int i = 0 ; i <= 3 ; i++ )
         {
-          this.lvListViews[ i ].Items.Clear();
+          this.TargetListViews[ i ].BeginUpdate();
+          this.TargetListViews[ i ].Items.Clear();
+          this.TargetListViews[ i ].EndUpdate();
         }
       }
     }
@@ -158,6 +162,8 @@ namespace SEOMacroscope
       for( int i = 0 ; i <= 3 ; i++ )
       {
 
+        List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
+
         Application.DoEvents();
         
         if( !ProgressForm.Cancelled() )
@@ -181,12 +187,19 @@ namespace SEOMacroscope
             );
         
           }
+          
+          this.TargetListViews[ i ].BeginUpdate();
 
           this.RenderKeywordAnalysisListView(
-            lvListView: this.lvListViews[ i ],
+            ListViewItems: ListViewItems,
+            TargetListView: this.TargetListViews[ i ],
             DicTerms: DicTerms,
             ProgressForm: ProgressForm
           );
+               
+          this.TargetListViews[ i ].Items.AddRange( ListViewItems.ToArray() );
+      
+          this.TargetListViews[ i ].EndUpdate();
         
         }
 
@@ -204,7 +217,8 @@ namespace SEOMacroscope
     /**************************************************************************/
     
     private void RenderKeywordAnalysisListView (
-      ListView lvListView,
+      List<ListViewItem> ListViewItems,
+      ListView TargetListView,
       Dictionary<string,int> DicTerms,
       MacroscopeDoublePercentageProgressForm ProgressForm
     )
@@ -225,16 +239,16 @@ namespace SEOMacroscope
         foreach( string KeywordTerm in DicTerms.Keys )
         {
 
-          string sKeyPair = KeywordTerm;
+          string PairKey = KeywordTerm;
           ListViewItem lvItem = null;
 
-          if( lvListView.Items.ContainsKey( sKeyPair ) )
+          if( TargetListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              lvItem = lvListView.Items[ sKeyPair ];
+              lvItem = TargetListView.Items[ PairKey ];
               lvItem.SubItems[ 0 ].Text = DicTerms[ KeywordTerm ].ToString();
               lvItem.SubItems[ 1 ].Text = KeywordTerm;
 
@@ -251,14 +265,14 @@ namespace SEOMacroscope
             try
             {
 
-              lvItem = new ListViewItem ( sKeyPair );
+              lvItem = new ListViewItem ( PairKey );
               lvItem.UseItemStyleForSubItems = false;
-              lvItem.Name = sKeyPair;
+              lvItem.Name = PairKey;
 
               lvItem.SubItems[ 0 ].Text = DicTerms[ KeywordTerm ].ToString();
               lvItem.SubItems.Add( KeywordTerm );
 
-              lvListView.Items.Add( lvItem );
+              ListViewItems.Add( lvItem );
 
             }
             catch( Exception ex )

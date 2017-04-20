@@ -99,6 +99,7 @@
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeInsufficientMemoryException.cs" />
+    <Compile Include="MacroscopeExceptions\MacroscopeUriFormatException.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
@@ -180,7 +181,6 @@
     <Compile Include="MacroscopeDocument\t\TestMacroscopeDocument.cs" />
     <Compile Include="MacroscopeCredentials\MacroscopeCredential.cs" />
     <Compile Include="MacroscopeCredentials\MacroscopeCredentialsHttp.cs" />
-    <Compile Include="MacroscopeEnvironment\MacroscopeIncludeExcludeUrls.cs" />
     <Compile Include="MacroscopeEnvironment\MacroscopePreferencesManager.cs" />
     <Compile Include="MacroscopeCredentials\t\TestMacroscopeCredentialsHttp.cs" />
     <Compile Include="MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.cs" />
@@ -289,6 +289,7 @@
     <Compile Include="MacroscopeReports\MaroscopeExcelRemarksReport\WorksheetObservations.cs" />
     <Compile Include="MacroscopeSearch\MacroscopeSearchIndex.cs" />
     <Compile Include="MacroscopeTasks\IMacroscopeTaskController.cs" />
+    <Compile Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls\MacroscopeIncludeExcludeUrls.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="MacroscopeTools\MacroscopeStringTools.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlLoader.cs" />
     <Compile Include="MacroscopeTools\MacroscopeUrlUtils.cs" />
+    <Compile Include="MacroscopeTools\t\TestMacroscopeStringTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeUrlUtils.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.Designer.cs">
@@ -437,6 +439,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelRedirectsReport" />
     <Folder Include="MacroscopeReports\MaroscopeExcelRemarksReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
+    <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />
@@ -457,10 +460,6 @@
     <Folder Include="MacroscopeSearch" />
     <Folder Include="MacroscopeNamedQueue" />
     <Folder Include="MacroscopeExceptions" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ProfilingSessions\Session20170323_170729.sdps" />
-    <Content Include="ProfilingSessions\Session20170330_163800.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

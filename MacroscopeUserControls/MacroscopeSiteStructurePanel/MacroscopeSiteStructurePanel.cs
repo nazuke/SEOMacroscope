@@ -65,12 +65,7 @@ namespace SEOMacroscope
       this.listViewKeywordAnalysis2.Dock = DockStyle.Fill;
       this.listViewKeywordAnalysis3.Dock = DockStyle.Fill;
       this.listViewKeywordAnalysis4.Dock = DockStyle.Fill;
-
-      this.listViewKeywordAnalysis1.ListViewItemSorter = this.lvColumnSorter;
-      this.listViewKeywordAnalysis2.ListViewItemSorter = this.lvColumnSorter;
-      this.listViewKeywordAnalysis3.ListViewItemSorter = this.lvColumnSorter;
-      this.listViewKeywordAnalysis4.ListViewItemSorter = this.lvColumnSorter;
-
+   
       this.listViewKeywordAnalysis1.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis2.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis3.ColumnClick += this.CallbackColumnClick;
@@ -98,8 +93,10 @@ namespace SEOMacroscope
     private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
     {
 
-      ListView lvListView = sender as ListView;
+      ListView TargetListView = sender as ListView;
 
+      TargetListView.ListViewItemSorter = this.lvColumnSorter;
+            
       if( e.Column == lvColumnSorter.SortColumn )
       {
         if( lvColumnSorter.Order == SortOrder.Ascending )
@@ -117,7 +114,9 @@ namespace SEOMacroscope
         lvColumnSorter.Order = SortOrder.Ascending;
       }
 
-      lvListView.Sort();
+      TargetListView.Sort();
+      
+      TargetListView.ListViewItemSorter = null;
 
     }
 

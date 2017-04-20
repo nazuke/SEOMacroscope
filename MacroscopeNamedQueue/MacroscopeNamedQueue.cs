@@ -123,37 +123,40 @@ namespace SEOMacroscope
 
 		public Boolean PeekNamedQueue ( string Name )
 		{
-			//DebugMsg( string.Format( "PeekNamedQueue: {0}", Name ) );
-			Boolean bPeek = false;
-			if( this.NamedQueues.ContainsKey( Name ) )
+
+		  Boolean Peek = false;
+
+		  if( this.NamedQueues.ContainsKey( Name ) )
 			{
 				lock( this.NamedQueues[Name] )
 				{
 					if( this.NamedQueues[ Name ].Count > 0 )
 					{
-						bPeek = true;
+						Peek = true;
 					}
 				}
 			}
-			return( bPeek );
+
+		  return( Peek );
+
 		}
 
 		/**************************************************************************/
 
 		public int CountNamedQueueItems ( string Name )
 		{
-			int iCount = 0;
+			int Count = 0;
 			if( this.NamedQueues.ContainsKey( Name ) )
 			{
 				lock( this.NamedQueues[Name] )
 				{
 					if( this.NamedQueues[ Name ].Count > 0 )
 					{
-						iCount = this.NamedQueues[ Name ].Count;
+						Count = this.NamedQueues[ Name ].Count;
 					}
 				}
 			}
-			return( iCount );
+			return( Count );
 		}
 
 		/**************************************************************************/

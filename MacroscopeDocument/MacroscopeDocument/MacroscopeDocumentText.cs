@@ -46,7 +46,7 @@ namespace SEOMacroscope
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string ResponseErrorCondition = null;
-      Boolean bAuthenticating = false;
+      Boolean IsAuthenticating = false;
       
       try
       {
@@ -58,12 +58,17 @@ namespace SEOMacroscope
         
         this.PrepareRequestHttpHeaders( req: req );
 
-        bAuthenticating = this.AuthenticateRequest( req );
+        IsAuthenticating = this.AuthenticateRequest( req );
                                       
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();
 
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ProcessTextPage :: UriFormatException: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
       }
       catch( WebException ex )
       {
@@ -82,7 +87,7 @@ namespace SEOMacroscope
 
         this.ProcessResponseHttpHeaders( req, res );
 
-        if( bAuthenticating )
+        if( IsAuthenticating )
         {
           this.VerifyOrPurgeCredential();
         }
@@ -143,12 +148,19 @@ namespace SEOMacroscope
 
         if( ( TextDoc != null ) && ( TextDoc.Count > 0 ) )
         {
-          if( this.DetectSitemapTextDocument( TextDoc ) )
+
+          if( this.GetPath().EndsWith( "robots.txt", StringComparison.InvariantCultureIgnoreCase ) )
+          {
+            this.ProcessRobotsTextOutlinks( TextDoc: TextDoc );
+          }
+
+          if( this.DetectSitemapTextDocument( TextDoc: TextDoc ) )
           {
             DebugMsg( string.Format( "ProcessTextPage: {0} :: {1}", "SITEMAP DETECTED", this.GetUrl() ) );
             this.SetIsSitemapText();
             this.ProcessSitemapTextOutlinks( TextDoc );
           }
+
         }
        
         res.Close();
@@ -179,7 +191,9 @@ namespace SEOMacroscope
 
           try
           {
+
             Uri SitemapUri = new Uri ( UrlProcessing );
+
             if( SitemapUri != null )
             {
               if( ( SitemapUri.Scheme == "http" ) || ( SitemapUri.Scheme == "https" ) )
@@ -192,6 +206,7 @@ namespace SEOMacroscope
                 break;
               }
             }
+            
           }
           catch( UriFormatException ex )
           {
@@ -218,11 +233,16 @@ namespace SEOMacroscope
       
     }
 
-    /**************************************************************************/
+    /** Text Sitemap Out Links ************************************************/
 
     private void ProcessSitemapTextOutlinks ( List<string> TextDoc )
     {
 
+      if( this.GetIsExternal() )
+      {
+        return;
+      }
+            
       foreach( string Url in TextDoc )
       {
 
@@ -266,6 +286,70 @@ namespace SEOMacroscope
         
         }
 
+      }
+
+    }
+
+    /** Robots.txt Out Links **************************************************/
+
+    private void ProcessRobotsTextOutlinks ( List<string> TextDoc )
+    {
+
+      if( this.GetIsExternal() )
+      {
+        return;
+      }
+            
+      foreach( string Url in TextDoc )
+      {
+
+        if( Regex.IsMatch( Url, "^Sitemap:\\s*[^\\s]+", RegexOptions.IgnoreCase ) )
+        {
+
+          string UrlProcessing = Regex.Replace( Url, "^(Sitemap:\\s*)", "", RegexOptions.IgnoreCase );
+          string UrlCleaned = null;
+
+          UrlProcessing = UrlProcessing.Trim();
+          
+          if( !string.IsNullOrEmpty( UrlProcessing ) )
+          {
+
+            try
+            {
+              Uri SitemapUri = new Uri ( UrlProcessing );
+              if( SitemapUri != null )
+              {
+                UrlCleaned = UrlProcessing;
+              }
+            }
+            catch( UriFormatException ex )
+            {
+              DebugMsg( string.Format( "ProcessRobotsTextOutlinks: {0}", ex.Message ) );
+              UrlCleaned = null;
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "ProcessRobotsTextOutlinks: {0}", ex.Message ) );
+              UrlCleaned = null;
+            }
+
+            if( UrlCleaned != null )
+            {
+
+              MacroscopeLink Outlink = this.AddSitemapTextOutlink(
+                                         AbsoluteUrl: UrlCleaned,
+                                         LinkType: MacroscopeConstants.InOutLinkType.ROBOTSTEXT,
+                                         Follow: true
+                                       );
+            
+              Outlink.SetRawTargetUrl( UrlCleaned );
+            
+            }
+        
+          }
+
+        }
+        
       }
 
     }

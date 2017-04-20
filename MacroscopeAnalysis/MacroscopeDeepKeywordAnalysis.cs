@@ -69,7 +69,7 @@ namespace SEOMacroscope
       if( Words == 1 )
       {
         TermsList = this.AnalyzeTerm(
-          Text: Text,
+          Text: Text.ToLower(),
           Terms: Terms
         );
       }
@@ -77,7 +77,7 @@ namespace SEOMacroscope
       if( Words > 1 )
       {
         TermsList = this.AnalyzePhrase(
-          Text: Text,
+          Text: Text.ToLower(),
           Terms: Terms,
           Words: Words
         );
@@ -102,7 +102,7 @@ namespace SEOMacroscope
       if( Words == 1 )
       {
         TermsList = this.AnalyzeTerm(
-          Text: Text,
+          Text: Text.ToLower(),
           Terms: Terms
         );
       }
@@ -110,7 +110,7 @@ namespace SEOMacroscope
       if( Words > 1 )
       {
         TermsList = this.AnalyzePhrase(
-          Text: Text,
+          Text: Text.ToLower(),
           Terms: Terms,
           Words: Words
         );
@@ -168,27 +168,27 @@ namespace SEOMacroscope
           for( int i = 0 ; i < Chunks.Length ; i++ )
           {
 
-            string sTerm = Chunks[ i ];
+            string Term = Chunks[ i ];
 
-            if( sTerm.Length > 0 )
+            if( Term.Length > 0 )
             {
 
-              if( Terms.ContainsKey( sTerm ) )
+              if( Terms.ContainsKey( Term ) )
               {
-                Terms[ sTerm ] += 1;
+                Terms[ Term ] += 1;
               }
               else
               {
-                Terms.Add( sTerm, 1 );
+                Terms.Add( Term, 1 );
               }
 
-              if( TermsList.ContainsKey( sTerm ) )
+              if( TermsList.ContainsKey( Term ) )
               {
-                TermsList[ sTerm ] += 1;
+                TermsList[ Term ] += 1;
               }
               else
               {
-                TermsList.Add( sTerm, 1 );
+                TermsList.Add( Term, 1 );
               }
 
             }
@@ -225,41 +225,41 @@ namespace SEOMacroscope
           for( int i = 0 ; i < Chunks.Length ; i++ )
           {
 
-            string sTerm = Chunks[ i ];
-            int iEnd = ( i + Words );
+            string Term = Chunks[ i ];
+            int TermEnd = ( i + Words );
 
-            if( ( Chunks.Length - iEnd ) >= Words )
+            if( ( Chunks.Length - TermEnd ) >= Words )
             {
             
-              for( int j = i + 1 ; ( j < iEnd ) && ( j < Chunks.Length ) ; j++ )
+              for( int j = i + 1 ; ( j < TermEnd ) && ( j < Chunks.Length ) ; j++ )
               {
-                string sSubTerm = Chunks[ j ];
-                sTerm = string.Join( " ", sTerm, sSubTerm );
+                string SubTerm = Chunks[ j ];
+                Term = string.Join( " ", Term, SubTerm );
               }
 
-              DebugMsg( string.Format( "RANGE: {0} :: {1} :: {2}", i, iEnd, sTerm ) );
+              DebugMsg( string.Format( "RANGE: {0} :: {1} :: {2}", i, TermEnd, Term ) );
 
-              if( sTerm.Length > 0 )
+              if( Term.Length > 0 )
               {
 
-                DebugMsg( string.Format( "sTerm: {0}", sTerm ) );
+                DebugMsg( string.Format( "Term: {0}", Term ) );
 
-                if( Terms.ContainsKey( sTerm ) )
+                if( Terms.ContainsKey( Term ) )
                 {
-                  Terms[ sTerm ] += 1;
+                  Terms[ Term ] += 1;
                 }
                 else
                 {
-                  Terms.Add( sTerm, 1 );
+                  Terms.Add( Term, 1 );
                 }
 
-                if( TermsList.ContainsKey( sTerm ) )
+                if( TermsList.ContainsKey( Term ) )
                 {
-                  TermsList[ sTerm ] += 1;
+                  TermsList[ Term ] += 1;
                 }
                 else
                 {
-                  TermsList.Add( sTerm, 1 );
+                  TermsList.Add( Term, 1 );
                 }
               
               }

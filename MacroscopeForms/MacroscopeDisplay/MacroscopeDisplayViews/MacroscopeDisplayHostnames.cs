@@ -36,12 +36,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayHostnames ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayHostnames ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -82,9 +82,9 @@ namespace SEOMacroscope
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
-              this.lvListView.BeginUpdate();
+              this.DisplayListView.BeginUpdate();
               this.RenderListView( DocCollection );
-              this.lvListView.EndUpdate();
+              this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -93,9 +93,9 @@ namespace SEOMacroscope
       else
       {
         Cursor.Current = Cursors.WaitCursor;
-        this.lvListView.BeginUpdate();
+        this.DisplayListView.BeginUpdate();
         this.RenderListView( DocCollection );
-        this.lvListView.EndUpdate();
+        this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
     }
@@ -105,35 +105,48 @@ namespace SEOMacroscope
     public new void RenderListView ( MacroscopeDocumentCollection DocCollection )
     {
 
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
       Dictionary<string,int> Hostnames = DocCollection.GetStatsHostnamesWithCount();
 
       foreach( string Hostname in Hostnames.Keys )
       {
+
         int Count = Hostnames[ Hostname ];
-        this.RenderListView( Hostname, Count );
+
+        this.RenderListView(
+          ListViewItems: ListViewItems,
+          Hostname: Hostname,
+          Count: Count 
+        );
       }
 
+      this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+            
     }
 
     /**************************************************************************/
 
-    public void RenderListView ( string Hostname, int Count )
+    public void RenderListView (
+      List<ListViewItem> ListViewItems,
+      string Hostname,
+      int Count
+    )
     {
 
       ListViewItem lvItem = null;
-      Boolean bIsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( Hostname );
-      string sPairKey = string.Join( "::", "HOST", Hostname );
+      Boolean IsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( Hostname );
+      string PairKey = string.Join( "::", "HOST", Hostname );
 
-      if( this.lvListView.Items.ContainsKey( sPairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.lvListView.Items[ sPairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Hostname;
           lvItem.SubItems[ 1 ].Text = Count.ToString();
-          lvItem.SubItems[ 2 ].Text = bIsInternal.ToString();
+          lvItem.SubItems[ 2 ].Text = IsInternal.ToString();
 
         }
         catch( Exception ex )
@@ -148,15 +161,15 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( PairKey );
 
-          lvItem.Name = sPairKey;
+          lvItem.Name = PairKey;
 
           lvItem.SubItems[ 0 ].Text = Hostname;
           lvItem.SubItems.Add( Count.ToString() );
-          lvItem.SubItems.Add( bIsInternal.ToString() );
+          lvItem.SubItems.Add( IsInternal.ToString() );
 
-          this.lvListView.Items.Add( lvItem );
+          ListViewItems.Add( lvItem );
 
         }
         catch( Exception ex )
@@ -171,7 +184,7 @@ namespace SEOMacroscope
 
         lvItem.ForeColor = Color.Green;
 
-        if( bIsInternal )
+        if( IsInternal )
         {
           lvItem.SubItems[ 0 ].ForeColor = Color.Green;
           lvItem.SubItems[ 1 ].ForeColor = Color.Green;
@@ -190,7 +203,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView ( List<ListViewItem> ListViewItems, MacroscopeDocument msDoc, string Url )
+    {
+    }
+    
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
     {
     }
 

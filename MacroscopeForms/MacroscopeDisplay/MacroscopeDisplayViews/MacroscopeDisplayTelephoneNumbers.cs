@@ -36,12 +36,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayTelephoneNumbers ( MacroscopeMainForm MainForm, ListView lvListView )
-      : base( MainForm, lvListView )
+    public MacroscopeDisplayTelephoneNumbers ( MacroscopeMainForm MainForm, ListView TargetListView )
+      : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
-      this.lvListView = lvListView;
+      this.DisplayListView = TargetListView;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -73,7 +73,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
 
       if( msDoc.GetIsHtml() )
@@ -84,16 +88,16 @@ namespace SEOMacroscope
         foreach( string TelephoneNumber in TelephoneNumbers.Keys )
         {
 
-          string sPairKey = string.Join( "", TelephoneNumber, Url );
+          string PairKey = string.Join( "", TelephoneNumber, Url );
           ListViewItem lvItem = null;
           
-          if( this.lvListView.Items.ContainsKey( sPairKey ) )
+          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
 
             try
             {
 
-              lvItem = this.lvListView.Items[ sPairKey ];
+              lvItem = this.DisplayListView.Items[ PairKey ];
               lvItem.SubItems[ 0 ].Text = TelephoneNumber;
               lvItem.SubItems[ 1 ].Text = Url;
 
@@ -110,14 +114,14 @@ namespace SEOMacroscope
             try
             {
 
-              lvItem = new ListViewItem ( sPairKey );
+              lvItem = new ListViewItem ( PairKey );
               lvItem.UseItemStyleForSubItems = false;
-              lvItem.Name = sPairKey;
+              lvItem.Name = PairKey;
 
               lvItem.SubItems[ 0 ].Text = TelephoneNumber;
               lvItem.SubItems.Add( Url );
 
-              this.lvListView.Items.Add( lvItem );
+              ListViewItems.Add( lvItem );
 
             }
             catch( Exception ex )
@@ -134,7 +138,7 @@ namespace SEOMacroscope
 
             // URL -------------------------------------------------------------//
           
-            if( !msDoc.GetIsExternal() )
+            if( msDoc.GetIsInternal() )
             {
               lvItem.SubItems[ 1 ].ForeColor = Color.Green;
             }
@@ -149,6 +153,12 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    protected override void RenderUrlCount ()
+    {
     }
 
     /**************************************************************************/

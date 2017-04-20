@@ -41,7 +41,7 @@ namespace SEOMacroscope
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string ResponseErrorCondition = null;
-      Boolean bAuthenticating = false;
+      Boolean IsAuthenticating = false;
       
       try
       {
@@ -53,27 +53,17 @@ namespace SEOMacroscope
         
         this.PrepareRequestHttpHeaders( req: req );
                 
-        bAuthenticating = this.AuthenticateRequest( req );
+        IsAuthenticating = this.AuthenticateRequest( req );
 				                              
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
-        try
-        {
+        res = ( HttpWebResponse )req.GetResponse();
 
-          res = ( HttpWebResponse )req.GetResponse();
-
-        }
-        catch( WebException ex )
-        {
-
-          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Message ) );
-          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ex.Status ) );
-          DebugMsg( string.Format( "ProcessVideoPage :: WebException: {0}", ( int )ex.Status ) );
-
-          ResponseErrorCondition = ex.Status.ToString();
-
-        }
-
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ProcessVideoPage :: UriFormatException: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
       }
       catch( WebException ex )
       {
@@ -91,7 +81,7 @@ namespace SEOMacroscope
 
         this.ProcessResponseHttpHeaders( req, res );
 
-        if( bAuthenticating )
+        if( IsAuthenticating )
         {
           this.VerifyOrPurgeCredential();
         }
