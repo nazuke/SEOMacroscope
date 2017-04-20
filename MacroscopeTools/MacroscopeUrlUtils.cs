@@ -101,6 +101,7 @@ namespace SEOMacroscope
 
       string UrlFixed;
       Uri BaseUri = null;
+      string BaseUriPort = "";
       Uri NewUri = null;
 
       Regex reHTTP = new Regex ( "^https?:" );
@@ -110,13 +111,22 @@ namespace SEOMacroscope
       Regex reHash = new Regex ( "^#" );
       Regex reUnsupportedScheme = new Regex ( "^[^:]+:" );
 
+      BaseUrl = HtmlEntity.DeEntitize( BaseUrl );
+      BaseUrl = Uri.UnescapeDataString( BaseUrl );
+      
       Url = HtmlEntity.DeEntitize( Url );
-
       Url = Uri.UnescapeDataString( Url );
 
       try
       {
+        
         BaseUri = new Uri ( BaseUrl, UriKind.Absolute );
+        
+        if( BaseUri.Port > 0 )
+        {
+          BaseUriPort = string.Format( ":{0}", BaseUri.Port );
+        }
+        
       }
       catch( UriFormatException ex )
       {
@@ -193,9 +203,10 @@ namespace SEOMacroscope
         {
           NewUri = new Uri (
             string.Format(
-              "{0}://{1}{2}",
+              "{0}://{1}{2}{3}",
               BaseUri.Scheme,
               BaseUri.Host,
+              BaseUriPort,
               Url
             ),
             UriKind.Absolute
@@ -220,9 +231,10 @@ namespace SEOMacroscope
         {
           NewUri = new Uri (
             string.Format(
-              "{0}://{1}{2}{3}",
+              "{0}://{1}{2}{3}{4}",
               BaseUri.Scheme,
               BaseUri.Host,
+              BaseUriPort,
               BaseUri.AbsolutePath,
               Url
             ),
@@ -252,9 +264,10 @@ namespace SEOMacroscope
         {
           NewUri = new Uri (
             string.Format(
-              "{0}://{1}{2}",
+              "{0}://{1}{2}{3}",
               BaseUri.Scheme,
               BaseUri.Host,
+              BaseUriPort,
               NewUrl
             ),
             UriKind.Absolute
@@ -313,9 +326,10 @@ namespace SEOMacroscope
         {
           NewUri = new Uri (
             string.Format(
-              "{0}://{1}{2}",
+              "{0}://{1}{2}{3}",
               BaseUri.Scheme,
               BaseUri.Host,
+              BaseUriPort,
               NewPath
             ),
             UriKind.Absolute

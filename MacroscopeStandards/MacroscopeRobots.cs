@@ -179,6 +179,7 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ), true );
 
         Uri BaseUri = null;
+        string BaseUriPort = "";
         Uri RobotsUri = null;
         string RobotsTxtUrl = null;
 
@@ -187,11 +188,17 @@ namespace SEOMacroscope
 
           BaseUri = new Uri ( Url, UriKind.Absolute );
 
+          if( BaseUri.Port > 0 )
+          {
+            BaseUriPort = string.Format( ":{0}", BaseUri.Port );
+          }
+                  
           RobotsUri = new Uri (
             string.Format(
-              "{0}://{1}{2}",
+              "{0}://{1}{2}{3}",
               BaseUri.Scheme,
               BaseUri.Host,
+              BaseUriPort,
               "/robots.txt"
             ),
             UriKind.Absolute
