@@ -700,29 +700,6 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
-
-    public void ICallbackScanComplete ()
-    {
-      if( this.InvokeRequired )
-      {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.ScanningControlsComplete( true );
-              this.UpdateFocusedTabPage();
-            }
-          )
-        );
-      }
-      else
-      {
-        this.ScanningControlsComplete( true );
-        this.UpdateFocusedTabPage();
-      }
-    }
-
     /** TAB PAGES *************************************************************/
 
     private void StartTabPageTimer ( int Delay )

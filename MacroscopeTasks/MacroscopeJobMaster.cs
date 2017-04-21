@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -105,11 +104,44 @@ namespace SEOMacroscope
       InitializeJobMaster( JobRunTimeMode: JobRunTimeMode );
     }
 
+    /** Self Destruct Sequence ************************************************/
+
+    ~MacroscopeJobMaster ()
+    {
+
+      DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR" ) );
+
+      this.SemaphoreWorkers.Dispose();
+
+      this.DocCollection = null;
+
+      this.AllowedHosts = null;
+
+      this.NamedQueue = null;
+
+      this.Robots = null;
+
+      this.IncludeExcludeUrls = null;
+
+      this.History = null;
+
+      this.Progress = null;
+
+      this.Locales = null;
+
+      this.BlockedByRobots = null;
+
+      return;
+      
+    }
+
     /**************************************************************************/
 
     private void InitializeJobMaster ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
     {
 
+      GC.Collect();
+      
       /*
       {
         this.JobMasterLog = new EventLog ();
@@ -185,15 +217,6 @@ namespace SEOMacroscope
       this.Robots = new MacroscopeRobots ();
       this.BlockedByRobots = new Dictionary<string,Boolean> ();
 
-    }
-
-    /**************************************************************************/
-
-    ~MacroscopeJobMaster ()
-    {
-      DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR" ) );
-      this.DocCollection = null;
-      this.SemaphoreWorkers.Dispose();
     }
 
     /** Event Log *************************************************************/
@@ -368,7 +391,21 @@ namespace SEOMacroscope
 
         this.IncRunningThreads();
 
-        JobWorker.Execute();
+        try
+        {
+
+          JobWorker.Execute();
+
+        }
+        catch( OutOfMemoryException ex )
+        {
+
+          DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.Message ) );
+          DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.StackTrace.ToString() ) );
+
+          this.TaskController.ICallbackOutOfMemory();
+
+        }
 
       }
 
@@ -907,12 +944,12 @@ namespace SEOMacroscope
           }
 
           string CurrentUriString = string.Join(
-                                    "",
-                                    CurrentUri.Scheme,
-                                    "://",
-                                    CurrentUri.Host,
-                                    Path
-                                  );
+                                      "",
+                                      CurrentUri.Scheme,
+                                      "://",
+                                      CurrentUri.Host,
+                                      Path
+                                    );
 
           int ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
           int CurrentUriStringLength = CurrentUriString.Length;

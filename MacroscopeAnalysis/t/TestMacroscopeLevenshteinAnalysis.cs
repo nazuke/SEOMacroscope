@@ -69,11 +69,11 @@ namespace SEOMacroscope
       {
 
         MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis (
-                                                            msDoc: msDoc,
-                                                            SizeDifference: 64,
-                                                            Threshold: 16,
-                                                            CrossCheckList: CrossCheckList
-                                                          );
+                                                              msDoc: msDoc,
+                                                              SizeDifference: 64,
+                                                              Threshold: 16,
+                                                              CrossCheckList: CrossCheckList
+                                                            );
 
         Dictionary<MacroscopeDocument,int> DocList = LevenshteinAnalysis.AnalyzeDocCollection( DocCollection: DocCollection );
       
@@ -180,6 +180,11 @@ namespace SEOMacroscope
     {
       MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp ();
       return( CredentialsHttp );
+    }
+
+    public void ICallbackOutOfMemory ()
+    {
+      DebugMsg( string.Format( "ICallbackOutOfMemory: CALLED" ) );
     }
 
     /**************************************************************************/

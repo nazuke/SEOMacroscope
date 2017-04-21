@@ -37,6 +37,9 @@
     <Setting Name="DescriptionMinWords" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="DetectLanguage" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
     <Setting Name="EnableLevenshteinDeduplication" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>

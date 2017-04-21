@@ -24,84 +24,161 @@
 */
 
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace SEOMacroscope
 {
 
-	[TestFixture]
-	public class TestMacroscopeAnalyzePageTitles
-	{
+  [TestFixture]
+  public class TestMacroscopeAnalyzePageTitles
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		string Sample = "The quick brown fox jumps over the lazy dog!";
+    const string Sample = "The quick brown fox jumps over the lazy dog!";
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Test]
-		public void TestCalcTitleWidthWide ()
-		{
+    [Test]
+    public void TestCalcTitleWidthWide ()
+    {
 
-			MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+      MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
 
-			int iWidth = AnalyzePageTitles.CalcTitleWidth( Sample );
+      int Width = AnalyzePageTitles.CalcTitleWidth( Sample );
 
-			Assert.Greater( iWidth, 0, "iWidth too small", 1 );
+      Assert.Greater( Width, 0, "Width too small", 1 );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Test]
-		public void TestCalcTitleWidthNarrow ()
-		{
+    [Test]
+    public void TestCalcTitleWidthNarrow ()
+    {
 
-			MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+      MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
 
-			int iWidth = AnalyzePageTitles.CalcTitleWidth( "Bongo" );
+      int Width = AnalyzePageTitles.CalcTitleWidth( "Bongo" );
 
-			Assert.Greater( iWidth, 0, "iWidth too small", 1 );
+      Assert.Greater( Width, 0, "Width too small", 1 );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Test]
-		public void TestCalcTitleWidthMassive ()
-		{
+    [Test]
+    public void TestCalcTitleWidthMassive ()
+    {
 
-			MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+      MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
 
-			string Massive = "";
+      string Massive = "";
 
-			for( int i = 1 ; i <= 100 ; i++ )
-			{
-				Massive += Sample;
-			}
+      for( int i = 1 ; i <= 100 ; i++ )
+      {
+        Massive += Sample;
+      }
 
-			int iWidth = AnalyzePageTitles.CalcTitleWidth( Massive );
+      int Width = AnalyzePageTitles.CalcTitleWidth( Massive );
 
-			Assert.Greater( iWidth, 0, "iWidth too small", 1 );
+      Assert.Greater( Width, 0, "Width too small", 1 );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		[Test]
-		public void TestCalcTitleWidthZero ()
-		{
+    [Test]
+    public void TestCalcTitleWidthZero ()
+    {
 
-			MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+      MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
 
-			int iWidth = AnalyzePageTitles.CalcTitleWidth( "" );
+      int Width = AnalyzePageTitles.CalcTitleWidth( "" );
 
-			Assert.AreEqual( iWidth, 0, "iWidth not equal to zero", 1 );
+      Assert.AreEqual( Width, 0, "Width not equal to zero", 1 );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+    [Test]
+    public void TestCorrectAnalyzeLanguage ()
+    {
+
+      Dictionary<string,string> Texts = new Dictionary<string, string> ();
+
+      Texts.Add( "The quick brown fox jumps over the lazy dog.", "eng" );
+      Texts.Add( "クイックブラウンキツネは怠惰な犬の上を飛ぶ。", "jpn" );
+      Texts.Add( "El zorro marrón rápido salta sobre el perro perezoso.", "spa" );
+      Texts.Add( "Le renard brun rapide saute sur le chien paresseux.", "fra" );
+      Texts.Add( "Der schnelle braune Fuchs springt über den faulen Hund.", "deu" );
+      Texts.Add( "La volpe marrone veloce salta sul cane pigro.", "ita" );
+      Texts.Add( "Den snabba brunräven hoppar över den lata hunden.", "swe" );
+
+      MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+
+      foreach( string TextSample in Texts.Keys )
+      {
+
+        string ProbableLanguage = AnalyzePageTitles.AnalyzeLanguage( Text: TextSample );
+
+        Assert.AreEqual(
+          Texts[ TextSample ],
+          ProbableLanguage,
+          string.Format(
+            "Wrong language detected for: {0} :: {1} :: {2}",
+            Texts[ TextSample ],
+            ProbableLanguage,
+            TextSample
+          )
+        );
+
+      }
+
+    }
+    
+    /**************************************************************************/
+    
+    [Test]
+    public void TestWrongAnalyzeLanguage ()
+    {
+
+      Dictionary<string,string> Texts = new Dictionary<string, string> ();
+
+      Texts.Add( "The quick brown fox jumps over the lazy dog.", "swe" );
+      Texts.Add( "クイックブラウンキツネは怠惰な犬の上を飛ぶ。", "eng" );
+      Texts.Add( "El zorro marrón rápido salta sobre el perro perezoso.", "jpn" );
+      Texts.Add( "Le renard brun rapide saute sur le chien paresseux.", "spa" );
+      Texts.Add( "Der schnelle braune Fuchs springt über den faulen Hund.", "fra" );
+      Texts.Add( "La volpe marrone veloce salta sul cane pigro.", "deu" );
+      Texts.Add( "Den snabba brunräven hoppar över den lata hunden.", "ita" );
+
+      MacroscopeAnalyzePageTitles AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+
+      foreach( string TextSample in Texts.Keys )
+      {
+
+        string ProbableLanguage = AnalyzePageTitles.AnalyzeLanguage( Text: TextSample );
+
+        Assert.AreNotEqual(
+          Texts[ TextSample ],
+          ProbableLanguage,
+          string.Format(
+            "Incorrectly detected wrong language detected for: {0} :: {1} :: {2}",
+            Texts[ TextSample ],
+            ProbableLanguage,
+            TextSample
+          )
+        );
+
+      }
+
+    }
+    
+    /**************************************************************************/
+
+  }
 
 }

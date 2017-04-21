@@ -122,12 +122,43 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
+    /** Self Destruct Sequence ************************************************/
 
     ~MacroscopeDocumentCollection ()
     {
+      
       this.DebugMsg( "MacroscopeDocumentCollection DESTRUCTOR CALLED" );
+      
       this.StopRecalcTimer();
+
+      this.DocCollection = null;
+
+      this.JobMaster = null;
+      this.NamedQueue = null;
+      this.SearchIndex = null;
+      this.AnalyzeKeywords = null;
+
+      this.StructInlinks = null;
+      this.StructHyperlinksIn = null;
+
+      this.StatsHistory = null;
+      this.StatsHostnames = null;
+      this.StatsTitles = null;
+      this.StatsDescriptions = null;
+      this.StatsKeywords = null;
+      this.StatsWarnings = null;
+      this.StatsErrors = null;
+      this.StatsChecksums = null;
+    
+      this.StatsDurations = null;
+    
+      this.StatsDeepKeywordAnalysisDocs = null;
+      this.StatsDeepKeywordAnalysis = null;
+
+      //this.AnalyzeTextLanguage = null;
+      
+      return;
+
     }
 
     /** Document Collection Methods *******************************************/

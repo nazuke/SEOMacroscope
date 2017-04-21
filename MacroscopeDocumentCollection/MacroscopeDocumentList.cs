@@ -46,6 +46,17 @@ namespace SEOMacroscope
       this.DocumentList = new Dictionary<string,MacroscopeDocument> ( 64 );
     }
 
+    /** Self Destruct Sequence ************************************************/
+        
+    ~MacroscopeDocumentList ()
+    {
+      
+      this.DocumentList = null;
+
+      return;
+      
+    }
+
     /**************************************************************************/
     
     public void AddDocument ( MacroscopeDocument msDoc )

@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -47,26 +48,29 @@ namespace SEOMacroscope
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
-      List<string> TargetUrls = new List<string> () { {
+      List<string> TargetUrls = new List<string> () {
+        {
           "http://www.companyname.com/path/to/some/deep/folder/"
-        }, {
+        },
+        {
           "http://www.companyname.com/path/to/some/deep/folder/index.html"
-        }, {
+        },
+        {
           "http://www.companyname.com/path/to/some/deep/folder/image"
-        }, {
+        },
+        {
           "http://www.companyname.com/path/to/some/deep/index.html"
-        },
-        {
+        }, {
           "http://www.companyname.com/path/to/some/page.jsp"
-        }, {
+        },
+        {
           "http://www.companyname.com/path/to/file.pdf"
-        },
-        {
-          "http://www.companyname.com/path/"
         }, {
-          "http://www.companyname.com/path/index.php"
+          "http://www.companyname.com/path/"
         },
         {
+          "http://www.companyname.com/path/index.php"
+        }, {
           "http://www.companyname.com/"
         }
       };
@@ -95,14 +99,17 @@ namespace SEOMacroscope
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
-      List<string> TargetUrls = new List<string> () { {
+      List<string> TargetUrls = new List<string> () {
+        {
           "http://www.companyname.com/path/to/some/deep/folder/sub-folder/index.html"
         },
         {
           "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
-        }, {
+        },
+        {
           "http://www.companyname.com/images/some-image.jpg"
-        }, {
+        },
+        {
           "http://www.companyname.com/path/to/some/folder/media/image"
         }
       };
@@ -131,10 +138,10 @@ namespace SEOMacroscope
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
 
-      List<string> TargetUrls = new List<string> () { {
-          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
-        },
+      List<string> TargetUrls = new List<string> () {
         {
+          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
+        }, {
           "http://www.companyname.com/path/to/some/deep/folder/sub-folder/image"
         }
       };
@@ -143,9 +150,9 @@ namespace SEOMacroscope
 
       JobMaster.DetermineStartingDirectory();
 
-      foreach( string sUrl in TargetUrls )
+      foreach( string Url in TargetUrls )
       {
-        Assert.IsTrue( JobMaster.IsWithinChildDirectory( sUrl ), string.Format( "FAIL: {0}", sUrl ) );
+        Assert.IsTrue( JobMaster.IsWithinChildDirectory( Url ), string.Format( "FAIL: {0}", Url ) );
       }
 
     }
@@ -163,12 +170,13 @@ namespace SEOMacroscope
 
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html";
 
-      List<string> TargetUrls = new List<string> () {
-        {
+      List<string> TargetUrls = new List<string> () { {
           "http://www.companyname.com/path/to/some/deep/folder/index.html"
-        }, {
+        },
+        {
           "http://www.companyname.com/path/to/some/folder/image"
-        }, {
+        },
+        {
           "http://www.companyname.com/folder/image"
         }
       };
@@ -177,9 +185,9 @@ namespace SEOMacroscope
 
       JobMaster.DetermineStartingDirectory();
 
-      foreach( string sUrl in TargetUrls )
+      foreach( string Url in TargetUrls )
       {
-        Assert.IsFalse( JobMaster.IsWithinChildDirectory( sUrl ), string.Format( "FAIL: {0}", sUrl ) );
+        Assert.IsFalse( JobMaster.IsWithinChildDirectory( Url ), string.Format( "FAIL: {0}", Url ) );
       }
 
     }
@@ -194,6 +202,10 @@ namespace SEOMacroscope
     {
       MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp ();
       return( CredentialsHttp );
+    }
+
+    public void ICallbackOutOfMemory ()
+    {
     }
 
     /**************************************************************************/

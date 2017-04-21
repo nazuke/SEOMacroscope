@@ -129,14 +129,17 @@ namespace SEOMacroscope
     private MacroscopeAnalyzePageTitles AnalyzePageTitles;
 
     private string Title;
+    private string TitleLanguage;
     private int TitlePixelWidth;
     private string Description;
+    private string DescriptionLanguage;
     private string Keywords;
     private string AltText;
     
     private Dictionary<ushort,List<string>> Headings;
 
     private string BodyText;
+    private string BodyTextLanguage;
     private List<Dictionary<string,int>> DeepKeywordAnalysis;
 
     private int Depth;
@@ -182,6 +185,21 @@ namespace SEOMacroscope
       this.InitializeDocument( Url );
       this.SetDocumentCollection( DocumentCollection );
       this.AuthenticationCredential = Credential;
+    }
+
+    /** Self Destruct Sequence ************************************************/
+    
+    ~MacroscopeDocument ()
+    {
+
+      this.DocCollection = null;
+
+      this.BodyText = null;
+
+      this.DeepKeywordAnalysis = null;
+      
+      return;
+      
     }
 
     /** -------------------------------------------------------------------- **/
@@ -267,36 +285,39 @@ namespace SEOMacroscope
       this.AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
 
       this.Title = "";
+      this.TitleLanguage = "";
       this.TitlePixelWidth = 0;
       this.Description = "";
+      this.DescriptionLanguage = "";
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () { {
+      this.Headings = new Dictionary<ushort,List<string>> () {
+        {
           1,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           2,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           3,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           4,
           new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
         },
         {
+          5,
+          new List<string> ( 16 )
+        }, {
           6,
           new List<string> ( 16 )
         }
       };
 
       this.BodyText = "";
+      this.BodyTextLanguage = "";
       
       this.DeepKeywordAnalysis = new List<Dictionary<string,int>> ( 4 );
       for( int i = 0 ; i <= 3 ; i++ )
@@ -1185,6 +1206,21 @@ namespace SEOMacroscope
       return( this.TitlePixelWidth );
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    public void DetectTitleLanguage ()
+    {
+      if( this.GetIsHtml() || this.GetIsPdf() )
+      {
+        this.TitleLanguage = this.ProbeTextLanguage( Text: this.Title );
+      }
+    }
+
+    public string GetTitleLanguage ()
+    {
+      return( this.TitleLanguage );
+    }
+
     /** Description ***********************************************************/
 
     public string GetDescription ()
@@ -1206,6 +1242,21 @@ namespace SEOMacroscope
       return( this.GetDescription().Length );
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    public void DetectDescriptionLanguage ()
+    {
+      if( this.GetIsHtml() || this.GetIsPdf() )
+      {
+        this.DescriptionLanguage = this.ProbeTextLanguage( Text: this.Description );
+      }
+    }
+
+    public string GetDescriptionLanguage ()
+    {
+      return( this.DescriptionLanguage );
+    }
+    
     /** Keywords **************************************************************/
 
     public string GetKeywords ()
@@ -1378,6 +1429,26 @@ namespace SEOMacroscope
     public string GetBodyText ()
     {
       return( this.BodyText );
+    }
+    
+    public int GetBodyTextLength ()
+    {
+      return( this.BodyText.Length );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void DetectBodyTextLanguage ()
+    {
+      if( this.GetIsHtml() || this.GetIsPdf() )
+      {
+        this.BodyTextLanguage = this.ProbeTextLanguage( Text: this.BodyText );
+      }
+    }
+
+    public string GetBodyTextLanguage ()
+    {
+      return( this.BodyTextLanguage );
     }
 
     /** Deep Keyword Analysis *************************************************/
@@ -1681,7 +1752,30 @@ namespace SEOMacroscope
 
       if( this.GetTitleLength() > 0 )
       {
+
         this.SetTitlePixelWidth( AnalyzePageTitles.CalcTitleWidth( this.GetTitle() ) );
+
+        if( MacroscopePreferencesManager.GetDetectLanguage() )
+        {
+          this.DetectTitleLanguage();
+        }
+
+      }
+
+      if( this.GetDescriptionLength() > 0 )
+      {
+        if( MacroscopePreferencesManager.GetDetectLanguage() )
+        {
+          this.DetectDescriptionLanguage();
+        }
+      }
+
+      if( this.GetBodyTextLength() > 0 )
+      {
+        if( MacroscopePreferencesManager.GetDetectLanguage() )
+        {
+          this.DetectBodyTextLanguage();
+        }
       }
 
       if( MacroscopePreferencesManager.GetWarnAboutInsecureLinks() )
@@ -2315,6 +2409,32 @@ namespace SEOMacroscope
       }
 
       return( ParsedDate );
+
+    }
+
+    /** Language Detection ****************************************************/
+
+    public string ProbeTextLanguage ( string Text )
+    {
+
+      // TODO: This leaks memory!      
+      
+      string LanguagedDetected = null;
+
+      /*
+      MacroscopeAnalyzeTextLanguage AnalyzeTextLanguage;
+
+      if( !string.IsNullOrEmpty( Text ) )
+      {
+
+        AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ();
+
+        LanguagedDetected = AnalyzeTextLanguage.AnalyzeLanguage( Text: Text );
+
+      }
+      */
+     
+      return( LanguagedDetected );
 
     }
 

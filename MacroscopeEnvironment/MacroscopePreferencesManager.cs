@@ -113,6 +113,8 @@ namespace SEOMacroscope
     static Boolean EnableLevenshteinDeduplication;
     static int MaxLevenshteinSizeDifference;
     static int MaxLevenshteinDistance;
+    
+    static Boolean DetectLanguage;
 
     /**************************************************************************/
 
@@ -200,6 +202,8 @@ namespace SEOMacroscope
           MaxHeadingDepth = Preferences.MaxHeadingDepth;
           AnalyzeKeywordsInText = Preferences.AnalyzeKeywordsInText;
     
+          DetectLanguage = Preferences.DetectLanguage;
+          
         }
 
       }
@@ -276,6 +280,8 @@ namespace SEOMacroscope
       EnableLevenshteinDeduplication = true;
       MaxLevenshteinSizeDifference = 64;
       MaxLevenshteinDistance = 16;
+      
+      DetectLanguage = true;
       
       // SEO Options
 
@@ -424,6 +430,8 @@ namespace SEOMacroscope
 
         Preferences.AnalyzeKeywordsInText = AnalyzeKeywordsInText;
 
+        Preferences.DetectLanguage = DetectLanguage;
+                  
         Preferences.Save();
 
       }
@@ -1024,6 +1032,18 @@ namespace SEOMacroscope
     public static void SetAnalyzeKeywordsInText ( Boolean State )
     {
       AnalyzeKeywordsInText = State;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    public static Boolean GetDetectLanguage ()
+    {
+      return( DetectLanguage );
+    }
+
+    public static void SetDetectLanguage ( Boolean State )
+    {
+      DetectLanguage = State;
     }
 
     /**************************************************************************/

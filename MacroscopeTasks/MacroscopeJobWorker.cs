@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -209,7 +210,7 @@ namespace SEOMacroscope
 
       Boolean Success = true;
 
-      if( this.IncludeExcludeUrls.UseIncludeUrlPatterns() )
+      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseIncludeUrlPatterns() ) )
       {
         if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url ) )
         {
@@ -222,7 +223,7 @@ namespace SEOMacroscope
         }
       }
 
-      if( this.IncludeExcludeUrls.UseExcludeUrlPatterns() )
+      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseExcludeUrlPatterns() ) )
       {
         if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) )
         {

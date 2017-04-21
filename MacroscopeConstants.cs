@@ -219,13 +219,17 @@ namespace SEOMacroscope
 
     public const string Title = "Title";
     public const string TitleLen = "Title Length";
+    public const string TitleLang = "Title Language";
 
     public const string Description = "Description";
     public const string DescriptionLen = "Description Length";
+    public const string DescriptionLang = "Description Language";
 
     public const string Keywords = "Keywords";
     public const string KeywordsLen = "Keywords Length";
     public const string KeywordsCount = "Keywords Count";
+    
+    public const string BodyTextLang = "Body Text Language";
 
     public const string Hn = "First H{0}";
 

@@ -41,6 +41,8 @@ namespace SEOMacroscope
 
     MacroscopeCredentialsHttp IGetCredentialsHttp ();
 
+    void ICallbackOutOfMemory ();
+
   }
 
   /**************************************************************************/

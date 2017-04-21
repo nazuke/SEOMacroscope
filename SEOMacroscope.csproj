@@ -67,8 +67,17 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="IvanAkcheurov.Commons">
+      <HintPath>packages\NTextCat.0.2.1.30\lib\net40\IvanAkcheurov.Commons.dll</HintPath>
+    </Reference>
+    <Reference Include="IvanAkcheurov.NClassify">
+      <HintPath>packages\NTextCat.0.2.1.30\lib\net40\IvanAkcheurov.NClassify.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="NTextCat">
+      <HintPath>packages\NTextCat.0.2.1.30\lib\net40\NTextCat.dll</HintPath>
     </Reference>
     <Reference Include="NUnit.Framework">
       <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
@@ -94,6 +103,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageBodyText.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageDescriptions.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzeTextLanguage.cs" />
+    <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzePageBodyText.cs" />
+    <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzePageDescriptions.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentText.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
@@ -106,6 +120,7 @@
       <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
     </Compile>
     <Compile Include="MacroscopeForms\MacroscopeMainForm\ExcelReports\ExcelReportsCallbacks.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\IMacroscopeTaskControllerCallbacks\IMacroscopeTaskControllerCallbacks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Audio.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\CanonicalAnalysis.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\EmailAddresses.cs" />
@@ -141,6 +156,10 @@
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.Designer.cs">
       <DependentUpon>MacroscopeDoublePercentageProgressForm.cs</DependentUpon>
     </Compile>
+    <None Include="packages\NTextCat.0.2.1.30\Core14.profile.xml">
+      <Link>Core14.profile.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -415,6 +434,7 @@
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\ExcelReports" />
+    <Folder Include="MacroscopeForms\MacroscopeMainForm\IMacroscopeTaskControllerCallbacks" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />

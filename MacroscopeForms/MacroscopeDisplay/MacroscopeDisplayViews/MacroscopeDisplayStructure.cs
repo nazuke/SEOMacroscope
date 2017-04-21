@@ -105,12 +105,19 @@ namespace SEOMacroscope
         
         this.DisplayListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
         this.DisplayListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
+        this.DisplayListView.Columns.Add( MacroscopeConstants.TitleLang, MacroscopeConstants.TitleLang );
+
         this.DisplayListView.Columns.Add( MacroscopeConstants.Description, MacroscopeConstants.Description );
         this.DisplayListView.Columns.Add( MacroscopeConstants.DescriptionLen, MacroscopeConstants.DescriptionLen );
+        this.DisplayListView.Columns.Add( MacroscopeConstants.DescriptionLang, MacroscopeConstants.DescriptionLang );
+
         this.DisplayListView.Columns.Add( MacroscopeConstants.Keywords, MacroscopeConstants.Keywords );
         this.DisplayListView.Columns.Add( MacroscopeConstants.KeywordsLen, MacroscopeConstants.KeywordsLen );
         this.DisplayListView.Columns.Add( MacroscopeConstants.KeywordsCount, MacroscopeConstants.KeywordsCount );
 
+        this.DisplayListView.Columns.Add( MacroscopeConstants.BodyTextLang, MacroscopeConstants.BodyTextLang );
+        
+        
         for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
         {
           string HeadingLevelText = string.Format( MacroscopeConstants.Hn, HeadingLevel );
@@ -207,13 +214,17 @@ namespace SEOMacroscope
 
         htItems[ MacroscopeConstants.Title ] = msDoc.GetTitle();
         htItems[ MacroscopeConstants.TitleLen ] = msDoc.GetTitleLength();
+        htItems[ MacroscopeConstants.TitleLang ] = msDoc.GetTitleLanguage();
 
         htItems[ MacroscopeConstants.Description ] = msDoc.GetDescription();
         htItems[ MacroscopeConstants.DescriptionLen ] = msDoc.GetDescriptionLength();
+        htItems[ MacroscopeConstants.DescriptionLang ] = msDoc.GetDescriptionLanguage();
 
         htItems[ MacroscopeConstants.Keywords ] = msDoc.GetKeywords();
         htItems[ MacroscopeConstants.KeywordsLen ] = msDoc.GetKeywordsLength();
         htItems[ MacroscopeConstants.KeywordsCount ] = msDoc.GetKeywordsCount();
+        
+        htItems[ MacroscopeConstants.BodyTextLang ] = msDoc.GetBodyTextLanguage();
 
         for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
         {

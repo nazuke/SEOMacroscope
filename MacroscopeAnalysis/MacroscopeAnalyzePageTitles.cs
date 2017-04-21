@@ -46,6 +46,8 @@ namespace SEOMacroscope
 		
     private Graphics GraphicsHandle;
 
+    MacroscopeAnalyzeTextLanguage AnalyzeTextLanguage;
+        
     /**************************************************************************/
 
     public MacroscopeAnalyzePageTitles ()
@@ -56,6 +58,7 @@ namespace SEOMacroscope
       this.TitleFontFamily = new FontFamily ( this.TitleFontName );
       Image ImageInstance = new Bitmap ( 1, 1 );
       this.GraphicsHandle = Graphics.FromImage( ImageInstance );
+      this.AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ();
     }
 
     public MacroscopeAnalyzePageTitles ( string FontName )
@@ -66,6 +69,7 @@ namespace SEOMacroscope
       this.TitleFontFamily = new FontFamily ( this.TitleFontName );
       Image ImageInstance = new Bitmap ( 1, 1 );
       this.GraphicsHandle = Graphics.FromImage( ImageInstance );
+      this.AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ();
     }
 
     public MacroscopeAnalyzePageTitles ( string FontName, int FontSize )
@@ -76,12 +80,22 @@ namespace SEOMacroscope
       this.TitleFontFamily = new FontFamily ( this.TitleFontName );
       Image ImageInstance = new Bitmap ( 1, 1 );
       this.GraphicsHandle = Graphics.FromImage( ImageInstance );
+      this.AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ();
     }
 
     /**************************************************************************/
 
     ~MacroscopeAnalyzePageTitles ()
     {
+
+      this.TitleFontName = null;
+    
+      this.TitleFontFamily = null;
+
+      this.GraphicsHandle = null;
+      
+      this.AnalyzeTextLanguage = null;
+    
     }
 
     /**************************************************************************/
@@ -93,6 +107,19 @@ namespace SEOMacroscope
       int FontWidth = ( int )FontTextSize.Width;
       DebugMsg( string.Format( "CalcTitleWidth: {0}", FontWidth ) );
       return( FontWidth );
+    }
+
+    /**************************************************************************/
+
+    public string AnalyzeLanguage ( string Text )
+    {
+
+      string LanguageDetected = this.AnalyzeTextLanguage.AnalyzeLanguage( Text: Text );
+
+      DebugMsg( string.Format( "LanguageDetected: {0}", LanguageDetected ) );
+
+      return( LanguageDetected );
+
     }
 
     /**************************************************************************/

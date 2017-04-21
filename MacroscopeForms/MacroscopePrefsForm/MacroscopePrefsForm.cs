@@ -203,7 +203,7 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetFollowHrefLangLinks( PrefsControl.checkBoxFollowHrefLangLinks.Checked );
 
       MacroscopePreferencesManager.SetFetchStylesheets( PrefsControl.checkBoxFetchStylesheets.Checked );
-      MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchJavascripts.Checked );
+      MacroscopePreferencesManager.SetFetchJavascripts( PrefsControl.checkBoxFetchJavascripts.Checked );
       MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchImages.Checked );
       MacroscopePreferencesManager.SetFetchPdfs( PrefsControl.checkBoxFetchPdfs.Checked );
       MacroscopePreferencesManager.SetFetchAudio( PrefsControl.checkBoxFetchAudio.Checked );

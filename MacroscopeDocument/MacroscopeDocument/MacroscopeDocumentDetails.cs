@@ -86,14 +86,18 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Title", this.GetTitle() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Title Length", this.GetTitleLength().ToString() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Title Pixel Width", this.GetTitlePixelWidth().ToString() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Probable Title Language", this.GetTitleLanguage() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Description", this.GetDescription() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Description Length", this.GetDescriptionLength().ToString() ) );
-
+      DetailsList.Add( new KeyValuePair<string,string> ( "Probable Description Language", this.GetDescriptionLanguage() ) );
+      
       DetailsList.Add( new KeyValuePair<string,string> ( "Keywords", this.GetKeywords() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
 
+      DetailsList.Add( new KeyValuePair<string,string> ( "Probable Body Text Language", this.GetBodyTextLanguage() ) );
+            
       DetailsList.Add( new KeyValuePair<string,string> ( "AltText", this.GetAltText() ) );
             
       DetailsList.Add( new KeyValuePair<string,string> ( "Checksum", this.GetChecksum() ) );
