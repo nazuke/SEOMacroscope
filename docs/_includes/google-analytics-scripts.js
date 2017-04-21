@@ -25,7 +25,9 @@ function configureGaReleaseLinks() {
           hitType: 'event',
           eventCategory: 'downloads',
           eventAction: 'link-release',
-          eventLabel: Tag
+          eventLabel: Tag,
+          eventValue: 0,
+          transport: 'beacon'
         }
       );
 
@@ -53,7 +55,9 @@ function configureGaInstallerLinks() {
           hitType: 'event',
           eventCategory: 'downloads',
           eventAction: 'link-installer',
-          eventLabel: Tag
+          eventLabel: Tag,
+          eventValue: 0,
+          transport: 'beacon'
         }
       );
 
