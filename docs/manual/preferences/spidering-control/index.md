@@ -7,6 +7,7 @@ These settings control how SEO Macroscope crawls the links on your site.
 {: .lead }
 
 ![SEO Macroscope spidering control preferences](../../images/preferences-spidering-control.png){: .img-responsive .box-shadow}
+{: .screenshot }
 
 ## Standards
 

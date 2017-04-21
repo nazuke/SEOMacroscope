@@ -15,6 +15,7 @@ One of the first features I implemented was canonical URL analysis. This is a ve
 Here's a screenshot of the results of scanning this block, and then inspecting the results in the **Canonical Analysis** tab (click the screenshot for a closer look):
 
 ![Canonical Analysis tab]({{ "/manual/images/overview-panel-canonical-001.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }
 
 In most cases, the website scanner application highlights "internal" URLs under the URL column in green. This can help you to ignore other URLs that are of no interest.
 

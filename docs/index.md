@@ -7,6 +7,7 @@ layout: home
 {: .lead }
 
 ![The SEO Macroscope application window.]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }
 
 This website crawler will help you to:
 

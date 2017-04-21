@@ -11,6 +11,7 @@ As a long time user of the excellent [Xenu Link Sleuth](http://home.snafu.de/til
 {: .lead }
 
 ![SEO Macroscope main application window]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }
 
 I've taken a look around every now and then to see if there's an open source application like Xenu, but have not found something suitable yet.
 

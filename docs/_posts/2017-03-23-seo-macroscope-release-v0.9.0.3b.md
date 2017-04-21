@@ -23,3 +23,4 @@ Next, I plan on writing the rest of the manual, and work towards a version 1.0 r
 This version, however, seems to be firming up to be pretty useful for everyday work. So far, it's been helping me to find rogue branding on my company's site, amongst other things.
 
 ![SEO Macroscope Application Window]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }

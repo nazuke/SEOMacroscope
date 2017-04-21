@@ -25,3 +25,4 @@ This release has some improvements in terms of display speed, finding more links
 Please report issues at [https://github.com/nazuke/SEOMacroscope/issues](https://github.com/nazuke/SEOMacroscope/issues).
 
 ![SEO Macroscope Application Window]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }

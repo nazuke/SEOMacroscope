@@ -7,6 +7,7 @@ Configure your network settings here.
 {: .lead }
 
 ![SEO Macroscope spidering control preferences](../../images/preferences-network-settings.png){: .img-responsive .box-shadow}
+{: .screenshot }
 
 ## HTTP Proxy
 

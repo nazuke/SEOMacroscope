@@ -28,3 +28,4 @@ I've spent most of the time cleaning up bugs, tuning features, and tidying up th
 There are still a few bugs, such as the calculation of duplicate titles; but I'm finding that this is becoming pretty useful in daily work.
 
 ![SEO Macroscope Application Window]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }

@@ -35,6 +35,10 @@ comments: true
       {{ content }}
     </div>
 
+    <div class="container-adsense">
+      {% include google-adsense.html %}
+    </div>
+
     {% if site.disqus.shortname %}
       {% include disqus_comments.html %}
     {% endif %}
@@ -44,7 +48,7 @@ comments: true
   <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
     <div>
-      <h2>Related Products</h1>
+      <h2>Related Products</h2>
       <div>{% include amazon-earnings.html %}</div>
     </div>
 

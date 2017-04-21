@@ -33,6 +33,18 @@ main
 		color:$color-dark-grey;
 	}
 
+	h1
+	{
+		font-size:40px;
+		color:$color-purple;
+	}
+
+	h2
+	{
+		font-size:24px;
+		margin-top:30px;
+	}
+
 }
 
 a
@@ -116,6 +128,11 @@ blockquote
 .box-shadow
 {
 	box-shadow:0px 0px 10px $color-medium-grey;
+}
+
+.screenshot
+{
+	margin-top:40px;
 }
 
 /** Footer ********************************************************************/
