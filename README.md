@@ -30,7 +30,7 @@ Depending on the size and responsiveness of your website, it may take a while to
 
 There are still going to be many bugs in this version, and many features and functions remain to be implemented.
 
-However, this beta version is functional enough to be used for many link checking tasks right now.
+However, it is functional enough to be used for many link checking tasks right now.
 
 ### Basic functionality includes:
 

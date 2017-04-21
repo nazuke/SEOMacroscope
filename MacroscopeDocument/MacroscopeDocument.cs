@@ -915,9 +915,9 @@ namespace SEOMacroscope
       return( this.CharacterSet );
     }
 
-    public void SetCharacterSet ( string CharSet )
+    public void SetCharacterSet ( string NewCharSet )
     {
-      this.CharacterSet = CharSet;
+      this.CharacterSet = NewCharSet;
     }
 
     /** Canonical *************************************************************/
