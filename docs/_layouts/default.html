@@ -28,7 +28,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<!-- END: jQuery and Bootstrap JavaScript -->
 
-    {% if jekyll.environment == 'development' and site.google_analytics %}
+    {% if jekyll.environment == 'production' and site.google_analytics %}
       <script type="text/javascript">
         {% include google-analytics-scripts.js %}
       </script>
