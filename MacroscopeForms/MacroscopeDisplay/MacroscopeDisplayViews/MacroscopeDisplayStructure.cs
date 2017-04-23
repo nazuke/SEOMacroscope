@@ -177,6 +177,26 @@ namespace SEOMacroscope
         Hashtable htItems = new Hashtable ();
         ListViewItem lvItem = null;
 
+        string TitleLanguage = msDoc.GetTitleLanguage();
+        string DescriptionLanguage = msDoc.GetDescriptionLanguage();
+        string BodyTextLanguage = msDoc.GetBodyTextLanguage();
+
+        if( string.IsNullOrEmpty( TitleLanguage ) )
+        {
+          TitleLanguage = "";
+        }
+        
+        if( string.IsNullOrEmpty( DescriptionLanguage ) )
+        {
+          DescriptionLanguage = "";
+        }
+        
+        if( string.IsNullOrEmpty( BodyTextLanguage ) )
+        {
+          BodyTextLanguage = "";
+        }
+        
+        
         // BEGIN: Columns ----------------------------------------------------//
 
         htItems[ MacroscopeConstants.Url ] = msDoc.GetUrl();
@@ -214,17 +234,17 @@ namespace SEOMacroscope
 
         htItems[ MacroscopeConstants.Title ] = msDoc.GetTitle();
         htItems[ MacroscopeConstants.TitleLen ] = msDoc.GetTitleLength();
-        htItems[ MacroscopeConstants.TitleLang ] = msDoc.GetTitleLanguage();
+        htItems[ MacroscopeConstants.TitleLang ] = TitleLanguage;
 
         htItems[ MacroscopeConstants.Description ] = msDoc.GetDescription();
         htItems[ MacroscopeConstants.DescriptionLen ] = msDoc.GetDescriptionLength();
-        htItems[ MacroscopeConstants.DescriptionLang ] = msDoc.GetDescriptionLanguage();
+        htItems[ MacroscopeConstants.DescriptionLang ] = DescriptionLanguage;
 
         htItems[ MacroscopeConstants.Keywords ] = msDoc.GetKeywords();
         htItems[ MacroscopeConstants.KeywordsLen ] = msDoc.GetKeywordsLength();
         htItems[ MacroscopeConstants.KeywordsCount ] = msDoc.GetKeywordsCount();
         
-        htItems[ MacroscopeConstants.BodyTextLang ] = msDoc.GetBodyTextLanguage();
+        htItems[ MacroscopeConstants.BodyTextLang ] = BodyTextLanguage;
 
         for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
         {
@@ -349,11 +369,11 @@ namespace SEOMacroscope
     private void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
+      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () {
+        {
           MacroscopeConstants.Url,
           300
-        },
-        {
+        }, {
           MacroscopeConstants.Title,
           300
         }
@@ -377,14 +397,14 @@ namespace SEOMacroscope
     {
 
       List<string> lColDataWidth = new List<string> () {
-        MacroscopeConstants.Url,
-          MacroscopeConstants.DateServer,
-        MacroscopeConstants.DateModified,
-          MacroscopeConstants.Title
+          MacroscopeConstants.Url,
+        MacroscopeConstants.DateServer,
+          MacroscopeConstants.DateModified,
+        MacroscopeConstants.Title
       };
 
       List<string> lColHeaderWidth = new List<string> () {
-        MacroscopeConstants.DateModified
+          MacroscopeConstants.DateModified
       };
 
       foreach( string sColName in lColDataWidth )
