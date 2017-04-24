@@ -24,47 +24,26 @@
 */
 
 using System;
-using System.Drawing;
 
 namespace SEOMacroscope
 {
 
   public class MacroscopeAnalyzePageBodyText : Macroscope
   {
-
-    /**************************************************************************/
-
-    MacroscopeAnalyzeTextLanguage AnalyzeTextLanguage;
-        
+       
     /**************************************************************************/
 
     public MacroscopeAnalyzePageBodyText ()
     {
       
       this.SuppressDebugMsg = true;
-      
-      this.AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ();
-      
+           
     }
 
     /**************************************************************************/
 
     ~MacroscopeAnalyzePageBodyText ()
     {
-      this.AnalyzeTextLanguage = null;
-    }
-
-    /**************************************************************************/
-
-    public string AnalyzeLanguage ( string Text )
-    {
-
-      string LanguageDetected = this.AnalyzeTextLanguage.AnalyzeLanguage( Text: Text );
-
-      DebugMsg( string.Format( "LanguageDetected: {0}", LanguageDetected ) );
-
-      return( LanguageDetected );
-
     }
 
     /**************************************************************************/

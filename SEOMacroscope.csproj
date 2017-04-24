@@ -67,17 +67,11 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="IvanAkcheurov.Commons">
-      <HintPath>packages\NTextCat.0.2.1.30\lib\net40\IvanAkcheurov.Commons.dll</HintPath>
-    </Reference>
-    <Reference Include="IvanAkcheurov.NClassify">
-      <HintPath>packages\NTextCat.0.2.1.30\lib\net40\IvanAkcheurov.NClassify.dll</HintPath>
+    <Reference Include="LanguageDetection">
+      <HintPath>packages\LanguageDetection.1.2.0\lib\net45\LanguageDetection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="NTextCat">
-      <HintPath>packages\NTextCat.0.2.1.30\lib\net40\NTextCat.dll</HintPath>
     </Reference>
     <Reference Include="NUnit.Framework">
       <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
@@ -106,8 +100,7 @@
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageBodyText.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageDescriptions.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzeTextLanguage.cs" />
-    <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzePageBodyText.cs" />
-    <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzePageDescriptions.cs" />
+    <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentText.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
@@ -156,10 +149,6 @@
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.Designer.cs">
       <DependentUpon>MacroscopeDoublePercentageProgressForm.cs</DependentUpon>
     </Compile>
-    <None Include="packages\NTextCat.0.2.1.30\Core14.profile.xml">
-      <Link>Core14.profile.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

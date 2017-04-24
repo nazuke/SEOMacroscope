@@ -24,9 +24,10 @@
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using NTextCat;
 using System.Linq;
+using LanguageDetection;
 
 namespace SEOMacroscope
 {
@@ -40,18 +41,71 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    RankedLanguageIdentifier NTextCatIdentifier;
-    
+    LanguageDetector DetectLanguage;
+
     /**************************************************************************/
 
     public MacroscopeAnalyzeTextLanguage ()
     {
 
       this.SuppressDebugMsg = true;
+
+      this.DetectLanguage = new LanguageDetector ();
+
+      this.DetectLanguage.AddLanguages(
+        "en", // English        
+        "es", // Spanish
+        "de", // German
+        "fr", // French
+        "it", // Italian
+        "ja", // Japanese        
+        "no", // Norwegian
+        "pt", // Portuguese
+        "sv", // Swedish
+        "zh-cn", // Chinese Simplified
+        "zh-tw" // Chinese Traditional
+      );
+
+    }
+
+    public MacroscopeAnalyzeTextLanguage ( string IsoLanguageCode )
+    {
+
+      this.SuppressDebugMsg = true;
+
+      this.DetectLanguage = new LanguageDetector ();
       
-      RankedLanguageIdentifierFactory NTextCatFactory = new RankedLanguageIdentifierFactory ();
-      
-      this.NTextCatIdentifier = NTextCatFactory.Load( "Core14.profile.xml" );
+      this.DetectLanguage.RandomSeed = 666;
+      this.DetectLanguage.ProbabilityThreshold = ( double )0.75;
+
+      if( string.IsNullOrEmpty( IsoLanguageCode ) )
+      {
+
+        this.DetectLanguage.AddAllLanguages();
+
+      }
+      else
+      {
+
+        if( IsoLanguageCode.ToLower().Equals( "x-default" ) )
+        {
+
+          this.DetectLanguage.AddAllLanguages();
+
+        }
+        else
+        {
+
+          this.DetectLanguage.AddLanguages( "en" );
+
+          if( !IsoLanguageCode.ToLower().Equals( "en" ) )
+          {
+            this.DetectLanguage.AddLanguages( IsoLanguageCode.ToLower() );
+          }
+
+        }
+
+      }
 
     }
 
@@ -59,27 +113,23 @@ namespace SEOMacroscope
         
     ~MacroscopeAnalyzeTextLanguage ()
     {
-      
-      this.NTextCatIdentifier = null;
-      
+      this.DetectLanguage = null;
     }
 
     /**************************************************************************/
 
     public string AnalyzeLanguage ( string Text )
     {
-      
-      // http://ntextcat.codeplex.com/wikipage?title=NTextCat.Lib%20Samples&referringTitle=Home
 
       string LanguageDetected = null;
 
-      var PossibleLanguages = this.NTextCatIdentifier.Identify( Text );
-
-      var ProbableLanguage = PossibleLanguages.FirstOrDefault();
-
-      if( ProbableLanguage != null )
+      try
       {
-        LanguageDetected = ProbableLanguage.Item1.Iso639_3;
+        LanguageDetected = this.DetectLanguage.Detect( text: Text );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "AnalyzeLanguage: {0}", ex.Message ) );
       }
 
       DebugMsg( string.Format( "LanguageDetected: {0}", LanguageDetected ) );

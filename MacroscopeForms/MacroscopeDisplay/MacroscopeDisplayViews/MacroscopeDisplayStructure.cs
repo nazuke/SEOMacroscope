@@ -94,7 +94,8 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.DateExpires, MacroscopeConstants.DateExpires );
        
         this.DisplayListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
-        this.DisplayListView.Columns.Add( MacroscopeConstants.Lang, MacroscopeConstants.Lang );
+        this.DisplayListView.Columns.Add( MacroscopeConstants.Locale, MacroscopeConstants.Locale );
+        this.DisplayListView.Columns.Add( MacroscopeConstants.Language, MacroscopeConstants.Language );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
         
         this.DisplayListView.Columns.Add( MacroscopeConstants.Inlinks, MacroscopeConstants.Inlinks );
@@ -210,12 +211,21 @@ namespace SEOMacroscope
         htItems[ MacroscopeConstants.ContentType ] = msDoc.GetMimeType();
 
         {
-          string Lang = msDoc.GetLang();
-          if( Lang == null )
+          string LocaleCode = msDoc.GetLocale();
+          if( string.IsNullOrEmpty( LocaleCode ) )
           {
-            Lang = "";
+            LocaleCode = "";
           }
-          htItems[ MacroscopeConstants.Lang ] = Lang;
+          htItems[ MacroscopeConstants.Locale ] = LocaleCode;
+        }
+        
+        {
+          string LanguageCode = msDoc.GetIsoLanguageCode();
+          if( string.IsNullOrEmpty( LanguageCode ) )
+          {
+            LanguageCode = "";
+          }
+          htItems[ MacroscopeConstants.Language ] = LanguageCode;
         }
 
         htItems[ MacroscopeConstants.DateCrawled ] = msDoc.GetCrawledDate();

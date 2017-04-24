@@ -99,8 +99,6 @@ Section uninstall
 	Delete "$INSTDIR\ClosedXML.dll"
 	Delete "$INSTDIR\ClosedXML.pdb"
 		
-	Delete "$INSTDIR\Core14.profile.xml"
-
 	Delete "$INSTDIR\DocumentFormat.OpenXml.dll"
 	
 	Delete "$INSTDIR\ExCSS.dll"

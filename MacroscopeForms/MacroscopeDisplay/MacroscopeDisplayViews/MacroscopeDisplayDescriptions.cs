@@ -40,6 +40,15 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private const int ColUrl = 0;
+    private const int ColPageLanguage = 1;
+    private const int ColDetectedLanguage = 2;
+    private const int ColOccurences = 3;
+    private const int ColDescriptionText = 4;
+    private const int ColLength = 5;
+    
+    /**************************************************************************/
+
     public MacroscopeDisplayDescriptions ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
@@ -111,12 +120,24 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
 
-        string Description = msDoc.GetDescription();
         int Occurrences = 0;
+        string PageLanguage = msDoc.GetIsoLanguageCode();
+        string DetectedLanguage = msDoc.GetDescriptionLanguage();
+        string Description = msDoc.GetDescription();
         int DescriptionLength = msDoc.GetDescriptionLength();
 
         string PairKey = string.Join( "", Url, Description );
 
+        if( string.IsNullOrEmpty( PageLanguage ) )
+        {
+          PageLanguage = "";
+        }
+        
+        if( string.IsNullOrEmpty( DetectedLanguage ) )
+        {
+          DetectedLanguage = "";
+        }
+        
         if( DescriptionLength > 0 )
         {
           Occurrences = DocCollection.GetStatsDescriptionCount( msDoc: msDoc );
@@ -133,10 +154,12 @@ namespace SEOMacroscope
           {
 
             lvItem = this.DisplayListView.Items[ PairKey ];
-            lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems[ 1 ].Text = Occurrences.ToString();
-            lvItem.SubItems[ 2 ].Text = Description;
-            lvItem.SubItems[ 3 ].Text = DescriptionLength.ToString();
+            lvItem.SubItems[ ColUrl ].Text = Url;
+            lvItem.SubItems[ ColPageLanguage ].Text = PageLanguage;        
+            lvItem.SubItems[ ColDetectedLanguage ].Text = DetectedLanguage;        
+            lvItem.SubItems[ ColOccurences ].Text = Occurrences.ToString();
+            lvItem.SubItems[ ColDescriptionText ].Text = Description;
+            lvItem.SubItems[ ColLength ].Text = DescriptionLength.ToString();
 
           }
           catch( Exception ex )
@@ -155,7 +178,9 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
-            lvItem.SubItems[ 0 ].Text = Url;
+            lvItem.SubItems[ ColUrl ].Text = Url;
+            lvItem.SubItems.Add( PageLanguage );
+            lvItem.SubItems.Add( DetectedLanguage );
             lvItem.SubItems.Add( Occurrences.ToString() );
             lvItem.SubItems.Add( Description );
             lvItem.SubItems.Add( DescriptionLength.ToString() );
@@ -179,44 +204,69 @@ namespace SEOMacroscope
           
           if( msDoc.GetIsInternal() )
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
           }
           else
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
           }
           
+          // Description Language --------------------------------------------//
+
+          if( msDoc.GetIsInternal() )
+          {
+
+            lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Green;
+            
+            if( DetectedLanguage != PageLanguage )
+            {
+              lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Red;
+            }
+
+          }
+          else
+          {
+            lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Gray;
+          }
+
           // Check Description Length ----------------------------------------//
           
           if( msDoc.GetIsInternal() )
           {
             if( DescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
             {
-              lvItem.SubItems[ 0 ].ForeColor = Color.Red;
-              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
-              lvItem.SubItems[ 2 ].ForeColor = Color.Red;
-              lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColUrl ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColOccurences ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColDescriptionText ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColLength ].ForeColor = Color.Red;
             }
             else
             if( DescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
             {
-              lvItem.SubItems[ 0 ].ForeColor = Color.Red;
-              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
-              lvItem.SubItems[ 2 ].ForeColor = Color.Red;
-              lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColUrl ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColOccurences ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColDescriptionText ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColLength ].ForeColor = Color.Red;
             }
             else
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-              lvItem.SubItems[ 2 ].ForeColor = Color.Green;
-              lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColOccurences ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColDescriptionText ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColLength ].ForeColor = Color.Green;
             }
           }
           else
           {
-            lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
-            lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
-            lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColOccurences ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColDescriptionText ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColLength ].ForeColor = Color.Gray;
           }
 
         }

@@ -36,6 +36,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private const int ColUrl = 0;
+    private const int ColPageLanguage= 1;
+    private const int ColDetectedLanguage = 2;
+    private const int ColOccurences = 3;
+    private const int ColTitleText = 4;
+    private const int ColLength = 5;
+    private const int ColPixelWidth = 6;
+    
+    /**************************************************************************/
+
     public MacroscopeDisplayTitles ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
@@ -105,6 +115,8 @@ namespace SEOMacroscope
       if( Proceed )
       {
 
+        string PageLanguage = msDoc.GetIsoLanguageCode();
+        string DetectedLanguage = msDoc.GetTitleLanguage();
         string Text = msDoc.GetTitle();
         string TextLabel = Text;
         int TextCount = 0;
@@ -114,6 +126,16 @@ namespace SEOMacroscope
         string PairKey = string.Join( "", Url, Text );
 
         ListViewItem lvItem = null;
+
+        if( string.IsNullOrEmpty( PageLanguage ) )
+        {
+          PageLanguage = "";
+        }
+        
+        if( string.IsNullOrEmpty( DetectedLanguage ) )
+        {
+          DetectedLanguage = "";
+        }
 
         if( TextLength > 0 )
         {
@@ -131,12 +153,14 @@ namespace SEOMacroscope
           {
 
             lvItem = this.DisplayListView.Items[ PairKey ];
-            lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems[ 1 ].Text = TextCount.ToString();
-            lvItem.SubItems[ 2 ].Text = TextLabel;
-            lvItem.SubItems[ 3 ].Text = TextLength.ToString();
-            lvItem.SubItems[ 4 ].Text = TextPixelWidth.ToString();
-
+            lvItem.SubItems[ ColUrl ].Text = Url;
+            lvItem.SubItems[ ColPageLanguage ].Text = PageLanguage;
+            lvItem.SubItems[ ColDetectedLanguage ].Text = DetectedLanguage;
+            lvItem.SubItems[ ColOccurences ].Text = TextCount.ToString();
+            lvItem.SubItems[ ColTitleText ].Text = TextLabel;
+            lvItem.SubItems[ ColLength ].Text = TextLength.ToString();
+            lvItem.SubItems[ ColPixelWidth ].Text = TextPixelWidth.ToString();
+            
           }
           catch( Exception ex )
           {
@@ -154,7 +178,9 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
-            lvItem.SubItems[ 0 ].Text = Url;
+            lvItem.SubItems[ ColUrl ].Text = Url;
+            lvItem.SubItems.Add( PageLanguage );     
+            lvItem.SubItems.Add( DetectedLanguage );     
             lvItem.SubItems.Add( TextCount.ToString() );
             lvItem.SubItems.Add( TextLabel );
             lvItem.SubItems.Add( TextLength.ToString() );
@@ -179,70 +205,91 @@ namespace SEOMacroscope
           
           if( msDoc.GetIsInternal() )
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
           }
           else
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
           }
-          
+
+          // Title Language --------------------------------------------------//
+
+          if( msDoc.GetIsInternal() )
+          {
+
+            lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Green;
+            
+            if( DetectedLanguage != PageLanguage )
+            {
+              lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Red;
+            }
+
+          }
+          else
+          {
+            lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Gray;
+          }
+
           // Check Missing Title ---------------------------------------------//
 
           if( TextLength <= 0 )
           {
-            lvItem.SubItems[ 2 ].Text = "MISSING";
-            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColTitleText ].Text = "MISSING";
+            lvItem.SubItems[ ColTitleText ].ForeColor = Color.Red;
           }
           else
           if( TextLength < MacroscopePreferencesManager.GetTitleMinLen() )
           {
-            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColTitleText ].ForeColor = Color.Red;
           }
           else
           if( TextLength > MacroscopePreferencesManager.GetTitleMaxLen() )
           {
-            lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColTitleText ].ForeColor = Color.Red;
           }
           else
           {
-            lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColTitleText ].ForeColor = Color.Green;
           }
 
           // Check Title Length ----------------------------------------------//
 
           if( TextLength < MacroscopePreferencesManager.GetTitleMinLen() )
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColLength ].ForeColor = Color.Red;
           }
           else
           if( TextLength > MacroscopePreferencesManager.GetTitleMaxLen() )
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColLength ].ForeColor = Color.Red;
           }
           else
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColLength ].ForeColor = Color.Green;
           }
 
           // Check Pixel Width -----------------------------------------------//
 
           if( TextPixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
           {
-            lvItem.SubItems[ 4 ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColPixelWidth ].ForeColor = Color.Red;
           }
           else
           if( TextPixelWidth >= ( MacroscopePreferencesManager.GetTitleMaxPixelWidth() - 20 ) )
           {
-            lvItem.SubItems[ 4 ].ForeColor = Color.Goldenrod;
+            lvItem.SubItems[ ColPixelWidth ].ForeColor = Color.Goldenrod;
           }
           else
           if( TextPixelWidth <= 0 )
           {
-            lvItem.SubItems[ 4 ].ForeColor = Color.Orange;
+            lvItem.SubItems[ ColPixelWidth ].ForeColor = Color.Orange;
           }
           else
           {
-            lvItem.SubItems[ 4 ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColPixelWidth ].ForeColor = Color.Green;
           }
 
         }

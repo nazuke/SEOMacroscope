@@ -1454,11 +1454,11 @@ namespace SEOMacroscope
       if( Proceed )
       {
         
-        string DocLang = msDoc.GetLang();
+        string DocLang = msDoc.GetIsoLanguageCode();
         
         if( DocLang != null )
         {
-          if( Regex.IsMatch( msDoc.GetLang(), "^(x-default|en|fr|de|it|es|po)", RegexOptions.IgnoreCase ) )
+          if( Regex.IsMatch( msDoc.GetIsoLanguageCode(), "^(x-default|en|fr|de|it|es|po)", RegexOptions.IgnoreCase ) )
           {
             lock( this.StatsDeepKeywordAnalysis )
             {

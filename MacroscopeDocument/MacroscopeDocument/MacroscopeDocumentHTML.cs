@@ -163,11 +163,21 @@ namespace SEOMacroscope
           { // Probe Locale
             
             MacroscopeLocaleTools msLocale = new MacroscopeLocaleTools ();
+
             this.Locale = msLocale.ProbeLocale( HtmlDoc );
+
             if( this.Locale != null )
             {
               this.SetHreflang( HrefLangLocale: this.Locale, Url: this.DocUrl );
             }
+
+            if( this.Locale != null )
+            {
+              string LanguageCode = this.Locale;
+              LanguageCode = Regex.Replace( LanguageCode, "^([^\\-]+)([\\-][^\\-]+)$", "$1" );
+              this.SetIsoLanguageCode( LanguageCode: LanguageCode );
+            }
+
           }
 
           { // Probe Character Set
@@ -190,16 +200,19 @@ namespace SEOMacroscope
           }
 
           { // Title
-            HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/title" );
-            if( nNode != null )
+
+            HtmlNode TitleNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/title" );
+
+            if( TitleNode != null )
             {
-              this.SetTitle( nNode.InnerText, MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES );
+              this.SetTitle( TitleNode.InnerText, MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES );
               DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
             }
             else
             {
               DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
             }
+
           }
 
           { // Description
@@ -312,6 +325,10 @@ namespace SEOMacroscope
 
         res.Close();
 
+      }
+      else
+      {
+        this.AddRemark( "Failed to download HTML." );
       }
 
       if( ResponseErrorCondition != null )

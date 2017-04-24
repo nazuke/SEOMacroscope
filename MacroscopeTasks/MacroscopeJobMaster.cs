@@ -111,8 +111,11 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR" ) );
 
-      this.SemaphoreWorkers.Dispose();
-
+      if( this.SemaphoreWorkers != null )
+      {
+        this.SemaphoreWorkers.Dispose();
+      }
+      
       this.DocCollection = null;
 
       this.AllowedHosts = null;
@@ -153,7 +156,10 @@ namespace SEOMacroscope
      
       this.RunTimeMode = JobRunTimeMode;
       
-      this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
+      if( this.TaskController != null )
+      {
+        this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
+      }
       
       this.DocCollection = new MacroscopeDocumentCollection ( this );
       this.AllowedHosts = new MacroscopeAllowedHosts ();

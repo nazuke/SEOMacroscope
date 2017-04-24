@@ -139,6 +139,8 @@ namespace SEOMacroscope
         // Analysis Options
 
         PrefsControl.checkBoxCheckHreflangs.Checked = MacroscopePreferencesManager.GetCheckHreflangs();
+        PrefsControl.checkBoxDetectLanguage.Checked = MacroscopePreferencesManager.GetDetectLanguage();
+             
         PrefsControl.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
         PrefsControl.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
 
@@ -214,6 +216,8 @@ namespace SEOMacroscope
       // Analysis Options
 
       MacroscopePreferencesManager.SetCheckHreflangs( PrefsControl.checkBoxCheckHreflangs.Checked );
+      MacroscopePreferencesManager.SetDetectLanguage( Detect: PrefsControl.checkBoxDetectLanguage.Checked );
+
       MacroscopePreferencesManager.SetScanSitesInList( PrefsControl.checkBoxScanSitesInList.Checked );
       MacroscopePreferencesManager.SetWarnAboutInsecureLinks( PrefsControl.checkBoxWarnAboutInsecureLinks.Checked );
 

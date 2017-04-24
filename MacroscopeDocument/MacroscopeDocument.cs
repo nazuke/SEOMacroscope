@@ -95,6 +95,7 @@ namespace SEOMacroscope
     private string ContentEncoding;
 
     private string Locale;
+    private string IsoLanguageCode;
     private Encoding CharSet;
     private string CharacterSet;
 
@@ -258,6 +259,7 @@ namespace SEOMacroscope
       this.ContentEncoding = "";
 
       this.Locale = null;
+      this.IsoLanguageCode = null;
       this.CharSet = null;
       this.CharacterSet = null;
 
@@ -292,25 +294,25 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () {
-        {
+      this.Headings = new Dictionary<ushort,List<string>> () { {
           1,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           2,
           new List<string> ( 16 )
-        },
-        {
+        }, {
           3,
           new List<string> ( 16 )
-        }, {
+        },
+        {
           4,
+          new List<string> ( 16 )
+        }, {
+          5,
           new List<string> ( 16 )
         },
         {
-          5,
-          new List<string> ( 16 )
-        }, {
           6,
           new List<string> ( 16 )
         }
@@ -919,14 +921,24 @@ namespace SEOMacroscope
 
     /** Language/Locale *******************************************************/
 
-    public string GetLang ()
+    public void SetLocale ( string NewLocale )
     {
-      return( this.Locale );
+      this.Locale = NewLocale;
     }
 
     public string GetLocale ()
     {
       return( this.Locale );
+    }
+            
+    public void SetIsoLanguageCode ( string LanguageCode )
+    {
+      this.IsoLanguageCode = LanguageCode;
+    }
+    
+    public string GetIsoLanguageCode ()
+    {
+      return( this.IsoLanguageCode );
     }
 
     /** Character Set *********************************************************/
@@ -1100,13 +1112,18 @@ namespace SEOMacroscope
 
     private void SetProcessHyperlinksInForUrl ( string Url )
     {
-      
-      MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
-      
-      if( msDoc != null )
+
+      if( this.DocCollection != null )
       {
-        msDoc.SetProcessInlinks();
-        msDoc.SetProcessHyperlinksIn();
+        
+        MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
+      
+        if( msDoc != null )
+        {
+          msDoc.SetProcessInlinks();
+          msDoc.SetProcessHyperlinksIn();
+        }
+      
       }
 
     }
@@ -1618,6 +1635,11 @@ namespace SEOMacroscope
         }
       }
 
+      if( this.DocCollection == null )
+      {
+        this.SetFetchStatus( NewFetchStatus: MacroscopeConstants.FetchStatus.OK );
+      }
+      else
       if( this.GetFetchStatus() != MacroscopeConstants.FetchStatus.OK )
       {
         DoDownloadDocument = false;
@@ -2414,25 +2436,26 @@ namespace SEOMacroscope
 
     /** Language Detection ****************************************************/
 
+    
     public string ProbeTextLanguage ( string Text )
     {
 
-      // TODO: This leaks memory!      
-      
       string LanguagedDetected = null;
 
-      /*
       MacroscopeAnalyzeTextLanguage AnalyzeTextLanguage;
 
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ();
+        string LanguageCode = this.GetIsoLanguageCode();
+
+        AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ( IsoLanguageCode: LanguageCode );
 
         LanguagedDetected = AnalyzeTextLanguage.AnalyzeLanguage( Text: Text );
 
+        AnalyzeTextLanguage = null;
+
       }
-      */
      
       return( LanguagedDetected );
 

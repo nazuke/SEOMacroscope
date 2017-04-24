@@ -281,7 +281,7 @@ namespace SEOMacroscope
       MaxLevenshteinSizeDifference = 64;
       MaxLevenshteinDistance = 16;
       
-      DetectLanguage = true;
+      DetectLanguage = false;
       
       // SEO Options
 
@@ -574,9 +574,9 @@ namespace SEOMacroscope
       return( Depth );
     }
 
-    public static void SetDepth ( int Value )
+    public static void SetDepth ( int Max )
     {
-      Depth = Value;
+      Depth = Max;
     }
 
     /**************************************************************************/
@@ -586,9 +586,9 @@ namespace SEOMacroscope
       return( PageLimit );
     }
 
-    public static void SetPageLimit ( int Value )
+    public static void SetPageLimit ( int Max )
     {
-      PageLimit = Value;
+      PageLimit = Max;
     }
 
     /** Request Timeout *******************************************************/
@@ -598,9 +598,9 @@ namespace SEOMacroscope
       return( RequestTimeout );
     }
 
-    public static void SetRequestTimeout ( int Value )
+    public static void SetRequestTimeout ( int Seconds )
     {
-      RequestTimeout = Value;
+      RequestTimeout = Seconds;
     }
 
     /** Maximum Retries *******************************************************/
@@ -610,9 +610,9 @@ namespace SEOMacroscope
       return( MaxRetries );
     }
 
-    public static void SetMaxRetries ( int Value )
+    public static void SetMaxRetries ( int Retries )
     {
-      MaxRetries = Value;
+      MaxRetries = Retries;
     }
 
     /** Crawl Delay ***********************************************************/
@@ -622,9 +622,9 @@ namespace SEOMacroscope
       return( CrawlDelay );
     }
 
-    public static void SetCrawlDelay ( int Value )
+    public static void SetCrawlDelay ( int Seconds )
     {
-      CrawlDelay = Value;
+      CrawlDelay = Seconds;
     }
 
     /** Ignore Queries ********************************************************/
@@ -1041,9 +1041,9 @@ namespace SEOMacroscope
       return( DetectLanguage );
     }
 
-    public static void SetDetectLanguage ( Boolean State )
+    public static void SetDetectLanguage ( Boolean Detect )
     {
-      DetectLanguage = State;
+      DetectLanguage = Detect;
     }
 
     /**************************************************************************/

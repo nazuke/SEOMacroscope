@@ -38,39 +38,17 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    MacroscopeAnalyzeTextLanguage AnalyzeTextLanguage;
-    
-    /**************************************************************************/
-
     public MacroscopeAnalyzePageDescriptions ()
     {
 
       this.SuppressDebugMsg = true;
-      
-      this.AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ();
-      
+
     }
 
     /**************************************************************************/
 
     ~MacroscopeAnalyzePageDescriptions ()
     {
-
-      this.AnalyzeTextLanguage = null;
-
-    }
-        
-    /**************************************************************************/
-
-    public string AnalyzeLanguage ( string Text )
-    {
-
-      string LanguageDetected = this.AnalyzeTextLanguage.AnalyzeLanguage( Text: Text );
-
-      DebugMsg( string.Format( "LanguageDetected: {0}", LanguageDetected ) );
-
-      return( LanguageDetected );
-
     }
 
     /**************************************************************************/

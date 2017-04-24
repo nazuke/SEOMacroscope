@@ -207,7 +207,8 @@ namespace SEOMacroscope
     public const string DateExpires = "Expires Date";
 
     public const string ContentType = "Content Type";
-    public const string Lang = "Lang";
+    public const string Locale = "Locale";
+    public const string Language = "Language";
 
     public const string Canonical = "Canonical";
 

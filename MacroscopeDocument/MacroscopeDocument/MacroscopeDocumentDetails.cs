@@ -68,7 +68,8 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Date Modified", this.GetDateModified() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Expires", this.GetDateExpires() ) );
 
-      DetailsList.Add( new KeyValuePair<string,string> ( "Language", this.GetLang() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Locale", this.GetLocale() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Language", this.GetIsoLanguageCode() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Character Set", this.GetCharacterSet() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );

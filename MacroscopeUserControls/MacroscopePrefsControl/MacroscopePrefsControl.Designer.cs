@@ -119,6 +119,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxPauseDisplayDuringScan;
 		public System.Windows.Forms.CheckBox checkBoxShowProgressDialogues;
 		public System.Windows.Forms.CheckBox checkBoxIgnoreQueries;
+		public System.Windows.Forms.CheckBox checkBoxDetectLanguage;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -150,6 +151,7 @@ namespace SEOMacroscope
 			this.checkBoxFollowRobotsProtocol = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowSitemapLinks = new System.Windows.Forms.CheckBox();
 			this.groupBox10 = new System.Windows.Forms.GroupBox();
+			this.checkBoxIgnoreQueries = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowNoFollow = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowHrefLangLinks = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowCanonicalLinks = new System.Windows.Forms.CheckBox();
@@ -229,7 +231,7 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
-			this.checkBoxIgnoreQueries = new System.Windows.Forms.CheckBox();
+			this.checkBoxDetectLanguage = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -384,6 +386,15 @@ namespace SEOMacroscope
 			this.groupBox10.TabIndex = 2;
 			this.groupBox10.TabStop = false;
 			this.groupBox10.Text = "Links";
+			// 
+			// checkBoxIgnoreQueries
+			// 
+			this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(340, 20);
+			this.checkBoxIgnoreQueries.Name = "checkBoxIgnoreQueries";
+			this.checkBoxIgnoreQueries.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxIgnoreQueries.TabIndex = 5;
+			this.checkBoxIgnoreQueries.Text = "Ignore Queries";
+			this.checkBoxIgnoreQueries.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxFollowNoFollow
 			// 
@@ -777,6 +788,7 @@ namespace SEOMacroscope
 			// groupBox6
 			// 
 			this.groupBox6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox6.Controls.Add(this.checkBoxDetectLanguage);
 			this.groupBox6.Controls.Add(this.checkBoxCheckHreflangs);
 			this.groupBox6.Location = new System.Drawing.Point(10, 10);
 			this.groupBox6.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
@@ -1418,14 +1430,14 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
-			// checkBoxIgnoreQueries
+			// checkBoxDetectLanguage
 			// 
-			this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(340, 20);
-			this.checkBoxIgnoreQueries.Name = "checkBoxIgnoreQueries";
-			this.checkBoxIgnoreQueries.Size = new System.Drawing.Size(150, 24);
-			this.checkBoxIgnoreQueries.TabIndex = 5;
-			this.checkBoxIgnoreQueries.Text = "Ignore Queries";
-			this.checkBoxIgnoreQueries.UseVisualStyleBackColor = true;
+			this.checkBoxDetectLanguage.Location = new System.Drawing.Point(260, 20);
+			this.checkBoxDetectLanguage.Name = "checkBoxDetectLanguage";
+			this.checkBoxDetectLanguage.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxDetectLanguage.TabIndex = 2;
+			this.checkBoxDetectLanguage.Text = "Detect Text Language";
+			this.checkBoxDetectLanguage.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 

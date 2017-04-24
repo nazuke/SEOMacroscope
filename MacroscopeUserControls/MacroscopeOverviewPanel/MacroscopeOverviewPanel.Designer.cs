@@ -54,11 +54,11 @@ namespace SEOMacroscope
 		public System.Windows.Forms.TabPage tabPageUriAnalysis;
 		public System.Windows.Forms.TabPage tabPagePageTitles;
 		public System.Windows.Forms.ListView listViewPageTitles;
-		public System.Windows.Forms.ColumnHeader columnHeaderUrl;
-		public System.Windows.Forms.ColumnHeader columnHeaderCount;
-		public System.Windows.Forms.ColumnHeader columnHeaderPageTitle;
-		public System.Windows.Forms.ColumnHeader columnHeaderLength;
-		public System.Windows.Forms.ColumnHeader columnHeaderPixelWidth;
+		public System.Windows.Forms.ColumnHeader PageTitlesUrl;
+		public System.Windows.Forms.ColumnHeader PageTitlesOccurences;
+		public System.Windows.Forms.ColumnHeader PageTitlesPageTitle;
+		public System.Windows.Forms.ColumnHeader PageTitlesLength;
+		public System.Windows.Forms.ColumnHeader PageTitlesPixelWidth;
 		public System.Windows.Forms.TabPage tabPagePageDescriptions;
 		public System.Windows.Forms.TabPage tabPagePageKeywords;
 		public System.Windows.Forms.TabPage tabPagePageHeadings;
@@ -78,10 +78,10 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ListView listViewPageDescriptions;
 		public System.Windows.Forms.ListView listViewPageKeywords;
 		public System.Windows.Forms.ListView listViewPageHeadings;
-		private System.Windows.Forms.ColumnHeader columnHeaderDescriptionUrl;
-		private System.Windows.Forms.ColumnHeader columnHeaderDescriptionCount;
-		private System.Windows.Forms.ColumnHeader columnHeaderDescriptionDescription;
-		private System.Windows.Forms.ColumnHeader columnHeaderDescriptionLength;
+		private System.Windows.Forms.ColumnHeader MetaDescriptionsUrl;
+		private System.Windows.Forms.ColumnHeader MetaDescriptionsOccurences;
+		private System.Windows.Forms.ColumnHeader MetaDescriptionsDescription;
+		private System.Windows.Forms.ColumnHeader MetaDescriptionsLength;
 		private System.Windows.Forms.ColumnHeader columnHeaderKeywordsUrl;
 		private System.Windows.Forms.ColumnHeader columnHeaderKeywordsCount;
 		private System.Windows.Forms.ColumnHeader columnHeaderKeywordsKeywords;
@@ -232,6 +232,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem textSitemapsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem internalURLsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem externalURLsToolStripMenuItem;
+		private System.Windows.Forms.ColumnHeader PageTitlesDetectedLanguage;
+		private System.Windows.Forms.ColumnHeader MetaDescriptionsDetectedLanguage;
+		private System.Windows.Forms.ColumnHeader PageTitlesPageLanguage;
+		private System.Windows.Forms.ColumnHeader MetaDescriptionsPageLanguage;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -387,17 +391,21 @@ namespace SEOMacroscope
 			this.UriAnalysisChecksum = new System.Windows.Forms.ColumnHeader();
 			this.tabPagePageTitles = new System.Windows.Forms.TabPage();
 			this.listViewPageTitles = new System.Windows.Forms.ListView();
-			this.columnHeaderUrl = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderCount = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderPageTitle = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderLength = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderPixelWidth = new System.Windows.Forms.ColumnHeader();
+			this.PageTitlesUrl = new System.Windows.Forms.ColumnHeader();
+			this.PageTitlesPageLanguage = new System.Windows.Forms.ColumnHeader();
+			this.PageTitlesDetectedLanguage = new System.Windows.Forms.ColumnHeader();
+			this.PageTitlesOccurences = new System.Windows.Forms.ColumnHeader();
+			this.PageTitlesPageTitle = new System.Windows.Forms.ColumnHeader();
+			this.PageTitlesLength = new System.Windows.Forms.ColumnHeader();
+			this.PageTitlesPixelWidth = new System.Windows.Forms.ColumnHeader();
 			this.tabPagePageDescriptions = new System.Windows.Forms.TabPage();
 			this.listViewPageDescriptions = new System.Windows.Forms.ListView();
-			this.columnHeaderDescriptionUrl = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderDescriptionCount = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderDescriptionDescription = new System.Windows.Forms.ColumnHeader();
-			this.columnHeaderDescriptionLength = new System.Windows.Forms.ColumnHeader();
+			this.MetaDescriptionsUrl = new System.Windows.Forms.ColumnHeader();
+			this.MetaDescriptionsPageLanguage = new System.Windows.Forms.ColumnHeader();
+			this.MetaDescriptionsDetectedLanguage = new System.Windows.Forms.ColumnHeader();
+			this.MetaDescriptionsOccurences = new System.Windows.Forms.ColumnHeader();
+			this.MetaDescriptionsDescription = new System.Windows.Forms.ColumnHeader();
+			this.MetaDescriptionsLength = new System.Windows.Forms.ColumnHeader();
 			this.tabPagePageKeywords = new System.Windows.Forms.TabPage();
 			this.listViewPageKeywords = new System.Windows.Forms.ListView();
 			this.columnHeaderKeywordsUrl = new System.Windows.Forms.ColumnHeader();
@@ -1613,11 +1621,13 @@ namespace SEOMacroscope
 			// listViewPageTitles
 			// 
 			this.listViewPageTitles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeaderUrl,
-			this.columnHeaderCount,
-			this.columnHeaderPageTitle,
-			this.columnHeaderLength,
-			this.columnHeaderPixelWidth});
+			this.PageTitlesUrl,
+			this.PageTitlesPageLanguage,
+			this.PageTitlesDetectedLanguage,
+			this.PageTitlesOccurences,
+			this.PageTitlesPageTitle,
+			this.PageTitlesLength,
+			this.PageTitlesPixelWidth});
 			this.listViewPageTitles.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewPageTitles.FullRowSelect = true;
 			this.listViewPageTitles.GridLines = true;
@@ -1629,33 +1639,43 @@ namespace SEOMacroscope
 			this.listViewPageTitles.View = System.Windows.Forms.View.Details;
 			this.listViewPageTitles.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.CallbackColumnClick);
 			// 
-			// columnHeaderUrl
+			// PageTitlesUrl
 			// 
-			this.columnHeaderUrl.Text = "URL";
-			this.columnHeaderUrl.Width = 500;
+			this.PageTitlesUrl.Text = "URL";
+			this.PageTitlesUrl.Width = 500;
 			// 
-			// columnHeaderCount
+			// PageTitlesPageLanguage
 			// 
-			this.columnHeaderCount.Text = "Occurences";
-			this.columnHeaderCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeaderCount.Width = 100;
+			this.PageTitlesPageLanguage.Text = "Page Language";
+			this.PageTitlesPageLanguage.Width = 100;
 			// 
-			// columnHeaderPageTitle
+			// PageTitlesDetectedLanguage
 			// 
-			this.columnHeaderPageTitle.Text = "Page Title";
-			this.columnHeaderPageTitle.Width = 150;
+			this.PageTitlesDetectedLanguage.Text = "Detected Language";
+			this.PageTitlesDetectedLanguage.Width = 100;
 			// 
-			// columnHeaderLength
+			// PageTitlesOccurences
 			// 
-			this.columnHeaderLength.Text = "Length";
-			this.columnHeaderLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeaderLength.Width = 100;
+			this.PageTitlesOccurences.Text = "Occurences";
+			this.PageTitlesOccurences.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.PageTitlesOccurences.Width = 100;
 			// 
-			// columnHeaderPixelWidth
+			// PageTitlesPageTitle
 			// 
-			this.columnHeaderPixelWidth.Text = "Pixel Width";
-			this.columnHeaderPixelWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeaderPixelWidth.Width = 100;
+			this.PageTitlesPageTitle.Text = "Page Title";
+			this.PageTitlesPageTitle.Width = 150;
+			// 
+			// PageTitlesLength
+			// 
+			this.PageTitlesLength.Text = "Length (Characters)";
+			this.PageTitlesLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.PageTitlesLength.Width = 100;
+			// 
+			// PageTitlesPixelWidth
+			// 
+			this.PageTitlesPixelWidth.Text = "Pixel Width";
+			this.PageTitlesPixelWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.PageTitlesPixelWidth.Width = 100;
 			// 
 			// tabPagePageDescriptions
 			// 
@@ -1670,41 +1690,53 @@ namespace SEOMacroscope
 			// listViewPageDescriptions
 			// 
 			this.listViewPageDescriptions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.columnHeaderDescriptionUrl,
-			this.columnHeaderDescriptionCount,
-			this.columnHeaderDescriptionDescription,
-			this.columnHeaderDescriptionLength});
+			this.MetaDescriptionsUrl,
+			this.MetaDescriptionsPageLanguage,
+			this.MetaDescriptionsDetectedLanguage,
+			this.MetaDescriptionsOccurences,
+			this.MetaDescriptionsDescription,
+			this.MetaDescriptionsLength});
 			this.listViewPageDescriptions.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewPageDescriptions.FullRowSelect = true;
 			this.listViewPageDescriptions.GridLines = true;
 			this.listViewPageDescriptions.Location = new System.Drawing.Point(10, 10);
 			this.listViewPageDescriptions.Name = "listViewPageDescriptions";
-			this.listViewPageDescriptions.Size = new System.Drawing.Size(200, 200);
+			this.listViewPageDescriptions.Size = new System.Drawing.Size(600, 200);
 			this.listViewPageDescriptions.TabIndex = 1;
 			this.listViewPageDescriptions.UseCompatibleStateImageBehavior = false;
 			this.listViewPageDescriptions.View = System.Windows.Forms.View.Details;
 			// 
-			// columnHeaderDescriptionUrl
+			// MetaDescriptionsUrl
 			// 
-			this.columnHeaderDescriptionUrl.Text = "URL";
-			this.columnHeaderDescriptionUrl.Width = 500;
+			this.MetaDescriptionsUrl.Text = "URL";
+			this.MetaDescriptionsUrl.Width = 500;
 			// 
-			// columnHeaderDescriptionCount
+			// MetaDescriptionsPageLanguage
 			// 
-			this.columnHeaderDescriptionCount.Text = "Occurences";
-			this.columnHeaderDescriptionCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeaderDescriptionCount.Width = 100;
+			this.MetaDescriptionsPageLanguage.Text = "Page Language";
+			this.MetaDescriptionsPageLanguage.Width = 100;
 			// 
-			// columnHeaderDescriptionDescription
+			// MetaDescriptionsDetectedLanguage
 			// 
-			this.columnHeaderDescriptionDescription.Text = "Description";
-			this.columnHeaderDescriptionDescription.Width = 300;
+			this.MetaDescriptionsDetectedLanguage.Text = "Detected Language";
+			this.MetaDescriptionsDetectedLanguage.Width = 100;
 			// 
-			// columnHeaderDescriptionLength
+			// MetaDescriptionsOccurences
 			// 
-			this.columnHeaderDescriptionLength.Text = "Length";
-			this.columnHeaderDescriptionLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.columnHeaderDescriptionLength.Width = 100;
+			this.MetaDescriptionsOccurences.Text = "Occurences";
+			this.MetaDescriptionsOccurences.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.MetaDescriptionsOccurences.Width = 100;
+			// 
+			// MetaDescriptionsDescription
+			// 
+			this.MetaDescriptionsDescription.Text = "Description";
+			this.MetaDescriptionsDescription.Width = 300;
+			// 
+			// MetaDescriptionsLength
+			// 
+			this.MetaDescriptionsLength.Text = "Length (Characters)";
+			this.MetaDescriptionsLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.MetaDescriptionsLength.Width = 100;
 			// 
 			// tabPagePageKeywords
 			// 

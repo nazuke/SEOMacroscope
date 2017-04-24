@@ -52,19 +52,60 @@ namespace SEOMacroscope
         MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
         
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
-        try
-        {
-          msDoc.Execute();          
-        }
-        catch( Exception ex )
-        {
-          DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-          DebugMsg( string.Format( "Exception: {0}", ex.StackTrace ) );
-        }
+
+        Assert.IsTrue( msDoc.Execute(), string.Format( "FAIL: {0}", "Execute()" ) );
+          
         Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
-        
+      
         Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
+      }
+
+    }
+    
+    /**************************************************************************/
+
+    [Test]
+    public void TestDetectLanguage ()
+    {
+
+      List<string> UrlList = new List<string> () {
+        {
+          "https://nazuke.github.io/SEOMacroscope/"
+        }
+      };
+
+      MacroscopePreferencesManager.SetDetectLanguage( Detect: true );
+      MacroscopePreferencesManager.SetRequestTimeout( Seconds: 10 );
+                
+      for( int i = 0 ; i < 10 ; i++ )
+      {
+        
+        foreach( string Url in UrlList )
+        {
+
+          MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
+        
+          Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
+
+          Assert.IsTrue( msDoc.Execute(), string.Format( "FAIL: {0}", "Execute()" ) );
+
+          Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
+
+          Assert.IsNotNullOrEmpty( msDoc.GetTitle(), string.Format( "FAIL: {0}", msDoc.GetTitle() ) );
+
+          string LanguageTitle = msDoc.GetTitleLanguage();
+          string LanguageDescription = msDoc.GetDescriptionLanguage();
+          string LanguageBodyText = msDoc.GetBodyTextLanguage();
+
+          Assert.AreEqual( "eng", LanguageTitle, string.Format( "FAIL: {0} :: {1}", "LanguageTitle", LanguageTitle ) );
+
+          Assert.AreEqual( "eng", LanguageDescription, string.Format( "FAIL: {0} :: {1}", "LanguageDescription", LanguageDescription ) );
+
+          Assert.AreEqual( "eng", LanguageBodyText, string.Format( "FAIL: {0} :: {1}", "LanguageBodyText", LanguageBodyText ) );
+
+        }
+      
       }
 
     }
