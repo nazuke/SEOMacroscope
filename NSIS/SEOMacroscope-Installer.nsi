@@ -110,6 +110,8 @@ Section uninstall
 	Delete "$INSTDIR\HtmlAgilityPack.pdb"
 	Delete "$INSTDIR\HtmlAgilityPack.xml"
 
+	Delete "$INSTDIR\LanguageDetection.dll"
+
 	Delete "$INSTDIR\NUnit.Framework.dll"
 
 	Delete "$INSTDIR\PdfSharp.Charting.dll"

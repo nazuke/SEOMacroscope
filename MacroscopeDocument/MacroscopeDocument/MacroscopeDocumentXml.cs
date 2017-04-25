@@ -133,16 +133,31 @@ namespace SEOMacroscope
 
         if( RawData.Length > 0 )
         {
+          
           XmlDoc = new XmlDocument ();
-          XmlDoc.LoadXml( RawData );
+          
+          try
+          {
+            XmlDoc.LoadXml( RawData );
+          }
+          catch( XmlException ex )
+          {
+            DebugMsg( string.Format( "XmlException: {0}", ex.Message ) );
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+          }
+          
           DebugMsg( string.Format( "XmlDoc: {0}", XmlDoc ) );
+        
         }
         else
         {
           DebugMsg( string.Format( "RawData: {0}", "EMPTY" ) );
         }
 
-        if( XmlDoc != null )
+        if( ( XmlDoc != null ) & ( XmlDoc.DocumentElement != null ) )
         {
           if( this.DetectSitemapXmlDocument( XmlDoc ) )
           {
@@ -167,21 +182,39 @@ namespace SEOMacroscope
 
     Boolean DetectSitemapXmlDocument ( XmlDocument XmlDoc )
     {
+      
       // Reference: https://www.sitemaps.org/protocol.html
+      
       Boolean IsSitemapXml = false;
-      string XmlnsValue = XmlDoc.DocumentElement.GetAttribute( "xmlns" );
-
-      DebugMsg( string.Format( "DetectSitemapXmlDocument sXmlns: {0} :: {1}", XmlnsValue, this.GetUrl() ) );
-
-      if( XmlnsValue != null )
+      
+      try
       {
-        if( XmlnsValue == MacroscopeConstants.SitemapXmlNamespace )
+        
+        string XmlnsValue = XmlDoc.DocumentElement.GetAttribute( "xmlns" );
+
+        DebugMsg( string.Format( "DetectSitemapXmlDocument sXmlns: {0} :: {1}", XmlnsValue, this.GetUrl() ) );
+
+        if( XmlnsValue != null )
         {
-          DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", XmlnsValue ) );
-          IsSitemapXml = true;
+          if( XmlnsValue == MacroscopeConstants.SitemapXmlNamespace )
+          {
+            DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", XmlnsValue ) );
+            IsSitemapXml = true;
+          }
         }
+      
       }
+      catch( XmlException ex )
+      {
+        DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", ex.Message ) );
+      }
+      
       return( IsSitemapXml );
+    
     }
 
     /**************************************************************************/

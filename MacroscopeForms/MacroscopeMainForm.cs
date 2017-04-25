@@ -77,7 +77,10 @@ namespace SEOMacroscope
     MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
     MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
     MacroscopeDisplayHostnames msDisplayHostnames;
+    
+    MacroscopeDisplayUriQueue msDisplayUriQueue;
     MacroscopeDisplayHistory msDisplayHistory;
+    
     MacroscopeDisplaySearchCollection msDisplaySearchCollection;
 
     MacroscopeDisplayStructureOverview msSiteStructureOverview;
@@ -191,7 +194,10 @@ namespace SEOMacroscope
       this.msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
       this.msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
       this.msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
+
+      this.msDisplayUriQueue = new MacroscopeDisplayUriQueue ( this, this.macroscopeOverviewTabPanelInstance.listViewUriQueue );
       this.msDisplayHistory = new MacroscopeDisplayHistory ( this, this.macroscopeOverviewTabPanelInstance.listViewHistory );
+     
       this.msDisplaySearchCollection = new MacroscopeDisplaySearchCollection ( this, this.macroscopeOverviewTabPanelInstance.listViewSearchCollection );
 
       // Appearance
@@ -1038,10 +1044,16 @@ namespace SEOMacroscope
             DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
-
+          
+        case "tabPageUriQueue":
+          this.msDisplayUriQueue.RefreshData(
+            UriQueue: this.JobMaster.GetUrlQueueAsArray()
+          );
+          break;    
+          
         case "tabPageHistory":
           this.msDisplayHistory.RefreshData(
-            this.JobMaster.GetHistory()
+            History: this.JobMaster.GetHistory()
           );
           break;
 
@@ -1689,6 +1701,7 @@ namespace SEOMacroscope
       this.msDisplayTelephoneNumbers.ClearData();
 
       this.msDisplayHostnames.ClearData();
+      this.msDisplayUriQueue.ClearData();
       this.msDisplayHistory.ClearData();
 
       this.macroscopeDocumentDetailsInstance.ClearData();

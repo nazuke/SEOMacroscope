@@ -29,288 +29,292 @@ using System.Collections.Generic;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Create and manage names queues.
-	/// </summary>
+  /// <summary>
+  /// Create and manage names queues.
+  /// </summary>
 
-	public class MacroscopeNamedQueue : Macroscope
-	{
+  public class MacroscopeNamedQueue : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		private Dictionary<string,Queue<string>> NamedQueues;
+    private Dictionary<string,Queue<string>> NamedQueues;
 
-		private Dictionary<string,Dictionary<string,Boolean>> NamedQueuesIndex;
+    private Dictionary<string,Dictionary<string,Boolean>> NamedQueuesIndex;
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeNamedQueue ()
-		{
-			NamedQueues = new Dictionary<string,Queue<string>> ( 32 );
-			NamedQueuesIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
-		}
+    public MacroscopeNamedQueue ()
+    {
+      NamedQueues = new Dictionary<string,Queue<string>> ( 32 );
+      NamedQueuesIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public Queue<string> CreateNamedQueue ( string Name )
-		{
-			Queue<string> NamedQueue;
-			if( this.NamedQueues.ContainsKey( Name ) )
-			{
-				NamedQueue = this.NamedQueues[ Name ];
-			}
-			else
-			{
-				NamedQueue = new Queue<string> ( 4096 );
-				lock( this.NamedQueues )
-				{
-					this.NamedQueues.Add( Name, NamedQueue );
-					lock( this.NamedQueues[Name] )
-					{
-						Dictionary<string,Boolean> NamedQueueIndex = new Dictionary<string,Boolean> ( 4096 );
-						this.NamedQueuesIndex.Add( Name, NamedQueueIndex );
-					}
-				}
-			}
-			return( NamedQueue );
-		}
+    public Queue<string> CreateNamedQueue ( string Name )
+    {
+      Queue<string> NamedQueue;
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
+        NamedQueue = this.NamedQueues[ Name ];
+      }
+      else
+      {
+        NamedQueue = new Queue<string> ( 4096 );
+        lock( this.NamedQueues )
+        {
+          this.NamedQueues.Add( Name, NamedQueue );
+          lock( this.NamedQueues[Name] )
+          {
+            Dictionary<string,Boolean> NamedQueueIndex = new Dictionary<string,Boolean> ( 4096 );
+            this.NamedQueuesIndex.Add( Name, NamedQueueIndex );
+          }
+        }
+      }
+      return( NamedQueue );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void DeleteNamedQueue ( string Name )
-		{
-			if( this.NamedQueues.ContainsKey( Name ) )
-			{
-				lock( this.NamedQueues )
-				{
-					this.NamedQueues.Remove( Name );
-					lock( this.NamedQueuesIndex )
-					{
-						this.NamedQueuesIndex.Remove( Name );
-					}
-				}
-			}
-		}
+    public void DeleteNamedQueue ( string Name )
+    {
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
+        lock( this.NamedQueues )
+        {
+          this.NamedQueues.Remove( Name );
+          lock( this.NamedQueuesIndex )
+          {
+            this.NamedQueuesIndex.Remove( Name );
+          }
+        }
+      }
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public Queue<string> AddToNamedQueue ( string Name, string Item )
-		{
-			Queue<string> NamedQueue;
-			if( this.NamedQueues.ContainsKey( Name ) )
-			{
-				NamedQueue = this.NamedQueues[ Name ];
-			}
-			else
-			{
-				NamedQueue = this.CreateNamedQueue( Name );
-			}
-			lock( this.NamedQueues[Name] )
-			{
-				if( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
-				{
-					lock( this.NamedQueuesIndex[Name] )
-					{
-						this.NamedQueuesIndex[ Name ].Add( Item, true );
-						NamedQueue.Enqueue( Item );
-					}
-				}
-			}
-			return( NamedQueue );
-		}
+    public Queue<string> AddToNamedQueue ( string Name, string Item )
+    {
+      Queue<string> NamedQueue;
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
+        NamedQueue = this.NamedQueues[ Name ];
+      }
+      else
+      {
+        NamedQueue = this.CreateNamedQueue( Name );
+      }
+      lock( this.NamedQueues[Name] )
+      {
+        if( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
+        {
+          lock( this.NamedQueuesIndex[Name] )
+          {
+            this.NamedQueuesIndex[ Name ].Add( Item, true );
+            NamedQueue.Enqueue( Item );
+          }
+        }
+      }
+      return( NamedQueue );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public Boolean PeekNamedQueue ( string Name )
-		{
+    public Boolean PeekNamedQueue ( string Name )
+    {
 
-		  Boolean Peek = false;
+      Boolean Peek = false;
 
-		  if( this.NamedQueues.ContainsKey( Name ) )
-			{
-				lock( this.NamedQueues[Name] )
-				{
-					if( this.NamedQueues[ Name ].Count > 0 )
-					{
-						Peek = true;
-					}
-				}
-			}
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
+        lock( this.NamedQueues[Name] )
+        {
+          if( this.NamedQueues[ Name ].Count > 0 )
+          {
+            Peek = true;
+          }
+        }
+      }
 
-		  return( Peek );
+      return( Peek );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public int CountNamedQueueItems ( string Name )
-		{
-			int Count = 0;
-			if( this.NamedQueues.ContainsKey( Name ) )
-			{
-				lock( this.NamedQueues[Name] )
-				{
-					if( this.NamedQueues[ Name ].Count > 0 )
-					{
-						Count = this.NamedQueues[ Name ].Count;
-					}
-				}
-			}
-			return( Count );
-		}
+    public int CountNamedQueueItems ( string Name )
+    {
+      int Count = 0;
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
+        lock( this.NamedQueues[Name] )
+        {
+          if( this.NamedQueues[ Name ].Count > 0 )
+          {
+            Count = this.NamedQueues[ Name ].Count;
+          }
+        }
+      }
+      return( Count );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void ClearAllNamedQueues ()
-		{
-			lock( this.NamedQueues )
-			{
-				lock( this.NamedQueuesIndex )
-				{
-					foreach( string Name in this.NamedQueues.Keys )
-					{
-						this.NamedQueues[ Name ].Clear();
-						this.NamedQueuesIndex[ Name ].Clear();
-					}
-				}
-			}
-		}
+    public void ClearAllNamedQueues ()
+    {
+      lock( this.NamedQueues )
+      {
+        lock( this.NamedQueuesIndex )
+        {
+          foreach( string Name in this.NamedQueues.Keys )
+          {
+            this.NamedQueues[ Name ].Clear();
+            this.NamedQueuesIndex[ Name ].Clear();
+          }
+        }
+      }
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public void ClearNamedQueue ( string Name )
-		{
-			lock( this.NamedQueues )
-			{
-				lock( this.NamedQueuesIndex )
-				{
-					this.NamedQueues[ Name ].Clear();
-					this.NamedQueuesIndex[ Name ].Clear();
-				}
-			}
-		}
+    public void ClearNamedQueue ( string Name )
+    {
+      lock( this.NamedQueues )
+      {
+        lock( this.NamedQueuesIndex )
+        {
+          this.NamedQueues[ Name ].Clear();
+          this.NamedQueuesIndex[ Name ].Clear();
+        }
+      }
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public string GetNamedQueueItem ( string Name )
-		{
-			string Item = null;
+    public string GetNamedQueueItem ( string Name )
+    {
+      string Item = null;
 
-			lock( this.NamedQueues[Name] )
-			{
+      lock( this.NamedQueues[Name] )
+      {
 
-				if( this.NamedQueues.ContainsKey( Name ) )
-				{
+        if( this.NamedQueues.ContainsKey( Name ) )
+        {
 
-					if( this.NamedQueues[ Name ].Count > 0 )
-					{
+          if( this.NamedQueues[ Name ].Count > 0 )
+          {
 
-						Item = this.NamedQueues[ Name ].Dequeue();
+            Item = this.NamedQueues[ Name ].Dequeue();
 
-						if( Item != null )
-						{
+            if( Item != null )
+            {
 
-							lock( this.NamedQueuesIndex[Name] )
-							{
-								this.NamedQueuesIndex[ Name ].Remove( Item );
-							}
+              lock( this.NamedQueuesIndex[Name] )
+              {
+                this.NamedQueuesIndex[ Name ].Remove( Item );
+              }
 
-						}
+            }
 
-					}
+          }
 
-				}
+        }
 
-			}
-			return( Item );
-		}
+      }
+      return( Item );
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public List<string> GetNamedQueueItemsAsList ( string Name )
-		{
-			// TODO: implement this, such that items can be pulled from the queue without being deleted
-			List<string> lItems = new List<string> ();
-			if( this.NamedQueues.ContainsKey( Name ) )
-			{
-				string Item = this.GetNamedQueueItem( Name );
-				do
-				{
-					if( Item != null )
-					{
-						lItems.Add( Item );
-					}
-					Item = this.GetNamedQueueItem( Name );
-				} while( Item != null );
-			}
-			return( lItems );
-		}
+    public string [] GetNamedQueueItemsAsArray ( string Name )
+    {
+		
+      // TODO: implement this, such that items can be pulled from the queue without being deleted
 
-		/**************************************************************************/
+      string [] ItemsArray = null;
 
-		public List<string> DrainNamedQueueItemsAsList ( string Name )
-		{
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
+        
+        lock( this.NamedQueues[Name] )
+        {
 
-			List<string> lItems = new List<string> ();
+          ItemsArray = this.NamedQueues[ Name ].ToArray();
 
-			if( this.NamedQueues.ContainsKey( Name ) )
-			{
+        }
 
-				string Item = this.GetNamedQueueItem( Name );
+      }
 
-				do
-				{
-					if( Item != null )
-					{
-						lItems.Add( Item );
-					}
-					Item = this.GetNamedQueueItem( Name );
-				} while( Item != null );
+      return( ItemsArray );
 
-			}
+    }
 
-			return( lItems );
+    /**************************************************************************/
 
-		}
+    public List<string> DrainNamedQueueItemsAsList ( string Name )
+    {
 
-		/**************************************************************************/
+      List<string> lItems = new List<string> ();
 
-		public List<string> DrainNamedQueueItemsAsList ( string Name, int iLimit )
-		{
-			List<string> lItems = new List<string> ();
-			int iCount = 0;
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
 
-			if( this.NamedQueues.ContainsKey( Name ) )
-			{
+        string Item = this.GetNamedQueueItem( Name );
 
-				string Item = this.GetNamedQueueItem( Name );
+        do
+        {
+          if( Item != null )
+          {
+            lItems.Add( Item );
+          }
+          Item = this.GetNamedQueueItem( Name );
+        } while( Item != null );
 
-				do
-				{
+      }
 
-					if( Item != null )
-					{
-						lItems.Add( Item );
-					}
+      return( lItems );
 
-					Item = this.GetNamedQueueItem( Name );
+    }
 
-					iCount++;
+    /**************************************************************************/
 
-					if( iCount >= iLimit )
-					{
-						break;
-					}
+    public List<string> DrainNamedQueueItemsAsList ( string Name, int iLimit )
+    {
+      List<string> lItems = new List<string> ();
+      int iCount = 0;
 
-				} while( Item != null );
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
 
-			}
+        string Item = this.GetNamedQueueItem( Name );
 
-			return( lItems );
-		}
+        do
+        {
 
-		/**************************************************************************/
+          if( Item != null )
+          {
+            lItems.Add( Item );
+          }
 
-	}
+          Item = this.GetNamedQueueItem( Name );
+
+          iCount++;
+
+          if( iCount >= iLimit )
+          {
+            break;
+          }
+
+        } while( Item != null );
+
+      }
+
+      return( lItems );
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

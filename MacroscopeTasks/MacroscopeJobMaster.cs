@@ -572,9 +572,24 @@ namespace SEOMacroscope
 
     /** URL Queue *************************************************************/
 
-    public List<string> GetUrlQueueAsList ()
+    public string [] GetUrlQueueAsArray ()
     {
-      return( this.NamedQueue.GetNamedQueueItemsAsList( MacroscopeConstants.NamedQueueUrlList ) );
+      
+      string [] ItemsArray = null;
+      
+      try
+      {
+        ItemsArray = this.NamedQueue.GetNamedQueueItemsAsArray(
+          MacroscopeConstants.NamedQueueUrlList
+        );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "GetUrlQueueAsArray: {0}", ex.Message ) );
+      }
+      
+      return( ItemsArray );
+    
     }
 
     /** -------------------------------------------------------------------- **/

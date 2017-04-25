@@ -110,6 +110,7 @@
     <Compile Include="MacroscopeExceptions\MacroscopeUriFormatException.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayPageText.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayUriQueue.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
       <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
