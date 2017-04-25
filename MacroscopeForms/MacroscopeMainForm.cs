@@ -67,6 +67,7 @@ namespace SEOMacroscope
     MacroscopeDisplayDescriptions msDisplayDescriptions;
     MacroscopeDisplayKeywords msDisplayKeywords;
     MacroscopeDisplayHeadings msDisplayHeadings;
+    MacroscopeDisplayPageText msDisplayPageText;
     MacroscopeDisplayStylesheets msDisplayStylesheets;
     MacroscopeDisplayJavascripts msDisplayJavascripts;
     MacroscopeDisplayImages msDisplayImages;
@@ -181,6 +182,7 @@ namespace SEOMacroscope
       this.msDisplayDescriptions = new MacroscopeDisplayDescriptions ( this, this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions );
       this.msDisplayKeywords = new MacroscopeDisplayKeywords ( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
       this.msDisplayHeadings = new MacroscopeDisplayHeadings ( this, this.macroscopeOverviewTabPanelInstance.listViewPageHeadings );
+      this.msDisplayPageText = new MacroscopeDisplayPageText ( this, this.macroscopeOverviewTabPanelInstance.listViewPageText );
       this.msDisplayStylesheets = new MacroscopeDisplayStylesheets ( this, this.macroscopeOverviewTabPanelInstance.listViewStylesheets );
       this.msDisplayJavascripts = new MacroscopeDisplayJavascripts ( this, this.macroscopeOverviewTabPanelInstance.listViewJavascripts );
       this.msDisplayImages = new MacroscopeDisplayImages ( this, this.macroscopeOverviewTabPanelInstance.listViewImages );
@@ -668,6 +670,7 @@ namespace SEOMacroscope
 
       while( this.JobMaster.CountRunningThreads() > 0 )
       {
+        Thread.Yield();
         Thread.Sleep( 100 );
       }
 
@@ -973,6 +976,13 @@ namespace SEOMacroscope
           this.msDisplayHeadings.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageHeadings )
+          );
+          break;
+
+        case "tabPagePageText":
+          this.msDisplayPageText.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageText )
           );
           break;
 
@@ -1667,6 +1677,7 @@ namespace SEOMacroscope
       this.msDisplayDescriptions.ClearData();
       this.msDisplayKeywords.ClearData();
       this.msDisplayHeadings.ClearData();
+      this.msDisplayPageText.ClearData();
 
       this.msDisplayStylesheets.ClearData();
       this.msDisplayJavascripts.ClearData();

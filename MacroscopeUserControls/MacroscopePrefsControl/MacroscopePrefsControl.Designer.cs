@@ -183,6 +183,7 @@ namespace SEOMacroscope
 			this.tabPageAnalysisOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.checkBoxDetectLanguage = new System.Windows.Forms.CheckBox();
 			this.checkBoxCheckHreflangs = new System.Windows.Forms.CheckBox();
 			this.groupBox11 = new System.Windows.Forms.GroupBox();
 			this.checkBoxScanSitesInList = new System.Windows.Forms.CheckBox();
@@ -231,7 +232,6 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
-			this.checkBoxDetectLanguage = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -393,7 +393,7 @@ namespace SEOMacroscope
 			this.checkBoxIgnoreQueries.Name = "checkBoxIgnoreQueries";
 			this.checkBoxIgnoreQueries.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxIgnoreQueries.TabIndex = 5;
-			this.checkBoxIgnoreQueries.Text = "Ignore Queries";
+			this.checkBoxIgnoreQueries.Text = "Ignore URL queries";
 			this.checkBoxIgnoreQueries.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxFollowNoFollow
@@ -798,13 +798,22 @@ namespace SEOMacroscope
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Localized Pages";
 			// 
+			// checkBoxDetectLanguage
+			// 
+			this.checkBoxDetectLanguage.Location = new System.Drawing.Point(260, 20);
+			this.checkBoxDetectLanguage.Name = "checkBoxDetectLanguage";
+			this.checkBoxDetectLanguage.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxDetectLanguage.TabIndex = 2;
+			this.checkBoxDetectLanguage.Text = "Detect page text language";
+			this.checkBoxDetectLanguage.UseVisualStyleBackColor = true;
+			// 
 			// checkBoxCheckHreflangs
 			// 
 			this.checkBoxCheckHreflangs.Location = new System.Drawing.Point(20, 20);
 			this.checkBoxCheckHreflangs.Name = "checkBoxCheckHreflangs";
 			this.checkBoxCheckHreflangs.Size = new System.Drawing.Size(200, 24);
 			this.checkBoxCheckHreflangs.TabIndex = 1;
-			this.checkBoxCheckHreflangs.Text = "Check Linked HrefLang Pages";
+			this.checkBoxCheckHreflangs.Text = "Check linked HrefLang pages";
 			this.checkBoxCheckHreflangs.UseVisualStyleBackColor = true;
 			// 
 			// groupBox11
@@ -871,7 +880,7 @@ namespace SEOMacroscope
 			this.checkBoxEnableLevenshteinDeduplication.Name = "checkBoxEnableLevenshteinDeduplication";
 			this.checkBoxEnableLevenshteinDeduplication.Size = new System.Drawing.Size(376, 24);
 			this.checkBoxEnableLevenshteinDeduplication.TabIndex = 1;
-			this.checkBoxEnableLevenshteinDeduplication.Text = "Enable Levenshtein Duplicate Detection";
+			this.checkBoxEnableLevenshteinDeduplication.Text = "Enable Levenshtein duplicate detection";
 			this.checkBoxEnableLevenshteinDeduplication.UseVisualStyleBackColor = true;
 			// 
 			// labelMaxLevenshteinSizeDifference
@@ -881,7 +890,7 @@ namespace SEOMacroscope
 			this.labelMaxLevenshteinSizeDifference.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
 			this.labelMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(250, 20);
 			this.labelMaxLevenshteinSizeDifference.TabIndex = 9;
-			this.labelMaxLevenshteinSizeDifference.Text = "Maximum Levenshtein Text Length Difference";
+			this.labelMaxLevenshteinSizeDifference.Text = "Maximum Levenshtein text length difference";
 			// 
 			// numericUpDownMaxLevenshteinSizeDifference
 			// 
@@ -907,7 +916,7 @@ namespace SEOMacroscope
 			this.label22.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
 			this.label22.Size = new System.Drawing.Size(250, 20);
 			this.label22.TabIndex = 4;
-			this.label22.Text = "Levenshtein Edit Distance Threshold";
+			this.label22.Text = "Levenshtein edit distance threshold";
 			// 
 			// numericUpDownMaxLevenshteinDistance
 			// 
@@ -1308,9 +1317,9 @@ namespace SEOMacroscope
 			// 
 			this.checkBoxAnalyzeKeywordsInText.Location = new System.Drawing.Point(20, 20);
 			this.checkBoxAnalyzeKeywordsInText.Name = "checkBoxAnalyzeKeywordsInText";
-			this.checkBoxAnalyzeKeywordsInText.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxAnalyzeKeywordsInText.Size = new System.Drawing.Size(200, 24);
 			this.checkBoxAnalyzeKeywordsInText.TabIndex = 1;
-			this.checkBoxAnalyzeKeywordsInText.Text = "Analyze keywords in text";
+			this.checkBoxAnalyzeKeywordsInText.Text = "Analyze keywords in page text";
 			this.checkBoxAnalyzeKeywordsInText.UseVisualStyleBackColor = true;
 			// 
 			// tabPageDisplaySettings
@@ -1429,15 +1438,6 @@ namespace SEOMacroscope
 			0,
 			0,
 			0});
-			// 
-			// checkBoxDetectLanguage
-			// 
-			this.checkBoxDetectLanguage.Location = new System.Drawing.Point(260, 20);
-			this.checkBoxDetectLanguage.Name = "checkBoxDetectLanguage";
-			this.checkBoxDetectLanguage.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxDetectLanguage.TabIndex = 2;
-			this.checkBoxDetectLanguage.Text = "Detect Text Language";
-			this.checkBoxDetectLanguage.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 

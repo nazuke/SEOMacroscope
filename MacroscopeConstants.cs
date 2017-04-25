@@ -83,6 +83,7 @@ namespace SEOMacroscope
     public const string NamedQueueDisplayPageDescriptions = "DisplayPageDescriptions";
     public const string NamedQueueDisplayPageKeywords = "DisplayPageKeywords";
     public const string NamedQueueDisplayPageHeadings = "DisplayPageHeadings";
+    public const string NamedQueueDisplayPageText = "DisplayPageText";
     public const string NamedQueueDisplayStylesheets = "DisplayStylesheets";
     public const string NamedQueueDisplayJavascripts = "DisplayJavascripts";
     public const string NamedQueueDisplayImages = "DisplayImages";

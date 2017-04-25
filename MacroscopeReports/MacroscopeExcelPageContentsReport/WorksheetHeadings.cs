@@ -54,6 +54,9 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "URL";
         iCol++;
 
+        ws.Cell( iRow, iCol ).Value = "Occurences";
+        iCol++;
+
         ws.Cell( iRow, iCol ).Value = "Order";
 
         for( int i = 1 ; i <= 6 ; i++ )
@@ -68,36 +71,29 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string sKey in DocCollection.DocumentKeys() )
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         Boolean Proceed = false;
-
-        if( msDoc.GetIsExternal() )
-        {
-          Proceed = false;
-        }
 
         if( msDoc.GetIsHtml() )
         {
           Proceed = true;
         }
-        else
-        {
-          Proceed = false;
-        }
 
         if( Proceed )
         {
 
-          for( ushort iHeadingIndex = 1 ; iHeadingIndex <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; iHeadingIndex++ )
+          for( ushort HeadingLevel = 1 ; HeadingLevel <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; HeadingLevel++ )
           {
 
-            List<string> lHeadings = msDoc.GetHeadings( iHeadingIndex );
+            List<string> HeadingsList = msDoc.GetHeadings( HeadingLevel );
 
-            for( int iCount = 0 ; iCount < lHeadings.Count ; iCount++ )
+            for( int Order = 0 ; Order < HeadingsList.Count ; Order++ )
             {
+
+              int Occurences = DocCollection.GetStatsHeadingsCount( HeadingLevel: HeadingLevel, Text: HeadingsList[ Order ] );
 
               iCol = 1;
 
@@ -114,9 +110,27 @@ namespace SEOMacroscope
 
               iCol++;
 
-              this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ( iCount + 1 ).ToString() ) );
+              this.InsertAndFormatContentCell( ws, iRow, iCol, Occurences.ToString() );
 
-              this.InsertAndFormatContentCell( ws, iRow, ( int )( iHeadingIndex + iCol ), this.FormatIfMissing( lHeadings[ iCount ] ) );
+              if( ( Occurences > 1 ) && ( msDoc.GetIsInternal() ) )
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
+              }
+              else
+              if( msDoc.GetIsInternal() )
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+              }
+              else
+              {
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+              }
+
+              iCol++;
+
+              this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ( Order + 1 ).ToString() ) );
+
+              this.InsertAndFormatContentCell( ws, iRow, ( int )( HeadingLevel + iCol ), this.FormatIfMissing( HeadingsList[ Order ] ) );
 
               iRow++;
 

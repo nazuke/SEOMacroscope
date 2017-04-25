@@ -44,7 +44,7 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      var wb = new XLWorkbook ();
+      XLWorkbook wb = new XLWorkbook ();
 
       this.BuildWorksheetEmailAddresses( JobMaster, wb, "Email Addresses" );
       this.BuildWorksheetTelephoneNumbers( JobMaster, wb, "Telephone Numbers" );

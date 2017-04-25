@@ -77,6 +77,7 @@ namespace SEOMacroscope
       
       this.DetectLanguage.RandomSeed = 666;
       this.DetectLanguage.ProbabilityThreshold = ( double )0.75;
+      this.DetectLanguage.MaxTextLength = 4096;
 
       if( string.IsNullOrEmpty( IsoLanguageCode ) )
       {

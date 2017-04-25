@@ -219,8 +219,10 @@ namespace SEOMacroscope
                                        LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
                                        Follow: true
                                      );
-            
-            Outlink.SetRawTargetUrl( LinkUrl );
+            if( Outlink != null )
+            {
+              Outlink.SetRawTargetUrl( LinkUrl );
+            }
             
           }
 
@@ -239,12 +241,26 @@ namespace SEOMacroscope
     )
     {
 
-      MacroscopeLink OutLink = new MacroscopeLink (
-                                 SourceUrl: this.GetUrl(),
-                                 TargetUrl: AbsoluteUrl,
-                                 LinkType: LinkType,
-                                 Follow: Follow
-                               );
+      MacroscopeLink OutLink = null;
+      
+      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      {
+        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
+        if( AllowedHosts != null )
+        {
+          if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+          {
+            return( OutLink );
+          }
+        }
+      }
+            
+      OutLink = new MacroscopeLink (
+        SourceUrl: this.GetUrl(),
+        TargetUrl: AbsoluteUrl,
+        LinkType: LinkType,
+        Follow: Follow
+      );
 
       this.Outlinks.Add( OutLink );
       

@@ -106,8 +106,10 @@
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeInsufficientMemoryException.cs" />
+    <Compile Include="MacroscopeExceptions\MacroscopeSaveExcelFileException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeUriFormatException.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayPageText.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.cs" />
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
       <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
@@ -266,10 +268,12 @@
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="MacroscopeReports\MacroscopeExcelOverviewReport\MacroscopeExcelOverviewReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelOverviewReport\WorksheetOverview.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetPageText.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelRedirectsReport\MacroscopeExcelRedirectsReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelRedirectsReport\WorksheetRedirectsAudit.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetHyperlinks.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeSaveExcelFileException.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetBrokenLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\MacroscopeExcelBrokenLinksReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelContactDetailsReport\MacroscopeExcelContactDetailsReport.cs" />
@@ -285,9 +289,9 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\MacroscopeExcelLanguagesReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\WorksheetHrefLangMatrix.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\WorksheetMissingLanguageSpecifier.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportHeadings.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetHeadings.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\MacroscopeExcelPageContentsReport.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetReportDescriptions.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetDescriptions.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetKeywords.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetTitles.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetLinks.cs" />
@@ -317,7 +321,6 @@
     <Compile Include="MacroscopeForms\MacroscopeMainForm.Designer.cs">
       <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MacroscopeReports\MacroscopeExcelOverviewReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports.cs" />
     <Compile Include="MacroscopeStandards\MacroscopeRobots.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobMaster.cs" />
@@ -447,6 +450,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelKeywordAnalysisReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelRedirectsReport" />
     <Folder Include="MacroscopeReports\MaroscopeExcelRemarksReport" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelOverviewReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\t" />
@@ -469,6 +473,9 @@
     <Folder Include="MacroscopeSearch" />
     <Folder Include="MacroscopeNamedQueue" />
     <Folder Include="MacroscopeExceptions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ProfilingSessions\Session20170425_184329.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

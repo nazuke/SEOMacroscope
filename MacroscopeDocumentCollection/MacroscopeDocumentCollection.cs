@@ -53,6 +53,7 @@ namespace SEOMacroscope
     private Dictionary<int,int> StatsTitles;
     private Dictionary<int,int> StatsDescriptions;
     private Dictionary<int,int> StatsKeywords;
+    private List<Dictionary<int,int>> StatsHeadings;
     private Dictionary<string,int> StatsWarnings;
     private Dictionary<string,int> StatsErrors;
     private Dictionary<string,int> StatsChecksums;
@@ -97,6 +98,13 @@ namespace SEOMacroscope
       this.StatsTitles = new Dictionary<int,int> ( 256 );
       this.StatsDescriptions = new Dictionary<int,int> ( 256 );
       this.StatsKeywords = new Dictionary<int,int> ( 256 );
+
+      this.StatsHeadings = new  List<Dictionary<int,int>> ( 7 );
+      for( ushort i = 1 ; i <= 6 ; i++ )
+      {
+        this.StatsHeadings.Add( new Dictionary<int,int> ( 256 ) );
+      }
+
       this.StatsWarnings = new  Dictionary<string,int> ( 32 );
       this.StatsErrors = new  Dictionary<string,int> ( 32 );
       this.StatsChecksums = new  Dictionary<string,int> ( 1024 );
@@ -105,7 +113,7 @@ namespace SEOMacroscope
 
       this.StatsDeepKeywordAnalysisDocs = new Dictionary<string,MacroscopeDocumentList> ( 1024 );
       this.StatsDeepKeywordAnalysis = new  List<Dictionary<string,int>> ( 4 );
-      for( int i = 0 ; i <= 3 ; i++ )
+      for( int i = 0 ; i < 4 ; i++ )
       {
         this.StatsDeepKeywordAnalysis.Add( new Dictionary<string,int> ( 1024 ) );
       }
@@ -146,6 +154,7 @@ namespace SEOMacroscope
       this.StatsTitles = null;
       this.StatsDescriptions = null;
       this.StatsKeywords = null;
+      this.StatsHeadings = null;
       this.StatsWarnings = null;
       this.StatsErrors = null;
       this.StatsChecksums = null;
@@ -159,6 +168,20 @@ namespace SEOMacroscope
       
       return;
 
+    }
+
+    /** Job Master Methods ****************************************************/
+    
+    public MacroscopeJobMaster GetJobMaster ()
+    {
+      return( this.JobMaster );
+    }
+
+    /** Allowed Hosts Methods *************************************************/
+
+    public MacroscopeAllowedHosts GetAllowedHosts ()
+    {
+      return( this.JobMaster.GetAllowedHosts() );
     }
 
     /** Document Collection Methods *******************************************/
@@ -615,6 +638,8 @@ namespace SEOMacroscope
                 this.RecalculateStatsDescriptions( msDoc );
 
                 this.RecalculateStatsKeywords( msDoc );
+
+                this.RecalculateStatsHeadings( msDoc );
 
                 this.RecalculateStatsWarnings( msDoc );
 
@@ -1420,7 +1445,7 @@ namespace SEOMacroscope
     {
       lock( this.StatsDeepKeywordAnalysis )
       {
-        for( int i = 0 ; i <= 3 ; i++ )
+        for( int i = 0 ; i < 4 ; i++ )
         {
           lock( this.StatsDeepKeywordAnalysis[i] )
           {
@@ -1462,7 +1487,7 @@ namespace SEOMacroscope
           {
             lock( this.StatsDeepKeywordAnalysis )
             {
-              for( int i = 0 ; i <= 3 ; i++ )
+              for( int i = 0 ; i < 4 ; i++ )
               {
                 this.AnalyzeKeywords.Analyze(
                   msDoc: msDoc,
@@ -1513,6 +1538,90 @@ namespace SEOMacroscope
 
       return( DocumentList );
 
+    }
+
+    /** Headings Analysis *****************************************************/
+
+    private void ClearStatsHeadings ()
+    {
+      lock( this.StatsHeadings )
+      {
+        for( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
+        {
+          lock( this.StatsHeadings[HeadingLevel] )
+          {
+            this.StatsHeadings[ HeadingLevel ].Clear();
+          }
+        }
+        lock( this.StatsHeadings )
+        {
+          this.StatsHeadings.Clear();
+        }
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public int GetStatsHeadingsCount ( ushort HeadingLevel, string Text )
+    {
+
+      int Count = 0;
+      int Hashed = Text.ToLower().GetHashCode();
+
+      if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) )
+      {
+        Count = this.StatsHeadings[ HeadingLevel ][ Hashed ];
+      }
+
+      return( Count );
+
+    }
+        
+    /** -------------------------------------------------------------------- **/
+            
+    private void RecalculateStatsHeadings ( MacroscopeDocument msDoc )
+    {
+
+      Boolean Proceed = false;
+
+      if( msDoc.GetIsHtml() )
+      {
+        Proceed = true;
+      }
+
+      if( Proceed )
+      {
+
+        lock( this.StatsHeadings )
+        {
+          
+          for( ushort HeadingLevel = 1 ; HeadingLevel <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; HeadingLevel++ )
+          {
+
+            List<string> Headings = msDoc.GetHeadings( HeadingLevel: HeadingLevel );
+
+            foreach( string Text in Headings )
+            {
+
+              int Hashed = Text.ToLower().GetHashCode();
+
+              if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) )
+              {
+                this.StatsHeadings[ HeadingLevel ][ Hashed ] = this.StatsHeadings[ HeadingLevel ][ Hashed ] + 1;
+              }
+              else
+              {
+                this.StatsHeadings[ HeadingLevel ].Add( Hashed, 1 );
+              }
+
+            }
+        
+          }
+        
+        }
+      
+      }
+      
     }
 
     /** Search Index **********************************************************/

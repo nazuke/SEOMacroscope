@@ -181,6 +181,7 @@ namespace SEOMacroscope
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings );
+        this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayPageText );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayStylesheets );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayImages );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayJavascripts );
@@ -550,6 +551,7 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageText, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStylesheets, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayImages, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayJavascripts, Url );

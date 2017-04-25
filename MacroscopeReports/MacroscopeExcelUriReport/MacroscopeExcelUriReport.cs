@@ -44,7 +44,7 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      var wb = new XLWorkbook ();
+      XLWorkbook wb = new XLWorkbook ();
 
       this.BuildWorksheetPageLinks( JobMaster, wb, "Links" );
       this.BuildWorksheetPageHyperlinks( JobMaster, wb, "Hyperlinks" );

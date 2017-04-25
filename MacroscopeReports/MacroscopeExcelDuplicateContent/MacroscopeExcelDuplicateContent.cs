@@ -49,9 +49,9 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      var wb = new XLWorkbook ();
-
+      XLWorkbook wb = new XLWorkbook ();
       decimal MajorPercentageDivider = 3;
+      
       if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
       {
         MajorPercentageDivider = 4;

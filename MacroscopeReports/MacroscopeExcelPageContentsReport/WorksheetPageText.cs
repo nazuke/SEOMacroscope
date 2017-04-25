@@ -34,7 +34,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageTitles (
+    private void BuildWorksheetPageText (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string sWorksheetLabel
@@ -53,22 +53,16 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "URL";
         iCol++;
 
+        ws.Cell( iRow, iCol ).Value = "Page Locale";
+        iCol++;
+        
         ws.Cell( iRow, iCol ).Value = "Page Language";
         iCol++;
         
         ws.Cell( iRow, iCol ).Value = "Detected Language";
         iCol++;
         
-        ws.Cell( iRow, iCol ).Value = "Occurrences";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Title";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Title Length";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Pixel Width";
+        ws.Cell( iRow, iCol ).Value = "Word Count";
 
       }
 
@@ -96,25 +90,46 @@ namespace SEOMacroscope
         {
           Proceed = true;
         }
-      
+
         if( Proceed )
         {
 
           iCol = 1;
 
-          string Title = msDoc.GetTitle();
+          string PageLocale = msDoc.GetLocale();
           string PageLanguage = msDoc.GetIsoLanguageCode();
-          string DetectedLanguage = msDoc.GetTitleLanguage();
-          int Occurrences = 0;
-          int TitleLength = msDoc.GetTitleLength();
-          int TitlePixelWidth = msDoc.GetTitlePixelWidth();
+          string DetectedLanguage = msDoc.GetBodyTextLanguage();
+          int WordCount = msDoc.GetWordCount();
 
-          if( TitleLength > 0 )
+          if( string.IsNullOrEmpty( PageLocale ) )
           {
-            Occurrences = DocCollection.GetStatsTitleCount( msDoc: msDoc );
+            PageLocale = "";
+          }
+        
+          if( string.IsNullOrEmpty( PageLanguage ) )
+          {
+            PageLanguage = "";
+          }
+        
+          if( string.IsNullOrEmpty( DetectedLanguage ) )
+          {
+            DetectedLanguage = "";
           }
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+
+          if( msDoc.GetIsInternal() )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+          }
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( PageLocale ) );
 
           if( msDoc.GetIsInternal() )
           {
@@ -153,71 +168,23 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( WordCount.ToString() ) );
 
-          if( Occurrences > 1 )
+          if( msDoc.GetIsInternal() )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
+            if( WordCount > 0 )
+            {
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+            }
+            else
+            {
+              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+            }
           }
           else
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Title ) );
-
-          if( TitleLength <= 0 )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-            ws.Cell( iRow, iCol ).Value = "MISSING";
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TitleLength.ToString() ) );
-
-          if( TitleLength < MacroscopePreferencesManager.GetTitleMinLen() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          if( TitleLength > MacroscopePreferencesManager.GetTitleMaxLen() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TitlePixelWidth.ToString() ) );
-          
-          if( TitlePixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          if( TitlePixelWidth >= ( MacroscopePreferencesManager.GetTitleMaxPixelWidth() - 20 ) )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          if( TitlePixelWidth <= 0 )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+          }          
 
           iRow++;
           

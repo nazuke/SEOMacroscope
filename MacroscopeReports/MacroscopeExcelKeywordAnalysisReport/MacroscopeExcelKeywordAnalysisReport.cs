@@ -50,7 +50,7 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      var wb = new XLWorkbook ();
+      XLWorkbook wb = new XLWorkbook ();
       const decimal MajorPercentageDivider = 4;
 
       for( int i = 0 ; i <= 3 ; i++ )

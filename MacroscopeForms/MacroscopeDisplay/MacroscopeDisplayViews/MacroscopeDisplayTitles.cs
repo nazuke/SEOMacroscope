@@ -37,7 +37,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private const int ColUrl = 0;
-    private const int ColPageLanguage= 1;
+    private const int ColPageLanguage = 1;
     private const int ColDetectedLanguage = 2;
     private const int ColOccurences = 3;
     private const int ColTitleText = 4;
@@ -90,7 +90,7 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean Proceed;
+      Boolean Proceed = false;
       MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
       
       if( msDoc.GetIsExternal() )
@@ -106,10 +106,6 @@ namespace SEOMacroscope
       if( msDoc.GetIsPdf() )
       {
         Proceed = true;
-      }
-      else
-      {
-        Proceed = false;
       }
 
       if( Proceed )

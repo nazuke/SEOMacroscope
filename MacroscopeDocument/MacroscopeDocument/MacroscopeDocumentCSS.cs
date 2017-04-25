@@ -250,8 +250,10 @@ namespace SEOMacroscope
                                              LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                                              Follow: true
                                            );
-                
-                  Outlink.SetRawTargetUrl( BackgroundImageUrl );
+                  if( Outlink != null )
+                  {
+                    Outlink.SetRawTargetUrl( BackgroundImageUrl );
+                  }
 
                 }
               
@@ -286,7 +288,10 @@ namespace SEOMacroscope
                                              Follow: true
                                            );
                 
-                  Outlink.SetRawTargetUrl( BackgroundImageUrl );
+                  if( Outlink != null )
+                  {
+                    Outlink.SetRawTargetUrl( BackgroundImageUrl );
+                  }
                 
                 }
               
@@ -344,12 +349,26 @@ namespace SEOMacroscope
     )
     {
 
-      MacroscopeLink OutLink = new MacroscopeLink (
-                                 SourceUrl: this.GetUrl(),
-                                 TargetUrl: AbsoluteUrl,
-                                 LinkType: LinkType,
-                                 Follow: Follow
-                               );
+      MacroscopeLink OutLink = null;
+      
+      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      {
+        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
+        if( AllowedHosts != null )
+        {
+          if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+          {
+            return( OutLink );
+          }
+        }
+      }
+
+      OutLink = new MacroscopeLink (
+        SourceUrl: this.GetUrl(),
+        TargetUrl: AbsoluteUrl,
+        LinkType: LinkType,
+        Follow: Follow
+      );
 
       this.Outlinks.Add( OutLink );
 

@@ -93,7 +93,7 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean Proceed;
+      Boolean Proceed = false;
       MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
       
       if( msDoc.GetIsExternal() )
@@ -109,10 +109,6 @@ namespace SEOMacroscope
       if( msDoc.GetIsPdf() )
       {
         Proceed = true;
-      }
-      else
-      {
-        Proceed = false;
       }
 
       if( Proceed )

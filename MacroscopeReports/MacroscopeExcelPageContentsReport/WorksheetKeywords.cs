@@ -70,16 +70,17 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string sKey in DocCollection.DocumentKeys() )
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         Boolean Proceed = false;
 
         if( msDoc.GetIsExternal() )
         {
-          Proceed = false;
+          return;
         }
-
+            
         if( msDoc.GetIsHtml() )
         {
           Proceed = true;
@@ -88,10 +89,6 @@ namespace SEOMacroscope
         if( msDoc.GetIsPdf() )
         {
           Proceed = true;
-        }
-        else
-        {
-          Proceed = false;
         }
 
         if( Proceed )

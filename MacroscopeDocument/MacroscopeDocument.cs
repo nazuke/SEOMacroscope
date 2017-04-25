@@ -142,6 +142,7 @@ namespace SEOMacroscope
     private string BodyText;
     private string BodyTextLanguage;
     private List<Dictionary<string,int>> DeepKeywordAnalysis;
+    private int WordCount;
 
     private int Depth;
 
@@ -294,29 +295,12 @@ namespace SEOMacroscope
       this.Keywords = "";
       this.AltText = "";
       
-      this.Headings = new Dictionary<ushort,List<string>> () { {
-          1,
-          new List<string> ( 16 )
-        },
-        {
-          2,
-          new List<string> ( 16 )
-        }, {
-          3,
-          new List<string> ( 16 )
-        },
-        {
-          4,
-          new List<string> ( 16 )
-        }, {
-          5,
-          new List<string> ( 16 )
-        },
-        {
-          6,
-          new List<string> ( 16 )
-        }
-      };
+      this.Headings = new Dictionary<ushort,List<string>> ( 7 );
+
+      for( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
+      {
+        this.Headings.Add( HeadingLevel, new List<string> ( 16 ) );
+      }
 
       this.BodyText = "";
       this.BodyTextLanguage = "";
@@ -327,6 +311,8 @@ namespace SEOMacroscope
         this.DeepKeywordAnalysis.Add( new Dictionary<string,int> ( 256 ) );
       }
 
+      this.WordCount = 0;
+      
       this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
 
       this.Remarks = new List<string> ();
@@ -1417,6 +1403,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     public List<string> GetHeadings ( ushort HeadingLevel )
     {
       List<string> HeadingList = new List<string> ();
@@ -1433,9 +1421,16 @@ namespace SEOMacroscope
     {
       if( !string.IsNullOrEmpty( Text ) )
       {
+
         this.BodyText = Text;
         Text = MacroscopeStringTools.CleanBodyText( msDoc: this );
         this.BodyText = Text;
+        
+        if( !string.IsNullOrEmpty( this.BodyText ) )
+        {
+          this.SetWordCount();
+        }
+
       }
       else
       {
@@ -1443,11 +1438,15 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public string GetBodyText ()
     {
       return( this.BodyText );
     }
     
+    /** -------------------------------------------------------------------- **/
+        
     public int GetBodyTextLength ()
     {
       return( this.BodyText.Length );
@@ -1463,9 +1462,35 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public string GetBodyTextLanguage ()
     {
       return( this.BodyTextLanguage );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void SetWordCount ()
+    {
+          
+      this.WordCount = 0;
+
+      try
+      {
+        string [] Words = Regex.Split( this.BodyText, "\\s", RegexOptions.Singleline );
+        this.WordCount = Words.Length;
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "SetWordCount: {0}", ex.Message ) );
+      }
+
+    }
+
+    public int GetWordCount ()
+    {
+      return( this.WordCount );
     }
 
     /** Deep Keyword Analysis *************************************************/
@@ -1510,6 +1535,8 @@ namespace SEOMacroscope
       
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ( int Words )
     {
       int WordsOffset = Words - 1;
@@ -1576,6 +1603,8 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+        
     public IEnumerable<string> IterateRemarks ()
     {
       lock( this.Remarks )
@@ -1921,6 +1950,11 @@ namespace SEOMacroscope
       if( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
+      }
+      
+      if( res != null )
+      {
+        res.Dispose();
       }
 
     }

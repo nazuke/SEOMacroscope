@@ -53,6 +53,12 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "URL";
         iCol++;
 
+        ws.Cell( iRow, iCol ).Value = "Page Language";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Detected Language";
+        iCol++;
+
         ws.Cell( iRow, iCol ).Value = "Occurrences";
         iCol++;
 
@@ -67,30 +73,26 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string sKey in DocCollection.DocumentKeys() )
+      foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         Boolean Proceed = false;
 
-        if( msDoc.GetIsExternal() )
-        {
-          Proceed = false;
-        }
-
-        if( msDoc.GetIsHtml() )
-        {
-          Proceed = true;
-        }
-        else
-        if( msDoc.GetIsPdf() )
-        {
-          Proceed = true;
-        }
-        else
-        {
-          Proceed = false;
-        }
+      if( msDoc.GetIsExternal() )
+      {
+        return;
+      }
+            
+      if( msDoc.GetIsHtml() )
+      {
+        Proceed = true;
+      }
+      else
+      if( msDoc.GetIsPdf() )
+      {
+        Proceed = true;
+      }
 
         if( Proceed )
         {
@@ -98,6 +100,8 @@ namespace SEOMacroscope
           iCol = 1;
 
           string Description = msDoc.GetDescription();
+          string PageLanguage = msDoc.GetIsoLanguageCode();
+          string DetectedLanguage = msDoc.GetTitleLanguage();
           int Occurrences = 0;
           int DescriptionLength = msDoc.GetDescriptionLength();
 
@@ -116,6 +120,32 @@ namespace SEOMacroscope
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
           }
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( PageLanguage ) );
+
+          if( PageLanguage != DetectedLanguage )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DetectedLanguage ) );
+
+          if( PageLanguage != DetectedLanguage )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+
           iCol++;
 
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );

@@ -173,9 +173,20 @@ namespace SEOMacroscope
 
             if( this.Locale != null )
             {
+              
               string LanguageCode = this.Locale;
-              LanguageCode = Regex.Replace( LanguageCode, "^([^\\-]+)([\\-][^\\-]+)$", "$1" );
+              
+              if( LanguageCode.ToLower().Equals( "x-default" ) )
+              {
+                LanguageCode = "x-default";
+              }
+              else
+              {
+                LanguageCode = Regex.Replace( LanguageCode, "^([^\\-]+)([\\-][^\\-]+)$", "$1" );
+              }
+              
               this.SetIsoLanguageCode( LanguageCode: LanguageCode );
+              
             }
 
           }
@@ -362,8 +373,10 @@ namespace SEOMacroscope
                                      LinkType: MacroscopeConstants.InOutLinkType.CANONICAL,
                                      Follow: true
                                    );
-          
-          Outlink.SetRawTargetUrl( this.Canonical );
+          if( Outlink != null )
+          {
+            Outlink.SetRawTargetUrl( this.Canonical );
+          }
           
         }
 
@@ -571,8 +584,10 @@ namespace SEOMacroscope
                                            LinkType: MacroscopeConstants.InOutLinkType.META,
                                            Follow: true
                                          );
-                
-                Outlink.SetRawTargetUrl( LinkUrl );
+                if( Outlink != null )
+                {
+                  Outlink.SetRawTargetUrl( LinkUrl );
+                }
                 
               }
 
@@ -631,7 +646,10 @@ namespace SEOMacroscope
                                          Follow: Follow
                                        );
               
-              Outlink.SetRawTargetUrl( LinkUrl );
+              if( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
               
             }
 
@@ -663,7 +681,10 @@ namespace SEOMacroscope
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( LinkUrl );
+              if( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
               
             }
 
@@ -695,7 +716,10 @@ namespace SEOMacroscope
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( LinkUrl );
+              if( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
               
             }
 
@@ -766,7 +790,10 @@ namespace SEOMacroscope
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( LinkUrl );
+              if( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
               
             }
 
@@ -800,7 +827,10 @@ namespace SEOMacroscope
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( LinkUrl );
+              if( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
               
             }
 
@@ -834,7 +864,10 @@ namespace SEOMacroscope
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( LinkUrl );
+              if( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
               
             }
 
@@ -867,7 +900,10 @@ namespace SEOMacroscope
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( LinkUrl );
+              if( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
               
             }
 
@@ -900,7 +936,10 @@ namespace SEOMacroscope
                                          Follow: true
                                        );
               
-              Outlink.SetRawTargetUrl( LinkUrl );
+              if( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
               
             }
 
@@ -1003,7 +1042,19 @@ namespace SEOMacroscope
       
       MacroscopeLink OutLink = null;
       Boolean Proceed = true;
-      
+
+      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      {
+        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
+        if( AllowedHosts != null )
+        {
+          if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+          {
+            return( OutLink );
+          }
+        }
+      }
+
       switch( LinkType )
       {
 
