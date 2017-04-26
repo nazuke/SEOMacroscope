@@ -101,7 +101,7 @@ namespace SEOMacroscope
       foreach( string LanguageCode in Texts.Keys )
       {
 
-        AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ( IsoLanguageCode: LanguageCode );
+        AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ();
 
         string ProbableLanguage = AnalyzeTextLanguage.AnalyzeLanguage( Text: Texts[ LanguageCode ] );
 

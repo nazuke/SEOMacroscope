@@ -46,6 +46,8 @@ namespace SEOMacroscope
         }
       };
 
+      //MacroscopePreferencesManager.setfe
+      
       foreach( string Url in UrlList )
       {
 
@@ -53,7 +55,9 @@ namespace SEOMacroscope
         
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
-        Assert.IsTrue( msDoc.Execute(), string.Format( "FAIL: {0}", "Execute()" ) );
+        Boolean ExecuteResult = msDoc.Execute();
+        
+        Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
           
         Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
       
@@ -98,11 +102,11 @@ namespace SEOMacroscope
           string LanguageDescription = msDoc.GetDescriptionLanguage();
           string LanguageBodyText = msDoc.GetBodyTextLanguage();
 
-          Assert.AreEqual( "eng", LanguageTitle, string.Format( "FAIL: {0} :: {1}", "LanguageTitle", LanguageTitle ) );
+          Assert.AreEqual( "en", LanguageTitle, string.Format( "FAIL: {0} :: {1}", "LanguageTitle", LanguageTitle ) );
 
-          Assert.AreEqual( "eng", LanguageDescription, string.Format( "FAIL: {0} :: {1}", "LanguageDescription", LanguageDescription ) );
+          Assert.AreEqual( "en", LanguageDescription, string.Format( "FAIL: {0} :: {1}", "LanguageDescription", LanguageDescription ) );
 
-          Assert.AreEqual( "eng", LanguageBodyText, string.Format( "FAIL: {0} :: {1}", "LanguageBodyText", LanguageBodyText ) );
+          Assert.AreEqual( "en", LanguageBodyText, string.Format( "FAIL: {0} :: {1}", "LanguageBodyText", LanguageBodyText ) );
 
         }
       

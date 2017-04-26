@@ -44,25 +44,25 @@ namespace SEOMacroscope
     public void CopyListViewRowsTextToClipboard ( ListView TargetListView )
     {
 
-      string sTextToCopy = "";
+      string TextToCopy = "";
 
       foreach( ListViewItem lvItem in TargetListView.SelectedItems )
       {
 
-        sTextToCopy += lvItem.Text;
+        TextToCopy += lvItem.Text;
 
         for( int i = 1 ; i < lvItem.SubItems.Count ; i++ )
         {
-          sTextToCopy += "\t" + lvItem.SubItems[ i ].Text;
+          TextToCopy += "\t" + lvItem.SubItems[ i ].Text;
         }
 
-        sTextToCopy += "\n";
+        TextToCopy += "\n";
 
       }
 
       try
       {
-        this.CopyTextToClipboard( sTextToCopy );
+        this.CopyTextToClipboard( TextToCopy );
       }
       catch( Exception ex )
       {
@@ -76,7 +76,7 @@ namespace SEOMacroscope
     public void CopyListViewValuesTextToClipboard ( ListView TargetListView )
     {
 
-      string sTextToCopy = "";
+      string TextToCopy = "";
 
       foreach( ListViewItem lvItem in TargetListView.SelectedItems )
       {
@@ -86,20 +86,20 @@ namespace SEOMacroscope
 
           if( i > 1 )
           {
-            sTextToCopy += "\t";
+            TextToCopy += "\t";
           }
 
-          sTextToCopy += lvItem.SubItems[ i ].Text;
+          TextToCopy += lvItem.SubItems[ i ].Text;
 
         }
 
-        sTextToCopy += "\n";
+        TextToCopy += "\n";
 
       }
 
       try
       {
-        this.CopyTextToClipboard( sTextToCopy );
+        this.CopyTextToClipboard( TextToCopy );
       }
       catch( Exception ex )
       {
@@ -110,30 +110,36 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void CopyTextToClipboard ( string sText )
+    public void CopyTextToClipboard ( string Text )
     {
-      int iCount = 10;
-      while( iCount > 0 )
+      
+      int Count = 10;
+      
+      while( Count > 0 )
       {
+      
         try
         {
-          Clipboard.SetText( sText );
+          Clipboard.SetText( Text );
           break;
         }
         catch( Exception ex )
         {
           DebugMsg( ex.Message );
         }
-        iCount--;
+        
+        Count--;
+      
       }
+    
     }
 
     /**************************************************************************/
 
     [Conditional( "DEVMODE" )]
-    public void DebugMsg ( String sMsg )
+    public void DebugMsg ( String Msg )
     {
-      Debug.WriteLine( sMsg );
+      Debug.WriteLine( Msg );
     }
 
     /**************************************************************************/

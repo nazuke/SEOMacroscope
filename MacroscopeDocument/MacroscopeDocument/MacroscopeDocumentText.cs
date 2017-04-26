@@ -165,6 +165,8 @@ namespace SEOMacroscope
        
         res.Close();
 
+        res.Dispose();
+        
       }
 
       if( ResponseErrorCondition != null )

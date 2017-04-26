@@ -149,7 +149,7 @@ namespace SEOMacroscope
     private List<string> Remarks;
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -1944,6 +1944,8 @@ namespace SEOMacroscope
         }
 
         res.Close();
+        
+        res.Dispose();
 
       }
 

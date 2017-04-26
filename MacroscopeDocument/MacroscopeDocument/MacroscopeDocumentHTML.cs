@@ -335,6 +335,8 @@ namespace SEOMacroscope
         }
 
         res.Close();
+        
+        res.Dispose();
 
       }
       else
@@ -1057,14 +1059,24 @@ namespace SEOMacroscope
 
       if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
-        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if( AllowedHosts != null )
-        {
-          if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+        
+        if( this.DocCollection != null )
+        {  
+    
+          MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
+        
+          if( AllowedHosts != null )
           {
-            Proceed = false;
+        
+            if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+            {
+              Proceed = false;
+            }
+          
           }
+        
         }
+
       }
 
       switch( LinkType )

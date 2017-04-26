@@ -168,6 +168,8 @@ namespace SEOMacroscope
         }
 
         res.Close();
+        
+        res.Dispose();
 
       }
 

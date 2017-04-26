@@ -332,7 +332,7 @@ namespace SEOMacroscope
 
         req = WebRequest.CreateHttp( RobotsUri );
         req.Method = "GET";
-        req.Timeout = 30000; // 30 seconds
+        req.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
         req.KeepAlive = false;
         req.UserAgent = this.UserAgent();
         req.Host = RobotsUri.Host;
@@ -371,9 +371,9 @@ namespace SEOMacroscope
 
         try
         {
-          Stream sStream = res.GetResponseStream();
-          StreamReader srRead = new StreamReader ( sStream );
-          RawData = srRead.ReadToEnd();
+          Stream ResponseStream = res.GetResponseStream();
+          StreamReader ReadStream = new StreamReader ( ResponseStream );
+          RawData = ReadStream.ReadToEnd();
         }
         catch( WebException ex )
         {
@@ -386,6 +386,10 @@ namespace SEOMacroscope
           RawData = "";
         }
 
+        res.Close();
+        
+        res.Dispose();
+      
       }
       else
       {

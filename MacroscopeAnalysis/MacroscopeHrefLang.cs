@@ -107,21 +107,24 @@ namespace SEOMacroscope
 
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
-        res = ( HttpWebResponse )req.GetResponse();
-
-        DebugMsg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ) );
-
-        if( res.StatusCode == HttpStatusCode.OK )
+        using( res = ( HttpWebResponse )req.GetResponse() )
         {
-          IsAvailableCheck = true;
-        }
 
-        res.Close();
+          DebugMsg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ) );
+
+          if( res.StatusCode == HttpStatusCode.OK )
+          {
+            IsAvailableCheck = true;
+          }
+
+          res.Close();
+        
+        }
 
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "MacroscopeHrefLang :: UriFormatException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "MacroscopeHrefLang UriFormatException: {0}", ex.Message ) );
       }
       catch( WebException ex )
       {
