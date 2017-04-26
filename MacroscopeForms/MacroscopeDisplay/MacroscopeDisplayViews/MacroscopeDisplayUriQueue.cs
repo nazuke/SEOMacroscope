@@ -103,6 +103,7 @@ namespace SEOMacroscope
 
     public void RefreshData ( string [] UriQueue )
     {
+      
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -135,6 +136,9 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.Default;
         }
       }
+      
+      GC.Collect();
+
     }
 
     /**************************************************************************/

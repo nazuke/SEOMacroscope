@@ -29,6 +29,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 
+
 namespace SEOMacroscope
 {
 
@@ -356,16 +357,33 @@ namespace SEOMacroscope
           if( this.CountRunningThreads() < this.ThreadsMax )
           {
 
-            SemaphoreWorkers.WaitOne();
-
-            Boolean NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
-
-            if( NewThreadStarted )
+            try
             {
+
+              if( this.MemoryGate( RequiredMegabytes: 32 ) )
+              {
+
+                SemaphoreWorkers.WaitOne();
+
+                Boolean NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
+
+                if( NewThreadStarted )
+                {
+                  Thread.Sleep( 100 );
+                }
+
+                this.AdjustThreadsMax();
+            
+              }
+
+            }
+            catch( MacroscopeInsufficientMemoryException ex )
+            {
+              DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
+              GC.Collect();
+              Thread.Yield();
               Thread.Sleep( 100 );
             }
-
-            this.AdjustThreadsMax();
 
           }
 
@@ -424,19 +442,30 @@ namespace SEOMacroscope
 
     public void NotifyWorkersFetched ( string Url )
     {
+
       DebugMsg( string.Format( "NotifyWorkersFetched: {0}", Url ) );
+
       this.PagesFound++;
+
       this.AddUpdateDisplayQueue( Url );
+
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
+
       this.UpdateProgress( Url, true );
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     public void NotifyWorkersDone ()
     {
+
       this.DecRunningThreads();
+
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
+
+      GC.Collect();
+
     }
 
     /** -------------------------------------------------------------------- **/

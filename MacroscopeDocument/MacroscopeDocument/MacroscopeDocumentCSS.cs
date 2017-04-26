@@ -350,7 +350,8 @@ namespace SEOMacroscope
     {
 
       MacroscopeLink OutLink = null;
-      
+      Boolean Proceed = true;
+            
       if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
         MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
@@ -358,19 +359,34 @@ namespace SEOMacroscope
         {
           if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
           {
-            return( OutLink );
+            Proceed = false;
           }
         }
       }
 
-      OutLink = new MacroscopeLink (
-        SourceUrl: this.GetUrl(),
-        TargetUrl: AbsoluteUrl,
-        LinkType: LinkType,
-        Follow: Follow
-      );
+      switch( LinkType )
+      {
+        case MacroscopeConstants.InOutLinkType.STYLESHEET:
+          if( !MacroscopePreferencesManager.GetFetchStylesheets() )
+          {
+            Proceed = false;
+          }
+          break;
+      }
+      
+      if( Proceed )
+      {
 
-      this.Outlinks.Add( OutLink );
+        OutLink = new MacroscopeLink (
+          SourceUrl: this.GetUrl(),
+          TargetUrl: AbsoluteUrl,
+          LinkType: LinkType,
+          Follow: Follow
+        );
+
+        this.Outlinks.Add( OutLink );
+
+      }
 
       return( OutLink );
             

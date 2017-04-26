@@ -36,19 +36,32 @@ namespace SEOMacroscope
 
     private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
     {
+      
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Overview.xlsx";
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
         MacroscopeExcelOverviewReport msExcelReport = new MacroscopeExcelOverviewReport ();
+
         try
         {
-          msExcelReport.WriteXslx( this.JobMaster, Path );
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -58,27 +71,43 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
         }
+        
       }
+
       Dialog.Dispose();
+
     }
 
     /** -------------------------------------------------------------------- **/  
 
     private void CallbackSaveBrokenLinksExcelReport ( object sender, EventArgs e )
     {
+
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Broken-Links.xlsx";
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
         MacroscopeExcelBrokenLinksReport msExcelReport = new MacroscopeExcelBrokenLinksReport ();
+
         try
         {
-          msExcelReport.WriteXslx( this.JobMaster, Path );
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -88,29 +117,45 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );
         }
+
       }
+
       Dialog.Dispose();
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveLanguagesExcelReport ( object sender, EventArgs e )
     {
+
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Languages.xlsx";
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
         MacroscopeExcelLanguagesReport msExcelReport = new MacroscopeExcelLanguagesReport ();
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -124,29 +169,45 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.Default;
         }
+
       }
+
       Dialog.Dispose();
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSavePageContentsExcelReport ( object sender, EventArgs e )
     {
+
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Page-Contents.xlsx";
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
         MacroscopeExcelPageContentsReport msExcelReport = new MacroscopeExcelPageContentsReport ();
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -160,29 +221,45 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.Default;
         }
+
       }
+
       Dialog.Dispose();
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveUriAnalysisExcelReport ( object sender, EventArgs e )
     {
+
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-URI-Analysis.xlsx";
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
         MacroscopeExcelUriReport msExcelReport = new MacroscopeExcelUriReport ();
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -196,29 +273,46 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.Default;
         }
+
       }
+
       Dialog.Dispose();
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveRedirectsExcelReport ( object sender, EventArgs e )
     {
+
       SaveFileDialog Dialog = new SaveFileDialog ();
+      
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Redirects.xlsx";
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
         MacroscopeExcelRedirectsReport msExcelReport = new MacroscopeExcelRedirectsReport ();
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -232,8 +326,11 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.Default;
         }
+
       }
+
       Dialog.Dispose();
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -248,7 +345,8 @@ namespace SEOMacroscope
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
-
+      Dialog.FileName = "Macroscope-Keyword-Analysis.xlsx";
+      
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -262,9 +360,17 @@ namespace SEOMacroscope
         
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -291,12 +397,14 @@ namespace SEOMacroscope
     {
 
       SaveFileDialog Dialog = new SaveFileDialog ();
+      
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
-
+      Dialog.FileName = "Macroscope-Duplicate-Content.xlsx";
+      
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -309,21 +417,21 @@ namespace SEOMacroscope
                                                         );
         try
         {
-
-          Cursor.Current = Cursors.WaitCursor;
-
-          msExcelReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
-
-          Cursor.Current = Cursors.Default;
-
-        }
-        catch( MacroscopeSaveExcelFileException ex )
-        {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
+            Cursor.Current = Cursors.Default;
+          }
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
+        }
+        catch( MacroscopeSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
         }
         catch( Exception ex )
         {
@@ -334,29 +442,46 @@ namespace SEOMacroscope
           ProgressForm.DoClose();
           Cursor.Current = Cursors.Default;
         }
+      
       }
+      
       Dialog.Dispose();
+    
     }
 
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveContactDetailsExcelReport ( object sender, EventArgs e )
     {
+    
       SaveFileDialog Dialog = new SaveFileDialog ();
+      
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Contact-Details.xlsx";
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
         MacroscopeExcelContactDetailsReport msExcelReport = new MacroscopeExcelContactDetailsReport ();
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -370,29 +495,46 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.Default;
         }
+
       }
+
       Dialog.Dispose();
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveRemarksExcelReport ( object sender, EventArgs e )
     {
+
       SaveFileDialog Dialog = new SaveFileDialog ();
+      
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Remarks.xlsx";
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
+
         string Path = Dialog.FileName;
         MaroscopeExcelRemarksReport msExcelReport = new MaroscopeExcelRemarksReport ();
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
-          msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -406,8 +548,11 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.Default;
         }
+
       }
+
       Dialog.Dispose();
+
     }
 
     /**************************************************************************/

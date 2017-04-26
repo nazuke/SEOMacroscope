@@ -306,6 +306,8 @@ namespace SEOMacroscope
 
         msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED );
 
+        this.JobMaster.VisitedHistoryItem( msDoc.GetUrl() );
+                
       }
       else
       {

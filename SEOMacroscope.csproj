@@ -13,7 +13,7 @@
     <NoWin32Manifest>False</NoWin32Manifest>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkProfile />
@@ -26,7 +26,7 @@
     <ApplicationIcon>BlenderProjects\application-icon\MacroscopeIcon-64x64.ico</ApplicationIcon>
     <CodeAnalysisRules>-Microsoft.Naming#CA1704;-Microsoft.Naming#CA1709</CodeAnalysisRules>
     <BaseAddress>4194304</BaseAddress>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
@@ -50,6 +50,9 @@
     <DefineConstants>TRACE; RELEASEMODE</DefineConstants>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <Prefer32Bit>True</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML">
@@ -477,6 +480,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProfilingSessions\Session20170425_184329.sdps" />
+    <Content Include="ProfilingSessions\Session20170426_133328.sdps" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

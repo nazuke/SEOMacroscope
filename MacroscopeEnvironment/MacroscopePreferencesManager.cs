@@ -237,10 +237,10 @@ namespace SEOMacroscope
 
       StartUrl = "";
       MaxThreads = 2;
-      MaxFetchesPerWorker = 64;
+      MaxFetchesPerWorker = 16;
       Depth = -1;
       PageLimit = -1;
-      RequestTimeout = 30;
+      RequestTimeout = 10;
       MaxRetries = 0;
       CrawlDelay = 0;
           
@@ -281,7 +281,7 @@ namespace SEOMacroscope
       MaxLevenshteinSizeDifference = 64;
       MaxLevenshteinDistance = 16;
       
-      DetectLanguage = false;
+      DetectLanguage = true;
       
       // SEO Options
 

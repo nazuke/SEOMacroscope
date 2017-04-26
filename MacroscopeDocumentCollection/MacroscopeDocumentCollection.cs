@@ -682,6 +682,8 @@ namespace SEOMacroscope
             Monitor.Exit( LockerDocCollection );
           }
 
+          GC.Collect();
+          
         }
 
       }

@@ -27,6 +27,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+using System.Runtime;
 
 namespace SEOMacroscope
 {
@@ -91,6 +92,93 @@ namespace SEOMacroscope
       string MyUserAgent = string.Format( "{0}/{1}", Name, Version );
       #endif
       return( MyUserAgent );
+    }
+
+    /** Memory Gate ***********************************************************/
+
+    // https://msdn.microsoft.com/en-us/library/system.runtime.gcsettings.largeobjectheapcompactionmode%28v=vs.110%29.aspx
+       
+    /** EXAMPLE:
+
+      try
+      {
+        if( this.MemoryGate( RequiredMegabytes: 32 ) )
+        {
+          // DO STUFF HERE
+        }
+      }
+      catch( MacroscopeInsufficientMemoryException ex )
+      {
+        DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
+        GC.Collect();
+      }
+
+   **/
+
+    protected Boolean MemoryGate ( int RequiredMegabytes )
+    {
+
+      MemoryFailPoint MemGate = null;
+
+      try
+      {
+
+        DebugMsg( string.Format( "RequiredMegabytes: {0}", RequiredMegabytes ) );
+
+        MemGate = new MemoryFailPoint ( RequiredMegabytes );
+
+      }
+      catch( InsufficientMemoryException ex )
+      {
+
+        throw new MacroscopeInsufficientMemoryException (
+          message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
+          innerException: ex
+        );
+        
+      }
+      
+      if( MemGate != null )
+      {
+        return( true );
+      }
+      
+      return( false );
+
+    }
+    
+    /** -------------------------------------------------------------------- **/
+    
+    public static Boolean MemoryGuard ( int RequiredMegabytes )
+    {
+
+      MemoryFailPoint MemGate = null;
+
+      try
+      {
+
+        DebugMsg( string.Format( "RequiredMegabytes: {0}", RequiredMegabytes ), true );
+
+        MemGate = new MemoryFailPoint ( RequiredMegabytes );
+
+      }
+      catch( InsufficientMemoryException ex )
+      {
+
+        throw new MacroscopeInsufficientMemoryException (
+          message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
+          innerException: ex
+        );
+        
+      }
+      
+      if( MemGate != null )
+      {
+        return( true );
+      }
+      
+      return( false );
+
     }
 
     /**************************************************************************/

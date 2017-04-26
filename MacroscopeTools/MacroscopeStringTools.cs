@@ -94,6 +94,11 @@ namespace SEOMacroscope
         {
           CleanedText = HtmlEntity.DeEntitize( CleanedText );
         }
+        catch( System.Collections.Generic.KeyNotFoundException ex )
+        {
+          DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
+          msDoc.AddRemark( "Possibly contains invalid HTML Entities." );
+        }
         catch( Exception ex )
         {
           DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );

@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Runtime;
 using Fastenshtein;
 
 namespace SEOMacroscope
@@ -113,28 +112,16 @@ namespace SEOMacroscope
         throw new Exception ( "MacroscopeLevenshteinAnalysis not initialized" );
       }
       
-      MemoryFailPoint MemGate = null;
       Dictionary<MacroscopeDocument,int> DocList = new Dictionary<MacroscopeDocument,int> ( DocCollection.CountDocuments() );
       decimal DocListCount = ( decimal )DocCollection.CountDocuments();
       decimal Count = 0;
+      Boolean Proceed = false;
 
-
-        
-      long memBefore = 0;
-      long memAfter = 0;
-      long memDiff = 0;
-
-      // https://msdn.microsoft.com/en-us/library/system.runtime.gcsettings.largeobjectheapcompactionmode%28v=vs.110%29.aspx
-      GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
-      GC.Collect();      
-
-      memBefore = GC.GetTotalMemory( true );
-
-      /*
+      try
       {
-        
+
         long MemoryEstimateBytes = 0;
-        int MemoryEstimateMegabytes = 0;
+        int RequiredMegabytes = 0;
         long DocumentCount = 0;
 
         foreach( MacroscopeDocument msDocCheck in DocCollection.IterateDocuments() )
@@ -145,30 +132,30 @@ namespace SEOMacroscope
           }
         }
 
-        MemoryEstimateBytes = EstimateMemoryAllocation * DocumentCount;
-        MemoryEstimateMegabytes = ( int )( MemoryEstimateBytes / ( long )1024 );
+        MemoryEstimateBytes = 512 * DocumentCount;
+        RequiredMegabytes = ( int )( MemoryEstimateBytes / ( long )1024 );
 
-        try
+        if( this.MemoryGate( RequiredMegabytes: RequiredMegabytes ) )
         {
-
-          DebugMsg( string.Format( "MemoryEstimateBytes: {0}", MemoryEstimateBytes ) );
-          DebugMsg( string.Format( "MemoryEstimateMegabytes: {0}", MemoryEstimateMegabytes ) );
-
-          MemGate = new MemoryFailPoint ( MemoryEstimateMegabytes );
-
+          Proceed = true;
         }
-        catch( InsufficientMemoryException ex )
+        else
         {
-        
-          throw new MacroscopeInsufficientMemoryException (
-            message: string.Format( "Insufficient memory to execute Levenshtein analysis. {0}MB Required", MemoryEstimateMegabytes ),
-            innerException: ex
-          );
-        
+          Proceed = false;
         }
-
+     
       }
-      */
+      catch( MacroscopeInsufficientMemoryException ex )
+      {
+        DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
+        GC.Collect();
+        Thread.Yield();
+      }
+
+      if( !Proceed )
+      {
+        return( DocList );
+      }
 
       foreach( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {
@@ -272,13 +259,6 @@ namespace SEOMacroscope
         
       }
 
-      memAfter = GC.GetTotalMemory( false );
-      memDiff = memAfter - memBefore;
-      
-      DebugMsg( string.Format( "memBefore: {0}", memBefore ) );        
-      DebugMsg( string.Format( "memAfter: {0}", memAfter ) );        
-      DebugMsg( string.Format( "memDiff: {0}", memDiff ) );
-      
       return( DocList );
 
     }

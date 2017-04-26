@@ -518,18 +518,19 @@ namespace SEOMacroscope
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
             string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
             string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
-
+            MacroscopeLink Outlink = null;
+            
             DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF :    LinkUrl : {0}", LinkUrl ) );
             DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF : LinkUrlAbs : {0}", LinkUrlAbs ) );
 
             if( LinkUrlAbs != null )
             {
               
-              MacroscopeLink Outlink = this.AddHtmlOutlink( 
-                                         LinkUrlAbs,
-                                         MacroscopeConstants.InOutLinkType.AHREF,
-                                         true
-                                       );
+              Outlink = this.AddHtmlOutlink( 
+                LinkUrlAbs,
+                MacroscopeConstants.InOutLinkType.AHREF,
+                true
+              );
               
               if( Outlink != null )
               {
@@ -575,15 +576,17 @@ namespace SEOMacroscope
             {
 
               string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
-
+              MacroscopeLink Outlink = null;
+            
               if( LinkUrlAbs != null )
               {
                 
-                MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                           AbsoluteUrl: LinkUrlAbs,
-                                           LinkType: MacroscopeConstants.InOutLinkType.META,
-                                           Follow: true
-                                         );
+                Outlink = this.AddHtmlOutlink(
+                  AbsoluteUrl: LinkUrlAbs,
+                  LinkType: MacroscopeConstants.InOutLinkType.META,
+                  Follow: true
+                );
+                
                 if( Outlink != null )
                 {
                   Outlink.SetRawTargetUrl( LinkUrl );
@@ -613,6 +616,7 @@ namespace SEOMacroscope
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
             MacroscopeConstants.InOutLinkType LinkType = MacroscopeConstants.InOutLinkType.LINK;
             Boolean Follow = true;
+            MacroscopeLink Outlink = null;
 
             if( LinkNode.GetAttributeValue( "hreflang", null ) != null )
             {
@@ -640,11 +644,11 @@ namespace SEOMacroscope
             if( LinkUrlAbs != null )
             {
               
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: LinkType,
-                                         Follow: Follow
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: LinkType,
+                Follow: Follow
+              );
               
               if( Outlink != null )
               {
@@ -671,15 +675,16 @@ namespace SEOMacroscope
           {
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
-
+            MacroscopeLink Outlink = null;
+              
             if( LinkUrlAbs != null )
             {
 
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: MacroscopeConstants.InOutLinkType.IFRAME,
-                                         Follow: true
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.IFRAME,
+                Follow: true
+              );
               
               if( Outlink != null )
               {
@@ -706,15 +711,16 @@ namespace SEOMacroscope
 
             string LinkUrl = LinkNode.GetAttributeValue( "href", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
-
+            MacroscopeLink Outlink = null;
+              
             if( LinkUrlAbs != null )
             {
 
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: MacroscopeConstants.InOutLinkType.MAP,
-                                         Follow: true
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.MAP,
+                Follow: true
+              );
               
               if( Outlink != null )
               {
@@ -730,7 +736,7 @@ namespace SEOMacroscope
       } // -------------------------------------------------------------------//
 
       { // IMG element links -------------------------------------------------// 
-
+       
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//img[@src]" );
 
         if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
@@ -743,15 +749,16 @@ namespace SEOMacroscope
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
             string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
             string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
-
+            MacroscopeLink Outlink = null;
+              
             if( LinkUrlAbs != null )
             {
 
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                                         Follow: true
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                Follow: true
+              );
 
               if( Outlink != null )
               {
@@ -761,7 +768,7 @@ namespace SEOMacroscope
               }
 
             }
-
+          
           }
 
         }
@@ -769,7 +776,7 @@ namespace SEOMacroscope
       } // -------------------------------------------------------------------//
 
       { // SCRIPT element links ----------------------------------------------//
-
+         
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//script[@src]" );
 
         if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
@@ -780,15 +787,16 @@ namespace SEOMacroscope
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
-
+            MacroscopeLink Outlink = null;
+              
             if( LinkUrlAbs != null )
             {
               
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
-                                         Follow: true
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
+                Follow: true
+              );
               
               if( Outlink != null )
               {
@@ -796,7 +804,7 @@ namespace SEOMacroscope
               }
               
             }
-
+            
           }
 
         }
@@ -817,15 +825,16 @@ namespace SEOMacroscope
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
-
+            MacroscopeLink Outlink = null;
+              
             if( LinkUrlAbs != null )
             {
               
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: MacroscopeConstants.InOutLinkType.AUDIO,
-                                         Follow: true
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.AUDIO,
+                Follow: true
+              );
               
               if( Outlink != null )
               {
@@ -833,7 +842,7 @@ namespace SEOMacroscope
               }
               
             }
-
+            
           }
 
         }
@@ -843,7 +852,7 @@ namespace SEOMacroscope
       { // VIDEO element links -----------------------------------------------//
 
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
-
+       
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//video[@src]|//video/source[@src]|//video/track[@src])" );
 
         if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
@@ -854,21 +863,22 @@ namespace SEOMacroscope
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
-
+            MacroscopeLink Outlink = null;
+              
             if( LinkUrlAbs != null )
             {
 
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: MacroscopeConstants.InOutLinkType.VIDEO,
-                                         Follow: true
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.VIDEO,
+                Follow: true
+              );
               
               if( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
-              
+         
             }
 
           }
@@ -890,15 +900,16 @@ namespace SEOMacroscope
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
-
+            MacroscopeLink Outlink = null;
+              
             if( LinkUrlAbs != null )
             {
               
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: MacroscopeConstants.InOutLinkType.EMBED,
-                                         Follow: true
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.EMBED,
+                Follow: true
+              );
               
               if( Outlink != null )
               {
@@ -906,7 +917,7 @@ namespace SEOMacroscope
               }
               
             }
-
+            
           }
 
         }
@@ -926,15 +937,16 @@ namespace SEOMacroscope
 
             string LinkUrl = LinkNode.GetAttributeValue( "data", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
-
+            MacroscopeLink Outlink = null;
+              
             if( LinkUrlAbs != null )
             {
               
-              MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                         AbsoluteUrl: LinkUrlAbs,
-                                         LinkType: MacroscopeConstants.InOutLinkType.OBJECT,
-                                         Follow: true
-                                       );
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.OBJECT,
+                Follow: true
+              );
               
               if( Outlink != null )
               {
@@ -970,7 +982,7 @@ namespace SEOMacroscope
           {
 
             string CssText = Node.InnerText;
-            
+                          
             if( !string.IsNullOrEmpty( CssText ) )
             {
               
@@ -1050,42 +1062,58 @@ namespace SEOMacroscope
         {
           if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
           {
-            return( OutLink );
+            Proceed = false;
           }
         }
       }
 
       switch( LinkType )
       {
-
         case MacroscopeConstants.InOutLinkType.STYLESHEET:
           if( !MacroscopePreferencesManager.GetFetchStylesheets() )
+          {
             Proceed = false;
+          }
           break;
-
         case MacroscopeConstants.InOutLinkType.SCRIPT:
           if( !MacroscopePreferencesManager.GetFetchJavascripts() )
+          {
             Proceed = false;
+          }
           break;
-
         case MacroscopeConstants.InOutLinkType.IMAGE:
           if( !MacroscopePreferencesManager.GetFetchImages() )
+          {
             Proceed = false;
+          }
           break;
-
         case MacroscopeConstants.InOutLinkType.AUDIO:
           if( !MacroscopePreferencesManager.GetFetchAudio() )
+          {
             Proceed = false;
+          }
           break;
-
         case MacroscopeConstants.InOutLinkType.VIDEO:
           if( !MacroscopePreferencesManager.GetFetchVideo() )
+          {
             Proceed = false;
+          }
           break;
-
+        case MacroscopeConstants.InOutLinkType.EMBED:
+          if( !MacroscopePreferencesManager.GetFetchBinaries() )
+          {
+            Proceed = false;
+          }
+          break;
+        case MacroscopeConstants.InOutLinkType.OBJECT:
+          if( !MacroscopePreferencesManager.GetFetchBinaries() )
+          {
+            Proceed = false;
+          }
+          break;
       }
 
-      Proceed = true; // TODO: REMOVE THIS
+      //Proceed = true; // TODO: REMOVE THIS
       
       if( Proceed )
       {

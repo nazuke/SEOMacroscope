@@ -78,6 +78,7 @@ namespace SEOMacroscope
     private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
     {
       this.Cancel();
+      this.MainForm.Enabled = true;
     }
 
     /**************************************************************************/
