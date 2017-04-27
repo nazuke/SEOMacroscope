@@ -79,20 +79,25 @@ namespace SEOMacroscope
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         Boolean Proceed = false;
 
-      if( msDoc.GetIsExternal() )
-      {
-        return;
-      }
+        if( msDoc.GetIsExternal() )
+        {
+          continue;
+        }
+        
+        if( msDoc.GetIsRedirect() )
+        {
+          continue;
+        }
             
-      if( msDoc.GetIsHtml() )
-      {
-        Proceed = true;
-      }
-      else
-      if( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
-      }
+        if( msDoc.GetIsHtml() )
+        {
+          Proceed = true;
+        }
+        else
+        if( msDoc.GetIsPdf() )
+        {
+          Proceed = true;
+        }
 
         if( Proceed )
         {

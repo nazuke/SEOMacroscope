@@ -126,7 +126,7 @@ namespace SEOMacroscope
 
         foreach( MacroscopeDocument msDocCheck in DocCollection.IterateDocuments() )
         {
-          if( !msDocCheck.GetIsExternal() )
+          if( ( !msDocCheck.GetIsExternal() ) && ( !msDocCheck.GetIsRedirect() ) )
           {
             DocumentCount++;
           }
@@ -176,6 +176,11 @@ namespace SEOMacroscope
         }
         
         if( msDocCompare.GetIsExternal() )
+        {
+          continue;
+        }
+        
+        if( msDocCompare.GetIsRedirect() )
         {
           continue;
         }

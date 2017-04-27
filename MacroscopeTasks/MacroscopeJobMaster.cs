@@ -271,9 +271,9 @@ namespace SEOMacroscope
 
     /** Include/Exclude URLs **************************************************/
 
-    public void SetIncludeExcludeUrls ( MacroscopeIncludeExcludeUrls IncludeExcludeUrls )
+    public void SetIncludeExcludeUrls ( MacroscopeIncludeExcludeUrls NewIncludeExcludeUrls )
     {
-      this.IncludeExcludeUrls = IncludeExcludeUrls;
+      this.IncludeExcludeUrls = NewIncludeExcludeUrls;
     }
 
     public MacroscopeIncludeExcludeUrls GetIncludeExcludeUrls ()
@@ -307,6 +307,8 @@ namespace SEOMacroscope
         {
           this.AddUrlQueueItem( RobotsUrl );
         }
+
+        this.IncludeExcludeUrls.AddExplicitIncludeUrl( Url: this.StartUrl );
 
         this.AddUrlQueueItem( this.StartUrl );
 
@@ -487,7 +489,9 @@ namespace SEOMacroscope
         IsStopped = true;
       }
 
-      this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
+      //this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
+
+      this.GetDocCollection().RecalculateDocCollection();
 
       return( IsStopped );
 
@@ -778,7 +782,9 @@ namespace SEOMacroscope
 
     private void ResetLink ( string Url )
     {
+      
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
+      
       if( msDoc != null )
       {
         msDoc.SetIsDirty();
@@ -789,6 +795,7 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "ResetLink ERROR: {0}", Url ) );
       }
+      
     }
 
     /** Start URL *************************************************************/
@@ -1057,7 +1064,7 @@ namespace SEOMacroscope
       {
         lock( this.History )
         {
-          this.History[ Url ] = false;
+          this.History.Remove( Url );
         }
       }
     }

@@ -100,8 +100,7 @@ namespace SEOMacroscope
       this.StatsKeywords = new Dictionary<int,int> ( 256 );
 
       this.StatsHeadings = new  List<Dictionary<int,int>> ( 7 );
-      for( ushort i = 1 ; i <= 6 ; i++ )
-      {
+      for( ushort i = 1; i <= 6; i++ ) {
         this.StatsHeadings.Add( new Dictionary<int,int> ( 256 ) );
       }
 
@@ -113,8 +112,7 @@ namespace SEOMacroscope
 
       this.StatsDeepKeywordAnalysisDocs = new Dictionary<string,MacroscopeDocumentList> ( 1024 );
       this.StatsDeepKeywordAnalysis = new  List<Dictionary<string,int>> ( 4 );
-      for( int i = 0 ; i < 4 ; i++ )
-      {
+      for( int i = 0; i < 4; i++ ) {
         this.StatsDeepKeywordAnalysis.Add( new Dictionary<string,int> ( 1024 ) );
       }
 
@@ -172,27 +170,26 @@ namespace SEOMacroscope
 
     /** Job Master Methods ****************************************************/
     
-    public MacroscopeJobMaster GetJobMaster ()
+    public MacroscopeJobMaster GetJobMaster()
     {
       return( this.JobMaster );
     }
 
     /** Allowed Hosts Methods *************************************************/
 
-    public MacroscopeAllowedHosts GetAllowedHosts ()
+    public MacroscopeAllowedHosts GetAllowedHosts()
     {
       return( this.JobMaster.GetAllowedHosts() );
     }
 
     /** Document Collection Methods *******************************************/
 
-    public Boolean ContainsDocument ( string Url )
+    public Boolean ContainsDocument( string Url )
     {
 
       Boolean DocumentPresent = false;
 
-      if( this.DocCollection.ContainsKey( Url ) )
-      {
+      if( this.DocCollection.ContainsKey( Url ) ) {
         DocumentPresent = true;
       }
 
@@ -202,7 +199,7 @@ namespace SEOMacroscope
 
     /** Create Document Methods ***********************************************/
     
-    public MacroscopeDocument CreateDocument ( string Url )
+    public MacroscopeDocument CreateDocument( string Url )
     {
       MacroscopeDocument msDoc = new MacroscopeDocument (
                                    DocumentCollection: this,
@@ -211,7 +208,7 @@ namespace SEOMacroscope
       return( msDoc );
     }
 
-    public MacroscopeDocument CreateDocument ( MacroscopeCredential Credential, string Url )
+    public MacroscopeDocument CreateDocument( MacroscopeCredential Credential, string Url )
     {
       MacroscopeDocument msDoc = new MacroscopeDocument (
                                    DocumentCollection: this,
@@ -223,68 +220,56 @@ namespace SEOMacroscope
 
     /** Document Stats ********************************************************/
 
-    public int CountDocuments ()
+    public int CountDocuments()
     {
       return( this.DocCollection.Count );
     }
 
-    public int CountUrlsInternal ()
+    public int CountUrlsInternal()
     {
       return( this.StatsUrlsInternal );
     }
 
-    public int CountUrlsExternal ()
+    public int CountUrlsExternal()
     {
       return( this.StatsUrlsExternal );
     }
 
-    public int CountUrlsSitemaps ()
+    public int CountUrlsSitemaps()
     {
       return( this.StatsUrlsSitemaps );
     }
 
     /**************************************************************************/
 
-    public void AddDocument ( MacroscopeDocument msDoc )
+    public void AddDocument( MacroscopeDocument msDoc )
     {
       this.AddDocument( msDoc.GetUrl(), msDoc );
     }
 
     // TODO: There may be a bug here, whereby two or more error pages are added multiple times.
-    public void AddDocument ( string Url, MacroscopeDocument msDoc )
+    public void AddDocument( string Url, MacroscopeDocument msDoc )
     {
 
-      if( Monitor.TryEnter( LockerDocCollection ) )
-      {
+      if( Monitor.TryEnter( LockerDocCollection ) ) {
 
-        try
-        {
+        try {
 
-          if( this.DocCollection.ContainsKey( Url ) )
-          {
+          if( this.DocCollection.ContainsKey( Url ) ) {
             this.DocCollection.Remove( Url );
             this.DocCollection.Add( Url, msDoc );
-          }
-          else
-          {
-            try
-            {
+          } else {
+            try {
               this.DocCollection.Add( Url, msDoc );
-            }
-            catch( ArgumentException ex )
-            {
+            } catch( ArgumentException ex ) {
               this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
-            }
-            catch( Exception ex )
-            {
+            } catch( Exception ex ) {
               this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
             }
           
           }
         
-        }
-        finally
-        {
+        } finally {
           Monitor.Exit( LockerDocCollection );
         }
 
@@ -294,13 +279,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean DocumentExists ( string Url )
+    public Boolean DocumentExists( string Url )
     {
 
       Boolean DocumentPresent = false;
 
-      if( this.DocCollection.ContainsKey( Url ) )
-      {
+      if( this.DocCollection.ContainsKey( Url ) ) {
         DocumentPresent = true;
       }
 
@@ -310,19 +294,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocument GetDocument ( string Url )
+    public MacroscopeDocument GetDocument( string Url )
     {
 
       MacroscopeDocument msDoc = null;
 
       if(
         ( !string.IsNullOrEmpty( Url ) )
-        && this.DocCollection.ContainsKey( Url ) )
-      {
+        && this.DocCollection.ContainsKey( Url ) ) {
         msDoc = this.DocCollection[ Url ];
-      }
-      else
-      {
+      } else {
         //throw new MacroscopeDocumentCollectionException ( string.Format( "Document not in collection: {0}", Url ) );
       }
 
@@ -332,23 +313,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RemoveDocument ( string Url )
+    public void RemoveDocument( string Url )
     {
 
-      if( Monitor.TryEnter( LockerDocCollection ) )
-      {
+      if( Monitor.TryEnter( LockerDocCollection ) ) {
 
-        try
-        {
+        try {
 
-          if( this.DocCollection.ContainsKey( Url ) )
-          {
+          if( this.DocCollection.ContainsKey( Url ) ) {
             this.DocCollection.Remove( Url );
           }
         
-        }
-        finally
-        {
+        } finally {
           Monitor.Exit( LockerDocCollection );
         }
 
@@ -358,30 +334,23 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public IEnumerable<MacroscopeDocument> IterateDocuments ()
+    public IEnumerable<MacroscopeDocument> IterateDocuments()
     {
 
-      if( Monitor.TryEnter( LockerDocCollection ) )
-      {
+      if( Monitor.TryEnter( LockerDocCollection ) ) {
 
-        try
-        {
-          if( this.DocCollection.Count > 0 )
-          {
+        try {
+          if( this.DocCollection.Count > 0 ) {
 
-            foreach( string Url in this.DocCollection.Keys )
-            {
+            foreach( string Url in this.DocCollection.Keys ) {
               MacroscopeDocument msDoc = this.DocCollection[ Url ];
-              if( msDoc != null )
-              {
+              if( msDoc != null ) {
                 yield return this.DocCollection[ Url ];
               }
             }
           
           }
-        }
-        finally
-        {
+        } finally {
           Monitor.Exit( LockerDocCollection );
         }
 
@@ -391,30 +360,24 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public List<string> DocumentKeys ()
+    public List<string> DocumentKeys()
     {
 
       List<string> lKeys = new List<string> ();
 
-      if( Monitor.TryEnter( LockerDocCollection ) )
-      {
+      if( Monitor.TryEnter( LockerDocCollection ) ) {
 
-        try
-        {
+        try {
 
-          if( this.DocCollection.Count > 0 )
-          {
+          if( this.DocCollection.Count > 0 ) {
 
-            foreach( string Url in this.DocCollection.Keys )
-            {
+            foreach( string Url in this.DocCollection.Keys ) {
               lKeys.Add( Url );
             }
           
           }
         
-        }
-        finally
-        {
+        } finally {
           Monitor.Exit( LockerDocCollection );
         }
 
@@ -426,16 +389,14 @@ namespace SEOMacroscope
 
     /** Inlinks ***************************************************************/
 
-    public MacroscopeLinkList GetDocumentInlinks ( string Url )
+    public MacroscopeLinkList GetDocumentInlinks( string Url )
     {
       
       MacroscopeLinkList Inlinks = null;
       
-      lock( this.StructInlinks )
-      {
+      lock( this.StructInlinks ) {
         
-        if( this.StructInlinks.ContainsKey( Url ) )
-        {
+        if( this.StructInlinks.ContainsKey( Url ) ) {
           Inlinks = this.StructInlinks[ Url ];
         }
         
@@ -445,14 +406,12 @@ namespace SEOMacroscope
       
     }
 
-    public IEnumerable<string> IterateInlinks ()
+    public IEnumerable<string> IterateInlinks()
     {
       
-      lock( this.StructInlinks )
-      {
+      lock( this.StructInlinks ) {
         
-        foreach( string Url in this.StructInlinks.Keys )
-        {
+        foreach( string Url in this.StructInlinks.Keys ) {
           yield return Url;
         }
         
@@ -462,16 +421,14 @@ namespace SEOMacroscope
 
     /** HyperlinksIn **********************************************************/
 
-    public MacroscopeHyperlinksIn GetDocumentHyperlinksIn ( string Url )
+    public MacroscopeHyperlinksIn GetDocumentHyperlinksIn( string Url )
     {
     
       MacroscopeHyperlinksIn HyperlinksIn = null;
       
-      lock( this.StructHyperlinksIn )
-      {
+      lock( this.StructHyperlinksIn ) {
 
-        if( this.StructHyperlinksIn.ContainsKey( Url ) )
-        {
+        if( this.StructHyperlinksIn.ContainsKey( Url ) ) {
           HyperlinksIn = this.StructHyperlinksIn[ Url ];
         }
 
@@ -481,14 +438,12 @@ namespace SEOMacroscope
       
     }
 
-    public IEnumerable<string> IterateHyperlinksIn ()
+    public IEnumerable<string> IterateHyperlinksIn()
     {
       
-      lock( this.StructHyperlinksIn )
-      {
+      lock( this.StructHyperlinksIn ) {
         
-        foreach( string Url in this.StructHyperlinksIn.Keys )
-        {
+        foreach( string Url in this.StructHyperlinksIn.Keys ) {
           yield return Url;
         }
         
@@ -498,7 +453,7 @@ namespace SEOMacroscope
 
     /** Recalculate Stats Across DocCollection ********************************/
 
-    private void StartRecalcTimer ()
+    private void StartRecalcTimer()
     {
       this.DebugMsg( string.Format( "StartRecalcTimer: {0}", "STARTING..." ) );
       this.TimerRecalc = new System.Timers.Timer ( 2000 );
@@ -509,40 +464,31 @@ namespace SEOMacroscope
       this.DebugMsg( string.Format( "StartRecalcTimer: {0}", "STARTED." ) );
     }
 
-    private void StopRecalcTimer ()
+    private void StopRecalcTimer()
     {
-      try
-      {
+      try {
         this.TimerRecalc.Stop();
         this.TimerRecalc.Dispose();
-      }
-      catch( Exception ex )
-      {
+      } catch( Exception ex ) {
         this.DebugMsg( string.Format( "StopRecalcTimer: {0}", ex.Message ) );
       }
     }
 
-    private void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
+    private void WorkerRecalculateDocCollection( Object self, ElapsedEventArgs e )
     {
 
-      try
-      {
+      try {
 
         Boolean DrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
 
-        if( DrainQueue )
-        {
+        if( DrainQueue ) {
           this.TimerRecalc.Interval = 2000;
           this.RecalculateDocCollection();
-        }
-        else
-        {
+        } else {
           this.TimerRecalc.Interval = 10000;
         }
 
-      }
-      catch( Exception ex )
-      {
+      } catch( Exception ex ) {
         DebugMsg( string.Format( "WorkerRecalculateDocCollection: {0}", ex.Message ) );
       }
 
@@ -550,26 +496,24 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void AddWorkerRecalculateDocCollectionQueue ()
+    public void AddWorkerRecalculateDocCollectionQueue()
     {
+      
       this.NamedQueue.AddToNamedQueue( MacroscopeConstants.RecalculateDocCollection, "c" );
+
     }
 
     /**************************************************************************/
 
-    public Boolean DrainWorkerRecalculateDocCollectionQueue ()
+    public Boolean DrainWorkerRecalculateDocCollectionQueue()
     {
       Boolean Result = false;
-      try
-      {
-        if( this.NamedQueue.PeekNamedQueue( MacroscopeConstants.RecalculateDocCollection ) )
-        {
+      try {
+        if( this.NamedQueue.PeekNamedQueue( MacroscopeConstants.RecalculateDocCollection ) ) {
           Result = true;
           this.NamedQueue.DrainNamedQueueItemsAsList( MacroscopeConstants.RecalculateDocCollection );
         }
-      }
-      catch( InvalidOperationException ex )
-      {
+      } catch( InvalidOperationException ex ) {
         this.DebugMsg( string.Format( "DrainWorkerRecalculateDocCollectionQueue: {0}", ex.Message ) );
       }
       return( Result );
@@ -577,17 +521,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RecalculateDocCollection ()
+    public void RecalculateDocCollection()
     {
 
-      lock( LockerRecalc )
-      {
+      lock( LockerRecalc ) {
 
-        if( Monitor.TryEnter( LockerDocCollection ) )
-        {
+        if( Monitor.TryEnter( LockerDocCollection ) ) {
 
-          try
-          {
+          try {
 
             MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
 
@@ -595,37 +536,27 @@ namespace SEOMacroscope
             this.StatsUrlsExternal = 0;
             this.StatsUrlsSitemaps = 0;
 
-            foreach( string UrlTarget in this.DocCollection.Keys )
-            {
+            foreach( string UrlTarget in this.DocCollection.Keys ) {
 
               MacroscopeDocument msDoc = this.GetDocument( UrlTarget );
 
-              try
-              {
+              try {
                 this.RecalculateInlinks( msDoc );
-              }
-              catch( Exception ex )
-              {
+              } catch( Exception ex ) {
                 this.DebugMsg( string.Format( "RecalculateInlinks: {0}", ex.Message ) );
               }
          
-              try
-              {
+              try {
                 this.RecalculateHyperlinksIn( msDoc );
-              }
-              catch( Exception ex )
-              {
+              } catch( Exception ex ) {
                 this.DebugMsg( string.Format( "RecalculateHyperlinksIn: {0}", ex.Message ) );
               }
           
-              if( this.StatsHistory.ContainsKey( UrlTarget ) )
-              {
+              if( this.StatsHistory.ContainsKey( UrlTarget ) ) {
 
                 this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", UrlTarget ) );
 
-              }
-              else
-              {
+              } else {
 
                 this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", UrlTarget ) );
 
@@ -649,8 +580,7 @@ namespace SEOMacroscope
 
                 this.RecalculateStatsDurations( msDoc );
             
-                if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
-                {
+                if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() ) {
                   this.RecalculateStatsDeepKeywordAnalysis( msDoc );
                 }
             
@@ -658,17 +588,13 @@ namespace SEOMacroscope
 
               }
 
-              if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
-              {
+              if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) ) {
                 this.StatsUrlsInternal++;
-              }
-              else
-              {
+              } else {
                 this.StatsUrlsExternal++;
               }
 
-              if( msDoc.GetIsSitemapXml() )
-              {
+              if( msDoc.GetIsSitemapXml() ) {
                 this.StatsUrlsSitemaps++;
               }
 
@@ -676,9 +602,7 @@ namespace SEOMacroscope
             
             }
 
-          }
-          finally
-          {
+          } finally {
             Monitor.Exit( LockerDocCollection );
           }
 
@@ -692,38 +616,32 @@ namespace SEOMacroscope
 
     /** Inlinks ***************************************************************/
 
-    private void RecalculateInlinks ( MacroscopeDocument msDoc )
+    private void RecalculateInlinks( MacroscopeDocument msDoc )
     {
 
       DebugMsg( string.Format( "RecalculateInlinks: {0} :: {1}", msDoc.GetProcessInlinks(), msDoc.GetUrl() ) );
 
       Boolean ProcessInlinks = msDoc.GetProcessInlinks();
 
-      if( msDoc.GetProcessInlinks() )
-      {
+      if( msDoc.GetProcessInlinks() ) {
 
         DebugMsg( string.Format( "RecalculateInlinks: PROCESSING: {0}", msDoc.GetUrl() ) );
         
         msDoc.UnsetProcessInlinks();
 
-        foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
-        {
+        foreach( MacroscopeLink Link in msDoc.IterateOutlinks() ) {
 
           string Url = Link.GetTargetUrl();
           MacroscopeLinkList Inlinks = null;
 
-          if( Url == msDoc.GetUrl() )
-          {
+          if( Url == msDoc.GetUrl() ) {
             DebugMsg( string.Format( "RecalculateInlinks: SELF: {0}", Url ) );
             continue;
           }
           
-          if( this.StructInlinks.ContainsKey( Url ) )
-          {
+          if( this.StructInlinks.ContainsKey( Url ) ) {
             Inlinks = this.StructInlinks[ Url ];
-          }
-          else
-          {
+          } else {
 
             Inlinks = new MacroscopeLinkList ();
 
@@ -733,20 +651,15 @@ namespace SEOMacroscope
 
           }
 
-          if( Inlinks != null )
-          {
+          if( Inlinks != null ) {
             Inlinks.Add( Link: Link );
-          }
-          else
-          {
+          } else {
             DebugMsg( string.Format( "RecalculateInlinks: NULL: {0}", msDoc.GetUrl() ) );
           }
 
         }
 
-      }
-      else
-      {
+      } else {
         DebugMsg( string.Format( "RecalculateInlinks: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
       }
 
@@ -754,13 +667,12 @@ namespace SEOMacroscope
    
     /** Hyperlinks In *********************************************************/
 
-    private void RecalculateHyperlinksIn ( MacroscopeDocument msDoc )
+    private void RecalculateHyperlinksIn( MacroscopeDocument msDoc )
     {
 
       DebugMsg( string.Format( "RecalculateHyperlinksIn: {0} :: {1}", msDoc.GetProcessHyperlinksIn(), msDoc.GetUrl() ) );
 
-      if( msDoc.GetProcessHyperlinksIn() )
-      {
+      if( msDoc.GetProcessHyperlinksIn() ) {
 
         MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
 
@@ -769,8 +681,7 @@ namespace SEOMacroscope
         msDoc.UnsetProcessInlinks();
         msDoc.UnsetProcessHyperlinksIn();
 
-        foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
-        {
+        foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() ) {
                   
           string Url = HyperlinkOut.GetTargetUrl();
           MacroscopeHyperlinksIn HyperlinksIn = null;
@@ -778,24 +689,19 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "RecalculateHyperlinksIn: URL SOURCE: {0}", msDoc.GetUrl() ) );
           DebugMsg( string.Format( "RecalculateHyperlinksIn: URL TARGET: {0}", Url ) );
 
-          if( Url == msDoc.GetUrl() )
-          {
+          if( Url == msDoc.GetUrl() ) {
             DebugMsg( string.Format( "RecalculateHyperlinksIn: SELF: {0}", Url ) );
             continue;
           }
           
-          if( this.StructHyperlinksIn.ContainsKey( Url ) )
-          {
+          if( this.StructHyperlinksIn.ContainsKey( Url ) ) {
             HyperlinksIn = this.StructHyperlinksIn[ Url ];
-          }
-          else
-          {
+          } else {
             HyperlinksIn = new MacroscopeHyperlinksIn ();
             this.StructHyperlinksIn.Add( Url, HyperlinksIn );
           }
 
-          if( HyperlinksIn != null )
-          {
+          if( HyperlinksIn != null ) {
 
             HyperlinksIn.Add(
               LinkType: HyperlinkOut.GetHyperlinkType(),
@@ -807,17 +713,13 @@ namespace SEOMacroscope
               AltText: HyperlinkOut.GetAltText()
             );
 
-          }
-          else
-          {
+          } else {
             DebugMsg( string.Format( "RecalculateHyperlinksIn: NULL: {0}", msDoc.GetUrl() ) );
           }
 
         }
 
-      }
-      else
-      {
+      } else {
         
         DebugMsg( string.Format( "RecalculateHyperlinksIn: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
         
@@ -827,25 +729,23 @@ namespace SEOMacroscope
 
     /** Hostnames *************************************************************/
 
-    private void ClearStatsHostnames ()
+    private void ClearStatsHostnames()
     {
       this.StatsHostnames.Clear();
     }
 
     /** -------------------------------------------------------------------- **/
         
-    public Dictionary<string,int> GetStatsHostnamesWithCount ()
+    public Dictionary<string,int> GetStatsHostnamesWithCount()
     {
 
       Dictionary<string,int> HostnamesList = null;
 
-      lock( this.StatsHostnames )
-      {
+      lock( this.StatsHostnames ) {
 
         HostnamesList = new Dictionary<string,int> ( this.StatsHostnames.Count );
         
-        foreach( string Hostname in this.StatsHostnames.Keys )
-        {
+        foreach( string Hostname in this.StatsHostnames.Keys ) {
           HostnamesList.Add( Hostname, this.StatsHostnames[ Hostname ] );
         }
         
@@ -857,13 +757,12 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
         
-    public int GetStatsHostnamesCount ( string Hostname )
+    public int GetStatsHostnamesCount( string Hostname )
     {
 
       int Value = 0;
 
-      if( this.StatsHostnames.ContainsKey( Hostname ) )
-      {
+      if( this.StatsHostnames.ContainsKey( Hostname ) ) {
         Value = this.StatsHostnames[ Hostname ];
       }
 
@@ -873,27 +772,21 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
         
-    private void RecalculateStatsHostnames ( MacroscopeDocument msDoc )
+    private void RecalculateStatsHostnames( MacroscopeDocument msDoc )
     {
       string Url = msDoc.GetUrl();
       string Text = msDoc.GetHostname();
 
-      if( !string.IsNullOrEmpty( Text ) )
-      {
+      if( !string.IsNullOrEmpty( Text ) ) {
 
         Text = Text.ToLower();
 
-        if( this.StatsHostnames.ContainsKey( Text ) )
-        {
-          lock( this.StatsHostnames )
-          {
+        if( this.StatsHostnames.ContainsKey( Text ) ) {
+          lock( this.StatsHostnames ) {
             this.StatsHostnames[ Text ] = this.StatsHostnames[ Text ] + 1;
           }
-        }
-        else
-        {
-          lock( this.StatsHostnames )
-          {
+        } else {
+          lock( this.StatsHostnames ) {
             this.StatsHostnames.Add( Text, 1 );
           }
         }
@@ -904,40 +797,39 @@ namespace SEOMacroscope
 
     /** Titles ****************************************************************/
 
-    private void ClearStatsTitles ()
+    private void ClearStatsTitles()
     {
       this.StatsTitles.Clear();
     }
 
     /** -------------------------------------------------------------------- **/
     
-    public int GetStatsTitleCount ( string Text )
-    {
-
-      int Value = 0;
-      int Hashed = Text.ToLower().GetHashCode();
-
-      if( this.StatsTitles.ContainsKey( Hashed ) )
-      {
-        Value = this.StatsTitles[ Hashed ];
-      }
-
-      return( Value );
-
-    }
-
-    /** -------------------------------------------------------------------- **/
-    
-    public int GetStatsTitleCount ( MacroscopeDocument msDoc )
+    public int GetStatsTitleCount( MacroscopeDocument msDoc )
     {
 
       int Value = 0;
       string Text = msDoc.GetTitle();
-      int Hashed = Text.ToLower().GetHashCode();
+      
+      if( !string.IsNullOrEmpty( Text ) ) {
 
-      if( this.StatsTitles.ContainsKey( Hashed ) )
-      {
-        Value = this.StatsTitles[ Hashed ];
+        int Hashed = Text.ToLower().GetHashCode();
+
+        if( this.StatsTitles.ContainsKey( Hashed ) ) {
+
+          Value = this.StatsTitles[ Hashed ];
+
+        } else {
+
+          DebugMsg( string.Format( "GetStatsTitleCount: {0}", Value ) );
+
+          this.RecalculateStatsTitles( msDoc );
+
+          if( this.StatsTitles.ContainsKey( Hashed ) ) {
+            Value = this.StatsTitles[ Hashed ];
+          }
+
+        }
+      
       }
 
       return( Value );
@@ -946,42 +838,48 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
         
-    private void RecalculateStatsTitles ( MacroscopeDocument msDoc )
+    private void RecalculateStatsTitles( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed;
+      Boolean Proceed = false;
+      int Value = -1;
+      
+      if( msDoc.GetIsRedirect() ) {
+        return;
+      }
 
-      if( msDoc.GetIsHtml() )
-      {
+      if( msDoc.GetIsHtml() ) {
+        Proceed = true;
+      } else if( msDoc.GetIsPdf() ) {
         Proceed = true;
       }
-      else
-      if( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
-      }
-      else
-      {
-        Proceed = false;
-      }
 
-      if( Proceed )
-      {
+      if( Proceed ) {
 
-        string Url = msDoc.GetUrl();
         string Text = msDoc.GetTitle();
-        int Hashed = Text.ToLower().GetHashCode();
+        
+        if( !string.IsNullOrEmpty( Text ) ) {
+        
+          int Hashed = Text.ToLower().GetHashCode();
 
-        lock( this.StatsTitles )
-        {
-          if( this.StatsTitles.ContainsKey( Hashed ) )
-          {
-            this.StatsTitles[ Hashed ] = this.StatsTitles[ Hashed ] + 1;
+          lock( this.StatsTitles ) {
+          
+            if( this.StatsTitles.ContainsKey( Hashed ) ) {
+            
+              Value = this.StatsTitles[ Hashed ];
+            
+              this.StatsTitles[ Hashed ] = Value + 1;
+            
+            } else {
+
+              Value = 1;
+
+              this.StatsTitles.Add( Hashed, Value );
+            
+            }
+        
           }
-          else
-          {
-            this.StatsTitles.Add( Hashed, 1 );
-          }
+        
         }
 
       }
@@ -990,76 +888,87 @@ namespace SEOMacroscope
 
     /** Descriptions **********************************************************/
 
-    private void ClearStatsDescriptions ()
+    private void ClearStatsDescriptions()
     {
       this.StatsDescriptions.Clear();
     }
-
-    /** -------------------------------------------------------------------- **/
-        
-    public int GetStatsDescriptionCount ( string Text )
-    {
-      int Value = 0;
-      int Hashed = Text.ToLower().GetHashCode();
-      if( this.StatsDescriptions.ContainsKey( Hashed ) )
-      {
-        Value = this.StatsDescriptions[ Hashed ];
-      }
-      return( Value );
-    }
-
+   
     /** -------------------------------------------------------------------- **/
     
-    public int GetStatsDescriptionCount ( MacroscopeDocument msDoc )
+    public int GetStatsDescriptionCount( MacroscopeDocument msDoc )
     {
+      
       int Value = 0;
       string Text = msDoc.GetDescription();
-      int Hashed = Text.ToLower().GetHashCode();
-      if( this.StatsDescriptions.ContainsKey( Hashed ) )
-      {
-        Value = this.StatsDescriptions[ Hashed ];
+
+      if( !string.IsNullOrEmpty( Text ) ) {
+
+        int Hashed = Text.ToLower().GetHashCode();
+      
+        if( this.StatsDescriptions.ContainsKey( Hashed ) ) {
+          
+          Value = this.StatsDescriptions[ Hashed ];
+          
+        } else {
+
+          DebugMsg( string.Format( "GetStatsDescriptionCount: {0}", Value ) );
+
+          this.RecalculateStatsDescriptions( msDoc );
+
+          if( this.StatsDescriptions.ContainsKey( Hashed ) ) {
+            Value = this.StatsDescriptions[ Hashed ];
+          }
+
+        }
+        
       }
+      
       return( Value );
+
     }
 
     /** -------------------------------------------------------------------- **/
         
-    private void RecalculateStatsDescriptions ( MacroscopeDocument msDoc )
+    private void RecalculateStatsDescriptions( MacroscopeDocument msDoc )
     {
 
       Boolean Process;
-
-      if( msDoc.GetIsHtml() )
-      {
+      int Value = -1;
+      
+      if( msDoc.GetIsHtml() ) {
         Process = true;
-      }
-      else
-      if( msDoc.GetIsPdf() )
-      {
+      } else if( msDoc.GetIsPdf() ) {
         Process = true;
-      }
-      else
-      {
+      } else {
         Process = false;
       }
 
-      if( Process )
-      {
+      if( Process ) {
 
-        string Url = msDoc.GetUrl();
         string Text = msDoc.GetDescription();
-        int Hashed = Text.ToLower().GetHashCode();
 
-        lock( this.StatsDescriptions )
-        {
-          if( this.StatsDescriptions.ContainsKey( Hashed ) )
-          {
-            this.StatsDescriptions[ Hashed ] = this.StatsDescriptions[ Hashed ] + 1;
+        if( !string.IsNullOrEmpty( Text ) ) {
+
+          int Hashed = Text.ToLower().GetHashCode();
+
+          lock( this.StatsDescriptions ) {
+            
+            if( this.StatsDescriptions.ContainsKey( Hashed ) ) {
+              
+              Value = this.StatsDescriptions[ Hashed ] + 1;
+              
+              this.StatsDescriptions[ Hashed ] = Value;
+
+            } else {
+              
+              Value = 1;
+
+              this.StatsDescriptions.Add( Hashed, Value );
+
+            }
+          
           }
-          else
-          {
-            this.StatsDescriptions.Add( Hashed, 1 );
-          }
+          
         }
 
       }
@@ -1068,71 +977,87 @@ namespace SEOMacroscope
 
     /** Keywords **************************************************************/
 
-    private void ClearStatsKeywords ()
+    private void ClearStatsKeywords()
     {
       this.StatsKeywords.Clear();
     }
 
     /** -------------------------------------------------------------------- **/
         
-    public int GetStatsKeywordsCount ( string Text )
+    public int GetStatsKeywordsCount( MacroscopeDocument msDoc )
     {
-      int Value = 0;
-      int Hashed = Text.ToLower().GetHashCode();
-      if( this.StatsKeywords.ContainsKey( Hashed ) )
-      {
-        Value = this.StatsKeywords[ Hashed ];
-      }
-      return( Value );
-    }
 
-    /** -------------------------------------------------------------------- **/
-        
-    public int GetStatsKeywordsCount ( MacroscopeDocument msDoc )
-    {
       int Value = 0;
       string Text = msDoc.GetKeywords();
-      int Hashed = Text.ToLower().GetHashCode();
-      if( this.StatsKeywords.ContainsKey( Hashed ) )
-      {
-        Value = this.StatsKeywords[ Hashed ];
+
+      if( !string.IsNullOrEmpty( Text ) ) {
+
+        int Hashed = Text.ToLower().GetHashCode();
+
+        if( this.StatsKeywords.ContainsKey( Hashed ) ) {
+
+          Value = this.StatsKeywords[ Hashed ];
+
+        } else {
+
+          DebugMsg( string.Format( "GetStatsKeywordsCount: {0}", Value ) );
+
+          this.RecalculateStatsKeywords( msDoc );
+
+          if( this.StatsKeywords.ContainsKey( Hashed ) ) {
+            Value = this.StatsKeywords[ Hashed ];
+          }
+
+        }
+        
       }
+
       return( Value );
+
     }
 
     /** -------------------------------------------------------------------- **/
         
-    private void RecalculateStatsKeywords ( MacroscopeDocument msDoc )
+    private void RecalculateStatsKeywords( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed;
+      Boolean Proceed = false;
+      int Value = -1;
+      
+      if( msDoc.GetIsRedirect() ) {
+        return;
+      }
 
-      if( msDoc.GetIsHtml() )
-      {
+      if( msDoc.GetIsHtml() ) {
         Proceed = true;
       }
-      else
-      {
-        Proceed = false;
-      }
 
-      if( Proceed )
-      {
+      if( Proceed ) {
 
-        string Url = msDoc.GetUrl();
         string Text = msDoc.GetKeywords();
-        int Hashed = Text.ToLower().GetHashCode();
 
-        lock( this.StatsKeywords )
-        {
-          if( this.StatsKeywords.ContainsKey( Hashed ) )
-          {
-            this.StatsKeywords[ Hashed ] = this.StatsKeywords[ Hashed ] + 1;
+        if( !string.IsNullOrEmpty( Text ) ) {
+
+          int Hashed = Text.ToLower().GetHashCode();
+
+          lock( this.StatsKeywords ) {
+
+            if( this.StatsKeywords.ContainsKey( Hashed ) ) {
+
+              Value = this.StatsKeywords[ Hashed ] + 1;
+              
+              this.StatsKeywords[ Hashed ] = Value;
+
+            } else {
+              
+              Value = 1;
+
+              this.StatsKeywords.Add( Hashed, Value );
+
+            }
+          
           }
-          else
-          {
-            this.StatsKeywords.Add( Hashed, 1 );
-          }
+        
         }
         
       }
@@ -1141,23 +1066,20 @@ namespace SEOMacroscope
 
     /** Warnings ****************************************************************/
 
-    private void ClearStatsWarnings ()
+    private void ClearStatsWarnings()
     {
-      lock( this.StatsWarnings )
-      {
+      lock( this.StatsWarnings ) {
         this.StatsWarnings.Clear();
       }
     }
 
     /** -------------------------------------------------------------------- **/
         
-    public Dictionary<string,int> GetStatsWarningsCount ()
+    public Dictionary<string,int> GetStatsWarningsCount()
     {
       Dictionary<string,int> dicStats = new Dictionary<string,int> ( this.StatsWarnings.Count );
-      lock( this.StatsWarnings )
-      {
-        foreach( string Key in this.StatsWarnings.Keys )
-        {
+      lock( this.StatsWarnings ) {
+        foreach( string Key in this.StatsWarnings.Keys ) {
           dicStats.Add( Key, this.StatsWarnings[ Key ] );
         }
       }
@@ -1166,28 +1088,23 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
     
-    private void RecalculateStatsWarnings ( MacroscopeDocument msDoc )
+    private void RecalculateStatsWarnings( MacroscopeDocument msDoc )
     {
 
       string ErrorCondition = msDoc.GetErrorCondition();
       HttpStatusCode StatusCode = msDoc.GetStatusCode();
 
-      if( ( ( int )StatusCode >= 300 ) && ( ( int )StatusCode <= 399 ) )
-      {
+      if( ( ( int )StatusCode >= 300 ) && ( ( int )StatusCode <= 399 ) ) {
 
         string Text = string.Format( "{0} ({1})", StatusCode, ErrorCondition );
 
         DebugMsg( string.Format( "RecalculateStatsWarnings: {0}", Text ) );
 
-        lock( this.StatsWarnings )
-        {
+        lock( this.StatsWarnings ) {
 
-          if( this.StatsWarnings.ContainsKey( Text ) )
-          {
+          if( this.StatsWarnings.ContainsKey( Text ) ) {
             this.StatsWarnings[ Text ] = this.StatsWarnings[ Text ] + 1;
-          }
-          else
-          {
+          } else {
             this.StatsWarnings.Add( Text, 1 );
           }
 
@@ -1199,23 +1116,20 @@ namespace SEOMacroscope
 
     /** Errors ****************************************************************/
 
-    private void ClearStatsErrors ()
+    private void ClearStatsErrors()
     {
-      lock( this.StatsErrors )
-      {
+      lock( this.StatsErrors ) {
         this.StatsErrors.Clear();
       }
     }
 
     /** -------------------------------------------------------------------- **/
         
-    public Dictionary<string,int> GetStatsErrorsCount ()
+    public Dictionary<string,int> GetStatsErrorsCount()
     {
       Dictionary<string,int> dicStats = new Dictionary<string,int> ( this.StatsErrors.Count );
-      lock( this.StatsErrors )
-      {
-        foreach( string Key in this.StatsErrors.Keys )
-        {
+      lock( this.StatsErrors ) {
+        foreach( string Key in this.StatsErrors.Keys ) {
           dicStats.Add( Key, this.StatsErrors[ Key ] );
         }
       }
@@ -1224,28 +1138,23 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
         
-    private void RecalculateStatsErrors ( MacroscopeDocument msDoc )
+    private void RecalculateStatsErrors( MacroscopeDocument msDoc )
     {
 
       string ErrorCondition = msDoc.GetErrorCondition();
       HttpStatusCode StatusCode = msDoc.GetStatusCode();
 
-      if( ( ( int )StatusCode >= 400 ) && ( ( int )StatusCode <= 599 ) )
-      {
+      if( ( ( int )StatusCode >= 400 ) && ( ( int )StatusCode <= 599 ) ) {
 
         string Text = string.Format( "{0} ({1})", StatusCode, ErrorCondition );
 
         DebugMsg( string.Format( "RecalculateStatsErrors: {0}", Text ) );
 
-        lock( this.StatsErrors )
-        {
+        lock( this.StatsErrors ) {
 
-          if( this.StatsErrors.ContainsKey( Text ) )
-          {
+          if( this.StatsErrors.ContainsKey( Text ) ) {
             this.StatsErrors[ Text ] = this.StatsErrors[ Text ] + 1;
-          }
-          else
-          {
+          } else {
             this.StatsErrors.Add( Text, 1 );
           }
 
@@ -1257,23 +1166,20 @@ namespace SEOMacroscope
 
     /** Checksums *************************************************************/
 
-    private void ClearStatsChecksums ()
+    private void ClearStatsChecksums()
     {
-      lock( this.StatsChecksums )
-      {
+      lock( this.StatsChecksums ) {
         this.StatsChecksums.Clear();
       }
     }
 
     /** -------------------------------------------------------------------- **/
         
-    public int GetStatsChecksumCount ( string Checksum )
+    public int GetStatsChecksumCount( string Checksum )
     {
       int Count = 0;
-      lock( this.StatsChecksums )
-      {
-        if( this.StatsChecksums.ContainsKey( Checksum ) )
-        {
+      lock( this.StatsChecksums ) {
+        if( this.StatsChecksums.ContainsKey( Checksum ) ) {
           Count = this.StatsChecksums[ Checksum ];
         }
       }
@@ -1282,13 +1188,11 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
         
-    public Dictionary<string,int> GetStatsChecksumsCount ()
+    public Dictionary<string,int> GetStatsChecksumsCount()
     {
       Dictionary<string,int> dicStats = new Dictionary<string,int> ( this.StatsChecksums.Count );
-      lock( this.StatsChecksums )
-      {
-        foreach( string Key in this.StatsChecksums.Keys )
-        {
+      lock( this.StatsChecksums ) {
+        foreach( string Key in this.StatsChecksums.Keys ) {
           dicStats.Add( Key, this.StatsChecksums[ Key ] );
         }
       }
@@ -1297,25 +1201,20 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
         
-    private void RecalculateStatsChecksums ( MacroscopeDocument msDoc )
+    private void RecalculateStatsChecksums( MacroscopeDocument msDoc )
     {
 
       string ChecksumValue = msDoc.GetChecksum();
 
-      if( ChecksumValue.Length > 0 )
-      {
+      if( ChecksumValue.Length > 0 ) {
 
         DebugMsg( string.Format( "RecalculateStatsChecksums: {0}", ChecksumValue ) );
 
-        lock( this.StatsChecksums )
-        {
+        lock( this.StatsChecksums ) {
 
-          if( this.StatsChecksums.ContainsKey( ChecksumValue ) )
-          {
+          if( this.StatsChecksums.ContainsKey( ChecksumValue ) ) {
             this.StatsChecksums[ ChecksumValue ] = this.StatsChecksums[ ChecksumValue ] + 1;
-          }
-          else
-          {
+          } else {
             this.StatsChecksums.Add( ChecksumValue, 1 );
           }
 
@@ -1327,37 +1226,32 @@ namespace SEOMacroscope
 
     /** Average Duration ******************************************************/
     
-    private void ClearStatsDurations ()
+    private void ClearStatsDurations()
     {
-      lock( this.StatsDurations )
-      {
+      lock( this.StatsDurations ) {
         this.StatsDurations.Clear();
       }
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public decimal GetStatsDurationAverage ()
+    public decimal GetStatsDurationAverage()
     {
       
       decimal Average = 0;
       decimal Maximus = 0;
       int Count = 0;
       
-      if( this.StatsDurations.Count > 0 )
-      {
+      if( this.StatsDurations.Count > 0 ) {
         
-        lock( this.StatsDurations )
-        {
-          foreach( string Url in this.StatsDurations.Keys )
-          {
+        lock( this.StatsDurations ) {
+          foreach( string Url in this.StatsDurations.Keys ) {
             Count++;
             Maximus += this.StatsDurations[ Url ];
           }
         }
       
-        if( Count > 0 )
-        {
+        if( Count > 0 ) {
           Average = Maximus / Count;
         }
         
@@ -1368,23 +1262,16 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public decimal GetStatsDurationsFastest ()
+    public decimal GetStatsDurationsFastest()
     {
       decimal Fastest = -1; 
-      if( this.StatsDurations.Count > 0 )
-      {   
-        lock( this.StatsDurations )
-        {
-          foreach( string Url in this.StatsDurations.Keys )
-          {
-            if( Fastest == -1 )
-            {
+      if( this.StatsDurations.Count > 0 ) {   
+        lock( this.StatsDurations ) {
+          foreach( string Url in this.StatsDurations.Keys ) {
+            if( Fastest == -1 ) {
               Fastest = this.StatsDurations[ Url ];
-            }
-            else
-            {
-              if( this.StatsDurations[ Url ] <= Fastest )
-              {
+            } else {
+              if( this.StatsDurations[ Url ] <= Fastest ) {
                 Fastest = this.StatsDurations[ Url ];
               }
             }
@@ -1396,23 +1283,16 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public decimal GetStatsDurationsSlowest ()
+    public decimal GetStatsDurationsSlowest()
     {
       decimal Slowest = -1; 
-      if( this.StatsDurations.Count > 0 )
-      {   
-        lock( this.StatsDurations )
-        {
-          foreach( string Url in this.StatsDurations.Keys )
-          {
-            if( Slowest == -1 )
-            {
+      if( this.StatsDurations.Count > 0 ) {   
+        lock( this.StatsDurations ) {
+          foreach( string Url in this.StatsDurations.Keys ) {
+            if( Slowest == -1 ) {
               Slowest = this.StatsDurations[ Url ];
-            }
-            else
-            {
-              if( this.StatsDurations[ Url ] >= Slowest )
-              {
+            } else {
+              if( this.StatsDurations[ Url ] >= Slowest ) {
                 Slowest = this.StatsDurations[ Url ];
               }
             }
@@ -1424,17 +1304,13 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void RecalculateStatsDurations ( MacroscopeDocument msDoc )
+    private void RecalculateStatsDurations( MacroscopeDocument msDoc )
     {
       string Url = msDoc.GetUrl();
-      lock( this.StatsDurations )
-      {
-        if( this.StatsDurations.ContainsKey( Url ) )
-        {
+      lock( this.StatsDurations ) {
+        if( this.StatsDurations.ContainsKey( Url ) ) {
           this.StatsDurations[ Url ] = msDoc.GetDurationInSeconds();
-        }
-        else
-        {
+        } else {
           this.StatsDurations.Add( Url, msDoc.GetDurationInSeconds() );
         }
       }
@@ -1443,19 +1319,15 @@ namespace SEOMacroscope
 
     /** Deep Keyword Analysis *************************************************/
 
-    private void ClearStatsDeepKeywordAnalysis ()
+    private void ClearStatsDeepKeywordAnalysis()
     {
-      lock( this.StatsDeepKeywordAnalysis )
-      {
-        for( int i = 0 ; i < 4 ; i++ )
-        {
-          lock( this.StatsDeepKeywordAnalysis[i] )
-          {
+      lock( this.StatsDeepKeywordAnalysis ) {
+        for( int i = 0; i < 4; i++ ) {
+          lock( this.StatsDeepKeywordAnalysis[i] ) {
             this.StatsDeepKeywordAnalysis[ i ].Clear();
           }
         }
-        lock( this.StatsDeepKeywordAnalysisDocs )
-        {
+        lock( this.StatsDeepKeywordAnalysisDocs ) {
           this.StatsDeepKeywordAnalysisDocs.Clear();
         }
       }
@@ -1463,34 +1335,29 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void RecalculateStatsDeepKeywordAnalysis ( MacroscopeDocument msDoc )
+    private void RecalculateStatsDeepKeywordAnalysis( MacroscopeDocument msDoc )
     {
 
       Boolean Proceed = false;
 
-      if( msDoc.GetIsHtml() )
-      {
-        Proceed = true;
+      if( msDoc.GetIsRedirect() ) {
+        return;
       }
-      else
-      if( msDoc.GetIsPdf() )
-      {
+
+      if( msDoc.GetIsHtml() ) {
+        Proceed = true;
+      } else if( msDoc.GetIsPdf() ) {
         Proceed = true;
       }
       
-      if( Proceed )
-      {
+      if( Proceed ) {
         
         string DocLang = msDoc.GetIsoLanguageCode();
         
-        if( DocLang != null )
-        {
-          if( Regex.IsMatch( msDoc.GetIsoLanguageCode(), "^(x-default|en|fr|de|it|es|po)", RegexOptions.IgnoreCase ) )
-          {
-            lock( this.StatsDeepKeywordAnalysis )
-            {
-              for( int i = 0 ; i < 4 ; i++ )
-              {
+        if( DocLang != null ) {
+          if( Regex.IsMatch( msDoc.GetIsoLanguageCode(), "^(x-default|en|fr|de|it|es|po)", RegexOptions.IgnoreCase ) ) {
+            lock( this.StatsDeepKeywordAnalysis ) {
+              for( int i = 0; i < 4; i++ ) {
                 this.AnalyzeKeywords.Analyze(
                   msDoc: msDoc,
                   Text: msDoc.GetBodyText(),
@@ -1508,16 +1375,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ( int Words )
+    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary( int Words )
     {
       
       int WordsOffset = Words - 1;
       Dictionary<string,int> Terms = new Dictionary<string,int> ( this.StatsDeepKeywordAnalysis[ WordsOffset ].Count );
 
-      lock( this.StatsDeepKeywordAnalysis[WordsOffset] )
-      {
-        foreach( string Term in this.StatsDeepKeywordAnalysis[WordsOffset].Keys )
-        {
+      lock( this.StatsDeepKeywordAnalysis[WordsOffset] ) {
+        foreach( string Term in this.StatsDeepKeywordAnalysis[WordsOffset].Keys ) {
           Terms.Add( Term, this.StatsDeepKeywordAnalysis[ WordsOffset ][ Term ] );
         }
       }
@@ -1528,13 +1393,12 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public MacroscopeDocumentList GetDeepKeywordAnalysDocumentList ( string KeywordTerm )
+    public MacroscopeDocumentList GetDeepKeywordAnalysDocumentList( string KeywordTerm )
     {
 
       MacroscopeDocumentList DocumentList = null;      
 
-      if( this.StatsDeepKeywordAnalysisDocs.ContainsKey( KeywordTerm ) )
-      {
+      if( this.StatsDeepKeywordAnalysisDocs.ContainsKey( KeywordTerm ) ) {
         DocumentList = this.StatsDeepKeywordAnalysisDocs[ KeywordTerm ];
       }
 
@@ -1544,19 +1408,15 @@ namespace SEOMacroscope
 
     /** Headings Analysis *****************************************************/
 
-    private void ClearStatsHeadings ()
+    private void ClearStatsHeadings()
     {
-      lock( this.StatsHeadings )
-      {
-        for( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
-        {
-          lock( this.StatsHeadings[HeadingLevel] )
-          {
+      lock( this.StatsHeadings ) {
+        for( ushort HeadingLevel = 1; HeadingLevel <= 6; HeadingLevel++ ) {
+          lock( this.StatsHeadings[HeadingLevel] ) {
             this.StatsHeadings[ HeadingLevel ].Clear();
           }
         }
-        lock( this.StatsHeadings )
-        {
+        lock( this.StatsHeadings ) {
           this.StatsHeadings.Clear();
         }
       }
@@ -1564,14 +1424,13 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public int GetStatsHeadingsCount ( ushort HeadingLevel, string Text )
+    public int GetStatsHeadingsCount( ushort HeadingLevel, string Text )
     {
 
       int Count = 0;
       int Hashed = Text.ToLower().GetHashCode();
 
-      if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) )
-      {
+      if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) ) {
         Count = this.StatsHeadings[ HeadingLevel ][ Hashed ];
       }
 
@@ -1581,38 +1440,34 @@ namespace SEOMacroscope
         
     /** -------------------------------------------------------------------- **/
             
-    private void RecalculateStatsHeadings ( MacroscopeDocument msDoc )
+    private void RecalculateStatsHeadings( MacroscopeDocument msDoc )
     {
 
       Boolean Proceed = false;
 
-      if( msDoc.GetIsHtml() )
-      {
+      if( msDoc.GetIsRedirect() ) {
+        return;
+      }
+
+      if( msDoc.GetIsHtml() ) {
         Proceed = true;
       }
 
-      if( Proceed )
-      {
+      if( Proceed ) {
 
-        lock( this.StatsHeadings )
-        {
+        lock( this.StatsHeadings ) {
           
-          for( ushort HeadingLevel = 1 ; HeadingLevel <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; HeadingLevel++ )
-          {
+          for( ushort HeadingLevel = 1; HeadingLevel <= MacroscopePreferencesManager.GetMaxHeadingDepth(); HeadingLevel++ ) {
 
             List<string> Headings = msDoc.GetHeadings( HeadingLevel: HeadingLevel );
 
-            foreach( string Text in Headings )
-            {
+            foreach( string Text in Headings ) {
 
               int Hashed = Text.ToLower().GetHashCode();
 
-              if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) )
-              {
+              if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) ) {
                 this.StatsHeadings[ HeadingLevel ][ Hashed ] = this.StatsHeadings[ HeadingLevel ][ Hashed ] + 1;
-              }
-              else
-              {
+              } else {
                 this.StatsHeadings[ HeadingLevel ].Add( Hashed, 1 );
               }
 
@@ -1628,30 +1483,25 @@ namespace SEOMacroscope
 
     /** Search Index **********************************************************/
 
-    public MacroscopeSearchIndex GetSearchIndex ()
+    public MacroscopeSearchIndex GetSearchIndex()
     {
       return( this.SearchIndex );
     }
 
     /** -------------------------------------------------------------------- **/
         
-    private void AddDocumentToSearchIndex ( MacroscopeDocument msDoc )
+    private void AddDocumentToSearchIndex( MacroscopeDocument msDoc )
     {
       
       Boolean Proceed = false;
       
-      if( msDoc.GetIsHtml() )
-      {
+      if( msDoc.GetIsHtml() ) {
         Proceed = true;
-      }
-      else
-      if( msDoc.GetIsPdf() )
-      {
+      } else if( msDoc.GetIsPdf() ) {
         Proceed = true;
       }
       
-      if( Proceed )
-      {
+      if( Proceed ) {
         this.SearchIndex.AddDocumentToIndex( msDoc );
       }
       

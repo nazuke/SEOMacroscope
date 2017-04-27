@@ -178,6 +178,11 @@ namespace SEOMacroscope
 
           Proceed = true;
 
+          if( msDoc.GetIsRedirect() )
+          {
+            Proceed = false;
+          }
+
           if( !msDoc.GetIsHtml() )
           {
             Proceed = false;

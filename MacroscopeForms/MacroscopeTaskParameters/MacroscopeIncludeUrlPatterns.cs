@@ -51,7 +51,9 @@ namespace SEOMacroscope
       this.PatternsText = PatternsText;
       
       this.Shown += this.CallbackIncludeUrlPatternsShown;
-                
+
+      this.textBoxPatterns.KeyUp += this.CallbackPatternsTextKeyUp;
+
     }
 
     /**************************************************************************/
@@ -62,6 +64,23 @@ namespace SEOMacroscope
       {
         this.textBoxPatterns.Text = this.PatternsText;
       }
+    }
+
+    /**************************************************************************/
+
+    private void CallbackPatternsTextKeyUp ( object sender, KeyEventArgs e )
+    {
+      
+      TextBox PatternsTextBox = ( TextBox )sender;
+
+      if( e.Control && ( e.KeyCode == Keys.A ) )
+      {
+
+        PatternsTextBox.SelectAll();
+        PatternsTextBox.Focus();
+
+      }
+
     }
 
     /**************************************************************************/

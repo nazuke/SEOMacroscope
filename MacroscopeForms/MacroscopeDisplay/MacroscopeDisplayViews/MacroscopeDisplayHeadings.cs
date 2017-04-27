@@ -99,9 +99,13 @@ namespace SEOMacroscope
     {
 
       Boolean Proceed = false;
-      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
-      
+
       if( msDoc.GetIsExternal() )
+      {
+        return;
+      }
+
+      if( msDoc.GetIsRedirect() )
       {
         return;
       }
@@ -114,6 +118,8 @@ namespace SEOMacroscope
       if( Proceed )
       {
       
+        MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
+
         for( ushort HeadingLevel = 1 ; HeadingLevel <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; HeadingLevel++ )
         {
 

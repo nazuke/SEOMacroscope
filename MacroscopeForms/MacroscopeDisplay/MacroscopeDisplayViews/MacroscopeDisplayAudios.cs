@@ -85,6 +85,11 @@ namespace SEOMacroscope
     )
     {
 
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+
       if( !msDoc.GetIsAudio() )
       {
         return;

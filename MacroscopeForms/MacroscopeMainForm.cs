@@ -123,7 +123,7 @@ namespace SEOMacroscope
 
       this.IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
 
-      this.JobMaster.SetIncludeExcludeUrls( IncludeExcludeUrls );
+      this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
 
       this.StartUrlDirty = false;
 
@@ -525,14 +525,20 @@ namespace SEOMacroscope
 
         if( this.StartUrlDirty )
         {
+          
           this.JobMaster.ClearAllQueues();
+          
           this.JobMaster = new MacroscopeJobMaster (
             JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
             TaskController: this
           );
+          
           this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
+          
           this.ClearDisplay();
+          
           this.StartUrlDirty = false;
+        
         }
 
         MacroscopePreferencesManager.SetStartUrl( sStartUrl );

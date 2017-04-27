@@ -89,9 +89,13 @@ namespace SEOMacroscope
     {
 
       Boolean Proceed = false;
-      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
-
+      
       if( msDoc.GetIsExternal() )
+      {
+        return;
+      }
+            
+      if( msDoc.GetIsRedirect() )
       {
         return;
       }
@@ -109,6 +113,7 @@ namespace SEOMacroscope
       if( Proceed )
       {
 
+        MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
         string PageLocale = msDoc.GetLocale();
         string PageLanguage = msDoc.GetIsoLanguageCode();
         string DetectedLanguage = msDoc.GetBodyTextLanguage();

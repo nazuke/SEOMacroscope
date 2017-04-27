@@ -91,13 +91,17 @@ namespace SEOMacroscope
     {
 
       Boolean Proceed = false;
-      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
-      
+
       if( msDoc.GetIsExternal() )
       {
         return;
       }
 
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+      
       if( msDoc.GetIsHtml() )
       {
         Proceed = true;
@@ -111,11 +115,12 @@ namespace SEOMacroscope
       if( Proceed )
       {
 
+        MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
         string PageLanguage = msDoc.GetIsoLanguageCode();
         string DetectedLanguage = msDoc.GetTitleLanguage();
         string Text = msDoc.GetTitle();
         string TextLabel = Text;
-        int TextCount = 0;
+        int TextOccurences = 0;
         int TextLength = Text.Length;
         int TextPixelWidth = msDoc.GetTitlePixelWidth();
 
@@ -135,7 +140,7 @@ namespace SEOMacroscope
 
         if( TextLength > 0 )
         {
-          TextCount = DocCollection.GetStatsTitleCount( msDoc: msDoc );
+          TextOccurences = DocCollection.GetStatsTitleCount( msDoc: msDoc );
         }
         else
         {
@@ -152,7 +157,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems[ ColPageLanguage ].Text = PageLanguage;
             lvItem.SubItems[ ColDetectedLanguage ].Text = DetectedLanguage;
-            lvItem.SubItems[ ColOccurences ].Text = TextCount.ToString();
+            lvItem.SubItems[ ColOccurences ].Text = TextOccurences.ToString();
             lvItem.SubItems[ ColTitleText ].Text = TextLabel;
             lvItem.SubItems[ ColLength ].Text = TextLength.ToString();
             lvItem.SubItems[ ColPixelWidth ].Text = TextPixelWidth.ToString();
@@ -177,7 +182,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems.Add( PageLanguage );     
             lvItem.SubItems.Add( DetectedLanguage );     
-            lvItem.SubItems.Add( TextCount.ToString() );
+            lvItem.SubItems.Add( TextOccurences.ToString() );
             lvItem.SubItems.Add( TextLabel );
             lvItem.SubItems.Add( TextLength.ToString() );
             lvItem.SubItems.Add( TextPixelWidth.ToString() );

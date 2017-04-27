@@ -44,6 +44,25 @@ namespace SEOMacroscope
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
+      this.textBoxUrls.KeyUp += this.CallbackPatternsTextKeyUp;
+            
+    }
+    
+    /**************************************************************************/
+
+    private void CallbackPatternsTextKeyUp ( object sender, KeyEventArgs e )
+    {
+      
+      TextBox PatternsTextBox = ( TextBox )sender;
+
+      if( e.Control && ( e.KeyCode == Keys.A ) )
+      {
+
+        PatternsTextBox.SelectAll();
+        PatternsTextBox.Focus();
+
+      }
+
     }
     
     /**************************************************************************/

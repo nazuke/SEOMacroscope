@@ -84,13 +84,18 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean Proceed;
+      Boolean Proceed = false;
 
       if( msDoc.GetIsExternal() )
       {
         return;
       }
 
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+            
       if( msDoc.GetIsHtml() )
       {
         Proceed = true;
@@ -100,14 +105,11 @@ namespace SEOMacroscope
       {
         Proceed = true;
       }
-      else
-      {
-        Proceed = false;
-      }
 
       if( Proceed )
       {
 
+        MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
         ListViewItem lvItem = null;
 
         string Text = msDoc.GetKeywords();
@@ -119,7 +121,7 @@ namespace SEOMacroscope
 
         if( KeywordsLength > 0 )
         {
-          Occurrences = this.MainForm.GetJobMaster().GetDocCollection().GetStatsKeywordsCount( Text );
+          Occurrences = DocCollection.GetStatsKeywordsCount( msDoc );
         }
 
         if( this.DisplayListView.Items.ContainsKey( PairKey ) )

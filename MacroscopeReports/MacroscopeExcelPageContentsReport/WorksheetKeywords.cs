@@ -78,7 +78,12 @@ namespace SEOMacroscope
 
         if( msDoc.GetIsExternal() )
         {
-          return;
+          continue;
+        }
+        
+        if( msDoc.GetIsRedirect() )
+        {
+          continue;
         }
             
         if( msDoc.GetIsHtml() )
@@ -103,7 +108,7 @@ namespace SEOMacroscope
 
           if( KeywordsLength > 0 )
           {
-            Occurrences = DocCollection.GetStatsKeywordsCount( Keywords );
+            Occurrences = DocCollection.GetStatsKeywordsCount( msDoc );
           }
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );

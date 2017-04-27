@@ -94,13 +94,17 @@ namespace SEOMacroscope
     {
 
       Boolean Proceed = false;
-      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
-      
+
       if( msDoc.GetIsExternal() )
       {
         return;
       }
 
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+            
       if( msDoc.GetIsHtml() )
       {
         Proceed = true;
@@ -114,6 +118,7 @@ namespace SEOMacroscope
       if( Proceed )
       {
 
+        MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
         ListViewItem lvItem = null;
 
         int Occurrences = 0;

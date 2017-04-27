@@ -41,6 +41,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private const int ColUrl = 0;
+    private const int ColStatusCode = 1;
+    private const int ColMimeType = 2;
+    private const int ColFileSize = 3;
+    
+    /**************************************************************************/
+        
     public MacroscopeDisplayImages ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
@@ -85,6 +92,11 @@ namespace SEOMacroscope
     )
     {
 
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+
       if( !msDoc.GetIsImage() )
       {
         return;
@@ -94,21 +106,21 @@ namespace SEOMacroscope
       string MimeType = msDoc.GetMimeType();
       string FileSize = msDoc.GetContentLength().ToString();
 
-      string sPairKey = string.Join( "", Url );
+      string PairKey = string.Join( "", Url );
 
       ListViewItem lvItem = null;
 
-      if( this.DisplayListView.Items.ContainsKey( sPairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.DisplayListView.Items[ sPairKey ];
-          lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = StatusCode;
-          lvItem.SubItems[ 2 ].Text = MimeType;
-          lvItem.SubItems[ 3 ].Text = FileSize;
+          lvItem = this.DisplayListView.Items[ PairKey ];
+          lvItem.SubItems[ ColUrl ].Text = Url;
+          lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
+          lvItem.SubItems[ ColMimeType ].Text = MimeType;
+          lvItem.SubItems[ ColFileSize ].Text = FileSize;
 
         }
         catch( Exception ex )
@@ -123,11 +135,11 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( PairKey );
           lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = sPairKey;
+          lvItem.Name = PairKey;
 
-          lvItem.SubItems[ 0 ].Text = Url;
+          lvItem.SubItems[ ColUrl ].Text = Url;
           lvItem.SubItems.Add( StatusCode );
           lvItem.SubItems.Add( MimeType );
           lvItem.SubItems.Add( FileSize );
@@ -148,25 +160,25 @@ namespace SEOMacroscope
         lvItem.ForeColor = Color.Blue;
 
         // URL -------------------------------------------------------------//
-          
+
         if( msDoc.GetIsInternal() )
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
         }
         else
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+          lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
         }
 
         // Status Code -------------------------------------------------------//
 
         if( msDoc.GetStatusCode() != HttpStatusCode.OK )
         {
-          lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Red;
         }
         else
         {
-          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Green;
         }
 
       }

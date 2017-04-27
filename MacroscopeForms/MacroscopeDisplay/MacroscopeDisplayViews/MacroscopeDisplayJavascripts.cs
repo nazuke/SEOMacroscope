@@ -85,6 +85,11 @@ namespace SEOMacroscope
     )
     {
 
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+
       if( !msDoc.GetIsJavascript() )
       {
         return;
@@ -94,17 +99,17 @@ namespace SEOMacroscope
       string MimeType = msDoc.GetMimeType();
       string FileSize = msDoc.GetContentLength().ToString();
 
-      string sPairKey = string.Join( "", Url );
+      string PairKey = string.Join( "", Url );
 
       ListViewItem lvItem = null;
 
-      if( this.DisplayListView.Items.ContainsKey( sPairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
-          lvItem = this.DisplayListView.Items[ sPairKey ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems[ 1 ].Text = StatusCode;
           lvItem.SubItems[ 2 ].Text = MimeType;
@@ -123,9 +128,9 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( sPairKey );
+          lvItem = new ListViewItem ( PairKey );
           lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = sPairKey;
+          lvItem.Name = PairKey;
 
           lvItem.SubItems[ 0 ].Text = Url;
           lvItem.SubItems.Add( StatusCode );

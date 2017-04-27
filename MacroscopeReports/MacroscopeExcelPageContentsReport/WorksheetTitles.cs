@@ -84,7 +84,12 @@ namespace SEOMacroscope
 
         if( msDoc.GetIsExternal() )
         {
-          return;
+          continue;
+        }
+        
+        if( msDoc.GetIsRedirect() )
+        {
+          continue;
         }
             
         if( msDoc.GetIsHtml() )

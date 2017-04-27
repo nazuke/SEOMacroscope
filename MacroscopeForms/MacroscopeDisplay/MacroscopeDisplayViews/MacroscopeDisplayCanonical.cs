@@ -80,12 +80,16 @@ namespace SEOMacroscope
       string Url
     )
     {
-      
-      MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      
+
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+
       if( msDoc.GetIsHtml() )
       {
 
+        MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
         string Canonical = msDoc.GetCanonical();
         HttpStatusCode StatusCode = msDoc.GetStatusCode();
         string CanonicalLabel = Canonical;

@@ -77,6 +77,16 @@ namespace SEOMacroscope
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         Boolean Proceed = false;
 
+        if( msDoc.GetIsExternal() )
+        {
+          continue;
+        }
+        
+        if( msDoc.GetIsRedirect() )
+        {
+          continue;
+        }
+
         if( msDoc.GetIsHtml() )
         {
           Proceed = true;
