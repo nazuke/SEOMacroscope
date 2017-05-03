@@ -430,6 +430,11 @@ namespace SEOMacroscope
       LicenceForm.Dispose();
     }
 
+    private void CallbackHelpReportBugClick ( object sender, EventArgs e )
+    {
+      Process.Start( "https://github.com/nazuke/SEOMacroscope/issues" );
+    }
+
     private void CallbackHelpAboutClick ( object sender, EventArgs e )
     {
       MacroscopeAboutForm AboutForm = new MacroscopeAboutForm ();

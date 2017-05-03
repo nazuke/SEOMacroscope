@@ -27,6 +27,8 @@ using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net;
+using System.Reflection;
+using System.Windows;
 
 namespace SEOMacroscope
 {
@@ -39,6 +41,9 @@ namespace SEOMacroscope
     static MacroscopePreferences Preferences;
     static WebProxy wpProxy = null;
 
+    // Application Version
+    //static string AppVersion;
+    
     // Display Options
     static Boolean PauseDisplayDuringScan;
     static Boolean ShowProgressDialogues;
@@ -123,6 +128,8 @@ namespace SEOMacroscope
 
       Preferences = new MacroscopePreferences ();
 
+      //CheckAppVersion();
+      
       SetDefaultValues();
 
       if( Preferences != null )
@@ -216,6 +223,24 @@ namespace SEOMacroscope
       DebugMsg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
       DebugMsg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
 
+    }
+
+    /**************************************************************************/
+
+    private static void CheckAppVersion (){
+      
+      string SavedAppVersion = Preferences.AppVersion;
+      Boolean DoReset = false;
+
+      if( string.IsNullOrEmpty(SavedAppVersion) ) {
+        DoReset = true;
+      }
+
+      if( DoReset ) {
+        SetDefaultValues();
+        SavePreferences();
+      }
+      
     }
 
     /**************************************************************************/
