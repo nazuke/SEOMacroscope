@@ -83,6 +83,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem redirectsExcelReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem remarksExcelReportToolStripMenuItem;
 		internal System.Windows.Forms.ToolStripButton toolStripButtonRetryTimedOutLinks;
+		private System.Windows.Forms.ToolStripMenuItem reportABugToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -135,6 +136,7 @@ namespace SEOMacroscope
 			this.sEOMacroscopeBlogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeOnGitHubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.reportABugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.licenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutSEOMacroscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanelMainContainer = new System.Windows.Forms.TableLayoutPanel();
@@ -254,7 +256,7 @@ namespace SEOMacroscope
 			this.crawlChildDirectoriesToolStripMenuItem,
 			this.clearHTTPAuthenticationToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
 			this.taskParametersToolStripMenuItem.Text = "Task Parameters";
 			// 
 			// includeURLPatternsToolStripMenuItem
@@ -395,6 +397,7 @@ namespace SEOMacroscope
 			this.sEOMacroscopeBlogToolStripMenuItem,
 			this.sEOMacroscopeOnGitHubToolStripMenuItem,
 			this.sEOMacroscopeManualToolStripMenuItem,
+			this.reportABugToolStripMenuItem,
 			this.licenceToolStripMenuItem,
 			this.aboutSEOMacroscopeToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -421,6 +424,13 @@ namespace SEOMacroscope
 			this.sEOMacroscopeManualToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
 			this.sEOMacroscopeManualToolStripMenuItem.Text = "SEO Macroscope Online Manual";
 			this.sEOMacroscopeManualToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpManualClick);
+			// 
+			// reportABugToolStripMenuItem
+			// 
+			this.reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
+			this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
+			this.reportABugToolStripMenuItem.Text = "Report a Bug";
+			this.reportABugToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpReportBugClick);
 			// 
 			// licenceToolStripMenuItem
 			// 

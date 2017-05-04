@@ -123,6 +123,11 @@ namespace SEOMacroscope
 
             pdfTools = new MacroscopePdfTools ( RawData );
 						
+            if( pdfTools.GetHasError() )
+            {
+              this.AddRemark( Observation: pdfTools.GetErrorMessage() );
+            }
+            
             this.SetWasDownloaded( true );
 
           }

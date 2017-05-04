@@ -37,6 +37,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("v0.0.0.0")]
+		public string AppVersion {
+			get {
+				return ((string)(this["AppVersion"]));
+			}
+			set {
+				this["AppVersion"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
 		public bool CheckExternalLinks {
 			get {
