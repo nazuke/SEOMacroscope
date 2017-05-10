@@ -487,12 +487,13 @@ namespace SEOMacroscope
         string LinkType = Link.GetLinkType().ToString();
         string UrlTarget = Link.GetTargetUrl();
         string PairKey = string.Join( "::", Url, UrlTarget );
-
+        string DoFollow = "No Follow";
         string AltText = Link.GetAltText();
         string AltTextLabel = AltText;
 
-        string DoFollow = "No Follow";
-
+        string RawSourceUrl = Link.GetRawSourceUrl();
+        string RawTargetUrl = Link.GetRawTargetUrl();
+        
         if( Link.GetDoFollow() )
         {
           DoFollow = "Follow";
@@ -501,6 +502,16 @@ namespace SEOMacroscope
         if( string.IsNullOrEmpty( AltText ) )
         {
           AltTextLabel = "";
+        }
+
+        if( string.IsNullOrEmpty( RawSourceUrl ) )
+        {
+          RawSourceUrl = "";
+        }
+
+        if( string.IsNullOrEmpty( RawTargetUrl ) )
+        {
+          RawTargetUrl = "";
         }
 
         if(
@@ -523,6 +534,8 @@ namespace SEOMacroscope
               lvItem.SubItems[ 2 ].Text = UrlTarget;
               lvItem.SubItems[ 3 ].Text = DoFollow;
               lvItem.SubItems[ 4 ].Text = AltTextLabel;
+              lvItem.SubItems[ 5 ].Text = RawSourceUrl;
+              lvItem.SubItems[ 6 ].Text = RawTargetUrl;
 
             }
             catch( Exception ex )
@@ -546,7 +559,9 @@ namespace SEOMacroscope
               lvItem.SubItems.Add( UrlTarget );
               lvItem.SubItems.Add( DoFollow );
               lvItem.SubItems.Add( AltTextLabel );
-
+              lvItem.SubItems.Add( RawSourceUrl );
+              lvItem.SubItems.Add( RawTargetUrl );
+            
               ListViewItems.Add( lvItem );
 
             }

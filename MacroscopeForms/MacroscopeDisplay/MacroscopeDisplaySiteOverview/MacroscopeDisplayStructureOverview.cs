@@ -154,6 +154,36 @@ namespace SEOMacroscope
         nNodeErrors.Text = "Fetch Errors";
       }
 
+      {
+
+        TreeNode nNode = this.tvTreeView.Nodes.Add( "LANGUAGES_SPECIFIED" );
+        nNode.Text = "Languages Specified";
+
+        TreeNode nNodeTitles = nNode.Nodes.Add( "LANGUAGES_SPECIFIED_PAGES" );
+        nNodeTitles.Name = "LANGUAGES_SPECIFIED_PAGES";
+        nNodeTitles.Text = "Pages";
+
+      }
+      
+      {
+
+        TreeNode nNode = this.tvTreeView.Nodes.Add( "LANGUAGES_DETECTED" );
+        nNode.Text = "Languages Detected";
+
+        TreeNode nNodeTitles = nNode.Nodes.Add( "LANGUAGES_DETECTED_TITLES" );
+        nNodeTitles.Name = "LANGUAGES_DETECTED_TITLES";
+        nNodeTitles.Text = "Titles";
+
+        TreeNode nNodeDescriptions = nNode.Nodes.Add( "LANGUAGES_DETECTED_DESCRIPTIONS" );
+        nNodeDescriptions.Name = "LANGUAGES_DETECTED_DESCRIPTIONS";
+        nNodeDescriptions.Text = "Descriptions";
+
+        TreeNode nNodeBodyTexts = nNode.Nodes.Add( "LANGUAGES_DETECTED_BODYTEXTS" );
+        nNodeBodyTexts.Name = "LANGUAGES_DETECTED_BODYTEXTS";
+        nNodeBodyTexts.Text = "Contents";
+
+      }
+
       this.tvTreeView.ExpandAll();
 
       this.tvTreeView.EndUpdate();
@@ -199,27 +229,27 @@ namespace SEOMacroscope
       MacroscopeJobMaster JobMaster = this.MainForm.GetJobMaster();
 
       {
-        int iCount = JobMaster.GetPagesFound();
+        int Count = JobMaster.GetPagesFound();
         TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsFound", true );
-        tnNode[ 0 ].Text = string.Format( "Total URLs Found: {0}", iCount );
+        tnNode[ 0 ].Text = string.Format( "Total URLs Found: {0}", Count );
       }
 
       {
-        int iCount = DocCollection.CountDocuments();
+        int Count = DocCollection.CountDocuments();
         TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsCrawled", true );
-        tnNode[ 0 ].Text = string.Format( "Total URLs Crawled: {0}", iCount );
+        tnNode[ 0 ].Text = string.Format( "Total URLs Crawled: {0}", Count );
       }
 
       {
-        int iCount = DocCollection.CountUrlsInternal();
+        int Count = DocCollection.CountUrlsInternal();
         TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsInternal", true );
-        tnNode[ 0 ].Text = string.Format( "Total Internal URLs: {0}", iCount );
+        tnNode[ 0 ].Text = string.Format( "Total Internal URLs: {0}", Count );
       }
 
       {
-        int iCount = DocCollection.CountUrlsExternal();
+        int Count = DocCollection.CountUrlsExternal();
         TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsExternal", true );
-        tnNode[ 0 ].Text = string.Format( "Total External URLs: {0}", iCount );
+        tnNode[ 0 ].Text = string.Format( "Total External URLs: {0}", Count );
       }
 
       {
@@ -241,15 +271,15 @@ namespace SEOMacroscope
       }
 
       {
-        int iCount = JobMaster.GetBlockedByRobotsList().Count;
+        int Count = JobMaster.GetBlockedByRobotsList().Count;
         TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "UrlsRobotsBlocked", true );
-        tnNode[ 0 ].Text = string.Format( "URLs Blocked by Robots.txt: {0}", iCount );
+        tnNode[ 0 ].Text = string.Format( "URLs Blocked by Robots.txt: {0}", Count );
       }
 
       {
-        int iCount = DocCollection.CountUrlsSitemaps();
+        int Count = DocCollection.CountUrlsSitemaps();
         TreeNode [] tnNode = this.tvTreeView.Nodes.Find( "SitemapsFound", true );
-        tnNode[ 0 ].Text = string.Format( "Sitemaps Found: {0}", iCount );
+        tnNode[ 0 ].Text = string.Format( "Sitemaps Found: {0}", Count );
       }
 
       {
@@ -276,6 +306,62 @@ namespace SEOMacroscope
           foreach( string MessagesKey in dicMessages.Keys )
           {
             tnNode.Nodes.Add( string.Format( "{0}: {1}", MessagesKey, dicMessages[ MessagesKey ] ) );
+          }
+        }
+      }
+
+      {
+        TreeNode [] tnNodes = this.tvTreeView.Nodes.Find( "LANGUAGES_SPECIFIED_PAGES", true );
+        TreeNode tnNode = tnNodes[ 0 ];
+        if( tnNode != null )
+        {
+          tnNode.Nodes.Clear();
+          Dictionary<string,int> dicContents = DocCollection.GetStatsLanguagesPagesCount();
+          foreach( string ContentKey in dicContents.Keys )
+          {
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
+          }
+        }
+      }
+
+      {
+        TreeNode [] tnNodes = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_TITLES", true );
+        TreeNode tnNode = tnNodes[ 0 ];
+        if( tnNode != null )
+        {
+          tnNode.Nodes.Clear();
+          Dictionary<string,int> dicContents = DocCollection.GetStatsLanguagesTitlesCount();
+          foreach( string ContentKey in dicContents.Keys )
+          {
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
+          }
+        }
+      }
+
+      {
+        TreeNode [] tnNodes = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_DESCRIPTIONS", true );
+        TreeNode tnNode = tnNodes[ 0 ];
+        if( tnNode != null )
+        {
+          tnNode.Nodes.Clear();
+          Dictionary<string,int> dicContents = DocCollection.GetStatsLanguagesDescriptionsCount();
+          foreach( string ContentKey in dicContents.Keys )
+          {
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
+          }
+        }
+      }
+
+      {
+        TreeNode [] tnNodes = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_BODYTEXTS", true );
+        TreeNode tnNode = tnNodes[ 0 ];
+        if( tnNode != null )
+        {
+          tnNode.Nodes.Clear();
+          Dictionary<string,int> dicContents = DocCollection.GetStatsLanguagesBodyTextsCount();
+          foreach( string ContentKey in dicContents.Keys )
+          {
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
           }
         }
       }

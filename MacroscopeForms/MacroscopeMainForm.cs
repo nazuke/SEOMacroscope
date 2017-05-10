@@ -1734,20 +1734,10 @@ namespace SEOMacroscope
       this.ButtonStop.Enabled = false;
       this.ButtonReset.Enabled = false;
 
+      this.ProgressBarScan.Visible = false;
+
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
 
     }
 
@@ -1763,20 +1753,10 @@ namespace SEOMacroscope
       this.ButtonStop.Enabled = true;
       this.ButtonReset.Enabled = false;
 
+      this.ProgressBarScan.Visible = true;
+            
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
-      
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = false;
 
     }
 
@@ -1792,21 +1772,11 @@ namespace SEOMacroscope
       this.ButtonStop.Enabled = false;
       this.ButtonReset.Enabled = false;
 
+      this.ProgressBarScan.Visible = true;
+            
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
-      
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = false;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = false;
-      
     }
 
     private void ScanningControlsStopped ( Boolean State )
@@ -1821,21 +1791,11 @@ namespace SEOMacroscope
       this.ButtonStop.Enabled = false;
       this.ButtonReset.Enabled = true;
 
+      this.ProgressBarScan.Visible = false;
+            
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
-      
       this.UpdateProgressBarScan( 0 );
 
     }
@@ -1851,22 +1811,12 @@ namespace SEOMacroscope
       this.ButtonStart.Enabled = true;
       this.ButtonStop.Enabled = false;
       this.ButtonReset.Enabled = false;
+      
+      this.ProgressBarScan.Visible = false;
 
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
-      
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
-      
       this.UpdateProgressBarScan( 0 );
     
     }
@@ -1883,21 +1833,11 @@ namespace SEOMacroscope
       this.ButtonStop.Enabled = false;
       this.ButtonReset.Enabled = true;
 
+      this.ProgressBarScan.Visible = false;
+            
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureFilterMenu.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
-
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchSourceUrls.Enabled = true;
-      this.macroscopeOverviewTabPanelInstance.toolStripTextBoxHyperlinksSearchTargetUrls.Enabled = true;
-      
     }
 
     /** MAIN SCANNING THREAD **************************************************/
