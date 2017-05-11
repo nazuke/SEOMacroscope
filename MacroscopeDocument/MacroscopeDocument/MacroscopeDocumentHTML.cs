@@ -622,11 +622,19 @@ namespace SEOMacroscope
 
             if( LinkNode.GetAttributeValue( "hreflang", null ) != null )
             {
+
               LinkType = MacroscopeConstants.InOutLinkType.HREFLANG;
-              if( !MacroscopePreferencesManager.GetFollowHrefLangLinks() )
+
+              if( MacroscopePreferencesManager.GetFollowHrefLangLinks() )
+              {
+                Follow = true;
+                this.DocCollection.GetAllowedHosts().AddFromUrl( Url: LinkUrlAbs );
+              }
+              else
               {
                 Follow = false;
               }
+
             }
 
             if(

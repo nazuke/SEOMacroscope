@@ -167,7 +167,15 @@ namespace SEOMacroscope
 
           lvItem.SubItems[ 0 ].Text = Hostname;
           lvItem.SubItems.Add( Count.ToString() );
-          lvItem.SubItems.Add( IsInternal.ToString() );
+
+          if( IsInternal )
+          {
+            lvItem.SubItems.Add( "yes" );
+          }
+          else
+          {
+            lvItem.SubItems.Add( " no" );
+          }
 
           ListViewItems.Add( lvItem );
 
