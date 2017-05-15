@@ -59,7 +59,7 @@ namespace SEOMacroscope
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Title";
-
+        
         for( int i = 1 ; i <= iCol ; i++ )
         {
           ws.Cell( iRow, i ).Style.Font.SetBold();
@@ -114,7 +114,7 @@ namespace SEOMacroscope
       }
 
       {
-        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax - 1 );
+        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
         var excelTable = rangeData.CreateTable();
       }
 
