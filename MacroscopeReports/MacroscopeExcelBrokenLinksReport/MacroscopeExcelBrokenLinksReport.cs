@@ -47,6 +47,8 @@ namespace SEOMacroscope
       XLWorkbook wb = new XLWorkbook ();
 
       this.BuildWorksheetPageBrokenLinks( JobMaster, wb, "Broken Links" );
+      this.BuildWorksheetPageGoodLinks( JobMaster, wb, "Good Links" );
+      this.BuildWorksheetPageRedirectedLinks( JobMaster, wb, "Redirected Links" );
 
       try
       {

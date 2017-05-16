@@ -68,9 +68,9 @@ namespace SEOMacroscope
     private string Hostname;
     private int Port;
     private string Path;
-    private string Fragment;
     private string QueryString;
-
+    private string Fragment;
+    
     private MacroscopeConstants.AuthenticationType AuthenticationType;
     private string AuthenticationRealm;
     private MacroscopeCredential AuthenticationCredential;

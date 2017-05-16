@@ -269,6 +269,8 @@
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetGoodLinks.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelBrokenLinksReport\WorksheetRedirectedLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelOverviewReport\MacroscopeExcelOverviewReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelOverviewReport\WorksheetOverview.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetPageText.cs" />
