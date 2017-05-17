@@ -252,6 +252,10 @@
     <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeIncludeUrlPatterns.Designer.cs">
       <DependentUpon>MacroscopeIncludeUrlPatterns.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeXpathPrefixes.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeXpathPrefixes.Designer.cs">
+      <DependentUpon>MacroscopeXpathPrefixes.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeHosts\MacroscopeAllowedHosts.cs" />
     <Compile Include="MacroscopeHosts\MacroscopeDnsTools.cs" />
     <Compile Include="MacroscopeHosts\MacroscopeDomainWrangler.cs" />
@@ -405,6 +409,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeIncludeUrlPatterns.resx">
       <DependentUpon>MacroscopeIncludeUrlPatterns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeXpathPrefixes.resx">
+      <DependentUpon>MacroscopeXpathPrefixes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.resx">
       <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
