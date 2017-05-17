@@ -88,6 +88,7 @@ namespace SEOMacroscope
     MacroscopeDisplayStructureSiteSpeed msSiteStructureSiteSpeed;
 
     MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
+    MacroscopeXpathRestrictions XpathRestrictions;
 
     private static object LockerOverviewTabPages = new object ();
     private static object LockerDocumentDetailsDisplay = new object ();
@@ -122,6 +123,7 @@ namespace SEOMacroscope
       this.CredentialsHttp = new MacroscopeCredentialsHttp ();
 
       this.IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
+      this.XpathRestrictions = new MacroscopeXpathRestrictions();
 
       this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
 

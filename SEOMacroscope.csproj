@@ -308,6 +308,7 @@
     <Compile Include="MacroscopeTasks\IMacroscopeTaskController.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls\MacroscopeIncludeExcludeUrls.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
+    <Compile Include="MacroscopeTasks\MacroscopeXpathRestrictions\MacroscopeXpathRestrictions.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
     <Compile Include="MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
     <Compile Include="MacroscopeTools\MacroscopeColumnSorter.cs" />
@@ -459,6 +460,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelErrorsReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
+    <Folder Include="MacroscopeTasks\MacroscopeXpathRestrictions" />
     <Folder Include="MacroscopeTasks\t" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />
