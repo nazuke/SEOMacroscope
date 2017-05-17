@@ -1,1 +1,2 @@
-﻿Add overview panel for listing documents with specific linked assets. For example, filter by "documents that contain video" or "documents that contain images".
+﻿Add overview panel for listing documents with specific linked assets.
+For example, filter by "documents that contain video" or "documents that contain images".
