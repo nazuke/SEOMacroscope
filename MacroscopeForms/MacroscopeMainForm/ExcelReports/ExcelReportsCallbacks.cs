@@ -60,7 +60,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
@@ -79,6 +79,52 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/  
+
+    private void CallbackSaveErrorsExcelReport ( object sender, EventArgs e )
+    {
+
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Errors.xlsx";
+
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+
+        string Path = Dialog.FileName;
+        MacroscopeExcelErrorsReport msExcelReport = new MacroscopeExcelErrorsReport ();
+
+        try
+        {
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Errors Excel Report", ex.Message );       
+          GC.Collect();
+        }
+        catch( MacroscopeSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Errors Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Errors Excel Report", ex.Message );
+        }
+
+      }
+
+      Dialog.Dispose();
+
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveBrokenLinksExcelReport ( object sender, EventArgs e )
     {
@@ -106,7 +152,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
@@ -154,7 +200,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
@@ -206,7 +252,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
@@ -258,7 +304,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
@@ -311,7 +357,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Redirects Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
@@ -369,7 +415,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Keyword Analysis Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
@@ -480,7 +526,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
@@ -533,7 +579,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Remarks Excel Report", ex.Message );       
           GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
