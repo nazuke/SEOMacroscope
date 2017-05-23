@@ -101,7 +101,16 @@ namespace SEOMacroscope
 
           if( !IsoLanguageCode.ToLower().Equals( "en" ) )
           {
-            this.DetectLanguage.AddLanguages( IsoLanguageCode.ToLower() );
+            
+            try
+            {
+              this.DetectLanguage.AddLanguages( IsoLanguageCode.ToLower() );
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "AnalyzeLanguage: {0}", ex.Message ) );
+            }
+            
           }
 
         }
