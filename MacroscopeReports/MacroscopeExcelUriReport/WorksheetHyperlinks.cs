@@ -57,6 +57,12 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Target URL";
         iCol++;
 
+        ws.Cell( iRow, iCol ).Value = "Follow";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Target";
+        iCol++;
+
         ws.Cell( iRow, iCol ).Value = "Link Text";
         iCol++;
         
@@ -81,13 +87,20 @@ namespace SEOMacroscope
         {
 
           string HyperlinkOutUrl = HyperlinkOut.GetTargetUrl();
-          string LinkText = HyperlinkOut.GetLinkText();    
+          string DoFollow = "No Follow";
+          string LinkTarget = HyperlinkOut.GetLinkTarget();
+          string LinkText = HyperlinkOut.GetLinkText();
           string LinkTitle = HyperlinkOut.GetLinkTitle();      
           string AltText = HyperlinkOut.GetAltText();       
 
           if( HyperlinkOutUrl == null )
           {
             HyperlinkOutUrl = "";
+          }
+
+          if( HyperlinkOut.GetDoFollow() )
+          {
+            DoFollow = "Follow";
           }
 
           iCol = 1;
@@ -124,9 +137,18 @@ namespace SEOMacroscope
 
           iCol++;
 
+          this.InsertAndFormatContentCell( ws, iRow, iCol, DoFollow );
+
+          iCol++;
+          
+          this.InsertAndFormatContentCell( ws, iRow, iCol, LinkTarget );
+
+          iCol++;
+
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkText ) );
 
           iCol++;
+          
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkTitle ) );
 
           iCol++;

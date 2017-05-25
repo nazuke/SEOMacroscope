@@ -40,6 +40,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private const int ColUrl = 0;
+    private const int ColUrlTarget = 1;
+    private const int ColDoFollow = 2;
+    private const int ColLinkTarget = 3;
+    private const int ColLinkTextLabel = 4;
+    private const int ColLinkTitleLabel = 5;
+    private const int ColAltTextLabel = 6;
+
     private ToolStripLabel UrlCount;
 
     /**************************************************************************/
@@ -129,6 +137,7 @@ namespace SEOMacroscope
                 DocCollection: DocCollection,
                 UrlFragment: UrlFragment
               );
+              this.RenderUrlCount();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -141,6 +150,7 @@ namespace SEOMacroscope
           DocCollection: DocCollection,
           UrlFragment: UrlFragment
         );
+        this.RenderUrlCount();
         Cursor.Current = Cursors.Default;
       }
 
@@ -170,6 +180,7 @@ namespace SEOMacroscope
                 DocCollection: DocCollection,
                 UrlFragment: UrlFragment
               );
+              this.RenderUrlCount();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -182,6 +193,7 @@ namespace SEOMacroscope
           DocCollection: DocCollection,
           UrlFragment: UrlFragment
         );
+        this.RenderUrlCount();
         Cursor.Current = Cursors.Default;
       }
 
@@ -268,6 +280,7 @@ namespace SEOMacroscope
         ListViewItem lvItem = null;
         string UrlTarget = HyperlinkOut.GetTargetUrl();
         string PairKey = string.Join( "::", Url, UrlTarget );
+        string LinkTarget = HyperlinkOut.GetLinkTarget();
         string LinkText = HyperlinkOut.GetLinkText();
         string LinkTitle = HyperlinkOut.GetLinkTitle();
         string AltText = HyperlinkOut.GetAltText();
@@ -306,12 +319,13 @@ namespace SEOMacroscope
 
             lvItem = this.DisplayListView.Items[ PairKey ];
 
-            lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems[ 1 ].Text = UrlTarget;
-            lvItem.SubItems[ 2 ].Text = DoFollow;
-            lvItem.SubItems[ 3 ].Text = LinkTextLabel;
-            lvItem.SubItems[ 4 ].Text = LinkTitleLabel;
-            lvItem.SubItems[ 5 ].Text = AltTextLabel;
+            lvItem.SubItems[ ColUrl ].Text = Url;
+            lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
+            lvItem.SubItems[ ColDoFollow ].Text = DoFollow;
+            lvItem.SubItems[ ColLinkTarget ].Text = LinkTarget;
+            lvItem.SubItems[ ColLinkTextLabel ].Text = LinkTextLabel;
+            lvItem.SubItems[ ColLinkTitleLabel ].Text = LinkTitleLabel;
+            lvItem.SubItems[ ColAltTextLabel ].Text = AltTextLabel;
 
           }
           catch( Exception ex )
@@ -330,9 +344,10 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
-            lvItem.SubItems[ 0 ].Text = Url;
+            lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems.Add( UrlTarget );
             lvItem.SubItems.Add( DoFollow );
+            lvItem.SubItems.Add( LinkTarget );
             lvItem.SubItems.Add( LinkTextLabel );
             lvItem.SubItems.Add( LinkTitleLabel );
             lvItem.SubItems.Add( AltTextLabel );
@@ -357,51 +372,51 @@ namespace SEOMacroscope
 
           if( AllowedHosts.IsAllowedFromUrl( Url ) )
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
           }
           else
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
           }
           
           if( AllowedHosts.IsAllowedFromUrl( UrlTarget ) )
           {
-            lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColUrlTarget ].ForeColor = Color.Green;
           }
           else
           {
-            lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColUrlTarget ].ForeColor = Color.Gray;
           }
 
           if( AllowedHosts.IsAllowedFromUrl( Url ) )
           {
             if( HyperlinkOut.GetDoFollow() )
             {
-              lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Green;
             }
             else
             {
-              lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Red;
             }
           }
           else
           {
-            lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Gray;
           }
 
           if( LinkText.Length == 0 )
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColLinkTextLabel ].ForeColor = Color.Gray;
           }
           
           if( LinkTitle.Length == 0 )
           {
-            lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColLinkTitleLabel ].ForeColor = Color.Gray;
           }
           
           if( AltText.Length == 0 )
           {
-            lvItem.SubItems[ 5 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColAltTextLabel ].ForeColor = Color.Gray;
           }
 
           if(
@@ -409,13 +424,13 @@ namespace SEOMacroscope
             && ( LinkTitle.Length == 0 )
             && ( AltText.Length == 0 ) )
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-            lvItem.SubItems[ 4 ].ForeColor = Color.Red;
-            lvItem.SubItems[ 5 ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColLinkTextLabel ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColLinkTitleLabel ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColAltTextLabel ].ForeColor = Color.Red;
           }
 
         }
-
+            
       }
 
     }
@@ -439,6 +454,7 @@ namespace SEOMacroscope
 
         string UrlTarget = HyperlinkOut.GetTargetUrl();
         string PairKey = string.Join( "::", Url, UrlTarget );
+        string LinkTarget = HyperlinkOut.GetLinkTarget();
         string LinkText = HyperlinkOut.GetLinkText();
         string LinkTitle = HyperlinkOut.GetLinkTitle();
         string AltText = HyperlinkOut.GetAltText();
@@ -484,12 +500,13 @@ namespace SEOMacroscope
 
               lvItem = this.DisplayListView.Items[ PairKey ];
 
-              lvItem.SubItems[ 0 ].Text = Url;
-              lvItem.SubItems[ 1 ].Text = UrlTarget;
-              lvItem.SubItems[ 2 ].Text = DoFollow;
-              lvItem.SubItems[ 3 ].Text = LinkTextLabel;
-              lvItem.SubItems[ 4 ].Text = LinkTitleLabel;
-              lvItem.SubItems[ 5 ].Text = AltTextLabel;
+              lvItem.SubItems[ ColUrl ].Text = Url;
+              lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
+              lvItem.SubItems[ ColDoFollow ].Text = DoFollow;         
+              lvItem.SubItems[ ColLinkTarget ].Text = LinkTarget;
+              lvItem.SubItems[ ColLinkTextLabel ].Text = LinkTextLabel;
+              lvItem.SubItems[ ColLinkTitleLabel ].Text = LinkTitleLabel;
+              lvItem.SubItems[ ColAltTextLabel ].Text = AltTextLabel;
 
             }
             catch( Exception ex )
@@ -508,9 +525,10 @@ namespace SEOMacroscope
               lvItem.UseItemStyleForSubItems = false;
               lvItem.Name = PairKey;
 
-              lvItem.SubItems[ 0 ].Text = Url;
+              lvItem.SubItems[ ColUrl ].Text = Url;
               lvItem.SubItems.Add( UrlTarget );
               lvItem.SubItems.Add( DoFollow );
+              lvItem.SubItems.Add( LinkTarget );
               lvItem.SubItems.Add( LinkTextLabel );
               lvItem.SubItems.Add( LinkTitleLabel );
               lvItem.SubItems.Add( AltTextLabel );
@@ -535,51 +553,51 @@ namespace SEOMacroscope
 
             if( AllowedHosts.IsAllowedFromUrl( Url ) )
             {
-              lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
             }
             else
             {
-              lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
             }
           
             if( AllowedHosts.IsAllowedFromUrl( UrlTarget ) )
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColUrlTarget ].ForeColor = Color.Green;
             }
             else
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColUrlTarget ].ForeColor = Color.Gray;
             }
 
             if( AllowedHosts.IsAllowedFromUrl( Url ) )
             {
               if( HyperlinkOut.GetDoFollow() )
               {
-                lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+                lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Green;
               }
               else
               {
-                lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+                lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Red;
               }
             }
             else
             {
-              lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Gray;
             }
             
             if( LinkText.Length == 0 )
             {
-              lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColLinkTextLabel ].ForeColor = Color.Gray;
             }
           
             if( LinkTitle.Length == 0 )
             {
-              lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColLinkTitleLabel ].ForeColor = Color.Gray;
             }
           
             if( AltText.Length == 0 )
             {
-              lvItem.SubItems[ 5 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColAltTextLabel ].ForeColor = Color.Gray;
             }
 
             if(
@@ -587,13 +605,13 @@ namespace SEOMacroscope
               && ( LinkTitle.Length == 0 )
               && ( AltText.Length == 0 ) )
             {
-              lvItem.SubItems[ 3 ].ForeColor = Color.Red;
-              lvItem.SubItems[ 4 ].ForeColor = Color.Red;
-              lvItem.SubItems[ 5 ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColLinkTextLabel ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColLinkTitleLabel ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColAltTextLabel ].ForeColor = Color.Red;
             }
 
           }
-
+          
         }
        
       }

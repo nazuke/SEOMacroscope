@@ -129,6 +129,7 @@ namespace SEOMacroscope
                 DocCollection: DocCollection,
                 UrlFragment: UrlFragment
               );
+              this.RenderUrlCount();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -141,6 +142,7 @@ namespace SEOMacroscope
           DocCollection: DocCollection,
           UrlFragment: UrlFragment
         );
+        this.RenderUrlCount();
         Cursor.Current = Cursors.Default;
       }
 
@@ -170,6 +172,7 @@ namespace SEOMacroscope
                 DocCollection: DocCollection,
                 UrlFragment: UrlFragment
               );
+              this.RenderUrlCount();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -182,6 +185,7 @@ namespace SEOMacroscope
           DocCollection: DocCollection,
           UrlFragment: UrlFragment
         );
+        this.RenderUrlCount();
         Cursor.Current = Cursors.Default;
       }
 

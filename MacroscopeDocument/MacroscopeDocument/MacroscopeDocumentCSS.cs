@@ -242,7 +242,7 @@ namespace SEOMacroscope
 
                   // TODO: Verify that this actually works:
 
-                  this.HyperlinksOut.Add(
+                  MacroscopeHyperlinkOut HyperlinkOut = this.HyperlinksOut.Add(
                     LinkType: MacroscopeConstants.HyperlinkType.CSS,
                     UrlTarget: LinkUrlAbs
                   );
@@ -279,7 +279,7 @@ namespace SEOMacroscope
 
                   // TODO: Verify that this actually works:
 
-                  this.HyperlinksOut.Add(
+                  MacroscopeHyperlinkOut HyperlinkOut = this.HyperlinksOut.Add(
                     LinkType: MacroscopeConstants.HyperlinkType.CSS,
                     UrlTarget: LinkUrlAbs
                   );

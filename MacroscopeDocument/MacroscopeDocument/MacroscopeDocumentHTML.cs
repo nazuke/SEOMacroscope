@@ -454,6 +454,17 @@ namespace SEOMacroscope
 
               }
 
+              { // LINK TARGET
+
+                string Target = LinkNode.GetAttributeValue( "target", null );
+
+                if( !string.IsNullOrEmpty( Target ) )
+                {
+                  HyperlinkOut.SetLinkTarget( Target );
+                }
+
+              }
+
               { // TEXT LINK
 
                 string LinkText = LinkNode.InnerText;

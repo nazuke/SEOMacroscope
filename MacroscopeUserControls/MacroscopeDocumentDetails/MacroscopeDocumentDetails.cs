@@ -1112,8 +1112,9 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 2 ].Text = msDoc.GetUrl();
                 lvItem.SubItems[ 3 ].Text = HyperlinkOut.GetTargetUrl();
                 lvItem.SubItems[ 4 ].Text = DoFollow;          
-                lvItem.SubItems[ 5 ].Text = HyperlinkOut.GetLinkText();
-                lvItem.SubItems[ 6 ].Text = HyperlinkOut.GetAltText();
+                lvItem.SubItems[ 5 ].Text = HyperlinkOut.GetLinkTarget();
+                lvItem.SubItems[ 6 ].Text = HyperlinkOut.GetLinkText();
+                lvItem.SubItems[ 7 ].Text = HyperlinkOut.GetAltText();
 
 
               }
@@ -1138,6 +1139,7 @@ namespace SEOMacroscope
                 lvItem.SubItems.Add( msDoc.GetUrl() );
                 lvItem.SubItems.Add( HyperlinkOut.GetTargetUrl() );
                 lvItem.SubItems.Add( DoFollow );
+                lvItem.SubItems.Add( HyperlinkOut.GetLinkTarget() );
                 lvItem.SubItems.Add( HyperlinkOut.GetLinkText() );
                 lvItem.SubItems.Add( HyperlinkOut.GetAltText() );
 

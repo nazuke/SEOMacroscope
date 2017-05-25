@@ -47,6 +47,8 @@ namespace SEOMacroscope
 
     private Boolean DoFollow;
 
+    private string LinkTarget;
+
     private string LinkText;
     private string LinkTitle;
     private string AltText;
@@ -58,6 +60,7 @@ namespace SEOMacroscope
       this.LinkGuid = Guid.NewGuid();
       this.HyperlinkType = MacroscopeConstants.HyperlinkType.TEXT;
       this.DoFollow = true;
+      this.LinkTarget = "";   
       this.LinkText = "";
       this.LinkTitle = "";
       this.AltText = "";
@@ -121,6 +124,27 @@ namespace SEOMacroscope
     public Boolean GetDoFollow ()
     {
       return( this.DoFollow );
+    }
+
+    /**************************************************************************/
+
+    public void SetLinkTarget ( string Text )
+    {
+      this.LinkTarget = Text;
+    }
+
+    public string GetLinkTarget ()
+    {
+
+      string Target = this.LinkTarget;
+
+      if( string.IsNullOrEmpty( Target ) )
+      {
+        Target = "";
+      }
+
+      return( Target );
+
     }
 
     /**************************************************************************/
