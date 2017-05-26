@@ -247,6 +247,24 @@ namespace SEOMacroscope
 
     /** END: Sitemap XML Protocol *********************************************/
 
+    /** BEGIN: Contains *******************************************************/
+
+    public enum Contains
+    {
+      CONTAINS = 0,
+      NOTCONTAINS = 1
+    }
+
+    public enum TextPresence
+    {
+      CONTAINS = 0,
+      SHOULDCONTAIN = 1,
+      NOTCONTAINS = 2,
+      SHOULDNOTCONTAIN = 3
+    }
+
+    /** END: Contains *********************************************************/
+
   }
 
 }
