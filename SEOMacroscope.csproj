@@ -114,6 +114,7 @@
     <Compile Include="MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.Designer.cs">
       <DependentUpon>MacroscopeCustomFilterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayCustomFilters.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayPageText.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayUriQueue.cs" />

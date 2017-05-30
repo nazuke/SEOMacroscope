@@ -73,6 +73,8 @@ namespace SEOMacroscope
       this.listViewKeywordAnalysis.Dock = DockStyle.Fill;
       this.listViewRemarks.Dock = DockStyle.Fill;
       this.textBoxBodyText.Dock = DockStyle.Fill;
+      
+      this.listViewCustomFilters.Dock = DockStyle.Fill;
 
       this.UrlLoader = new MacroscopeUrlLoader ();
       this.listViewDocInfo.Dock = DockStyle.Fill;
@@ -94,6 +96,8 @@ namespace SEOMacroscope
       this.listViewVideos.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis.ColumnClick += this.CallbackColumnClick;
       this.listViewRemarks.ColumnClick += this.CallbackColumnClick;
+
+      this.listViewCustomFilters.ColumnClick += this.CallbackColumnClick;
 
       this.splitContainerDocumentDetails.Panel2Collapsed = true;
 
@@ -187,7 +191,9 @@ namespace SEOMacroscope
       this.listViewRemarks.Items.Clear();
       
       this.textBoxBodyText.Text = "";
-        
+      
+      this.listViewCustomFilters.Items.Clear();
+      
       this.pictureBoxDocumentDetailsImage.Image = null;
       this.listViewDocInfo.Columns.Clear();
 
@@ -282,6 +288,10 @@ namespace SEOMacroscope
       this.RenderListViewRemarks( JobMaster, msDoc );
 
       this.RenderTextBoxBodyText( JobMaster, msDoc );
+      
+      this.RenderListViewCustomFilters( JobMaster, msDoc );
+
+      
       
       this.RenderDocumentPreview( JobMaster, msDoc );
 
@@ -2095,6 +2105,129 @@ namespace SEOMacroscope
 
       return;
       
+    }
+
+    /** Custom Filters ********************************************************/
+
+    private void RenderListViewCustomFilters ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    {
+
+      ListView TargetListView = this.listViewCustomFilters;
+      MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
+      MacroscopeCustomFilter CustomFilter = JobMaster.GetCustomFilter();
+      List<ListViewItem> ListViewItems = new List<ListViewItem> ();
+      int Count = 1;
+
+      if( !msDoc.GetIsHtml() )
+      {
+        return;
+      }
+
+      lock( TargetListView )
+      {
+              
+        TargetListView.BeginUpdate();
+            
+        TargetListView.Items.Clear();
+
+        for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
+        {
+
+          Application.DoEvents();
+
+          KeyValuePair<string, MacroscopeConstants.Contains> CustomFilterPair = CustomFilter.GetPattern( Slot: Slot );
+
+          ListViewItem lvItem = null;
+          string Url = msDoc.GetUrl();
+          string KeyPair = string.Join( "::", Count, Url );
+
+          string CustomFilterText = CustomFilterPair.Key;
+          
+          KeyValuePair<string, MacroscopeConstants.TextPresence> Pair = msDoc.GetCustomFilteredItem( Text: CustomFilterText );
+
+          string CustomFilterItemValue;
+
+          if( ( Pair.Key != null ) && ( Pair.Value != MacroscopeConstants.TextPresence.UNDEFINED ) )
+          {
+            CustomFilterItemValue = Pair.Value.ToString();
+          }
+          else
+          {
+            CustomFilterItemValue = "";
+          }
+          
+          if( TargetListView.Items.ContainsKey( KeyPair ) )
+          {
+
+            try
+            {
+
+              lvItem = TargetListView.Items[ KeyPair ];
+              lvItem.SubItems[ 0 ].Text = Count.ToString();
+              lvItem.SubItems[ 1 ].Text = CustomFilterText;
+              lvItem.SubItems[ 2 ].Text = CustomFilterPair.Value.ToString();
+              lvItem.SubItems[ 3 ].Text = CustomFilterItemValue;
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewCustomFilters 1: {0}", ex.Message ) );
+            }
+
+          }
+          else
+          {
+
+            try
+            {
+
+              lvItem = new ListViewItem ( KeyPair );
+              lvItem.UseItemStyleForSubItems = false;
+              lvItem.Name = KeyPair;
+
+              lvItem.SubItems[ 0 ].Text = Count.ToString();
+              lvItem.SubItems.Add( CustomFilterText );
+              lvItem.SubItems.Add( CustomFilterPair.Value.ToString() );
+              lvItem.SubItems.Add( CustomFilterItemValue );
+
+              ListViewItems.Add( lvItem );
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewCustomFilters 2: {0}", ex.Message ) );
+            }
+
+          }
+
+          Count++;
+
+          if( lvItem != null )
+          {
+
+            lvItem.ForeColor = Color.Blue;
+
+            if( AllowedHosts.IsInternalUrl( Url ) )
+            {
+              lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+            }
+            else
+            {
+              lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+            }
+
+          }
+                
+        }
+
+        TargetListView.Items.AddRange( ListViewItems.ToArray() );
+                
+        TargetListView.EndUpdate();
+      
+      }
+     
     }
 
     /** Document Preview ******************************************************/

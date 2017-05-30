@@ -89,6 +89,8 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem customFiltersToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -123,8 +125,12 @@ namespace SEOMacroscope
 			this.taskParametersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.includeURLPatternsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.excludeURLPatternsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.crawlParentDirectoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.crawlChildDirectoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			this.customFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.clearHTTPAuthenticationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -142,8 +148,10 @@ namespace SEOMacroscope
 			this.sEOMacroscopeBlogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeOnGitHubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.reportABugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.licenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.aboutSEOMacroscopeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanelMainContainer = new System.Windows.Forms.TableLayoutPanel();
 			this.statusStripMain = new System.Windows.Forms.StatusStrip();
@@ -166,10 +174,6 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -214,7 +218,7 @@ namespace SEOMacroscope
 			this.loadFromTextFileToolStripMenuItem,
 			this.pasteFromClipboardToolStripMenuItem});
 			this.loadUrlListToolStripMenuItem.Name = "loadUrlListToolStripMenuItem";
-			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.loadUrlListToolStripMenuItem.Text = "Load URL List";
 			// 
 			// loadFromTextFileToolStripMenuItem
@@ -236,7 +240,7 @@ namespace SEOMacroscope
 			this.exitToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.CallbackFileExit);
 			// 
@@ -253,7 +257,7 @@ namespace SEOMacroscope
 			this.preferencesToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.preferencesToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.preferencesToolStripMenuItem.Text = "Preferences";
 			this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.CallbackEditPreferencesClick);
 			// 
@@ -266,6 +270,8 @@ namespace SEOMacroscope
 			this.crawlParentDirectoriesToolStripMenuItem,
 			this.crawlChildDirectoriesToolStripMenuItem,
 			this.toolStripSeparator5,
+			this.customFiltersToolStripMenuItem,
+			this.toolStripSeparator6,
 			this.clearHTTPAuthenticationToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
 			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
@@ -285,6 +291,11 @@ namespace SEOMacroscope
 			this.excludeURLPatternsToolStripMenuItem.Text = "Exclude URL Patterns";
 			this.excludeURLPatternsToolStripMenuItem.Click += new System.EventHandler(this.CallbackExcludeUrlItemsClick);
 			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(213, 6);
+			// 
 			// crawlParentDirectoriesToolStripMenuItem
 			// 
 			this.crawlParentDirectoriesToolStripMenuItem.Checked = true;
@@ -302,6 +313,23 @@ namespace SEOMacroscope
 			this.crawlChildDirectoriesToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.crawlChildDirectoriesToolStripMenuItem.Text = "Crawl Child Directories";
 			this.crawlChildDirectoriesToolStripMenuItem.Click += new System.EventHandler(this.CallbackCrawlChildDirectoriesToolStripMenuItemClick);
+			// 
+			// toolStripSeparator5
+			// 
+			this.toolStripSeparator5.Name = "toolStripSeparator5";
+			this.toolStripSeparator5.Size = new System.Drawing.Size(213, 6);
+			// 
+			// customFiltersToolStripMenuItem
+			// 
+			this.customFiltersToolStripMenuItem.Name = "customFiltersToolStripMenuItem";
+			this.customFiltersToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+			this.customFiltersToolStripMenuItem.Text = "Custom Filters";
+			this.customFiltersToolStripMenuItem.Click += new System.EventHandler(this.CallbackCustomFilterClick);
+			// 
+			// toolStripSeparator6
+			// 
+			this.toolStripSeparator6.Name = "toolStripSeparator6";
+			this.toolStripSeparator6.Size = new System.Drawing.Size(213, 6);
 			// 
 			// clearHTTPAuthenticationToolStripMenuItem
 			// 
@@ -447,6 +475,11 @@ namespace SEOMacroscope
 			this.sEOMacroscopeManualToolStripMenuItem.Text = "SEO Macroscope Online Manual";
 			this.sEOMacroscopeManualToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpManualClick);
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(241, 6);
+			// 
 			// reportABugToolStripMenuItem
 			// 
 			this.reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
@@ -460,6 +493,11 @@ namespace SEOMacroscope
 			this.licenceToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
 			this.licenceToolStripMenuItem.Text = "Licence";
 			this.licenceToolStripMenuItem.Click += new System.EventHandler(this.CallbackHelpLicenceClick);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(241, 6);
 			// 
 			// aboutSEOMacroscopeToolStripMenuItem
 			// 
@@ -694,26 +732,6 @@ namespace SEOMacroscope
 			this.macroscopeSiteStructurePanelInstance.Name = "macroscopeSiteStructurePanelInstance";
 			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(241, 6);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(241, 6);
-			// 
-			// toolStripSeparator4
-			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(213, 6);
-			// 
-			// toolStripSeparator5
-			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(213, 6);
 			// 
 			// MacroscopeMainForm
 			// 

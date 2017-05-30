@@ -88,6 +88,9 @@ namespace SEOMacroscope
       this.listViewVideos.Dock = DockStyle.Fill;
       this.listViewEmailAddresses.Dock = DockStyle.Fill;
       this.listViewTelephoneNumbers.Dock = DockStyle.Fill;
+
+      this.listViewCustomFilters.Dock = DockStyle.Fill;
+
       this.listViewHostnames.Dock = DockStyle.Fill;
       this.listViewUriQueue.Dock = DockStyle.Fill;
       this.listViewHistory.Dock = DockStyle.Fill;
@@ -120,7 +123,11 @@ namespace SEOMacroscope
       this.listViewVideos.ColumnClick += this.CallbackColumnClick;
       this.listViewEmailAddresses.ColumnClick += this.CallbackColumnClick;
       this.listViewTelephoneNumbers.ColumnClick += this.CallbackColumnClick;
+
+      this.listViewCustomFilters.ColumnClick += this.CallbackColumnClick;
+
       this.listViewHostnames.ColumnClick += this.CallbackColumnClick;
+
       this.listViewUriQueue.ColumnClick += this.CallbackColumnClick;
       this.listViewHistory.ColumnClick += this.CallbackColumnClick;
       this.listViewSearchCollection.ColumnClick += this.CallbackColumnClick;

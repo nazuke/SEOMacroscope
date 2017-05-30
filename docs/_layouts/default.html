@@ -6,6 +6,10 @@
 
   <body>
 
+    {% if jekyll.environment == 'production' and site.google_tag_manager %}
+      {% include google-tag-manager-body.html %}
+    {% endif %}
+
 		{% include header.html %}
 
 		<main class="container" aria-label="Content">

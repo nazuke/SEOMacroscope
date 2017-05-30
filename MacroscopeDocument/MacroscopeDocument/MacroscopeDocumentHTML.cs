@@ -157,6 +157,18 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "RawData: {0}", "EMPTY" ) );
         }
 
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+          
+          MacroscopeCustomFilter CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
+
+          if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+          {
+            this.ProcessHtmlCustomFiltered( CustomFilter: CustomFilter, HtmlText: RawData );           
+          }
+
+        }
+
         if( HtmlDoc != null )
         {
 
@@ -261,11 +273,7 @@ namespace SEOMacroscope
           { // Outlinks
 
             this.ProcessHtmlHyperlinksOut( HtmlDoc: HtmlDoc );
-            
-            
-            
-            
-            
+
             this.ProcessHtmlOutlinks( HtmlDoc: HtmlDoc );
 
           }
@@ -1359,6 +1367,25 @@ namespace SEOMacroscope
         }
         
       }
+      
+    }
+
+    /** Process Custom Filtered *********************************************/
+
+    private void ProcessHtmlCustomFiltered (
+      MacroscopeCustomFilter CustomFilter,
+      string HtmlText
+    )
+    {
+
+      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = CustomFilter.AnalyzeText( Text: HtmlText );
+
+      foreach( string Key in Analyzed.Keys )
+      {
+        this.SetCustomFiltered( Text: Key, Presence: Analyzed[ Key ] );
+      }
+
+      return;
       
     }
 

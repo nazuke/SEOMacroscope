@@ -95,8 +95,8 @@ namespace SEOMacroscope
 			this.comboBoxFilter1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter1.FormattingEnabled = true;
 			this.comboBoxFilter1.Items.AddRange(new object[] {
-			"Contains",
-			"Does not contain"});
+			"Must have",
+			"Must not have"});
 			this.comboBoxFilter1.Location = new System.Drawing.Point(123, 3);
 			this.comboBoxFilter1.Name = "comboBoxFilter1";
 			this.comboBoxFilter1.Size = new System.Drawing.Size(113, 21);
@@ -231,8 +231,8 @@ namespace SEOMacroscope
 			this.comboBoxFilter2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter2.FormattingEnabled = true;
 			this.comboBoxFilter2.Items.AddRange(new object[] {
-			"Contains",
-			"Does not contain"});
+			"Must have",
+			"Must not have"});
 			this.comboBoxFilter2.Location = new System.Drawing.Point(123, 51);
 			this.comboBoxFilter2.Name = "comboBoxFilter2";
 			this.comboBoxFilter2.Size = new System.Drawing.Size(113, 21);
@@ -243,8 +243,8 @@ namespace SEOMacroscope
 			this.comboBoxFilter3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter3.FormattingEnabled = true;
 			this.comboBoxFilter3.Items.AddRange(new object[] {
-			"Contains",
-			"Does not contain"});
+			"Must have",
+			"Must not have"});
 			this.comboBoxFilter3.Location = new System.Drawing.Point(123, 99);
 			this.comboBoxFilter3.Name = "comboBoxFilter3";
 			this.comboBoxFilter3.Size = new System.Drawing.Size(113, 21);
@@ -255,8 +255,8 @@ namespace SEOMacroscope
 			this.comboBoxFilter4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter4.FormattingEnabled = true;
 			this.comboBoxFilter4.Items.AddRange(new object[] {
-			"Contains",
-			"Does not contain"});
+			"Must have",
+			"Must not have"});
 			this.comboBoxFilter4.Location = new System.Drawing.Point(123, 147);
 			this.comboBoxFilter4.Name = "comboBoxFilter4";
 			this.comboBoxFilter4.Size = new System.Drawing.Size(113, 21);
@@ -267,8 +267,8 @@ namespace SEOMacroscope
 			this.comboBoxFilter5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter5.FormattingEnabled = true;
 			this.comboBoxFilter5.Items.AddRange(new object[] {
-			"Contains",
-			"Does not contain"});
+			"Must have",
+			"Must not have"});
 			this.comboBoxFilter5.Location = new System.Drawing.Point(123, 195);
 			this.comboBoxFilter5.Name = "comboBoxFilter5";
 			this.comboBoxFilter5.Size = new System.Drawing.Size(113, 21);

@@ -95,6 +95,8 @@ namespace SEOMacroscope
     public const string NamedQueueDisplayTelephoneNumbers = "DisplayTelephoneNumbers";
     public const string NamedQueueDisplayHostnames = "DisplayHostnames";
 
+    public const string NamedQueueDisplayCustomFilters = "DisplayCustomFilters";
+
     public const string RecalculateDocCollection = "RecalculateDocCollection";
 
     /** END: Named Queues *****************************************************/
@@ -251,16 +253,18 @@ namespace SEOMacroscope
 
     public enum Contains
     {
-      CONTAINS = 0,
-      NOTCONTAINS = 1
+      UNDEFINED = 0,
+      MUSTHAVE = 1,
+      MUSTNOTHAVE = 2
     }
 
     public enum TextPresence
     {
-      CONTAINS = 0,
-      SHOULDCONTAIN = 1,
-      NOTCONTAINS = 2,
-      SHOULDNOTCONTAIN = 3
+      UNDEFINED = 0,
+      CONTAINS = 1,
+      MUSTCONTAIN = 2,
+      NOTCONTAINS = 3,
+      SHOULDNOTCONTAIN = 4
     }
 
     /** END: Contains *********************************************************/

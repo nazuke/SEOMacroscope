@@ -77,7 +77,9 @@ namespace SEOMacroscope
     MacroscopeDisplayEmailAddresses msDisplayEmailAddresses;
     MacroscopeDisplayTelephoneNumbers msDisplayTelephoneNumbers;
     MacroscopeDisplayHostnames msDisplayHostnames;
-    
+
+    MacroscopeDisplayCustomFilters msDisplayCustomFilters;
+
     MacroscopeDisplayUriQueue msDisplayUriQueue;
     MacroscopeDisplayHistory msDisplayHistory;
     
@@ -89,6 +91,7 @@ namespace SEOMacroscope
 
     MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
     MacroscopeXpathRestrictions XpathRestrictions;
+    MacroscopeCustomFilter CustomFilter;
 
     private static object LockerOverviewTabPages = new object ();
     private static object LockerDocumentDetailsDisplay = new object ();
@@ -123,9 +126,12 @@ namespace SEOMacroscope
       this.CredentialsHttp = new MacroscopeCredentialsHttp ();
 
       this.IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
-      this.XpathRestrictions = new MacroscopeXpathRestrictions();
-
       this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
+
+      this.XpathRestrictions = new MacroscopeXpathRestrictions ();
+
+      this.CustomFilter = new MacroscopeCustomFilter ( 5 );
+      this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
 
       this.StartUrlDirty = false;
 
@@ -196,6 +202,9 @@ namespace SEOMacroscope
       this.msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
       this.msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
       this.msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
+
+      this.msDisplayCustomFilters = new MacroscopeDisplayCustomFilters ( this, this.macroscopeOverviewTabPanelInstance.listViewCustomFilters );
+      this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
 
       this.msDisplayUriQueue = new MacroscopeDisplayUriQueue ( this, this.macroscopeOverviewTabPanelInstance.listViewUriQueue );
       this.msDisplayHistory = new MacroscopeDisplayHistory ( this, this.macroscopeOverviewTabPanelInstance.listViewHistory );
@@ -542,6 +551,8 @@ namespace SEOMacroscope
           
           this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
           
+          this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+
           this.ClearDisplay();
           
           this.StartUrlDirty = false;
@@ -576,6 +587,7 @@ namespace SEOMacroscope
         TaskController: this
       );
       this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
+      this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
       this.ClearDisplay();
 
       MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader (
@@ -631,6 +643,7 @@ namespace SEOMacroscope
         TaskController: this
       );
       this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
+      this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
       this.ClearDisplay();
 
       MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader (
@@ -712,6 +725,8 @@ namespace SEOMacroscope
         );
 
         this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
+
+        this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
 
         this.ClearDisplay();
 
@@ -1054,7 +1069,15 @@ namespace SEOMacroscope
             DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
-          
+
+        case "tabPageCustomFilters":
+          this.msDisplayCustomFilters.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayCustomFilters ),
+            CustomFilter: this.CustomFilter
+          );
+          break;
+
         case "tabPageUriQueue":
           this.msDisplayUriQueue.RefreshData(
             UriQueue: this.JobMaster.GetUrlQueueAsArray()
@@ -1711,6 +1734,10 @@ namespace SEOMacroscope
       this.msDisplayTelephoneNumbers.ClearData();
 
       this.msDisplayHostnames.ClearData();
+
+      this.msDisplayCustomFilters.ClearData();
+      this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
+
       this.msDisplayUriQueue.ClearData();
       this.msDisplayHistory.ClearData();
 
@@ -2210,6 +2237,30 @@ namespace SEOMacroscope
       }
 
       MacroscopePreferencesManager.SavePreferences();
+
+    }
+
+    /** -------------------------------------------------------------------- **/   
+
+    private void CallbackCustomFilterClick ( object sender, EventArgs e )
+    {
+
+      MacroscopeCustomFilterForm CustomFilterForm = new MacroscopeCustomFilterForm ( CustomFilter: this.CustomFilter );
+
+      DialogResult CustomFilterResult = CustomFilterForm.ShowDialog();
+
+      if( CustomFilterResult == DialogResult.OK )
+      {
+
+        this.CustomFilter = CustomFilterForm.GetCustomFilter();
+
+        this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+        
+        this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
+
+      }
+
+      CustomFilterForm.Dispose();
 
     }
 

@@ -148,8 +148,10 @@ namespace SEOMacroscope
 
     private List<string> Remarks;
 
+    private Dictionary<string, MacroscopeConstants.TextPresence> CustomFiltered;
+
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -316,6 +318,8 @@ namespace SEOMacroscope
       this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
 
       this.Remarks = new List<string> ();
+
+      this.CustomFiltered = new Dictionary<string, MacroscopeConstants.TextPresence> ( 5 );
 
     }
 
@@ -1614,6 +1618,93 @@ namespace SEOMacroscope
           yield return Observation;
         }
       }
+    }
+
+    /** Custom Filtered Values ************************************************/
+
+    public void SetCustomFiltered ( string Text, MacroscopeConstants.TextPresence Presence )
+    {
+
+     
+      if( this.CustomFiltered.ContainsKey( Text ) )
+      {
+        this.CustomFiltered[ Text ] = Presence;
+        
+      }
+      else
+      {
+        this.CustomFiltered.Add( Text, Presence );
+        
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<string> IterateCustomFiltered ()
+    {
+      lock( this.CustomFiltered )
+      {
+        foreach( string Text in this.CustomFiltered.Keys )
+        {
+          yield return Text;
+        }
+      }
+    }
+        
+    /** -------------------------------------------------------------------- **/ 
+
+    public Dictionary<string, MacroscopeConstants.TextPresence> GetCustomFiltered ()
+    {
+
+      Dictionary<string, MacroscopeConstants.TextPresence> ListCopy = new Dictionary<string, MacroscopeConstants.TextPresence> ( this.CustomFiltered.Count );
+
+      lock( this.CustomFiltered )
+      {
+
+        foreach( string Key in this.CustomFiltered.Keys )
+        {
+          ListCopy.Add( Key, this.CustomFiltered[ Key ] );
+        }
+
+      }
+
+      return( ListCopy );
+
+    }
+    
+    /** -------------------------------------------------------------------- **/
+
+    public KeyValuePair<string, MacroscopeConstants.TextPresence> GetCustomFilteredItem ( string Text )
+    {
+
+      KeyValuePair<string, MacroscopeConstants.TextPresence> Pair;
+
+      Pair = new KeyValuePair<string, MacroscopeConstants.TextPresence> (
+        null,
+        MacroscopeConstants.TextPresence.UNDEFINED
+      );
+      
+      try
+      {
+        
+        Pair = new KeyValuePair<string, MacroscopeConstants.TextPresence> (
+          Text,
+          this.CustomFiltered[ Text ]
+        );
+
+      }
+      catch( KeyNotFoundException ex )
+      {
+        DebugMsg( string.Format( "GetCustomFilteredItem: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "GetCustomFilteredItem: {0}", ex.Message ) );
+      }
+
+      return( Pair );
+
     }
 
     /** Executor **************************************************************/

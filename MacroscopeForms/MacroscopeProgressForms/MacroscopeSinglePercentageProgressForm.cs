@@ -124,6 +124,16 @@ namespace SEOMacroscope
           this.labelMessage.Text = Message;
         }
       
+        if( MajorPercentage < 0 )
+        {
+          this.progressBarMajor.Value = 0;
+        }
+        
+        if( MajorPercentage > 100 )
+        {
+          this.progressBarMajor.Value = 100;
+        }
+
         if( MajorPercentage >= 0 )
         {
           this.progressBarMajor.Value = ( int )MajorPercentage;

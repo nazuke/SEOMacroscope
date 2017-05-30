@@ -8,6 +8,10 @@
 
   <meta name="google-site-verification" content="J5_C9t5p0QTmUGDNYPisSQW1jE8hRn0QKf4DnlDSr_A">
 
+  {% if jekyll.environment == 'production' and site.google_tag_manager %}
+    {% include google-tag-manager-head.html %}
+  {% endif %}
+
   <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon">
 
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>

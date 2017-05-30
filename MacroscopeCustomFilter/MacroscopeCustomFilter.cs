@@ -63,7 +63,7 @@ namespace SEOMacroscope
 
         Pair = new KeyValuePair<string, MacroscopeConstants.Contains> (
           Slot.ToString(),
-          MacroscopeConstants.Contains.CONTAINS
+          MacroscopeConstants.Contains.MUSTHAVE
         );
 
         this.Contains.Add( Pair );
@@ -91,7 +91,14 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public void AddPattern (
+    public int GetSize ()
+    {
+      return( this.Max );
+    }
+
+    /**************************************************************************/
+
+    public void SetPattern (
       int Slot,
       string Text,
       MacroscopeConstants.Contains ContainsSetting
@@ -106,6 +113,17 @@ namespace SEOMacroscope
 
       this.SetEnabled();
       
+    }
+
+    /**************************************************************************/
+
+    public KeyValuePair<string, MacroscopeConstants.Contains> GetPattern (
+      int Slot
+    )
+    {
+
+      return( this.Contains[ Slot ] );
+
     }
 
     /**************************************************************************/
@@ -128,7 +146,11 @@ namespace SEOMacroscope
 
           string PatternText = this.Contains[ Slot ].Key;
 
-          if( this.Contains[ Slot ].Value == MacroscopeConstants.Contains.CONTAINS )
+          if( string.IsNullOrEmpty(PatternText) ) {
+            continue;
+          }
+
+          if( this.Contains[ Slot ].Value == MacroscopeConstants.Contains.MUSTHAVE )
           {
 
             if( Text.Contains( PatternText ) )
@@ -142,7 +164,7 @@ namespace SEOMacroscope
 
           }
           else
-          if( this.Contains[ Slot ].Value == MacroscopeConstants.Contains.NOTCONTAINS )
+          if( this.Contains[ Slot ].Value == MacroscopeConstants.Contains.MUSTNOTHAVE )
           {
             
             if( !Text.Contains( PatternText ) )

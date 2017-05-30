@@ -28,6 +28,7 @@ disqus:
 
 # Google Services
 google_analytics: UA-53226030-9
+google_tag_manager: GTM-N2MSDNV
 
 # Build settings
 markdown: kramdown

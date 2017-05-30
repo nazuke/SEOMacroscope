@@ -27,6 +27,8 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SEOMacroscope
 {
@@ -39,43 +41,152 @@ namespace SEOMacroscope
   {
 
     /**************************************************************************/
+
+    MacroscopeCustomFilter CustomFilter;
+
+    /**************************************************************************/
 	      
     public MacroscopeCustomFilterPanel ()
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
+      this.textBoxFilter1.KeyUp += this.CallbackTextBoxKeyUp;
+      this.textBoxFilter2.KeyUp += this.CallbackTextBoxKeyUp;
+      this.textBoxFilter3.KeyUp += this.CallbackTextBoxKeyUp;
+      this.textBoxFilter4.KeyUp += this.CallbackTextBoxKeyUp;
+      this.textBoxFilter5.KeyUp += this.CallbackTextBoxKeyUp;
+      
+    }
+
+    /**************************************************************************/
+    
+    public void SetCustomFilter ( MacroscopeCustomFilter NewCustomFilter )
+    {
+
+      this.CustomFilter = NewCustomFilter;
+
+      int Max = this.CustomFilter.GetSize();
+      
+      for( int Slot = 0 ; Slot < Max ; Slot++ )
+      {
+      
+        TextBox textBoxFilter;
+        ComboBox comboBoxFilter;
+          
+        textBoxFilter = this.Controls.Find(
+          string.Format( "textBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+          
+        comboBoxFilter = this.Controls.Find(
+          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as ComboBox;
+          
+        if( this.CustomFilter.IsEnabled() )
+        {
+
+          KeyValuePair<string, MacroscopeConstants.Contains> Pair = this.CustomFilter.GetPattern( Slot: Slot );
+
+          switch( Pair.Value )
+          {
+            case MacroscopeConstants.Contains.MUSTHAVE:
+              comboBoxFilter.SelectedIndex = 0;
+              break;
+            case MacroscopeConstants.Contains.MUSTNOTHAVE:
+              comboBoxFilter.SelectedIndex = 1;
+              break;
+            default:
+              comboBoxFilter.SelectedIndex = 0;
+              break;
+          }
+
+          textBoxFilter.Text = Pair.Key;
+
+        }
+        else
+        {
+        
+          comboBoxFilter.SelectedIndex = 0;
+          textBoxFilter.Text = "";
+
+        }
+
+      }
+      
+      return;
+      
+    }
+
+    /**************************************************************************/
+
+    public MacroscopeCustomFilter GetCustomFilter ()
+    {
+
+      int Max = this.CustomFilter.GetSize();
+      
+      for( int Slot = 0 ; Slot < Max ; Slot++ )
+      {
+      
+        TextBox textBoxFilter;
+        ComboBox comboBoxFilter;
+          
+        textBoxFilter = this.Controls.Find(
+          string.Format( "textBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+          
+        comboBoxFilter = this.Controls.Find(
+          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as ComboBox;
+
+        switch( comboBoxFilter.SelectedIndex )
+        {
+          case 0:
+            this.CustomFilter.SetPattern(
+              Slot: Slot, 
+              Text: textBoxFilter.Text, 
+              ContainsSetting: MacroscopeConstants.Contains.MUSTHAVE
+            );
+            break;
+          case 1:
+            this.CustomFilter.SetPattern(
+              Slot: Slot, 
+              Text: textBoxFilter.Text, 
+              ContainsSetting: MacroscopeConstants.Contains.MUSTNOTHAVE
+            );
+            break;
+          default:
+            break;
+        }
+
+      }
+
+      return( this.CustomFilter );
 
     }
 
     /**************************************************************************/
         
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    private void CallbackTextBoxKeyUp ( object sender, KeyEventArgs e )
+    {
+      
+      TextBox CustomFilterTextBox = ( TextBox )sender;
+
+      if( e.Control && ( e.KeyCode == Keys.A ) )
+      {
+
+        CustomFilterTextBox.SelectAll();
+        CustomFilterTextBox.Focus();
+
+      }
+
+    }
+       
     /**************************************************************************/
-        
+    
   }
 
 }

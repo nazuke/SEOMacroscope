@@ -44,28 +44,16 @@ namespace SEOMacroscope
       MacroscopeCustomFilter CustomFilter = new MacroscopeCustomFilter ( Size: 5 );
 
       List<string> Texts = new List<string> ();
-      List<string> ContainsTexts = new List<string> ();
-            
-      //Texts.Add( "Der schnelle braune Fuchs springt über den faulen Hund." );
+
       Texts.Add( "The quick brown fox jumps over the lazy dog." );
-      //Texts.Add( "El zorro marrón rápido salta sobre el perro perezoso." );
-      //Texts.Add( "Le renard brun rapide saute sur le chien paresseux." );
-      //Texts.Add( "La volpe marrone veloce salta sul cane pigro." );
-      //Texts.Add( "色は匂へど散りぬるを我が世誰ぞ常ならん有為の奥山今日越えて浅き夢見じ酔ひもせず。" );
-      //Texts.Add( "A rápida raposa marrom salta sobre o cão preguiçoso." );
-      //Texts.Add( "Den snabba brunräven hoppar över den lata hunden." );
-      //Texts.Add( "敏捷的棕色狐狸跳过了懒狗。" );
-      //Texts.Add( "敏捷的棕色狐狸跳過了懶狗。" );
 
-      ContainsTexts.Add( "fox" );
+      CustomFilter.SetPattern( 0, "The", MacroscopeConstants.Contains.MUSTHAVE );
+      CustomFilter.SetPattern( 1, "over", MacroscopeConstants.Contains.MUSTHAVE );
+      CustomFilter.SetPattern( 2, "fox", MacroscopeConstants.Contains.MUSTHAVE );
+      CustomFilter.SetPattern( 3, "dog", MacroscopeConstants.Contains.MUSTHAVE );
+      CustomFilter.SetPattern( 4, "brown", MacroscopeConstants.Contains.MUSTHAVE );
 
-      CustomFilter.AddPattern( 0, "The", MacroscopeConstants.Contains.CONTAINS );
-      CustomFilter.AddPattern( 1, "over", MacroscopeConstants.Contains.CONTAINS );
-      CustomFilter.AddPattern( 2, "fox", MacroscopeConstants.Contains.CONTAINS );
-      CustomFilter.AddPattern( 3, "dog", MacroscopeConstants.Contains.CONTAINS );
-      CustomFilter.AddPattern( 4, "brown", MacroscopeConstants.Contains.CONTAINS );
-
-      foreach( string ContainsText in ContainsTexts )
+      foreach( string ContainsText in Texts )
       {
 
         Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = CustomFilter.AnalyzeText( Text: ContainsText );
@@ -75,9 +63,58 @@ namespace SEOMacroscope
         foreach( string AnalyzedKey in Analyzed.Keys )
         {
 
-          Assert.AreEqual(
+          Assert.AreEqual( 
+            MacroscopeConstants.TextPresence.CONTAINS,
             Analyzed[ AnalyzedKey ],
-            MacroscopeConstants.TextPresence.CONTAINS
+            string.Format(
+              "Wrong TextPresence for: {0} :: {1}",
+              AnalyzedKey,
+              Analyzed[ AnalyzedKey ]
+            )
+          );
+        
+        }
+        
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestDoesNotContainText ()
+    {
+
+      MacroscopeCustomFilter CustomFilter = new MacroscopeCustomFilter ( Size: 5 );
+
+      List<string> Texts = new List<string> ();
+
+      Texts.Add( "The quick brown fox jumps over the lazy dog." );
+
+      CustomFilter.SetPattern( 0, "Mad", MacroscopeConstants.Contains.MUSTNOTHAVE );
+      CustomFilter.SetPattern( 1, "car", MacroscopeConstants.Contains.MUSTNOTHAVE );
+      CustomFilter.SetPattern( 2, "nugget", MacroscopeConstants.Contains.MUSTNOTHAVE );
+      CustomFilter.SetPattern( 3, "quickly", MacroscopeConstants.Contains.MUSTNOTHAVE );
+      CustomFilter.SetPattern( 4, "doggy", MacroscopeConstants.Contains.MUSTNOTHAVE );
+
+      foreach( string ContainsText in Texts )
+      {
+
+        Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = CustomFilter.AnalyzeText( Text: ContainsText );
+
+        Assert.IsNotNull( Analyzed );
+        
+        foreach( string AnalyzedKey in Analyzed.Keys )
+        {
+
+          Assert.AreEqual( 
+            MacroscopeConstants.TextPresence.NOTCONTAINS,
+            Analyzed[ AnalyzedKey ],
+            string.Format(
+              "Wrong TextPresence for: {0} :: {1}",
+              AnalyzedKey,
+              Analyzed[ AnalyzedKey ]
+            )
           );
         
         }

@@ -57,6 +57,8 @@ namespace SEOMacroscope
     private MacroscopeRobots Robots;
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
+    private MacroscopeCustomFilter CustomFilter;
+
     private int CrawlDelay;
     private int ThreadsMax;
     private int ThreadsRunning;
@@ -126,6 +128,8 @@ namespace SEOMacroscope
       this.Robots = null;
 
       this.IncludeExcludeUrls = null;
+      
+      this.CustomFilter = null;
 
       this.History = null;
 
@@ -192,6 +196,12 @@ namespace SEOMacroscope
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames );
+        
+        
+        this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayCustomFilters );
+        
+        
+        
       }
       // END: Named Queues
 
@@ -279,6 +289,18 @@ namespace SEOMacroscope
     public MacroscopeIncludeExcludeUrls GetIncludeExcludeUrls ()
     {
       return( this.IncludeExcludeUrls );
+    }
+
+    /** Custom Filter *********************************************************/
+
+    public void SetCustomFilter ( MacroscopeCustomFilter NewCustomFilter )
+    {
+      this.CustomFilter = NewCustomFilter;
+    }
+
+    public MacroscopeCustomFilter GetCustomFilter ()
+    {
+      return( this.CustomFilter );
     }
 
     /** Execute Job ***********************************************************/
@@ -594,6 +616,10 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, Url );
+      
+            NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCustomFilters, Url );
+
+      
     }
 
     /** -------------------------------------------------------------------- **/
