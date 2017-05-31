@@ -2114,7 +2114,7 @@ namespace SEOMacroscope
 
       ListView TargetListView = this.listViewCustomFilters;
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      MacroscopeCustomFilter CustomFilter = JobMaster.GetCustomFilter();
+      MacroscopeCustomFilters CustomFilter = JobMaster.GetCustomFilter();
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
       int Count = 1;
 

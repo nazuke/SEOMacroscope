@@ -24,11 +24,11 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing;
+
 
 namespace SEOMacroscope
 {
@@ -36,6 +36,14 @@ namespace SEOMacroscope
   public sealed class MacroscopeDisplayCustomFilters : MacroscopeDisplayListView
   {
 
+    /**************************************************************************/
+
+    private const int ColUrl = 0;
+    private const int ColStatusCode = 1;
+    private const int ColStatus = 2;
+
+    private int FilterColOffset = -1;
+    
     /**************************************************************************/
 
     public MacroscopeDisplayCustomFilters ( MacroscopeMainForm MainForm, ListView TargetListView )
@@ -76,11 +84,8 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    
-    
-    
     public void ResetColumns (
-      MacroscopeCustomFilter CustomFilter
+      MacroscopeCustomFilters CustomFilter
     )
     {
 
@@ -90,25 +95,26 @@ namespace SEOMacroscope
       this.DisplayListView.Items.Clear();
       this.DisplayListView.Columns.Clear();
 
+      this.DisplayListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
+      this.DisplayListView.Columns.Add( MacroscopeConstants.StatusCode, MacroscopeConstants.StatusCode );      
+      this.DisplayListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
+
+      this.FilterColOffset = this.DisplayListView.Columns.Count - 1;
+
+      for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
       {
 
-        int FilterColCount = 1;
+        string FilterPattern = CustomFilter.GetPattern( Slot ).Key;
 
-        this.DisplayListView.Columns.Add( "URL", "URL" );
-       
-        for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
+        this.DisplayListView.Columns.Add( FilterPattern, FilterPattern );
+
+        if( FilterColsTable.ContainsKey( FilterPattern ) || string.IsNullOrEmpty( FilterPattern ) )
         {
-          string FilterPattern = CustomFilter.GetPattern( Slot ).Key;
-          this.DisplayListView.Columns.Add( FilterPattern, FilterPattern );
-          if( FilterColsTable.ContainsKey( FilterPattern ) )
-          {
-            FilterColsTable.Add( string.Format( "EMPTY{0}", FilterColCount ), FilterColCount );
-          }
-          else
-          {
-            FilterColsTable.Add( FilterPattern, FilterColCount );
-          }
-          FilterColCount++;
+          FilterColsTable.Add( string.Format( "EMPTY{0}", Slot + 1 ), Slot + this.FilterColOffset );
+        }
+        else
+        {
+          FilterColsTable.Add( FilterPattern, Slot + this.FilterColOffset );
         }
 
       }
@@ -120,10 +126,11 @@ namespace SEOMacroscope
     public void RefreshData (
       MacroscopeDocumentCollection DocCollection,
       List<string> UrlList,
-      MacroscopeCustomFilter CustomFilter
+      MacroscopeCustomFilters CustomFilter
 
     )
     {
+
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -155,6 +162,7 @@ namespace SEOMacroscope
         this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
+      
     }
    
     /**************************************************************************/
@@ -162,9 +170,14 @@ namespace SEOMacroscope
     private void RenderListView (
       MacroscopeDocumentCollection DocCollection,
       List<string> UrlList,
-      MacroscopeCustomFilter CustomFilter
+      MacroscopeCustomFilters CustomFilter
     )
     {
+
+      if( this.FilterColOffset == -1 )
+      {
+        throw( new Exception ( "this.FilterColOffset invalid" ) );
+      }
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       Dictionary<string,int> FilterColsTable = new Dictionary<string,int> ( CustomFilter.GetSize() );
@@ -193,23 +206,17 @@ namespace SEOMacroscope
 
       }
 
+      for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
       {
+        string FilterPattern = CustomFilter.GetPattern( Slot ).Key;
 
-        int FilterColCount = 1;
-
-        for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
+        if( FilterColsTable.ContainsKey( FilterPattern ) )
         {
-          string FilterPattern = CustomFilter.GetPattern( Slot ).Key;
-
-          if( FilterColsTable.ContainsKey( FilterPattern ) )
-          {
-            FilterColsTable.Add( string.Format( "EMPTY{0}", FilterColCount ), FilterColCount );
-          }
-          else
-          {
-            FilterColsTable.Add( FilterPattern, FilterColCount );
-          }
-          FilterColCount++;
+          FilterColsTable.Add( string.Format( "EMPTY{0}", Slot + 1 ), Slot + 1 );
+        }
+        else
+        {
+          FilterColsTable.Add( FilterPattern, Slot + 1 );
         }
 
       }
@@ -220,18 +227,21 @@ namespace SEOMacroscope
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
         Boolean Proceed = false;
 
-        if( msDoc == null ) {
+        if( msDoc == null )
+        {
           continue;
         }
 
         if( msDoc.GetIsInternal() )
         {
-
           if( msDoc.GetIsHtml() )
           {
             Proceed = true;
           }
-
+          if( msDoc.GetIsRedirect() )
+          {
+            Proceed = false;
+          }
         }
 
         if( Proceed )
@@ -240,6 +250,8 @@ namespace SEOMacroscope
           ListViewItem lvItem = null;
           string DocUrl = msDoc.GetUrl();
           string PairKey = DocUrl;
+          string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+          string Status = msDoc.GetStatusCode().ToString();
 
           if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
@@ -254,6 +266,8 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
+            lvItem.SubItems.Add( "" );
+            lvItem.SubItems.Add( "" );
             lvItem.SubItems.Add( "" );
 
             for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
@@ -271,7 +285,9 @@ namespace SEOMacroscope
             try
             {
 
-              lvItem.SubItems[ 0 ].Text = DocUrl;
+              lvItem.SubItems[ ColUrl ].Text = DocUrl;
+              lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
+              lvItem.SubItems[ ColStatus ].Text = Status;
 
               for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
               {
@@ -279,17 +295,35 @@ namespace SEOMacroscope
                 string FilterPattern = CustomFilter.GetPattern( Slot: Slot ).Key;
                 KeyValuePair<string, MacroscopeConstants.TextPresence> Pair = msDoc.GetCustomFilteredItem( Text: FilterPattern );
                 string CustomFilterItemValue;
+                int ColOffset = this.FilterColOffset + FilterColsTable[ FilterPattern ];
 
                 if( ( Pair.Key != null ) && ( Pair.Value != MacroscopeConstants.TextPresence.UNDEFINED ) )
                 {
-                  CustomFilterItemValue = Pair.Value.ToString();
-                }
-                else
-                {
-                  CustomFilterItemValue = "";
-                }
 
-                lvItem.SubItems[ FilterColsTable[ FilterPattern ] ].Text = CustomFilterItemValue;
+                  CustomFilterItemValue = Pair.Value.ToString();
+
+                  lvItem.SubItems[ ColOffset ].Text = CustomFilterItemValue;
+
+                  switch( Pair.Value )
+                  {
+                    case MacroscopeConstants.TextPresence.CONTAINS:
+                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Green;
+                      break;
+                    case MacroscopeConstants.TextPresence.NOTCONTAINS:
+                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Green;
+                      break;
+                    case MacroscopeConstants.TextPresence.MUSTCONTAIN:
+                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Red;
+                      break;
+                    case MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN:
+                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Red;
+                      break;
+                    default:
+                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Gray;
+                      break;
+                  }
+
+                }
 
               }
 
@@ -304,6 +338,38 @@ namespace SEOMacroscope
           else
           {
             DebugMsg( string.Format( "MacroscopeDisplayCustomFilters MISSING: {0}", PairKey ) );
+          }
+
+          if( msDoc.GetIsInternal() )
+          {
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
+          }          
+
+          if( Regex.IsMatch( StatusCode, "^[2]" ) )
+          {
+            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColStatus ].ForeColor = Color.Green;
+          }
+          else
+          if( Regex.IsMatch( StatusCode, "^[3]" ) )
+          {
+            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Goldenrod;
+            lvItem.SubItems[ ColStatus ].ForeColor = Color.Goldenrod;
+          }
+          else
+          if( Regex.IsMatch( StatusCode, "^[45]" ) )
+          {
+            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColStatus ].ForeColor = Color.Red;
+          }
+          else
+          {
+            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Blue;
+            lvItem.SubItems[ ColStatus ].ForeColor = Color.Blue;
           }
 
         }
@@ -330,7 +396,9 @@ namespace SEOMacroscope
 
       this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
 
-      this.DisplayListView.Columns[ "URL" ].Width = 300;
+      this.DisplayListView.Columns[ ColUrl ].Width = 300;
+      this.DisplayListView.Columns[ ColStatusCode ].Width = 100;
+      this.DisplayListView.Columns[ ColStatus ].Width = 100;
 
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {

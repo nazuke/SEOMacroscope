@@ -91,7 +91,7 @@ namespace SEOMacroscope
 
     MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
     MacroscopeXpathRestrictions XpathRestrictions;
-    MacroscopeCustomFilter CustomFilter;
+    MacroscopeCustomFilters CustomFilter;
 
     private static object LockerOverviewTabPages = new object ();
     private static object LockerDocumentDetailsDisplay = new object ();
@@ -130,7 +130,7 @@ namespace SEOMacroscope
 
       this.XpathRestrictions = new MacroscopeXpathRestrictions ();
 
-      this.CustomFilter = new MacroscopeCustomFilter ( 5 );
+      this.CustomFilter = new MacroscopeCustomFilters ( 5 );
       this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
 
       this.StartUrlDirty = false;
@@ -183,6 +183,7 @@ namespace SEOMacroscope
       this.msDisplayCanonical = new MacroscopeDisplayCanonical ( this, this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
       this.msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
       this.msDisplayErrors = new MacroscopeDisplayErrors ( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
+      this.msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
       this.msDisplayRedirectsAudit = new MacroscopeDisplayRedirectsAudit ( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit );
 
       this.msDisplayLinks = new MacroscopeDisplayLinks ( this, this.macroscopeOverviewTabPanelInstance.listViewLinks );
@@ -201,7 +202,7 @@ namespace SEOMacroscope
       this.msDisplayVideos = new MacroscopeDisplayVideos ( this, this.macroscopeOverviewTabPanelInstance.listViewVideos );
       this.msDisplayEmailAddresses = new MacroscopeDisplayEmailAddresses ( this, this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses );
       this.msDisplayTelephoneNumbers = new MacroscopeDisplayTelephoneNumbers ( this, this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers );
-      this.msDisplayHostnames = new MacroscopeDisplayHostnames ( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
+
 
       this.msDisplayCustomFilters = new MacroscopeDisplayCustomFilters ( this, this.macroscopeOverviewTabPanelInstance.listViewCustomFilters );
       this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
@@ -262,6 +263,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewVideos.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewCustomFilters.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewHistory.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
       // listViewSearchCollection
@@ -272,6 +274,7 @@ namespace SEOMacroscope
 
       // Context Menu Events
 
+      this.macroscopeOverviewTabPanelInstance.toolStripMenuItemCopyUrl.Click += this.CallbackCopyUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripMenuItemOpenInBrowser.Click += this.CallbackOpenInBrowserClick;
       this.macroscopeOverviewTabPanelInstance.toolStripMenuItemAddHostToAllowedHosts.Click += this.CallbackAddToAllowedHosts;
       this.macroscopeOverviewTabPanelInstance.toolStripMenuItemRemoveFromAllowedHosts.Click += this.CallbackRemoveFromAllowedHosts;
@@ -910,9 +913,6 @@ namespace SEOMacroscope
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
           );
-          
-          
-          
           break;
 
         case "tabPageHierarchy":
@@ -955,6 +955,12 @@ namespace SEOMacroscope
           );
           break;
 
+        case "tabPageHostnames":
+          this.msDisplayHostnames.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection()
+          );
+          break;
+          
         case "tabPageRedirectsAudit":
           this.msDisplayRedirectsAudit.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection()
@@ -1060,12 +1066,6 @@ namespace SEOMacroscope
 
         case "tabPageTelephoneNumbers":
           this.msDisplayTelephoneNumbers.RefreshData(
-            DocCollection: this.JobMaster.GetDocCollection()
-          );
-          break;
-
-        case "tabPageHostnames":
-          this.msDisplayHostnames.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
@@ -1369,6 +1369,81 @@ namespace SEOMacroscope
         this.RerunScanQueue();
       }
 
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackCopyUrlClick ( object sender, EventArgs e )
+    {
+
+      ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
+      ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
+      ListView TargetListView = msOwner.SourceControl as ListView;
+      string Url = "NONE";
+      int UrlColumn = -1;
+
+      lock( TargetListView )
+      {
+        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
+        {
+          
+          if( TargetListView.Columns[ i ].Text == "URL" )
+          {
+            UrlColumn = i;
+            break;
+          }
+          else
+          if( TargetListView.Columns[ i ].Text == "Source URL" )
+          {
+            UrlColumn = i;
+            break;
+          }
+                    
+        }
+        if( UrlColumn > -1 )
+        {
+          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
+          {
+            Url = lvItem.SubItems[ UrlColumn ].Text;
+          }
+        }
+        else
+        {
+          MessageBox.Show( "URL column not found" );
+        }
+      }
+
+      if( Url != null )
+      {
+        this.CopyTextToClipboard( Text: Url );
+      }
+
+    }
+
+    /** Clipboard *************************************************************/
+
+    public void CopyTextToClipboard ( string Text )
+    {
+      
+      int Count = 10;
+      
+      while( Count > 0 )
+      {
+      
+        try
+        {
+          Clipboard.SetText( Text );
+          break;
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( ex.Message );
+        }
+        
+        Count--;
+      
+      }
+    
     }
 
     /** EXTERNAL BROWSER ******************************************************/
@@ -2095,14 +2170,7 @@ namespace SEOMacroscope
       this.JobMaster.RetryTimedOutLinks();
       this.RerunScanQueue();
     }
-
-    /**************************************************************************/
-
-    private void CopyTextToClipboard ( string sText )
-    {
-      Clipboard.SetText( sText );
-    }
-
+   
     /** Load List *************************************************************/
 
     private void CallbackLoadUrlListTextFile ( object sender, EventArgs e )

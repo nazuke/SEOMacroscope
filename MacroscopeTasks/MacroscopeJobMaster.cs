@@ -57,7 +57,7 @@ namespace SEOMacroscope
     private MacroscopeRobots Robots;
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
-    private MacroscopeCustomFilter CustomFilter;
+    private MacroscopeCustomFilters CustomFilter;
 
     private int CrawlDelay;
     private int ThreadsMax;
@@ -293,12 +293,12 @@ namespace SEOMacroscope
 
     /** Custom Filter *********************************************************/
 
-    public void SetCustomFilter ( MacroscopeCustomFilter NewCustomFilter )
+    public void SetCustomFilter ( MacroscopeCustomFilters NewCustomFilter )
     {
       this.CustomFilter = NewCustomFilter;
     }
 
-    public MacroscopeCustomFilter GetCustomFilter ()
+    public MacroscopeCustomFilters GetCustomFilter ()
     {
       return( this.CustomFilter );
     }

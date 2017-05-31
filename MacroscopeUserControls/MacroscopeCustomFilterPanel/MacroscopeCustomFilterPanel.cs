@@ -42,7 +42,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    MacroscopeCustomFilter CustomFilter;
+    MacroscopeCustomFilters CustomFilter;
 
     /**************************************************************************/
 	      
@@ -61,7 +61,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    public void SetCustomFilter ( MacroscopeCustomFilter NewCustomFilter )
+    public void SetCustomFilter ( MacroscopeCustomFilters NewCustomFilter )
     {
 
       this.CustomFilter = NewCustomFilter;
@@ -91,15 +91,19 @@ namespace SEOMacroscope
 
           switch( Pair.Value )
           {
+
             case MacroscopeConstants.Contains.MUSTHAVE:
-              comboBoxFilter.SelectedIndex = 0;
-              break;
-            case MacroscopeConstants.Contains.MUSTNOTHAVE:
               comboBoxFilter.SelectedIndex = 1;
               break;
+
+            case MacroscopeConstants.Contains.MUSTNOTHAVE:
+              comboBoxFilter.SelectedIndex = 2;
+              break;
+
             default:
               comboBoxFilter.SelectedIndex = 0;
               break;
+
           }
 
           textBoxFilter.Text = Pair.Key;
@@ -121,7 +125,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeCustomFilter GetCustomFilter ()
+    public MacroscopeCustomFilters GetCustomFilter ()
     {
 
       int Max = this.CustomFilter.GetSize();
@@ -144,22 +148,31 @@ namespace SEOMacroscope
 
         switch( comboBoxFilter.SelectedIndex )
         {
-          case 0:
+
+          case 1:
             this.CustomFilter.SetPattern(
               Slot: Slot, 
               Text: textBoxFilter.Text, 
               ContainsSetting: MacroscopeConstants.Contains.MUSTHAVE
             );
             break;
-          case 1:
+
+          case 2:
             this.CustomFilter.SetPattern(
               Slot: Slot, 
               Text: textBoxFilter.Text, 
               ContainsSetting: MacroscopeConstants.Contains.MUSTNOTHAVE
             );
             break;
+
           default:
+            this.CustomFilter.SetPattern(
+              Slot: Slot, 
+              Text: "", 
+              ContainsSetting: MacroscopeConstants.Contains.UNDEFINED
+            );
             break;
+
         }
 
       }
@@ -185,6 +198,36 @@ namespace SEOMacroscope
 
     }
        
+    /**************************************************************************/
+    
+    public void ClearCustomFilterForm ()
+    {
+
+      int Max = this.CustomFilter.GetSize();
+      
+      for( int Slot = 0 ; Slot < Max ; Slot++ )
+      {
+      
+        TextBox textBoxFilter;
+        ComboBox comboBoxFilter;
+          
+        textBoxFilter = this.Controls.Find(
+          string.Format( "textBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+          
+        comboBoxFilter = this.Controls.Find(
+          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as ComboBox;
+
+        comboBoxFilter.SelectedIndex = 0;
+        textBoxFilter.Text = "";
+
+      }
+
+    }
+    
     /**************************************************************************/
     
   }

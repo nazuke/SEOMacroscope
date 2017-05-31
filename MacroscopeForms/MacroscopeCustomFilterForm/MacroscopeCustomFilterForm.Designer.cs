@@ -36,6 +36,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.Button buttonOK;
 		private SEOMacroscope.MacroscopeCustomFilterPanel customFilterPanelInstance;
+		private System.Windows.Forms.Button buttonClear;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -62,6 +63,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonOK = new System.Windows.Forms.Button();
+			this.buttonClear = new System.Windows.Forms.Button();
 			this.customFilterPanelInstance = new SEOMacroscope.MacroscopeCustomFilterPanel();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -87,6 +89,7 @@ namespace SEOMacroscope
 			// 
 			this.flowLayoutPanel1.Controls.Add(this.buttonCancel);
 			this.flowLayoutPanel1.Controls.Add(this.buttonOK);
+			this.flowLayoutPanel1.Controls.Add(this.buttonClear);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 305);
@@ -94,6 +97,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(638, 54);
 			this.flowLayoutPanel1.TabIndex = 1;
+			this.flowLayoutPanel1.WrapContents = false;
 			// 
 			// buttonCancel
 			// 
@@ -114,6 +118,17 @@ namespace SEOMacroscope
 			this.buttonOK.TabIndex = 1;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
+			// 
+			// buttonClear
+			// 
+			this.buttonClear.Location = new System.Drawing.Point(21, 13);
+			this.buttonClear.Margin = new System.Windows.Forms.Padding(3, 3, 360, 3);
+			this.buttonClear.Name = "buttonClear";
+			this.buttonClear.Size = new System.Drawing.Size(75, 23);
+			this.buttonClear.TabIndex = 3;
+			this.buttonClear.Text = "Clear";
+			this.buttonClear.UseVisualStyleBackColor = true;
+			this.buttonClear.Click += new System.EventHandler(this.ClearCustomFilterForm);
 			// 
 			// customFilterPanelInstance
 			// 

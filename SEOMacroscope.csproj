@@ -101,8 +101,8 @@
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageDescriptions.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
-    <Compile Include="MacroscopeCustomFilter\MacroscopeCustomFilter.cs" />
-    <Compile Include="MacroscopeCustomFilter\t\TestMacroscopeCustomFilter.cs" />
+    <Compile Include="MacroscopeCustomFilters\MacroscopeCustomFilters.cs" />
+    <Compile Include="MacroscopeCustomFilters\t\TestMacroscopeCustomFilters.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentText.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
@@ -159,6 +159,8 @@
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.Designer.cs">
       <DependentUpon>MacroscopeDoublePercentageProgressForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeReports\MacroscopeCustomFilterReport\MacroscopeCustomFilterReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCustomFilterReport\WorksheetCustomFilter.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeCustomFilterPanel\MacroscopeCustomFilterPanel.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeCustomFilterPanel\MacroscopeCustomFilterPanel.Designer.cs">
       <DependentUpon>MacroscopeCustomFilterPanel.cs</DependentUpon>
@@ -448,7 +450,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MacroscopeAnalysis\t" />
-    <Folder Include="MacroscopeCustomFilter\t" />
+    <Folder Include="MacroscopeCustomFilters\t" />
     <Folder Include="MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\MacroscopeDocument" />
     <Folder Include="MacroscopeDocument\t" />
@@ -484,6 +486,7 @@
     <Folder Include="MacroscopeReports\MaroscopeExcelRemarksReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelOverviewReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelErrorsReport" />
+    <Folder Include="MacroscopeReports\MacroscopeCustomFilterReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\MacroscopeXpathRestrictions" />
@@ -508,7 +511,7 @@
     <Folder Include="MacroscopeNamedQueue" />
     <Folder Include="MacroscopeExceptions" />
     <Folder Include="MacroscopeUserControls\MacroscopeCustomFilterPanel" />
-    <Folder Include="MacroscopeCustomFilter" />
+    <Folder Include="MacroscopeCustomFilters" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProfilingSessions\Session20170425_184329.sdps" />

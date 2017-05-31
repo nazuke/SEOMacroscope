@@ -95,9 +95,10 @@ namespace SEOMacroscope
 			this.comboBoxFilter1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter1.FormattingEnabled = true;
 			this.comboBoxFilter1.Items.AddRange(new object[] {
+			"No action",
 			"Must have",
 			"Must not have"});
-			this.comboBoxFilter1.Location = new System.Drawing.Point(123, 3);
+			this.comboBoxFilter1.Location = new System.Drawing.Point(103, 3);
 			this.comboBoxFilter1.Name = "comboBoxFilter1";
 			this.comboBoxFilter1.Size = new System.Drawing.Size(113, 21);
 			this.comboBoxFilter1.TabIndex = 0;
@@ -105,9 +106,9 @@ namespace SEOMacroscope
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.ColumnCount = 3;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.Controls.Add(this.textBoxFilter5, 2, 4);
 			this.tableLayoutPanel1.Controls.Add(this.textBoxFilter4, 2, 3);
 			this.tableLayoutPanel1.Controls.Add(this.textBoxFilter3, 2, 2);
@@ -137,34 +138,46 @@ namespace SEOMacroscope
 			// textBoxFilter5
 			// 
 			this.textBoxFilter5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxFilter5.Location = new System.Drawing.Point(243, 195);
+			this.textBoxFilter5.HideSelection = false;
+			this.textBoxFilter5.Location = new System.Drawing.Point(233, 195);
+			this.textBoxFilter5.MaxLength = 256;
 			this.textBoxFilter5.Name = "textBoxFilter5";
-			this.textBoxFilter5.Size = new System.Drawing.Size(354, 20);
-			this.textBoxFilter5.TabIndex = 14;
+			this.textBoxFilter5.Size = new System.Drawing.Size(364, 20);
+			this.textBoxFilter5.TabIndex = 9;
+			this.textBoxFilter5.WordWrap = false;
 			// 
 			// textBoxFilter4
 			// 
 			this.textBoxFilter4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxFilter4.Location = new System.Drawing.Point(243, 147);
+			this.textBoxFilter4.HideSelection = false;
+			this.textBoxFilter4.Location = new System.Drawing.Point(233, 147);
+			this.textBoxFilter4.MaxLength = 256;
 			this.textBoxFilter4.Name = "textBoxFilter4";
-			this.textBoxFilter4.Size = new System.Drawing.Size(354, 20);
-			this.textBoxFilter4.TabIndex = 13;
+			this.textBoxFilter4.Size = new System.Drawing.Size(364, 20);
+			this.textBoxFilter4.TabIndex = 7;
+			this.textBoxFilter4.WordWrap = false;
 			// 
 			// textBoxFilter3
 			// 
 			this.textBoxFilter3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxFilter3.Location = new System.Drawing.Point(243, 99);
+			this.textBoxFilter3.HideSelection = false;
+			this.textBoxFilter3.Location = new System.Drawing.Point(233, 99);
+			this.textBoxFilter3.MaxLength = 256;
 			this.textBoxFilter3.Name = "textBoxFilter3";
-			this.textBoxFilter3.Size = new System.Drawing.Size(354, 20);
-			this.textBoxFilter3.TabIndex = 12;
+			this.textBoxFilter3.Size = new System.Drawing.Size(364, 20);
+			this.textBoxFilter3.TabIndex = 5;
+			this.textBoxFilter3.WordWrap = false;
 			// 
 			// textBoxFilter2
 			// 
 			this.textBoxFilter2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxFilter2.Location = new System.Drawing.Point(243, 51);
+			this.textBoxFilter2.HideSelection = false;
+			this.textBoxFilter2.Location = new System.Drawing.Point(233, 51);
+			this.textBoxFilter2.MaxLength = 256;
 			this.textBoxFilter2.Name = "textBoxFilter2";
-			this.textBoxFilter2.Size = new System.Drawing.Size(354, 20);
-			this.textBoxFilter2.TabIndex = 11;
+			this.textBoxFilter2.Size = new System.Drawing.Size(364, 20);
+			this.textBoxFilter2.TabIndex = 3;
+			this.textBoxFilter2.WordWrap = false;
 			// 
 			// label1
 			// 
@@ -174,7 +187,7 @@ namespace SEOMacroscope
 			this.label1.Location = new System.Drawing.Point(3, 0);
 			this.label1.Name = "label1";
 			this.label1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-			this.label1.Size = new System.Drawing.Size(114, 48);
+			this.label1.Size = new System.Drawing.Size(94, 48);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Custom Filter 1";
 			// 
@@ -186,7 +199,7 @@ namespace SEOMacroscope
 			this.label2.Location = new System.Drawing.Point(3, 48);
 			this.label2.Name = "label2";
 			this.label2.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-			this.label2.Size = new System.Drawing.Size(114, 48);
+			this.label2.Size = new System.Drawing.Size(94, 48);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Custom Filter 2";
 			// 
@@ -198,7 +211,7 @@ namespace SEOMacroscope
 			this.label3.Location = new System.Drawing.Point(3, 96);
 			this.label3.Name = "label3";
 			this.label3.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-			this.label3.Size = new System.Drawing.Size(114, 48);
+			this.label3.Size = new System.Drawing.Size(94, 48);
 			this.label3.TabIndex = 3;
 			this.label3.Text = "Custom Filter 3";
 			// 
@@ -210,7 +223,7 @@ namespace SEOMacroscope
 			this.label4.Location = new System.Drawing.Point(3, 144);
 			this.label4.Name = "label4";
 			this.label4.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-			this.label4.Size = new System.Drawing.Size(114, 48);
+			this.label4.Size = new System.Drawing.Size(94, 48);
 			this.label4.TabIndex = 4;
 			this.label4.Text = "Custom Filter 4";
 			// 
@@ -222,7 +235,7 @@ namespace SEOMacroscope
 			this.label5.Location = new System.Drawing.Point(3, 192);
 			this.label5.Name = "label5";
 			this.label5.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-			this.label5.Size = new System.Drawing.Size(114, 48);
+			this.label5.Size = new System.Drawing.Size(94, 48);
 			this.label5.TabIndex = 5;
 			this.label5.Text = "Custom Filter 5";
 			// 
@@ -231,56 +244,63 @@ namespace SEOMacroscope
 			this.comboBoxFilter2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter2.FormattingEnabled = true;
 			this.comboBoxFilter2.Items.AddRange(new object[] {
+			"No action",
 			"Must have",
 			"Must not have"});
-			this.comboBoxFilter2.Location = new System.Drawing.Point(123, 51);
+			this.comboBoxFilter2.Location = new System.Drawing.Point(103, 51);
 			this.comboBoxFilter2.Name = "comboBoxFilter2";
 			this.comboBoxFilter2.Size = new System.Drawing.Size(113, 21);
-			this.comboBoxFilter2.TabIndex = 6;
+			this.comboBoxFilter2.TabIndex = 2;
 			// 
 			// comboBoxFilter3
 			// 
 			this.comboBoxFilter3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter3.FormattingEnabled = true;
 			this.comboBoxFilter3.Items.AddRange(new object[] {
+			"No action",
 			"Must have",
 			"Must not have"});
-			this.comboBoxFilter3.Location = new System.Drawing.Point(123, 99);
+			this.comboBoxFilter3.Location = new System.Drawing.Point(103, 99);
 			this.comboBoxFilter3.Name = "comboBoxFilter3";
 			this.comboBoxFilter3.Size = new System.Drawing.Size(113, 21);
-			this.comboBoxFilter3.TabIndex = 7;
+			this.comboBoxFilter3.TabIndex = 4;
 			// 
 			// comboBoxFilter4
 			// 
 			this.comboBoxFilter4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter4.FormattingEnabled = true;
 			this.comboBoxFilter4.Items.AddRange(new object[] {
+			"No action",
 			"Must have",
 			"Must not have"});
-			this.comboBoxFilter4.Location = new System.Drawing.Point(123, 147);
+			this.comboBoxFilter4.Location = new System.Drawing.Point(103, 147);
 			this.comboBoxFilter4.Name = "comboBoxFilter4";
 			this.comboBoxFilter4.Size = new System.Drawing.Size(113, 21);
-			this.comboBoxFilter4.TabIndex = 8;
+			this.comboBoxFilter4.TabIndex = 6;
 			// 
 			// comboBoxFilter5
 			// 
 			this.comboBoxFilter5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFilter5.FormattingEnabled = true;
 			this.comboBoxFilter5.Items.AddRange(new object[] {
+			"No action",
 			"Must have",
 			"Must not have"});
-			this.comboBoxFilter5.Location = new System.Drawing.Point(123, 195);
+			this.comboBoxFilter5.Location = new System.Drawing.Point(103, 195);
 			this.comboBoxFilter5.Name = "comboBoxFilter5";
 			this.comboBoxFilter5.Size = new System.Drawing.Size(113, 21);
-			this.comboBoxFilter5.TabIndex = 9;
+			this.comboBoxFilter5.TabIndex = 8;
 			// 
 			// textBoxFilter1
 			// 
 			this.textBoxFilter1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxFilter1.Location = new System.Drawing.Point(243, 3);
+			this.textBoxFilter1.HideSelection = false;
+			this.textBoxFilter1.Location = new System.Drawing.Point(233, 3);
+			this.textBoxFilter1.MaxLength = 256;
 			this.textBoxFilter1.Name = "textBoxFilter1";
-			this.textBoxFilter1.Size = new System.Drawing.Size(354, 20);
-			this.textBoxFilter1.TabIndex = 10;
+			this.textBoxFilter1.Size = new System.Drawing.Size(364, 20);
+			this.textBoxFilter1.TabIndex = 1;
+			this.textBoxFilter1.WordWrap = false;
 			// 
 			// label6
 			// 

@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeCustomFilterForm ( MacroscopeCustomFilter CustomFilter )
+    public MacroscopeCustomFilterForm ( MacroscopeCustomFilters CustomFilter )
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
@@ -50,19 +50,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void CallbackCustomFilterShown ( object sender, EventArgs e )
+    public MacroscopeCustomFilters GetCustomFilter ()
     {
+      return( this.customFilterPanelInstance.GetCustomFilter() );
     }
 
     /**************************************************************************/
 
-
-    public MacroscopeCustomFilter GetCustomFilter ()
+    public void ClearCustomFilterForm ( object sender, EventArgs e )
     {
-      return( this.customFilterPanelInstance.GetCustomFilter() );
+      this.customFilterPanelInstance.ClearCustomFilterForm();
     }
-   
-   
+
     /**************************************************************************/
 
   }

@@ -601,6 +601,59 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackSaveCustomFilterExcelReport ( object sender, EventArgs e )
+    {
+
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Custom-Filters.xlsx";
+
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+
+        string Path = Dialog.FileName;
+        MacroscopeExcelCustomFilterReport msExcelReport = new MacroscopeExcelCustomFilterReport ( NewCustomFilter: this.CustomFilter );
+
+        try
+        {
+          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Custom Filters Excel Report", ex.Message );       
+          GC.Collect();
+        }
+        catch( MacroscopeSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Custom Filters Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Custom Filters Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
+        }
+
+      }
+
+      Dialog.Dispose();
+
+    }
+
     /**************************************************************************/
 
   }

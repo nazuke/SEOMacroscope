@@ -160,7 +160,7 @@ namespace SEOMacroscope
         if( !string.IsNullOrEmpty( RawData ) )
         {
           
-          MacroscopeCustomFilter CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
+          MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
 
           if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
           {
@@ -1373,7 +1373,7 @@ namespace SEOMacroscope
     /** Process Custom Filtered *********************************************/
 
     private void ProcessHtmlCustomFiltered (
-      MacroscopeCustomFilter CustomFilter,
+      MacroscopeCustomFilters CustomFilter,
       string HtmlText
     )
     {

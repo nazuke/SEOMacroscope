@@ -91,6 +91,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem customFiltersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+		private System.Windows.Forms.ToolStripMenuItem customFiltersExcelReportToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -174,6 +175,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
+			this.customFiltersExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -352,7 +354,8 @@ namespace SEOMacroscope
 			this.duplicateContentExcelReportToolStripMenuItem,
 			this.generateHrefLangExcelReportToolStripMenuItem,
 			this.contactDetailsExcelReportToolStripMenuItem,
-			this.remarksExcelReportToolStripMenuItem});
+			this.remarksExcelReportToolStripMenuItem,
+			this.customFiltersExcelReportToolStripMenuItem});
 			this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
 			this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
 			this.reportsToolStripMenuItem.Text = "Reports";
@@ -732,6 +735,13 @@ namespace SEOMacroscope
 			this.macroscopeSiteStructurePanelInstance.Name = "macroscopeSiteStructurePanelInstance";
 			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
+			// 
+			// customFiltersExcelReportToolStripMenuItem
+			// 
+			this.customFiltersExcelReportToolStripMenuItem.Name = "customFiltersExcelReportToolStripMenuItem";
+			this.customFiltersExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.customFiltersExcelReportToolStripMenuItem.Text = "Custom Filters Excel Report";
+			this.customFiltersExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveCustomFilterExcelReport);
 			// 
 			// MacroscopeMainForm
 			// 

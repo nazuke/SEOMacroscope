@@ -67,6 +67,7 @@ namespace SEOMacroscope
       this.listViewCanonicalAnalysis.Dock = DockStyle.Fill;
       this.listViewHrefLang.Dock = DockStyle.Fill;
       this.listViewErrors.Dock = DockStyle.Fill;
+      this.listViewHostnames.Dock = DockStyle.Fill;
       this.listViewRedirectsAudit.Dock = DockStyle.Fill;
       
       this.tableLayoutPanelLinks.Dock = DockStyle.Fill;
@@ -88,10 +89,7 @@ namespace SEOMacroscope
       this.listViewVideos.Dock = DockStyle.Fill;
       this.listViewEmailAddresses.Dock = DockStyle.Fill;
       this.listViewTelephoneNumbers.Dock = DockStyle.Fill;
-
       this.listViewCustomFilters.Dock = DockStyle.Fill;
-
-      this.listViewHostnames.Dock = DockStyle.Fill;
       this.listViewUriQueue.Dock = DockStyle.Fill;
       this.listViewHistory.Dock = DockStyle.Fill;
 
@@ -107,6 +105,7 @@ namespace SEOMacroscope
       this.listViewCanonicalAnalysis.ColumnClick += this.CallbackColumnClick;
       this.listViewHrefLang.ColumnClick += this.CallbackColumnClick;
       this.listViewErrors.ColumnClick += this.CallbackColumnClick;
+      this.listViewHostnames.ColumnClick += this.CallbackColumnClick;
       this.listViewRedirectsAudit.ColumnClick += this.CallbackColumnClick;
       this.listViewLinks.ColumnClick += this.CallbackColumnClick;
       this.listViewHyperlinks.ColumnClick += this.CallbackColumnClick;
@@ -123,11 +122,7 @@ namespace SEOMacroscope
       this.listViewVideos.ColumnClick += this.CallbackColumnClick;
       this.listViewEmailAddresses.ColumnClick += this.CallbackColumnClick;
       this.listViewTelephoneNumbers.ColumnClick += this.CallbackColumnClick;
-
       this.listViewCustomFilters.ColumnClick += this.CallbackColumnClick;
-
-      this.listViewHostnames.ColumnClick += this.CallbackColumnClick;
-
       this.listViewUriQueue.ColumnClick += this.CallbackColumnClick;
       this.listViewHistory.ColumnClick += this.CallbackColumnClick;
       this.listViewSearchCollection.ColumnClick += this.CallbackColumnClick;
