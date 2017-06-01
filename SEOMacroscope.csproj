@@ -108,6 +108,7 @@
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeInsufficientMemoryException.cs" />
+    <Compile Include="MacroscopeExceptions\MacroscopeNamedQueueException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeSaveExcelFileException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeUriFormatException.cs" />
     <Compile Include="MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.cs" />

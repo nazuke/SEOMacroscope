@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
@@ -258,6 +259,21 @@ namespace SEOMacroscope
       MUSTNOTHAVE = 2
     }
 
+    public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () {
+      {
+        MacroscopeConstants.Contains.UNDEFINED,
+        "UNDEFINED"
+      },
+      {
+        MacroscopeConstants.Contains.MUSTHAVE,
+        "MUST HAVE STRING"
+      },
+      {
+        MacroscopeConstants.Contains.MUSTNOTHAVE,
+        "MUST NOT HAVE STRING"
+      }
+    };
+
     public enum TextPresence
     {
       UNDEFINED = 0,
@@ -266,6 +282,29 @@ namespace SEOMacroscope
       NOTCONTAINS = 3,
       SHOULDNOTCONTAIN = 4
     }
+
+    public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () {
+      {
+        MacroscopeConstants.TextPresence.UNDEFINED,
+        "UNDEFINED"
+      },
+      {
+        MacroscopeConstants.TextPresence.CONTAINS,
+        "CONTAINS STRING"
+      },
+      {
+        MacroscopeConstants.TextPresence.MUSTCONTAIN,
+        "MUST CONTAIN STRING"
+      },
+      {
+        MacroscopeConstants.TextPresence.NOTCONTAINS,
+        "DOES NOT CONTAIN STRING"
+      },
+      {
+        MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN,
+        "SHOULD NOT CONTAIN STRING"
+      }
+    };
 
     /** END: Contains *********************************************************/
 

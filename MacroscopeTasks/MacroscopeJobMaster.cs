@@ -173,11 +173,13 @@ namespace SEOMacroscope
       this.NamedQueue = new MacroscopeNamedQueue ();
       {
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueUrlList );
+        this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors );
+        this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayLinks );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHyperlinks );
@@ -195,13 +197,7 @@ namespace SEOMacroscope
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses );
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
-        this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames );
-        
-        
         this.NamedQueue.CreateNamedQueue( MacroscopeConstants.NamedQueueDisplayCustomFilters );
-        
-        
-        
       }
       // END: Named Queues
 
@@ -598,6 +594,7 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayRedirectsAudit, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayLinks, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHyperlinks, Url );
@@ -615,11 +612,7 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, Url );
-      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHostnames, Url );
-      
-            NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCustomFilters, Url );
-
-      
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCustomFilters, Url );
     }
 
     /** -------------------------------------------------------------------- **/

@@ -30,7 +30,7 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Create and manage names queues.
+  /// Create and manage named queues.
   /// </summary>
 
   public class MacroscopeNamedQueue : Macroscope
@@ -54,69 +54,100 @@ namespace SEOMacroscope
 
     public Queue<string> CreateNamedQueue ( string Name )
     {
+
       Queue<string> NamedQueue;
+
       if( this.NamedQueues.ContainsKey( Name ) )
       {
         NamedQueue = this.NamedQueues[ Name ];
       }
       else
       {
+
         NamedQueue = new Queue<string> ( 4096 );
+
         lock( this.NamedQueues )
         {
+
           this.NamedQueues.Add( Name, NamedQueue );
+
           lock( this.NamedQueues[Name] )
           {
             Dictionary<string,Boolean> NamedQueueIndex = new Dictionary<string,Boolean> ( 4096 );
             this.NamedQueuesIndex.Add( Name, NamedQueueIndex );
           }
+
         }
+
       }
+
       return( NamedQueue );
+
     }
 
     /**************************************************************************/
 
     public void DeleteNamedQueue ( string Name )
     {
+
       if( this.NamedQueues.ContainsKey( Name ) )
       {
+
         lock( this.NamedQueues )
         {
+
           this.NamedQueues.Remove( Name );
+
           lock( this.NamedQueuesIndex )
           {
             this.NamedQueuesIndex.Remove( Name );
           }
+
         }
+
       }
+
     }
 
     /**************************************************************************/
 
     public Queue<string> AddToNamedQueue ( string Name, string Item )
     {
+
       Queue<string> NamedQueue;
+
       if( this.NamedQueues.ContainsKey( Name ) )
       {
         NamedQueue = this.NamedQueues[ Name ];
       }
       else
       {
-        NamedQueue = this.CreateNamedQueue( Name );
+        throw( new MacroscopeNamedQueueException ( string.Format( "Named queue \"{0}\" does not exist", Name ) ) );
       }
+
       lock( this.NamedQueues[Name] )
       {
-        if( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
+
+        if( !NamedQueue.Contains( Item ) )
         {
-          lock( this.NamedQueuesIndex[Name] )
+
+          if( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
           {
-            this.NamedQueuesIndex[ Name ].Add( Item, true );
-            NamedQueue.Enqueue( Item );
+
+            lock( this.NamedQueuesIndex[Name] )
+            {
+              this.NamedQueuesIndex[ Name ].Add( Item, true );
+              NamedQueue.Enqueue( Item );
+            }
+
           }
+        
         }
+
       }
+
       return( NamedQueue );
+
     }
 
     /**************************************************************************/
@@ -145,49 +176,69 @@ namespace SEOMacroscope
 
     public int CountNamedQueueItems ( string Name )
     {
+
       int Count = 0;
+
       if( this.NamedQueues.ContainsKey( Name ) )
       {
+
         lock( this.NamedQueues[Name] )
         {
+
           if( this.NamedQueues[ Name ].Count > 0 )
           {
             Count = this.NamedQueues[ Name ].Count;
           }
+
         }
+
       }
+
       return( Count );
+
     }
 
     /**************************************************************************/
 
     public void ClearAllNamedQueues ()
     {
+
       lock( this.NamedQueues )
       {
+
         lock( this.NamedQueuesIndex )
         {
+
           foreach( string Name in this.NamedQueues.Keys )
           {
             this.NamedQueues[ Name ].Clear();
             this.NamedQueuesIndex[ Name ].Clear();
           }
+
         }
+
       }
+
     }
 
     /**************************************************************************/
 
     public void ClearNamedQueue ( string Name )
     {
+
       lock( this.NamedQueues )
       {
+
         lock( this.NamedQueuesIndex )
         {
+
           this.NamedQueues[ Name ].Clear();
           this.NamedQueuesIndex[ Name ].Clear();
+
         }
+
       }
+
     }
 
     /**************************************************************************/
@@ -281,6 +332,7 @@ namespace SEOMacroscope
 
     public List<string> DrainNamedQueueItemsAsList ( string Name, int iLimit )
     {
+
       List<string> lItems = new List<string> ();
       int iCount = 0;
 
@@ -311,6 +363,7 @@ namespace SEOMacroscope
       }
 
       return( lItems );
+
     }
 
     /**************************************************************************/

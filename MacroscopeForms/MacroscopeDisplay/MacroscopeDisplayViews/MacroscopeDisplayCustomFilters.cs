@@ -225,153 +225,136 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
-        Boolean Proceed = false;
 
-        if( msDoc == null )
+        if(
+          ( msDoc == null )
+          || ( msDoc.GetIsRedirect() )
+          || ( !msDoc.GetIsInternal() )
+          || ( !msDoc.GetIsHtml() ) )
         {
           continue;
         }
 
-        if( msDoc.GetIsInternal() )
+        ListViewItem lvItem = null;
+        string DocUrl = msDoc.GetUrl();
+        string PairKey = DocUrl;
+        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+        string Status = msDoc.GetStatusCode().ToString();
+
+        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
-          if( msDoc.GetIsHtml() )
+
+          lvItem = this.DisplayListView.Items[ PairKey ];
+
+        }
+        else
+        {
+
+          lvItem = new ListViewItem ( PairKey );
+          lvItem.UseItemStyleForSubItems = false;
+          lvItem.Name = PairKey;
+
+          lvItem.SubItems.Add( "" );
+          lvItem.SubItems.Add( "" );
+          lvItem.SubItems.Add( "" );
+
+          for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
           {
-            Proceed = true;
+            lvItem.SubItems.Add( "" );
           }
-          if( msDoc.GetIsRedirect() )
-          {
-            Proceed = false;
-          }
+
+          ListViewItems.Add( lvItem );
+
         }
 
-        if( Proceed )
+        if( lvItem != null )
         {
 
-          ListViewItem lvItem = null;
-          string DocUrl = msDoc.GetUrl();
-          string PairKey = DocUrl;
-          string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-          string Status = msDoc.GetStatusCode().ToString();
-
-          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
+          try
           {
 
-            lvItem = this.DisplayListView.Items[ PairKey ];
-
-          }
-          else
-          {
-
-            lvItem = new ListViewItem ( PairKey );
-            lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = PairKey;
-
-            lvItem.SubItems.Add( "" );
-            lvItem.SubItems.Add( "" );
-            lvItem.SubItems.Add( "" );
+            lvItem.SubItems[ ColUrl ].Text = DocUrl;
+            lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
+            lvItem.SubItems[ ColStatus ].Text = Status;
 
             for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
             {
-              lvItem.SubItems.Add( "" );
-            }
 
-            ListViewItems.Add( lvItem );
+              string FilterPattern = CustomFilter.GetPattern( Slot: Slot ).Key;
+              KeyValuePair<string, MacroscopeConstants.TextPresence> Pair = msDoc.GetCustomFilteredItem( Text: FilterPattern );
+              int ColOffset = this.FilterColOffset + FilterColsTable[ FilterPattern ];
 
-          }
-
-          if( lvItem != null )
-          {
-
-            try
-            {
-
-              lvItem.SubItems[ ColUrl ].Text = DocUrl;
-              lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
-              lvItem.SubItems[ ColStatus ].Text = Status;
-
-              for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
+              if( ( Pair.Key != null ) && ( Pair.Value != MacroscopeConstants.TextPresence.UNDEFINED ) )
               {
 
-                string FilterPattern = CustomFilter.GetPattern( Slot: Slot ).Key;
-                KeyValuePair<string, MacroscopeConstants.TextPresence> Pair = msDoc.GetCustomFilteredItem( Text: FilterPattern );
-                string CustomFilterItemValue;
-                int ColOffset = this.FilterColOffset + FilterColsTable[ FilterPattern ];
+                lvItem.SubItems[ ColOffset ].Text = MacroscopeConstants.TextPresenceLabels[ Pair.Value ];
 
-                if( ( Pair.Key != null ) && ( Pair.Value != MacroscopeConstants.TextPresence.UNDEFINED ) )
+                switch( Pair.Value )
                 {
-
-                  CustomFilterItemValue = Pair.Value.ToString();
-
-                  lvItem.SubItems[ ColOffset ].Text = CustomFilterItemValue;
-
-                  switch( Pair.Value )
-                  {
-                    case MacroscopeConstants.TextPresence.CONTAINS:
-                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Green;
-                      break;
-                    case MacroscopeConstants.TextPresence.NOTCONTAINS:
-                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Green;
-                      break;
-                    case MacroscopeConstants.TextPresence.MUSTCONTAIN:
-                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Red;
-                      break;
-                    case MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN:
-                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Red;
-                      break;
-                    default:
-                      lvItem.SubItems[ ColOffset ].ForeColor = Color.Gray;
-                      break;
-                  }
-
+                  case MacroscopeConstants.TextPresence.CONTAINS:
+                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Green;
+                    break;
+                  case MacroscopeConstants.TextPresence.NOTCONTAINS:
+                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Green;
+                    break;
+                  case MacroscopeConstants.TextPresence.MUSTCONTAIN:
+                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Red;
+                    break;
+                  case MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN:
+                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Red;
+                    break;
+                  default:
+                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Gray;
+                    break;
                 }
 
               }
 
             }
-            catch( Exception ex )
-            {
-              DebugMsg( string.Format( "MacroscopeDisplayCustomFilters: {0}", ex.Message ) );
-              DebugMsg( string.Format( "MacroscopeDisplayCustomFilters: {0}", ex.StackTrace ) );
-            }
 
           }
-          else
+          catch( Exception ex )
           {
-            DebugMsg( string.Format( "MacroscopeDisplayCustomFilters MISSING: {0}", PairKey ) );
+            DebugMsg( string.Format( "MacroscopeDisplayCustomFilters: {0}", ex.Message ) );
+            DebugMsg( string.Format( "MacroscopeDisplayCustomFilters: {0}", ex.StackTrace ) );
           }
 
-          if( msDoc.GetIsInternal() )
-          {
-            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
-          }
-          else
-          {
-            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
-          }          
+        }
+        else
+        {
+          DebugMsg( string.Format( "MacroscopeDisplayCustomFilters MISSING: {0}", PairKey ) );
+        }
 
-          if( Regex.IsMatch( StatusCode, "^[2]" ) )
-          {
-            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Green;
-            lvItem.SubItems[ ColStatus ].ForeColor = Color.Green;
-          }
-          else
-          if( Regex.IsMatch( StatusCode, "^[3]" ) )
-          {
-            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Goldenrod;
-            lvItem.SubItems[ ColStatus ].ForeColor = Color.Goldenrod;
-          }
-          else
-          if( Regex.IsMatch( StatusCode, "^[45]" ) )
-          {
-            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Red;
-            lvItem.SubItems[ ColStatus ].ForeColor = Color.Red;
-          }
-          else
-          {
-            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Blue;
-            lvItem.SubItems[ ColStatus ].ForeColor = Color.Blue;
-          }
+        if( msDoc.GetIsInternal() )
+        {
+          lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
+        }
+        else
+        {
+          lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
+        }          
 
+        if( Regex.IsMatch( StatusCode, "^[2]" ) )
+        {
+          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Green;
+          lvItem.SubItems[ ColStatus ].ForeColor = Color.Green;
+        }
+        else
+        if( Regex.IsMatch( StatusCode, "^[3]" ) )
+        {
+          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Goldenrod;
+          lvItem.SubItems[ ColStatus ].ForeColor = Color.Goldenrod;
+        }
+        else
+        if( Regex.IsMatch( StatusCode, "^[45]" ) )
+        {
+          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Red;
+          lvItem.SubItems[ ColStatus ].ForeColor = Color.Red;
+        }
+        else
+        {
+          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Blue;
+          lvItem.SubItems[ ColStatus ].ForeColor = Color.Blue;
         }
 
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )

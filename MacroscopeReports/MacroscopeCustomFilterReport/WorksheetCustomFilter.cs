@@ -96,26 +96,12 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        Boolean Proceed = false;
 
-        if( msDoc == null )
-        {
-          continue;
-        }
-
-        if( msDoc.GetIsInternal() )
-        {
-          if( msDoc.GetIsHtml() )
-          {
-            Proceed = true;
-          }
-          if( msDoc.GetIsRedirect() )
-          {
-            Proceed = false;
-          }
-        }
-
-        if( !Proceed )
+        if(
+          ( msDoc == null )
+          || ( msDoc.GetIsRedirect() )
+          || ( !msDoc.GetIsInternal() )
+          || ( !msDoc.GetIsHtml() ) )
         {
           continue;
         }
@@ -152,12 +138,11 @@ namespace SEOMacroscope
 
           string FilterPattern = this.CustomFilter.GetPattern( Slot: Slot ).Key;
           KeyValuePair<string, MacroscopeConstants.TextPresence> Pair = msDoc.GetCustomFilteredItem( Text: FilterPattern );
-          string CustomFilterItemValue;
 
           if( ( Pair.Key != null ) && ( Pair.Value != MacroscopeConstants.TextPresence.UNDEFINED ) )
           {
 
-            CustomFilterItemValue = Pair.Value.ToString();
+            string CustomFilterItemValue = MacroscopeConstants.TextPresenceLabels[ Pair.Value ];
 
             this.InsertAndFormatContentCell( ws, iRow, iCol, CustomFilterItemValue );
 
@@ -194,7 +179,7 @@ namespace SEOMacroscope
         }
 
         iRow++;
-
+        
       }
 
       {

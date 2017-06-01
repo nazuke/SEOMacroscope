@@ -146,7 +146,8 @@ namespace SEOMacroscope
 
           string PatternText = this.Contains[ Slot ].Key;
 
-          if( string.IsNullOrEmpty(PatternText) ) {
+          if( string.IsNullOrEmpty( PatternText ) )
+          {
             continue;
           }
 
@@ -167,13 +168,13 @@ namespace SEOMacroscope
           if( this.Contains[ Slot ].Value == MacroscopeConstants.Contains.MUSTNOTHAVE )
           {
             
-            if( !Text.Contains( PatternText ) )
+            if( Text.Contains( PatternText ) )
             {
-              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.NOTCONTAINS );
+              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN );
             }
             else
             {
-              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN );
+              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.NOTCONTAINS );
             }
 
           }
