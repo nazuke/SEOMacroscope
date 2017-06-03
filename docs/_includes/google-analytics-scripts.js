@@ -35,6 +35,8 @@ function configureGaReleaseLinks() {
 
   );
 
+  console.log("Done: configureGaReleaseLinks");
+
 }
 
 /******************************************************************************/
@@ -64,6 +66,8 @@ function configureGaInstallerLinks() {
     }
 
   );
+
+  console.log("Done: configureGaInstallerLinks");
 
 }
 

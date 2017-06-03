@@ -20,11 +20,11 @@ The most recent release is at:
 
 * [SEO Macrocope v1.1.0.0](https://github.com/nazuke/SEOMacroscope/releases/tag/v1.1.0.0){: .link-release }
     * Windows 32 bit installer: [SEOMacroscope-Installer-1.1.0.0.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v1.1.0.0/SEOMacroscope-Installer-1.1.0.0.exe){: .link-installer }
-* [SEO Macrocope v1.0.0.0](https://github.com/nazuke/SEOMacroscope/releases/tag/v1.0.0.0){: .link-release }
-    * Windows 32 bit installer: [SEOMacroscope-Installer-1.0.0.0.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v1.0.0.0/SEOMacroscope-Installer-1.0.0.0.exe){: .link-installer }
 
 Older releases:
 
+* [SEO Macrocope v1.0.0.0](https://github.com/nazuke/SEOMacroscope/releases/tag/v1.0.0.0){: .link-release }
+    * Windows 32 bit installer: [SEOMacroscope-Installer-1.0.0.0.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v1.0.0.0/SEOMacroscope-Installer-1.0.0.0.exe){: .link-installer }
 * [SEO Macrocope v0.9.0.4b](https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.4b){: .link-release }
     * Windows 32 bit installer: [SEOMacroscope-Installer-0.9.0.4b.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v0.9.0.4b/SEOMacroscope-Installer-0.9.0.4b.exe){: .link-installer }
 * [SEO Macrocope v0.9.0.3b](https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.3b){: .link-release }
