@@ -2,8 +2,8 @@
 
 $("window").ready(
   function () {
-    configureGaReleaseLinks();
-    configureGaInstallerLinks();
+    //configureGaReleaseLinks();
+    //configureGaInstallerLinks();
   }
 );
 
