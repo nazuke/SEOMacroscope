@@ -27,8 +27,8 @@ disqus:
   shortname: seomacroscope
 
 # Google Services
-google_analytics: UA-53226030-9
 google_tag_manager: GTM-N2MSDNV
+google_analytics: UA-53226030-9
 
 # Build settings
 markdown: kramdown

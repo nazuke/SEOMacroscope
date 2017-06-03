@@ -32,9 +32,11 @@
 
 	<meta name="environment" content="{{ jekyll.environment | escape }}">
 
+  {% comment %}
   {% if jekyll.environment == 'production' and site.google_analytics %}
     {% include google-analytics.html %}
   {% endif %}
+  {% endcomment %}
 
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
