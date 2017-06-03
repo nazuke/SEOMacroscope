@@ -33,15 +33,7 @@
 		<!-- END: jQuery and Bootstrap JavaScript -->
 
     {% if jekyll.environment == 'production' and site.google_analytics %}
-
       <script type="text/javascript" src="{{ '/assets/google-analytics-scripts.js' | relative_url }}"></script>
-
-
-      {% comment %}
-      <script type="text/javascript">
-        {% include google-analytics-scripts.js %}
-      </script>
-      {% endcomment %}
     {% endif %}
 
 	</body>

@@ -15,9 +15,13 @@ function configureGaReleaseLinks() {
 
     function ( event ) {
 
+      event.preventDefault();
+
       let LinkClicked = this;
       let TagHref = $(LinkClicked).attr("href");
       let Tag = TagHref.split('/').pop().split('#')[0].split('?')[0];
+
+      console.log( "TagHref:", TagHref );
 
       ga(
         'send',
@@ -27,7 +31,10 @@ function configureGaReleaseLinks() {
           eventAction: 'link-release',
           eventLabel: Tag,
           eventValue: 0,
-          transport: 'beacon'
+          transport: 'beacon',
+          hitCallback: function() {
+            window.location = TagHref;
+          }
         }
       );
 
@@ -47,9 +54,13 @@ function configureGaInstallerLinks() {
 
     function ( event ) {
 
+      event.preventDefault();
+
       let LinkClicked = this;
       let TagHref = $(LinkClicked).attr("href");
       let Tag = TagHref.split('/').pop().split('#')[0].split('?')[0];
+
+      console.log( "TagHref:", TagHref );
 
       ga(
         'send',
@@ -59,7 +70,10 @@ function configureGaInstallerLinks() {
           eventAction: 'link-installer',
           eventLabel: Tag,
           eventValue: 0,
-          transport: 'beacon'
+          transport: 'beacon',
+          hitCallback: function() {
+            window.location = TagHref;
+          }
         }
       );
 
