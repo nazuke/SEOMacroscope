@@ -370,13 +370,13 @@ namespace SEOMacroscope
           if( MacroscopePreferencesManager.GetFollowRedirects() )
           {
 
-            string sHostname = msDoc.GetHostname();
-            string sHostnameFrom = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectFrom() );
-            string sUrlRedirectTo = msDoc.GetUrlRedirectTo();
-            string sHostnameTo = MacroscopeAllowedHosts.ParseHostnameFromUrl( sUrlRedirectTo );
+            string Hostname = msDoc.GetHostname();
+            string HostnameFrom = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectFrom() );
+            string UrlRedirectTo = msDoc.GetUrlRedirectTo();
+            string HostnameTo = MacroscopeAllowedHosts.ParseHostnameFromUrl( UrlRedirectTo );
 
-            DebugMsg( string.Format( "REDIRECTION DETECTED sUrlRedirectTo: {0}", sUrlRedirectTo ) );
-            DebugMsg( string.Format( "REDIRECTION DETECTED sHostnameTo: {0}", sHostnameTo ) );
+            DebugMsg( string.Format( "REDIRECTION DETECTED UrlRedirectTo: {0}", UrlRedirectTo ) );
+            DebugMsg( string.Format( "REDIRECTION DETECTED HostnameTo: {0}", HostnameTo ) );
             
           }
 

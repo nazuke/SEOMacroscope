@@ -580,9 +580,19 @@ namespace SEOMacroscope
       return( this.IsRedirect );
     }
 
+    public void SetUrlRedirectFrom ( string Url )
+    {
+      this.UrlRedirectFrom = Url;
+    }
+
     public string GetUrlRedirectFrom ()
     {
       return( this.UrlRedirectFrom );
+    }
+
+    public void SetUrlRedirectTo ( string  Url )
+    {
+      this.UrlRedirectTo = Url;
     }
 
     public string GetUrlRedirectTo ()
@@ -2016,11 +2026,12 @@ namespace SEOMacroscope
           Location = Uri.UnescapeDataString( Location );
           string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, Location );
 
-          if( LinkUrlAbs != null )
+          if( !string.IsNullOrEmpty( LinkUrlAbs ) )
           {
             
-            this.UrlRedirectFrom = OriginalUrl;
-            this.UrlRedirectTo = LinkUrlAbs;
+            this.SetUrlRedirectFrom( Url: OriginalUrl );
+
+            this.SetUrlRedirectTo( Url: LinkUrlAbs );
             
             MacroscopeLink OutLink = this.AddDocumentOutlink(
                                        AbsoluteUrl: LinkUrlAbs,

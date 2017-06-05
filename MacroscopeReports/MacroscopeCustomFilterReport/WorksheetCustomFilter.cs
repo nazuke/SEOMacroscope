@@ -27,6 +27,7 @@ using System;
 using ClosedXML.Excel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace SEOMacroscope
 {
@@ -100,6 +101,7 @@ namespace SEOMacroscope
         if(
           ( msDoc == null )
           || ( msDoc.GetIsRedirect() )
+          || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
           || ( !msDoc.GetIsInternal() )
           || ( !msDoc.GetIsHtml() ) )
         {

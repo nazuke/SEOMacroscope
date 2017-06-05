@@ -253,6 +253,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ListView listViewCustomFilters;
 		public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCopyUrl;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+		private System.Windows.Forms.ColumnHeader RedirectsAuditStatus;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -349,6 +350,7 @@ namespace SEOMacroscope
 			this.listViewRedirectsAudit = new System.Windows.Forms.ListView();
 			this.RedirectsAuditUrl = new System.Windows.Forms.ColumnHeader();
 			this.RedirectsAuditStatusCode = new System.Windows.Forms.ColumnHeader();
+			this.RedirectsAuditStatus = new System.Windows.Forms.ColumnHeader();
 			this.RedirectsAuditSourceUrl = new System.Windows.Forms.ColumnHeader();
 			this.RedirectsAuditTargetUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageErrors = new System.Windows.Forms.TabPage();
@@ -638,7 +640,7 @@ namespace SEOMacroscope
 			this.toolStripSeparator2,
 			this.toolStripMenuItemResetEntry});
 			this.contextMenuStripStructure.Name = "contextMenuStrip1";
-			this.contextMenuStripStructure.Size = new System.Drawing.Size(248, 154);
+			this.contextMenuStripStructure.Size = new System.Drawing.Size(248, 132);
 			// 
 			// toolStripMenuItemCopyUrl
 			// 
@@ -1176,6 +1178,7 @@ namespace SEOMacroscope
 			this.listViewRedirectsAudit.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.RedirectsAuditUrl,
 			this.RedirectsAuditStatusCode,
+			this.RedirectsAuditStatus,
 			this.RedirectsAuditSourceUrl,
 			this.RedirectsAuditTargetUrl});
 			this.listViewRedirectsAudit.ContextMenuStrip = this.contextMenuStripStructure;
@@ -1199,8 +1202,15 @@ namespace SEOMacroscope
 			this.RedirectsAuditStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.RedirectsAuditStatusCode.Width = 100;
 			// 
+			// RedirectsAuditStatus
+			// 
+			this.RedirectsAuditStatus.DisplayIndex = 3;
+			this.RedirectsAuditStatus.Text = "Status";
+			this.RedirectsAuditStatus.Width = 150;
+			// 
 			// RedirectsAuditSourceUrl
 			// 
+			this.RedirectsAuditSourceUrl.DisplayIndex = 2;
 			this.RedirectsAuditSourceUrl.Text = "Source URL";
 			this.RedirectsAuditSourceUrl.Width = 300;
 			// 

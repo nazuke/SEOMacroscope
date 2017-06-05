@@ -85,139 +85,128 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean Proceed;
-
-      if( msDoc.GetIsRedirect() )
+      if( !msDoc.GetIsRedirect() )
       {
-        Proceed = true;
-      }
-      else
-      {
-        Proceed = false;
+        return;
       }
 
-      if( Proceed )
-      {
+      MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       
-        MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      
-        string OriginURL = msDoc.GetUrlRedirectFrom();
-        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-        string Status = msDoc.GetStatusCode().ToString();
-        string DestinationURL = msDoc.GetUrlRedirectTo();
+      string OriginURL = msDoc.GetUrlRedirectFrom();
+      string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+      string Status = msDoc.GetStatusCode().ToString();
+      string DestinationURL = msDoc.GetUrlRedirectTo();
 
-        string PairKey = string.Join( "", Url );
+      string PairKey = string.Join( "", Url );
        
-        if(
-          ( !string.IsNullOrEmpty( OriginURL ) )
-          && ( !string.IsNullOrEmpty( Status ) )
-          && ( !string.IsNullOrEmpty( DestinationURL ) ) )
+      if(
+        ( !string.IsNullOrEmpty( OriginURL ) )
+        && ( !string.IsNullOrEmpty( Status ) )
+        && ( !string.IsNullOrEmpty( DestinationURL ) ) )
+      {
+
+        ListViewItem lvItem = null;
+
+        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
 
-          ListViewItem lvItem = null;
-
-          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
+          try
           {
 
-            try
+            lvItem = this.DisplayListView.Items[ PairKey ];
+            lvItem.SubItems[ 0 ].Text = Url;
+            lvItem.SubItems[ 1 ].Text = StatusCode;
+            lvItem.SubItems[ 2 ].Text = Status;
+            lvItem.SubItems[ 3 ].Text = OriginURL;
+            lvItem.SubItems[ 4 ].Text = DestinationURL;
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 1: {0}", ex.Message ) );
+          }
+
+        }
+        else
+        {
+
+          try
+          {
+
+            lvItem = new ListViewItem ( PairKey );
+            lvItem.UseItemStyleForSubItems = false;
+            lvItem.Name = PairKey;
+
+            lvItem.SubItems[ 0 ].Text = Url;
+            lvItem.SubItems.Add( StatusCode );
+            lvItem.SubItems.Add( Status );
+            lvItem.SubItems.Add( OriginURL );
+            lvItem.SubItems.Add( DestinationURL );
+
+            ListViewItems.Add( lvItem );
+
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 2: {0}", ex.Message ) );
+          }
+
+        }
+
+        if( lvItem != null )
+        {
+
+          if( msDoc.GetIsInternal() )
+          {
+
+            for( int i = 0 ; i <= 4 ; i++ )
+              lvItem.SubItems[ i ].ForeColor = Color.Blue;
+
+            if( Regex.IsMatch( StatusCode, "^[2]" ) )
             {
-
-              lvItem = this.DisplayListView.Items[ PairKey ];
-              lvItem.SubItems[ 0 ].Text = Url;
-              lvItem.SubItems[ 1 ].Text = StatusCode;
-              lvItem.SubItems[ 2 ].Text = Status;
-              lvItem.SubItems[ 3 ].Text = OriginURL;
-              lvItem.SubItems[ 4 ].Text = DestinationURL;
-
+              for( int i = 0 ; i <= 4 ; i++ )
+                lvItem.SubItems[ i ].ForeColor = Color.Green;
             }
-            catch( Exception ex )
+            else
+            if( Regex.IsMatch( StatusCode, "^[3]" ) )
             {
-              DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 1: {0}", ex.Message ) );
+              for( int i = 0 ; i <= 4 ; i++ )
+                lvItem.SubItems[ i ].ForeColor = Color.Goldenrod;
+            }
+            else
+            if( Regex.IsMatch( StatusCode, "^[45]" ) )
+            {
+              for( int i = 0 ; i <= 4 ; i++ )
+                lvItem.SubItems[ i ].ForeColor = Color.Red;
             }
 
           }
           else
           {
-
-            try
-            {
-
-              lvItem = new ListViewItem ( PairKey );
-              lvItem.UseItemStyleForSubItems = false;
-              lvItem.Name = PairKey;
-
-              lvItem.SubItems[ 0 ].Text = Url;
-              lvItem.SubItems.Add( StatusCode );
-              lvItem.SubItems.Add( Status );
-              lvItem.SubItems.Add( OriginURL );
-              lvItem.SubItems.Add( DestinationURL );
-
-              ListViewItems.Add( lvItem );
-
-            }
-            catch( Exception ex )
-            {
-              DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 2: {0}", ex.Message ) );
-            }
-
+            for( int i = 0 ; i <= 4 ; i++ )
+              lvItem.SubItems[ i ].ForeColor = Color.Gray;
           }
 
-          if( lvItem != null )
+          if( AllowedHosts.IsInternalUrl( OriginURL ) )
           {
-
-            if( msDoc.GetIsInternal() )
-            {
-
-              for( int i = 0 ; i <= 4 ; i++ )
-                lvItem.SubItems[ i ].ForeColor = Color.Blue;
-
-              if( Regex.IsMatch( StatusCode, "^[2]" ) )
-              {
-                for( int i = 0 ; i <= 4 ; i++ )
-                  lvItem.SubItems[ i ].ForeColor = Color.Green;
-              }
-              else
-              if( Regex.IsMatch( StatusCode, "^[3]" ) )
-              {
-                for( int i = 0 ; i <= 4 ; i++ )
-                  lvItem.SubItems[ i ].ForeColor = Color.Goldenrod;
-              }
-              else
-              if( Regex.IsMatch( StatusCode, "^[45]" ) )
-              {
-                for( int i = 0 ; i <= 4 ; i++ )
-                  lvItem.SubItems[ i ].ForeColor = Color.Red;
-              }
-
-            }
-            else
-            {
-              for( int i = 0 ; i <= 4 ; i++ )
-                lvItem.SubItems[ i ].ForeColor = Color.Gray;
-            }
-
-            if( AllowedHosts.IsInternalUrl( OriginURL ) )
-            {
-              lvItem.SubItems[ 3 ].ForeColor = Color.Green;
-            }
-            else
-            {
-              lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
-            }
+            lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+          }
             
-            if( AllowedHosts.IsInternalUrl( DestinationURL ) )
-            {
-              lvItem.SubItems[ 4 ].ForeColor = Color.Green;
-            }
-            else
-            {
-              lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
-            }
-
+          if( AllowedHosts.IsInternalUrl( DestinationURL ) )
+          {
+            lvItem.SubItems[ 4 ].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
           }
 
         }
-      
+
       }
 
     }

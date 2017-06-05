@@ -25,7 +25,7 @@
 
 namespace SEOMacroscope
 {
-	partial class MacroscopeCustomFilterPanel
+	partial class MacroscopeDataExtractorPanel
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
@@ -48,6 +48,11 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TextBox textBoxFilter2;
 		private System.Windows.Forms.TextBox textBoxFilter1;
 		private System.Windows.Forms.Label label6;
+		public System.Windows.Forms.TabControl tabControlDataExtractors;
+		private System.Windows.Forms.TabPage tabPageRegexes;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private System.Windows.Forms.TabPage tabPageXpaths;
+		private System.Windows.Forms.TabPage tabPageCssSelectors;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -87,7 +92,15 @@ namespace SEOMacroscope
 			this.comboBoxFilter5 = new System.Windows.Forms.ComboBox();
 			this.textBoxFilter1 = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
+			this.tabControlDataExtractors = new System.Windows.Forms.TabControl();
+			this.tabPageRegexes = new System.Windows.Forms.TabPage();
+			this.tabPageXpaths = new System.Windows.Forms.TabPage();
+			this.tabPageCssSelectors = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel1.SuspendLayout();
+			this.tabControlDataExtractors.SuspendLayout();
+			this.tabPageRegexes.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// comboBoxFilter1
@@ -124,7 +137,7 @@ namespace SEOMacroscope
 			this.tableLayoutPanel1.Controls.Add(this.comboBoxFilter4, 1, 3);
 			this.tableLayoutPanel1.Controls.Add(this.comboBoxFilter5, 1, 4);
 			this.tableLayoutPanel1.Controls.Add(this.textBoxFilter1, 2, 0);
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 50);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 63);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 5;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -305,22 +318,82 @@ namespace SEOMacroscope
 			// label6
 			// 
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label6.Location = new System.Drawing.Point(20, 20);
+			this.label6.Location = new System.Drawing.Point(3, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(600, 23);
 			this.label6.TabIndex = 2;
 			this.label6.Text = "Enter text strings to search for and extract from each HTML page.";
 			// 
-			// MacroscopeCustomFilterPanel
+			// tabControlDataExtractors
+			// 
+			this.tabControlDataExtractors.Controls.Add(this.tabPageRegexes);
+			this.tabControlDataExtractors.Controls.Add(this.tabPageXpaths);
+			this.tabControlDataExtractors.Controls.Add(this.tabPageCssSelectors);
+			this.tabControlDataExtractors.Location = new System.Drawing.Point(10, 10);
+			this.tabControlDataExtractors.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
+			this.tabControlDataExtractors.Name = "tabControlDataExtractors";
+			this.tabControlDataExtractors.SelectedIndex = 0;
+			this.tabControlDataExtractors.Size = new System.Drawing.Size(820, 750);
+			this.tabControlDataExtractors.TabIndex = 3;
+			// 
+			// tabPageRegexes
+			// 
+			this.tabPageRegexes.AutoScroll = true;
+			this.tabPageRegexes.Controls.Add(this.tableLayoutPanel2);
+			this.tabPageRegexes.Location = new System.Drawing.Point(4, 22);
+			this.tabPageRegexes.Name = "tabPageRegexes";
+			this.tabPageRegexes.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageRegexes.Size = new System.Drawing.Size(812, 724);
+			this.tabPageRegexes.TabIndex = 0;
+			this.tabPageRegexes.Text = "Regular Expressions";
+			this.tabPageRegexes.UseVisualStyleBackColor = true;
+			// 
+			// tabPageXpaths
+			// 
+			this.tabPageXpaths.Location = new System.Drawing.Point(4, 22);
+			this.tabPageXpaths.Name = "tabPageXpaths";
+			this.tabPageXpaths.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageXpaths.Size = new System.Drawing.Size(856, 416);
+			this.tabPageXpaths.TabIndex = 1;
+			this.tabPageXpaths.Text = "XPaths";
+			this.tabPageXpaths.UseVisualStyleBackColor = true;
+			// 
+			// tabPageCssSelectors
+			// 
+			this.tabPageCssSelectors.Location = new System.Drawing.Point(4, 22);
+			this.tabPageCssSelectors.Name = "tabPageCssSelectors";
+			this.tabPageCssSelectors.Size = new System.Drawing.Size(856, 416);
+			this.tabPageCssSelectors.TabIndex = 2;
+			this.tabPageCssSelectors.Text = "CSS Selectors";
+			this.tabPageCssSelectors.UseVisualStyleBackColor = true;
+			// 
+			// tableLayoutPanel2
+			// 
+			this.tableLayoutPanel2.ColumnCount = 1;
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel2.Controls.Add(this.label6, 0, 0);
+			this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 0, 1);
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(10, 10);
+			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+			this.tableLayoutPanel2.RowCount = 2;
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(740, 700);
+			this.tableLayoutPanel2.TabIndex = 0;
+			// 
+			// MacroscopeDataExtractorPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.label6);
-			this.Controls.Add(this.tableLayoutPanel1);
-			this.Name = "MacroscopeCustomFilterPanel";
-			this.Size = new System.Drawing.Size(640, 320);
+			this.Controls.Add(this.tabControlDataExtractors);
+			this.Name = "MacroscopeDataExtractorPanel";
+			this.Size = new System.Drawing.Size(850, 800);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
+			this.tabControlDataExtractors.ResumeLayout(false);
+			this.tabPageRegexes.ResumeLayout(false);
+			this.tableLayoutPanel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
