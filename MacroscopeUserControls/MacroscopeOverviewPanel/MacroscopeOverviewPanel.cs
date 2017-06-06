@@ -66,8 +66,13 @@ namespace SEOMacroscope
       this.listViewSitemaps.Dock = DockStyle.Fill;
       this.listViewCanonicalAnalysis.Dock = DockStyle.Fill;
       this.listViewHrefLang.Dock = DockStyle.Fill;
+
+      this.tableLayoutPanelErrors.Dock = DockStyle.Fill;
       this.listViewErrors.Dock = DockStyle.Fill;
+
       this.listViewHostnames.Dock = DockStyle.Fill;
+
+      this.tableLayoutPanelRedirects.Dock = DockStyle.Fill;
       this.listViewRedirectsAudit.Dock = DockStyle.Fill;
       
       this.tableLayoutPanelLinks.Dock = DockStyle.Fill;
@@ -89,7 +94,10 @@ namespace SEOMacroscope
       this.listViewVideos.Dock = DockStyle.Fill;
       this.listViewEmailAddresses.Dock = DockStyle.Fill;
       this.listViewTelephoneNumbers.Dock = DockStyle.Fill;
+
+      this.tableLayoutPanelCustomFilters.Dock = DockStyle.Fill;
       this.listViewCustomFilters.Dock = DockStyle.Fill;
+
       this.listViewUriQueue.Dock = DockStyle.Fill;
       this.listViewHistory.Dock = DockStyle.Fill;
 

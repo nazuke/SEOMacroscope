@@ -44,6 +44,8 @@ namespace SEOMacroscope
 
     private int FilterColOffset = -1;
     
+    private ToolStripLabel DocumentCount;
+
     /**************************************************************************/
 
     public MacroscopeDisplayCustomFilters ( MacroscopeMainForm MainForm, ListView TargetListView )
@@ -52,6 +54,7 @@ namespace SEOMacroscope
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
+      this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelCustomFiltersItems;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -403,6 +406,7 @@ namespace SEOMacroscope
 
     protected override void RenderUrlCount ()
     {
+      this.DocumentCount.Text = string.Format( "Filters: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/

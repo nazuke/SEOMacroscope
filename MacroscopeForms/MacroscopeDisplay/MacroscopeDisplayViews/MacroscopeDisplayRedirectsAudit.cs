@@ -41,12 +41,17 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private ToolStripLabel DocumentCount;
+        
+    /**************************************************************************/
+        
     public MacroscopeDisplayRedirectsAudit ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
+      this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelRedirectsItems;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -93,7 +98,7 @@ namespace SEOMacroscope
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       
       string OriginURL = msDoc.GetUrlRedirectFrom();
-      string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+      int StatusCode = ( int )msDoc.GetStatusCode();
       string Status = msDoc.GetStatusCode().ToString();
       string DestinationURL = msDoc.GetUrlRedirectTo();
 
@@ -115,7 +120,7 @@ namespace SEOMacroscope
 
             lvItem = this.DisplayListView.Items[ PairKey ];
             lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems[ 1 ].Text = StatusCode;
+            lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
             lvItem.SubItems[ 2 ].Text = Status;
             lvItem.SubItems[ 3 ].Text = OriginURL;
             lvItem.SubItems[ 4 ].Text = DestinationURL;
@@ -138,7 +143,7 @@ namespace SEOMacroscope
             lvItem.Name = PairKey;
 
             lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems.Add( StatusCode );
+            lvItem.SubItems.Add( StatusCode.ToString() );
             lvItem.SubItems.Add( Status );
             lvItem.SubItems.Add( OriginURL );
             lvItem.SubItems.Add( DestinationURL );
@@ -160,31 +165,37 @@ namespace SEOMacroscope
           {
 
             for( int i = 0 ; i <= 4 ; i++ )
+            {
               lvItem.SubItems[ i ].ForeColor = Color.Blue;
+            }
 
-            if( Regex.IsMatch( StatusCode, "^[2]" ) )
+            if( ( StatusCode >= 200 ) && ( StatusCode <= 299 ) )
             {
               for( int i = 0 ; i <= 4 ; i++ )
                 lvItem.SubItems[ i ].ForeColor = Color.Green;
             }
             else
-            if( Regex.IsMatch( StatusCode, "^[3]" ) )
+            if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
             {
               for( int i = 0 ; i <= 4 ; i++ )
                 lvItem.SubItems[ i ].ForeColor = Color.Goldenrod;
             }
             else
-            if( Regex.IsMatch( StatusCode, "^[45]" ) )
+            if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
             {
               for( int i = 0 ; i <= 4 ; i++ )
+              {
                 lvItem.SubItems[ i ].ForeColor = Color.Red;
+              }
             }
 
           }
           else
           {
             for( int i = 0 ; i <= 4 ; i++ )
+            {
               lvItem.SubItems[ i ].ForeColor = Color.Gray;
+            }
           }
 
           if( AllowedHosts.IsInternalUrl( OriginURL ) )
@@ -215,6 +226,7 @@ namespace SEOMacroscope
 
     protected override void RenderUrlCount ()
     {
+      this.DocumentCount.Text = string.Format( "Redirects: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/

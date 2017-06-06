@@ -41,13 +41,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private ToolStripLabel DocumentCount;
+        
+    /**************************************************************************/
+    
     public MacroscopeDisplayErrors ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
-
+      this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelErrorsItems;
+      
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -289,6 +294,7 @@ namespace SEOMacroscope
 
     protected override void RenderUrlCount ()
     {
+      this.DocumentCount.Text = string.Format( "Errors: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/

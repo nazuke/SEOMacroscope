@@ -1012,13 +1012,17 @@ namespace SEOMacroscope
 
     public int CountInlinks ()
     {
+      
       MacroscopeLinkList LinksIn = this.GetLinksIn();
       int Count = 0;
+      
       if( LinksIn != null )
       {
         Count = LinksIn.Count();
       }
+      
       return( Count );
+      
     }
         
     /** Outlinks **************************************************************/
