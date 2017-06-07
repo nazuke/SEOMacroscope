@@ -60,7 +60,7 @@ namespace SEOMacroscope
       for( int Slot = 0 ; Slot < this.Max ; Slot++ )
       {
 
-        this.ExtractRegexes[ Slot ] = new KeyValuePair<string, Regex> ();
+        this.ExtractRegexes.Add( new KeyValuePair<string, Regex> () );
 
       }
 
@@ -93,11 +93,29 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     public void SetPattern (
-      int Slot
+      int Slot,
+      string RegexLabel,
+      string RegexString
     )
     {
+      
+      if( SyntaxCheckRegex( RegexString: RegexString ) )
+      {
+        
+        Regex RegexPattern = new Regex ( RegexString, RegexOptions.Singleline );
+        KeyValuePair<string, Regex> RegexSlot = new KeyValuePair<string, Regex> ( RegexLabel, RegexPattern );
 
-      //return( this.Contains[ Slot ] );
+        this.ExtractRegexes[ Slot ] = RegexSlot;
+        
+        this.SetEnabled();
+        
+      }
+      else
+      {
+
+        throw( new FormatException ( "Invalid regular expression" ) );
+        
+      }
 
     }
 
@@ -109,20 +127,81 @@ namespace SEOMacroscope
       return( this.ExtractRegexes[ Slot ] );
 
     }
+    
+    /**************************************************************************/
+        
+    public string GetPatternLabel ( int Slot )
+    {
+
+      return( this.ExtractRegexes[ Slot ].Key );
+
+    }
+    
+    /**************************************************************************/
+        
+    public Regex GetPatternRegex ( int Slot )
+    {
+
+      return( this.ExtractRegexes[ Slot ].Value );
+
+    }
 
     /**************************************************************************/
 
-    public List<string> AnalyzeText ( string Text )
+    public List<KeyValuePair<string, string>> AnalyzeText ( string Text )
     {
 
-      List<string> ResultList = new List<string> ( 8 );
+      List<KeyValuePair<string, string>> ResultList = new List<KeyValuePair<string, string>> ( 8 );
 
+      // if( this.IsEnabled() )
+      //{
+        
+      for( int Slot = 0 ; Slot < this.Max ; Slot++ )
+      {
+          
+        this.DebugMsg(
+          string.Format(
+            "SLOT KEY: {0} => {1} => {2}",
+            Slot,
+            this.ExtractRegexes[ Slot ].Key,
+            this.ExtractRegexes[ Slot ].Value
+          )
+        );
+          
+        if( string.IsNullOrEmpty( this.ExtractRegexes[ Slot ].Key ) )
+        {
+          continue;
+        }
 
+        MatchCollection PatternMatches;
+          
+        PatternMatches = Regex.Matches(
+          Text,
+          this.ExtractRegexes[ Slot ].Value.ToString()
+        );
 
+        foreach( Match match in PatternMatches )
+        {
+            
+          if( !string.IsNullOrEmpty( match.Groups[ 1 ].Value ) )
+          {
 
+            KeyValuePair<string, string> MatchedItem;
+              
+            MatchedItem = new KeyValuePair<string, string> ( 
+              this.ExtractRegexes[ Slot ].Key,
+              match.Groups[ 1 ].Value
+            );
+              
+            ResultList.Add( MatchedItem );
+              
+          }
+            
+        }
 
-
-
+      }
+        
+      //}
 
       return( ResultList );
 

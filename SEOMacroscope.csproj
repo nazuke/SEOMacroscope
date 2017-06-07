@@ -106,7 +106,7 @@
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorCssSelectors.cs" />
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorRegexes.cs" />
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorXpaths.cs" />
-    <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractor.cs" />
+    <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractorRegexes.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentText.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
