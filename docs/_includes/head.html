@@ -6,7 +6,19 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta name="google-site-verification" content="J5_C9t5p0QTmUGDNYPisSQW1jE8hRn0QKf4DnlDSr_A">
+  <!-- BEGIN: Webmaster Tools Services -->
+  {% if jekyll.environment == 'production' %}
+    {% if site.google_site_verification %}
+      <meta name="google-site-verification" content="{{ site.google_site_verification }}">
+    {% endif %}
+    {% if site.yandex_site_verification %}
+      <meta name="yandex-verification" content="{{ site.yandex_site_verification }}">
+    {% endif %}
+    {% if site.bing_site_verification %}
+      <meta name="msvalidate.01" content="{{ site.bing_site_verification }}">
+    {% endif %}
+  {% endif %}
+  <!-- END: Webmaster Tools Services -->
 
   {% if jekyll.environment == 'production' and site.google_tag_manager %}
     {% include google-tag-manager-head.html %}
@@ -39,7 +51,5 @@
   {% endcomment %}
 
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-  <meta name="msvalidate.01" content="359738600A5C3D292F19866E1F240410">
 
 </head>
