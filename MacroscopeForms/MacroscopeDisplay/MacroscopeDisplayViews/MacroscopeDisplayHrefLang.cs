@@ -201,6 +201,7 @@ namespace SEOMacroscope
             string DocUrl = msDoc.GetUrl();
             string PairKey = DocUrl;
             HttpStatusCode StatusCode = msDoc.GetStatusCode();
+            int StatusCodeNum = ( int )StatusCode;
             string DocLocale = msDoc.GetLocale();
             string DocTitle = msDoc.GetTitle();
             ListViewItem lvItem = null;
@@ -252,17 +253,17 @@ namespace SEOMacroscope
                   lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
                 }
 
-                if( ( ( int )StatusCode >= 100 ) && ( ( int )StatusCode <= 299 ) )
+                if( ( StatusCodeNum >= 100 ) && ( StatusCodeNum <= 299 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Green;
                 }
                 else
-                if( ( ( int )StatusCode >= 300 ) && ( ( int )StatusCode <= 399 ) )
+                if( ( StatusCodeNum >= 300 ) && ( StatusCodeNum <= 399 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Orange;
                 }
                 else
-                if( ( ( int )StatusCode >= 400 ) && ( ( int )StatusCode <= 599 ) )
+                if( ( StatusCodeNum >= 400 ) && ( StatusCodeNum <= 599 ) )
                 {
                   lvItem.SubItems[ 1 ].ForeColor = Color.Red;
                 }
@@ -274,30 +275,33 @@ namespace SEOMacroscope
                 foreach( string Locale in LocalesList.Keys )
                 {
 
-                  if( Locale != null )
+                  if( !string.IsNullOrEmpty( Locale ) )
                   {
 
                     string HrefLangUrl = null;
-                    int iLocale = ( int )LocaleColsTable[ Locale ];
+                    int LocaleCol = ( int )LocaleColsTable[ Locale ];
 
                     if( HrefLangsTable.ContainsKey( Locale ) )
                     {
-                      MacroscopeHrefLang msHrefLang = ( MacroscopeHrefLang )HrefLangsTable[ Locale ];
+
+                      MacroscopeHrefLang msHrefLang = HrefLangsTable[ Locale ];
+
                       if( msHrefLang != null )
                       {
                         HrefLangUrl = msHrefLang.GetUrl();
                       }
+
                     }
 
-                    if( HrefLangUrl != null )
+                    if( !string.IsNullOrEmpty( HrefLangUrl ) )
                     {
-                      lvItem.SubItems[ iLocale ].ForeColor = Color.Blue;
-                      lvItem.SubItems[ iLocale ].Text = HrefLangUrl;
+                      lvItem.SubItems[ LocaleCol ].ForeColor = Color.Blue;
+                      lvItem.SubItems[ LocaleCol ].Text = HrefLangUrl;
                     }
                     else
                     {
-                      lvItem.SubItems[ iLocale ].ForeColor = Color.Red;
-                      lvItem.SubItems[ iLocale ].Text = "MISSING";
+                      lvItem.SubItems[ LocaleCol ].ForeColor = Color.Red;
+                      lvItem.SubItems[ LocaleCol ].Text = "NOT SPECIFIED";
 
                     }
 
@@ -315,7 +319,7 @@ namespace SEOMacroscope
             }
             else
             {
-              DebugMsg( string.Format( "MacroscopeDisplayHrefLang MISSING: {0}", PairKey ) );
+              DebugMsg( string.Format( "MacroscopeDisplayHrefLang NOT SPECIFIED: {0}", PairKey ) );
             }
 
           }

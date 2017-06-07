@@ -1798,7 +1798,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "IS CSS PAGE: {0}", this.DocUrl ) );
           
-          if( MacroscopePreferencesManager.GetFetchStylesheets() )
+          if( MacroscopePreferencesManager.GetProcessStylesheets() )
           {
             fTimeDuration( this.ProcessCssPage );
           }
@@ -1810,7 +1810,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.DocUrl ) );
           
-          if( MacroscopePreferencesManager.GetFetchImages() )
+          if( MacroscopePreferencesManager.GetProcessImages() )
           {
             fTimeDuration( this.ProcessImagePage );
           }
@@ -1822,7 +1822,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.DocUrl ) );
           
-          if( MacroscopePreferencesManager.GetFetchJavascripts() )
+          if( MacroscopePreferencesManager.GetProcessJavascripts() )
           {
             fTimeDuration( this.ProcessJavascriptPage );
           }
@@ -1834,7 +1834,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "IS PDF PAGE: {0}", this.DocUrl ) );
           
-          if( MacroscopePreferencesManager.GetFetchPdfs() )
+          if( MacroscopePreferencesManager.GetProcessPdfs() )
           {
             fTimeDuration( this.ProcessPdfPage );
           }
@@ -1846,7 +1846,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "IS XML PAGE: {0}", this.DocUrl ) );
           
-          if( MacroscopePreferencesManager.GetFetchXml() )
+          if( MacroscopePreferencesManager.GetProcessXml() )
           {
             fTimeDuration( this.ProcessXmlPage );
           }
@@ -1867,7 +1867,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "IS AUDIO PAGE: {0}", this.DocUrl ) );
           
-          if( MacroscopePreferencesManager.GetFetchAudio() )
+          if( MacroscopePreferencesManager.GetProcessAudio() )
           {
             fTimeDuration( this.ProcessAudioPage );
           }
@@ -1879,7 +1879,7 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.DocUrl ) );
           
-          if( MacroscopePreferencesManager.GetFetchVideo() )
+          if( MacroscopePreferencesManager.GetProcessVideo() )
           {
             fTimeDuration( this.ProcessVideoPage );
           }
@@ -1889,7 +1889,7 @@ namespace SEOMacroscope
         if( this.GetIsBinary() )
         {
           DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.DocUrl ) );
-          if( MacroscopePreferencesManager.GetFetchBinaries() )
+          if( MacroscopePreferencesManager.GetProcessBinaries() )
           {
             fTimeDuration( this.ProcessBinaryPage );
           }
@@ -2060,10 +2060,12 @@ namespace SEOMacroscope
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
       
+      /*
       if( res != null )
       {
         res.Dispose();
       }
+      */
 
     }
 

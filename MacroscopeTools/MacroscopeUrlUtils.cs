@@ -24,8 +24,9 @@
 */
 
 using System;
-using HtmlAgilityPack;
 using System.Text.RegularExpressions;
+using System.Net;
+using HtmlAgilityPack;
 
 namespace SEOMacroscope
 {
@@ -634,6 +635,54 @@ namespace SEOMacroscope
 
     }
       
+    /**************************************************************************/
+
+    public static string GetMimeTypeOfUrl ( string Url )
+    {
+
+      HttpWebRequest req = null;
+      HttpWebResponse res = null;
+      string MimeType = null;
+      
+      try
+      {
+
+        req = WebRequest.CreateHttp( Url );
+        
+        req.Method = "HEAD";
+        req.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
+        req.KeepAlive = false;
+        req.AllowAutoRedirect = false;
+
+        MacroscopePreferencesManager.EnableHttpProxy( req );
+
+        res = ( HttpWebResponse )req.GetResponse();
+
+        MimeType = res.Headers[ HttpRequestHeader.ContentType ];
+
+        res.Close();
+        
+        res.Dispose();
+
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ExecuteHeadRequest :: UriFormatException: {0}", ex.Message ), true );
+      }
+      catch( TimeoutException ex )
+      {
+        DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ), true );
+      }
+      catch( WebException ex )
+      {
+        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ), true );
+        res = ( HttpWebResponse )ex.Response;
+      }
+
+      return( MimeType );
+      
+    }
+
     /**************************************************************************/
 
   }

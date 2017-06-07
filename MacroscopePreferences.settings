@@ -58,9 +58,6 @@
     <Setting Name="FetchJavascripts" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="FetchPdfs" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="FetchStylesheets" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -126,6 +123,30 @@
     </Setting>
     <Setting Name="PauseDisplayDuringScan" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ProcessAudio" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProcessBinaries" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProcessImages" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProcessJavascripts" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProcessPdfs" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ProcessStylesheets" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProcessVideo" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProcessXml" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="RequestTimeout" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">30</Value>

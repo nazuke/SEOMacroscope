@@ -81,11 +81,19 @@ namespace SEOMacroscope
     static Boolean FetchStylesheets;
     static Boolean FetchJavascripts;
     static Boolean FetchImages;
-    static Boolean FetchPdfs;
     static Boolean FetchAudio;
     static Boolean FetchVideo;
     static Boolean FetchXml;
     static Boolean FetchBinaries;
+
+    static Boolean ProcessAudio;
+    static Boolean ProcessBinaries;
+    static Boolean ProcessImages;
+    static Boolean ProcessJavascripts;
+    static Boolean ProcessPdfs;
+    static Boolean ProcessStylesheets;
+    static Boolean ProcessVideo;
+    static Boolean ProcessXml;
 
     // Per-Job Spidering Options
 
@@ -187,12 +195,20 @@ namespace SEOMacroscope
           FetchStylesheets = Preferences.FetchStylesheets;
           FetchJavascripts = Preferences.FetchJavascripts;
           FetchImages = Preferences.FetchImages;
-          FetchPdfs = Preferences.FetchPdfs;
           FetchAudio = Preferences.FetchAudio;
           FetchVideo = Preferences.FetchVideo;
           FetchXml = Preferences.FetchXml;
           FetchBinaries = Preferences.FetchBinaries;
-          
+
+          ProcessAudio = Preferences.ProcessAudio;
+          ProcessBinaries = Preferences.ProcessBinaries;
+          ProcessImages = Preferences.ProcessImages;
+          ProcessJavascripts = Preferences.ProcessJavascripts;
+          ProcessPdfs = Preferences.ProcessPdfs;
+          ProcessStylesheets = Preferences.ProcessStylesheets;
+          ProcessVideo = Preferences.ProcessVideo;
+          ProcessXml = Preferences.ProcessXml;
+
           CrawlParentDirectories = Preferences.CrawlParentDirectories;
           CrawlChildDirectories = Preferences.CrawlChildDirectories;              
 
@@ -227,16 +243,19 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private static void CheckAppVersion (){
+    private static void CheckAppVersion ()
+    {
       
       string SavedAppVersion = Preferences.AppVersion;
       Boolean DoReset = false;
 
-      if( string.IsNullOrEmpty(SavedAppVersion) ) {
+      if( string.IsNullOrEmpty( SavedAppVersion ) )
+      {
         DoReset = true;
       }
 
-      if( DoReset ) {
+      if( DoReset )
+      {
         SetDefaultValues();
         SavePreferences();
       }
@@ -285,11 +304,19 @@ namespace SEOMacroscope
       FetchStylesheets = true;
       FetchJavascripts = true;
       FetchImages = true;
-      FetchPdfs = false;
       FetchAudio = true;
       FetchVideo = true;
       FetchXml = true;
       FetchBinaries = true;
+
+      ProcessAudio = true;
+      ProcessBinaries = true;
+      ProcessImages = true;
+      ProcessJavascripts = true;
+      ProcessPdfs = false;
+      ProcessStylesheets = true;
+      ProcessVideo = true;
+      ProcessXml = true;
 
       // Per-Job Spidering Options
 
@@ -431,7 +458,6 @@ namespace SEOMacroscope
         Preferences.FetchStylesheets = FetchStylesheets;
         Preferences.FetchJavascripts = FetchJavascripts;
         Preferences.FetchImages = FetchImages;
-        Preferences.FetchPdfs = FetchPdfs;
         Preferences.FetchAudio = FetchAudio;
         Preferences.FetchVideo = FetchVideo;
         Preferences.FetchXml = FetchXml;
@@ -827,7 +853,7 @@ namespace SEOMacroscope
       FollowListLinks = State;
     }
 
-    /**************************************************************************/
+    /** CRAWL DOCUMENT TYPES **************************************************/
 
     public static Boolean GetFetchStylesheets ()
     {
@@ -839,7 +865,7 @@ namespace SEOMacroscope
       FetchStylesheets = State;
     }
 
-    /**************************************************************************/
+    /** -------------------------------------------------------------------  **/
 
     public static Boolean GetFetchJavascripts ()
     {
@@ -851,7 +877,7 @@ namespace SEOMacroscope
       FetchJavascripts = State;
     }
 
-    /**************************************************************************/
+    /** -------------------------------------------------------------------  **/
 
     public static Boolean GetFetchImages ()
     {
@@ -863,19 +889,7 @@ namespace SEOMacroscope
       FetchImages = State;
     }
 
-    /**************************************************************************/
-
-    public static Boolean GetFetchPdfs ()
-    {
-      return( FetchPdfs );
-    }
-
-    public static void SetFetchPdfs ( Boolean State )
-    {
-      FetchPdfs = State;
-    }
-
-    /**************************************************************************/
+    /** -------------------------------------------------------------------  **/
 
     public static Boolean GetFetchAudio ()
     {
@@ -887,7 +901,7 @@ namespace SEOMacroscope
       FetchAudio = State;
     }
 
-    /**************************************************************************/
+    /** -------------------------------------------------------------------  **/
 
     public static Boolean GetFetchVideo ()
     {
@@ -899,7 +913,7 @@ namespace SEOMacroscope
       FetchVideo = State;
     }
 
-    /**************************************************************************/
+    /** -------------------------------------------------------------------  **/
 
     public static Boolean GetFetchXml ()
     {
@@ -911,7 +925,7 @@ namespace SEOMacroscope
       FetchXml = State;
     }
 
-    /**************************************************************************/
+    /** -------------------------------------------------------------------  **/
 
     public static Boolean GetFetchBinaries ()
     {
@@ -921,6 +935,102 @@ namespace SEOMacroscope
     public static void SetFetchBinaries ( Boolean State )
     {
       FetchBinaries = State;
+    }
+
+    /** PROCESS DOCUMENT TYPES ************************************************/
+
+    public static Boolean GetProcessAudio ()
+    {
+      return( ProcessAudio );
+    }
+
+    public static void SetProcessAudio ( Boolean State )
+    {
+      ProcessAudio = State;
+    }
+
+    /** -------------------------------------------------------------------  **/
+
+    public static Boolean GetProcessBinaries ()
+    {
+      return( ProcessBinaries );
+    }
+
+    public static void SetProcessBinaries ( Boolean State )
+    {
+      ProcessBinaries = State;
+    }
+
+    /** -------------------------------------------------------------------  **/
+
+    public static Boolean GetProcessImages ()
+    {
+      return( ProcessImages );
+    }
+
+    public static void SetProcessImages ( Boolean State )
+    {
+      ProcessImages = State;
+    }
+      
+    /** -------------------------------------------------------------------  **/            
+
+    public static Boolean GetProcessJavascripts ()
+    {
+      return( ProcessJavascripts );
+    }
+
+    public static void SetProcessJavascripts ( Boolean State )
+    {
+      ProcessJavascripts = State;
+    }
+      
+    /** -------------------------------------------------------------------  **/    
+
+    public static Boolean GetProcessPdfs ()
+    {
+      return( ProcessPdfs );
+    }
+
+    public static void SetProcessPdfs ( Boolean State )
+    {
+      ProcessPdfs = State;
+    }
+    
+    /** -------------------------------------------------------------------  **/  
+
+    public static Boolean GetProcessStylesheets ()
+    {
+      return( ProcessStylesheets );
+    }
+
+    public static void SetProcessStylesheets ( Boolean State )
+    {
+      ProcessStylesheets = State;
+    }
+
+    /** -------------------------------------------------------------------  **/
+
+    public static Boolean GetProcessVideo ()
+    {
+      return( ProcessVideo );
+    }
+
+    public static void SetProcessVideo ( Boolean State )
+    {
+      ProcessVideo = State;
+    }
+
+    /** -------------------------------------------------------------------  **/
+
+    public static Boolean GetProcessXml ()
+    {
+      return( ProcessXml );
+    }
+
+    public static void SetProcessXml ( Boolean State )
+    {
+      ProcessXml = State;
     }
 
     /** Per-Job Spidering Options *********************************************/

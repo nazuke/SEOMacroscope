@@ -553,11 +553,11 @@ namespace SEOMacroscope
 
             if( LinkUrlAbs != null )
             {
-              
-              Outlink = this.AddHtmlOutlink( 
-                LinkUrlAbs,
-                MacroscopeConstants.InOutLinkType.AHREF,
-                true
+
+              Outlink = this.AddHtmlOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.AHREF,
+                Follow: true
               );
               
               if( Outlink != null )
@@ -646,7 +646,7 @@ namespace SEOMacroscope
             Boolean Follow = true;
             MacroscopeLink Outlink = null;
 
-            if( LinkNode.GetAttributeValue( "hreflang", null ) != null )
+            if( !string.IsNullOrEmpty( LinkNode.GetAttributeValue( "hreflang", null ) ) )
             {
 
               LinkType = MacroscopeConstants.InOutLinkType.HREFLANG;
@@ -1159,8 +1159,6 @@ namespace SEOMacroscope
           break;
       }
 
-      //Proceed = true; // TODO: REMOVE THIS
-      
       if( Proceed )
       {
 
@@ -1212,6 +1210,12 @@ namespace SEOMacroscope
             }
 
             DebugMsg( string.Format( "HREFLANG: {0}, {1}", HrefLangLocale, Href ) );
+
+            if( MacroscopePreferencesManager.GetCheckHreflangs() )
+            {
+              this.DocCollection.GetAllowedHosts().AddFromUrl( Url: Href );
+              this.DocCollection.GetJobMaster().AddUrlQueueItem( Url: Href );
+            }
 
             msHrefLang = new MacroscopeHrefLang ( HrefLangLocale, Href );
 

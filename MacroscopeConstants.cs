@@ -189,7 +189,8 @@ namespace SEOMacroscope
       VIDEO = 15,
       EMBED = 16,
       OBJECT = 17,
-      ALTERNATE = 18
+      ALTERNATE = 18,
+      PDF = 19
     }
 
     /** END: Outlink Types ****************************************************/

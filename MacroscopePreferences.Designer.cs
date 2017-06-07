@@ -241,18 +241,6 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("False")]
-		public bool FetchPdfs {
-			get {
-				return ((bool)(this["FetchPdfs"]));
-			}
-			set {
-				this["FetchPdfs"] = value;
-			}
-		}
-		
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FetchStylesheets {
 			get {
@@ -512,6 +500,102 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["PauseDisplayDuringScan"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ProcessAudio {
+			get {
+				return ((bool)(this["ProcessAudio"]));
+			}
+			set {
+				this["ProcessAudio"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ProcessBinaries {
+			get {
+				return ((bool)(this["ProcessBinaries"]));
+			}
+			set {
+				this["ProcessBinaries"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ProcessImages {
+			get {
+				return ((bool)(this["ProcessImages"]));
+			}
+			set {
+				this["ProcessImages"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ProcessJavascripts {
+			get {
+				return ((bool)(this["ProcessJavascripts"]));
+			}
+			set {
+				this["ProcessJavascripts"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool ProcessPdfs {
+			get {
+				return ((bool)(this["ProcessPdfs"]));
+			}
+			set {
+				this["ProcessPdfs"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ProcessStylesheets {
+			get {
+				return ((bool)(this["ProcessStylesheets"]));
+			}
+			set {
+				this["ProcessStylesheets"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ProcessVideo {
+			get {
+				return ((bool)(this["ProcessVideo"]));
+			}
+			set {
+				this["ProcessVideo"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ProcessXml {
+			get {
+				return ((bool)(this["ProcessXml"]));
+			}
+			set {
+				this["ProcessXml"] = value;
 			}
 		}
 		

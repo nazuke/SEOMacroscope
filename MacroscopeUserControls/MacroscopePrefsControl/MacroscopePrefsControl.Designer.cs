@@ -35,7 +35,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageSpideringControl;
 		private System.Windows.Forms.GroupBox groupBox1;
 		public System.Windows.Forms.CheckBox checkBoxFetchBinaries;
-		public System.Windows.Forms.CheckBox checkBoxFetchPdfs;
 		public System.Windows.Forms.CheckBox checkBoxFetchImages;
 		public System.Windows.Forms.CheckBox checkBoxFetchJavascripts;
 		public System.Windows.Forms.CheckBox checkBoxFetchStylesheets;
@@ -120,6 +119,15 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxShowProgressDialogues;
 		public System.Windows.Forms.CheckBox checkBoxIgnoreQueries;
 		public System.Windows.Forms.CheckBox checkBoxDetectLanguage;
+		private System.Windows.Forms.GroupBox groupBox16;
+		public System.Windows.Forms.CheckBox checkBoxProcessAudio;
+		public System.Windows.Forms.CheckBox checkBoxProcessVideo;
+		public System.Windows.Forms.CheckBox checkBoxProcessXml;
+		public System.Windows.Forms.CheckBox checkBoxProcessBinaries;
+		public System.Windows.Forms.CheckBox checkBoxProcessPdfs;
+		public System.Windows.Forms.CheckBox checkBoxProcessImages;
+		public System.Windows.Forms.CheckBox checkBoxProcessJavascripts;
+		public System.Windows.Forms.CheckBox checkBoxProcessStylesheets;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -176,7 +184,6 @@ namespace SEOMacroscope
 			this.checkBoxFetchVideo = new System.Windows.Forms.CheckBox();
 			this.checkBoxFetchXml = new System.Windows.Forms.CheckBox();
 			this.checkBoxFetchBinaries = new System.Windows.Forms.CheckBox();
-			this.checkBoxFetchPdfs = new System.Windows.Forms.CheckBox();
 			this.checkBoxFetchImages = new System.Windows.Forms.CheckBox();
 			this.checkBoxFetchJavascripts = new System.Windows.Forms.CheckBox();
 			this.checkBoxFetchStylesheets = new System.Windows.Forms.CheckBox();
@@ -185,6 +192,15 @@ namespace SEOMacroscope
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.checkBoxDetectLanguage = new System.Windows.Forms.CheckBox();
 			this.checkBoxCheckHreflangs = new System.Windows.Forms.CheckBox();
+			this.groupBox16 = new System.Windows.Forms.GroupBox();
+			this.checkBoxProcessAudio = new System.Windows.Forms.CheckBox();
+			this.checkBoxProcessVideo = new System.Windows.Forms.CheckBox();
+			this.checkBoxProcessXml = new System.Windows.Forms.CheckBox();
+			this.checkBoxProcessBinaries = new System.Windows.Forms.CheckBox();
+			this.checkBoxProcessPdfs = new System.Windows.Forms.CheckBox();
+			this.checkBoxProcessImages = new System.Windows.Forms.CheckBox();
+			this.checkBoxProcessJavascripts = new System.Windows.Forms.CheckBox();
+			this.checkBoxProcessStylesheets = new System.Windows.Forms.CheckBox();
 			this.groupBox11 = new System.Windows.Forms.GroupBox();
 			this.checkBoxScanSitesInList = new System.Windows.Forms.CheckBox();
 			this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -251,6 +267,7 @@ namespace SEOMacroscope
 			this.tabPageAnalysisOptions.SuspendLayout();
 			this.flowLayoutPanel3.SuspendLayout();
 			this.groupBox6.SuspendLayout();
+			this.groupBox16.SuspendLayout();
 			this.groupBox11.SuspendLayout();
 			this.groupBox13.SuspendLayout();
 			this.groupBox14.SuspendLayout();
@@ -674,7 +691,6 @@ namespace SEOMacroscope
 			this.groupBox1.Controls.Add(this.checkBoxFetchVideo);
 			this.groupBox1.Controls.Add(this.checkBoxFetchXml);
 			this.groupBox1.Controls.Add(this.checkBoxFetchBinaries);
-			this.groupBox1.Controls.Add(this.checkBoxFetchPdfs);
 			this.groupBox1.Controls.Add(this.checkBoxFetchImages);
 			this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
 			this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
@@ -684,20 +700,20 @@ namespace SEOMacroscope
 			this.groupBox1.Size = new System.Drawing.Size(500, 120);
 			this.groupBox1.TabIndex = 5;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Fetch Document Types";
+			this.groupBox1.Text = "Crawl Link Types";
 			// 
 			// checkBoxFetchAudio
 			// 
-			this.checkBoxFetchAudio.Location = new System.Drawing.Point(180, 50);
+			this.checkBoxFetchAudio.Location = new System.Drawing.Point(180, 20);
 			this.checkBoxFetchAudio.Name = "checkBoxFetchAudio";
 			this.checkBoxFetchAudio.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxFetchAudio.TabIndex = 5;
-			this.checkBoxFetchAudio.Text = "Audo files";
+			this.checkBoxFetchAudio.Text = "Audio files";
 			this.checkBoxFetchAudio.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxFetchVideo
 			// 
-			this.checkBoxFetchVideo.Location = new System.Drawing.Point(180, 80);
+			this.checkBoxFetchVideo.Location = new System.Drawing.Point(180, 50);
 			this.checkBoxFetchVideo.Name = "checkBoxFetchVideo";
 			this.checkBoxFetchVideo.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxFetchVideo.TabIndex = 6;
@@ -706,7 +722,7 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFetchXml
 			// 
-			this.checkBoxFetchXml.Location = new System.Drawing.Point(340, 20);
+			this.checkBoxFetchXml.Location = new System.Drawing.Point(180, 80);
 			this.checkBoxFetchXml.Name = "checkBoxFetchXml";
 			this.checkBoxFetchXml.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxFetchXml.TabIndex = 7;
@@ -715,21 +731,12 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFetchBinaries
 			// 
-			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(340, 50);
+			this.checkBoxFetchBinaries.Location = new System.Drawing.Point(340, 20);
 			this.checkBoxFetchBinaries.Name = "checkBoxFetchBinaries";
 			this.checkBoxFetchBinaries.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxFetchBinaries.TabIndex = 8;
 			this.checkBoxFetchBinaries.Text = "Binary files";
 			this.checkBoxFetchBinaries.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxFetchPdfs
-			// 
-			this.checkBoxFetchPdfs.Location = new System.Drawing.Point(180, 20);
-			this.checkBoxFetchPdfs.Name = "checkBoxFetchPdfs";
-			this.checkBoxFetchPdfs.Size = new System.Drawing.Size(150, 24);
-			this.checkBoxFetchPdfs.TabIndex = 4;
-			this.checkBoxFetchPdfs.Text = "PDFs";
-			this.checkBoxFetchPdfs.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxFetchImages
 			// 
@@ -775,6 +782,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel3.AutoSize = true;
 			this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.flowLayoutPanel3.Controls.Add(this.groupBox6);
+			this.flowLayoutPanel3.Controls.Add(this.groupBox16);
 			this.flowLayoutPanel3.Controls.Add(this.groupBox11);
 			this.flowLayoutPanel3.Controls.Add(this.groupBox13);
 			this.flowLayoutPanel3.Controls.Add(this.groupBox14);
@@ -816,11 +824,102 @@ namespace SEOMacroscope
 			this.checkBoxCheckHreflangs.Text = "Check linked HrefLang pages";
 			this.checkBoxCheckHreflangs.UseVisualStyleBackColor = true;
 			// 
+			// groupBox16
+			// 
+			this.groupBox16.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox16.Controls.Add(this.checkBoxProcessAudio);
+			this.groupBox16.Controls.Add(this.checkBoxProcessVideo);
+			this.groupBox16.Controls.Add(this.checkBoxProcessXml);
+			this.groupBox16.Controls.Add(this.checkBoxProcessBinaries);
+			this.groupBox16.Controls.Add(this.checkBoxProcessPdfs);
+			this.groupBox16.Controls.Add(this.checkBoxProcessImages);
+			this.groupBox16.Controls.Add(this.checkBoxProcessJavascripts);
+			this.groupBox16.Controls.Add(this.checkBoxProcessStylesheets);
+			this.groupBox16.Location = new System.Drawing.Point(10, 80);
+			this.groupBox16.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox16.Name = "groupBox16";
+			this.groupBox16.Size = new System.Drawing.Size(500, 120);
+			this.groupBox16.TabIndex = 6;
+			this.groupBox16.TabStop = false;
+			this.groupBox16.Text = "Process Document Types";
+			// 
+			// checkBoxProcessAudio
+			// 
+			this.checkBoxProcessAudio.Location = new System.Drawing.Point(180, 50);
+			this.checkBoxProcessAudio.Name = "checkBoxProcessAudio";
+			this.checkBoxProcessAudio.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxProcessAudio.TabIndex = 5;
+			this.checkBoxProcessAudio.Text = "Audio files";
+			this.checkBoxProcessAudio.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxProcessVideo
+			// 
+			this.checkBoxProcessVideo.Location = new System.Drawing.Point(180, 80);
+			this.checkBoxProcessVideo.Name = "checkBoxProcessVideo";
+			this.checkBoxProcessVideo.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxProcessVideo.TabIndex = 6;
+			this.checkBoxProcessVideo.Text = "Video files";
+			this.checkBoxProcessVideo.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxProcessXml
+			// 
+			this.checkBoxProcessXml.Location = new System.Drawing.Point(340, 20);
+			this.checkBoxProcessXml.Name = "checkBoxProcessXml";
+			this.checkBoxProcessXml.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxProcessXml.TabIndex = 7;
+			this.checkBoxProcessXml.Text = "XML files";
+			this.checkBoxProcessXml.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxProcessBinaries
+			// 
+			this.checkBoxProcessBinaries.Location = new System.Drawing.Point(340, 50);
+			this.checkBoxProcessBinaries.Name = "checkBoxProcessBinaries";
+			this.checkBoxProcessBinaries.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxProcessBinaries.TabIndex = 8;
+			this.checkBoxProcessBinaries.Text = "Binary files";
+			this.checkBoxProcessBinaries.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxProcessPdfs
+			// 
+			this.checkBoxProcessPdfs.Location = new System.Drawing.Point(180, 20);
+			this.checkBoxProcessPdfs.Name = "checkBoxProcessPdfs";
+			this.checkBoxProcessPdfs.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxProcessPdfs.TabIndex = 4;
+			this.checkBoxProcessPdfs.Text = "PDFs";
+			this.checkBoxProcessPdfs.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxProcessImages
+			// 
+			this.checkBoxProcessImages.Location = new System.Drawing.Point(20, 80);
+			this.checkBoxProcessImages.Name = "checkBoxProcessImages";
+			this.checkBoxProcessImages.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxProcessImages.TabIndex = 3;
+			this.checkBoxProcessImages.Text = "Images";
+			this.checkBoxProcessImages.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxProcessJavascripts
+			// 
+			this.checkBoxProcessJavascripts.Location = new System.Drawing.Point(20, 50);
+			this.checkBoxProcessJavascripts.Name = "checkBoxProcessJavascripts";
+			this.checkBoxProcessJavascripts.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxProcessJavascripts.TabIndex = 2;
+			this.checkBoxProcessJavascripts.Text = "Javascripts";
+			this.checkBoxProcessJavascripts.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxProcessStylesheets
+			// 
+			this.checkBoxProcessStylesheets.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxProcessStylesheets.Name = "checkBoxProcessStylesheets";
+			this.checkBoxProcessStylesheets.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxProcessStylesheets.TabIndex = 1;
+			this.checkBoxProcessStylesheets.Text = "CSS stylesheets";
+			this.checkBoxProcessStylesheets.UseVisualStyleBackColor = true;
+			// 
 			// groupBox11
 			// 
 			this.groupBox11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox11.Controls.Add(this.checkBoxScanSitesInList);
-			this.groupBox11.Location = new System.Drawing.Point(10, 80);
+			this.groupBox11.Location = new System.Drawing.Point(10, 210);
 			this.groupBox11.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox11.Name = "groupBox11";
 			this.groupBox11.Size = new System.Drawing.Size(500, 60);
@@ -841,7 +940,7 @@ namespace SEOMacroscope
 			// 
 			this.groupBox13.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox13.Controls.Add(this.checkBoxWarnAboutInsecureLinks);
-			this.groupBox13.Location = new System.Drawing.Point(10, 150);
+			this.groupBox13.Location = new System.Drawing.Point(10, 280);
 			this.groupBox13.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox13.Name = "groupBox13";
 			this.groupBox13.Size = new System.Drawing.Size(500, 60);
@@ -866,7 +965,7 @@ namespace SEOMacroscope
 			this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinSizeDifference);
 			this.groupBox14.Controls.Add(this.label22);
 			this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinDistance);
-			this.groupBox14.Location = new System.Drawing.Point(10, 220);
+			this.groupBox14.Location = new System.Drawing.Point(10, 350);
 			this.groupBox14.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.Size = new System.Drawing.Size(500, 124);
@@ -1465,6 +1564,7 @@ namespace SEOMacroscope
 			this.tabPageAnalysisOptions.PerformLayout();
 			this.flowLayoutPanel3.ResumeLayout(false);
 			this.groupBox6.ResumeLayout(false);
+			this.groupBox16.ResumeLayout(false);
 			this.groupBox11.ResumeLayout(false);
 			this.groupBox13.ResumeLayout(false);
 			this.groupBox14.ResumeLayout(false);

@@ -130,11 +130,19 @@ namespace SEOMacroscope
         PrefsControl.checkBoxFetchStylesheets.Checked = MacroscopePreferencesManager.GetFetchStylesheets();
         PrefsControl.checkBoxFetchJavascripts.Checked = MacroscopePreferencesManager.GetFetchJavascripts();
         PrefsControl.checkBoxFetchImages.Checked = MacroscopePreferencesManager.GetFetchImages();
-        PrefsControl.checkBoxFetchPdfs.Checked = MacroscopePreferencesManager.GetFetchPdfs();
         PrefsControl.checkBoxFetchAudio.Checked = MacroscopePreferencesManager.GetFetchAudio();
         PrefsControl.checkBoxFetchVideo.Checked = MacroscopePreferencesManager.GetFetchVideo();
         PrefsControl.checkBoxFetchXml.Checked = MacroscopePreferencesManager.GetFetchXml();
         PrefsControl.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
+
+        PrefsControl.checkBoxProcessStylesheets.Checked = MacroscopePreferencesManager.GetProcessStylesheets();
+        PrefsControl.checkBoxProcessJavascripts.Checked = MacroscopePreferencesManager.GetProcessJavascripts();
+        PrefsControl.checkBoxProcessImages.Checked = MacroscopePreferencesManager.GetProcessImages();
+        PrefsControl.checkBoxProcessPdfs.Checked = MacroscopePreferencesManager.GetProcessPdfs();
+        PrefsControl.checkBoxProcessAudio.Checked = MacroscopePreferencesManager.GetProcessAudio();
+        PrefsControl.checkBoxProcessVideo.Checked = MacroscopePreferencesManager.GetProcessVideo();
+        PrefsControl.checkBoxProcessXml.Checked = MacroscopePreferencesManager.GetProcessXml();
+        PrefsControl.checkBoxProcessBinaries.Checked = MacroscopePreferencesManager.GetProcessBinaries();
 
         // Analysis Options
 
@@ -207,11 +215,19 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetFetchStylesheets( PrefsControl.checkBoxFetchStylesheets.Checked );
       MacroscopePreferencesManager.SetFetchJavascripts( PrefsControl.checkBoxFetchJavascripts.Checked );
       MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchImages.Checked );
-      MacroscopePreferencesManager.SetFetchPdfs( PrefsControl.checkBoxFetchPdfs.Checked );
       MacroscopePreferencesManager.SetFetchAudio( PrefsControl.checkBoxFetchAudio.Checked );
       MacroscopePreferencesManager.SetFetchVideo( PrefsControl.checkBoxFetchVideo.Checked );
       MacroscopePreferencesManager.SetFetchXml( PrefsControl.checkBoxFetchXml.Checked );
       MacroscopePreferencesManager.SetFetchBinaries( PrefsControl.checkBoxFetchBinaries.Checked );
+
+      MacroscopePreferencesManager.SetProcessStylesheets( PrefsControl.checkBoxProcessStylesheets.Checked );
+      MacroscopePreferencesManager.SetProcessJavascripts( PrefsControl.checkBoxProcessJavascripts.Checked );
+      MacroscopePreferencesManager.SetProcessImages( PrefsControl.checkBoxProcessImages.Checked );
+      MacroscopePreferencesManager.SetProcessPdfs( PrefsControl.checkBoxProcessPdfs.Checked );
+      MacroscopePreferencesManager.SetProcessAudio( PrefsControl.checkBoxProcessAudio.Checked );
+      MacroscopePreferencesManager.SetProcessVideo( PrefsControl.checkBoxProcessVideo.Checked );
+      MacroscopePreferencesManager.SetProcessXml( PrefsControl.checkBoxProcessXml.Checked );
+      MacroscopePreferencesManager.SetProcessBinaries( PrefsControl.checkBoxProcessBinaries.Checked );
 
       // Analysis Options
 

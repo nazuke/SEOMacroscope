@@ -103,7 +103,9 @@
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="MacroscopeCustomFilters\MacroscopeCustomFilters.cs" />
     <Compile Include="MacroscopeCustomFilters\t\TestMacroscopeCustomFilters.cs" />
-    <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractor.cs" />
+    <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorCssSelectors.cs" />
+    <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorRegexes.cs" />
+    <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorXpaths.cs" />
     <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractor.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\MacroscopeDocumentText.cs" />

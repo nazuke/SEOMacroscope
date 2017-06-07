@@ -570,7 +570,7 @@ namespace SEOMacroscope
                     lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
                   }
 
-                  lvItem.SubItems[ 0 ].Text = "MISSING";
+                  lvItem.SubItems[ 0 ].Text = "NOT SPECIFIED";
 
                 }
 
