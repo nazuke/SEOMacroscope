@@ -29,53 +29,62 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-  
+	
   /// <summary>
-  /// Description of MacroscopeLoadUrlListFromClipboard.
+  /// Description of MacroscopeDataExtractorRegexesForm.
   /// </summary>
- 
-  public partial class MacroscopeLoadUrlListFromClipboard : Form
+	
+  public partial class MacroscopeDataExtractorRegexesForm : Form
   {
-	  
+	
     /**************************************************************************/
-	      
-    public MacroscopeLoadUrlListFromClipboard ()
+
+    /**************************************************************************/
+
+    public MacroscopeDataExtractorRegexesForm ( MacroscopeDataExtractorRegexes NewDataExtractor )
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-
-      this.textBoxUrls.MaxLength = 1024 * 1024; // 1MB
-      
-      this.textBoxUrls.KeyUp += this.CallbackPatternsTextKeyUp;
-
+			     
+      this.dataExtractorInstance.ConfigureDataExtractorForm( NewDataExtractor: NewDataExtractor );
+    
     }
     
     /**************************************************************************/
+        
+    
+    
+    
+    /**************************************************************************/
 
-    private void CallbackPatternsTextKeyUp ( object sender, KeyEventArgs e )
+    /*
+    public MacroscopeDataExtractorRegexes GetDataExtractor()
     {
-      
-      TextBox PatternsTextBox = ( TextBox )sender;
-
-      if( e.Control && ( e.KeyCode == Keys.A ) )
-      {
-
-        PatternsTextBox.SelectAll();
-        PatternsTextBox.Focus();
-
-      }
-
+      return( this.customFilterPanelInstance.GetCustomFilter() );
     }
-    
+    */
+   
     /**************************************************************************/
-    
-    public string GetUrlsText ()
+
+    /*
+    public void ClearCustomFilterForm ( object sender, EventArgs e )
     {
-      return( this.textBoxUrls.Text );
+      this.customFilterPanelInstance.ClearCustomFilterForm();
     }
-
+    */
+   
     /**************************************************************************/
-		    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   }
 	
 }

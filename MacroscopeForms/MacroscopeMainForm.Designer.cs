@@ -92,6 +92,9 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem customFiltersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripMenuItem customFiltersExcelReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+		private System.Windows.Forms.ToolStripMenuItem dataExtractorsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem regularExpressionsToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -131,6 +134,9 @@ namespace SEOMacroscope
 			this.crawlChildDirectoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.customFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+			this.dataExtractorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.regularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.clearHTTPAuthenticationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -145,6 +151,7 @@ namespace SEOMacroscope
 			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contactDetailsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.remarksExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.customFiltersExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeBlogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeOnGitHubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -175,7 +182,6 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
-			this.customFiltersExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -273,6 +279,8 @@ namespace SEOMacroscope
 			this.crawlChildDirectoriesToolStripMenuItem,
 			this.toolStripSeparator5,
 			this.customFiltersToolStripMenuItem,
+			this.toolStripSeparator7,
+			this.dataExtractorsToolStripMenuItem,
 			this.toolStripSeparator6,
 			this.clearHTTPAuthenticationToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
@@ -327,6 +335,26 @@ namespace SEOMacroscope
 			this.customFiltersToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.customFiltersToolStripMenuItem.Text = "Custom Filters";
 			this.customFiltersToolStripMenuItem.Click += new System.EventHandler(this.CallbackCustomFilterClick);
+			// 
+			// toolStripSeparator7
+			// 
+			this.toolStripSeparator7.Name = "toolStripSeparator7";
+			this.toolStripSeparator7.Size = new System.Drawing.Size(213, 6);
+			// 
+			// dataExtractorsToolStripMenuItem
+			// 
+			this.dataExtractorsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.regularExpressionsToolStripMenuItem});
+			this.dataExtractorsToolStripMenuItem.Name = "dataExtractorsToolStripMenuItem";
+			this.dataExtractorsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+			this.dataExtractorsToolStripMenuItem.Text = "Data Extractors";
+			// 
+			// regularExpressionsToolStripMenuItem
+			// 
+			this.regularExpressionsToolStripMenuItem.Name = "regularExpressionsToolStripMenuItem";
+			this.regularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+			this.regularExpressionsToolStripMenuItem.Text = "Regular Expressions";
+			this.regularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDataExtractorsRegularExpressionsClick);
 			// 
 			// toolStripSeparator6
 			// 
@@ -440,6 +468,13 @@ namespace SEOMacroscope
 			this.remarksExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
 			this.remarksExcelReportToolStripMenuItem.Text = "Remarks Excel Report";
 			this.remarksExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveRemarksExcelReport);
+			// 
+			// customFiltersExcelReportToolStripMenuItem
+			// 
+			this.customFiltersExcelReportToolStripMenuItem.Name = "customFiltersExcelReportToolStripMenuItem";
+			this.customFiltersExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.customFiltersExcelReportToolStripMenuItem.Text = "Custom Filters Excel Report";
+			this.customFiltersExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveCustomFilterExcelReport);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -735,13 +770,6 @@ namespace SEOMacroscope
 			this.macroscopeSiteStructurePanelInstance.Name = "macroscopeSiteStructurePanelInstance";
 			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
-			// 
-			// customFiltersExcelReportToolStripMenuItem
-			// 
-			this.customFiltersExcelReportToolStripMenuItem.Name = "customFiltersExcelReportToolStripMenuItem";
-			this.customFiltersExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.customFiltersExcelReportToolStripMenuItem.Text = "Custom Filters Excel Report";
-			this.customFiltersExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveCustomFilterExcelReport);
 			// 
 			// MacroscopeMainForm
 			// 

@@ -99,6 +99,8 @@ namespace SEOMacroscope
       this.listViewCustomFilters.Dock = DockStyle.Fill;
 
       this.listViewUriQueue.Dock = DockStyle.Fill;
+
+      this.tableLayoutPanelHistory.Dock = DockStyle.Fill;
       this.listViewHistory.Dock = DockStyle.Fill;
 
       this.tableLayoutPanelSearchCollection.Dock = DockStyle.Fill;

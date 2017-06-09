@@ -1213,8 +1213,13 @@ namespace SEOMacroscope
 
             if( MacroscopePreferencesManager.GetCheckHreflangs() )
             {
+
+              this.DocCollection.GetJobMaster().GetIncludeExcludeUrls().AddExplicitIncludeUrl( Url: Href );
+
               this.DocCollection.GetAllowedHosts().AddFromUrl( Url: Href );
+
               this.DocCollection.GetJobMaster().AddUrlQueueItem( Url: Href );
+
             }
 
             msHrefLang = new MacroscopeHrefLang ( HrefLangLocale, Href );

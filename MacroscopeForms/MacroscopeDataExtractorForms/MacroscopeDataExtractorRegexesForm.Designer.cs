@@ -8,7 +8,7 @@
  */
 namespace SEOMacroscope
 {
-	partial class MacroscopeDataExtractorForm
+	partial class MacroscopeDataExtractorRegexesForm
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
@@ -19,11 +19,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.Button buttonOK;
 		private System.Windows.Forms.Button buttonClear;
-		public System.Windows.Forms.TabControl tabControlDataExtractors;
-		private System.Windows.Forms.TabPage tabPageRegexes;
-		private System.Windows.Forms.TabPage tabPageXpaths;
-		private System.Windows.Forms.TabPage tabPageCssSelectors;
-		private System.Windows.Forms.Label label6;
+		private SEOMacroscope.MacroscopeDataExtractorRegexesPanel dataExtractorInstance;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -51,30 +47,24 @@ namespace SEOMacroscope
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonOK = new System.Windows.Forms.Button();
 			this.buttonClear = new System.Windows.Forms.Button();
-			this.tabControlDataExtractors = new System.Windows.Forms.TabControl();
-			this.tabPageRegexes = new System.Windows.Forms.TabPage();
-			this.tabPageXpaths = new System.Windows.Forms.TabPage();
-			this.tabPageCssSelectors = new System.Windows.Forms.TabPage();
-			this.label6 = new System.Windows.Forms.Label();
+			this.dataExtractorInstance = new SEOMacroscope.MacroscopeDataExtractorRegexesPanel();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
-			this.tabControlDataExtractors.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.ColumnCount = 1;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.label6, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 2);
-			this.tableLayoutPanel1.Controls.Add(this.tabControlDataExtractors, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.dataExtractorInstance, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 3;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.tableLayoutPanel1.RowCount = 2;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(884, 562);
 			this.tableLayoutPanel1.TabIndex = 2;
 			// 
@@ -122,71 +112,27 @@ namespace SEOMacroscope
 			this.buttonClear.Text = "Clear";
 			this.buttonClear.UseVisualStyleBackColor = true;
 			// 
-			// tabControlDataExtractors
+			// dataExtractorInstance
 			// 
-			this.tabControlDataExtractors.Controls.Add(this.tabPageRegexes);
-			this.tabControlDataExtractors.Controls.Add(this.tabPageXpaths);
-			this.tabControlDataExtractors.Controls.Add(this.tabPageCssSelectors);
-			this.tabControlDataExtractors.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControlDataExtractors.Location = new System.Drawing.Point(10, 60);
-			this.tabControlDataExtractors.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
-			this.tabControlDataExtractors.Name = "tabControlDataExtractors";
-			this.tabControlDataExtractors.SelectedIndex = 0;
-			this.tabControlDataExtractors.Size = new System.Drawing.Size(864, 442);
-			this.tabControlDataExtractors.TabIndex = 2;
+			this.dataExtractorInstance.AutoScroll = true;
+			this.dataExtractorInstance.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dataExtractorInstance.Location = new System.Drawing.Point(10, 10);
+			this.dataExtractorInstance.Margin = new System.Windows.Forms.Padding(10);
+			this.dataExtractorInstance.Name = "dataExtractorInstance";
+			this.dataExtractorInstance.Size = new System.Drawing.Size(864, 482);
+			this.dataExtractorInstance.TabIndex = 2;
 			// 
-			// tabPageRegexes
-			// 
-			this.tabPageRegexes.Location = new System.Drawing.Point(4, 22);
-			this.tabPageRegexes.Name = "tabPageRegexes";
-			this.tabPageRegexes.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageRegexes.Size = new System.Drawing.Size(856, 416);
-			this.tabPageRegexes.TabIndex = 0;
-			this.tabPageRegexes.Text = "Regular Expressions";
-			this.tabPageRegexes.UseVisualStyleBackColor = true;
-			// 
-			// tabPageXpaths
-			// 
-			this.tabPageXpaths.Location = new System.Drawing.Point(4, 22);
-			this.tabPageXpaths.Name = "tabPageXpaths";
-			this.tabPageXpaths.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageXpaths.Size = new System.Drawing.Size(856, 416);
-			this.tabPageXpaths.TabIndex = 1;
-			this.tabPageXpaths.Text = "XPaths";
-			this.tabPageXpaths.UseVisualStyleBackColor = true;
-			// 
-			// tabPageCssSelectors
-			// 
-			this.tabPageCssSelectors.Location = new System.Drawing.Point(4, 22);
-			this.tabPageCssSelectors.Name = "tabPageCssSelectors";
-			this.tabPageCssSelectors.Size = new System.Drawing.Size(856, 416);
-			this.tabPageCssSelectors.TabIndex = 2;
-			this.tabPageCssSelectors.Text = "CSS Selectors";
-			this.tabPageCssSelectors.UseVisualStyleBackColor = true;
-			// 
-			// label6
-			// 
-			this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label6.Location = new System.Drawing.Point(10, 10);
-			this.label6.Margin = new System.Windows.Forms.Padding(10);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(864, 40);
-			this.label6.TabIndex = 3;
-			this.label6.Text = "Enter text strings to search for and extract from each HTML page.";
-			// 
-			// MacroscopeDataExtractorForm
+			// MacroscopeDataExtractorRegexesForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(884, 562);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
-			this.Name = "MacroscopeDataExtractorForm";
-			this.Text = "Data Extractor";
+			this.Name = "MacroscopeDataExtractorRegexesForm";
+			this.Text = "Data Extractor: Regular Expressions";
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
-			this.tabControlDataExtractors.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

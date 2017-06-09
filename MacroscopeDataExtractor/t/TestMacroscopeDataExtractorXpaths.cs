@@ -24,32 +24,25 @@
 */
 
 using System;
-using System.Drawing;
-using System.Windows.Forms;
+using NUnit.Framework;
 
 namespace SEOMacroscope
 {
-	
-  /// <summary>
-  /// Description of MacroscopeDataExtractorForm.
-  /// </summary>
-	
-  public partial class MacroscopeDataExtractorForm : Form
+
+  [TestFixture]
+  public class TestMacroscopeDataExtractorXpaths
   {
-	
-    /**************************************************************************/
 
     /**************************************************************************/
 
-    public MacroscopeDataExtractorForm ()
+    [Test]
+    public void TestMethod ()
     {
-
-      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-			
+      // TODO: Add your test.
     }
-    
+		
     /**************************************************************************/
-        
+		    
   }
 	
 }

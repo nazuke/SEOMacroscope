@@ -263,6 +263,9 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelCustomFilters;
 		public System.Windows.Forms.ToolStrip toolStrip3;
 		public System.Windows.Forms.ToolStripLabel toolStripLabelCustomFiltersItems;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelHistory;
+		public System.Windows.Forms.ToolStrip toolStrip4;
+		public System.Windows.Forms.ToolStripLabel toolStripLabelHistoryItems;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -519,6 +522,9 @@ namespace SEOMacroscope
 			this.listViewHistory = new System.Windows.Forms.ListView();
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
+			this.tableLayoutPanelHistory = new System.Windows.Forms.TableLayoutPanel();
+			this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+			this.toolStripLabelHistoryItems = new System.Windows.Forms.ToolStripLabel();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
@@ -563,6 +569,8 @@ namespace SEOMacroscope
 			this.toolStrip3.SuspendLayout();
 			this.tabPageUriQueue.SuspendLayout();
 			this.tabPageHistory.SuspendLayout();
+			this.tableLayoutPanelHistory.SuspendLayout();
+			this.toolStrip4.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControlMain
@@ -2544,7 +2552,7 @@ namespace SEOMacroscope
 			// tabPageHistory
 			// 
 			this.tabPageHistory.BackColor = System.Drawing.Color.LightGray;
-			this.tabPageHistory.Controls.Add(this.listViewHistory);
+			this.tabPageHistory.Controls.Add(this.tableLayoutPanelHistory);
 			this.tabPageHistory.Location = new System.Drawing.Point(4, 58);
 			this.tabPageHistory.Name = "tabPageHistory";
 			this.tabPageHistory.Size = new System.Drawing.Size(792, 438);
@@ -2559,7 +2567,7 @@ namespace SEOMacroscope
 			this.listViewHistory.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewHistory.FullRowSelect = true;
 			this.listViewHistory.GridLines = true;
-			this.listViewHistory.Location = new System.Drawing.Point(10, 10);
+			this.listViewHistory.Location = new System.Drawing.Point(3, 31);
 			this.listViewHistory.Name = "listViewHistory";
 			this.listViewHistory.Size = new System.Drawing.Size(200, 200);
 			this.listViewHistory.TabIndex = 0;
@@ -2575,6 +2583,41 @@ namespace SEOMacroscope
 			// 
 			this.HistoryVisited.Text = "Visited";
 			this.HistoryVisited.Width = 100;
+			// 
+			// tableLayoutPanelHistory
+			// 
+			this.tableLayoutPanelHistory.ColumnCount = 1;
+			this.tableLayoutPanelHistory.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelHistory.Controls.Add(this.toolStrip4, 0, 0);
+			this.tableLayoutPanelHistory.Controls.Add(this.listViewHistory, 0, 1);
+			this.tableLayoutPanelHistory.Location = new System.Drawing.Point(46, 19);
+			this.tableLayoutPanelHistory.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanelHistory.Name = "tableLayoutPanelHistory";
+			this.tableLayoutPanelHistory.RowCount = 2;
+			this.tableLayoutPanelHistory.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tableLayoutPanelHistory.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelHistory.Size = new System.Drawing.Size(700, 400);
+			this.tableLayoutPanelHistory.TabIndex = 3;
+			// 
+			// toolStrip4
+			// 
+			this.toolStrip4.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.toolStrip4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripLabelHistoryItems});
+			this.toolStrip4.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip4.Name = "toolStrip4";
+			this.toolStrip4.Padding = new System.Windows.Forms.Padding(0);
+			this.toolStrip4.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.toolStrip4.Size = new System.Drawing.Size(700, 28);
+			this.toolStrip4.TabIndex = 2;
+			this.toolStrip4.Text = "toolStrip4";
+			// 
+			// toolStripLabelHistoryItems
+			// 
+			this.toolStripLabelHistoryItems.Name = "toolStripLabelHistoryItems";
+			this.toolStripLabelHistoryItems.Size = new System.Drawing.Size(48, 25);
+			this.toolStripLabelHistoryItems.Text = "Items: 0";
 			// 
 			// MacroscopeOverviewPanel
 			// 
@@ -2640,6 +2683,10 @@ namespace SEOMacroscope
 			this.toolStrip3.PerformLayout();
 			this.tabPageUriQueue.ResumeLayout(false);
 			this.tabPageHistory.ResumeLayout(false);
+			this.tableLayoutPanelHistory.ResumeLayout(false);
+			this.tableLayoutPanelHistory.PerformLayout();
+			this.toolStrip4.ResumeLayout(false);
+			this.toolStrip4.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

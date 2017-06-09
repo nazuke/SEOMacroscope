@@ -102,6 +102,17 @@ namespace SEOMacroscope
 
     /** END: Named Queues *****************************************************/
 
+    /** BEGIN: History Visited Status *****************************************/
+
+    public enum HistoryVisitedStatus
+    {
+      NOT_VISITED = 0,
+      VISITED = 1,
+      IGNORED = 2
+    }
+
+    /** END: History Visited Status *******************************************/
+
     /** BEGIN: Fetch Status ***************************************************/
 
     public enum FetchStatus
@@ -260,16 +271,13 @@ namespace SEOMacroscope
       MUSTNOTHAVE = 2
     }
 
-    public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () {
-      {
+    public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () { {
         MacroscopeConstants.Contains.UNDEFINED,
         "UNDEFINED"
-      },
-      {
+      }, {
         MacroscopeConstants.Contains.MUSTHAVE,
         "MUST HAVE STRING"
-      },
-      {
+      }, {
         MacroscopeConstants.Contains.MUSTNOTHAVE,
         "MUST NOT HAVE STRING"
       }
@@ -284,30 +292,35 @@ namespace SEOMacroscope
       SHOULDNOTCONTAIN = 4
     }
 
-    public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () {
-      {
+    public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () { {
         MacroscopeConstants.TextPresence.UNDEFINED,
         "UNDEFINED"
-      },
-      {
+      }, {
         MacroscopeConstants.TextPresence.CONTAINS,
         "CONTAINS STRING"
-      },
-      {
+      }, {
         MacroscopeConstants.TextPresence.MUSTCONTAIN,
         "MUST CONTAIN STRING"
-      },
-      {
+      }, {
         MacroscopeConstants.TextPresence.NOTCONTAINS,
         "DOES NOT CONTAIN STRING"
-      },
-      {
+      }, {
         MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN,
         "SHOULD NOT CONTAIN STRING"
       }
     };
 
     /** END: Contains *********************************************************/
+
+    /** BEGIN: Data Extractors ************************************************/
+
+    public enum ActiveInactive
+    {
+      INACTIVE = 0,
+      ACTIVE = 1
+    }
+
+    /** END: Data Extractors **************************************************/
 
   }
 

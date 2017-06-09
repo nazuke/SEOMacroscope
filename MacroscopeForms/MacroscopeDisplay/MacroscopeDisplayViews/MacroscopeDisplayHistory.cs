@@ -42,6 +42,8 @@ namespace SEOMacroscope
 
     private Boolean ListViewConfigured = false;
     
+    private ToolStripLabel DocumentCount;
+    
     /**************************************************************************/
 
     public MacroscopeDisplayHistory ( MacroscopeMainForm MainForm, ListView TargetListView )
@@ -49,7 +51,8 @@ namespace SEOMacroscope
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
-
+      this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelHistoryItems;
+      
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -114,6 +117,7 @@ namespace SEOMacroscope
                 Cursor.Current = Cursors.WaitCursor;
                 this.DisplayListView.BeginUpdate();
                 this.RenderListView( History: History );
+                this.RenderUrlCount();
                 this.DisplayListView.EndUpdate();
                 Cursor.Current = Cursors.Default;
 
@@ -129,6 +133,7 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.WaitCursor;
           this.DisplayListView.BeginUpdate();
           this.RenderListView( History: History );
+          this.RenderUrlCount();
           this.DisplayListView.EndUpdate();
           Cursor.Current = Cursors.Default;
         }
@@ -263,6 +268,13 @@ namespace SEOMacroscope
       
       ProgressForm.Dispose();
       
+    }
+
+    /**************************************************************************/
+
+    private void RenderUrlCount ()
+    {
+      this.DocumentCount.Text = string.Format( "Items: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/

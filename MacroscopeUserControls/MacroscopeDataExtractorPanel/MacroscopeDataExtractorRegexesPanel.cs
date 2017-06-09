@@ -29,6 +29,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -37,83 +38,147 @@ namespace SEOMacroscope
   /// Description of MacroscopeDataExtractorPanel.
   /// </summary>
 
-  public partial class MacroscopeDataExtractorPanel : UserControl
+  public partial class MacroscopeDataExtractorRegexesPanel : UserControl
   {
 
     /**************************************************************************/
 
-    MacroscopeCustomFilters CustomFilter;
+    MacroscopeDataExtractorRegexes DataExtractorRegexes;
+
+    List<TextBox> TextBoxLabels;
+    List<ComboBox> StateComboBoxes;
+    List<TextBox> TextBoxRegexes;
 
     /**************************************************************************/
 	      
-    public MacroscopeDataExtractorPanel ()
+    public MacroscopeDataExtractorRegexesPanel ()
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-      this.textBoxFilter1.KeyUp += this.CallbackTextBoxKeyUp;
-      this.textBoxFilter2.KeyUp += this.CallbackTextBoxKeyUp;
-      this.textBoxFilter3.KeyUp += this.CallbackTextBoxKeyUp;
-      this.textBoxFilter4.KeyUp += this.CallbackTextBoxKeyUp;
-      this.textBoxFilter5.KeyUp += this.CallbackTextBoxKeyUp;
+      this.TextBoxLabels = new List<TextBox> ();
+      this.StateComboBoxes = new List<ComboBox> ();
+      this.TextBoxRegexes = new List<TextBox> ();
+
+      this.tableLayoutPanelContainer.Dock = DockStyle.Fill;
+      this.tableLayoutPanelRegexGrid.Dock = DockStyle.Fill;
+
+    }
+
+    /**************************************************************************/
+
+    public void ConfigureDataExtractorForm ( MacroscopeDataExtractorRegexes NewDataExtractor )
+    {
+
+      this.DataExtractorRegexes = NewDataExtractor;
+            
+      int Max = this.DataExtractorRegexes.GetSize();
+      TableLayoutPanel Table = this.tableLayoutPanelRegexGrid;
+      
+      Table.ColumnCount = 4;
+      Table.RowCount = Max;
+      
+      for( int i = 0 ; i < Max ; i++ )
+      {
+
+        Label TextLabel = new Label ();
+        ComboBox StateComboBox= new ComboBox ();
+        TextBox TextBoxLabel = new TextBox ();
+        TextBox TextBoxRegex = new TextBox ();
+
+        TextLabel.Text = string.Format( "Regex {0}", i );
+        StateComboBox.Items.Add( "Inactive" );
+        StateComboBox.Items.Add( "Active" );
+        TextBoxLabel.KeyUp += this.CallbackTextBoxKeyUp;
+        TextBoxRegex.KeyUp += this.CallbackTextBoxKeyUp;
+
+        Table.Controls.Add( TextLabel );
+        Table.Controls.Add( StateComboBox );  
+        Table.Controls.Add( TextBoxLabel );
+        Table.Controls.Add( TextBoxRegex );
+
+        this.TextBoxLabels.Add( TextBoxLabel );
+        this.StateComboBoxes.Add( StateComboBox );
+        this.TextBoxRegexes.Add( TextBoxRegex );
+
+      }
+      
+      
+      
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
     }
 
     /**************************************************************************/
     
-    public void SetCustomFilter ( MacroscopeCustomFilters NewCustomFilter )
+    
+    
+    
+    
+    
+    
+    
+    /*
+    public void SetDataExtractorRegexes ( MacroscopeDataExtractorRegexes NewDataExtractorRegexes )
     {
 
-      this.CustomFilter = NewCustomFilter;
+      this.DataExtractorRegexes = NewDataExtractorRegexes;
 
-      int Max = this.CustomFilter.GetSize();
+      int Max = this.DataExtractorRegexes.GetSize();
       
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
       
-        TextBox textBoxFilter;
-        ComboBox comboBoxFilter;
+        TextBox textBoxRegex;
+        ComboBox comboBoxRegex;
           
-        textBoxFilter = this.Controls.Find(
+        textBoxRegex = this.Controls.Find(
           string.Format( "textBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
           
-        comboBoxFilter = this.Controls.Find(
+        comboBoxRegex = this.Controls.Find(
           string.Format( "comboBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as ComboBox;
           
-        if( this.CustomFilter.IsEnabled() )
+        if( this.DataExtractorRegexes.IsEnabled() )
         {
 
-          KeyValuePair<string, MacroscopeConstants.Contains> Pair = this.CustomFilter.GetPattern( Slot: Slot );
+          MacroscopeConstants.ActiveInactive State = this.DataExtractorRegexes.GetActiveInactive( Slot: Slot );
 
-          switch( Pair.Value )
+          switch( State )
           {
 
-            case MacroscopeConstants.Contains.MUSTHAVE:
-              comboBoxFilter.SelectedIndex = 1;
-              break;
-
-            case MacroscopeConstants.Contains.MUSTNOTHAVE:
-              comboBoxFilter.SelectedIndex = 2;
+            case MacroscopeConstants.ActiveInactive.ACTIVE:
+              comboBoxRegex.SelectedIndex = 1;
               break;
 
             default:
-              comboBoxFilter.SelectedIndex = 0;
+              comboBoxRegex.SelectedIndex = 0;
               break;
 
           }
 
-          textBoxFilter.Text = Pair.Key;
+          textBoxRegex.Text = this.DataExtractorRegexes.GetPattern( Slot: Slot ).Value.ToString();
 
         }
         else
         {
         
-          comboBoxFilter.SelectedIndex = 0;
-          textBoxFilter.Text = "";
+          comboBoxRegex.SelectedIndex = 0;
+          textBoxRegex.Text = "";
 
         }
 
@@ -122,9 +187,11 @@ namespace SEOMacroscope
       return;
       
     }
-
+    */
+   
     /**************************************************************************/
 
+    /*
     public MacroscopeCustomFilters GetCustomFilter ()
     {
 
@@ -180,7 +247,8 @@ namespace SEOMacroscope
       return( this.CustomFilter );
 
     }
-
+    */
+   
     /**************************************************************************/
         
     private void CallbackTextBoxKeyUp ( object sender, KeyEventArgs e )
@@ -200,6 +268,7 @@ namespace SEOMacroscope
        
     /**************************************************************************/
     
+    /*
     public void ClearCustomFilterForm ()
     {
 
@@ -227,6 +296,9 @@ namespace SEOMacroscope
       }
 
     }
+    */
+   
+
     
     /**************************************************************************/
     

@@ -29,7 +29,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-
 namespace SEOMacroscope
 {
 
@@ -59,6 +58,8 @@ namespace SEOMacroscope
 
     private MacroscopeCustomFilters CustomFilter;
 
+    private MacroscopeDataExtractorRegexes DataExtractorRegexes;
+    
     private int CrawlDelay;
     private int ThreadsMax;
     private int ThreadsRunning;
@@ -78,8 +79,8 @@ namespace SEOMacroscope
     private string ParentStartingDirectory;
     private string ChildStartingDirectory;
 
-    private Dictionary<string,Boolean> History;
-
+    private MacroscopeJobHistory JobHistory;
+    
     private Dictionary<string,Dictionary<string,Boolean>> Progress;
 
     private Dictionary<string,string> Locales;
@@ -131,7 +132,7 @@ namespace SEOMacroscope
       
       this.CustomFilter = null;
 
-      this.History = null;
+      this.JobHistory = null;
 
       this.Progress = null;
 
@@ -222,7 +223,7 @@ namespace SEOMacroscope
         this.ChildStartingDirectory = "";
       }
 
-      this.History = new Dictionary<string, bool> ( 4096 );
+      this.JobHistory = new MacroscopeJobHistory ();
 
       this.InitProgress();
 
@@ -299,6 +300,37 @@ namespace SEOMacroscope
       return( this.CustomFilter );
     }
 
+    
+    
+    
+    
+    
+    /** Data Extractors *********************************************************/
+
+    public void SetDataExtractorRegexes ( MacroscopeDataExtractorRegexes NewDataExtractor )
+    {
+      this.DataExtractorRegexes = NewDataExtractor;
+    }
+
+    public MacroscopeDataExtractorRegexes GetDataExtractorRegexes ()
+    {
+      return( this.DataExtractorRegexes );
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /** Execute Job ***********************************************************/
 
     public Boolean Execute ()
@@ -656,7 +688,7 @@ namespace SEOMacroscope
         NewUrl = MacroscopeUrlUtils.StripQueryString( NewUrl );
       }
 
-      if( !this.SeenHistoryItem( NewUrl ) )
+      if( !this.JobHistory.SeenHistoryItem( NewUrl ) )
       {
         this.NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueUrlList, NewUrl );
       }
@@ -807,7 +839,7 @@ namespace SEOMacroscope
       if( msDoc != null )
       {
         msDoc.SetIsDirty();
-        this.ResetHistoryItem( Url );
+        this.JobHistory.ResetHistoryItem( Url );
         this.AddUrlQueueItem( Url );
       }
       else
@@ -1051,85 +1083,9 @@ namespace SEOMacroscope
 
     /** History ***************************************************************/
 
-    public void AddHistoryItem ( string Url )
+    public MacroscopeJobHistory GetJobHistory ()
     {
-      if( !this.History.ContainsKey( Url ) )
-      {
-        lock( this.History )
-        {
-          this.History.Add( Url, false );
-        }
-      }
-    }
-    
-    /** -------------------------------------------------------------------- **/
-
-    public void VisitedHistoryItem ( string Url )
-    {
-      if( this.History.ContainsKey( Url ) )
-      {
-        lock( this.History )
-        {
-          this.History[ Url ] = true;
-        }
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void ResetHistoryItem ( string Url )
-    {
-      if( this.History.ContainsKey( Url ) )
-      {
-        lock( this.History )
-        {
-          this.History.Remove( Url );
-        }
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public Boolean SeenHistoryItem ( string Url )
-    {
-      Boolean Seen = false;
-      if( this.History.ContainsKey( Url ) )
-      {
-        Seen = this.History[ Url ];
-      }
-      return( Seen );
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public Dictionary<string,Boolean> GetHistory ()
-    {
-      Dictionary<string,Boolean> HistoryCopy = new Dictionary<string,Boolean> ( this.History.Count );
-      lock( this.History )
-      {
-        foreach( string sKey in this.History.Keys )
-        {
-          HistoryCopy.Add( sKey, this.History[ sKey ] );
-        }
-      }
-      return( HistoryCopy );
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void ClearHistory ()
-    {
-      lock( this.History )
-      {
-        this.History.Clear();
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public int CountHistory ()
-    {
-      return( this.History.Count );
+      return( this.JobHistory );
     }
 
     /** Progress **************************************************************/

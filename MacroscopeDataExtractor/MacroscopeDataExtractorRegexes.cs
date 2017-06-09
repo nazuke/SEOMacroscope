@@ -44,6 +44,7 @@ namespace SEOMacroscope
 
     private int Max;
 
+    private List<MacroscopeConstants.ActiveInactive> ExtractActiveInactive;
     private List<KeyValuePair<string, Regex>> ExtractRegexes;
 
     /**************************************************************************/
@@ -55,11 +56,15 @@ namespace SEOMacroscope
       
       this.Max = Size;
       
+      this.ExtractActiveInactive = new List<MacroscopeConstants.ActiveInactive> ( this.Max );
+
       this.ExtractRegexes = new List<KeyValuePair<string, Regex>> ( this.Max );
 
       for( int Slot = 0 ; Slot < this.Max ; Slot++ )
       {
-
+        
+        this.ExtractActiveInactive.Add( MacroscopeConstants.ActiveInactive.INACTIVE );
+        
         this.ExtractRegexes.Add( new KeyValuePair<string, Regex> () );
 
       }
@@ -88,6 +93,18 @@ namespace SEOMacroscope
     public int GetSize ()
     {
       return( this.Max );
+    }
+
+    /**************************************************************************/
+
+    public void SetActiveInactive ( int Slot, MacroscopeConstants.ActiveInactive State )
+    {
+      this.ExtractActiveInactive[ Slot ] = State;
+    }
+    
+    public MacroscopeConstants.ActiveInactive GetActiveInactive ( int Slot )
+    {
+      return( this.ExtractActiveInactive[ Slot ] );
     }
 
     /**************************************************************************/
@@ -153,55 +170,61 @@ namespace SEOMacroscope
 
       List<KeyValuePair<string, string>> ResultList = new List<KeyValuePair<string, string>> ( 8 );
 
-      // if( this.IsEnabled() )
-      //{
-        
-      for( int Slot = 0 ; Slot < this.Max ; Slot++ )
+      if( this.IsEnabled() )
       {
-          
-        this.DebugMsg(
-          string.Format(
-            "SLOT KEY: {0} => {1} => {2}",
-            Slot,
-            this.ExtractRegexes[ Slot ].Key,
-            this.ExtractRegexes[ Slot ].Value
-          )
-        );
-          
-        if( string.IsNullOrEmpty( this.ExtractRegexes[ Slot ].Key ) )
-        {
-          continue;
-        }
-
-        MatchCollection PatternMatches;
-          
-        PatternMatches = Regex.Matches(
-          Text,
-          this.ExtractRegexes[ Slot ].Value.ToString()
-        );
-
-        foreach( Match match in PatternMatches )
-        {
-            
-          if( !string.IsNullOrEmpty( match.Groups[ 1 ].Value ) )
-          {
-
-            KeyValuePair<string, string> MatchedItem;
-              
-            MatchedItem = new KeyValuePair<string, string> ( 
-              this.ExtractRegexes[ Slot ].Key,
-              match.Groups[ 1 ].Value
-            );
-              
-            ResultList.Add( MatchedItem );
-              
-          }
-            
-        }
-
-      }
         
-      //}
+        for( int Slot = 0 ; Slot < this.Max ; Slot++ )
+        {
+          
+          MatchCollection PatternMatches;
+          string SlotRegex;
+                
+          this.DebugMsg(
+            string.Format(
+              "SLOT KEY: {0} => {1} => {2}",
+              Slot,
+              this.ExtractRegexes[ Slot ].Key,
+              this.ExtractRegexes[ Slot ].Value
+            )
+          );
+          
+          if( string.IsNullOrEmpty( this.ExtractRegexes[ Slot ].Key ) )
+          {
+            continue;
+          }
+        
+          SlotRegex = this.ExtractRegexes[ Slot ].Value.ToString();
+                
+          PatternMatches = Regex.Matches( 
+            Text,
+            SlotRegex,
+            RegexOptions.Singleline
+          );
+
+          foreach( Match match in PatternMatches )
+          {
+            
+            string FoundString = match.Value;
+
+            if( !string.IsNullOrEmpty( FoundString ) )
+            {
+
+              KeyValuePair<string, string> MatchedItem;
+              
+              MatchedItem = new KeyValuePair<string, string> ( 
+                this.ExtractRegexes[ Slot ].Key,
+                FoundString
+              );
+              
+              ResultList.Add( MatchedItem );
+              
+            }
+            
+          }
+
+        }
+        
+      }
 
       return( ResultList );
 

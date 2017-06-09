@@ -93,6 +93,8 @@ namespace SEOMacroscope
     MacroscopeXpathRestrictions XpathRestrictions;
     MacroscopeCustomFilters CustomFilter;
 
+    MacroscopeDataExtractorRegexes DataExtractorRegexes;
+
     private static object LockerOverviewTabPages = new object ();
     private static object LockerDocumentDetailsDisplay = new object ();
     private object LockerSiteStructureDisplay;
@@ -133,6 +135,14 @@ namespace SEOMacroscope
       this.CustomFilter = new MacroscopeCustomFilters ( 5 );
       this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
 
+      this.DataExtractorRegexes = new MacroscopeDataExtractorRegexes(10);
+      this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
+
+      
+      
+      
+      
+      
       this.StartUrlDirty = false;
 
       this.ConfigureOverviewTabPanelInstance();
@@ -1086,7 +1096,7 @@ namespace SEOMacroscope
           
         case "tabPageHistory":
           this.msDisplayHistory.RefreshData(
-            History: this.JobMaster.GetHistory()
+            History: this.JobMaster.GetJobHistory().GetHistory()
           );
           break;
 
@@ -2329,6 +2339,30 @@ namespace SEOMacroscope
       }
 
       CustomFilterForm.Dispose();
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackDataExtractorsRegularExpressionsClick ( object sender, EventArgs e )
+    {
+
+      MacroscopeDataExtractorRegexesForm DataExtractorForm = new MacroscopeDataExtractorRegexesForm ( NewDataExtractor: this.DataExtractorRegexes );
+
+      DialogResult CustomFilterResult = DataExtractorForm.ShowDialog();
+
+      if( CustomFilterResult == DialogResult.OK )
+      {
+
+        //this.CustomFilter = DataExtractorForm.GetCustomFilter();
+
+       // this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+        
+        //this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
+
+      }
+
+      DataExtractorForm.Dispose();
 
     }
 

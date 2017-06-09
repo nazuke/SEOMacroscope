@@ -52,7 +52,7 @@ namespace SEOMacroscope
       DataExtractor.SetPattern( 0, "Label: The", "[^\\w]*[tT]he\\s" );
       DataExtractor.SetPattern( 1, "Label: over", "[^\\w]*[oO]ver\\s" );
       DataExtractor.SetPattern( 2, "Label: fox", "[^\\w]*[fF]ox\\s" );
-      DataExtractor.SetPattern( 3, "Label: dog", "[^\\w]*[dD]og\\s" );
+      DataExtractor.SetPattern( 3, "Label: dog", "[^\\w]*[dD]og\\s?" );
       DataExtractor.SetPattern( 4, "Label: brown", "[^\\w]*[bB]rown\\s" );
 
       foreach( string ContainsText in Texts )
@@ -62,10 +62,10 @@ namespace SEOMacroscope
 
         Assert.IsNotNull( AnalyzedList );    
 
-        Assert.Greater(
+        Assert.AreEqual(
           AnalyzedList.Count,
-          0,
-          string.Format( "Not enough matches: {0}", AnalyzedList.Count )
+          6, // Should match 6 times
+          string.Format( "Wrong number of matches: {0}", AnalyzedList.Count )
         );
         
         foreach( KeyValuePair<string, string> AnalyzedItem in AnalyzedList )
