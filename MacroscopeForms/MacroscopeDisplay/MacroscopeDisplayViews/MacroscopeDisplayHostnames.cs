@@ -36,13 +36,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private ToolStripLabel HostsCount;
+        
+    /**************************************************************************/
+
     public MacroscopeDisplayHostnames ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
-
+      this.HostsCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelHostsItems;
+      
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -84,6 +89,7 @@ namespace SEOMacroscope
               Cursor.Current = Cursors.WaitCursor;
               this.DisplayListView.BeginUpdate();
               this.RenderListView( DocCollection );
+              this.RenderUrlCount();
               this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
@@ -95,6 +101,7 @@ namespace SEOMacroscope
         Cursor.Current = Cursors.WaitCursor;
         this.DisplayListView.BeginUpdate();
         this.RenderListView( DocCollection );
+        this.RenderUrlCount();
         this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
@@ -219,6 +226,7 @@ namespace SEOMacroscope
 
     protected override void RenderUrlCount ()
     {
+      this.HostsCount.Text = string.Format( "Hosts: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/

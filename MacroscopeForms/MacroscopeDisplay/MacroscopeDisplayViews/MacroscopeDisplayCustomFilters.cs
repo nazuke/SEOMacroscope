@@ -147,6 +147,7 @@ namespace SEOMacroscope
                 UrlList: UrlList,
                 CustomFilter: CustomFilter
               );
+              this.RenderUrlCount();
               this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
             }
@@ -162,6 +163,7 @@ namespace SEOMacroscope
           UrlList: UrlList,
           CustomFilter: CustomFilter
         );
+        this.RenderUrlCount();
         this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }

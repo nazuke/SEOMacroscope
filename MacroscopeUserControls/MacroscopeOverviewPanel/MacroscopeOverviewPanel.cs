@@ -70,6 +70,7 @@ namespace SEOMacroscope
       this.tableLayoutPanelErrors.Dock = DockStyle.Fill;
       this.listViewErrors.Dock = DockStyle.Fill;
 
+      this.tableLayoutPanelHostnames.Dock = DockStyle.Fill;
       this.listViewHostnames.Dock = DockStyle.Fill;
 
       this.tableLayoutPanelRedirects.Dock = DockStyle.Fill;
@@ -98,6 +99,7 @@ namespace SEOMacroscope
       this.tableLayoutPanelCustomFilters.Dock = DockStyle.Fill;
       this.listViewCustomFilters.Dock = DockStyle.Fill;
 
+      this.tableLayoutPanelUriQueue.Dock = DockStyle.Fill;
       this.listViewUriQueue.Dock = DockStyle.Fill;
 
       this.tableLayoutPanelHistory.Dock = DockStyle.Fill;

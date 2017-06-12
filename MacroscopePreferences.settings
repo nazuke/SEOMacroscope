@@ -160,6 +160,9 @@
     <Setting Name="ShowProgressDialogues" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="SitemapIncludeLinkedPdfs" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="StartUrl" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)" />
     </Setting>

@@ -649,6 +649,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool SitemapIncludeLinkedPdfs {
+			get {
+				return ((bool)(this["SitemapIncludeLinkedPdfs"]));
+			}
+			set {
+				this["SitemapIncludeLinkedPdfs"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("")]
 		public string StartUrl {
 			get {

@@ -129,6 +129,10 @@ namespace SEOMacroscope
     
     static Boolean DetectLanguage;
 
+    // Export Options
+    
+    static Boolean SitemapIncludeLinkedPdfs;
+
     /**************************************************************************/
 
     static MacroscopePreferencesManager ()
@@ -226,6 +230,8 @@ namespace SEOMacroscope
           AnalyzeKeywordsInText = Preferences.AnalyzeKeywordsInText;
     
           DetectLanguage = Preferences.DetectLanguage;
+          
+          SitemapIncludeLinkedPdfs = Preferences.SitemapIncludeLinkedPdfs;
           
         }
 
@@ -352,6 +358,10 @@ namespace SEOMacroscope
 
       AnalyzeKeywordsInText = false;
 
+      // Export Options
+      
+      SitemapIncludeLinkedPdfs = false;
+      
     }
 
     /**************************************************************************/
@@ -482,6 +492,8 @@ namespace SEOMacroscope
         Preferences.AnalyzeKeywordsInText = AnalyzeKeywordsInText;
 
         Preferences.DetectLanguage = DetectLanguage;
+        
+        Preferences.SitemapIncludeLinkedPdfs = SitemapIncludeLinkedPdfs;
                   
         Preferences.Save();
 
@@ -1179,6 +1191,18 @@ namespace SEOMacroscope
     public static void SetDetectLanguage ( Boolean Detect )
     {
       DetectLanguage = Detect;
+    }
+
+    /** Export Options ********************************************************/
+
+    public static Boolean GetSitemapIncludeLinkedPdfs ()
+    {
+      return( SitemapIncludeLinkedPdfs );
+    }
+
+    public static void SetSitemapIncludeLinkedPdfs ( Boolean State )
+    {
+      SitemapIncludeLinkedPdfs = State;
     }
 
     /**************************************************************************/

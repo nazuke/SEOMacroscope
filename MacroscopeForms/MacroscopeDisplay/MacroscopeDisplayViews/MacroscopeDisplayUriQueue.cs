@@ -42,6 +42,8 @@ namespace SEOMacroscope
 
     private Boolean ListViewConfigured = false;
     
+    private ToolStripLabel UriQueueCount;
+
     /**************************************************************************/
 
     public MacroscopeDisplayUriQueue ( MacroscopeMainForm MainForm, ListView TargetListView )
@@ -49,7 +51,8 @@ namespace SEOMacroscope
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
-
+      this.UriQueueCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelUriQueueItems;
+      
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -116,6 +119,7 @@ namespace SEOMacroscope
                 this.DisplayListView.BeginUpdate();
                 this.DisplayListView.Items.Clear();
                 this.RenderListView( UriQueue: UriQueue );
+                this.RenderUrlCount();
                 this.DisplayListView.EndUpdate();
                 Cursor.Current = Cursors.Default;
 
@@ -132,6 +136,7 @@ namespace SEOMacroscope
           this.DisplayListView.BeginUpdate();
           this.DisplayListView.Items.Clear();
           this.RenderListView( UriQueue: UriQueue );
+          this.RenderUrlCount();
           this.DisplayListView.EndUpdate();
           Cursor.Current = Cursors.Default;
         }
@@ -265,6 +270,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private void RenderUrlCount ()
+    {
+      this.UriQueueCount.Text = string.Format( "URL Queue Items: {0}", this.DisplayListView.Items.Count );
+    }
+       
+    /**************************************************************************/
+    
   }
 
 }

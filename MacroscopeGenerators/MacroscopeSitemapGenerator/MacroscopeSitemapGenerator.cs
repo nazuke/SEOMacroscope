@@ -152,7 +152,7 @@ namespace SEOMacroscope
       
     }
 
-    /**************************************************************************/
+    /** XML Sitemap Generators ************************************************/
 
     public XmlDocument GenerateXmlSitemap ( string Host )
     {
@@ -233,6 +233,13 @@ namespace SEOMacroscope
             EntryNode.AppendChild( TextNode );
           }
 
+          if(
+            MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs()
+            && msDoc.GetIsHtml() )
+          {
+            GenerateXmlSitemap( SitemapXml: SitemapXml, UrlSetNode: UrlSetNode );
+          }
+
         }
         
       }
@@ -240,8 +247,29 @@ namespace SEOMacroscope
       return( SitemapXml );
 
     }
-    
-    /**************************************************************************/
+
+    /** -------------------------------------------------------------------- **/
+
+    // TODO: GENERATE PDF ENTRIES
+                
+    private void GenerateXmlSitemap (
+      MacroscopeDocument msDoc,
+      XmlDocument SitemapXml,
+      XmlElement UrlSetNode
+    )
+    {
+
+
+
+
+
+
+
+
+
+    }
+
+    /** TEXT Sitemap Generators ***********************************************/
 
     public List<string> GenerateTextSitemap ( string Host )
     {

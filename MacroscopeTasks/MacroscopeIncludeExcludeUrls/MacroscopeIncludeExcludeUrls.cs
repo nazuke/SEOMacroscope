@@ -190,6 +190,7 @@ namespace SEOMacroscope
       }
             
       return( PatternMatches );
+      
     }
 
     /** Exclude URL Patterns **************************************************/

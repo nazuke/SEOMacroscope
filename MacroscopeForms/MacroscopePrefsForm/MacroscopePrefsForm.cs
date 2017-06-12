@@ -173,6 +173,10 @@ namespace SEOMacroscope
 
         PrefsControl.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
 
+        // Export Options
+        
+        PrefsControl.checkBoxSitemapIncludeLinkedPdfs.Checked = MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs();
+
       }
 
     }
@@ -257,6 +261,10 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetMaxHeadingDepth( ( ushort )PrefsControl.numericUpDownMaxHeadingDepth.Value );
 
       MacroscopePreferencesManager.SetAnalyzeKeywordsInText( PrefsControl.checkBoxAnalyzeKeywordsInText.Checked );
+
+      // Export Options
+        
+      MacroscopePreferencesManager.SetSitemapIncludeLinkedPdfs( PrefsControl.checkBoxSitemapIncludeLinkedPdfs.Checked );
 
       // Tidy Up
 

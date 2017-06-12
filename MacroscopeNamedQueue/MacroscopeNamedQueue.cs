@@ -289,7 +289,12 @@ namespace SEOMacroscope
             {
               this.NamedQueues[ Name ].Clear();
               this.NamedQueuesIndex[ Name ].Clear();
-              this.NamedQueuesHistory[ Name ].Clear();
+
+              if( this.NamedQueuesHistory.ContainsKey( Name ) )
+              {
+                this.NamedQueuesHistory[ Name ].Clear();
+              }
+
             }
 
           }
@@ -316,7 +321,11 @@ namespace SEOMacroscope
 
             this.NamedQueues[ Name ].Clear();
             this.NamedQueuesIndex[ Name ].Clear();
-            this.NamedQueuesHistory[ Name ].Clear();
+
+            if( this.NamedQueuesHistory.ContainsKey( Name ) )
+            {
+              this.NamedQueuesHistory[ Name ].Clear();
+            }
 
           }
           
