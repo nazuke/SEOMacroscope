@@ -50,6 +50,8 @@ namespace SEOMacroscope
     public MacroscopeIncludeExcludeUrls ()
     {
 
+      this.SuppressDebugMsg = true;
+      
       this.ExplicitIncludeUrlPatternsList = new List<string> ( 8 );
       this.ExplicitExcludeUrlPatternsList = new List<string> ( 8 );
 

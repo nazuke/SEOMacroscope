@@ -982,6 +982,11 @@ namespace SEOMacroscope
       return( this.DateModified.ToUniversalTime().ToString( "r" ) );
     }
 
+    public string GetDateModifiedForSitemapXml ()
+    {
+      return( this.DateModified.ToUniversalTime().ToString( "yyyy-MM-dd" ) );
+    }
+
     public string GetDateExpires ()
     {
       return( this.DateExpires.ToUniversalTime().ToString( "r" ) );

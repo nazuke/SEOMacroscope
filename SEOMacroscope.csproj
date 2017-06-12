@@ -134,6 +134,7 @@
       <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
     </Compile>
     <Compile Include="MacroscopeForms\MacroscopeMainForm\ExcelReports\ExcelReportsCallbacks.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\Generators\GeneratorsCallbacks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\IMacroscopeTaskControllerCallbacks\IMacroscopeTaskControllerCallbacks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\Audio.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels\CanonicalAnalysis.cs" />
@@ -170,6 +171,8 @@
     <Compile Include="MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.Designer.cs">
       <DependentUpon>MacroscopeDoublePercentageProgressForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeGenerators\MacroscopeSitemapGenerator\MacroscopeSitemapGenerator.cs" />
+    <Compile Include="MacroscopeGenerators\t\TestMacroscopeSitemapGenerator.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCustomFilterReport\MacroscopeCustomFilterReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCustomFilterReport\WorksheetCustomFilter.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobHistory.cs" />
@@ -483,6 +486,7 @@
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\ExcelReports" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\IMacroscopeTaskControllerCallbacks" />
+    <Folder Include="MacroscopeForms\MacroscopeMainForm\Generators" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
@@ -494,6 +498,8 @@
     <Folder Include="MacroscopeForms\MacroscopeMainForm" />
     <Folder Include="MacroscopeForms\MacroscopeCustomFilterForm" />
     <Folder Include="MacroscopeForms\MacroscopeDataExtractorForms" />
+    <Folder Include="MacroscopeGenerators\MacroscopeSitemapGenerator" />
+    <Folder Include="MacroscopeGenerators\t" />
     <Folder Include="MacroscopeHosts\t" />
     <Folder Include="MacroscopeHyperlinks" />
     <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />
@@ -538,6 +544,7 @@
     <Folder Include="MacroscopeCustomFilters" />
     <Folder Include="MacroscopeDataExtractor" />
     <Folder Include="MacroscopeUserControls\MacroscopeDataExtractorPanel" />
+    <Folder Include="MacroscopeGenerators" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProfilingSessions\Session20170425_184329.sdps" />

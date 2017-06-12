@@ -135,7 +135,7 @@ namespace SEOMacroscope
       this.CustomFilter = new MacroscopeCustomFilters ( 5 );
       this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
 
-      this.DataExtractorRegexes = new MacroscopeDataExtractorRegexes(10);
+      this.DataExtractorRegexes = new MacroscopeDataExtractorRegexes ( 10 );
       this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
 
       
@@ -1840,6 +1840,7 @@ namespace SEOMacroscope
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
+      this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
 
@@ -1859,6 +1860,7 @@ namespace SEOMacroscope
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = false;
+      this.exportToolStripMenuItem.Enabled = false;
       this.taskParametersToolStripMenuItem.Enabled = false;
       this.reportsToolStripMenuItem.Enabled = false;
 
@@ -1878,6 +1880,7 @@ namespace SEOMacroscope
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = false;
+      this.exportToolStripMenuItem.Enabled = false;
       this.taskParametersToolStripMenuItem.Enabled = false;
       this.reportsToolStripMenuItem.Enabled = false;
 
@@ -1897,6 +1900,7 @@ namespace SEOMacroscope
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
+      this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
 
@@ -1918,6 +1922,7 @@ namespace SEOMacroscope
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
+      this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
 
@@ -1939,6 +1944,7 @@ namespace SEOMacroscope
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
+      this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
 
@@ -2356,7 +2362,7 @@ namespace SEOMacroscope
 
         //this.CustomFilter = DataExtractorForm.GetCustomFilter();
 
-       // this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+        // this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
         
         //this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
 

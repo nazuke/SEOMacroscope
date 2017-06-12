@@ -36,6 +36,7 @@ namespace SEOMacroscope
 
     public MacroscopeLocaleTools ()
     {
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/

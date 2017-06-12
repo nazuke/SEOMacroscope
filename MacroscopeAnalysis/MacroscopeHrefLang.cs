@@ -50,6 +50,8 @@ namespace SEOMacroscope
 
       Boolean CheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
 
+      this.SuppressDebugMsg = true;
+      
       this.Locale = Locale;
       this.Url = Url;
 
