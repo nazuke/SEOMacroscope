@@ -40,7 +40,9 @@ namespace SEOMacroscope
   {
 
     /**************************************************************************/
-
+    
+    private static string XmlNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
+      
     MacroscopeDocumentCollection DocCollection;
 
     /**************************************************************************/
@@ -55,8 +57,18 @@ namespace SEOMacroscope
     public void WriteSitemapXml ( string NewPath )
     {
 
+      
+      string StartHost = this.DocCollection.GetDocument(
+      Url:
+      this.DocCollection.GetJobMaster().GetStartUrl()
+     ).GetHostname();
+        
+        
+        
+        
+        
       string XmlSitemapSerialized = null;
-      XmlDocument SitemapXml = this.GenerateXmlSitemap( Host: null );
+      XmlDocument SitemapXml = this.GenerateXmlSitemap( Host: StartHost );
       StringWriter SitemapXmlStringWriter = new StringWriter ();
       XmlTextWriter SitemapXmlTextWriter = new XmlTextWriter ( SitemapXmlStringWriter );
       
@@ -157,12 +169,12 @@ namespace SEOMacroscope
     public XmlDocument GenerateXmlSitemap ( string Host )
     {
 
-      const string XmlNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
-
+      Dictionary<string,Boolean> Dedupe = new Dictionary<string,Boolean> ( DocCollection.CountDocuments() );
+            
       XmlDocument SitemapXml = new XmlDocument ();
       XmlDeclaration SitemapXmlDeclaration = SitemapXml.CreateXmlDeclaration( "1.0", "UTF-8", null );
       XmlElement RootNode = SitemapXml.DocumentElement;
-      XmlElement UrlSetNode = SitemapXml.CreateElement( string.Empty, "urlset", XmlNamespace );
+      XmlElement UrlSetNode = SitemapXml.CreateElement( string.Empty, "urlset", MacroscopeSitemapGenerator.XmlNamespace );
 
       SitemapXml.InsertBefore( SitemapXmlDeclaration, RootNode );
       SitemapXml.AppendChild( UrlSetNode );
@@ -201,33 +213,33 @@ namespace SEOMacroscope
         if( Proceed )
         {
 
-          XmlElement UrlNode = SitemapXml.CreateElement( string.Empty, "url", XmlNamespace );
+          XmlElement UrlNode = SitemapXml.CreateElement( string.Empty, "url", MacroscopeSitemapGenerator.XmlNamespace );
 
           UrlSetNode.AppendChild( UrlNode );
 
           {
-            XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "loc", XmlNamespace );
+            XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "loc", MacroscopeSitemapGenerator.XmlNamespace );
             XmlText TextNode = SitemapXml.CreateTextNode( msDoc.GetUrl() );
             UrlNode.AppendChild( EntryNode );
             EntryNode.AppendChild( TextNode );
           }
         
           {
-            XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "lastmod", XmlNamespace );
+            XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "lastmod", MacroscopeSitemapGenerator.XmlNamespace );
             XmlText TextNode = SitemapXml.CreateTextNode( msDoc.GetDateModifiedForSitemapXml() );
             UrlNode.AppendChild( EntryNode );
             EntryNode.AppendChild( TextNode );
           }
         
           {
-            XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "changefreq", XmlNamespace );
+            XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "changefreq", MacroscopeSitemapGenerator.XmlNamespace );
             XmlText TextNode = SitemapXml.CreateTextNode( "daily" );
             UrlNode.AppendChild( EntryNode );
             EntryNode.AppendChild( TextNode );
           }
         
           {
-            XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "priority", XmlNamespace );
+            XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "priority", MacroscopeSitemapGenerator.XmlNamespace );
             XmlText TextNode = SitemapXml.CreateTextNode( "1.0" );
             UrlNode.AppendChild( EntryNode );
             EntryNode.AppendChild( TextNode );
@@ -237,7 +249,14 @@ namespace SEOMacroscope
             MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs()
             && msDoc.GetIsHtml() )
           {
-            GenerateXmlSitemap( SitemapXml: SitemapXml, UrlSetNode: UrlSetNode );
+            
+            this.GeneratePdfEntries(
+              msDoc: msDoc,
+              SitemapXml: SitemapXml,
+              UrlSetNode: UrlSetNode,
+              Dedupe: Dedupe
+            );
+          
           }
 
         }
@@ -250,22 +269,68 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    // TODO: GENERATE PDF ENTRIES
-                
-    private void GenerateXmlSitemap (
+    private void GeneratePdfEntries (
       MacroscopeDocument msDoc,
       XmlDocument SitemapXml,
-      XmlElement UrlSetNode
+      XmlElement UrlSetNode,
+      Dictionary<string,Boolean> Dedupe
     )
     {
 
+      foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.IterateHyperlinksOut() )
+      {
 
+        string Url = HyperlinkOut.GetTargetUrl();
 
+        if( Dedupe.ContainsKey( Url ) )
+        {
+          continue;
+        }
+        else
+        {
+          Dedupe.Add( Url, true );
+        }
+        
+        if( !Url.ToLower().EndsWith( ".pdf", StringComparison.InvariantCultureIgnoreCase ) )
+        {
+          continue;
+        }
 
+        if( !this.DocCollection.GetAllowedHosts().IsAllowedFromUrl( Url: Url ) )
+        {
+          continue;
+        }
 
+        if( !MacroscopeUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
+        {      
+          continue;
+        }
 
+        XmlElement UrlNode = SitemapXml.CreateElement( string.Empty, "url", MacroscopeSitemapGenerator.XmlNamespace );
+        UrlSetNode.AppendChild( UrlNode );
 
-
+        {
+          XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "loc", MacroscopeSitemapGenerator.XmlNamespace );
+          XmlText TextNode = SitemapXml.CreateTextNode( Url );
+          UrlNode.AppendChild( EntryNode );
+          EntryNode.AppendChild( TextNode );
+        }
+         
+        {
+          XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "changefreq", MacroscopeSitemapGenerator.XmlNamespace );
+          XmlText TextNode = SitemapXml.CreateTextNode( "daily" );
+          UrlNode.AppendChild( EntryNode );
+          EntryNode.AppendChild( TextNode );
+        }
+        
+        {
+          XmlElement EntryNode = SitemapXml.CreateElement( string.Empty, "priority", MacroscopeSitemapGenerator.XmlNamespace );
+          XmlText TextNode = SitemapXml.CreateTextNode( "1.0" );
+          UrlNode.AppendChild( EntryNode );
+          EntryNode.AppendChild( TextNode );
+        }
+        
+      }
 
     }
 

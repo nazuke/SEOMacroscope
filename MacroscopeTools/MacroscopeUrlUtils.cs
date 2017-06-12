@@ -365,7 +365,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static Boolean VerifySameHost ( string BaseUrL, string Url )
+    public static Boolean VerifySameHost ( string BaseUrl, string Url )
     {
       Boolean Success = false;
       Uri BaseUri = null;
@@ -373,22 +373,22 @@ namespace SEOMacroscope
 
       try
       {
-        BaseUri = new Uri ( BaseUrL, UriKind.Absolute );
+        BaseUri = new Uri ( BaseUrl, UriKind.Absolute );
       }
       catch( InvalidOperationException ex )
       {
         DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrL ), true );
+        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
       }
       catch( UriFormatException ex )
       {
         DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrL ), true );
+        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
       }
       catch( Exception ex )
       {
         DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrL ), true );
+        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
       }
 
       try

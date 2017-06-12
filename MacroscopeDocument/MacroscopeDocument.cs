@@ -151,7 +151,7 @@ namespace SEOMacroscope
     private Dictionary<string, MacroscopeConstants.TextPresence> CustomFiltered;
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -1119,6 +1119,17 @@ namespace SEOMacroscope
       return( this.HyperlinksOut );
     }
 
+    public IEnumerable<MacroscopeHyperlinkOut> IterateHyperlinksOut ()
+    {
+      lock( this.HyperlinksOut )
+      {
+        foreach( MacroscopeHyperlinkOut Link in this.HyperlinksOut.IterateLinks() )
+        {
+          yield return Link;
+        }
+      }
+    }
+
     private void SetProcessHyperlinksInForUrl ( string Url )
     {
 
@@ -1644,7 +1655,6 @@ namespace SEOMacroscope
     public void SetCustomFiltered ( string Text, MacroscopeConstants.TextPresence Presence )
     {
 
-     
       if( this.CustomFiltered.ContainsKey( Text ) )
       {
         this.CustomFiltered[ Text ] = Presence;
