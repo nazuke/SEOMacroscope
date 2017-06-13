@@ -103,6 +103,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem sitemapXMLOnePerHostToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
 		private System.Windows.Forms.ToolStripMenuItem sitemapTextOnePerHostToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -134,7 +138,10 @@ namespace SEOMacroscope
 			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
 			this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sitemapXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.sitemapXMLOnePerHostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
 			this.sitemapTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.sitemapTextOnePerHostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -195,9 +202,10 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
-			this.sitemapXMLOnePerHostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-			this.sitemapTextOnePerHostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -245,7 +253,7 @@ namespace SEOMacroscope
 			this.loadFromTextFileToolStripMenuItem,
 			this.pasteFromClipboardToolStripMenuItem});
 			this.loadUrlListToolStripMenuItem.Name = "loadUrlListToolStripMenuItem";
-			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.loadUrlListToolStripMenuItem.Text = "Load URL List";
 			// 
 			// loadFromTextFileToolStripMenuItem
@@ -265,7 +273,7 @@ namespace SEOMacroscope
 			// toolStripSeparator8
 			// 
 			this.toolStripSeparator8.Name = "toolStripSeparator8";
-			this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator8.Size = new System.Drawing.Size(142, 6);
 			// 
 			// exportToolStripMenuItem
 			// 
@@ -276,34 +284,53 @@ namespace SEOMacroscope
 			this.sitemapTextToolStripMenuItem,
 			this.sitemapTextOnePerHostToolStripMenuItem});
 			this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-			this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exportToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exportToolStripMenuItem.Text = "Export";
 			// 
 			// sitemapXMLToolStripMenuItem
 			// 
 			this.sitemapXMLToolStripMenuItem.Name = "sitemapXMLToolStripMenuItem";
-			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.sitemapXMLToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
 			this.sitemapXMLToolStripMenuItem.Text = "Sitemap XML";
 			this.sitemapXMLToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveGeneratorSitemapXml);
+			// 
+			// sitemapXMLOnePerHostToolStripMenuItem
+			// 
+			this.sitemapXMLOnePerHostToolStripMenuItem.Name = "sitemapXMLOnePerHostToolStripMenuItem";
+			this.sitemapXMLOnePerHostToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+			this.sitemapXMLOnePerHostToolStripMenuItem.Text = "Sitemap XML For Each Host";
+			this.sitemapXMLOnePerHostToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveGeneratorSitemapXmlPerHost);
+			// 
+			// toolStripSeparator10
+			// 
+			this.toolStripSeparator10.Name = "toolStripSeparator10";
+			this.toolStripSeparator10.Size = new System.Drawing.Size(217, 6);
 			// 
 			// sitemapTextToolStripMenuItem
 			// 
 			this.sitemapTextToolStripMenuItem.Name = "sitemapTextToolStripMenuItem";
-			this.sitemapTextToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.sitemapTextToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
 			this.sitemapTextToolStripMenuItem.Text = "Sitemap Text";
 			this.sitemapTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveGeneratorSitemapText);
+			// 
+			// sitemapTextOnePerHostToolStripMenuItem
+			// 
+			this.sitemapTextOnePerHostToolStripMenuItem.Name = "sitemapTextOnePerHostToolStripMenuItem";
+			this.sitemapTextOnePerHostToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+			this.sitemapTextOnePerHostToolStripMenuItem.Text = "Sitemap Text For Each Host";
+			this.sitemapTextOnePerHostToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveGeneratorSitemapTextPerHost);
 			// 
 			// toolStripSeparator9
 			// 
 			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator9.Size = new System.Drawing.Size(142, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.CallbackFileExit);
 			// 
@@ -428,16 +455,20 @@ namespace SEOMacroscope
 			this.reportsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.saveOverviewExcelReportToolStripMenuItem,
-			this.errorsExcelReportToolStripMenuItem,
-			this.brokenLinksExcelReportToolStripMenuItem,
-			this.generatePageContentsExcelReportToolStripMenuItem,
+			this.toolStripSeparator11,
 			this.saveURIAnalysisExcelReportToolStripMenuItem,
 			this.redirectsExcelReportToolStripMenuItem,
-			this.keywordAnalysisExcelReportToolStripMenuItem,
-			this.duplicateContentExcelReportToolStripMenuItem,
-			this.generateHrefLangExcelReportToolStripMenuItem,
-			this.contactDetailsExcelReportToolStripMenuItem,
+			this.brokenLinksExcelReportToolStripMenuItem,
+			this.errorsExcelReportToolStripMenuItem,
 			this.remarksExcelReportToolStripMenuItem,
+			this.toolStripSeparator14,
+			this.generateHrefLangExcelReportToolStripMenuItem,
+			this.generatePageContentsExcelReportToolStripMenuItem,
+			this.duplicateContentExcelReportToolStripMenuItem,
+			this.keywordAnalysisExcelReportToolStripMenuItem,
+			this.toolStripSeparator13,
+			this.contactDetailsExcelReportToolStripMenuItem,
+			this.toolStripSeparator12,
 			this.customFiltersExcelReportToolStripMenuItem});
 			this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
 			this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
@@ -515,6 +546,7 @@ namespace SEOMacroscope
 			this.contactDetailsExcelReportToolStripMenuItem.Name = "contactDetailsExcelReportToolStripMenuItem";
 			this.contactDetailsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
 			this.contactDetailsExcelReportToolStripMenuItem.Text = "Contact Details Excel Report";
+			this.contactDetailsExcelReportToolStripMenuItem.ToolTipText = "Telephone number and email address lists";
 			this.contactDetailsExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsExcelReport);
 			// 
 			// remarksExcelReportToolStripMenuItem
@@ -826,24 +858,25 @@ namespace SEOMacroscope
 			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
 			// 
-			// sitemapXMLOnePerHostToolStripMenuItem
+			// toolStripSeparator11
 			// 
-			this.sitemapXMLOnePerHostToolStripMenuItem.Name = "sitemapXMLOnePerHostToolStripMenuItem";
-			this.sitemapXMLOnePerHostToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-			this.sitemapXMLOnePerHostToolStripMenuItem.Text = "Sitemap XML For Each Host";
-			this.sitemapXMLOnePerHostToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveGeneratorSitemapXmlPerHost);
+			this.toolStripSeparator11.Name = "toolStripSeparator11";
+			this.toolStripSeparator11.Size = new System.Drawing.Size(234, 6);
 			// 
-			// toolStripSeparator10
+			// toolStripSeparator12
 			// 
-			this.toolStripSeparator10.Name = "toolStripSeparator10";
-			this.toolStripSeparator10.Size = new System.Drawing.Size(210, 6);
+			this.toolStripSeparator12.Name = "toolStripSeparator12";
+			this.toolStripSeparator12.Size = new System.Drawing.Size(234, 6);
 			// 
-			// sitemapTextOnePerHostToolStripMenuItem
+			// toolStripSeparator13
 			// 
-			this.sitemapTextOnePerHostToolStripMenuItem.Name = "sitemapTextOnePerHostToolStripMenuItem";
-			this.sitemapTextOnePerHostToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-			this.sitemapTextOnePerHostToolStripMenuItem.Text = "Sitemap Text For Each Host";
-			this.sitemapTextOnePerHostToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveGeneratorSitemapTextPerHost);
+			this.toolStripSeparator13.Name = "toolStripSeparator13";
+			this.toolStripSeparator13.Size = new System.Drawing.Size(234, 6);
+			// 
+			// toolStripSeparator14
+			// 
+			this.toolStripSeparator14.Name = "toolStripSeparator14";
+			this.toolStripSeparator14.Size = new System.Drawing.Size(234, 6);
 			// 
 			// MacroscopeMainForm
 			// 

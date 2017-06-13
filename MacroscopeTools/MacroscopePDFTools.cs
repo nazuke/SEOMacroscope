@@ -29,6 +29,7 @@ using System.IO;
 using PdfSharp;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -131,6 +132,26 @@ namespace SEOMacroscope
     public string GetErrorMessage ()
     {
       return( this.ErrorMessage );
+    }
+
+    /**************************************************************************/
+
+    public Boolean IsPdfUrl ( string Url )
+    {
+    
+      Boolean Result = false;
+      string MimeType = MacroscopeUrlUtils.GetMimeTypeOfUrl( Url: Url );
+      
+      if( !string.IsNullOrEmpty( MimeType ) )
+      {
+        if( Regex.IsMatch( MimeType, "^application/pdf$", RegexOptions.IgnoreCase ) )
+        {
+          Result = true;
+        }
+      }
+
+      return( Result );
+      
     }
 
     /**************************************************************************/

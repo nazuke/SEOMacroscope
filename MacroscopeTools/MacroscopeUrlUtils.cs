@@ -658,7 +658,7 @@ namespace SEOMacroscope
 
         res = ( HttpWebResponse )req.GetResponse();
 
-        MimeType = res.Headers[ HttpRequestHeader.ContentType ];
+        MimeType = res.Headers[ HttpResponseHeader.ContentType ];
 
         res.Close();
         
@@ -676,7 +676,6 @@ namespace SEOMacroscope
       catch( WebException ex )
       {
         DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ), true );
-        res = ( HttpWebResponse )ex.Response;
       }
 
       return( MimeType );

@@ -55,13 +55,15 @@ namespace SEOMacroscope
         
         SitemapGenerator = new MacroscopeSitemapGenerator (
           NewDocCollection: this.JobMaster.GetDocCollection()
-         );
+        );
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
           {
+            Cursor.Current = Cursors.WaitCursor;
             SitemapGenerator.WriteSitemapXml( NewPath: Pathname );
+            Cursor.Current = Cursors.Default;
           }
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -81,9 +83,11 @@ namespace SEOMacroscope
         }
         
       }
-
+      
       Dialog.Dispose();
 
+      GC.Collect();
+            
     }
 
     /** -------------------------------------------------------------------- **/
@@ -108,13 +112,15 @@ namespace SEOMacroscope
         
         SitemapGenerator = new MacroscopeSitemapGenerator (
           NewDocCollection: this.JobMaster.GetDocCollection()
-         );
+        );
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
           {
+            Cursor.Current = Cursors.WaitCursor;
             SitemapGenerator.WriteSitemapXmlPerHost( NewPath: Pathname );
+            Cursor.Current = Cursors.Default;
           }
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -134,6 +140,8 @@ namespace SEOMacroscope
         }
         
       }
+
+      GC.Collect();
 
       Dialog.Dispose();
 
@@ -161,13 +169,15 @@ namespace SEOMacroscope
         
         SitemapGenerator = new MacroscopeSitemapGenerator (
           NewDocCollection: this.JobMaster.GetDocCollection()
-         );
+        );
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
           {
+            Cursor.Current = Cursors.WaitCursor;
             SitemapGenerator.WriteSitemapText( NewPath: Pathname );
+            Cursor.Current = Cursors.Default;
           }
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -209,13 +219,15 @@ namespace SEOMacroscope
         
         SitemapGenerator = new MacroscopeSitemapGenerator (
           NewDocCollection: this.JobMaster.GetDocCollection()
-         );
+        );
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
           {
+            Cursor.Current = Cursors.WaitCursor;
             SitemapGenerator.WriteSitemapTextPerHost( NewPath: Pathname );
+            Cursor.Current = Cursors.Default;
           }
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -235,10 +247,6 @@ namespace SEOMacroscope
 
     }
 
-    
-    
-    
-    
     /**************************************************************************/
 
   }
