@@ -36,8 +36,6 @@ namespace SEOMacroscope
 	
   public partial class MacroscopeDataExtractorRegexesForm : Form
   {
-	
-    /**************************************************************************/
 
     /**************************************************************************/
 
@@ -47,44 +45,29 @@ namespace SEOMacroscope
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 			     
       this.dataExtractorInstance.ConfigureDataExtractorForm( NewDataExtractor: NewDataExtractor );
-    
+
+      this.dataExtractorInstance.SetDataExtractorRegexes();
+
+      this.buttonClear.Click += ClearDataExtractorRegexesForm;
+
     }
-    
-    /**************************************************************************/
-        
-    
-    
     
     /**************************************************************************/
 
-    /*
-    public MacroscopeDataExtractorRegexes GetDataExtractor()
+    public MacroscopeDataExtractorRegexes GetDataExtractor ()
     {
-      return( this.customFilterPanelInstance.GetCustomFilter() );
+      return( this.dataExtractorInstance.GetDataExtractor() );
     }
-    */
-   
+
     /**************************************************************************/
 
-    /*
-    public void ClearCustomFilterForm ( object sender, EventArgs e )
+    public void ClearDataExtractorRegexesForm ( object sender, EventArgs e )
     {
-      this.customFilterPanelInstance.ClearCustomFilterForm();
+      this.dataExtractorInstance.ClearDataExtractorRegexesForm();
     }
-    */
-   
+
     /**************************************************************************/
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
   }
 	
 }

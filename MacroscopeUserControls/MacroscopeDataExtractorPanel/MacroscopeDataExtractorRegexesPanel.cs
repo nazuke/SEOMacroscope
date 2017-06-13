@@ -76,22 +76,59 @@ namespace SEOMacroscope
       TableLayoutPanel Table = this.tableLayoutPanelRegexGrid;
       
       Table.ColumnCount = 4;
-      Table.RowCount = Max;
-      
-      for( int i = 0 ; i < Max ; i++ )
+      Table.RowCount = Max + 1;
+
+      {
+        
+        List<string> ColumnLabels = new List<string> ( 4 ) {
+          "",
+          "Active/Inactive",
+          "Extractor Label",
+          "Regular Expression Pattern"
+        };
+        
+        for( int i = 0 ; i < ColumnLabels.Count ; i++ )
+        {
+          Label TextLabelCol = new Label ();
+          TextLabelCol.Text = ColumnLabels[ i ];
+          TextLabelCol.Dock = DockStyle.Fill;
+          TextLabelCol.Margin = new Padding ( 5, 5, 5, 5 );
+          TextLabelCol.TextAlign = ContentAlignment.BottomLeft;
+          Table.Controls.Add( TextLabelCol );
+        }
+        
+      }
+
+      for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
 
         Label TextLabel = new Label ();
-        ComboBox StateComboBox= new ComboBox ();
+        ComboBox StateComboBox = new ComboBox ();
         TextBox TextBoxLabel = new TextBox ();
         TextBox TextBoxRegex = new TextBox ();
 
-        TextLabel.Text = string.Format( "Regex {0}", i );
+        TextLabel.Text = string.Format( "Regex {0}", Slot + 1 );
+        TextLabel.TextAlign = ContentAlignment.MiddleRight;
+        TextLabel.Dock = DockStyle.Fill;
+        TextLabel.Margin = new Padding ( 5, 5, 5, 5 );
+
+        StateComboBox.Name = string.Format( "StateComboBox{0}", Slot + 1 );
         StateComboBox.Items.Add( "Inactive" );
         StateComboBox.Items.Add( "Active" );
+        StateComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        StateComboBox.SelectedIndex = 0;
+        StateComboBox.Margin = new Padding ( 5, 5, 5, 5 );
+        
+        TextBoxLabel.Name = string.Format( "TextBoxLabel{0}", Slot + 1 );
         TextBoxLabel.KeyUp += this.CallbackTextBoxKeyUp;
-        TextBoxRegex.KeyUp += this.CallbackTextBoxKeyUp;
+        TextBoxLabel.Dock = DockStyle.Fill;
+        TextBoxLabel.Margin = new Padding ( 5, 5, 5, 5 );
 
+        TextBoxRegex.Name = string.Format( "TextBoxRegex{0}", Slot + 1 );
+        TextBoxRegex.KeyUp += this.CallbackTextBoxKeyUp;
+        TextBoxRegex.Dock = DockStyle.Fill;
+        TextBoxRegex.Margin = new Padding ( 5, 5, 5, 5 );
+        
         Table.Controls.Add( TextLabel );
         Table.Controls.Add( StateComboBox );  
         Table.Controls.Add( TextBoxLabel );
@@ -102,57 +139,59 @@ namespace SEOMacroscope
         this.TextBoxRegexes.Add( TextBoxRegex );
 
       }
-      
-      
-      
 
+      for( int i = 0 ; i < Table.ColumnCount ; i++ )
+      {
+        Label TextLabelCol = new Label ();
+        TextLabelCol.Text = "";
+        Table.Controls.Add( TextLabelCol );
+      }
+
+      {
+        
+        int Count = 1;
+
+        foreach( RowStyle Style in Table.RowStyles )
+        {
+          decimal RowHeight = ( decimal )Table.Height / ( decimal )Table.RowCount;
+          Style.SizeType = SizeType.Absolute;
+          Style.Height = ( int )RowHeight * Count;
+          Count++;
+        }
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+      }
+
     }
 
     /**************************************************************************/
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    public void SetDataExtractorRegexes ( MacroscopeDataExtractorRegexes NewDataExtractorRegexes )
+
+    public void SetDataExtractorRegexes ()
     {
 
-      this.DataExtractorRegexes = NewDataExtractorRegexes;
-
       int Max = this.DataExtractorRegexes.GetSize();
-      
+
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
-      
-        TextBox textBoxRegex;
-        ComboBox comboBoxRegex;
-          
-        textBoxRegex = this.Controls.Find(
-          string.Format( "textBoxFilter{0}", Slot + 1 ),
+
+        ComboBox StateComboBox;
+        TextBox TextBoxLabel;
+        TextBox TextBoxRegex;
+
+        StateComboBox = this.Controls.Find(
+          string.Format( "StateComboBox{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as ComboBox;
+
+        TextBoxLabel = this.Controls.Find(
+          string.Format( "TextBoxLabel{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
           
-        comboBoxRegex = this.Controls.Find(
-          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+        TextBoxRegex = this.Controls.Find(
+          string.Format( "TextBoxRegex{0}", Slot + 1 ),
           true
-        ).FirstOrDefault() as ComboBox;
-          
+        ).FirstOrDefault() as TextBox;
+
         if( this.DataExtractorRegexes.IsEnabled() )
         {
 
@@ -162,23 +201,33 @@ namespace SEOMacroscope
           {
 
             case MacroscopeConstants.ActiveInactive.ACTIVE:
-              comboBoxRegex.SelectedIndex = 1;
+              StateComboBox.SelectedIndex = 1;
               break;
 
             default:
-              comboBoxRegex.SelectedIndex = 0;
+              StateComboBox.SelectedIndex = 0;
               break;
 
           }
 
-          textBoxRegex.Text = this.DataExtractorRegexes.GetPattern( Slot: Slot ).Value.ToString();
+          TextBoxLabel.Text = this.DataExtractorRegexes.GetPatternLabel( Slot: Slot );
 
+          TextBoxRegex.Text = this.DataExtractorRegexes.GetPattern( Slot: Slot ).Value.ToString();
+
+          if(
+            string.IsNullOrEmpty( TextBoxLabel.Text )
+            || string.IsNullOrEmpty( TextBoxRegex.Text ) )
+          {
+            StateComboBox.SelectedIndex = 0;
+          }
+          
         }
         else
         {
         
-          comboBoxRegex.SelectedIndex = 0;
-          textBoxRegex.Text = "";
+          StateComboBox.SelectedIndex = 0;
+          TextBoxLabel.Text = "";
+          TextBoxRegex.Text = "";
 
         }
 
@@ -187,67 +236,76 @@ namespace SEOMacroscope
       return;
       
     }
-    */
    
     /**************************************************************************/
 
-    /*
-    public MacroscopeCustomFilters GetCustomFilter ()
+    public MacroscopeDataExtractorRegexes GetDataExtractor ()
     {
 
-      int Max = this.CustomFilter.GetSize();
-      
+      int Max = this.DataExtractorRegexes.GetSize();
+
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
-      
-        TextBox textBoxFilter;
-        ComboBox comboBoxFilter;
-          
-        textBoxFilter = this.Controls.Find(
-          string.Format( "textBoxFilter{0}", Slot + 1 ),
-          true
-        ).FirstOrDefault() as TextBox;
-          
-        comboBoxFilter = this.Controls.Find(
-          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+
+        ComboBox StateComboBox;
+        TextBox TextBoxLabel;
+        TextBox TextBoxRegex;
+
+        StateComboBox = this.Controls.Find(
+          string.Format( "StateComboBox{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as ComboBox;
 
-        switch( comboBoxFilter.SelectedIndex )
+        TextBoxLabel = this.Controls.Find(
+          string.Format( "TextBoxLabel{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+          
+        TextBoxRegex = this.Controls.Find(
+          string.Format( "TextBoxRegex{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+
+        switch( StateComboBox.SelectedIndex )
         {
 
           case 1:
-            this.CustomFilter.SetPattern(
-              Slot: Slot, 
-              Text: textBoxFilter.Text, 
-              ContainsSetting: MacroscopeConstants.Contains.MUSTHAVE
-            );
-            break;
-
-          case 2:
-            this.CustomFilter.SetPattern(
-              Slot: Slot, 
-              Text: textBoxFilter.Text, 
-              ContainsSetting: MacroscopeConstants.Contains.MUSTNOTHAVE
+            this.DataExtractorRegexes.SetActiveInactive(
+              Slot: Slot,
+              State: MacroscopeConstants.ActiveInactive.ACTIVE
             );
             break;
 
           default:
-            this.CustomFilter.SetPattern(
-              Slot: Slot, 
-              Text: "", 
-              ContainsSetting: MacroscopeConstants.Contains.UNDEFINED
+            this.DataExtractorRegexes.SetActiveInactive(
+              Slot: Slot,
+              State: MacroscopeConstants.ActiveInactive.INACTIVE
             );
             break;
 
         }
 
+        if(
+          string.IsNullOrEmpty( TextBoxLabel.Text )
+          || string.IsNullOrEmpty( TextBoxRegex.Text ) )
+        {
+          this.DataExtractorRegexes.SetActiveInactive(
+            Slot: Slot,
+            State: MacroscopeConstants.ActiveInactive.INACTIVE
+          );
+        }
+
+        this.DataExtractorRegexes.SetPattern(
+          Slot: Slot,
+          RegexLabel: TextBoxLabel.Text,
+          RegexString: TextBoxRegex.Text
+        );
+
       }
 
-      return( this.CustomFilter );
+      return( this.DataExtractorRegexes );
 
     }
-    */
    
     /**************************************************************************/
         
@@ -267,39 +325,42 @@ namespace SEOMacroscope
     }
        
     /**************************************************************************/
-    
-    /*
-    public void ClearCustomFilterForm ()
+
+    public void ClearDataExtractorRegexesForm ()
     {
 
-      int Max = this.CustomFilter.GetSize();
-      
+      int Max = this.DataExtractorRegexes.GetSize();
+
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
-      
-        TextBox textBoxFilter;
-        ComboBox comboBoxFilter;
-          
-        textBoxFilter = this.Controls.Find(
-          string.Format( "textBoxFilter{0}", Slot + 1 ),
-          true
-        ).FirstOrDefault() as TextBox;
-          
-        comboBoxFilter = this.Controls.Find(
-          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+
+        ComboBox StateComboBox;
+        TextBox TextBoxLabel;
+        TextBox TextBoxRegex;
+
+        StateComboBox = this.Controls.Find(
+          string.Format( "StateComboBox{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as ComboBox;
 
-        comboBoxFilter.SelectedIndex = 0;
-        textBoxFilter.Text = "";
+        TextBoxLabel = this.Controls.Find(
+          string.Format( "TextBoxLabel{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+          
+        TextBoxRegex = this.Controls.Find(
+          string.Format( "TextBoxRegex{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+
+        StateComboBox.SelectedIndex = 0;
+        TextBoxLabel.Text = "";
+        TextBoxRegex.Text = "";
 
       }
 
     }
-    */
-   
 
-    
     /**************************************************************************/
     
   }

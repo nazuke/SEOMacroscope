@@ -64,38 +64,41 @@ namespace SEOMacroscope
 			// 
 			// tableLayoutPanelRegexGrid
 			// 
+			this.tableLayoutPanelRegexGrid.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.tableLayoutPanelRegexGrid.ColumnCount = 4;
-			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
 			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelRegexGrid.Location = new System.Drawing.Point(3, 63);
+			this.tableLayoutPanelRegexGrid.Location = new System.Drawing.Point(10, 50);
+			this.tableLayoutPanelRegexGrid.Margin = new System.Windows.Forms.Padding(10);
 			this.tableLayoutPanelRegexGrid.Name = "tableLayoutPanelRegexGrid";
 			this.tableLayoutPanelRegexGrid.RowCount = 1;
-			this.tableLayoutPanelRegexGrid.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelRegexGrid.Size = new System.Drawing.Size(744, 253);
+			this.tableLayoutPanelRegexGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelRegexGrid.Size = new System.Drawing.Size(600, 250);
 			this.tableLayoutPanelRegexGrid.TabIndex = 1;
 			// 
 			// label6
 			// 
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-			this.label6.Location = new System.Drawing.Point(3, 0);
+			this.label6.Location = new System.Drawing.Point(10, 10);
+			this.label6.Margin = new System.Windows.Forms.Padding(10);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(600, 23);
+			this.label6.Size = new System.Drawing.Size(600, 20);
 			this.label6.TabIndex = 2;
 			this.label6.Text = "Enter regular expressions to search for and extract from each HTML page.";
 			// 
 			// tableLayoutPanelContainer
 			// 
+			this.tableLayoutPanelContainer.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.tableLayoutPanelContainer.ColumnCount = 1;
 			this.tableLayoutPanelContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanelContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanelContainer.Controls.Add(this.label6, 0, 0);
 			this.tableLayoutPanelContainer.Controls.Add(this.tableLayoutPanelRegexGrid, 0, 1);
 			this.tableLayoutPanelContainer.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanelContainer.Name = "tableLayoutPanelContainer";
 			this.tableLayoutPanelContainer.RowCount = 2;
-			this.tableLayoutPanelContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.tableLayoutPanelContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
 			this.tableLayoutPanelContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanelContainer.Size = new System.Drawing.Size(750, 372);
 			this.tableLayoutPanelContainer.TabIndex = 0;
@@ -104,7 +107,9 @@ namespace SEOMacroscope
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.Controls.Add(this.tableLayoutPanelContainer);
+			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "MacroscopeDataExtractorRegexesPanel";
 			this.Size = new System.Drawing.Size(850, 402);
 			this.tableLayoutPanelContainer.ResumeLayout(false);

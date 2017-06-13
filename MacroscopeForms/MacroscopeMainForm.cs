@@ -2353,18 +2353,23 @@ namespace SEOMacroscope
     private void CallbackDataExtractorsRegularExpressionsClick ( object sender, EventArgs e )
     {
 
-      MacroscopeDataExtractorRegexesForm DataExtractorForm = new MacroscopeDataExtractorRegexesForm ( NewDataExtractor: this.DataExtractorRegexes );
+      MacroscopeDataExtractorRegexesForm DataExtractorForm;
+      DialogResult CustomFilterResult;
+      
+      DataExtractorForm = new MacroscopeDataExtractorRegexesForm (
+        NewDataExtractor: this.DataExtractorRegexes
+      );
 
-      DialogResult CustomFilterResult = DataExtractorForm.ShowDialog();
+      CustomFilterResult = DataExtractorForm.ShowDialog();
 
       if( CustomFilterResult == DialogResult.OK )
       {
 
-        //this.CustomFilter = DataExtractorForm.GetCustomFilter();
+        this.DataExtractorRegexes = DataExtractorForm.GetDataExtractor();
 
-        // this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+        this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
         
-        //this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
+        //this.msDisplayDataExtractorRegexes.ResetColumns( NewDataExtractor: this.DataExtractorRegexes );
 
       }
 

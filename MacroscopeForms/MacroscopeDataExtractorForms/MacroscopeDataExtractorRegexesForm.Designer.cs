@@ -115,11 +115,12 @@ namespace SEOMacroscope
 			// dataExtractorInstance
 			// 
 			this.dataExtractorInstance.AutoScroll = true;
+			this.dataExtractorInstance.BackColor = System.Drawing.Color.Blue;
 			this.dataExtractorInstance.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataExtractorInstance.Location = new System.Drawing.Point(10, 10);
-			this.dataExtractorInstance.Margin = new System.Windows.Forms.Padding(10);
+			this.dataExtractorInstance.Location = new System.Drawing.Point(0, 0);
+			this.dataExtractorInstance.Margin = new System.Windows.Forms.Padding(0);
 			this.dataExtractorInstance.Name = "dataExtractorInstance";
-			this.dataExtractorInstance.Size = new System.Drawing.Size(864, 482);
+			this.dataExtractorInstance.Size = new System.Drawing.Size(884, 502);
 			this.dataExtractorInstance.TabIndex = 2;
 			// 
 			// MacroscopeDataExtractorRegexesForm
