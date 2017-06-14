@@ -97,6 +97,10 @@ namespace SEOMacroscope
     public const string NamedQueueDisplayHostnames = "DisplayHostnames";
 
     public const string NamedQueueDisplayCustomFilters = "DisplayCustomFilters";
+    
+    public const string NamedQueueDisplayDataExtractorsCssSelectors = "DisplayDataExtractorsCssSelectors";
+    public const string NamedQueueDisplayDataExtractorsRegexes = "DisplayDataExtractorsRegexes";
+    public const string NamedQueueDisplayDataExtractorsXpaths = "DisplayDataExtractorsXpaths";
 
     public const string RecalculateDocCollection = "RecalculateDocCollection";
 

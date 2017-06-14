@@ -818,6 +818,42 @@ namespace SEOMacroscope
       
     }
 
+    /** Deduplicate List ***************************************************/
+
+    public void DeduplicateListView ( ListView DuplicatedListView )
+    {
+
+      List<string> ItemNames = new List<string> ( DuplicatedListView.Items.Count );
+        
+      foreach( ListViewItem lvItem in DuplicatedListView.Items )
+      {
+        if( !ItemNames.Contains( lvItem.Name ) )
+        {
+          ItemNames.Add( lvItem.Name );
+        }
+      }
+
+      foreach( string ItemName in ItemNames )
+      {
+
+        ListViewItem [] ListViewDuplicateItems = DuplicatedListView.Items.Find( key: ItemName, searchAllSubItems: false );
+
+        if( ListViewDuplicateItems.Length > 1 )
+        {
+            
+          for( int i = 1 ; i < ListViewDuplicateItems.Length ; i++ )
+          {
+
+            DuplicatedListView.Items.Remove( ListViewDuplicateItems[ i ] );
+              
+          }
+            
+        }
+
+      }
+
+    }
+
     /** Override Render One ***************************************************/
 
     abstract protected void RenderListView ( List<ListViewItem> ListViewItems, MacroscopeDocument msDoc, string Url );

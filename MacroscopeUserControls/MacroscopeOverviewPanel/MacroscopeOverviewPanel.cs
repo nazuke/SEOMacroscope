@@ -99,6 +99,14 @@ namespace SEOMacroscope
       this.tableLayoutPanelCustomFilters.Dock = DockStyle.Fill;
       this.listViewCustomFilters.Dock = DockStyle.Fill;
 
+      this.tabControlDataExtractors.Dock = DockStyle.Fill;
+      this.tableLayoutPanelDataExtractorRegexes.Dock = DockStyle.Fill;
+      this.listViewDataExtractorRegexes.Dock = DockStyle.Fill;
+      this.tableLayoutPanelDataExtractorCssSelectors.Dock = DockStyle.Fill;
+      this.listViewDataExtractorCssSelectors.Dock = DockStyle.Fill;
+      this.tableLayoutPanelDataExtractorXpaths.Dock = DockStyle.Fill;
+      this.listViewDataExtractorXpaths.Dock = DockStyle.Fill;
+
       this.tableLayoutPanelUriQueue.Dock = DockStyle.Fill;
       this.listViewUriQueue.Dock = DockStyle.Fill;
 
@@ -135,6 +143,7 @@ namespace SEOMacroscope
       this.listViewEmailAddresses.ColumnClick += this.CallbackColumnClick;
       this.listViewTelephoneNumbers.ColumnClick += this.CallbackColumnClick;
       this.listViewCustomFilters.ColumnClick += this.CallbackColumnClick;
+      this.listViewDataExtractorRegexes.ColumnClick += this.CallbackColumnClick;
       this.listViewUriQueue.ColumnClick += this.CallbackColumnClick;
       this.listViewHistory.ColumnClick += this.CallbackColumnClick;
       this.listViewSearchCollection.ColumnClick += this.CallbackColumnClick;

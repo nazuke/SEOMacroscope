@@ -58,8 +58,10 @@ namespace SEOMacroscope
 
     private MacroscopeCustomFilters CustomFilter;
 
+    private MacroscopeDataExtractorCssSelectors DataExtractorCssSelectors;
     private MacroscopeDataExtractorRegexes DataExtractorRegexes;
-    
+    private MacroscopeDataExtractorXpaths DataExtractorXpaths;
+
     private int CrawlDelay;
     private int ThreadsMax;
     private int ThreadsRunning;
@@ -131,6 +133,10 @@ namespace SEOMacroscope
       this.IncludeExcludeUrls = null;
       
       this.CustomFilter = null;
+
+      this.DataExtractorCssSelectors = null;   
+      this.DataExtractorRegexes = null;
+      this.DataExtractorXpaths = null;
 
       this.JobHistory = null;
 
@@ -204,6 +210,10 @@ namespace SEOMacroscope
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayEmailAddresses );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayCustomFilters );
+        
+        this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayDataExtractorsCssSelectors );
+        this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayDataExtractorsRegexes );
+        this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayDataExtractorsXpaths );
 
       }
       // END: Named Queues
@@ -306,12 +316,22 @@ namespace SEOMacroscope
       return( this.CustomFilter );
     }
 
-    
-    
-    
-    
-    
+
+
+
     /** Data Extractors *********************************************************/
+
+    public void SetDataExtractorCssSelectors ( MacroscopeDataExtractorCssSelectors NewDataExtractor )
+    {
+      this.DataExtractorCssSelectors = NewDataExtractor;
+    }
+
+    public MacroscopeDataExtractorCssSelectors GetDataExtractorCssSelectors ()
+    {
+      return( this.DataExtractorCssSelectors );
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     public void SetDataExtractorRegexes ( MacroscopeDataExtractorRegexes NewDataExtractor )
     {
@@ -323,20 +343,21 @@ namespace SEOMacroscope
       return( this.DataExtractorRegexes );
     }
 
+    /** -------------------------------------------------------------------- **/
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public void SetDataExtractorXpaths ( MacroscopeDataExtractorXpaths NewDataExtractor )
+    {
+      this.DataExtractorXpaths = NewDataExtractor;
+    }
+
+    public MacroscopeDataExtractorXpaths GetDataExtractorXpaths ()
+    {
+      return( this.DataExtractorXpaths );
+    }
+
+
+
+
     /** Execute Job ***********************************************************/
 
     public Boolean Execute ()
@@ -651,6 +672,11 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCustomFilters, Url );
+
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayDataExtractorsCssSelectors, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayDataExtractorsRegexes, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayDataExtractorsXpaths, Url );
+
     }
 
     /** -------------------------------------------------------------------- **/

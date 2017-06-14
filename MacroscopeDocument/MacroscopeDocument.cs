@@ -150,8 +150,15 @@ namespace SEOMacroscope
 
     private Dictionary<string, MacroscopeConstants.TextPresence> CustomFiltered;
 
+    
+    // Label, list of values found
+    private Dictionary<string, List<string>> DataExtractedCssSelectors;
+    private Dictionary<string, List<string>> DataExtractedRegexes;
+    private Dictionary<string, List<string>> DataExtractedXpaths;
+
+    
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -320,6 +327,10 @@ namespace SEOMacroscope
       this.Remarks = new List<string> ();
 
       this.CustomFiltered = new Dictionary<string, MacroscopeConstants.TextPresence> ( 5 );
+
+      this.DataExtractedCssSelectors = new Dictionary<string, List<string>> ( 8 );
+      this.DataExtractedRegexes = new Dictionary<string, List<string>> ( 8 );
+      this.DataExtractedXpaths = new Dictionary<string, List<string>> ( 8 );
 
     }
 
@@ -1734,6 +1745,131 @@ namespace SEOMacroscope
 
       return( Pair );
 
+    }
+
+    /** Data Extractors *******************************************************/
+
+    /** CSS Selectors ------------------------------------------------------ **/
+
+    public void SetDataExtractedCssSelectors ( string Label, string Text )
+    {
+      List<string> Items = null;
+      if( this.DataExtractedCssSelectors.ContainsKey( Label ) )
+      {
+        Items = this.DataExtractedCssSelectors[ Label ];
+      }
+      else
+      {
+        Items = new List<string> ( 8 );
+        this.DataExtractedCssSelectors.Add( Label, Items );
+      }
+      Items.Add( Text );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<KeyValuePair<string,string>> IterateDataExtractedCssSelectors ()
+    {
+      lock( this.DataExtractedCssSelectors )
+      {
+        foreach( string Label in this.DataExtractedCssSelectors.Keys )
+        {
+          if( this.DataExtractedCssSelectors.ContainsKey( Label ) )
+          {
+            List<string> Items = this.DataExtractedCssSelectors[ Label ];
+            lock( Items )
+            {
+              foreach( string Text in Items )
+              {
+                KeyValuePair<string,string> Pair = new KeyValuePair<string, string> ( Label, Text );
+                yield return Pair;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /** Regexes ------------------------------------------------------------ **/
+
+    public void SetDataExtractedRegexes ( string Label, string Text )
+    {
+      List<string> Items = null;
+      if( this.DataExtractedRegexes.ContainsKey( Label ) )
+      {
+        Items = this.DataExtractedRegexes[ Label ];
+      }
+      else
+      {
+        Items = new List<string> ( 8 );
+        this.DataExtractedRegexes.Add( Label, Items );
+      }
+      Items.Add( Text );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<KeyValuePair<string,string>> IterateDataExtractedRegexes ()
+    {
+      lock( this.DataExtractedRegexes )
+      {
+        foreach( string Label in this.DataExtractedRegexes.Keys )
+        {
+          if( this.DataExtractedRegexes.ContainsKey( Label ) )
+          {
+            List<string> Items = this.DataExtractedRegexes[ Label ];
+            lock( Items )
+            {
+              foreach( string Text in Items )
+              {
+                KeyValuePair<string,string> Pair = new KeyValuePair<string, string> ( Label, Text );
+                yield return Pair;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /** XPaths ------------------------------------------------------------- **/
+
+    public void SetDataExtractedXpaths ( string Label, string Text )
+    {
+      List<string> Items = null;
+      if( this.DataExtractedXpaths.ContainsKey( Label ) )
+      {
+        Items = this.DataExtractedXpaths[ Label ];
+      }
+      else
+      {
+        Items = new List<string> ( 8 );
+        this.DataExtractedXpaths.Add( Label, Items );
+      }
+      Items.Add( Text );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<KeyValuePair<string,string>> IterateDataExtractedXpaths ()
+    {
+      lock( this.DataExtractedXpaths )
+      {
+        foreach( string Label in this.DataExtractedXpaths.Keys )
+        {
+          if( this.DataExtractedXpaths.ContainsKey( Label ) )
+          {
+            List<string> Items = this.DataExtractedXpaths[ Label ];
+            lock( Items )
+            {
+              foreach( string Text in Items )
+              {
+                KeyValuePair<string,string> Pair = new KeyValuePair<string, string> ( Label, Text );
+                yield return Pair;
+              }
+            }
+          }
+        }
+      }
     }
 
     /** Executor **************************************************************/

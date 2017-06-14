@@ -28,6 +28,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Runtime;
+using System.Security.Cryptography;
+using System.Collections.Generic;
+using System.Text;
 
 namespace SEOMacroscope
 {
@@ -48,7 +51,9 @@ namespace SEOMacroscope
     public Boolean SuppressDebugMsg;
 
     private string UserAgentString;
-    
+
+    protected static Dictionary<string,string> Memoize = new Dictionary<string,string> ( 1024 );
+
     /**************************************************************************/
 
     static Macroscope ()
@@ -72,14 +77,14 @@ namespace SEOMacroscope
       return( Version );
     }
 
-    /**************************************************************************/
+    /** HTTP User Agent *******************************************************/
     
     public string UserAgent ()
     {
       return( this.UserAgentString );
     }
     
-    /**************************************************************************/
+    /** -------------------------------------------------------------------- **/
         
     private string _UserAgent ()
     {
@@ -92,6 +97,39 @@ namespace SEOMacroscope
       string MyUserAgent = string.Format( "{0}/{1}", Name, Version );
       #endif
       return( MyUserAgent );
+    }
+
+    /** Text Digest ***********************************************************/
+
+    public static string GetStringDigest ( string Text )
+    {
+
+      string Digested = null;
+
+      if( Macroscope.Memoize.ContainsKey( Text ) )
+      {
+        Digested = Macroscope.Memoize[ Text ];
+      }
+      else
+      {
+
+        HashAlgorithm Digest = HashAlgorithm.Create( "SHA256" );
+        byte [] BytesIn = Encoding.UTF8.GetBytes( Text );
+        byte [] Hashed = Digest.ComputeHash( BytesIn );
+        StringBuilder Buf = new StringBuilder ();
+
+        for( int i = 0 ; i < Hashed.Length ; i++ )
+        {
+          Buf.Append( Hashed[ i ].ToString( "X2" ) );
+        }
+
+        Digested = Buf.ToString();
+
+        Macroscope.Memoize[ Text ] = Digested;
+
+      }
+
+      return( Digested );
     }
 
     /** Memory Gate ***********************************************************/

@@ -65,7 +65,7 @@ namespace SEOMacroscope
         
         this.ExtractActiveInactive.Add( MacroscopeConstants.ActiveInactive.INACTIVE );
         
-        this.ExtractRegexes.Add( new KeyValuePair<string, Regex> () );
+        this.ExtractRegexes.Add( new KeyValuePair<string, Regex> ( string.Format( "Regex {0}", Slot + 1 ), null ) );
 
       }
 
@@ -137,17 +137,8 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-
-    public KeyValuePair<string, Regex> GetPattern ( int Slot )
-    {
-
-      return( this.ExtractRegexes[ Slot ] );
-
-    }
-    
-    /**************************************************************************/
         
-    public string GetPatternLabel ( int Slot )
+    public string GetLabel ( int Slot )
     {
 
       return( this.ExtractRegexes[ Slot ].Key );
@@ -156,7 +147,7 @@ namespace SEOMacroscope
     
     /**************************************************************************/
         
-    public Regex GetPatternRegex ( int Slot )
+    public Regex GetRegex ( int Slot )
     {
 
       return( this.ExtractRegexes[ Slot ].Value );
@@ -201,23 +192,34 @@ namespace SEOMacroscope
             RegexOptions.Singleline
           );
 
-          foreach( Match match in PatternMatches )
+          for( int i = 0 ; i < PatternMatches.Count ; i++ )
           {
-            
-            string FoundString = match.Value;
 
-            if( !string.IsNullOrEmpty( FoundString ) )
+            Match match = PatternMatches[ i ];
+
+            for( int j = 1 ; j < match.Groups.Count ; j++ )
             {
 
-              KeyValuePair<string, string> MatchedItem;
+              Group captured = match.Groups[ j ];
+            
+              this.DebugMsg( string.Format( "captured: {0} => \"{1}\"", captured.Index, captured.Value ) );
+
+              string FoundString = captured.Value;
+
+              if( !string.IsNullOrEmpty( FoundString ) )
+              {
+
+                KeyValuePair<string, string> MatchedItem;
               
-              MatchedItem = new KeyValuePair<string, string> ( 
-                this.ExtractRegexes[ Slot ].Key,
-                FoundString
-              );
+                MatchedItem = new KeyValuePair<string, string> ( 
+                  this.ExtractRegexes[ Slot ].Key,
+                  FoundString
+                );
               
-              ResultList.Add( MatchedItem );
-              
+                ResultList.Add( MatchedItem );
+
+              }
+            
             }
             
           }

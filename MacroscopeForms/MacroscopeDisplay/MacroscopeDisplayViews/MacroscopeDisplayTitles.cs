@@ -154,6 +154,7 @@ namespace SEOMacroscope
           {
 
             lvItem = this.DisplayListView.Items[ PairKey ];
+            
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems[ ColPageLanguage ].Text = PageLanguage;
             lvItem.SubItems[ ColDetectedLanguage ].Text = DetectedLanguage;

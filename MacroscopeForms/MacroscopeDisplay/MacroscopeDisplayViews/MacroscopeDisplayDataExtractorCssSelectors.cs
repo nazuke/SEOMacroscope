@@ -33,7 +33,7 @@ using System.Net;
 namespace SEOMacroscope
 {
 
-  public sealed class MacroscopeDisplayCustomFilters : MacroscopeDisplayListView
+  public sealed class MacroscopeDisplayDataExtractorCssSelectors : MacroscopeDisplayListView
   {
 
     /**************************************************************************/
@@ -41,20 +41,20 @@ namespace SEOMacroscope
     private const int ColUrl = 0;
     private const int ColStatusCode = 1;
     private const int ColStatus = 2;
+    private const int ColCssSelectorLabel = 3;
+    private const int ColExtractedValue = 4;
 
-    private int FilterColOffset = -1;
-    
-    private ToolStripLabel DocumentCount;
+    private ToolStripLabel ItemCount;
 
     /**************************************************************************/
 
-    public MacroscopeDisplayCustomFilters ( MacroscopeMainForm MainForm, ListView TargetListView )
+    public MacroscopeDisplayDataExtractorCssSelectors ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
-      this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelCustomFiltersItems;
+      this.ItemCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelCssSelectors;
 
       if( this.MainForm.InvokeRequired )
       {
@@ -87,12 +87,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void ResetColumns (
-      MacroscopeCustomFilters CustomFilter
-    )
+    public void ResetColumns ()
     {
 
-      Dictionary<string,int> FilterColsTable = new Dictionary<string,int> ( CustomFilter.GetSize() );
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
 
       this.DisplayListView.Items.Clear();
@@ -102,39 +99,22 @@ namespace SEOMacroscope
       this.DisplayListView.Columns.Add( MacroscopeConstants.StatusCode, MacroscopeConstants.StatusCode );      
       this.DisplayListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
 
-      this.FilterColOffset = this.DisplayListView.Columns.Count - 1;
-
-      for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
-      {
-
-        string FilterPattern = CustomFilter.GetPattern( Slot ).Key;
-
-        this.DisplayListView.Columns.Add( FilterPattern, FilterPattern );
-
-        if( string.IsNullOrEmpty( FilterPattern ) || FilterColsTable.ContainsKey( FilterPattern ) )
-        {
-          FilterColsTable.Add( string.Format( "EMPTY{0}", Slot + 1 ), Slot + this.FilterColOffset );
-        }
-        else
-        {
-          FilterColsTable.Add( FilterPattern, Slot + this.FilterColOffset );
-        }
-
-      }
-
+      this.DisplayListView.Columns.Add( key: "Css_Selector_Label", text: "CSS Selector Label" );
+      this.DisplayListView.Columns.Add( key: "Css_Selector_Extracted", text: "Extracted Value" );
+      
       for( int ColIndex = 0 ; ColIndex < this.DisplayListView.Columns.Count ; ColIndex++ )
       {
         this.DisplayListView.AutoResizeColumn( ColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
       }
 
     }
-
+    
     /**************************************************************************/
 
     public void RefreshData (
       MacroscopeDocumentCollection DocCollection,
       List<string> UrlList,
-      MacroscopeCustomFilters CustomFilter
+      MacroscopeDataExtractorCssSelectors DataExtractor
 
     )
     {
@@ -150,7 +130,7 @@ namespace SEOMacroscope
               this.RenderListView(
                 DocCollection: DocCollection,
                 UrlList: UrlList,
-                CustomFilter: CustomFilter
+                DataExtractor: DataExtractor
               );
               this.RenderUrlCount();
               this.DisplayListView.EndUpdate();
@@ -166,7 +146,7 @@ namespace SEOMacroscope
         this.RenderListView(
           DocCollection: DocCollection,
           UrlList: UrlList,
-          CustomFilter: CustomFilter
+          DataExtractor: DataExtractor
         );
         this.RenderUrlCount();
         this.DisplayListView.EndUpdate();
@@ -180,17 +160,11 @@ namespace SEOMacroscope
     private void RenderListView (
       MacroscopeDocumentCollection DocCollection,
       List<string> UrlList,
-      MacroscopeCustomFilters CustomFilter
+      MacroscopeDataExtractorCssSelectors DataExtractor
     )
     {
 
-      if( this.FilterColOffset == -1 )
-      {
-        throw( new Exception ( "this.FilterColOffset invalid" ) );
-      }
-
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      Dictionary<string,int> FilterColsTable = new Dictionary<string,int> ( CustomFilter.GetSize() );
       
       if( DocCollection.CountDocuments() == 0 )
       {
@@ -216,21 +190,6 @@ namespace SEOMacroscope
 
       }
 
-      for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
-      {
-        string FilterPattern = CustomFilter.GetPattern( Slot ).Key;
-
-        if( FilterColsTable.ContainsKey( FilterPattern ) )
-        {
-          FilterColsTable.Add( string.Format( "EMPTY{0}", Slot + 1 ), Slot + 1 );
-        }
-        else
-        {
-          FilterColsTable.Add( FilterPattern, Slot + 1 );
-        }
-
-      }
-
       foreach( string Url in UrlList )
       {
 
@@ -246,126 +205,95 @@ namespace SEOMacroscope
           continue;
         }
 
-        ListViewItem lvItem = null;
         string DocUrl = msDoc.GetUrl();
-        string PairKey = DocUrl;
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
 
-        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
+        foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedCssSelectors() )
         {
 
-          lvItem = this.DisplayListView.Items[ PairKey ];
+          ListViewItem lvItem = null;
+          string CssSelectorLabel = DataExtractedPair.Key;
+          string ExtractedValue = DataExtractedPair.Value;
+          string PairKey = string.Join( "::", DocUrl, CssSelectorLabel.GetHashCode(), ExtractedValue.GetHashCode() );
 
-        }
-        else
-        {
-
-          lvItem = new ListViewItem ( PairKey );
-          lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = PairKey;
-
-          lvItem.SubItems.Add( "" );
-          lvItem.SubItems.Add( "" );
-          lvItem.SubItems.Add( "" );
-
-          for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
+          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
-            lvItem.SubItems.Add( "" );
+
+            lvItem = this.DisplayListView.Items[ PairKey ];
+
+          }
+          else
+          {
+
+            lvItem = new ListViewItem ( PairKey );
+            lvItem.UseItemStyleForSubItems = false;
+            lvItem.Name = PairKey;
+
+            for( int i = 0 ; i < 5 ; i++ )
+              lvItem.SubItems.Add( "" );
+
+            ListViewItems.Add( lvItem );
+
           }
 
-          ListViewItems.Add( lvItem );
-
-        }
-
-        if( lvItem != null )
-        {
-
-          try
+          if( lvItem != null )
           {
 
-            lvItem.SubItems[ ColUrl ].Text = DocUrl;
-            lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
-            lvItem.SubItems[ ColStatus ].Text = Status;
-
-            for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
+            try
             {
 
-              string FilterPattern = CustomFilter.GetPattern( Slot: Slot ).Key;
-              KeyValuePair<string, MacroscopeConstants.TextPresence> Pair = msDoc.GetCustomFilteredItem( Text: FilterPattern );
-              int ColOffset = this.FilterColOffset + FilterColsTable[ FilterPattern ];
+              lvItem.SubItems[ ColUrl ].Text = DocUrl;
+              lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
+              lvItem.SubItems[ ColStatus ].Text = Status;
+              lvItem.SubItems[ ColCssSelectorLabel ].Text = CssSelectorLabel;
+              lvItem.SubItems[ ColExtractedValue ].Text = ExtractedValue;
 
-              if( ( Pair.Key != null ) && ( Pair.Value != MacroscopeConstants.TextPresence.UNDEFINED ) )
-              {
-
-                lvItem.SubItems[ ColOffset ].Text = MacroscopeConstants.TextPresenceLabels[ Pair.Value ];
-
-                switch( Pair.Value )
-                {
-                  case MacroscopeConstants.TextPresence.CONTAINS:
-                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Green;
-                    break;
-                  case MacroscopeConstants.TextPresence.NOTCONTAINS:
-                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Green;
-                    break;
-                  case MacroscopeConstants.TextPresence.MUSTCONTAIN:
-                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Red;
-                    break;
-                  case MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN:
-                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Red;
-                    break;
-                  default:
-                    lvItem.SubItems[ ColOffset ].ForeColor = Color.Gray;
-                    break;
-                }
-
-              }
-
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "MacroscopeDisplayDataExtractorCssSelectors: {0}", ex.Message ) );
+              DebugMsg( string.Format( "MacroscopeDisplayDataExtractorCssSelectors: {0}", ex.StackTrace ) );
             }
 
           }
-          catch( Exception ex )
+          else
           {
-            DebugMsg( string.Format( "MacroscopeDisplayCustomFilters: {0}", ex.Message ) );
-            DebugMsg( string.Format( "MacroscopeDisplayCustomFilters: {0}", ex.StackTrace ) );
+            DebugMsg( string.Format( "MacroscopeDisplayDataExtractorCssSelectors MISSING: {0}", PairKey ) );
           }
 
-        }
-        else
-        {
-          DebugMsg( string.Format( "MacroscopeDisplayCustomFilters MISSING: {0}", PairKey ) );
-        }
+          if( msDoc.GetIsInternal() )
+          {
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
+          }          
 
-        if( msDoc.GetIsInternal() )
-        {
-          lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
-        }
-        else
-        {
-          lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
-        }          
+          if( Regex.IsMatch( StatusCode, "^[2]" ) )
+          {
+            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Green;
+            lvItem.SubItems[ ColStatus ].ForeColor = Color.Green;
+          }
+          else
+          if( Regex.IsMatch( StatusCode, "^[3]" ) )
+          {
+            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Goldenrod;
+            lvItem.SubItems[ ColStatus ].ForeColor = Color.Goldenrod;
+          }
+          else
+          if( Regex.IsMatch( StatusCode, "^[45]" ) )
+          {
+            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColStatus ].ForeColor = Color.Red;
+          }
+          else
+          {
+            lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Blue;
+            lvItem.SubItems[ ColStatus ].ForeColor = Color.Blue;
+          }
 
-        if( Regex.IsMatch( StatusCode, "^[2]" ) )
-        {
-          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Green;
-          lvItem.SubItems[ ColStatus ].ForeColor = Color.Green;
-        }
-        else
-        if( Regex.IsMatch( StatusCode, "^[3]" ) )
-        {
-          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Goldenrod;
-          lvItem.SubItems[ ColStatus ].ForeColor = Color.Goldenrod;
-        }
-        else
-        if( Regex.IsMatch( StatusCode, "^[45]" ) )
-        {
-          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Red;
-          lvItem.SubItems[ ColStatus ].ForeColor = Color.Red;
-        }
-        else
-        {
-          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Blue;
-          lvItem.SubItems[ ColStatus ].ForeColor = Color.Blue;
         }
 
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
@@ -413,7 +341,7 @@ namespace SEOMacroscope
 
     protected override void RenderUrlCount ()
     {
-      this.DocumentCount.Text = string.Format( "Filters: {0}", this.DisplayListView.Items.Count );
+      this.ItemCount.Text = string.Format( "Extracted Items: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/

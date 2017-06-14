@@ -384,7 +384,7 @@ namespace SEOMacroscope
     private void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> lColExplicitWidth = new Dictionary<string,int> () { {
+      Dictionary<string,int> ColExplicitWidth = new Dictionary<string,int> () { {
           MacroscopeConstants.Url,
           300
         },
@@ -394,14 +394,14 @@ namespace SEOMacroscope
         }
       };
 
-      for( int iColIndex = 0 ; iColIndex < this.DisplayListView.Columns.Count ; iColIndex++ )
+      for( int ColIndex = 0 ; ColIndex < this.DisplayListView.Columns.Count ; ColIndex++ )
       {
-        this.DisplayListView.AutoResizeColumn( iColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
+        this.DisplayListView.AutoResizeColumn( ColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
       }
 
-      foreach( string sColName in lColExplicitWidth.Keys )
+      foreach( string ColName in ColExplicitWidth.Keys )
       {
-        this.DisplayListView.Columns[ sColName ].Width = lColExplicitWidth[ sColName ];
+        this.DisplayListView.Columns[ ColName ].Width = ColExplicitWidth[ ColName ];
       }
 
     }

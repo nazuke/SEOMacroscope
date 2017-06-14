@@ -49,11 +49,11 @@ namespace SEOMacroscope
 
       Texts.Add( "The quick brown fox jumps over the lazy dog." );
 
-      DataExtractor.SetPattern( 0, "Label: The", "[^\\w]*[tT]he\\s" );
-      DataExtractor.SetPattern( 1, "Label: over", "[^\\w]*[oO]ver\\s" );
-      DataExtractor.SetPattern( 2, "Label: fox", "[^\\w]*[fF]ox\\s" );
-      DataExtractor.SetPattern( 3, "Label: dog", "[^\\w]*[dD]og\\s?" );
-      DataExtractor.SetPattern( 4, "Label: brown", "[^\\w]*[bB]rown\\s" );
+      DataExtractor.SetPattern( 0, "Label: The", "\\b([tT]he)\\b" );
+      DataExtractor.SetPattern( 1, "Label: over", "\\b([oO]ver)\\b" );
+      DataExtractor.SetPattern( 2, "Label: fox", "\\b([fF]ox)\\b" );
+      DataExtractor.SetPattern( 3, "Label: dog", "\\b([dD]og)\\b" );
+      DataExtractor.SetPattern( 4, "Label: brown", "\\b([bB]rown)\\b" );
 
       foreach( string ContainsText in Texts )
       {
@@ -62,19 +62,57 @@ namespace SEOMacroscope
 
         Assert.IsNotNull( AnalyzedList );    
 
-        Assert.AreEqual(
-          AnalyzedList.Count,
-          6, // Should match 6 times
-          string.Format( "Wrong number of matches: {0}", AnalyzedList.Count )
-        );
-        
         foreach( KeyValuePair<string, string> AnalyzedItem in AnalyzedList )
         {
 
-          ms.DebugMsg( string.Format( "ITEM: {0} => {1}", AnalyzedItem.Key, AnalyzedItem.Value ) );
+          ms.DebugMsg( string.Format( "ITEM: {0} => \"{1}\"", AnalyzedItem.Key, AnalyzedItem.Value ) );
         
         }
-        
+
+        Assert.AreEqual(
+          6,
+          AnalyzedList.Count, // Should match 6 times
+          string.Format( "Wrong number of matches: {0}", AnalyzedList.Count )
+        );
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestExtractorsLong ()
+    {
+
+      Macroscope ms = new Macroscope ();
+      
+      MacroscopeDataExtractorRegexes DataExtractor = new MacroscopeDataExtractorRegexes ( Size: 1 );
+
+      List<string> Texts = new List<string> ();
+
+      Texts.Add( "The quick brown fox jumps over the lazy dog." );
+
+      DataExtractor.SetPattern( 0, "Long:", "The (quick brown) fox jumps over the (lazy dog)" );
+
+      foreach( string ContainsText in Texts )
+      {
+
+        List<KeyValuePair<string, string>> AnalyzedList = DataExtractor.AnalyzeText( Text: ContainsText );
+
+        Assert.IsNotNull( AnalyzedList );    
+
+        foreach( KeyValuePair<string, string> AnalyzedItem in AnalyzedList )
+        {
+          ms.DebugMsg( string.Format( "ITEM: {0} => \"{1}\"", AnalyzedItem.Key, AnalyzedItem.Value ) );
+        }
+                
+        Assert.AreEqual(
+          2,
+          AnalyzedList.Count, // Should match 2 times
+          string.Format( "Wrong number of matches: {0}", AnalyzedList.Count )
+        );
+
       }
 
     }

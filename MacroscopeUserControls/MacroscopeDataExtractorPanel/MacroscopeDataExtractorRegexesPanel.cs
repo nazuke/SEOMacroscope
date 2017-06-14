@@ -210,9 +210,9 @@ namespace SEOMacroscope
 
           }
 
-          TextBoxLabel.Text = this.DataExtractorRegexes.GetPatternLabel( Slot: Slot );
+          TextBoxLabel.Text = this.DataExtractorRegexes.GetLabel( Slot: Slot );
 
-          TextBoxRegex.Text = this.DataExtractorRegexes.GetPattern( Slot: Slot ).Value.ToString();
+          TextBoxRegex.Text = this.DataExtractorRegexes.GetRegex( Slot: Slot ).ToString();
 
           if(
             string.IsNullOrEmpty( TextBoxLabel.Text )

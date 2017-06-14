@@ -169,6 +169,11 @@ namespace SEOMacroscope
 
         }
 
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+          this.ProcessHtmlDataExtractors( HtmlText: RawData );           
+        }
+
         if( HtmlDoc != null )
         {
 
@@ -1398,6 +1403,63 @@ namespace SEOMacroscope
       
     }
 
+    /** Process Data Extractors ***********************************************/
+
+    private void ProcessHtmlDataExtractors ( string HtmlText )
+    {
+
+      // TODO: Add CSS and XPath calls
+
+      {
+
+        MacroscopeDataExtractorRegexes DataExtractor = this.DocCollection.GetJobMaster().GetDataExtractorRegexes();
+
+        if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
+        {
+          this.ProcessHtmlDataExtractorRegexes(
+            DataExtractor: DataExtractor,
+            HtmlText: HtmlText
+          );
+        }
+
+      }
+
+      return;
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void ProcessHtmlDataExtractorRegexes (
+      MacroscopeDataExtractorRegexes DataExtractor,
+      string HtmlText
+    )
+    {
+
+      List<KeyValuePair<string, string>> Analyzed = DataExtractor.AnalyzeText( Text: HtmlText );
+
+      foreach( KeyValuePair<string, string> Pair in Analyzed )
+      {
+        this.SetDataExtractedRegexes( Label: Pair.Key, Text: Pair.Value );
+      }
+
+      return;
+
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /** Sniff Charset *********************************************************/
 
     Encoding HtmlSniffCharset ()
