@@ -215,8 +215,40 @@ namespace SEOMacroscope
           ListViewItem lvItem = null;
           string XpathLabel = DataExtractedPair.Key;
           string ExtractedValue = DataExtractedPair.Value;
-          string PairKey = string.Join( "::", DocUrl, XpathLabel.GetHashCode(), ExtractedValue.GetHashCode() );
+          string PairKey = null;
 
+          if( 
+            string.IsNullOrEmpty( XpathLabel )
+            || string.IsNullOrEmpty( ExtractedValue ) )
+          {
+            continue;
+          }
+
+          PairKey = string.Join(
+            "::",
+            DocUrl,
+            Macroscope.GetStringDigest( Text: XpathLabel ),
+            Macroscope.GetStringDigest( Text: ExtractedValue )
+          );
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
 

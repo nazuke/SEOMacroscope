@@ -40,7 +40,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    List<string> IncludeXpathsList;
+    private List<string> IncludeXpathsList;
 
     /**************************************************************************/
 

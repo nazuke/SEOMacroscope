@@ -39,11 +39,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    List<string> ExplicitIncludeUrlPatternsList;
-    List<string> ExplicitExcludeUrlPatternsList;
+    private List<string> ExplicitIncludeUrlPatternsList;
+    private List<string> ExplicitExcludeUrlPatternsList;
 
-    List<string> IncludeUrlPatternsList;
-    List<string> ExcludeUrlPatternsList;
+    private List<string> IncludeUrlPatternsList;
+    private List<string> ExcludeUrlPatternsList;
 
     /**************************************************************************/
 

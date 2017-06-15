@@ -40,10 +40,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    MacroscopeJobMaster JobMaster;
-    string Path;
-    string [] UrlListText;
-    List<string> UrlList;
+    private MacroscopeJobMaster JobMaster;
+    private string Path;
+    private string [] UrlListText;
+    private List<string> UrlList;
 
     /**************************************************************************/
 

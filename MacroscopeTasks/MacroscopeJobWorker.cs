@@ -53,7 +53,7 @@ namespace SEOMacroscope
     public MacroscopeJobWorker ( MacroscopeJobMaster JobMaster )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.JobMaster = JobMaster;
 

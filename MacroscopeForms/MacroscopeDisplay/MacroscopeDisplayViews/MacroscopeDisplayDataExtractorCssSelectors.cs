@@ -215,8 +215,26 @@ namespace SEOMacroscope
           ListViewItem lvItem = null;
           string CssSelectorLabel = DataExtractedPair.Key;
           string ExtractedValue = DataExtractedPair.Value;
-          string PairKey = string.Join( "::", DocUrl, CssSelectorLabel.GetHashCode(), ExtractedValue.GetHashCode() );
+          string PairKey = null;
 
+          if( 
+            string.IsNullOrEmpty( CssSelectorLabel )
+            || string.IsNullOrEmpty( ExtractedValue ) )
+          {
+            continue;
+          }
+
+          PairKey = string.Join(
+            "::",
+            DocUrl,
+            Macroscope.GetStringDigest( Text: CssSelectorLabel ),
+            Macroscope.GetStringDigest( Text: ExtractedValue )
+          );
+
+          
+          
+          
+          
           if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
 
