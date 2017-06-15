@@ -44,7 +44,11 @@ namespace SEOMacroscope
 
     public MacroscopeHyperlinksIn ()
     {
+      
+      this.SuppressDebugMsg = true;
+      
       this.Links = new List<MacroscopeHyperlinkIn> ( 256 );
+      
     }
 
     /**************************************************************************/
@@ -66,25 +70,40 @@ namespace SEOMacroscope
       string TargetUrl,
       string LinkText, 
       string LinkTitle,
-      string AltText
+      string AltText,
+      Guid ExtantGuid
     )
     {
 
-      MacroscopeHyperlinkIn HyperlinkIn = new MacroscopeHyperlinkIn (
-                                            LinkType: LinkType,
-                                            Method: Method,
-                                            SourceUrl: SourceUrl,
-                                            TargetUrl: TargetUrl,
-                                            LinkText: LinkText, 
-                                            LinkTitle: LinkTitle,
-                                            AltText: AltText
-                                          );
+      MacroscopeHyperlinkIn HyperlinkIn;
 
-      lock( this.Links )
+      if( this.ContainsGuid( ExtantGuid: ExtantGuid ) )
       {
-        this.Links.Add( HyperlinkIn );
-      }
 
+        HyperlinkIn = this.GetLinkByGuid( ExtantGuid: ExtantGuid );
+
+      }
+      else
+      {
+
+        HyperlinkIn = new MacroscopeHyperlinkIn (
+          LinkType: LinkType,
+          Method: Method,
+          SourceUrl: SourceUrl,
+          TargetUrl: TargetUrl,
+          LinkText: LinkText, 
+          LinkTitle: LinkTitle,
+          AltText: AltText,
+          ExtantGuid: ExtantGuid
+        );
+
+        lock( this.Links )
+        {
+          this.Links.Add( HyperlinkIn );
+        }
+
+      }
+      
       return( HyperlinkIn );
       
     }
@@ -93,34 +112,95 @@ namespace SEOMacroscope
 
     public void Remove ( MacroscopeHyperlinkIn HyperlinkIn )
     {
+
       lock( this.Links )
       {
+
         foreach( MacroscopeHyperlinkIn HyperlinkInOld in this.Links )
         {
+
           if( HyperlinkInOld.Equals( HyperlinkIn ) )
           {
             this.Links.Remove( HyperlinkInOld );
           }
+
         }
+
       }
+
     }
 
     /**************************************************************************/
 
-    public Boolean ContainsLink ( string Url )
+    private Boolean ContainsGuid ( Guid ExtantGuid )
     {
+
       Boolean LinkPresent = false;
+
       lock( this.Links )
       {
+
         foreach( MacroscopeHyperlinkIn HyperlinkIn in this.Links )
         {
+
+          if( HyperlinkIn.GetLinkGuid() == ExtantGuid )
+          {
+            LinkPresent = true;
+          }
+
+        }
+
+      }
+
+      return( LinkPresent );
+
+    }
+    
+    /**************************************************************************/
+
+    public Boolean ContainsLink ( MacroscopeHyperlinkIn Link )
+    {
+
+      Boolean LinkPresent = false;
+
+      lock( this.Links )
+      {
+
+        if( this.Links.Contains( Link ) )
+        {
+          LinkPresent = true;
+        }
+
+      }
+
+      return( LinkPresent );
+
+    }
+
+    /**************************************************************************/
+
+    public Boolean ContainsHyperlinkIn ( string Url )
+    {
+
+      Boolean LinkPresent = false;
+
+      lock( this.Links )
+      {
+
+        foreach( MacroscopeHyperlinkIn HyperlinkIn in this.Links )
+        {
+
           if( HyperlinkIn.GetTargetUrl() == Url )
           {
             LinkPresent = true;
           }
+
         }
+
       }
+
       return( LinkPresent );
+
     }
 
     /**************************************************************************/
@@ -134,6 +214,33 @@ namespace SEOMacroscope
           yield return HyperlinkIn;
         }
       }
+    }
+
+    /**************************************************************************/
+
+    private MacroscopeHyperlinkIn GetLinkByGuid ( Guid ExtantGuid )
+    {
+
+      MacroscopeHyperlinkIn Link = null;
+
+      lock( this.Links )
+      {
+
+        foreach( MacroscopeHyperlinkIn HyperlinkIn in this.Links )
+        {
+
+          if( HyperlinkIn.GetLinkGuid() == ExtantGuid )
+          {
+            Link = HyperlinkIn;
+            break;
+          }
+
+        }
+
+      }
+
+      return( Link );
+
     }
 
     /**************************************************************************/

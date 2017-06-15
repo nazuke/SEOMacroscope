@@ -70,6 +70,9 @@ namespace SEOMacroscope
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Alt Text";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Raw Target URL";
 
       }
 
@@ -92,6 +95,8 @@ namespace SEOMacroscope
           string LinkText = HyperlinkOut.GetLinkText();
           string LinkTitle = HyperlinkOut.GetLinkTitle();      
           string AltText = HyperlinkOut.GetAltText();       
+          
+          string RawTargetUrl = HyperlinkOut.GetRawTargetUrl();       
 
           if( HyperlinkOutUrl == null )
           {
@@ -154,6 +159,10 @@ namespace SEOMacroscope
           iCol++;
 
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( AltText ) );
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, RawTargetUrl );
 
           iRow++;
 

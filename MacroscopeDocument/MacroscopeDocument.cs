@@ -64,13 +64,15 @@ namespace SEOMacroscope
     private string UrlRedirectFrom;
     private string UrlRedirectTo;
 
+    private string BaseHref;
+
     private string Scheme;
     private string Hostname;
     private int Port;
     private string Path;
     private string QueryString;
     private string Fragment;
-    
+
     private MacroscopeConstants.AuthenticationType AuthenticationType;
     private string AuthenticationRealm;
     private MacroscopeCredential AuthenticationCredential;
@@ -243,6 +245,8 @@ namespace SEOMacroscope
       this.RawHttpRequestHeaders = "";
       this.RawHttpStatusLine = "";
       this.RawHttpHeaders = "";
+
+      this.BaseHref = "";
 
       this.Scheme = "";
       this.Hostname = "";
@@ -1072,12 +1076,14 @@ namespace SEOMacroscope
     )
     {
 
-      MacroscopeLink OutLink = new MacroscopeLink ( 
-                                 SourceUrl: this.GetUrl(),
-                                 TargetUrl: AbsoluteUrl,
-                                 LinkType: LinkType,
-                                 Follow: Follow
-                               );
+      MacroscopeLink OutLink;
+      
+      OutLink = new MacroscopeLink ( 
+        SourceUrl: this.GetUrl(),
+        TargetUrl: AbsoluteUrl,
+        LinkType: LinkType,
+        Follow: Follow
+      );
 
       this.Outlinks.Add( OutLink );
 

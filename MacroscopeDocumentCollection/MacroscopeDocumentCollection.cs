@@ -50,10 +50,10 @@ namespace SEOMacroscope
 
     private Dictionary<string,Boolean> StatsHistory;
     private Dictionary<string,int> StatsHostnames;
-    private Dictionary<int,int> StatsTitles;
-    private Dictionary<int,int> StatsDescriptions;
-    private Dictionary<int,int> StatsKeywords;
-    private List<Dictionary<int,int>> StatsHeadings;
+    private Dictionary<string,int> StatsTitles;
+    private Dictionary<string,int> StatsDescriptions;
+    private Dictionary<string,int> StatsKeywords;
+    private List<Dictionary<string,int>> StatsHeadings;
     private Dictionary<string,int> StatsWarnings;
     private Dictionary<string,int> StatsErrors;
     private Dictionary<string,int> StatsChecksums;
@@ -100,14 +100,14 @@ namespace SEOMacroscope
       
       this.StatsHistory = new Dictionary<string,Boolean> ( 1024 );
       this.StatsHostnames = new Dictionary<string,int> ( 16 );
-      this.StatsTitles = new Dictionary<int,int> ( 256 );
-      this.StatsDescriptions = new Dictionary<int,int> ( 256 );
-      this.StatsKeywords = new Dictionary<int,int> ( 256 );
+      this.StatsTitles = new Dictionary<string,int> ( 256 );
+      this.StatsDescriptions = new Dictionary<string,int> ( 256 );
+      this.StatsKeywords = new Dictionary<string,int> ( 256 );
 
-      this.StatsHeadings = new  List<Dictionary<int,int>> ( 7 );
+      this.StatsHeadings = new List<Dictionary<string,int>> ( 7 );
       for( ushort i = 1 ; i <= 6 ; i++ )
       {
-        this.StatsHeadings.Add( new Dictionary<int,int> ( 256 ) );
+        this.StatsHeadings.Add( new Dictionary<string,int> ( 256 ) );
       }
 
       this.StatsWarnings = new  Dictionary<string,int> ( 32 );
@@ -714,14 +714,15 @@ namespace SEOMacroscope
     private void RecalculateInlinks ( MacroscopeDocument msDoc )
     {
 
-      DebugMsg( string.Format( "RecalculateInlinks: {0} :: {1}", msDoc.GetProcessInlinks(), msDoc.GetUrl() ) );
-
       Boolean ProcessInlinks = msDoc.GetProcessInlinks();
-
+      string DocumentUrl = msDoc.GetUrl();
+      
+      DebugMsg( string.Format( "RecalculateInlinks: {0} :: {1}", ProcessInlinks, DocumentUrl ) );
+      
       if( msDoc.GetProcessInlinks() )
       {
 
-        DebugMsg( string.Format( "RecalculateInlinks: PROCESSING: {0}", msDoc.GetUrl() ) );
+        DebugMsg( string.Format( "RecalculateInlinks: PROCESSING: {0}", DocumentUrl ) );
         
         msDoc.UnsetProcessInlinks();
 
@@ -730,26 +731,21 @@ namespace SEOMacroscope
 
           string Url = Link.GetTargetUrl();
           MacroscopeLinkList Inlinks = null;
-
-          if( Url == msDoc.GetUrl() )
+          
+          if( Url.Equals( DocumentUrl ) )
           {
             DebugMsg( string.Format( "RecalculateInlinks: SELF: {0}", Url ) );
             continue;
           }
-          
+
           if( this.StructInlinks.ContainsKey( Url ) )
           {
             Inlinks = this.StructInlinks[ Url ];
           }
           else
           {
-
             Inlinks = new MacroscopeLinkList ();
-
             this.StructInlinks.Add( Url, Inlinks );
-
-            //this.JobMaster.AddUpdateDisplayQueue( Url: msDoc.GetUrl() ); // Too slow
-
           }
 
           if( Inlinks != null )
@@ -758,7 +754,7 @@ namespace SEOMacroscope
           }
           else
           {
-            DebugMsg( string.Format( "RecalculateInlinks: NULL: {0}", msDoc.GetUrl() ) );
+            DebugMsg( string.Format( "RecalculateInlinks: NULL: {0}", DocumentUrl ) );
           }
 
         }
@@ -766,7 +762,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "RecalculateInlinks: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
+        DebugMsg( string.Format( "RecalculateInlinks: ALREADY PROCESSED: {0}", DocumentUrl ) );
       }
 
     }
@@ -776,14 +772,16 @@ namespace SEOMacroscope
     private void RecalculateHyperlinksIn ( MacroscopeDocument msDoc )
     {
 
-      DebugMsg( string.Format( "RecalculateHyperlinksIn: {0} :: {1}", msDoc.GetProcessHyperlinksIn(), msDoc.GetUrl() ) );
+      string DocumentUrl = msDoc.GetUrl();
+            
+      DebugMsg( string.Format( "RecalculateHyperlinksIn: {0} :: {1}", msDoc.GetProcessHyperlinksIn(), DocumentUrl ) );
 
       if( msDoc.GetProcessHyperlinksIn() )
       {
 
         MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
 
-        DebugMsg( string.Format( "RecalculateHyperlinksIn: PROCESSING: {0}", msDoc.GetUrl() ) );
+        DebugMsg( string.Format( "RecalculateHyperlinksIn: PROCESSING: {0}", DocumentUrl ) );
         
         msDoc.UnsetProcessInlinks();
         msDoc.UnsetProcessHyperlinksIn();
@@ -794,10 +792,10 @@ namespace SEOMacroscope
           string Url = HyperlinkOut.GetTargetUrl();
           MacroscopeHyperlinksIn HyperlinksIn = null;
 
-          DebugMsg( string.Format( "RecalculateHyperlinksIn: URL SOURCE: {0}", msDoc.GetUrl() ) );
+          DebugMsg( string.Format( "RecalculateHyperlinksIn: URL SOURCE: {0}", DocumentUrl ) );
           DebugMsg( string.Format( "RecalculateHyperlinksIn: URL TARGET: {0}", Url ) );
 
-          if( Url == msDoc.GetUrl() )
+          if( Url.Equals( DocumentUrl ) )
           {
             DebugMsg( string.Format( "RecalculateHyperlinksIn: SELF: {0}", Url ) );
             continue;
@@ -819,17 +817,18 @@ namespace SEOMacroscope
             HyperlinksIn.Add(
               LinkType: HyperlinkOut.GetHyperlinkType(),
               Method: HyperlinkOut.GetMethod(),
-              SourceUrl: msDoc.GetUrl(),
+              SourceUrl: DocumentUrl,
               TargetUrl: Url,
               LinkText: HyperlinkOut.GetLinkText(),
               LinkTitle: HyperlinkOut.GetLinkTitle(),
-              AltText: HyperlinkOut.GetAltText()
+              AltText: HyperlinkOut.GetAltText(),
+              ExtantGuid: HyperlinkOut.GetGuid()
             );
 
           }
           else
           {
-            DebugMsg( string.Format( "RecalculateHyperlinksIn: NULL: {0}", msDoc.GetUrl() ) );
+            DebugMsg( string.Format( "RecalculateHyperlinksIn: NULL: {0}", DocumentUrl ) );
           }
 
         }
@@ -838,7 +837,7 @@ namespace SEOMacroscope
       else
       {
         
-        DebugMsg( string.Format( "RecalculateHyperlinksIn: ALREADY PROCESSED: {0}", msDoc.GetUrl() ) );
+        DebugMsg( string.Format( "RecalculateHyperlinksIn: ALREADY PROCESSED: {0}", DocumentUrl ) );
         
       }
 
@@ -939,7 +938,7 @@ namespace SEOMacroscope
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        int Hashed = Text.ToLower().GetHashCode();
+        string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
 
         if( this.StatsTitles.ContainsKey( Hashed ) )
         {
@@ -998,8 +997,8 @@ namespace SEOMacroscope
         if( !string.IsNullOrEmpty( Text ) )
         {
         
-          int Hashed = Text.ToLower().GetHashCode();
-
+          string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+        
           lock( this.StatsTitles )
           {
           
@@ -1046,8 +1045,8 @@ namespace SEOMacroscope
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        int Hashed = Text.ToLower().GetHashCode();
-      
+        string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+              
         if( this.StatsDescriptions.ContainsKey( Hashed ) )
         {
           
@@ -1104,7 +1103,7 @@ namespace SEOMacroscope
         if( !string.IsNullOrEmpty( Text ) )
         {
 
-          int Hashed = Text.ToLower().GetHashCode();
+          string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
 
           lock( this.StatsDescriptions )
           {
@@ -1152,8 +1151,8 @@ namespace SEOMacroscope
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        int Hashed = Text.ToLower().GetHashCode();
-
+        string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+        
         if( this.StatsKeywords.ContainsKey( Hashed ) )
         {
 
@@ -1206,8 +1205,8 @@ namespace SEOMacroscope
         if( !string.IsNullOrEmpty( Text ) )
         {
 
-          int Hashed = Text.ToLower().GetHashCode();
-
+          string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+        
           lock( this.StatsKeywords )
           {
 
@@ -1866,8 +1865,8 @@ namespace SEOMacroscope
     {
 
       int Count = 0;
-      int Hashed = Text.ToLower().GetHashCode();
-
+      string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+      
       if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) )
       {
         Count = this.StatsHeadings[ HeadingLevel ][ Hashed ];
@@ -1908,8 +1907,8 @@ namespace SEOMacroscope
             foreach( string Text in Headings )
             {
 
-              int Hashed = Text.ToLower().GetHashCode();
-
+              string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+      
               if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) )
               {
                 this.StatsHeadings[ HeadingLevel ][ Hashed ] = this.StatsHeadings[ HeadingLevel ][ Hashed ] + 1;

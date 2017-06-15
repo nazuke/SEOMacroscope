@@ -160,7 +160,7 @@ namespace SEOMacroscope
       return( this.AltText );
     }
 
-    /** Raw Source URL ************************************************************/
+    /** Raw Source URL ********************************************************/
 
     public void SetRawSourceUrl ( string SourceUrl )
     {
@@ -172,7 +172,7 @@ namespace SEOMacroscope
       return( this.RawSourceUrl );
     }
     
-    /** Raw Target URL ************************************************************/
+    /** Raw Target URL ********************************************************/
 
     public void SetRawTargetUrl ( string TargetUrl )
     {

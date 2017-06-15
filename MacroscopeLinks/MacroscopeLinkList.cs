@@ -44,7 +44,11 @@ namespace SEOMacroscope
 
     public MacroscopeLinkList ()
     {
+
+      this.SuppressDebugMsg = false;
+      
       this.Links = new List<MacroscopeLink> ( 256 );
+
     }
 
     /**************************************************************************/
@@ -61,10 +65,17 @@ namespace SEOMacroscope
 
     public void Add ( MacroscopeLink Link )
     {
+      
       lock( this.Links )
       {
-        this.Links.Add( Link );
+
+        if( !this.ContainsLink( Link: Link ) )
+        {
+          this.Links.Add( Link );
+        }
+        
       }
+      
     }
 
     /**************************************************************************/
@@ -81,6 +92,27 @@ namespace SEOMacroscope
           }
         }
       }
+    }
+
+    /**************************************************************************/
+
+    public Boolean ContainsLink ( MacroscopeLink Link )
+    {
+
+      Boolean LinkPresent = false;
+
+      lock( this.Links )
+      {
+
+        if( this.Links.Contains( Link ) )
+        {
+          LinkPresent = true;
+        }
+
+      }
+
+      return( LinkPresent );
+
     }
 
     /**************************************************************************/

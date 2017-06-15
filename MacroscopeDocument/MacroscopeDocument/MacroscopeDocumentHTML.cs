@@ -177,11 +177,15 @@ namespace SEOMacroscope
         if( HtmlDoc != null )
         {
 
+          { // Probe Base HREF 
+            this.ProcessHtmlBaseHref( HtmlDoc: HtmlDoc );
+          }
+          
           { // Probe Locale
             
             MacroscopeLocaleTools msLocale = new MacroscopeLocaleTools ();
 
-            this.Locale = msLocale.ProbeLocale( HtmlDoc );
+            this.Locale = msLocale.ProbeLocale( HtmlDoc: HtmlDoc );
 
             if( this.Locale != null )
             {
@@ -373,6 +377,31 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private void ProcessHtmlBaseHref ( HtmlDocument HtmlDoc )
+    {
+
+      HtmlNode BaseHrefNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/base[@href]" );
+
+      if( BaseHrefNode != null )
+      {
+
+        this.BaseHref = BaseHrefNode.GetAttributeValue( "href", "" );
+        
+        DebugMsg( string.Format( "BASE HREF: {0}", this.BaseHref ) );
+
+      }
+      else
+      {
+
+        this.BaseHref = "";
+        DebugMsg( string.Format( "BASE HREF: {0}", "MISSING" ) );
+
+      }
+
+    }
+
+    /**************************************************************************/
+
     private void ProcessHtmlCanonical ( HtmlDocument HtmlDoc )
     {
 
@@ -447,6 +476,8 @@ namespace SEOMacroscope
                 LinkType: MacroscopeConstants.HyperlinkType.TEXT,
                 UrlTarget: LinkUrlAbsolute
               );
+
+              HyperlinkOut.SetRawTargetUrl( TargetUrl: LinkUrl );
 
               if( LinkTitle.Length > 0 )
               {

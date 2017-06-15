@@ -42,13 +42,19 @@ namespace SEOMacroscope
     private MacroscopeConstants.HyperlinkType HyperlinkType;
 
     private string Method;
+    
     private string SourceUrl;
     private string TargetUrl;
+    
     private Boolean DoFollow;
+    
     private string LinkText;
     private string LinkTitle;
     private string AltText;
 
+    private string RawSourceUrl;
+    private string RawTargetUrl;
+    
     /**************************************************************************/
 
     public MacroscopeHyperlinkIn (
@@ -58,11 +64,13 @@ namespace SEOMacroscope
       string TargetUrl,
       string LinkText, 
       string LinkTitle,
-      string AltText
+      string AltText,
+      Guid ExtantGuid
     )
     {
 
-      this.LinkGuid = Guid.NewGuid();
+      this.LinkGuid = ExtantGuid;
+      //this.LinkGuid = Guid.NewGuid();
 
       this.HyperlinkType = LinkType;
       this.Method = Method;
@@ -74,6 +82,9 @@ namespace SEOMacroscope
 
       this.DoFollow = true;
 
+      this.RawSourceUrl = "";
+      this.RawTargetUrl = "";
+    
     }
 
     /**************************************************************************/
@@ -142,6 +153,30 @@ namespace SEOMacroscope
       return( this.AltText );
     }
 
+    /** Raw Source URL ********************************************************/
+
+    public void SetRawSourceUrl ( string SourceUrl )
+    {
+      this.RawSourceUrl = SourceUrl;
+    }
+
+    public string GetRawSourceUrl ()
+    {
+      return( this.RawSourceUrl );
+    }
+    
+    /** Raw Target URL ********************************************************/
+
+    public void SetRawTargetUrl ( string TargetUrl )
+    {
+      this.RawTargetUrl = TargetUrl;
+    }
+
+    public string GetRawTargetUrl ()
+    {
+      return( this.RawTargetUrl );
+    }
+    
     /**************************************************************************/
 
   }

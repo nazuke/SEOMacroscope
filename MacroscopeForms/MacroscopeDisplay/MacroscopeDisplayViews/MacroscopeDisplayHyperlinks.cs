@@ -47,6 +47,7 @@ namespace SEOMacroscope
     private const int ColLinkTextLabel = 4;
     private const int ColLinkTitleLabel = 5;
     private const int ColAltTextLabel = 6;
+    private const int ColRawTargetUrl = 7;
 
     private ToolStripLabel UrlCount;
 
@@ -288,7 +289,9 @@ namespace SEOMacroscope
         string LinkTextLabel = LinkText;
         string LinkTitleLabel = LinkTitle;
         string AltTextLabel = AltText;
-        
+
+        string RawTargetUrl = HyperlinkOut.GetRawTargetUrl();
+
         string DoFollow = "No Follow";
 
         if( HyperlinkOut.GetDoFollow() )
@@ -326,6 +329,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColLinkTextLabel ].Text = LinkTextLabel;
             lvItem.SubItems[ ColLinkTitleLabel ].Text = LinkTitleLabel;
             lvItem.SubItems[ ColAltTextLabel ].Text = AltTextLabel;
+            lvItem.SubItems[ ColRawTargetUrl ].Text = RawTargetUrl;
 
           }
           catch( Exception ex )
@@ -351,7 +355,8 @@ namespace SEOMacroscope
             lvItem.SubItems.Add( LinkTextLabel );
             lvItem.SubItems.Add( LinkTitleLabel );
             lvItem.SubItems.Add( AltTextLabel );
-                  
+            lvItem.SubItems.Add( RawTargetUrl );
+            
             ListViewItems.Add( lvItem );
 
           }

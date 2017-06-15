@@ -1102,7 +1102,7 @@ namespace SEOMacroscope
             Count++;
 
             ListViewItem lvItem = null;
-            string PairKey = string.Join( "____", Count.ToString(), HyperlinkOut.GetGuid() );
+            string PairKey = string.Join( "____", Count.ToString(), HyperlinkOut.GetGuid().ToString() );
             string DoFollow = "No Follow";
 
             if( HyperlinkOut.GetDoFollow() )
@@ -1125,7 +1125,7 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 5 ].Text = HyperlinkOut.GetLinkTarget();
                 lvItem.SubItems[ 6 ].Text = HyperlinkOut.GetLinkText();
                 lvItem.SubItems[ 7 ].Text = HyperlinkOut.GetAltText();
-
+                lvItem.SubItems[ 8 ].Text = HyperlinkOut.GetRawTargetUrl();
 
               }
               catch( Exception ex )
@@ -1152,6 +1152,7 @@ namespace SEOMacroscope
                 lvItem.SubItems.Add( HyperlinkOut.GetLinkTarget() );
                 lvItem.SubItems.Add( HyperlinkOut.GetLinkText() );
                 lvItem.SubItems.Add( HyperlinkOut.GetAltText() );
+                lvItem.SubItems.Add( HyperlinkOut.GetRawTargetUrl() );
 
                 ListViewItems.Add( lvItem );
 
