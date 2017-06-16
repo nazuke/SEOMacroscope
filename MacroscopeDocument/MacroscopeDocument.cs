@@ -152,13 +152,13 @@ namespace SEOMacroscope
 
     private Dictionary<string, MacroscopeConstants.TextPresence> CustomFiltered;
 
-    
+
     // Label, list of values found
     private Dictionary<string, List<string>> DataExtractedCssSelectors;
     private Dictionary<string, List<string>> DataExtractedRegexes;
     private Dictionary<string, List<string>> DataExtractedXpaths;
 
-    
+
     // Delegate Functions
     private delegate void TimeDuration( Action ProcessMethod );
 
@@ -373,7 +373,7 @@ namespace SEOMacroscope
 
     }
 
-    /** DocumentCollection ************************************************************/
+    /** DocumentCollection ****************************************************/
     
     private void SetDocumentCollection ( MacroscopeDocumentCollection DocumentCollection )
     {
@@ -397,7 +397,7 @@ namespace SEOMacroscope
       return( this.IsDirty );
     }
 
-    /** Fetch Status ************************************************************/
+    /** Fetch Status **********************************************************/
 
     public void SetFetchStatus ( MacroscopeConstants.FetchStatus NewFetchStatus )
     {
@@ -412,6 +412,23 @@ namespace SEOMacroscope
     public MacroscopeConstants.FetchStatus GetFetchStatus ()
     {
       return( this.FetchStatus );
+    }
+
+    /** Base HREF *************************************************************/   
+
+    public void UnsetBaseHref ()
+    {
+      this.BaseHref = "";
+    }
+    
+    public void SetBaseHref ( string Url )
+    {
+      this.BaseHref = Url;
+    }
+
+    public string GetBaseHref ()
+    {
+      return( this.BaseHref );
     }
 
     /** Host Details **********************************************************/
@@ -2185,7 +2202,7 @@ namespace SEOMacroscope
           this.IsRedirect = true;
           string Location = res.GetResponseHeader( "Location" );
           Location = Uri.UnescapeDataString( Location );
-          string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, Location );
+          string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: Location );
 
           if( !string.IsNullOrEmpty( LinkUrlAbs ) )
           {

@@ -54,18 +54,26 @@ namespace SEOMacroscope
 
     protected static Dictionary<string,string> Memoize = new Dictionary<string,string> ( 1024 );
 
+    protected static Boolean ThrowInsufficientMemoryException;
+
     /**************************************************************************/
 
     static Macroscope ()
     {
+
       SuppressStaticDebugMsg = false;
+
+      ThrowInsufficientMemoryException = false;
+
     }
 
     public Macroscope ()
     {
+      
       this.SuppressDebugMsg = false;
       
       this.UserAgentString = this._UserAgent();
+      
     }
 
     /**************************************************************************/
@@ -113,7 +121,7 @@ namespace SEOMacroscope
       else
       {
 
-        HashAlgorithm Digest = HashAlgorithm.Create( "SHA256" );
+        HashAlgorithm Digest = HashAlgorithm.Create( "MD5" );
         byte [] BytesIn = Encoding.UTF8.GetBytes( Text );
         byte [] Hashed = Digest.ComputeHash( BytesIn );
         StringBuilder Buf = new StringBuilder ();
@@ -153,10 +161,26 @@ namespace SEOMacroscope
 
    **/
 
+    /** -------------------------------------------------------------------- **/
+
+    public static void EnableThrowInsufficientMemoryException ()
+    {
+      ThrowInsufficientMemoryException = true;
+    }
+
+    public static void DisableThrowInsufficientMemoryException ()
+    {
+      ThrowInsufficientMemoryException = true;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     protected Boolean MemoryGate ( int RequiredMegabytes )
     {
 
       MemoryFailPoint MemGate = null;
+
+      GC.Collect();
 
       try
       {
@@ -169,13 +193,20 @@ namespace SEOMacroscope
       catch( InsufficientMemoryException ex )
       {
 
-        throw new MacroscopeInsufficientMemoryException (
-          message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
-          innerException: ex
-        );
+        if( ThrowInsufficientMemoryException )
+        {
+        
+          throw new MacroscopeInsufficientMemoryException (
+            message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
+            innerException: ex
+          );
+          
+        }
         
       }
       
+      GC.Collect();
+
       if( MemGate != null )
       {
         return( true );
@@ -192,6 +223,8 @@ namespace SEOMacroscope
 
       MemoryFailPoint MemGate = null;
 
+      GC.Collect();
+            
       try
       {
 
@@ -203,18 +236,25 @@ namespace SEOMacroscope
       catch( InsufficientMemoryException ex )
       {
 
-        throw new MacroscopeInsufficientMemoryException (
-          message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
-          innerException: ex
-        );
+        if( ThrowInsufficientMemoryException )
+        {
+
+          throw new MacroscopeInsufficientMemoryException (
+            message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
+            innerException: ex
+          );
+                  
+        }
         
       }
       
+      GC.Collect();
+
       if( MemGate != null )
       {
         return( true );
       }
-      
+            
       return( false );
 
     }

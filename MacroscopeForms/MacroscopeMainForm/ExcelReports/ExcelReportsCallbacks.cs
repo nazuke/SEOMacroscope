@@ -32,6 +32,10 @@ namespace SEOMacroscope
   public partial class MacroscopeMainForm : Form, IMacroscopeTaskController
   {
 
+    /**************************************************************************/
+
+    private const int ExcelReportMegabytesRamRequired = 64;
+
     /** Report Save Dialogue Boxes ********************************************/
 
     private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
@@ -53,7 +57,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             msExcelReport.WriteXslx( this.JobMaster, Path );
           }
@@ -61,7 +65,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -75,7 +78,7 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
-
+                
     }
 
     /** -------------------------------------------------------------------- **/  
@@ -99,7 +102,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             msExcelReport.WriteXslx( this.JobMaster, Path );
           }
@@ -107,7 +110,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Errors Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -145,7 +147,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             msExcelReport.WriteXslx( this.JobMaster, Path );
           }
@@ -153,7 +155,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -191,7 +192,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -201,7 +202,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -243,7 +243,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -253,7 +253,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -295,7 +294,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -305,7 +304,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -348,7 +346,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -358,7 +356,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Redirects Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -406,7 +403,7 @@ namespace SEOMacroscope
         
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -416,7 +413,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Keyword Analysis Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -463,7 +459,7 @@ namespace SEOMacroscope
                                                         );
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
@@ -473,7 +469,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -517,7 +512,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -527,7 +522,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -570,7 +564,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -580,7 +574,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Remarks Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -623,7 +616,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -633,7 +626,6 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Custom Filters Excel Report", ex.Message );       
-          GC.Collect();
         }
         catch( MacroscopeSaveExcelFileException ex )
         {

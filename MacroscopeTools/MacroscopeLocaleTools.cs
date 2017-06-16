@@ -41,14 +41,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public string ProbeLocale ( HtmlDocument doc )
+    public string ProbeLocale ( HtmlDocument HtmlDoc )
     {
 
       string DocumentLocale = null;
 
       if( DocumentLocale == null )
       {
-        HtmlNode nNode = doc.DocumentNode.SelectSingleNode( "/html[@lang]" );
+        HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html[@lang]" );
         if( nNode != null )
         {
           DocumentLocale = nNode.GetAttributeValue( "lang", null );
@@ -63,7 +63,7 @@ namespace SEOMacroscope
 
       if( DocumentLocale == null )
       {
-        HtmlNode nNode = doc.DocumentNode.SelectSingleNode( "/html/head/meta[@http-equiv='Content-Language']" );
+        HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@http-equiv='Content-Language']" );
         if( nNode != null )
         {
           DocumentLocale = nNode.GetAttributeValue( "content", null );

@@ -243,9 +243,9 @@ namespace SEOMacroscope
                   // TODO: Verify that this actually works:
 
                   MacroscopeHyperlinkOut HyperlinkOut = this.HyperlinksOut.Add(
-                    LinkType: MacroscopeConstants.HyperlinkType.CSS,
-                    UrlTarget: LinkUrlAbs
-                  );
+                                                          LinkType: MacroscopeConstants.HyperlinkType.CSS,
+                                                          UrlTarget: LinkUrlAbs
+                                                        );
 
                   MacroscopeLink Outlink = this.AddCssOutlink(
                                              AbsoluteUrl: LinkUrlAbs,
@@ -280,9 +280,9 @@ namespace SEOMacroscope
                   // TODO: Verify that this actually works:
 
                   MacroscopeHyperlinkOut HyperlinkOut = this.HyperlinksOut.Add(
-                    LinkType: MacroscopeConstants.HyperlinkType.CSS,
-                    UrlTarget: LinkUrlAbs
-                  );
+                                                          LinkType: MacroscopeConstants.HyperlinkType.CSS,
+                                                          UrlTarget: LinkUrlAbs
+                                                        );
 
                   MacroscopeLink Outlink = this.AddCssOutlink(
                                              AbsoluteUrl: LinkUrlAbs,
@@ -325,7 +325,10 @@ namespace SEOMacroscope
 
         try
         {
-          LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrlCleaned );
+          LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute(
+            BaseUrl: this.DocUrl,
+            Url: LinkUrlCleaned
+          );
         }
         catch( MacroscopeUriFormatException ex )
         {

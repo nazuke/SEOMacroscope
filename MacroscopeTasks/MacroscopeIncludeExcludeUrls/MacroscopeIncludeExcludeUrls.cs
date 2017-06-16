@@ -266,43 +266,53 @@ namespace SEOMacroscope
 
       // TODO: Implement this.
 
-      for( int i = 0 ; i < this.ExplicitExcludeUrlPatternsList.Count ; i++ )
-      {
-        
-        if( Url.Equals( this.ExplicitExcludeUrlPatternsList[ i ] ) )
-        {
-          DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: MATCH: {0}", i ) );
-          DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: MATCH: {0} :: {1}", this.ExplicitExcludeUrlPatternsList[ i ], Url ) );
-          PatternMatches = true;
-          break;
-        }
-        else
-        {
-          DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: NO MATCH: {0}", i ) );
-          DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: NO MATCH: {0} :: {1}", this.ExplicitExcludeUrlPatternsList[ i ], Url ) );
-        }
-        
-      }
-
-      if( !PatternMatches )
+      if( this.ExplicitExcludeUrlPatternsList.Count > 0 )
       {
 
-        for( int i = 0 ; i < this.ExcludeUrlPatternsList.Count ; i++ )
+        for( int i = 0 ; i < this.ExplicitExcludeUrlPatternsList.Count ; i++ )
         {
         
-          if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ], StringComparison.Ordinal ) >= 0 )
+          if( Url.Equals( this.ExplicitExcludeUrlPatternsList[ i ] ) )
           {
-            DebugMsg( string.Format( "ExcludeUrlPatternsList: MATCH: {0}", i ) );
-            DebugMsg( string.Format( "ExcludeUrlPatternsList: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+            //DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: MATCH: {0}", i ) );
+            //DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: MATCH: {0} :: {1}", this.ExplicitExcludeUrlPatternsList[ i ], Url ) );
             PatternMatches = true;
             break;
           }
           else
           {
-            DebugMsg( string.Format( "ExcludeUrlPatternsList: NO MATCH: {0}", i ) );
-            DebugMsg( string.Format( "ExcludeUrlPatternsList: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+            //DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: NO MATCH: {0}", i ) );
+            //DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: NO MATCH: {0} :: {1}", this.ExplicitExcludeUrlPatternsList[ i ], Url ) );
           }
         
+        }
+
+      }
+
+      if( !PatternMatches )
+      {
+
+        if( this.ExcludeUrlPatternsList.Count > 0 )
+        {
+
+          for( int i = 0 ; i < this.ExcludeUrlPatternsList.Count ; i++ )
+          {
+        
+            if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ], StringComparison.Ordinal ) >= 0 )
+            {
+              //DebugMsg( string.Format( "ExcludeUrlPatternsList: MATCH: {0}", i ) );
+              //DebugMsg( string.Format( "ExcludeUrlPatternsList: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+              PatternMatches = true;
+              break;
+            }
+            else
+            {
+              //DebugMsg( string.Format( "ExcludeUrlPatternsList: NO MATCH: {0}", i ) );
+              //DebugMsg( string.Format( "ExcludeUrlPatternsList: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
+            }
+        
+          }
+
         }
       
       }

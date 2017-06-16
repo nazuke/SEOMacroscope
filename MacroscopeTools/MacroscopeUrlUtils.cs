@@ -97,7 +97,62 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static string MakeUrlAbsolute ( string BaseUrl, string Url )
+    /*
+
+      Reference: https://www.w3.org/TR/html5/document-metadata.html#the-base-element
+
+    */
+
+    public static string MakeUrlAbsolute (
+      string BaseHref,
+      string BaseUrl,
+      string Url
+    )
+    {
+            
+      string AbsoluteBaseHref;
+      string UrlFixed;
+
+      if( !string.IsNullOrEmpty( value: BaseHref ) )
+      {
+
+        AbsoluteBaseHref = MacroscopeUrlUtils.MakeUrlAbsolute(
+          BaseUrl: BaseUrl,
+          Url: BaseHref
+        );
+
+        DebugMsg( string.Format( "BASEHREF: {0}", BaseHref ), true );
+        DebugMsg( string.Format( "ABSOLUTEBASEHREF: {0}", AbsoluteBaseHref ), true );
+
+        UrlFixed = MacroscopeUrlUtils.MakeUrlAbsolute(
+          BaseUrl: AbsoluteBaseHref,
+          Url: Url
+        );
+
+        DebugMsg( string.Format( "URL: {0}", Url ), true );
+        DebugMsg( string.Format( "URLFIXED: {0}", UrlFixed ), true );
+       
+      }
+      else
+      {
+
+        UrlFixed = MacroscopeUrlUtils.MakeUrlAbsolute(
+          BaseUrl: BaseUrl,
+          Url: Url
+        );
+
+      }
+
+      return( UrlFixed );
+
+    }
+
+    /**************************************************************************/
+
+    public static string MakeUrlAbsolute (
+      string BaseUrl,
+      string Url
+    )
     {
 
       string UrlFixed;

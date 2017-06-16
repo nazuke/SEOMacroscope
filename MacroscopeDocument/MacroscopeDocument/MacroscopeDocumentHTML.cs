@@ -385,15 +385,16 @@ namespace SEOMacroscope
       if( BaseHrefNode != null )
       {
 
-        this.BaseHref = BaseHrefNode.GetAttributeValue( "href", "" );
-        
+        this.SetBaseHref( Url: BaseHrefNode.GetAttributeValue( "href", "" ) );
+
         DebugMsg( string.Format( "BASE HREF: {0}", this.BaseHref ) );
 
       }
       else
       {
 
-        this.BaseHref = "";
+        this.UnsetBaseHref();
+
         DebugMsg( string.Format( "BASE HREF: {0}", "MISSING" ) );
 
       }
@@ -416,14 +417,22 @@ namespace SEOMacroscope
         
         if( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
         {
+          string LinkUrlAbs;
           
-          string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, this.Canonical );
-          
-          MacroscopeLink Outlink = this.AddHtmlOutlink(
-                                     AbsoluteUrl: LinkUrlAbs,
-                                     LinkType: MacroscopeConstants.InOutLinkType.CANONICAL,
-                                     Follow: true
-                                   );
+          LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute(
+            BaseHref: this.BaseHref,
+            BaseUrl: this.DocUrl,
+            Url: this.Canonical
+          );
+
+          MacroscopeLink Outlink;
+
+          Outlink = this.AddHtmlOutlink(
+            AbsoluteUrl: LinkUrlAbs,
+            LinkType: MacroscopeConstants.InOutLinkType.CANONICAL,
+            Follow: true
+          );
+
           if( Outlink != null )
           {
             Outlink.SetRawTargetUrl( this.Canonical );
@@ -465,7 +474,11 @@ namespace SEOMacroscope
           if( LinkUrl != null )
           {
 
-            LinkUrlAbsolute = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            LinkUrlAbsolute = MacroscopeUrlUtils.MakeUrlAbsolute(
+              BaseHref: this.GetBaseHref(),
+              BaseUrl: this.DocUrl,
+              Url: LinkUrl
+            );
 
             if( LinkUrlAbsolute != null )
             {
@@ -579,7 +592,11 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "href", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute(
+                                  BaseHref: this.GetBaseHref(),
+                                  BaseUrl: this.DocUrl,
+                                  Url: LinkUrl
+                                );
             string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
             string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
             MacroscopeLink Outlink = null;
@@ -639,7 +656,7 @@ namespace SEOMacroscope
             if( ( LinkUrl != null ) && ( LinkUrl.Length > 0 ) )
             {
 
-              string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+              string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
               MacroscopeLink Outlink = null;
             
               if( LinkUrlAbs != null )
@@ -677,7 +694,7 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "href", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeConstants.InOutLinkType LinkType = MacroscopeConstants.InOutLinkType.LINK;
             Boolean Follow = true;
             MacroscopeLink Outlink = null;
@@ -746,7 +763,7 @@ namespace SEOMacroscope
           foreach( HtmlNode LinkNode in NodeCollection )
           {
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
               
             if( LinkUrlAbs != null )
@@ -782,7 +799,7 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "href", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
               
             if( LinkUrlAbs != null )
@@ -818,7 +835,7 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
             string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
             MacroscopeLink Outlink = null;
@@ -858,7 +875,7 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
               
             if( LinkUrlAbs != null )
@@ -896,7 +913,7 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
               
             if( LinkUrlAbs != null )
@@ -934,7 +951,7 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
               
             if( LinkUrlAbs != null )
@@ -971,7 +988,7 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
               
             if( LinkUrlAbs != null )
@@ -1008,7 +1025,7 @@ namespace SEOMacroscope
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "data", null );
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( this.DocUrl, LinkUrl );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
               
             if( LinkUrlAbs != null )
