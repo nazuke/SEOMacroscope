@@ -86,7 +86,7 @@ namespace SEOMacroscope
 
       this.IncludeUrlPatternsList.Clear();
 
-      foreach( string Url in Regex.Split( IncludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
+      foreach( string Url in Regex.Split( IncludeUrlPatternsText, Environment.NewLine, RegexOptions.Singleline ) )
       {
         
         DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", Url ) );
@@ -121,7 +121,7 @@ namespace SEOMacroscope
     public string FetchIncludeUrlPatterns ()
     {
       
-      string Text = string.Join( "\r\n", this.IncludeUrlPatternsList );
+      string Text = string.Join( Environment.NewLine, this.IncludeUrlPatternsList );
       
       return( Text );
     
@@ -200,7 +200,7 @@ namespace SEOMacroscope
 
       this.ExcludeUrlPatternsList.Clear();
 
-      foreach( string Url in Regex.Split( ExcludeUrlPatternsText, "\r\n", RegexOptions.Singleline ) )
+      foreach( string Url in Regex.Split( ExcludeUrlPatternsText, Environment.NewLine, RegexOptions.Singleline ) )
       {
 
         DebugMsg( string.Format( "LoadExcludeUrlPatterns: {0}", Url ) );
@@ -235,7 +235,7 @@ namespace SEOMacroscope
     public string FetchExcludeUrlPatterns ()
     {
     
-      string Text = string.Join( "\r\n", this.ExcludeUrlPatternsList );
+      string Text = string.Join( Environment.NewLine, this.ExcludeUrlPatternsList );
     
       return( Text );
     

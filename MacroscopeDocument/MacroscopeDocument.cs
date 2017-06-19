@@ -2465,7 +2465,7 @@ namespace SEOMacroscope
         string.Join( "/", "HTTP", res.ProtocolVersion ),
         ( ( int )res.StatusCode ).ToString(),
         res.StatusDescription,
-        "\r\n"
+        Environment.NewLine
       );
       this.RawHttpHeaders = res.Headers.ToString();
 

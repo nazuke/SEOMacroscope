@@ -646,6 +646,64 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackSaveDataExtractorsExcelReport ( object sender, EventArgs e )
+    {
+
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Data-Extractors.xlsx";
+
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+
+        string Path = Dialog.FileName;
+        MacroscopeExcelDataExtractorReport msExcelReport;
+        
+        msExcelReport = new MacroscopeExcelDataExtractorReport (
+          NewDataExtractorCssSelectors: this.DataExtractorCssSelectors,
+          NewDataExtractorRegexes: this.DataExtractorRegexes,
+          NewDataExtractorXpaths: this.DataExtractorXpaths
+        );
+
+        try
+        {
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Data Extractors Excel Report", ex.Message );       
+        }
+        catch( MacroscopeSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Data Extractors Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Data Extractors Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
+        }
+
+      }
+
+      Dialog.Dispose();
+
+    }
+
     /**************************************************************************/
 
   }

@@ -64,12 +64,12 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader HyperlinksOutLinkText;
 		private System.Windows.Forms.ColumnHeader HyperlinksOutImageAltText;
 		private System.Windows.Forms.ColumnHeader HyperlinksOutFollow;
-		private System.Windows.Forms.ContextMenuStrip contextMenuStripTextDocumentDetails;
-		public System.Windows.Forms.ToolStripMenuItem copyTextToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripCopyRecords;
+		public System.Windows.Forms.ToolStripMenuItem copyRows;
 		public System.Windows.Forms.SplitContainer splitContainerDocumentDetails;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelDocumentDetailsDetails;
 		public System.Windows.Forms.PictureBox pictureBoxDocumentDetailsImage;
-		public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCopyValues;
+		public System.Windows.Forms.ToolStripMenuItem copyValues;
 		private System.Windows.Forms.TabPage tabPageHttpHeaders;
 		public System.Windows.Forms.TextBox textBoxHttpResponseHeaders;
 		public System.Windows.Forms.ListView listViewDocInfo;
@@ -136,6 +136,22 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ColumnHeader customFiltersRequirement;
 		public System.Windows.Forms.ColumnHeader customFiltersPresence;
 		private System.Windows.Forms.ColumnHeader HyperlinksOutRawTargetUrl;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripDocumentLists;
+		public System.Windows.Forms.ToolStripMenuItem copyDocumentListRows;
+		public System.Windows.Forms.ToolStripMenuItem copyDocumentListValues;
+		private System.Windows.Forms.ToolStripMenuItem copySourceUrl;
+		private System.Windows.Forms.ToolStripMenuItem copyTargetUrl;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem copyRawSourceUrl;
+		private System.Windows.Forms.ToolStripMenuItem copyRawTargetUrl;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem copyLinkText;
+		private System.Windows.Forms.ToolStripMenuItem copyTitleText;
+		private System.Windows.Forms.ToolStripMenuItem copyAltText;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem openSourceUrlInBrowser;
+		private System.Windows.Forms.ToolStripMenuItem openTargetUrlInBrowser;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -164,9 +180,9 @@ namespace SEOMacroscope
 			this.listViewDocumentInfo = new System.Windows.Forms.ListView();
 			this.DocDetailsDetail = new System.Windows.Forms.ColumnHeader();
 			this.DocDetailsValue = new System.Windows.Forms.ColumnHeader();
-			this.contextMenuStripTextDocumentDetails = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItemCopyValues = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripCopyRecords = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.copyRows = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyValues = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageHttpHeaders = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanelHttpHeaders = new System.Windows.Forms.TableLayoutPanel();
 			this.textBoxHttpRequestHeaders = new System.Windows.Forms.TextBox();
@@ -198,6 +214,22 @@ namespace SEOMacroscope
 			this.columnHeaderLinksOutAltText = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderLinksOutRawSourceUrl = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderLinksOutRawTargetUrl = new System.Windows.Forms.ColumnHeader();
+			this.contextMenuStripDocumentLists = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.openSourceUrlInBrowser = new System.Windows.Forms.ToolStripMenuItem();
+			this.openTargetUrlInBrowser = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.copySourceUrl = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyTargetUrl = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.copyRawSourceUrl = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyRawTargetUrl = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.copyLinkText = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyTitleText = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyAltText = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.copyDocumentListRows = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyDocumentListValues = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageHyperlinksIn = new System.Windows.Forms.TabPage();
 			this.listViewHyperlinksIn = new System.Windows.Forms.ListView();
 			this.HyperlinksInCount = new System.Windows.Forms.ColumnHeader();
@@ -217,6 +249,7 @@ namespace SEOMacroscope
 			this.HyperlinksOutLinkTarget = new System.Windows.Forms.ColumnHeader();
 			this.HyperlinksOutLinkText = new System.Windows.Forms.ColumnHeader();
 			this.HyperlinksOutImageAltText = new System.Windows.Forms.ColumnHeader();
+			this.HyperlinksOutRawTargetUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabPageInsecureLinks = new System.Windows.Forms.TabPage();
 			this.listViewInsecureLinks = new System.Windows.Forms.ListView();
 			this.columnHeader13 = new System.Windows.Forms.ColumnHeader();
@@ -263,16 +296,16 @@ namespace SEOMacroscope
 			this.tableLayoutPanelDocumentDetailsDetails = new System.Windows.Forms.TableLayoutPanel();
 			this.pictureBoxDocumentDetailsImage = new System.Windows.Forms.PictureBox();
 			this.listViewDocInfo = new System.Windows.Forms.ListView();
-			this.HyperlinksOutRawTargetUrl = new System.Windows.Forms.ColumnHeader();
 			this.tabControlDocument.SuspendLayout();
 			this.tabPageDocumentInfo.SuspendLayout();
-			this.contextMenuStripTextDocumentDetails.SuspendLayout();
+			this.contextMenuStripCopyRecords.SuspendLayout();
 			this.tabPageHttpHeaders.SuspendLayout();
 			this.tableLayoutPanelHttpHeaders.SuspendLayout();
 			this.tabPageMetaTags.SuspendLayout();
 			this.tabPageHrefLangAnalysis.SuspendLayout();
 			this.tabPageLinksIn.SuspendLayout();
 			this.tabPageLinksOut.SuspendLayout();
+			this.contextMenuStripDocumentLists.SuspendLayout();
 			this.tabPageHyperlinksIn.SuspendLayout();
 			this.tabPageHyperlinksOut.SuspendLayout();
 			this.tabPageInsecureLinks.SuspendLayout();
@@ -338,12 +371,12 @@ namespace SEOMacroscope
 			this.listViewDocumentInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.DocDetailsDetail,
 			this.DocDetailsValue});
-			this.listViewDocumentInfo.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewDocumentInfo.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewDocumentInfo.FullRowSelect = true;
 			this.listViewDocumentInfo.GridLines = true;
 			this.listViewDocumentInfo.Location = new System.Drawing.Point(20, 20);
 			this.listViewDocumentInfo.Name = "listViewDocumentInfo";
-			this.listViewDocumentInfo.Size = new System.Drawing.Size(200, 200);
+			this.listViewDocumentInfo.Size = new System.Drawing.Size(500, 200);
 			this.listViewDocumentInfo.TabIndex = 0;
 			this.listViewDocumentInfo.UseCompatibleStateImageBehavior = false;
 			this.listViewDocumentInfo.View = System.Windows.Forms.View.Details;
@@ -358,27 +391,25 @@ namespace SEOMacroscope
 			this.DocDetailsValue.Text = "Value";
 			this.DocDetailsValue.Width = 400;
 			// 
-			// contextMenuStripTextDocumentDetails
+			// contextMenuStripCopyRecords
 			// 
-			this.contextMenuStripTextDocumentDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.copyTextToolStripMenuItem,
-			this.toolStripMenuItemCopyValues});
-			this.contextMenuStripTextDocumentDetails.Name = "contextMenuStripTextCopy";
-			this.contextMenuStripTextDocumentDetails.Size = new System.Drawing.Size(140, 48);
+			this.contextMenuStripCopyRecords.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.copyRows,
+			this.copyValues});
+			this.contextMenuStripCopyRecords.Name = "contextMenuStripTextCopy";
+			this.contextMenuStripCopyRecords.Size = new System.Drawing.Size(153, 70);
 			// 
-			// copyTextToolStripMenuItem
+			// copyRows
 			// 
-			this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
-			this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-			this.copyTextToolStripMenuItem.Text = "Copy Rows";
-			this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyRowsClick);
+			this.copyRows.Name = "copyRows";
+			this.copyRows.Size = new System.Drawing.Size(152, 22);
+			this.copyRows.Text = "Copy Rows";
 			// 
-			// toolStripMenuItemCopyValues
+			// copyValues
 			// 
-			this.toolStripMenuItemCopyValues.Name = "toolStripMenuItemCopyValues";
-			this.toolStripMenuItemCopyValues.Size = new System.Drawing.Size(139, 22);
-			this.toolStripMenuItemCopyValues.Text = "Copy Values";
-			this.toolStripMenuItemCopyValues.Click += new System.EventHandler(this.CallbackDocumentDetailsContextMenuStripCopyValuesClick);
+			this.copyValues.Name = "copyValues";
+			this.copyValues.Size = new System.Drawing.Size(152, 22);
+			this.copyValues.Text = "Copy Values";
 			// 
 			// tabPageHttpHeaders
 			// 
@@ -446,7 +477,7 @@ namespace SEOMacroscope
 			this.listViewMetaTags.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderMetaTagsName,
 			this.columnHeaderMetaTagsContent});
-			this.listViewMetaTags.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewMetaTags.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewMetaTags.FullRowSelect = true;
 			this.listViewMetaTags.GridLines = true;
 			this.listViewMetaTags.Location = new System.Drawing.Point(20, 20);
@@ -481,7 +512,7 @@ namespace SEOMacroscope
 			this.listViewHrefLang.CausesValidation = false;
 			this.listViewHrefLang.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.HrefLangUrl});
-			this.listViewHrefLang.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewHrefLang.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewHrefLang.FullRowSelect = true;
 			this.listViewHrefLang.GridLines = true;
 			this.listViewHrefLang.Location = new System.Drawing.Point(20, 20);
@@ -518,7 +549,6 @@ namespace SEOMacroscope
 			this.columnHeaderLinksInAltText,
 			this.columnHeaderLinksInRawSourceUrl,
 			this.columnHeaderLinksInRawTargetUrl});
-			this.listViewLinksIn.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
 			this.listViewLinksIn.FullRowSelect = true;
 			this.listViewLinksIn.GridLines = true;
 			this.listViewLinksIn.Location = new System.Drawing.Point(20, 20);
@@ -587,7 +617,7 @@ namespace SEOMacroscope
 			this.columnHeaderLinksOutAltText,
 			this.columnHeaderLinksOutRawSourceUrl,
 			this.columnHeaderLinksOutRawTargetUrl});
-			this.listViewLinksOut.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewLinksOut.ContextMenuStrip = this.contextMenuStripDocumentLists;
 			this.listViewLinksOut.FullRowSelect = true;
 			this.listViewLinksOut.GridLines = true;
 			this.listViewLinksOut.Location = new System.Drawing.Point(20, 20);
@@ -634,6 +664,113 @@ namespace SEOMacroscope
 			this.columnHeaderLinksOutRawTargetUrl.Text = "Raw Target URL";
 			this.columnHeaderLinksOutRawTargetUrl.Width = 300;
 			// 
+			// contextMenuStripDocumentLists
+			// 
+			this.contextMenuStripDocumentLists.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.openSourceUrlInBrowser,
+			this.openTargetUrlInBrowser,
+			this.toolStripSeparator4,
+			this.copySourceUrl,
+			this.copyTargetUrl,
+			this.toolStripSeparator1,
+			this.copyRawSourceUrl,
+			this.copyRawTargetUrl,
+			this.toolStripSeparator3,
+			this.copyLinkText,
+			this.copyTitleText,
+			this.copyAltText,
+			this.toolStripSeparator2,
+			this.copyDocumentListRows,
+			this.copyDocumentListValues});
+			this.contextMenuStripDocumentLists.Name = "contextMenuStripTextCopy";
+			this.contextMenuStripDocumentLists.Size = new System.Drawing.Size(225, 270);
+			// 
+			// openSourceUrlInBrowser
+			// 
+			this.openSourceUrlInBrowser.Name = "openSourceUrlInBrowser";
+			this.openSourceUrlInBrowser.Size = new System.Drawing.Size(224, 22);
+			this.openSourceUrlInBrowser.Text = "Open Source URL in Browser";
+			// 
+			// openTargetUrlInBrowser
+			// 
+			this.openTargetUrlInBrowser.Name = "openTargetUrlInBrowser";
+			this.openTargetUrlInBrowser.Size = new System.Drawing.Size(224, 22);
+			this.openTargetUrlInBrowser.Text = "Open Target URL in Browser";
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(221, 6);
+			// 
+			// copySourceUrl
+			// 
+			this.copySourceUrl.Name = "copySourceUrl";
+			this.copySourceUrl.Size = new System.Drawing.Size(224, 22);
+			this.copySourceUrl.Text = "Copy Source URL";
+			// 
+			// copyTargetUrl
+			// 
+			this.copyTargetUrl.Name = "copyTargetUrl";
+			this.copyTargetUrl.Size = new System.Drawing.Size(224, 22);
+			this.copyTargetUrl.Text = "Copy Target URL";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+			// 
+			// copyRawSourceUrl
+			// 
+			this.copyRawSourceUrl.Name = "copyRawSourceUrl";
+			this.copyRawSourceUrl.Size = new System.Drawing.Size(224, 22);
+			this.copyRawSourceUrl.Text = "Copy Raw Source URL";
+			// 
+			// copyRawTargetUrl
+			// 
+			this.copyRawTargetUrl.Name = "copyRawTargetUrl";
+			this.copyRawTargetUrl.Size = new System.Drawing.Size(224, 22);
+			this.copyRawTargetUrl.Text = "Copy Raw Target URL";
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(221, 6);
+			// 
+			// copyLinkText
+			// 
+			this.copyLinkText.Name = "copyLinkText";
+			this.copyLinkText.Size = new System.Drawing.Size(224, 22);
+			this.copyLinkText.Text = "Copy Link Text";
+			// 
+			// copyTitleText
+			// 
+			this.copyTitleText.Name = "copyTitleText";
+			this.copyTitleText.Size = new System.Drawing.Size(224, 22);
+			this.copyTitleText.Text = "Copy Title Text";
+			// 
+			// copyAltText
+			// 
+			this.copyAltText.Name = "copyAltText";
+			this.copyAltText.Size = new System.Drawing.Size(224, 22);
+			this.copyAltText.Text = "Copy Alt Text";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(221, 6);
+			// 
+			// copyDocumentListRows
+			// 
+			this.copyDocumentListRows.Name = "copyDocumentListRows";
+			this.copyDocumentListRows.Size = new System.Drawing.Size(224, 22);
+			this.copyDocumentListRows.Text = "Copy Rows";
+			// 
+			// copyDocumentListValues
+			// 
+			this.copyDocumentListValues.Name = "copyDocumentListValues";
+			this.copyDocumentListValues.Size = new System.Drawing.Size(224, 22);
+			this.copyDocumentListValues.Text = "Copy Values";
+			// 
 			// tabPageHyperlinksIn
 			// 
 			this.tabPageHyperlinksIn.Controls.Add(this.listViewHyperlinksIn);
@@ -655,7 +792,7 @@ namespace SEOMacroscope
 			this.HyperlinksInFollow,
 			this.HyperlinksInLinkText,
 			this.HyperlinksInImageAltText});
-			this.listViewHyperlinksIn.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewHyperlinksIn.ContextMenuStrip = this.contextMenuStripDocumentLists;
 			this.listViewHyperlinksIn.FullRowSelect = true;
 			this.listViewHyperlinksIn.GridLines = true;
 			this.listViewHyperlinksIn.Location = new System.Drawing.Point(20, 20);
@@ -719,7 +856,7 @@ namespace SEOMacroscope
 			this.HyperlinksOutLinkText,
 			this.HyperlinksOutImageAltText,
 			this.HyperlinksOutRawTargetUrl});
-			this.listViewHyperlinksOut.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewHyperlinksOut.ContextMenuStrip = this.contextMenuStripDocumentLists;
 			this.listViewHyperlinksOut.FullRowSelect = true;
 			this.listViewHyperlinksOut.GridLines = true;
 			this.listViewHyperlinksOut.Location = new System.Drawing.Point(20, 20);
@@ -759,13 +896,16 @@ namespace SEOMacroscope
 			// 
 			// HyperlinksOutLinkText
 			// 
-			this.HyperlinksOutLinkText.DisplayIndex = 5;
 			this.HyperlinksOutLinkText.Text = "Link Text";
 			// 
 			// HyperlinksOutImageAltText
 			// 
-			this.HyperlinksOutImageAltText.DisplayIndex = 6;
 			this.HyperlinksOutImageAltText.Text = "Image Alt Text";
+			// 
+			// HyperlinksOutRawTargetUrl
+			// 
+			this.HyperlinksOutRawTargetUrl.Text = "Raw Target URL";
+			this.HyperlinksOutRawTargetUrl.Width = 300;
 			// 
 			// tabPageInsecureLinks
 			// 
@@ -782,7 +922,7 @@ namespace SEOMacroscope
 			this.listViewInsecureLinks.CausesValidation = false;
 			this.listViewInsecureLinks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeader13});
-			this.listViewInsecureLinks.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewInsecureLinks.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewInsecureLinks.FullRowSelect = true;
 			this.listViewInsecureLinks.GridLines = true;
 			this.listViewInsecureLinks.Location = new System.Drawing.Point(20, 20);
@@ -813,7 +953,7 @@ namespace SEOMacroscope
 			this.listViewStylesheets.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderStylesheetsItem,
 			this.columnHeaderStylesheetsUrl});
-			this.listViewStylesheets.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewStylesheets.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewStylesheets.FullRowSelect = true;
 			this.listViewStylesheets.GridLines = true;
 			this.listViewStylesheets.Location = new System.Drawing.Point(20, 20);
@@ -848,7 +988,7 @@ namespace SEOMacroscope
 			this.listViewJavascripts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderJavascriptsItem,
 			this.columnHeaderJavascriptsUrl});
-			this.listViewJavascripts.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewJavascripts.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewJavascripts.FullRowSelect = true;
 			this.listViewJavascripts.GridLines = true;
 			this.listViewJavascripts.Location = new System.Drawing.Point(20, 20);
@@ -886,7 +1026,7 @@ namespace SEOMacroscope
 			this.columnHeaderImagesUrl,
 			this.columnHeaderImagesTitle,
 			this.columnHeaderImagesAltText});
-			this.listViewImages.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewImages.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewImages.FullRowSelect = true;
 			this.listViewImages.GridLines = true;
 			this.listViewImages.Location = new System.Drawing.Point(20, 20);
@@ -931,7 +1071,7 @@ namespace SEOMacroscope
 			this.listViewAudios.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderAudiosItem,
 			this.columnHeaderAudiosUrl});
-			this.listViewAudios.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewAudios.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewAudios.FullRowSelect = true;
 			this.listViewAudios.GridLines = true;
 			this.listViewAudios.Location = new System.Drawing.Point(20, 20);
@@ -967,7 +1107,7 @@ namespace SEOMacroscope
 			this.listViewVideos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderVideosItem,
 			this.columnHeaderVideosUrl});
-			this.listViewVideos.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewVideos.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewVideos.FullRowSelect = true;
 			this.listViewVideos.GridLines = true;
 			this.listViewVideos.Location = new System.Drawing.Point(20, 20);
@@ -1003,7 +1143,7 @@ namespace SEOMacroscope
 			this.listViewKeywordAnalysis.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 			this.columnHeaderKeywordAnalysisOccurences,
 			this.columnHeaderKeywordAnalysisTerm});
-			this.listViewKeywordAnalysis.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewKeywordAnalysis.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewKeywordAnalysis.FullRowSelect = true;
 			this.listViewKeywordAnalysis.GridLines = true;
 			this.listViewKeywordAnalysis.Location = new System.Drawing.Point(20, 20);
@@ -1041,7 +1181,7 @@ namespace SEOMacroscope
 			this.remarksItem,
 			this.remarksUrl,
 			this.remarksRemark});
-			this.listViewRemarks.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewRemarks.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewRemarks.FullRowSelect = true;
 			this.listViewRemarks.GridLines = true;
 			this.listViewRemarks.Location = new System.Drawing.Point(20, 20);
@@ -1104,7 +1244,7 @@ namespace SEOMacroscope
 			this.customFiltersText,
 			this.customFiltersRequirement,
 			this.customFiltersPresence});
-			this.listViewCustomFilters.ContextMenuStrip = this.contextMenuStripTextDocumentDetails;
+			this.listViewCustomFilters.ContextMenuStrip = this.contextMenuStripCopyRecords;
 			this.listViewCustomFilters.FullRowSelect = true;
 			this.listViewCustomFilters.GridLines = true;
 			this.listViewCustomFilters.Location = new System.Drawing.Point(20, 20);
@@ -1198,11 +1338,6 @@ namespace SEOMacroscope
 			this.listViewDocInfo.UseCompatibleStateImageBehavior = false;
 			this.listViewDocInfo.View = System.Windows.Forms.View.Details;
 			// 
-			// HyperlinksOutRawTargetUrl
-			// 
-			this.HyperlinksOutRawTargetUrl.Text = "Raw Target URL";
-			this.HyperlinksOutRawTargetUrl.Width = 300;
-			// 
 			// MacroscopeDocumentDetails
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1213,7 +1348,7 @@ namespace SEOMacroscope
 			this.Load += new System.EventHandler(this.MacroscopeDocumentDetailsLoad);
 			this.tabControlDocument.ResumeLayout(false);
 			this.tabPageDocumentInfo.ResumeLayout(false);
-			this.contextMenuStripTextDocumentDetails.ResumeLayout(false);
+			this.contextMenuStripCopyRecords.ResumeLayout(false);
 			this.tabPageHttpHeaders.ResumeLayout(false);
 			this.tableLayoutPanelHttpHeaders.ResumeLayout(false);
 			this.tableLayoutPanelHttpHeaders.PerformLayout();
@@ -1221,6 +1356,7 @@ namespace SEOMacroscope
 			this.tabPageHrefLangAnalysis.ResumeLayout(false);
 			this.tabPageLinksIn.ResumeLayout(false);
 			this.tabPageLinksOut.ResumeLayout(false);
+			this.contextMenuStripDocumentLists.ResumeLayout(false);
 			this.tabPageHyperlinksIn.ResumeLayout(false);
 			this.tabPageHyperlinksOut.ResumeLayout(false);
 			this.tabPageInsecureLinks.ResumeLayout(false);

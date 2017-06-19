@@ -86,6 +86,15 @@ namespace SEOMacroscope
     static Boolean FetchXml;
     static Boolean FetchBinaries;
 
+    // Per-Job Spidering Options
+
+    static Boolean CrawlParentDirectories;
+    static Boolean CrawlChildDirectories;
+
+    // Analysis Options
+    
+    static Boolean CheckHreflangs;
+
     static Boolean ProcessAudio;
     static Boolean ProcessBinaries;
     static Boolean ProcessImages;
@@ -95,14 +104,6 @@ namespace SEOMacroscope
     static Boolean ProcessVideo;
     static Boolean ProcessXml;
 
-    // Per-Job Spidering Options
-
-    static Boolean CrawlParentDirectories;
-    static Boolean CrawlChildDirectories;
-
-    // Analysis Options
-    
-    static Boolean CheckHreflangs;
     static Boolean ScanSitesInList;
     static Boolean WarnAboutInsecureLinks;
 
@@ -472,6 +473,15 @@ namespace SEOMacroscope
         Preferences.FetchVideo = FetchVideo;
         Preferences.FetchXml = FetchXml;
         Preferences.FetchBinaries = FetchBinaries;
+
+        Preferences.ProcessAudio = ProcessAudio;
+        Preferences.ProcessBinaries = ProcessBinaries;
+        Preferences.ProcessImages = ProcessImages;
+        Preferences.ProcessJavascripts = ProcessJavascripts;
+        Preferences.ProcessPdfs = ProcessPdfs;
+        Preferences.ProcessStylesheets = ProcessStylesheets;   
+        Preferences.ProcessVideo = ProcessVideo;
+        Preferences.ProcessXml = ProcessXml;
 
         Preferences.CrawlParentDirectories = CrawlParentDirectories;
         Preferences.CrawlChildDirectories = CrawlChildDirectories;

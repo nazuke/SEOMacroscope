@@ -48,6 +48,8 @@ namespace SEOMacroscope
     
     Boolean StartUrlDirty;
 
+    MacroscopeContextMenus ContextMenusCallbacks;
+    
     MacroscopeDisplayStructure msDisplayStructure;
     MacroscopeDisplayHierarchy msDisplayHierarchy;
 
@@ -197,7 +199,7 @@ namespace SEOMacroscope
       
       this.ConfigureMenus();
 
-      // ListView Reference Objects
+      /** ListView Reference Objects --------------------------------------- **/
 
       this.msDisplayStructure = new MacroscopeDisplayStructure ( this, this.macroscopeOverviewTabPanelInstance.listViewStructure );
       this.msDisplayHierarchy = new MacroscopeDisplayHierarchy ( this, this.macroscopeOverviewTabPanelInstance.treeViewHierarchy );
@@ -243,16 +245,16 @@ namespace SEOMacroscope
       
       this.msDisplaySearchCollection = new MacroscopeDisplaySearchCollection ( this, this.macroscopeOverviewTabPanelInstance.listViewSearchCollection );
 
-      // Appearance
-
+      /** Appearance ------------------------------------------------------- **/
+      
       this.macroscopeOverviewTabPanelInstance.Dock = DockStyle.Fill;
 
-      // Events --------------------------------------------------------------//
-
+      /** Events ----------------------------------------------------------- **/
+      
       this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
 
-      // listViewStructure
-      
+      /** listViewStructure ------------------------------------------------ **/
+            
       this.macroscopeOverviewTabPanelInstance.listViewStructure.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
       this.macroscopeOverviewTabPanelInstance.toolStripStructureButtonShowAll.Click += this.CallbackStructureButtonShowAll;
@@ -263,14 +265,14 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.KeyUp += this.CallbackSearchTextBoxSearchUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
 
-      // ListViewLinks
-      
+      /** ListViewLinks ---------------------------------------------------- **/
+
       this.macroscopeOverviewTabPanelInstance.listViewLinks.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripButtonLinksShowAll.Click += this.CallbackButtonLinksShowAll;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchSourceUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchSourceUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripTextBoxLinksSearchTargetUrls.KeyUp += this.CallbackSearchTextBoxLinksSearchTargetUrlKeyUp;
       
-      // ListViewHyperlinks
+      /** ListViewHyperlinks ----------------------------------------------- **/
       
       this.macroscopeOverviewTabPanelInstance.listViewHyperlinks.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripButtonHyperlinksShowAll.Click += this.CallbackButtonHyperlinksShowAll;
@@ -297,16 +299,19 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewCustomFilters.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewHistory.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
-      // listViewSearchCollection
+      /** listViewSearchCollection ----------------------------------------- **/
       
       this.macroscopeOverviewTabPanelInstance.listViewSearchCollection.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Click += this.CallbackSearchCollectionButtonClear;
       this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.KeyUp += this.CallbackSearchCollectionTextBoxSearchKeyUp;
 
-      // Context Menu Events
+      /** Context Menu Events ---------------------------------------------- **/
 
-      this.macroscopeOverviewTabPanelInstance.toolStripMenuItemCopyUrl.Click += this.CallbackCopyUrlClick;
-      this.macroscopeOverviewTabPanelInstance.toolStripMenuItemOpenInBrowser.Click += this.CallbackOpenInBrowserClick;
+      this.ContextMenusCallbacks = new MacroscopeContextMenus ();
+
+      this.macroscopeOverviewTabPanelInstance.toolStripMenuItemCopyUrl.Click += ContextMenusCallbacks.CallbackCopyUrlClick;
+      this.macroscopeOverviewTabPanelInstance.toolStripMenuItemOpenInBrowser.Click += ContextMenusCallbacks.CallbackOpenUrlInBrowserClick;
+
       this.macroscopeOverviewTabPanelInstance.toolStripMenuItemAddHostToAllowedHosts.Click += this.CallbackAddToAllowedHosts;
       this.macroscopeOverviewTabPanelInstance.toolStripMenuItemRemoveFromAllowedHosts.Click += this.CallbackRemoveFromAllowedHosts;
       this.macroscopeOverviewTabPanelInstance.toolStripMenuItemResetEntry.Click += this.CallbackRetryFetchClick;
@@ -1182,7 +1187,10 @@ namespace SEOMacroscope
 
     /** ListView Show Document Details on URL Click ***************************/
 
-    private void CallbackListViewShowDocumentDetailsOnUrlClick ( object sender, ListViewItemSelectionChangedEventArgs e )
+    private void CallbackListViewShowDocumentDetailsOnUrlClick (
+      object sender,
+      ListViewItemSelectionChangedEventArgs e
+    )
     {
       
       if( Monitor.TryEnter( LockerDocumentDetailsDisplay, 250 ) )
@@ -1244,58 +1252,6 @@ namespace SEOMacroscope
           Monitor.Exit( LockerDocumentDetailsDisplay );
         }
 
-      }
-
-    }
-
-    /** Overview Tab Panel Context Menu Callbacks *****************************/
-
-    private void CallbackOpenInBrowserClick ( object sender, EventArgs e )
-    {
-
-      ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
-      ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView TargetListView = msOwner.SourceControl as ListView;
-      string Url = "NONE";
-      int UrlColumn = -1;
-
-      lock( TargetListView )
-      {
-
-        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
-        {
-          
-          if( TargetListView.Columns[ i ].Text == "URL" )
-          {
-            UrlColumn = i;
-            break;
-          }
-          else
-          if( TargetListView.Columns[ i ].Text == "Source URL" )
-          {
-            UrlColumn = i;
-            break;
-          }
-          
-        }
-
-        if( UrlColumn > -1 )
-        {
-          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
-          {
-            Url = lvItem.SubItems[ UrlColumn ].Text.ToString();
-          }
-        }
-        else
-        {
-          MessageBox.Show( "URL column not found" );
-        }
-
-      }
-
-      if( Url != null )
-      {
-        this.OpenUrlInBrowser( Url );
       }
 
     }
@@ -1446,111 +1402,6 @@ namespace SEOMacroscope
       {
         this.JobMaster.RetryLink( Url );
         this.RerunScanQueue();
-      }
-
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void CallbackCopyUrlClick ( object sender, EventArgs e )
-    {
-
-      ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
-      ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView TargetListView = msOwner.SourceControl as ListView;
-      string Url = "NONE";
-      int UrlColumn = -1;
-
-      lock( TargetListView )
-      {
-        for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
-        {
-          
-          if( TargetListView.Columns[ i ].Text == "URL" )
-          {
-            UrlColumn = i;
-            break;
-          }
-          else
-          if( TargetListView.Columns[ i ].Text == "Source URL" )
-          {
-            UrlColumn = i;
-            break;
-          }
-          
-        }
-        if( UrlColumn > -1 )
-        {
-          foreach( ListViewItem lvItem in TargetListView.SelectedItems )
-          {
-            Url = lvItem.SubItems[ UrlColumn ].Text;
-          }
-        }
-        else
-        {
-          MessageBox.Show( "URL column not found" );
-        }
-      }
-
-      if( Url != null )
-      {
-        this.CopyTextToClipboard( Text: Url );
-      }
-
-    }
-
-    /** Clipboard *************************************************************/
-
-    public void CopyTextToClipboard ( string Text )
-    {
-      
-      int Count = 10;
-      
-      while( Count > 0 )
-      {
-        
-        try
-        {
-          Clipboard.SetText( Text );
-          break;
-        }
-        catch( Exception ex )
-        {
-          DebugMsg( ex.Message );
-        }
-        
-        Count--;
-        
-      }
-      
-    }
-
-    /** EXTERNAL BROWSER ******************************************************/
-
-    private void OpenUrlInBrowser ( string Url )
-    {
-
-      Uri OpenUrl = null;
-
-      try
-      {
-        OpenUrl = new Uri ( Url );
-      }
-      catch( UriFormatException ex )
-      {
-        MessageBox.Show( ex.Message );
-      }
-
-      if( OpenUrl != null )
-      {
-        try
-        {
-          Process.Start( OpenUrl.ToString() );
-        }
-        catch( Exception ex )
-        {
-          MessageBox.Show( ex.Message );
-        }
       }
 
     }

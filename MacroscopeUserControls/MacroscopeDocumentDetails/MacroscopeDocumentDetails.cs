@@ -26,7 +26,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -44,15 +43,17 @@ namespace SEOMacroscope
 
     private MacroscopeColumnSorter lvColumnSorter;
         
+    private MacroscopeContextMenus ContextMenusCallbacks;
+
     /**************************************************************************/
 
     public MacroscopeDocumentDetails ()
     {
 
-      // The InitializeComponent() call is required for Windows Forms designer support.
-      InitializeComponent();
+      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-      // Control Properties
+      /** Control Properties ----------------------------------------------- **/
+
       this.tabControlDocument.Multiline = false;
       this.listViewDocumentInfo.Dock = DockStyle.Fill;
       this.tableLayoutPanelHttpHeaders.Dock = DockStyle.Fill;
@@ -79,7 +80,8 @@ namespace SEOMacroscope
       this.UrlLoader = new MacroscopeUrlLoader ();
       this.listViewDocInfo.Dock = DockStyle.Fill;
 
-      // ListView Sorters
+      /** ListView Sorters ------------------------------------------------- **/
+
       this.lvColumnSorter = new MacroscopeColumnSorter ();
 
       this.listViewMetaTags.ColumnClick += this.CallbackColumnClick;
@@ -96,9 +98,35 @@ namespace SEOMacroscope
       this.listViewVideos.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis.ColumnClick += this.CallbackColumnClick;
       this.listViewRemarks.ColumnClick += this.CallbackColumnClick;
-
       this.listViewCustomFilters.ColumnClick += this.CallbackColumnClick;
 
+      /** Context Menus ---------------------------------------------------- **/
+
+      this.ContextMenusCallbacks = new MacroscopeContextMenus ();
+
+      this.copyRows.Click += this.ContextMenusCallbacks.CallbackCopyRowsClick;
+      this.copyValues.Click += this.ContextMenusCallbacks.CallbackCopyValuesClick;
+
+      this.copyDocumentListRows.Click += this.ContextMenusCallbacks.CallbackCopyRowsClick;
+      this.copyDocumentListValues.Click += this.ContextMenusCallbacks.CallbackCopyValuesClick;
+
+      this.openSourceUrlInBrowser.Click += this.ContextMenusCallbacks.CallbackOpenSourceUrlInBrowserClick;
+      this.openTargetUrlInBrowser.Click += this.ContextMenusCallbacks.CallbackOpenTargetUrlInBrowserClick;
+
+      this.copySourceUrl.Click += this.ContextMenusCallbacks.CallbackCopySourceUrlClick;
+      this.copyTargetUrl.Click += this.ContextMenusCallbacks.CallbackCopyTargetClick;
+      
+      this.copyRawSourceUrl.Click += this.ContextMenusCallbacks.CallbackCopyRawSourceUrlClick;
+      this.copyRawTargetUrl.Click += this.ContextMenusCallbacks.CallbackCopyRawTargetUrlClick;
+
+      this.copyLinkText.Click += this.ContextMenusCallbacks.CallbackCopyLinkTextClick;
+      this.copyAltText.Click += this.ContextMenusCallbacks.CallbackCopyAltTextClick;
+      this.copyTitleText.Click += this.ContextMenusCallbacks.CallbackCopyTitleTextClick;
+
+      this.listViewLinksIn.ContextMenuStrip = this.contextMenuStripDocumentLists;
+
+      /** Collapsible Panels ----------------------------------------------- **/
+      
       this.splitContainerDocumentDetails.Panel2Collapsed = true;
 
     }
@@ -141,30 +169,6 @@ namespace SEOMacroscope
       
     }
 
-    /**************************************************************************/
-    
-    private void CallbackDocumentDetailsContextMenuStripCopyRowsClick ( object sender, EventArgs e )
-    {
-      
-      ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
-      ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView TargetListView = msOwner.SourceControl as ListView;
-
-      this.CopyListViewRowsTextToClipboard( TargetListView );
-
-    }
-
-    private void CallbackDocumentDetailsContextMenuStripCopyValuesClick ( object sender, EventArgs e )
-    {
-      
-      ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;
-      ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
-      ListView TargetListView = msOwner.SourceControl as ListView;
-
-      this.CopyListViewValuesTextToClipboard( TargetListView );
-
-    }
-    
     /**************************************************************************/
 
     public void ClearData ()

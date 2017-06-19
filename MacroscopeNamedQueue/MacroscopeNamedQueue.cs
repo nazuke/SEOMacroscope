@@ -341,10 +341,10 @@ namespace SEOMacroscope
     {
       string Item = null;
 
-      lock( this.NamedQueues[Name] )
+      if( this.NamedQueues.ContainsKey( Name ) )
       {
 
-        if( this.NamedQueues.ContainsKey( Name ) )
+        lock( this.NamedQueues[Name] )
         {
 
           if( this.NamedQueues[ Name ].Count > 0 )
@@ -462,6 +462,29 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public void  ForgetNamedQueueItem ( string Name, string Item )
+    {
+
+      if( this.NamedQueuesIndex.ContainsKey( Name ) )
+      {
+              
+        if( this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
+        {
+
+          lock( this.NamedQueuesIndex[Name] )
+          {
+            this.NamedQueuesIndex[ Name ].Remove( Item );
+                
+          }
+
+        }
+
+      }
+  
+    }
+
+    /**************************************************************************/
+    
   }
 
 }

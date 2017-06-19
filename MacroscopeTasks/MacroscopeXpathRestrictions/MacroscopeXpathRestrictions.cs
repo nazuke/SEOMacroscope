@@ -58,7 +58,7 @@ namespace SEOMacroscope
 
       this.IncludeXpathsList.Clear();
 
-      foreach( string Url in Regex.Split( IncludeXpathsText, "\r\n", RegexOptions.Singleline ) )
+      foreach( string Url in Regex.Split( IncludeXpathsText, Environment.NewLine, RegexOptions.Singleline ) )
       {
         
         DebugMsg( string.Format( "LoadIncludeXpathPatterns: {0}", Url ) );
@@ -79,7 +79,7 @@ namespace SEOMacroscope
     public string FetchIncludeUrlPatterns ()
     {
       
-      string Text = string.Join( "\r\n", this.IncludeXpathsList );
+      string Text = string.Join( Environment.NewLine, this.IncludeXpathsList );
       
       return( Text );
     

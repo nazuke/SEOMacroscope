@@ -86,7 +86,7 @@ namespace SEOMacroscope
 
       { //Configure Form Fields
 
-        // Spidering Control
+        /** Spidering Control ---------------------------------------------- **/
 
         PrefsControl.numericUpDownDepth.Minimum = -1;
         PrefsControl.numericUpDownDepth.Maximum = 10000;
@@ -104,12 +104,12 @@ namespace SEOMacroscope
 
       {
 
-        // WebProxy Options
+        /** WebProxy Options ----------------------------------------------- **/
 
         PrefsControl.textBoxHttpProxyHost.Text = MacroscopePreferencesManager.GetHttpProxyHost();
         PrefsControl.numericUpDownHttpProxyPort.Value = MacroscopePreferencesManager.GetHttpProxyPort();
 
-        // Spidering Control
+        /** Spidering Control ---------------------------------------------- **/
 
         PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
         PrefsControl.numericUpDownDepth.Value = MacroscopePreferencesManager.GetDepth();
@@ -135,6 +135,11 @@ namespace SEOMacroscope
         PrefsControl.checkBoxFetchXml.Checked = MacroscopePreferencesManager.GetFetchXml();
         PrefsControl.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
 
+        /** Analysis Options ----------------------------------------------- **/
+        
+        PrefsControl.checkBoxCheckHreflangs.Checked = MacroscopePreferencesManager.GetCheckHreflangs();
+        PrefsControl.checkBoxDetectLanguage.Checked = MacroscopePreferencesManager.GetDetectLanguage();
+
         PrefsControl.checkBoxProcessStylesheets.Checked = MacroscopePreferencesManager.GetProcessStylesheets();
         PrefsControl.checkBoxProcessJavascripts.Checked = MacroscopePreferencesManager.GetProcessJavascripts();
         PrefsControl.checkBoxProcessImages.Checked = MacroscopePreferencesManager.GetProcessImages();
@@ -144,11 +149,6 @@ namespace SEOMacroscope
         PrefsControl.checkBoxProcessXml.Checked = MacroscopePreferencesManager.GetProcessXml();
         PrefsControl.checkBoxProcessBinaries.Checked = MacroscopePreferencesManager.GetProcessBinaries();
 
-        // Analysis Options
-
-        PrefsControl.checkBoxCheckHreflangs.Checked = MacroscopePreferencesManager.GetCheckHreflangs();
-        PrefsControl.checkBoxDetectLanguage.Checked = MacroscopePreferencesManager.GetDetectLanguage();
-             
         PrefsControl.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
         PrefsControl.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
 
@@ -156,7 +156,7 @@ namespace SEOMacroscope
         PrefsControl.numericUpDownMaxLevenshteinSizeDifference.Value = MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference();
         PrefsControl.numericUpDownMaxLevenshteinDistance.Value = MacroscopePreferencesManager.GetMaxLevenshteinDistance();
 
-        // SEO Options
+        /** SEO Options ---------------------------------------------------- **/
 
         PrefsControl.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
         PrefsControl.numericUpDownTitleMaxLen.Value = MacroscopePreferencesManager.GetTitleMaxLen();
@@ -173,7 +173,7 @@ namespace SEOMacroscope
 
         PrefsControl.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
 
-        // Export Options
+        /** Export Options ------------------------------------------------- **/
         
         PrefsControl.checkBoxSitemapIncludeLinkedPdfs.Checked = MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs();
 
@@ -188,17 +188,17 @@ namespace SEOMacroscope
 
       MacroscopePrefsControl PrefsControl = this.macroscopePrefsControlInstance;
 
-      // Configure Display Options
-      
+      /** Configure Display Options ---------------------------------------- **/
+
       MacroscopePreferencesManager.SetPauseDisplayDuringScan( PrefsControl.checkBoxPauseDisplayDuringScan.Checked );
       MacroscopePreferencesManager.SetShowProgressDialogues( PrefsControl.checkBoxShowProgressDialogues.Checked );
 
-      // WebProxy Options
+      /** WebProxy Options ------------------------------------------------- **/
 
       MacroscopePreferencesManager.SetHttpProxyHost( PrefsControl.textBoxHttpProxyHost.Text );
       MacroscopePreferencesManager.SetHttpProxyPort( ( int )PrefsControl.numericUpDownHttpProxyPort.Value );
 
-      // Spidering Control
+      /** Spidering Control ------------------------------------------------ **/
 
       MacroscopePreferencesManager.SetMaxThreads( ( int )PrefsControl.numericUpDownMaxThreads.Value );
       MacroscopePreferencesManager.SetDepth( ( int )PrefsControl.numericUpDownDepth.Value );
@@ -224,6 +224,11 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetFetchXml( PrefsControl.checkBoxFetchXml.Checked );
       MacroscopePreferencesManager.SetFetchBinaries( PrefsControl.checkBoxFetchBinaries.Checked );
 
+      /** Analysis Options ------------------------------------------------- **/
+
+      MacroscopePreferencesManager.SetCheckHreflangs( PrefsControl.checkBoxCheckHreflangs.Checked );
+      MacroscopePreferencesManager.SetDetectLanguage( Detect: PrefsControl.checkBoxDetectLanguage.Checked );
+
       MacroscopePreferencesManager.SetProcessStylesheets( PrefsControl.checkBoxProcessStylesheets.Checked );
       MacroscopePreferencesManager.SetProcessJavascripts( PrefsControl.checkBoxProcessJavascripts.Checked );
       MacroscopePreferencesManager.SetProcessImages( PrefsControl.checkBoxProcessImages.Checked );
@@ -233,11 +238,6 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetProcessXml( PrefsControl.checkBoxProcessXml.Checked );
       MacroscopePreferencesManager.SetProcessBinaries( PrefsControl.checkBoxProcessBinaries.Checked );
 
-      // Analysis Options
-
-      MacroscopePreferencesManager.SetCheckHreflangs( PrefsControl.checkBoxCheckHreflangs.Checked );
-      MacroscopePreferencesManager.SetDetectLanguage( Detect: PrefsControl.checkBoxDetectLanguage.Checked );
-
       MacroscopePreferencesManager.SetScanSitesInList( PrefsControl.checkBoxScanSitesInList.Checked );
       MacroscopePreferencesManager.SetWarnAboutInsecureLinks( PrefsControl.checkBoxWarnAboutInsecureLinks.Checked );
 
@@ -245,8 +245,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( ( int )PrefsControl.numericUpDownMaxLevenshteinSizeDifference.Value );
       MacroscopePreferencesManager.SetMaxLevenshteinDistance( ( int )PrefsControl.numericUpDownMaxLevenshteinDistance.Value );
 
-      // SEO Options
-
+      /** SEO Options ------------------------------------------------------ **/
+      
       MacroscopePreferencesManager.SetTitleMinLen( ( int )PrefsControl.numericUpDownTitleMinLen.Value );
       MacroscopePreferencesManager.SetTitleMaxLen( ( int )PrefsControl.numericUpDownTitleMaxLen.Value );
       MacroscopePreferencesManager.SetTitleMinWords( ( int )PrefsControl.numericUpDownTitleMinWords.Value );
@@ -262,12 +262,12 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetAnalyzeKeywordsInText( PrefsControl.checkBoxAnalyzeKeywordsInText.Checked );
 
-      // Export Options
-        
+      /** Export Options --------------------------------------------------- **/
+              
       MacroscopePreferencesManager.SetSitemapIncludeLinkedPdfs( PrefsControl.checkBoxSitemapIncludeLinkedPdfs.Checked );
 
-      // Tidy Up
-
+      /** Tidy Up ---------------------------------------------------------- **/
+      
       MacroscopePreferencesManager.SavePreferences();
       MacroscopePreferencesManager.ConfigureHttpProxy();
 

@@ -717,10 +717,10 @@ namespace SEOMacroscope
       
       if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
-        NewUrl = MacroscopeUrlUtils.StripQueryString( NewUrl );
+        NewUrl = MacroscopeUrlUtils.StripQueryString( Url: NewUrl );
       }
 
-      if( !this.JobHistory.SeenHistoryItem( NewUrl ) )
+      if( !this.JobHistory.SeenHistoryItem( Url: NewUrl ) )
       {
         try
         {
@@ -741,6 +741,27 @@ namespace SEOMacroscope
     public string GetUrlQueueItem ()
     {
       return( this.NamedQueue.GetNamedQueueItem( MacroscopeConstants.NamedQueueUrlList ) );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void ForgetUrlQueueItem ( string Url )
+    {
+
+      string NewUrl = Url;
+      
+      if( MacroscopePreferencesManager.GetIgnoreQueries() )
+      {
+        NewUrl = MacroscopeUrlUtils.StripQueryString( Url: NewUrl );
+      }
+
+      this.NamedQueue.ForgetNamedQueueItem(
+        Name: MacroscopeConstants.NamedQueueUrlList,
+        Item: NewUrl
+      );
+
+      return;
+      
     }
 
     /** -------------------------------------------------------------------- **/
@@ -877,9 +898,15 @@ namespace SEOMacroscope
       
       if( msDoc != null )
       {
+
         msDoc.SetIsDirty();
-        this.JobHistory.ResetHistoryItem( Url );
-        this.AddUrlQueueItem( Url );
+        
+        this.ForgetUrlQueueItem( Url: Url );
+        
+        this.JobHistory.ResetHistoryItem( Url: Url );
+
+        this.AddUrlQueueItem( Url: Url );
+
       }
       else
       {

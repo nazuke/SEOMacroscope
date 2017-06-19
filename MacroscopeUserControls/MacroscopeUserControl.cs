@@ -56,7 +56,7 @@ namespace SEOMacroscope
           TextToCopy += "\t" + lvItem.SubItems[ i ].Text;
         }
 
-        TextToCopy += "\n";
+        TextToCopy += Environment.NewLine;
 
       }
 
@@ -93,7 +93,7 @@ namespace SEOMacroscope
 
         }
 
-        TextToCopy += "\n";
+        TextToCopy += Environment.NewLine;
 
       }
 
