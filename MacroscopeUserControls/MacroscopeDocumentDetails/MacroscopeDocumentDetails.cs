@@ -295,8 +295,6 @@ namespace SEOMacroscope
       
       this.RenderListViewCustomFilters( JobMaster, msDoc );
 
-      
-      
       this.RenderDocumentPreview( JobMaster, msDoc );
 
     }

@@ -46,9 +46,6 @@ namespace SEOMacroscope
 
       XLWorkbook wb = new XLWorkbook ();
 
-      this.BuildWorksheetPageTitles( JobMaster, wb, "Page Titles" );
-      this.BuildWorksheetPageDescriptions( JobMaster, wb, "Page Descriptions" );
-      this.BuildWorksheetPageKeywords( JobMaster, wb, "Page Keywords" );
       this.BuildWorksheetPageHeadings( JobMaster, wb, "Page Headings" );
       this.BuildWorksheetPageText( JobMaster, wb, "Page Text" );
 

@@ -29,7 +29,7 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelPageContentsReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelPageMetadataReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/

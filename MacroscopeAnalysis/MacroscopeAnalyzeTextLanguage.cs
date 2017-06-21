@@ -63,7 +63,7 @@ namespace SEOMacroscope
         "zh-cn", // Chinese Simplified
         "zh-tw" // Chinese Traditional
       );
-
+     
     }
 
     /** -------------------------------------------------------------------- **/
@@ -108,7 +108,7 @@ namespace SEOMacroscope
             }
             catch( Exception ex )
             {
-              DebugMsg( string.Format( "AnalyzeLanguage: {0}", ex.Message ) );
+              DebugMsg( string.Format( "MacroscopeAnalyzeTextLanguage: {0}", ex.Message ) );
             }
             
           }
@@ -141,8 +141,6 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "AnalyzeLanguage: {0}", ex.Message ) );
       }
-
-      DebugMsg( string.Format( "LanguageDetected: {0}", LanguageDetected ) );
 
       return( LanguageDetected );
 

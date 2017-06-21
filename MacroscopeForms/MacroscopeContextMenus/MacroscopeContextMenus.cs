@@ -179,7 +179,7 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
 
-      this.CopyListViewRowsTextToClipboard( TargetListView );
+      this.CopyListViewRowsTextToClipboard( TargetListView: TargetListView );
 
     }
 
@@ -192,7 +192,7 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
 
-      this.CopyListViewValuesTextToClipboard( TargetListView );
+      this.CopyListViewValuesTextToClipboard( TargetListView: TargetListView );
 
     }
 
@@ -205,11 +205,19 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
       const string ColumnName = "URL";
-      int ColumnIndex = this.CopyColumnValues( TargetListView: TargetListView, ColumnName: ColumnName );
+      int ColumnIndex;
 
-      if( ColumnIndex > 1 )
+      ColumnIndex = this.FindColumnIndex(
+        TargetListView: TargetListView,
+        ColumnName: ColumnName
+      );
+
+      if( ColumnIndex > -1 )
       {
-        this.CopyColumnValuesToClipboard( TargetListView: TargetListView, ColumnIndex: ColumnIndex );
+        this.CopyColumnValuesToClipboard(
+          TargetListView: TargetListView,
+          ColumnIndex: ColumnIndex
+        );
       }
 
     }
@@ -223,11 +231,19 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
       const string ColumnName = "Source URL";
-      int ColumnIndex = this.CopyColumnValues( TargetListView: TargetListView, ColumnName: ColumnName );
+      int ColumnIndex;
 
-      if( ColumnIndex > 1 )
+      ColumnIndex = this.FindColumnIndex(
+        TargetListView: TargetListView,
+        ColumnName: ColumnName
+      );
+
+      if( ColumnIndex > -1 )
       {
-        this.CopyColumnValuesToClipboard( TargetListView: TargetListView, ColumnIndex: ColumnIndex );
+        this.CopyColumnValuesToClipboard(
+          TargetListView: TargetListView,
+          ColumnIndex: ColumnIndex
+        );
       }
 
     }
@@ -241,11 +257,19 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
       const string ColumnName = "Target URL";
-      int ColumnIndex = this.CopyColumnValues( TargetListView: TargetListView, ColumnName: ColumnName );
+      int ColumnIndex;
 
-      if( ColumnIndex > 1 )
+      ColumnIndex = this.FindColumnIndex( 
+        TargetListView: TargetListView, 
+        ColumnName: ColumnName
+      );
+
+      if( ColumnIndex > -1 )
       {
-        this.CopyColumnValuesToClipboard( TargetListView: TargetListView, ColumnIndex: ColumnIndex );
+        this.CopyColumnValuesToClipboard( 
+          TargetListView: TargetListView, 
+          ColumnIndex: ColumnIndex
+        );
       }
 
     }
@@ -259,11 +283,19 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
       const string ColumnName = "Raw Source URL";
-      int ColumnIndex = this.CopyColumnValues( TargetListView: TargetListView, ColumnName: ColumnName );
+      int ColumnIndex;
+      
+      ColumnIndex = this.FindColumnIndex( 
+        TargetListView: TargetListView, 
+        ColumnName: ColumnName 
+      );
 
-      if( ColumnIndex > 1 )
+      if( ColumnIndex > -1 )
       {
-        this.CopyColumnValuesToClipboard( TargetListView: TargetListView, ColumnIndex: ColumnIndex );
+        this.CopyColumnValuesToClipboard( 
+          TargetListView: TargetListView, 
+          ColumnIndex: ColumnIndex 
+        );
       }
 
     }
@@ -277,11 +309,19 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
       const string ColumnName = "Raw Target URL";
-      int ColumnIndex = this.CopyColumnValues( TargetListView: TargetListView, ColumnName: ColumnName );
+      int ColumnIndex;
+      
+      ColumnIndex = this.FindColumnIndex( 
+        TargetListView: TargetListView, 
+        ColumnName: ColumnName 
+      );
 
-      if( ColumnIndex > 1 )
+      if( ColumnIndex > -1 )
       {
-        this.CopyColumnValuesToClipboard( TargetListView: TargetListView, ColumnIndex: ColumnIndex );
+        this.CopyColumnValuesToClipboard( 
+          TargetListView: TargetListView, 
+          ColumnIndex: ColumnIndex 
+        );
       }
 
     }
@@ -295,11 +335,19 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
       const string ColumnName = "Link Text";
-      int ColumnIndex = this.CopyColumnValues( TargetListView: TargetListView, ColumnName: ColumnName );
+      int ColumnIndex;
 
-      if( ColumnIndex > 1 )
+      ColumnIndex = this.FindColumnIndex( 
+        TargetListView: TargetListView, 
+        ColumnName: ColumnName 
+      );
+
+      if( ColumnIndex > -1 )
       {
-        this.CopyColumnValuesToClipboard( TargetListView: TargetListView, ColumnIndex: ColumnIndex );
+        this.CopyColumnValuesToClipboard( 
+          TargetListView: TargetListView, 
+          ColumnIndex: ColumnIndex 
+        );
       }
 
     }
@@ -313,11 +361,19 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
       const string ColumnName = "Alt Text";
-      int ColumnIndex = this.CopyColumnValues( TargetListView: TargetListView, ColumnName: ColumnName );
+      int ColumnIndex;
 
-      if( ColumnIndex > 1 )
+      ColumnIndex = this.FindColumnIndex( 
+        TargetListView: TargetListView, 
+        ColumnName: ColumnName 
+      );
+
+      if( ColumnIndex > -1 )
       {
-        this.CopyColumnValuesToClipboard( TargetListView: TargetListView, ColumnIndex: ColumnIndex );
+        this.CopyColumnValuesToClipboard( 
+          TargetListView: TargetListView, 
+          ColumnIndex: ColumnIndex 
+        );
       }
 
     }
@@ -331,18 +387,26 @@ namespace SEOMacroscope
       ContextMenuStrip msOwner = tsMenuItem.Owner as ContextMenuStrip;
       ListView TargetListView = msOwner.SourceControl as ListView;
       const string ColumnName = "Title Text";
-      int ColumnIndex = this.CopyColumnValues( TargetListView: TargetListView, ColumnName: ColumnName );
+      int ColumnIndex;
 
-      if( ColumnIndex > 1 )
+      ColumnIndex = this.FindColumnIndex( 
+        TargetListView: TargetListView, 
+        ColumnName: ColumnName 
+      );
+
+      if( ColumnIndex > -1 )
       {
-        this.CopyColumnValuesToClipboard( TargetListView: TargetListView, ColumnIndex: ColumnIndex );
+        this.CopyColumnValuesToClipboard( 
+          TargetListView: TargetListView, 
+          ColumnIndex: ColumnIndex 
+        );
       }
 
     }
 
     /** -------------------------------------------------------------------- **/
 
-    private int CopyColumnValues ( ListView TargetListView, string ColumnName )
+    private int FindColumnIndex ( ListView TargetListView, string ColumnName )
     {
 
       int ColumnIndex = -1;
@@ -352,8 +416,10 @@ namespace SEOMacroscope
 
         for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
+
+          string ColumnKey = TargetListView.Columns[ i ].Text;
           
-          if( TargetListView.Columns[ i ].Text.Equals( ColumnName ) )
+          if( ColumnKey.Equals( ColumnName ) )
           {
             ColumnIndex = i;
             break;
@@ -382,7 +448,7 @@ namespace SEOMacroscope
 
       try
       {
-        this.CopyTextToClipboard( TextToCopy );
+        this.CopyTextToClipboard( Text: TextToCopy );
       }
       catch( Exception ex )
       {

@@ -25,44 +25,49 @@
 
 using System;
 using ClosedXML.Excel;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Net;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelPageContentsReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelDataExtractorReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageKeywords (
+    private void BuildWorksheetCssSelectors (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
-      string sWorksheetLabel
+      string WorksheetLabel
     )
     {
-      var ws = wb.Worksheets.Add( sWorksheetLabel );
+
+      var ws = wb.Worksheets.Add( WorksheetLabel );
 
       int iRow = 1;
       int iCol = 1;
       int iColMax = 1;
-
+      
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
+      MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
 
       {
 
-        ws.Cell( iRow, iCol ).Value = "URL";
+        ws.Cell( iRow, iCol ).Value = MacroscopeConstants.Url;
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Occurrences";
+        ws.Cell( iRow, iCol ).Value = MacroscopeConstants.StatusCode;
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Keywords";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Keywords Length";
+        ws.Cell( iRow, iCol ).Value = MacroscopeConstants.Status;
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Number of Keywords";
+        ws.Cell( iRow, iCol ).Value = "Regex_Label";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Extracted Value";
 
       }
 
@@ -74,42 +79,35 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        Boolean Proceed = false;
 
-        if( msDoc.GetIsExternal() )
+        if(
+          ( msDoc == null )
+          || ( msDoc.GetIsRedirect() )
+          || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
+          || ( !msDoc.GetIsInternal() )
+          || ( !msDoc.GetIsHtml() ) )
         {
           continue;
         }
-        
-        if( msDoc.GetIsRedirect() )
-        {
-          continue;
-        }
-            
-        if( msDoc.GetIsHtml() )
-        {
-          Proceed = true;
-        }
-        else
-        if( msDoc.GetIsPdf() )
-        {
-          Proceed = true;
-        }
 
-        if( Proceed )
+        string DocUrl = msDoc.GetUrl();
+        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+        string Status = msDoc.GetStatusCode().ToString();
+
+        foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedRegexes() )
         {
+
+          string RegexLabel = DataExtractedPair.Key;
+          string ExtractedValue = DataExtractedPair.Value;
+
+          if( 
+            string.IsNullOrEmpty( RegexLabel )
+            || string.IsNullOrEmpty( ExtractedValue ) )
+          {
+            continue;
+          }
 
           iCol = 1;
-
-          string Keywords = msDoc.GetKeywords();
-          int Occurrences = 0;
-          int KeywordsLength = msDoc.GetKeywordsLength();
-          int KeywordsNumber = msDoc.GetKeywordsCount();
-
-          if( KeywordsLength > 0 )
-          {
-            Occurrences = DocCollection.GetStatsKeywordsCount( msDoc );
-          }
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
@@ -124,24 +122,23 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
+          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Keywords ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Status ) );
 
           iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsLength.ToString() ) );
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( RegexLabel ) );
 
           iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsNumber.ToString() ) );
+        
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ExtractedValue ) );
 
           iRow++;
-          
         }
-
+       
       }
 
       {
@@ -149,6 +146,8 @@ namespace SEOMacroscope
         var excelTable = rangeData.CreateTable();
       }
 
+      return;
+      
     }
 
     /**************************************************************************/

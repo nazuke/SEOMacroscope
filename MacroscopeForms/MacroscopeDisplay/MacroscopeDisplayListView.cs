@@ -43,7 +43,10 @@ namespace SEOMacroscope
         
     /**************************************************************************/
 
-    protected MacroscopeDisplayListView ( MacroscopeMainForm MainForm, ListView TargetListView )
+    protected MacroscopeDisplayListView (
+      MacroscopeMainForm MainForm,
+      ListView TargetListView
+    )
     {
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
@@ -856,7 +859,11 @@ namespace SEOMacroscope
 
     /** Override Render One ***************************************************/
 
-    abstract protected void RenderListView ( List<ListViewItem> ListViewItems, MacroscopeDocument msDoc, string Url );
+    abstract protected void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    );
 
     /** Override Render URL Count *********************************************/
 

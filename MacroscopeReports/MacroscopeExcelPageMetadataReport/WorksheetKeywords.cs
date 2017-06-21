@@ -29,12 +29,12 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelPageContentsReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelPageMetadataReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageDescriptions (
+    private void BuildWorksheetPageKeywords (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string sWorksheetLabel
@@ -53,19 +53,16 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "URL";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Page Language";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Detected Language";
-        iCol++;
-
         ws.Cell( iRow, iCol ).Value = "Occurrences";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Description";
+        ws.Cell( iRow, iCol ).Value = "Keywords";
         iCol++;
         
-        ws.Cell( iRow, iCol ).Value = "Description Length";
+        ws.Cell( iRow, iCol ).Value = "Keywords Length";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Number of Keywords";
 
       }
 
@@ -101,18 +98,17 @@ namespace SEOMacroscope
 
         if( Proceed )
         {
-          
+
           iCol = 1;
 
-          string Description = msDoc.GetDescription();
-          string PageLanguage = msDoc.GetIsoLanguageCode();
-          string DetectedLanguage = msDoc.GetTitleLanguage();
+          string Keywords = msDoc.GetKeywords();
           int Occurrences = 0;
-          int DescriptionLength = msDoc.GetDescriptionLength();
+          int KeywordsLength = msDoc.GetKeywordsLength();
+          int KeywordsNumber = msDoc.GetKeywordsCount();
 
-          if( DescriptionLength > 0 )
+          if( KeywordsLength > 0 )
           {
-            Occurrences = DocCollection.GetStatsDescriptionCount( msDoc: msDoc );
+            Occurrences = DocCollection.GetStatsKeywordsCount( msDoc );
           }
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
@@ -125,74 +121,22 @@ namespace SEOMacroscope
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
           }
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( PageLanguage ) );
-
-          if( PageLanguage != DetectedLanguage )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DetectedLanguage ) );
-
-          if( PageLanguage != DetectedLanguage )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
 
           iCol++;
 
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
 
-          if( Occurrences > 1 )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Description ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Keywords ) );
 
-          if( DescriptionLength <= 0 )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-            ws.Cell( iRow, iCol ).Value = "MISSING";
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DescriptionLength.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsLength.ToString() ) );
 
-          if( DescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          if( DescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
+          iCol++;
+          
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsNumber.ToString() ) );
 
           iRow++;
           

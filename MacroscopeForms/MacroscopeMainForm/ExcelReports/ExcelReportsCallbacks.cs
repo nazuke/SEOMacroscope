@@ -224,6 +224,57 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
+    private void CallbackSavePageMetadataExcelReport ( object sender, EventArgs e )
+    {
+
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Page-Contents.xlsx";
+
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+
+        string Path = Dialog.FileName;
+        MacroscopeExcelPageMetadataReport msExcelReport = new MacroscopeExcelPageMetadataReport ();
+
+        try
+        {
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
+          {
+            Cursor.Current = Cursors.WaitCursor;
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+            Cursor.Current = Cursors.Default;
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Page Metadata Excel Report", ex.Message );       
+        }
+        catch( MacroscopeSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Page Metadata Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Page Metadata Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
+        }
+
+      }
+
+      Dialog.Dispose();
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     private void CallbackSavePageContentsExcelReport ( object sender, EventArgs e )
     {
 

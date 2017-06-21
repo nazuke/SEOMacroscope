@@ -48,27 +48,29 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDisplayDataExtractorRegexes ( MacroscopeMainForm MainForm, ListView TargetListView )
-      : base( MainForm, TargetListView )
+    public MacroscopeDisplayDataExtractorRegexes (
+      MacroscopeMainForm MainForm,
+      ListView TargetListView
+    )
+      : base(
+        MainForm: MainForm,
+        TargetListView: TargetListView
+      )
     {
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
       this.ItemCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelDataExtractorRegexesItems;
 
-      if( this.MainForm.InvokeRequired )
-      {
+      if( this.MainForm.InvokeRequired ) {
         this.MainForm.Invoke(
           new MethodInvoker (
-            delegate
-            {
+            delegate {
               this.ConfigureListView();
             }
           )
         );
-      }
-      else
-      {
+      } else {
         this.ConfigureListView();
       }
 
@@ -76,10 +78,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void ConfigureListView ()
+    protected override void ConfigureListView()
     {
-      if( !this.ListViewConfigured )
-      {
+      if( !this.ListViewConfigured ) {
         this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
         this.ListViewConfigured = true;
       }
@@ -87,7 +88,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void ResetColumns ()
+    public void ResetColumns()
     {
 
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
@@ -101,10 +102,8 @@ namespace SEOMacroscope
 
       this.DisplayListView.Columns.Add( key: "Regex_Label", text: "Regex Label" );
       this.DisplayListView.Columns.Add( key: "Regex_Extracted", text: "Extracted Value" );
-      //this.DisplayListView.Columns.Add( key: "DIGEST", text: "Digest" );
 			
-      for( int ColIndex = 0 ; ColIndex < this.DisplayListView.Columns.Count ; ColIndex++ )
-      {
+      for( int ColIndex = 0; ColIndex < this.DisplayListView.Columns.Count; ColIndex++ ) {
         this.DisplayListView.AutoResizeColumn( ColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
       }
 
@@ -112,7 +111,7 @@ namespace SEOMacroscope
 		
     /**************************************************************************/
 
-    public void RefreshData (
+    public void RefreshData(
       MacroscopeDocumentCollection DocCollection,
       List<string> UrlList,
       MacroscopeDataExtractorRegexes DataExtractor
@@ -120,12 +119,10 @@ namespace SEOMacroscope
     )
     {
 
-      if( this.MainForm.InvokeRequired )
-      {
+      if( this.MainForm.InvokeRequired ) {
         this.MainForm.Invoke(
           new MethodInvoker (
-            delegate
-            {
+            delegate {
               Cursor.Current = Cursors.WaitCursor;
               this.DisplayListView.BeginUpdate();
               this.RenderListView(
@@ -139,9 +136,7 @@ namespace SEOMacroscope
             }
           )
         );
-      }
-      else
-      {
+      } else {
         Cursor.Current = Cursors.WaitCursor;
         this.DisplayListView.BeginUpdate();
         this.RenderListView(
@@ -158,7 +153,7 @@ namespace SEOMacroscope
    
     /**************************************************************************/
 
-    private void RenderListView (
+    private void RenderListView(
       MacroscopeDocumentCollection DocCollection,
       List<string> UrlList,
       MacroscopeDataExtractorRegexes DataExtractor
@@ -167,8 +162,7 @@ namespace SEOMacroscope
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       
-      if( DocCollection.CountDocuments() == 0 )
-      {
+      if( DocCollection.CountDocuments() == 0 ) {
         return;
       }
             
@@ -179,8 +173,7 @@ namespace SEOMacroscope
       decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
       
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
-      {
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() ) {
 
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
@@ -191,8 +184,7 @@ namespace SEOMacroscope
 
       }
 
-      foreach( string Url in UrlList )
-      {
+      foreach( string Url in UrlList ) {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
 
@@ -201,8 +193,7 @@ namespace SEOMacroscope
           || ( msDoc.GetIsRedirect() )
           || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
           || ( !msDoc.GetIsInternal() )
-          || ( !msDoc.GetIsHtml() ) )
-        {
+          || ( !msDoc.GetIsHtml() ) ) {
           continue;
         }
 
@@ -210,8 +201,7 @@ namespace SEOMacroscope
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
 
-        foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedRegexes() )
-        {
+        foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedRegexes() ) {
 
           ListViewItem lvItem = null;
           string RegexLabel = DataExtractedPair.Key;
@@ -220,8 +210,7 @@ namespace SEOMacroscope
 
           if( 
             string.IsNullOrEmpty( RegexLabel )
-            || string.IsNullOrEmpty( ExtractedValue ) )
-          {
+            || string.IsNullOrEmpty( ExtractedValue ) ) {
             continue;
           }
 
@@ -232,33 +221,27 @@ namespace SEOMacroscope
             Macroscope.GetStringDigest( Text: ExtractedValue )
           );
 
-          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
-          {
+          if( this.DisplayListView.Items.ContainsKey( PairKey ) ) {
 
             lvItem = this.DisplayListView.Items[ PairKey ];
 
-          }
-          else
-          {
+          } else {
 
             lvItem = new ListViewItem ( PairKey );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
-            for( int i = 0 ; i < 5 ; i++ )
+            for( int i = 0; i < 5; i++ ) {
               lvItem.SubItems.Add( "" );
+            }
 
-            //lvItem.SubItems.Add( "" );
-            
             ListViewItems.Add( lvItem );
 
           }
 
-          if( lvItem != null )
-          {
+          if( lvItem != null ) {
 
-            try
-            {
+            try {
 
               lvItem.SubItems[ ColUrl ].Text = DocUrl;
               lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
@@ -267,55 +250,38 @@ namespace SEOMacroscope
               lvItem.SubItems[ ColExtractedValue ].Text = ExtractedValue;
               lvItem.SubItems[ ColExtractedValue + 1 ].Text = PairKey;
 
-            }
-            catch( Exception ex )
-            {
+            } catch( Exception ex ) {
               DebugMsg( string.Format( "MacroscopeDisplayDataExtractorRegexes: {0}", ex.Message ) );
               DebugMsg( string.Format( "MacroscopeDisplayDataExtractorRegexes: {0}", ex.StackTrace ) );
             }
 
-          }
-          else
-          {
+          } else {
             DebugMsg( string.Format( "MacroscopeDisplayDataExtractorRegexes MISSING: {0}", PairKey ) );
           }
 
-          if( msDoc.GetIsInternal() )
-          {
+          if( msDoc.GetIsInternal() ) {
             lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
-          }
-          else
-          {
+          } else {
             lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
           }          
 
-          if( Regex.IsMatch( StatusCode, "^[2]" ) )
-          {
+          if( Regex.IsMatch( StatusCode, "^[2]" ) ) {
             lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Green;
             lvItem.SubItems[ ColStatus ].ForeColor = Color.Green;
-          }
-          else
-          if( Regex.IsMatch( StatusCode, "^[3]" ) )
-          {
+          } else if( Regex.IsMatch( StatusCode, "^[3]" ) ) {
             lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Goldenrod;
             lvItem.SubItems[ ColStatus ].ForeColor = Color.Goldenrod;
-          }
-          else
-          if( Regex.IsMatch( StatusCode, "^[45]" ) )
-          {
+          } else if( Regex.IsMatch( StatusCode, "^[45]" ) ) {
             lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Red;
             lvItem.SubItems[ ColStatus ].ForeColor = Color.Red;
-          }
-          else
-          {
+          } else {
             lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Blue;
             lvItem.SubItems[ ColStatus ].ForeColor = Color.Blue;
           }
 
         }
 
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
-        {
+        if( MacroscopePreferencesManager.GetShowProgressDialogues() ) {
           
           Count++;
 
@@ -342,8 +308,7 @@ namespace SEOMacroscope
       this.DisplayListView.Columns[ ColStatusCode ].Width = 100;
       this.DisplayListView.Columns[ ColStatus ].Width = 100;
 
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
-      {
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() ) {
         ProgressForm.DoClose();
       }
       
@@ -353,13 +318,17 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( List<ListViewItem> ListViewItems, MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView(
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
     }
     
     /**************************************************************************/
 
-    protected override void RenderUrlCount ()
+    protected override void RenderUrlCount()
     {
       this.ItemCount.Text = string.Format( "Extracted Items: {0}", this.DisplayListView.Items.Count );
     }

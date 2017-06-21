@@ -64,6 +64,9 @@ namespace SEOMacroscope
     private string UrlRedirectFrom;
     private string UrlRedirectTo;
 
+    private string ServerName;
+    private List<IPAddress> ServerAddresses;
+
     private string BaseHref;
 
     private string Scheme;
@@ -246,6 +249,9 @@ namespace SEOMacroscope
       this.RawHttpStatusLine = "";
       this.RawHttpHeaders = "";
 
+      this.ServerName = "";
+      this.ServerAddresses = new List<IPAddress> ( 1 );
+
       this.BaseHref = "";
 
       this.Scheme = "";
@@ -414,7 +420,114 @@ namespace SEOMacroscope
       return( this.FetchStatus );
     }
 
-    /** Base HREF *************************************************************/   
+    /** Server Details ********************************************************/
+
+    public void SetServerName ( string NewServerName )
+    {
+      this.ServerName = NewServerName;
+    }
+
+    public string GetServerName ()
+    {
+      return( this.ServerName );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IPHostEntry SetServerAddresses ()
+    {
+
+      IPHostEntry HostEntry = null;
+
+      if( !string.IsNullOrEmpty( this.ServerName ) )
+      {
+
+        HostEntry = Dns.GetHostEntry( this.ServerName );
+
+        this.SetServerAddresses( HostEntry: HostEntry );
+
+      }
+
+      return( HostEntry );
+
+    }
+
+    public IPHostEntry SetServerAddresses ( IPHostEntry HostEntry )
+    {
+
+      lock( this.ServerAddresses )
+      {
+
+        foreach( IPAddress Address in HostEntry.AddressList )
+        {
+          this.ServerAddresses.Add( Address );
+        }
+
+      }
+
+      return( HostEntry );
+
+    }
+
+    public IEnumerable<IPAddress> IterateServerAddresses ()
+    {
+      lock( this.ServerAddresses )
+      {
+        foreach( IPAddress Address in this.ServerAddresses )
+        {
+          yield return Address;
+        }
+      }
+    }
+
+        
+    public List<IPAddress> GetServerAddresses ()
+    {
+
+      List<IPAddress> AddressList = new List<IPAddress> ( this.ServerAddresses.Count );
+
+      lock( this.ServerAddresses )
+      {
+
+        foreach( IPAddress Address in this.ServerAddresses )
+        {
+          AddressList.Add( Address );
+          
+        }
+
+      }
+
+      return( AddressList );
+
+    }
+
+    public string GetServerAddressesAsCsv ()
+    {
+
+      List<IPAddress> AddressList = new List<IPAddress> ( this.ServerAddresses.Count );
+      List<string> AddressesListCsv = new List<string> ( this.ServerAddresses.Count );
+      string AddressesCsv = "";
+
+      lock( this.ServerAddresses )
+      {
+
+        foreach( IPAddress Address in this.ServerAddresses )
+        {
+          AddressesListCsv.Add( Address.ToString() );
+        }
+
+      }
+
+      if( AddressesListCsv.Count > 0 )
+      {
+        AddressesCsv = string.Join( ", ", AddressesListCsv );
+      }
+
+      return( AddressesCsv );
+
+    }
+
+    /** Base HREF *************************************************************/
 
     public void UnsetBaseHref ()
     {
@@ -2361,6 +2474,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
     {
 
@@ -2482,6 +2597,11 @@ namespace SEOMacroscope
         }
 
         this.ContentLength = res.ContentLength;
+      }
+
+      // Server Information
+      {
+        this.ServerName = res.Server;
       }
 
       // Probe HTTP Headers
@@ -2746,6 +2866,7 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "ParseHttpDate: {0}", ex.Message ) );
         this.AddRemark( Observation: string.Format( "Bad HTTP Date in \"{0}\": \"{1}\"", HeaderField, DateString ) );
+        ParsedDate = DateTime.UtcNow;
       }
 
       return( ParsedDate );

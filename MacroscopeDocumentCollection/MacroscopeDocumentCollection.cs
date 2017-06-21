@@ -72,6 +72,8 @@ namespace SEOMacroscope
     private int StatsUrlsExternal;
     private int StatsUrlsSitemaps;
 
+    private Dictionary<string,IPHostEntry> DnsCache;
+
     private static object LockerDocCollection = new object ();
     private static object LockerRecalc = new object ();
     
@@ -134,6 +136,8 @@ namespace SEOMacroscope
       this.StatsUrlsExternal = 0;
       this.StatsUrlsSitemaps = 0;
 
+      this.DnsCache = new Dictionary<string,IPHostEntry> ( 16 );
+          
       this.StartRecalcTimer();
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
@@ -180,6 +184,8 @@ namespace SEOMacroscope
       this.StatsDeepKeywordAnalysis = null;
 
       //this.AnalyzeTextLanguage = null;
+
+      this.DnsCache = null;
       
       return;
 
@@ -219,21 +225,31 @@ namespace SEOMacroscope
     
     public MacroscopeDocument CreateDocument ( string Url )
     {
-      MacroscopeDocument msDoc = new MacroscopeDocument (
-                                   DocumentCollection: this,
-                                   Url: Url
-                                 );
+
+      MacroscopeDocument msDoc;
+
+      msDoc = new MacroscopeDocument (
+        DocumentCollection: this,
+        Url: Url
+      );
+
       return( msDoc );
+
     }
 
     public MacroscopeDocument CreateDocument ( MacroscopeCredential Credential, string Url )
     {
-      MacroscopeDocument msDoc = new MacroscopeDocument (
-                                   DocumentCollection: this,
-                                   Url: Url,
-                                   Credential: Credential
-                                 );
+
+      MacroscopeDocument msDoc;
+
+      msDoc = new MacroscopeDocument (
+        DocumentCollection: this,
+        Url: Url,
+        Credential: Credential
+      );
+      
       return( msDoc );
+
     }
 
     /** Document Stats ********************************************************/
@@ -674,6 +690,11 @@ namespace SEOMacroscope
                 }
             
                 this.AddDocumentToSearchIndex( msDoc );
+
+                if( MacroscopePreferencesManager.GetResolveAddresses() )
+                {
+                  this.DnsLookup( msDoc );
+                }
 
               }
 
@@ -1956,6 +1977,41 @@ namespace SEOMacroscope
       {
         this.SearchIndex.AddDocumentToIndex( msDoc );
       }
+      
+    }
+
+    /** DNS Lookup ************************************************************/
+
+    public void DnsLookup ( MacroscopeDocument msDoc )
+    {
+
+      IPHostEntry HostEntry = null;
+      string ServerName = msDoc.GetServerName();
+
+      if( this.DnsCache.ContainsKey( ServerName ) )
+      {
+
+        msDoc.SetServerAddresses( HostEntry: this.DnsCache[ ServerName ] );
+
+      }
+      else
+      {
+
+        HostEntry = msDoc.SetServerAddresses();
+
+        lock( this.DnsCache )
+        {
+          
+          if( !this.DnsCache.ContainsKey( ServerName ) )
+          {
+            this.DnsCache.Add( ServerName, HostEntry );
+          }
+
+        }
+
+      }
+
+      return;
       
     }
 

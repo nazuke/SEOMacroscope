@@ -43,22 +43,31 @@ namespace SEOMacroscope
 
     private void CallbackButtonHyperlinksShowAll ( object sender, EventArgs e )
     {
+
       this.msDisplayHyperlinks.ClearData();
+
       this.msDisplayHyperlinks.RefreshData(
-        this.JobMaster.GetDocCollection()
+        DocCollection: this.JobMaster.GetDocCollection()
       );
+
     }
 
     /**************************************************************************/
         
     private void CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp ( object sender, KeyEventArgs e )
     {
+
       ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+
       switch( e.KeyCode )
       {
+
         case Keys.Return:
+
           string UrlFragment = SearchTextBox.Text;
+
           DebugMsg( string.Format( "CallbackSearchTextBoxHyperlinksSearchSourceUrlKeyUp: {0}", UrlFragment ) );
+
           if( UrlFragment.Length > 0 )
           {
             SearchTextBox.Text = UrlFragment;
@@ -68,20 +77,29 @@ namespace SEOMacroscope
               UrlFragment: UrlFragment
             );
           }
+
           break;
+
       }
+
     }
 
     /**************************************************************************/
         
     private void CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp ( object sender, KeyEventArgs e )
     {
+
       ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+
       switch( e.KeyCode )
       {
+
         case Keys.Return:
+
           string UrlFragment = SearchTextBox.Text;
+
           DebugMsg( string.Format( "CallbackSearchTextBoxHyperlinksSearchTargetUrlKeyUp: {0}", UrlFragment ) );
+
           if( UrlFragment.Length > 0 )
           {
             SearchTextBox.Text = UrlFragment;
@@ -91,8 +109,11 @@ namespace SEOMacroscope
               UrlFragment: UrlFragment
             );
           }
+
           break;
+
       }
+
     }
 
     /**************************************************************************/

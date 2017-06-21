@@ -137,6 +137,8 @@ namespace SEOMacroscope
 
         /** Analysis Options ----------------------------------------------- **/
         
+        PrefsControl.checkBoxResolveAddresses.Checked = MacroscopePreferencesManager.GetResolveAddresses();
+
         PrefsControl.checkBoxCheckHreflangs.Checked = MacroscopePreferencesManager.GetCheckHreflangs();
         PrefsControl.checkBoxDetectLanguage.Checked = MacroscopePreferencesManager.GetDetectLanguage();
 
@@ -225,6 +227,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetFetchBinaries( PrefsControl.checkBoxFetchBinaries.Checked );
 
       /** Analysis Options ------------------------------------------------- **/
+
+      MacroscopePreferencesManager.SetResolveAddresses( PrefsControl.checkBoxResolveAddresses.Checked );
 
       MacroscopePreferencesManager.SetCheckHreflangs( PrefsControl.checkBoxCheckHreflangs.Checked );
       MacroscopePreferencesManager.SetDetectLanguage( Detect: PrefsControl.checkBoxDetectLanguage.Checked );

@@ -64,7 +64,7 @@ namespace SEOMacroscope
     static int RequestTimeout;
     static int MaxRetries;
     static int CrawlDelay;
-    
+
     static Boolean IgnoreQueries;
         
     static Boolean CheckExternalLinks;
@@ -93,6 +93,8 @@ namespace SEOMacroscope
 
     // Analysis Options
     
+    static Boolean ResolveAddresses;
+        
     static Boolean CheckHreflangs;
 
     static Boolean ProcessAudio;
@@ -180,6 +182,8 @@ namespace SEOMacroscope
           
           CheckExternalLinks = Preferences.CheckExternalLinks;
 
+          ResolveAddresses = Preferences.ResolveAddresses;
+            
           CheckHreflangs = Preferences.CheckHreflangs;
           ScanSitesInList = Preferences.ScanSitesInList;
           WarnAboutInsecureLinks = Preferences.WarnAboutInsecureLinks;
@@ -332,6 +336,7 @@ namespace SEOMacroscope
 
       // Analysis Options
 
+      ResolveAddresses = false;
       CheckHreflangs = true;
       ScanSitesInList = false;
       WarnAboutInsecureLinks = true;
@@ -449,6 +454,8 @@ namespace SEOMacroscope
                   
         Preferences.CheckExternalLinks = CheckExternalLinks;
 
+        Preferences.ResolveAddresses = ResolveAddresses;
+        
         Preferences.CheckHreflangs = CheckHreflangs;
         Preferences.ScanSitesInList = ScanSitesInList;
         Preferences.WarnAboutInsecureLinks = WarnAboutInsecureLinks;
@@ -722,6 +729,18 @@ namespace SEOMacroscope
     public static void SetCheckExternalLinks ( Boolean State )
     {
       CheckExternalLinks = State;
+    }
+
+    /**************************************************************************/
+
+    public static Boolean GetResolveAddresses ()
+    {
+      return( ResolveAddresses );
+    }
+
+    public static void SetResolveAddresses ( Boolean State )
+    {
+      ResolveAddresses = State;
     }
 
     /**************************************************************************/

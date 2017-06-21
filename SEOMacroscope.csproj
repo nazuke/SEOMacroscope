@@ -179,13 +179,20 @@
     <Compile Include="MacroscopeGenerators\t\TestMacroscopeSitemapGenerator.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelCustomFilterReport\MacroscopeExcelCustomFilterReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelCustomFilterReport\WorksheetCustomFilter.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelDataExtractorReport\WorksheetCssSelectors.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelDataExtractorReport\WorksheetXpaths.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDataExtractorReport\MacroscopeExcelDataExtractorReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDataExtractorReport\WorksheetRegularExpressions.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageMetadataReport\MacroscopeExcelPageMetadataReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageMetadataReport\WorksheetDescriptions.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageMetadataReport\WorksheetKeywords.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelPageMetadataReport\WorksheetTitles.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobHistory.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeCustomFilterPanel\MacroscopeCustomFilterPanel.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeCustomFilterPanel\MacroscopeCustomFilterPanel.Designer.cs">
       <DependentUpon>MacroscopeCustomFilterPanel.cs</DependentUpon>
     </Compile>
+    <None Include="MacroscopeCustomFilters\t\Custom Filter Test Patterns.txt" />
     <None Include="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -334,9 +341,6 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\WorksheetMissingLanguageSpecifier.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetHeadings.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\MacroscopeExcelPageContentsReport.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetDescriptions.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetKeywords.cs" />
-    <Compile Include="MacroscopeReports\MacroscopeExcelPageContentsReport\WorksheetTitles.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\WorksheetUriAnalysis.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelUriReport\MacroscopeExcelUriReport.cs" />
@@ -525,6 +529,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelErrorsReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelCustomFilterReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelDataExtractorReport" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelPageMetadataReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\MacroscopeXpathRestrictions" />

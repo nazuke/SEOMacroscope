@@ -30,43 +30,25 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelDataExtractorReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelPageMetadataReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    private MacroscopeDataExtractorCssSelectors DataExtractorCssSelectors;
-    private  MacroscopeDataExtractorRegexes DataExtractorRegexes;
-    private  MacroscopeDataExtractorXpaths DataExtractorXpaths;
-
-    /**************************************************************************/
-
-    public MacroscopeExcelDataExtractorReport (
-      MacroscopeDataExtractorCssSelectors NewDataExtractorCssSelectors,
-      MacroscopeDataExtractorRegexes NewDataExtractorRegexes,
-      MacroscopeDataExtractorXpaths NewDataExtractorXpaths
-    )
+    public MacroscopeExcelPageMetadataReport ()
     {
-
-      this.DataExtractorCssSelectors = NewDataExtractorCssSelectors;
-      this.DataExtractorRegexes = NewDataExtractorRegexes;
-      this.DataExtractorXpaths = NewDataExtractorXpaths;
-
     }
 
     /**************************************************************************/
 
-    public void WriteXslx (
-      MacroscopeJobMaster JobMaster,
-      string OutputFilename
-    )
+    public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
       XLWorkbook wb = new XLWorkbook ();
 
-      // TODO: this.BuildWorksheetCssSelectors( JobMaster, wb, "CSS Selectors" );     
-      this.BuildWorksheetRegularExpressions( JobMaster, wb, "Regular Expressions" );
-      // TODO: this.BuildWorksheetXpaths( JobMaster, wb, "XPaths" );
+      this.BuildWorksheetPageTitles( JobMaster, wb, "Page Titles" );
+      this.BuildWorksheetPageDescriptions( JobMaster, wb, "Page Descriptions" );
+      this.BuildWorksheetPageKeywords( JobMaster, wb, "Page Keywords" );
 
       try
       {
