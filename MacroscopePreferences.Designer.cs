@@ -194,6 +194,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool EnableMemoryGuard {
+			get {
+				return ((bool)(this["EnableMemoryGuard"]));
+			}
+			set {
+				this["EnableMemoryGuard"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FetchAudio {
 			get {
 				return ((bool)(this["FetchAudio"]));

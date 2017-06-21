@@ -32,11 +32,11 @@ namespace SEOMacroscope
   public partial class MacroscopeMainForm : Form, IMacroscopeTaskController
   {
 
-    /**************************************************************************/
+    /** Report Save Dialogue Boxes ********************************************/
 
     private const int ExcelReportMegabytesRamRequired = 64;
 
-    /** Report Save Dialogue Boxes ********************************************/
+    /**************************************************************************/
 
     private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
     {
@@ -233,7 +233,7 @@ namespace SEOMacroscope
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
-      Dialog.FileName = "Macroscope-Page-Contents.xlsx";
+      Dialog.FileName = "Macroscope-Page-Metadata.xlsx";
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {

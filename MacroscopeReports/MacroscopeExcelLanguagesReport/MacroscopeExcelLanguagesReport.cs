@@ -46,9 +46,11 @@ namespace SEOMacroscope
 
       XLWorkbook wb = new XLWorkbook ();
 
+      this.BuildWorksheetMissingLanguageSpecifier( JobMaster, wb, "Missing Language Specifier" );
+
       this.BuildWorksheetHrefLangMatrix( JobMaster, wb, "HrefLang Matrix" );
 
-      this.BuildWorksheetMissingLanguageSpecifier( JobMaster, wb, "Missing Language Specifier" );
+      this.BuildWorksheetHrefLangMatrixUnspecified( JobMaster, wb, "HrefLang Matrix Unspecified" );
 
       try
       {

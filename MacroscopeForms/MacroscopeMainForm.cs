@@ -771,7 +771,7 @@ namespace SEOMacroscope
     private void CallbackScanReset ( object sender, EventArgs e )
     {
 
-      if( this.JobMaster.WorkersStopped() )
+      if( this.JobMaster.AreWorkersStopped() )
       {
 
         this.ScanningControlsReset( true );
@@ -1932,7 +1932,7 @@ namespace SEOMacroscope
     private void RerunScanQueue ()
     {
 
-      if( this.JobMaster.WorkersStopped() )
+      if( this.JobMaster.AreWorkersStopped() )
       {
 
         this.ScanningControlsStart( true );

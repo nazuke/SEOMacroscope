@@ -44,18 +44,20 @@ namespace SEOMacroscope
     // Application Version
     //static string AppVersion;
     
-    // Display Options
+    /** Display Options ---------------------------------------------------- **/
+
     static Boolean PauseDisplayDuringScan;
     static Boolean ShowProgressDialogues;
     
-    // WebProxy Options
+    /** WebProxy Options --------------------------------------------------- **/
+
     static string HttpProxyHost;
     static int HttpProxyPort;
     //static string HttpProxyUsername;
     //static string HttpProxyPassword;
 
-    // Spidering Control
-    
+    /** Spidering Control -------------------------------------------------- **/
+
     static string StartUrl;
     static int MaxThreads;
     static int MaxFetchesPerWorker;
@@ -86,13 +88,13 @@ namespace SEOMacroscope
     static Boolean FetchXml;
     static Boolean FetchBinaries;
 
-    // Per-Job Spidering Options
+    /** Per-Job Spidering Options ------------------------------------------ **/
 
     static Boolean CrawlParentDirectories;
     static Boolean CrawlChildDirectories;
 
-    // Analysis Options
-    
+    /** Analysis Options --------------------------------------------------- **/
+
     static Boolean ResolveAddresses;
         
     static Boolean CheckHreflangs;
@@ -109,7 +111,7 @@ namespace SEOMacroscope
     static Boolean ScanSitesInList;
     static Boolean WarnAboutInsecureLinks;
 
-    // SEO Options
+    /** SEO Options -------------------------------------------------------- **/
 
     static int TitleMinLen;
     static int TitleMaxLen;
@@ -132,9 +134,13 @@ namespace SEOMacroscope
     
     static Boolean DetectLanguage;
 
-    // Export Options
-    
+    /** Export Options ----------------------------------------------------- **/
+
     static Boolean SitemapIncludeLinkedPdfs;
+
+    /** Advanced Settings -------------------------------------------------- **/
+
+    static Boolean EnableMemoryGuard;
 
     /**************************************************************************/
 
@@ -238,6 +244,8 @@ namespace SEOMacroscope
           
           SitemapIncludeLinkedPdfs = Preferences.SitemapIncludeLinkedPdfs;
           
+          EnableMemoryGuard = Preferences.EnableMemoryGuard;
+          
         }
 
       }
@@ -278,17 +286,17 @@ namespace SEOMacroscope
     public static void SetDefaultValues ()
     {
 
-      // Display Options
+      /** Display Options -------------------------------------------------- **/
       
       PauseDisplayDuringScan = false;
       ShowProgressDialogues = true;
                 
-      // WebProxy Options
+      /** WebProxy Options ------------------------------------------------- **/
 
       HttpProxyHost = "";
       HttpProxyPort = 0;
 
-      // Spidering Control
+      /** Spidering Control ------------------------------------------------ **/
 
       StartUrl = "";
       MaxThreads = 2;
@@ -329,12 +337,12 @@ namespace SEOMacroscope
       ProcessVideo = true;
       ProcessXml = true;
 
-      // Per-Job Spidering Options
+      /** Per-Job Spidering Options ---------------------------------------- **/
 
       CrawlParentDirectories = true;
       CrawlChildDirectories = true;
 
-      // Analysis Options
+      /** Analysis Options ------------------------------------------------- **/
 
       ResolveAddresses = false;
       CheckHreflangs = true;
@@ -347,8 +355,8 @@ namespace SEOMacroscope
       
       DetectLanguage = true;
       
-      // SEO Options
-
+      /** SEO Options ------------------------------------------------------ **/
+      
       TitleMinLen = 10;
       TitleMaxLen = 70;
       TitleMinWords = 3;
@@ -364,9 +372,13 @@ namespace SEOMacroscope
 
       AnalyzeKeywordsInText = false;
 
-      // Export Options
-      
+      /** Export Options --------------------------------------------------- **/
+            
       SitemapIncludeLinkedPdfs = false;
+      
+      /** Advanced Settings -------------------------------------------------- **/
+      
+      EnableMemoryGuard = true;
       
     }
 
@@ -512,6 +524,8 @@ namespace SEOMacroscope
         
         Preferences.SitemapIncludeLinkedPdfs = SitemapIncludeLinkedPdfs;
                   
+        Preferences.EnableMemoryGuard = EnableMemoryGuard;
+
         Preferences.Save();
 
       }
@@ -1232,6 +1246,18 @@ namespace SEOMacroscope
     public static void SetSitemapIncludeLinkedPdfs ( Boolean State )
     {
       SitemapIncludeLinkedPdfs = State;
+    }
+
+    /** Advanced Settings *****************************************************/
+
+    public static Boolean GetEnableMemoryGuard ()
+    {
+      return( EnableMemoryGuard );
+    }
+
+    public static void SetEnableMemoryGuard ( Boolean State )
+    {
+      EnableMemoryGuard = State;
     }
 
     /**************************************************************************/

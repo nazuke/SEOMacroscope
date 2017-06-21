@@ -179,6 +179,10 @@ namespace SEOMacroscope
         
         PrefsControl.checkBoxSitemapIncludeLinkedPdfs.Checked = MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs();
 
+        /** Advanced Settings ---------------------------------------------- **/
+        
+        PrefsControl.checkBoxEnableMemoryGuard.Checked = MacroscopePreferencesManager.GetEnableMemoryGuard();
+
       }
 
     }
@@ -270,6 +274,10 @@ namespace SEOMacroscope
               
       MacroscopePreferencesManager.SetSitemapIncludeLinkedPdfs( PrefsControl.checkBoxSitemapIncludeLinkedPdfs.Checked );
 
+      /** Advanced Settings ---------------------------------------------- **/
+
+      MacroscopePreferencesManager.SetEnableMemoryGuard( PrefsControl.checkBoxEnableMemoryGuard.Checked );
+        
       /** Tidy Up ---------------------------------------------------------- **/
       
       MacroscopePreferencesManager.SavePreferences();

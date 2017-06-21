@@ -134,6 +134,10 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxSitemapIncludeLinkedPdfs;
 		private System.Windows.Forms.GroupBox groupBox18;
 		public System.Windows.Forms.CheckBox checkBoxResolveAddresses;
+		private System.Windows.Forms.TabPage tabPageAdvancedSettings;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel7;
+		private System.Windows.Forms.GroupBox groupBox19;
+		public System.Windows.Forms.CheckBox checkBoxEnableMemoryGuard;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -195,6 +199,8 @@ namespace SEOMacroscope
 			this.checkBoxFetchStylesheets = new System.Windows.Forms.CheckBox();
 			this.tabPageAnalysisOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupBox18 = new System.Windows.Forms.GroupBox();
+			this.checkBoxResolveAddresses = new System.Windows.Forms.CheckBox();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.checkBoxDetectLanguage = new System.Windows.Forms.CheckBox();
 			this.checkBoxCheckHreflangs = new System.Windows.Forms.CheckBox();
@@ -258,8 +264,10 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
-			this.groupBox18 = new System.Windows.Forms.GroupBox();
-			this.checkBoxResolveAddresses = new System.Windows.Forms.CheckBox();
+			this.tabPageAdvancedSettings = new System.Windows.Forms.TabPage();
+			this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupBox19 = new System.Windows.Forms.GroupBox();
+			this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -278,6 +286,7 @@ namespace SEOMacroscope
 			this.groupBox1.SuspendLayout();
 			this.tabPageAnalysisOptions.SuspendLayout();
 			this.flowLayoutPanel3.SuspendLayout();
+			this.groupBox18.SuspendLayout();
 			this.groupBox6.SuspendLayout();
 			this.groupBox16.SuspendLayout();
 			this.groupBox11.SuspendLayout();
@@ -311,7 +320,9 @@ namespace SEOMacroscope
 			this.flowLayoutPanel4.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).BeginInit();
-			this.groupBox18.SuspendLayout();
+			this.tabPageAdvancedSettings.SuspendLayout();
+			this.flowLayoutPanel7.SuspendLayout();
+			this.groupBox19.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label9
@@ -338,6 +349,7 @@ namespace SEOMacroscope
 			this.tabControlPreferences.Controls.Add(this.tabPageDisplaySettings);
 			this.tabControlPreferences.Controls.Add(this.tabPageExportOptions);
 			this.tabControlPreferences.Controls.Add(this.tabPageNetworkSettings);
+			this.tabControlPreferences.Controls.Add(this.tabPageAdvancedSettings);
 			this.tabControlPreferences.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlPreferences.Location = new System.Drawing.Point(0, 0);
 			this.tabControlPreferences.Name = "tabControlPreferences";
@@ -810,6 +822,27 @@ namespace SEOMacroscope
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
 			this.flowLayoutPanel3.Size = new System.Drawing.Size(586, 755);
 			this.flowLayoutPanel3.TabIndex = 7;
+			// 
+			// groupBox18
+			// 
+			this.groupBox18.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox18.Controls.Add(this.checkBoxResolveAddresses);
+			this.groupBox18.Location = new System.Drawing.Point(10, 10);
+			this.groupBox18.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox18.Name = "groupBox18";
+			this.groupBox18.Size = new System.Drawing.Size(500, 60);
+			this.groupBox18.TabIndex = 1;
+			this.groupBox18.TabStop = false;
+			this.groupBox18.Text = "Web Server Options";
+			// 
+			// checkBoxResolveAddresses
+			// 
+			this.checkBoxResolveAddresses.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxResolveAddresses.Name = "checkBoxResolveAddresses";
+			this.checkBoxResolveAddresses.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxResolveAddresses.TabIndex = 1;
+			this.checkBoxResolveAddresses.Text = "Resolve server IP addresses";
+			this.checkBoxResolveAddresses.UseVisualStyleBackColor = true;
 			// 
 			// groupBox6
 			// 
@@ -1528,7 +1561,7 @@ namespace SEOMacroscope
 			this.checkBoxSitemapIncludeLinkedPdfs.Name = "checkBoxSitemapIncludeLinkedPdfs";
 			this.checkBoxSitemapIncludeLinkedPdfs.Size = new System.Drawing.Size(160, 24);
 			this.checkBoxSitemapIncludeLinkedPdfs.TabIndex = 1;
-			this.checkBoxSitemapIncludeLinkedPdfs.Text = "Include Linked PDFs";
+			this.checkBoxSitemapIncludeLinkedPdfs.Text = "Include linked PDFs";
 			this.checkBoxSitemapIncludeLinkedPdfs.UseVisualStyleBackColor = true;
 			// 
 			// tabPageNetworkSettings
@@ -1597,26 +1630,46 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
-			// groupBox18
+			// tabPageAdvancedSettings
 			// 
-			this.groupBox18.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox18.Controls.Add(this.checkBoxResolveAddresses);
-			this.groupBox18.Location = new System.Drawing.Point(10, 10);
-			this.groupBox18.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-			this.groupBox18.Name = "groupBox18";
-			this.groupBox18.Size = new System.Drawing.Size(500, 60);
-			this.groupBox18.TabIndex = 1;
-			this.groupBox18.TabStop = false;
-			this.groupBox18.Text = "Web Server Options";
+			this.tabPageAdvancedSettings.Controls.Add(this.flowLayoutPanel7);
+			this.tabPageAdvancedSettings.Location = new System.Drawing.Point(4, 22);
+			this.tabPageAdvancedSettings.Name = "tabPageAdvancedSettings";
+			this.tabPageAdvancedSettings.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageAdvancedSettings.Size = new System.Drawing.Size(592, 761);
+			this.tabPageAdvancedSettings.TabIndex = 6;
+			this.tabPageAdvancedSettings.Text = "Advanced Settings";
+			this.tabPageAdvancedSettings.UseVisualStyleBackColor = true;
 			// 
-			// checkBoxResolveAddresses
+			// flowLayoutPanel7
 			// 
-			this.checkBoxResolveAddresses.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxResolveAddresses.Name = "checkBoxResolveAddresses";
-			this.checkBoxResolveAddresses.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxResolveAddresses.TabIndex = 1;
-			this.checkBoxResolveAddresses.Text = "Resolve Server IP Addresses";
-			this.checkBoxResolveAddresses.UseVisualStyleBackColor = true;
+			this.flowLayoutPanel7.Controls.Add(this.groupBox19);
+			this.flowLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 3);
+			this.flowLayoutPanel7.Name = "flowLayoutPanel7";
+			this.flowLayoutPanel7.Size = new System.Drawing.Size(586, 755);
+			this.flowLayoutPanel7.TabIndex = 4;
+			// 
+			// groupBox19
+			// 
+			this.groupBox19.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox19.Controls.Add(this.checkBoxEnableMemoryGuard);
+			this.groupBox19.Location = new System.Drawing.Point(10, 10);
+			this.groupBox19.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox19.Name = "groupBox19";
+			this.groupBox19.Size = new System.Drawing.Size(500, 60);
+			this.groupBox19.TabIndex = 1;
+			this.groupBox19.TabStop = false;
+			this.groupBox19.Text = "RAM";
+			// 
+			// checkBoxEnableMemoryGuard
+			// 
+			this.checkBoxEnableMemoryGuard.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxEnableMemoryGuard.Name = "checkBoxEnableMemoryGuard";
+			this.checkBoxEnableMemoryGuard.Size = new System.Drawing.Size(160, 24);
+			this.checkBoxEnableMemoryGuard.TabIndex = 1;
+			this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
+			this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 
@@ -1643,6 +1696,7 @@ namespace SEOMacroscope
 			this.tabPageAnalysisOptions.ResumeLayout(false);
 			this.tabPageAnalysisOptions.PerformLayout();
 			this.flowLayoutPanel3.ResumeLayout(false);
+			this.groupBox18.ResumeLayout(false);
 			this.groupBox6.ResumeLayout(false);
 			this.groupBox16.ResumeLayout(false);
 			this.groupBox11.ResumeLayout(false);
@@ -1678,7 +1732,9 @@ namespace SEOMacroscope
 			this.groupBox8.ResumeLayout(false);
 			this.groupBox8.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).EndInit();
-			this.groupBox18.ResumeLayout(false);
+			this.tabPageAdvancedSettings.ResumeLayout(false);
+			this.flowLayoutPanel7.ResumeLayout(false);
+			this.groupBox19.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

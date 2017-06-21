@@ -178,42 +178,49 @@ namespace SEOMacroscope
     protected Boolean MemoryGate ( int RequiredMegabytes )
     {
 
-      MemoryFailPoint MemGate = null;
-
       GC.Collect();
-
-      try
+              
+      if( MacroscopePreferencesManager.GetEnableMemoryGuard() )
       {
 
-        DebugMsg( string.Format( "RequiredMegabytes: {0}", RequiredMegabytes ) );
+        MemoryFailPoint MemGate = null;
 
-        MemGate = new MemoryFailPoint ( RequiredMegabytes );
-
-      }
-      catch( InsufficientMemoryException ex )
-      {
-
-        if( ThrowInsufficientMemoryException )
+        try
         {
-        
-          throw new MacroscopeInsufficientMemoryException (
-            message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
-            innerException: ex
-          );
-          
+
+          DebugMsg( string.Format( "RequiredMegabytes: {0}", RequiredMegabytes ) );
+
+          MemGate = new MemoryFailPoint ( RequiredMegabytes );
+
         }
+        catch( InsufficientMemoryException ex )
+        {
+
+          if( ThrowInsufficientMemoryException )
+          {
         
-      }
+            throw new MacroscopeInsufficientMemoryException (
+              message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
+              innerException: ex
+            );
+          
+          }
+        
+        }
       
-      GC.Collect();
+        GC.Collect();
 
-      if( MemGate != null )
-      {
-        return( true );
-      }
+        if( MemGate != null )
+        {
+          return( true );
+        }
       
-      return( false );
+        return( false );
+      
+      }
 
+      return( true );
+      
     }
     
     /** -------------------------------------------------------------------- **/
@@ -221,41 +228,48 @@ namespace SEOMacroscope
     public static Boolean MemoryGuard ( int RequiredMegabytes )
     {
 
-      MemoryFailPoint MemGate = null;
-
       GC.Collect();
-            
-      try
+              
+      if( MacroscopePreferencesManager.GetEnableMemoryGuard() )
       {
 
-        DebugMsg( string.Format( "RequiredMegabytes: {0}", RequiredMegabytes ), true );
+        MemoryFailPoint MemGate = null;
 
-        MemGate = new MemoryFailPoint ( RequiredMegabytes );
-
-      }
-      catch( InsufficientMemoryException ex )
-      {
-
-        if( ThrowInsufficientMemoryException )
+        try
         {
 
-          throw new MacroscopeInsufficientMemoryException (
-            message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
-            innerException: ex
-          );
-                  
+          DebugMsg( string.Format( "RequiredMegabytes: {0}", RequiredMegabytes ), true );
+
+          MemGate = new MemoryFailPoint ( RequiredMegabytes );
+
         }
+        catch( InsufficientMemoryException ex )
+        {
+
+          if( ThrowInsufficientMemoryException )
+          {
+
+            throw new MacroscopeInsufficientMemoryException (
+              message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
+              innerException: ex
+            );
+                  
+          }
         
+        }
+      
+        GC.Collect();
+
+        if( MemGate != null )
+        {
+          return( true );
+        }
+            
+        return( false );
+      
       }
       
-      GC.Collect();
-
-      if( MemGate != null )
-      {
-        return( true );
-      }
-            
-      return( false );
+      return( true );
 
     }
 

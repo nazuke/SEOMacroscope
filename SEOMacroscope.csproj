@@ -183,6 +183,7 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelDataExtractorReport\WorksheetXpaths.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDataExtractorReport\MacroscopeExcelDataExtractorReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDataExtractorReport\WorksheetRegularExpressions.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelLanguagesReport\WorksheetHrefLangMatrixUnspecified.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageMetadataReport\MacroscopeExcelPageMetadataReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageMetadataReport\WorksheetDescriptions.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelPageMetadataReport\WorksheetKeywords.cs" />

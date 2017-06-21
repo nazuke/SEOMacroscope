@@ -157,6 +157,7 @@ namespace SEOMacroscope
       {
         try
         {
+          // TODO: bug here when opening URL with query string
           Process.Start( OpenUrl.ToString() );
         }
         catch( Exception ex )
@@ -166,9 +167,6 @@ namespace SEOMacroscope
       }
 
     }
-
-
-
 
     /** COPY ROWS AND VALUES **************************************************/
     

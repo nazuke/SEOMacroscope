@@ -556,7 +556,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean WorkersStopped ()
+    public Boolean AreWorkersStopped ()
     {
 
       Boolean IsStopped = false;
@@ -565,8 +565,6 @@ namespace SEOMacroscope
       {
         IsStopped = true;
       }
-
-      //this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 
       this.GetDocCollection().RecalculateDocCollection();
 

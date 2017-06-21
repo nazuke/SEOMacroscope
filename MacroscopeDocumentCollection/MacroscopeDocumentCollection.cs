@@ -631,11 +631,11 @@ namespace SEOMacroscope
             foreach( string UrlTarget in this.DocCollection.Keys )
             {
 
-              MacroscopeDocument msDoc = this.GetDocument( UrlTarget );
+              MacroscopeDocument msDoc = this.GetDocument( Url: UrlTarget );
 
               try
               {
-                this.RecalculateInlinks( msDoc );
+                this.RecalculateInlinks( msDoc: msDoc );
               }
               catch( Exception ex )
               {
@@ -644,7 +644,7 @@ namespace SEOMacroscope
          
               try
               {
-                this.RecalculateHyperlinksIn( msDoc );
+                this.RecalculateHyperlinksIn( msDoc: msDoc );
               }
               catch( Exception ex )
               {
@@ -664,36 +664,36 @@ namespace SEOMacroscope
 
                 this.StatsHistory.Add( UrlTarget, true );
 
-                this.RecalculateStatsHostnames( msDoc );
+                this.RecalculateStatsHostnames( msDoc: msDoc );
 
-                this.RecalculateStatsTitles( msDoc );
+                this.RecalculateStatsTitles( msDoc: msDoc );
 
-                this.RecalculateStatsDescriptions( msDoc );
+                this.RecalculateStatsDescriptions( msDoc: msDoc );
 
-                this.RecalculateStatsKeywords( msDoc );
+                this.RecalculateStatsKeywords( msDoc: msDoc );
 
-                this.RecalculateStatsHeadings( msDoc );
+                this.RecalculateStatsHeadings( msDoc: msDoc );
 
-                this.RecalculateStatsWarnings( msDoc );
+                this.RecalculateStatsWarnings( msDoc: msDoc );
 
-                this.RecalculateStatsErrors( msDoc );
+                this.RecalculateStatsErrors( msDoc: msDoc );
 
-                this.RecalculateStatsChecksums( msDoc );
+                this.RecalculateStatsChecksums( msDoc: msDoc );
 
-                this.RecalculateStatsLanguages( msDoc );
+                this.RecalculateStatsLanguages( msDoc: msDoc );
                 
-                this.RecalculateStatsDurations( msDoc );
+                this.RecalculateStatsDurations( msDoc: msDoc );
             
                 if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
                 {
-                  this.RecalculateStatsDeepKeywordAnalysis( msDoc );
+                  this.RecalculateStatsDeepKeywordAnalysis( msDoc: msDoc );
                 }
             
-                this.AddDocumentToSearchIndex( msDoc );
+                this.AddDocumentToSearchIndex( msDoc: msDoc );
 
                 if( MacroscopePreferencesManager.GetResolveAddresses() )
                 {
-                  this.DnsLookup( msDoc );
+                  this.DnsLookup( msDoc: msDoc );
                 }
 
               }
@@ -713,7 +713,7 @@ namespace SEOMacroscope
               }
 
               Thread.Yield();
-            
+
             }
 
           }

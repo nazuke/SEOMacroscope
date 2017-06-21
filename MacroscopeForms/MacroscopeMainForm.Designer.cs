@@ -108,6 +108,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
 		private System.Windows.Forms.ToolStripMenuItem dataExstractorsExcelReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem pageMetadataExcelReportToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -208,6 +209,7 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
+			this.pageMetadataExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -464,8 +466,9 @@ namespace SEOMacroscope
 			this.errorsExcelReportToolStripMenuItem,
 			this.remarksExcelReportToolStripMenuItem,
 			this.toolStripSeparator14,
-			this.generateHrefLangExcelReportToolStripMenuItem,
+			this.pageMetadataExcelReportToolStripMenuItem,
 			this.generatePageContentsExcelReportToolStripMenuItem,
+			this.generateHrefLangExcelReportToolStripMenuItem,
 			this.duplicateContentExcelReportToolStripMenuItem,
 			this.keywordAnalysisExcelReportToolStripMenuItem,
 			this.toolStripSeparator13,
@@ -887,6 +890,13 @@ namespace SEOMacroscope
 			this.macroscopeSiteStructurePanelInstance.Name = "macroscopeSiteStructurePanelInstance";
 			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
+			// 
+			// pageMetadataExcelReportToolStripMenuItem
+			// 
+			this.pageMetadataExcelReportToolStripMenuItem.Name = "pageMetadataExcelReportToolStripMenuItem";
+			this.pageMetadataExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.pageMetadataExcelReportToolStripMenuItem.Text = "Page Metadata Excel Report";
+			this.pageMetadataExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSavePageMetadataExcelReport);
 			// 
 			// MacroscopeMainForm
 			// 

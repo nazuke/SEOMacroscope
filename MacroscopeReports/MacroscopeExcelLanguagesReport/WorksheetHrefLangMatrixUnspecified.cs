@@ -35,7 +35,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void BuildWorksheetHrefLangMatrix (
+    private void BuildWorksheetHrefLangMatrixUnspecified (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string WorksheetLabel
@@ -89,77 +89,100 @@ namespace SEOMacroscope
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Key );
         Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
+        Boolean Proceed = false;
 
-        string SiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
-        string Title = this.FormatIfMissing( msDoc.GetTitle() );
-        string LocaleCol = msDoc.GetLocale();
-
-        iCol = 1;
-
-        this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-        iCol++;
-
-        this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = SiteLocale;
-        if( SiteLocale == "MISSING" )
-        {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-        }
-        iCol++;
-          
-        ws.Cell( iRow, iCol ).Value = Title;
-        if( Title == "MISSING" )
-        {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-        }
-        iCol++;
-          
-        if( LocaleCol != null )
-        {
-          ws.Cell( iRow, LocaleCols[ LocaleCol ] ).Value = msDoc.GetUrl();
-        }
-        else
-        {
-          ;
-        }
-            
         foreach( string LocaleKey in LocalesTable.Keys )
         {
-            
           if( !string.IsNullOrEmpty( LocaleKey ) )
           {
-            
-            if( HrefLangsTable.ContainsKey( LocaleKey ) )
+            if( !HrefLangsTable.ContainsKey( LocaleKey ) )
             {
+              Proceed = true;
+            }
+          }
+        }
 
-              MacroscopeHrefLang msHrefLang = HrefLangsTable[ LocaleKey ];
-              string Value = msHrefLang.GetUrl();
+        if( Proceed )
+        {
 
-              ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Value = Value;
+          if( !string.IsNullOrEmpty( msDoc.GetLocale() ) )
+          {
+            continue;
+          }
 
-              if( JobMaster.GetAllowedHosts().IsInternalUrl( Value ) )
+          string SiteLocale = this.FormatIfMissing( msDoc.GetLocale() );
+          string Title = this.FormatIfMissing( msDoc.GetTitle() );
+          string LocaleCol = msDoc.GetLocale();
+
+          iCol = 1;
+
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+          iCol++;
+
+          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
+          iCol++;
+
+          ws.Cell( iRow, iCol ).Value = SiteLocale;
+          if( SiteLocale == "MISSING" )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+          iCol++;
+          
+          ws.Cell( iRow, iCol ).Value = Title;
+          if( Title == "MISSING" )
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+          }
+          iCol++;
+          
+          if( LocaleCol != null )
+          {
+            ws.Cell( iRow, LocaleCols[ LocaleCol ] ).Value = msDoc.GetUrl();
+          }
+          else
+          {
+            ;
+          }
+            
+          foreach( string LocaleKey in LocalesTable.Keys )
+          {
+            
+            if( !string.IsNullOrEmpty( LocaleKey ) )
+            {
+            
+              if( HrefLangsTable.ContainsKey( LocaleKey ) )
               {
-                ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Green );
+
+                MacroscopeHrefLang msHrefLang = HrefLangsTable[ LocaleKey ];
+                string Value = msHrefLang.GetUrl();
+
+                ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Value = Value;
+
+                if( JobMaster.GetAllowedHosts().IsInternalUrl( Value ) )
+                {
+                  ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Green );
+                }
+                else
+                {
+                  ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Blue );
+                }
+
               }
               else
               {
-                ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Blue );
+                ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Red );
+                ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Value = "NOT SPECIFIED";
               }
-
-            }
-            else
-            {
-              ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Red );
-              ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Value = "NOT SPECIFIED";
-            }
               
-          }
+            }
             
-        }
+          }
 
-        iRow++;
+          iRow++;
+        
+        
+        }
 
       }
 
