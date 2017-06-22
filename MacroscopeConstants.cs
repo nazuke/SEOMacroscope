@@ -326,6 +326,16 @@ namespace SEOMacroscope
 
     /** END: Data Extractors **************************************************/
 
+    /** BEGIN: Specifiers *****************************************************/
+
+    public enum Specifiers
+    {
+      UNSPECIFIED = 0,
+      SPECIFIED = 1
+    }
+
+    /** END: Specifiers *******************************************************/
+
   }
 
 }
