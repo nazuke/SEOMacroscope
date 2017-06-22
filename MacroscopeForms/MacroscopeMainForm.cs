@@ -2282,11 +2282,11 @@ namespace SEOMacroscope
 
       // TODO: Implement CSS Selectors form
             
-      MacroscopeDataExtractorRegexesForm DataExtractorsForm;
+      MacroscopeDataExtractorCssSelectorsForm DataExtractorsForm;
       DialogResult DataExtractorsResult;
       
-      DataExtractorsForm = new MacroscopeDataExtractorRegexesForm (
-        NewDataExtractor: this.DataExtractorRegexes
+      DataExtractorsForm = new MacroscopeDataExtractorCssSelectorsForm (
+        NewDataExtractor: this.DataExtractorCssSelectors
       );
 
       DataExtractorsResult = DataExtractorsForm.ShowDialog();
@@ -2294,9 +2294,11 @@ namespace SEOMacroscope
       if( DataExtractorsResult == DialogResult.OK )
       {
 
-        this.DataExtractorRegexes = DataExtractorsForm.GetDataExtractor();
+        this.DataExtractorCssSelectors = DataExtractorsForm.GetDataExtractor();
 
-        this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
+        this.JobMaster.SetDataExtractorCssSelectors(
+          NewDataExtractor: this.DataExtractorCssSelectors
+        );
         
         this.msDisplayDisplayDataExtractorCssSelectors.ResetColumns();
 
@@ -2325,9 +2327,11 @@ namespace SEOMacroscope
 
         this.DataExtractorRegexes = DataExtractorsForm.GetDataExtractor();
 
-        this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
+        this.JobMaster.SetDataExtractorRegexes( 
+          NewDataExtractor: this.DataExtractorRegexes 
+        );
         
-        this.msDisplayDisplayDataExtractorRegexes.ResetColumns();
+        this.msDisplayDisplayDataExtractorCssSelectors.ResetColumns();
 
       }
 
@@ -2342,11 +2346,11 @@ namespace SEOMacroscope
 
       // TODO: Implement XPaths form
       
-      MacroscopeDataExtractorRegexesForm DataExtractorsForm;
+      MacroscopeDataExtractorXpathsForm DataExtractorsForm;
       DialogResult DataExtractorsResult;
       
-      DataExtractorsForm = new MacroscopeDataExtractorRegexesForm (
-        NewDataExtractor: this.DataExtractorRegexes
+      DataExtractorsForm = new MacroscopeDataExtractorXpathsForm (
+        NewDataExtractor: this.DataExtractorXpaths
       );
 
       DataExtractorsResult = DataExtractorsForm.ShowDialog();
@@ -2354,9 +2358,11 @@ namespace SEOMacroscope
       if( DataExtractorsResult == DialogResult.OK )
       {
 
-        this.DataExtractorRegexes = DataExtractorsForm.GetDataExtractor();
+        this.DataExtractorXpaths = DataExtractorsForm.GetDataExtractor();
 
-        this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
+        this.JobMaster.SetDataExtractorXpaths( 
+          NewDataExtractor: this.DataExtractorXpaths 
+        );
         
         this.msDisplayDisplayDataExtractorXpaths.ResetColumns();
 

@@ -34,30 +34,30 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeDataExtractorRegexesPanel.
+  /// Description of MacroscopeDataExtractorXpathPanel.
   /// </summary>
 
-  public partial class MacroscopeDataExtractorRegexesPanel : UserControl
+  public partial class MacroscopeDataExtractorXpathPanel : UserControl
   {
 
     /**************************************************************************/
 
-    MacroscopeDataExtractorRegexes DataExtractor;
+    MacroscopeDataExtractorXpaths DataExtractor;
 
     List<TextBox> TextBoxLabels;
     List<ComboBox> StateComboBoxes;
-    List<TextBox> TextBoxExpressions;
+    List<TextBox> TextBoxRegexes;
 
     /**************************************************************************/
 	      
-    public MacroscopeDataExtractorRegexesPanel ()
+    public MacroscopeDataExtractorXpathPanel ()
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
       this.TextBoxLabels = new List<TextBox> ();
       this.StateComboBoxes = new List<ComboBox> ();
-      this.TextBoxExpressions = new List<TextBox> ();
+      this.TextBoxRegexes = new List<TextBox> ();
 
       this.tableLayoutPanelContainer.Dock = DockStyle.Fill;
       this.tableLayoutPanelRegexGrid.Dock = DockStyle.Fill;
@@ -66,7 +66,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void ConfigureDataExtractorForm ( MacroscopeDataExtractorRegexes NewDataExtractor )
+    public void ConfigureDataExtractorForm ( MacroscopeDataExtractorXpaths NewDataExtractor )
     {
 
       this.DataExtractor = NewDataExtractor;
@@ -79,11 +79,12 @@ namespace SEOMacroscope
 
       {
         
-        List<string> ColumnLabels = new List<string> ( 4 ) {
+        List<string> ColumnLabels = new List<string> ( 5 ) {
           "",
           "Active/Inactive",
           "Extractor Label",
-          "Regular Expression Pattern"
+          "XPath Expression",
+          "Extract To"
         };
         
         for( int i = 0 ; i < ColumnLabels.Count ; i++ )
@@ -104,7 +105,7 @@ namespace SEOMacroscope
         Label TextLabel = new Label ();
         ComboBox StateComboBox = new ComboBox ();
         TextBox TextBoxLabel = new TextBox ();
-        TextBox TextBoxExpression = new TextBox ();
+        TextBox TextBoxRegex = new TextBox ();
 
         TextLabel.Text = string.Format( "Regex {0}", Slot + 1 );
         TextLabel.TextAlign = ContentAlignment.MiddleRight;
@@ -123,19 +124,19 @@ namespace SEOMacroscope
         TextBoxLabel.Dock = DockStyle.Fill;
         TextBoxLabel.Margin = new Padding ( 5, 5, 5, 5 );
 
-        TextBoxExpression.Name = string.Format( "TextBoxExpression{0}", Slot + 1 );
-        TextBoxExpression.KeyUp += this.CallbackTextBoxKeyUp;
-        TextBoxExpression.Dock = DockStyle.Fill;
-        TextBoxExpression.Margin = new Padding ( 5, 5, 5, 5 );
+        TextBoxRegex.Name = string.Format( "TextBoxRegex{0}", Slot + 1 );
+        TextBoxRegex.KeyUp += this.CallbackTextBoxKeyUp;
+        TextBoxRegex.Dock = DockStyle.Fill;
+        TextBoxRegex.Margin = new Padding ( 5, 5, 5, 5 );
         
         Table.Controls.Add( TextLabel );
         Table.Controls.Add( StateComboBox );  
         Table.Controls.Add( TextBoxLabel );
-        Table.Controls.Add( TextBoxExpression );
+        Table.Controls.Add( TextBoxRegex );
 
         this.TextBoxLabels.Add( TextBoxLabel );
         this.StateComboBoxes.Add( StateComboBox );
-        this.TextBoxExpressions.Add( TextBoxExpression );
+        this.TextBoxRegexes.Add( TextBoxRegex );
 
       }
 
@@ -174,7 +175,7 @@ namespace SEOMacroscope
 
         ComboBox StateComboBox;
         TextBox TextBoxLabel;
-        TextBox TextBoxExpression;
+        TextBox TextBoxRegex;
 
         StateComboBox = this.Controls.Find(
           string.Format( "StateComboBox{0}", Slot + 1 ),
@@ -186,8 +187,8 @@ namespace SEOMacroscope
           true
         ).FirstOrDefault() as TextBox;
           
-        TextBoxExpression = this.Controls.Find(
-          string.Format( "TextBoxExpression{0}", Slot + 1 ),
+        TextBoxRegex = this.Controls.Find(
+          string.Format( "TextBoxRegex{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
 
@@ -211,11 +212,11 @@ namespace SEOMacroscope
 
           TextBoxLabel.Text = this.DataExtractor.GetLabel( Slot: Slot );
 
-          TextBoxExpression.Text = this.DataExtractor.GetRegex( Slot: Slot ).ToString();
+          TextBoxRegex.Text = this.DataExtractor.GetRegex( Slot: Slot ).ToString();
 
           if(
             string.IsNullOrEmpty( TextBoxLabel.Text )
-            || string.IsNullOrEmpty( TextBoxExpression.Text ) )
+            || string.IsNullOrEmpty( TextBoxRegex.Text ) )
           {
             StateComboBox.SelectedIndex = 0;
           }
@@ -226,7 +227,7 @@ namespace SEOMacroscope
         
           StateComboBox.SelectedIndex = 0;
           TextBoxLabel.Text = "";
-          TextBoxExpression.Text = "";
+          TextBoxRegex.Text = "";
 
         }
 
@@ -238,7 +239,7 @@ namespace SEOMacroscope
    
     /**************************************************************************/
 
-    public MacroscopeDataExtractorRegexes GetDataExtractor ()
+    public MacroscopeDataExtractorXpaths GetDataExtractor ()
     {
 
       int Max = this.DataExtractor.GetSize();
@@ -248,7 +249,7 @@ namespace SEOMacroscope
 
         ComboBox StateComboBox;
         TextBox TextBoxLabel;
-        TextBox TextBoxExpression;
+        TextBox TextBoxRegex;
 
         StateComboBox = this.Controls.Find(
           string.Format( "StateComboBox{0}", Slot + 1 ),
@@ -260,8 +261,8 @@ namespace SEOMacroscope
           true
         ).FirstOrDefault() as TextBox;
           
-        TextBoxExpression = this.Controls.Find(
-          string.Format( "TextBoxExpression{0}", Slot + 1 ),
+        TextBoxRegex = this.Controls.Find(
+          string.Format( "TextBoxRegex{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
 
@@ -286,7 +287,7 @@ namespace SEOMacroscope
 
         if(
           string.IsNullOrEmpty( TextBoxLabel.Text )
-          || string.IsNullOrEmpty( TextBoxExpression.Text ) )
+          || string.IsNullOrEmpty( TextBoxRegex.Text ) )
         {
           this.DataExtractor.SetActiveInactive(
             Slot: Slot,
@@ -294,10 +295,10 @@ namespace SEOMacroscope
           );
         }
 
-        this.DataExtractor.SetRegex(
+        this.DataExtractor.SetPattern(
           Slot: Slot,
           RegexLabel: TextBoxLabel.Text,
-          RegexString: TextBoxExpression.Text
+          RegexString: TextBoxRegex.Text
         );
 
       }
@@ -348,7 +349,7 @@ namespace SEOMacroscope
         ).FirstOrDefault() as TextBox;
           
         TextBoxExpression = this.Controls.Find(
-          string.Format( "TextBoxExpression{0}", Slot + 1 ),
+          string.Format( "TextBoxRegex{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
 
@@ -359,7 +360,7 @@ namespace SEOMacroscope
       }
 
     }
-
+  
     /**************************************************************************/
     
   }

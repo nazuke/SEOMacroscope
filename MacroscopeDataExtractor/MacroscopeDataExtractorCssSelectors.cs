@@ -26,8 +26,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml.XPath;
+using ExCSS;
+
+
 
 namespace SEOMacroscope
 {
@@ -46,10 +47,14 @@ namespace SEOMacroscope
     private int Max;
     
 
+    private List<MacroscopeConstants.ActiveInactive> ExtractActiveInactive;
+        
+        
+        
+        
     
-    
-    //private List<KeyValuePair<string, Regex>> ExtractRegexes;
-    //private List<KeyValuePair<string, XPathExpression>> ExtractXpaths;
+
+    private List<KeyValuePair<string, string>> ExtractCssSelectors;
     
     
     
@@ -75,12 +80,24 @@ namespace SEOMacroscope
       
 
 
+      this.ExtractActiveInactive = new List<MacroscopeConstants.ActiveInactive> ( this.Max );
+
+      this.ExtractCssSelectors = new List<KeyValuePair<string, string>> ( this.Max );
+
       for( int Slot = 0 ; Slot < this.Max ; Slot++ )
       {
-
-
+        
+        this.ExtractActiveInactive.Add( MacroscopeConstants.ActiveInactive.INACTIVE );
+        
+        this.ExtractCssSelectors.Add(
+          new KeyValuePair<string, string> (
+            string.Format( "ExtractCssSelectors {0}", Slot + 1 ),
+            null
+          )
+        );
 
       }
+      
 
     }
 
@@ -112,7 +129,19 @@ namespace SEOMacroscope
 
 
     
+    /**************************************************************************/
+
+    public void SetActiveInactive ( int Slot, MacroscopeConstants.ActiveInactive State )
+    {
+      this.ExtractActiveInactive[ Slot ] = State;
+    }
     
+    public MacroscopeConstants.ActiveInactive GetActiveInactive ( int Slot )
+    {
+      return( this.ExtractActiveInactive[ Slot ] );
+    }
+
+    /**************************************************************************/
     
 
     /**************************************************************************/
@@ -126,6 +155,26 @@ namespace SEOMacroscope
 
     }
 
+    
+    
+    
+    
+    
+    
+    /**************************************************************************/
+    
+    
+    
+    public string GetLabel ( int Slot )
+    {
+
+      return( this.ExtractCssSelectors[ Slot ].Key );
+
+    }
+    
+    
+    
+    
     /**************************************************************************/
 
     public void AnalyzeText ( string Text )

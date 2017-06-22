@@ -31,15 +31,15 @@ namespace SEOMacroscope
 {
 	
   /// <summary>
-  /// Description of MacroscopeDataExtractorRegexesForm.
+  /// Description of MacroscopeDataExtractorXpathsForm.
   /// </summary>
 	
-  public partial class MacroscopeDataExtractorRegexesForm : Form
+  public partial class MacroscopeDataExtractorXpathsForm : Form
   {
 
     /**************************************************************************/
 
-    public MacroscopeDataExtractorRegexesForm ( MacroscopeDataExtractorRegexes NewDataExtractor )
+    public MacroscopeDataExtractorXpathsForm ( MacroscopeDataExtractorXpaths NewDataExtractor )
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
@@ -54,7 +54,7 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public MacroscopeDataExtractorRegexes GetDataExtractor ()
+    public MacroscopeDataExtractorXpaths GetDataExtractor ()
     {
       return( this.dataExtractorInstance.GetDataExtractor() );
     }

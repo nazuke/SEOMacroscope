@@ -109,7 +109,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void SetPattern (
+    public void SetRegex(
       int Slot,
       string RegexLabel,
       string RegexString

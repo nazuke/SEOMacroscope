@@ -208,7 +208,6 @@ namespace SEOMacroscope
           HttpStatusCode StatusCode = msDoc.GetStatusCode();
           int StatusCodeNum = ( int )StatusCode;
           MacroscopeConstants.Specifiers HrefLangPresent = MacroscopeConstants.Specifiers.UNSPECIFIED;
-          string HrefLangPresentLabel = "UNSPECIFIED";
           string DocLocale = msDoc.GetLocale();
           string DocTitle = msDoc.GetTitle();
           ListViewItem lvItem = null;
@@ -261,7 +260,7 @@ namespace SEOMacroscope
               lvItem.SubItems[ ColUrl ].Text = DocUrl;
               lvItem.SubItems[ ColStatusCode ].Text = StatusCode.ToString();
               lvItem.SubItems[ ColSiteLocale ].Text = DocLocale;
-              lvItem.SubItems[ ColHrefLangPresent ].Text = HrefLangPresentLabel;
+              lvItem.SubItems[ ColHrefLangPresent ].Text = "";
               lvItem.SubItems[ ColTitle ].Text = DocTitle;
 
               switch( HrefLangPresent )

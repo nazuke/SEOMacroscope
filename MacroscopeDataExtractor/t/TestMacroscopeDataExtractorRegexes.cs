@@ -49,11 +49,11 @@ namespace SEOMacroscope
 
       Texts.Add( "The quick brown fox jumps over the lazy dog." );
 
-      DataExtractor.SetPattern( 0, "Label: The", "\\b([tT]he)\\b" );
-      DataExtractor.SetPattern( 1, "Label: over", "\\b([oO]ver)\\b" );
-      DataExtractor.SetPattern( 2, "Label: fox", "\\b([fF]ox)\\b" );
-      DataExtractor.SetPattern( 3, "Label: dog", "\\b([dD]og)\\b" );
-      DataExtractor.SetPattern( 4, "Label: brown", "\\b([bB]rown)\\b" );
+      DataExtractor.SetRegex( 0, "Label: The", "\\b([tT]he)\\b" );
+      DataExtractor.SetRegex( 1, "Label: over", "\\b([oO]ver)\\b" );
+      DataExtractor.SetRegex( 2, "Label: fox", "\\b([fF]ox)\\b" );
+      DataExtractor.SetRegex( 3, "Label: dog", "\\b([dD]og)\\b" );
+      DataExtractor.SetRegex( 4, "Label: brown", "\\b([bB]rown)\\b" );
 
       foreach( string ContainsText in Texts )
       {
@@ -93,7 +93,7 @@ namespace SEOMacroscope
 
       Texts.Add( "The quick brown fox jumps over the lazy dog." );
 
-      DataExtractor.SetPattern( 0, "Long:", "The (quick brown) fox jumps over the (lazy dog)" );
+      DataExtractor.SetRegex( 0, "Long:", "The (quick brown) fox jumps over the (lazy dog)" );
 
       foreach( string ContainsText in Texts )
       {

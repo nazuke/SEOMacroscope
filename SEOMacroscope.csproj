@@ -122,9 +122,17 @@
     <Compile Include="MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.Designer.cs">
       <DependentUpon>MacroscopeCustomFilterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorCssSelectorsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorRegexesForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorRegexesForm.Designer.cs">
       <DependentUpon>MacroscopeDataExtractorRegexesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorXpathsForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorXpathsForm.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorXpathsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayCustomFilters.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayDataExtractorCssSelectors.cs" />
@@ -362,9 +370,17 @@
     <Compile Include="MacroscopeTools\MacroscopeUrlUtils.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeStringTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeUrlUtils.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorCssSelectorPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorRegexesPanel.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorRegexesPanel.Designer.cs">
       <DependentUpon>MacroscopeDataExtractorRegexesPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorXpathPanel.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorXpathPanel.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorXpathPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.Designer.cs">
@@ -404,8 +420,14 @@
     <EmbeddedResource Include="MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.resx">
       <DependentUpon>MacroscopeCustomFilterForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.resx">
+      <DependentUpon>MacroscopeDataExtractorCssSelectorsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorRegexesForm.resx">
       <DependentUpon>MacroscopeDataExtractorRegexesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorXpathsForm.resx">
+      <DependentUpon>MacroscopeDataExtractorXpathsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.resx">
       <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
@@ -465,8 +487,14 @@
     <EmbeddedResource Include="MacroscopeForms\MacroscopeTaskParameters\MacroscopeXpathPrefixes.resx">
       <DependentUpon>MacroscopeXpathPrefixes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.resx">
+      <DependentUpon>MacroscopeDataExtractorCssSelectorPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorRegexesPanel.resx">
       <DependentUpon>MacroscopeDataExtractorRegexesPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorXpathPanel.resx">
+      <DependentUpon>MacroscopeDataExtractorXpathPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.resx">
       <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>

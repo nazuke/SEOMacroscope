@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Xml.XPath;
 
 namespace SEOMacroscope
@@ -45,7 +44,11 @@ namespace SEOMacroscope
 
     private int Max;
 
-    //private List<KeyValuePair<string, XPathExpression>> ExtractXpaths;
+    private List<MacroscopeConstants.ActiveInactive> ExtractActiveInactive;
+    
+    
+    
+    private List<KeyValuePair<string, XPathExpression>> ExtractXpaths;
     
     
     
@@ -71,13 +74,26 @@ namespace SEOMacroscope
       
 
 
+      this.ExtractActiveInactive = new List<MacroscopeConstants.ActiveInactive> ( this.Max );
+
+      this.ExtractXpaths = new List<KeyValuePair<string, XPathExpression>> ( this.Max );
+
       for( int Slot = 0 ; Slot < this.Max ; Slot++ )
       {
-
-
+        
+        this.ExtractActiveInactive.Add( MacroscopeConstants.ActiveInactive.INACTIVE );
+        
+        this.ExtractXpaths.Add(
+          new KeyValuePair<string, XPathExpression> (
+            string.Format( "XPathExpression {0}", Slot + 1 ),
+            null
+          )
+        );
 
       }
-
+      
+      
+      
     }
 
     /**************************************************************************/
@@ -104,9 +120,29 @@ namespace SEOMacroscope
       return( this.Max );
     }
 
+    
+    
+    
     /**************************************************************************/
 
-    public void SetPattern (
+    public void SetActiveInactive ( int Slot, MacroscopeConstants.ActiveInactive State )
+    {
+      this.ExtractActiveInactive[ Slot ] = State;
+    }
+    
+    public MacroscopeConstants.ActiveInactive GetActiveInactive ( int Slot )
+    {
+      return( this.ExtractActiveInactive[ Slot ] );
+    }
+
+    /**************************************************************************/
+    
+    
+    
+    
+    /**************************************************************************/
+
+    public void SetExpression (
       int Slot
     )
     {
@@ -117,7 +153,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void GetPattern (
+    public void GetExpression (
       int Slot
     )
     {
@@ -126,6 +162,38 @@ namespace SEOMacroscope
 
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**************************************************************************/
+    
+    
+         
+    public string GetLabel ( int Slot )
+    {
+
+      return( this.ExtractXpaths[ Slot ].Key );
+
+    }
+    
+    
+    
+    
+    
+    
+    
     /**************************************************************************/
 
     public void AnalyzeText ( string Text )
