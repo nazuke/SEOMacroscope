@@ -24,25 +24,184 @@
 */
 
 using System;
+using System.IO;
+using System.Reflection;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeDataExtractorXpaths
+  public class TestMacroscopeDataExtractorXpaths : Macroscope
   {
 
     /**************************************************************************/
 
-    [Test]
-    public void TestMethod ()
-    {
-      // TODO: Add your test.
-    }
-		
+    private Dictionary<string,string> HtmlDocs;
+
     /**************************************************************************/
-		    
+    
+    public TestMacroscopeDataExtractorXpaths ()
+    {
+
+      StreamReader Reader;
+      List<string> HtmlDocKeys = new List<string> ( 16 );
+
+      this.HtmlDocs = new Dictionary<string,string> ();
+
+      this.HtmlDocs.Add( "HtmlDoc001", null );
+      this.HtmlDocs.Add( "HtmlDoc002", null );
+      this.HtmlDocs.Add( "HtmlDoc003", null );
+      this.HtmlDocs.Add( "HtmlDoc004", null );
+      this.HtmlDocs.Add( "HtmlDoc005", null );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+        HtmlDocKeys.Add( HtmlDocKey );
+      }
+
+      foreach( string HtmlDocKey in HtmlDocKeys )
+      {
+        
+        Reader = new StreamReader (
+          Assembly.GetExecutingAssembly().GetManifestResourceStream(
+            HtmlDocKey
+          )
+        );
+
+        this.HtmlDocs[ HtmlDocKey ] = Reader.ReadToEnd();
+
+        Reader.Close();
+
+        Reader.Dispose();
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestTitlesOuterHtml ()
+    {
+
+      Dictionary<string,string> AssetDic = new Dictionary<string, string>() {
+        { "HtmlDoc001", "<title>HtmlDoc001</title>" },
+        { "HtmlDoc002", "<title>HtmlDoc002</title>" },
+        { "HtmlDoc003", "<title>HtmlDoc003</title>" },
+        { "HtmlDoc004", "<title>HtmlDoc004</title>" },
+        { "HtmlDoc005", "<title>HtmlDoc005</title>" }
+      };
+
+      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
+
+      DataExtractor.SetXpath(
+        Slot: 0,
+        XpathLabel: "TestTitlesOuterHtml",
+        XpathString: "//title",
+        ExtractorType: MacroscopeConstants.XpathExtractorType.OUTERHTML
+      );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+           
+        string Html = this.HtmlDocs[ HtmlDocKey ];
+
+        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
+
+        DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: {1}", HtmlDocKey, ResultList[ 0 ].Value ) );
+
+        Assert.IsNotEmpty( ResultList, "WHOOPS!" );
+
+        Assert.AreEqual( AssetDic[HtmlDocKey], ResultList[ 0 ].Value );
+
+      }
+
+    }
+    
+    /**************************************************************************/
+
+    [Test]
+    public void TestTitlesInnerHtml ()
+    {
+
+      Dictionary<string,string> AssetDic = new Dictionary<string, string>() {
+        { "HtmlDoc001", "HtmlDoc001" },
+        { "HtmlDoc002", "HtmlDoc002" },
+        { "HtmlDoc003", "HtmlDoc003" },
+        { "HtmlDoc004", "HtmlDoc004" },
+        { "HtmlDoc005", "HtmlDoc005" }
+      };
+
+      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
+
+      DataExtractor.SetXpath(
+        Slot: 0,
+        XpathLabel: "TestTitlesInnerHtml",
+        XpathString: "//title",
+        ExtractorType: MacroscopeConstants.XpathExtractorType.INNERHTML
+      );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+           
+        string Html = this.HtmlDocs[ HtmlDocKey ];
+
+        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
+
+        DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: {1}", HtmlDocKey, ResultList[ 0 ].Value ) );
+
+        Assert.IsNotEmpty( ResultList, "WHOOPS!" );
+
+        Assert.AreEqual( AssetDic[HtmlDocKey], ResultList[ 0 ].Value );
+
+      }
+
+    }
+    
+    /**************************************************************************/
+
+    [Test]
+    public void TestTitlesInnerText ()
+    {
+
+      Dictionary<string,string> AssetDic = new Dictionary<string, string>() {
+        { "HtmlDoc001", "HtmlDoc001" },
+        { "HtmlDoc002", "HtmlDoc002" },
+        { "HtmlDoc003", "HtmlDoc003" },
+        { "HtmlDoc004", "HtmlDoc004" },
+        { "HtmlDoc005", "HtmlDoc005" }
+      };
+
+      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
+
+      DataExtractor.SetXpath(
+        Slot: 0,
+        XpathLabel: "TestTitlesInnerText",
+        XpathString: "//title",
+        ExtractorType: MacroscopeConstants.XpathExtractorType.INNERTEXT
+      );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+           
+        string Html = this.HtmlDocs[ HtmlDocKey ];
+
+        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
+
+        DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: {1}", HtmlDocKey, ResultList[ 0 ].Value ) );
+
+        Assert.IsNotEmpty( ResultList, "WHOOPS!" );
+
+        Assert.AreEqual( AssetDic[HtmlDocKey], ResultList[ 0 ].Value );
+
+      }
+
+    }
+
+    /**************************************************************************/
+    
   }
 	
 }

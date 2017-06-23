@@ -2281,7 +2281,9 @@ namespace SEOMacroscope
     {
 
       // TODO: Implement CSS Selectors form
-            
+           
+      /*      
+
       MacroscopeDataExtractorCssSelectorsForm DataExtractorsForm;
       DialogResult DataExtractorsResult;
       
@@ -2306,6 +2308,8 @@ namespace SEOMacroscope
 
       DataExtractorsForm.Dispose();
 
+       */
+     
     }
 
     /** -------------------------------------------------------------------- **/
@@ -2345,7 +2349,7 @@ namespace SEOMacroscope
     {
 
       // TODO: Implement XPaths form
-      
+
       MacroscopeDataExtractorXpathsForm DataExtractorsForm;
       DialogResult DataExtractorsResult;
       

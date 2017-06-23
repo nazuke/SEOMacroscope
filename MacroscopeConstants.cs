@@ -275,13 +275,16 @@ namespace SEOMacroscope
       MUSTNOTHAVE = 2
     }
 
-    public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () { {
+    public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () {
+      {
         MacroscopeConstants.Contains.UNDEFINED,
         "UNDEFINED"
-      }, {
+      },
+      {
         MacroscopeConstants.Contains.MUSTHAVE,
         "MUST HAVE STRING"
-      }, {
+      },
+      {
         MacroscopeConstants.Contains.MUSTNOTHAVE,
         "MUST NOT HAVE STRING"
       }
@@ -296,19 +299,24 @@ namespace SEOMacroscope
       SHOULDNOTCONTAIN = 4
     }
 
-    public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () { {
+    public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () {
+      {
         MacroscopeConstants.TextPresence.UNDEFINED,
         "UNDEFINED"
-      }, {
+      },
+      {
         MacroscopeConstants.TextPresence.CONTAINS,
         "CONTAINS STRING"
-      }, {
+      },
+      {
         MacroscopeConstants.TextPresence.MUSTCONTAIN,
         "MUST CONTAIN STRING"
-      }, {
+      },
+      {
         MacroscopeConstants.TextPresence.NOTCONTAINS,
         "DOES NOT CONTAIN STRING"
-      }, {
+      },
+      {
         MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN,
         "SHOULD NOT CONTAIN STRING"
       }
@@ -322,6 +330,13 @@ namespace SEOMacroscope
     {
       INACTIVE = 0,
       ACTIVE = 1
+    }
+
+    public enum XpathExtractorType
+    {
+      INNERTEXT = 0,
+      OUTERHTML = 1,
+      INNERHTML = 2
     }
 
     /** END: Data Extractors **************************************************/

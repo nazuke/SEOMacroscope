@@ -24,51 +24,45 @@
 */
 
 using System;
-using System.IO;
-using System.Reflection;
-using System.Drawing;
-using System.Windows.Forms;
+using System.Xml.XPath;
 
 namespace SEOMacroscope
 {
-  
-  /// <summary>
-  /// Displayes the licence file in a dialogue.
-  /// </summary>
-	
-  public partial class MacroscopeLicenceForm : Form
-  {
-		
-    /**************************************************************************/
-	      
-    public MacroscopeLicenceForm ()
-    {
 
-      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-      
-      this.Shown += this.CallbackLicenceFormShown;
-      
-    }
+  /// <summary>
+  /// Description of MacroscopeDataExtractorXpathsExpression.
+  /// </summary>
+
+  public class MacroscopeDataExtractorXpathsExpression
+  {
+
+    /**************************************************************************/
+
+    public string Label { get; set; }
+        
+    public XPathExpression Expression { get; set; }
+    
+    public MacroscopeConstants.XpathExtractorType ExtractorType { get; set; }
     
     /**************************************************************************/
-
-    private void CallbackLicenceFormShown ( object sender, EventArgs e )
+    
+    public MacroscopeDataExtractorXpathsExpression (
+      string NewLabel,
+      XPathExpression NewExpression,
+      MacroscopeConstants.XpathExtractorType NewExtractorType
+    )
     {
 
-      string LicenceText;
-      StreamReader Reader = new StreamReader ( Assembly.GetExecutingAssembly().GetManifestResourceStream( "LICENCE" ) );
+      this.Label = NewLabel;
 
-      LicenceText = Reader.ReadToEnd();
+      this.Expression = NewExpression;
 
-      Reader.Close();
-      Reader.Dispose();
-
-      this.richTextBoxLicence.Text = LicenceText;
+      this.ExtractorType = NewExtractorType;
 
     }
-	      
+
     /**************************************************************************/
-	          
+
   }
-	
+
 }
