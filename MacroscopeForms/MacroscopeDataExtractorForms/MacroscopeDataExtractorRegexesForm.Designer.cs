@@ -131,6 +131,7 @@ namespace SEOMacroscope
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
 			this.Name = "MacroscopeDataExtractorRegexesForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Data Extractor: Regular Expressions";
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);

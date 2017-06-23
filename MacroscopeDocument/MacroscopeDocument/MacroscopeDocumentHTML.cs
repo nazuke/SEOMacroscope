@@ -1456,15 +1456,31 @@ namespace SEOMacroscope
     private void ProcessHtmlDataExtractors ( string HtmlText )
     {
 
+      MacroscopeJobMaster JobMaster = this.DocCollection.GetJobMaster();
+            
       // TODO: Add CSS and XPath calls
 
       {
 
-        MacroscopeDataExtractorRegexes DataExtractor = this.DocCollection.GetJobMaster().GetDataExtractorRegexes();
+        MacroscopeDataExtractorRegexes DataExtractor = JobMaster.GetDataExtractorRegexes();
 
         if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
         {
           this.ProcessHtmlDataExtractorRegexes(
+            DataExtractor: DataExtractor,
+            HtmlText: HtmlText
+          );
+        }
+
+      }
+
+      {
+
+        MacroscopeDataExtractorXpaths DataExtractor = JobMaster.GetDataExtractorXpaths();
+
+        if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
+        {
+          this.ProcessHtmlDataExtractorXpaths(
             DataExtractor: DataExtractor,
             HtmlText: HtmlText
           );
@@ -1494,10 +1510,26 @@ namespace SEOMacroscope
       return;
 
     }
+    
+    /** -------------------------------------------------------------------- **/
 
-    
-    
-    
+    private void ProcessHtmlDataExtractorXpaths (
+      MacroscopeDataExtractorXpaths DataExtractor,
+      string HtmlText
+    )
+    {
+
+      List<KeyValuePair<string, string>> Analyzed = DataExtractor.AnalyzeHtml( Html: HtmlText );
+
+      foreach( KeyValuePair<string, string> Pair in Analyzed )
+      {
+        this.SetDataExtractedXpaths( Label: Pair.Key, Text: Pair.Value );
+      }
+
+      return;
+
+    }
+
     
     
     

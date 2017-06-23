@@ -68,10 +68,18 @@ namespace SEOMacroscope
         
         this.ExtractActiveInactive.Add( MacroscopeConstants.ActiveInactive.INACTIVE );
         
+        MacroscopeDataExtractorXpathsExpression Expression;
+          
+        Expression = new MacroscopeDataExtractorXpathsExpression ( 
+          NewLabel: "",
+          NewExpression: "",
+          NewExtractorType: MacroscopeConstants.XpathExtractorType.INNERTEXT
+        );
+
         this.ExtractXpaths.Add(
           new KeyValuePair<string, MacroscopeDataExtractorXpathsExpression> (
             string.Format( "XPathExpression {0}", Slot + 1 ),
-            null
+            Expression
           )
         );
 
@@ -125,18 +133,17 @@ namespace SEOMacroscope
     )
     {
 
-      XPathExpression Expression;
       MacroscopeDataExtractorXpathsExpression DataExtractorXpathsExpression;
       KeyValuePair<string, MacroscopeDataExtractorXpathsExpression> ExpressionSlot;
 
-      if( SyntaxCheckXpath( XpathString: XpathString ) )
+      if( 
+        ( !string.IsNullOrEmpty( XpathString ) )
+        && ( SyntaxCheckXpath( XpathString: XpathString ) ) )
       {
-        
-        Expression = XPathExpression.Compile( XpathString );
 
         DataExtractorXpathsExpression = new MacroscopeDataExtractorXpathsExpression (
           NewLabel: XpathLabel,
-          NewExpression: Expression,
+          NewExpression: XpathString,
           NewExtractorType: ExtractorType
         );
 
@@ -148,13 +155,7 @@ namespace SEOMacroscope
         this.ExtractXpaths[ Slot ] = ExpressionSlot;
         
         this.SetEnabled();
-        
-      }
-      else
-      {
 
-        throw( new FormatException ( "Invalid XPath expression" ) );
-        
       }
 
     }
@@ -170,11 +171,11 @@ namespace SEOMacroscope
     
     /**************************************************************************/
         
-    public XPathExpression GetXpath ( int Slot )
+    public string GetXpath ( int Slot )
     {
 
-      XPathExpression Expression = this.ExtractXpaths[ Slot ].Value.Expression;
-
+      string Expression = this.ExtractXpaths[ Slot ].Value.Expression;
+      
       return( Expression );
 
     }
@@ -217,7 +218,7 @@ namespace SEOMacroscope
     public List<KeyValuePair<string, string>> AnalyzeHtmlDoc ( HtmlDocument HtmlDoc )
     {
 
-      List<KeyValuePair<string, string>> ResultList = new List<KeyValuePair<string, string>> ( 8 );
+      List<KeyValuePair<string, string>> ResultList = new List<KeyValuePair<string, string>> ( 32 );
 
       if( this.IsEnabled() )
       {
@@ -227,19 +228,18 @@ namespace SEOMacroscope
 
           HtmlNodeCollection NodeSet;
           string Label = this.ExtractXpaths[ Slot ].Key;
-          string Expression = this.ExtractXpaths[ Slot ].Value.Expression.Expression;
+          string Expression = this.ExtractXpaths[ Slot ].Value.Expression;
           MacroscopeConstants.XpathExtractorType ExtractorType = this.ExtractXpaths[ Slot ].Value.ExtractorType;
-          
-          
-          this.DebugMsg(
-            string.Format(
-              "SLOT KEY: {0} => {1} => {2} => {3}",
-              Slot,
-              Label,
-              Expression,
-              ExtractorType
-            )
-          );
+
+          if( this.GetActiveInactive( Slot ).Equals( MacroscopeConstants.ActiveInactive.INACTIVE ) )
+          {
+            continue;
+          }
+          else
+          if( !SyntaxCheckXpath( XpathString: Expression ) )
+          {
+            continue;
+          }
 
           NodeSet = HtmlDoc.DocumentNode.SelectNodes( xpath: Expression );
 

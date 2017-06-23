@@ -115,7 +115,6 @@ namespace SEOMacroscope
       MacroscopeDocumentCollection DocCollection,
       List<string> UrlList,
       MacroscopeDataExtractorXpaths DataExtractor
-
     )
     {
 

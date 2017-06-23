@@ -40,7 +40,7 @@ namespace SEOMacroscope
 
     public string Label { get; set; }
         
-    public XPathExpression Expression { get; set; }
+    public string Expression { get; set; }
     
     public MacroscopeConstants.XpathExtractorType ExtractorType { get; set; }
     
@@ -48,7 +48,7 @@ namespace SEOMacroscope
     
     public MacroscopeDataExtractorXpathsExpression (
       string NewLabel,
-      XPathExpression NewExpression,
+      string NewExpression,
       MacroscopeConstants.XpathExtractorType NewExtractorType
     )
     {

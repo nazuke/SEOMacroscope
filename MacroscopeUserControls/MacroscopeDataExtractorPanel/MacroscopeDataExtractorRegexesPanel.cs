@@ -60,7 +60,7 @@ namespace SEOMacroscope
       this.TextBoxExpressions = new List<TextBox> ();
 
       this.tableLayoutPanelContainer.Dock = DockStyle.Fill;
-      this.tableLayoutPanelRegexGrid.Dock = DockStyle.Fill;
+      this.tableLayoutPanelControlsGrid.Dock = DockStyle.Fill;
 
     }
 
@@ -72,7 +72,7 @@ namespace SEOMacroscope
       this.DataExtractor = NewDataExtractor;
             
       int Max = this.DataExtractor.GetSize();
-      TableLayoutPanel Table = this.tableLayoutPanelRegexGrid;
+      TableLayoutPanel Table = this.tableLayoutPanelControlsGrid;
       
       Table.ColumnCount = 4;
       Table.RowCount = Max + 1;

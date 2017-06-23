@@ -62,7 +62,7 @@ namespace SEOMacroscope
       this.ExtractToComboBoxes = new List<ComboBox> ();
 
       this.tableLayoutPanelContainer.Dock = DockStyle.Fill;
-      this.tableLayoutPanelRegexGrid.Dock = DockStyle.Fill;
+      this.tableLayoutPanelControlsGrid.Dock = DockStyle.Fill;
 
     }
 
@@ -74,7 +74,7 @@ namespace SEOMacroscope
       this.DataExtractor = NewDataExtractor;
             
       int Max = this.DataExtractor.GetSize();
-      TableLayoutPanel Table = this.tableLayoutPanelRegexGrid;
+      TableLayoutPanel Table = this.tableLayoutPanelControlsGrid;
       
       Table.ColumnCount = 5;
       Table.RowCount = Max + 1;
@@ -82,11 +82,11 @@ namespace SEOMacroscope
       {
         
         List<string> ColumnLabels = new List<string> ( 5 ) {
-            "",
-            "Active/Inactive",
-            "Extractor Label",
-            "XPath Expression",
-            "Extract To"
+          "",
+          "Active/Inactive",
+          "Extractor Label",
+          "XPath Expression",
+          "Extract To"
         };
         
         for( int i = 0 ; i < ColumnLabels.Count ; i++ )
@@ -110,7 +110,7 @@ namespace SEOMacroscope
         TextBox TextBoxExpression = new TextBox ();
         ComboBox ExtractToComboBox = new ComboBox ();
         
-        TextLabel.Text = string.Format( "Regex {0}", Slot + 1 );
+        TextLabel.Text = string.Format( "XPath {0}", Slot + 1 );
         TextLabel.TextAlign = ContentAlignment.MiddleRight;
         TextLabel.Dock = DockStyle.Fill;
         TextLabel.Margin = new Padding ( 5, 5, 5, 5 );
@@ -215,23 +215,21 @@ namespace SEOMacroscope
         {
 
           MacroscopeConstants.ActiveInactive State = this.DataExtractor.GetActiveInactive( Slot: Slot );
-
+          MacroscopeConstants.XpathExtractorType ExtractorType = this.DataExtractor.GetExtractorType( Slot: Slot );
+          
           switch( State )
           {
-
             case MacroscopeConstants.ActiveInactive.ACTIVE:
               StateComboBox.SelectedIndex = 1;
               break;
-
             default:
               StateComboBox.SelectedIndex = 0;
               break;
-
           }
 
           TextBoxLabel.Text = this.DataExtractor.GetLabel( Slot: Slot );
 
-          TextBoxExpression.Text = this.DataExtractor.GetXpath( Slot: Slot ).ToString();
+          TextBoxExpression.Text = this.DataExtractor.GetXpath( Slot: Slot );
 
           if(
             string.IsNullOrEmpty( TextBoxLabel.Text )
@@ -240,6 +238,22 @@ namespace SEOMacroscope
             StateComboBox.SelectedIndex = 0;
           }
           
+          switch( ExtractorType )
+          {
+            case MacroscopeConstants.XpathExtractorType.OUTERHTML:
+              ExtractToComboBox.SelectedIndex = 0;
+              break;
+            case MacroscopeConstants.XpathExtractorType.INNERHTML:
+              ExtractToComboBox.SelectedIndex = 1;
+              break;
+            case MacroscopeConstants.XpathExtractorType.INNERTEXT:
+              ExtractToComboBox.SelectedIndex = 2;
+              break;
+            default:
+              ExtractToComboBox.SelectedIndex = 0;
+              break;
+          }
+
         }
         else
         {
@@ -247,6 +261,7 @@ namespace SEOMacroscope
           StateComboBox.SelectedIndex = 0;
           TextBoxLabel.Text = "";
           TextBoxExpression.Text = "";
+          ExtractToComboBox.SelectedIndex = 0;
 
         }
 
