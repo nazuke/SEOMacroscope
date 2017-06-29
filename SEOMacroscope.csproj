@@ -55,6 +55,9 @@
     <Reference Include="ClosedXML">
       <HintPath>packages\ClosedXML.0.87.1\lib\net40\ClosedXML.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper">
+      <HintPath>packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="DocumentFormat.OpenXml">
       <HintPath>packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
@@ -119,6 +122,7 @@
     <Compile Include="MacroscopeExceptions\MacroscopeDocumentException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeInsufficientMemoryException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeNamedQueueException.cs" />
+    <Compile Include="MacroscopeExceptions\MacroscopeSaveCsvFileException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeSaveExcelFileException.cs" />
     <Compile Include="MacroscopeExceptions\MacroscopeUriFormatException.cs" />
     <Compile Include="MacroscopeForms\MacroscopeContextMenus\MacroscopeContextMenus.cs" />
@@ -164,6 +168,7 @@
     <Compile Include="MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
       <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\CsvReports\CsvReportsCallbacks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\ExcelReports\ExcelReportsCallbacks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\Generators\GeneratorsCallbacks.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\IMacroscopeTaskControllerCallbacks\IMacroscopeTaskControllerCallbacks.cs" />
@@ -204,6 +209,11 @@
     </Compile>
     <Compile Include="MacroscopeGenerators\MacroscopeSitemapGenerator\MacroscopeSitemapGenerator.cs" />
     <Compile Include="MacroscopeGenerators\t\TestMacroscopeSitemapGenerator.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\MacroscopeCsvPageMetadataReport.cs" />
+    <None Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\WorksheetDescriptions.cs" />
+    <None Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\WorksheetKeywords.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\WorksheetTitles.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvReports.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelCustomFilterReport\MacroscopeExcelCustomFilterReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelCustomFilterReport\WorksheetCustomFilter.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelDataExtractorReport\WorksheetCssSelectors.cs" />
@@ -546,6 +556,7 @@
     <Folder Include="MacroscopeForms\MacroscopeMainForm\ExcelReports" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\IMacroscopeTaskControllerCallbacks" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\Generators" />
+    <Folder Include="MacroscopeForms\MacroscopeMainForm\CsvReports" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />
@@ -579,6 +590,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelCustomFilterReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelDataExtractorReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelPageMetadataReport" />
+    <Folder Include="MacroscopeReports\MacroscopeCsvPageMetadataReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\MacroscopeXpathRestrictions" />

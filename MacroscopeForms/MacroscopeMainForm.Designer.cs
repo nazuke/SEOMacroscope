@@ -111,6 +111,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem pageMetadataExcelReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem cSSSelectorsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem xPathExpressionsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem excelReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem titlesCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem descriptionsCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem keywordsCSVReportToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -160,7 +164,9 @@ namespace SEOMacroscope
 			this.customFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.dataExtractorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cSSSelectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.regularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.xPathExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.clearHTTPAuthenticationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -173,6 +179,10 @@ namespace SEOMacroscope
 			this.remarksExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
 			this.pageMetadataExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.excelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.titlesCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.descriptionsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.keywordsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generatePageContentsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.duplicateContentExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -212,8 +222,6 @@ namespace SEOMacroscope
 			this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
 			this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
 			this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
-			this.xPathExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.cSSSelectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStripMain.SuspendLayout();
 			this.tableLayoutPanelMainContainer.SuspendLayout();
 			this.statusStripMain.SuspendLayout();
@@ -374,7 +382,7 @@ namespace SEOMacroscope
 			this.toolStripSeparator6,
 			this.clearHTTPAuthenticationToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
 			this.taskParametersToolStripMenuItem.Text = "Task Parameters";
 			// 
 			// includeURLPatternsToolStripMenuItem
@@ -441,12 +449,26 @@ namespace SEOMacroscope
 			this.dataExtractorsToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.dataExtractorsToolStripMenuItem.Text = "Data Extractors";
 			// 
+			// cSSSelectorsToolStripMenuItem
+			// 
+			this.cSSSelectorsToolStripMenuItem.Name = "cSSSelectorsToolStripMenuItem";
+			this.cSSSelectorsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+			this.cSSSelectorsToolStripMenuItem.Text = "CSS Selectors";
+			this.cSSSelectorsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDataExtractorsCssSelectorsClick);
+			// 
 			// regularExpressionsToolStripMenuItem
 			// 
 			this.regularExpressionsToolStripMenuItem.Name = "regularExpressionsToolStripMenuItem";
 			this.regularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
 			this.regularExpressionsToolStripMenuItem.Text = "Regular Expressions";
 			this.regularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDataExtractorsRegularExpressionsClick);
+			// 
+			// xPathExpressionsToolStripMenuItem
+			// 
+			this.xPathExpressionsToolStripMenuItem.Name = "xPathExpressionsToolStripMenuItem";
+			this.xPathExpressionsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+			this.xPathExpressionsToolStripMenuItem.Text = "XPath Expressions";
+			this.xPathExpressionsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDataExtractorsXpathsClick);
 			// 
 			// toolStripSeparator6
 			// 
@@ -542,10 +564,42 @@ namespace SEOMacroscope
 			// 
 			// pageMetadataExcelReportToolStripMenuItem
 			// 
+			this.pageMetadataExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.excelReportToolStripMenuItem,
+			this.titlesCSVReportToolStripMenuItem,
+			this.descriptionsCSVReportToolStripMenuItem,
+			this.keywordsCSVReportToolStripMenuItem});
 			this.pageMetadataExcelReportToolStripMenuItem.Name = "pageMetadataExcelReportToolStripMenuItem";
 			this.pageMetadataExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.pageMetadataExcelReportToolStripMenuItem.Text = "Page Metadata Excel Report";
-			this.pageMetadataExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSavePageMetadataExcelReport);
+			this.pageMetadataExcelReportToolStripMenuItem.Text = "Page Metadata";
+			// 
+			// excelReportToolStripMenuItem
+			// 
+			this.excelReportToolStripMenuItem.Name = "excelReportToolStripMenuItem";
+			this.excelReportToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+			this.excelReportToolStripMenuItem.Text = "Combined Excel Report";
+			this.excelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSavePageMetadataExcelReport);
+			// 
+			// titlesCSVReportToolStripMenuItem
+			// 
+			this.titlesCSVReportToolStripMenuItem.Name = "titlesCSVReportToolStripMenuItem";
+			this.titlesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+			this.titlesCSVReportToolStripMenuItem.Text = "Titles CSV Report";
+			this.titlesCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSavePageMetadataCsvReportTitles);
+			// 
+			// descriptionsCSVReportToolStripMenuItem
+			// 
+			this.descriptionsCSVReportToolStripMenuItem.Name = "descriptionsCSVReportToolStripMenuItem";
+			this.descriptionsCSVReportToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+			this.descriptionsCSVReportToolStripMenuItem.Text = "Descriptions CSV Report";
+			this.descriptionsCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSavePageMetadataCsvReportDescriptions);
+			// 
+			// keywordsCSVReportToolStripMenuItem
+			// 
+			this.keywordsCSVReportToolStripMenuItem.Name = "keywordsCSVReportToolStripMenuItem";
+			this.keywordsCSVReportToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+			this.keywordsCSVReportToolStripMenuItem.Text = "Keywords CSV Report";
+			this.keywordsCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSavePageMetadataCsvReportKeywords);
 			// 
 			// generatePageContentsExcelReportToolStripMenuItem
 			// 
@@ -903,20 +957,6 @@ namespace SEOMacroscope
 			this.macroscopeSiteStructurePanelInstance.Name = "macroscopeSiteStructurePanelInstance";
 			this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
 			this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
-			// 
-			// xPathExpressionsToolStripMenuItem
-			// 
-			this.xPathExpressionsToolStripMenuItem.Name = "xPathExpressionsToolStripMenuItem";
-			this.xPathExpressionsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-			this.xPathExpressionsToolStripMenuItem.Text = "XPath Expressions";
-			this.xPathExpressionsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDataExtractorsXpathsClick);
-			// 
-			// cSSSelectorsToolStripMenuItem
-			// 
-			this.cSSSelectorsToolStripMenuItem.Name = "cSSSelectorsToolStripMenuItem";
-			this.cSSSelectorsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-			this.cSSSelectorsToolStripMenuItem.Text = "CSS Selectors";
-			this.cSSSelectorsToolStripMenuItem.Click += new System.EventHandler(this.CallbackDataExtractorsCssSelectorsClick);
 			// 
 			// MacroscopeMainForm
 			// 
