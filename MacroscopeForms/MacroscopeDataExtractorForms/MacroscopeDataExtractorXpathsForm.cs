@@ -21,7 +21,7 @@
   You should have received a copy of the GNU General Public License
   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 using System;
 using System.Drawing;
@@ -29,11 +29,11 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-	
+  
   /// <summary>
   /// Description of MacroscopeDataExtractorXpathsForm.
   /// </summary>
-	
+  
   public partial class MacroscopeDataExtractorXpathsForm : Form
   {
 
@@ -43,8 +43,11 @@ namespace SEOMacroscope
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-			     
-      this.dataExtractorInstance.ConfigureDataExtractorForm( NewDataExtractor: NewDataExtractor );
+      
+      this.dataExtractorInstance.ConfigureDataExtractorForm(
+        NewContainerForm: this, 
+        NewDataExtractor: NewDataExtractor 
+      );
 
       this.dataExtractorInstance.SetDataExtractor();
 
@@ -54,6 +57,20 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
+    public void DisableButtonOk ()
+    {
+      this.buttonOK.Enabled = false;
+    }
+    
+    /** -------------------------------------------------------------------- **/
+
+    public void EnableButtonOk ()
+    {
+      this.buttonOK.Enabled = true;
+    }
+    
+    /**************************************************************************/
+    
     public MacroscopeDataExtractorXpaths GetDataExtractor ()
     {
       return( this.dataExtractorInstance.GetDataExtractor() );
@@ -63,11 +80,15 @@ namespace SEOMacroscope
 
     public void ClearDataExtractorForm ( object sender, EventArgs e )
     {
+
       this.dataExtractorInstance.ClearDataExtractorForm();
+
+      this.EnableButtonOk();
+
     }
 
     /**************************************************************************/
 
   }
-	
+  
 }

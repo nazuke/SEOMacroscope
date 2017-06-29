@@ -24,16 +24,15 @@
 */
 
 using System;
-using System.Xml.XPath;
 
 namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeDataExtractorXpathsExpression.
+  /// Description of MacroscopeDataExtractorExpression.
   /// </summary>
 
-  public class MacroscopeDataExtractorXpathsExpression
+  public class MacroscopeDataExtractorExpression : Macroscope
   {
 
     /**************************************************************************/
@@ -42,14 +41,14 @@ namespace SEOMacroscope
         
     public string Expression { get; set; }
     
-    public MacroscopeConstants.XpathExtractorType ExtractorType { get; set; }
+    public MacroscopeConstants.DataExtractorType ExtractorType { get; set; }
     
     /**************************************************************************/
     
-    public MacroscopeDataExtractorXpathsExpression (
+    public MacroscopeDataExtractorExpression (
       string NewLabel,
       string NewExpression,
-      MacroscopeConstants.XpathExtractorType NewExtractorType
+      MacroscopeConstants.DataExtractorType NewExtractorType
     )
     {
 

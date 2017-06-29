@@ -66,11 +66,11 @@ namespace SEOMacroscope
 			// 
 			this.tableLayoutPanelControlsGrid.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.tableLayoutPanelControlsGrid.ColumnCount = 5;
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanelControlsGrid.Location = new System.Drawing.Point(10, 50);
 			this.tableLayoutPanelControlsGrid.Margin = new System.Windows.Forms.Padding(10);
 			this.tableLayoutPanelControlsGrid.Name = "tableLayoutPanelControlsGrid";

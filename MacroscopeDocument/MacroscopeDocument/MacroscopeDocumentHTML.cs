@@ -1458,7 +1458,19 @@ namespace SEOMacroscope
 
       MacroscopeJobMaster JobMaster = this.DocCollection.GetJobMaster();
             
-      // TODO: Add CSS and XPath calls
+      {
+
+        MacroscopeDataExtractorCssSelectors DataExtractor = JobMaster.GetDataExtractorCssSelectors();
+
+        if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
+        {
+          this.ProcessHtmlDataExtractorCssSelectors(
+            DataExtractor: DataExtractor,
+            HtmlText: HtmlText
+          );
+        }
+
+      }
 
       {
 
@@ -1494,6 +1506,28 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
+    private void ProcessHtmlDataExtractorCssSelectors (
+      MacroscopeDataExtractorCssSelectors DataExtractor,
+      string HtmlText
+    )
+    {
+
+      List<KeyValuePair<string, string>> Analyzed = DataExtractor.AnalyzeHtml( Html: HtmlText );
+
+      foreach( KeyValuePair<string, string> Pair in Analyzed )
+      {
+        this.SetDataExtractedCssSelectors(
+          Label: Pair.Key,
+          Text: Pair.Value
+        );
+      }
+
+      return;
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     private void ProcessHtmlDataExtractorRegexes (
       MacroscopeDataExtractorRegexes DataExtractor,
       string HtmlText
@@ -1504,7 +1538,10 @@ namespace SEOMacroscope
 
       foreach( KeyValuePair<string, string> Pair in Analyzed )
       {
-        this.SetDataExtractedRegexes( Label: Pair.Key, Text: Pair.Value );
+        this.SetDataExtractedRegexes( 
+          Label: Pair.Key, 
+          Text: Pair.Value 
+        );
       }
 
       return;
@@ -1523,23 +1560,16 @@ namespace SEOMacroscope
 
       foreach( KeyValuePair<string, string> Pair in Analyzed )
       {
-        this.SetDataExtractedXpaths( Label: Pair.Key, Text: Pair.Value );
+        this.SetDataExtractedXpaths(
+          Label: Pair.Key,
+          Text: Pair.Value
+        );
       }
 
       return;
 
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /** Sniff Charset *********************************************************/
 
     Encoding HtmlSniffCharset ()

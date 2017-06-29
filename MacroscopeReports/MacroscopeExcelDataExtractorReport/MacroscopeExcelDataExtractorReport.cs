@@ -64,9 +64,9 @@ namespace SEOMacroscope
 
       XLWorkbook wb = new XLWorkbook ();
 
-      // TODO: this.BuildWorksheetCssSelectors( JobMaster, wb, "CSS Selectors" );     
+      this.BuildWorksheetCssSelectors( JobMaster, wb, "CSS Selectors" );     
       this.BuildWorksheetRegularExpressions( JobMaster, wb, "Regular Expressions" );
-      // TODO: this.BuildWorksheetXpaths( JobMaster, wb, "XPaths" );
+      this.BuildWorksheetXpaths( JobMaster, wb, "XPaths" );
 
       try
       {

@@ -44,12 +44,30 @@ namespace SEOMacroscope
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 			     
-      this.dataExtractorInstance.ConfigureDataExtractorForm( NewDataExtractor: NewDataExtractor );
+      this.dataExtractorInstance.ConfigureDataExtractorForm(
+        NewContainerForm: this,
+        NewDataExtractor: NewDataExtractor
+      );
 
       this.dataExtractorInstance.SetDataExtractor();
 
       this.buttonClear.Click += ClearDataExtractorForm;
 
+    }
+    
+    /**************************************************************************/
+
+    public void DisableButtonOk ()
+    {
+      this.buttonOK.Enabled = false;
+    }
+    
+    /** -------------------------------------------------------------------- **/
+    
+    
+    public void EnableButtonOk ()
+    {
+      this.buttonOK.Enabled = true;
     }
     
     /**************************************************************************/

@@ -26,7 +26,6 @@
 using System;
 using ClosedXML.Excel;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Net;
 
 namespace SEOMacroscope
@@ -64,7 +63,7 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = MacroscopeConstants.Status;
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Regex_Label";
+        ws.Cell( iRow, iCol ).Value = "Extracted Label";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Extracted Value";
@@ -97,11 +96,11 @@ namespace SEOMacroscope
         foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedRegexes() )
         {
 
-          string RegexLabel = DataExtractedPair.Key;
+          string ExtractedLabel = DataExtractedPair.Key;
           string ExtractedValue = DataExtractedPair.Value;
 
           if( 
-            string.IsNullOrEmpty( RegexLabel )
+            string.IsNullOrEmpty( ExtractedLabel )
             || string.IsNullOrEmpty( ExtractedValue ) )
           {
             continue;
@@ -130,7 +129,7 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( RegexLabel ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ExtractedLabel ) );
 
           iCol++;
         

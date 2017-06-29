@@ -332,7 +332,7 @@ namespace SEOMacroscope
       ACTIVE = 1
     }
 
-    public enum XpathExtractorType
+    public enum DataExtractorType
     {
       INNERTEXT = 0,
       OUTERHTML = 1,

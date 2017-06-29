@@ -86,12 +86,27 @@ namespace SEOMacroscope
     public void TestTitlesOuterHtml ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string>() {
-        { "HtmlDoc001", "<title>HtmlDoc001</title>" },
-        { "HtmlDoc002", "<title>HtmlDoc002</title>" },
-        { "HtmlDoc003", "<title>HtmlDoc003</title>" },
-        { "HtmlDoc004", "<title>HtmlDoc004</title>" },
-        { "HtmlDoc005", "<title>HtmlDoc005</title>" }
+      Dictionary<string,string> AssetDic = new Dictionary<string, string> () {
+        {
+          "HtmlDoc001",
+          "<title>HtmlDoc001</title>"
+        },
+        {
+          "HtmlDoc002",
+          "<title>HtmlDoc002</title>"
+        },
+        {
+          "HtmlDoc003",
+          "<title>HtmlDoc003</title>"
+        },
+        {
+          "HtmlDoc004",
+          "<title>HtmlDoc004</title>"
+        },
+        {
+          "HtmlDoc005",
+          "<title>HtmlDoc005</title>"
+        }
       };
 
       MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
@@ -100,9 +115,14 @@ namespace SEOMacroscope
         Slot: 0,
         XpathLabel: "TestTitlesOuterHtml",
         XpathString: "//title",
-        ExtractorType: MacroscopeConstants.XpathExtractorType.OUTERHTML
+        ExtractorType: MacroscopeConstants.DataExtractorType.OUTERHTML
       );
 
+      DataExtractor.SetActiveInactive(
+        Slot: 0,
+        State: MacroscopeConstants.ActiveInactive.ACTIVE
+      );
+      
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
            
@@ -114,7 +134,7 @@ namespace SEOMacroscope
 
         Assert.IsNotEmpty( ResultList, "WHOOPS!" );
 
-        Assert.AreEqual( AssetDic[HtmlDocKey], ResultList[ 0 ].Value );
+        Assert.AreEqual( AssetDic[ HtmlDocKey ], ResultList[ 0 ].Value );
 
       }
 
@@ -126,12 +146,27 @@ namespace SEOMacroscope
     public void TestTitlesInnerHtml ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string>() {
-        { "HtmlDoc001", "HtmlDoc001" },
-        { "HtmlDoc002", "HtmlDoc002" },
-        { "HtmlDoc003", "HtmlDoc003" },
-        { "HtmlDoc004", "HtmlDoc004" },
-        { "HtmlDoc005", "HtmlDoc005" }
+      Dictionary<string,string> AssetDic = new Dictionary<string, string> () {
+        {
+          "HtmlDoc001",
+          "HtmlDoc001"
+        },
+        {
+          "HtmlDoc002",
+          "HtmlDoc002"
+        },
+        {
+          "HtmlDoc003",
+          "HtmlDoc003"
+        },
+        {
+          "HtmlDoc004",
+          "HtmlDoc004"
+        },
+        {
+          "HtmlDoc005",
+          "HtmlDoc005"
+        }
       };
 
       MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
@@ -140,9 +175,14 @@ namespace SEOMacroscope
         Slot: 0,
         XpathLabel: "TestTitlesInnerHtml",
         XpathString: "//title",
-        ExtractorType: MacroscopeConstants.XpathExtractorType.INNERHTML
+        ExtractorType: MacroscopeConstants.DataExtractorType.INNERHTML
       );
 
+      DataExtractor.SetActiveInactive(
+        Slot: 0,
+        State: MacroscopeConstants.ActiveInactive.ACTIVE
+      );
+      
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
            
@@ -154,7 +194,7 @@ namespace SEOMacroscope
 
         Assert.IsNotEmpty( ResultList, "WHOOPS!" );
 
-        Assert.AreEqual( AssetDic[HtmlDocKey], ResultList[ 0 ].Value );
+        Assert.AreEqual( AssetDic[ HtmlDocKey ], ResultList[ 0 ].Value );
 
       }
 
@@ -166,12 +206,27 @@ namespace SEOMacroscope
     public void TestTitlesInnerText ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string>() {
-        { "HtmlDoc001", "HtmlDoc001" },
-        { "HtmlDoc002", "HtmlDoc002" },
-        { "HtmlDoc003", "HtmlDoc003" },
-        { "HtmlDoc004", "HtmlDoc004" },
-        { "HtmlDoc005", "HtmlDoc005" }
+      Dictionary<string,string> AssetDic = new Dictionary<string, string> () {
+        {
+          "HtmlDoc001",
+          "HtmlDoc001"
+        },
+        {
+          "HtmlDoc002",
+          "HtmlDoc002"
+        },
+        {
+          "HtmlDoc003",
+          "HtmlDoc003"
+        },
+        {
+          "HtmlDoc004",
+          "HtmlDoc004"
+        },
+        {
+          "HtmlDoc005",
+          "HtmlDoc005"
+        }
       };
 
       MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
@@ -180,9 +235,14 @@ namespace SEOMacroscope
         Slot: 0,
         XpathLabel: "TestTitlesInnerText",
         XpathString: "//title",
-        ExtractorType: MacroscopeConstants.XpathExtractorType.INNERTEXT
+        ExtractorType: MacroscopeConstants.DataExtractorType.INNERTEXT
       );
 
+      DataExtractor.SetActiveInactive(
+        Slot: 0,
+        State: MacroscopeConstants.ActiveInactive.ACTIVE
+      );
+      
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
            
@@ -194,7 +254,7 @@ namespace SEOMacroscope
 
         Assert.IsNotEmpty( ResultList, "WHOOPS!" );
 
-        Assert.AreEqual( AssetDic[HtmlDocKey], ResultList[ 0 ].Value );
+        Assert.AreEqual( AssetDic[ HtmlDocKey ], ResultList[ 0 ].Value );
 
       }
 

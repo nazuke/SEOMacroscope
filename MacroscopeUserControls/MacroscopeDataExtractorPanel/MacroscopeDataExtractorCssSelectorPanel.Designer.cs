@@ -31,7 +31,7 @@ namespace SEOMacroscope
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelRegexGrid;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelControlsGrid;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelContainer;
 		
@@ -56,27 +56,28 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tableLayoutPanelRegexGrid = new System.Windows.Forms.TableLayoutPanel();
+			this.tableLayoutPanelControlsGrid = new System.Windows.Forms.TableLayoutPanel();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tableLayoutPanelContainer = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanelContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// tableLayoutPanelRegexGrid
+			// tableLayoutPanelControlsGrid
 			// 
-			this.tableLayoutPanelRegexGrid.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.tableLayoutPanelRegexGrid.ColumnCount = 4;
-			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-			this.tableLayoutPanelRegexGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelRegexGrid.Location = new System.Drawing.Point(10, 50);
-			this.tableLayoutPanelRegexGrid.Margin = new System.Windows.Forms.Padding(10);
-			this.tableLayoutPanelRegexGrid.Name = "tableLayoutPanelRegexGrid";
-			this.tableLayoutPanelRegexGrid.RowCount = 1;
-			this.tableLayoutPanelRegexGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelRegexGrid.Size = new System.Drawing.Size(600, 250);
-			this.tableLayoutPanelRegexGrid.TabIndex = 1;
+			this.tableLayoutPanelControlsGrid.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.tableLayoutPanelControlsGrid.ColumnCount = 5;
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanelControlsGrid.Location = new System.Drawing.Point(10, 50);
+			this.tableLayoutPanelControlsGrid.Margin = new System.Windows.Forms.Padding(10);
+			this.tableLayoutPanelControlsGrid.Name = "tableLayoutPanelControlsGrid";
+			this.tableLayoutPanelControlsGrid.RowCount = 1;
+			this.tableLayoutPanelControlsGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelControlsGrid.Size = new System.Drawing.Size(600, 250);
+			this.tableLayoutPanelControlsGrid.TabIndex = 1;
 			// 
 			// label6
 			// 
@@ -94,7 +95,7 @@ namespace SEOMacroscope
 			this.tableLayoutPanelContainer.ColumnCount = 1;
 			this.tableLayoutPanelContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanelContainer.Controls.Add(this.label6, 0, 0);
-			this.tableLayoutPanelContainer.Controls.Add(this.tableLayoutPanelRegexGrid, 0, 1);
+			this.tableLayoutPanelContainer.Controls.Add(this.tableLayoutPanelControlsGrid, 0, 1);
 			this.tableLayoutPanelContainer.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanelContainer.Name = "tableLayoutPanelContainer";
 			this.tableLayoutPanelContainer.RowCount = 2;

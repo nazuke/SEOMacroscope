@@ -65,7 +65,10 @@
       <HintPath>packages\Fastenshtein.1.0.0.4\lib\net40-client\Fastenshtein.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>packages\HtmlAgilityPack.1.4.9.5\lib\Net40\HtmlAgilityPack.dll</HintPath>
+      <HintPath>packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack.CssSelectors">
+      <HintPath>packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.CssSelectors.dll</HintPath>
     </Reference>
     <Reference Include="LanguageDetection">
       <HintPath>packages\LanguageDetection.1.2.0\lib\net45\LanguageDetection.dll</HintPath>
@@ -104,9 +107,9 @@
     <Compile Include="MacroscopeCustomFilters\MacroscopeCustomFilters.cs" />
     <Compile Include="MacroscopeCustomFilters\t\TestMacroscopeCustomFilters.cs" />
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorCssSelectors.cs" />
+    <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorExpression.cs" />
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorRegexes.cs" />
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorXpaths.cs" />
-    <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorXpaths\MacroscopeDataExtractorXpathsExpression.cs" />
     <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractorCssSelectors.cs" />
     <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractorRegexes.cs" />
     <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractorXpaths.cs" />
@@ -138,10 +141,10 @@
     <EmbeddedResource Include="MacroscopeDataExtractor\t\HtmlDocs\HtmlDoc005.html">
       <LogicalName>HtmlDoc005</LogicalName>
     </EmbeddedResource>
-    <None Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.cs" />
-    <None Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.Designer.cs">
+    <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.Designer.cs">
       <DependentUpon>MacroscopeDataExtractorCssSelectorsForm.cs</DependentUpon>
-    </None>
+    </Compile>
     <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorRegexesForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorRegexesForm.Designer.cs">
       <DependentUpon>MacroscopeDataExtractorRegexesForm.cs</DependentUpon>
@@ -386,10 +389,10 @@
     <Compile Include="MacroscopeTools\MacroscopeUrlUtils.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeStringTools.cs" />
     <Compile Include="MacroscopeTools\t\TestMacroscopeUrlUtils.cs" />
-    <None Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.cs" />
-    <None Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.Designer.cs">
+    <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.Designer.cs">
       <DependentUpon>MacroscopeDataExtractorCssSelectorPanel.cs</DependentUpon>
-    </None>
+    </Compile>
     <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorRegexesPanel.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorRegexesPanel.Designer.cs">
       <DependentUpon>MacroscopeDataExtractorRegexesPanel.cs</DependentUpon>
@@ -531,7 +534,6 @@
   <ItemGroup>
     <Folder Include="MacroscopeAnalysis\t" />
     <Folder Include="MacroscopeCustomFilters\t" />
-    <Folder Include="MacroscopeDataExtractor\MacroscopeDataExtractorXpaths" />
     <Folder Include="MacroscopeDataExtractor\t" />
     <Folder Include="MacroscopeDataExtractor\t\HtmlDocs" />
     <Folder Include="MacroscopeDocument" />

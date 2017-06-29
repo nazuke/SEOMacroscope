@@ -25,6 +25,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -41,13 +42,19 @@ namespace SEOMacroscope
   {
 
     /**************************************************************************/
+    
+    private MacroscopeDataExtractorCssSelectorsForm ContainerForm;
+        
+    private MacroscopeDataExtractorCssSelectors DataExtractor;
 
-    MacroscopeDataExtractorCssSelectors DataExtractor;
-
-    List<TextBox> TextBoxLabels;
-    List<ComboBox> StateComboBoxes;
-    List<TextBox> TextBoxExpressions;
-
+    private Boolean Ready;
+    private Boolean EnableValidation;
+        
+    private List<TextBox> TextBoxLabels;
+    private List<ComboBox> StateComboBoxes;
+    private List<TextBox> TextBoxExpressions;
+    private List<ComboBox> ExtractToComboBoxes;
+    
     /**************************************************************************/
 	      
     public MacroscopeDataExtractorCssSelectorPanel ()
@@ -58,32 +65,66 @@ namespace SEOMacroscope
       this.TextBoxLabels = new List<TextBox> ();
       this.StateComboBoxes = new List<ComboBox> ();
       this.TextBoxExpressions = new List<TextBox> ();
+      this.ExtractToComboBoxes = new List<ComboBox> ();
 
       this.tableLayoutPanelContainer.Dock = DockStyle.Fill;
-      this.tableLayoutPanelRegexGrid.Dock = DockStyle.Fill;
+      this.tableLayoutPanelControlsGrid.Dock = DockStyle.Fill;
 
+      this.SetReady( State: true );
+      this.SetEnableValidation( State: true );
+      
     }
 
     /**************************************************************************/
 
-    public void ConfigureDataExtractorForm ( MacroscopeDataExtractorCssSelectors NewDataExtractor )
+    private void SetReady ( Boolean State )
+    {
+      this.Ready = State;
+    }
+
+    public Boolean GetReady ()
+    {
+      return( this.Ready );
+    }
+
+    /**************************************************************************/
+
+    private void SetEnableValidation ( Boolean State )
+    {
+      this.EnableValidation = State;
+    }
+
+    private Boolean GetEnableValidation ()
+    {
+      return( this.EnableValidation );
+    }
+
+    /**************************************************************************/
+
+    public void ConfigureDataExtractorForm (
+      MacroscopeDataExtractorCssSelectorsForm NewContainerForm,
+      MacroscopeDataExtractorCssSelectors NewDataExtractor
+    )
     {
 
+      this.ContainerForm = NewContainerForm;
+      
       this.DataExtractor = NewDataExtractor;
             
       int Max = this.DataExtractor.GetSize();
-      TableLayoutPanel Table = this.tableLayoutPanelRegexGrid;
+      TableLayoutPanel Table = this.tableLayoutPanelControlsGrid;
       
-      Table.ColumnCount = 4;
+      Table.ColumnCount = 5;
       Table.RowCount = Max + 1;
 
       {
         
-        List<string> ColumnLabels = new List<string> ( 4 ) {
-          "",
-          "Active/Inactive",
-          "Extractor Label",
-          "Regular Expression Pattern"
+        List<string> ColumnLabels = new List<string> ( 5 ) {
+            "",
+            "Active/Inactive",
+            "Extractor Label",
+            "CSS Selector Expression",
+            "Extract To"
         };
         
         for( int i = 0 ; i < ColumnLabels.Count ; i++ )
@@ -104,9 +145,10 @@ namespace SEOMacroscope
         Label TextLabel = new Label ();
         ComboBox StateComboBox = new ComboBox ();
         TextBox TextBoxLabel = new TextBox ();
-        TextBox TextBoxRegex = new TextBox ();
-
-        TextLabel.Text = string.Format( "Regex {0}", Slot + 1 );
+        TextBox TextBoxExpression = new TextBox ();
+        ComboBox ExtractToComboBox = new ComboBox ();
+        
+        TextLabel.Text = string.Format( "CSS Selector {0}", Slot + 1 );
         TextLabel.TextAlign = ContentAlignment.MiddleRight;
         TextLabel.Dock = DockStyle.Fill;
         TextLabel.Margin = new Padding ( 5, 5, 5, 5 );
@@ -123,19 +165,42 @@ namespace SEOMacroscope
         TextBoxLabel.Dock = DockStyle.Fill;
         TextBoxLabel.Margin = new Padding ( 5, 5, 5, 5 );
 
-        TextBoxRegex.Name = string.Format( "TextBoxRegex{0}", Slot + 1 );
-        TextBoxRegex.KeyUp += this.CallbackTextBoxKeyUp;
-        TextBoxRegex.Dock = DockStyle.Fill;
-        TextBoxRegex.Margin = new Padding ( 5, 5, 5, 5 );
+        TextBoxLabel.Tag = Slot.ToString();
+                
+        TextBoxLabel.Enter += this.CallbackTextBoxLabelEnter;
+        TextBoxLabel.Leave += this.CallbackTextBoxLabelLeave;
+        TextBoxLabel.TextChanged += this.CallbackTextBoxLabelTextChanged;
         
+        TextBoxExpression.Name = string.Format( "TextBoxExpression{0}", Slot + 1 );
+        TextBoxExpression.KeyUp += this.CallbackTextBoxKeyUp;
+        TextBoxExpression.Dock = DockStyle.Fill;
+        TextBoxExpression.Margin = new Padding ( 5, 5, 5, 5 );
+
+        TextBoxExpression.Tag = Slot.ToString();
+        
+        TextBoxExpression.Enter += this.CallbackTextBoxExpressionEnter;
+        TextBoxExpression.Leave += this.CallbackTextBoxExpressionLeave;
+        TextBoxExpression.TextChanged += this.CallbackTextBoxExpressionTextChanged;
+
+        ExtractToComboBox.Name = string.Format( "ExtractToComboBox{0}", Slot + 1 );
+        ExtractToComboBox.Items.Add( "Extract HTML Element" );
+        ExtractToComboBox.Items.Add( "Extract Inner HTML Elements" );
+        ExtractToComboBox.Items.Add( "Extract Text" );
+        ExtractToComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+        ExtractToComboBox.SelectedIndex = 0;
+        ExtractToComboBox.Margin = new Padding ( 5, 5, 5, 5 );
+        ExtractToComboBox.Width = 150;
+
         Table.Controls.Add( TextLabel );
         Table.Controls.Add( StateComboBox );  
         Table.Controls.Add( TextBoxLabel );
-        Table.Controls.Add( TextBoxRegex );
+        Table.Controls.Add( TextBoxExpression );
+        Table.Controls.Add( ExtractToComboBox );
 
         this.TextBoxLabels.Add( TextBoxLabel );
         this.StateComboBoxes.Add( StateComboBox );
-        this.TextBoxExpressions.Add( TextBoxRegex );
+        this.TextBoxExpressions.Add( TextBoxExpression );
+        this.ExtractToComboBoxes.Add( ExtractToComboBox );
 
       }
 
@@ -174,7 +239,8 @@ namespace SEOMacroscope
 
         ComboBox StateComboBox;
         TextBox TextBoxLabel;
-        TextBox TextBoxRegex;
+        TextBox TextBoxExpression;
+        ComboBox ExtractToComboBox;
 
         StateComboBox = this.Controls.Find(
           string.Format( "StateComboBox{0}", Slot + 1 ),
@@ -186,47 +252,67 @@ namespace SEOMacroscope
           true
         ).FirstOrDefault() as TextBox;
           
-        TextBoxRegex = this.Controls.Find(
-          string.Format( "TextBoxRegex{0}", Slot + 1 ),
+        TextBoxExpression = this.Controls.Find(
+          string.Format( "TextBoxExpression{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
-
+        
+        ExtractToComboBox = this.Controls.Find(
+          string.Format( "ExtractToComboBox{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as ComboBox;
+        
         if( this.DataExtractor.IsEnabled() )
         {
 
           MacroscopeConstants.ActiveInactive State = this.DataExtractor.GetActiveInactive( Slot: Slot );
-
+          MacroscopeConstants.DataExtractorType ExtractorType = this.DataExtractor.GetExtractorType( Slot: Slot );
+          
           switch( State )
           {
-
             case MacroscopeConstants.ActiveInactive.ACTIVE:
               StateComboBox.SelectedIndex = 1;
               break;
-
             default:
               StateComboBox.SelectedIndex = 0;
               break;
-
           }
 
           TextBoxLabel.Text = this.DataExtractor.GetLabel( Slot: Slot );
 
-          TextBoxRegex.Text = this.DataExtractor.GetRegex( Slot: Slot ).ToString();
+          TextBoxExpression.Text = this.DataExtractor.GetCssSelector( Slot: Slot );
 
           if(
             string.IsNullOrEmpty( TextBoxLabel.Text )
-            || string.IsNullOrEmpty( TextBoxRegex.Text ) )
+            || string.IsNullOrEmpty( TextBoxExpression.Text ) )
           {
             StateComboBox.SelectedIndex = 0;
           }
           
+          switch( ExtractorType )
+          {
+            case MacroscopeConstants.DataExtractorType.OUTERHTML:
+              ExtractToComboBox.SelectedIndex = 0;
+              break;
+            case MacroscopeConstants.DataExtractorType.INNERHTML:
+              ExtractToComboBox.SelectedIndex = 1;
+              break;
+            case MacroscopeConstants.DataExtractorType.INNERTEXT:
+              ExtractToComboBox.SelectedIndex = 2;
+              break;
+            default:
+              ExtractToComboBox.SelectedIndex = 0;
+              break;
+          }
+
         }
         else
         {
         
           StateComboBox.SelectedIndex = 0;
           TextBoxLabel.Text = "";
-          TextBoxRegex.Text = "";
+          TextBoxExpression.Text = "";
+          ExtractToComboBox.SelectedIndex = 0;
 
         }
 
@@ -246,9 +332,11 @@ namespace SEOMacroscope
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
 
+        MacroscopeConstants.DataExtractorType ExtractorType;
         ComboBox StateComboBox;
         TextBox TextBoxLabel;
         TextBox TextBoxExpression;
+        ComboBox ExtractToComboBox;
 
         StateComboBox = this.Controls.Find(
           string.Format( "StateComboBox{0}", Slot + 1 ),
@@ -261,27 +349,29 @@ namespace SEOMacroscope
         ).FirstOrDefault() as TextBox;
           
         TextBoxExpression = this.Controls.Find(
-          string.Format( "TextBoxRegex{0}", Slot + 1 ),
+          string.Format( "TextBoxExpression{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
+        
+        ExtractToComboBox = this.Controls.Find(
+          string.Format( "ExtractToComboBox{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as ComboBox;
 
         switch( StateComboBox.SelectedIndex )
         {
-
           case 1:
             this.DataExtractor.SetActiveInactive(
               Slot: Slot,
               State: MacroscopeConstants.ActiveInactive.ACTIVE
             );
             break;
-
           default:
             this.DataExtractor.SetActiveInactive(
               Slot: Slot,
               State: MacroscopeConstants.ActiveInactive.INACTIVE
             );
             break;
-
         }
 
         if(
@@ -294,11 +384,29 @@ namespace SEOMacroscope
           );
         }
 
-        this.DataExtractor.SetPattern(
+        switch( ExtractToComboBox.SelectedIndex )
+        {
+          case 0:
+            ExtractorType = MacroscopeConstants.DataExtractorType.OUTERHTML;
+            break;
+          case 1:
+            ExtractorType = MacroscopeConstants.DataExtractorType.INNERHTML;
+            break;
+          case 2:
+            ExtractorType = MacroscopeConstants.DataExtractorType.INNERTEXT;
+            break;
+
+          default:
+            ExtractorType = MacroscopeConstants.DataExtractorType.INNERTEXT;
+            break;
+        }
+
+        this.DataExtractor.SetCssSelector(
           Slot: Slot,
-          RegexLabel: TextBoxLabel.Text,
-          RegexString: TextBoxExpression.Text
-        );
+          CssSelectorLabel: TextBoxLabel.Text,
+          CssSelectorString: TextBoxExpression.Text,
+          ExtractorType: ExtractorType
+        ); 
 
       }
 
@@ -330,12 +438,14 @@ namespace SEOMacroscope
 
       int Max = this.DataExtractor.GetSize();
 
+      this.SetEnableValidation( State: false );
+      
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
 
         ComboBox StateComboBox;
         TextBox TextBoxLabel;
-        TextBox TextBoxRegex;
+        TextBox TextBoxExpression;
 
         StateComboBox = this.Controls.Find(
           string.Format( "StateComboBox{0}", Slot + 1 ),
@@ -347,17 +457,200 @@ namespace SEOMacroscope
           true
         ).FirstOrDefault() as TextBox;
           
-        TextBoxRegex = this.Controls.Find(
-          string.Format( "TextBoxRegex{0}", Slot + 1 ),
+        TextBoxExpression = this.Controls.Find(
+          string.Format( "TextBoxExpression{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
 
         StateComboBox.SelectedIndex = 0;
         TextBoxLabel.Text = "";
-        TextBoxRegex.Text = "";
+        TextBoxExpression.Text = "";
 
       }
 
+      this.SetEnableValidation( State: true );
+            
+    }
+
+    /** Label Validators ******************************************************/
+
+    private void CallbackTextBoxLabelEnter ( object sender, EventArgs e )
+    {
+      this.CallbackTextBoxExpressionTextChanged( sender, e );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackTextBoxLabelLeave ( object sender, EventArgs e )
+    {
+
+      TextBox TextBoxObject = ( TextBox )sender;
+      Boolean Proceed = this.CheckDoValidation( TextBoxObject: TextBoxObject );
+
+      if( Proceed )
+      {
+
+        if( TextBoxObject.Text.Length > 0 )
+        {
+          TextBoxObject.ForeColor = Color.Green;
+          this.ContainerForm.EnableButtonOk();
+        }
+        else
+        {
+          TextBoxObject.ForeColor = Color.Red;
+          this.ContainerForm.DisableButtonOk();
+          this.DialogueBoxError( "Error", "Please enter a label." );
+          TextBoxObject.Focus();
+        }
+
+      }
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackTextBoxLabelTextChanged ( object sender, EventArgs e )
+    {
+
+      TextBox TextBoxObject = ( TextBox )sender;
+      Boolean Proceed = this.CheckDoValidation( TextBoxObject: TextBoxObject );
+
+      if( Proceed )
+      {
+      
+        if( TextBoxObject.Text.Length > 0 )
+        {
+          TextBoxObject.ForeColor = Color.Green;
+          this.ContainerForm.EnableButtonOk();
+        }
+        else
+        {
+          TextBoxObject.ForeColor = Color.Red;
+          this.ContainerForm.DisableButtonOk();
+          TextBoxObject.Focus();
+        }
+      
+      }
+
+    }
+
+    /** CSS Selector Expression Validators ************************************/
+
+    private void CallbackTextBoxExpressionEnter ( object sender, EventArgs e )
+    {
+      this.CallbackTextBoxExpressionTextChanged( sender, e );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackTextBoxExpressionLeave ( object sender, EventArgs e )
+    {
+
+      TextBox TextBoxObject = ( TextBox )sender;
+      Boolean Proceed = this.CheckDoValidation( TextBoxObject: TextBoxObject );
+
+      if( Proceed )
+      {
+
+        if( MacroscopeDataExtractorCssSelectors.SyntaxCheckCssSelector( CssSelectorString: TextBoxObject.Text ) )
+        {
+          TextBoxObject.ForeColor = Color.Green;
+          this.ContainerForm.EnableButtonOk();
+        }
+        else
+        {
+          TextBoxObject.ForeColor = Color.Red;
+          this.ContainerForm.DisableButtonOk();
+          this.DialogueBoxError( AlertTitle: "Error", AlertMessage: "Invalid CSS Selector." );
+          TextBoxObject.Focus();
+        }
+
+      }
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackTextBoxExpressionTextChanged ( object sender, EventArgs e )
+    {
+
+      TextBox TextBoxObject = ( TextBox )sender;
+      Boolean Proceed = this.CheckDoValidation( TextBoxObject: TextBoxObject );
+
+      if( Proceed )
+      {
+
+        if( MacroscopeDataExtractorCssSelectors.SyntaxCheckCssSelector( CssSelectorString: TextBoxObject.Text ) )
+        {
+          TextBoxObject.ForeColor = Color.Green;
+          this.ContainerForm.EnableButtonOk();
+        }
+        else
+        {
+          TextBoxObject.ForeColor = Color.Red;
+          this.ContainerForm.DisableButtonOk();
+          TextBoxObject.Focus();
+        }
+
+      }
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private Boolean CheckDoValidation ( TextBox TextBoxObject )
+    {
+
+      Boolean Proceed = true;
+      string TagValue = TextBoxObject.Tag.ToString();
+      
+      if( !this.GetEnableValidation() )
+      {
+        Proceed = false;
+      }
+
+      try
+      {
+
+        int Slot = int.Parse( TagValue );
+
+        ComboBox StateComboBox;
+
+        StateComboBox = this.Controls.Find(
+          string.Format( "StateComboBox{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as ComboBox;
+
+        switch( StateComboBox.SelectedIndex )
+        {
+          case 0:
+            Proceed = false;
+            break;
+          default:
+            break;
+        }
+
+      }
+      catch( Exception ex )
+      {
+        this.DialogueBoxError( AlertTitle: "Error", AlertMessage: ex.Message );
+      }
+
+      return( Proceed );
+      
+    }
+
+    /**************************************************************************/
+
+    private void DialogueBoxError ( string AlertTitle, string AlertMessage )
+    {
+      MessageBox.Show(
+        AlertMessage,
+        AlertTitle,
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Error,
+        MessageBoxDefaultButton.Button1
+      );
     }
 
     /**************************************************************************/

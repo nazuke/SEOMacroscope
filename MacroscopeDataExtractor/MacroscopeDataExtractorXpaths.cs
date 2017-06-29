@@ -25,8 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using System.Xml.XPath;
 
@@ -48,7 +46,7 @@ namespace SEOMacroscope
 
     private List<MacroscopeConstants.ActiveInactive> ExtractActiveInactive;
 
-    private List<KeyValuePair<string, MacroscopeDataExtractorXpathsExpression>> ExtractXpaths;
+    private List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ExtractXpaths;
 
     /**************************************************************************/
     
@@ -61,23 +59,23 @@ namespace SEOMacroscope
 
       this.ExtractActiveInactive = new List<MacroscopeConstants.ActiveInactive> ( this.Max );
 
-      this.ExtractXpaths = new List<KeyValuePair<string, MacroscopeDataExtractorXpathsExpression>> ( this.Max );
+      this.ExtractXpaths = new List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ( this.Max );
 
       for( int Slot = 0 ; Slot < this.Max ; Slot++ )
       {
         
         this.ExtractActiveInactive.Add( MacroscopeConstants.ActiveInactive.INACTIVE );
         
-        MacroscopeDataExtractorXpathsExpression Expression;
+        MacroscopeDataExtractorExpression Expression;
           
-        Expression = new MacroscopeDataExtractorXpathsExpression ( 
+        Expression = new MacroscopeDataExtractorExpression ( 
           NewLabel: "",
           NewExpression: "",
-          NewExtractorType: MacroscopeConstants.XpathExtractorType.INNERTEXT
+          NewExtractorType: MacroscopeConstants.DataExtractorType.INNERTEXT
         );
 
         this.ExtractXpaths.Add(
-          new KeyValuePair<string, MacroscopeDataExtractorXpathsExpression> (
+          new KeyValuePair<string, MacroscopeDataExtractorExpression> (
             string.Format( "XPathExpression {0}", Slot + 1 ),
             Expression
           )
@@ -129,25 +127,25 @@ namespace SEOMacroscope
       int Slot,
       string XpathLabel,
       string XpathString,
-      MacroscopeConstants.XpathExtractorType ExtractorType
+      MacroscopeConstants.DataExtractorType ExtractorType
     )
     {
 
-      MacroscopeDataExtractorXpathsExpression DataExtractorXpathsExpression;
-      KeyValuePair<string, MacroscopeDataExtractorXpathsExpression> ExpressionSlot;
+      MacroscopeDataExtractorExpression DataExtractorXpathsExpression;
+      KeyValuePair<string, MacroscopeDataExtractorExpression> ExpressionSlot;
 
       if( 
         ( !string.IsNullOrEmpty( XpathString ) )
         && ( SyntaxCheckXpath( XpathString: XpathString ) ) )
       {
 
-        DataExtractorXpathsExpression = new MacroscopeDataExtractorXpathsExpression (
+        DataExtractorXpathsExpression = new MacroscopeDataExtractorExpression (
           NewLabel: XpathLabel,
           NewExpression: XpathString,
           NewExtractorType: ExtractorType
         );
 
-        ExpressionSlot = new KeyValuePair<string, MacroscopeDataExtractorXpathsExpression> (
+        ExpressionSlot = new KeyValuePair<string, MacroscopeDataExtractorExpression> (
           XpathLabel,
           DataExtractorXpathsExpression
         );
@@ -164,9 +162,7 @@ namespace SEOMacroscope
         
     public string GetLabel ( int Slot )
     {
-
       return( this.ExtractXpaths[ Slot ].Key );
-
     }
     
     /**************************************************************************/
@@ -179,12 +175,13 @@ namespace SEOMacroscope
       return( Expression );
 
     }
+    
     /**************************************************************************/
 
-    public MacroscopeConstants.XpathExtractorType GetExtractorType ( int Slot )
+    public MacroscopeConstants.DataExtractorType GetExtractorType ( int Slot )
     {
 
-      MacroscopeConstants.XpathExtractorType ExtractorType = this.ExtractXpaths[ Slot ].Value.ExtractorType;
+      MacroscopeConstants.DataExtractorType ExtractorType = this.ExtractXpaths[ Slot ].Value.ExtractorType;
 
       return( ExtractorType );
 
@@ -229,7 +226,7 @@ namespace SEOMacroscope
           HtmlNodeCollection NodeSet;
           string Label = this.ExtractXpaths[ Slot ].Key;
           string Expression = this.ExtractXpaths[ Slot ].Value.Expression;
-          MacroscopeConstants.XpathExtractorType ExtractorType = this.ExtractXpaths[ Slot ].Value.ExtractorType;
+          MacroscopeConstants.DataExtractorType ExtractorType = this.ExtractXpaths[ Slot ].Value.ExtractorType;
 
           if( this.GetActiveInactive( Slot ).Equals( MacroscopeConstants.ActiveInactive.INACTIVE ) )
           {
@@ -257,19 +254,19 @@ namespace SEOMacroscope
               switch( ExtractorType )
               {
               
-                case MacroscopeConstants.XpathExtractorType.OUTERHTML:
+                case MacroscopeConstants.DataExtractorType.OUTERHTML:
                   Text = Node.OuterHtml;
                   Pair = new KeyValuePair<string, string> ( key: Label, value: Text );
                   ResultList.Add( item: Pair );
                   break;
                   
-                case MacroscopeConstants.XpathExtractorType.INNERHTML:
+                case MacroscopeConstants.DataExtractorType.INNERHTML:
                   Text = Node.InnerHtml;
                   Pair = new KeyValuePair<string, string> ( key: Label, value: Text );
                   ResultList.Add( item: Pair );
                   break;
 
-                case MacroscopeConstants.XpathExtractorType.INNERTEXT:
+                case MacroscopeConstants.DataExtractorType.INNERTEXT:
                   Text = Node.InnerText;
                   Pair = new KeyValuePair<string, string> ( key: Label, value: Text );
                   ResultList.Add( item: Pair );

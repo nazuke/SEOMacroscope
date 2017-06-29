@@ -518,7 +518,7 @@ namespace SEOMacroscope
 
     private void DialogueBoxStartUrlInvalid ()
     {
-      DialogueBoxError( "Error", "Please enter a valid URL" );
+      this.DialogueBoxError( "Error", "Please enter a valid URL" );
     }
 
     /** MAIN CONTROL STRIP CALLBACKS ******************************************/
@@ -1400,7 +1400,7 @@ namespace SEOMacroscope
 
       if( Url != null )
       {
-        this.JobMaster.RetryLink( Url );
+        this.JobMaster.RetryLink( Url: Url );
         this.RerunScanQueue();
       }
 
@@ -1935,10 +1935,10 @@ namespace SEOMacroscope
       if( this.JobMaster.AreWorkersStopped() )
       {
 
-        this.ScanningControlsStart( true );
+        this.ScanningControlsStart( State: true );
 
         MacroscopePreferencesManager.SavePreferences();
-
+ 
         this.ThreadScanner = new Thread ( new ThreadStart ( this.ScanningThread ) );
         this.ThreadScanner.Start();
 
@@ -2280,10 +2280,6 @@ namespace SEOMacroscope
     private void CallbackDataExtractorsCssSelectorsClick ( object sender, EventArgs e )
     {
 
-      // TODO: Implement CSS Selectors form
-           
-      /*      
-
       MacroscopeDataExtractorCssSelectorsForm DataExtractorsForm;
       DialogResult DataExtractorsResult;
       
@@ -2308,8 +2304,6 @@ namespace SEOMacroscope
 
       DataExtractorsForm.Dispose();
 
-       */
-     
     }
 
     /** -------------------------------------------------------------------- **/

@@ -886,13 +886,13 @@ namespace SEOMacroscope
 
     public void RetryLink ( string Url )
     {
-      this.ResetLink( Url );
+      this.ResetLink( Url: Url );
     }
 
     private void ResetLink ( string Url )
     {
       
-      MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
+      MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
       
       if( msDoc != null )
       {

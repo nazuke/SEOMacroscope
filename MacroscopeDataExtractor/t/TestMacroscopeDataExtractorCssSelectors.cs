@@ -24,23 +24,122 @@
 */
 
 using System;
+using System.IO;
+using System.Reflection;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeDataExtractorCssSelectors
+  public class TestMacroscopeDataExtractorCssSelectors : Macroscope
   {
 
     /**************************************************************************/
 
-    [Test]
-    public void TestMethod ()
+    private Dictionary<string,string> HtmlDocs;
+
+    /**************************************************************************/
+    
+    public TestMacroscopeDataExtractorCssSelectors ()
     {
-      // TODO: Add your test.
+
+      StreamReader Reader;
+      List<string> HtmlDocKeys = new List<string> ( 16 );
+
+      this.HtmlDocs = new Dictionary<string,string> ();
+
+      this.HtmlDocs.Add( "HtmlDoc001", null );
+      this.HtmlDocs.Add( "HtmlDoc002", null );
+      this.HtmlDocs.Add( "HtmlDoc003", null );
+      this.HtmlDocs.Add( "HtmlDoc004", null );
+      this.HtmlDocs.Add( "HtmlDoc005", null );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+        HtmlDocKeys.Add( HtmlDocKey );
+      }
+
+      foreach( string HtmlDocKey in HtmlDocKeys )
+      {
+        
+        Reader = new StreamReader (
+          Assembly.GetExecutingAssembly().GetManifestResourceStream(
+            HtmlDocKey
+          )
+        );
+
+        this.HtmlDocs[ HtmlDocKey ] = Reader.ReadToEnd();
+
+        Reader.Close();
+
+        Reader.Dispose();
+
+      }
+
     }
-		
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestHeadingsLevel1 ()
+    {
+
+      Dictionary<string,string> AssetDic = new Dictionary<string, string> () {
+        {
+          "HtmlDoc001",
+          "First Heading"
+        },
+        {
+          "HtmlDoc002",
+          "First Heading"
+        },
+        {
+          "HtmlDoc003",
+          "First Heading"
+        },
+        {
+          "HtmlDoc004",
+          "First Heading"
+        },
+        {
+          "HtmlDoc005",
+          "First Heading"
+        }
+      };
+
+      MacroscopeDataExtractorCssSelectors DataExtractor = new MacroscopeDataExtractorCssSelectors ( Size: 1 );
+
+      DataExtractor.SetCssSelector(
+        Slot: 0,
+        CssSelectorLabel: "TestHeadingsLevel1",
+        CssSelectorString: "h1.heading",
+        ExtractorType: MacroscopeConstants.DataExtractorType.INNERTEXT
+      );
+
+      DataExtractor.SetActiveInactive(
+        Slot: 0,
+        State: MacroscopeConstants.ActiveInactive.ACTIVE
+      );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+           
+        string Html = this.HtmlDocs[ HtmlDocKey ];
+
+        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
+
+        DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: {1}", HtmlDocKey, ResultList[ 0 ].Value ) );
+
+        Assert.IsNotEmpty( ResultList, "WHOOPS!" );
+
+        Assert.AreEqual( AssetDic[ HtmlDocKey ], ResultList[ 0 ].Value );
+
+      }
+
+    }
+
     /**************************************************************************/
 		    
   }

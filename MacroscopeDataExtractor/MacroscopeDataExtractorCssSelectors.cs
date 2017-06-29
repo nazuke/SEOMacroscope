@@ -21,14 +21,13 @@
   You should have received a copy of the GNU General Public License
   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
- */
+*/
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using ExCSS;
-
-
+using System.Collections;
+using HtmlAgilityPack;
+//using HapCss;
 
 namespace SEOMacroscope
 {
@@ -45,30 +44,11 @@ namespace SEOMacroscope
     private Boolean Enabled;
 
     private int Max;
-    
 
     private List<MacroscopeConstants.ActiveInactive> ExtractActiveInactive;
-        
-        
-        
-        
-    
 
-    private List<KeyValuePair<string, string>> ExtractCssSelectors;
-    
-    
-    
-    
+    private List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ExtractCssSelectors;
 
-    
-    
-    
-    
-    
-
-    
-    
-    
     /**************************************************************************/
     
     public MacroscopeDataExtractorCssSelectors ( int Size )
@@ -77,32 +57,37 @@ namespace SEOMacroscope
       this.Disable();
       
       this.Max = Size;
-      
-
 
       this.ExtractActiveInactive = new List<MacroscopeConstants.ActiveInactive> ( this.Max );
 
-      this.ExtractCssSelectors = new List<KeyValuePair<string, string>> ( this.Max );
+      this.ExtractCssSelectors = new List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ( this.Max );
 
       for( int Slot = 0 ; Slot < this.Max ; Slot++ )
       {
         
         this.ExtractActiveInactive.Add( MacroscopeConstants.ActiveInactive.INACTIVE );
         
+        MacroscopeDataExtractorExpression Expression;
+          
+        Expression = new MacroscopeDataExtractorExpression ( 
+          NewLabel: "",
+          NewExpression: "",
+          NewExtractorType: MacroscopeConstants.DataExtractorType.INNERTEXT
+        );
+
         this.ExtractCssSelectors.Add(
-          new KeyValuePair<string, string> (
-            string.Format( "ExtractCssSelectors {0}", Slot + 1 ),
-            null
+          new KeyValuePair<string, MacroscopeDataExtractorExpression> (
+            string.Format( "CssSelector{0}", Slot + 1 ),
+            Expression
           )
         );
 
       }
-      
 
     }
 
     /**************************************************************************/
-    
+
     public void Disable ()
     {
       this.Enabled = false;
@@ -127,10 +112,6 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-
-    
-    /**************************************************************************/
-
     public void SetActiveInactive ( int Slot, MacroscopeConstants.ActiveInactive State )
     {
       this.ExtractActiveInactive[ Slot ] = State;
@@ -142,47 +123,207 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
 
-    /**************************************************************************/
-
-    public void GetPattern (
-      int Slot
+    public void SetCssSelector (
+      int Slot,
+      string CssSelectorLabel,
+      string CssSelectorString,
+      MacroscopeConstants.DataExtractorType ExtractorType
     )
     {
 
-      //return( this.Contains[ Slot ] );
+      MacroscopeDataExtractorExpression DataExtractorCssSelectorExpression;
+      KeyValuePair<string, MacroscopeDataExtractorExpression> ExpressionSlot;
+
+      if( 
+        ( !string.IsNullOrEmpty( CssSelectorString ) )
+        && ( SyntaxCheckCssSelector( CssSelectorString: CssSelectorString ) ) )
+      {
+
+        DataExtractorCssSelectorExpression = new MacroscopeDataExtractorExpression (
+          NewLabel: CssSelectorLabel,
+          NewExpression: CssSelectorString,
+          NewExtractorType: ExtractorType
+        );
+
+        ExpressionSlot = new KeyValuePair<string, MacroscopeDataExtractorExpression> (
+          CssSelectorLabel,
+          DataExtractorCssSelectorExpression
+        );
+
+        this.ExtractCssSelectors[ Slot ] = ExpressionSlot;
+        
+        this.SetEnabled();
+
+      }
 
     }
 
-    
-    
-    
-    
-    
-    
     /**************************************************************************/
-    
-    
-    
+        
     public string GetLabel ( int Slot )
     {
-
       return( this.ExtractCssSelectors[ Slot ].Key );
+    }
+    
+    /**************************************************************************/
+        
+    public string GetCssSelector ( int Slot )
+    {
+
+      string Expression = this.ExtractCssSelectors[ Slot ].Value.Expression;
+      
+      return( Expression );
 
     }
     
-    
-    
-    
     /**************************************************************************/
 
-    public void AnalyzeText ( string Text )
+    public MacroscopeConstants.DataExtractorType GetExtractorType ( int Slot )
     {
 
+      MacroscopeConstants.DataExtractorType ExtractorType = this.ExtractCssSelectors[ Slot ].Value.ExtractorType;
+
+      return( ExtractorType );
+
+    }
 
 
+    /**************************************************************************/
+
+    public List<KeyValuePair<string, string>> AnalyzeHtml ( string Html )
+    {
+
+      List<KeyValuePair<string, string>> ResultList = null; 
+      HtmlDocument HtmlDoc = new HtmlDocument ();
+
+      HtmlDoc.LoadHtml( html: Html );
+
+      try
+      {
+        ResultList = AnalyzeHtmlDoc( HtmlDoc: HtmlDoc );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( "AnalyzeHtml: {0}", ex.Message ) );
+      }
+
+      return( ResultList );
+          
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public List<KeyValuePair<string, string>> AnalyzeHtmlDoc ( HtmlDocument HtmlDoc )
+    {
+
+      List<KeyValuePair<string, string>> ResultList = new List<KeyValuePair<string, string>> ( 32 );
+
+      if( this.IsEnabled() )
+      {
+
+        for( int Slot = 0 ; Slot < this.Max ; Slot++ )
+        {
+
+          IList<HtmlNode> NodeSet;
+          string Label = this.ExtractCssSelectors[ Slot ].Key;
+          string Expression = this.ExtractCssSelectors[ Slot ].Value.Expression;
+          MacroscopeConstants.DataExtractorType ExtractorType = this.ExtractCssSelectors[ Slot ].Value.ExtractorType;
+
+          if( this.GetActiveInactive( Slot ).Equals( MacroscopeConstants.ActiveInactive.INACTIVE ) )
+          {
+            continue;
+          }
+          else
+          if( !SyntaxCheckCssSelector( CssSelectorString: Expression ) )
+          {
+            continue;
+          }
+
+          NodeSet = HtmlDoc.QuerySelectorAll( Expression );
+
+          DebugMsg( "", true );
+          
+          
+          if( 
+            ( NodeSet != null )
+            && ( NodeSet.Count > 0 ) )
+          {
+
+            foreach( HtmlNode Node in NodeSet )
+            {
+
+              KeyValuePair<string, string> Pair;
+              string Text;
+              
+              switch( ExtractorType )
+              {
+              
+                case MacroscopeConstants.DataExtractorType.OUTERHTML:
+                  Text = Node.OuterHtml;
+                  Pair = new KeyValuePair<string, string> ( key: Label, value: Text );
+                  ResultList.Add( item: Pair );
+                  break;
+                  
+                case MacroscopeConstants.DataExtractorType.INNERHTML:
+                  Text = Node.InnerHtml;
+                  Pair = new KeyValuePair<string, string> ( key: Label, value: Text );
+                  ResultList.Add( item: Pair );
+                  break;
+
+                case MacroscopeConstants.DataExtractorType.INNERTEXT:
+                  Text = Node.InnerText;
+                  Pair = new KeyValuePair<string, string> ( key: Label, value: Text );
+                  ResultList.Add( item: Pair );
+                  break;
+
+                default:
+                  break;
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+      return( ResultList );
+
+    }
+
+    /**************************************************************************/
+    
+    public static Boolean SyntaxCheckCssSelector ( string CssSelectorString )
+    {
       
+      Boolean IsValid = false;
+      
+      try
+      {
+
+        HtmlDocument doc = new HtmlDocument ();
+
+        doc.LoadHtml( "<html><head><title>title</title></head><body></body></html>" );
+
+        HtmlNode Node = doc.QuerySelector( CssSelectorString );
+
+        IsValid = true;
+
+      }
+      catch( Exception ex )
+      {
+
+        DebugMsg( ex.Message, true );
+
+        IsValid = false;
+        
+      }
+
+      return( IsValid );
+
     }
 
     /**************************************************************************/
