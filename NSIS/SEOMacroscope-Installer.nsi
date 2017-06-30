@@ -98,13 +98,21 @@ Section uninstall
 
 	Delete "$INSTDIR\ClosedXML.dll"
 	Delete "$INSTDIR\ClosedXML.pdb"
-		
-	Delete "$INSTDIR\DocumentFormat.OpenXml.dll"
+	Delete "$INSTDIR\ClosedXML.xml"
+
+	Delete "$INSTDIR\CsvHelper.dll"
+	Delete "$INSTDIR\CsvHelper.xml"
 	
+	Delete "$INSTDIR\DocumentFormat.OpenXml.dll"
+	Delete "$INSTDIR\DocumentFormat.OpenXml.xml"
+
 	Delete "$INSTDIR\ExCSS.dll"
 
 	Delete "$INSTDIR\Fastenshtein.dll"
 	Delete "$INSTDIR\Fastenshtein.xml"
+
+	Delete "$INSTDIR\HtmlAgilityPack.CssSelectors.dll"
+	Delete "$INSTDIR\HtmlAgilityPack.CssSelectors.pdb"
 
 	Delete "$INSTDIR\HtmlAgilityPack.dll"
 	Delete "$INSTDIR\HtmlAgilityPack.pdb"
