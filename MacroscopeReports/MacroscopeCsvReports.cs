@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Net;
 using CsvHelper;
 
 namespace SEOMacroscope
@@ -63,6 +64,67 @@ namespace SEOMacroscope
     {
       
       ws.WriteField( Url );
+
+    }
+
+    /**************************************************************************/
+
+    public void InsertAndFormatStatusCodeCell (
+      CsvWriter ws,
+      MacroscopeDocument msDoc
+    )
+    {
+
+      string Value = ( ( int )msDoc.GetStatusCode() ).ToString();
+      
+      if( string.IsNullOrEmpty( Value ) )
+      {
+        Value = "0";
+      }
+
+      ws.WriteField( Value );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void InsertAndFormatStatusCodeCell (
+      CsvWriter ws,
+      int StatusCode
+    )
+    {
+
+      string Value = StatusCode.ToString();
+
+      ws.WriteField( Value );
+
+    }
+    
+    /** -------------------------------------------------------------------- **/
+        
+    public void InsertAndFormatStatusCodeCell (
+      CsvWriter ws,
+      HttpStatusCode StatusCode
+    )
+    {
+
+      string Value = StatusCode.ToString();
+
+      ws.WriteField( Value );
+
+    }
+
+    /**************************************************************************/
+
+    public void InsertAndFormatRedirectCell (
+      CsvWriter ws,
+      MacroscopeDocument msDoc
+    )
+    {
+
+      string Value = msDoc.GetIsRedirect().ToString();
+      
+      ws.WriteField( Value );
 
     }
 

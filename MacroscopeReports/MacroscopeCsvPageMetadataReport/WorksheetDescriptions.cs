@@ -24,6 +24,7 @@
 */
 
 using System;
+using CsvHelper;
 
 namespace SEOMacroscope
 {
@@ -35,42 +36,21 @@ namespace SEOMacroscope
 
     private void BuildWorksheetPageDescriptions (
       MacroscopeJobMaster JobMaster,
-      XLWorkbook wb,
-      string sWorksheetLabel
+      CsvWriter ws
     )
     {
-      var ws = wb.Worksheets.Add( sWorksheetLabel );
-
-      int iRow = 1;
-      int iCol = 1;
-      int iColMax = 1;
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
 
       {
-
-        ws.Cell( iRow, iCol ).Value = "URL";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Page Language";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Detected Language";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Occurrences";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Description";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Description Length";
-
+        ws.WriteField( "URL" );
+        ws.WriteField( "Page Language" );
+        ws.WriteField( "Detected Language" );
+        ws.WriteField( "Occurrences" );
+        ws.WriteField( "Description" );
+        ws.WriteField( "Description Length" );
+        ws.NextRecord();
       }
-
-      iColMax = iCol;
-
-      iRow++;
 
       foreach( string Url in DocCollection.DocumentKeys() )
       {
@@ -101,8 +81,6 @@ namespace SEOMacroscope
         if( Proceed )
         {
           
-          iCol = 1;
-
           string Description = msDoc.GetDescription();
           string PageLanguage = msDoc.GetIsoLanguageCode();
           string DetectedLanguage = msDoc.GetTitleLanguage();
@@ -114,94 +92,20 @@ namespace SEOMacroscope
             Occurrences = DocCollection.GetStatsDescriptionCount( msDoc: msDoc );
           }
 
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+          this.InsertAndFormatUrlCell( ws, msDoc );
 
-          if( msDoc.GetIsInternal() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-          }
-          iCol++;
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( PageLanguage ) );
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( PageLanguage ) );
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( DetectedLanguage ) );
 
-          if( PageLanguage != DetectedLanguage )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( Occurrences.ToString() ) );
 
-          iCol++;
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( Description ) );
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DetectedLanguage ) );
-
-          if( PageLanguage != DetectedLanguage )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
-
-          if( Occurrences > 1 )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Description ) );
-
-          if( DescriptionLength <= 0 )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-            ws.Cell( iRow, iCol ).Value = "MISSING";
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DescriptionLength.ToString() ) );
-
-          if( DescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          if( DescriptionLength > MacroscopePreferencesManager.GetDescriptionMaxLen() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-
-          iRow++;
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( DescriptionLength.ToString() ) );
           
         }
 
-      }
-
-      {
-        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
-        var excelTable = rangeData.CreateTable();
       }
 
     }

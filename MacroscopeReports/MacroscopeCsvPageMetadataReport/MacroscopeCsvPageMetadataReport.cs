@@ -53,7 +53,8 @@ namespace SEOMacroscope
     public void WriteCsv (
       MacroscopeJobMaster JobMaster,
       MacroscopeCsvPageMetadataReport.OutputWorksheet SelectedOutputWorksheet,
-      string OutputFilename )
+      string OutputFilename
+    )
     {
       
       try
@@ -70,10 +71,10 @@ namespace SEOMacroscope
               this.BuildWorksheetPageTitles( JobMaster, ws );
               break;
             case MacroscopeCsvPageMetadataReport.OutputWorksheet.DESCRIPTIONS:
-              //this.BuildWorksheetPageDescriptions( JobMaster, ws );
+              this.BuildWorksheetPageDescriptions( JobMaster, ws );
               break;
             case MacroscopeCsvPageMetadataReport.OutputWorksheet.KEYWORDS:
-              //this.BuildWorksheetPageKeywords( JobMaster, ws );
+              this.BuildWorksheetPageKeywords( JobMaster, ws );
               break;
             default:
               this.BuildWorksheetPageTitles( JobMaster, ws );

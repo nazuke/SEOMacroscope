@@ -24,6 +24,7 @@
 */
 
 using System;
+using CsvHelper;
 
 namespace SEOMacroscope
 {
@@ -35,39 +36,20 @@ namespace SEOMacroscope
 
     private void BuildWorksheetPageKeywords (
       MacroscopeJobMaster JobMaster,
-      XLWorkbook wb,
-      string sWorksheetLabel
+      CsvWriter ws
     )
     {
-      var ws = wb.Worksheets.Add( sWorksheetLabel );
-
-      int iRow = 1;
-      int iCol = 1;
-      int iColMax = 1;
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
 
       {
-
-        ws.Cell( iRow, iCol ).Value = "URL";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Occurrences";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Keywords";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Keywords Length";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Number of Keywords";
-
+        ws.WriteField( "URL" );
+        ws.WriteField( "Occurrences" );
+        ws.WriteField( "Keywords" );
+        ws.WriteField( "Keywords Length" );
+        ws.WriteField( "Number of Keywords" );
+        ws.NextRecord();
       }
-
-      iColMax = iCol;
-
-      iRow++;
 
       foreach( string Url in DocCollection.DocumentKeys() )
       {
@@ -98,8 +80,6 @@ namespace SEOMacroscope
         if( Proceed )
         {
 
-          iCol = 1;
-
           string Keywords = msDoc.GetKeywords();
           int Occurrences = 0;
           int KeywordsLength = msDoc.GetKeywordsLength();
@@ -110,42 +90,20 @@ namespace SEOMacroscope
             Occurrences = DocCollection.GetStatsKeywordsCount( msDoc );
           }
 
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+          this.InsertAndFormatUrlCell( ws, msDoc );
 
-          if( msDoc.GetIsInternal() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-          }
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( Occurrences.ToString() ) );
 
-          iCol++;
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( Keywords ) );
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( KeywordsLength.ToString() ) );
 
-          iCol++;
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( KeywordsNumber.ToString() ) );
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Keywords ) );
-
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsLength.ToString() ) );
-
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsNumber.ToString() ) );
-
-          iRow++;
-          
+          ws.NextRecord();
+                  
         }
 
-      }
-
-      {
-        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
-        var excelTable = rangeData.CreateTable();
       }
 
     }

@@ -209,9 +209,11 @@
     </Compile>
     <Compile Include="MacroscopeGenerators\MacroscopeSitemapGenerator\MacroscopeSitemapGenerator.cs" />
     <Compile Include="MacroscopeGenerators\t\TestMacroscopeSitemapGenerator.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvOverviewReport\MacroscopeCsvOverviewReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvOverviewReport\WorksheetOverview.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\MacroscopeCsvPageMetadataReport.cs" />
-    <None Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\WorksheetDescriptions.cs" />
-    <None Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\WorksheetKeywords.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\WorksheetDescriptions.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\WorksheetKeywords.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvPageMetadataReport\WorksheetTitles.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelCustomFilterReport\MacroscopeExcelCustomFilterReport.cs" />
@@ -591,6 +593,7 @@
     <Folder Include="MacroscopeReports\MacroscopeExcelDataExtractorReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelPageMetadataReport" />
     <Folder Include="MacroscopeReports\MacroscopeCsvPageMetadataReport" />
+    <Folder Include="MacroscopeReports\MacroscopeCsvOverviewReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\MacroscopeXpathRestrictions" />

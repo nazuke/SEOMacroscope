@@ -87,27 +87,27 @@ namespace SEOMacroscope
     )
     {
 
-      string sValue = ( ( int )msDoc.GetStatusCode() ).ToString();
+      string Value = ( ( int )msDoc.GetStatusCode() ).ToString();
       
-      if( sValue == null )
+      if( string.IsNullOrEmpty( Value ) )
       {
-        sValue = "0";
+        Value = "0";
       }
       
-      ws.Cell( Row, Col ).Value = sValue;
+      ws.Cell( Row, Col ).Value = Value;
 
       {
-        if( Regex.IsMatch( sValue, "^[2]" ) )
+        if( Regex.IsMatch( Value, "^[2]" ) )
         {
           ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Green );
         }
         else
-        if( Regex.IsMatch( sValue, "^[3]" ) )
+        if( Regex.IsMatch( Value, "^[3]" ) )
         {
           ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Goldenrod );
         }
         else
-        if( Regex.IsMatch( sValue, "^[45]" ) )
+        if( Regex.IsMatch( Value, "^[45]" ) )
         {
           ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
         }
@@ -199,11 +199,11 @@ namespace SEOMacroscope
     )
     {
 
-      string sValue = msDoc.GetIsRedirect().ToString();
+      string Value = msDoc.GetIsRedirect().ToString();
       
-      ws.Cell( Row, Col ).Value = sValue;
+      ws.Cell( Row, Col ).Value = Value;
 
-      if( sValue.ToLower() == "true" )
+      if( Value.ToLower() == "true" )
       {
         ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
       }

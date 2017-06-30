@@ -115,6 +115,8 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem titlesCSVReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem descriptionsCSVReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem keywordsCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem combinedExcelReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem cSVReportToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -171,6 +173,8 @@ namespace SEOMacroscope
 			this.clearHTTPAuthenticationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.combinedExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
 			this.saveURIAnalysisExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.redirectsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -382,7 +386,7 @@ namespace SEOMacroscope
 			this.toolStripSeparator6,
 			this.clearHTTPAuthenticationToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
+			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
 			this.taskParametersToolStripMenuItem.Text = "Task Parameters";
 			// 
 			// includeURLPatternsToolStripMenuItem
@@ -511,11 +515,27 @@ namespace SEOMacroscope
 			// saveOverviewExcelReportToolStripMenuItem
 			// 
 			this.saveOverviewExcelReportToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.saveOverviewExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.combinedExcelReportToolStripMenuItem,
+			this.cSVReportToolStripMenuItem});
 			this.saveOverviewExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.saveOverviewExcelReportToolStripMenuItem.Name = "saveOverviewExcelReportToolStripMenuItem";
 			this.saveOverviewExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.saveOverviewExcelReportToolStripMenuItem.Text = "Overview Excel Report";
-			this.saveOverviewExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveOverviewExcelReport);
+			this.saveOverviewExcelReportToolStripMenuItem.Text = "Overview Report";
+			// 
+			// combinedExcelReportToolStripMenuItem
+			// 
+			this.combinedExcelReportToolStripMenuItem.Name = "combinedExcelReportToolStripMenuItem";
+			this.combinedExcelReportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.combinedExcelReportToolStripMenuItem.Text = "Excel Report";
+			this.combinedExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveOverviewExcelReport);
+			// 
+			// cSVReportToolStripMenuItem
+			// 
+			this.cSVReportToolStripMenuItem.Name = "cSVReportToolStripMenuItem";
+			this.cSVReportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.cSVReportToolStripMenuItem.Text = "CSV Report";
+			this.cSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveOverviewCsvReport);
 			// 
 			// toolStripSeparator11
 			// 
