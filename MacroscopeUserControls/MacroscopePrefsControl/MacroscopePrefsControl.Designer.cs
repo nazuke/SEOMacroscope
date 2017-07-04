@@ -138,6 +138,10 @@ namespace SEOMacroscope
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel7;
 		private System.Windows.Forms.GroupBox groupBox19;
 		public System.Windows.Forms.CheckBox checkBoxEnableMemoryGuard;
+		private System.Windows.Forms.TabPage tabPageExtractorOptions;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel8;
+		private System.Windows.Forms.GroupBox groupBox20;
+		public System.Windows.Forms.CheckBox checkBoxExtractorCleanWhiteSpace;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -268,6 +272,10 @@ namespace SEOMacroscope
 			this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
 			this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
+			this.tabPageExtractorOptions = new System.Windows.Forms.TabPage();
+			this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupBox20 = new System.Windows.Forms.GroupBox();
+			this.checkBoxExtractorCleanWhiteSpace = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -323,6 +331,9 @@ namespace SEOMacroscope
 			this.tabPageAdvancedSettings.SuspendLayout();
 			this.flowLayoutPanel7.SuspendLayout();
 			this.groupBox19.SuspendLayout();
+			this.tabPageExtractorOptions.SuspendLayout();
+			this.flowLayoutPanel8.SuspendLayout();
+			this.groupBox20.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label9
@@ -346,6 +357,7 @@ namespace SEOMacroscope
 			this.tabControlPreferences.Controls.Add(this.tabPageSpideringControl);
 			this.tabControlPreferences.Controls.Add(this.tabPageAnalysisOptions);
 			this.tabControlPreferences.Controls.Add(this.tabPageSeo);
+			this.tabControlPreferences.Controls.Add(this.tabPageExtractorOptions);
 			this.tabControlPreferences.Controls.Add(this.tabPageDisplaySettings);
 			this.tabControlPreferences.Controls.Add(this.tabPageExportOptions);
 			this.tabControlPreferences.Controls.Add(this.tabPageNetworkSettings);
@@ -1671,6 +1683,46 @@ namespace SEOMacroscope
 			this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
 			this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
 			// 
+			// tabPageExtractorOptions
+			// 
+			this.tabPageExtractorOptions.Controls.Add(this.flowLayoutPanel8);
+			this.tabPageExtractorOptions.Location = new System.Drawing.Point(4, 22);
+			this.tabPageExtractorOptions.Name = "tabPageExtractorOptions";
+			this.tabPageExtractorOptions.Size = new System.Drawing.Size(592, 761);
+			this.tabPageExtractorOptions.TabIndex = 7;
+			this.tabPageExtractorOptions.Text = "Extractor Options";
+			this.tabPageExtractorOptions.UseVisualStyleBackColor = true;
+			// 
+			// flowLayoutPanel8
+			// 
+			this.flowLayoutPanel8.Controls.Add(this.groupBox20);
+			this.flowLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel8.Location = new System.Drawing.Point(0, 0);
+			this.flowLayoutPanel8.Name = "flowLayoutPanel8";
+			this.flowLayoutPanel8.Size = new System.Drawing.Size(592, 761);
+			this.flowLayoutPanel8.TabIndex = 0;
+			// 
+			// groupBox20
+			// 
+			this.groupBox20.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox20.Controls.Add(this.checkBoxExtractorCleanWhiteSpace);
+			this.groupBox20.Location = new System.Drawing.Point(10, 10);
+			this.groupBox20.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox20.Name = "groupBox20";
+			this.groupBox20.Size = new System.Drawing.Size(500, 60);
+			this.groupBox20.TabIndex = 1;
+			this.groupBox20.TabStop = false;
+			this.groupBox20.Text = "Process Text";
+			// 
+			// checkBoxExtractorCleanWhiteSpace
+			// 
+			this.checkBoxExtractorCleanWhiteSpace.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxExtractorCleanWhiteSpace.Name = "checkBoxExtractorCleanWhiteSpace";
+			this.checkBoxExtractorCleanWhiteSpace.Size = new System.Drawing.Size(160, 24);
+			this.checkBoxExtractorCleanWhiteSpace.TabIndex = 1;
+			this.checkBoxExtractorCleanWhiteSpace.Text = "Clean white space";
+			this.checkBoxExtractorCleanWhiteSpace.UseVisualStyleBackColor = true;
+			// 
 			// MacroscopePrefsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1735,6 +1787,9 @@ namespace SEOMacroscope
 			this.tabPageAdvancedSettings.ResumeLayout(false);
 			this.flowLayoutPanel7.ResumeLayout(false);
 			this.groupBox19.ResumeLayout(false);
+			this.tabPageExtractorOptions.ResumeLayout(false);
+			this.flowLayoutPanel8.ResumeLayout(false);
+			this.groupBox20.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

@@ -174,6 +174,10 @@ namespace SEOMacroscope
         PrefsControl.numericUpDownMaxHeadingDepth.Value = MacroscopePreferencesManager.GetMaxHeadingDepth();
 
         PrefsControl.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
+        
+        /** Extractor Options ---------------------------------------------- **/
+
+        PrefsControl.checkBoxExtractorCleanWhiteSpace.Checked = MacroscopePreferencesManager.GetExtractorCleanWhiteSpace();
 
         /** Export Options ------------------------------------------------- **/
         
@@ -269,6 +273,10 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetMaxHeadingDepth( ( ushort )PrefsControl.numericUpDownMaxHeadingDepth.Value );
 
       MacroscopePreferencesManager.SetAnalyzeKeywordsInText( PrefsControl.checkBoxAnalyzeKeywordsInText.Checked );
+
+      /** Extractor Options ---------------------------------------------- **/
+
+      MacroscopePreferencesManager.SetExtractorCleanWhiteSpace( PrefsControl.checkBoxExtractorCleanWhiteSpace.Checked );
 
       /** Export Options --------------------------------------------------- **/
               

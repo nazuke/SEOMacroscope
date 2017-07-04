@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using HtmlAgilityPack;
-//using HapCss;
 
 namespace SEOMacroscope
 {
@@ -36,33 +35,22 @@ namespace SEOMacroscope
   /// Description of MacroscopeDataExtractorCssSelectors.cs.
   /// </summary>
 
-  public class MacroscopeDataExtractorCssSelectors : Macroscope
+  public class MacroscopeDataExtractorCssSelectors : MacroscopeDataExtractor
   {
 
     /**************************************************************************/
-
-    private Boolean Enabled;
-
-    private int Max;
-
-    private List<MacroscopeConstants.ActiveInactive> ExtractActiveInactive;
 
     private List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ExtractCssSelectors;
 
     /**************************************************************************/
     
     public MacroscopeDataExtractorCssSelectors ( int Size )
+      : base( Size: Size)
     {
 
-      this.Disable();
-      
-      this.Max = Size;
+      this.ExtractCssSelectors = new List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ( this.GetSize() );
 
-      this.ExtractActiveInactive = new List<MacroscopeConstants.ActiveInactive> ( this.Max );
-
-      this.ExtractCssSelectors = new List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ( this.Max );
-
-      for( int Slot = 0 ; Slot < this.Max ; Slot++ )
+      for( int Slot = 0 ; Slot < this.GetSize() ; Slot++ )
       {
         
         this.ExtractActiveInactive.Add( MacroscopeConstants.ActiveInactive.INACTIVE );
@@ -84,42 +72,6 @@ namespace SEOMacroscope
 
       }
 
-    }
-
-    /**************************************************************************/
-
-    public void Disable ()
-    {
-      this.Enabled = false;
-    }
-    
-    public void SetEnabled ()
-    {
-      this.Enabled = true;
-    }
-    
-    public Boolean IsEnabled ()
-    {
-      return( this.Enabled );
-    }
-    
-    /**************************************************************************/
-
-    public int GetSize ()
-    {
-      return( this.Max );
-    }
-
-    /**************************************************************************/
-
-    public void SetActiveInactive ( int Slot, MacroscopeConstants.ActiveInactive State )
-    {
-      this.ExtractActiveInactive[ Slot ] = State;
-    }
-    
-    public MacroscopeConstants.ActiveInactive GetActiveInactive ( int Slot )
-    {
-      return( this.ExtractActiveInactive[ Slot ] );
     }
 
     /**************************************************************************/
@@ -188,7 +140,6 @@ namespace SEOMacroscope
 
     }
 
-
     /**************************************************************************/
 
     public List<KeyValuePair<string, string>> AnalyzeHtml ( string Html )
@@ -222,7 +173,7 @@ namespace SEOMacroscope
       if( this.IsEnabled() )
       {
 
-        for( int Slot = 0 ; Slot < this.Max ; Slot++ )
+        for( int Slot = 0 ; Slot < this.GetSize() ; Slot++ )
         {
 
           IList<HtmlNode> NodeSet;
@@ -242,10 +193,7 @@ namespace SEOMacroscope
 
           NodeSet = HtmlDoc.QuerySelectorAll( Expression );
 
-          DebugMsg( "", true );
-          
-          
-          if( 
+          if(
             ( NodeSet != null )
             && ( NodeSet.Count > 0 ) )
           {
@@ -272,9 +220,18 @@ namespace SEOMacroscope
                   break;
 
                 case MacroscopeConstants.DataExtractorType.INNERTEXT:
+
                   Text = Node.InnerText;
+                  
+                  if( MacroscopePreferencesManager.GetExtractorCleanWhiteSpace() )
+                  {
+                    Text = this.CleanWhiteSpace( Text: Text );
+                  }
+
                   Pair = new KeyValuePair<string, string> ( key: Label, value: Text );
+
                   ResultList.Add( item: Pair );
+
                   break;
 
                 default:

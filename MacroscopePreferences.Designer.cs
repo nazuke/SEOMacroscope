@@ -206,6 +206,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ExtractorCleanWhiteSpace {
+			get {
+				return ((bool)(this["ExtractorCleanWhiteSpace"]));
+			}
+			set {
+				this["ExtractorCleanWhiteSpace"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool FetchAudio {
 			get {
 				return ((bool)(this["FetchAudio"]));

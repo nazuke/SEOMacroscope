@@ -134,6 +134,10 @@ namespace SEOMacroscope
     
     static Boolean DetectLanguage;
 
+    /** Extractor Options -------------------------------------------------- **/
+
+    static Boolean ExtractorCleanWhiteSpace;
+
     /** Export Options ----------------------------------------------------- **/
 
     static Boolean SitemapIncludeLinkedPdfs;
@@ -241,7 +245,9 @@ namespace SEOMacroscope
           AnalyzeKeywordsInText = Preferences.AnalyzeKeywordsInText;
     
           DetectLanguage = Preferences.DetectLanguage;
-          
+
+          ExtractorCleanWhiteSpace = Preferences.ExtractorCleanWhiteSpace;
+
           SitemapIncludeLinkedPdfs = Preferences.SitemapIncludeLinkedPdfs;
           
           EnableMemoryGuard = Preferences.EnableMemoryGuard;
@@ -372,11 +378,15 @@ namespace SEOMacroscope
 
       AnalyzeKeywordsInText = false;
 
+      /** Extractor Options ------------------------------------------------ **/
+    
+      ExtractorCleanWhiteSpace = true;
+    
       /** Export Options --------------------------------------------------- **/
             
       SitemapIncludeLinkedPdfs = false;
       
-      /** Advanced Settings -------------------------------------------------- **/
+      /** Advanced Settings ------------------------------------------------ **/
       
       EnableMemoryGuard = true;
       
@@ -521,7 +531,9 @@ namespace SEOMacroscope
         Preferences.AnalyzeKeywordsInText = AnalyzeKeywordsInText;
 
         Preferences.DetectLanguage = DetectLanguage;
-        
+
+        Preferences.ExtractorCleanWhiteSpace = ExtractorCleanWhiteSpace;
+
         Preferences.SitemapIncludeLinkedPdfs = SitemapIncludeLinkedPdfs;
                   
         Preferences.EnableMemoryGuard = EnableMemoryGuard;
@@ -1234,6 +1246,18 @@ namespace SEOMacroscope
     public static void SetDetectLanguage ( Boolean Detect )
     {
       DetectLanguage = Detect;
+    }
+
+    /** Extractor Options ********************************************************/
+
+    public static Boolean GetExtractorCleanWhiteSpace ()
+    {
+      return( ExtractorCleanWhiteSpace );
+    }
+
+    public static void SetExtractorCleanWhiteSpace ( Boolean State )
+    {
+      ExtractorCleanWhiteSpace = State;
     }
 
     /** Export Options ********************************************************/

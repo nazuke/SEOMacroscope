@@ -53,6 +53,8 @@ namespace SEOMacroscope
 
       this.buttonClear.Click += ClearDataExtractorForm;
 
+      this.FormClosing += CallbackFormClosing;
+            
     }
     
     /**************************************************************************/
@@ -69,6 +71,16 @@ namespace SEOMacroscope
       this.buttonOK.Enabled = true;
     }
     
+    /**************************************************************************/
+
+    private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
+    {
+      if( !this.dataExtractorInstance.ValidateForm( ShowErrorDialogue: true ) )
+      {
+        e.Cancel = true;
+      }
+    }
+
     /**************************************************************************/
     
     public MacroscopeDataExtractorXpaths GetDataExtractor ()

@@ -109,6 +109,7 @@
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="MacroscopeCustomFilters\MacroscopeCustomFilters.cs" />
     <Compile Include="MacroscopeCustomFilters\t\TestMacroscopeCustomFilters.cs" />
+    <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractor.cs" />
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorCssSelectors.cs" />
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorExpression.cs" />
     <Compile Include="MacroscopeDataExtractor\MacroscopeDataExtractorRegexes.cs" />
@@ -129,6 +130,10 @@
     <Compile Include="MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.cs" />
     <Compile Include="MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.Designer.cs">
       <DependentUpon>MacroscopeCustomFilterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorPanel.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorPanel.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorPanel.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MacroscopeDataExtractor\t\HtmlDocs\HtmlDoc001.html">
       <LogicalName>HtmlDoc001</LogicalName>
