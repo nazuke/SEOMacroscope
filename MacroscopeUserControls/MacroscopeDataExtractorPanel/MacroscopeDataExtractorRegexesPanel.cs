@@ -82,6 +82,7 @@ namespace SEOMacroscope
       int Max = this.DataExtractor.GetSize();
       TableLayoutPanel Table = this.tableLayoutPanelControlsGrid;
       
+      Table.Dock = DockStyle.Fill;
       Table.ColumnCount = 4;
       Table.RowCount = Max + 1;
 
@@ -96,12 +97,16 @@ namespace SEOMacroscope
         
         for( int i = 0 ; i < ColumnLabels.Count ; i++ )
         {
+
           Label TextLabelCol = new Label ();
+
           TextLabelCol.Text = ColumnLabels[ i ];
+          TextLabelCol.TextAlign = ContentAlignment.BottomLeft;
           TextLabelCol.Dock = DockStyle.Fill;
           TextLabelCol.Margin = new Padding ( 5, 5, 5, 5 );
-          TextLabelCol.TextAlign = ContentAlignment.BottomLeft;
+
           Table.Controls.Add( TextLabelCol );
+
         }
         
       }
@@ -125,23 +130,22 @@ namespace SEOMacroscope
         StateComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         StateComboBox.SelectedIndex = 0;
         StateComboBox.Margin = new Padding ( 5, 5, 5, 5 );
-        
+        StateComboBox.Width = 100;
+                
         TextBoxLabel.Name = string.Format( "TextBoxLabel{0}", Slot + 1 );
-        TextBoxLabel.KeyUp += this.CallbackTextBoxKeyUp;
         TextBoxLabel.Dock = DockStyle.Fill;
         TextBoxLabel.Margin = new Padding ( 5, 5, 5, 5 );
-
         TextBoxLabel.Tag = Slot.ToString();
                 
+        TextBoxLabel.KeyUp += this.CallbackTextBoxKeyUp;
         TextBoxLabel.TextChanged += this.CallbackTextBoxLabelTextChanged;
         
         TextBoxExpression.Name = string.Format( "TextBoxExpression{0}", Slot + 1 );
-        TextBoxExpression.KeyUp += this.CallbackTextBoxKeyUp;
         TextBoxExpression.Dock = DockStyle.Fill;
         TextBoxExpression.Margin = new Padding ( 5, 5, 5, 5 );
-        
         TextBoxExpression.Tag = Slot.ToString();
                 
+        TextBoxExpression.KeyUp += this.CallbackTextBoxKeyUp;
         TextBoxExpression.TextChanged += this.CallbackTextBoxExpressionTextChanged;
 
         Table.Controls.Add( TextLabel );
@@ -155,6 +159,7 @@ namespace SEOMacroscope
 
       }
 
+      // Add empty last row for space adjustment
       for( int i = 0 ; i < Table.ColumnCount ; i++ )
       {
         Label TextLabelCol = new Label ();
@@ -162,20 +167,10 @@ namespace SEOMacroscope
         Table.Controls.Add( TextLabelCol );
       }
 
-      {
-        
-        int Count = 1;
-
-        foreach( RowStyle Style in Table.RowStyles )
-        {
-          decimal RowHeight = ( decimal )Table.Height / ( decimal )Table.RowCount;
-          Style.SizeType = SizeType.Absolute;
-          Style.Height = ( int )RowHeight * Count;
-          Count++;
-        }
-      
-      }
-
+      Table.AutoScroll = false;
+      Table.Padding = new Padding ( 0, 0, 15, 0 );
+      Table.AutoScroll = true;
+     
     }
 
     /**************************************************************************/

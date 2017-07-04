@@ -71,6 +71,7 @@ namespace SEOMacroscope
 			// 
 			// tableLayoutPanel1
 			// 
+			this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.tableLayoutPanel1.ColumnCount = 1;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
@@ -132,6 +133,8 @@ namespace SEOMacroscope
 			// 
 			// customFilterPanelInstance
 			// 
+			this.customFilterPanelInstance.BackColor = System.Drawing.Color.Transparent;
+			this.customFilterPanelInstance.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.customFilterPanelInstance.Location = new System.Drawing.Point(3, 3);
 			this.customFilterPanelInstance.Name = "customFilterPanelInstance";
 			this.customFilterPanelInstance.Size = new System.Drawing.Size(638, 296);

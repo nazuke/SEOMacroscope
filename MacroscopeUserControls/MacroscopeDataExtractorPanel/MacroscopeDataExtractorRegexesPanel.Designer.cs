@@ -64,17 +64,17 @@ namespace SEOMacroscope
 			// 
 			// tableLayoutPanelControlsGrid
 			// 
-			this.tableLayoutPanelControlsGrid.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.tableLayoutPanelControlsGrid.BackColor = System.Drawing.Color.Transparent;
 			this.tableLayoutPanelControlsGrid.ColumnCount = 4;
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
 			this.tableLayoutPanelControlsGrid.Location = new System.Drawing.Point(10, 50);
 			this.tableLayoutPanelControlsGrid.Margin = new System.Windows.Forms.Padding(10);
 			this.tableLayoutPanelControlsGrid.Name = "tableLayoutPanelControlsGrid";
 			this.tableLayoutPanelControlsGrid.RowCount = 1;
-			this.tableLayoutPanelControlsGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelControlsGrid.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelControlsGrid.Size = new System.Drawing.Size(600, 250);
 			this.tableLayoutPanelControlsGrid.TabIndex = 1;
 			// 
@@ -90,7 +90,7 @@ namespace SEOMacroscope
 			// 
 			// tableLayoutPanelContainer
 			// 
-			this.tableLayoutPanelContainer.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.tableLayoutPanelContainer.BackColor = System.Drawing.Color.Transparent;
 			this.tableLayoutPanelContainer.ColumnCount = 1;
 			this.tableLayoutPanelContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanelContainer.Controls.Add(this.label6, 0, 0);

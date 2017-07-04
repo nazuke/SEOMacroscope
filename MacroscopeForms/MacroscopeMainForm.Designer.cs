@@ -107,7 +107,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-		private System.Windows.Forms.ToolStripMenuItem dataExstractorsExcelReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem dataExtractorsExcelReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pageMetadataExcelReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem cSSSelectorsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem xPathExpressionsToolStripMenuItem;
@@ -195,7 +195,7 @@ namespace SEOMacroscope
 			this.contactDetailsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
 			this.customFiltersExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.dataExstractorsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dataExtractorsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeBlogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sEOMacroscopeOnGitHubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -507,7 +507,7 @@ namespace SEOMacroscope
 			this.contactDetailsExcelReportToolStripMenuItem,
 			this.toolStripSeparator12,
 			this.customFiltersExcelReportToolStripMenuItem,
-			this.dataExstractorsExcelReportToolStripMenuItem});
+			this.dataExtractorsExcelReportToolStripMenuItem});
 			this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
 			this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
 			this.reportsToolStripMenuItem.Text = "Reports";
@@ -526,14 +526,14 @@ namespace SEOMacroscope
 			// combinedExcelReportToolStripMenuItem
 			// 
 			this.combinedExcelReportToolStripMenuItem.Name = "combinedExcelReportToolStripMenuItem";
-			this.combinedExcelReportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.combinedExcelReportToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
 			this.combinedExcelReportToolStripMenuItem.Text = "Excel Report";
 			this.combinedExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveOverviewExcelReport);
 			// 
 			// cSVReportToolStripMenuItem
 			// 
 			this.cSVReportToolStripMenuItem.Name = "cSVReportToolStripMenuItem";
-			this.cSVReportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.cSVReportToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
 			this.cSVReportToolStripMenuItem.Text = "CSV Report";
 			this.cSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveOverviewCsvReport);
 			// 
@@ -676,12 +676,12 @@ namespace SEOMacroscope
 			this.customFiltersExcelReportToolStripMenuItem.Text = "Custom Filters Excel Report";
 			this.customFiltersExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveCustomFilterExcelReport);
 			// 
-			// dataExstractorsExcelReportToolStripMenuItem
+			// dataExtractorsExcelReportToolStripMenuItem
 			// 
-			this.dataExstractorsExcelReportToolStripMenuItem.Name = "dataExstractorsExcelReportToolStripMenuItem";
-			this.dataExstractorsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.dataExstractorsExcelReportToolStripMenuItem.Text = "Data Extractors Excel Report";
-			this.dataExstractorsExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveDataExtractorsExcelReport);
+			this.dataExtractorsExcelReportToolStripMenuItem.Name = "dataExtractorsExcelReportToolStripMenuItem";
+			this.dataExtractorsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.dataExtractorsExcelReportToolStripMenuItem.Text = "Data Extractors Excel Report";
+			this.dataExtractorsExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveDataExtractorsExcelReport);
 			// 
 			// helpToolStripMenuItem
 			// 

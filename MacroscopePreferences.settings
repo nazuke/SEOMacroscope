@@ -25,6 +25,27 @@
     <Setting Name="CrawlParentDirectories" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="CustomFilterEnable" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="CustomFilterMaxItems" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="DataExtractorCleanWhiteSpace" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DataExtractorEnable" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DataExtractorMaxItemsCssSelectors" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="DataExtractorMaxItemsRegexes" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="DataExtractorMaxItemsXpaths" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
     <Setting Name="Depth" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">-1</Value>
     </Setting>
@@ -47,9 +68,6 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="EnableMemoryGuard" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="ExtractorCleanWhiteSpace" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="FetchAudio" Type="System.Boolean" Scope="User" Roaming="false">

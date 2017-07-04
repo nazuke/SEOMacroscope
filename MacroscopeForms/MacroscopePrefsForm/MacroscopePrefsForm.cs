@@ -174,10 +174,20 @@ namespace SEOMacroscope
         PrefsControl.numericUpDownMaxHeadingDepth.Value = MacroscopePreferencesManager.GetMaxHeadingDepth();
 
         PrefsControl.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
-        
+
+        /** Custom Filter Options ------------------------------------------ **/
+
+        PrefsControl.checkBoxCustomFilterEnable.Checked = MacroscopePreferencesManager.GetCustomFilterEnable();
+        PrefsControl.numericUpDownCustomFilterMaxItems.Value = MacroscopePreferencesManager.GetCustomFilterMaxItems();
+
         /** Extractor Options ---------------------------------------------- **/
 
-        PrefsControl.checkBoxExtractorCleanWhiteSpace.Checked = MacroscopePreferencesManager.GetExtractorCleanWhiteSpace();
+        PrefsControl.checkBoxDataExtractorEnable.Checked = MacroscopePreferencesManager.GetDataExtractorEnable();
+        PrefsControl.checkBoxDataExtractorCleanWhiteSpace.Checked = MacroscopePreferencesManager.GetDataExtractorCleanWhiteSpace();
+
+        PrefsControl.numericUpDownDataExtractorMaxItemsCssSelectors.Value = MacroscopePreferencesManager.GetDataExtractorMaxItemsCssSelectors();
+        PrefsControl.numericUpDownDataExtractorMaxItemsRegexes.Value = MacroscopePreferencesManager.GetDataExtractorMaxItemsRegexes();
+        PrefsControl.numericUpDownDataExtractorMaxItemsXpaths.Value = MacroscopePreferencesManager.GetDataExtractorMaxItemsXpaths();
 
         /** Export Options ------------------------------------------------- **/
         
@@ -274,9 +284,20 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetAnalyzeKeywordsInText( PrefsControl.checkBoxAnalyzeKeywordsInText.Checked );
 
-      /** Extractor Options ---------------------------------------------- **/
+      /** Custom Filter Options -------------------------------------------- **/
 
-      MacroscopePreferencesManager.SetExtractorCleanWhiteSpace( PrefsControl.checkBoxExtractorCleanWhiteSpace.Checked );
+      MacroscopePreferencesManager.SetCustomFilterEnable( PrefsControl.checkBoxCustomFilterEnable.Checked );
+
+      MacroscopePreferencesManager.SetCustomFilterMaxItems( ( int )PrefsControl.numericUpDownCustomFilterMaxItems.Value );
+
+      /** Extractor Options ------------------------------------------------ **/
+
+      MacroscopePreferencesManager.SetDataExtractorEnable( PrefsControl.checkBoxDataExtractorEnable.Checked );
+      MacroscopePreferencesManager.SetDataExtractorCleanWhiteSpace( PrefsControl.checkBoxDataExtractorCleanWhiteSpace.Checked );
+
+      MacroscopePreferencesManager.SetDataExtractorMaxItemsCssSelectors( ( int )PrefsControl.numericUpDownDataExtractorMaxItemsCssSelectors.Value );
+      MacroscopePreferencesManager.SetDataExtractorMaxItemsRegexes( ( int )PrefsControl.numericUpDownDataExtractorMaxItemsRegexes.Value );
+      MacroscopePreferencesManager.SetDataExtractorMaxItemsXpaths( ( int )PrefsControl.numericUpDownDataExtractorMaxItemsXpaths.Value );
 
       /** Export Options --------------------------------------------------- **/
               

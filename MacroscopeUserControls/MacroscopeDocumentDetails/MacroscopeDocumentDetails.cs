@@ -293,8 +293,11 @@ namespace SEOMacroscope
 
       this.RenderTextBoxBodyText( JobMaster, msDoc );
       
-      this.RenderListViewCustomFilters( JobMaster, msDoc );
-
+      if( MacroscopePreferencesManager.GetCustomFilterEnable() )
+      {
+        this.RenderListViewCustomFilters( JobMaster, msDoc );
+      }
+                
       this.RenderDocumentPreview( JobMaster, msDoc );
 
     }

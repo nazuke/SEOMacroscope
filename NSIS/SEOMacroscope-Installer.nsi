@@ -92,20 +92,16 @@ Section uninstall
 	Delete "$INSTDIR\LICENSE"
 	Delete "$INSTDIR\README.md"
 
-	Delete "$INSTDIR\PdfSharp.Charting.resources.dll"
-	Delete "$INSTDIR\PdfSharp.resources.dll"
-	RMDir "$INSTDIR\de"
-
 	Delete "$INSTDIR\ClosedXML.dll"
 	Delete "$INSTDIR\ClosedXML.pdb"
 	Delete "$INSTDIR\ClosedXML.xml"
 
 	Delete "$INSTDIR\CsvHelper.dll"
 	Delete "$INSTDIR\CsvHelper.xml"
-	
+
 	Delete "$INSTDIR\DocumentFormat.OpenXml.dll"
 	Delete "$INSTDIR\DocumentFormat.OpenXml.xml"
-
+	
 	Delete "$INSTDIR\ExCSS.dll"
 
 	Delete "$INSTDIR\Fastenshtein.dll"
@@ -119,13 +115,16 @@ Section uninstall
 	Delete "$INSTDIR\HtmlAgilityPack.xml"
 
 	Delete "$INSTDIR\LanguageDetection.dll"
-
+	
 	Delete "$INSTDIR\NUnit.Framework.dll"
 
 	Delete "$INSTDIR\PdfSharp.Charting.dll"
 	Delete "$INSTDIR\PdfSharp.Charting.xml"
 	Delete "$INSTDIR\PdfSharp.dll"
 	Delete "$INSTDIR\PdfSharp.xml"
+	Delete "$INSTDIR\de\PdfSharp.Charting.resources.dll"
+	Delete "$INSTDIR\de\PdfSharp.resources.dll"
+	RMDir "$INSTDIR\de"
 
 	Delete "$INSTDIR\RobotsTxt.dll"
 	Delete "$INSTDIR\RobotsTxt.xml"

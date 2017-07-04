@@ -223,7 +223,7 @@ namespace SEOMacroscope
 
                   Text = Node.InnerText;
                   
-                  if( MacroscopePreferencesManager.GetExtractorCleanWhiteSpace() )
+                  if( MacroscopePreferencesManager.GetDataExtractorCleanWhiteSpace() )
                   {
                     Text = this.CleanWhiteSpace( Text: Text );
                   }

@@ -44,7 +44,12 @@ namespace SEOMacroscope
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-      this.customFilterPanelInstance.SetCustomFilter( NewCustomFilter: CustomFilter );
+      this.customFilterPanelInstance.ConfigureCustomFilterForm(
+        NewContainerForm: this,
+        NewCustomFilter: CustomFilter
+      );
+
+      this.customFilterPanelInstance.SetCustomFilter();
 
     }
 

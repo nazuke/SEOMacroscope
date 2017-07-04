@@ -42,7 +42,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private MacroscopeCustomFilterForm ContainerForm;
+
     MacroscopeCustomFilters CustomFilter;
+
+    private List<Label> TextBoxLabels;
+    private List<ComboBox> StateComboBoxFilters;
+    private List<TextBox> TextBoxFilters;
 
     /**************************************************************************/
 	      
@@ -51,39 +57,124 @@ namespace SEOMacroscope
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-      this.textBoxFilter1.KeyUp += this.CallbackTextBoxKeyUp;
-      this.textBoxFilter2.KeyUp += this.CallbackTextBoxKeyUp;
-      this.textBoxFilter3.KeyUp += this.CallbackTextBoxKeyUp;
-      this.textBoxFilter4.KeyUp += this.CallbackTextBoxKeyUp;
-      this.textBoxFilter5.KeyUp += this.CallbackTextBoxKeyUp;
-      
+      this.TextBoxLabels = new List<Label> ();
+      this.StateComboBoxFilters = new List<ComboBox> ();
+      this.TextBoxFilters = new List<TextBox> ();
+
+      this.tableLayoutPanelControlsGrid.Dock = DockStyle.Fill;
+
     }
 
     /**************************************************************************/
-    
-    public void SetCustomFilter ( MacroscopeCustomFilters NewCustomFilter )
+
+    public void ConfigureCustomFilterForm (
+      MacroscopeCustomFilterForm NewContainerForm,
+      MacroscopeCustomFilters NewCustomFilter
+    )
     {
 
+      this.ContainerForm = NewContainerForm;
+      
       this.CustomFilter = NewCustomFilter;
+            
+      int Max = this.CustomFilter.GetSize();
+      TableLayoutPanel Table = this.tableLayoutPanelControlsGrid;
+      
+      Table.ColumnCount = 3;
+      Table.RowCount = Max + 1;
+
+      {
+        
+        List<string> ColumnLabels = new List<string> ( 3 ) {
+            "",
+            "Filter Action",
+            "Search String"
+        };
+        
+        for( int i = 0 ; i < ColumnLabels.Count ; i++ )
+        {
+          Label TextLabelCol = new Label ();
+          TextLabelCol.Text = ColumnLabels[ i ];
+          TextLabelCol.Dock = DockStyle.Fill;
+          TextLabelCol.Margin = new Padding ( 5, 5, 5, 5 );
+          TextLabelCol.TextAlign = ContentAlignment.BottomLeft;
+          TextLabelCol.Height = 20;
+          Table.Controls.Add( TextLabelCol );
+        }
+
+      }
+
+      for( int Slot = 0 ; Slot < Max ; Slot++ )
+      {
+
+        Label TextBoxLabel = new Label ();
+        ComboBox StateComboBoxFilter = new ComboBox ();
+        TextBox TextBoxFilter = new TextBox ();
+        
+        TextBoxLabel.Text = string.Format( "Custom Filter {0}", Slot + 1 );
+        TextBoxLabel.TextAlign = ContentAlignment.MiddleRight;
+        TextBoxLabel.Dock = DockStyle.Fill;
+        TextBoxLabel.Margin = new Padding ( 5, 5, 5, 5 );
+        TextBoxLabel.Width = 50;
+        
+        StateComboBoxFilter.Name = string.Format( "comboBoxFilter{0}", Slot + 1 );
+        StateComboBoxFilter.Items.Add( "No action" );
+        StateComboBoxFilter.Items.Add( "Must have" );  
+        StateComboBoxFilter.Items.Add( "Must not have" );
+        StateComboBoxFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+        StateComboBoxFilter.SelectedIndex = 0;
+        StateComboBoxFilter.Margin = new Padding ( 5, 5, 5, 5 );
+        StateComboBoxFilter.Width = 100;
+        
+        TextBoxFilter.Name = string.Format( "textBoxFilter{0}", Slot + 1 );
+        TextBoxFilter.KeyUp += this.CallbackTextBoxKeyUp;
+        TextBoxFilter.Dock = DockStyle.Fill;
+        TextBoxFilter.Margin = new Padding ( 5, 5, 5, 5 );
+        TextBoxFilter.Tag = Slot.ToString();
+        
+        Table.Controls.Add( TextBoxLabel );
+        Table.Controls.Add( StateComboBoxFilter );  
+        Table.Controls.Add( TextBoxFilter );
+
+        this.TextBoxLabels.Add( TextBoxLabel );
+        this.StateComboBoxFilters.Add( StateComboBoxFilter );
+        this.TextBoxFilters.Add( TextBoxFilter );
+
+      }
+     
+      // Add empty last row for space adjustment
+      for( int i = 0 ; i < Table.ColumnCount ; i++ )
+      {
+        Label TextLabelCol = new Label ();
+        TextLabelCol.Text = "";
+        Table.Controls.Add( TextLabelCol );
+      }
+
+    }
+
+    /**************************************************************************/
+
+    public void SetCustomFilter ()
+    {
 
       int Max = this.CustomFilter.GetSize();
       
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
       
-        TextBox textBoxFilter;
         ComboBox comboBoxFilter;
-          
-        textBoxFilter = this.Controls.Find(
-          string.Format( "textBoxFilter{0}", Slot + 1 ),
-          true
-        ).FirstOrDefault() as TextBox;
-          
+        TextBox textBoxFilter;
+
         comboBoxFilter = this.Controls.Find(
           string.Format( "comboBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as ComboBox;
-          
+
+        textBoxFilter = this.Controls.Find(
+          string.Format( "textBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+
         if( this.CustomFilter.IsEnabled() )
         {
 
@@ -133,18 +224,18 @@ namespace SEOMacroscope
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
       
-        TextBox textBoxFilter;
         ComboBox comboBoxFilter;
-          
-        textBoxFilter = this.Controls.Find(
-          string.Format( "textBoxFilter{0}", Slot + 1 ),
-          true
-        ).FirstOrDefault() as TextBox;
-          
+        TextBox textBoxFilter;
+
         comboBoxFilter = this.Controls.Find(
           string.Format( "comboBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as ComboBox;
+
+        textBoxFilter = this.Controls.Find(
+          string.Format( "textBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
 
         switch( comboBoxFilter.SelectedIndex )
         {

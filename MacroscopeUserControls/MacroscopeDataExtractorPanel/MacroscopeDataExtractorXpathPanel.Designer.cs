@@ -64,18 +64,18 @@ namespace SEOMacroscope
 			// 
 			// tableLayoutPanelControlsGrid
 			// 
-			this.tableLayoutPanelControlsGrid.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.tableLayoutPanelControlsGrid.BackColor = System.Drawing.Color.Transparent;
 			this.tableLayoutPanelControlsGrid.ColumnCount = 5;
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+			this.tableLayoutPanelControlsGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
 			this.tableLayoutPanelControlsGrid.Location = new System.Drawing.Point(10, 50);
 			this.tableLayoutPanelControlsGrid.Margin = new System.Windows.Forms.Padding(10);
 			this.tableLayoutPanelControlsGrid.Name = "tableLayoutPanelControlsGrid";
 			this.tableLayoutPanelControlsGrid.RowCount = 1;
-			this.tableLayoutPanelControlsGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelControlsGrid.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelControlsGrid.Size = new System.Drawing.Size(600, 250);
 			this.tableLayoutPanelControlsGrid.TabIndex = 1;
 			// 
@@ -91,7 +91,7 @@ namespace SEOMacroscope
 			// 
 			// tableLayoutPanelContainer
 			// 
-			this.tableLayoutPanelContainer.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.tableLayoutPanelContainer.BackColor = System.Drawing.Color.Transparent;
 			this.tableLayoutPanelContainer.ColumnCount = 1;
 			this.tableLayoutPanelContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanelContainer.Controls.Add(this.label6, 0, 0);
@@ -100,7 +100,7 @@ namespace SEOMacroscope
 			this.tableLayoutPanelContainer.Name = "tableLayoutPanelContainer";
 			this.tableLayoutPanelContainer.RowCount = 2;
 			this.tableLayoutPanelContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-			this.tableLayoutPanelContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelContainer.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelContainer.Size = new System.Drawing.Size(750, 372);
 			this.tableLayoutPanelContainer.TabIndex = 0;
 			// 
@@ -112,7 +112,7 @@ namespace SEOMacroscope
 			this.Controls.Add(this.tableLayoutPanelContainer);
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "MacroscopeDataExtractorXpathPanel";
-			this.Size = new System.Drawing.Size(850, 402);
+			this.Size = new System.Drawing.Size(850, 400);
 			this.tableLayoutPanelContainer.ResumeLayout(false);
 			this.ResumeLayout(false);
 

@@ -115,7 +115,7 @@ namespace SEOMacroscope
 			// dataExtractorInstance
 			// 
 			this.dataExtractorInstance.AutoScroll = true;
-			this.dataExtractorInstance.BackColor = System.Drawing.Color.Blue;
+			this.dataExtractorInstance.BackColor = System.Drawing.Color.Transparent;
 			this.dataExtractorInstance.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataExtractorInstance.Location = new System.Drawing.Point(0, 0);
 			this.dataExtractorInstance.Margin = new System.Windows.Forms.Padding(0);

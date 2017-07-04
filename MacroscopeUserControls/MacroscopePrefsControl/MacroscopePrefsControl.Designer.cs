@@ -141,7 +141,23 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageExtractorOptions;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel8;
 		private System.Windows.Forms.GroupBox groupBox20;
-		public System.Windows.Forms.CheckBox checkBoxExtractorCleanWhiteSpace;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorCleanWhiteSpace;
+		private System.Windows.Forms.GroupBox groupBox21;
+		private System.Windows.Forms.Label label23;
+		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorMaxItemsCssSelectors;
+		private System.Windows.Forms.Label label24;
+		private System.Windows.Forms.Label label25;
+		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorMaxItemsXpaths;
+		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorMaxItemsRegexes;
+		private System.Windows.Forms.TabPage tabPageCustomFilterOptions;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel9;
+		private System.Windows.Forms.GroupBox groupBox22;
+		private System.Windows.Forms.Label label19;
+		public System.Windows.Forms.NumericUpDown numericUpDownCustomFilterMaxItems;
+		private System.Windows.Forms.GroupBox groupBox23;
+		public System.Windows.Forms.CheckBox checkBoxCustomFilterEnable;
+		private System.Windows.Forms.GroupBox groupBox24;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorEnable;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -254,15 +270,35 @@ namespace SEOMacroscope
 			this.numericUpDownMaxHeadingDepth = new System.Windows.Forms.NumericUpDown();
 			this.groupBox12 = new System.Windows.Forms.GroupBox();
 			this.checkBoxAnalyzeKeywordsInText = new System.Windows.Forms.CheckBox();
+			this.tabPageCustomFilterOptions = new System.Windows.Forms.TabPage();
+			this.flowLayoutPanel9 = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupBox23 = new System.Windows.Forms.GroupBox();
+			this.checkBoxCustomFilterEnable = new System.Windows.Forms.CheckBox();
+			this.groupBox22 = new System.Windows.Forms.GroupBox();
+			this.label19 = new System.Windows.Forms.Label();
+			this.numericUpDownCustomFilterMaxItems = new System.Windows.Forms.NumericUpDown();
+			this.tabPageExtractorOptions = new System.Windows.Forms.TabPage();
+			this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupBox24 = new System.Windows.Forms.GroupBox();
+			this.checkBoxDataExtractorEnable = new System.Windows.Forms.CheckBox();
+			this.groupBox21 = new System.Windows.Forms.GroupBox();
+			this.label23 = new System.Windows.Forms.Label();
+			this.numericUpDownDataExtractorMaxItemsCssSelectors = new System.Windows.Forms.NumericUpDown();
+			this.label24 = new System.Windows.Forms.Label();
+			this.label25 = new System.Windows.Forms.Label();
+			this.numericUpDownDataExtractorMaxItemsXpaths = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownDataExtractorMaxItemsRegexes = new System.Windows.Forms.NumericUpDown();
+			this.groupBox20 = new System.Windows.Forms.GroupBox();
+			this.checkBoxDataExtractorCleanWhiteSpace = new System.Windows.Forms.CheckBox();
+			this.tabPageExportOptions = new System.Windows.Forms.TabPage();
+			this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupBox17 = new System.Windows.Forms.GroupBox();
+			this.checkBoxSitemapIncludeLinkedPdfs = new System.Windows.Forms.CheckBox();
 			this.tabPageDisplaySettings = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox15 = new System.Windows.Forms.GroupBox();
 			this.checkBoxShowProgressDialogues = new System.Windows.Forms.CheckBox();
 			this.checkBoxPauseDisplayDuringScan = new System.Windows.Forms.CheckBox();
-			this.tabPageExportOptions = new System.Windows.Forms.TabPage();
-			this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
-			this.groupBox17 = new System.Windows.Forms.GroupBox();
-			this.checkBoxSitemapIncludeLinkedPdfs = new System.Windows.Forms.CheckBox();
 			this.tabPageNetworkSettings = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -272,10 +308,6 @@ namespace SEOMacroscope
 			this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
 			this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-			this.tabPageExtractorOptions = new System.Windows.Forms.TabPage();
-			this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
-			this.groupBox20 = new System.Windows.Forms.GroupBox();
-			this.checkBoxExtractorCleanWhiteSpace = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -318,12 +350,25 @@ namespace SEOMacroscope
 			this.groupBox9.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHeadingDepth)).BeginInit();
 			this.groupBox12.SuspendLayout();
-			this.tabPageDisplaySettings.SuspendLayout();
-			this.flowLayoutPanel5.SuspendLayout();
-			this.groupBox15.SuspendLayout();
+			this.tabPageCustomFilterOptions.SuspendLayout();
+			this.flowLayoutPanel9.SuspendLayout();
+			this.groupBox23.SuspendLayout();
+			this.groupBox22.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownCustomFilterMaxItems)).BeginInit();
+			this.tabPageExtractorOptions.SuspendLayout();
+			this.flowLayoutPanel8.SuspendLayout();
+			this.groupBox24.SuspendLayout();
+			this.groupBox21.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsCssSelectors)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsXpaths)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsRegexes)).BeginInit();
+			this.groupBox20.SuspendLayout();
 			this.tabPageExportOptions.SuspendLayout();
 			this.flowLayoutPanel6.SuspendLayout();
 			this.groupBox17.SuspendLayout();
+			this.tabPageDisplaySettings.SuspendLayout();
+			this.flowLayoutPanel5.SuspendLayout();
+			this.groupBox15.SuspendLayout();
 			this.tabPageNetworkSettings.SuspendLayout();
 			this.flowLayoutPanel4.SuspendLayout();
 			this.groupBox8.SuspendLayout();
@@ -331,9 +376,6 @@ namespace SEOMacroscope
 			this.tabPageAdvancedSettings.SuspendLayout();
 			this.flowLayoutPanel7.SuspendLayout();
 			this.groupBox19.SuspendLayout();
-			this.tabPageExtractorOptions.SuspendLayout();
-			this.flowLayoutPanel8.SuspendLayout();
-			this.groupBox20.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label9
@@ -357,9 +399,10 @@ namespace SEOMacroscope
 			this.tabControlPreferences.Controls.Add(this.tabPageSpideringControl);
 			this.tabControlPreferences.Controls.Add(this.tabPageAnalysisOptions);
 			this.tabControlPreferences.Controls.Add(this.tabPageSeo);
+			this.tabControlPreferences.Controls.Add(this.tabPageCustomFilterOptions);
 			this.tabControlPreferences.Controls.Add(this.tabPageExtractorOptions);
-			this.tabControlPreferences.Controls.Add(this.tabPageDisplaySettings);
 			this.tabControlPreferences.Controls.Add(this.tabPageExportOptions);
+			this.tabControlPreferences.Controls.Add(this.tabPageDisplaySettings);
 			this.tabControlPreferences.Controls.Add(this.tabPageNetworkSettings);
 			this.tabControlPreferences.Controls.Add(this.tabPageAdvancedSettings);
 			this.tabControlPreferences.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1484,6 +1527,293 @@ namespace SEOMacroscope
 			this.checkBoxAnalyzeKeywordsInText.Text = "Analyze keywords in page text";
 			this.checkBoxAnalyzeKeywordsInText.UseVisualStyleBackColor = true;
 			// 
+			// tabPageCustomFilterOptions
+			// 
+			this.tabPageCustomFilterOptions.Controls.Add(this.flowLayoutPanel9);
+			this.tabPageCustomFilterOptions.Location = new System.Drawing.Point(4, 22);
+			this.tabPageCustomFilterOptions.Name = "tabPageCustomFilterOptions";
+			this.tabPageCustomFilterOptions.Size = new System.Drawing.Size(592, 761);
+			this.tabPageCustomFilterOptions.TabIndex = 8;
+			this.tabPageCustomFilterOptions.Text = "Custom Filter Options";
+			this.tabPageCustomFilterOptions.UseVisualStyleBackColor = true;
+			// 
+			// flowLayoutPanel9
+			// 
+			this.flowLayoutPanel9.Controls.Add(this.groupBox23);
+			this.flowLayoutPanel9.Controls.Add(this.groupBox22);
+			this.flowLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel9.Location = new System.Drawing.Point(0, 0);
+			this.flowLayoutPanel9.Name = "flowLayoutPanel9";
+			this.flowLayoutPanel9.Size = new System.Drawing.Size(592, 761);
+			this.flowLayoutPanel9.TabIndex = 0;
+			// 
+			// groupBox23
+			// 
+			this.groupBox23.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox23.Controls.Add(this.checkBoxCustomFilterEnable);
+			this.groupBox23.Location = new System.Drawing.Point(10, 10);
+			this.groupBox23.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox23.Name = "groupBox23";
+			this.groupBox23.Size = new System.Drawing.Size(500, 60);
+			this.groupBox23.TabIndex = 3;
+			this.groupBox23.TabStop = false;
+			this.groupBox23.Text = "Enable/Disable Custom Filters";
+			// 
+			// checkBoxCustomFilterEnable
+			// 
+			this.checkBoxCustomFilterEnable.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxCustomFilterEnable.Name = "checkBoxCustomFilterEnable";
+			this.checkBoxCustomFilterEnable.Size = new System.Drawing.Size(220, 24);
+			this.checkBoxCustomFilterEnable.TabIndex = 1;
+			this.checkBoxCustomFilterEnable.Text = "Enable custom filter processing";
+			this.checkBoxCustomFilterEnable.UseVisualStyleBackColor = true;
+			// 
+			// groupBox22
+			// 
+			this.groupBox22.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox22.Controls.Add(this.label19);
+			this.groupBox22.Controls.Add(this.numericUpDownCustomFilterMaxItems);
+			this.groupBox22.Location = new System.Drawing.Point(10, 80);
+			this.groupBox22.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox22.Name = "groupBox22";
+			this.groupBox22.Size = new System.Drawing.Size(500, 60);
+			this.groupBox22.TabIndex = 2;
+			this.groupBox22.TabStop = false;
+			this.groupBox22.Text = "Custom Filter Items";
+			// 
+			// label19
+			// 
+			this.label19.Location = new System.Drawing.Point(90, 20);
+			this.label19.Margin = new System.Windows.Forms.Padding(0);
+			this.label19.Name = "label19";
+			this.label19.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label19.Size = new System.Drawing.Size(230, 20);
+			this.label19.TabIndex = 9;
+			this.label19.Text = "Number of Custom Filters";
+			// 
+			// numericUpDownCustomFilterMaxItems
+			// 
+			this.numericUpDownCustomFilterMaxItems.Location = new System.Drawing.Point(20, 20);
+			this.numericUpDownCustomFilterMaxItems.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownCustomFilterMaxItems.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			this.numericUpDownCustomFilterMaxItems.Name = "numericUpDownCustomFilterMaxItems";
+			this.numericUpDownCustomFilterMaxItems.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownCustomFilterMaxItems.TabIndex = 1;
+			this.numericUpDownCustomFilterMaxItems.Value = new decimal(new int[] {
+			5,
+			0,
+			0,
+			0});
+			// 
+			// tabPageExtractorOptions
+			// 
+			this.tabPageExtractorOptions.Controls.Add(this.flowLayoutPanel8);
+			this.tabPageExtractorOptions.Location = new System.Drawing.Point(4, 22);
+			this.tabPageExtractorOptions.Name = "tabPageExtractorOptions";
+			this.tabPageExtractorOptions.Size = new System.Drawing.Size(592, 761);
+			this.tabPageExtractorOptions.TabIndex = 7;
+			this.tabPageExtractorOptions.Text = "Data Extractor Options";
+			this.tabPageExtractorOptions.UseVisualStyleBackColor = true;
+			// 
+			// flowLayoutPanel8
+			// 
+			this.flowLayoutPanel8.Controls.Add(this.groupBox24);
+			this.flowLayoutPanel8.Controls.Add(this.groupBox21);
+			this.flowLayoutPanel8.Controls.Add(this.groupBox20);
+			this.flowLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel8.Location = new System.Drawing.Point(0, 0);
+			this.flowLayoutPanel8.Name = "flowLayoutPanel8";
+			this.flowLayoutPanel8.Size = new System.Drawing.Size(592, 761);
+			this.flowLayoutPanel8.TabIndex = 0;
+			// 
+			// groupBox24
+			// 
+			this.groupBox24.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox24.Controls.Add(this.checkBoxDataExtractorEnable);
+			this.groupBox24.Location = new System.Drawing.Point(10, 10);
+			this.groupBox24.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox24.Name = "groupBox24";
+			this.groupBox24.Size = new System.Drawing.Size(500, 60);
+			this.groupBox24.TabIndex = 4;
+			this.groupBox24.TabStop = false;
+			this.groupBox24.Text = "Enable/Disable Data Extractors";
+			// 
+			// checkBoxDataExtractorEnable
+			// 
+			this.checkBoxDataExtractorEnable.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxDataExtractorEnable.Name = "checkBoxDataExtractorEnable";
+			this.checkBoxDataExtractorEnable.Size = new System.Drawing.Size(220, 24);
+			this.checkBoxDataExtractorEnable.TabIndex = 1;
+			this.checkBoxDataExtractorEnable.Text = "Enable data extraction processing";
+			this.checkBoxDataExtractorEnable.UseVisualStyleBackColor = true;
+			// 
+			// groupBox21
+			// 
+			this.groupBox21.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox21.Controls.Add(this.label23);
+			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorMaxItemsCssSelectors);
+			this.groupBox21.Controls.Add(this.label24);
+			this.groupBox21.Controls.Add(this.label25);
+			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorMaxItemsXpaths);
+			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorMaxItemsRegexes);
+			this.groupBox21.Location = new System.Drawing.Point(10, 80);
+			this.groupBox21.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox21.Name = "groupBox21";
+			this.groupBox21.Size = new System.Drawing.Size(500, 120);
+			this.groupBox21.TabIndex = 1;
+			this.groupBox21.TabStop = false;
+			this.groupBox21.Text = "Extractor Items";
+			// 
+			// label23
+			// 
+			this.label23.Location = new System.Drawing.Point(90, 20);
+			this.label23.Margin = new System.Windows.Forms.Padding(0);
+			this.label23.Name = "label23";
+			this.label23.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label23.Size = new System.Drawing.Size(230, 20);
+			this.label23.TabIndex = 9;
+			this.label23.Text = "Number of CSS Selectors extractors";
+			// 
+			// numericUpDownDataExtractorMaxItemsCssSelectors
+			// 
+			this.numericUpDownDataExtractorMaxItemsCssSelectors.Location = new System.Drawing.Point(20, 20);
+			this.numericUpDownDataExtractorMaxItemsCssSelectors.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownDataExtractorMaxItemsCssSelectors.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			this.numericUpDownDataExtractorMaxItemsCssSelectors.Name = "numericUpDownDataExtractorMaxItemsCssSelectors";
+			this.numericUpDownDataExtractorMaxItemsCssSelectors.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownDataExtractorMaxItemsCssSelectors.TabIndex = 1;
+			this.numericUpDownDataExtractorMaxItemsCssSelectors.Value = new decimal(new int[] {
+			5,
+			0,
+			0,
+			0});
+			// 
+			// label24
+			// 
+			this.label24.Location = new System.Drawing.Point(90, 80);
+			this.label24.Margin = new System.Windows.Forms.Padding(0);
+			this.label24.Name = "label24";
+			this.label24.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label24.Size = new System.Drawing.Size(230, 20);
+			this.label24.TabIndex = 5;
+			this.label24.Text = "Number of XPath Expression extractors";
+			// 
+			// label25
+			// 
+			this.label25.Location = new System.Drawing.Point(90, 50);
+			this.label25.Margin = new System.Windows.Forms.Padding(0);
+			this.label25.Name = "label25";
+			this.label25.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label25.Size = new System.Drawing.Size(230, 20);
+			this.label25.TabIndex = 4;
+			this.label25.Text = "Number of Regular Expression extractors";
+			// 
+			// numericUpDownDataExtractorMaxItemsXpaths
+			// 
+			this.numericUpDownDataExtractorMaxItemsXpaths.Location = new System.Drawing.Point(20, 80);
+			this.numericUpDownDataExtractorMaxItemsXpaths.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownDataExtractorMaxItemsXpaths.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			this.numericUpDownDataExtractorMaxItemsXpaths.Name = "numericUpDownDataExtractorMaxItemsXpaths";
+			this.numericUpDownDataExtractorMaxItemsXpaths.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownDataExtractorMaxItemsXpaths.TabIndex = 3;
+			this.numericUpDownDataExtractorMaxItemsXpaths.Value = new decimal(new int[] {
+			5,
+			0,
+			0,
+			0});
+			// 
+			// numericUpDownDataExtractorMaxItemsRegexes
+			// 
+			this.numericUpDownDataExtractorMaxItemsRegexes.Location = new System.Drawing.Point(20, 50);
+			this.numericUpDownDataExtractorMaxItemsRegexes.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownDataExtractorMaxItemsRegexes.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			this.numericUpDownDataExtractorMaxItemsRegexes.Name = "numericUpDownDataExtractorMaxItemsRegexes";
+			this.numericUpDownDataExtractorMaxItemsRegexes.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownDataExtractorMaxItemsRegexes.TabIndex = 2;
+			this.numericUpDownDataExtractorMaxItemsRegexes.Value = new decimal(new int[] {
+			5,
+			0,
+			0,
+			0});
+			// 
+			// groupBox20
+			// 
+			this.groupBox20.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox20.Controls.Add(this.checkBoxDataExtractorCleanWhiteSpace);
+			this.groupBox20.Location = new System.Drawing.Point(10, 210);
+			this.groupBox20.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox20.Name = "groupBox20";
+			this.groupBox20.Size = new System.Drawing.Size(500, 60);
+			this.groupBox20.TabIndex = 2;
+			this.groupBox20.TabStop = false;
+			this.groupBox20.Text = "Process Text";
+			// 
+			// checkBoxDataExtractorCleanWhiteSpace
+			// 
+			this.checkBoxDataExtractorCleanWhiteSpace.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxDataExtractorCleanWhiteSpace.Name = "checkBoxDataExtractorCleanWhiteSpace";
+			this.checkBoxDataExtractorCleanWhiteSpace.Size = new System.Drawing.Size(160, 24);
+			this.checkBoxDataExtractorCleanWhiteSpace.TabIndex = 1;
+			this.checkBoxDataExtractorCleanWhiteSpace.Text = "Clean white space";
+			this.checkBoxDataExtractorCleanWhiteSpace.UseVisualStyleBackColor = true;
+			// 
+			// tabPageExportOptions
+			// 
+			this.tabPageExportOptions.Controls.Add(this.flowLayoutPanel6);
+			this.tabPageExportOptions.Location = new System.Drawing.Point(4, 22);
+			this.tabPageExportOptions.Name = "tabPageExportOptions";
+			this.tabPageExportOptions.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageExportOptions.Size = new System.Drawing.Size(592, 761);
+			this.tabPageExportOptions.TabIndex = 5;
+			this.tabPageExportOptions.Text = "Export Options";
+			this.tabPageExportOptions.UseVisualStyleBackColor = true;
+			// 
+			// flowLayoutPanel6
+			// 
+			this.flowLayoutPanel6.Controls.Add(this.groupBox17);
+			this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 3);
+			this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+			this.flowLayoutPanel6.Size = new System.Drawing.Size(586, 755);
+			this.flowLayoutPanel6.TabIndex = 3;
+			// 
+			// groupBox17
+			// 
+			this.groupBox17.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox17.Controls.Add(this.checkBoxSitemapIncludeLinkedPdfs);
+			this.groupBox17.Location = new System.Drawing.Point(10, 10);
+			this.groupBox17.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox17.Name = "groupBox17";
+			this.groupBox17.Size = new System.Drawing.Size(500, 60);
+			this.groupBox17.TabIndex = 1;
+			this.groupBox17.TabStop = false;
+			this.groupBox17.Text = "Sitemaps";
+			// 
+			// checkBoxSitemapIncludeLinkedPdfs
+			// 
+			this.checkBoxSitemapIncludeLinkedPdfs.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxSitemapIncludeLinkedPdfs.Name = "checkBoxSitemapIncludeLinkedPdfs";
+			this.checkBoxSitemapIncludeLinkedPdfs.Size = new System.Drawing.Size(160, 24);
+			this.checkBoxSitemapIncludeLinkedPdfs.TabIndex = 1;
+			this.checkBoxSitemapIncludeLinkedPdfs.Text = "Include linked PDFs";
+			this.checkBoxSitemapIncludeLinkedPdfs.UseVisualStyleBackColor = true;
+			// 
 			// tabPageDisplaySettings
 			// 
 			this.tabPageDisplaySettings.Controls.Add(this.flowLayoutPanel5);
@@ -1534,47 +1864,6 @@ namespace SEOMacroscope
 			this.checkBoxPauseDisplayDuringScan.TabIndex = 1;
 			this.checkBoxPauseDisplayDuringScan.Text = "Pause display during scan";
 			this.checkBoxPauseDisplayDuringScan.UseVisualStyleBackColor = true;
-			// 
-			// tabPageExportOptions
-			// 
-			this.tabPageExportOptions.Controls.Add(this.flowLayoutPanel6);
-			this.tabPageExportOptions.Location = new System.Drawing.Point(4, 22);
-			this.tabPageExportOptions.Name = "tabPageExportOptions";
-			this.tabPageExportOptions.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageExportOptions.Size = new System.Drawing.Size(592, 761);
-			this.tabPageExportOptions.TabIndex = 5;
-			this.tabPageExportOptions.Text = "Export Options";
-			this.tabPageExportOptions.UseVisualStyleBackColor = true;
-			// 
-			// flowLayoutPanel6
-			// 
-			this.flowLayoutPanel6.Controls.Add(this.groupBox17);
-			this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 3);
-			this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-			this.flowLayoutPanel6.Size = new System.Drawing.Size(586, 755);
-			this.flowLayoutPanel6.TabIndex = 3;
-			// 
-			// groupBox17
-			// 
-			this.groupBox17.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox17.Controls.Add(this.checkBoxSitemapIncludeLinkedPdfs);
-			this.groupBox17.Location = new System.Drawing.Point(10, 10);
-			this.groupBox17.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-			this.groupBox17.Name = "groupBox17";
-			this.groupBox17.Size = new System.Drawing.Size(500, 60);
-			this.groupBox17.TabIndex = 1;
-			this.groupBox17.TabStop = false;
-			this.groupBox17.Text = "Sitemaps";
-			// 
-			// checkBoxSitemapIncludeLinkedPdfs
-			// 
-			this.checkBoxSitemapIncludeLinkedPdfs.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxSitemapIncludeLinkedPdfs.Name = "checkBoxSitemapIncludeLinkedPdfs";
-			this.checkBoxSitemapIncludeLinkedPdfs.Size = new System.Drawing.Size(160, 24);
-			this.checkBoxSitemapIncludeLinkedPdfs.TabIndex = 1;
-			this.checkBoxSitemapIncludeLinkedPdfs.Text = "Include linked PDFs";
-			this.checkBoxSitemapIncludeLinkedPdfs.UseVisualStyleBackColor = true;
 			// 
 			// tabPageNetworkSettings
 			// 
@@ -1683,46 +1972,6 @@ namespace SEOMacroscope
 			this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
 			this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
 			// 
-			// tabPageExtractorOptions
-			// 
-			this.tabPageExtractorOptions.Controls.Add(this.flowLayoutPanel8);
-			this.tabPageExtractorOptions.Location = new System.Drawing.Point(4, 22);
-			this.tabPageExtractorOptions.Name = "tabPageExtractorOptions";
-			this.tabPageExtractorOptions.Size = new System.Drawing.Size(592, 761);
-			this.tabPageExtractorOptions.TabIndex = 7;
-			this.tabPageExtractorOptions.Text = "Extractor Options";
-			this.tabPageExtractorOptions.UseVisualStyleBackColor = true;
-			// 
-			// flowLayoutPanel8
-			// 
-			this.flowLayoutPanel8.Controls.Add(this.groupBox20);
-			this.flowLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel8.Location = new System.Drawing.Point(0, 0);
-			this.flowLayoutPanel8.Name = "flowLayoutPanel8";
-			this.flowLayoutPanel8.Size = new System.Drawing.Size(592, 761);
-			this.flowLayoutPanel8.TabIndex = 0;
-			// 
-			// groupBox20
-			// 
-			this.groupBox20.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox20.Controls.Add(this.checkBoxExtractorCleanWhiteSpace);
-			this.groupBox20.Location = new System.Drawing.Point(10, 10);
-			this.groupBox20.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-			this.groupBox20.Name = "groupBox20";
-			this.groupBox20.Size = new System.Drawing.Size(500, 60);
-			this.groupBox20.TabIndex = 1;
-			this.groupBox20.TabStop = false;
-			this.groupBox20.Text = "Process Text";
-			// 
-			// checkBoxExtractorCleanWhiteSpace
-			// 
-			this.checkBoxExtractorCleanWhiteSpace.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxExtractorCleanWhiteSpace.Name = "checkBoxExtractorCleanWhiteSpace";
-			this.checkBoxExtractorCleanWhiteSpace.Size = new System.Drawing.Size(160, 24);
-			this.checkBoxExtractorCleanWhiteSpace.TabIndex = 1;
-			this.checkBoxExtractorCleanWhiteSpace.Text = "Clean white space";
-			this.checkBoxExtractorCleanWhiteSpace.UseVisualStyleBackColor = true;
-			// 
 			// MacroscopePrefsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1772,12 +2021,25 @@ namespace SEOMacroscope
 			this.groupBox9.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHeadingDepth)).EndInit();
 			this.groupBox12.ResumeLayout(false);
-			this.tabPageDisplaySettings.ResumeLayout(false);
-			this.flowLayoutPanel5.ResumeLayout(false);
-			this.groupBox15.ResumeLayout(false);
+			this.tabPageCustomFilterOptions.ResumeLayout(false);
+			this.flowLayoutPanel9.ResumeLayout(false);
+			this.groupBox23.ResumeLayout(false);
+			this.groupBox22.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownCustomFilterMaxItems)).EndInit();
+			this.tabPageExtractorOptions.ResumeLayout(false);
+			this.flowLayoutPanel8.ResumeLayout(false);
+			this.groupBox24.ResumeLayout(false);
+			this.groupBox21.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsCssSelectors)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsXpaths)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsRegexes)).EndInit();
+			this.groupBox20.ResumeLayout(false);
 			this.tabPageExportOptions.ResumeLayout(false);
 			this.flowLayoutPanel6.ResumeLayout(false);
 			this.groupBox17.ResumeLayout(false);
+			this.tabPageDisplaySettings.ResumeLayout(false);
+			this.flowLayoutPanel5.ResumeLayout(false);
+			this.groupBox15.ResumeLayout(false);
 			this.tabPageNetworkSettings.ResumeLayout(false);
 			this.tabPageNetworkSettings.PerformLayout();
 			this.flowLayoutPanel4.ResumeLayout(false);
@@ -1787,9 +2049,6 @@ namespace SEOMacroscope
 			this.tabPageAdvancedSettings.ResumeLayout(false);
 			this.flowLayoutPanel7.ResumeLayout(false);
 			this.groupBox19.ResumeLayout(false);
-			this.tabPageExtractorOptions.ResumeLayout(false);
-			this.flowLayoutPanel8.ResumeLayout(false);
-			this.groupBox20.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

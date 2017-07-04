@@ -159,19 +159,31 @@ namespace SEOMacroscope
 
         if( !string.IsNullOrEmpty( RawData ) )
         {
-          
-          MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
 
-          if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+          if( MacroscopePreferencesManager.GetCustomFilterEnable() )
           {
-            this.ProcessHtmlCustomFiltered( CustomFilter: CustomFilter, HtmlText: RawData );           
-          }
+          
+            MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
 
+            if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+            {
+              this.ProcessHtmlCustomFiltered( CustomFilter: CustomFilter, HtmlText: RawData );           
+            }
+
+          }
+          
         }
 
         if( !string.IsNullOrEmpty( RawData ) )
         {
-          this.ProcessHtmlDataExtractors( HtmlText: RawData );           
+
+          if( MacroscopePreferencesManager.GetDataExtractorEnable() )
+          {
+
+            this.ProcessHtmlDataExtractors( HtmlText: RawData );
+
+          }
+
         }
 
         if( HtmlDoc != null )

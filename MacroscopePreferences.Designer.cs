@@ -109,6 +109,90 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool CustomFilterEnable {
+			get {
+				return ((bool)(this["CustomFilterEnable"]));
+			}
+			set {
+				this["CustomFilterEnable"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("5")]
+		public int CustomFilterMaxItems {
+			get {
+				return ((int)(this["CustomFilterMaxItems"]));
+			}
+			set {
+				this["CustomFilterMaxItems"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool DataExtractorCleanWhiteSpace {
+			get {
+				return ((bool)(this["DataExtractorCleanWhiteSpace"]));
+			}
+			set {
+				this["DataExtractorCleanWhiteSpace"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool DataExtractorEnable {
+			get {
+				return ((bool)(this["DataExtractorEnable"]));
+			}
+			set {
+				this["DataExtractorEnable"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("5")]
+		public int DataExtractorMaxItemsCssSelectors {
+			get {
+				return ((int)(this["DataExtractorMaxItemsCssSelectors"]));
+			}
+			set {
+				this["DataExtractorMaxItemsCssSelectors"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("5")]
+		public int DataExtractorMaxItemsRegexes {
+			get {
+				return ((int)(this["DataExtractorMaxItemsRegexes"]));
+			}
+			set {
+				this["DataExtractorMaxItemsRegexes"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("5")]
+		public int DataExtractorMaxItemsXpaths {
+			get {
+				return ((int)(this["DataExtractorMaxItemsXpaths"]));
+			}
+			set {
+				this["DataExtractorMaxItemsXpaths"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("-1")]
 		public int Depth {
 			get {
@@ -200,18 +284,6 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["EnableMemoryGuard"] = value;
-			}
-		}
-		
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("True")]
-		public bool ExtractorCleanWhiteSpace {
-			get {
-				return ((bool)(this["ExtractorCleanWhiteSpace"]));
-			}
-			set {
-				this["ExtractorCleanWhiteSpace"] = value;
 			}
 		}
 		

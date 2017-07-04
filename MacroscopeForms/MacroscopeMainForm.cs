@@ -140,24 +140,20 @@ namespace SEOMacroscope
 
       this.XpathRestrictions = new MacroscopeXpathRestrictions ();
 
-      this.CustomFilter = new MacroscopeCustomFilters ( 5 );
-      this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+      /** Custom Filters --------------------------------------------------- **/
 
-      this.DataExtractorRegexes = new MacroscopeDataExtractorRegexes ( 10 );
-      this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
+      this.InitializeCustomFilters();
 
+      /** Data Extractors -------------------------------------------------- **/
+
+      this.InitializeDataExtractors(
+        InitializeCssSelectors: true,
+        InitializeRegexes: true,
+        InitializeXpaths: true
+      );
       
-      
-      this.DataExtractorCssSelectors = new MacroscopeDataExtractorCssSelectors ( 10 );
-      this.DataExtractorXpaths = new MacroscopeDataExtractorXpaths ( 10 );
-      
-      this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
-      this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
-      
-      
-      
-      
-      
+      /** ------------------------------------------------------------------ **/
+
       this.StartUrlDirty = false;
 
       this.ConfigureOverviewTabPanelInstance();
@@ -192,8 +188,97 @@ namespace SEOMacroscope
       this.Cleanup();
     }
 
-    /**************************************************************************/
+    /** Initialize Custom Filters *********************************************/
 
+    private void InitializeCustomFilters ()
+    {
+
+      if( MacroscopePreferencesManager.GetCustomFilterEnable() )
+      {
+        this.customFiltersToolStripMenuItem.Enabled = true;
+        this.customFiltersExcelReportToolStripMenuItem.Enabled = true;
+      }
+      else
+      {
+        this.customFiltersToolStripMenuItem.Enabled = false;
+        this.customFiltersExcelReportToolStripMenuItem.Enabled = false;
+      }
+
+      this.CustomFilter = new MacroscopeCustomFilters (
+        Size: MacroscopePreferencesManager.GetCustomFilterMaxItems()
+      );
+
+      this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+
+      return;
+      
+    }
+
+    /** Initialize Data Extractors ********************************************/
+
+    private void InitializeDataExtractors (
+      Boolean InitializeCssSelectors,
+      Boolean InitializeRegexes,
+      Boolean InitializeXpaths
+    )
+    {
+    
+      if( MacroscopePreferencesManager.GetDataExtractorEnable() )
+      {
+        this.dataExtractorsToolStripMenuItem.Enabled = true;
+        this.dataExtractorsExcelReportToolStripMenuItem.Enabled = true;
+      }
+      else
+      {
+        this.dataExtractorsToolStripMenuItem.Enabled = false;
+        this.dataExtractorsExcelReportToolStripMenuItem.Enabled = false;
+      }
+
+      if( InitializeCssSelectors )
+      {
+
+        this.DataExtractorCssSelectors = new MacroscopeDataExtractorCssSelectors (
+          Size: MacroscopePreferencesManager.GetDataExtractorMaxItemsCssSelectors()
+        );
+      
+        this.JobMaster.SetDataExtractorCssSelectors(
+          NewDataExtractor: this.DataExtractorCssSelectors
+        );
+
+      }
+      
+      if( InitializeRegexes )
+      {
+
+        this.DataExtractorRegexes = new MacroscopeDataExtractorRegexes (
+          Size: MacroscopePreferencesManager.GetDataExtractorMaxItemsRegexes()
+        );
+      
+        this.JobMaster.SetDataExtractorRegexes( 
+          NewDataExtractor: this.DataExtractorRegexes
+        );
+
+      }
+
+      if( InitializeXpaths )
+      {
+
+        this.DataExtractorXpaths = new MacroscopeDataExtractorXpaths (
+          Size: MacroscopePreferencesManager.GetDataExtractorMaxItemsXpaths() 
+        );
+      
+        this.JobMaster.SetDataExtractorXpaths( 
+          NewDataExtractor: this.DataExtractorXpaths
+        );
+
+      }
+      
+      return;
+            
+    }
+
+    /**************************************************************************/
+    
     private void ConfigureOverviewTabPanelInstance ()
     {
       
@@ -318,7 +403,7 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
+    /** Menus *****************************************************************/
 
     private void ConfigureMenus ()
     {
@@ -434,64 +519,6 @@ namespace SEOMacroscope
       this.Cleanup();
     }
 
-    /** MAIN MENU *************************************************************/
-
-    private void CallbackFileExit ( object sender, EventArgs e )
-    {
-      DebugMsg( "CallbackFileExit Called" );
-      this.Cleanup();
-      Program.Exit();
-    }
-
-    /** Edit Menu *************************************************************/
-
-    private void CallbackEditPreferencesClick ( object sender, EventArgs e )
-    {
-      MacroscopePrefsForm PreferencesForm = new MacroscopePrefsForm ();
-      DialogResult PreferencesResult = PreferencesForm.ShowDialog();
-      if( PreferencesResult == DialogResult.OK )
-      {
-        PreferencesForm.SavePrefsFormControlFields();
-      }
-      PreferencesForm.Dispose();
-    }
-
-    /** Help Menu *************************************************************/
-
-    private void CallbackHelpBlogClick ( object sender, EventArgs e )
-    {
-      Process.Start( "https://nazuke.github.io/SEOMacroscope/blog/" );
-    }
-
-    private void CallbackHelpGitHubClick ( object sender, EventArgs e )
-    {
-      Process.Start( "https://github.com/nazuke/SEOMacroscope" );
-    }
-    
-    private void CallbackHelpManualClick ( object sender, EventArgs e )
-    {
-      Process.Start( "https://nazuke.github.io/SEOMacroscope/manual/" );
-    }
-    
-    private void CallbackHelpLicenceClick ( object sender, EventArgs e )
-    {
-      MacroscopeLicenceForm LicenceForm = new MacroscopeLicenceForm ();
-      LicenceForm.ShowDialog();
-      LicenceForm.Dispose();
-    }
-
-    private void CallbackHelpReportBugClick ( object sender, EventArgs e )
-    {
-      Process.Start( "https://github.com/nazuke/SEOMacroscope/issues" );
-    }
-
-    private void CallbackHelpAboutClick ( object sender, EventArgs e )
-    {
-      MacroscopeAboutForm AboutForm = new MacroscopeAboutForm ();
-      AboutForm.ShowDialog();
-      AboutForm.Dispose();
-    }
-
     /** DIALOGUE BOXES ********************************************************/
 
     private void DialogueBoxWarning ( string Title, string Message )
@@ -526,12 +553,13 @@ namespace SEOMacroscope
     private void CallbackStartUrlTextChanged ( object sender, EventArgs e )
     {
 
-      string sStartUrl = this.GetUrl();
+      string NewStartUrl = this.GetUrl();
+
       this.StartUrlDirty = true;
 
-      if( MacroscopeUrlUtils.ValidateUrl( sStartUrl ) )
+      if( MacroscopeUrlUtils.ValidateUrl( NewStartUrl ) )
       {
-        MacroscopePreferencesManager.SetStartUrl( sStartUrl );
+        MacroscopePreferencesManager.SetStartUrl( NewStartUrl );
       }
 
     }
@@ -1131,35 +1159,41 @@ namespace SEOMacroscope
           break;
 
         case "tabPageCustomFilters":
-          this.msDisplayCustomFilters.RefreshData(
-            DocCollection: this.JobMaster.GetDocCollection(),
-            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayCustomFilters ),
-            CustomFilter: this.CustomFilter
-          );
+          if( MacroscopePreferencesManager.GetCustomFilterEnable() )
+          {
+            this.msDisplayCustomFilters.RefreshData(
+              DocCollection: this.JobMaster.GetDocCollection(),
+              UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayCustomFilters ),
+              CustomFilter: this.CustomFilter
+            );
+          }
           break;
 
         case "tabPageDataExtractors":
-          this.msDisplayDisplayDataExtractorCssSelectors.RefreshData(
-            DocCollection: this.JobMaster.GetDocCollection(),
-            UrlList: this.JobMaster.DrainDisplayQueueAsList(
-              MacroscopeConstants.NamedQueueDisplayDataExtractorsCssSelectors
-            ),
-            DataExtractor: this.DataExtractorCssSelectors
-          );
-          this.msDisplayDisplayDataExtractorRegexes.RefreshData(
-            DocCollection: this.JobMaster.GetDocCollection(),
-            UrlList: this.JobMaster.DrainDisplayQueueAsList(
-              MacroscopeConstants.NamedQueueDisplayDataExtractorsRegexes
-            ),
-            DataExtractor: this.DataExtractorRegexes
-          );
-          this.msDisplayDisplayDataExtractorXpaths.RefreshData(
-            DocCollection: this.JobMaster.GetDocCollection(),
-            UrlList: this.JobMaster.DrainDisplayQueueAsList(
-              MacroscopeConstants.NamedQueueDisplayDataExtractorsXpaths
-            ),
-            DataExtractor: this.DataExtractorXpaths
-          );
+          if( MacroscopePreferencesManager.GetDataExtractorEnable() )
+          {
+            this.msDisplayDisplayDataExtractorCssSelectors.RefreshData(
+              DocCollection: this.JobMaster.GetDocCollection(),
+              UrlList: this.JobMaster.DrainDisplayQueueAsList(
+                MacroscopeConstants.NamedQueueDisplayDataExtractorsCssSelectors
+              ),
+              DataExtractor: this.DataExtractorCssSelectors
+            );
+            this.msDisplayDisplayDataExtractorRegexes.RefreshData(
+              DocCollection: this.JobMaster.GetDocCollection(),
+              UrlList: this.JobMaster.DrainDisplayQueueAsList(
+                MacroscopeConstants.NamedQueueDisplayDataExtractorsRegexes
+              ),
+              DataExtractor: this.DataExtractorRegexes
+            );
+            this.msDisplayDisplayDataExtractorXpaths.RefreshData(
+              DocCollection: this.JobMaster.GetDocCollection(),
+              UrlList: this.JobMaster.DrainDisplayQueueAsList(
+                MacroscopeConstants.NamedQueueDisplayDataExtractorsXpaths
+              ),
+              DataExtractor: this.DataExtractorXpaths
+            );
+          }
           break;
 
         case "tabPageUriQueue":
