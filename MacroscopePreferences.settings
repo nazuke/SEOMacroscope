@@ -25,25 +25,55 @@
     <Setting Name="CrawlParentDirectories" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="CustomFilterEnable" Type="System.Boolean" Scope="User" Roaming="false">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="CustomFilterMaxItems" Type="System.Int32" Scope="User" Roaming="false">
-      <Value Profile="(Default)">5</Value>
-    </Setting>
-    <Setting Name="DataExtractorCleanWhiteSpace" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="CustomFiltersApplyToCss" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DataExtractorEnable" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="CustomFiltersApplyToHtml" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CustomFiltersApplyToJavascripts" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CustomFiltersApplyToText" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CustomFiltersApplyToXml" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CustomFiltersEnable" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DataExtractorMaxItemsCssSelectors" Type="System.Int32" Scope="User" Roaming="false">
+    <Setting Name="CustomFiltersMaxItems" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="DataExtractorMaxItemsRegexes" Type="System.Int32" Scope="User" Roaming="false">
+    <Setting Name="DataExtractorsApplyToCss" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DataExtractorsApplyToHtml" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DataExtractorsApplyToJavascripts" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DataExtractorsApplyToText" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DataExtractorsApplyToXml" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DataExtractorsCleanWhiteSpace" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DataExtractorsEnable" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DataExtractorsMaxItemsCssSelectors" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="DataExtractorMaxItemsXpaths" Type="System.Int32" Scope="User" Roaming="false">
+    <Setting Name="DataExtractorsMaxItemsRegexes" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="DataExtractorsMaxItemsXpaths" Type="System.Int32" Scope="User" Roaming="false">
       <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="Depth" Type="System.Int32" Scope="User" Roaming="false">

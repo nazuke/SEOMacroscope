@@ -136,18 +136,30 @@ namespace SEOMacroscope
 
     /** Custom Filters Options --------------------------------------------- **/
 
-    static Boolean CustomFilterEnable;
-    static int CustomFilterMaxItems;
+    static Boolean CustomFiltersEnable;
+    static int CustomFiltersMaxItems;
+
+    static Boolean CustomFiltersApplyToHtml;
+    static Boolean CustomFiltersApplyToCss;
+    static Boolean CustomFiltersApplyToJavascripts;
+    static Boolean CustomFiltersApplyToText;
+    static Boolean CustomFiltersApplyToXml;
 
     /** Extractor Options -------------------------------------------------- **/
 
-    static Boolean DataExtractorEnable;
-    static Boolean DataExtractorCleanWhiteSpace;
+    static Boolean DataExtractorsEnable;
+    static Boolean DataExtractorsCleanWhiteSpace;
     
-    static int DataExtractorMaxItemsCssSelectors;
-    static int DataExtractorMaxItemsRegexes;
-    static int DataExtractorMaxItemsXpaths;
+    static int DataExtractorsMaxItemsCssSelectors;
+    static int DataExtractorsMaxItemsRegexes;
+    static int DataExtractorsMaxItemsXpaths;
 
+    static Boolean DataExtractorsApplyToHtml;
+    static Boolean DataExtractorsApplyToCss;
+    static Boolean DataExtractorsApplyToJavascripts;
+    static Boolean DataExtractorsApplyToText;
+    static Boolean DataExtractorsApplyToXml;
+                        
     /** Export Options ----------------------------------------------------- **/
 
     static Boolean SitemapIncludeLinkedPdfs;
@@ -256,14 +268,24 @@ namespace SEOMacroscope
     
           DetectLanguage = Preferences.DetectLanguage;
 
-          CustomFilterEnable = Preferences.CustomFilterEnable;
-          CustomFilterMaxItems = Preferences.CustomFilterMaxItems;
+          CustomFiltersEnable = Preferences.CustomFiltersEnable;
+          CustomFiltersMaxItems = Preferences.CustomFiltersMaxItems;
+          CustomFiltersApplyToHtml = Preferences.CustomFiltersApplyToHtml;
+          CustomFiltersApplyToCss = Preferences.CustomFiltersApplyToCss;
+          CustomFiltersApplyToJavascripts = Preferences.CustomFiltersApplyToJavascripts;
+          CustomFiltersApplyToText = Preferences.CustomFiltersApplyToText;
+          CustomFiltersApplyToXml = Preferences.CustomFiltersApplyToXml;
 
-          DataExtractorEnable = Preferences.DataExtractorEnable;
-          DataExtractorCleanWhiteSpace = Preferences.DataExtractorCleanWhiteSpace;
-          DataExtractorMaxItemsCssSelectors = Preferences.DataExtractorMaxItemsCssSelectors;
-          DataExtractorMaxItemsRegexes = Preferences.DataExtractorMaxItemsRegexes;
-          DataExtractorMaxItemsXpaths = Preferences.DataExtractorMaxItemsXpaths;
+          DataExtractorsEnable = Preferences.DataExtractorsEnable;
+          DataExtractorsCleanWhiteSpace = Preferences.DataExtractorsCleanWhiteSpace;
+          DataExtractorsMaxItemsCssSelectors = Preferences.DataExtractorsMaxItemsCssSelectors;
+          DataExtractorsMaxItemsRegexes = Preferences.DataExtractorsMaxItemsRegexes;
+          DataExtractorsMaxItemsXpaths = Preferences.DataExtractorsMaxItemsXpaths;
+          DataExtractorsApplyToHtml = Preferences.DataExtractorsApplyToHtml;
+          DataExtractorsApplyToCss = Preferences.DataExtractorsApplyToCss;
+          DataExtractorsApplyToJavascripts = Preferences.DataExtractorsApplyToJavascripts;
+          DataExtractorsApplyToText = Preferences.DataExtractorsApplyToText;
+          DataExtractorsApplyToXml = Preferences.DataExtractorsApplyToXml;
 
           SitemapIncludeLinkedPdfs = Preferences.SitemapIncludeLinkedPdfs;
           
@@ -397,18 +419,30 @@ namespace SEOMacroscope
 
       /** Custom Filter Options -------------------------------------------- **/
 
-      CustomFilterEnable = false;
+      CustomFiltersEnable = false;
 
-      CustomFilterMaxItems = 5;
+      CustomFiltersMaxItems = 5;
+
+      CustomFiltersApplyToHtml = true;
+      CustomFiltersApplyToCss = true;
+      CustomFiltersApplyToJavascripts = true;
+      CustomFiltersApplyToText = true;
+      CustomFiltersApplyToXml = true;
 
       /** Extractor Options ------------------------------------------------ **/
     
-      DataExtractorEnable = false;
-      DataExtractorCleanWhiteSpace = true;
+      DataExtractorsEnable = false;
+      DataExtractorsCleanWhiteSpace = true;
     
-      DataExtractorMaxItemsCssSelectors = 5;
-      DataExtractorMaxItemsRegexes = 5;
-      DataExtractorMaxItemsXpaths = 5;
+      DataExtractorsMaxItemsCssSelectors = 5;
+      DataExtractorsMaxItemsRegexes = 5;
+      DataExtractorsMaxItemsXpaths = 5;
+
+      DataExtractorsApplyToHtml = true;
+      DataExtractorsApplyToCss = true;
+      DataExtractorsApplyToJavascripts = true;
+      DataExtractorsApplyToText = true;
+      DataExtractorsApplyToXml = true;
 
       /** Export Options --------------------------------------------------- **/
             
@@ -473,46 +507,46 @@ namespace SEOMacroscope
 
       /** Custom Filter Options -------------------------------------------- **/
 
-      if( CustomFilterMaxItems < 1 )
+      if( CustomFiltersMaxItems < 1 )
       {
-        CustomFilterMaxItems = 1;
+        CustomFiltersMaxItems = 1;
       }
       
-      if( CustomFilterMaxItems > 100 )
+      if( CustomFiltersMaxItems > 100 )
       {
-        CustomFilterMaxItems = 100;
+        CustomFiltersMaxItems = 100;
       }
 
       /** Data Extractor Options ------------------------------------------- **/
 
-      if( DataExtractorMaxItemsCssSelectors < 1 )
+      if( DataExtractorsMaxItemsCssSelectors < 1 )
       {
-        DataExtractorMaxItemsCssSelectors = 1;
+        DataExtractorsMaxItemsCssSelectors = 1;
       }
       
-      if( DataExtractorMaxItemsCssSelectors > 100 )
+      if( DataExtractorsMaxItemsCssSelectors > 100 )
       {
-        DataExtractorMaxItemsCssSelectors = 100;
+        DataExtractorsMaxItemsCssSelectors = 100;
       }
 
-      if( DataExtractorMaxItemsRegexes < 1 )
+      if( DataExtractorsMaxItemsRegexes < 1 )
       {
-        DataExtractorMaxItemsRegexes = 1;
+        DataExtractorsMaxItemsRegexes = 1;
       }
       
-      if( DataExtractorMaxItemsRegexes > 100 )
+      if( DataExtractorsMaxItemsRegexes > 100 )
       {
-        DataExtractorMaxItemsRegexes = 100;
+        DataExtractorsMaxItemsRegexes = 100;
       }
 
-      if( DataExtractorMaxItemsXpaths < 1 )
+      if( DataExtractorsMaxItemsXpaths < 1 )
       {
-        DataExtractorMaxItemsXpaths = 1;
+        DataExtractorsMaxItemsXpaths = 1;
       }
       
-      if( DataExtractorMaxItemsXpaths > 100 )
+      if( DataExtractorsMaxItemsXpaths > 100 )
       {
-        DataExtractorMaxItemsXpaths = 100;
+        DataExtractorsMaxItemsXpaths = 100;
       }      
 
       /** ------------------------------------------------------------------ **/
@@ -606,15 +640,25 @@ namespace SEOMacroscope
 
         Preferences.DetectLanguage = DetectLanguage;
 
-        Preferences.CustomFilterEnable = CustomFilterEnable;
-        Preferences.CustomFilterMaxItems = CustomFilterMaxItems;
+        Preferences.CustomFiltersEnable = CustomFiltersEnable;
+        Preferences.CustomFiltersMaxItems = CustomFiltersMaxItems;
+        Preferences.CustomFiltersApplyToHtml = CustomFiltersApplyToHtml;
+        Preferences.CustomFiltersApplyToCss = CustomFiltersApplyToCss;
+        Preferences.CustomFiltersApplyToJavascripts = CustomFiltersApplyToJavascripts;
+        Preferences.CustomFiltersApplyToText = CustomFiltersApplyToText;
+        Preferences.CustomFiltersApplyToXml = CustomFiltersApplyToXml;
 
-        Preferences.DataExtractorEnable = DataExtractorEnable;
-        Preferences.DataExtractorCleanWhiteSpace = DataExtractorCleanWhiteSpace;
-        Preferences.DataExtractorMaxItemsCssSelectors = DataExtractorMaxItemsCssSelectors;
-        Preferences.DataExtractorMaxItemsRegexes = DataExtractorMaxItemsRegexes;
-        Preferences.DataExtractorMaxItemsXpaths = DataExtractorMaxItemsXpaths;
-
+        Preferences.DataExtractorsEnable = DataExtractorsEnable;
+        Preferences.DataExtractorsCleanWhiteSpace = DataExtractorsCleanWhiteSpace;
+        Preferences.DataExtractorsMaxItemsCssSelectors = DataExtractorsMaxItemsCssSelectors;
+        Preferences.DataExtractorsMaxItemsRegexes = DataExtractorsMaxItemsRegexes;
+        Preferences.DataExtractorsMaxItemsXpaths = DataExtractorsMaxItemsXpaths;
+        Preferences.DataExtractorsApplyToHtml = DataExtractorsApplyToHtml;
+        Preferences.DataExtractorsApplyToCss = DataExtractorsApplyToCss;
+        Preferences.DataExtractorsApplyToJavascripts = DataExtractorsApplyToJavascripts;
+        Preferences.DataExtractorsApplyToText = DataExtractorsApplyToText;
+        Preferences.DataExtractorsApplyToXml = DataExtractorsApplyToXml;
+        
         Preferences.SitemapIncludeLinkedPdfs = SitemapIncludeLinkedPdfs;
                   
         Preferences.EnableMemoryGuard = EnableMemoryGuard;
@@ -1331,86 +1375,190 @@ namespace SEOMacroscope
 
     /** Custom Filter Options *************************************************/
 
-    public static Boolean GetCustomFilterEnable ()
+    public static Boolean GetCustomFiltersEnable ()
     {
-      return( CustomFilterEnable );
+      return( CustomFiltersEnable );
     }
 
-    public static void SetCustomFilterEnable ( Boolean State )
+    public static void SetCustomFiltersEnable ( Boolean State )
     {
-      CustomFilterEnable = State;
+      CustomFiltersEnable = State;
     }
 
     /* ---------------------------------------------------------------------- */
     
-    public static int GetCustomFilterMaxItems ()
+    public static int GetCustomFiltersMaxItems ()
     {
-      return( CustomFilterMaxItems );
+      return( CustomFiltersMaxItems );
     }
 
-    public static void SetCustomFilterMaxItems ( int Max )
+    public static void SetCustomFiltersMaxItems ( int Max )
     {
-      CustomFilterMaxItems = Max;
+      CustomFiltersMaxItems = Max;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    public static Boolean GetCustomFiltersApplyToHtml ()
+    {
+      return( CustomFiltersApplyToHtml );
+    }
+
+    public static void SetCustomFiltersApplyToHtml ( Boolean State )
+    {
+      CustomFiltersApplyToHtml = State;
+    }
+    
+    public static Boolean GetCustomFiltersApplyToCss ()
+    {
+      return( CustomFiltersApplyToCss );
+    }
+
+    public static void SetCustomFiltersApplyToCss ( Boolean State )
+    {
+      CustomFiltersApplyToCss = State;
+    }
+    
+    public static Boolean GetCustomFiltersApplyToJavascripts ()
+    {
+      return( CustomFiltersApplyToJavascripts );
+    }
+
+    public static void SetCustomFiltersApplyToJavascripts ( Boolean State )
+    {
+      CustomFiltersApplyToJavascripts = State;
+    }
+    
+    public static Boolean GetCustomFiltersApplyToText ()
+    {
+      return( CustomFiltersApplyToText );
+    }
+
+    public static void SetCustomFiltersApplyToText ( Boolean State )
+    {
+      CustomFiltersApplyToText = State;
+    }
+    
+    public static Boolean GetCustomFiltersApplyToXml ()
+    {
+      return( CustomFiltersApplyToXml );
+    }
+
+    public static void SetCustomFiltersApplyToXml ( Boolean State )
+    {
+      CustomFiltersApplyToXml = State;
     }
 
     /** Data Extractor Options ************************************************/
 
-    public static Boolean GetDataExtractorEnable ()
+    public static Boolean GetDataExtractorsEnable ()
     {
-      return( DataExtractorEnable );
+      return( DataExtractorsEnable );
     }
 
-    public static void SetDataExtractorEnable ( Boolean State )
+    public static void SetDataExtractorsEnable ( Boolean State )
     {
-      DataExtractorEnable = State;
-    }
-
-    /* ---------------------------------------------------------------------- */
-
-    public static Boolean GetDataExtractorCleanWhiteSpace ()
-    {
-      return( DataExtractorCleanWhiteSpace );
-    }
-
-    public static void SetDataExtractorCleanWhiteSpace ( Boolean State )
-    {
-      DataExtractorCleanWhiteSpace = State;
+      DataExtractorsEnable = State;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static int GetDataExtractorMaxItemsCssSelectors ()
+    public static Boolean GetDataExtractorsCleanWhiteSpace ()
     {
-      return( DataExtractorMaxItemsCssSelectors );
+      return( DataExtractorsCleanWhiteSpace );
     }
 
-    public static void SetDataExtractorMaxItemsCssSelectors ( int Max )
+    public static void SetDataExtractorsCleanWhiteSpace ( Boolean State )
     {
-      DataExtractorMaxItemsCssSelectors = Max;
-    }
-
-    /* ---------------------------------------------------------------------- */
-
-    public static int GetDataExtractorMaxItemsRegexes ()
-    {
-      return( DataExtractorMaxItemsRegexes );
-    }
-
-    public static void SetDataExtractorMaxItemsRegexes ( int Max )
-    {
-      DataExtractorMaxItemsRegexes = Max;
+      DataExtractorsCleanWhiteSpace = State;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static int GetDataExtractorMaxItemsXpaths ()
+    public static int GetDataExtractorsMaxItemsCssSelectors ()
     {
-      return( DataExtractorMaxItemsXpaths );
+      return( DataExtractorsMaxItemsCssSelectors );
     }
 
-    public static void SetDataExtractorMaxItemsXpaths ( int Max )
+    public static void SetDataExtractorsMaxItemsCssSelectors ( int Max )
     {
-      DataExtractorMaxItemsXpaths = Max;
+      DataExtractorsMaxItemsCssSelectors = Max;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    public static int GetDataExtractorsMaxItemsRegexes ()
+    {
+      return( DataExtractorsMaxItemsRegexes );
+    }
+
+    public static void SetDataExtractorsMaxItemsRegexes ( int Max )
+    {
+      DataExtractorsMaxItemsRegexes = Max;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    public static int GetDataExtractorsMaxItemsXpaths ()
+    {
+      return( DataExtractorsMaxItemsXpaths );
+    }
+
+    public static void SetDataExtractorsMaxItemsXpaths ( int Max )
+    {
+      DataExtractorsMaxItemsXpaths = Max;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    public static Boolean GetDataExtractorsApplyToHtml ()
+    {
+      return( DataExtractorsApplyToHtml );
+    }
+
+    public static void SetDataExtractorsApplyToHtml ( Boolean State )
+    {
+      DataExtractorsApplyToHtml = State;
+    }
+
+    public static Boolean GetDataExtractorsApplyToCss ()
+    {
+      return( DataExtractorsApplyToCss );
+    }
+
+    public static void SetDataExtractorsApplyToCss ( Boolean State )
+    {
+      DataExtractorsApplyToCss = State;
+    }
+
+    public static Boolean GetDataExtractorsApplyToJavascripts ()
+    {
+      return( DataExtractorsApplyToJavascripts );
+    }
+
+    public static void SetDataExtractorsApplyToJavascripts ( Boolean State )
+    {
+      DataExtractorsApplyToJavascripts = State;
+    }
+
+    public static Boolean GetDataExtractorsApplyToText ()
+    {
+      return( DataExtractorsApplyToText );
+    }
+
+    public static void SetDataExtractorsApplyToText ( Boolean State )
+    {
+      DataExtractorsApplyToText = State;
+    }
+
+    public static Boolean GetDataExtractorsApplyToXml ()
+    {
+      return( DataExtractorsApplyToXml );
+    }
+
+    public static void SetDataExtractorsApplyToXml ( Boolean State )
+    {
+      DataExtractorsApplyToXml = State;
     }
 
     /** Export Options ********************************************************/

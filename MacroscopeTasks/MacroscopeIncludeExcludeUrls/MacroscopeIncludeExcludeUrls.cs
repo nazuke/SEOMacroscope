@@ -88,9 +88,7 @@ namespace SEOMacroscope
 
       foreach( string Url in Regex.Split( IncludeUrlPatternsText, Environment.NewLine, RegexOptions.Singleline ) )
       {
-        
-        DebugMsg( string.Format( "LoadIncludeUrlPatterns: {0}", Url ) );
-        
+
         string TrimmedUrl = Url.Trim();
         
         if( !string.IsNullOrEmpty( TrimmedUrl ) )
@@ -150,20 +148,13 @@ namespace SEOMacroscope
       
       Boolean PatternMatches = false;
 
-      // TODO: Implement this.
-
       for( int i = 0 ; i < this.ExplicitIncludeUrlPatternsList.Count ; i++ )
       {
-        
+
         if( Url.Equals( this.ExplicitIncludeUrlPatternsList[ i ] ) )
         {
-          DebugMsg( string.Format( "ExplicitIncludeUrlPatternsList: MATCH: {0} :: {1}", this.ExplicitIncludeUrlPatternsList[ i ], Url ) );
           PatternMatches = true;
           break;
-        }
-        else
-        {
-          DebugMsg( string.Format( "ExplicitIncludeUrlPatternsList: NO MATCH: {0} :: {1}", this.ExplicitIncludeUrlPatternsList[ i ], Url ) );
         }
 
       }
@@ -174,21 +165,16 @@ namespace SEOMacroscope
         for( int i = 0 ; i < this.IncludeUrlPatternsList.Count ; i++ )
         {
         
-          if( Url.IndexOf( this.IncludeUrlPatternsList[ i ], StringComparison.Ordinal ) >= 0 )
+          if( Regex.IsMatch( Url, this.IncludeUrlPatternsList[ i ] ) )
           {
-            DebugMsg( string.Format( "IncludeUrlPatternsList: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
             PatternMatches = true;
             break;
-          }
-          else
-          {
-            DebugMsg( string.Format( "IncludeUrlPatternsList: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
           }
 
         }
 
       }
-            
+
       return( PatternMatches );
       
     }
@@ -202,8 +188,6 @@ namespace SEOMacroscope
 
       foreach( string Url in Regex.Split( ExcludeUrlPatternsText, Environment.NewLine, RegexOptions.Singleline ) )
       {
-
-        DebugMsg( string.Format( "LoadExcludeUrlPatterns: {0}", Url ) );
 
         string TrimmedUrl = Url.Trim();
         
@@ -264,8 +248,6 @@ namespace SEOMacroscope
       
       Boolean PatternMatches = false;
 
-      // TODO: Implement this.
-
       if( this.ExplicitExcludeUrlPatternsList.Count > 0 )
       {
 
@@ -274,15 +256,8 @@ namespace SEOMacroscope
         
           if( Url.Equals( this.ExplicitExcludeUrlPatternsList[ i ] ) )
           {
-            //DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: MATCH: {0}", i ) );
-            //DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: MATCH: {0} :: {1}", this.ExplicitExcludeUrlPatternsList[ i ], Url ) );
             PatternMatches = true;
             break;
-          }
-          else
-          {
-            //DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: NO MATCH: {0}", i ) );
-            //DebugMsg( string.Format( "ExplicitExcludeUrlPatternsList: NO MATCH: {0} :: {1}", this.ExplicitExcludeUrlPatternsList[ i ], Url ) );
           }
         
         }
@@ -298,19 +273,12 @@ namespace SEOMacroscope
           for( int i = 0 ; i < this.ExcludeUrlPatternsList.Count ; i++ )
           {
         
-            if( Url.IndexOf( this.ExcludeUrlPatternsList[ i ], StringComparison.Ordinal ) >= 0 )
+            if( Regex.IsMatch( Url, this.ExcludeUrlPatternsList[ i ] ) )
             {
-              //DebugMsg( string.Format( "ExcludeUrlPatternsList: MATCH: {0}", i ) );
-              //DebugMsg( string.Format( "ExcludeUrlPatternsList: MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
               PatternMatches = true;
               break;
             }
-            else
-            {
-              //DebugMsg( string.Format( "ExcludeUrlPatternsList: NO MATCH: {0}", i ) );
-              //DebugMsg( string.Format( "ExcludeUrlPatternsList: NO MATCH: {0} :: {1}", this.IncludeUrlPatternsList[ i ], Url ) );
-            }
-        
+
           }
 
         }

@@ -293,7 +293,7 @@ namespace SEOMacroscope
 
       this.RenderTextBoxBodyText( JobMaster, msDoc );
       
-      if( MacroscopePreferencesManager.GetCustomFilterEnable() )
+      if( MacroscopePreferencesManager.GetCustomFiltersEnable() )
       {
         this.RenderListViewCustomFilters( JobMaster, msDoc );
       }
@@ -2123,8 +2123,19 @@ namespace SEOMacroscope
       MacroscopeCustomFilters CustomFilter = JobMaster.GetCustomFilter();
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
       int Count = 1;
+      Boolean Proceed = false;
 
-      if( !msDoc.GetIsHtml() )
+      if(
+        msDoc.GetIsHtml()
+        || msDoc.GetIsCss()
+        || msDoc.GetIsJavascript()
+        || msDoc.GetIsText()
+        || msDoc.GetIsXml() )
+      {
+        Proceed = true;
+      }
+        
+      if( !Proceed )
       {
         return;
       }

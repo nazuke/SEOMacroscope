@@ -24,32 +24,24 @@
 */
 
 using System;
-using ClosedXML.Excel;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Net;
+using CsvHelper;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelCustomFilterReport : MacroscopeExcelReports
+  public partial class MacroscopeCsvCustomFilterReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
     private void BuildWorksheetCustomFilter (
       MacroscopeJobMaster JobMaster,
-      XLWorkbook wb,
-      string WorksheetLabel
+      CsvWriter ws
     )
     {
 
-      var ws = wb.Worksheets.Add( WorksheetLabel );
-
-      int iRow = 1;
-      int iCol = 1;
-      int iColMax = 1;
-      
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
 
@@ -59,51 +51,64 @@ namespace SEOMacroscope
 
       {
 
-        ws.Cell( iRow, iCol ).Value = MacroscopeConstants.Url;
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = MacroscopeConstants.StatusCode;
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = MacroscopeConstants.Status;
+        ws.WriteField( MacroscopeConstants.Url );
+        ws.WriteField( MacroscopeConstants.StatusCode );
+        ws.WriteField( MacroscopeConstants.Status );
 
         for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
         {
 
           string FilterPattern = CustomFilter.GetPattern( Slot ).Key;
 
-          iCol++;
-
           if( FilterColsTable.ContainsKey( FilterPattern ) || string.IsNullOrEmpty( FilterPattern ) )
           {
+
             FilterColsTable.Add( string.Format( "EMPTY{0}", Slot + 1 ), Slot + FilterColOffset );
-            ws.Cell( iRow, iCol ).Value = string.Format( "EMPTY{0}", Slot + 1 );
+
+            ws.WriteField( string.Format( "EMPTY{0}", Slot + 1 ) );
+
           }
           else
           {
+
             FilterColsTable.Add( FilterPattern, Slot + FilterColOffset );
-            ws.Cell( iRow, iCol ).Value = FilterPattern;
+
+            ws.WriteField( FilterPattern );
+
           }
 
         }
         
+        ws.NextRecord();
+        
       }
-
-      iColMax = iCol;
-
-      iRow++;
 
       foreach( string Url in DocCollection.DocumentKeys() )
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-
+        Boolean Proceed = false;
+        
         if(
           ( msDoc == null )
           || ( msDoc.GetIsRedirect() )
           || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
-          || ( !msDoc.GetIsInternal() )
-          || ( !msDoc.GetIsHtml() ) )
+          || ( !msDoc.GetIsInternal() ) )
+        {
+          continue;
+        }
+
+        if(
+          msDoc.GetIsHtml()
+          || msDoc.GetIsCss()
+          || msDoc.GetIsJavascript()
+          || msDoc.GetIsText()
+          || msDoc.GetIsXml() )
+        {
+          Proceed = true;
+        }
+        
+        if( !Proceed )
         {
           continue;
         }
@@ -112,28 +117,11 @@ namespace SEOMacroscope
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
 
-        iCol = 1;
+        this.InsertAndFormatUrlCell( ws, msDoc );
 
-        this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
+        this.InsertAndFormatStatusCodeCell( ws, msDoc );
 
-        if( msDoc.GetIsInternal() )
-        {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-        }
-        else
-        {
-          ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-        }
-
-        iCol++;
-
-        this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, msDoc );
-
-        iCol++;
-
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
-
-        iCol++;
+        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
 
         for( int Slot = 0 ; Slot < this.CustomFilter.GetSize() ; Slot++ )
         {
@@ -146,47 +134,20 @@ namespace SEOMacroscope
 
             string CustomFilterItemValue = MacroscopeConstants.TextPresenceLabels[ Pair.Value ];
 
-            this.InsertAndFormatContentCell( ws, iRow, iCol, CustomFilterItemValue );
-
-            switch( Pair.Value )
-            {
-              case MacroscopeConstants.TextPresence.CONTAINS:
-                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-                break;
-              case MacroscopeConstants.TextPresence.NOTCONTAINS:
-                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-                break;
-              case MacroscopeConstants.TextPresence.MUSTCONTAIN:
-                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-                break;
-              case MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN:
-                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-                break;
-              default:
-                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-                break;
-            }
+            this.InsertAndFormatContentCell( ws, CustomFilterItemValue );
 
           }
           else
           {
 
-            this.InsertAndFormatContentCell( ws, iRow, iCol, "" );
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
+            this.InsertAndFormatContentCell( ws, "" );
 
           }
 
-          iCol++;
-
         }
 
-        iRow++;
-        
-      }
-
-      {
-        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
-        var excelTable = rangeData.CreateTable();
+        ws.NextRecord();
+                
       }
 
       return;

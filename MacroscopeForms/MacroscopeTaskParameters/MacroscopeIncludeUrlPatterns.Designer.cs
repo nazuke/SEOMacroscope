@@ -139,7 +139,7 @@ namespace SEOMacroscope
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(444, 20);
 			this.label1.TabIndex = 2;
-			this.label1.Text = "Enter patterns one per line:";
+			this.label1.Text = "Enter one Regular Expression per line:";
 			// 
 			// MacroscopeIncludeUrlPatterns
 			// 

@@ -235,13 +235,28 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
-
+        Boolean Proceed = false;
+        
         if(
           ( msDoc == null )
           || ( msDoc.GetIsRedirect() )
           || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
-          || ( !msDoc.GetIsInternal() )
-          || ( !msDoc.GetIsHtml() ) )
+          || ( !msDoc.GetIsInternal() ) )
+        {
+          continue;
+        }
+
+        if(
+          msDoc.GetIsHtml()
+          || msDoc.GetIsCss()
+          || msDoc.GetIsJavascript()
+          || msDoc.GetIsText()
+          || msDoc.GetIsXml() )
+        {
+          Proceed = true;
+        }
+        
+        if( !Proceed )
         {
           continue;
         }

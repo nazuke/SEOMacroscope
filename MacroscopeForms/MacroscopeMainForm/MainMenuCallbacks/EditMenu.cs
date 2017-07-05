@@ -40,11 +40,11 @@ namespace SEOMacroscope
       MacroscopePrefsForm PreferencesForm = new MacroscopePrefsForm ();
       DialogResult PreferencesResult;
 
-      int CustomFilterMaxItems = MacroscopePreferencesManager.GetDataExtractorMaxItemsCssSelectors();
+      int CustomFiltersMaxItems = MacroscopePreferencesManager.GetCustomFiltersMaxItems();
 
-      int DataExtractorMaxItemsCssSelectors = MacroscopePreferencesManager.GetDataExtractorMaxItemsCssSelectors();
-      int DataExtractorMaxItemsRegexes = MacroscopePreferencesManager.GetDataExtractorMaxItemsRegexes();
-      int DataExtractorMaxItemsXpaths = MacroscopePreferencesManager.GetDataExtractorMaxItemsXpaths();
+      int DataExtractorsMaxItemsCssSelectors = MacroscopePreferencesManager.GetDataExtractorsMaxItemsCssSelectors();
+      int DataExtractorsMaxItemsRegexes = MacroscopePreferencesManager.GetDataExtractorsMaxItemsRegexes();
+      int DataExtractorsMaxItemsXpaths = MacroscopePreferencesManager.GetDataExtractorsMaxItemsXpaths();
 
       PreferencesResult = PreferencesForm.ShowDialog();
 
@@ -65,17 +65,17 @@ namespace SEOMacroscope
           Boolean ReconfigureDataExtractorMaxItemsRegexes = false;
           Boolean ReconfigureDataExtractorMaxItemsXpaths = false;
 
-          if( DataExtractorMaxItemsCssSelectors != MacroscopePreferencesManager.GetDataExtractorMaxItemsCssSelectors() )
+          if( DataExtractorsMaxItemsCssSelectors != MacroscopePreferencesManager.GetDataExtractorsMaxItemsCssSelectors() )
           {
             ReconfigureInitializeCssSelectors = true;
           }
 
-          if( DataExtractorMaxItemsRegexes != MacroscopePreferencesManager.GetDataExtractorMaxItemsRegexes() )
+          if( DataExtractorsMaxItemsRegexes != MacroscopePreferencesManager.GetDataExtractorsMaxItemsRegexes() )
           {
             ReconfigureDataExtractorMaxItemsRegexes = true;
           }
         
-          if( DataExtractorMaxItemsXpaths != MacroscopePreferencesManager.GetDataExtractorMaxItemsXpaths() )
+          if( DataExtractorsMaxItemsXpaths != MacroscopePreferencesManager.GetDataExtractorsMaxItemsXpaths() )
           {
             ReconfigureDataExtractorMaxItemsXpaths = true;
           }

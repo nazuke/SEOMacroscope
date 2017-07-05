@@ -24,8 +24,11 @@
 */
 
 using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -47,7 +50,7 @@ namespace SEOMacroscope
       {
 
         req = WebRequest.CreateHttp( this.DocUrl );
-        req.Method = "HEAD";
+        req.Method = "GET";
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
         
@@ -84,12 +87,108 @@ namespace SEOMacroscope
       if( res != null )
       {
 
+        string RawData = "";
+
         this.ProcessResponseHttpHeaders( req, res );
+
+        /** ---------------------------------------------------------------- **/
 
         if( IsAuthenticating )
         {
           this.VerifyOrPurgeCredential();
         }
+
+        /** Get Response Body ---------------------------------------------- **/
+        
+        try
+        {
+
+          DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
+
+          Encoding encUseEncoding = Encoding.UTF8;
+
+          if( this.CharSet != null )
+          {
+            encUseEncoding = this.CharSet;
+          }
+          else
+          {
+            encUseEncoding = this.JavascriptSniffCharset();
+          }
+
+          Stream ResponseStream = res.GetResponseStream();
+          StreamReader ResponseStreamReader = new StreamReader ( ResponseStream, encUseEncoding );
+          RawData = ResponseStreamReader.ReadToEnd();
+          this.ContentLength = RawData.Length; // May need to find bytes length
+          this.SetChecksum( RawData );
+
+        }
+        catch( WebException ex )
+        {
+
+          DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
+          
+          if( ex.Response != null )
+          {
+            this.SetStatusCode( ( ( HttpWebResponse )ex.Response ).StatusCode );
+          }
+          else
+          {
+            this.SetStatusCode( ( HttpStatusCode )ex.Status );
+          }
+          
+          RawData = "";
+          this.ContentLength = 0;
+
+        }
+        catch( Exception ex )
+        {
+
+          DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+          this.SetStatusCode( HttpStatusCode.BadRequest );
+          RawData = "";
+          this.ContentLength = 0;
+
+        }
+
+        /** ---------------------------------------------------------------- **/
+
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetCustomFiltersEnable()
+            && MacroscopePreferencesManager.GetCustomFiltersApplyToJavascripts() )
+          {
+          
+            MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
+
+            if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+            {
+              this.ProcessJavascriptCustomFiltered( CustomFilter: CustomFilter, JavascriptText: RawData );           
+            }
+
+          }
+          
+        }
+
+        /** ---------------------------------------------------------------- **/
+
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetDataExtractorsEnable()
+            && MacroscopePreferencesManager.GetDataExtractorsApplyToJavascripts() )
+          {
+
+            this.ProcessJavascriptDataExtractors( JavascriptText: RawData );
+
+          }
+
+        }
+
+        /** ---------------------------------------------------------------- **/
 
         { // Title
           MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
@@ -113,6 +212,8 @@ namespace SEOMacroscope
           }
         }
 
+        /** ---------------------------------------------------------------- **/
+
         res.Close();
         
         res.Dispose();
@@ -123,6 +224,89 @@ namespace SEOMacroscope
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
+
+    }
+
+    /** Process Custom Filtered *********************************************/
+
+    private void ProcessJavascriptCustomFiltered (
+      MacroscopeCustomFilters CustomFilter,
+      string JavascriptText
+    )
+    {
+
+      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed;
+
+      Analyzed = CustomFilter.AnalyzeText( Text: JavascriptText );
+
+      foreach( string Key in Analyzed.Keys )
+      {
+        this.SetCustomFiltered( Text: Key, Presence: Analyzed[ Key ] );
+      }
+
+      return;
+      
+    }
+
+    /** Process Data Extractors ***********************************************/
+
+    private void ProcessJavascriptDataExtractors ( string JavascriptText )
+    {
+
+      MacroscopeJobMaster JobMaster = this.DocCollection.GetJobMaster();
+
+      {
+
+        MacroscopeDataExtractorRegexes DataExtractor = JobMaster.GetDataExtractorRegexes();
+
+        if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
+        {
+          this.ProcessJavascriptDataExtractorRegexes(
+            DataExtractor: DataExtractor,
+            JavascriptText: JavascriptText
+          );
+        }
+
+      }
+
+      return;
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void ProcessJavascriptDataExtractorRegexes (
+      MacroscopeDataExtractorRegexes DataExtractor,
+      string JavascriptText
+    )
+    {
+
+      List<KeyValuePair<string, string>> Analyzed;
+
+      Analyzed = DataExtractor.AnalyzeText( Text: JavascriptText );
+
+      foreach( KeyValuePair<string, string> Pair in Analyzed )
+      {
+        this.SetDataExtractedRegexes( 
+          Label: Pair.Key, 
+          Text: Pair.Value 
+        );
+      }
+
+      return;
+
+    }
+
+    /** Sniff Charset *********************************************************/
+
+    Encoding JavascriptSniffCharset ()
+    {
+
+      Encoding encSniffed = Encoding.UTF8;
+
+      // TODO: Implement code to download JS and detect charset
+
+      return( encSniffed );
 
     }
 

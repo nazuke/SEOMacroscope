@@ -53,13 +53,13 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvOverviewReport msCsvReport = new MacroscopeCsvOverviewReport ();
+        MacroscopeCsvOverviewReport CsvReport = new MacroscopeCsvOverviewReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            msCsvReport.WriteCsv( this.JobMaster, Path );
+            CsvReport.WriteCsv( this.JobMaster, Path );
           }
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -98,13 +98,13 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelErrorsReport msCsvReport = new MacroscopeExcelErrorsReport ();
+        MacroscopeExcelErrorsReport CsvReport = new MacroscopeExcelErrorsReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteXslx( this.JobMaster, Path );
           }
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -143,13 +143,13 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelBrokenLinksReport msCsvReport = new MacroscopeExcelBrokenLinksReport ();
+        MacroscopeExcelBrokenLinksReport CsvReport = new MacroscopeExcelBrokenLinksReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteXslx( this.JobMaster, Path );
           }
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -188,14 +188,14 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelLanguagesReport msCsvReport = new MacroscopeExcelLanguagesReport ();
+        MacroscopeExcelLanguagesReport CsvReport = new MacroscopeExcelLanguagesReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteXslx( this.JobMaster, Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -274,7 +274,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvPageMetadataReport msCsvReport = new MacroscopeCsvPageMetadataReport ();
+        MacroscopeCsvPageMetadataReport CsvReport = new MacroscopeCsvPageMetadataReport ();
 
         try
         {
@@ -284,7 +284,7 @@ namespace SEOMacroscope
             
             Cursor.Current = Cursors.WaitCursor;
             
-            msCsvReport.WriteCsv(
+            CsvReport.WriteCsv(
               JobMaster: this.JobMaster,
               SelectedOutputWorksheet: SelectedOutputWorksheet,
               OutputFilename: Path
@@ -318,9 +318,34 @@ namespace SEOMacroscope
 
     }
 
-    /** -------------------------------------------------------------------- **/
+    /** Page Contents Report **************************************************/
 
-    private void CallbackSavePageContentsCsvReport ( object sender, EventArgs e )
+    private void CallbackSavePageContentsCsvReportHeadings ( object sender, EventArgs e )
+    {
+      this.CallbackSavePageContentsCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvPageContentsReport.OutputWorksheet.HEADINGS,
+        OutputFilename: "Macroscope-Page-Contents-Headings.csv"
+      );
+    }
+
+    private void CallbackSavePageContentsCsvReportPageText ( object sender, EventArgs e )
+    {
+      this.CallbackSavePageContentsCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvPageContentsReport.OutputWorksheet.PAGETEXT,
+        OutputFilename: "Macroscope-Page-Contents-Page-Text.csv"
+      );
+    }
+
+    private void CallbackSavePageContentsCsvReport (
+      object sender,
+      EventArgs e,
+      MacroscopeCsvPageContentsReport.OutputWorksheet SelectedOutputWorksheet,
+      string OutputFilename
+    )
     {
 
       SaveFileDialog Dialog = new SaveFileDialog ();
@@ -329,22 +354,32 @@ namespace SEOMacroscope
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
-      Dialog.FileName = "Macroscope-Page-Contents.csv";
+      Dialog.FileName = OutputFilename;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelPageContentsReport msCsvReport = new MacroscopeExcelPageContentsReport ();
+        MacroscopeCsvPageContentsReport CsvReport = new MacroscopeCsvPageContentsReport ();
 
         try
         {
+          
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
+            
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            
+            CsvReport.WriteCsv(
+              JobMaster: this.JobMaster,
+              SelectedOutputWorksheet: SelectedOutputWorksheet,
+              OutputFilename: Path
+            );
+            
             Cursor.Current = Cursors.Default;
+          
           }
+          
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -386,14 +421,14 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelUriReport msCsvReport = new MacroscopeExcelUriReport ();
+        MacroscopeExcelUriReport CsvReport = new MacroscopeExcelUriReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteXslx( this.JobMaster, Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -438,14 +473,14 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelRedirectsReport msCsvReport = new MacroscopeExcelRedirectsReport ();
+        MacroscopeExcelRedirectsReport CsvReport = new MacroscopeExcelRedirectsReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteXslx( this.JobMaster, Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -493,16 +528,16 @@ namespace SEOMacroscope
 
         MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
 
-        MacroscopeExcelKeywordAnalysisReport msCsvReport = new MacroscopeExcelKeywordAnalysisReport (
-                                                               ProgressFormDialogue: ProgressForm
-                                                             );
+        MacroscopeExcelKeywordAnalysisReport CsvReport = new MacroscopeExcelKeywordAnalysisReport (
+                                                           ProgressFormDialogue: ProgressForm
+                                                         );
         
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteXslx( this.JobMaster, Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -550,15 +585,15 @@ namespace SEOMacroscope
 
         MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
 
-        MacroscopeExcelDuplicateContent msCsvReport = new MacroscopeExcelDuplicateContent (
-                                                          ProgressFormDialogue: ProgressForm
-                                                        );
+        MacroscopeExcelDuplicateContent CsvReport = new MacroscopeExcelDuplicateContent (
+                                                      ProgressFormDialogue: ProgressForm
+                                                    );
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
+            CsvReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -604,14 +639,14 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelContactDetailsReport msCsvReport = new MacroscopeExcelContactDetailsReport ();
+        MacroscopeExcelContactDetailsReport CsvReport = new MacroscopeExcelContactDetailsReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteXslx( this.JobMaster, Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -656,14 +691,14 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MaroscopeExcelRemarksReport msCsvReport = new MaroscopeExcelRemarksReport ();
+        MaroscopeExcelRemarksReport CsvReport = new MaroscopeExcelRemarksReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteXslx( this.JobMaster, Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -708,14 +743,14 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelCustomFilterReport msCsvReport = new MacroscopeExcelCustomFilterReport ( NewCustomFilter: this.CustomFilter );
+        MacroscopeCsvCustomFilterReport CsvReport = new MacroscopeCsvCustomFilterReport ( NewCustomFilter: this.CustomFilter );
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteCsv( this.JobMaster, Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -742,27 +777,61 @@ namespace SEOMacroscope
 
     }
 
-    /** -------------------------------------------------------------------- **/
+    /** Data Exctractors ******************************************************/
 
-    private void CallbackSaveDataExtractorsCsvReport ( object sender, EventArgs e )
+    private void CallbackSaveDataExtractorsCsvReportCssSelectors ( object sender, EventArgs e )
+    {
+      this.CallbackSaveDataExtractorsCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvDataExtractorReport.OutputWorksheet.CSS_SELECTORS,
+        OutputFilename: "Macroscope-Data-Extractors-CSS-Selectors.csv"
+      );
+    }
+
+    private void CallbackSaveDataExtractorsCsvReportRegexes ( object sender, EventArgs e )
+    {
+      this.CallbackSaveDataExtractorsCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvDataExtractorReport.OutputWorksheet.REGEXES,
+        OutputFilename: "Macroscope-Data-Extractors-Regexes.csv"
+      );
+    }
+
+    private void CallbackSaveDataExtractorsCsvReportXpaths ( object sender, EventArgs e )
+    {
+      this.CallbackSaveDataExtractorsCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvDataExtractorReport.OutputWorksheet.XPATHS,
+        OutputFilename: "Macroscope-Data-Extractors-XPaths.csv"
+      );
+    }
+
+    private void CallbackSaveDataExtractorsCsvReport (
+      object sender,
+      EventArgs e,
+      MacroscopeCsvDataExtractorReport.OutputWorksheet SelectedOutputWorksheet,
+      string OutputFilename
+    )
     {
 
       SaveFileDialog Dialog = new SaveFileDialog ();
-      
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
-      Dialog.FileName = "Macroscope-Data-Extractors.csv";
+      Dialog.FileName = OutputFilename;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelDataExtractorReport msCsvReport;
-        
-        msCsvReport = new MacroscopeExcelDataExtractorReport (
+        MacroscopeCsvDataExtractorReport CsvReport;
+
+        CsvReport = new MacroscopeCsvDataExtractorReport (
           NewDataExtractorCssSelectors: this.DataExtractorCssSelectors,
           NewDataExtractorRegexes: this.DataExtractorRegexes,
           NewDataExtractorXpaths: this.DataExtractorXpaths
@@ -770,24 +839,34 @@ namespace SEOMacroscope
 
         try
         {
+          
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
+            
             Cursor.Current = Cursors.WaitCursor;
-            msCsvReport.WriteXslx( this.JobMaster, Path );
+            
+            CsvReport.WriteCsv(
+              JobMaster: this.JobMaster,
+              SelectedOutputWorksheet: SelectedOutputWorksheet,
+              OutputFilename: Path
+            );
+            
             Cursor.Current = Cursors.Default;
+          
           }
+          
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Data Extractors CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );       
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
-          this.DialogueBoxError( "Error saving Data Extractors CSV Report", ex.Message );
+          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );
         }
         catch( Exception ex )
         {
-          this.DialogueBoxError( "Error saving Data Extractors CSV Report", ex.Message );
+          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );
         }
         finally
         {

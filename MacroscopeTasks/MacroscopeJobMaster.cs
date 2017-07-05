@@ -316,9 +316,6 @@ namespace SEOMacroscope
       return( this.CustomFilter );
     }
 
-
-
-
     /** Data Extractors *********************************************************/
 
     public void SetDataExtractorCssSelectors ( MacroscopeDataExtractorCssSelectors NewDataExtractor )

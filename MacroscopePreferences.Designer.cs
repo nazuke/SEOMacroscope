@@ -109,85 +109,205 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("False")]
-		public bool CustomFilterEnable {
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool CustomFiltersApplyToCss {
 			get {
-				return ((bool)(this["CustomFilterEnable"]));
+				return ((bool)(this["CustomFiltersApplyToCss"]));
 			}
 			set {
-				this["CustomFilterEnable"] = value;
-			}
-		}
-		
-		[global::System.Configuration.UserScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("5")]
-		public int CustomFilterMaxItems {
-			get {
-				return ((int)(this["CustomFilterMaxItems"]));
-			}
-			set {
-				this["CustomFilterMaxItems"] = value;
+				this["CustomFiltersApplyToCss"] = value;
 			}
 		}
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
-		public bool DataExtractorCleanWhiteSpace {
+		public bool CustomFiltersApplyToHtml {
 			get {
-				return ((bool)(this["DataExtractorCleanWhiteSpace"]));
+				return ((bool)(this["CustomFiltersApplyToHtml"]));
 			}
 			set {
-				this["DataExtractorCleanWhiteSpace"] = value;
+				this["CustomFiltersApplyToHtml"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool CustomFiltersApplyToJavascripts {
+			get {
+				return ((bool)(this["CustomFiltersApplyToJavascripts"]));
+			}
+			set {
+				this["CustomFiltersApplyToJavascripts"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool CustomFiltersApplyToText {
+			get {
+				return ((bool)(this["CustomFiltersApplyToText"]));
+			}
+			set {
+				this["CustomFiltersApplyToText"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool CustomFiltersApplyToXml {
+			get {
+				return ((bool)(this["CustomFiltersApplyToXml"]));
+			}
+			set {
+				this["CustomFiltersApplyToXml"] = value;
 			}
 		}
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
-		public bool DataExtractorEnable {
+		public bool CustomFiltersEnable {
 			get {
-				return ((bool)(this["DataExtractorEnable"]));
+				return ((bool)(this["CustomFiltersEnable"]));
 			}
 			set {
-				this["DataExtractorEnable"] = value;
+				this["CustomFiltersEnable"] = value;
 			}
 		}
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("5")]
-		public int DataExtractorMaxItemsCssSelectors {
+		public int CustomFiltersMaxItems {
 			get {
-				return ((int)(this["DataExtractorMaxItemsCssSelectors"]));
+				return ((int)(this["CustomFiltersMaxItems"]));
 			}
 			set {
-				this["DataExtractorMaxItemsCssSelectors"] = value;
+				this["CustomFiltersMaxItems"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool DataExtractorsApplyToCss {
+			get {
+				return ((bool)(this["DataExtractorsApplyToCss"]));
+			}
+			set {
+				this["DataExtractorsApplyToCss"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool DataExtractorsApplyToHtml {
+			get {
+				return ((bool)(this["DataExtractorsApplyToHtml"]));
+			}
+			set {
+				this["DataExtractorsApplyToHtml"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool DataExtractorsApplyToJavascripts {
+			get {
+				return ((bool)(this["DataExtractorsApplyToJavascripts"]));
+			}
+			set {
+				this["DataExtractorsApplyToJavascripts"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool DataExtractorsApplyToText {
+			get {
+				return ((bool)(this["DataExtractorsApplyToText"]));
+			}
+			set {
+				this["DataExtractorsApplyToText"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool DataExtractorsApplyToXml {
+			get {
+				return ((bool)(this["DataExtractorsApplyToXml"]));
+			}
+			set {
+				this["DataExtractorsApplyToXml"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool DataExtractorsCleanWhiteSpace {
+			get {
+				return ((bool)(this["DataExtractorsCleanWhiteSpace"]));
+			}
+			set {
+				this["DataExtractorsCleanWhiteSpace"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool DataExtractorsEnable {
+			get {
+				return ((bool)(this["DataExtractorsEnable"]));
+			}
+			set {
+				this["DataExtractorsEnable"] = value;
 			}
 		}
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("5")]
-		public int DataExtractorMaxItemsRegexes {
+		public int DataExtractorsMaxItemsCssSelectors {
 			get {
-				return ((int)(this["DataExtractorMaxItemsRegexes"]));
+				return ((int)(this["DataExtractorsMaxItemsCssSelectors"]));
 			}
 			set {
-				this["DataExtractorMaxItemsRegexes"] = value;
+				this["DataExtractorsMaxItemsCssSelectors"] = value;
 			}
 		}
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("5")]
-		public int DataExtractorMaxItemsXpaths {
+		public int DataExtractorsMaxItemsRegexes {
 			get {
-				return ((int)(this["DataExtractorMaxItemsXpaths"]));
+				return ((int)(this["DataExtractorsMaxItemsRegexes"]));
 			}
 			set {
-				this["DataExtractorMaxItemsXpaths"] = value;
+				this["DataExtractorsMaxItemsRegexes"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("5")]
+		public int DataExtractorsMaxItemsXpaths {
+			get {
+				return ((int)(this["DataExtractorsMaxItemsXpaths"]));
+			}
+			set {
+				this["DataExtractorsMaxItemsXpaths"] = value;
 			}
 		}
 		

@@ -141,23 +141,35 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageExtractorOptions;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel8;
 		private System.Windows.Forms.GroupBox groupBox20;
-		public System.Windows.Forms.CheckBox checkBoxDataExtractorCleanWhiteSpace;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorsCleanWhiteSpace;
 		private System.Windows.Forms.GroupBox groupBox21;
 		private System.Windows.Forms.Label label23;
-		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorMaxItemsCssSelectors;
+		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorsMaxItemsCssSelectors;
 		private System.Windows.Forms.Label label24;
 		private System.Windows.Forms.Label label25;
-		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorMaxItemsXpaths;
-		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorMaxItemsRegexes;
+		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorsMaxItemsXpaths;
+		public System.Windows.Forms.NumericUpDown numericUpDownDataExtractorsMaxItemsRegexes;
 		private System.Windows.Forms.TabPage tabPageCustomFilterOptions;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel9;
 		private System.Windows.Forms.GroupBox groupBox22;
 		private System.Windows.Forms.Label label19;
-		public System.Windows.Forms.NumericUpDown numericUpDownCustomFilterMaxItems;
+		public System.Windows.Forms.NumericUpDown numericUpDownCustomFiltersMaxItems;
 		private System.Windows.Forms.GroupBox groupBox23;
-		public System.Windows.Forms.CheckBox checkBoxCustomFilterEnable;
+		public System.Windows.Forms.CheckBox checkBoxCustomFiltersEnable;
 		private System.Windows.Forms.GroupBox groupBox24;
-		public System.Windows.Forms.CheckBox checkBoxDataExtractorEnable;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorsEnable;
+		private System.Windows.Forms.GroupBox groupBox25;
+		public System.Windows.Forms.CheckBox checkBoxCustomFiltersApplyToJavascripts;
+		public System.Windows.Forms.CheckBox checkBoxCustomFiltersApplyToText;
+		public System.Windows.Forms.CheckBox checkBoxCustomFiltersApplyToCss;
+		public System.Windows.Forms.CheckBox checkBoxCustomFiltersApplyToHtml;
+		public System.Windows.Forms.CheckBox checkBoxCustomFiltersApplyToXml;
+		private System.Windows.Forms.GroupBox groupBox26;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToXml;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToJavascripts;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToText;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToCss;
+		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToHtml;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -273,23 +285,35 @@ namespace SEOMacroscope
 			this.tabPageCustomFilterOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel9 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox23 = new System.Windows.Forms.GroupBox();
-			this.checkBoxCustomFilterEnable = new System.Windows.Forms.CheckBox();
+			this.checkBoxCustomFiltersEnable = new System.Windows.Forms.CheckBox();
 			this.groupBox22 = new System.Windows.Forms.GroupBox();
 			this.label19 = new System.Windows.Forms.Label();
-			this.numericUpDownCustomFilterMaxItems = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownCustomFiltersMaxItems = new System.Windows.Forms.NumericUpDown();
+			this.groupBox25 = new System.Windows.Forms.GroupBox();
+			this.checkBoxCustomFiltersApplyToXml = new System.Windows.Forms.CheckBox();
+			this.checkBoxCustomFiltersApplyToJavascripts = new System.Windows.Forms.CheckBox();
+			this.checkBoxCustomFiltersApplyToText = new System.Windows.Forms.CheckBox();
+			this.checkBoxCustomFiltersApplyToCss = new System.Windows.Forms.CheckBox();
+			this.checkBoxCustomFiltersApplyToHtml = new System.Windows.Forms.CheckBox();
 			this.tabPageExtractorOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox24 = new System.Windows.Forms.GroupBox();
-			this.checkBoxDataExtractorEnable = new System.Windows.Forms.CheckBox();
+			this.checkBoxDataExtractorsEnable = new System.Windows.Forms.CheckBox();
 			this.groupBox21 = new System.Windows.Forms.GroupBox();
 			this.label23 = new System.Windows.Forms.Label();
-			this.numericUpDownDataExtractorMaxItemsCssSelectors = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownDataExtractorsMaxItemsCssSelectors = new System.Windows.Forms.NumericUpDown();
 			this.label24 = new System.Windows.Forms.Label();
 			this.label25 = new System.Windows.Forms.Label();
-			this.numericUpDownDataExtractorMaxItemsXpaths = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDownDataExtractorMaxItemsRegexes = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownDataExtractorsMaxItemsXpaths = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownDataExtractorsMaxItemsRegexes = new System.Windows.Forms.NumericUpDown();
+			this.groupBox26 = new System.Windows.Forms.GroupBox();
+			this.checkBoxDataExtractorsApplyToXml = new System.Windows.Forms.CheckBox();
+			this.checkBoxDataExtractorsApplyToJavascripts = new System.Windows.Forms.CheckBox();
+			this.checkBoxDataExtractorsApplyToText = new System.Windows.Forms.CheckBox();
+			this.checkBoxDataExtractorsApplyToCss = new System.Windows.Forms.CheckBox();
+			this.checkBoxDataExtractorsApplyToHtml = new System.Windows.Forms.CheckBox();
 			this.groupBox20 = new System.Windows.Forms.GroupBox();
-			this.checkBoxDataExtractorCleanWhiteSpace = new System.Windows.Forms.CheckBox();
+			this.checkBoxDataExtractorsCleanWhiteSpace = new System.Windows.Forms.CheckBox();
 			this.tabPageExportOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox17 = new System.Windows.Forms.GroupBox();
@@ -354,14 +378,16 @@ namespace SEOMacroscope
 			this.flowLayoutPanel9.SuspendLayout();
 			this.groupBox23.SuspendLayout();
 			this.groupBox22.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownCustomFilterMaxItems)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownCustomFiltersMaxItems)).BeginInit();
+			this.groupBox25.SuspendLayout();
 			this.tabPageExtractorOptions.SuspendLayout();
 			this.flowLayoutPanel8.SuspendLayout();
 			this.groupBox24.SuspendLayout();
 			this.groupBox21.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsCssSelectors)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsXpaths)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsRegexes)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorsMaxItemsCssSelectors)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorsMaxItemsXpaths)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorsMaxItemsRegexes)).BeginInit();
+			this.groupBox26.SuspendLayout();
 			this.groupBox20.SuspendLayout();
 			this.tabPageExportOptions.SuspendLayout();
 			this.flowLayoutPanel6.SuspendLayout();
@@ -1541,6 +1567,7 @@ namespace SEOMacroscope
 			// 
 			this.flowLayoutPanel9.Controls.Add(this.groupBox23);
 			this.flowLayoutPanel9.Controls.Add(this.groupBox22);
+			this.flowLayoutPanel9.Controls.Add(this.groupBox25);
 			this.flowLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel9.Location = new System.Drawing.Point(0, 0);
 			this.flowLayoutPanel9.Name = "flowLayoutPanel9";
@@ -1550,29 +1577,29 @@ namespace SEOMacroscope
 			// groupBox23
 			// 
 			this.groupBox23.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox23.Controls.Add(this.checkBoxCustomFilterEnable);
+			this.groupBox23.Controls.Add(this.checkBoxCustomFiltersEnable);
 			this.groupBox23.Location = new System.Drawing.Point(10, 10);
 			this.groupBox23.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox23.Name = "groupBox23";
 			this.groupBox23.Size = new System.Drawing.Size(500, 60);
-			this.groupBox23.TabIndex = 3;
+			this.groupBox23.TabIndex = 1;
 			this.groupBox23.TabStop = false;
 			this.groupBox23.Text = "Enable/Disable Custom Filters";
 			// 
-			// checkBoxCustomFilterEnable
+			// checkBoxCustomFiltersEnable
 			// 
-			this.checkBoxCustomFilterEnable.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxCustomFilterEnable.Name = "checkBoxCustomFilterEnable";
-			this.checkBoxCustomFilterEnable.Size = new System.Drawing.Size(220, 24);
-			this.checkBoxCustomFilterEnable.TabIndex = 1;
-			this.checkBoxCustomFilterEnable.Text = "Enable custom filter processing";
-			this.checkBoxCustomFilterEnable.UseVisualStyleBackColor = true;
+			this.checkBoxCustomFiltersEnable.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxCustomFiltersEnable.Name = "checkBoxCustomFiltersEnable";
+			this.checkBoxCustomFiltersEnable.Size = new System.Drawing.Size(220, 24);
+			this.checkBoxCustomFiltersEnable.TabIndex = 1;
+			this.checkBoxCustomFiltersEnable.Text = "Enable custom filter processing";
+			this.checkBoxCustomFiltersEnable.UseVisualStyleBackColor = true;
 			// 
 			// groupBox22
 			// 
 			this.groupBox22.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox22.Controls.Add(this.label19);
-			this.groupBox22.Controls.Add(this.numericUpDownCustomFilterMaxItems);
+			this.groupBox22.Controls.Add(this.numericUpDownCustomFiltersMaxItems);
 			this.groupBox22.Location = new System.Drawing.Point(10, 80);
 			this.groupBox22.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox22.Name = "groupBox22";
@@ -1591,23 +1618,84 @@ namespace SEOMacroscope
 			this.label19.TabIndex = 9;
 			this.label19.Text = "Number of Custom Filters";
 			// 
-			// numericUpDownCustomFilterMaxItems
+			// numericUpDownCustomFiltersMaxItems
 			// 
-			this.numericUpDownCustomFilterMaxItems.Location = new System.Drawing.Point(20, 20);
-			this.numericUpDownCustomFilterMaxItems.Margin = new System.Windows.Forms.Padding(0);
-			this.numericUpDownCustomFilterMaxItems.Minimum = new decimal(new int[] {
+			this.numericUpDownCustomFiltersMaxItems.Location = new System.Drawing.Point(20, 20);
+			this.numericUpDownCustomFiltersMaxItems.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownCustomFiltersMaxItems.Minimum = new decimal(new int[] {
 			1,
 			0,
 			0,
 			0});
-			this.numericUpDownCustomFilterMaxItems.Name = "numericUpDownCustomFilterMaxItems";
-			this.numericUpDownCustomFilterMaxItems.Size = new System.Drawing.Size(70, 20);
-			this.numericUpDownCustomFilterMaxItems.TabIndex = 1;
-			this.numericUpDownCustomFilterMaxItems.Value = new decimal(new int[] {
+			this.numericUpDownCustomFiltersMaxItems.Name = "numericUpDownCustomFiltersMaxItems";
+			this.numericUpDownCustomFiltersMaxItems.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownCustomFiltersMaxItems.TabIndex = 1;
+			this.numericUpDownCustomFiltersMaxItems.Value = new decimal(new int[] {
 			5,
 			0,
 			0,
 			0});
+			// 
+			// groupBox25
+			// 
+			this.groupBox25.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox25.Controls.Add(this.checkBoxCustomFiltersApplyToXml);
+			this.groupBox25.Controls.Add(this.checkBoxCustomFiltersApplyToJavascripts);
+			this.groupBox25.Controls.Add(this.checkBoxCustomFiltersApplyToText);
+			this.groupBox25.Controls.Add(this.checkBoxCustomFiltersApplyToCss);
+			this.groupBox25.Controls.Add(this.checkBoxCustomFiltersApplyToHtml);
+			this.groupBox25.Location = new System.Drawing.Point(10, 150);
+			this.groupBox25.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox25.Name = "groupBox25";
+			this.groupBox25.Size = new System.Drawing.Size(500, 120);
+			this.groupBox25.TabIndex = 3;
+			this.groupBox25.TabStop = false;
+			this.groupBox25.Text = "Apply Custom Filters to Document Types";
+			// 
+			// checkBoxCustomFiltersApplyToXml
+			// 
+			this.checkBoxCustomFiltersApplyToXml.Location = new System.Drawing.Point(176, 50);
+			this.checkBoxCustomFiltersApplyToXml.Name = "checkBoxCustomFiltersApplyToXml";
+			this.checkBoxCustomFiltersApplyToXml.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxCustomFiltersApplyToXml.TabIndex = 5;
+			this.checkBoxCustomFiltersApplyToXml.Text = "XML files";
+			this.checkBoxCustomFiltersApplyToXml.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxCustomFiltersApplyToJavascripts
+			// 
+			this.checkBoxCustomFiltersApplyToJavascripts.Location = new System.Drawing.Point(20, 80);
+			this.checkBoxCustomFiltersApplyToJavascripts.Name = "checkBoxCustomFiltersApplyToJavascripts";
+			this.checkBoxCustomFiltersApplyToJavascripts.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxCustomFiltersApplyToJavascripts.TabIndex = 3;
+			this.checkBoxCustomFiltersApplyToJavascripts.Text = "Javascripts";
+			this.checkBoxCustomFiltersApplyToJavascripts.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxCustomFiltersApplyToText
+			// 
+			this.checkBoxCustomFiltersApplyToText.Location = new System.Drawing.Point(176, 20);
+			this.checkBoxCustomFiltersApplyToText.Name = "checkBoxCustomFiltersApplyToText";
+			this.checkBoxCustomFiltersApplyToText.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxCustomFiltersApplyToText.TabIndex = 4;
+			this.checkBoxCustomFiltersApplyToText.Text = "Text files";
+			this.checkBoxCustomFiltersApplyToText.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxCustomFiltersApplyToCss
+			// 
+			this.checkBoxCustomFiltersApplyToCss.Location = new System.Drawing.Point(20, 50);
+			this.checkBoxCustomFiltersApplyToCss.Name = "checkBoxCustomFiltersApplyToCss";
+			this.checkBoxCustomFiltersApplyToCss.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxCustomFiltersApplyToCss.TabIndex = 2;
+			this.checkBoxCustomFiltersApplyToCss.Text = "CSS stylesheets";
+			this.checkBoxCustomFiltersApplyToCss.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxCustomFiltersApplyToHtml
+			// 
+			this.checkBoxCustomFiltersApplyToHtml.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxCustomFiltersApplyToHtml.Name = "checkBoxCustomFiltersApplyToHtml";
+			this.checkBoxCustomFiltersApplyToHtml.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxCustomFiltersApplyToHtml.TabIndex = 1;
+			this.checkBoxCustomFiltersApplyToHtml.Text = "HTML";
+			this.checkBoxCustomFiltersApplyToHtml.UseVisualStyleBackColor = true;
 			// 
 			// tabPageExtractorOptions
 			// 
@@ -1623,6 +1711,7 @@ namespace SEOMacroscope
 			// 
 			this.flowLayoutPanel8.Controls.Add(this.groupBox24);
 			this.flowLayoutPanel8.Controls.Add(this.groupBox21);
+			this.flowLayoutPanel8.Controls.Add(this.groupBox26);
 			this.flowLayoutPanel8.Controls.Add(this.groupBox20);
 			this.flowLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel8.Location = new System.Drawing.Point(0, 0);
@@ -1633,38 +1722,38 @@ namespace SEOMacroscope
 			// groupBox24
 			// 
 			this.groupBox24.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox24.Controls.Add(this.checkBoxDataExtractorEnable);
+			this.groupBox24.Controls.Add(this.checkBoxDataExtractorsEnable);
 			this.groupBox24.Location = new System.Drawing.Point(10, 10);
 			this.groupBox24.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox24.Name = "groupBox24";
 			this.groupBox24.Size = new System.Drawing.Size(500, 60);
-			this.groupBox24.TabIndex = 4;
+			this.groupBox24.TabIndex = 1;
 			this.groupBox24.TabStop = false;
 			this.groupBox24.Text = "Enable/Disable Data Extractors";
 			// 
-			// checkBoxDataExtractorEnable
+			// checkBoxDataExtractorsEnable
 			// 
-			this.checkBoxDataExtractorEnable.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxDataExtractorEnable.Name = "checkBoxDataExtractorEnable";
-			this.checkBoxDataExtractorEnable.Size = new System.Drawing.Size(220, 24);
-			this.checkBoxDataExtractorEnable.TabIndex = 1;
-			this.checkBoxDataExtractorEnable.Text = "Enable data extraction processing";
-			this.checkBoxDataExtractorEnable.UseVisualStyleBackColor = true;
+			this.checkBoxDataExtractorsEnable.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxDataExtractorsEnable.Name = "checkBoxDataExtractorsEnable";
+			this.checkBoxDataExtractorsEnable.Size = new System.Drawing.Size(220, 24);
+			this.checkBoxDataExtractorsEnable.TabIndex = 1;
+			this.checkBoxDataExtractorsEnable.Text = "Enable data extraction processing";
+			this.checkBoxDataExtractorsEnable.UseVisualStyleBackColor = true;
 			// 
 			// groupBox21
 			// 
 			this.groupBox21.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox21.Controls.Add(this.label23);
-			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorMaxItemsCssSelectors);
+			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorsMaxItemsCssSelectors);
 			this.groupBox21.Controls.Add(this.label24);
 			this.groupBox21.Controls.Add(this.label25);
-			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorMaxItemsXpaths);
-			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorMaxItemsRegexes);
+			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorsMaxItemsXpaths);
+			this.groupBox21.Controls.Add(this.numericUpDownDataExtractorsMaxItemsRegexes);
 			this.groupBox21.Location = new System.Drawing.Point(10, 80);
 			this.groupBox21.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox21.Name = "groupBox21";
 			this.groupBox21.Size = new System.Drawing.Size(500, 120);
-			this.groupBox21.TabIndex = 1;
+			this.groupBox21.TabIndex = 2;
 			this.groupBox21.TabStop = false;
 			this.groupBox21.Text = "Extractor Items";
 			// 
@@ -1678,19 +1767,19 @@ namespace SEOMacroscope
 			this.label23.TabIndex = 9;
 			this.label23.Text = "Number of CSS Selectors extractors";
 			// 
-			// numericUpDownDataExtractorMaxItemsCssSelectors
+			// numericUpDownDataExtractorsMaxItemsCssSelectors
 			// 
-			this.numericUpDownDataExtractorMaxItemsCssSelectors.Location = new System.Drawing.Point(20, 20);
-			this.numericUpDownDataExtractorMaxItemsCssSelectors.Margin = new System.Windows.Forms.Padding(0);
-			this.numericUpDownDataExtractorMaxItemsCssSelectors.Minimum = new decimal(new int[] {
+			this.numericUpDownDataExtractorsMaxItemsCssSelectors.Location = new System.Drawing.Point(20, 20);
+			this.numericUpDownDataExtractorsMaxItemsCssSelectors.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownDataExtractorsMaxItemsCssSelectors.Minimum = new decimal(new int[] {
 			1,
 			0,
 			0,
 			0});
-			this.numericUpDownDataExtractorMaxItemsCssSelectors.Name = "numericUpDownDataExtractorMaxItemsCssSelectors";
-			this.numericUpDownDataExtractorMaxItemsCssSelectors.Size = new System.Drawing.Size(70, 20);
-			this.numericUpDownDataExtractorMaxItemsCssSelectors.TabIndex = 1;
-			this.numericUpDownDataExtractorMaxItemsCssSelectors.Value = new decimal(new int[] {
+			this.numericUpDownDataExtractorsMaxItemsCssSelectors.Name = "numericUpDownDataExtractorsMaxItemsCssSelectors";
+			this.numericUpDownDataExtractorsMaxItemsCssSelectors.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownDataExtractorsMaxItemsCssSelectors.TabIndex = 1;
+			this.numericUpDownDataExtractorsMaxItemsCssSelectors.Value = new decimal(new int[] {
 			5,
 			0,
 			0,
@@ -1716,62 +1805,123 @@ namespace SEOMacroscope
 			this.label25.TabIndex = 4;
 			this.label25.Text = "Number of Regular Expression extractors";
 			// 
-			// numericUpDownDataExtractorMaxItemsXpaths
+			// numericUpDownDataExtractorsMaxItemsXpaths
 			// 
-			this.numericUpDownDataExtractorMaxItemsXpaths.Location = new System.Drawing.Point(20, 80);
-			this.numericUpDownDataExtractorMaxItemsXpaths.Margin = new System.Windows.Forms.Padding(0);
-			this.numericUpDownDataExtractorMaxItemsXpaths.Minimum = new decimal(new int[] {
+			this.numericUpDownDataExtractorsMaxItemsXpaths.Location = new System.Drawing.Point(20, 80);
+			this.numericUpDownDataExtractorsMaxItemsXpaths.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownDataExtractorsMaxItemsXpaths.Minimum = new decimal(new int[] {
 			1,
 			0,
 			0,
 			0});
-			this.numericUpDownDataExtractorMaxItemsXpaths.Name = "numericUpDownDataExtractorMaxItemsXpaths";
-			this.numericUpDownDataExtractorMaxItemsXpaths.Size = new System.Drawing.Size(70, 20);
-			this.numericUpDownDataExtractorMaxItemsXpaths.TabIndex = 3;
-			this.numericUpDownDataExtractorMaxItemsXpaths.Value = new decimal(new int[] {
+			this.numericUpDownDataExtractorsMaxItemsXpaths.Name = "numericUpDownDataExtractorsMaxItemsXpaths";
+			this.numericUpDownDataExtractorsMaxItemsXpaths.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownDataExtractorsMaxItemsXpaths.TabIndex = 3;
+			this.numericUpDownDataExtractorsMaxItemsXpaths.Value = new decimal(new int[] {
 			5,
 			0,
 			0,
 			0});
 			// 
-			// numericUpDownDataExtractorMaxItemsRegexes
+			// numericUpDownDataExtractorsMaxItemsRegexes
 			// 
-			this.numericUpDownDataExtractorMaxItemsRegexes.Location = new System.Drawing.Point(20, 50);
-			this.numericUpDownDataExtractorMaxItemsRegexes.Margin = new System.Windows.Forms.Padding(0);
-			this.numericUpDownDataExtractorMaxItemsRegexes.Minimum = new decimal(new int[] {
+			this.numericUpDownDataExtractorsMaxItemsRegexes.Location = new System.Drawing.Point(20, 50);
+			this.numericUpDownDataExtractorsMaxItemsRegexes.Margin = new System.Windows.Forms.Padding(0);
+			this.numericUpDownDataExtractorsMaxItemsRegexes.Minimum = new decimal(new int[] {
 			1,
 			0,
 			0,
 			0});
-			this.numericUpDownDataExtractorMaxItemsRegexes.Name = "numericUpDownDataExtractorMaxItemsRegexes";
-			this.numericUpDownDataExtractorMaxItemsRegexes.Size = new System.Drawing.Size(70, 20);
-			this.numericUpDownDataExtractorMaxItemsRegexes.TabIndex = 2;
-			this.numericUpDownDataExtractorMaxItemsRegexes.Value = new decimal(new int[] {
+			this.numericUpDownDataExtractorsMaxItemsRegexes.Name = "numericUpDownDataExtractorsMaxItemsRegexes";
+			this.numericUpDownDataExtractorsMaxItemsRegexes.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownDataExtractorsMaxItemsRegexes.TabIndex = 2;
+			this.numericUpDownDataExtractorsMaxItemsRegexes.Value = new decimal(new int[] {
 			5,
 			0,
 			0,
 			0});
+			// 
+			// groupBox26
+			// 
+			this.groupBox26.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToXml);
+			this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToJavascripts);
+			this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToText);
+			this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToCss);
+			this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToHtml);
+			this.groupBox26.Location = new System.Drawing.Point(10, 210);
+			this.groupBox26.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox26.Name = "groupBox26";
+			this.groupBox26.Size = new System.Drawing.Size(500, 120);
+			this.groupBox26.TabIndex = 3;
+			this.groupBox26.TabStop = false;
+			this.groupBox26.Text = "Apply Data Extractors to Document Types";
+			// 
+			// checkBoxDataExtractorsApplyToXml
+			// 
+			this.checkBoxDataExtractorsApplyToXml.Location = new System.Drawing.Point(176, 50);
+			this.checkBoxDataExtractorsApplyToXml.Name = "checkBoxDataExtractorsApplyToXml";
+			this.checkBoxDataExtractorsApplyToXml.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxDataExtractorsApplyToXml.TabIndex = 5;
+			this.checkBoxDataExtractorsApplyToXml.Text = "XML files";
+			this.checkBoxDataExtractorsApplyToXml.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxDataExtractorsApplyToJavascripts
+			// 
+			this.checkBoxDataExtractorsApplyToJavascripts.Location = new System.Drawing.Point(20, 80);
+			this.checkBoxDataExtractorsApplyToJavascripts.Name = "checkBoxDataExtractorsApplyToJavascripts";
+			this.checkBoxDataExtractorsApplyToJavascripts.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxDataExtractorsApplyToJavascripts.TabIndex = 3;
+			this.checkBoxDataExtractorsApplyToJavascripts.Text = "Javascripts";
+			this.checkBoxDataExtractorsApplyToJavascripts.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxDataExtractorsApplyToText
+			// 
+			this.checkBoxDataExtractorsApplyToText.Location = new System.Drawing.Point(176, 20);
+			this.checkBoxDataExtractorsApplyToText.Name = "checkBoxDataExtractorsApplyToText";
+			this.checkBoxDataExtractorsApplyToText.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxDataExtractorsApplyToText.TabIndex = 4;
+			this.checkBoxDataExtractorsApplyToText.Text = "Text files";
+			this.checkBoxDataExtractorsApplyToText.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxDataExtractorsApplyToCss
+			// 
+			this.checkBoxDataExtractorsApplyToCss.Location = new System.Drawing.Point(20, 50);
+			this.checkBoxDataExtractorsApplyToCss.Name = "checkBoxDataExtractorsApplyToCss";
+			this.checkBoxDataExtractorsApplyToCss.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxDataExtractorsApplyToCss.TabIndex = 2;
+			this.checkBoxDataExtractorsApplyToCss.Text = "CSS stylesheets";
+			this.checkBoxDataExtractorsApplyToCss.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxDataExtractorsApplyToHtml
+			// 
+			this.checkBoxDataExtractorsApplyToHtml.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxDataExtractorsApplyToHtml.Name = "checkBoxDataExtractorsApplyToHtml";
+			this.checkBoxDataExtractorsApplyToHtml.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxDataExtractorsApplyToHtml.TabIndex = 1;
+			this.checkBoxDataExtractorsApplyToHtml.Text = "HTML";
+			this.checkBoxDataExtractorsApplyToHtml.UseVisualStyleBackColor = true;
 			// 
 			// groupBox20
 			// 
 			this.groupBox20.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox20.Controls.Add(this.checkBoxDataExtractorCleanWhiteSpace);
-			this.groupBox20.Location = new System.Drawing.Point(10, 210);
+			this.groupBox20.Controls.Add(this.checkBoxDataExtractorsCleanWhiteSpace);
+			this.groupBox20.Location = new System.Drawing.Point(10, 340);
 			this.groupBox20.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox20.Name = "groupBox20";
 			this.groupBox20.Size = new System.Drawing.Size(500, 60);
-			this.groupBox20.TabIndex = 2;
+			this.groupBox20.TabIndex = 4;
 			this.groupBox20.TabStop = false;
 			this.groupBox20.Text = "Process Text";
 			// 
-			// checkBoxDataExtractorCleanWhiteSpace
+			// checkBoxDataExtractorsCleanWhiteSpace
 			// 
-			this.checkBoxDataExtractorCleanWhiteSpace.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxDataExtractorCleanWhiteSpace.Name = "checkBoxDataExtractorCleanWhiteSpace";
-			this.checkBoxDataExtractorCleanWhiteSpace.Size = new System.Drawing.Size(160, 24);
-			this.checkBoxDataExtractorCleanWhiteSpace.TabIndex = 1;
-			this.checkBoxDataExtractorCleanWhiteSpace.Text = "Clean white space";
-			this.checkBoxDataExtractorCleanWhiteSpace.UseVisualStyleBackColor = true;
+			this.checkBoxDataExtractorsCleanWhiteSpace.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxDataExtractorsCleanWhiteSpace.Name = "checkBoxDataExtractorsCleanWhiteSpace";
+			this.checkBoxDataExtractorsCleanWhiteSpace.Size = new System.Drawing.Size(160, 24);
+			this.checkBoxDataExtractorsCleanWhiteSpace.TabIndex = 1;
+			this.checkBoxDataExtractorsCleanWhiteSpace.Text = "Clean white space";
+			this.checkBoxDataExtractorsCleanWhiteSpace.UseVisualStyleBackColor = true;
 			// 
 			// tabPageExportOptions
 			// 
@@ -2025,14 +2175,16 @@ namespace SEOMacroscope
 			this.flowLayoutPanel9.ResumeLayout(false);
 			this.groupBox23.ResumeLayout(false);
 			this.groupBox22.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownCustomFilterMaxItems)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownCustomFiltersMaxItems)).EndInit();
+			this.groupBox25.ResumeLayout(false);
 			this.tabPageExtractorOptions.ResumeLayout(false);
 			this.flowLayoutPanel8.ResumeLayout(false);
 			this.groupBox24.ResumeLayout(false);
 			this.groupBox21.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsCssSelectors)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsXpaths)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorMaxItemsRegexes)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorsMaxItemsCssSelectors)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorsMaxItemsXpaths)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDataExtractorsMaxItemsRegexes)).EndInit();
+			this.groupBox26.ResumeLayout(false);
 			this.groupBox20.ResumeLayout(false);
 			this.tabPageExportOptions.ResumeLayout(false);
 			this.flowLayoutPanel6.ResumeLayout(false);

@@ -25,10 +25,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.IO;
-using System.Text;
 using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace SEOMacroscope
@@ -93,7 +93,8 @@ namespace SEOMacroscope
 
         this.ProcessResponseHttpHeaders( req, res );
 
-        // Get Response Body
+        /** Get Response Body ---------------------------------------------- **/
+
         try
         {
 
@@ -146,6 +147,8 @@ namespace SEOMacroscope
 
         }
 
+        /** ---------------------------------------------------------------- **/
+
         if( RawData.Length > 0 )
         {
           HtmlDoc = new HtmlDocument ();
@@ -157,10 +160,14 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "RawData: {0}", "EMPTY" ) );
         }
 
+        /** ---------------------------------------------------------------- **/
+
         if( !string.IsNullOrEmpty( RawData ) )
         {
 
-          if( MacroscopePreferencesManager.GetCustomFilterEnable() )
+          if(
+            MacroscopePreferencesManager.GetCustomFiltersEnable()
+            && MacroscopePreferencesManager.GetCustomFiltersApplyToHtml() )
           {
           
             MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
@@ -174,10 +181,14 @@ namespace SEOMacroscope
           
         }
 
+        /** ---------------------------------------------------------------- **/
+
         if( !string.IsNullOrEmpty( RawData ) )
         {
 
-          if( MacroscopePreferencesManager.GetDataExtractorEnable() )
+          if(
+            MacroscopePreferencesManager.GetDataExtractorsEnable()
+            && MacroscopePreferencesManager.GetDataExtractorsApplyToHtml() )
           {
 
             this.ProcessHtmlDataExtractors( HtmlText: RawData );
@@ -185,6 +196,8 @@ namespace SEOMacroscope
           }
 
         }
+
+        /** ---------------------------------------------------------------- **/
 
         if( HtmlDoc != null )
         {
@@ -369,6 +382,8 @@ namespace SEOMacroscope
           }
 
         }
+
+        /** ---------------------------------------------------------------- **/
 
         res.Close();
         
@@ -1452,7 +1467,9 @@ namespace SEOMacroscope
     )
     {
 
-      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = CustomFilter.AnalyzeText( Text: HtmlText );
+      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed;
+
+      Analyzed = CustomFilter.AnalyzeText( Text: HtmlText );
 
       foreach( string Key in Analyzed.Keys )
       {

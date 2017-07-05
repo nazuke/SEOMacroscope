@@ -193,7 +193,7 @@ namespace SEOMacroscope
     private void InitializeCustomFilters ()
     {
 
-      if( MacroscopePreferencesManager.GetCustomFilterEnable() )
+      if( MacroscopePreferencesManager.GetCustomFiltersEnable() )
       {
         this.customFiltersToolStripMenuItem.Enabled = true;
         this.customFiltersExcelReportToolStripMenuItem.Enabled = true;
@@ -205,7 +205,7 @@ namespace SEOMacroscope
       }
 
       this.CustomFilter = new MacroscopeCustomFilters (
-        Size: MacroscopePreferencesManager.GetCustomFilterMaxItems()
+        Size: MacroscopePreferencesManager.GetCustomFiltersMaxItems()
       );
 
       this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
@@ -223,7 +223,7 @@ namespace SEOMacroscope
     )
     {
     
-      if( MacroscopePreferencesManager.GetDataExtractorEnable() )
+      if( MacroscopePreferencesManager.GetDataExtractorsEnable() )
       {
         this.dataExtractorsToolStripMenuItem.Enabled = true;
         this.dataExtractorsExcelReportToolStripMenuItem.Enabled = true;
@@ -238,7 +238,7 @@ namespace SEOMacroscope
       {
 
         this.DataExtractorCssSelectors = new MacroscopeDataExtractorCssSelectors (
-          Size: MacroscopePreferencesManager.GetDataExtractorMaxItemsCssSelectors()
+          Size: MacroscopePreferencesManager.GetDataExtractorsMaxItemsCssSelectors()
         );
       
         this.JobMaster.SetDataExtractorCssSelectors(
@@ -251,7 +251,7 @@ namespace SEOMacroscope
       {
 
         this.DataExtractorRegexes = new MacroscopeDataExtractorRegexes (
-          Size: MacroscopePreferencesManager.GetDataExtractorMaxItemsRegexes()
+          Size: MacroscopePreferencesManager.GetDataExtractorsMaxItemsRegexes()
         );
       
         this.JobMaster.SetDataExtractorRegexes( 
@@ -264,7 +264,7 @@ namespace SEOMacroscope
       {
 
         this.DataExtractorXpaths = new MacroscopeDataExtractorXpaths (
-          Size: MacroscopePreferencesManager.GetDataExtractorMaxItemsXpaths() 
+          Size: MacroscopePreferencesManager.GetDataExtractorsMaxItemsXpaths() 
         );
       
         this.JobMaster.SetDataExtractorXpaths( 
@@ -1159,7 +1159,7 @@ namespace SEOMacroscope
           break;
 
         case "tabPageCustomFilters":
-          if( MacroscopePreferencesManager.GetCustomFilterEnable() )
+          if( MacroscopePreferencesManager.GetCustomFiltersEnable() )
           {
             this.msDisplayCustomFilters.RefreshData(
               DocCollection: this.JobMaster.GetDocCollection(),
@@ -1170,7 +1170,7 @@ namespace SEOMacroscope
           break;
 
         case "tabPageDataExtractors":
-          if( MacroscopePreferencesManager.GetDataExtractorEnable() )
+          if( MacroscopePreferencesManager.GetDataExtractorsEnable() )
           {
             this.msDisplayDisplayDataExtractorCssSelectors.RefreshData(
               DocCollection: this.JobMaster.GetDocCollection(),

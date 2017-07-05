@@ -231,10 +231,6 @@ namespace SEOMacroscope
             Macroscope.GetStringDigest( Text: ExtractedValue )
           );
 
-          
-          
-          
-          
           if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
 

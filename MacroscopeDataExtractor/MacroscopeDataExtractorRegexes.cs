@@ -170,7 +170,7 @@ namespace SEOMacroscope
 
                 KeyValuePair<string, string> MatchedItem;
               
-                if( MacroscopePreferencesManager.GetDataExtractorCleanWhiteSpace() )
+                if( MacroscopePreferencesManager.GetDataExtractorsCleanWhiteSpace() )
                 {
                   FoundString = this.CleanWhiteSpace( Text: FoundString );
                 }

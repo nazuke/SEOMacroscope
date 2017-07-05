@@ -41,7 +41,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void WriteCsv ( MacroscopeJobMaster JobMaster, string OutputFilename )
+    public void WriteCsv (
+      MacroscopeJobMaster JobMaster,
+      string OutputFilename
+    )
     {
 
       try
