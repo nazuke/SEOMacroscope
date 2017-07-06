@@ -25,7 +25,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Net;
 
 namespace SEOMacroscope
 {
@@ -192,7 +192,80 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
+    public Boolean CanApplyCustomFiltersToDocument ( MacroscopeDocument msDoc )
+    {
+
+      Boolean CanApply = true;
+      
+      if(
+        ( msDoc == null )
+        || ( msDoc.GetIsRedirect() )
+        || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
+        || ( !msDoc.GetIsInternal() ) )
+      {
+        CanApply = false;
+      }
+      else
+      {
+
+        if(
+          !( msDoc.GetIsHtml()
+          || msDoc.GetIsCss()
+          || msDoc.GetIsJavascript()
+          || msDoc.GetIsText()
+          || msDoc.GetIsXml() ) )
+        {
+          CanApply = false;
+        }
+        else
+        {
+
+          if(
+            msDoc.GetIsHtml()
+            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToHtml() ) )
+          {
+            CanApply = false;
+          }
+          else
+          if(
+            msDoc.GetIsCss()
+            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToCss() ) )
+          {
+            CanApply = false;
+          }
+          else
+          if(
+            msDoc.GetIsJavascript()
+            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToJavascripts() ) )
+          {
+            CanApply = false;
+          }
+          else
+          if(
+            msDoc.GetIsText()
+            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToText() ) )
+          {
+            CanApply = false;
+          }
+          else
+          if(
+            msDoc.GetIsXml()
+            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToXml() ) )
+          {
+            CanApply = false;
+          }
+
+        }
+        
+      }
+      
+      return( CanApply );
+
+    }
+
+    /**************************************************************************/
+
   }
 
 }

@@ -379,12 +379,12 @@ namespace SEOMacroscope
 
         if( !string.IsNullOrEmpty( RobotsUrl ) )
         {
-          this.AddUrlQueueItem( RobotsUrl );
+          this.AddUrlQueueItem( Url: RobotsUrl );
         }
 
         this.IncludeExcludeUrls.AddExplicitIncludeUrl( Url: this.StartUrl );
 
-        this.AddUrlQueueItem( this.StartUrl );
+        this.AddUrlQueueItem( Url: this.StartUrl );
 
       }
 
@@ -729,6 +729,37 @@ namespace SEOMacroscope
 
       this.AddToProgress( NewUrl );
 
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void AddUrlQueueItem ( string Url, Boolean Check )
+    {
+
+      Boolean Proceed = Check;
+
+      if( Proceed && MacroscopePreferencesManager.GetCrawlStrictUrlCheck() )
+      {
+
+        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url: Url ) )
+        {
+          Proceed = false;
+        }
+
+        if( !this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url: Url ) )
+        {
+          Proceed = false;
+        }
+
+      }
+      
+      if( Proceed )
+      {
+        this.AddUrlQueueItem( Url: Url );
+      }
+      
+      return;
+      
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1327,7 +1358,7 @@ namespace SEOMacroscope
         {
           for( int i = 0 ; i < SitemapList.Count ; i++ )
           {
-            this.AddUrlQueueItem( SitemapList[ i ] );
+            this.AddUrlQueueItem( Url: SitemapList[ i ] );
           }
         }
       }

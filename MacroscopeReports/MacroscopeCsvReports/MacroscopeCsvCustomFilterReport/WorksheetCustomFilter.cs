@@ -87,35 +87,14 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        Boolean Proceed = false;
-        
-        if(
-          ( msDoc == null )
-          || ( msDoc.GetIsRedirect() )
-          || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
-          || ( !msDoc.GetIsInternal() ) )
-        {
-          continue;
-        }
-
-        if(
-          msDoc.GetIsHtml()
-          || msDoc.GetIsCss()
-          || msDoc.GetIsJavascript()
-          || msDoc.GetIsText()
-          || msDoc.GetIsXml() )
-        {
-          Proceed = true;
-        }
-        
-        if( !Proceed )
-        {
-          continue;
-        }
-
         string DocUrl = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
+
+        if( !this.CustomFilter.CanApplyCustomFiltersToDocument( msDoc: msDoc ) )
+        {
+          return;
+        }
 
         this.InsertAndFormatUrlCell( ws, msDoc );
 

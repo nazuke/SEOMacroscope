@@ -60,8 +60,20 @@ namespace SEOMacroscope
 
     }
 
-    /** Include URL Patterns **************************************************/
+    /** Explicit Include URL Patterns *****************************************/
 
+    public void ClearExplicitIncludeUrls ()
+    {
+         
+      lock( this.ExplicitIncludeUrlPatternsList )
+      {
+        this.ExplicitIncludeUrlPatternsList.Clear();
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+    
     public void AddExplicitIncludeUrl ( string Url )
     {
          
@@ -73,6 +85,37 @@ namespace SEOMacroscope
         if( !this.ExplicitIncludeUrlPatternsList.Contains( Url ) )
         {
           this.ExplicitIncludeUrlPatternsList.Add( Url );
+        }
+
+      }
+
+    }
+
+    /** Explicit Exclude URL Patterns *****************************************/
+
+    public void ClearExplicitExcludeUrls ()
+    {
+         
+      lock( this.ExplicitExcludeUrlPatternsList )
+      {
+        this.ExplicitExcludeUrlPatternsList.Clear();
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+    
+    public void AddExplicitExcludeUrl ( string Url )
+    {
+         
+      Url = Url.Trim();
+              
+      if( !string.IsNullOrEmpty( Url ) )
+      {
+
+        if( !this.ExplicitExcludeUrlPatternsList.Contains( Url ) )
+        {
+          this.ExplicitExcludeUrlPatternsList.Add( Url );
         }
 
       }

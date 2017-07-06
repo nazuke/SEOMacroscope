@@ -2123,19 +2123,8 @@ namespace SEOMacroscope
       MacroscopeCustomFilters CustomFilter = JobMaster.GetCustomFilter();
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
       int Count = 1;
-      Boolean Proceed = false;
 
-      if(
-        msDoc.GetIsHtml()
-        || msDoc.GetIsCss()
-        || msDoc.GetIsJavascript()
-        || msDoc.GetIsText()
-        || msDoc.GetIsXml() )
-      {
-        Proceed = true;
-      }
-        
-      if( !Proceed )
+      if( !CustomFilter.CanApplyCustomFiltersToDocument( msDoc: msDoc ) )
       {
         return;
       }

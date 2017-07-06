@@ -200,35 +200,14 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
-        Boolean Proceed = false;
-        
-        if(
-          ( msDoc == null )
-          || ( msDoc.GetIsRedirect() )
-          || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
-          || ( !msDoc.GetIsInternal() ) )
-        {
-          continue;
-        }
-
-        if(
-          msDoc.GetIsHtml()
-          || msDoc.GetIsCss()
-          || msDoc.GetIsJavascript()
-          || msDoc.GetIsText()
-          || msDoc.GetIsXml() )
-        {
-          Proceed = true;
-        }
-        
-        if( !Proceed )
-        {
-          continue;
-        }
-
         string DocUrl = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
+
+        if( !DataExtractor.CanApplyDataExtractorsToDocument( msDoc: msDoc ) )
+        {
+          continue;
+        }        
 
         foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedRegexes() )
         {

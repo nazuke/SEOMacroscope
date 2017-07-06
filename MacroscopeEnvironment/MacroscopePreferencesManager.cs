@@ -67,6 +67,8 @@ namespace SEOMacroscope
     static int MaxRetries;
     static int CrawlDelay;
 
+    static Boolean CrawlStrictUrlCheck;
+        
     static Boolean IgnoreQueries;
         
     static Boolean CheckExternalLinks;
@@ -79,7 +81,7 @@ namespace SEOMacroscope
     static Boolean FollowCanonicalLinks;
     static Boolean FollowHrefLangLinks;
     static Boolean FollowListLinks;
-
+    
     static Boolean FetchStylesheets;
     static Boolean FetchJavascripts;
     static Boolean FetchImages;
@@ -210,6 +212,8 @@ namespace SEOMacroscope
           MaxRetries = Preferences.MaxRetries;
           CrawlDelay = Preferences.CrawlDelay;
 
+          CrawlStrictUrlCheck = Preferences.CrawlStrictUrlCheck;
+          
           IgnoreQueries = Preferences.IgnoreQueries;
           
           CheckExternalLinks = Preferences.CheckExternalLinks;
@@ -232,7 +236,7 @@ namespace SEOMacroscope
           FollowCanonicalLinks = Preferences.FollowCanonicalLinks;
           FollowHrefLangLinks = Preferences.FollowHrefLangLinks;
           FollowListLinks = Preferences.FollowListLinks;
-
+          
           FetchStylesheets = Preferences.FetchStylesheets;
           FetchJavascripts = Preferences.FetchJavascripts;
           FetchImages = Preferences.FetchImages;
@@ -352,6 +356,8 @@ namespace SEOMacroscope
       MaxRetries = 0;
       CrawlDelay = 0;
           
+      CrawlStrictUrlCheck = false;
+      
       IgnoreQueries = false;
                 
       CheckExternalLinks = false;
@@ -580,6 +586,8 @@ namespace SEOMacroscope
         Preferences.MaxRetries = MaxRetries;
         Preferences.CrawlDelay = CrawlDelay;
 
+        Preferences.CrawlStrictUrlCheck = CrawlStrictUrlCheck;
+        
         Preferences.IgnoreQueries = IgnoreQueries;
                   
         Preferences.CheckExternalLinks = CheckExternalLinks;
@@ -762,18 +770,20 @@ namespace SEOMacroscope
       }
     }
 
-    /**************************************************************************/
-
-    public static string GetStartUrl ()
-    {
-      return( StartUrl );
-    }
+    /** Set Starting URL ******************************************************/
 
     public static void SetStartUrl ( string Url )
     {
       StartUrl = Url;
     }
 
+    /** -------------------------------------------------------------------- **/
+    
+    public static string GetStartUrl ()
+    {
+      return( StartUrl );
+    }
+        
     /**************************************************************************/
 
     public static int GetMaxThreads ()
@@ -781,9 +791,9 @@ namespace SEOMacroscope
       return( MaxThreads );
     }
 
-    public static void SetMaxThreads ( int iMaxThreads )
+    public static void SetMaxThreads ( int Max )
     {
-      MaxThreads = iMaxThreads;
+      MaxThreads = Max;
     }
 
     /**************************************************************************/
@@ -856,6 +866,18 @@ namespace SEOMacroscope
     public static void SetCrawlDelay ( int Seconds )
     {
       CrawlDelay = Seconds;
+    }
+
+    /** Strict URL Check ******************************************************/
+
+    public static Boolean GetCrawlStrictUrlCheck ()
+    {
+      return( CrawlStrictUrlCheck );
+    }
+
+    public static void SetCrawlStrictUrlCheck ( Boolean State )
+    {
+      CrawlStrictUrlCheck = State;
     }
 
     /** Ignore Queries ********************************************************/

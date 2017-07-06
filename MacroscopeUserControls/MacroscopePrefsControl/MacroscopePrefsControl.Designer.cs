@@ -170,6 +170,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToText;
 		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToCss;
 		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToHtml;
+		public System.Windows.Forms.CheckBox checkBoxCrawlStrictUrlCheck;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -332,6 +333,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
 			this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
+			this.checkBoxCrawlStrictUrlCheck = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -501,6 +503,7 @@ namespace SEOMacroscope
 			// groupBox10
 			// 
 			this.groupBox10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox10.Controls.Add(this.checkBoxCrawlStrictUrlCheck);
 			this.groupBox10.Controls.Add(this.checkBoxIgnoreQueries);
 			this.groupBox10.Controls.Add(this.checkBoxFollowNoFollow);
 			this.groupBox10.Controls.Add(this.checkBoxFollowHrefLangLinks);
@@ -2121,6 +2124,15 @@ namespace SEOMacroscope
 			this.checkBoxEnableMemoryGuard.TabIndex = 1;
 			this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
 			this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxCrawlStrictUrlCheck
+			// 
+			this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(340, 50);
+			this.checkBoxCrawlStrictUrlCheck.Name = "checkBoxCrawlStrictUrlCheck";
+			this.checkBoxCrawlStrictUrlCheck.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxCrawlStrictUrlCheck.TabIndex = 6;
+			this.checkBoxCrawlStrictUrlCheck.Text = "Strict URL Check";
+			this.checkBoxCrawlStrictUrlCheck.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 

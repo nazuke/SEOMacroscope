@@ -110,6 +110,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool CrawlStrictUrlCheck {
+			get {
+				return ((bool)(this["CrawlStrictUrlCheck"]));
+			}
+			set {
+				this["CrawlStrictUrlCheck"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool CustomFiltersApplyToCss {
 			get {
 				return ((bool)(this["CustomFiltersApplyToCss"]));

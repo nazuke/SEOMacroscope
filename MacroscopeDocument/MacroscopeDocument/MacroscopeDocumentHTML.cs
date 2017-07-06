@@ -1459,7 +1459,7 @@ namespace SEOMacroscope
       
     }
 
-    /** Process Custom Filtered *********************************************/
+    /** Process Custom Filtered ***********************************************/
 
     private void ProcessHtmlCustomFiltered (
       MacroscopeCustomFilters CustomFilter,

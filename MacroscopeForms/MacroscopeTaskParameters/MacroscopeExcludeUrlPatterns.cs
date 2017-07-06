@@ -60,10 +60,14 @@ namespace SEOMacroscope
 
     private void CallbackIncludeUrlPatternsShown ( object sender, EventArgs e )
     {
+
       if( this.PatternsText.Length > 0 )
       {
         this.textBoxPatterns.Text = this.PatternsText;
       }
+
+      this.textBoxPatterns.Focus();
+
     }
 
     /**************************************************************************/

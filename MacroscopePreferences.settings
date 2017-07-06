@@ -25,6 +25,9 @@
     <Setting Name="CrawlParentDirectories" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="CrawlStrictUrlCheck" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
     <Setting Name="CustomFiltersApplyToCss" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>

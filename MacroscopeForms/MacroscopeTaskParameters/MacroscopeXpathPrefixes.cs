@@ -60,10 +60,14 @@ namespace SEOMacroscope
 
     private void CallbackXpathPrefixesShown ( object sender, EventArgs e )
     {
+
       if( this.XpathPrefixesText.Length > 0 )
       {
         this.textBoxXpathPrefixes.Text = this.XpathPrefixesText;
       }
+
+      this.textBoxXpathPrefixes.Focus();
+
     }
 
     /**************************************************************************/

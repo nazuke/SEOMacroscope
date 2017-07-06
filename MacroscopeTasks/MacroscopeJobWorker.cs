@@ -349,12 +349,22 @@ namespace SEOMacroscope
 
         if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized )
         {
+
           if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
           {
+
             MacroscopeCredentialsHttp CredentialsHttp = this.JobMaster.GetCredentialsHttp();
-            CredentialsHttp.EnqueueCredentialRequest( msDoc.GetHostname(), msDoc.GetAuthenticationRealm(), msDoc.GetUrl() );
-            this.JobMaster.AddUrlQueueItem( msDoc.GetUrl() );
+
+            CredentialsHttp.EnqueueCredentialRequest( 
+              Domain: msDoc.GetHostname(),
+              Realm: msDoc.GetAuthenticationRealm(),
+              Url: msDoc.GetUrl()
+            );
+
+            this.JobMaster.AddUrlQueueItem( Url: msDoc.GetUrl() );
+
           }
+
         }
 
         this.JobMaster.GetJobHistory().VisitedHistoryItem( msDoc.GetUrl() );
@@ -380,7 +390,7 @@ namespace SEOMacroscope
             
           }
 
-          this.JobMaster.AddUrlQueueItem( msDoc.GetUrlRedirectTo() );
+          this.JobMaster.AddUrlQueueItem( Url: msDoc.GetUrlRedirectTo() );
 
         }
         else
@@ -481,7 +491,10 @@ namespace SEOMacroscope
         if( Proceed )
         {
 
-          this.JobMaster.AddUrlQueueItem( Outlink.GetTargetUrl() );
+          this.JobMaster.AddUrlQueueItem(
+            Url: Outlink.GetTargetUrl(),
+            Check: true
+          );
 
         }
 

@@ -45,7 +45,7 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              this.ScanningControlsComplete( true );
+              this.ScanningControlsComplete(  );
               this.UpdateFocusedTabPage();
             }
           )
@@ -53,7 +53,7 @@ namespace SEOMacroscope
       }
       else
       {
-        this.ScanningControlsComplete( true );
+        this.ScanningControlsComplete(  );
         this.UpdateFocusedTabPage();
       }
     }

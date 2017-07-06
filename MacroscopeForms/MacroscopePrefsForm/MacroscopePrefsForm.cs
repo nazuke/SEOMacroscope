@@ -52,11 +52,9 @@ namespace SEOMacroscope
     private void CallbackPrefsFormShown ( object sender, EventArgs e )
     {
 
-      MacroscopePrefsControl PrefsControl = this.macroscopePrefsControlInstance;
-		
       this.buttonPrefsDefault.Click += this.SetPrefsFormControlFieldToDefaults;
       
-      this.SetPrefsFormControlFields( PrefsControl: PrefsControl );
+      this.SetPrefsFormControlFields();
 
     }
 
@@ -66,150 +64,19 @@ namespace SEOMacroscope
     {
 
       Button DefaultsButton = ( Button )sender;
-      MacroscopePrefsControl PrefsControl = this.macroscopePrefsControlInstance;
 
       MacroscopePreferencesManager.SetDefaultValues();
 
-      this.SetPrefsFormControlFields( PrefsControl );
+      this.SetPrefsFormControlFields();
 
     }
 
     /**************************************************************************/
         
-    private void SetPrefsFormControlFields ( MacroscopePrefsControl PrefsControl )
+    private void SetPrefsFormControlFields ()
     {
 
-      { // Configure Display Options
-        PrefsControl.checkBoxPauseDisplayDuringScan.Checked = MacroscopePreferencesManager.GetPauseDisplayDuringScan();
-        PrefsControl.checkBoxShowProgressDialogues.Checked = MacroscopePreferencesManager.GetShowProgressDialogues();
-      }
-
-      { //Configure Form Fields
-
-        /** Spidering Control ---------------------------------------------- **/
-
-        PrefsControl.numericUpDownDepth.Minimum = -1;
-        PrefsControl.numericUpDownDepth.Maximum = 10000;
-
-        PrefsControl.numericUpDownPageLimit.Minimum = -1;
-        PrefsControl.numericUpDownPageLimit.Maximum = 10000;
-
-        PrefsControl.numericUpDownCrawlDelay.Minimum = 0;
-        PrefsControl.numericUpDownCrawlDelay.Maximum = 60;
-
-        PrefsControl.numericUpDownMaxRetries.Minimum = 0;
-        PrefsControl.numericUpDownMaxRetries.Maximum = 10;
-
-      }
-
-      {
-
-        /** WebProxy Options ----------------------------------------------- **/
-
-        PrefsControl.textBoxHttpProxyHost.Text = MacroscopePreferencesManager.GetHttpProxyHost();
-        PrefsControl.numericUpDownHttpProxyPort.Value = MacroscopePreferencesManager.GetHttpProxyPort();
-
-        /** Spidering Control ---------------------------------------------- **/
-
-        PrefsControl.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
-        PrefsControl.numericUpDownDepth.Value = MacroscopePreferencesManager.GetDepth();
-        PrefsControl.numericUpDownPageLimit.Value = MacroscopePreferencesManager.GetPageLimit();
-        PrefsControl.numericUpDownCrawlDelay.Value = MacroscopePreferencesManager.GetCrawlDelay();
-        PrefsControl.numericUpDownRequestTimeout.Value = ( Decimal )MacroscopePreferencesManager.GetRequestTimeout();
-        PrefsControl.numericUpDownMaxRetries.Value = ( Decimal )MacroscopePreferencesManager.GetMaxRetries();
-
-        PrefsControl.checkBoxCheckExternalLinks.Checked = MacroscopePreferencesManager.GetCheckExternalLinks();
-        PrefsControl.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
-        PrefsControl.checkBoxFollowSitemapLinks.Checked = MacroscopePreferencesManager.GetFollowSitemapLinks();
-        PrefsControl.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
-        PrefsControl.checkBoxFollowNoFollow.Checked = MacroscopePreferencesManager.GetFollowNoFollow();
-        PrefsControl.checkBoxIgnoreQueries.Checked = MacroscopePreferencesManager.GetIgnoreQueries();
-        PrefsControl.checkBoxFollowCanonicalLinks.Checked = MacroscopePreferencesManager.GetFollowCanonicalLinks();
-        PrefsControl.checkBoxFollowHrefLangLinks.Checked = MacroscopePreferencesManager.GetFollowHrefLangLinks();
-
-        PrefsControl.checkBoxFetchStylesheets.Checked = MacroscopePreferencesManager.GetFetchStylesheets();
-        PrefsControl.checkBoxFetchJavascripts.Checked = MacroscopePreferencesManager.GetFetchJavascripts();
-        PrefsControl.checkBoxFetchImages.Checked = MacroscopePreferencesManager.GetFetchImages();
-        PrefsControl.checkBoxFetchAudio.Checked = MacroscopePreferencesManager.GetFetchAudio();
-        PrefsControl.checkBoxFetchVideo.Checked = MacroscopePreferencesManager.GetFetchVideo();
-        PrefsControl.checkBoxFetchXml.Checked = MacroscopePreferencesManager.GetFetchXml();
-        PrefsControl.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
-
-        /** Analysis Options ----------------------------------------------- **/
-        
-        PrefsControl.checkBoxResolveAddresses.Checked = MacroscopePreferencesManager.GetResolveAddresses();
-
-        PrefsControl.checkBoxCheckHreflangs.Checked = MacroscopePreferencesManager.GetCheckHreflangs();
-        PrefsControl.checkBoxDetectLanguage.Checked = MacroscopePreferencesManager.GetDetectLanguage();
-
-        PrefsControl.checkBoxProcessStylesheets.Checked = MacroscopePreferencesManager.GetProcessStylesheets();
-        PrefsControl.checkBoxProcessJavascripts.Checked = MacroscopePreferencesManager.GetProcessJavascripts();
-        PrefsControl.checkBoxProcessImages.Checked = MacroscopePreferencesManager.GetProcessImages();
-        PrefsControl.checkBoxProcessPdfs.Checked = MacroscopePreferencesManager.GetProcessPdfs();
-        PrefsControl.checkBoxProcessAudio.Checked = MacroscopePreferencesManager.GetProcessAudio();
-        PrefsControl.checkBoxProcessVideo.Checked = MacroscopePreferencesManager.GetProcessVideo();
-        PrefsControl.checkBoxProcessXml.Checked = MacroscopePreferencesManager.GetProcessXml();
-        PrefsControl.checkBoxProcessBinaries.Checked = MacroscopePreferencesManager.GetProcessBinaries();
-
-        PrefsControl.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
-        PrefsControl.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
-
-        PrefsControl.checkBoxEnableLevenshteinDeduplication.Checked = MacroscopePreferencesManager.GetEnableLevenshteinDeduplication();
-        PrefsControl.numericUpDownMaxLevenshteinSizeDifference.Value = MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference();
-        PrefsControl.numericUpDownMaxLevenshteinDistance.Value = MacroscopePreferencesManager.GetMaxLevenshteinDistance();
-
-        /** SEO Options ---------------------------------------------------- **/
-
-        PrefsControl.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
-        PrefsControl.numericUpDownTitleMaxLen.Value = MacroscopePreferencesManager.GetTitleMaxLen();
-        PrefsControl.numericUpDownTitleMinWords.Value = MacroscopePreferencesManager.GetTitleMinWords();
-        PrefsControl.numericUpDownTitleMaxWords.Value = MacroscopePreferencesManager.GetTitleMaxWords();
-        PrefsControl.numericUpDownTitleMaxPixelWidth.Value = MacroscopePreferencesManager.GetTitleMaxPixelWidth();
-
-        PrefsControl.numericUpDownDescriptionMinLen.Value = MacroscopePreferencesManager.GetDescriptionMinLen();
-        PrefsControl.numericUpDownDescriptionMaxLen.Value = MacroscopePreferencesManager.GetDescriptionMaxLen();
-        PrefsControl.numericUpDownDescriptionMinWords.Value = MacroscopePreferencesManager.GetDescriptionMinWords();
-        PrefsControl.numericUpDownDescriptionMaxWords.Value = MacroscopePreferencesManager.GetDescriptionMaxWords();
-
-        PrefsControl.numericUpDownMaxHeadingDepth.Value = MacroscopePreferencesManager.GetMaxHeadingDepth();
-
-        PrefsControl.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
-
-        /** Custom Filter Options ------------------------------------------ **/
-
-        PrefsControl.checkBoxCustomFiltersEnable.Checked = MacroscopePreferencesManager.GetCustomFiltersEnable();
-        PrefsControl.numericUpDownCustomFiltersMaxItems.Value = MacroscopePreferencesManager.GetCustomFiltersMaxItems();
-
-        PrefsControl.checkBoxCustomFiltersApplyToHtml.Checked = MacroscopePreferencesManager.GetCustomFiltersApplyToHtml();
-        PrefsControl.checkBoxCustomFiltersApplyToCss.Checked = MacroscopePreferencesManager.GetCustomFiltersApplyToCss();
-        PrefsControl.checkBoxCustomFiltersApplyToJavascripts.Checked = MacroscopePreferencesManager.GetCustomFiltersApplyToJavascripts();
-        PrefsControl.checkBoxCustomFiltersApplyToText.Checked = MacroscopePreferencesManager.GetCustomFiltersApplyToText();
-        PrefsControl.checkBoxCustomFiltersApplyToXml.Checked = MacroscopePreferencesManager.GetCustomFiltersApplyToXml();
-
-        /** Extractor Options ---------------------------------------------- **/
-
-        PrefsControl.checkBoxDataExtractorsEnable.Checked = MacroscopePreferencesManager.GetDataExtractorsEnable();
-        PrefsControl.checkBoxDataExtractorsCleanWhiteSpace.Checked = MacroscopePreferencesManager.GetDataExtractorsCleanWhiteSpace();
-
-        PrefsControl.numericUpDownDataExtractorsMaxItemsCssSelectors.Value = MacroscopePreferencesManager.GetDataExtractorsMaxItemsCssSelectors();
-        PrefsControl.numericUpDownDataExtractorsMaxItemsRegexes.Value = MacroscopePreferencesManager.GetDataExtractorsMaxItemsRegexes();
-        PrefsControl.numericUpDownDataExtractorsMaxItemsXpaths.Value = MacroscopePreferencesManager.GetDataExtractorsMaxItemsXpaths();
-
-        PrefsControl.checkBoxDataExtractorsApplyToHtml.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToHtml();
-        PrefsControl.checkBoxDataExtractorsApplyToCss.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToCss();
-        PrefsControl.checkBoxDataExtractorsApplyToJavascripts.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToJavascripts();
-        PrefsControl.checkBoxDataExtractorsApplyToText.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToText();
-        PrefsControl.checkBoxDataExtractorsApplyToXml.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToXml();
-
-        /** Export Options ------------------------------------------------- **/
-        
-        PrefsControl.checkBoxSitemapIncludeLinkedPdfs.Checked = MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs();
-
-        /** Advanced Settings ---------------------------------------------- **/
-        
-        PrefsControl.checkBoxEnableMemoryGuard.Checked = MacroscopePreferencesManager.GetEnableMemoryGuard();
-
-      }
+      this.macroscopePrefsControlInstance.SetPrefsFormControlFields();
 
     }
 
@@ -218,124 +85,7 @@ namespace SEOMacroscope
     public void SavePrefsFormControlFields ()
     {
 
-      MacroscopePrefsControl PrefsControl = this.macroscopePrefsControlInstance;
-
-      /** Configure Display Options ---------------------------------------- **/
-
-      MacroscopePreferencesManager.SetPauseDisplayDuringScan( PrefsControl.checkBoxPauseDisplayDuringScan.Checked );
-      MacroscopePreferencesManager.SetShowProgressDialogues( PrefsControl.checkBoxShowProgressDialogues.Checked );
-
-      /** WebProxy Options ------------------------------------------------- **/
-
-      MacroscopePreferencesManager.SetHttpProxyHost( PrefsControl.textBoxHttpProxyHost.Text );
-      MacroscopePreferencesManager.SetHttpProxyPort( ( int )PrefsControl.numericUpDownHttpProxyPort.Value );
-
-      /** Spidering Control ------------------------------------------------ **/
-
-      MacroscopePreferencesManager.SetMaxThreads( ( int )PrefsControl.numericUpDownMaxThreads.Value );
-      MacroscopePreferencesManager.SetDepth( ( int )PrefsControl.numericUpDownDepth.Value );
-      MacroscopePreferencesManager.SetPageLimit( ( int )PrefsControl.numericUpDownPageLimit.Value );
-      MacroscopePreferencesManager.SetCrawlDelay( ( int )PrefsControl.numericUpDownCrawlDelay.Value );
-      MacroscopePreferencesManager.SetRequestTimeout( ( int )PrefsControl.numericUpDownRequestTimeout.Value );
-      MacroscopePreferencesManager.SetMaxRetries( ( int )PrefsControl.numericUpDownMaxRetries.Value );
-
-      MacroscopePreferencesManager.SetCheckExternalLinks( PrefsControl.checkBoxCheckExternalLinks.Checked );
-      MacroscopePreferencesManager.SetFollowRobotsProtocol( PrefsControl.checkBoxFollowRobotsProtocol.Checked );
-      MacroscopePreferencesManager.SetFollowSitemapLinks( PrefsControl.checkBoxFollowSitemapLinks.Checked );
-      MacroscopePreferencesManager.SetFollowRedirects( PrefsControl.checkBoxFollowRedirects.Checked );
-      MacroscopePreferencesManager.SetFollowNoFollow( PrefsControl.checkBoxFollowNoFollow.Checked );
-      MacroscopePreferencesManager.SetIgnoreQueries( PrefsControl.checkBoxIgnoreQueries.Checked );
-      MacroscopePreferencesManager.SetFollowCanonicalLinks( PrefsControl.checkBoxFollowCanonicalLinks.Checked );
-      MacroscopePreferencesManager.SetFollowHrefLangLinks( PrefsControl.checkBoxFollowHrefLangLinks.Checked );
-
-      MacroscopePreferencesManager.SetFetchStylesheets( PrefsControl.checkBoxFetchStylesheets.Checked );
-      MacroscopePreferencesManager.SetFetchJavascripts( PrefsControl.checkBoxFetchJavascripts.Checked );
-      MacroscopePreferencesManager.SetFetchImages( PrefsControl.checkBoxFetchImages.Checked );
-      MacroscopePreferencesManager.SetFetchAudio( PrefsControl.checkBoxFetchAudio.Checked );
-      MacroscopePreferencesManager.SetFetchVideo( PrefsControl.checkBoxFetchVideo.Checked );
-      MacroscopePreferencesManager.SetFetchXml( PrefsControl.checkBoxFetchXml.Checked );
-      MacroscopePreferencesManager.SetFetchBinaries( PrefsControl.checkBoxFetchBinaries.Checked );
-
-      /** Analysis Options ------------------------------------------------- **/
-
-      MacroscopePreferencesManager.SetResolveAddresses( PrefsControl.checkBoxResolveAddresses.Checked );
-
-      MacroscopePreferencesManager.SetCheckHreflangs( PrefsControl.checkBoxCheckHreflangs.Checked );
-      MacroscopePreferencesManager.SetDetectLanguage( Detect: PrefsControl.checkBoxDetectLanguage.Checked );
-
-      MacroscopePreferencesManager.SetProcessStylesheets( PrefsControl.checkBoxProcessStylesheets.Checked );
-      MacroscopePreferencesManager.SetProcessJavascripts( PrefsControl.checkBoxProcessJavascripts.Checked );
-      MacroscopePreferencesManager.SetProcessImages( PrefsControl.checkBoxProcessImages.Checked );
-      MacroscopePreferencesManager.SetProcessPdfs( PrefsControl.checkBoxProcessPdfs.Checked );
-      MacroscopePreferencesManager.SetProcessAudio( PrefsControl.checkBoxProcessAudio.Checked );
-      MacroscopePreferencesManager.SetProcessVideo( PrefsControl.checkBoxProcessVideo.Checked );
-      MacroscopePreferencesManager.SetProcessXml( PrefsControl.checkBoxProcessXml.Checked );
-      MacroscopePreferencesManager.SetProcessBinaries( PrefsControl.checkBoxProcessBinaries.Checked );
-
-      MacroscopePreferencesManager.SetScanSitesInList( PrefsControl.checkBoxScanSitesInList.Checked );
-      MacroscopePreferencesManager.SetWarnAboutInsecureLinks( PrefsControl.checkBoxWarnAboutInsecureLinks.Checked );
-
-      MacroscopePreferencesManager.SetEnableLevenshteinDeduplication( PrefsControl.checkBoxEnableLevenshteinDeduplication.Checked );
-      MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( ( int )PrefsControl.numericUpDownMaxLevenshteinSizeDifference.Value );
-      MacroscopePreferencesManager.SetMaxLevenshteinDistance( ( int )PrefsControl.numericUpDownMaxLevenshteinDistance.Value );
-
-      /** SEO Options ------------------------------------------------------ **/
-      
-      MacroscopePreferencesManager.SetTitleMinLen( ( int )PrefsControl.numericUpDownTitleMinLen.Value );
-      MacroscopePreferencesManager.SetTitleMaxLen( ( int )PrefsControl.numericUpDownTitleMaxLen.Value );
-      MacroscopePreferencesManager.SetTitleMinWords( ( int )PrefsControl.numericUpDownTitleMinWords.Value );
-      MacroscopePreferencesManager.SetTitleMaxWords( ( int )PrefsControl.numericUpDownTitleMaxWords.Value );
-      MacroscopePreferencesManager.SetTitleMaxPixelWidth( ( int )PrefsControl.numericUpDownTitleMaxPixelWidth.Value );
-
-      MacroscopePreferencesManager.SetDescriptionMinLen( ( int )PrefsControl.numericUpDownDescriptionMinLen.Value );
-      MacroscopePreferencesManager.SetDescriptionMaxLen( ( int )PrefsControl.numericUpDownDescriptionMaxLen.Value );
-      MacroscopePreferencesManager.SetDescriptionMinWords( ( int )PrefsControl.numericUpDownDescriptionMinWords.Value );
-      MacroscopePreferencesManager.SetDescriptionMaxWords( ( int )PrefsControl.numericUpDownDescriptionMaxWords.Value );
-
-      MacroscopePreferencesManager.SetMaxHeadingDepth( ( ushort )PrefsControl.numericUpDownMaxHeadingDepth.Value );
-
-      MacroscopePreferencesManager.SetAnalyzeKeywordsInText( PrefsControl.checkBoxAnalyzeKeywordsInText.Checked );
-
-      /** Custom Filter Options -------------------------------------------- **/
-
-      MacroscopePreferencesManager.SetCustomFiltersEnable( PrefsControl.checkBoxCustomFiltersEnable.Checked );
-
-      MacroscopePreferencesManager.SetCustomFiltersMaxItems( ( int )PrefsControl.numericUpDownCustomFiltersMaxItems.Value );
-
-      MacroscopePreferencesManager.SetCustomFiltersApplyToHtml( PrefsControl.checkBoxCustomFiltersApplyToHtml.Checked );
-      MacroscopePreferencesManager.SetCustomFiltersApplyToCss( PrefsControl.checkBoxCustomFiltersApplyToCss.Checked );
-      MacroscopePreferencesManager.SetCustomFiltersApplyToJavascripts( PrefsControl.checkBoxCustomFiltersApplyToJavascripts.Checked );
-      MacroscopePreferencesManager.SetCustomFiltersApplyToText( PrefsControl.checkBoxCustomFiltersApplyToText.Checked );
-      MacroscopePreferencesManager.SetCustomFiltersApplyToXml( PrefsControl.checkBoxCustomFiltersApplyToXml.Checked );
-      
-      
-      /** Extractor Options ------------------------------------------------ **/
-
-      MacroscopePreferencesManager.SetDataExtractorsEnable( PrefsControl.checkBoxDataExtractorsEnable.Checked );
-      MacroscopePreferencesManager.SetDataExtractorsCleanWhiteSpace( PrefsControl.checkBoxDataExtractorsCleanWhiteSpace.Checked );
-
-      MacroscopePreferencesManager.SetDataExtractorsMaxItemsCssSelectors( ( int )PrefsControl.numericUpDownDataExtractorsMaxItemsCssSelectors.Value );
-      MacroscopePreferencesManager.SetDataExtractorsMaxItemsRegexes( ( int )PrefsControl.numericUpDownDataExtractorsMaxItemsRegexes.Value );
-      MacroscopePreferencesManager.SetDataExtractorsMaxItemsXpaths( ( int )PrefsControl.numericUpDownDataExtractorsMaxItemsXpaths.Value );
-
-      MacroscopePreferencesManager.SetDataExtractorsApplyToHtml( PrefsControl.checkBoxDataExtractorsApplyToHtml.Checked );
-      MacroscopePreferencesManager.SetDataExtractorsApplyToCss( PrefsControl.checkBoxDataExtractorsApplyToCss.Checked );
-      MacroscopePreferencesManager.SetDataExtractorsApplyToJavascripts( PrefsControl.checkBoxDataExtractorsApplyToJavascripts.Checked );
-      MacroscopePreferencesManager.SetDataExtractorsApplyToText( PrefsControl.checkBoxDataExtractorsApplyToText.Checked );
-      MacroscopePreferencesManager.SetDataExtractorsApplyToXml( PrefsControl.checkBoxDataExtractorsApplyToXml.Checked );
-      
-      /** Export Options --------------------------------------------------- **/
-              
-      MacroscopePreferencesManager.SetSitemapIncludeLinkedPdfs( PrefsControl.checkBoxSitemapIncludeLinkedPdfs.Checked );
-
-      /** Advanced Settings ---------------------------------------------- **/
-
-      MacroscopePreferencesManager.SetEnableMemoryGuard( PrefsControl.checkBoxEnableMemoryGuard.Checked );
-        
-      /** Tidy Up ---------------------------------------------------------- **/
-      
-      MacroscopePreferencesManager.SavePreferences();
-      MacroscopePreferencesManager.ConfigureHttpProxy();
+      this.macroscopePrefsControlInstance.SavePrefsFormControlFields();
 
     }
 

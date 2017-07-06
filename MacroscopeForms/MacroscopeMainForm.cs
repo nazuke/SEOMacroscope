@@ -136,7 +136,7 @@ namespace SEOMacroscope
       this.CredentialsHttp = new MacroscopeCredentialsHttp ();
 
       this.IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls ();
-      this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
+      this.JobMaster.SetIncludeExcludeUrls( NewIncludeExcludeUrls: this.IncludeExcludeUrls );
 
       this.XpathRestrictions = new MacroscopeXpathRestrictions ();
 
@@ -176,7 +176,7 @@ namespace SEOMacroscope
       this.LockerAuthenticationDialogue = new object ();
       this.StartAuthenticationTimer( Delay: 1000 ); // 1000ms
       
-      this.ScanningControlsEnable( State: true );
+      this.ScanningControlsEnable();
 
     }
 
@@ -498,11 +498,17 @@ namespace SEOMacroscope
 
     /** Start URL *************************************************************/
 
-    public void SetUrl ( string sUrl )
+    public void SetUrl ( string Url )
     {
-      this.textBoxStartUrl.Text = sUrl;
+
+      this.textBoxStartUrl.Text = Url;
+
+      this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
+      
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     public string GetUrl ()
     {
       string sUrl = this.textBoxStartUrl.Text;
@@ -510,6 +516,35 @@ namespace SEOMacroscope
       sUrl = sUrl.Replace( "\n", "" );
       this.textBoxStartUrl.Text = sUrl;
       return( this.textBoxStartUrl.Text );
+    }
+
+    /** Reset Scan ************************************************************/
+
+    private void ScanReset ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
+    {
+
+      //this.ScanningControlsReset();
+
+      this.JobMaster.ClearAllQueues();
+
+      this.JobMaster = new MacroscopeJobMaster (
+        JobRunTimeMode: JobRunTimeMode,
+        TaskController: this
+      );
+
+      this.IncludeExcludeUrls.ClearExplicitIncludeUrls();
+      this.IncludeExcludeUrls.ClearExplicitExcludeUrls();
+
+      this.JobMaster.SetIncludeExcludeUrls( NewIncludeExcludeUrls: this.IncludeExcludeUrls );
+
+      this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+
+      this.JobMaster.SetDataExtractorCssSelectors( NewDataExtractor: this.DataExtractorCssSelectors );
+      this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
+      this.JobMaster.SetDataExtractorXpaths( NewDataExtractor: this.DataExtractorXpaths );
+        
+      this.ClearDisplay();
+
     }
 
     /**************************************************************************/
@@ -557,13 +592,17 @@ namespace SEOMacroscope
 
       this.StartUrlDirty = true;
 
-      if( MacroscopeUrlUtils.ValidateUrl( NewStartUrl ) )
+      this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
+            
+      if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
       {
-        MacroscopePreferencesManager.SetStartUrl( NewStartUrl );
+        MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
       }
 
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     private void CallbackStartUrlKeyUp ( object sender, KeyEventArgs e )
     {
 
@@ -599,38 +638,23 @@ namespace SEOMacroscope
     private void CallackScanStartExecute ()
     {
 
-      string sStartUrl = this.GetUrl();
+      string NewStartUrl = this.GetUrl();
 
-      if( MacroscopeUrlUtils.ValidateUrl( sStartUrl ) )
+      if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
       {
 
-        this.ScanningControlsStart( true );
-
+        this.ScanningControlsStart();
+        
         if( this.StartUrlDirty )
         {
           
-          this.JobMaster.ClearAllQueues();
-          
-          this.JobMaster = new MacroscopeJobMaster (
-            JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-            TaskController: this
-          );
-          
-          this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
-          
-          this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
+          this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
 
-          this.JobMaster.SetDataExtractorCssSelectors( NewDataExtractor: this.DataExtractorCssSelectors );
-          this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
-          this.JobMaster.SetDataExtractorXpaths( NewDataExtractor: this.DataExtractorXpaths );
-
-          this.ClearDisplay();
-          
           this.StartUrlDirty = false;
           
         }
 
-        MacroscopePreferencesManager.SetStartUrl( sStartUrl );
+        MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
 
         MacroscopePreferencesManager.SavePreferences();
 
@@ -652,27 +676,14 @@ namespace SEOMacroscope
     private void CallackScanStartUrlListFileExecute ( string Path )
     {
 
-      this.JobMaster.ClearAllQueues();
+      MacroscopeUrlListLoader msUrlListLoader = null;
+      
+      this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE );
 
-      this.JobMaster = new MacroscopeJobMaster (
-        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LISTFILE,
-        TaskController: this
+      msUrlListLoader = new MacroscopeUrlListLoader (
+        JobMaster: this.JobMaster,
+        Path: Path
       );
-
-      this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
-
-      this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
-
-      this.JobMaster.SetDataExtractorCssSelectors( NewDataExtractor: this.DataExtractorCssSelectors );
-      this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
-      this.JobMaster.SetDataExtractorXpaths( NewDataExtractor: this.DataExtractorXpaths );
-
-      this.ClearDisplay();
-
-      MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader (
-                                                  JobMaster: this.JobMaster,
-                                                  Path: Path
-                                                );
 
       if( msUrlListLoader != null )
       {
@@ -680,16 +691,16 @@ namespace SEOMacroscope
         if( msUrlListLoader.Execute() )
         {
 
-          string sStartUrl = msUrlListLoader.GetUrlListItem( 0 );
+          string NewStartUrl = msUrlListLoader.GetUrlListItem( 0 );
 
-          this.SetUrl( sStartUrl );
+          this.SetUrl( Url: NewStartUrl );
 
-          if( MacroscopeUrlUtils.ValidateUrl( sStartUrl ) )
+          if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
           {
 
-            this.ScanningControlsStart( true );
+            this.ScanningControlsStart();
 
-            MacroscopePreferencesManager.SetStartUrl( sStartUrl );
+            MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
 
             MacroscopePreferencesManager.SavePreferences();
 
@@ -705,7 +716,10 @@ namespace SEOMacroscope
         }
         else
         {
-          DialogueBoxError( "Load URL List Error", "The URL list specified could not loaded" );
+          DialogueBoxError(
+            Title: "Load URL List Error",
+            Message: "The URL list specified could not loaded" 
+          );
         }
       }
 
@@ -716,27 +730,14 @@ namespace SEOMacroscope
     private void CallackScanStartUrlListFromClipboardExecute ( string [] UrlListText )
     {
 
-      this.JobMaster.ClearAllQueues();
+      MacroscopeUrlListLoader msUrlListLoader = null;
+        
+      this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LISTTEXT );
 
-      this.JobMaster = new MacroscopeJobMaster (
-        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LISTTEXT,
-        TaskController: this
+      msUrlListLoader = new MacroscopeUrlListLoader (
+        JobMaster: this.JobMaster,
+        UrlListText: UrlListText
       );
-
-      this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
-
-      this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
-      
-      this.JobMaster.SetDataExtractorCssSelectors( NewDataExtractor: this.DataExtractorCssSelectors );
-      this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
-      this.JobMaster.SetDataExtractorXpaths( NewDataExtractor: this.DataExtractorXpaths );
-      
-      this.ClearDisplay();
-
-      MacroscopeUrlListLoader msUrlListLoader = new MacroscopeUrlListLoader (
-                                                  JobMaster: this.JobMaster,
-                                                  UrlListText: UrlListText
-                                                );
 
       if( msUrlListLoader != null )
       {
@@ -744,16 +745,16 @@ namespace SEOMacroscope
         if( msUrlListLoader.Execute() )
         {
 
-          string sStartUrl = msUrlListLoader.GetUrlListItem( 0 );
+          string NewStartUrl = msUrlListLoader.GetUrlListItem( 0 );
 
-          this.SetUrl( sStartUrl );
+          this.SetUrl( Url: NewStartUrl );
 
-          if( MacroscopeUrlUtils.ValidateUrl( sStartUrl ) )
+          if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
           {
 
-            this.ScanningControlsStart( true );
+            this.ScanningControlsStart();
 
-            MacroscopePreferencesManager.SetStartUrl( sStartUrl );
+            MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
 
             MacroscopePreferencesManager.SavePreferences();
 
@@ -780,7 +781,7 @@ namespace SEOMacroscope
     private void CallbackScanStop ( object sender, EventArgs e )
     {
 
-      this.ScanningControlsStopping( true );
+      this.ScanningControlsStopping();
 
       this.JobMaster.StopWorkers();
 
@@ -790,7 +791,7 @@ namespace SEOMacroscope
         Thread.Sleep( 100 );
       }
 
-      this.ScanningControlsStopped( true );
+      this.ScanningControlsStopped();
 
     }
 
@@ -802,25 +803,10 @@ namespace SEOMacroscope
       if( this.JobMaster.AreWorkersStopped() )
       {
 
-        this.ScanningControlsReset( true );
+        this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
 
-        this.JobMaster.ClearAllQueues();
-
-        this.JobMaster = new MacroscopeJobMaster (
-          JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-          TaskController: this
-        );
-
-        this.JobMaster.SetIncludeExcludeUrls( this.IncludeExcludeUrls );
-
-        this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
-
-        this.JobMaster.SetDataExtractorCssSelectors( NewDataExtractor: this.DataExtractorCssSelectors );
-        this.JobMaster.SetDataExtractorRegexes( NewDataExtractor: this.DataExtractorRegexes );
-        this.JobMaster.SetDataExtractorXpaths( NewDataExtractor: this.DataExtractorXpaths );
+        this.ScanningControlsReset();
         
-        this.ClearDisplay();
-
       }
 
     }
@@ -1797,7 +1783,7 @@ namespace SEOMacroscope
 
     /** Scanning Controls *****************************************************/
 
-    private void ScanningControlsEnable ( Boolean State )
+    private void ScanningControlsEnable ()
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
@@ -1817,7 +1803,7 @@ namespace SEOMacroscope
 
     }
 
-    private void ScanningControlsStart ( Boolean State )
+    private void ScanningControlsStart ()
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = false;
@@ -1835,9 +1821,11 @@ namespace SEOMacroscope
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
 
+      this.Update();
+
     }
 
-    private void ScanningControlsStopping ( Boolean State )
+    private void ScanningControlsStopping ()
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = false;
@@ -1857,7 +1845,7 @@ namespace SEOMacroscope
 
     }
 
-    private void ScanningControlsStopped ( Boolean State )
+    private void ScanningControlsStopped ()
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
@@ -1879,7 +1867,7 @@ namespace SEOMacroscope
 
     }
 
-    private void ScanningControlsReset ( Boolean State )
+    private void ScanningControlsReset ()
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
@@ -1901,7 +1889,7 @@ namespace SEOMacroscope
       
     }
 
-    private void ScanningControlsComplete ( Boolean State )
+    private void ScanningControlsComplete ()
     {
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
@@ -1969,7 +1957,7 @@ namespace SEOMacroscope
       if( this.JobMaster.AreWorkersStopped() )
       {
 
-        this.ScanningControlsStart( State: true );
+        this.ScanningControlsStart();
 
         MacroscopePreferencesManager.SavePreferences();
  
@@ -2125,8 +2113,8 @@ namespace SEOMacroscope
 
       if( DoRerun )
       {
-        this.JobMaster.AddUrlQueueItem( RerunUrl );
-        this.JobMaster.RetryLink( RerunUrl );
+        this.JobMaster.AddUrlQueueItem( Url: RerunUrl );
+        this.JobMaster.RetryLink( Url: RerunUrl );
         this.RerunScanQueue();
       }
 

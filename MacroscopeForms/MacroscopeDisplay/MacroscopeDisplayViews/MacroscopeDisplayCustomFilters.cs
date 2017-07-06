@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Net;
 
 namespace SEOMacroscope
 {
@@ -235,37 +234,16 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
-        Boolean Proceed = false;
-        
-        if(
-          ( msDoc == null )
-          || ( msDoc.GetIsRedirect() )
-          || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
-          || ( !msDoc.GetIsInternal() ) )
-        {
-          continue;
-        }
-
-        if(
-          msDoc.GetIsHtml()
-          || msDoc.GetIsCss()
-          || msDoc.GetIsJavascript()
-          || msDoc.GetIsText()
-          || msDoc.GetIsXml() )
-        {
-          Proceed = true;
-        }
-        
-        if( !Proceed )
-        {
-          continue;
-        }
-
         ListViewItem lvItem = null;
         string DocUrl = msDoc.GetUrl();
         string PairKey = DocUrl;
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
+        
+        if( !CustomFilter.CanApplyCustomFiltersToDocument( msDoc: msDoc ) )
+        {
+          continue;
+        }
 
         if( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
@@ -403,7 +381,7 @@ namespace SEOMacroscope
 
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
 
-      this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
+      this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
 
       this.DisplayListView.Columns[ ColUrl ].Width = 300;
       this.DisplayListView.Columns[ ColStatusCode ].Width = 100;
