@@ -13,7 +13,7 @@ LicenseData ..\LICENSE
 Name "SEO Macroscope ${VERSION}"
 
 #InstallDir "$DESKTOP\QA"
-InstallDir "$PROGRAMFILES"
+InstallDir "$PROGRAMFILES64"
 
 # ICONS AND SPLASH SCREENS --------------------------------------------------- #
 
@@ -122,10 +122,9 @@ Section uninstall
 	Delete "$INSTDIR\PdfSharp.Charting.xml"
 	Delete "$INSTDIR\PdfSharp.dll"
 	Delete "$INSTDIR\PdfSharp.xml"
-	Delete "$INSTDIR\de\PdfSharp.Charting.resources.dll"
-	Delete "$INSTDIR\de\PdfSharp.resources.dll"
-	RMDir "$INSTDIR\de"
-
+	Delete "$INSTDIR\PdfSharp.Charting.resources.dll"
+	Delete "$INSTDIR\PdfSharp.resources.dll"
+	
 	Delete "$INSTDIR\RobotsTxt.dll"
 	Delete "$INSTDIR\RobotsTxt.xml"
 
