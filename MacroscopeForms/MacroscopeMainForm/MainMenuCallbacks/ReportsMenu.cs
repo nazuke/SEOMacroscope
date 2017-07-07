@@ -33,7 +33,17 @@ namespace SEOMacroscope
   {
 
     /**************************************************************************/
-        
+
+    public void ReconfigureReportsMenu ()
+    {
+      
+      if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() ) {
+        this.pagesCSVReportToolStripMenuItem.Enabled = true;
+      } else {
+        this.pagesCSVReportToolStripMenuItem.Enabled = false;
+      }
+
+    }
 
     /**************************************************************************/
 

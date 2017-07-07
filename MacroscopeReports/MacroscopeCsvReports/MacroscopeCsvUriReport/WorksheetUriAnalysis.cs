@@ -30,12 +30,12 @@ using CsvHelper;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvDataExtractorReport : MacroscopeCsvReports
+  public partial class MacroscopeCsvUriReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetCssSelectors (
+    private void BuildWorksheetPageUriAnalysis (
       MacroscopeJobMaster JobMaster,
       CsvWriter ws
     )
@@ -43,15 +43,15 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-
+      
       {
-        
-        ws.WriteField( MacroscopeConstants.Url );
-        ws.WriteField( MacroscopeConstants.StatusCode );
-        ws.WriteField( MacroscopeConstants.Status );
-        ws.WriteField( "Extracted Label" );
-        ws.WriteField( "Extracted Value" );
-        
+
+        ws.WriteField( "URL" );
+        ws.WriteField( "Status Code" );
+        ws.WriteField( "Status" );
+        ws.WriteField( "Occurrences" );
+        ws.WriteField( "Checksum" );
+
         ws.NextRecord();
                 
       }
@@ -60,42 +60,23 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        string DocUrl = msDoc.GetUrl();
+                    
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
+        string Checksum = msDoc.GetChecksum();
+        int Count = DocCollection.GetStatsChecksumCount( Checksum: Checksum );
 
-        if( !this.DataExtractorCssSelectors.CanApplyDataExtractorsToDocument( msDoc: msDoc ) )
-        {
-          continue;
-        }        
+        this.InsertAndFormatUrlCell( ws, msDoc );
 
-        foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedCssSelectors() )
-        {
-
-          string ExtractedLabel = DataExtractedPair.Key;
-          string ExtractedValue = DataExtractedPair.Value;
-
-          if( 
-            string.IsNullOrEmpty( ExtractedLabel )
-            || string.IsNullOrEmpty( ExtractedValue ) )
-          {
-            continue;
-          }
-
-          this.InsertAndFormatUrlCell( ws, msDoc );
-
-          this.InsertAndFormatStatusCodeCell( ws, msDoc );
-
-          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( Status ) );
-
-          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ExtractedLabel ) );
+        this.InsertAndFormatContentCell( ws, StatusCode );
       
-          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ExtractedValue ) );
-
-        }
-       
+        this.InsertAndFormatContentCell( ws, Status );
+          
+        this.InsertAndFormatContentCell( ws, Count.ToString() );
+          
+        this.InsertAndFormatContentCell( ws, Checksum );
+          
         ws.NextRecord();
-                
       }
 
       return;

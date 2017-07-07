@@ -27,28 +27,21 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-using ClosedXML.Excel;
+using CsvHelper;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelDuplicateContent : MacroscopeExcelReports
+  public partial class MacroscopeCsvDuplicateContent : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
     private void BuildWorksheetPageDuplicatePages (
       MacroscopeJobMaster JobMaster,
-      XLWorkbook wb,
-      string sWorksheetLabel
+      CsvWriter ws
     )
     {
-      
-      var ws = wb.Worksheets.Add( sWorksheetLabel );
-
-      int iRow = 1;
-      int iCol = 1;
-      int iColMax = 1;
 
       decimal DocCount = 0;
       decimal DocListCount = 0;
@@ -67,25 +60,15 @@ namespace SEOMacroscope
             
       {
 
-        ws.Cell( iRow, iCol ).Value = "Status Code";
-        iCol++;
+        ws.WriteField( "Status Code" );
+        ws.WriteField( "Status" );
+        ws.WriteField( "Origin URL" );
+        ws.WriteField( "Distance" );
+        ws.WriteField( "Similar URL" );
 
-        ws.Cell( iRow, iCol ).Value = "Status";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Origin URL";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Distance";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Similar URL";
-
+        ws.NextRecord();
+                
       }
-
-      iColMax = iCol;
-
-      iRow++;
 
       foreach( string UrlLeft in DocCollection.DocumentKeys() )
       {
@@ -147,7 +130,6 @@ namespace SEOMacroscope
           int Distance = DocList[ msDocDuplicate ];
 
           CountInner++;
-          iCol = 1;
           
           if( DocCount > 0 )
           {
@@ -163,51 +145,18 @@ namespace SEOMacroscope
             );
           }
 
-          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, StatusCode );
-          iCol++;
+          this.InsertAndFormatStatusCodeCell( ws, StatusCode );
           
-          this.InsertAndFormatStatusCodeCell( ws, iRow, iCol, Status );
-          iCol++;
+          this.InsertAndFormatStatusCodeCell( ws, Status );
 
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, UrlLeft );
-
-          if( AllowedHosts.IsInternalUrl( Url: UrlLeft ) )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-          }
+          this.InsertAndFormatUrlCell( ws, UrlLeft );
           
-          iCol++;
-              
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Distance.ToString() );
+          this.InsertAndFormatContentCell( ws, Distance.ToString() );
+         
+          this.InsertAndFormatUrlCell( ws, UrlDuplicate );
           
-          if( Distance <= MacroscopePreferencesManager.GetMaxLevenshteinDistance() )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          
-          iCol++;
-          
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, UrlDuplicate );
-              
-          if( AllowedHosts.IsInternalUrl( Url: UrlDuplicate ) )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-          }
-          else
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
-          }
-          
-          iRow++;
-
+          ws.NextRecord();
+        
           if( this.ProgressForm.Cancelled() )
           {
             break;
@@ -222,11 +171,6 @@ namespace SEOMacroscope
 
         Thread.Yield();
 
-      }
-
-      {
-        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
-        var excelTable = rangeData.CreateTable();
       }
 
       return;

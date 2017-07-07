@@ -406,7 +406,42 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void CallbackSaveUriAnalysisCsvReport ( object sender, EventArgs e )
+    private void CallbackSaveUriAnalysisCsvReportLinks ( object sender, EventArgs e )
+    {
+      this.CallbackSaveUriAnalysisCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvUriReport.OutputWorksheet.LINKS,
+        OutputFilename: "Macroscope-URI-Analysis-Links.csv"
+      );
+    }
+
+    private void CallbackSaveUriAnalysisCsvReportHyperlinks ( object sender, EventArgs e )
+    {
+      this.CallbackSaveUriAnalysisCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvUriReport.OutputWorksheet.HYPERLINKS,
+        OutputFilename: "Macroscope-URI-Analysis-Hyperlinks.csv"
+      );
+    }
+
+    private void CallbackSaveUriAnalysisCsvReportUris ( object sender, EventArgs e )
+    {
+      this.CallbackSaveUriAnalysisCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvUriReport.OutputWorksheet.URIS,
+        OutputFilename: "Macroscope-URI-Analysis-URIs.csv"
+      );
+    }
+
+    private void CallbackSaveUriAnalysisCsvReport (
+      object sender,
+      EventArgs e,
+      MacroscopeCsvUriReport.OutputWorksheet SelectedOutputWorksheet,
+      string OutputFilename
+    )
     {
 
       SaveFileDialog Dialog = new SaveFileDialog ();
@@ -415,22 +450,32 @@ namespace SEOMacroscope
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
-      Dialog.FileName = "Macroscope-URI-Analysis.csv";
+      Dialog.FileName = OutputFilename;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelUriReport CsvReport = new MacroscopeExcelUriReport ();
+        MacroscopeCsvUriReport CsvReport = new MacroscopeCsvUriReport ();
 
         try
         {
+          
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
+            
             Cursor.Current = Cursors.WaitCursor;
-            CsvReport.WriteXslx( this.JobMaster, Path );
+            
+            CsvReport.WriteCsv(
+              JobMaster: this.JobMaster,
+              SelectedOutputWorksheet: SelectedOutputWorksheet,
+              OutputFilename: Path
+            );
+            
             Cursor.Current = Cursors.Default;
+          
           }
+          
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -454,7 +499,7 @@ namespace SEOMacroscope
       Dialog.Dispose();
 
     }
-
+   
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveRedirectsCsvReport ( object sender, EventArgs e )
@@ -473,14 +518,14 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelRedirectsReport CsvReport = new MacroscopeExcelRedirectsReport ();
+        MacroscopeCsvRedirectsReport CsvReport = new MacroscopeCsvRedirectsReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            CsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteCsv( this.JobMaster, Path );
             Cursor.Current = Cursors.Default;
           }
         }
@@ -566,36 +611,93 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void CallbackSaveDuplicateContentCsvReport ( object sender, EventArgs e )
+    private void CallbackSaveDuplicateContentCsvReportTitles ( object sender, EventArgs e )
+    {
+      this.CallbackSaveDuplicateContentCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvDuplicateContent.OutputWorksheet.TITLES,
+        OutputFilename: "Macroscope-Duplicate-Content-Titles.csv"
+      );
+    }
+
+    private void CallbackSaveDuplicateContentCsvReportChecksums ( object sender, EventArgs e )
+    {
+      this.CallbackSaveDuplicateContentCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvDuplicateContent.OutputWorksheet.CHECKSUMS,
+        OutputFilename: "Macroscope-Duplicate-Content-Checksums.csv"
+      );
+    }
+            
+    private void CallbackSaveDuplicateContentCsvReportEtags ( object sender, EventArgs e )
+    {
+      this.CallbackSaveDuplicateContentCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvDuplicateContent.OutputWorksheet.ETAGS,
+        OutputFilename: "Macroscope-Duplicate-Content-Etags.csv"
+      );
+    }
+                
+    private void CallbackSaveDuplicateContentCsvReportPages ( object sender, EventArgs e )
+    {
+      this.CallbackSaveDuplicateContentCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvDuplicateContent.OutputWorksheet.PAGES,
+        OutputFilename: "Macroscope-Duplicate-Content-Pages.csv"
+      );
+    }
+
+    private void CallbackSaveDuplicateContentCsvReport (
+      object sender,
+      EventArgs e,
+      MacroscopeCsvDuplicateContent.OutputWorksheet SelectedOutputWorksheet,
+      string OutputFilename
+    )
     {
 
       SaveFileDialog Dialog = new SaveFileDialog ();
-      
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
-      Dialog.FileName = "Macroscope-Duplicate-Content.csv";
-      
+      Dialog.FileName = OutputFilename;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Path = Dialog.FileName;
+        MacroscopeTriplePercentageProgressForm ProgressForm;
+        MacroscopeCsvDuplicateContent CsvReport;
 
-        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
+        ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
 
-        MacroscopeExcelDuplicateContent CsvReport = new MacroscopeExcelDuplicateContent (
-                                                      ProgressFormDialogue: ProgressForm
-                                                    );
+        CsvReport = new MacroscopeCsvDuplicateContent (
+          ProgressFormDialogue: ProgressForm
+        );
+
         try
         {
+          
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
+            
             Cursor.Current = Cursors.WaitCursor;
-            CsvReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
+
+            CsvReport.WriteCsv(
+              JobMaster: this.JobMaster,
+              SelectedOutputWorksheet: SelectedOutputWorksheet,
+              OutputFilename: Path
+            );
+            
             Cursor.Current = Cursors.Default;
+          
           }
+          
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -611,14 +713,13 @@ namespace SEOMacroscope
         }
         finally
         {
-          ProgressForm.DoClose();
           Cursor.Current = Cursors.Default;
         }
-      
+
       }
-      
+
       Dialog.Dispose();
-    
+
     }
 
     /** -------------------------------------------------------------------- **/
