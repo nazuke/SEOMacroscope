@@ -54,9 +54,6 @@
   <PropertyGroup Condition=" '$(Platform)' == '64-bit' ">
     <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <Prefer32Bit>True</Prefer32Bit>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML">
       <HintPath>packages\ClosedXML.0.87.1\lib\net40\ClosedXML.dll</HintPath>
@@ -101,7 +98,9 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Data">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
