@@ -35,6 +35,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.Label label2;
 		public System.Windows.Forms.Label labelVersionString;
 		public System.Windows.Forms.Label label3;
+		public System.Windows.Forms.Label labelArchitectureString;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -61,6 +62,7 @@ namespace SEOMacroscope
 			this.label2 = new System.Windows.Forms.Label();
 			this.labelVersionString = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
+			this.labelArchitectureString = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -86,33 +88,46 @@ namespace SEOMacroscope
 			this.label2.Size = new System.Drawing.Size(220, 20);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Copyright 2017 Jason Holland";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// labelVersionString
 			// 
 			this.labelVersionString.BackColor = System.Drawing.Color.Transparent;
 			this.labelVersionString.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelVersionString.ForeColor = System.Drawing.Color.White;
-			this.labelVersionString.Location = new System.Drawing.Point(20, 300);
+			this.labelVersionString.Location = new System.Drawing.Point(20, 280);
 			this.labelVersionString.Margin = new System.Windows.Forms.Padding(0);
 			this.labelVersionString.Name = "labelVersionString";
 			this.labelVersionString.Size = new System.Drawing.Size(220, 20);
 			this.labelVersionString.TabIndex = 3;
-			this.labelVersionString.Text = "version";
-			this.labelVersionString.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.labelVersionString.Text = "Version";
+			this.labelVersionString.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label3
 			// 
 			this.label3.BackColor = System.Drawing.Color.Transparent;
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label3.ForeColor = System.Drawing.Color.White;
-			this.label3.Location = new System.Drawing.Point(20, 280);
+			this.label3.Location = new System.Drawing.Point(20, 260);
 			this.label3.Margin = new System.Windows.Forms.Padding(0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(220, 20);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "SEO Macroscope";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// labelArchitectureString
+			// 
+			this.labelArchitectureString.BackColor = System.Drawing.Color.Transparent;
+			this.labelArchitectureString.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelArchitectureString.ForeColor = System.Drawing.Color.White;
+			this.labelArchitectureString.Location = new System.Drawing.Point(20, 300);
+			this.labelArchitectureString.Margin = new System.Windows.Forms.Padding(0);
+			this.labelArchitectureString.Name = "labelArchitectureString";
+			this.labelArchitectureString.Size = new System.Drawing.Size(220, 20);
+			this.labelArchitectureString.TabIndex = 5;
+			this.labelArchitectureString.Text = "Architecture";
+			this.labelArchitectureString.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// MacroscopeAboutForm
 			// 
@@ -121,6 +136,7 @@ namespace SEOMacroscope
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.BackgroundImage = global::SEOMacroscope.Images._0001;
 			this.ClientSize = new System.Drawing.Size(584, 361);
+			this.Controls.Add(this.labelArchitectureString);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.labelVersionString);
 			this.Controls.Add(this.label2);

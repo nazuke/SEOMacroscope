@@ -52,7 +52,18 @@ namespace SEOMacroscope
 
     private void CallbackAboutFormShown ( object sender, EventArgs e )
     {
-      this.labelVersionString.Text = string.Format( "Version {0}", ProductVersion );
+      
+      this.labelVersionString.Text = string.Format( "Version: {0}", this.ProductVersion );
+      
+      if( System.Environment.Is64BitProcess )
+      {
+        this.labelArchitectureString.Text = string.Format( "Architecture: {0}", "64 bit" );
+      }
+      else
+      {
+        this.labelArchitectureString.Text = string.Format( "Architecture: {0}", "32 bit" );
+      }
+            
     }
 
     /**************************************************************************/
