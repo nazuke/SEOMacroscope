@@ -152,6 +152,10 @@
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\HelpMenu.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\ReportsMenu.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\TaskParametersMenu.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\MacroscopeCsvBrokenLinksReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetBrokenLinks.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetGoodLinks.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetRedirectedLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvCustomFilterReport\MacroscopeCsvCustomFilterReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvCustomFilterReport\WorksheetCustomFilter.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDataExtractorReport\MacroscopeCsvDataExtractorReport.cs" />
@@ -163,6 +167,8 @@
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContent\WorksheetDuplicateEtags.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContent\WorksheetDuplicatePages.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContent\WorksheetDuplicateTitles.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvErrorsReport\MacroscopeCsvErrorsReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvErrorsReport\WorksheetErrors.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport\MacroscopeCsvPageContentsReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport\WorksheetHeadings.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport\WorksheetPageText.cs" />
@@ -621,6 +627,8 @@
     <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport" />
     <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRedirectsReport" />
     <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContent" />
+    <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvErrorsReport" />
+    <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageContentsReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport" />
     <Folder Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelBrokenLinksReport" />

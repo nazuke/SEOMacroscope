@@ -98,13 +98,13 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelErrorsReport CsvReport = new MacroscopeExcelErrorsReport ();
+        MacroscopeCsvErrorsReport CsvReport = new MacroscopeCsvErrorsReport ();
 
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            CsvReport.WriteXslx( this.JobMaster, Path );
+            CsvReport.WriteCsv( this.JobMaster, Path );
           }
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -126,9 +126,44 @@ namespace SEOMacroscope
 
     }
 
-    /** -------------------------------------------------------------------- **/
+    /** Broken Links Report ------------------------------------------------ **/
 
-    private void CallbackSaveBrokenLinksCsvReport ( object sender, EventArgs e )
+    private void CallbackSaveBrokenLinksCsvReportBrokenLinks ( object sender, EventArgs e )
+    {
+      this.CallbackSaveBrokenLinksCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvBrokenLinksReport.OutputWorksheet.BROKEN_LINKS,
+        OutputFilename: "Macroscope-Broken-Links-Broken-Links.csv"
+      );
+    }
+
+    private void CallbackSaveBrokenLinksCsvReportGoodLinks ( object sender, EventArgs e )
+    {
+      this.CallbackSaveBrokenLinksCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvBrokenLinksReport.OutputWorksheet.GOOD_LINKS,
+        OutputFilename: "Macroscope-Broken-Links-Good-Links.csv"
+      );
+    }
+
+    private void CallbackSaveBrokenLinksCsvReportRedirectedLinks ( object sender, EventArgs e )
+    {
+      this.CallbackSaveBrokenLinksCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvBrokenLinksReport.OutputWorksheet.REDIRECTED_LINKS,
+        OutputFilename: "Macroscope-Broken-Links-Redirected-Links.csv"
+      );
+    }
+
+    private void CallbackSaveBrokenLinksCsvReport (
+      object sender,
+      EventArgs e,
+      MacroscopeCsvBrokenLinksReport.OutputWorksheet SelectedOutputWorksheet,
+      string OutputFilename
+    )
     {
 
       SaveFileDialog Dialog = new SaveFileDialog ();
@@ -137,20 +172,32 @@ namespace SEOMacroscope
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
-      Dialog.FileName = "Macroscope-Broken-Links.csv";
+      Dialog.FileName = OutputFilename;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelBrokenLinksReport CsvReport = new MacroscopeExcelBrokenLinksReport ();
+        MacroscopeCsvBrokenLinksReport CsvReport = new MacroscopeCsvBrokenLinksReport ();
 
         try
         {
+          
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            CsvReport.WriteXslx( this.JobMaster, Path );
+            
+            Cursor.Current = Cursors.WaitCursor;
+            
+            CsvReport.WriteCsv(
+              JobMaster: this.JobMaster,
+              SelectedOutputWorksheet: SelectedOutputWorksheet,
+              OutputFilename: Path
+            );
+            
+            Cursor.Current = Cursors.Default;
+          
           }
+          
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -163,6 +210,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Broken Links CSV Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
