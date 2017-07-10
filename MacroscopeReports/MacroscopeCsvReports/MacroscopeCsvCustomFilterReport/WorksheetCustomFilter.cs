@@ -53,6 +53,7 @@ namespace SEOMacroscope
         ws.WriteField( MacroscopeConstants.Url );
         ws.WriteField( MacroscopeConstants.StatusCode );
         ws.WriteField( MacroscopeConstants.Status );
+        ws.WriteField( MacroscopeConstants.ContentType );
 
         for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
         {
@@ -89,7 +90,8 @@ namespace SEOMacroscope
         string DocUrl = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
-
+        string MimeType = msDoc.GetMimeType();
+        
         if( !this.CustomFilter.CanApplyCustomFiltersToDocument( msDoc: msDoc ) )
         {
           return;
@@ -100,6 +102,8 @@ namespace SEOMacroscope
         this.InsertAndFormatStatusCodeCell( ws, msDoc );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
+
+        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( MimeType ) );
 
         for( int Slot = 0 ; Slot < this.CustomFilter.GetSize() ; Slot++ )
         {

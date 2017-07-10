@@ -133,18 +133,61 @@ namespace SEOMacroscope
           this.ContentLength = 0;
         }
 
-        if( RawData.Length > 0 )
+        /** ---------------------------------------------------------------- **/
+        
+        if( !string.IsNullOrEmpty( RawData ) )
         {
           
           string [] Lines = Regex.Split( RawData, "[\\r\\n]+" );
           TextDoc = Lines.ToList();
 
           DebugMsg( string.Format( "TextDoc: {0}", TextDoc.Count ) );
+
         }
         else
         {
           DebugMsg( string.Format( "RawData: {0}", "EMPTY" ) );
         }
+
+        /** Custom Filters ------------------------------------------------- **/
+
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetCustomFiltersEnable()
+            && MacroscopePreferencesManager.GetCustomFiltersApplyToText() )
+          {
+          
+            MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
+
+            if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+            {
+              this.ProcessGenericCustomFiltered(
+                CustomFilter: CustomFilter,
+                GenericText: RawData
+              );
+            }
+
+          }
+          
+        }
+
+        /** Data Extractors ------------------------------------------------ **/
+
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetDataExtractorsEnable()
+            && MacroscopePreferencesManager.GetDataExtractorsApplyToText() )
+          {
+            this.ProcessGenericDataExtractors( GenericText: RawData );
+          }
+
+        }
+
+        /** Process Text Document ------------------------------------------ **/
 
         if( ( TextDoc != null ) && ( TextDoc.Count > 0 ) )
         {
@@ -163,6 +206,8 @@ namespace SEOMacroscope
 
         }
        
+        /** ---------------------------------------------------------------- **/
+        
         res.Close();
 
         res.Dispose();

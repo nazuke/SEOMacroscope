@@ -149,7 +149,7 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-        if( RawData.Length > 0 )
+        if( !string.IsNullOrEmpty( RawData ) )
         {
           HtmlDoc = new HtmlDocument ();
           HtmlDoc.LoadHtml( RawData );
@@ -1585,16 +1585,23 @@ namespace SEOMacroscope
     )
     {
 
-      List<KeyValuePair<string, string>> Analyzed = DataExtractor.AnalyzeHtml( Html: HtmlText );
+      List<KeyValuePair<string, string>> Analyzed = null;
 
-      foreach( KeyValuePair<string, string> Pair in Analyzed )
+      Analyzed = DataExtractor.AnalyzeHtml( Html: HtmlText );
+
+      if( Analyzed != null )
       {
-        this.SetDataExtractedXpaths(
-          Label: Pair.Key,
-          Text: Pair.Value
-        );
-      }
 
+        foreach( KeyValuePair<string, string> Pair in Analyzed )
+        {
+          this.SetDataExtractedXpaths(
+            Label: Pair.Key,
+            Text: Pair.Value
+          );
+        }
+
+      }
+      
       return;
 
     }

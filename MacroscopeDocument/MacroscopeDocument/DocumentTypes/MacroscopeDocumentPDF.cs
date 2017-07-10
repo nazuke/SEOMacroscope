@@ -158,9 +158,12 @@ namespace SEOMacroscope
             this.ContentLength = 0;
 
           }
+          
         }
 
-        { // Title
+        /** Title ---------------------------------------------------------- **/
+        
+        {
           if( pdfTools != null )
           {
             string DocumentTitle = pdfTools.GetTitle();
@@ -176,6 +179,8 @@ namespace SEOMacroscope
           }
         }
 
+        /** ---------------------------------------------------------------- **/
+        
         res.Close();
         
         res.Dispose();

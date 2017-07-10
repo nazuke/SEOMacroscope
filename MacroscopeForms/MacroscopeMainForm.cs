@@ -21,7 +21,7 @@
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
- */
+*/
 
 using System;
 using System.Collections.Generic;
@@ -1432,9 +1432,6 @@ namespace SEOMacroscope
     {
 
       ToolStripDropDownItem FilterMenuItem = ( ToolStripDropDownItem )sender;
-
-      DebugMsg( string.Format( "CallbackSearchCollectionDocumentTypesFilterMenuItemClick: {0}", FilterMenuItem.Tag ) );
-
       MacroscopeConstants.DocumentType DocumentType = MacroscopeConstants.DocumentType.ALL;
 
       switch( FilterMenuItem.Tag.ToString() )
@@ -1601,8 +1598,6 @@ namespace SEOMacroscope
       if( Monitor.TryEnter( LockerTimerSiteOverview, 1000 ) )
       {
         
-        //DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "OBTAINED LOCK" ) );
-        
         try
         {
           if( this.InvokeRequired )
@@ -1628,13 +1623,8 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerSiteOverview );
-          //DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "RELEASED LOCK" ) );
         }
         
-      }
-      else
-      {
-        //DebugMsg( string.Format( "CallbackSiteOverviewTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
       
     }
@@ -1653,8 +1643,11 @@ namespace SEOMacroscope
     
     private void UpdateSiteOverview ()
     {
-      this.msSiteStructureOverview.RefreshData( this.JobMaster.GetDocCollection() );
-      this.msSiteStructureSiteSpeed.RefreshSiteSpeedData( this.JobMaster.GetDocCollection() );
+
+      this.msSiteStructureOverview.RefreshData( DocCollection: this.JobMaster.GetDocCollection() );
+
+      this.msSiteStructureSiteSpeed.RefreshSiteSpeedData( DocCollection: this.JobMaster.GetDocCollection() );
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1663,7 +1656,9 @@ namespace SEOMacroscope
     {
       if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
       {
-        this.msSiteStructureKeywordAnalysis.RefreshKeywordAnalysisData( this.JobMaster.GetDocCollection() );
+        this.msSiteStructureKeywordAnalysis.RefreshKeywordAnalysisData( 
+          DocCollection: this.JobMaster.GetDocCollection()
+        );
       }
     }
 
@@ -1700,14 +1695,18 @@ namespace SEOMacroscope
 
           KeywordTerm = lvItem.SubItems[ TermCol ].Text;
           string SearchText = MacroscopeStringTools.CleanBodyText( KeywordTerm );
-
+          List<MacroscopeDocument> DocList;
+          
           if( SearchText.Length > 0 )
           {
-            List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
-                                                 MacroscopeSearchIndex.SearchMode.AND,
-                                                 SearchText.Split( ' ' )
-                                               );
+
+            DocList = SearchIndex.ExecuteSearchForDocuments(
+              MacroscopeSearchIndex.SearchMode.AND,
+              SearchText.Split( ' ' )
+            );
+
             this.msDisplaySearchCollection.RefreshData( DocList );
+
           }
 
         }
@@ -1935,8 +1934,15 @@ namespace SEOMacroscope
       this.SetVelocitySiteOverviewTimer( Delay: 10000 );
 
       {
-        Thread ThreadUpdateSiteOverviewKeywordAnalysis = new Thread ( new ThreadStart ( this.UpdateSiteOverviewKeywordAnalysis ) );
+
+        Thread ThreadUpdateSiteOverviewKeywordAnalysis;
+
+        ThreadUpdateSiteOverviewKeywordAnalysis = new Thread (
+          new ThreadStart ( this.UpdateSiteOverviewKeywordAnalysis )
+        );
+
         ThreadUpdateSiteOverviewKeywordAnalysis.Start();
+
       }
 
       if( this.InvokeRequired )
@@ -2015,8 +2021,6 @@ namespace SEOMacroscope
       if( Monitor.TryEnter( LockerTimerAuthentication, 1000 ) )
       {
 
-        //DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "OBTAINED LOCK" ) );
-        
         try
         {
           if( this.InvokeRequired )
@@ -2042,13 +2046,8 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerAuthentication );
-          //DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "RELEASED LOCK" ) );
         }
         
-      }
-      else
-      {
-        //DebugMsg( string.Format( "CallbackAuthenticationTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
       
     }
@@ -2070,12 +2069,23 @@ namespace SEOMacroscope
           lock( this.LockerAuthenticationDialogue )
           {
 
-            MacroscopeCredentialRequest CredentialRequest = this.CredentialsHttp.DequeueCredentialRequest();
+            MacroscopeCredentialRequest CredentialRequest;
+            MacroscopeGetCredentialsHttp CredentialsForm;
             
-            if( this.CredentialsHttp.CredentialExists( CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) )
+            CredentialRequest = this.CredentialsHttp.DequeueCredentialRequest();
+                        
+            if( this.CredentialsHttp.CredentialExists( 
+                  Domain: CredentialRequest.GetDomain(),
+                  Realm: CredentialRequest.GetRealm() ) )
             {
 
-              DebugMsg( string.Format( "CredentialExists: {0} :: {1}", CredentialRequest.GetDomain(), CredentialRequest.GetRealm() ) );
+              DebugMsg(
+                string.Format(
+                  "CredentialExists: {0} :: {1}",
+                  CredentialRequest.GetDomain(),
+                  CredentialRequest.GetRealm()
+                )
+              );
 
               DoRerun = true;
               RerunUrl = CredentialRequest.GetUrl();
@@ -2084,7 +2094,7 @@ namespace SEOMacroscope
             else
             {
 
-              MacroscopeGetCredentialsHttp CredentialsForm = new MacroscopeGetCredentialsHttp ();
+              CredentialsForm = new MacroscopeGetCredentialsHttp ();
 
               CredentialsForm.labelMessage.Text = string.Format(
                 "The website at \"{0}\" is requesting credentials for the Realm \"{1}\"",
@@ -2195,7 +2205,7 @@ namespace SEOMacroscope
 
     }
 
-    /** TASK PARAMETERS CALLBACKS ********************************************/
+    /** TASK PARAMETERS CALLBACKS *********************************************/
 
     private void CallbackIncludeUrlItemsClick ( object sender, EventArgs e )
     {
@@ -2242,8 +2252,6 @@ namespace SEOMacroscope
 
       ToolStripMenuItem CrawlMenuItem = sender as ToolStripMenuItem;
 
-      DebugMsg( string.Format( "CrawlMenuItem: {0}", CrawlMenuItem.Checked ) );
-
       if( CrawlMenuItem.Checked )
       {
         CrawlMenuItem.Checked = false;
@@ -2265,8 +2273,6 @@ namespace SEOMacroscope
     {
 
       ToolStripMenuItem CrawlMenuItem = sender as ToolStripMenuItem;
-
-      DebugMsg( string.Format( "CrawlMenuItem: {0}", CrawlMenuItem.CheckState ) );
 
       if( CrawlMenuItem.Checked )
       {

@@ -151,7 +151,7 @@ namespace SEOMacroscope
 
         }
 
-        if( RawData.Length > 0 )
+        if( !string.IsNullOrEmpty( RawData ) )
         {
 
           ExCSS.Parser ExCssParser = new ExCSS.Parser ();
@@ -166,8 +166,48 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "ProcessCssPage: ERROR: {0}", this.GetUrl() ) );
           
         }
-        
-        { // Title
+
+        /** Custom Filters ------------------------------------------------- **/
+
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetCustomFiltersEnable()
+            && MacroscopePreferencesManager.GetCustomFiltersApplyToCss() )
+          {
+          
+            MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
+
+            if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+            {
+              this.ProcessGenericCustomFiltered(
+                CustomFilter: CustomFilter,
+                GenericText: RawData
+              );
+            }
+
+          }
+          
+        }
+
+        /** Data Extractors ------------------------------------------------ **/
+
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetDataExtractorsEnable()
+            && MacroscopePreferencesManager.GetDataExtractorsApplyToCss() )
+          {
+            this.ProcessGenericDataExtractors( GenericText: RawData );
+          }
+
+        }
+
+        /** Title ---------------------------------------------------------- **/
+
+        {
           MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
           string DocumentTitle = null;
           foreach( Match match in reMatches )
@@ -241,17 +281,21 @@ namespace SEOMacroscope
                 {
 
                   // TODO: Verify that this actually works:
+                  
+                  MacroscopeHyperlinkOut HyperlinkOut = null;
+                  MacroscopeLink Outlink = null;
 
-                  MacroscopeHyperlinkOut HyperlinkOut = this.HyperlinksOut.Add(
-                                                          LinkType: MacroscopeConstants.HyperlinkType.CSS,
-                                                          UrlTarget: LinkUrlAbs
-                                                        );
+                  HyperlinkOut = this.HyperlinksOut.Add(
+                    LinkType: MacroscopeConstants.HyperlinkType.CSS,
+                    UrlTarget: LinkUrlAbs
+                  );
 
-                  MacroscopeLink Outlink = this.AddCssOutlink(
-                                             AbsoluteUrl: LinkUrlAbs,
-                                             LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                                             Follow: true
-                                           );
+                  Outlink = this.AddCssOutlink(
+                    AbsoluteUrl: LinkUrlAbs,
+                    LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                    Follow: true
+                  );
+                  
                   if( Outlink != null )
                   {
                     Outlink.SetRawTargetUrl( BackgroundImageUrl );
@@ -279,16 +323,19 @@ namespace SEOMacroscope
 
                   // TODO: Verify that this actually works:
 
-                  MacroscopeHyperlinkOut HyperlinkOut = this.HyperlinksOut.Add(
-                                                          LinkType: MacroscopeConstants.HyperlinkType.CSS,
-                                                          UrlTarget: LinkUrlAbs
-                                                        );
+                  MacroscopeHyperlinkOut HyperlinkOut = null;
+                  MacroscopeLink Outlink = null;
 
-                  MacroscopeLink Outlink = this.AddCssOutlink(
-                                             AbsoluteUrl: LinkUrlAbs,
-                                             LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                                             Follow: true
-                                           );
+                  HyperlinkOut = this.HyperlinksOut.Add(
+                    LinkType: MacroscopeConstants.HyperlinkType.CSS,
+                    UrlTarget: LinkUrlAbs
+                  );
+
+                  Outlink = this.AddCssOutlink(
+                    AbsoluteUrl: LinkUrlAbs,
+                    LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+                    Follow: true
+                  );
                 
                   if( Outlink != null )
                   {

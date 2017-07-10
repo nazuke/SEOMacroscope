@@ -151,7 +151,7 @@ namespace SEOMacroscope
 
         }
 
-        /** ---------------------------------------------------------------- **/
+        /** Custom Filters ------------------------------------------------- **/
 
         if( !string.IsNullOrEmpty( RawData ) )
         {
@@ -165,14 +165,17 @@ namespace SEOMacroscope
 
             if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
             {
-              this.ProcessJavascriptCustomFiltered( CustomFilter: CustomFilter, JavascriptText: RawData );           
+              this.ProcessGenericCustomFiltered(
+                CustomFilter: CustomFilter, 
+                GenericText: RawData
+              );
             }
 
           }
           
         }
 
-        /** ---------------------------------------------------------------- **/
+        /** Data Extractors ------------------------------------------------ **/
 
         if( !string.IsNullOrEmpty( RawData ) )
         {
@@ -181,16 +184,14 @@ namespace SEOMacroscope
             MacroscopePreferencesManager.GetDataExtractorsEnable()
             && MacroscopePreferencesManager.GetDataExtractorsApplyToJavascripts() )
           {
-
-            this.ProcessJavascriptDataExtractors( JavascriptText: RawData );
-
+            this.ProcessGenericDataExtractors( GenericText: RawData );
           }
 
         }
 
-        /** ---------------------------------------------------------------- **/
+        /** Title ---------------------------------------------------------- **/
 
-        { // Title
+        {
           MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
           string DocumentTitle = null;
           foreach( Match match in reMatches )
@@ -224,76 +225,6 @@ namespace SEOMacroscope
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
-
-    }
-
-    /** Process Custom Filtered ***********************************************/
-
-    private void ProcessJavascriptCustomFiltered (
-      MacroscopeCustomFilters CustomFilter,
-      string JavascriptText
-    )
-    {
-
-      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed;
-
-      Analyzed = CustomFilter.AnalyzeText( Text: JavascriptText );
-
-      foreach( string Key in Analyzed.Keys )
-      {
-        this.SetCustomFiltered( Text: Key, Presence: Analyzed[ Key ] );
-      }
-
-      return;
-      
-    }
-
-    /** Process Data Extractors ***********************************************/
-
-    private void ProcessJavascriptDataExtractors ( string JavascriptText )
-    {
-
-      MacroscopeJobMaster JobMaster = this.DocCollection.GetJobMaster();
-
-      {
-
-        MacroscopeDataExtractorRegexes DataExtractor = JobMaster.GetDataExtractorRegexes();
-
-        if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
-        {
-          this.ProcessJavascriptDataExtractorRegexes(
-            DataExtractor: DataExtractor,
-            JavascriptText: JavascriptText
-          );
-        }
-
-      }
-
-      return;
-      
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void ProcessJavascriptDataExtractorRegexes (
-      MacroscopeDataExtractorRegexes DataExtractor,
-      string JavascriptText
-    )
-    {
-
-      List<KeyValuePair<string, string>> Analyzed;
-
-      Analyzed = DataExtractor.AnalyzeText( Text: JavascriptText );
-
-      foreach( KeyValuePair<string, string> Pair in Analyzed )
-      {
-        this.SetDataExtractedRegexes( 
-          Label: Pair.Key, 
-          Text: Pair.Value 
-        );
-      }
-
-      return;
 
     }
 

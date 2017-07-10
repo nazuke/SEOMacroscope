@@ -131,7 +131,7 @@ namespace SEOMacroscope
           this.ContentLength = 0;
         }
 
-        if( RawData.Length > 0 )
+        if( !string.IsNullOrEmpty( RawData ) )
         {
           
           XmlDoc = new XmlDocument ();
@@ -156,6 +156,46 @@ namespace SEOMacroscope
         {
           DebugMsg( string.Format( "RawData: {0}", "EMPTY" ) );
         }
+
+        /** Custom Filters ------------------------------------------------- **/
+
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetCustomFiltersEnable()
+            && MacroscopePreferencesManager.GetCustomFiltersApplyToXml() )
+          {
+          
+            MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
+
+            if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+            {
+              this.ProcessGenericCustomFiltered(
+                CustomFilter: CustomFilter, 
+                GenericText: RawData
+              );
+            }
+
+          }
+          
+        }
+
+        /** Data Extractors ------------------------------------------------ **/
+
+        if( !string.IsNullOrEmpty( RawData ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetDataExtractorsEnable()
+            && MacroscopePreferencesManager.GetDataExtractorsApplyToXml() )
+          {
+            this.ProcessGenericDataExtractors( GenericText: RawData );
+          }
+
+        }
+
+        /** ---------------------------------------------------------------- **/
 
         if( ( XmlDoc != null ) & ( XmlDoc.DocumentElement != null ) )
         {

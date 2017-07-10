@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Net;
 
 namespace SEOMacroscope
 {
@@ -41,8 +40,9 @@ namespace SEOMacroscope
     private const int ColUrl = 0;
     private const int ColStatusCode = 1;
     private const int ColStatus = 2;
-    private const int ColXpathLabel = 3;
-    private const int ColExtractedValue = 4;
+    private const int ColMimeType = 3;
+    private const int ColXpathLabel = 4;
+    private const int ColExtractedValue = 5;
 
     private ToolStripLabel ItemCount;
 
@@ -98,7 +98,8 @@ namespace SEOMacroscope
       this.DisplayListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
       this.DisplayListView.Columns.Add( MacroscopeConstants.StatusCode, MacroscopeConstants.StatusCode );      
       this.DisplayListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
-
+      this.DisplayListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
+      
       this.DisplayListView.Columns.Add( key: "Xpath_Label", text: "XPath Label" );
       this.DisplayListView.Columns.Add( key: "Xpath_Extracted", text: "Extracted Value" );
       
@@ -196,6 +197,7 @@ namespace SEOMacroscope
         string DocUrl = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
+        string MimeType = msDoc.GetMimeType();
 
         if( !DataExtractor.CanApplyDataExtractorsToDocument( msDoc: msDoc ) )
         {
@@ -237,7 +239,7 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
-            for( int i = 0 ; i < 5 ; i++ )
+            for( int i = 0 ; i < 6 ; i++ )
               lvItem.SubItems.Add( "" );
 
             ListViewItems.Add( lvItem );
@@ -253,6 +255,7 @@ namespace SEOMacroscope
               lvItem.SubItems[ ColUrl ].Text = DocUrl;
               lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
               lvItem.SubItems[ ColStatus ].Text = Status;
+              lvItem.SubItems[ ColMimeType ].Text = MimeType;
               lvItem.SubItems[ ColXpathLabel ].Text = XpathLabel;
               lvItem.SubItems[ ColExtractedValue ].Text = ExtractedValue;
 
@@ -328,7 +331,8 @@ namespace SEOMacroscope
       this.DisplayListView.Columns[ ColUrl ].Width = 300;
       this.DisplayListView.Columns[ ColStatusCode ].Width = 100;
       this.DisplayListView.Columns[ ColStatus ].Width = 100;
-
+      this.DisplayListView.Columns[ ColMimeType ].Width = 100;
+      
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
