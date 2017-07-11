@@ -106,6 +106,7 @@ namespace SEOMacroscope
             Stream ResponseStream = res.GetResponseStream();
             List<byte> RawDataList = new List<byte> ();
             byte [] RawData;
+            
             do
             {
               int buf = ResponseStream.ReadByte();
@@ -118,6 +119,7 @@ namespace SEOMacroscope
                 break;
               }
             } while( ResponseStream.CanRead );
+            
             RawData = RawDataList.ToArray();
             this.ContentLength = RawData.Length;
 
