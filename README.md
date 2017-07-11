@@ -1,6 +1,6 @@
 # SEO MACROSCOPE
 
-![SEO Macroscope application window](media/screenshots/seo-macroscope-main-window-v1.5.png "SEO Macroscope application window")
+![SEO Macroscope application window](docs/media/screenshots/seo-macroscope-main-window-v1.5.png "SEO Macroscope application window")
 
 **This project is under continuous development, expect bugs and unimplemented features.**
 
