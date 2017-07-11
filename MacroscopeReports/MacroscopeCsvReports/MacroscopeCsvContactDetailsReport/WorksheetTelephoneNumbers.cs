@@ -24,72 +24,52 @@
 */
 
 using System;
+using System.Collections.Generic;
 using CsvHelper;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvBrokenLinksReport : MacroscopeCsvReports
+  public partial class MacroscopeCsvContactDetailsReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageRedirectedLinks (
+    private void BuildWorksheetTelephoneNumbers (
       MacroscopeJobMaster JobMaster,
       CsvWriter ws
     )
     {
-
+      
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      
+
       {
 
-        ws.WriteField( "Status Code" );
-        ws.WriteField( "Status" );
-        ws.WriteField( "Origin URL" );
-        ws.WriteField( "Destination URL" );
-
+        ws.WriteField( "Telephone Number" );
+        ws.WriteField( "URL" );
+        
         ws.NextRecord();
                 
       }
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( Url );
-        int StatusCode = ( int )msDoc.GetStatusCode();
-        string Status = msDoc.GetStatusCode().ToString();
-          
-        if(
-          ( StatusCode >= 300 )
-          && ( StatusCode <= 399 )
-          && ( HyperlinksIn != null ) )
+        if( msDoc.GetIsHtml() )
         {
 
-          foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() )
+          Dictionary<string,string> TelephoneNumbers = msDoc.GetTelephoneNumbers();
+
+          foreach( string TelephoneNumber in TelephoneNumbers.Keys )
           {
 
-            string OriginUrl = HyperlinkIn.GetSourceUrl();
-
-            if(
-              ( OriginUrl != null )
-              && ( OriginUrl.Length > 0 ) )
-            {
-
-              this.InsertAndFormatContentCell( ws, StatusCode.ToString() );
-
-              this.InsertAndFormatContentCell( ws, Status );
-
-              this.InsertAndFormatUrlCell( ws, OriginUrl );
-
-              this.InsertAndFormatUrlCell( ws, msDoc );
-
-              ws.NextRecord();
-
-            }
-
+            this.InsertAndFormatContentCell( ws, TelephoneNumber );
+                                    
+            this.InsertAndFormatUrlCell( ws, msDoc );
+            
+            ws.NextRecord();
+                    
           }
           
         }

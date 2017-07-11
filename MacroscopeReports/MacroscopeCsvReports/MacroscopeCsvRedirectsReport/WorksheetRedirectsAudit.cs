@@ -57,7 +57,7 @@ namespace SEOMacroscope
       foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
 
         if( !msDoc.GetIsRedirect() )
         {
@@ -69,12 +69,12 @@ namespace SEOMacroscope
         string Status = msDoc.GetStatusCode().ToString();
         string DestinationURL = msDoc.GetUrlRedirectTo();
 
-        if( OriginURL == null )
+        if( string.IsNullOrEmpty( OriginURL ) )
         {
           continue;
         }
 
-        if( DestinationURL == null )
+        if( string.IsNullOrEmpty( DestinationURL ) )
         {
           continue;
         }
@@ -91,8 +91,6 @@ namespace SEOMacroscope
                 
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

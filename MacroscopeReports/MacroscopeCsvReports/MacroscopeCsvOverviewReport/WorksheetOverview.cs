@@ -43,6 +43,7 @@ namespace SEOMacroscope
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
 
       {
+        
         ws.WriteField( "URL" );
         ws.WriteField( "Status Code" );
         ws.WriteField( "Status" );
@@ -65,7 +66,9 @@ namespace SEOMacroscope
         ws.WriteField( "Description" );
         ws.WriteField( "Description Length" );
         ws.WriteField( "Error Condition" );
+        
         ws.NextRecord();
+      
       }
 
       foreach( string Key in DocCollection.DocumentKeys() )

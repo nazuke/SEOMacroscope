@@ -87,8 +87,12 @@ namespace SEOMacroscope
     {
 
       TextBox TextBoxObject = ( TextBox )sender;
-      Boolean IsValid = this.ValidateLabel( TextBoxObject: TextBoxObject, ShowErrorDialogue: false );
+      Boolean IsValid = false;
 
+      TextBoxObject.Text = this.StripNewLines( Text: TextBoxObject.Text );
+            
+      IsValid = this.ValidateLabel( TextBoxObject: TextBoxObject, ShowErrorDialogue: false );
+            
       if( IsValid )
       {
         TextBoxObject.ForeColor = Color.Green;
@@ -106,7 +110,11 @@ namespace SEOMacroscope
     {
 
       TextBox TextBoxObject = ( TextBox )sender;
-      Boolean IsValid = this.ValidateExpression( TextBoxObject: TextBoxObject, ShowErrorDialogue: false );
+      Boolean IsValid = false;
+
+      TextBoxObject.Text = this.StripNewLines( Text: TextBoxObject.Text );
+
+      IsValid = this.ValidateExpression( TextBoxObject: TextBoxObject, ShowErrorDialogue: false );
 
       if( IsValid )
       {
@@ -123,14 +131,34 @@ namespace SEOMacroscope
         
     protected void CallbackTextBoxKeyUp ( object sender, KeyEventArgs e )
     {
+
       TextBox TextBoxObject = ( TextBox )sender;
+
       if( e.Control && ( e.KeyCode == Keys.A ) )
       {
         TextBoxObject.SelectAll();
         TextBoxObject.Focus();
       }
+
     }
 
+    /**************************************************************************/
+    
+    protected string StripNewLines ( string Text )
+    {
+
+      string NewText = Text;
+          
+      if( !string.IsNullOrEmpty( Text ) )
+      {
+        NewText = NewText.Replace( "\r", "" );
+        NewText = NewText.Replace( "\n", "" );
+      }
+
+      return( NewText );
+
+    }
+    
     /**************************************************************************/
 
     protected void DialogueBoxError ( string AlertTitle, string AlertMessage )

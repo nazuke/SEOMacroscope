@@ -59,7 +59,7 @@ namespace SEOMacroscope
       foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
                     
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
@@ -77,10 +77,9 @@ namespace SEOMacroscope
         this.InsertAndFormatContentCell( ws, Checksum );
           
         ws.NextRecord();
+
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

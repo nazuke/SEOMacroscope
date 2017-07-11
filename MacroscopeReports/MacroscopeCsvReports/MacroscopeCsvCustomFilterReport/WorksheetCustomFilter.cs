@@ -94,7 +94,7 @@ namespace SEOMacroscope
         
         if( !this.CustomFilter.CanApplyCustomFiltersToDocument( msDoc: msDoc ) )
         {
-          return;
+          continue;
         }
 
         this.InsertAndFormatUrlCell( ws, msDoc );
@@ -126,14 +126,12 @@ namespace SEOMacroscope
 
           }
 
+          ws.NextRecord();
+                  
         }
 
-        ws.NextRecord();
-                
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

@@ -29,12 +29,12 @@ using CsvHelper;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvBrokenLinksReport : MacroscopeCsvReports
+  public partial class MaroscopeCsvRemarksReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageRedirectedLinks (
+    private void BuildWorksheetPageObservations (
       MacroscopeJobMaster JobMaster,
       CsvWriter ws
     )
@@ -45,57 +45,39 @@ namespace SEOMacroscope
       
       {
 
+        ws.WriteField( "URL" );
         ws.WriteField( "Status Code" );
         ws.WriteField( "Status" );
-        ws.WriteField( "Origin URL" );
-        ws.WriteField( "Destination URL" );
-
+        ws.WriteField( "Observation" );
+        
         ws.NextRecord();
-                
+
       }
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( Url );
-        int StatusCode = ( int )msDoc.GetStatusCode();
+        string Url = msDoc.GetUrl();
+        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
-          
-        if(
-          ( StatusCode >= 300 )
-          && ( StatusCode <= 399 )
-          && ( HyperlinksIn != null ) )
+
+        foreach( string Observation in msDoc.IterateRemarks() )
         {
 
-          foreach( MacroscopeHyperlinkIn HyperlinkIn in HyperlinksIn.IterateLinks() )
-          {
+          this.InsertAndFormatUrlCell( ws, msDoc );
 
-            string OriginUrl = HyperlinkIn.GetSourceUrl();
-
-            if(
-              ( OriginUrl != null )
-              && ( OriginUrl.Length > 0 ) )
-            {
-
-              this.InsertAndFormatContentCell( ws, StatusCode.ToString() );
-
-              this.InsertAndFormatContentCell( ws, Status );
-
-              this.InsertAndFormatUrlCell( ws, OriginUrl );
-
-              this.InsertAndFormatUrlCell( ws, msDoc );
-
-              ws.NextRecord();
-
-            }
-
-          }
+          this.InsertAndFormatContentCell( ws, StatusCode );
           
+          this.InsertAndFormatContentCell( ws, Status );
+
+          this.InsertAndFormatContentCell( ws, Observation );
+
+          ws.NextRecord();
+
         }
 
       }
-
+      
     }
 
     /**************************************************************************/

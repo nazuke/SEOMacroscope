@@ -409,6 +409,7 @@ namespace SEOMacroscope
     {
       this.crawlParentDirectoriesToolStripMenuItem.Checked = MacroscopePreferencesManager.GetCrawlParentDirectories();
       this.crawlChildDirectoriesToolStripMenuItem.Checked = MacroscopePreferencesManager.GetCrawlChildDirectories();
+      this.InitializeViewMenu();
     }
 
     /**************************************************************************/
@@ -847,9 +848,7 @@ namespace SEOMacroscope
 
       if( Monitor.TryEnter( LockerTimerTabPages, 1000 ) )
       {
-
-        //DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "OBTAINED LOCK" ) );
-        
+       
         try
         {
           if( this.InvokeRequired )
@@ -875,13 +874,8 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerTabPages );
-          //DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "RELEASED LOCK" ) );
         }
 
-      }
-      else
-      {
-        //DebugMsg( string.Format( "CallbackTabPageTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
       
     }
@@ -903,9 +897,7 @@ namespace SEOMacroscope
 
       if( Monitor.TryEnter( LockerOverviewTabPages, 250 ) )
       {
-
-        //DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "OBTAINED LOCK" ) );
-        
+       
         try
         {
           TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
@@ -919,13 +911,8 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerOverviewTabPages );
-          //DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "RELEASED LOCK" ) );
         }
 
-      }
-      else
-      {
-        //DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", "CANNOT OBTAIN LOCK" ) );
       }
 
     }
@@ -937,9 +924,7 @@ namespace SEOMacroscope
 
       if( Monitor.TryEnter( LockerOverviewTabPages, 250 ) )
       {
-
-        //DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "OBTAINED LOCK" ) );
-        
+       
         try
         {
 
@@ -963,19 +948,38 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerOverviewTabPages );
-          //DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "RELEASED LOCK" ) );
         }
 
-      }
-      else
-      {
-        //DebugMsg( string.Format( "UpdateFocusedTabPage: {0}", "CANNOT OBTAIN LOCK" ) );
       }
 
     }
 
     /** -------------------------------------------------------------------- **/
 
+    private void SelectTabPage ( string TabName )
+    {
+
+      TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+
+      try
+      {
+
+        int ChosenTabIndex = OverviewTabControl.TabPages.IndexOfKey( key: TabName );
+
+        OverviewTabControl.SelectTab( index: ChosenTabIndex );
+
+        this.UpdateTabPage( TabName: TabName );
+
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "SelectTabPage: {0}", ex.Message ) );
+      }
+      
+    }
+  
+    /** -------------------------------------------------------------------- **/
+        
     private void UpdateTabPage ( string TabName )
     {
       

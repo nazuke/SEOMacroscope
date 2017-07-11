@@ -96,14 +96,12 @@ namespace SEOMacroscope
       
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ExtractedValue ) );
 
+          ws.NextRecord();
+
         }
-       
-        ws.NextRecord();
-                
+
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

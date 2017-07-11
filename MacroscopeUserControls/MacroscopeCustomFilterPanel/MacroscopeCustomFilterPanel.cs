@@ -116,7 +116,7 @@ namespace SEOMacroscope
         TextBoxLabel.Dock = DockStyle.Fill;
         TextBoxLabel.Margin = new Padding ( 5, 5, 5, 5 );
         TextBoxLabel.Width = 50;
-        
+
         StateComboBoxFilter.Name = string.Format( "comboBoxFilter{0}", Slot + 1 );
         StateComboBoxFilter.Items.Add( "No action" );
         StateComboBoxFilter.Items.Add( "Must have" );  
@@ -131,6 +131,7 @@ namespace SEOMacroscope
         TextBoxFilter.Dock = DockStyle.Fill;
         TextBoxFilter.Margin = new Padding ( 5, 5, 5, 5 );
         TextBoxFilter.Tag = Slot.ToString();
+        TextBoxFilter.TextChanged += CallbackTextBoxExpressionTextChanged;
         
         Table.Controls.Add( TextBoxLabel );
         Table.Controls.Add( StateComboBoxFilter );  
@@ -273,6 +274,17 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
+    
+    protected void CallbackTextBoxExpressionTextChanged ( object sender, EventArgs e )
+    {
+
+      TextBox TextBoxObject = ( TextBox )sender;
+
+      TextBoxObject.Text = this.StripNewLines( Text: TextBoxObject.Text );
+
+    }
+
+    /**************************************************************************/
         
     private void CallbackTextBoxKeyUp ( object sender, KeyEventArgs e )
     {
@@ -281,12 +293,10 @@ namespace SEOMacroscope
 
       if( e.Control && ( e.KeyCode == Keys.A ) )
       {
-
         CustomFilterTextBox.SelectAll();
         CustomFilterTextBox.Focus();
-
       }
-
+      
     }
        
     /**************************************************************************/
@@ -320,7 +330,24 @@ namespace SEOMacroscope
     }
     
     /**************************************************************************/
-    
+
+    protected string StripNewLines ( string Text )
+    {
+
+      string NewText = Text;
+          
+      if( !string.IsNullOrEmpty( Text ) )
+      {
+        NewText = NewText.Replace( "\r", "" );
+        NewText = NewText.Replace( "\n", "" );
+      }
+
+      return( NewText );
+
+    }
+
+    /**************************************************************************/
+
   }
 
 }
