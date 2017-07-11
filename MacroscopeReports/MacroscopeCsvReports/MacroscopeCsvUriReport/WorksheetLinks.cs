@@ -61,7 +61,7 @@ namespace SEOMacroscope
       foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
 
         foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
         {
@@ -120,8 +120,6 @@ namespace SEOMacroscope
 
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

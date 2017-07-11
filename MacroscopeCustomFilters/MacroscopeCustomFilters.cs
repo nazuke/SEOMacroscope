@@ -131,16 +131,18 @@ namespace SEOMacroscope
     public Dictionary<string, MacroscopeConstants.TextPresence> AnalyzeText ( string Text )
     {
 
+      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = null;
+      
       if( !this.IsEnabled() )
       {
-        return( null );
+        return( Analyzed );
       }
-
-      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = new Dictionary<string, MacroscopeConstants.TextPresence> ( this.Max );
 
       lock( this.Contains )
       {
 
+        Analyzed = new Dictionary<string, MacroscopeConstants.TextPresence> ( this.Max );
+              
         for( int Slot = 0 ; Slot < this.Max ; Slot++ )
         {
 
@@ -160,7 +162,7 @@ namespace SEOMacroscope
             }
             else
             {
-              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.NOTCONTAINS );
+              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.MUSTCONTAIN );
             }
 
           }

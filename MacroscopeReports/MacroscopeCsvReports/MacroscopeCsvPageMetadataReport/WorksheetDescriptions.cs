@@ -43,13 +43,16 @@ namespace SEOMacroscope
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
 
       {
+        
         ws.WriteField( "URL" );
         ws.WriteField( "Page Language" );
         ws.WriteField( "Detected Language" );
         ws.WriteField( "Occurrences" );
         ws.WriteField( "Description" );
         ws.WriteField( "Description Length" );
+        
         ws.NextRecord();
+      
       }
 
       foreach( string Url in DocCollection.DocumentKeys() )
@@ -104,6 +107,8 @@ namespace SEOMacroscope
 
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( DescriptionLength.ToString() ) );
           
+          ws.NextRecord();
+                  
         }
 
       }

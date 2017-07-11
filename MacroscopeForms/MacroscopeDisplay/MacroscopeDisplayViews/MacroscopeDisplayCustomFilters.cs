@@ -40,7 +40,8 @@ namespace SEOMacroscope
     private const int ColUrl = 0;
     private const int ColStatusCode = 1;
     private const int ColStatus = 2;
-
+    private const int ColMimeType = 3;
+    
     private int FilterColOffset = -1;
     
     private ToolStripLabel DocumentCount;
@@ -100,7 +101,8 @@ namespace SEOMacroscope
       this.DisplayListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
       this.DisplayListView.Columns.Add( MacroscopeConstants.StatusCode, MacroscopeConstants.StatusCode );      
       this.DisplayListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
-
+      this.DisplayListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
+      
       this.FilterColOffset = this.DisplayListView.Columns.Count - 1;
 
       for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
@@ -188,14 +190,13 @@ namespace SEOMacroscope
         throw( new Exception ( "this.FilterColOffset invalid" ) );
       }
 
-      MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      Dictionary<string,int> FilterColsTable = new Dictionary<string,int> ( CustomFilter.GetSize() );
-      
       if( DocCollection.CountDocuments() == 0 )
       {
         return;
       }
-            
+           
+      MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
+      Dictionary<string,int> FilterColsTable = new Dictionary<string,int> ( CustomFilter.GetSize() );      
       List<ListViewItem> ListViewItems = new List<ListViewItem> ();
 
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
@@ -239,7 +240,8 @@ namespace SEOMacroscope
         string PairKey = DocUrl;
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
-        
+        string MimeType = msDoc.GetMimeType();
+                
         if( !CustomFilter.CanApplyCustomFiltersToDocument( msDoc: msDoc ) )
         {
           continue;
@@ -258,6 +260,7 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = PairKey;
 
+          lvItem.SubItems.Add( "" );
           lvItem.SubItems.Add( "" );
           lvItem.SubItems.Add( "" );
           lvItem.SubItems.Add( "" );
@@ -280,6 +283,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColUrl ].Text = DocUrl;
             lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
             lvItem.SubItems[ ColStatus ].Text = Status;
+            lvItem.SubItems[ ColMimeType ].Text = MimeType;
 
             for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
             {
@@ -386,6 +390,7 @@ namespace SEOMacroscope
       this.DisplayListView.Columns[ ColUrl ].Width = 300;
       this.DisplayListView.Columns[ ColStatusCode ].Width = 100;
       this.DisplayListView.Columns[ ColStatus ].Width = 100;
+      this.DisplayListView.Columns[ ColMimeType ].Width = 100;
 
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {

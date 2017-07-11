@@ -137,6 +137,28 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem checksumsCSVReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem duplicateETagsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pagesCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem combinedExcelReportToolStripMenuItem6;
+		private System.Windows.Forms.ToolStripMenuItem cSVReportToolStripMenuItem2;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+		private System.Windows.Forms.ToolStripMenuItem combinedExcelReportToolStripMenuItem7;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
+		private System.Windows.Forms.ToolStripMenuItem brokenLinksCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem goodLinksCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem redirectedLinksCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem combinedExcelReportToolStripMenuItem8;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
+		private System.Windows.Forms.ToolStripMenuItem emailAddressesCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem telephoneNumbersCSVReportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem excelReportToolStripMenuItem2;
+		private System.Windows.Forms.ToolStripMenuItem cSVReportToolStripMenuItem3;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -191,6 +213,7 @@ namespace SEOMacroscope
 			this.xPathExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
 			this.clearHTTPAuthenticationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.combinedExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -203,23 +226,38 @@ namespace SEOMacroscope
 			this.uRIsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.redirectsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.combinedExcelReportToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
 			this.redirectsAuditCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.brokenLinksExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.combinedExcelReportToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+			this.brokenLinksCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.goodLinksCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.redirectedLinksCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.errorsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.combinedExcelReportToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+			this.cSVReportToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.remarksExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.excelReportToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+			this.cSVReportToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
 			this.pageMetadataExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.excelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
 			this.titlesCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.descriptionsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.keywordsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generatePageContentsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.combinedExcelReportToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
 			this.pageHeadingsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pageTextCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.generateHrefLangExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.duplicateContentExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.combinedExcelReportToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
 			this.titlesCSVReportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.checksumsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.duplicateETagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -227,12 +265,18 @@ namespace SEOMacroscope
 			this.keywordAnalysisExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
 			this.contactDetailsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.combinedExcelReportToolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+			this.emailAddressesCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.telephoneNumbersCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
 			this.customFiltersExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.excelReportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
 			this.cSVReportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.dataExtractorsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.combinedExcelReportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.cSSSelectorsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.regularExpressionsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.xPathExpressionsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -287,6 +331,7 @@ namespace SEOMacroscope
 			this.fileToolStripMenuItem,
 			this.editToolStripMenuItem,
 			this.taskParametersToolStripMenuItem,
+			this.viewToolStripMenuItem,
 			this.reportsToolStripMenuItem,
 			this.helpToolStripMenuItem});
 			this.menuStripMain.Location = new System.Drawing.Point(0, 0);
@@ -526,6 +571,12 @@ namespace SEOMacroscope
 			this.clearHTTPAuthenticationToolStripMenuItem.Text = "Clear HTTP Authentication";
 			this.clearHTTPAuthenticationToolStripMenuItem.Click += new System.EventHandler(this.CallbackClearHTTPAuthenticationToolStripMenuItemClick);
 			// 
+			// viewToolStripMenuItem
+			// 
+			this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+			this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.viewToolStripMenuItem.Text = "View";
+			// 
 			// reportsToolStripMenuItem
 			// 
 			this.reportsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -560,7 +611,7 @@ namespace SEOMacroscope
 			this.cSVReportToolStripMenuItem});
 			this.saveOverviewExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.saveOverviewExcelReportToolStripMenuItem.Name = "saveOverviewExcelReportToolStripMenuItem";
-			this.saveOverviewExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.saveOverviewExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
 			this.saveOverviewExcelReportToolStripMenuItem.Text = "Overview Report";
 			// 
 			// combinedExcelReportToolStripMenuItem
@@ -580,7 +631,7 @@ namespace SEOMacroscope
 			// toolStripSeparator11
 			// 
 			this.toolStripSeparator11.Name = "toolStripSeparator11";
-			this.toolStripSeparator11.Size = new System.Drawing.Size(234, 6);
+			this.toolStripSeparator11.Size = new System.Drawing.Size(230, 6);
 			// 
 			// saveURIAnalysisExcelReportToolStripMenuItem
 			// 
@@ -590,8 +641,8 @@ namespace SEOMacroscope
 			this.hyperlinksCSVReportToolStripMenuItem,
 			this.uRIsCSVReportToolStripMenuItem});
 			this.saveURIAnalysisExcelReportToolStripMenuItem.Name = "saveURIAnalysisExcelReportToolStripMenuItem";
-			this.saveURIAnalysisExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.saveURIAnalysisExcelReportToolStripMenuItem.Text = "URI Analysis Excel Report";
+			this.saveURIAnalysisExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.saveURIAnalysisExcelReportToolStripMenuItem.Text = "URI Analysis Report";
 			// 
 			// combinedExcelReportToolStripMenuItem3
 			// 
@@ -625,60 +676,149 @@ namespace SEOMacroscope
 			// 
 			this.redirectsExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.combinedExcelReportToolStripMenuItem4,
+			this.toolStripSeparator21,
 			this.redirectsAuditCSVReportToolStripMenuItem});
 			this.redirectsExcelReportToolStripMenuItem.Name = "redirectsExcelReportToolStripMenuItem";
-			this.redirectsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.redirectsExcelReportToolStripMenuItem.Text = "Redirects Excel Report";
+			this.redirectsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.redirectsExcelReportToolStripMenuItem.Text = "Redirects Report";
 			// 
 			// combinedExcelReportToolStripMenuItem4
 			// 
 			this.combinedExcelReportToolStripMenuItem4.Name = "combinedExcelReportToolStripMenuItem4";
-			this.combinedExcelReportToolStripMenuItem4.Size = new System.Drawing.Size(216, 22);
-			this.combinedExcelReportToolStripMenuItem4.Text = "Combined Excel Report";
+			this.combinedExcelReportToolStripMenuItem4.Size = new System.Drawing.Size(138, 22);
+			this.combinedExcelReportToolStripMenuItem4.Text = "Excel Report";
 			this.combinedExcelReportToolStripMenuItem4.Click += new System.EventHandler(this.CallbackSaveRedirectsExcelReport);
+			// 
+			// toolStripSeparator21
+			// 
+			this.toolStripSeparator21.Name = "toolStripSeparator21";
+			this.toolStripSeparator21.Size = new System.Drawing.Size(135, 6);
 			// 
 			// redirectsAuditCSVReportToolStripMenuItem
 			// 
 			this.redirectsAuditCSVReportToolStripMenuItem.Name = "redirectsAuditCSVReportToolStripMenuItem";
-			this.redirectsAuditCSVReportToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-			this.redirectsAuditCSVReportToolStripMenuItem.Text = "Redirects Audit CSV Report";
+			this.redirectsAuditCSVReportToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+			this.redirectsAuditCSVReportToolStripMenuItem.Text = "CSV Report";
 			this.redirectsAuditCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveRedirectsCsvReport);
 			// 
 			// brokenLinksExcelReportToolStripMenuItem
 			// 
+			this.brokenLinksExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.combinedExcelReportToolStripMenuItem7,
+			this.toolStripSeparator22,
+			this.brokenLinksCSVReportToolStripMenuItem,
+			this.goodLinksCSVReportToolStripMenuItem,
+			this.redirectedLinksCSVReportToolStripMenuItem});
 			this.brokenLinksExcelReportToolStripMenuItem.Name = "brokenLinksExcelReportToolStripMenuItem";
-			this.brokenLinksExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.brokenLinksExcelReportToolStripMenuItem.Text = "Broken Links Excel Report";
-			this.brokenLinksExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveBrokenLinksExcelReport);
+			this.brokenLinksExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.brokenLinksExcelReportToolStripMenuItem.Text = "Broken Links Report";
+			// 
+			// combinedExcelReportToolStripMenuItem7
+			// 
+			this.combinedExcelReportToolStripMenuItem7.Name = "combinedExcelReportToolStripMenuItem7";
+			this.combinedExcelReportToolStripMenuItem7.Size = new System.Drawing.Size(222, 22);
+			this.combinedExcelReportToolStripMenuItem7.Text = "Combined Excel Report";
+			this.combinedExcelReportToolStripMenuItem7.Click += new System.EventHandler(this.CallbackSaveBrokenLinksExcelReport);
+			// 
+			// toolStripSeparator22
+			// 
+			this.toolStripSeparator22.Name = "toolStripSeparator22";
+			this.toolStripSeparator22.Size = new System.Drawing.Size(219, 6);
+			// 
+			// brokenLinksCSVReportToolStripMenuItem
+			// 
+			this.brokenLinksCSVReportToolStripMenuItem.Name = "brokenLinksCSVReportToolStripMenuItem";
+			this.brokenLinksCSVReportToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+			this.brokenLinksCSVReportToolStripMenuItem.Text = "Broken Links CSV Report";
+			this.brokenLinksCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveBrokenLinksCsvReportBrokenLinks);
+			// 
+			// goodLinksCSVReportToolStripMenuItem
+			// 
+			this.goodLinksCSVReportToolStripMenuItem.Name = "goodLinksCSVReportToolStripMenuItem";
+			this.goodLinksCSVReportToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+			this.goodLinksCSVReportToolStripMenuItem.Text = "Good Links CSV Report";
+			this.goodLinksCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveBrokenLinksCsvReportGoodLinks);
+			// 
+			// redirectedLinksCSVReportToolStripMenuItem
+			// 
+			this.redirectedLinksCSVReportToolStripMenuItem.Name = "redirectedLinksCSVReportToolStripMenuItem";
+			this.redirectedLinksCSVReportToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+			this.redirectedLinksCSVReportToolStripMenuItem.Text = "Redirected Links CSV Report";
+			this.redirectedLinksCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveBrokenLinksCsvReportRedirectedLinks);
 			// 
 			// errorsExcelReportToolStripMenuItem
 			// 
+			this.errorsExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.combinedExcelReportToolStripMenuItem6,
+			this.toolStripSeparator20,
+			this.cSVReportToolStripMenuItem2});
 			this.errorsExcelReportToolStripMenuItem.Name = "errorsExcelReportToolStripMenuItem";
-			this.errorsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.errorsExcelReportToolStripMenuItem.Text = "Errors Excel Report";
-			this.errorsExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveErrorsExcelReport);
+			this.errorsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.errorsExcelReportToolStripMenuItem.Text = "Errors Report";
+			// 
+			// combinedExcelReportToolStripMenuItem6
+			// 
+			this.combinedExcelReportToolStripMenuItem6.Name = "combinedExcelReportToolStripMenuItem6";
+			this.combinedExcelReportToolStripMenuItem6.Size = new System.Drawing.Size(138, 22);
+			this.combinedExcelReportToolStripMenuItem6.Text = "Excel Report";
+			this.combinedExcelReportToolStripMenuItem6.Click += new System.EventHandler(this.CallbackSaveErrorsExcelReport);
+			// 
+			// toolStripSeparator20
+			// 
+			this.toolStripSeparator20.Name = "toolStripSeparator20";
+			this.toolStripSeparator20.Size = new System.Drawing.Size(135, 6);
+			// 
+			// cSVReportToolStripMenuItem2
+			// 
+			this.cSVReportToolStripMenuItem2.Name = "cSVReportToolStripMenuItem2";
+			this.cSVReportToolStripMenuItem2.Size = new System.Drawing.Size(138, 22);
+			this.cSVReportToolStripMenuItem2.Text = "CSV Report";
+			this.cSVReportToolStripMenuItem2.Click += new System.EventHandler(this.CallbackSaveErrorsCsvReport);
 			// 
 			// remarksExcelReportToolStripMenuItem
 			// 
+			this.remarksExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.excelReportToolStripMenuItem2,
+			this.toolStripSeparator24,
+			this.cSVReportToolStripMenuItem3});
 			this.remarksExcelReportToolStripMenuItem.Name = "remarksExcelReportToolStripMenuItem";
-			this.remarksExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.remarksExcelReportToolStripMenuItem.Text = "Remarks Excel Report";
-			this.remarksExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveRemarksExcelReport);
+			this.remarksExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.remarksExcelReportToolStripMenuItem.Text = "Remarks Report";
+			// 
+			// excelReportToolStripMenuItem2
+			// 
+			this.excelReportToolStripMenuItem2.Name = "excelReportToolStripMenuItem2";
+			this.excelReportToolStripMenuItem2.Size = new System.Drawing.Size(138, 22);
+			this.excelReportToolStripMenuItem2.Text = "Excel Report";
+			this.excelReportToolStripMenuItem2.Click += new System.EventHandler(this.CallbackSaveRemarksExcelReport);
+			// 
+			// toolStripSeparator24
+			// 
+			this.toolStripSeparator24.Name = "toolStripSeparator24";
+			this.toolStripSeparator24.Size = new System.Drawing.Size(135, 6);
+			// 
+			// cSVReportToolStripMenuItem3
+			// 
+			this.cSVReportToolStripMenuItem3.Name = "cSVReportToolStripMenuItem3";
+			this.cSVReportToolStripMenuItem3.Size = new System.Drawing.Size(138, 22);
+			this.cSVReportToolStripMenuItem3.Text = "CSV Report";
+			this.cSVReportToolStripMenuItem3.Click += new System.EventHandler(this.CallbackSaveRemarksCsvReport);
 			// 
 			// toolStripSeparator14
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
-			this.toolStripSeparator14.Size = new System.Drawing.Size(234, 6);
+			this.toolStripSeparator14.Size = new System.Drawing.Size(230, 6);
 			// 
 			// pageMetadataExcelReportToolStripMenuItem
 			// 
 			this.pageMetadataExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.excelReportToolStripMenuItem,
+			this.toolStripSeparator19,
 			this.titlesCSVReportToolStripMenuItem,
 			this.descriptionsCSVReportToolStripMenuItem,
 			this.keywordsCSVReportToolStripMenuItem});
 			this.pageMetadataExcelReportToolStripMenuItem.Name = "pageMetadataExcelReportToolStripMenuItem";
-			this.pageMetadataExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.pageMetadataExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
 			this.pageMetadataExcelReportToolStripMenuItem.Text = "Page Metadata";
 			// 
 			// excelReportToolStripMenuItem
@@ -687,6 +827,11 @@ namespace SEOMacroscope
 			this.excelReportToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
 			this.excelReportToolStripMenuItem.Text = "Combined Excel Report";
 			this.excelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSavePageMetadataExcelReport);
+			// 
+			// toolStripSeparator19
+			// 
+			this.toolStripSeparator19.Name = "toolStripSeparator19";
+			this.toolStripSeparator19.Size = new System.Drawing.Size(198, 6);
 			// 
 			// titlesCSVReportToolStripMenuItem
 			// 
@@ -713,11 +858,12 @@ namespace SEOMacroscope
 			// 
 			this.generatePageContentsExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.combinedExcelReportToolStripMenuItem2,
+			this.toolStripSeparator18,
 			this.pageHeadingsCSVReportToolStripMenuItem,
 			this.pageTextCSVReportToolStripMenuItem});
 			this.generatePageContentsExcelReportToolStripMenuItem.Name = "generatePageContentsExcelReportToolStripMenuItem";
-			this.generatePageContentsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.generatePageContentsExcelReportToolStripMenuItem.Text = "Page Contents Excel Report";
+			this.generatePageContentsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.generatePageContentsExcelReportToolStripMenuItem.Text = "Page Contents Report";
 			// 
 			// combinedExcelReportToolStripMenuItem2
 			// 
@@ -725,6 +871,11 @@ namespace SEOMacroscope
 			this.combinedExcelReportToolStripMenuItem2.Size = new System.Drawing.Size(215, 22);
 			this.combinedExcelReportToolStripMenuItem2.Text = "Combined Excel Report";
 			this.combinedExcelReportToolStripMenuItem2.Click += new System.EventHandler(this.CallbackSavePageContentsExcelReport);
+			// 
+			// toolStripSeparator18
+			// 
+			this.toolStripSeparator18.Name = "toolStripSeparator18";
+			this.toolStripSeparator18.Size = new System.Drawing.Size(212, 6);
 			// 
 			// pageHeadingsCSVReportToolStripMenuItem
 			// 
@@ -745,7 +896,7 @@ namespace SEOMacroscope
 			this.generateHrefLangExcelReportToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.generateHrefLangExcelReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.generateHrefLangExcelReportToolStripMenuItem.Name = "generateHrefLangExcelReportToolStripMenuItem";
-			this.generateHrefLangExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.generateHrefLangExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
 			this.generateHrefLangExcelReportToolStripMenuItem.Text = "Languages Excel Report";
 			this.generateHrefLangExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveLanguagesExcelReport);
 			// 
@@ -753,13 +904,14 @@ namespace SEOMacroscope
 			// 
 			this.duplicateContentExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.combinedExcelReportToolStripMenuItem5,
+			this.toolStripSeparator17,
 			this.titlesCSVReportToolStripMenuItem1,
 			this.checksumsCSVReportToolStripMenuItem,
 			this.duplicateETagsToolStripMenuItem,
 			this.pagesCSVReportToolStripMenuItem});
 			this.duplicateContentExcelReportToolStripMenuItem.Name = "duplicateContentExcelReportToolStripMenuItem";
-			this.duplicateContentExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.duplicateContentExcelReportToolStripMenuItem.Text = "Duplicate Content Excel Report";
+			this.duplicateContentExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.duplicateContentExcelReportToolStripMenuItem.Text = "Duplicate Content Report";
 			// 
 			// combinedExcelReportToolStripMenuItem5
 			// 
@@ -767,6 +919,11 @@ namespace SEOMacroscope
 			this.combinedExcelReportToolStripMenuItem5.Size = new System.Drawing.Size(197, 22);
 			this.combinedExcelReportToolStripMenuItem5.Text = "Combined Excel Report";
 			this.combinedExcelReportToolStripMenuItem5.Click += new System.EventHandler(this.CallbackSaveDuplicateContentExcelReport);
+			// 
+			// toolStripSeparator17
+			// 
+			this.toolStripSeparator17.Name = "toolStripSeparator17";
+			this.toolStripSeparator17.Size = new System.Drawing.Size(194, 6);
 			// 
 			// titlesCSVReportToolStripMenuItem1
 			// 
@@ -799,36 +956,67 @@ namespace SEOMacroscope
 			// keywordAnalysisExcelReportToolStripMenuItem
 			// 
 			this.keywordAnalysisExcelReportToolStripMenuItem.Name = "keywordAnalysisExcelReportToolStripMenuItem";
-			this.keywordAnalysisExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+			this.keywordAnalysisExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
 			this.keywordAnalysisExcelReportToolStripMenuItem.Text = "Keyword Analysis Excel Report";
 			this.keywordAnalysisExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveKeywordAnalysisExcelReport);
 			// 
 			// toolStripSeparator13
 			// 
 			this.toolStripSeparator13.Name = "toolStripSeparator13";
-			this.toolStripSeparator13.Size = new System.Drawing.Size(234, 6);
+			this.toolStripSeparator13.Size = new System.Drawing.Size(230, 6);
 			// 
 			// contactDetailsExcelReportToolStripMenuItem
 			// 
+			this.contactDetailsExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.combinedExcelReportToolStripMenuItem8,
+			this.toolStripSeparator23,
+			this.emailAddressesCSVReportToolStripMenuItem,
+			this.telephoneNumbersCSVReportToolStripMenuItem});
 			this.contactDetailsExcelReportToolStripMenuItem.Name = "contactDetailsExcelReportToolStripMenuItem";
-			this.contactDetailsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.contactDetailsExcelReportToolStripMenuItem.Text = "Contact Details Excel Report";
+			this.contactDetailsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.contactDetailsExcelReportToolStripMenuItem.Text = "Contact Details Report";
 			this.contactDetailsExcelReportToolStripMenuItem.ToolTipText = "Telephone number and email address lists";
-			this.contactDetailsExcelReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsExcelReport);
+			// 
+			// combinedExcelReportToolStripMenuItem8
+			// 
+			this.combinedExcelReportToolStripMenuItem8.Name = "combinedExcelReportToolStripMenuItem8";
+			this.combinedExcelReportToolStripMenuItem8.Size = new System.Drawing.Size(244, 22);
+			this.combinedExcelReportToolStripMenuItem8.Text = "Combined Excel Report";
+			this.combinedExcelReportToolStripMenuItem8.Click += new System.EventHandler(this.CallbackSaveContactDetailsExcelReport);
+			// 
+			// toolStripSeparator23
+			// 
+			this.toolStripSeparator23.Name = "toolStripSeparator23";
+			this.toolStripSeparator23.Size = new System.Drawing.Size(241, 6);
+			// 
+			// emailAddressesCSVReportToolStripMenuItem
+			// 
+			this.emailAddressesCSVReportToolStripMenuItem.Name = "emailAddressesCSVReportToolStripMenuItem";
+			this.emailAddressesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
+			this.emailAddressesCSVReportToolStripMenuItem.Text = "Email Addresses CSV Report";
+			this.emailAddressesCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsCsvReportEmail);
+			// 
+			// telephoneNumbersCSVReportToolStripMenuItem
+			// 
+			this.telephoneNumbersCSVReportToolStripMenuItem.Name = "telephoneNumbersCSVReportToolStripMenuItem";
+			this.telephoneNumbersCSVReportToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
+			this.telephoneNumbersCSVReportToolStripMenuItem.Text = "Telephone Numbers CSV Report";
+			this.telephoneNumbersCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsCsvReportTelephone);
 			// 
 			// toolStripSeparator12
 			// 
 			this.toolStripSeparator12.Name = "toolStripSeparator12";
-			this.toolStripSeparator12.Size = new System.Drawing.Size(234, 6);
+			this.toolStripSeparator12.Size = new System.Drawing.Size(230, 6);
 			// 
 			// customFiltersExcelReportToolStripMenuItem
 			// 
 			this.customFiltersExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.excelReportToolStripMenuItem1,
+			this.toolStripSeparator16,
 			this.cSVReportToolStripMenuItem1});
 			this.customFiltersExcelReportToolStripMenuItem.Name = "customFiltersExcelReportToolStripMenuItem";
-			this.customFiltersExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.customFiltersExcelReportToolStripMenuItem.Text = "Custom Filters Excel Report";
+			this.customFiltersExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.customFiltersExcelReportToolStripMenuItem.Text = "Custom Filters Report";
 			// 
 			// excelReportToolStripMenuItem1
 			// 
@@ -836,6 +1024,11 @@ namespace SEOMacroscope
 			this.excelReportToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
 			this.excelReportToolStripMenuItem1.Text = "Excel Report";
 			this.excelReportToolStripMenuItem1.Click += new System.EventHandler(this.CallbackSaveCustomFilterExcelReport);
+			// 
+			// toolStripSeparator16
+			// 
+			this.toolStripSeparator16.Name = "toolStripSeparator16";
+			this.toolStripSeparator16.Size = new System.Drawing.Size(135, 6);
 			// 
 			// cSVReportToolStripMenuItem1
 			// 
@@ -848,12 +1041,13 @@ namespace SEOMacroscope
 			// 
 			this.dataExtractorsExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.combinedExcelReportToolStripMenuItem1,
+			this.toolStripSeparator15,
 			this.cSSSelectorsCSVReportToolStripMenuItem,
 			this.regularExpressionsCSVReportToolStripMenuItem,
 			this.xPathExpressionsCSVReportToolStripMenuItem});
 			this.dataExtractorsExcelReportToolStripMenuItem.Name = "dataExtractorsExcelReportToolStripMenuItem";
-			this.dataExtractorsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
-			this.dataExtractorsExcelReportToolStripMenuItem.Text = "Data Extractors Excel Report";
+			this.dataExtractorsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.dataExtractorsExcelReportToolStripMenuItem.Text = "Data Extractors Report";
 			// 
 			// combinedExcelReportToolStripMenuItem1
 			// 
@@ -861,6 +1055,11 @@ namespace SEOMacroscope
 			this.combinedExcelReportToolStripMenuItem1.Size = new System.Drawing.Size(239, 22);
 			this.combinedExcelReportToolStripMenuItem1.Text = "Combined Excel Report";
 			this.combinedExcelReportToolStripMenuItem1.Click += new System.EventHandler(this.CallbackSaveDataExtractorsExcelReport);
+			// 
+			// toolStripSeparator15
+			// 
+			this.toolStripSeparator15.Name = "toolStripSeparator15";
+			this.toolStripSeparator15.Size = new System.Drawing.Size(236, 6);
 			// 
 			// cSSSelectorsCSVReportToolStripMenuItem
 			// 

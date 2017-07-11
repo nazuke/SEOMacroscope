@@ -57,7 +57,7 @@ Section
 
 	SetOutPath "$INSTDIR\$SEOMacroscopeDir"
 
-	File ..\\bin\Release\*.*
+	File ..\bin\Release\*.*
 
 	WriteUninstaller "$INSTDIR\$SEOMacroscopeDir\$SEOMacroscopeUninstallExe.exe"
 

@@ -81,7 +81,7 @@ namespace SEOMacroscope
 			this.macroscopePrefsControlInstance.Location = new System.Drawing.Point(3, 3);
 			this.macroscopePrefsControlInstance.Name = "macroscopePrefsControlInstance";
 			this.macroscopePrefsControlInstance.Size = new System.Drawing.Size(578, 546);
-			this.macroscopePrefsControlInstance.TabIndex = 0;
+			this.macroscopePrefsControlInstance.TabIndex = 1;
 			// 
 			// tableLayoutPanel2
 			// 
@@ -118,7 +118,7 @@ namespace SEOMacroscope
 			this.button1.Location = new System.Drawing.Point(201, 13);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 101;
+			this.button1.TabIndex = 3;
 			this.button1.Text = "Cancel";
 			this.button1.UseVisualStyleBackColor = true;
 			// 
@@ -128,7 +128,7 @@ namespace SEOMacroscope
 			this.button2.Location = new System.Drawing.Point(120, 13);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 100;
+			this.button2.TabIndex = 2;
 			this.button2.Text = "OK";
 			this.button2.UseVisualStyleBackColor = true;
 			// 
@@ -148,7 +148,7 @@ namespace SEOMacroscope
 			this.buttonPrefsDefault.Location = new System.Drawing.Point(13, 13);
 			this.buttonPrefsDefault.Name = "buttonPrefsDefault";
 			this.buttonPrefsDefault.Size = new System.Drawing.Size(75, 23);
-			this.buttonPrefsDefault.TabIndex = 102;
+			this.buttonPrefsDefault.TabIndex = 4;
 			this.buttonPrefsDefault.Text = "Defaults";
 			this.buttonPrefsDefault.UseVisualStyleBackColor = true;
 			// 

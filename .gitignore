@@ -255,3 +255,5 @@ NSIS/SEOMacroscope-Installer.exe
 *.exe
 *.blend1
 Thumbs.db
+
+OpenCover/

@@ -61,7 +61,7 @@ namespace SEOMacroscope
       foreach( string Url in DocCollection.DocumentKeys() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
         MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
 
         foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
@@ -76,7 +76,7 @@ namespace SEOMacroscope
           
           string RawTargetUrl = HyperlinkOut.GetRawTargetUrl();       
 
-          if( HyperlinkOutUrl == null )
+          if( string.IsNullOrEmpty( HyperlinkOutUrl ) )
           {
             HyperlinkOutUrl = "";
           }
@@ -108,8 +108,6 @@ namespace SEOMacroscope
 
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

@@ -49,6 +49,7 @@ namespace SEOMacroscope
         ws.WriteField( MacroscopeConstants.Url );
         ws.WriteField( MacroscopeConstants.StatusCode );
         ws.WriteField( MacroscopeConstants.Status );
+        ws.WriteField( MacroscopeConstants.ContentType );
         ws.WriteField( "Extracted Label" );
         ws.WriteField( "Extracted Value" );
         
@@ -63,7 +64,8 @@ namespace SEOMacroscope
         string DocUrl = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
-
+        string MimeType = msDoc.GetMimeType();
+        
         if( !this.DataExtractorCssSelectors.CanApplyDataExtractorsToDocument( msDoc: msDoc ) )
         {
           continue;
@@ -88,18 +90,18 @@ namespace SEOMacroscope
 
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( Status ) );
 
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( MimeType ) );
+                  
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ExtractedLabel ) );
       
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ExtractedValue ) );
 
+          ws.NextRecord();
+
         }
-       
-        ws.NextRecord();
-                
+
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

@@ -54,7 +54,7 @@ namespace SEOMacroscope
 
       Dictionary<string,int> FilterColsTable = new Dictionary<string,int> ( CustomFilter.GetSize() );
       
-      const int FilterColOffset = 3;
+      const int FilterColOffset = 4;
 
       {
 
@@ -65,6 +65,9 @@ namespace SEOMacroscope
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = MacroscopeConstants.Status;
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = MacroscopeConstants.ContentType;
 
         for( int Slot = 0 ; Slot < CustomFilter.GetSize() ; Slot++ )
         {
@@ -96,20 +99,15 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-
-        if(
-          ( msDoc == null )
-          || ( msDoc.GetIsRedirect() )
-          || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
-          || ( !msDoc.GetIsInternal() )
-          || ( !msDoc.GetIsHtml() ) )
-        {
-          continue;
-        }
-
         string DocUrl = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
+        string MimeType = msDoc.GetMimeType();
+        
+        if( !CustomFilter.CanApplyCustomFiltersToDocument( msDoc: msDoc ) )
+        {
+          continue;
+        }
 
         iCol = 1;
 
@@ -131,6 +129,10 @@ namespace SEOMacroscope
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
+
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( MimeType ) );
 
         iCol++;
 

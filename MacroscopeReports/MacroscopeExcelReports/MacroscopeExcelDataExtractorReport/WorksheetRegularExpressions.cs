@@ -63,6 +63,9 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = MacroscopeConstants.Status;
         iCol++;
 
+        ws.Cell( iRow, iCol ).Value = MacroscopeConstants.ContentType;
+        iCol++;
+        
         ws.Cell( iRow, iCol ).Value = "Extracted Label";
         iCol++;
 
@@ -78,21 +81,16 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-
-        if(
-          ( msDoc == null )
-          || ( msDoc.GetIsRedirect() )
-          || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
-          || ( !msDoc.GetIsInternal() )
-          || ( !msDoc.GetIsHtml() ) )
-        {
-          continue;
-        }
-
         string DocUrl = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
-
+        string MimeType = msDoc.GetMimeType();
+        
+        if( !this.DataExtractorRegexes.CanApplyDataExtractorsToDocument( msDoc: msDoc ) )
+        {
+          continue;
+        }        
+                
         foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedRegexes() )
         {
 
@@ -129,6 +127,10 @@ namespace SEOMacroscope
 
           iCol++;
 
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( MimeType ) );
+
+          iCol++;
+          
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ExtractedLabel ) );
 
           iCol++;
@@ -136,6 +138,7 @@ namespace SEOMacroscope
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( ExtractedValue ) );
 
           iRow++;
+          
         }
        
       }
