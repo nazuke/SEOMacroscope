@@ -8,8 +8,10 @@ excerpt: "This release of SEO Macroscope includes support for automatic language
 ---
 
 This release of SEO Macroscope includes support for automatic language detection of title, description, and content in your web pages and PDFs, where possible.
+{: .lead }
 
 Chiefly, this is another tool to help identify problems with multilingual websites. For example, to detect content that is in the wrong language for a particular site.
+{: .lead }
 
 Source code and an installer can be found on GitHub at:
 {: .lead }

@@ -1,12 +1,12 @@
 # SEO MACROSCOPE
 
-![SEO Macroscope application window](docs/manual/images/application-001.png "SEO Macroscope application window")
+![SEO Macroscope application window](media/screenshots/seo-macroscope-main-window-v1.5.png "SEO Macroscope application window")
 
-**This project is still very much under development, expect bugs and unimplemented features.**
+**This project is under continuous development, expect bugs and unimplemented features.**
 
 ## SYNOPSIS
 
-**SEO Macroscope** for Microsoft Windows is a website broken link checking and scanning tool, with some technical SEO functionality.
+**SEO Macroscope** for Microsoft Windows is a free and open source website broken link checking and scanning tool, with some technical SEO functionality.
 
 More information about how SEO Macroscope may be used for everyday tasks may be found in the blog at [https://nazuke.github.io/SEOMacroscope/blog/](https://nazuke.github.io/SEOMacroscope/blog/).
 
@@ -39,7 +39,7 @@ However, it is functional enough to be used for many link checking tasks right n
 * Reporting metadata about each found URL.
 * Generating an HrefLang Matrix, for multilingual websites.
 * Isolating scans to URL subsets.
-* Extraction and report of telephone number and email links.
+* Extraction and reporting of telephone number and email links.
 
 ### SEO functionality includes:
 
@@ -47,7 +47,9 @@ However, it is functional enough to be used for many link checking tasks right n
 * Set and report acceptable word, character lengths for descriptions.
 * Report on titles, descriptions, keywords, and headings.
 * Optionally generate keyword occurrences across pages and the entire site.
-* Scan and extract metadata for PDFs.
+* Scan and extract metadata from PDFs.
+* Custom filters to identify content that is missing/present.
+* Data extractors to scrape arbitrary content from pages.
 
 ### Reports may be exported to Excel format. Currently, these include:
 
@@ -57,6 +59,8 @@ However, it is functional enough to be used for many link checking tasks right n
 * Broken links.
 * URI Analysis of the pages crawled.
 * Reporting of duplicate content, including duplicate titles, checksums, ETags, and a Fastenshtein method.
+* Reporting of custom filtered results.
+* Reporting of scraped data.
 
 More functionality will be added in the future.
 

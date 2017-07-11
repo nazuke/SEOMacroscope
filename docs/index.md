@@ -22,3 +22,4 @@ The SEO Macroscope website crawler will help you to:
 Check out the source code repository at [https://github.com/nazuke/SEOMacroscope](https://github.com/nazuke/SEOMacroscope).
 
 More information about how SEO Macroscope may be used for everyday tasks may be found in the [blog pages]({{ '/blog/' | relative_url }}).
+
