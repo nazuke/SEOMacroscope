@@ -2109,8 +2109,6 @@ namespace SEOMacroscope
 
       }
 
-      return;
-      
     }
 
     /** Custom Filters ********************************************************/

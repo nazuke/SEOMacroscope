@@ -149,7 +149,9 @@ namespace SEOMacroscope
 
       if( !string.IsNullOrEmpty( Text ) )
       {
+        
         CleanedText = Text;
+        
         CleanedText = Regex.Replace( CleanedText, "<!.+?>", " ", RegexOptions.Singleline );
         CleanedText = Regex.Replace( CleanedText, "<!--.+?-->", " ", RegexOptions.Singleline );
         CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
@@ -157,10 +159,29 @@ namespace SEOMacroscope
         CleanedText = Regex.Replace( CleanedText, "([^\\p{L}\\p{N}\\p{Sc}]+)(?![\\w\\d])", " ", RegexOptions.Singleline );
         CleanedText = Regex.Replace( CleanedText, "([\\p{P}\\p{Sc}]+)(?![\\w\\d])", " ", RegexOptions.Singleline );
         CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
+        
         CleanedText = CleanedText.Trim();
+
       }
       
       return( CleanedText );
+
+    }
+
+    /**************************************************************************/
+    
+    public static string StripNewLines ( string Text )
+    {
+
+      string NewText = Text;
+          
+      if( !string.IsNullOrEmpty( Text ) )
+      {
+        NewText = NewText.Replace( "\r", "" );
+        NewText = NewText.Replace( "\n", "" );
+      }
+
+      return( NewText );
 
     }
 

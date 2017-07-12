@@ -1476,8 +1476,6 @@ namespace SEOMacroscope
         this.SetCustomFiltered( Text: Key, Presence: Analyzed[ Key ] );
       }
 
-      return;
-      
     }
 
     /** Process Data Extractors ***********************************************/
@@ -1529,8 +1527,6 @@ namespace SEOMacroscope
 
       }
 
-      return;
-      
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1551,8 +1547,6 @@ namespace SEOMacroscope
         );
       }
 
-      return;
-
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1572,8 +1566,6 @@ namespace SEOMacroscope
           Text: Pair.Value 
         );
       }
-
-      return;
 
     }
     
@@ -1601,8 +1593,6 @@ namespace SEOMacroscope
         }
 
       }
-      
-      return;
 
     }
 

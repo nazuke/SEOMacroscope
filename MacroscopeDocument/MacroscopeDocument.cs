@@ -213,9 +213,7 @@ namespace SEOMacroscope
       this.BodyText = null;
 
       this.DeepKeywordAnalysis = null;
-      
-      return;
-      
+
     }
 
     /** -------------------------------------------------------------------- **/

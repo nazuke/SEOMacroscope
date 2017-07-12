@@ -146,8 +146,6 @@ namespace SEOMacroscope
 
       this.BlockedByRobots = null;
 
-      return;
-      
     }
 
     /**************************************************************************/
@@ -757,9 +755,7 @@ namespace SEOMacroscope
       {
         this.AddUrlQueueItem( Url: Url );
       }
-      
-      return;
-      
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -786,8 +782,6 @@ namespace SEOMacroscope
         Item: NewUrl
       );
 
-      return;
-      
     }
 
     /** -------------------------------------------------------------------- **/

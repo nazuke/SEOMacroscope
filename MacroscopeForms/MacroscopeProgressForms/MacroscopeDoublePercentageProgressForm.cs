@@ -185,8 +185,6 @@ namespace SEOMacroscope
 
       Application.DoEvents();
 
-      return;
-      
     }
 
     /**************************************************************************/

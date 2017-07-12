@@ -213,9 +213,7 @@ namespace SEOMacroscope
       this.Refresh();
 
       Application.DoEvents();
-            
-      return;
-      
+
     }
 
     /**************************************************************************/

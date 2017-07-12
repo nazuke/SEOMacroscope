@@ -52,9 +52,7 @@ namespace SEOMacroscope
     {
       
       this.DocumentList = null;
-
-      return;
-      
+     
     }
 
     /**************************************************************************/

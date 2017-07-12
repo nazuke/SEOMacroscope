@@ -186,8 +186,6 @@ namespace SEOMacroscope
       //this.AnalyzeTextLanguage = null;
 
       this.DnsCache = null;
-      
-      return;
 
     }
 
@@ -2011,8 +2009,6 @@ namespace SEOMacroscope
 
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

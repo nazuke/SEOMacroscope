@@ -42,6 +42,8 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private Macroscope ms;
+        
     private MacroscopeCustomFilterForm ContainerForm;
 
     MacroscopeCustomFilters CustomFilter;
@@ -50,6 +52,8 @@ namespace SEOMacroscope
     private List<ComboBox> StateComboBoxFilters;
     private List<TextBox> TextBoxFilters;
 
+    private Boolean EnableValidation;
+
     /**************************************************************************/
 	      
     public MacroscopeCustomFilterPanel ()
@@ -57,14 +61,30 @@ namespace SEOMacroscope
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
+      this.ms = new Macroscope ();
+            
       this.TextBoxLabels = new List<Label> ();
       this.StateComboBoxFilters = new List<ComboBox> ();
       this.TextBoxFilters = new List<TextBox> ();
 
       this.tableLayoutPanelControlsGrid.Dock = DockStyle.Fill;
 
+      this.SetEnableValidation( State: true );
+            
     }
 
+    /**************************************************************************/
+
+    protected void SetEnableValidation ( Boolean State )
+    {
+      this.EnableValidation = State;
+    }
+
+    protected Boolean GetEnableValidation ()
+    {
+      return( this.EnableValidation );
+    }
+    
     /**************************************************************************/
 
     public void ConfigureCustomFilterForm (
@@ -117,7 +137,7 @@ namespace SEOMacroscope
         TextBoxLabel.Margin = new Padding ( 5, 5, 5, 5 );
         TextBoxLabel.Width = 50;
 
-        StateComboBoxFilter.Name = string.Format( "comboBoxFilter{0}", Slot + 1 );
+        StateComboBoxFilter.Name = string.Format( "ComboBoxFilter{0}", Slot + 1 );
         StateComboBoxFilter.Items.Add( "No action" );
         StateComboBoxFilter.Items.Add( "Must have" );  
         StateComboBoxFilter.Items.Add( "Must not have" );
@@ -126,11 +146,11 @@ namespace SEOMacroscope
         StateComboBoxFilter.Margin = new Padding ( 5, 5, 5, 5 );
         StateComboBoxFilter.Width = 100;
         
-        TextBoxFilter.Name = string.Format( "textBoxFilter{0}", Slot + 1 );
-        TextBoxFilter.KeyUp += this.CallbackTextBoxKeyUp;
+        TextBoxFilter.Name = string.Format( "TextBoxFilter{0}", Slot + 1 );
         TextBoxFilter.Dock = DockStyle.Fill;
         TextBoxFilter.Margin = new Padding ( 5, 5, 5, 5 );
         TextBoxFilter.Tag = Slot.ToString();
+        TextBoxFilter.KeyUp += this.CallbackTextBoxKeyUp;
         TextBoxFilter.TextChanged += CallbackTextBoxExpressionTextChanged;
         
         Table.Controls.Add( TextBoxLabel );
@@ -163,16 +183,16 @@ namespace SEOMacroscope
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
       
-        ComboBox comboBoxFilter;
-        TextBox textBoxFilter;
+        ComboBox ComboBoxFilter;
+        TextBox TextBoxFilter;
 
-        comboBoxFilter = this.Controls.Find(
-          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+        ComboBoxFilter = this.Controls.Find(
+          string.Format( "ComboBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as ComboBox;
 
-        textBoxFilter = this.Controls.Find(
-          string.Format( "textBoxFilter{0}", Slot + 1 ),
+        TextBoxFilter = this.Controls.Find(
+          string.Format( "TextBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
 
@@ -185,34 +205,32 @@ namespace SEOMacroscope
           {
 
             case MacroscopeConstants.Contains.MUSTHAVE:
-              comboBoxFilter.SelectedIndex = 1;
+              ComboBoxFilter.SelectedIndex = 1;
               break;
 
             case MacroscopeConstants.Contains.MUSTNOTHAVE:
-              comboBoxFilter.SelectedIndex = 2;
+              ComboBoxFilter.SelectedIndex = 2;
               break;
 
             default:
-              comboBoxFilter.SelectedIndex = 0;
+              ComboBoxFilter.SelectedIndex = 0;
               break;
 
           }
 
-          textBoxFilter.Text = Pair.Key;
+          TextBoxFilter.Text = Pair.Key;
 
         }
         else
         {
         
-          comboBoxFilter.SelectedIndex = 0;
-          textBoxFilter.Text = "";
+          ComboBoxFilter.SelectedIndex = 0;
+          TextBoxFilter.Text = "";
 
         }
 
       }
-      
-      return;
-      
+     
     }
 
     /**************************************************************************/
@@ -225,26 +243,26 @@ namespace SEOMacroscope
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
       
-        ComboBox comboBoxFilter;
-        TextBox textBoxFilter;
+        ComboBox ComboBoxFilter;
+        TextBox TextBoxFilter;
 
-        comboBoxFilter = this.Controls.Find(
-          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+        ComboBoxFilter = this.Controls.Find(
+          string.Format( "ComboBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as ComboBox;
 
-        textBoxFilter = this.Controls.Find(
-          string.Format( "textBoxFilter{0}", Slot + 1 ),
+        TextBoxFilter = this.Controls.Find(
+          string.Format( "TextBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
 
-        switch( comboBoxFilter.SelectedIndex )
+        switch( ComboBoxFilter.SelectedIndex )
         {
 
           case 1:
             this.CustomFilter.SetPattern(
               Slot: Slot, 
-              Text: textBoxFilter.Text, 
+              Text: TextBoxFilter.Text, 
               ContainsSetting: MacroscopeConstants.Contains.MUSTHAVE
             );
             break;
@@ -252,7 +270,7 @@ namespace SEOMacroscope
           case 2:
             this.CustomFilter.SetPattern(
               Slot: Slot, 
-              Text: textBoxFilter.Text, 
+              Text: TextBoxFilter.Text, 
               ContainsSetting: MacroscopeConstants.Contains.MUSTNOTHAVE
             );
             break;
@@ -273,15 +291,132 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
-    
+    /** Form Validator ********************************************************/
+
+    public Boolean ValidateForm ( Boolean ShowErrorDialogue )
+    {
+
+      Boolean IsValid = true;
+      int Max = this.CustomFilter.GetSize();
+
+      for( int Slot = 0 ; Slot < Max ; Slot++ )
+      {
+
+        ComboBox ComboBoxFilter;
+        TextBox TextBoxFilter;
+
+        ComboBoxFilter = this.Controls.Find(
+          string.Format( "ComboBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as ComboBox;
+
+        TextBoxFilter = this.Controls.Find(
+          string.Format( "TextBoxFilter{0}", Slot + 1 ),
+          true
+        ).FirstOrDefault() as TextBox;
+
+        switch( ComboBoxFilter.SelectedIndex )
+        {
+
+          case 1:
+            if(
+              !this.ValidateExpression(
+                TextBoxObject: TextBoxFilter, 
+                ShowErrorDialogue: ShowErrorDialogue 
+              ) )
+            {
+              IsValid = false;
+            }
+            break;
+
+          case 2:
+            if(
+              !this.ValidateExpression(
+                TextBoxObject: TextBoxFilter, 
+                ShowErrorDialogue: ShowErrorDialogue 
+              ) )
+            {
+              IsValid = false;
+            }
+            break;
+
+          default:
+            break;
+
+        }
+
+        if( !IsValid )
+        {
+          break;
+        }
+                
+      }
+
+      return( IsValid );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private Boolean ValidateExpression ( TextBox TextBoxObject, Boolean ShowErrorDialogue )
+    {
+
+      Boolean IsValid = false;
+      
+      if( !this.GetEnableValidation() )
+      {
+        IsValid = false;
+      }
+
+      try
+      {
+
+        string Value = TextBoxObject.Text;
+
+        if( !string.IsNullOrEmpty( Value ) )
+        {
+          IsValid = true;
+        }
+
+      }
+      catch( Exception ex )
+      {
+        ms.DebugMsg( ex.Message );
+        
+        IsValid = false;
+      }
+
+      if( ( !IsValid ) && ( ShowErrorDialogue ) )
+      {
+        this.DialogueBoxError( AlertTitle: "Error", AlertMessage: "Please enter a filter value." );   
+        TextBoxObject.Focus();        
+      }
+
+      return( IsValid );
+      
+    }
+
+    /** Expression Event Handlers *********************************************/
+
     protected void CallbackTextBoxExpressionTextChanged ( object sender, EventArgs e )
     {
 
       TextBox TextBoxObject = ( TextBox )sender;
+      Boolean IsValid = false;
 
-      TextBoxObject.Text = this.StripNewLines( Text: TextBoxObject.Text );
+      TextBoxObject.Text = MacroscopeStringTools.StripNewLines( Text: TextBoxObject.Text );
 
+      IsValid = this.ValidateExpression( TextBoxObject: TextBoxObject, ShowErrorDialogue: false );
+
+      if( IsValid )
+      {
+        TextBoxObject.ForeColor = Color.Green;
+      }
+      else
+      {
+        TextBoxObject.ForeColor = Color.Red;
+      }
+      
     }
 
     /**************************************************************************/
@@ -306,44 +441,44 @@ namespace SEOMacroscope
 
       int Max = this.CustomFilter.GetSize();
       
+      this.SetEnableValidation( State: false );
+            
       for( int Slot = 0 ; Slot < Max ; Slot++ )
       {
       
-        TextBox textBoxFilter;
-        ComboBox comboBoxFilter;
+        TextBox TextBoxFilter;
+        ComboBox ComboBoxFilter;
           
-        textBoxFilter = this.Controls.Find(
-          string.Format( "textBoxFilter{0}", Slot + 1 ),
+        TextBoxFilter = this.Controls.Find(
+          string.Format( "TextBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as TextBox;
           
-        comboBoxFilter = this.Controls.Find(
-          string.Format( "comboBoxFilter{0}", Slot + 1 ),
+        ComboBoxFilter = this.Controls.Find(
+          string.Format( "ComboBoxFilter{0}", Slot + 1 ),
           true
         ).FirstOrDefault() as ComboBox;
 
-        comboBoxFilter.SelectedIndex = 0;
-        textBoxFilter.Text = "";
+        ComboBoxFilter.SelectedIndex = 0;
+        TextBoxFilter.Text = "";
 
       }
 
+      this.SetEnableValidation( State: true );
+            
     }
-    
+
     /**************************************************************************/
 
-    protected string StripNewLines ( string Text )
+    protected void DialogueBoxError ( string AlertTitle, string AlertMessage )
     {
-
-      string NewText = Text;
-          
-      if( !string.IsNullOrEmpty( Text ) )
-      {
-        NewText = NewText.Replace( "\r", "" );
-        NewText = NewText.Replace( "\n", "" );
-      }
-
-      return( NewText );
-
+      MessageBox.Show(
+        AlertMessage,
+        AlertTitle,
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Error,
+        MessageBoxDefaultButton.Button1
+      );
     }
 
     /**************************************************************************/

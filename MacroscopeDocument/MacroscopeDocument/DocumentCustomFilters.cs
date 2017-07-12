@@ -48,9 +48,7 @@ namespace SEOMacroscope
       {
         this.SetCustomFiltered( Text: Key, Presence: Analyzed[ Key ] );
       }
-
-      return;
-      
+     
     }
 
     /**************************************************************************/

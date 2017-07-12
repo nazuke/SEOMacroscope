@@ -89,7 +89,7 @@ namespace SEOMacroscope
       TextBox TextBoxObject = ( TextBox )sender;
       Boolean IsValid = false;
 
-      TextBoxObject.Text = this.StripNewLines( Text: TextBoxObject.Text );
+      TextBoxObject.Text = MacroscopeStringTools.StripNewLines( Text: TextBoxObject.Text );
             
       IsValid = this.ValidateLabel( TextBoxObject: TextBoxObject, ShowErrorDialogue: false );
             
@@ -112,7 +112,7 @@ namespace SEOMacroscope
       TextBox TextBoxObject = ( TextBox )sender;
       Boolean IsValid = false;
 
-      TextBoxObject.Text = this.StripNewLines( Text: TextBoxObject.Text );
+      TextBoxObject.Text = MacroscopeStringTools.StripNewLines( Text: TextBoxObject.Text );
 
       IsValid = this.ValidateExpression( TextBoxObject: TextBoxObject, ShowErrorDialogue: false );
 
@@ -142,23 +142,6 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
-    
-    protected string StripNewLines ( string Text )
-    {
-
-      string NewText = Text;
-          
-      if( !string.IsNullOrEmpty( Text ) )
-      {
-        NewText = NewText.Replace( "\r", "" );
-        NewText = NewText.Replace( "\n", "" );
-      }
-
-      return( NewText );
-
-    }
-    
     /**************************************************************************/
 
     protected void DialogueBoxError ( string AlertTitle, string AlertMessage )

@@ -51,6 +51,24 @@ namespace SEOMacroscope
 
       this.customFilterPanelInstance.SetCustomFilter();
 
+      this.FormClosing += CallbackFormClosing;
+            
+    }
+
+    /**************************************************************************/
+
+    private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
+    {
+      
+      Boolean IsValid = false;
+      
+      IsValid = this.customFilterPanelInstance.ValidateForm( ShowErrorDialogue: true );
+
+      if( !IsValid )
+      {
+        e.Cancel = true;
+      }
+      
     }
 
     /**************************************************************************/

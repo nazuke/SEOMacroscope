@@ -210,8 +210,6 @@ namespace SEOMacroscope
 
       this.JobMaster.SetCustomFilter( NewCustomFilter: this.CustomFilter );
 
-      return;
-      
     }
 
     /** Initialize Data Extractors ********************************************/
@@ -272,9 +270,7 @@ namespace SEOMacroscope
         );
 
       }
-      
-      return;
-            
+
     }
 
     /**************************************************************************/

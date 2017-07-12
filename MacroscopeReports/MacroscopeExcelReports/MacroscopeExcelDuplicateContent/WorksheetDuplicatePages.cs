@@ -229,8 +229,6 @@ namespace SEOMacroscope
         var excelTable = rangeData.CreateTable();
       }
 
-      return;
-      
     }
 
     /**************************************************************************/

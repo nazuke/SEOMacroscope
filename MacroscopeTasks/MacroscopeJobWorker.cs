@@ -445,11 +445,14 @@ namespace SEOMacroscope
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
       {
+
         DebugMsg( string.Format( "ProcessOutlinks LISTMODE: {0}", this.JobMaster.GetRunTimeMode() ) );
+
         if( !MacroscopePreferencesManager.GetScanSitesInList() )
         {
           return;
         }
+
       }
 
       foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
@@ -471,13 +474,6 @@ namespace SEOMacroscope
         {
           continue;
         }
-
-        /*
-				if( !this.AllowedHosts.IsAllowedFromUrl( Outlink.AbsoluteUrl ) ) {
-					//DebugMsg( string.Format( "FOREIGN HOST: {0}", Outlink.AbsoluteUrl ) );
-					continue;
-				}
-				*/
 
         if( this.JobMaster.GetPageLimit() > -1 )
         {
