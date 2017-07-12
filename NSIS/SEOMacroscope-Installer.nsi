@@ -57,7 +57,47 @@ Section
 
 	SetOutPath "$INSTDIR\$SEOMacroscopeDir"
 
-	File ..\bin\Release\*.*
+	#File ..\bin\Release\*.*
+
+	File ..\bin\Release\LICENSE
+	File ..\bin\Release\README.md
+
+	File ..\bin\Release\ClosedXML.dll
+	File ..\bin\Release\ClosedXML.pdb
+	File ..\bin\Release\ClosedXML.xml
+
+	File ..\bin\Release\CsvHelper.dll
+	File ..\bin\Release\CsvHelper.xml
+
+	File ..\bin\Release\DocumentFormat.OpenXml.dll
+
+	File ..\bin\Release\ExCSS.dll
+
+	File ..\bin\Release\Fastenshtein.dll
+	File ..\bin\Release\Fastenshtein.xml
+
+	File ..\bin\Release\HtmlAgilityPack.CssSelectors.dll
+	File ..\bin\Release\HtmlAgilityPack.CssSelectors.pdb
+
+	File ..\bin\Release\HtmlAgilityPack.dll
+	File ..\bin\Release\HtmlAgilityPack.xml
+
+	File ..\bin\Release\LanguageDetection.dll
+
+	File ..\bin\Release\NUnit.Framework.dll
+
+	File ..\bin\Release\PdfSharp.Charting.dll
+	File ..\bin\Release\PdfSharp.Charting.xml
+	File ..\bin\Release\PdfSharp.dll
+	File ..\bin\Release\PdfSharp.xml
+	File ..\bin\Release\de\PdfSharp.Charting.resources.dll
+	File ..\bin\Release\\de\PdfSharp.resources.dll
+
+	File ..\bin\Release\RobotsTxt.dll
+	File ..\bin\Release\RobotsTxt.xml
+
+	File ..\bin\Release\SEOMacroscope.exe
+	File ..\bin\Release\SEOMacroscope.exe.config
 
 	WriteUninstaller "$INSTDIR\$SEOMacroscopeDir\$SEOMacroscopeUninstallExe.exe"
 
@@ -100,7 +140,6 @@ Section uninstall
 	Delete "$INSTDIR\CsvHelper.xml"
 
 	Delete "$INSTDIR\DocumentFormat.OpenXml.dll"
-	Delete "$INSTDIR\DocumentFormat.OpenXml.xml"
 	
 	Delete "$INSTDIR\ExCSS.dll"
 
@@ -111,7 +150,6 @@ Section uninstall
 	Delete "$INSTDIR\HtmlAgilityPack.CssSelectors.pdb"
 
 	Delete "$INSTDIR\HtmlAgilityPack.dll"
-	Delete "$INSTDIR\HtmlAgilityPack.pdb"
 	Delete "$INSTDIR\HtmlAgilityPack.xml"
 
 	Delete "$INSTDIR\LanguageDetection.dll"

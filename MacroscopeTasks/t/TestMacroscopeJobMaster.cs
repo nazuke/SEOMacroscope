@@ -75,7 +75,7 @@ namespace SEOMacroscope
         }
       };
 
-      JobMaster.SetStartUrl( StartUrl );
+      JobMaster.SetStartUrl( Url: StartUrl );
 
       JobMaster.DetermineStartingDirectory();
 
@@ -114,7 +114,7 @@ namespace SEOMacroscope
         }
       };
 
-      JobMaster.SetStartUrl( StartUrl );
+      JobMaster.SetStartUrl( Url: StartUrl );
 
       JobMaster.DetermineStartingDirectory();
 
@@ -146,7 +146,7 @@ namespace SEOMacroscope
         }
       };
 
-      JobMaster.SetStartUrl( StartUrl );
+      JobMaster.SetStartUrl( Url: StartUrl );
 
       JobMaster.DetermineStartingDirectory();
 
@@ -181,7 +181,7 @@ namespace SEOMacroscope
         }
       };
 
-      JobMaster.SetStartUrl( StartUrl );
+      JobMaster.SetStartUrl( Url: StartUrl );
 
       JobMaster.DetermineStartingDirectory();
 

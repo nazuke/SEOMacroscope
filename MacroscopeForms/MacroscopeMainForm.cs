@@ -508,11 +508,15 @@ namespace SEOMacroscope
     
     public string GetUrl ()
     {
-      string sUrl = this.textBoxStartUrl.Text;
-      sUrl = sUrl.Replace( "\r", "" );
-      sUrl = sUrl.Replace( "\n", "" );
-      this.textBoxStartUrl.Text = sUrl;
+
+      string Url = this.textBoxStartUrl.Text;
+
+      Url = MacroscopeStringTools.StripNewLines( Text: Url );
+
+      this.textBoxStartUrl.Text = Url;
+
       return( this.textBoxStartUrl.Text );
+
     }
 
     /** Reset Scan ************************************************************/
@@ -1927,10 +1931,10 @@ namespace SEOMacroscope
 
       this.SetVelocitySiteOverviewTimer( Delay: 4000 );
       this.StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
-      this.JobMaster.SetStartUrl( this.GetUrl() );
+      this.JobMaster.SetStartUrl( Url: this.GetUrl() );
       this.JobMaster.Execute();
       this.StopProgressBarScanTimer();
-      this.UpdateProgressBarScan( 0 );
+      this.UpdateProgressBarScan( Percentage: 0 );
       this.SetVelocitySiteOverviewTimer( Delay: 10000 );
 
       {
@@ -2197,7 +2201,7 @@ namespace SEOMacroscope
       if( LoadUrlListDialogue.ShowDialog() == DialogResult.OK )
       {
         string UrlListText = LoadUrlListDialogue.GetUrlsText();
-        string [] UrlList = Regex.Split( UrlListText, "[\r\n]", RegexOptions.Singleline );
+        string [] UrlList = Regex.Split( UrlListText, "[\\r\\n]+", RegexOptions.Singleline );
         this.CallackScanStartUrlListFromClipboardExecute( UrlList );
       }
       

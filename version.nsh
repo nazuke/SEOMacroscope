@@ -1,2 +1,2 @@
 ﻿
-!define VERSION "1.5.0.0"
+!define VERSION "1.6.0.0"
