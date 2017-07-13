@@ -34,7 +34,6 @@ namespace SEOMacroscope
   /// <summary>
   /// Description of MacroscopeLevenshteinAnalysis.
   /// </summary>
-  /// 
   
   // TODO: optimize this such that the same document pair are not processed twice
   

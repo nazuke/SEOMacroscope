@@ -24,14 +24,13 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Analayze possibly insecure links within a document.
+  /// Analyze possibly insecure links within a document.
   /// </summary>
 
   public class MacroscopeInsecureLinks : Macroscope

@@ -24,29 +24,37 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeAnalyzePageDescriptions.
+  /// Analyze the readability of the text in a document.
   /// </summary>
 
-  public class MacroscopeAnalyzePageDescriptions : Macroscope
+  public class MacroscopeAnalyzeReadability : Macroscope
   {
 
     /**************************************************************************/
 
-    public MacroscopeAnalyzePageDescriptions ()
+    public MacroscopeAnalyzeReadability ()
     {
-
-      this.SuppressDebugMsg = true;
-
+      
+      this.SuppressDebugMsg = false;
+      
     }
 
     /**************************************************************************/
 
-    ~MacroscopeAnalyzePageDescriptions ()
+    /*
+      Readability test:
+      https://en.wikipedia.org/wiki/SMOG
+      http://www.phonicsontheweb.com/syllables.php
+    */
+   
+    public void Analyze ( MacroscopeDocument msDoc )
     {
     }
 
@@ -55,3 +63,4 @@ namespace SEOMacroscope
   }
 
 }
+

@@ -110,6 +110,7 @@
     <Compile Include="MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageBodyText.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageDescriptions.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability\MacroscopeAnalyzeReadability.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="MacroscopeCustomFilters\MacroscopeCustomFilters.cs" />
@@ -593,6 +594,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability" />
     <Folder Include="MacroscopeAnalysis\t" />
     <Folder Include="MacroscopeCustomFilters\t" />
     <Folder Include="MacroscopeDataExtractor\t" />
