@@ -41,6 +41,7 @@ namespace SEOMacroscope
     private const int ColPageLanguage = 2;
     private const int ColDetectedLanguage = 3;
     private const int ColWordCount = 4;
+    private const int ColSmogGrade = 5;
     
     /**************************************************************************/
 
@@ -118,11 +119,17 @@ namespace SEOMacroscope
         string PageLanguage = msDoc.GetIsoLanguageCode();
         string DetectedLanguage = msDoc.GetBodyTextLanguage();
         int WordCount = msDoc.GetWordCount();
-
+        double SmogGrade = msDoc.GetSmogGrade();
+        string SmogGradeText;
         string PairKey = string.Join( "", Url );
-
         ListViewItem lvItem = null;
 
+        SmogGradeText = string.Format(
+          "{0}: {1}",
+          SmogGrade,
+          MacroscopeAnalyzeReadability.GradeToString( Grade: SmogGrade )
+        );
+        
         if( string.IsNullOrEmpty( PageLocale ) )
         {
           PageLocale = "";
@@ -150,6 +157,8 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColPageLanguage ].Text = PageLanguage;
             lvItem.SubItems[ ColDetectedLanguage ].Text = DetectedLanguage;
             lvItem.SubItems[ ColWordCount ].Text = WordCount.ToString();
+            lvItem.SubItems[ ColSmogGrade ].Text = SmogGradeText;
+            
             
           }
           catch( Exception ex )
@@ -173,6 +182,7 @@ namespace SEOMacroscope
             lvItem.SubItems.Add( PageLanguage );
             lvItem.SubItems.Add( DetectedLanguage );
             lvItem.SubItems.Add( WordCount.ToString() );
+            lvItem.SubItems.Add( SmogGradeText );
 
             ListViewItems.Add( lvItem );
 

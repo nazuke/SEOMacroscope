@@ -37,6 +37,18 @@ namespace SEOMacroscope {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool AnalyzeTextReadability {
+			get {
+				return ((bool)(this["AnalyzeTextReadability"]));
+			}
+			set {
+				this["AnalyzeTextReadability"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("v0.0.0.0")]
 		public string AppVersion {
 			get {

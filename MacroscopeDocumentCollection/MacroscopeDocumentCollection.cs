@@ -68,6 +68,12 @@ namespace SEOMacroscope
     private Dictionary<string,MacroscopeDocumentList> StatsDeepKeywordAnalysisDocs;
     private List<Dictionary<string,int>> StatsDeepKeywordAnalysis;
 
+
+    
+    private Dictionary<double,int> StatsSmogGrades;
+    
+    
+    
     private int StatsUrlsInternal;
     private int StatsUrlsExternal;
     private int StatsUrlsSitemaps;
@@ -131,7 +137,9 @@ namespace SEOMacroscope
       }
 
       this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ( DocList: this.StatsDeepKeywordAnalysisDocs );
-            
+           
+      this.StatsSmogGrades = new  Dictionary<double,int> ( 32 );
+
       this.StatsUrlsInternal = 0;
       this.StatsUrlsExternal = 0;
       this.StatsUrlsSitemaps = 0;
@@ -687,6 +695,11 @@ namespace SEOMacroscope
                   this.RecalculateStatsDeepKeywordAnalysis( msDoc: msDoc );
                 }
             
+                if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
+                {
+                  this.RecalculateStatsSmogGrades( msDoc: msDoc );
+                }
+
                 this.AddDocumentToSearchIndex( msDoc: msDoc );
 
                 if( MacroscopePreferencesManager.GetResolveAddresses() )
@@ -1855,6 +1868,87 @@ namespace SEOMacroscope
       }
 
       return( DocumentList );
+
+    }
+
+    /** Readability Analysis **************************************************/
+
+    private void ClearStatsSmogGrades ()
+    {
+      lock( this.StatsSmogGrades )
+      {
+        this.StatsSmogGrades.Clear();
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public int GetStatsSmogGradesCount ( double Grade )
+    {
+
+      int Count = 0;
+      
+      if( this.StatsSmogGrades.ContainsKey( Grade ) )
+      {
+        Count = this.StatsSmogGrades[ Grade ];
+      }
+
+      return( Count );
+
+    }
+        
+    /** -------------------------------------------------------------------- **/
+        
+    public Dictionary<double,int> GetStatsSmogGradesCount ()
+    {
+      Dictionary<double,int> dicStats = new Dictionary<double,int> ( this.StatsSmogGrades.Count );
+      lock( this.StatsSmogGrades )
+      {
+        foreach( double Key in this.StatsSmogGrades.Keys )
+        {
+          dicStats.Add( Key, this.StatsSmogGrades[ Key ] );
+        }
+      }
+      return( dicStats );
+    }
+    
+    /** -------------------------------------------------------------------- **/
+            
+    private void RecalculateStatsSmogGrades ( MacroscopeDocument msDoc )
+    {
+
+      Boolean Proceed = false;
+
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+
+      if( msDoc.GetIsHtml() || msDoc.GetIsPdf() )
+      {
+        Proceed = true;
+      }
+
+      if( Proceed )
+      {
+
+        lock( this.StatsSmogGrades )
+        {
+          
+          double Grade = msDoc.GetSmogGrade();
+
+          if( this.StatsSmogGrades.ContainsKey( Grade ) )
+          {
+            this.StatsSmogGrades[ Grade ] = this.StatsSmogGrades[ Grade ] + 1;
+          }
+          else
+          {
+            this.StatsSmogGrades.Add( Grade, 1 );
+          }
+
+        }
+        
+      }
 
     }
 

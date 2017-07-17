@@ -98,7 +98,21 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Probable Body Text Language", this.GetBodyTextLanguage() ) );
-            
+
+      {
+
+        string SmogGradeText;
+
+        SmogGradeText = string.Format(
+          "{0} ({1})",
+          this.GetSmogGrade(),
+          MacroscopeAnalyzeReadability.GradeToString( Grade: this.GetSmogGrade() )
+        );
+      
+        DetailsList.Add( new KeyValuePair<string,string> ( "SMOG Grade (Text Readability)", SmogGradeText ) );
+
+      }
+
       DetailsList.Add( new KeyValuePair<string,string> ( "AltText", this.GetAltText() ) );
             
       DetailsList.Add( new KeyValuePair<string,string> ( "Checksum", this.GetChecksum() ) );

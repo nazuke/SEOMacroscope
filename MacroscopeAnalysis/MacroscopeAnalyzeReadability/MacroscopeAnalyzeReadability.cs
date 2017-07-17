@@ -51,10 +51,9 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private char [] SentenceDelimiters;
-
     
     private SortedDictionary<double,double> SqrtLookupTable;
-    
+
     /**************************************************************************/
     
     
@@ -86,7 +85,7 @@ namespace SEOMacroscope
       this.SqrtLookupTable.Add( 121, 11 );
       this.SqrtLookupTable.Add( 144, 12 );
       this.SqrtLookupTable.Add( 169, 13 );
-
+      
     }
 
     /**************************************************************************/
@@ -162,27 +161,13 @@ namespace SEOMacroscope
       
       SentencesText = this.SampleSentences( SampleText: SampleText, Range: Range );
 
-      //Sentences = this.CountSentences( SampleText: SentencesText );
-
-      //this.DebugMsg( string.Format( "Sentences: \"{0}\"", Sentences ) );
-
       PolySyllables = this.CountPolySyllables( SampleText: SentencesText );
 
-      
-      
-      
       this.DebugMsg( string.Format( "PolySyllables.Count: \"{0}\"", PolySyllables.Count ) );
-      
 
       PolySyllableCount = PolySyllables.Count * 3;
-      
-      
-       
+
       this.DebugMsg( string.Format( "PolySyllableCount: \"{0}\"", PolySyllableCount ) );
-      
-
-
-
 
       foreach( double BaseValue in this.SqrtLookupTable.Keys )
       {
@@ -200,16 +185,9 @@ namespace SEOMacroscope
 
       }
 
-
-
       this.DebugMsg( string.Format( "SquareRoot: \"{0}\"", SquareRoot ) );
 
-
-
       SmogGrade = SquareRoot + 8;
-
-      
-       
 
       this.DebugMsg( string.Format( "CalculateSmogGrade: \"{0}\"", SmogGrade ) );
 
@@ -296,7 +274,9 @@ namespace SEOMacroscope
       else
       {
 
-        SampledList.AddRange( SentenceList.GetRange( 0, 10 ) );
+        int NumberOfSentences = ( int )this.CountSentences( SampleText: SampledSentencesText );
+        
+        SampledList.AddRange( SentenceList.GetRange( 0, NumberOfSentences ) );
 
         SampledSentencesText = String.Join( ".", SampledList );
 
@@ -480,6 +460,41 @@ namespace SEOMacroscope
       
     }
 
+    /**************************************************************************/
+    
+    public static string GradeToString ( double Grade )
+    {
+      
+      string GradeString = "SIMPLE";
+      
+      if( ( Grade >= 0 ) && ( Grade <= 9 ) )
+      {
+        GradeString = "SIMPLE";
+      }
+      else
+      if( ( Grade >= 10 ) && ( Grade <= 12 ) )
+      {
+        GradeString = "LOW COMPLEXITY"; 
+      }
+      else
+      if( ( Grade >= 13 ) && ( Grade <= 16 ) )
+      {
+        GradeString = "MEDIUM COMPLEXITY"; 
+      }
+      else
+      if( ( Grade >= 17 ) && ( Grade <= 21 ) )
+      {
+        GradeString = "HIGH COMPLEXITY"; 
+      }
+      else
+      {
+        GradeString = "N/A";
+      }
+      
+      return( GradeString );
+      
+    }
+    
     /**************************************************************************/
 
   }

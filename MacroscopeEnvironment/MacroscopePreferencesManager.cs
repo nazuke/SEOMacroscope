@@ -129,6 +129,7 @@ namespace SEOMacroscope
     static ushort MaxHeadingDepth;
 
     static Boolean AnalyzeKeywordsInText;
+    static Boolean AnalyzeTextReadability;
 
     static Boolean EnableLevenshteinDeduplication;
     static int MaxLevenshteinSizeDifference;
@@ -269,7 +270,8 @@ namespace SEOMacroscope
           DescriptionMaxWords = Preferences.DescriptionMaxWords;
           MaxHeadingDepth = Preferences.MaxHeadingDepth;
           AnalyzeKeywordsInText = Preferences.AnalyzeKeywordsInText;
-    
+          AnalyzeTextReadability = Preferences.AnalyzeTextReadability;
+      
           DetectLanguage = Preferences.DetectLanguage;
 
           CustomFiltersEnable = Preferences.CustomFiltersEnable;
@@ -422,7 +424,8 @@ namespace SEOMacroscope
       MaxHeadingDepth = 2;
 
       AnalyzeKeywordsInText = false;
-
+      AnalyzeTextReadability = true;
+    
       /** Custom Filter Options -------------------------------------------- **/
 
       CustomFiltersEnable = false;
@@ -645,7 +648,8 @@ namespace SEOMacroscope
         Preferences.MaxHeadingDepth = MaxHeadingDepth;
 
         Preferences.AnalyzeKeywordsInText = AnalyzeKeywordsInText;
-
+        Preferences.AnalyzeTextReadability = AnalyzeTextReadability;
+    
         Preferences.DetectLanguage = DetectLanguage;
 
         Preferences.CustomFiltersEnable = CustomFiltersEnable;
@@ -1381,6 +1385,16 @@ namespace SEOMacroscope
     public static void SetAnalyzeKeywordsInText ( Boolean State )
     {
       AnalyzeKeywordsInText = State;
+    }
+
+    public static Boolean GetAnalyzeTextReadability ()
+    {
+      return( AnalyzeTextReadability );
+    }
+
+    public static void SetAnalyzeTextReadability ( Boolean State )
+    {
+      AnalyzeTextReadability = State;
     }
 
     /* ---------------------------------------------------------------------- */

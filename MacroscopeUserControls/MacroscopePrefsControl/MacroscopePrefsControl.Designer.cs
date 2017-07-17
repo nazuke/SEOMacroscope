@@ -171,6 +171,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToCss;
 		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToHtml;
 		public System.Windows.Forms.CheckBox checkBoxCrawlStrictUrlCheck;
+		public System.Windows.Forms.CheckBox checkBoxAnalyzeTextReadability;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -202,6 +203,7 @@ namespace SEOMacroscope
 			this.checkBoxFollowRobotsProtocol = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowSitemapLinks = new System.Windows.Forms.CheckBox();
 			this.groupBox10 = new System.Windows.Forms.GroupBox();
+			this.checkBoxCrawlStrictUrlCheck = new System.Windows.Forms.CheckBox();
 			this.checkBoxIgnoreQueries = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowNoFollow = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowHrefLangLinks = new System.Windows.Forms.CheckBox();
@@ -250,12 +252,6 @@ namespace SEOMacroscope
 			this.checkBoxScanSitesInList = new System.Windows.Forms.CheckBox();
 			this.groupBox13 = new System.Windows.Forms.GroupBox();
 			this.checkBoxWarnAboutInsecureLinks = new System.Windows.Forms.CheckBox();
-			this.groupBox14 = new System.Windows.Forms.GroupBox();
-			this.checkBoxEnableLevenshteinDeduplication = new System.Windows.Forms.CheckBox();
-			this.labelMaxLevenshteinSizeDifference = new System.Windows.Forms.Label();
-			this.numericUpDownMaxLevenshteinSizeDifference = new System.Windows.Forms.NumericUpDown();
-			this.label22 = new System.Windows.Forms.Label();
-			this.numericUpDownMaxLevenshteinDistance = new System.Windows.Forms.NumericUpDown();
 			this.tabPageSeo = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -282,7 +278,14 @@ namespace SEOMacroscope
 			this.label18 = new System.Windows.Forms.Label();
 			this.numericUpDownMaxHeadingDepth = new System.Windows.Forms.NumericUpDown();
 			this.groupBox12 = new System.Windows.Forms.GroupBox();
+			this.checkBoxAnalyzeTextReadability = new System.Windows.Forms.CheckBox();
 			this.checkBoxAnalyzeKeywordsInText = new System.Windows.Forms.CheckBox();
+			this.groupBox14 = new System.Windows.Forms.GroupBox();
+			this.checkBoxEnableLevenshteinDeduplication = new System.Windows.Forms.CheckBox();
+			this.labelMaxLevenshteinSizeDifference = new System.Windows.Forms.Label();
+			this.numericUpDownMaxLevenshteinSizeDifference = new System.Windows.Forms.NumericUpDown();
+			this.label22 = new System.Windows.Forms.Label();
+			this.numericUpDownMaxLevenshteinDistance = new System.Windows.Forms.NumericUpDown();
 			this.tabPageCustomFilterOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel9 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox23 = new System.Windows.Forms.GroupBox();
@@ -333,7 +336,6 @@ namespace SEOMacroscope
 			this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
 			this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-			this.checkBoxCrawlStrictUrlCheck = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -357,9 +359,6 @@ namespace SEOMacroscope
 			this.groupBox16.SuspendLayout();
 			this.groupBox11.SuspendLayout();
 			this.groupBox13.SuspendLayout();
-			this.groupBox14.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinSizeDifference)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinDistance)).BeginInit();
 			this.tabPageSeo.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -376,6 +375,9 @@ namespace SEOMacroscope
 			this.groupBox9.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHeadingDepth)).BeginInit();
 			this.groupBox12.SuspendLayout();
+			this.groupBox14.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinSizeDifference)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinDistance)).BeginInit();
 			this.tabPageCustomFilterOptions.SuspendLayout();
 			this.flowLayoutPanel9.SuspendLayout();
 			this.groupBox23.SuspendLayout();
@@ -516,6 +518,15 @@ namespace SEOMacroscope
 			this.groupBox10.TabIndex = 2;
 			this.groupBox10.TabStop = false;
 			this.groupBox10.Text = "Links";
+			// 
+			// checkBoxCrawlStrictUrlCheck
+			// 
+			this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(340, 50);
+			this.checkBoxCrawlStrictUrlCheck.Name = "checkBoxCrawlStrictUrlCheck";
+			this.checkBoxCrawlStrictUrlCheck.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxCrawlStrictUrlCheck.TabIndex = 6;
+			this.checkBoxCrawlStrictUrlCheck.Text = "Strict URL Check";
+			this.checkBoxCrawlStrictUrlCheck.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxIgnoreQueries
 			// 
@@ -899,7 +910,6 @@ namespace SEOMacroscope
 			this.flowLayoutPanel3.Controls.Add(this.groupBox16);
 			this.flowLayoutPanel3.Controls.Add(this.groupBox11);
 			this.flowLayoutPanel3.Controls.Add(this.groupBox13);
-			this.flowLayoutPanel3.Controls.Add(this.groupBox14);
 			this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
@@ -1092,83 +1102,6 @@ namespace SEOMacroscope
 			this.checkBoxWarnAboutInsecureLinks.Text = "Warn about insecure links";
 			this.checkBoxWarnAboutInsecureLinks.UseVisualStyleBackColor = true;
 			// 
-			// groupBox14
-			// 
-			this.groupBox14.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox14.Controls.Add(this.checkBoxEnableLevenshteinDeduplication);
-			this.groupBox14.Controls.Add(this.labelMaxLevenshteinSizeDifference);
-			this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinSizeDifference);
-			this.groupBox14.Controls.Add(this.label22);
-			this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinDistance);
-			this.groupBox14.Location = new System.Drawing.Point(10, 420);
-			this.groupBox14.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
-			this.groupBox14.Name = "groupBox14";
-			this.groupBox14.Size = new System.Drawing.Size(500, 124);
-			this.groupBox14.TabIndex = 6;
-			this.groupBox14.TabStop = false;
-			this.groupBox14.Text = "Levenshtein Edit Distance Processing";
-			// 
-			// checkBoxEnableLevenshteinDeduplication
-			// 
-			this.checkBoxEnableLevenshteinDeduplication.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxEnableLevenshteinDeduplication.Name = "checkBoxEnableLevenshteinDeduplication";
-			this.checkBoxEnableLevenshteinDeduplication.Size = new System.Drawing.Size(376, 24);
-			this.checkBoxEnableLevenshteinDeduplication.TabIndex = 1;
-			this.checkBoxEnableLevenshteinDeduplication.Text = "Enable Levenshtein duplicate detection";
-			this.checkBoxEnableLevenshteinDeduplication.UseVisualStyleBackColor = true;
-			// 
-			// labelMaxLevenshteinSizeDifference
-			// 
-			this.labelMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(96, 50);
-			this.labelMaxLevenshteinSizeDifference.Name = "labelMaxLevenshteinSizeDifference";
-			this.labelMaxLevenshteinSizeDifference.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-			this.labelMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(250, 20);
-			this.labelMaxLevenshteinSizeDifference.TabIndex = 9;
-			this.labelMaxLevenshteinSizeDifference.Text = "Maximum Levenshtein text length difference";
-			// 
-			// numericUpDownMaxLevenshteinSizeDifference
-			// 
-			this.numericUpDownMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(20, 50);
-			this.numericUpDownMaxLevenshteinSizeDifference.Maximum = new decimal(new int[] {
-			512,
-			0,
-			0,
-			0});
-			this.numericUpDownMaxLevenshteinSizeDifference.Name = "numericUpDownMaxLevenshteinSizeDifference";
-			this.numericUpDownMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(70, 20);
-			this.numericUpDownMaxLevenshteinSizeDifference.TabIndex = 2;
-			this.numericUpDownMaxLevenshteinSizeDifference.Value = new decimal(new int[] {
-			64,
-			0,
-			0,
-			0});
-			// 
-			// label22
-			// 
-			this.label22.Location = new System.Drawing.Point(96, 80);
-			this.label22.Name = "label22";
-			this.label22.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-			this.label22.Size = new System.Drawing.Size(250, 20);
-			this.label22.TabIndex = 4;
-			this.label22.Text = "Levenshtein edit distance threshold";
-			// 
-			// numericUpDownMaxLevenshteinDistance
-			// 
-			this.numericUpDownMaxLevenshteinDistance.Location = new System.Drawing.Point(20, 80);
-			this.numericUpDownMaxLevenshteinDistance.Maximum = new decimal(new int[] {
-			512,
-			0,
-			0,
-			0});
-			this.numericUpDownMaxLevenshteinDistance.Name = "numericUpDownMaxLevenshteinDistance";
-			this.numericUpDownMaxLevenshteinDistance.Size = new System.Drawing.Size(70, 20);
-			this.numericUpDownMaxLevenshteinDistance.TabIndex = 3;
-			this.numericUpDownMaxLevenshteinDistance.Value = new decimal(new int[] {
-			16,
-			0,
-			0,
-			0});
-			// 
 			// tabPageSeo
 			// 
 			this.tabPageSeo.AutoScroll = true;
@@ -1183,10 +1116,12 @@ namespace SEOMacroscope
 			// 
 			// flowLayoutPanel2
 			// 
+			this.flowLayoutPanel2.AutoScroll = true;
 			this.flowLayoutPanel2.Controls.Add(this.groupBox2);
 			this.flowLayoutPanel2.Controls.Add(this.groupBox3);
 			this.flowLayoutPanel2.Controls.Add(this.groupBox9);
 			this.flowLayoutPanel2.Controls.Add(this.groupBox12);
+			this.flowLayoutPanel2.Controls.Add(this.groupBox14);
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
@@ -1368,28 +1303,28 @@ namespace SEOMacroscope
 			this.groupBox3.Location = new System.Drawing.Point(10, 180);
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(500, 160);
+			this.groupBox3.Size = new System.Drawing.Size(500, 100);
 			this.groupBox3.TabIndex = 2;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Page Description Policies";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(93, 120);
+			this.label5.Location = new System.Drawing.Point(323, 60);
 			this.label5.Margin = new System.Windows.Forms.Padding(0);
 			this.label5.Name = "label5";
 			this.label5.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-			this.label5.Size = new System.Drawing.Size(200, 20);
+			this.label5.Size = new System.Drawing.Size(150, 20);
 			this.label5.TabIndex = 15;
 			this.label5.Text = "Maximum description words";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(93, 90);
+			this.label6.Location = new System.Drawing.Point(323, 28);
 			this.label6.Margin = new System.Windows.Forms.Padding(0);
 			this.label6.Name = "label6";
 			this.label6.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-			this.label6.Size = new System.Drawing.Size(200, 20);
+			this.label6.Size = new System.Drawing.Size(150, 20);
 			this.label6.TabIndex = 14;
 			this.label6.Text = "Minimum description words";
 			// 
@@ -1399,7 +1334,7 @@ namespace SEOMacroscope
 			this.label7.Margin = new System.Windows.Forms.Padding(0);
 			this.label7.Name = "label7";
 			this.label7.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-			this.label7.Size = new System.Drawing.Size(200, 20);
+			this.label7.Size = new System.Drawing.Size(150, 20);
 			this.label7.TabIndex = 13;
 			this.label7.Text = "Maximum description length";
 			// 
@@ -1409,13 +1344,13 @@ namespace SEOMacroscope
 			this.label8.Margin = new System.Windows.Forms.Padding(0);
 			this.label8.Name = "label8";
 			this.label8.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-			this.label8.Size = new System.Drawing.Size(200, 20);
+			this.label8.Size = new System.Drawing.Size(150, 20);
 			this.label8.TabIndex = 12;
 			this.label8.Text = "Minimum description length";
 			// 
 			// numericUpDownDescriptionMaxWords
 			// 
-			this.numericUpDownDescriptionMaxWords.Location = new System.Drawing.Point(20, 120);
+			this.numericUpDownDescriptionMaxWords.Location = new System.Drawing.Point(250, 60);
 			this.numericUpDownDescriptionMaxWords.Minimum = new decimal(new int[] {
 			1,
 			0,
@@ -1432,7 +1367,7 @@ namespace SEOMacroscope
 			// 
 			// numericUpDownDescriptionMinWords
 			// 
-			this.numericUpDownDescriptionMinWords.Location = new System.Drawing.Point(20, 90);
+			this.numericUpDownDescriptionMinWords.Location = new System.Drawing.Point(250, 28);
 			this.numericUpDownDescriptionMinWords.Minimum = new decimal(new int[] {
 			1,
 			0,
@@ -1495,7 +1430,7 @@ namespace SEOMacroscope
 			// 
 			this.groupBox9.Controls.Add(this.label18);
 			this.groupBox9.Controls.Add(this.numericUpDownMaxHeadingDepth);
-			this.groupBox9.Location = new System.Drawing.Point(10, 350);
+			this.groupBox9.Location = new System.Drawing.Point(10, 290);
 			this.groupBox9.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox9.Name = "groupBox9";
 			this.groupBox9.Size = new System.Drawing.Size(500, 70);
@@ -1538,14 +1473,24 @@ namespace SEOMacroscope
 			// groupBox12
 			// 
 			this.groupBox12.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox12.Controls.Add(this.checkBoxAnalyzeTextReadability);
 			this.groupBox12.Controls.Add(this.checkBoxAnalyzeKeywordsInText);
-			this.groupBox12.Location = new System.Drawing.Point(10, 430);
+			this.groupBox12.Location = new System.Drawing.Point(10, 370);
 			this.groupBox12.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Size = new System.Drawing.Size(500, 60);
 			this.groupBox12.TabIndex = 4;
 			this.groupBox12.TabStop = false;
-			this.groupBox12.Text = "Keywords";
+			this.groupBox12.Text = "Document Text";
+			// 
+			// checkBoxAnalyzeTextReadability
+			// 
+			this.checkBoxAnalyzeTextReadability.Location = new System.Drawing.Point(250, 20);
+			this.checkBoxAnalyzeTextReadability.Name = "checkBoxAnalyzeTextReadability";
+			this.checkBoxAnalyzeTextReadability.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxAnalyzeTextReadability.TabIndex = 2;
+			this.checkBoxAnalyzeTextReadability.Text = "Analyze text readability";
+			this.checkBoxAnalyzeTextReadability.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxAnalyzeKeywordsInText
 			// 
@@ -1555,6 +1500,83 @@ namespace SEOMacroscope
 			this.checkBoxAnalyzeKeywordsInText.TabIndex = 1;
 			this.checkBoxAnalyzeKeywordsInText.Text = "Analyze keywords in page text";
 			this.checkBoxAnalyzeKeywordsInText.UseVisualStyleBackColor = true;
+			// 
+			// groupBox14
+			// 
+			this.groupBox14.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox14.Controls.Add(this.checkBoxEnableLevenshteinDeduplication);
+			this.groupBox14.Controls.Add(this.labelMaxLevenshteinSizeDifference);
+			this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinSizeDifference);
+			this.groupBox14.Controls.Add(this.label22);
+			this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinDistance);
+			this.groupBox14.Location = new System.Drawing.Point(10, 440);
+			this.groupBox14.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox14.Name = "groupBox14";
+			this.groupBox14.Size = new System.Drawing.Size(500, 124);
+			this.groupBox14.TabIndex = 7;
+			this.groupBox14.TabStop = false;
+			this.groupBox14.Text = "Levenshtein Edit Distance Processing";
+			// 
+			// checkBoxEnableLevenshteinDeduplication
+			// 
+			this.checkBoxEnableLevenshteinDeduplication.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxEnableLevenshteinDeduplication.Name = "checkBoxEnableLevenshteinDeduplication";
+			this.checkBoxEnableLevenshteinDeduplication.Size = new System.Drawing.Size(376, 24);
+			this.checkBoxEnableLevenshteinDeduplication.TabIndex = 1;
+			this.checkBoxEnableLevenshteinDeduplication.Text = "Enable Levenshtein duplicate detection";
+			this.checkBoxEnableLevenshteinDeduplication.UseVisualStyleBackColor = true;
+			// 
+			// labelMaxLevenshteinSizeDifference
+			// 
+			this.labelMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(96, 50);
+			this.labelMaxLevenshteinSizeDifference.Name = "labelMaxLevenshteinSizeDifference";
+			this.labelMaxLevenshteinSizeDifference.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.labelMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(250, 20);
+			this.labelMaxLevenshteinSizeDifference.TabIndex = 9;
+			this.labelMaxLevenshteinSizeDifference.Text = "Maximum Levenshtein text length difference";
+			// 
+			// numericUpDownMaxLevenshteinSizeDifference
+			// 
+			this.numericUpDownMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(20, 50);
+			this.numericUpDownMaxLevenshteinSizeDifference.Maximum = new decimal(new int[] {
+			512,
+			0,
+			0,
+			0});
+			this.numericUpDownMaxLevenshteinSizeDifference.Name = "numericUpDownMaxLevenshteinSizeDifference";
+			this.numericUpDownMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownMaxLevenshteinSizeDifference.TabIndex = 2;
+			this.numericUpDownMaxLevenshteinSizeDifference.Value = new decimal(new int[] {
+			64,
+			0,
+			0,
+			0});
+			// 
+			// label22
+			// 
+			this.label22.Location = new System.Drawing.Point(96, 80);
+			this.label22.Name = "label22";
+			this.label22.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label22.Size = new System.Drawing.Size(250, 20);
+			this.label22.TabIndex = 4;
+			this.label22.Text = "Levenshtein edit distance threshold";
+			// 
+			// numericUpDownMaxLevenshteinDistance
+			// 
+			this.numericUpDownMaxLevenshteinDistance.Location = new System.Drawing.Point(20, 80);
+			this.numericUpDownMaxLevenshteinDistance.Maximum = new decimal(new int[] {
+			512,
+			0,
+			0,
+			0});
+			this.numericUpDownMaxLevenshteinDistance.Name = "numericUpDownMaxLevenshteinDistance";
+			this.numericUpDownMaxLevenshteinDistance.Size = new System.Drawing.Size(70, 20);
+			this.numericUpDownMaxLevenshteinDistance.TabIndex = 3;
+			this.numericUpDownMaxLevenshteinDistance.Value = new decimal(new int[] {
+			16,
+			0,
+			0,
+			0});
 			// 
 			// tabPageCustomFilterOptions
 			// 
@@ -2125,15 +2147,6 @@ namespace SEOMacroscope
 			this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
 			this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
 			// 
-			// checkBoxCrawlStrictUrlCheck
-			// 
-			this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(340, 50);
-			this.checkBoxCrawlStrictUrlCheck.Name = "checkBoxCrawlStrictUrlCheck";
-			this.checkBoxCrawlStrictUrlCheck.Size = new System.Drawing.Size(150, 24);
-			this.checkBoxCrawlStrictUrlCheck.TabIndex = 6;
-			this.checkBoxCrawlStrictUrlCheck.Text = "Strict URL Check";
-			this.checkBoxCrawlStrictUrlCheck.UseVisualStyleBackColor = true;
-			// 
 			// MacroscopePrefsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2164,9 +2177,6 @@ namespace SEOMacroscope
 			this.groupBox16.ResumeLayout(false);
 			this.groupBox11.ResumeLayout(false);
 			this.groupBox13.ResumeLayout(false);
-			this.groupBox14.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinSizeDifference)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinDistance)).EndInit();
 			this.tabPageSeo.ResumeLayout(false);
 			this.flowLayoutPanel2.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
@@ -2183,6 +2193,9 @@ namespace SEOMacroscope
 			this.groupBox9.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxHeadingDepth)).EndInit();
 			this.groupBox12.ResumeLayout(false);
+			this.groupBox14.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinSizeDifference)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinDistance)).EndInit();
 			this.tabPageCustomFilterOptions.ResumeLayout(false);
 			this.flowLayoutPanel9.ResumeLayout(false);
 			this.groupBox23.ResumeLayout(false);

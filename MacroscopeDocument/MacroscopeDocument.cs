@@ -147,6 +147,7 @@ namespace SEOMacroscope
     private string BodyText;
     private string BodyTextLanguage;
     private List<Dictionary<string,int>> DeepKeywordAnalysis;
+    private double SmogGrade;
     private int WordCount;
 
     private int Depth;
@@ -163,7 +164,7 @@ namespace SEOMacroscope
 
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -328,6 +329,8 @@ namespace SEOMacroscope
         this.DeepKeywordAnalysis.Add( new Dictionary<string,int> ( 256 ) );
       }
 
+      this.SmogGrade = 0;
+      
       this.WordCount = 0;
       
       this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
@@ -1598,6 +1601,7 @@ namespace SEOMacroscope
 
     public void SetBodyText ( string Text )
     {
+      
       if( !string.IsNullOrEmpty( Text ) )
       {
 
@@ -1609,12 +1613,18 @@ namespace SEOMacroscope
         {
           this.SetWordCount();
         }
-
+        
+        if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
+        {
+          this.CalculateSmogGrade();
+        }
+        
       }
       else
       {
         this.BodyText = "";
       }
+      
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1730,6 +1740,41 @@ namespace SEOMacroscope
       return( Terms );
     }
     
+    /** Text Readability ******************************************************/
+
+    public void CalculateSmogGrade ()
+    {
+      
+      double Grade = 0;
+      
+      if( this.GetIsRedirect() )
+      {
+        return;
+      }
+            
+      if( this.GetIsHtml() || this.GetIsPdf() )
+      {
+        
+        if( this.GetIsoLanguageCode().Equals( "en" ) )
+        {
+        
+          MacroscopeAnalyzeReadability AnalyzeReadability = new MacroscopeAnalyzeReadability ();
+          string PageText = this.GetBodyText();
+        
+          Grade = AnalyzeReadability.AnalyzeSmogGrade( SampleText: PageText );
+      
+        }
+        
+      }
+      
+      this.SmogGrade = Grade;
+    }
+
+    public double GetSmogGrade ()
+    {
+      return( this.SmogGrade );
+    }
+
     /** Durations *************************************************************/
 
     public void SetDuration ( long lDuration )

@@ -125,10 +125,6 @@ namespace SEOMacroscope
         this.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
         this.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
 
-        this.checkBoxEnableLevenshteinDeduplication.Checked = MacroscopePreferencesManager.GetEnableLevenshteinDeduplication();
-        this.numericUpDownMaxLevenshteinSizeDifference.Value = MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference();
-        this.numericUpDownMaxLevenshteinDistance.Value = MacroscopePreferencesManager.GetMaxLevenshteinDistance();
-
         /** SEO Options ---------------------------------------------------- **/
 
         this.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
@@ -145,7 +141,12 @@ namespace SEOMacroscope
         this.numericUpDownMaxHeadingDepth.Value = MacroscopePreferencesManager.GetMaxHeadingDepth();
 
         this.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
+        this.checkBoxAnalyzeTextReadability.Checked = MacroscopePreferencesManager.GetAnalyzeTextReadability();
 
+        this.checkBoxEnableLevenshteinDeduplication.Checked = MacroscopePreferencesManager.GetEnableLevenshteinDeduplication();
+        this.numericUpDownMaxLevenshteinSizeDifference.Value = MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference();
+        this.numericUpDownMaxLevenshteinDistance.Value = MacroscopePreferencesManager.GetMaxLevenshteinDistance();
+        
         /** Custom Filter Options ------------------------------------------ **/
 
         this.checkBoxCustomFiltersEnable.Checked = MacroscopePreferencesManager.GetCustomFiltersEnable();
@@ -246,10 +247,6 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetScanSitesInList( this.checkBoxScanSitesInList.Checked );
       MacroscopePreferencesManager.SetWarnAboutInsecureLinks( this.checkBoxWarnAboutInsecureLinks.Checked );
 
-      MacroscopePreferencesManager.SetEnableLevenshteinDeduplication( this.checkBoxEnableLevenshteinDeduplication.Checked );
-      MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( ( int )this.numericUpDownMaxLevenshteinSizeDifference.Value );
-      MacroscopePreferencesManager.SetMaxLevenshteinDistance( ( int )this.numericUpDownMaxLevenshteinDistance.Value );
-
       /** SEO Options ------------------------------------------------------ **/
       
       MacroscopePreferencesManager.SetTitleMinLen( ( int )this.numericUpDownTitleMinLen.Value );
@@ -266,6 +263,11 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetMaxHeadingDepth( ( ushort )this.numericUpDownMaxHeadingDepth.Value );
 
       MacroscopePreferencesManager.SetAnalyzeKeywordsInText( this.checkBoxAnalyzeKeywordsInText.Checked );
+      MacroscopePreferencesManager.SetAnalyzeTextReadability( this.checkBoxAnalyzeTextReadability.Checked );
+
+      MacroscopePreferencesManager.SetEnableLevenshteinDeduplication( this.checkBoxEnableLevenshteinDeduplication.Checked );
+      MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( ( int )this.numericUpDownMaxLevenshteinSizeDifference.Value );
+      MacroscopePreferencesManager.SetMaxLevenshteinDistance( ( int )this.numericUpDownMaxLevenshteinDistance.Value );
 
       /** Custom Filter Options -------------------------------------------- **/
 
