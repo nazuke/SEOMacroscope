@@ -147,7 +147,11 @@ namespace SEOMacroscope
     private string BodyText;
     private string BodyTextLanguage;
     private List<Dictionary<string,int>> DeepKeywordAnalysis;
-    private double SmogGrade;
+    
+    private double ReadabilityGrade;
+    private MacroscopeAnalyzeReadability.AnalyzeReadabilityType ReadabilityGradeType;
+    private string ReadabilityGradeDescription;
+    
     private int WordCount;
 
     private int Depth;
@@ -329,7 +333,9 @@ namespace SEOMacroscope
         this.DeepKeywordAnalysis.Add( new Dictionary<string,int> ( 256 ) );
       }
 
-      this.SmogGrade = 0;
+      this.ReadabilityGrade = 0;
+      this.ReadabilityGradeType = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.UNKNOWN;
+      this.ReadabilityGradeDescription = "";
       
       this.WordCount = 0;
       
@@ -1602,6 +1608,12 @@ namespace SEOMacroscope
     public void SetBodyText ( string Text )
     {
       
+      this.SuppressDebugMsg = false;
+      
+      
+      this.DebugMsg( Text );
+      
+      
       if( !string.IsNullOrEmpty( Text ) )
       {
 
@@ -1624,6 +1636,8 @@ namespace SEOMacroscope
       {
         this.BodyText = "";
       }
+      
+      this.SuppressDebugMsg = true;
       
     }
 
@@ -1746,6 +1760,8 @@ namespace SEOMacroscope
     {
       
       double Grade = 0;
+      string GradeDescription = "";
+      MacroscopeAnalyzeReadability.AnalyzeReadabilityType GradeType = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.UNKNOWN;
       
       if( this.GetIsRedirect() )
       {
@@ -1758,21 +1774,35 @@ namespace SEOMacroscope
         if( this.GetIsoLanguageCode().Equals( "en" ) )
         {
         
-          MacroscopeAnalyzeReadability AnalyzeReadability = new MacroscopeAnalyzeReadability ();
-          string PageText = this.GetBodyText();
-        
-          Grade = AnalyzeReadability.AnalyzeSmogGrade( SampleText: PageText );
-      
+          IMacroscopeAnalyzeReadability AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
+
+          Grade = AnalyzeReadability.AnalyzeReadability( msDoc: this );
+          GradeType = AnalyzeReadability.GetAnalyzeReadabilityType();
+          GradeDescription = AnalyzeReadability.GradeToString();
+
         }
         
       }
-      
-      this.SmogGrade = Grade;
+
+      this.ReadabilityGrade = Grade;
+      this.ReadabilityGradeType = GradeType;
+      this.ReadabilityGradeDescription = GradeDescription;
+        
     }
 
-    public double GetSmogGrade ()
+    public double GetReadabilityGrade ()
     {
-      return( this.SmogGrade );
+      return( this.ReadabilityGrade );
+    }
+    
+    public MacroscopeAnalyzeReadability.AnalyzeReadabilityType GetReadabilityGradeType ()
+    {
+      return( this.ReadabilityGradeType );
+    }
+
+    public string GetReadabilityGradeDescription()
+    {
+      return( this.ReadabilityGradeDescription );
     }
 
     /** Durations *************************************************************/

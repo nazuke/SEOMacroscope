@@ -63,6 +63,15 @@ namespace SEOMacroscope
         iCol++;
         
         ws.Cell( iRow, iCol ).Value = "Word Count";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Readability Grade Type";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Readability Grade";
+        iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Readability Grade Description";
 
       }
 
@@ -105,7 +114,10 @@ namespace SEOMacroscope
           string PageLanguage = msDoc.GetIsoLanguageCode();
           string DetectedLanguage = msDoc.GetBodyTextLanguage();
           int WordCount = msDoc.GetWordCount();
-
+          string ReadabilityGradeType = msDoc.GetReadabilityGradeType().ToString();
+          string ReadabilityGrade = msDoc.GetReadabilityGrade().ToString( "00.00" );
+          string ReadabilityGradeDescription = msDoc.GetReadabilityGradeDescription();
+        
           if( string.IsNullOrEmpty( PageLocale ) )
           {
             PageLocale = "";
@@ -190,6 +202,18 @@ namespace SEOMacroscope
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
           }          
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, ReadabilityGradeType );
+          
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, ReadabilityGrade );
+          
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, ReadabilityGradeDescription );
 
           iRow++;
           

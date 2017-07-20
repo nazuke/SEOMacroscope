@@ -187,12 +187,9 @@ namespace SEOMacroscope
       {
 
         TreeNode nNode = this.tvTreeView.Nodes.Add( "TEXT_READABILITY" );
+        nNode.Name = "TEXT_READABILITY";
         nNode.Text = "Text Readability";
-
-        TreeNode nNodeTitles = nNode.Nodes.Add( "SMOG_GRADE" );
-        nNodeTitles.Name = "SMOG_GRADE";
-        nNodeTitles.Text = "SMOG Grade";
-
+        
       }
 
       this.tvTreeView.ExpandAll();
@@ -378,21 +375,15 @@ namespace SEOMacroscope
       }
       
       {
-        TreeNode [] tnNodes = this.tvTreeView.Nodes.Find( "SMOG_GRADE", true );
+        TreeNode [] tnNodes = this.tvTreeView.Nodes.Find( "TEXT_READABILITY", true );
         TreeNode tnNode = tnNodes[ 0 ];
         if( tnNode != null )
         {
           tnNode.Nodes.Clear();
-          Dictionary<double,int> dicContents = DocCollection.GetStatsSmogGradesCount();
-          foreach( double ContentKey in dicContents.Keys )
+          Dictionary<string,int> dicContents = DocCollection.GetStatsReadabilityGradesCount();
+          foreach( string ContentKey in dicContents.Keys )
           {
-            string SmogGradeText;
-            SmogGradeText = string.Format(
-              "{0} ({1})",
-              ContentKey,
-              MacroscopeAnalyzeReadability.GradeToString( Grade: ContentKey )
-            );
-            tnNode.Nodes.Add( string.Format( "{0}: {1}", SmogGradeText, dicContents[ ContentKey ] ) );
+            tnNode.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
           }
         }
       }

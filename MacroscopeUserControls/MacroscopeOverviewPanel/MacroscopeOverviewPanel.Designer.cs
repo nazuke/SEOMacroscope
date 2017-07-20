@@ -290,7 +290,9 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ToolStripLabel toolStripLabelXpaths;
 		public System.Windows.Forms.ListView listViewDataExtractorXpaths;
 		private System.Windows.Forms.ColumnHeader HyperlinksRawTargetUrl;
-		private System.Windows.Forms.ColumnHeader PageTextSmogGrade;
+		private System.Windows.Forms.ColumnHeader PageTextReadabilityGrade;
+		private System.Windows.Forms.ColumnHeader PageTextReadabilityGradeType;
+		private System.Windows.Forms.ColumnHeader PageTextReadabilityGradeDescription;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -500,6 +502,9 @@ namespace SEOMacroscope
 			this.PageTextPageLanguage = new System.Windows.Forms.ColumnHeader();
 			this.PageTextDetectedLanguage = new System.Windows.Forms.ColumnHeader();
 			this.PageTextWordCount = new System.Windows.Forms.ColumnHeader();
+			this.PageTextReadabilityGradeType = new System.Windows.Forms.ColumnHeader();
+			this.PageTextReadabilityGrade = new System.Windows.Forms.ColumnHeader();
+			this.PageTextReadabilityGradeDescription = new System.Windows.Forms.ColumnHeader();
 			this.tabPageStylesheets = new System.Windows.Forms.TabPage();
 			this.listViewStylesheets = new System.Windows.Forms.ListView();
 			this.columnHeaderStylesheetsUrl = new System.Windows.Forms.ColumnHeader();
@@ -574,7 +579,6 @@ namespace SEOMacroscope
 			this.listViewHistory = new System.Windows.Forms.ListView();
 			this.HistoryUrl = new System.Windows.Forms.ColumnHeader();
 			this.HistoryVisited = new System.Windows.Forms.ColumnHeader();
-			this.PageTextSmogGrade = new System.Windows.Forms.ColumnHeader();
 			this.tabControlMain.SuspendLayout();
 			this.tabPageStructureOverview.SuspendLayout();
 			this.tableLayoutPanelStructure.SuspendLayout();
@@ -2170,13 +2174,15 @@ namespace SEOMacroscope
 			this.PageTextPageLanguage,
 			this.PageTextDetectedLanguage,
 			this.PageTextWordCount,
-			this.PageTextSmogGrade});
+			this.PageTextReadabilityGradeType,
+			this.PageTextReadabilityGrade,
+			this.PageTextReadabilityGradeDescription});
 			this.listViewPageText.ContextMenuStrip = this.contextMenuStripStructure;
 			this.listViewPageText.FullRowSelect = true;
 			this.listViewPageText.GridLines = true;
 			this.listViewPageText.Location = new System.Drawing.Point(20, 20);
 			this.listViewPageText.Name = "listViewPageText";
-			this.listViewPageText.Size = new System.Drawing.Size(700, 200);
+			this.listViewPageText.Size = new System.Drawing.Size(752, 200);
 			this.listViewPageText.TabIndex = 3;
 			this.listViewPageText.UseCompatibleStateImageBehavior = false;
 			this.listViewPageText.View = System.Windows.Forms.View.Details;
@@ -2189,23 +2195,39 @@ namespace SEOMacroscope
 			// PageTextLocale
 			// 
 			this.PageTextLocale.Text = "Locale";
-			this.PageTextLocale.Width = 120;
+			this.PageTextLocale.Width = 50;
 			// 
 			// PageTextPageLanguage
 			// 
 			this.PageTextPageLanguage.Text = "Page Language";
-			this.PageTextPageLanguage.Width = 120;
+			this.PageTextPageLanguage.Width = 90;
 			// 
 			// PageTextDetectedLanguage
 			// 
 			this.PageTextDetectedLanguage.Text = "Detected Language";
-			this.PageTextDetectedLanguage.Width = 120;
+			this.PageTextDetectedLanguage.Width = 110;
 			// 
 			// PageTextWordCount
 			// 
 			this.PageTextWordCount.Text = "Word Count";
 			this.PageTextWordCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.PageTextWordCount.Width = 120;
+			this.PageTextWordCount.Width = 70;
+			// 
+			// PageTextReadabilityGradeType
+			// 
+			this.PageTextReadabilityGradeType.Text = "Readability Type";
+			this.PageTextReadabilityGradeType.Width = 100;
+			// 
+			// PageTextReadabilityGrade
+			// 
+			this.PageTextReadabilityGrade.Text = "Readability Grade";
+			this.PageTextReadabilityGrade.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.PageTextReadabilityGrade.Width = 100;
+			// 
+			// PageTextReadabilityGradeDescription
+			// 
+			this.PageTextReadabilityGradeDescription.Text = "Readability Grade Description";
+			this.PageTextReadabilityGradeDescription.Width = 150;
 			// 
 			// tabPageStylesheets
 			// 
@@ -2979,11 +3001,6 @@ namespace SEOMacroscope
 			// 
 			this.HistoryVisited.Text = "Visited";
 			this.HistoryVisited.Width = 100;
-			// 
-			// PageTextSmogGrade
-			// 
-			this.PageTextSmogGrade.Text = "SMOG Grade";
-			this.PageTextSmogGrade.Width = 100;
 			// 
 			// MacroscopeOverviewPanel
 			// 

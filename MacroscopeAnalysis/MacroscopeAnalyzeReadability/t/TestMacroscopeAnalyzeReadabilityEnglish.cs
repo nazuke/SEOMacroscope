@@ -30,7 +30,7 @@ using NUnit.Framework;
 namespace SEOMacroscope
 {
   [TestFixture]
-  public class TestMacroscopeAnalyzeReadability
+  public class TestMacroscopeAnalyzeReadabilityEnglish
   {
 
     /**************************************************************************/
@@ -40,7 +40,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadability AnalyzeReadability = new MacroscopeAnalyzeReadability ();
+      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
 
       Dictionary<string,string> SampleTexts = new Dictionary<string, string> ();
 
@@ -70,7 +70,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadability AnalyzeReadability = new MacroscopeAnalyzeReadability ();
+      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
 
       Dictionary<string,string> SampleTexts = new Dictionary<string, string> ();
 
@@ -101,7 +101,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadability AnalyzeReadability = new MacroscopeAnalyzeReadability ();
+      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
 
       Dictionary<string,int> SampleTexts = new Dictionary<string, int> ();
 
@@ -140,7 +140,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadability AnalyzeReadability = new MacroscopeAnalyzeReadability ();
+      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
 
       string SampleText = "The quick brown fox jumps over the lazy dog.";
 
@@ -159,7 +159,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadability AnalyzeReadability = new MacroscopeAnalyzeReadability ();
+      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
 
       List<string> SampleTexts = new List<string> ( 10 );
 
@@ -172,7 +172,7 @@ namespace SEOMacroscope
 
         double SmogGrade;
 
-        SmogGrade = AnalyzeReadability.AnalyzeSmogGrade( SampleText: SampleText );
+        SmogGrade = AnalyzeReadability.AnalyzeReadability( SampleText: SampleText );
 
         ms.DebugMsg( string.Format( "SmogGrade: {0}", SmogGrade ) );
 

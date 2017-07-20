@@ -49,6 +49,9 @@ namespace SEOMacroscope
         ws.WriteField( "Page Language" );
         ws.WriteField( "Detected Language" );
         ws.WriteField( "Word Count" );
+        ws.WriteField( "Readability Grade Type" );
+        ws.WriteField( "Readability Grade" );
+        ws.WriteField( "Readability Grade Description" );
 
         ws.NextRecord();
 
@@ -87,7 +90,10 @@ namespace SEOMacroscope
           string PageLanguage = msDoc.GetIsoLanguageCode();
           string DetectedLanguage = msDoc.GetBodyTextLanguage();
           int WordCount = msDoc.GetWordCount();
-
+          string ReadabilityGradeType = msDoc.GetReadabilityGradeType().ToString();
+          string ReadabilityGrade = msDoc.GetReadabilityGrade().ToString( "00.00" );
+          string ReadabilityGradeDescription = msDoc.GetReadabilityGradeDescription();
+          
           if( string.IsNullOrEmpty( PageLocale ) )
           {
             PageLocale = "";
@@ -112,6 +118,10 @@ namespace SEOMacroscope
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( DetectedLanguage ) );
 
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( WordCount.ToString() ) );
+
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ReadabilityGradeType ) );
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ReadabilityGrade ) );
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ReadabilityGradeDescription ) );          
 
           ws.NextRecord();
 

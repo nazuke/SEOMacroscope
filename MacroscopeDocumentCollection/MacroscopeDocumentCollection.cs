@@ -68,12 +68,8 @@ namespace SEOMacroscope
     private Dictionary<string,MacroscopeDocumentList> StatsDeepKeywordAnalysisDocs;
     private List<Dictionary<string,int>> StatsDeepKeywordAnalysis;
 
+    private Dictionary<string,int> StatsReadabilityGrades;
 
-    
-    private Dictionary<double,int> StatsSmogGrades;
-    
-    
-    
     private int StatsUrlsInternal;
     private int StatsUrlsExternal;
     private int StatsUrlsSitemaps;
@@ -138,7 +134,7 @@ namespace SEOMacroscope
 
       this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ( DocList: this.StatsDeepKeywordAnalysisDocs );
            
-      this.StatsSmogGrades = new  Dictionary<double,int> ( 32 );
+      this.StatsReadabilityGrades = new  Dictionary<string,int> ( 21 );
 
       this.StatsUrlsInternal = 0;
       this.StatsUrlsExternal = 0;
@@ -697,7 +693,7 @@ namespace SEOMacroscope
             
                 if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
                 {
-                  this.RecalculateStatsSmogGrades( msDoc: msDoc );
+                  this.RecalculateStatsReadabilityGrades( msDoc: msDoc );
                 }
 
                 this.AddDocumentToSearchIndex( msDoc: msDoc );
@@ -1873,40 +1869,24 @@ namespace SEOMacroscope
 
     /** Readability Analysis **************************************************/
 
-    private void ClearStatsSmogGrades ()
+    private void ClearStatsReadabilityGrades ()
     {
-      lock( this.StatsSmogGrades )
+      lock( this.StatsReadabilityGrades )
       {
-        this.StatsSmogGrades.Clear();
+        this.StatsReadabilityGrades.Clear();
       }
     }
 
     /** -------------------------------------------------------------------- **/
-
-    public int GetStatsSmogGradesCount ( double Grade )
-    {
-
-      int Count = 0;
-      
-      if( this.StatsSmogGrades.ContainsKey( Grade ) )
-      {
-        Count = this.StatsSmogGrades[ Grade ];
-      }
-
-      return( Count );
-
-    }
         
-    /** -------------------------------------------------------------------- **/
-        
-    public Dictionary<double,int> GetStatsSmogGradesCount ()
+    public Dictionary<string,int> GetStatsReadabilityGradesCount ()
     {
-      Dictionary<double,int> dicStats = new Dictionary<double,int> ( this.StatsSmogGrades.Count );
-      lock( this.StatsSmogGrades )
+      Dictionary<string,int> dicStats = new Dictionary<string,int> ( this.StatsReadabilityGrades.Count );
+      lock( this.StatsReadabilityGrades )
       {
-        foreach( double Key in this.StatsSmogGrades.Keys )
+        foreach( string Key in this.StatsReadabilityGrades.Keys )
         {
-          dicStats.Add( Key, this.StatsSmogGrades[ Key ] );
+          dicStats.Add( Key, this.StatsReadabilityGrades[ Key ] );
         }
       }
       return( dicStats );
@@ -1914,7 +1894,7 @@ namespace SEOMacroscope
     
     /** -------------------------------------------------------------------- **/
             
-    private void RecalculateStatsSmogGrades ( MacroscopeDocument msDoc )
+    private void RecalculateStatsReadabilityGrades ( MacroscopeDocument msDoc )
     {
 
       Boolean Proceed = false;
@@ -1932,18 +1912,24 @@ namespace SEOMacroscope
       if( Proceed )
       {
 
-        lock( this.StatsSmogGrades )
+        lock( this.StatsReadabilityGrades )
         {
+          string Grade;
           
-          double Grade = msDoc.GetSmogGrade();
+          Grade = string.Format(
+            "{0} : {1} : {2}",
+            msDoc.GetReadabilityGradeType(),
+            msDoc.GetReadabilityGrade().ToString( "00.00" ),
+            msDoc.GetReadabilityGradeDescription()
+          );
 
-          if( this.StatsSmogGrades.ContainsKey( Grade ) )
+          if( this.StatsReadabilityGrades.ContainsKey( Grade ) )
           {
-            this.StatsSmogGrades[ Grade ] = this.StatsSmogGrades[ Grade ] + 1;
+            this.StatsReadabilityGrades[ Grade ] = this.StatsReadabilityGrades[ Grade ] + 1;
           }
           else
           {
-            this.StatsSmogGrades.Add( Grade, 1 );
+            this.StatsReadabilityGrades.Add( Grade, 1 );
           }
 
         }

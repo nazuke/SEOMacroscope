@@ -101,15 +101,16 @@ namespace SEOMacroscope
 
       {
 
-        string SmogGradeText;
+        string ReadabilityGradeText;
 
-        SmogGradeText = string.Format(
-          "{0} ({1})",
-          this.GetSmogGrade(),
-          MacroscopeAnalyzeReadability.GradeToString( Grade: this.GetSmogGrade() )
+        ReadabilityGradeText = string.Format(
+          "{0} : {1} : {2}",
+          this.GetReadabilityGradeType(),
+          this.GetReadabilityGrade().ToString( "00.00" ),
+          this.GetReadabilityGradeDescription()
         );
       
-        DetailsList.Add( new KeyValuePair<string,string> ( "SMOG Grade (Text Readability)", SmogGradeText ) );
+        DetailsList.Add( new KeyValuePair<string,string> ( "Text Readability", ReadabilityGradeText ) );
 
       }
 
