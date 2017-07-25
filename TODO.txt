@@ -6,3 +6,4 @@ For example, filter by "documents that contain video" or "documents that contain
 Readability test:
 https://en.wikipedia.org/wiki/SMOG
 http://www.phonicsontheweb.com/syllables.php
+Flesch: http://www.mang.canterbury.ac.nz/writing_guide/writing/flesch.shtml

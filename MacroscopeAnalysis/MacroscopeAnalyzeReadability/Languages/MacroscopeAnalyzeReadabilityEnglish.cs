@@ -67,10 +67,8 @@ namespace SEOMacroscope
       
       this.Type = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.SMOG;
       
-      this.SentenceDelimiters = new char[3];
+      this.SentenceDelimiters = new char[1];
       this.SentenceDelimiters[ 0 ] = '.';
-      this.SentenceDelimiters[ 1 ] = '\r';
-      this.SentenceDelimiters[ 2 ] = '\n';
 
       /*
         Value: 1 4 9 16 25 36 49 64 81 100 121 144 169
