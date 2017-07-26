@@ -110,7 +110,7 @@ namespace SEOMacroscope
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"[\s]+", " ", RegexOptions.Singleline );
 
         CleanedText = CleanedText.Trim();
       

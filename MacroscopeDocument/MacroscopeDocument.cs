@@ -804,7 +804,7 @@ namespace SEOMacroscope
       }
       else
       {
-        MatchCollection matches = Regex.Matches( this.MimeType, "^([^\\s;/]+)/([^\\s;/]+)" );
+        MatchCollection matches = Regex.Matches( this.MimeType, @"^([^\s;/]+)/([^\s;/]+)" );
         foreach( Match match in matches )
         {
           DocumentMimeType = String.Format( "{0}/{1}", match.Groups[ 1 ].Value, match.Groups[ 2 ].Value );
@@ -1361,7 +1361,7 @@ namespace SEOMacroscope
         Value = HtmlEntity.DeEntitize( TitleText );
       }
 
-      Value = Regex.Replace( Value, "[\\s]+", " ", RegexOptions.Singleline );
+      Value = Regex.Replace( Value, @"[\s]+", " ", RegexOptions.Singleline );
       Value = Value.Trim();
 
       this.Title = Value;
@@ -1495,7 +1495,7 @@ namespace SEOMacroscope
         ( this.Keywords != null )
         && ( this.Keywords.Length > 0 ) )
       {
-        string [] KeywordsList = Regex.Split( this.Keywords, "[\\s,]+" );
+        string [] KeywordsList = Regex.Split( this.Keywords, @"[\s,]+" );
         Count = KeywordsList.GetLength( 0 );
       }
 
@@ -1681,7 +1681,7 @@ namespace SEOMacroscope
 
       try
       {
-        string [] Words = Regex.Split( this.BodyText, "\\s", RegexOptions.Singleline );
+        string [] Words = Regex.Split( this.BodyText, @"\s", RegexOptions.Singleline );
         this.WordCount = Words.Length;
       }
       catch( Exception ex )
@@ -2818,15 +2818,15 @@ namespace SEOMacroscope
       // Process MIME Type
       {
 
-        Regex reIsHtml = new Regex ( "^(text/html|application/xhtml+xml)", RegexOptions.IgnoreCase );
-        Regex reIsCss = new Regex ( "^text/css", RegexOptions.IgnoreCase );
-        Regex reIsJavascript = new Regex ( "^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
-        Regex reIsImage = new Regex ( "^image/(gif|png|jpeg|bmp|webp|vnd.microsoft.icon|x-icon)", RegexOptions.IgnoreCase );
-        Regex reIsPdf = new Regex ( "^application/pdf", RegexOptions.IgnoreCase );
-        Regex reIsAudio = new Regex ( "^audio/[a-z0-9]+", RegexOptions.IgnoreCase );
-        Regex reIsVideo = new Regex ( "^video/[a-z0-9]+", RegexOptions.IgnoreCase );
-        Regex reIsXml = new Regex ( "^(application|text)/(atom\\+xml|xml)", RegexOptions.IgnoreCase );
-        Regex reIsText = new Regex ( "^(text)/(plain)", RegexOptions.IgnoreCase );
+        Regex reIsHtml = new Regex ( @"^(text/html|application/xhtml+xml)", RegexOptions.IgnoreCase );
+        Regex reIsCss = new Regex ( @"^text/css", RegexOptions.IgnoreCase );
+        Regex reIsJavascript = new Regex ( @"^(application/javascript|text/javascript)", RegexOptions.IgnoreCase );
+        Regex reIsImage = new Regex ( @"^image/(gif|png|jpeg|bmp|webp|vnd.microsoft.icon|x-icon)", RegexOptions.IgnoreCase );
+        Regex reIsPdf = new Regex ( @"^application/pdf", RegexOptions.IgnoreCase );
+        Regex reIsAudio = new Regex ( @"^audio/[a-z0-9]+", RegexOptions.IgnoreCase );
+        Regex reIsVideo = new Regex ( @"^video/[a-z0-9]+", RegexOptions.IgnoreCase );
+        Regex reIsXml = new Regex ( @"^(application|text)/(atom\+xml|xml)", RegexOptions.IgnoreCase );
+        Regex reIsText = new Regex ( @"^(text)/(plain)", RegexOptions.IgnoreCase );
         
         if( reIsHtml.IsMatch( this.MimeType ) )
         {

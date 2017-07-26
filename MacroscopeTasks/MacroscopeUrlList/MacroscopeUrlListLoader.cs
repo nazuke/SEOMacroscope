@@ -125,8 +125,8 @@ namespace SEOMacroscope
         for( int i = 0 ; i < Urls.Length ; i++ )
         {
           string Url = Urls[ i ];
-          Url = Regex.Replace( Url, "^\\s+", "" );
-          Url = Regex.Replace( Url, "\\s+$", "" );
+          Url = Regex.Replace( Url, @"^\s+", "" );
+          Url = Regex.Replace( Url, @"\s+$", "" );
           if( Url.Length > 0 )
           {
             if( Uri.IsWellFormedUriString( Url, UriKind.Absolute ) )

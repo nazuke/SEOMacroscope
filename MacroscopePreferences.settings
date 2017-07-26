@@ -10,6 +10,9 @@
     <Setting Name="AnalyzeTextReadability" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="AnalyzeTextReadabilityEnglishAlgorithm" Type="System.Int32" Scope="User" Roaming="false">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
     <Setting Name="AppVersion" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)">v0.0.0.0</Value>
     </Setting>

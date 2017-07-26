@@ -133,8 +133,8 @@ namespace SEOMacroscope
       ObjectPair[ 1 ] = TextY;
 
       if(
-        Regex.IsMatch( TextX, "^[0-9]+$" )
-        && Regex.IsMatch( TextY, "^[0-9]+$" ) )
+        Regex.IsMatch( TextX, @"^[0-9]+$" )
+        && Regex.IsMatch( TextY, @"^[0-9]+$" ) )
       {
         decimal DecimalX = decimal.Parse( TextX );
         decimal DecimalY = decimal.Parse( TextY );
@@ -143,8 +143,8 @@ namespace SEOMacroscope
       }
 
       if(
-        Regex.IsMatch( TextX, "^[0-9]+\\.[0-9]+$" )
-        && Regex.IsMatch( TextY, "^[0-9]+\\.[0-9]+$" ) )
+        Regex.IsMatch( TextX, @"^[0-9]+\.[0-9]+$" )
+        && Regex.IsMatch( TextY, @"^[0-9]+\.[0-9]+$" ) )
       {
         decimal DecimalX = decimal.Parse( TextX );
         decimal DecimalY = decimal.Parse( TextY );

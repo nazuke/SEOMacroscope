@@ -172,6 +172,8 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToHtml;
 		public System.Windows.Forms.CheckBox checkBoxCrawlStrictUrlCheck;
 		public System.Windows.Forms.CheckBox checkBoxAnalyzeTextReadability;
+		private System.Windows.Forms.ComboBox comboBoxAnalyzeTextReadabilityEnglishAlgorithm;
+		private System.Windows.Forms.Label label20;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -278,6 +280,8 @@ namespace SEOMacroscope
 			this.label18 = new System.Windows.Forms.Label();
 			this.numericUpDownMaxHeadingDepth = new System.Windows.Forms.NumericUpDown();
 			this.groupBox12 = new System.Windows.Forms.GroupBox();
+			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm = new System.Windows.Forms.ComboBox();
+			this.label20 = new System.Windows.Forms.Label();
 			this.checkBoxAnalyzeTextReadability = new System.Windows.Forms.CheckBox();
 			this.checkBoxAnalyzeKeywordsInText = new System.Windows.Forms.CheckBox();
 			this.groupBox14 = new System.Windows.Forms.GroupBox();
@@ -1473,15 +1477,38 @@ namespace SEOMacroscope
 			// groupBox12
 			// 
 			this.groupBox12.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox12.Controls.Add(this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm);
+			this.groupBox12.Controls.Add(this.label20);
 			this.groupBox12.Controls.Add(this.checkBoxAnalyzeTextReadability);
 			this.groupBox12.Controls.Add(this.checkBoxAnalyzeKeywordsInText);
 			this.groupBox12.Location = new System.Drawing.Point(10, 370);
 			this.groupBox12.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox12.Name = "groupBox12";
-			this.groupBox12.Size = new System.Drawing.Size(500, 60);
+			this.groupBox12.Size = new System.Drawing.Size(500, 90);
 			this.groupBox12.TabIndex = 4;
 			this.groupBox12.TabStop = false;
 			this.groupBox12.Text = "Document Text";
+			// 
+			// comboBoxAnalyzeTextReadabilityEnglishAlgorithm
+			// 
+			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.FormattingEnabled = true;
+			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Items.AddRange(new object[] {
+			"SMOG Grade",
+			"Flesh-Kincaid"});
+			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Location = new System.Drawing.Point(20, 50);
+			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Name = "comboBoxAnalyzeTextReadabilityEnglishAlgorithm";
+			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Size = new System.Drawing.Size(150, 21);
+			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.TabIndex = 12;
+			// 
+			// label20
+			// 
+			this.label20.Location = new System.Drawing.Point(176, 50);
+			this.label20.Name = "label20";
+			this.label20.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+			this.label20.Size = new System.Drawing.Size(250, 20);
+			this.label20.TabIndex = 11;
+			this.label20.Text = "English readability analysis method";
 			// 
 			// checkBoxAnalyzeTextReadability
 			// 
@@ -1509,7 +1536,7 @@ namespace SEOMacroscope
 			this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinSizeDifference);
 			this.groupBox14.Controls.Add(this.label22);
 			this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinDistance);
-			this.groupBox14.Location = new System.Drawing.Point(10, 440);
+			this.groupBox14.Location = new System.Drawing.Point(10, 470);
 			this.groupBox14.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.Size = new System.Drawing.Size(500, 124);

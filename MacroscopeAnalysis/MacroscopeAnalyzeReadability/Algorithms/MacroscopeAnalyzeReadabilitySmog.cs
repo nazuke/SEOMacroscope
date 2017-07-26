@@ -31,10 +31,10 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Analyze the readability of the English text in a document.
+  /// Analyze the readability of the English text in a document with the SMOG Grade method.
   /// </summary>
 
-  public class MacroscopeAnalyzeReadabilityEnglish : Macroscope,IMacroscopeAnalyzeReadability
+  public class MacroscopeAnalyzeReadabilitySmog : Macroscope,IMacroscopeAnalyzeReadability
   {
 
     /**
@@ -60,7 +60,7 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public MacroscopeAnalyzeReadabilityEnglish ()
+    public MacroscopeAnalyzeReadabilitySmog ()
     {
       
       this.SuppressDebugMsg = true;
@@ -128,7 +128,7 @@ namespace SEOMacroscope
       
       double SmogGrade = 0;
 
-      SampleText = Regex.Replace( SampleText, "\\s+", " ", RegexOptions.Singleline );
+      SampleText = Regex.Replace( SampleText, @"\s+", " ", RegexOptions.Singleline );
       SampleText = SampleText.Trim();
 
       double SentenceCount = this.CountSentences( SampleText: SampleText );
@@ -325,7 +325,7 @@ namespace SEOMacroscope
 
         //this.DebugMsg( string.Format( "Sentence: \"{0}\"", Sentence ) );
 
-        string [] Words = Regex.Split( Sentence, "[^\\w]+", RegexOptions.Singleline );
+        string [] Words = Regex.Split( Sentence, @"[^\w]+", RegexOptions.Singleline );
 
         foreach( string Word in Words )
         {
@@ -379,7 +379,7 @@ namespace SEOMacroscope
 
         //this.DebugMsg( string.Format( "Sentence: \"{0}\"", Sentence ) );
 
-        string [] Words = Regex.Split( Sentence, "[^\\w]+", RegexOptions.Singleline );
+        string [] Words = Regex.Split( Sentence, @"[^\w]+", RegexOptions.Singleline );
 
         foreach( string Word in Words )
         {

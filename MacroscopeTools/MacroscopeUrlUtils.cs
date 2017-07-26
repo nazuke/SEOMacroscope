@@ -523,7 +523,7 @@ namespace SEOMacroscope
       
       DebugMsg( string.Format( "CleanUrlCss: sProperty: {0}", sProperty ), true );
       
-      if( Regex.IsMatch( sProperty, "url\\([^()]+\\)" ) )
+      if( Regex.IsMatch( sProperty, @"url\([^()]+\)" ) )
       {
 
         DebugMsg( string.Format( "CleanUrlCss: HAS URL: {0}", sProperty ), true );

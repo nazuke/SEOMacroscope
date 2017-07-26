@@ -142,6 +142,7 @@ namespace SEOMacroscope
 
         this.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
         this.checkBoxAnalyzeTextReadability.Checked = MacroscopePreferencesManager.GetAnalyzeTextReadability();
+        this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.SelectedIndex = ( int )MacroscopePreferencesManager.GetAnalyzeTextReadabilityEnglishAlgorithm();
 
         this.checkBoxEnableLevenshteinDeduplication.Checked = MacroscopePreferencesManager.GetEnableLevenshteinDeduplication();
         this.numericUpDownMaxLevenshteinSizeDifference.Value = MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference();
@@ -264,6 +265,7 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetAnalyzeKeywordsInText( this.checkBoxAnalyzeKeywordsInText.Checked );
       MacroscopePreferencesManager.SetAnalyzeTextReadability( this.checkBoxAnalyzeTextReadability.Checked );
+      MacroscopePreferencesManager.SetAnalyzeTextReadabilityEnglishAlgorithm( ( MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm )this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.SelectedIndex );
 
       MacroscopePreferencesManager.SetEnableLevenshteinDeduplication( this.checkBoxEnableLevenshteinDeduplication.Checked );
       MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( ( int )this.numericUpDownMaxLevenshteinSizeDifference.Value );

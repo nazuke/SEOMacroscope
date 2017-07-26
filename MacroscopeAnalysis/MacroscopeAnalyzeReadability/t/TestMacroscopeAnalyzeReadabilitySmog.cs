@@ -30,7 +30,7 @@ using NUnit.Framework;
 namespace SEOMacroscope
 {
   [TestFixture]
-  public class TestMacroscopeAnalyzeReadabilityEnglish
+  public class TestMacroscopeAnalyzeReadabilitySmog
   {
 
     /**************************************************************************/
@@ -40,7 +40,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
+      MacroscopeAnalyzeReadabilitySmog AnalyzeReadability = new MacroscopeAnalyzeReadabilitySmog ();
 
       Dictionary<string,string> SampleTexts = new Dictionary<string, string> ();
 
@@ -70,7 +70,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
+      MacroscopeAnalyzeReadabilitySmog AnalyzeReadability = new MacroscopeAnalyzeReadabilitySmog ();
 
       Dictionary<string,string> SampleTexts = new Dictionary<string, string> ();
 
@@ -101,7 +101,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
+      MacroscopeAnalyzeReadabilitySmog AnalyzeReadability = new MacroscopeAnalyzeReadabilitySmog ();
 
       Dictionary<string,int> SampleTexts = new Dictionary<string, int> ();
 
@@ -140,7 +140,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
+      MacroscopeAnalyzeReadabilitySmog AnalyzeReadability = new MacroscopeAnalyzeReadabilitySmog ();
 
       string SampleText = "The quick brown fox jumps over the lazy dog.";
 
@@ -159,7 +159,7 @@ namespace SEOMacroscope
     {
 
       Macroscope ms = new Macroscope ();
-      MacroscopeAnalyzeReadabilityEnglish AnalyzeReadability = new MacroscopeAnalyzeReadabilityEnglish ();
+      MacroscopeAnalyzeReadabilitySmog AnalyzeReadability = new MacroscopeAnalyzeReadabilitySmog ();
 
       List<string> SampleTexts = new List<string> ( 10 );
 

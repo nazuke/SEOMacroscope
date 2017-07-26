@@ -138,7 +138,7 @@ namespace SEOMacroscope
         if( !string.IsNullOrEmpty( RawData ) )
         {
           
-          string [] Lines = Regex.Split( RawData, "[\\r\\n]+" );
+          string [] Lines = Regex.Split( RawData, @"[\r\n]+" );
           TextDoc = Lines.ToList();
 
           DebugMsg( string.Format( "TextDoc: {0}", TextDoc.Count ) );
@@ -231,7 +231,7 @@ namespace SEOMacroscope
       foreach( string Url in TextDoc )
       {
 
-        string UrlProcessing = Regex.Replace( Url, "\\s+", "" );
+        string UrlProcessing = Regex.Replace( Url, @"\s+", "" );
 
         if( !string.IsNullOrEmpty( UrlProcessing ) )
         {
@@ -293,7 +293,7 @@ namespace SEOMacroscope
       foreach( string Url in TextDoc )
       {
 
-        string UrlProcessing = Regex.Replace( Url, "\\s+", "" );
+        string UrlProcessing = Regex.Replace( Url, @"\s+", "" );
         string UrlCleaned = null;
 
         if( !string.IsNullOrEmpty( UrlProcessing ) )
@@ -353,10 +353,10 @@ namespace SEOMacroscope
       foreach( string Url in TextDoc )
       {
 
-        if( Regex.IsMatch( Url, "^Sitemap:\\s*[^\\s]+", RegexOptions.IgnoreCase ) )
+        if( Regex.IsMatch( Url, @"^Sitemap:\s*[^\s]+", RegexOptions.IgnoreCase ) )
         {
 
-          string UrlProcessing = Regex.Replace( Url, "^(Sitemap:\\s*)", "", RegexOptions.IgnoreCase );
+          string UrlProcessing = Regex.Replace( Url, @"^(Sitemap:\s*)", "", RegexOptions.IgnoreCase );
           string UrlCleaned = null;
 
           UrlProcessing = UrlProcessing.Trim();

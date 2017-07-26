@@ -8,7 +8,7 @@
 	string sVersion = "0";
 	string sPath = Path.GetDirectoryName( this.Host.TemplateFile );
 	string sTxtPath = string.Format( "{0}\\{1}", sPath, "version.txt" );
-	string sExePath = string.Format( "{0}\\{1}", sPath, "bin\\Debug\\SEOMacroscope.exe" );
+	string sExePath = string.Format( "{0}\\{1}", sPath, @"bin\Debug\SEOMacroscope.exe" );
 
 	if( File.Exists( sTxtPath ) ) {
 		File.Delete( sTxtPath );

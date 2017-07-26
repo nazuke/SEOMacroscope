@@ -228,7 +228,7 @@ namespace SEOMacroscope
               }
               else
               {
-                LanguageCode = Regex.Replace( LanguageCode, "^([^\\-]+)([\\-][^\\-]+)$", "$1" );
+                LanguageCode = Regex.Replace( LanguageCode, @"^([^\-]+)([\-][^\-]+)$", "$1" );
               }
               
               this.SetIsoLanguageCode( LanguageCode: LanguageCode );
@@ -669,7 +669,7 @@ namespace SEOMacroscope
             string LinkUrl = null;
             string Content = LinkNode.GetAttributeValue( "content", null );
 
-            MatchCollection reMatches = Regex.Matches( Content, "^\\s*[0-9]+;\\s*url=([^\\s]+)\\s*$" );
+            MatchCollection reMatches = Regex.Matches( Content, @"^\s*[0-9]+;\s*url=([^\s]+)\s*$" );
 
             for( int i = 0 ; i < reMatches.Count ; i++ )
             {

@@ -130,6 +130,7 @@ namespace SEOMacroscope
 
     static Boolean AnalyzeKeywordsInText;
     static Boolean AnalyzeTextReadability;
+    static int AnalyzeTextReadabilityEnglishAlgorithm;
 
     static Boolean EnableLevenshteinDeduplication;
     static int MaxLevenshteinSizeDifference;
@@ -271,7 +272,8 @@ namespace SEOMacroscope
           MaxHeadingDepth = Preferences.MaxHeadingDepth;
           AnalyzeKeywordsInText = Preferences.AnalyzeKeywordsInText;
           AnalyzeTextReadability = Preferences.AnalyzeTextReadability;
-      
+          AnalyzeTextReadabilityEnglishAlgorithm = Preferences.AnalyzeTextReadabilityEnglishAlgorithm;
+
           DetectLanguage = Preferences.DetectLanguage;
 
           CustomFiltersEnable = Preferences.CustomFiltersEnable;
@@ -425,6 +427,7 @@ namespace SEOMacroscope
 
       AnalyzeKeywordsInText = false;
       AnalyzeTextReadability = true;
+      AnalyzeTextReadabilityEnglishAlgorithm = 0;
     
       /** Custom Filter Options -------------------------------------------- **/
 
@@ -470,8 +473,8 @@ namespace SEOMacroscope
 
       if( StartUrl.Length > 0 )
       {
-        StartUrl = Regex.Replace( StartUrl, "^\\s+", "" );
-        StartUrl = Regex.Replace( StartUrl, "\\s+$", "" );
+        StartUrl = Regex.Replace( StartUrl, @"^\s+", "" );
+        StartUrl = Regex.Replace( StartUrl, @"\s+$", "" );
       }
 
       if( Depth <= 0 )
@@ -649,6 +652,7 @@ namespace SEOMacroscope
 
         Preferences.AnalyzeKeywordsInText = AnalyzeKeywordsInText;
         Preferences.AnalyzeTextReadability = AnalyzeTextReadability;
+        Preferences.AnalyzeTextReadabilityEnglishAlgorithm = AnalyzeTextReadabilityEnglishAlgorithm;
     
         Preferences.DetectLanguage = DetectLanguage;
 
@@ -1387,6 +1391,8 @@ namespace SEOMacroscope
       AnalyzeKeywordsInText = State;
     }
 
+    /* Readability Options -------------------------------------------------- */
+
     public static Boolean GetAnalyzeTextReadability ()
     {
       return( AnalyzeTextReadability );
@@ -1395,6 +1401,16 @@ namespace SEOMacroscope
     public static void SetAnalyzeTextReadability ( Boolean State )
     {
       AnalyzeTextReadability = State;
+    }
+
+    public static MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm GetAnalyzeTextReadabilityEnglishAlgorithm ()
+    {
+      return( ( MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm )AnalyzeTextReadabilityEnglishAlgorithm );
+    }
+
+    public static void SetAnalyzeTextReadabilityEnglishAlgorithm ( MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm Selected )
+    {
+      AnalyzeTextReadabilityEnglishAlgorithm = ( int )Selected;
     }
 
     /* ---------------------------------------------------------------------- */
