@@ -37,11 +37,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public enum AnalyzeReadabilityType
+    public enum AnalyzeReadabilityMethod
     {
       UNKNOWN = 0,
-      SMOG = 1,
-      FLESCH_KINCAID = 2
+      FLESCH_KINCAID = 1,
+      SMOG = 2
     }
     
     public enum AnalyzeReadabilityEnglishAlgorithm
@@ -104,6 +104,31 @@ namespace SEOMacroscope
 
       return( Analyzer );
             
+    }
+
+    /**************************************************************************/
+
+    public static string FormatAnalyzeReadabilityMethod (
+      MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod ReadabilityMethod 
+    )
+    {
+      
+      string Formatted = "Unknown";
+       
+      switch( ReadabilityMethod )
+      {
+        case MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.FLESCH_KINCAID:
+          Formatted = "Flesch-Kincaid Reading Ease";
+          break;
+        case MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.SMOG:
+          Formatted = "SMOG Index";
+          break;
+        default:
+          break;
+      }
+      
+      return( Formatted );
+      
     }
 
     /**************************************************************************/

@@ -105,7 +105,9 @@ namespace SEOMacroscope
 
         ReadabilityGradeText = string.Format(
           "{0} : {1} : {2}",
-          this.GetReadabilityGradeType(),
+          MacroscopeAnalyzeReadability.FormatAnalyzeReadabilityMethod(
+            ReadabilityMethod: this.GetReadabilityGradeMethod()
+          ),
           this.GetReadabilityGrade().ToString( "00.00" ),
           this.GetReadabilityGradeDescription()
         );

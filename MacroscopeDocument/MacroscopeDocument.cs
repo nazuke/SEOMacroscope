@@ -153,7 +153,7 @@ namespace SEOMacroscope
     private List<Dictionary<string,int>> DeepKeywordAnalysis;
 
     private double ReadabilityGrade;
-    private MacroscopeAnalyzeReadability.AnalyzeReadabilityType ReadabilityGradeType;
+    private MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod ReadabilityGradeMethod;
     private string ReadabilityGradeDescription;
     
     private int WordCount;
@@ -342,7 +342,7 @@ namespace SEOMacroscope
       }
 
       this.ReadabilityGrade = 0;
-      this.ReadabilityGradeType = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.UNKNOWN;
+      this.ReadabilityGradeMethod = MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.UNKNOWN;
       this.ReadabilityGradeDescription = "";
       
       this.WordCount = 0;
@@ -1814,7 +1814,7 @@ namespace SEOMacroscope
       
       double Grade = 0;
       string GradeDescription = "";
-      MacroscopeAnalyzeReadability.AnalyzeReadabilityType GradeType = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.UNKNOWN;
+      MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod GradeMethod = MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.UNKNOWN;
       IMacroscopeAnalyzeReadability AnalyzeReadability = null;
       
       if( this.GetIsRedirect() )
@@ -1833,12 +1833,12 @@ namespace SEOMacroscope
       if( AnalyzeReadability != null )
       {
         Grade = AnalyzeReadability.AnalyzeReadability( msDoc: this );
-        GradeType = AnalyzeReadability.GetAnalyzeReadabilityType();
+        GradeMethod = AnalyzeReadability.GetAnalyzeReadabilityMethod();
         GradeDescription = AnalyzeReadability.GradeToString();
       }
 
       this.ReadabilityGrade = Grade;
-      this.ReadabilityGradeType = GradeType;
+      this.ReadabilityGradeMethod = GradeMethod;
       this.ReadabilityGradeDescription = GradeDescription;
 
     }
@@ -1848,9 +1848,9 @@ namespace SEOMacroscope
       return( this.ReadabilityGrade );
     }
     
-    public MacroscopeAnalyzeReadability.AnalyzeReadabilityType GetReadabilityGradeType ()
+    public MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod GetReadabilityGradeMethod ()
     {
-      return( this.ReadabilityGradeType );
+      return( this.ReadabilityGradeMethod );
     }
 
     public string GetReadabilityGradeDescription ()

@@ -69,7 +69,7 @@ namespace SEOMacroscope
     private List<Dictionary<string,int>> StatsDeepKeywordAnalysis;
 
     private Dictionary<string,int> StatsReadabilityGrades;
-    private Dictionary<string,int> StatsReadabilityGradeStrings;
+    private Dictionary<string,int> StatsReadabilityGradeDescriptions;
 
     private int StatsUrlsInternal;
     private int StatsUrlsExternal;
@@ -136,7 +136,7 @@ namespace SEOMacroscope
       this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ( DocList: this.StatsDeepKeywordAnalysisDocs );
            
       this.StatsReadabilityGrades = new  Dictionary<string,int> ( 16 );
-      this.StatsReadabilityGradeStrings = new  Dictionary<string,int> ( 16 );
+      this.StatsReadabilityGradeDescriptions = new  Dictionary<string,int> ( 16 );
 
       this.StatsUrlsInternal = 0;
       this.StatsUrlsExternal = 0;
@@ -696,7 +696,7 @@ namespace SEOMacroscope
                 if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
                 {
                   this.RecalculateStatsReadabilityGrades( msDoc: msDoc );
-                  this.RecalculateStatsReadabilityGradeStrings( msDoc: msDoc );
+                  this.RecalculateStatsReadabilityGradeDescriptions( msDoc: msDoc );
                 }
 
                 this.AddDocumentToSearchIndex( msDoc: msDoc );
@@ -1876,10 +1876,10 @@ namespace SEOMacroscope
     {
       lock( this.StatsReadabilityGrades )
       {
-        lock( this.StatsReadabilityGradeStrings )
+        lock( this.StatsReadabilityGradeDescriptions )
         {
           this.StatsReadabilityGrades.Clear();
-          this.StatsReadabilityGradeStrings.Clear();
+          this.StatsReadabilityGradeDescriptions.Clear();
         }
       }
     }
@@ -1904,11 +1904,11 @@ namespace SEOMacroscope
     public SortedDictionary<string,int> GetStatsReadabilityGradeStringsCount ()
     {
       SortedDictionary<string,int> dicStats = new SortedDictionary<string, int> ();
-      lock( this.StatsReadabilityGradeStrings )
+      lock( this.StatsReadabilityGradeDescriptions )
       {
-        foreach( string Key in this.StatsReadabilityGradeStrings.Keys )
+        foreach( string Key in this.StatsReadabilityGradeDescriptions.Keys )
         {
-          dicStats.Add( Key, this.StatsReadabilityGradeStrings[ Key ] );
+          dicStats.Add( Key, this.StatsReadabilityGradeDescriptions[ Key ] );
         }
       }
       return( dicStats );
@@ -1940,7 +1940,9 @@ namespace SEOMacroscope
           
           Grade = string.Format(
             "{0} / {1}",
-            msDoc.GetReadabilityGradeType(),
+            MacroscopeAnalyzeReadability.FormatAnalyzeReadabilityMethod(
+              ReadabilityMethod: msDoc.GetReadabilityGradeMethod()
+            ),
             msDoc.GetReadabilityGrade().ToString( "00.00" )
           );
 
@@ -1961,7 +1963,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
             
-    private void RecalculateStatsReadabilityGradeStrings ( MacroscopeDocument msDoc )
+    private void RecalculateStatsReadabilityGradeDescriptions ( MacroscopeDocument msDoc )
     {
 
       Boolean Proceed = false;
@@ -1979,23 +1981,25 @@ namespace SEOMacroscope
       if( Proceed )
       {
 
-        lock( this.StatsReadabilityGradeStrings )
+        lock( this.StatsReadabilityGradeDescriptions )
         {
           string Grade;
           
           Grade = string.Format(
             "{0} / {1}",
-            msDoc.GetReadabilityGradeType(),
+            MacroscopeAnalyzeReadability.FormatAnalyzeReadabilityMethod(
+              ReadabilityMethod: msDoc.GetReadabilityGradeMethod()
+            ),
             msDoc.GetReadabilityGradeDescription()
           );
 
-          if( this.StatsReadabilityGradeStrings.ContainsKey( Grade ) )
+          if( this.StatsReadabilityGradeDescriptions.ContainsKey( Grade ) )
           {
-            this.StatsReadabilityGradeStrings[ Grade ] = this.StatsReadabilityGradeStrings[ Grade ] + 1;
+            this.StatsReadabilityGradeDescriptions[ Grade ] = this.StatsReadabilityGradeDescriptions[ Grade ] + 1;
           }
           else
           {
-            this.StatsReadabilityGradeStrings.Add( Grade, 1 );
+            this.StatsReadabilityGradeDescriptions.Add( Grade, 1 );
           }
 
         }

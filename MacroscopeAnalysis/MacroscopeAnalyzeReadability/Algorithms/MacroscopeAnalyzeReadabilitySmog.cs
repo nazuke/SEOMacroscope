@@ -54,7 +54,7 @@ namespace SEOMacroscope
         
     private static SortedDictionary<double,double> SqrtLookupTable;
             
-    private MacroscopeAnalyzeReadability.AnalyzeReadabilityType Type;
+    private MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod Type;
 
     private double Grade;
     
@@ -104,7 +104,7 @@ namespace SEOMacroscope
       
       this.SuppressDebugMsg = true;
       
-      this.Type = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.SMOG;
+      this.Type = MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.SMOG;
 
       this.Grade = 0;
       
@@ -112,7 +112,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public  MacroscopeAnalyzeReadability.AnalyzeReadabilityType GetAnalyzeReadabilityType ()
+    public MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod GetAnalyzeReadabilityMethod ()
     {
       return( this.Type );
     }

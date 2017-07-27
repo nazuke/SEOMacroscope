@@ -90,7 +90,9 @@ namespace SEOMacroscope
           string PageLanguage = msDoc.GetIsoLanguageCode();
           string DetectedLanguage = msDoc.GetDocumentTextLanguage();
           int WordCount = msDoc.GetWordCount();
-          string ReadabilityGradeType = msDoc.GetReadabilityGradeType().ToString();
+          string ReadabilityGradeType = MacroscopeAnalyzeReadability.FormatAnalyzeReadabilityMethod(
+                                          ReadabilityMethod: msDoc.GetReadabilityGradeMethod()
+                                        );
           string ReadabilityGrade = msDoc.GetReadabilityGrade().ToString( "00.00" );
           string ReadabilityGradeDescription = msDoc.GetReadabilityGradeDescription();
           

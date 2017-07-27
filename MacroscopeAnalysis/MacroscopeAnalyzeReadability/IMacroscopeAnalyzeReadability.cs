@@ -36,7 +36,7 @@ namespace SEOMacroscope
   public interface IMacroscopeAnalyzeReadability
   {
 		
-    MacroscopeAnalyzeReadability.AnalyzeReadabilityType GetAnalyzeReadabilityType ();
+    MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod GetAnalyzeReadabilityMethod ();
     
     double AnalyzeReadability ( MacroscopeDocument msDoc );
     

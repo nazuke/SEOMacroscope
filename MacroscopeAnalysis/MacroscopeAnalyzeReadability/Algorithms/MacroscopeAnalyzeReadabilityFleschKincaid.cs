@@ -55,7 +55,7 @@ namespace SEOMacroscope
     private static List<double> WordsPerSentenceLookupTable;
     private static List<double> SyllablesPerWordLookupTable;
 
-    private MacroscopeAnalyzeReadability.AnalyzeReadabilityType Type;
+    private MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod Type;
 
     private double Grade;
 
@@ -100,7 +100,7 @@ namespace SEOMacroscope
       
       this.SuppressDebugMsg = false;
       
-      this.Type = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.FLESCH_KINCAID;
+      this.Type = MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.FLESCH_KINCAID;
 
       this.Grade = 0;
 
@@ -108,7 +108,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public  MacroscopeAnalyzeReadability.AnalyzeReadabilityType GetAnalyzeReadabilityType ()
+    public MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod GetAnalyzeReadabilityMethod ()
     {
       return( this.Type );
     }
