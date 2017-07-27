@@ -369,6 +369,18 @@ namespace SEOMacroscope
 
           }
 
+          { // Process Document Text
+            string Text = this.ProcessHtmlDocumentText( HtmlDoc: HtmlDoc );
+            if( Text != null )
+            {
+              this.SetDocumentText( Text );
+            }
+            else
+            {
+              this.SetDocumentText( "" );
+            }
+          }
+
           { // Process Body Text
             string Text = this.ProcessHtmlBodyText( HtmlDoc: HtmlDoc );
             if( Text != null )
@@ -380,7 +392,7 @@ namespace SEOMacroscope
               this.SetBodyText( "" );
             }
           }
-          
+
         }
 
         /** ---------------------------------------------------------------- **/
@@ -1347,13 +1359,12 @@ namespace SEOMacroscope
       
     }
 
-    /** Process Body Text *****************************************************/
+    /** Process Document Text *************************************************/
 
-    string ProcessHtmlBodyText ( HtmlDocument HtmlDoc )
+    string ProcessHtmlDocumentText ( HtmlDocument HtmlDoc )
     {
 
-      List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
-      string BodyTextProcessed = "";
+      string TextProcessed = "";
 
       if( HtmlDoc != null )
       {
@@ -1362,6 +1373,47 @@ namespace SEOMacroscope
       
         if( NodeCollection != null )
         {
+          
+          List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
+
+          foreach( HtmlNode Node in NodeCollection )
+          {
+            NodesToRemove.Add( Node );
+          }
+
+          for( int i = 0 ; i < NodesToRemove.Count ; i++ )
+          {
+            NodesToRemove[ i ].Remove();
+          }
+                  
+        }
+
+        TextProcessed = HtmlDoc.DocumentNode.InnerText;
+        TextProcessed = Regex.Replace( TextProcessed, "<!--.*?-->", "", RegexOptions.Singleline );
+        
+      }
+      
+      return( TextProcessed );
+      
+    }
+
+    /** Process Body Text *****************************************************/
+
+    string ProcessHtmlBodyText ( HtmlDocument HtmlDoc )
+    {
+
+      HtmlNode BodyNode = HtmlDoc.DocumentNode.SelectSingleNode( "//body" );
+      string TextProcessed = "";
+
+      if( BodyNode != null )
+      {
+        
+        HtmlNodeCollection NodeCollection = BodyNode.SelectNodes( "(//script|//style)" );
+        
+        if( NodeCollection != null )
+        {
+
+          List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
           
           foreach( HtmlNode Node in NodeCollection )
           {
@@ -1375,12 +1427,13 @@ namespace SEOMacroscope
                   
         }
 
-        BodyTextProcessed = HtmlDoc.DocumentNode.InnerText;
-        BodyTextProcessed = Regex.Replace( BodyTextProcessed, "<!--.*?-->", "", RegexOptions.Singleline );
+        TextProcessed = BodyNode.InnerText;
+        TextProcessed = Regex.Replace( TextProcessed, "<!--.*?-->", "", RegexOptions.Singleline );
         
       }
       
-      return( BodyTextProcessed );
+      return( TextProcessed );
+      
     }
 
     /** Extract Email Addresses ***********************************************/

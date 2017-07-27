@@ -380,7 +380,7 @@ namespace SEOMacroscope
         if( tnNode != null )
         {
           tnNode.Nodes.Clear();
-          Dictionary<string,int> dicContents = DocCollection.GetStatsReadabilityGradesCount();
+          SortedDictionary<string,int> dicContents = DocCollection.GetStatsReadabilityGradeStringsCount();
           foreach( string ContentKey in dicContents.Keys )
           {
             tnNode.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );

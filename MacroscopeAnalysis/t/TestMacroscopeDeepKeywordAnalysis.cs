@@ -46,13 +46,13 @@ namespace SEOMacroscope
       
       MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
       
-      msDoc.SetBodyText( BodyText );
+      msDoc.SetDocumentText( BodyText );
       
       MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
 
       Dictionary<string,int> Terms = new Dictionary<string,int> ( 256 );
 
-      AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 1 );
+      AnalyzeKeywords.Analyze( Text: msDoc.GetDocumentTextCleaned(), Terms: Terms, Words: 1 );
 
       foreach( string Term in Terms.Keys )
       {
@@ -68,13 +68,13 @@ namespace SEOMacroscope
       
       MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
       
-      msDoc.SetBodyText( BodyText );
+      msDoc.SetDocumentText( BodyText );
       
       MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
 
       Dictionary<string,int> Terms = new Dictionary<string,int> ( 256 );
 
-      AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 2 );
+      AnalyzeKeywords.Analyze( Text: msDoc.GetDocumentTextCleaned(), Terms: Terms, Words: 2 );
 
       foreach( string Term in Terms.Keys )
       {
@@ -90,13 +90,13 @@ namespace SEOMacroscope
       
       MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
       
-      msDoc.SetBodyText( BodyText );
+      msDoc.SetDocumentText( BodyText );
       
       MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
 
       Dictionary<string,int> Terms = new Dictionary<string,int> ( 256 );
 
-      AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 3 );
+      AnalyzeKeywords.Analyze( Text: msDoc.GetDocumentTextCleaned(), Terms: Terms, Words: 3 );
 
       foreach( string Term in Terms.Keys )
       {
@@ -112,13 +112,13 @@ namespace SEOMacroscope
       
       MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
       
-      msDoc.SetBodyText( BodyText );
+      msDoc.SetDocumentText( BodyText );
       
       MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
 
       Dictionary<string,int> Terms = new Dictionary<string,int> ( 256 );
 
-      AnalyzeKeywords.Analyze( Text: msDoc.GetBodyText(), Terms: Terms, Words: 4 );
+      AnalyzeKeywords.Analyze( Text: msDoc.GetDocumentTextCleaned(), Terms: Terms, Words: 4 );
 
       foreach( string Term in Terms.Keys )
       {

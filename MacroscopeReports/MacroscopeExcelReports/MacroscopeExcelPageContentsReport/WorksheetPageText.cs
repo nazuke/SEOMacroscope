@@ -65,7 +65,7 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Word Count";
         iCol++;
         
-        ws.Cell( iRow, iCol ).Value = "Readability Grade Type";
+        ws.Cell( iRow, iCol ).Value = "Readability Method";
         iCol++;
         
         ws.Cell( iRow, iCol ).Value = "Readability Grade";
@@ -112,7 +112,7 @@ namespace SEOMacroscope
 
           string PageLocale = msDoc.GetLocale();
           string PageLanguage = msDoc.GetIsoLanguageCode();
-          string DetectedLanguage = msDoc.GetBodyTextLanguage();
+          string DetectedLanguage = msDoc.GetDocumentTextLanguage();
           int WordCount = msDoc.GetWordCount();
           string ReadabilityGradeType = msDoc.GetReadabilityGradeType().ToString();
           string ReadabilityGrade = msDoc.GetReadabilityGrade().ToString( "00.00" );

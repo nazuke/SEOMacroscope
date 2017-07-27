@@ -179,7 +179,7 @@ namespace SEOMacroscope
 
         string TitleLanguage = msDoc.GetTitleLanguage();
         string DescriptionLanguage = msDoc.GetDescriptionLanguage();
-        string BodyTextLanguage = msDoc.GetBodyTextLanguage();
+        string BodyTextLanguage = msDoc.GetDocumentTextLanguage();
         int StatusCode = ( int )msDoc.GetStatusCode();
         
         if( string.IsNullOrEmpty( TitleLanguage ) )

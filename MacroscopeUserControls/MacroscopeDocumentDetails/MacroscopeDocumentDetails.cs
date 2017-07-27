@@ -28,8 +28,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -73,8 +71,9 @@ namespace SEOMacroscope
       this.listViewVideos.Dock = DockStyle.Fill;
       this.listViewKeywordAnalysis.Dock = DockStyle.Fill;
       this.listViewRemarks.Dock = DockStyle.Fill;
-      this.textBoxBodyText.Dock = DockStyle.Fill;
-      
+      this.textBoxDocumentTextRaw.Dock = DockStyle.Fill;
+      this.textBoxDocumentTextCleaned.Dock = DockStyle.Fill;
+      this.textBoxBodyTextRaw.Dock = DockStyle.Fill;
       this.listViewCustomFilters.Dock = DockStyle.Fill;
 
       this.UrlLoader = new MacroscopeUrlLoader ();
@@ -193,9 +192,11 @@ namespace SEOMacroscope
       this.listViewVideos.Items.Clear();
       this.listViewKeywordAnalysis.Items.Clear();
       this.listViewRemarks.Items.Clear();
-      
-      this.textBoxBodyText.Text = "";
-      
+
+      this.textBoxDocumentTextRaw.Text = "";
+      this.textBoxDocumentTextCleaned.Text = "";
+      this.textBoxBodyTextRaw.Text = "";
+
       this.listViewCustomFilters.Items.Clear();
       
       this.pictureBoxDocumentDetailsImage.Image = null;
@@ -291,7 +292,10 @@ namespace SEOMacroscope
 
       this.RenderListViewRemarks( JobMaster, msDoc );
 
-      this.RenderTextBoxBodyText( JobMaster, msDoc );
+      this.RenderTextBoxDocumentTextRaw( JobMaster, msDoc );
+      this.RenderTextBoxDocumentTextCleaned( JobMaster, msDoc );
+
+      this.RenderTextBoxBodyTextRaw( JobMaster, msDoc );
       
       if( MacroscopePreferencesManager.GetCustomFiltersEnable() )
       {
@@ -2082,17 +2086,44 @@ namespace SEOMacroscope
      
     }
 
-    /** Body Text *************************************************************/
+    /** Document Text *************************************************************/
 
-    private void RenderTextBoxBodyText ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    private void RenderTextBoxDocumentTextRaw ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
-      TextBox BodyText = this.textBoxBodyText;
+      TextBox BodyText = this.textBoxDocumentTextRaw;
       string DocumentText = "";
       
       if( msDoc != null )
       {
-        DocumentText = msDoc.GetBodyText();
+        DocumentText = msDoc.GetDocumentTextRaw();
+      }
+
+      lock( BodyText )
+      {
+        if( !string.IsNullOrEmpty( DocumentText ) )
+        {
+          BodyText.Text = DocumentText;
+        }
+        else
+        {
+          BodyText.Text = "";
+        }
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void RenderTextBoxDocumentTextCleaned ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    {
+
+      TextBox BodyText = this.textBoxDocumentTextCleaned;
+      string DocumentText = "";
+      
+      if( msDoc != null )
+      {
+        DocumentText = msDoc.GetDocumentTextCleaned();
       }
 
       lock( BodyText )
@@ -2107,6 +2138,33 @@ namespace SEOMacroscope
           BodyText.Text = "";
         }
 
+      }
+
+    }
+
+    /** Body Text *************************************************************/
+
+    private void RenderTextBoxBodyTextRaw ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    {
+
+      TextBox BodyText = this.textBoxBodyTextRaw;
+      string DocumentText = "";
+      
+      if( msDoc != null )
+      {
+        DocumentText = msDoc.GetBodyTextRaw();
+      }
+
+      lock( BodyText )
+      {
+        if( !string.IsNullOrEmpty( DocumentText ) )
+        {
+          BodyText.Text = DocumentText;
+        }
+        else
+        {
+          BodyText.Text = "";
+        }
       }
 
     }

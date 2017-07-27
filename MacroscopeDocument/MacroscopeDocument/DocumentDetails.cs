@@ -97,7 +97,7 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Keywords Length", this.GetKeywordsLength().ToString() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
 
-      DetailsList.Add( new KeyValuePair<string,string> ( "Probable Body Text Language", this.GetBodyTextLanguage() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Probable Document Text Language", this.GetDocumentTextLanguage() ) );
 
       {
 

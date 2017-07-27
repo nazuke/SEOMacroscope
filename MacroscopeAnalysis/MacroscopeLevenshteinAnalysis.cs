@@ -66,7 +66,7 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = true;
       
       this.msDocOriginal = msDoc;
-      this.MonstrousText = msDoc.GetBodyText().ToLower();
+      this.MonstrousText = msDoc.GetDocumentTextRaw().ToLower();
       this.Monster = new Levenshtein ( MonstrousText );
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
@@ -88,7 +88,7 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = true;
       
       this.msDocOriginal = msDoc;
-      this.MonstrousText = msDoc.GetBodyText().ToLower();
+      this.MonstrousText = msDoc.GetDocumentTextRaw().ToLower();
       this.Monster = new Levenshtein ( MonstrousText );
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
@@ -159,7 +159,7 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {
 
-        string BodyText = msDocCompare.GetBodyText().ToLower();
+        string BodyText = msDocCompare.GetDocumentTextRaw().ToLower();
         Boolean DoCheck = false;
         
         Count++;

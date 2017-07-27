@@ -50,14 +50,53 @@ namespace SEOMacroscope
    
     /**************************************************************************/
 
+    private static char [] SentenceDelimiters;
+        
+    private static SortedDictionary<double,double> SqrtLookupTable;
+            
     private MacroscopeAnalyzeReadability.AnalyzeReadabilityType Type;
-    
-    private char [] SentenceDelimiters;
-    
-    private SortedDictionary<double,double> SqrtLookupTable;
 
     private double Grade;
     
+    /**************************************************************************/
+    
+    static MacroscopeAnalyzeReadabilitySmog ()
+    {
+          
+      {
+        SentenceDelimiters = new char[3];
+        SentenceDelimiters[ 0 ] = '.';
+        SentenceDelimiters[ 1 ] = '?';
+        SentenceDelimiters[ 2 ] = '!';
+      }
+      
+      {
+
+        /*
+          Value: 1 4 9 16 25 36 49 64 81 100 121 144 169
+          SQRT: 1 2 3  4  5  6  7  8  9  10  11  12  13
+        */
+     
+        SqrtLookupTable = new SortedDictionary<double,double> ();
+
+        SqrtLookupTable.Add( 1, 1 );
+        SqrtLookupTable.Add( 4, 2 );
+        SqrtLookupTable.Add( 9, 3 );
+        SqrtLookupTable.Add( 16, 4 );
+        SqrtLookupTable.Add( 25, 5 );
+        SqrtLookupTable.Add( 36, 6 );
+        SqrtLookupTable.Add( 49, 7 );
+        SqrtLookupTable.Add( 64, 8 );
+        SqrtLookupTable.Add( 81, 9 );
+        SqrtLookupTable.Add( 100, 10 );
+        SqrtLookupTable.Add( 121, 11 );
+        SqrtLookupTable.Add( 144, 12 );
+        SqrtLookupTable.Add( 169, 13 );
+      
+      }
+      
+    }
+
     /**************************************************************************/
 
     public MacroscopeAnalyzeReadabilitySmog ()
@@ -66,31 +105,7 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = true;
       
       this.Type = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.SMOG;
-      
-      this.SentenceDelimiters = new char[1];
-      this.SentenceDelimiters[ 0 ] = '.';
 
-      /*
-        Value: 1 4 9 16 25 36 49 64 81 100 121 144 169
-         SQRT: 1 2 3  4  5  6  7  8  9  10  11  12  13
-      */
-     
-      this.SqrtLookupTable = new SortedDictionary<double,double> ();
-
-      this.SqrtLookupTable.Add( 1, 1 );
-      this.SqrtLookupTable.Add( 4, 2 );
-      this.SqrtLookupTable.Add( 9, 3 );
-      this.SqrtLookupTable.Add( 16, 4 );
-      this.SqrtLookupTable.Add( 25, 5 );
-      this.SqrtLookupTable.Add( 36, 6 );
-      this.SqrtLookupTable.Add( 49, 7 );
-      this.SqrtLookupTable.Add( 64, 8 );
-      this.SqrtLookupTable.Add( 81, 9 );
-      this.SqrtLookupTable.Add( 100, 10 );
-      this.SqrtLookupTable.Add( 121, 11 );
-      this.SqrtLookupTable.Add( 144, 12 );
-      this.SqrtLookupTable.Add( 169, 13 );
-     
       this.Grade = 0;
       
     }
@@ -108,7 +123,7 @@ namespace SEOMacroscope
     {
       
       double SmogGrade = 0;
-      string SampleText = msDoc.GetBodyText();
+      string SampleText = msDoc.GetBodyTextRaw();
 
       if( !string.IsNullOrEmpty( SampleText ) )
       {
@@ -187,14 +202,14 @@ namespace SEOMacroscope
 
       this.DebugMsg( string.Format( "PolySyllableCount: \"{0}\"", PolySyllableCount ) );
 
-      foreach( double BaseValue in this.SqrtLookupTable.Keys )
+      foreach( double BaseValue in SqrtLookupTable.Keys )
       {
 
-        this.DebugMsg( string.Format( "BaseValue: {0} => {1}", BaseValue, this.SqrtLookupTable[ BaseValue ] ) );
+        this.DebugMsg( string.Format( "BaseValue: {0} => {1}", BaseValue, SqrtLookupTable[ BaseValue ] ) );
 
         if( PolySyllableCount >= BaseValue )
         {
-          SquareRoot = this.SqrtLookupTable[ BaseValue ];
+          SquareRoot = SqrtLookupTable[ BaseValue ];
         }
         else
         {
@@ -222,7 +237,7 @@ namespace SEOMacroscope
       string [] Sentences;
 
       Sentences = SampleText.ToLower().Split(
-        this.SentenceDelimiters,
+        SentenceDelimiters,
         StringSplitOptions.RemoveEmptyEntries
       );
 
@@ -251,7 +266,7 @@ namespace SEOMacroscope
       List<string> SampledList = new List<string> ( 10 );
 
       Sentences = SampleText.ToLower().Split(
-        this.SentenceDelimiters,
+        SentenceDelimiters,
         StringSplitOptions.RemoveEmptyEntries
       );
 
@@ -316,7 +331,7 @@ namespace SEOMacroscope
       string [] Sentences;
 
       Sentences = SampleText.ToLower().Split(
-        this.SentenceDelimiters,
+        SentenceDelimiters,
         StringSplitOptions.RemoveEmptyEntries
       );
 
@@ -370,30 +385,23 @@ namespace SEOMacroscope
       string [] Sentences;
 
       Sentences = SampleText.ToLower().Split(
-        this.SentenceDelimiters,
+        SentenceDelimiters,
         StringSplitOptions.RemoveEmptyEntries
       );
 
       foreach( string Sentence in Sentences )
       {
 
-        //this.DebugMsg( string.Format( "Sentence: \"{0}\"", Sentence ) );
-
         string [] Words = Regex.Split( Sentence, @"[^\w]+", RegexOptions.Singleline );
 
         foreach( string Word in Words )
         {
           
-          //this.DebugMsg( string.Format( "Word: \"{0}\"", Word ) ); 
-
           string Subtracted = this.SubtractSilentVowel( WordText: Word );
-          //this.DebugMsg( string.Format( "Subtracted: \"{0}\"", Subtracted ) ); 
           
           string Flattened = this.FlattenDipthongs( WordText: Subtracted );
-          //this.DebugMsg( string.Format( "Flattened: \"{0}\"", Flattened ) ); 
 
           double VowelCount = this.CountVowels( WordText: Flattened );
-          //this.DebugMsg( string.Format( "VowelCount: \"{0}\"", VowelCount ) ); 
 
           Syllables += VowelCount;
           

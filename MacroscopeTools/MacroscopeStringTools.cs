@@ -85,7 +85,7 @@ namespace SEOMacroscope
     public static string CleanBodyText ( MacroscopeDocument msDoc )
     {
 
-      string CleanedText = msDoc.GetBodyText();
+      string CleanedText = msDoc.GetDocumentTextRaw();
 
       if( !string.IsNullOrEmpty( CleanedText ) )
       {
@@ -129,10 +129,33 @@ namespace SEOMacroscope
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
+          DebugMsg( string.Format( "CleanBodyText: {0}", ex.Message ), true );
         }
 
         CleanedText = CleanText( Text: CleanedText );
+
+      }
+      
+      return( CleanedText );
+
+    }
+
+    /**************************************************************************/
+
+    public static string StripHtmlDocTypeAndCommentsFromText ( string Text )
+    {
+
+      string CleanedText = "";
+
+      if( !string.IsNullOrEmpty( Text ) )
+      {
+        
+        CleanedText = Text;
+
+        CleanedText = Regex.Replace( CleanedText, @"<!.+?>", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"<!--.+?-->", " ", RegexOptions.Singleline );
+        
+        CleanedText = CleanedText.Trim();
 
       }
       
@@ -152,13 +175,13 @@ namespace SEOMacroscope
         
         CleanedText = Text;
         
-        CleanedText = Regex.Replace( CleanedText, "<!.+?>", " ", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "<!--.+?-->", " ", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "(?<![\\w\\d])([^\\p{L}\\p{N}\\p{Sc}]+)", " ", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "([^\\p{L}\\p{N}\\p{Sc}]+)(?![\\w\\d])", " ", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "([\\p{P}\\p{Sc}]+)(?![\\w\\d])", " ", RegexOptions.Singleline );
-        CleanedText = Regex.Replace( CleanedText, "[\\s]+", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"<!.+?>", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"<!--.+?-->", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"[\s]+", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"(?<![\w\d])([^\p{L}\p{N}\p{Sc}]+)", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"([^\p{L}\p{N}\p{Sc}]+)(?![\w\d])", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"([\p{P}\p{Sc}]+)(?![\w\d])", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"[\s]+", " ", RegexOptions.Singleline );
         
         CleanedText = CleanedText.Trim();
 
@@ -168,6 +191,35 @@ namespace SEOMacroscope
 
     }
 
+    /**************************************************************************/
+    
+    public static string CompactWhiteSpace ( string Text )
+    {
+
+      string NewText = Text;
+          
+      if( !string.IsNullOrEmpty( NewText ) )
+      {
+
+        try
+        {
+          NewText = HtmlEntity.DeEntitize( NewText );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "CompactWhiteSpace: {0}", ex.Message ), true );
+        }
+
+        NewText = Regex.Replace( NewText, @"[\s]+", " ", RegexOptions.Singleline );
+        NewText = Regex.Replace( NewText, @"[\s]+$", "", RegexOptions.Singleline );
+        NewText = Regex.Replace( NewText, @"[\r\n]+", Environment.NewLine, RegexOptions.Singleline );
+
+      }
+
+      return( NewText );
+
+    }
+    
     /**************************************************************************/
     
     public static string StripNewLines ( string Text )

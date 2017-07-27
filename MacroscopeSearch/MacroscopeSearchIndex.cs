@@ -90,7 +90,7 @@ namespace SEOMacroscope
       TextBlocks.Add( msDoc.GetTitle() );
       TextBlocks.Add( msDoc.GetDescription() );
       TextBlocks.Add( msDoc.GetKeywords() );
-      TextBlocks.Add( msDoc.GetBodyText() );
+      TextBlocks.Add( msDoc.GetDocumentTextCleaned() );
 
       DebugMsg( string.Format( "ProcessText: TextBlocks.Count: {0}", TextBlocks.Count ) );
 

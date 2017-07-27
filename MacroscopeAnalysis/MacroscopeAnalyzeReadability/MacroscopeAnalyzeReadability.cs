@@ -46,8 +46,8 @@ namespace SEOMacroscope
     
     public enum AnalyzeReadabilityEnglishAlgorithm
     {
-      SMOG = 0,
-      FLESCH_KINCAID = 1
+      FLESCH_KINCAID = 0,
+      SMOG = 1
     }
     
     /**************************************************************************/
@@ -88,11 +88,11 @@ namespace SEOMacroscope
         case "en":
           switch( MacroscopePreferencesManager.GetAnalyzeTextReadabilityEnglishAlgorithm() )
           {
-            case MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm.SMOG:
-              Analyzer = new MacroscopeAnalyzeReadabilitySmog ();
-              break;
             case MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm.FLESCH_KINCAID:
               Analyzer = new MacroscopeAnalyzeReadabilityFleschKincaid ();
+              break;
+            case MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm.SMOG:
+              Analyzer = new MacroscopeAnalyzeReadabilitySmog ();
               break;
             default:
               break;

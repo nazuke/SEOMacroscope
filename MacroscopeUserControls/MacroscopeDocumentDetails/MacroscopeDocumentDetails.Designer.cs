@@ -121,8 +121,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader columnHeaderLinksOutCount;
 		private System.Windows.Forms.ColumnHeader HyperlinksInCount;
 		private System.Windows.Forms.ColumnHeader HyperlinksOutCount;
-		public System.Windows.Forms.TabPage tabPageBodyText;
-		public System.Windows.Forms.TextBox textBoxBodyText;
 		private System.Windows.Forms.TabPage tabPageRemarks;
 		public System.Windows.Forms.ListView listViewRemarks;
 		private System.Windows.Forms.ColumnHeader remarksItem;
@@ -152,6 +150,12 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem openSourceUrlInBrowser;
 		private System.Windows.Forms.ToolStripMenuItem openTargetUrlInBrowser;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.TabPage tabPageDocumentTextRaw;
+		public System.Windows.Forms.TextBox textBoxDocumentTextRaw;
+		private System.Windows.Forms.TabPage tabPageDocumentTextCleaned;
+		public System.Windows.Forms.TextBox textBoxDocumentTextCleaned;
+		private System.Windows.Forms.TabPage tabPageBodyTextRaw;
+		public System.Windows.Forms.TextBox textBoxBodyTextRaw;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -284,8 +288,12 @@ namespace SEOMacroscope
 			this.remarksItem = new System.Windows.Forms.ColumnHeader();
 			this.remarksUrl = new System.Windows.Forms.ColumnHeader();
 			this.remarksRemark = new System.Windows.Forms.ColumnHeader();
-			this.tabPageBodyText = new System.Windows.Forms.TabPage();
-			this.textBoxBodyText = new System.Windows.Forms.TextBox();
+			this.tabPageDocumentTextRaw = new System.Windows.Forms.TabPage();
+			this.textBoxDocumentTextRaw = new System.Windows.Forms.TextBox();
+			this.tabPageDocumentTextCleaned = new System.Windows.Forms.TabPage();
+			this.textBoxDocumentTextCleaned = new System.Windows.Forms.TextBox();
+			this.tabPageBodyTextRaw = new System.Windows.Forms.TabPage();
+			this.textBoxBodyTextRaw = new System.Windows.Forms.TextBox();
 			this.tabPageCustomFilters = new System.Windows.Forms.TabPage();
 			this.listViewCustomFilters = new System.Windows.Forms.ListView();
 			this.customFiltersItem = new System.Windows.Forms.ColumnHeader();
@@ -316,7 +324,9 @@ namespace SEOMacroscope
 			this.tabPageVideos.SuspendLayout();
 			this.tabPageKeywordAnalysis.SuspendLayout();
 			this.tabPageRemarks.SuspendLayout();
-			this.tabPageBodyText.SuspendLayout();
+			this.tabPageDocumentTextRaw.SuspendLayout();
+			this.tabPageDocumentTextCleaned.SuspendLayout();
+			this.tabPageBodyTextRaw.SuspendLayout();
 			this.tabPageCustomFilters.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerDocumentDetails)).BeginInit();
 			this.splitContainerDocumentDetails.Panel1.SuspendLayout();
@@ -344,7 +354,9 @@ namespace SEOMacroscope
 			this.tabControlDocument.Controls.Add(this.tabPageVideos);
 			this.tabControlDocument.Controls.Add(this.tabPageKeywordAnalysis);
 			this.tabControlDocument.Controls.Add(this.tabPageRemarks);
-			this.tabControlDocument.Controls.Add(this.tabPageBodyText);
+			this.tabControlDocument.Controls.Add(this.tabPageDocumentTextRaw);
+			this.tabControlDocument.Controls.Add(this.tabPageDocumentTextCleaned);
+			this.tabControlDocument.Controls.Add(this.tabPageBodyTextRaw);
 			this.tabControlDocument.Controls.Add(this.tabPageCustomFilters);
 			this.tabControlDocument.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlDocument.Location = new System.Drawing.Point(0, 0);
@@ -397,18 +409,18 @@ namespace SEOMacroscope
 			this.copyRows,
 			this.copyValues});
 			this.contextMenuStripCopyRecords.Name = "contextMenuStripTextCopy";
-			this.contextMenuStripCopyRecords.Size = new System.Drawing.Size(153, 70);
+			this.contextMenuStripCopyRecords.Size = new System.Drawing.Size(140, 48);
 			// 
 			// copyRows
 			// 
 			this.copyRows.Name = "copyRows";
-			this.copyRows.Size = new System.Drawing.Size(152, 22);
+			this.copyRows.Size = new System.Drawing.Size(139, 22);
 			this.copyRows.Text = "Copy Rows";
 			// 
 			// copyValues
 			// 
 			this.copyValues.Name = "copyValues";
-			this.copyValues.Size = new System.Drawing.Size(152, 22);
+			this.copyValues.Size = new System.Drawing.Size(139, 22);
 			this.copyValues.Text = "Copy Values";
 			// 
 			// tabPageHttpHeaders
@@ -1206,24 +1218,80 @@ namespace SEOMacroscope
 			this.remarksRemark.Text = "Remark";
 			this.remarksRemark.Width = 200;
 			// 
-			// tabPageBodyText
+			// tabPageDocumentTextRaw
 			// 
-			this.tabPageBodyText.Controls.Add(this.textBoxBodyText);
-			this.tabPageBodyText.Location = new System.Drawing.Point(4, 58);
-			this.tabPageBodyText.Name = "tabPageBodyText";
-			this.tabPageBodyText.Size = new System.Drawing.Size(567, 438);
-			this.tabPageBodyText.TabIndex = 15;
-			this.tabPageBodyText.Text = "Body Text";
-			this.tabPageBodyText.UseVisualStyleBackColor = true;
+			this.tabPageDocumentTextRaw.Controls.Add(this.textBoxDocumentTextRaw);
+			this.tabPageDocumentTextRaw.Location = new System.Drawing.Point(4, 58);
+			this.tabPageDocumentTextRaw.Name = "tabPageDocumentTextRaw";
+			this.tabPageDocumentTextRaw.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageDocumentTextRaw.Size = new System.Drawing.Size(567, 438);
+			this.tabPageDocumentTextRaw.TabIndex = 18;
+			this.tabPageDocumentTextRaw.Text = "Raw Document Text";
+			this.tabPageDocumentTextRaw.UseVisualStyleBackColor = true;
 			// 
-			// textBoxBodyText
+			// textBoxDocumentTextRaw
 			// 
-			this.textBoxBodyText.Location = new System.Drawing.Point(20, 20);
-			this.textBoxBodyText.Multiline = true;
-			this.textBoxBodyText.Name = "textBoxBodyText";
-			this.textBoxBodyText.ReadOnly = true;
-			this.textBoxBodyText.Size = new System.Drawing.Size(200, 200);
-			this.textBoxBodyText.TabIndex = 0;
+			this.textBoxDocumentTextRaw.AcceptsReturn = true;
+			this.textBoxDocumentTextRaw.BackColor = System.Drawing.Color.White;
+			this.textBoxDocumentTextRaw.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.textBoxDocumentTextRaw.Location = new System.Drawing.Point(183, 119);
+			this.textBoxDocumentTextRaw.MaxLength = 1048576;
+			this.textBoxDocumentTextRaw.Multiline = true;
+			this.textBoxDocumentTextRaw.Name = "textBoxDocumentTextRaw";
+			this.textBoxDocumentTextRaw.ReadOnly = true;
+			this.textBoxDocumentTextRaw.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBoxDocumentTextRaw.Size = new System.Drawing.Size(200, 200);
+			this.textBoxDocumentTextRaw.TabIndex = 1;
+			// 
+			// tabPageDocumentTextCleaned
+			// 
+			this.tabPageDocumentTextCleaned.Controls.Add(this.textBoxDocumentTextCleaned);
+			this.tabPageDocumentTextCleaned.Location = new System.Drawing.Point(4, 58);
+			this.tabPageDocumentTextCleaned.Name = "tabPageDocumentTextCleaned";
+			this.tabPageDocumentTextCleaned.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageDocumentTextCleaned.Size = new System.Drawing.Size(567, 438);
+			this.tabPageDocumentTextCleaned.TabIndex = 19;
+			this.tabPageDocumentTextCleaned.Text = "Cleaned Document Text";
+			this.tabPageDocumentTextCleaned.UseVisualStyleBackColor = true;
+			// 
+			// textBoxDocumentTextCleaned
+			// 
+			this.textBoxDocumentTextCleaned.AcceptsReturn = true;
+			this.textBoxDocumentTextCleaned.BackColor = System.Drawing.Color.White;
+			this.textBoxDocumentTextCleaned.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.textBoxDocumentTextCleaned.Location = new System.Drawing.Point(183, 119);
+			this.textBoxDocumentTextCleaned.MaxLength = 1048576;
+			this.textBoxDocumentTextCleaned.Multiline = true;
+			this.textBoxDocumentTextCleaned.Name = "textBoxDocumentTextCleaned";
+			this.textBoxDocumentTextCleaned.ReadOnly = true;
+			this.textBoxDocumentTextCleaned.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBoxDocumentTextCleaned.Size = new System.Drawing.Size(200, 200);
+			this.textBoxDocumentTextCleaned.TabIndex = 2;
+			// 
+			// tabPageBodyTextRaw
+			// 
+			this.tabPageBodyTextRaw.Controls.Add(this.textBoxBodyTextRaw);
+			this.tabPageBodyTextRaw.Location = new System.Drawing.Point(4, 58);
+			this.tabPageBodyTextRaw.Name = "tabPageBodyTextRaw";
+			this.tabPageBodyTextRaw.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageBodyTextRaw.Size = new System.Drawing.Size(567, 438);
+			this.tabPageBodyTextRaw.TabIndex = 20;
+			this.tabPageBodyTextRaw.Text = "Raw Body Text";
+			this.tabPageBodyTextRaw.UseVisualStyleBackColor = true;
+			// 
+			// textBoxBodyTextRaw
+			// 
+			this.textBoxBodyTextRaw.AcceptsReturn = true;
+			this.textBoxBodyTextRaw.BackColor = System.Drawing.Color.White;
+			this.textBoxBodyTextRaw.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.textBoxBodyTextRaw.Location = new System.Drawing.Point(183, 119);
+			this.textBoxBodyTextRaw.MaxLength = 1048576;
+			this.textBoxBodyTextRaw.Multiline = true;
+			this.textBoxBodyTextRaw.Name = "textBoxBodyTextRaw";
+			this.textBoxBodyTextRaw.ReadOnly = true;
+			this.textBoxBodyTextRaw.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBoxBodyTextRaw.Size = new System.Drawing.Size(200, 200);
+			this.textBoxBodyTextRaw.TabIndex = 2;
 			// 
 			// tabPageCustomFilters
 			// 
@@ -1367,8 +1435,12 @@ namespace SEOMacroscope
 			this.tabPageVideos.ResumeLayout(false);
 			this.tabPageKeywordAnalysis.ResumeLayout(false);
 			this.tabPageRemarks.ResumeLayout(false);
-			this.tabPageBodyText.ResumeLayout(false);
-			this.tabPageBodyText.PerformLayout();
+			this.tabPageDocumentTextRaw.ResumeLayout(false);
+			this.tabPageDocumentTextRaw.PerformLayout();
+			this.tabPageDocumentTextCleaned.ResumeLayout(false);
+			this.tabPageDocumentTextCleaned.PerformLayout();
+			this.tabPageBodyTextRaw.ResumeLayout(false);
+			this.tabPageBodyTextRaw.PerformLayout();
 			this.tabPageCustomFilters.ResumeLayout(false);
 			this.splitContainerDocumentDetails.Panel1.ResumeLayout(false);
 			this.splitContainerDocumentDetails.Panel2.ResumeLayout(false);

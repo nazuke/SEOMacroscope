@@ -100,7 +100,7 @@ namespace SEOMacroscope
 
           string LanguageTitle = msDoc.GetTitleLanguage();
           string LanguageDescription = msDoc.GetDescriptionLanguage();
-          string LanguageBodyText = msDoc.GetBodyTextLanguage();
+          string LanguageBodyText = msDoc.GetDocumentTextLanguage();
 
           Assert.AreEqual( "en", LanguageTitle, string.Format( "FAIL: {0} :: {1}", "LanguageTitle", LanguageTitle ) );
 

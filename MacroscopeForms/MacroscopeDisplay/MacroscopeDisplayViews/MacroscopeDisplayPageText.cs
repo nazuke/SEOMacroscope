@@ -119,7 +119,7 @@ namespace SEOMacroscope
         MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
         string PageLocale = msDoc.GetLocale();
         string PageLanguage = msDoc.GetIsoLanguageCode();
-        string DetectedLanguage = msDoc.GetBodyTextLanguage();
+        string DetectedLanguage = msDoc.GetDocumentTextLanguage();
         int WordCount = msDoc.GetWordCount();
         string ReadabilityGradeType = msDoc.GetReadabilityGradeType().ToString();
         string ReadabilityGrade = msDoc.GetReadabilityGrade().ToString( "00.00" );

@@ -144,10 +144,14 @@ namespace SEOMacroscope
     
     private Dictionary<ushort,List<string>> Headings;
 
-    private string BodyText;
-    private string BodyTextLanguage;
+    private string DocumentTextRaw;
+    private string DocumentTextCleaned;
+    private string DocumentTextLanguage;
+
+    private string BodyTextRaw;
+
     private List<Dictionary<string,int>> DeepKeywordAnalysis;
-    
+
     private double ReadabilityGrade;
     private MacroscopeAnalyzeReadability.AnalyzeReadabilityType ReadabilityGradeType;
     private string ReadabilityGradeDescription;
@@ -168,7 +172,7 @@ namespace SEOMacroscope
 
 
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -215,7 +219,8 @@ namespace SEOMacroscope
 
       this.DocCollection = null;
 
-      this.BodyText = null;
+      this.DocumentTextRaw = null;
+      this.DocumentTextCleaned = null;
 
       this.DeepKeywordAnalysis = null;
 
@@ -324,8 +329,11 @@ namespace SEOMacroscope
         this.Headings.Add( HeadingLevel, new List<string> ( 16 ) );
       }
 
-      this.BodyText = "";
-      this.BodyTextLanguage = "";
+      this.DocumentTextRaw = "";
+      this.DocumentTextCleaned = "";
+      this.DocumentTextLanguage = "";
+      
+      this.BodyTextRaw = "";
       
       this.DeepKeywordAnalysis = new List<Dictionary<string,int>> ( 4 );
       for( int i = 0 ; i <= 3 ; i++ )
@@ -1603,73 +1611,77 @@ namespace SEOMacroscope
       return( HeadingList );
     }
 
-    /** Body Text *************************************************************/
+    /** Entire Document Text **************************************************/
 
-    public void SetBodyText ( string Text )
+    public void SetDocumentText ( string Text )
     {
-      
-      this.SuppressDebugMsg = false;
-      
-      
-      this.DebugMsg( Text );
-      
-      
+
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        this.BodyText = Text;
-        Text = MacroscopeStringTools.CleanBodyText( msDoc: this );
-        this.BodyText = Text;
+        this.DocumentTextRaw = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
+        this.DocumentTextRaw = MacroscopeStringTools.StripHtmlDocTypeAndCommentsFromText( Text: this.DocumentTextRaw );
         
-        if( !string.IsNullOrEmpty( this.BodyText ) )
+        this.DocumentTextCleaned = MacroscopeStringTools.CleanBodyText( msDoc: this );
+        
+        if( !string.IsNullOrEmpty( this.DocumentTextCleaned ) )
         {
           this.SetWordCount();
         }
         
         if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
         {
-          this.CalculateSmogGrade();
+          this.CalculateReadabilityGrade();
         }
         
       }
       else
       {
-        this.BodyText = "";
+        this.DocumentTextRaw = "";
+        this.DocumentTextCleaned = "";
       }
-      
-      this.SuppressDebugMsg = true;
-      
+          
     }
 
     /** -------------------------------------------------------------------- **/
         
-    public string GetBodyText ()
+    public string GetDocumentTextRaw ()
     {
-      return( this.BodyText );
+      return( this.DocumentTextRaw );
+    }
+    
+    public string GetDocumentTextCleaned ()
+    {
+      return( this.DocumentTextCleaned );
     }
     
     /** -------------------------------------------------------------------- **/
         
-    public int GetBodyTextLength ()
+    public int GetDocumentTextRawLength ()
     {
-      return( this.BodyText.Length );
+      return( this.DocumentTextRaw.Length );
+    }
+
+    public int GetDocumentTextCleanedLength ()
+    {
+      return( this.DocumentTextCleaned.Length );
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public void DetectBodyTextLanguage ()
+    public void DetectDocumentTextLanguage ()
     {
       if( this.GetIsHtml() || this.GetIsPdf() )
       {
-        this.BodyTextLanguage = this.ProbeTextLanguage( Text: this.BodyText );
+        this.DocumentTextLanguage = this.ProbeTextLanguage( Text: this.DocumentTextCleaned );
       }
     }
 
     /** -------------------------------------------------------------------- **/
         
-    public string GetBodyTextLanguage ()
+    public string GetDocumentTextLanguage ()
     {
-      return( this.BodyTextLanguage );
+      return( this.DocumentTextLanguage );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1681,7 +1693,7 @@ namespace SEOMacroscope
 
       try
       {
-        string [] Words = Regex.Split( this.BodyText, @"\s", RegexOptions.Singleline );
+        string [] Words = Regex.Split( this.DocumentTextCleaned, @"\s", RegexOptions.Singleline );
         this.WordCount = Words.Length;
       }
       catch( Exception ex )
@@ -1694,6 +1706,47 @@ namespace SEOMacroscope
     public int GetWordCount ()
     {
       return( this.WordCount );
+    }
+
+    /** Body Text *************************************************************/
+
+    public void SetBodyText ( string Text )
+    {
+
+      string TextCopy = Text;
+      
+      if( !string.IsNullOrEmpty( TextCopy ) )
+      {
+
+        TextCopy = MacroscopeStringTools.StripHtmlDocTypeAndCommentsFromText( Text: TextCopy );
+
+        TextCopy = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
+
+      }
+      else
+      {
+        TextCopy = "";
+      }
+
+      this.BodyTextRaw = TextCopy;
+
+      if( !string.IsNullOrEmpty( this.BodyTextRaw ) )
+      {
+
+        if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
+        {
+          this.CalculateReadabilityGrade();
+        }
+      
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+        
+    public string GetBodyTextRaw ()
+    {
+      return( this.BodyTextRaw );
     }
 
     /** Deep Keyword Analysis *************************************************/
@@ -1726,7 +1779,7 @@ namespace SEOMacroscope
             {
               this.DeepKeywordAnalysis[ Words ].Clear();
               AnalyzeKeywords.Analyze(
-                Text: this.GetBodyText(), 
+                Text: this.GetDocumentTextCleaned(), 
                 Terms: this.DeepKeywordAnalysis[ Words ],
                 Words: Words + 1
               );
@@ -1756,12 +1809,13 @@ namespace SEOMacroscope
     
     /** Text Readability ******************************************************/
 
-    public void CalculateSmogGrade ()
+    public void CalculateReadabilityGrade ()
     {
       
       double Grade = 0;
       string GradeDescription = "";
       MacroscopeAnalyzeReadability.AnalyzeReadabilityType GradeType = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.UNKNOWN;
+      IMacroscopeAnalyzeReadability AnalyzeReadability = null;
       
       if( this.GetIsRedirect() )
       {
@@ -1770,24 +1824,23 @@ namespace SEOMacroscope
             
       if( this.GetIsHtml() || this.GetIsPdf() )
       {
-        
         if( this.GetIsoLanguageCode().Equals( "en" ) )
         {
-        
-          IMacroscopeAnalyzeReadability AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
-
-          Grade = AnalyzeReadability.AnalyzeReadability( msDoc: this );
-          GradeType = AnalyzeReadability.GetAnalyzeReadabilityType();
-          GradeDescription = AnalyzeReadability.GradeToString();
-
+          AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
         }
-        
+      }
+
+      if( AnalyzeReadability != null )
+      {
+        Grade = AnalyzeReadability.AnalyzeReadability( msDoc: this );
+        GradeType = AnalyzeReadability.GetAnalyzeReadabilityType();
+        GradeDescription = AnalyzeReadability.GradeToString();
       }
 
       this.ReadabilityGrade = Grade;
       this.ReadabilityGradeType = GradeType;
       this.ReadabilityGradeDescription = GradeDescription;
-        
+
     }
 
     public double GetReadabilityGrade ()
@@ -1800,7 +1853,7 @@ namespace SEOMacroscope
       return( this.ReadabilityGradeType );
     }
 
-    public string GetReadabilityGradeDescription()
+    public string GetReadabilityGradeDescription ()
     {
       return( this.ReadabilityGradeDescription );
     }
@@ -2286,11 +2339,11 @@ namespace SEOMacroscope
         }
       }
 
-      if( this.GetBodyTextLength() > 0 )
+      if( this.GetDocumentTextRawLength() > 0 )
       {
         if( MacroscopePreferencesManager.GetDetectLanguage() )
         {
-          this.DetectBodyTextLanguage();
+          this.DetectDocumentTextLanguage();
         }
       }
 

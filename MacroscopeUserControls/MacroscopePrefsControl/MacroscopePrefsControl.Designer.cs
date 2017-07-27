@@ -1494,8 +1494,8 @@ namespace SEOMacroscope
 			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.FormattingEnabled = true;
 			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Items.AddRange(new object[] {
-			"SMOG Grade",
-			"Flesh-Kincaid"});
+			"Flesch-Kincaid",
+			"SMOG Grade"});
 			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Location = new System.Drawing.Point(20, 50);
 			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Name = "comboBoxAnalyzeTextReadabilityEnglishAlgorithm";
 			this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Size = new System.Drawing.Size(150, 21);

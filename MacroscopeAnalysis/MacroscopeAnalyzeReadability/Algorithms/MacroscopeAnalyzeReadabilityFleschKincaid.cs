@@ -45,19 +45,17 @@ namespace SEOMacroscope
         
         http://www.phonicsontheweb.com/syllables.php
 
-     **/
+    **/
    
     /**************************************************************************/
 
-    private const double FKAverageSentenceLengthConstant = 1.015;
-    private const double FKAverageWordLengthConstant = 84.6;
+    private static char [] SentenceDelimiters;
 
+    private const int FKLookupTableSize = 130;
     private static List<double> WordsPerSentenceLookupTable;
     private static List<double> SyllablesPerWordLookupTable;
 
     private MacroscopeAnalyzeReadability.AnalyzeReadabilityType Type;
-
-    private char [] SentenceDelimiters;
 
     private double Grade;
 
@@ -66,19 +64,31 @@ namespace SEOMacroscope
     static MacroscopeAnalyzeReadabilityFleschKincaid ()
     {
 
-      WordsPerSentenceLookupTable = new List<double> ( 101 );
-      SyllablesPerWordLookupTable = new List<double> ( 101 );
-
-      double WordsPerSentence = 50;
-
-      for( double i = 0 ; i <= 100 ; i++ )
       {
+        SentenceDelimiters = new char[3];
+        SentenceDelimiters[ 0 ] = '.';
+        SentenceDelimiters[ 1 ] = '?';
+        SentenceDelimiters[ 2 ] = '!';
+      }
+      
+      {
+        WordsPerSentenceLookupTable = new List<double> ( FKLookupTableSize + 1 );
+        for( double i = 0 ; i <= FKLookupTableSize ; i++ )
+        {
+          double Computed = ( ( ( double )65 / ( double )FKLookupTableSize ) * i ) - ( double )25;
+          WordsPerSentenceLookupTable.Add( Computed );
+        }
+        WordsPerSentenceLookupTable.Reverse();
+      }
 
-        double Computed = ( ( WordsPerSentence / 100 ) * i ) - 10;
-
-        WordsPerSentenceLookupTable.Add( Computed );
-        WordsPerSentence--;
-
+      {
+        SyllablesPerWordLookupTable = new List<double> ( FKLookupTableSize + 1 );
+        for( double i = 0 ; i <= FKLookupTableSize ; i++ )
+        {
+          double Computed = ( ( ( double )0.6 / ( double )FKLookupTableSize ) * i ) + ( double )1.2;
+          SyllablesPerWordLookupTable.Add( Computed );
+        }
+        SyllablesPerWordLookupTable.Reverse();
       }
 
     }
@@ -91,20 +101,9 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = false;
       
       this.Type = MacroscopeAnalyzeReadability.AnalyzeReadabilityType.FLESCH_KINCAID;
-      
-      this.SentenceDelimiters = new char[1];
-      this.SentenceDelimiters[ 0 ] = '.';
 
       this.Grade = 0;
 
-      foreach( double WordsPerSentenceLookupValue in WordsPerSentenceLookupTable )
-      {
-        this.DebugMsg( string.Format( "WordsPerSentenceLookupValue: \"{0}\"", WordsPerSentenceLookupValue ) );
-      }
-      
-      
-      return;
-      
     }
 
     /**************************************************************************/
@@ -120,7 +119,7 @@ namespace SEOMacroscope
     {
       
       double ReadabilityGrade = 0;
-      string SampleText = msDoc.GetBodyText();
+      string SampleText = msDoc.GetBodyTextRaw();
 
       if( !string.IsNullOrEmpty( SampleText ) )
       {
@@ -138,13 +137,16 @@ namespace SEOMacroscope
     public double AnalyzeReadability ( string SampleText )
     {
       
-      double ReadabilityGrade = 0;
       double WordCount;
       double SyllableCount;
       double SentenceCount;
       double AverageSyllablesPerWord;
       double AverageWordsPerSentence;
 
+      int WordsPerSentenceScore = 0;
+      int SyllablesPerWordScore = 0;
+      double ReadabilityScoreAngle = 0;
+      
       SampleText = Regex.Replace( SampleText, @"\s+", " ", RegexOptions.Singleline );
       SampleText = SampleText.Trim();
 
@@ -162,24 +164,22 @@ namespace SEOMacroscope
 
       AverageWordsPerSentence = WordCount / SentenceCount;
       this.DebugMsg( string.Format( "AverageWordsPerSentence: \"{0}\"", AverageWordsPerSentence ) );
-      
-      
-      
-      
-      
-      
 
-      
-      
-      
-      
-      
-      
-      
+      WordsPerSentenceScore = this.LookupWordsPerSentenceScore( AverageWordsPerSentence: AverageWordsPerSentence );
+      this.DebugMsg( string.Format( "WordsPerSentenceScore: \"{0}\"", WordsPerSentenceScore ) );
 
-      this.Grade = ReadabilityGrade;
+      SyllablesPerWordScore = this.LookupSyllablesPerWordScore( AverageSyllablesPerWord: AverageSyllablesPerWord );
+      this.DebugMsg( string.Format( "SyllablesPerWordScore: \"{0}\"", SyllablesPerWordScore ) );
+
+      ReadabilityScoreAngle = this.LookupReadabilityScoreAngle(
+        WordsPerSentenceScore: WordsPerSentenceScore,
+        SyllablesPerWordScore: SyllablesPerWordScore
+      );
+      this.DebugMsg( string.Format( "ReadabilityScoreAngle: \"{0}\"", ReadabilityScoreAngle ) );
+
+      this.Grade = ReadabilityScoreAngle;
             
-      return( ReadabilityGrade );
+      return( this.Grade );
             
     }
 
@@ -222,7 +222,7 @@ namespace SEOMacroscope
       string [] Sentences;
 
       Sentences = SampleText.ToLower().Split(
-        this.SentenceDelimiters,
+        SentenceDelimiters,
         StringSplitOptions.RemoveEmptyEntries
       );
 
@@ -249,7 +249,7 @@ namespace SEOMacroscope
       string [] Sentences;
 
       Sentences = SampleText.ToLower().Split(
-        this.SentenceDelimiters,
+        SentenceDelimiters,
         StringSplitOptions.RemoveEmptyEntries
       );
 
@@ -350,36 +350,145 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
+
+    public int LookupWordsPerSentenceScore ( double AverageWordsPerSentence )
+    {
     
+      int WordsPerSentenceScore = 0;
+
+      for( int i = 0 ; i <= FKLookupTableSize ; i++ )
+      {
+
+        if( AverageWordsPerSentence <= WordsPerSentenceLookupTable[ i ] )
+        {
+          WordsPerSentenceScore = i;
+        }
+        else
+        {
+          break;
+        }
+      }
+
+      return( WordsPerSentenceScore );
+
+    }
+
+    /**************************************************************************/
+
+    public int LookupSyllablesPerWordScore ( double AverageSyllablesPerWord )
+    {
+    
+      int SyllablesPerWordScore = 0;
+
+      for( int i = 0 ; i <= FKLookupTableSize ; i++ )
+      {
+
+        if( AverageSyllablesPerWord <= SyllablesPerWordLookupTable[ i ] )
+        {
+          SyllablesPerWordScore = i;
+        }
+        else
+        {
+          break;
+        }
+      }
+
+      return( SyllablesPerWordScore );
+
+    }
+
+    /**************************************************************************/
+
+    public double LookupReadabilityScoreAngle (
+      double WordsPerSentenceScore,
+      double SyllablesPerWordScore )
+    {
+              
+      double ReadabilityScoreAngle = 0;
+      double Larger = 0;
+      double Smaller = 0;
+      double Difference = 0;
+      
+      if( WordsPerSentenceScore > SyllablesPerWordScore )
+      {
+        Larger = WordsPerSentenceScore;
+        Smaller = SyllablesPerWordScore;
+      }
+      else
+      {
+        Larger = SyllablesPerWordScore;
+        Smaller = WordsPerSentenceScore;
+      }
+
+      Difference = ( Larger - Smaller ) / ( double )2;
+
+      ReadabilityScoreAngle = Larger - Difference;
+
+      return( ReadabilityScoreAngle );
+
+    }
+
+    /**************************************************************************/
+
     public string GradeToString ()
     {
       
       string GradeString = "SIMPLE";
-      
-      if( ( this.Grade >= 0 ) && ( this.Grade <= 9 ) )
+
+      if( this.Grade >= 90 )
       {
-        GradeString = "SIMPLE";
+        GradeString = "VERY EASY";
       }
       else
-      if( ( this.Grade >= 10 ) && ( this.Grade <= 12 ) )
+      if( this.Grade >= 80 )
       {
-        GradeString = "LOW COMPLEXITY"; 
+        GradeString = "EASY";
       }
       else
-      if( ( this.Grade >= 13 ) && ( this.Grade <= 16 ) )
+      if( this.Grade >= 70 )
       {
-        GradeString = "MEDIUM COMPLEXITY"; 
+        GradeString = "FAIRLY EASY";
       }
       else
-      if( ( this.Grade >= 17 ) && ( this.Grade <= 21 ) )
+      if( this.Grade >= 60 )
       {
-        GradeString = "HIGH COMPLEXITY"; 
+        GradeString = "PLAIN ENGLISH";
+      }
+      else
+      if( this.Grade >= 50 )
+      {
+        GradeString = "FAIRLY DIFFICULT";
+      }
+      else
+      if( this.Grade >= 40 )
+      {
+        GradeString = "DIFFICULT";
+      }
+      else
+      if( this.Grade >= 30 )
+      {
+        GradeString = "DIFFICULT";
+      }
+      else
+      if( this.Grade >= 20 )
+      {
+        GradeString = "DIFFICULT";
+      }
+      else
+      if( this.Grade >= 10 )
+      {
+        GradeString = "VERY DIFFICULT";
+      }
+      else
+      if( this.Grade >= 0 )
+      {
+        GradeString = "VERY DIFFICULT";
       }
       else
       {
-        GradeString = "N/A";
+        GradeString = "INCOMPREHENSIBLE";
       }
-      
+
       return( GradeString );
       
     }

@@ -69,6 +69,7 @@ namespace SEOMacroscope
     private List<Dictionary<string,int>> StatsDeepKeywordAnalysis;
 
     private Dictionary<string,int> StatsReadabilityGrades;
+    private Dictionary<string,int> StatsReadabilityGradeStrings;
 
     private int StatsUrlsInternal;
     private int StatsUrlsExternal;
@@ -134,7 +135,8 @@ namespace SEOMacroscope
 
       this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ( DocList: this.StatsDeepKeywordAnalysisDocs );
            
-      this.StatsReadabilityGrades = new  Dictionary<string,int> ( 21 );
+      this.StatsReadabilityGrades = new  Dictionary<string,int> ( 16 );
+      this.StatsReadabilityGradeStrings = new  Dictionary<string,int> ( 16 );
 
       this.StatsUrlsInternal = 0;
       this.StatsUrlsExternal = 0;
@@ -694,6 +696,7 @@ namespace SEOMacroscope
                 if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
                 {
                   this.RecalculateStatsReadabilityGrades( msDoc: msDoc );
+                  this.RecalculateStatsReadabilityGradeStrings( msDoc: msDoc );
                 }
 
                 this.AddDocumentToSearchIndex( msDoc: msDoc );
@@ -1537,7 +1540,7 @@ namespace SEOMacroscope
       string PageLanguage = msDoc.GetIsoLanguageCode();
       string TitleLanguage = msDoc.GetTitleLanguage();
       string DescriptionLanguage = msDoc.GetDescriptionLanguage();
-      string BodyTextLanguage = msDoc.GetBodyTextLanguage();
+      string BodyTextLanguage = msDoc.GetDocumentTextLanguage();
 
       if( string.IsNullOrEmpty( PageLanguage ) )
       {
@@ -1818,7 +1821,7 @@ namespace SEOMacroscope
               {
                 this.AnalyzeKeywords.Analyze(
                   msDoc: msDoc,
-                  Text: msDoc.GetBodyText(),
+                  Text: msDoc.GetDocumentTextCleaned(),
                   Terms: this.StatsDeepKeywordAnalysis[ i ],
                   Words: i + 1
                 );
@@ -1873,20 +1876,39 @@ namespace SEOMacroscope
     {
       lock( this.StatsReadabilityGrades )
       {
-        this.StatsReadabilityGrades.Clear();
+        lock( this.StatsReadabilityGradeStrings )
+        {
+          this.StatsReadabilityGrades.Clear();
+          this.StatsReadabilityGradeStrings.Clear();
+        }
       }
     }
 
     /** -------------------------------------------------------------------- **/
         
-    public Dictionary<string,int> GetStatsReadabilityGradesCount ()
+    public SortedDictionary<string,int> GetStatsReadabilityGradesCount ()
     {
-      Dictionary<string,int> dicStats = new Dictionary<string,int> ( this.StatsReadabilityGrades.Count );
+      SortedDictionary<string,int> dicStats = new SortedDictionary<string, int> ();
       lock( this.StatsReadabilityGrades )
       {
         foreach( string Key in this.StatsReadabilityGrades.Keys )
         {
           dicStats.Add( Key, this.StatsReadabilityGrades[ Key ] );
+        }
+      }
+      return( dicStats );
+    }
+    
+    /** -------------------------------------------------------------------- **/
+        
+    public SortedDictionary<string,int> GetStatsReadabilityGradeStringsCount ()
+    {
+      SortedDictionary<string,int> dicStats = new SortedDictionary<string, int> ();
+      lock( this.StatsReadabilityGradeStrings )
+      {
+        foreach( string Key in this.StatsReadabilityGradeStrings.Keys )
+        {
+          dicStats.Add( Key, this.StatsReadabilityGradeStrings[ Key ] );
         }
       }
       return( dicStats );
@@ -1917,10 +1939,9 @@ namespace SEOMacroscope
           string Grade;
           
           Grade = string.Format(
-            "{0} : {1} : {2}",
+            "{0} / {1}",
             msDoc.GetReadabilityGradeType(),
-            msDoc.GetReadabilityGrade().ToString( "00.00" ),
-            msDoc.GetReadabilityGradeDescription()
+            msDoc.GetReadabilityGrade().ToString( "00.00" )
           );
 
           if( this.StatsReadabilityGrades.ContainsKey( Grade ) )
@@ -1930,6 +1951,51 @@ namespace SEOMacroscope
           else
           {
             this.StatsReadabilityGrades.Add( Grade, 1 );
+          }
+
+        }
+        
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+            
+    private void RecalculateStatsReadabilityGradeStrings ( MacroscopeDocument msDoc )
+    {
+
+      Boolean Proceed = false;
+
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+
+      if( msDoc.GetIsHtml() || msDoc.GetIsPdf() )
+      {
+        Proceed = true;
+      }
+
+      if( Proceed )
+      {
+
+        lock( this.StatsReadabilityGradeStrings )
+        {
+          string Grade;
+          
+          Grade = string.Format(
+            "{0} / {1}",
+            msDoc.GetReadabilityGradeType(),
+            msDoc.GetReadabilityGradeDescription()
+          );
+
+          if( this.StatsReadabilityGradeStrings.ContainsKey( Grade ) )
+          {
+            this.StatsReadabilityGradeStrings[ Grade ] = this.StatsReadabilityGradeStrings[ Grade ] + 1;
+          }
+          else
+          {
+            this.StatsReadabilityGradeStrings.Add( Grade, 1 );
           }
 
         }
