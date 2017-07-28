@@ -336,11 +336,12 @@ namespace SEOMacroscope
         req.KeepAlive = false;
         req.UserAgent = this.UserAgent();
         req.Host = RobotsUri.Host;
-
+        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+        
         MacroscopePreferencesManager.EnableHttpProxy( req );
 				
         res = ( HttpWebResponse )req.GetResponse();
-				
+
         Proceed = true;
 
       }

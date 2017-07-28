@@ -1824,9 +1824,16 @@ namespace SEOMacroscope
             
       if( this.GetIsHtml() || this.GetIsPdf() )
       {
-        if( this.GetIsoLanguageCode().Equals( "en" ) )
+        switch( this.GetIsoLanguageCode() )
         {
-          AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
+          case "x-default":
+            AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
+            break;
+          case"en":
+            AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
+            break;
+          default:
+            break;
         }
       }
 
@@ -2385,7 +2392,8 @@ namespace SEOMacroscope
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
         req.AllowAutoRedirect = false;
-
+        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+        
         this.PrepareRequestHttpHeaders( req: req );
 
         IsAuthenticating = this.AuthenticateRequest( req );
@@ -2730,6 +2738,13 @@ namespace SEOMacroscope
         this.ServerName = res.Server;
       }
 
+      // Compression
+      if( !string.IsNullOrEmpty( res.ContentEncoding ) )
+      {
+        this.IsCompressed = true;
+        this.CompressionMethod = res.ContentEncoding;
+      }
+
       // Probe HTTP Headers
       foreach( string HttpHeaderName in res.Headers )
       {
@@ -2790,8 +2805,11 @@ namespace SEOMacroscope
 
         if( HttpHeaderName.ToLower().Equals( "content-encoding" ) )
         {
-          this.IsCompressed = true;
-          this.CompressionMethod = res.GetResponseHeader( HttpHeaderName );
+          if( string.IsNullOrEmpty( this.CompressionMethod ) )
+          {
+            this.IsCompressed = true;
+            this.CompressionMethod = res.GetResponseHeader( HttpHeaderName );
+          }
         }
 
         // Process HTST Policy

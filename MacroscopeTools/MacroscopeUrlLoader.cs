@@ -69,7 +69,8 @@ namespace SEOMacroscope
         req.Method = "GET";
         req.Timeout = 1000;
         req.KeepAlive = false;
-
+        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+        
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();

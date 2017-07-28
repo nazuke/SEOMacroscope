@@ -106,7 +106,8 @@ namespace SEOMacroscope
         req.Timeout = 10000;
         req.KeepAlive = false;
         req.Host = MacroscopeUrlUtils.GetHostnameFromUrl( this.Url );
-
+        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+        
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         using( res = ( HttpWebResponse )req.GetResponse() )

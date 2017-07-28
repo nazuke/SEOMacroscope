@@ -708,7 +708,8 @@ namespace SEOMacroscope
         req.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
         req.KeepAlive = false;
         req.AllowAutoRedirect = false;
-
+        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+        
         MacroscopePreferencesManager.EnableHttpProxy( req );
 
         res = ( HttpWebResponse )req.GetResponse();

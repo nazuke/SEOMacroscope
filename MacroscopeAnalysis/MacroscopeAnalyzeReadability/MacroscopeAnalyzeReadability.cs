@@ -83,6 +83,11 @@ namespace SEOMacroscope
 
       IMacroscopeAnalyzeReadability Analyzer = null;
 
+      if( IsoLanguageCode.Equals( "x-default" ) )
+      {
+        IsoLanguageCode = "en";
+      }
+
       switch( IsoLanguageCode )
       {
         case "en":
