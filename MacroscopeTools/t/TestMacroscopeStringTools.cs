@@ -25,35 +25,80 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using NUnit.Framework;
 
 namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeStringTools
+  public class TestMacroscopeStringTools : Macroscope
   {
 
     /**************************************************************************/
 
+    private Dictionary<string,string> HtmlDocs;
+
+    /**************************************************************************/
+    
+    public TestMacroscopeStringTools ()
+    {
+
+      StreamReader Reader;
+      List<string> HtmlDocKeys = new List<string> ( 16 );
+
+      this.HtmlDocs = new Dictionary<string,string> ();
+
+      this.HtmlDocs.Add( "StringToolsHtmlDoc001", null );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+        HtmlDocKeys.Add( HtmlDocKey );
+      }
+
+      foreach( string HtmlDocKey in HtmlDocKeys )
+      {
+        
+        Reader = new StreamReader (
+          Assembly.GetExecutingAssembly().GetManifestResourceStream(
+            HtmlDocKey
+          )
+        );
+
+        this.HtmlDocs[ HtmlDocKey ] = Reader.ReadToEnd();
+
+        Reader.Close();
+
+        Reader.Dispose();
+
+      }
+
+    }
+
+    /**************************************************************************/
+        
+        
     [Test]
     public void TestCleanText ()
     {
 
-      Dictionary<string,string> StringsTable = new Dictionary<string,string> () {
-        {
-          "!\"#$%&'()=~|-^\\/,.<>;:@`{}[]*+The quick brown fox jumps over the lazy dog's!\"#$%&'()=~|-^\\/,.<>;:@`{}[]*+",
-          "The quick brown fox jumps over the lazy dog's"
-        },
-        {
-          "The quick/slow, and the fast-stop and the second-best things we don't know about.",
-          "The quick/slow and the fast-stop and the second-best things we don't know about"
-        },
-        {
-          "The markets opened at $100.00 today.",
-          "The markets opened at $100.00 today"
-        }
-      };
+      Dictionary<string,string> StringsTable = new Dictionary<string,string> ();
+
+      StringsTable.Add(
+        key: "!\"#$%&'()=~|-^\\/,.<>;:@`{}[]*+The quick brown fox jumps over the lazy dog's!\"#$%&'()=~|-^\\/,.<>;:@`{}[]*+",
+        value: "The quick brown fox jumps over the lazy dog's"
+      );
+
+      StringsTable.Add(
+        key: "The quick/slow, and the fast-stop and the second-best things we don't know about.",
+        value: "The quick/slow and the fast-stop and the second-best things we don't know about"
+      );
+      
+      StringsTable.Add(
+        key: "The markets opened at $100.00 today.",
+        value: "The markets opened at $100.00 today"
+      );
 
       foreach( string StringKey in StringsTable.Keys )
       {
@@ -61,6 +106,36 @@ namespace SEOMacroscope
         string Cleaned = MacroscopeStringTools.CleanText( Text: StringKey );
 
         Assert.AreEqual( StringsTable[ StringKey ], Cleaned, string.Format( "NOT VALID: {0}", Cleaned ) );
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestCleanTextWithHtmlDoc ()
+    {
+
+      Dictionary<string,string> AssetDic = new Dictionary<string, string> ();
+      
+      AssetDic.Add( 
+        key: "StringToolsHtmlDoc001",
+        value: "First Heading"
+      );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+
+        string Html = this.HtmlDocs[ HtmlDocKey ];
+
+        string Cleaned = MacroscopeStringTools.CleanText( Text: Html );
+
+        DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: ||{1}||", HtmlDocKey, Cleaned ) );
+
+        //Assert.IsNotEmpty( ResultList, "WHOOPS!" );
+
+        //Assert.AreEqual( AssetDic[ HtmlDocKey ], ResultList[ 0 ].Value );
 
       }
 

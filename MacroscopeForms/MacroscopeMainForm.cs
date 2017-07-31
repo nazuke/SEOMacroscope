@@ -1536,7 +1536,7 @@ namespace SEOMacroscope
         case Keys.Return:
           DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
           MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
-          string SearchText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
+          string SearchText = MacroscopeStringTools.CleanHtmlText( Text: SearchTextBox.Text );
           if( SearchText.Length > 0 )
           {
             SearchTextBox.Text = SearchText;
@@ -1698,7 +1698,7 @@ namespace SEOMacroscope
         {
 
           KeywordTerm = lvItem.SubItems[ TermCol ].Text;
-          string SearchText = MacroscopeStringTools.CleanBodyText( KeywordTerm );
+          string SearchText = MacroscopeStringTools.CleanHtmlText( Text: KeywordTerm );
           List<MacroscopeDocument> DocList;
           
           if( SearchText.Length > 0 )

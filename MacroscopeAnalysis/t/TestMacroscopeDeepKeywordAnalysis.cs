@@ -46,7 +46,7 @@ namespace SEOMacroscope
       
       MacroscopeDocument msDoc = new MacroscopeDocument ( "http://localhost/" );
       
-      msDoc.SetDocumentText( BodyText );
+      msDoc.SetDocumentText( Text: BodyText );
       
       MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
 

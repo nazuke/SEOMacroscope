@@ -82,7 +82,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static string CleanBodyText ( MacroscopeDocument msDoc )
+    public static string CleanDocumentText ( MacroscopeDocument msDoc )
     {
 
       string CleanedText = msDoc.GetDocumentTextRaw();
@@ -115,7 +115,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public static string CleanBodyText ( string Text )
+    public static string CleanHtmlText ( string Text )
     {
 
       string CleanedText = Text;
@@ -174,6 +174,38 @@ namespace SEOMacroscope
       {
         
         CleanedText = Text;
+
+        CleanedText = Regex.Replace( CleanedText, @"<!.+?>", " ", RegexOptions.Singleline ); // Strip <!DOCTYPE>
+        CleanedText = Regex.Replace( CleanedText, @"<!--.+?-->", " ", RegexOptions.Singleline ); // Strip HTML/XML comments
+        CleanedText = Regex.Replace( CleanedText, @"<[^<>]+?>", " ", RegexOptions.Singleline ); // Strip HTML/XML tags
+
+        CleanedText = Regex.Replace( CleanedText, @"(?<![\w\d])([^\w\d\p{Sc}]+)", " ", RegexOptions.Singleline );
+        CleanedText = Regex.Replace( CleanedText, @"([^\w\d\p{Sc}]+)(?![\w\d])", " ", RegexOptions.Singleline );
+        
+        CleanedText = Regex.Replace( CleanedText, @"([\p{P}\p{Sc}]+)(?![\w\d])", " ", RegexOptions.Singleline ); // Strip punctuation
+        CleanedText = Regex.Replace( CleanedText, @"[\s]+", " ", RegexOptions.Singleline ); // Compact white space
+
+        CleanedText = CleanedText.Trim();
+
+      }
+      
+      return( CleanedText );
+
+    }
+
+    
+    
+    /*
+
+    public static string CleanText ( string Text )
+    {
+
+      string CleanedText = "";
+
+      if( !string.IsNullOrEmpty( Text ) )
+      {
+        
+        CleanedText = Text;
         
         CleanedText = Regex.Replace( CleanedText, @"<!.+?>", " ", RegexOptions.Singleline );
         CleanedText = Regex.Replace( CleanedText, @"<!--.+?-->", " ", RegexOptions.Singleline );
@@ -191,6 +223,19 @@ namespace SEOMacroscope
 
     }
 
+    */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**************************************************************************/
     
     public static string CompactWhiteSpace ( string Text )

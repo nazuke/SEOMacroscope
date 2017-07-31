@@ -297,6 +297,9 @@
     <Compile Include="MacroscopeUserControls\MacroscopeCustomFilterPanel\MacroscopeCustomFilterPanel.Designer.cs">
       <DependentUpon>MacroscopeCustomFilterPanel.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="MacroscopeTools\t\HtmlDocs\StringToolsHtmlDoc001.html">
+      <LogicalName>StringToolsHtmlDoc001</LogicalName>
+    </EmbeddedResource>
     <None Include="MacroscopeCustomFilters\t\Custom Filter Test Patterns.txt" />
     <None Include="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -670,6 +673,7 @@
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\MacroscopeXpathRestrictions" />
     <Folder Include="MacroscopeTasks\t" />
+    <Folder Include="MacroscopeTools\t\HtmlDocs" />
     <Folder Include="MacroscopeUserControls\MacroscopeDocumentDetails" />
     <Folder Include="MacroscopeReports" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay" />

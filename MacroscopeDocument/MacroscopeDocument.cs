@@ -1622,7 +1622,7 @@ namespace SEOMacroscope
         this.DocumentTextRaw = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
         this.DocumentTextRaw = MacroscopeStringTools.StripHtmlDocTypeAndCommentsFromText( Text: this.DocumentTextRaw );
         
-        this.DocumentTextCleaned = MacroscopeStringTools.CleanBodyText( msDoc: this );
+        this.DocumentTextCleaned = MacroscopeStringTools.CleanDocumentText( msDoc: this );
         
         if( !string.IsNullOrEmpty( this.DocumentTextCleaned ) )
         {

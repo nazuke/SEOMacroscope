@@ -65,7 +65,7 @@ namespace SEOMacroscope
 
           MacroscopeSearchIndex SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
 
-          string SearchText = MacroscopeStringTools.CleanBodyText( SearchTextBox.Text );
+          string SearchText = MacroscopeStringTools.CleanHtmlText( Text: SearchTextBox.Text );
 
           if( SearchText.Length > 0 )
           {
