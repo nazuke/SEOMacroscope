@@ -289,12 +289,14 @@ namespace SEOMacroscope
 
           if( LinkUrl != null )
           {
+            MacroscopeLink Outlink;
             
-            MacroscopeLink Outlink = this.AddSitemapXmlOutlink(
-                                       AbsoluteUrl: LinkUrl,
-                                       LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
-                                       Follow: true
-                                     );
+            Outlink = this.AddSitemapXmlOutlink(
+              AbsoluteUrl: LinkUrl,
+              LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
+              Follow: true
+            );
+            
             if( Outlink != null )
             {
               Outlink.SetRawTargetUrl( LinkUrl );

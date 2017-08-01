@@ -48,6 +48,8 @@ namespace SEOMacroscope
       : base( Size: Size )
     {
 
+      this.SuppressDebugMsg = true;
+      
       this.ExtractXpaths = new List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ( this.GetSize() );
 
       for( int Slot = 0 ; Slot < this.GetSize() ; Slot++ )

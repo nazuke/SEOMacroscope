@@ -51,6 +51,8 @@ namespace SEOMacroscope
     public MacroscopeDataExtractor ( int Size )
     {
 
+      this.SuppressDebugMsg = true;
+            
       this.Disable();
 
       this.SetSize( NewSize: Size );

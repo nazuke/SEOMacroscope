@@ -52,6 +52,8 @@ namespace SEOMacroscope
     )
     {
 
+      this.SuppressDebugMsg = true;
+            
       this.Label = NewLabel;
 
       this.Expression = NewExpression;

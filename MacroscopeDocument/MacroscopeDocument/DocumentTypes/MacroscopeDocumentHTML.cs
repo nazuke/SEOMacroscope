@@ -152,13 +152,9 @@ namespace SEOMacroscope
 
         if( !string.IsNullOrEmpty( RawData ) )
         {
-          HtmlDoc = new HtmlDocument ();
-          HtmlDoc.LoadHtml( RawData );
-          DebugMsg( string.Format( "htmlDoc: {0}", HtmlDoc ) );
-        }
-        else
-        {
-          DebugMsg( string.Format( "RawData: {0}", "EMPTY" ) );
+
+          HtmlDoc = this.ParseRawDataIntoHtmlDocument( RawData: RawData );
+
         }
 
         /** ---------------------------------------------------------------- **/
@@ -371,27 +367,55 @@ namespace SEOMacroscope
           }
 
           { // Process Document Text
-            string Text = this.ProcessHtmlDocumentText( HtmlDoc: HtmlDoc );
-            if( Text != null )
+            
+            HtmlDocument HtmlDocDocumentText = this.ParseRawDataIntoHtmlDocument( RawData: RawData );
+
+            if( HtmlDocDocumentText != null )
             {
-              this.SetDocumentText( Text );
+              
+              string Text = this.ProcessHtmlDocumentText( HtmlDoc: HtmlDocDocumentText );
+
+              if( Text != null )
+              {
+                this.SetDocumentText( Text: Text );
+              }
+              else
+              {
+                this.SetDocumentText( Text: "" );
+              }
+            
             }
             else
             {
-              this.SetDocumentText( "" );
+              this.SetDocumentText( Text: "" );
             }
+
           }
 
           { // Process Body Text
-            string Text = this.ProcessHtmlBodyText( HtmlDoc: HtmlDoc );
-            if( Text != null )
+
+            HtmlDocument HtmlDocBodyText = this.ParseRawDataIntoHtmlDocument( RawData: RawData );
+
+            if( HtmlDocBodyText != null )
             {
-              this.SetBodyText( Text );
+              
+              string Text = this.ProcessHtmlBodyText( HtmlDoc: HtmlDocBodyText );
+
+              if( Text != null )
+              {
+                this.SetBodyText( Text: Text );
+              }
+              else
+              {
+                this.SetBodyText( Text: "" );
+              }
+            
             }
             else
             {
-              this.SetBodyText( "" );
+              this.SetBodyText( Text: "" );
             }
+            
           }
 
         }
@@ -413,6 +437,26 @@ namespace SEOMacroscope
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
 
+    }
+
+    /**************************************************************************/
+
+    private HtmlDocument ParseRawDataIntoHtmlDocument ( string RawData )
+    {
+      
+      HtmlDocument HtmlDoc = null;
+            
+      if( !string.IsNullOrEmpty( RawData ) )
+      {
+
+        HtmlDoc = new HtmlDocument ();
+
+        HtmlDoc.LoadHtml( RawData );
+
+      }
+           
+      return( HtmlDoc );
+      
     }
 
     /**************************************************************************/
@@ -1362,35 +1406,22 @@ namespace SEOMacroscope
 
     /** Process Document Text *************************************************/
 
-    string ProcessHtmlDocumentText ( HtmlDocument HtmlDoc )
+    private string ProcessHtmlDocumentText ( HtmlDocument HtmlDoc )
     {
 
+      List<string> ExtractedText = new List<string> ( 16 );
       string TextProcessed = "";
 
       if( HtmlDoc != null )
       {
+
+        this.StripNonTextNodes( HtmlDoc: HtmlDoc );
+
+        ExtractedText = this.GetNodeText( Node: HtmlDoc.DocumentNode );
         
-        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//script|//style)" );
-      
-        if( NodeCollection != null )
-        {
-          
-          List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
+        TextProcessed = string.Join( "", ExtractedText );
 
-          foreach( HtmlNode Node in NodeCollection )
-          {
-            NodesToRemove.Add( Node );
-          }
-
-          for( int i = 0 ; i < NodesToRemove.Count ; i++ )
-          {
-            NodesToRemove[ i ].Remove();
-          }
-                  
-        }
-
-        TextProcessed = HtmlDoc.DocumentNode.InnerText;
-        TextProcessed = Regex.Replace( TextProcessed, "<!--.*?-->", "", RegexOptions.Singleline );
+        //TextProcessed = Regex.Replace( TextProcessed, "<!--.*?-->", "", RegexOptions.Singleline );
         
       }
       
@@ -1400,41 +1431,92 @@ namespace SEOMacroscope
 
     /** Process Body Text *****************************************************/
 
-    string ProcessHtmlBodyText ( HtmlDocument HtmlDoc )
+    private string ProcessHtmlBodyText ( HtmlDocument HtmlDoc )
     {
 
       HtmlNode BodyNode = HtmlDoc.DocumentNode.SelectSingleNode( "//body" );
+      List<string> ExtractedText = new List<string> ( 16 );
       string TextProcessed = "";
 
       if( BodyNode != null )
       {
         
-        HtmlNodeCollection NodeCollection = BodyNode.SelectNodes( "(//script|//style)" );
+        this.StripNonTextNodes( HtmlDoc: HtmlDoc );
+
+        ExtractedText = this.GetNodeText( Node: BodyNode );
         
-        if( NodeCollection != null )
-        {
+        TextProcessed = string.Join( "", ExtractedText );
+        
+        //TextProcessed = Regex.Replace( TextProcessed, "<!--.*?-->", "", RegexOptions.Singleline );
 
-          List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
+      }
+
+      return( TextProcessed );
+
+    }
+
+    /** Recursively Extract Text From HTML Node *******************************/
+
+    public List<string> GetNodeText ( HtmlNode Node )
+    {
+
+      List<string> ExtractedText = new List<string> ( 16 );
+
+      HtmlNodeCollection NodeCollection = Node.SelectNodes( "//text()" );
+      
+      if( NodeCollection != null )
+      {
           
-          foreach( HtmlNode Node in NodeCollection )
-          {
-            NodesToRemove.Add( Node );
-          }
+        foreach( HtmlNode NodeText in NodeCollection )
+        {
+          
+          string NodeTextString = NodeText.InnerText;
 
-          for( int i = 0 ; i < NodesToRemove.Count ; i++ )
+          if( !string.IsNullOrEmpty( NodeTextString ) )
           {
-            NodesToRemove[ i ].Remove();
+
+            NodeTextString = Regex.Replace( NodeTextString, "<[^<>]+?>", "" );
+
+            if( !string.IsNullOrEmpty( NodeTextString ) )
+            {
+
+              ExtractedText.Add( NodeTextString );
+            }
+            
           }
-                  
+          
         }
 
-        TextProcessed = BodyNode.InnerText;
-        TextProcessed = Regex.Replace( TextProcessed, "<!--.*?-->", "", RegexOptions.Singleline );
+      }
+
+      return( ExtractedText );
+      
+    }
+
+    /**************************************************************************/
+
+    private void StripNonTextNodes ( HtmlDocument HtmlDoc )
+    {
+
+      HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//script|//style|//comment())" );
+      
+      if( NodeCollection != null )
+      {
+          
+        List<HtmlNode> NodesToRemove = new List<HtmlNode> ();
+
+        foreach( HtmlNode Node in NodeCollection )
+        {
+          NodesToRemove.Add( Node );
+        }
+
+        for( int i = 0 ; i < NodesToRemove.Count ; i++ )
+        {
+          NodesToRemove[ i ].Remove();
+        }
         
       }
-      
-      return( TextProcessed );
-      
+
     }
 
     /** Extract Email Addresses ***********************************************/

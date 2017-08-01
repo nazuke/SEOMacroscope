@@ -377,7 +377,13 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewVideos.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+
       this.macroscopeOverviewTabPanelInstance.listViewCustomFilters.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+
+      this.macroscopeOverviewTabPanelInstance.listViewDataExtractorCssSelectors.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewDataExtractorRegexes.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewDataExtractorXpaths.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+
       this.macroscopeOverviewTabPanelInstance.listViewHistory.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
       /** listViewSearchCollection ----------------------------------------- **/

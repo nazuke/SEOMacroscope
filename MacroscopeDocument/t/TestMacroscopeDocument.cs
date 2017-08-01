@@ -25,6 +25,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using HtmlAgilityPack;
 using NUnit.Framework;
 
 namespace SEOMacroscope
@@ -33,6 +36,46 @@ namespace SEOMacroscope
   [TestFixture]
   public class TestMacroscopeDocument : Macroscope
   {
+
+    /**************************************************************************/
+
+    private Dictionary<string,string> HtmlDocs;
+
+    /**************************************************************************/
+    
+    public TestMacroscopeDocument ()
+    {
+
+      StreamReader Reader;
+      List<string> HtmlDocKeys = new List<string> ( 16 );
+
+      this.HtmlDocs = new Dictionary<string,string> ();
+
+      this.HtmlDocs.Add( "TestHtmlDocument001", null );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+        HtmlDocKeys.Add( HtmlDocKey );
+      }
+
+      foreach( string HtmlDocKey in HtmlDocKeys )
+      {
+        
+        Reader = new StreamReader (
+          Assembly.GetExecutingAssembly().GetManifestResourceStream(
+            HtmlDocKey
+          )
+        );
+
+        this.HtmlDocs[ HtmlDocKey ] = Reader.ReadToEnd();
+
+        Reader.Close();
+
+        Reader.Dispose();
+
+      }
+
+    }
 
     /**************************************************************************/
 
@@ -45,9 +88,7 @@ namespace SEOMacroscope
           "https://nazuke.github.io/SEOMacroscope/"
         }
       };
-
-      //MacroscopePreferencesManager.setfe
-      
+     
       foreach( string Url in UrlList )
       {
 
@@ -110,6 +151,38 @@ namespace SEOMacroscope
 
         }
       
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestGetNodeText ()
+    {
+
+      Dictionary<string,string> AssetDic = new Dictionary<string, string> ();
+      
+      AssetDic.Add( 
+        key: "TestHtmlDocument001",
+        value: ""
+      );
+
+      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      {
+        
+        MacroscopeDocument msDoc = new MacroscopeDocument ( Url: "https://nazuke.github.io/" );
+          
+        string Html = this.HtmlDocs[ HtmlDocKey ];
+
+        HtmlDocument HtmlDoc = new HtmlDocument ();
+
+        HtmlDoc.LoadHtml( html: Html );
+
+        List<string> CleanedText = msDoc.GetNodeText( Node: HtmlDoc.DocumentNode );
+
+        Assert.IsNotEmpty( CleanedText, "CleanedText is empty" );
+
       }
 
     }

@@ -47,6 +47,8 @@ namespace SEOMacroscope
     public MacroscopeDataExtractorRegexes ( int Size )
       : base( Size: Size )
     {
+      
+      this.SuppressDebugMsg = true;
      
       this.ExtractRegexes = new List<KeyValuePair<string, Regex>> ( this.GetSize() );
 

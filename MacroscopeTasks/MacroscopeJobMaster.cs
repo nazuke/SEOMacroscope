@@ -521,11 +521,11 @@ namespace SEOMacroscope
 
       this.PagesFound++;
 
-      this.AddUpdateDisplayQueue( Url );
+      this.AddUpdateDisplayQueue( Url: Url );
 
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 
-      this.UpdateProgress( Url, true );
+      this.UpdateProgress( Url: Url, State: true );
 
     }
 
@@ -640,9 +640,13 @@ namespace SEOMacroscope
 
     public void AddUpdateDisplayQueue ( string Url )
     {
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHrefLang, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayErrors, Url );
@@ -651,19 +655,25 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayLinks, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHyperlinks, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayUriAnalysis, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageTitles, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageDescriptions, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageKeywords, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageHeadings, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayPageText, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStylesheets, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayImages, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayJavascripts, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayAudios, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayVideos, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, Url );
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayCustomFilters, Url );
 
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayDataExtractorsCssSelectors, Url );

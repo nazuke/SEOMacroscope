@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections;
 using HtmlAgilityPack;
 
 namespace SEOMacroscope
@@ -45,9 +44,11 @@ namespace SEOMacroscope
     /**************************************************************************/
     
     public MacroscopeDataExtractorCssSelectors ( int Size )
-      : base( Size: Size)
+      : base( Size: Size )
     {
 
+      this.SuppressDebugMsg = true;
+            
       this.ExtractCssSelectors = new List<KeyValuePair<string, MacroscopeDataExtractorExpression>> ( this.GetSize() );
 
       for( int Slot = 0 ; Slot < this.GetSize() ; Slot++ )

@@ -236,12 +236,27 @@ namespace SEOMacroscope
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
         ListViewItem lvItem = null;
-        string DocUrl = msDoc.GetUrl();
-        string PairKey = DocUrl;
-        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-        string Status = msDoc.GetStatusCode().ToString();
-        string MimeType = msDoc.GetMimeType();
+        string DocUrl;
+        string PairKey;
+        string StatusCode;
+        string Status;
+        string MimeType;
+
+        if( msDoc == null )
+        {
+          continue;
+        }
+        else
+        {
+
+          DocUrl = msDoc.GetUrl();
+          PairKey = DocUrl;
+          StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+          Status = msDoc.GetStatusCode().ToString();
+          MimeType = msDoc.GetMimeType();
                 
+        }
+        
         if( !CustomFilter.CanApplyCustomFiltersToDocument( msDoc: msDoc ) )
         {
           continue;

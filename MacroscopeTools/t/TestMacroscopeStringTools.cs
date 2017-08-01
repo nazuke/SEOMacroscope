@@ -77,8 +77,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-        
-        
+                
     [Test]
     public void TestCleanText ()
     {

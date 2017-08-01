@@ -1693,7 +1693,7 @@ namespace SEOMacroscope
 
       try
       {
-        string [] Words = Regex.Split( this.DocumentTextCleaned, @"\s", RegexOptions.Singleline );
+        string [] Words = Regex.Split( this.DocumentTextCleaned, @"\s+", RegexOptions.Singleline );
         this.WordCount = Words.Length;
       }
       catch( Exception ex )

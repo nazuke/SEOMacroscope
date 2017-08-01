@@ -98,7 +98,7 @@ namespace SEOMacroscope
     public MacroscopeAnalyzeReadabilityFleschKincaid ()
     {
       
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       
       this.Type = MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.FLESCH_KINCAID;
 
