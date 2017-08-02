@@ -49,7 +49,7 @@ Section
 
 	StrCpy $SEOMacroscopeDir "SEO Macroscope"
 	StrCpy $SEOMacroscopeExe "SEOMacroscope"
-	StrCpy $SEOMacroscopeName "SEO Macroscope"
+	StrCpy $SEOMacroscopeName "SEO Macroscope ${VERSION}"
 	StrCpy $SEOMacroscopeUninstallExe "Uninstall SEO Macroscope"
 	StrCpy $SEOMacroscopeUninstallName "Uninstall SEO Macroscope"
 
@@ -63,7 +63,6 @@ Section
 	File ..\bin\Release\README.md
 
 	File ..\bin\Release\ClosedXML.dll
-	File ..\bin\Release\ClosedXML.pdb
 	File ..\bin\Release\ClosedXML.xml
 
 	File ..\bin\Release\CsvHelper.dll
@@ -77,7 +76,6 @@ Section
 	File ..\bin\Release\Fastenshtein.xml
 
 	File ..\bin\Release\HtmlAgilityPack.CssSelectors.dll
-	File ..\bin\Release\HtmlAgilityPack.CssSelectors.pdb
 
 	File ..\bin\Release\HtmlAgilityPack.dll
 	File ..\bin\Release\HtmlAgilityPack.xml
@@ -121,7 +119,7 @@ Section uninstall
 
 	StrCpy $SEOMacroscopeDir "SEO Macroscope"
 	StrCpy $SEOMacroscopeExe "SEOMacroscope"
-	StrCpy $SEOMacroscopeName "SEO Macroscope"
+	StrCpy $SEOMacroscopeName "SEO Macroscope ${VERSION}"
 	StrCpy $SEOMacroscopeUninstallExe "Uninstall SEO Macroscope"
 	StrCpy $SEOMacroscopeUninstallName "Uninstall SEO Macroscope"
 
@@ -133,7 +131,6 @@ Section uninstall
 	Delete "$INSTDIR\README.md"
 
 	Delete "$INSTDIR\ClosedXML.dll"
-	Delete "$INSTDIR\ClosedXML.pdb"
 	Delete "$INSTDIR\ClosedXML.xml"
 
 	Delete "$INSTDIR\CsvHelper.dll"
@@ -147,7 +144,6 @@ Section uninstall
 	Delete "$INSTDIR\Fastenshtein.xml"
 
 	Delete "$INSTDIR\HtmlAgilityPack.CssSelectors.dll"
-	Delete "$INSTDIR\HtmlAgilityPack.CssSelectors.pdb"
 
 	Delete "$INSTDIR\HtmlAgilityPack.dll"
 	Delete "$INSTDIR\HtmlAgilityPack.xml"
