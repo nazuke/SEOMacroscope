@@ -441,6 +441,7 @@ namespace SEOMacroscope
 			this.tabControlPreferences.Controls.Add(this.tabPageAdvancedSettings);
 			this.tabControlPreferences.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlPreferences.Location = new System.Drawing.Point(0, 0);
+			this.tabControlPreferences.Multiline = true;
 			this.tabControlPreferences.Name = "tabControlPreferences";
 			this.tabControlPreferences.SelectedIndex = 0;
 			this.tabControlPreferences.Size = new System.Drawing.Size(600, 787);
@@ -450,10 +451,10 @@ namespace SEOMacroscope
 			// 
 			this.tabPageSpideringControl.AutoScroll = true;
 			this.tabPageSpideringControl.Controls.Add(this.flowLayoutPanel1);
-			this.tabPageSpideringControl.Location = new System.Drawing.Point(4, 22);
+			this.tabPageSpideringControl.Location = new System.Drawing.Point(4, 40);
 			this.tabPageSpideringControl.Name = "tabPageSpideringControl";
 			this.tabPageSpideringControl.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageSpideringControl.Size = new System.Drawing.Size(592, 761);
+			this.tabPageSpideringControl.Size = new System.Drawing.Size(592, 743);
 			this.tabPageSpideringControl.TabIndex = 0;
 			this.tabPageSpideringControl.Text = "Spidering Control";
 			this.tabPageSpideringControl.UseVisualStyleBackColor = true;
@@ -472,7 +473,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(586, 755);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(586, 737);
 			this.flowLayoutPanel1.TabIndex = 0;
 			// 
 			// groupBox5
@@ -2019,10 +2020,10 @@ namespace SEOMacroscope
 			// tabPageDisplaySettings
 			// 
 			this.tabPageDisplaySettings.Controls.Add(this.flowLayoutPanel5);
-			this.tabPageDisplaySettings.Location = new System.Drawing.Point(4, 22);
+			this.tabPageDisplaySettings.Location = new System.Drawing.Point(4, 40);
 			this.tabPageDisplaySettings.Name = "tabPageDisplaySettings";
 			this.tabPageDisplaySettings.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageDisplaySettings.Size = new System.Drawing.Size(592, 761);
+			this.tabPageDisplaySettings.Size = new System.Drawing.Size(592, 743);
 			this.tabPageDisplaySettings.TabIndex = 4;
 			this.tabPageDisplaySettings.Text = "Display Settings";
 			this.tabPageDisplaySettings.UseVisualStyleBackColor = true;
@@ -2033,7 +2034,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-			this.flowLayoutPanel5.Size = new System.Drawing.Size(586, 755);
+			this.flowLayoutPanel5.Size = new System.Drawing.Size(586, 737);
 			this.flowLayoutPanel5.TabIndex = 0;
 			// 
 			// groupBox15
@@ -2070,10 +2071,10 @@ namespace SEOMacroscope
 			// tabPageNetworkSettings
 			// 
 			this.tabPageNetworkSettings.Controls.Add(this.flowLayoutPanel4);
-			this.tabPageNetworkSettings.Location = new System.Drawing.Point(4, 22);
+			this.tabPageNetworkSettings.Location = new System.Drawing.Point(4, 40);
 			this.tabPageNetworkSettings.Name = "tabPageNetworkSettings";
 			this.tabPageNetworkSettings.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageNetworkSettings.Size = new System.Drawing.Size(592, 761);
+			this.tabPageNetworkSettings.Size = new System.Drawing.Size(592, 743);
 			this.tabPageNetworkSettings.TabIndex = 1;
 			this.tabPageNetworkSettings.Text = "Network Settings";
 			this.tabPageNetworkSettings.UseVisualStyleBackColor = true;
@@ -2088,7 +2089,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
 			this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-			this.flowLayoutPanel4.Size = new System.Drawing.Size(586, 755);
+			this.flowLayoutPanel4.Size = new System.Drawing.Size(586, 737);
 			this.flowLayoutPanel4.TabIndex = 7;
 			// 
 			// groupBox8
@@ -2136,10 +2137,10 @@ namespace SEOMacroscope
 			// tabPageAdvancedSettings
 			// 
 			this.tabPageAdvancedSettings.Controls.Add(this.flowLayoutPanel7);
-			this.tabPageAdvancedSettings.Location = new System.Drawing.Point(4, 22);
+			this.tabPageAdvancedSettings.Location = new System.Drawing.Point(4, 40);
 			this.tabPageAdvancedSettings.Name = "tabPageAdvancedSettings";
 			this.tabPageAdvancedSettings.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageAdvancedSettings.Size = new System.Drawing.Size(592, 761);
+			this.tabPageAdvancedSettings.Size = new System.Drawing.Size(592, 743);
 			this.tabPageAdvancedSettings.TabIndex = 6;
 			this.tabPageAdvancedSettings.Text = "Advanced Settings";
 			this.tabPageAdvancedSettings.UseVisualStyleBackColor = true;
@@ -2150,7 +2151,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel7.Name = "flowLayoutPanel7";
-			this.flowLayoutPanel7.Size = new System.Drawing.Size(586, 755);
+			this.flowLayoutPanel7.Size = new System.Drawing.Size(586, 737);
 			this.flowLayoutPanel7.TabIndex = 4;
 			// 
 			// groupBox19

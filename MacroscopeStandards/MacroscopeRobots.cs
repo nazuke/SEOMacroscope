@@ -49,9 +49,9 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = true;
 
-      this.RobotSquad = new Dictionary<string,Robots> ( 32 );
+      this.RobotSquad = new Dictionary<string,Robots> ( 8 );
 
-      this.BadRobots = new Dictionary<Uri,Boolean> ( 32 );
+      this.BadRobots = new Dictionary<Uri,Boolean> ( 8 );
 
     }
 
@@ -115,7 +115,7 @@ namespace SEOMacroscope
       List<string> SitemapsList = new List<string> ();
       Robots robot = this.FetchRobot( Url: Url );
 
-      if( robot != null )
+      if( ( robot != null ) && ( robot.Sitemaps != null ) )
       {
 
         foreach( Sitemap SitemapEntry in robot.Sitemaps )
@@ -224,6 +224,7 @@ namespace SEOMacroscope
       }
     
       return( RobotUrl );
+      
     }
 
     /** Fetch Robot ***********************************************************/
@@ -295,7 +296,7 @@ namespace SEOMacroscope
 
             String RobotsText = this.FetchRobotTextFile( RobotsUri: RobotsUri );
 
-            if( RobotsText.Length > 0 )
+            if( RobotsText != null )
             {
               robot = new Robots ( content: RobotsText );
               this.RobotSquad.Add( RobotsTxtUrl, robot );
@@ -347,24 +348,24 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "FetchRobotTextFile :: UriFormatException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", RobotsUri.ToString() ) );
+        DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "Exception: {0}", RobotsUri.ToString() ) );
       }
       catch( WebException ex )
       {
-        DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "FetchRobotTextFile :: WebException: {0}", RobotsUri.ToString() ) );
-        DebugMsg( string.Format( "FetchRobotTextFile :: WebExceptionStatus: {0}", ex.Status ) );
+        DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "WebException: {0}", RobotsUri.ToString() ) );
+        DebugMsg( string.Format( "WebExceptionStatus: {0}", ex.Status ) );
       }
       catch( NotSupportedException ex )
       {
-        DebugMsg( string.Format( "FetchRobotTextFile :: NotSupportedException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "FetchRobotTextFile :: NotSupportedException: {0}", RobotsUri.ToString() ) );
+        DebugMsg( string.Format( "NotSupportedException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "NotSupportedException: {0}", RobotsUri.ToString() ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", ex.Message ) );
-        DebugMsg( string.Format( "FetchRobotTextFile :: Exception: {0}", RobotsUri.ToString() ) );
+        DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        DebugMsg( string.Format( "Exception: {0}", RobotsUri.ToString() ) );
       }
 
       if( ( Proceed ) && ( res != null ) )
