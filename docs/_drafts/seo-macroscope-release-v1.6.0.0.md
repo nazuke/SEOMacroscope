@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "New v1.6 release of SEO Macroscope: The Flesch Prevails"
-date: "2017-08-08 21:00:00 -09:00"
+date: "2017-08-07 21:00:00 -09:00"
 published: true
 description: "This release of SEO Macroscope includes support for English language text readability scoring."
 excerpt: "This release of SEO Macroscope includes support for English language text readability scoring."
 ---
 
-This release of SEO Macroscope includes support for English language text readability scoring). Implementations of the Flesch-Kincaid or SMOG algorithms  may be applied to the body text of web pages, giving a simple score as to the "readability" of the page text. This may then be used to further refine the page text to suit the target audience.
+This release of SEO Macroscope includes support for English language text readability scoring. Implementations of the Flesch-Kincaid or SMOG algorithms may be applied to the body text of web pages, giving a simple score as to the "readability" of the page text. This may then be used to further refine the page text to suit the target audience.
 {: .lead }
 
 Source code and an installer can be found on GitHub at:
@@ -20,15 +20,15 @@ I've also fixed many minor bugs and other issues.
 
 ## New features in this release include:
 
-* Include and Exclude Patterns now take a list of regular expressions.
+* New Flesch-Kincaid and SMOG algorithms, for scoring the readability of the body text in English language web pages.
 
-* Data extractors (web scrapers) using CSS selectors, regular expressions, and XPath queries.
+* Include and Exclude Patterns now take a list of regular expressions.
 
 * New overview panel selector menu.
 
 ## Bug fixes
 
-* In and out link calculation display in the Structure Overview panel has been fixed. Previously, these values were not being displayed correctly after the link counts for each document were updated. There is a new button that may be clicked to trigger recalculation; otherwise recalculation occurs periodically, and when a scan completes.
+* The in and out link calculation display in the Structure Overview panel has been fixed. Previously, these values were not being displayed correctly after the link counts for each document were updated. There is a new button that may be clicked to trigger recalculation; otherwise recalculation occurs periodically, and when a scan completes.
 
 Please report issues at [https://github.com/nazuke/SEOMacroscope/issues](https://github.com/nazuke/SEOMacroscope/issues).
 
