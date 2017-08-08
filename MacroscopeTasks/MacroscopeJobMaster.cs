@@ -184,7 +184,10 @@ namespace SEOMacroscope
         );
 
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayQueue );
+
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayStructure );
+        this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayStructureLinkCounts );
+
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayHierarchy );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayHrefLang );
@@ -537,7 +540,7 @@ namespace SEOMacroscope
       this.DecRunningThreads();
 
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
-
+     
       GC.Collect();
 
     }
@@ -644,6 +647,7 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue, Url );
 
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStructure, Url );
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayStructureLinkCounts, Url );
 
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayHierarchy, Url );
 

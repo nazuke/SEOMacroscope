@@ -156,6 +156,7 @@
     <Compile Include="MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.Designer.cs">
       <DependentUpon>MacroscopeCustomFilterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayStructure\MacroscopeDisplayStructureLinkCounts.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\EditMenu.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\FileMenu.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\HelpMenu.cs" />
@@ -624,6 +625,7 @@
     <Folder Include="MacroscopeDocument\t\HtmlDocs" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews" />
     <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview" />
+    <Folder Include="MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayStructure" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\ExcelReports" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\IMacroscopeTaskControllerCallbacks" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\Generators" />

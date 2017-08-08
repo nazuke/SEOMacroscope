@@ -71,7 +71,10 @@ namespace SEOMacroscope
     public const string NamedQueueUrlList = "UrlQueue";
 
     public const string NamedQueueDisplayQueue = "DisplayQueue";
+    
     public const string NamedQueueDisplayStructure = "DisplayStructure";
+    public const string NamedQueueDisplayStructureLinkCounts = "DisplayStructureLinkCounts";
+    
     public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
     public const string NamedQueueDisplayCanonicalAnalysis = "DisplayCanonicalAnalysis";
     public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
@@ -105,6 +108,41 @@ namespace SEOMacroscope
     public const string RecalculateDocCollection = "RecalculateDocCollection";
 
     /** END: Named Queues *****************************************************/
+
+    /** BEGIN: Overview Panel Tab Pages ***************************************/
+
+    public const string tabPageStructureOverview = "tabPageStructureOverview";
+    public const string tabPageStructureLinkCounts = "tabPageStructureLinkCounts";
+    public const string tabPageHierarchy = "tabPageHierarchy";
+    public const string tabPageRobots = "tabPageRobots";
+    public const string tabPageSitemaps = "tabPageSitemaps";
+    public const string tabPageCanonicalAnalysis = "tabPageCanonicalAnalysis";
+    public const string tabPageHrefLangAnalysis = "tabPageHrefLangAnalysis";
+    public const string tabPageErrors = "tabPageErrors";
+    public const string tabPageHostnames = "tabPageHostnames";
+    public const string tabPageRedirectsAudit = "tabPageRedirectsAudit";
+    public const string tabPageLinks = "tabPageLinks";
+    public const string tabPageHyperlinks = "tabPageHyperlinks";
+    public const string tabPageUriAnalysis = "tabPageUriAnalysis";
+    public const string tabPagePageTitles = "tabPagePageTitles";
+    public const string tabPagePageDescriptions = "tabPagePageDescriptions";
+    public const string tabPagePageKeywords = "tabPagePageKeywords";
+    public const string tabPagePageHeadings = "tabPagePageHeadings";
+    public const string tabPagePageText = "tabPagePageText";
+    public const string tabPageStylesheets = "tabPageStylesheets";
+    public const string tabPageJavascripts = "tabPageJavascripts";
+    public const string tabPageImages = "tabPageImages";
+    public const string tabPageAudios = "tabPageAudios";
+    public const string tabPageVideos = "tabPageVideos";
+    public const string tabPageEmailAddresses = "tabPageEmailAddresses";
+    public const string tabPageTelephoneNumbers = "tabPageTelephoneNumbers";
+    public const string tabPageCustomFilters = "tabPageCustomFilters";
+    public const string tabPageDataExtractors = "tabPageDataExtractors";
+    public const string tabPageUriQueue = "tabPageUriQueue";
+    public const string tabPageHistory = "tabPageHistory";
+    public const string tabPageSearch = "tabPageSearch";
+
+    /** END: Overview Panel Tab Pages *****************************************/
 
     /** BEGIN: History Visited Status *****************************************/
 

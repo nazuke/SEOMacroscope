@@ -45,7 +45,8 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              this.ScanningControlsComplete(  );
+              this.ScanningControlsComplete();
+              this.RecalculateLinkCounts();
               this.UpdateFocusedTabPage();
             }
           )
@@ -53,7 +54,8 @@ namespace SEOMacroscope
       }
       else
       {
-        this.ScanningControlsComplete(  );
+        this.ScanningControlsComplete();
+        this.RecalculateLinkCounts();
         this.UpdateFocusedTabPage();
       }
     }
@@ -63,8 +65,8 @@ namespace SEOMacroscope
     public void ICallbackOutOfMemory ()
     {
       
-      string Title = "Out of memory!";
-      string Message = "There was not enough memory to complete a part of the scanning process.";
+      const string Title = "Out of memory!";
+      const string Message = "There was not enough memory to complete a part of the scanning process.";
       
       if( this.InvokeRequired )
       {

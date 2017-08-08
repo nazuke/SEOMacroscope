@@ -51,6 +51,8 @@ namespace SEOMacroscope
     MacroscopeContextMenus ContextMenusCallbacks;
     
     MacroscopeDisplayStructure msDisplayStructure;
+    MacroscopeDisplayStructureLinkCounts msDisplayStructureLinkCounts;
+        
     MacroscopeDisplayHierarchy msDisplayHierarchy;
 
     MacroscopeDisplayRobots msDisplayRobots;
@@ -282,7 +284,9 @@ namespace SEOMacroscope
 
       /** ListView Reference Objects --------------------------------------- **/
 
-      this.msDisplayStructure = new MacroscopeDisplayStructure ( this, this.macroscopeOverviewTabPanelInstance.listViewStructure );
+      this.msDisplayStructure = new MacroscopeDisplayStructure ( this, this.macroscopeOverviewTabPanelInstance.listViewStructure );  
+      this.msDisplayStructureLinkCounts = new MacroscopeDisplayStructureLinkCounts ( this, this.macroscopeOverviewTabPanelInstance.listViewStructure );
+
       this.msDisplayHierarchy = new MacroscopeDisplayHierarchy ( this, this.macroscopeOverviewTabPanelInstance.treeViewHierarchy );
       this.msDisplayRobots = new MacroscopeDisplayRobots ( this, this.macroscopeOverviewTabPanelInstance.listViewRobots );
       this.msDisplaySitemaps = new MacroscopeDisplaySitemaps ( this, this.macroscopeOverviewTabPanelInstance.listViewSitemaps );
@@ -992,169 +996,176 @@ namespace SEOMacroscope
       switch( TabName )
       {
 
-        case "tabPageStructureOverview":
+        case MacroscopeConstants.tabPageStructureOverview:
           this.msDisplayStructure.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructure )
           );
           break;
+          
+        case MacroscopeConstants.tabPageStructureLinkCounts:
+          this.msDisplayStructureLinkCounts.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStructureLinkCounts )
+          );
+          break;
 
-        case "tabPageHierarchy":
+        case MacroscopeConstants.tabPageHierarchy:
           this.msDisplayHierarchy.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHierarchy )
           );
           break;
 
-        case "tabPageRobots":
+        case MacroscopeConstants.tabPageRobots:
           this.msDisplayRobots.RefreshData(
             this.JobMaster
           );
           break;
 
-        case "tabPageSitemaps":
+        case MacroscopeConstants.tabPageSitemaps:
           this.msDisplaySitemaps.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplaySitemaps )
           );
           break;
           
-        case "tabPageCanonicalAnalysis":
+        case MacroscopeConstants.tabPageCanonicalAnalysis:
           this.msDisplayCanonical.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayCanonicalAnalysis )
           );
           break;
 
-        case "tabPageHrefLangAnalysis":
+        case MacroscopeConstants.tabPageHrefLangAnalysis:
           this.msDisplayHrefLang.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             LocalesList: JobMaster.GetLocales()
           );
           break;
 
-        case "tabPageErrors":
+        case MacroscopeConstants.tabPageErrors:
           this.msDisplayErrors.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
 
-        case "tabPageHostnames":
+        case MacroscopeConstants.tabPageHostnames:
           this.msDisplayHostnames.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
           
-        case "tabPageRedirectsAudit":
+        case MacroscopeConstants.tabPageRedirectsAudit:
           this.msDisplayRedirectsAudit.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
 
-        case "tabPageLinks":
+        case MacroscopeConstants.tabPageLinks:
           this.msDisplayLinks.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayLinks )
           );
           break;
           
-        case "tabPageHyperlinks":
+        case MacroscopeConstants.tabPageHyperlinks:
           this.msDisplayHyperlinks.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayHyperlinks )
           );
           break;
 
-        case "tabPageUriAnalysis":
+        case MacroscopeConstants.tabPageUriAnalysis:
           this.msDisplayUriAnalysis.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayUriAnalysis )
           );
           break;
 
-        case "tabPagePageTitles":
+        case MacroscopeConstants.tabPagePageTitles:
           this.msDisplayTitles.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageTitles )
           );
           break;
 
-        case "tabPagePageDescriptions":
+        case MacroscopeConstants.tabPagePageDescriptions:
           this.msDisplayDescriptions.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageDescriptions )
           );
           break;
 
-        case "tabPagePageKeywords":
+        case MacroscopeConstants.tabPagePageKeywords:
           this.msDisplayKeywords.RefreshData(
             this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageKeywords )
           );
           break;
 
-        case "tabPagePageHeadings":
+        case MacroscopeConstants.tabPagePageHeadings:
           this.msDisplayHeadings.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageHeadings )
           );
           break;
 
-        case "tabPagePageText":
+        case MacroscopeConstants.tabPagePageText:
           this.msDisplayPageText.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageText )
           );
           break;
 
-        case "tabPageStylesheets":
+        case MacroscopeConstants.tabPageStylesheets:
           this.msDisplayStylesheets.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayStylesheets )
           );
           break;
 
-        case "tabPageJavascripts":
+        case MacroscopeConstants.tabPageJavascripts:
           this.msDisplayJavascripts.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayJavascripts )
           );
           break;
 
-        case "tabPageImages":
+        case MacroscopeConstants.tabPageImages:
           this.msDisplayImages.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayImages )
           );
           break;
 
-        case "tabPageAudios":
+        case MacroscopeConstants.tabPageAudios:
           this.msDisplayAudios.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayAudios )
           );
           break;
 
-        case "tabPageVideos":
+        case MacroscopeConstants.tabPageVideos:
           this.msDisplayVideos.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayVideos )
           );
           break;
 
-        case "tabPageEmailAddresses":
+        case MacroscopeConstants.tabPageEmailAddresses:
           this.msDisplayEmailAddresses.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
 
-        case "tabPageTelephoneNumbers":
+        case MacroscopeConstants.tabPageTelephoneNumbers:
           this.msDisplayTelephoneNumbers.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
 
-        case "tabPageCustomFilters":
+        case MacroscopeConstants.tabPageCustomFilters:
           if( MacroscopePreferencesManager.GetCustomFiltersEnable() )
           {
             this.msDisplayCustomFilters.RefreshData(
@@ -1165,7 +1176,7 @@ namespace SEOMacroscope
           }
           break;
 
-        case "tabPageDataExtractors":
+        case MacroscopeConstants.tabPageDataExtractors:
           if( MacroscopePreferencesManager.GetDataExtractorsEnable() )
           {
             this.msDisplayDisplayDataExtractorCssSelectors.RefreshData(
@@ -1192,19 +1203,19 @@ namespace SEOMacroscope
           }
           break;
 
-        case "tabPageUriQueue":
+        case MacroscopeConstants.tabPageUriQueue:
           this.msDisplayUriQueue.RefreshData(
             UriQueue: this.JobMaster.GetUrlQueueAsArray()
           );
           break;
           
-        case "tabPageHistory":
+        case MacroscopeConstants.tabPageHistory:
           this.msDisplayHistory.RefreshData(
             History: this.JobMaster.GetJobHistory().GetHistory()
           );
           break;
 
-        case "tabPageSearch":
+        case MacroscopeConstants.tabPageSearch:
           break;
 
         default:
@@ -2165,7 +2176,32 @@ namespace SEOMacroscope
       this.JobMaster.RetryTimedOutLinks();
       this.RerunScanQueue();
     }
+
+    /** -------------------------------------------------------------------- **/
     
+    private void CallbackRecalculateLinkCountsClick ( object sender, EventArgs e )
+    {
+      this.RecalculateLinkCounts();
+    }
+
+    /** Relaculate Link Counts  ***********************************************/
+
+    public void RecalculateLinkCounts ()
+    {
+
+      List<string> DocumentKeys = this.JobMaster.GetDocCollection().DocumentKeys();
+      
+      foreach( string Url in DocumentKeys )
+      {
+
+        this.JobMaster.AddUpdateDisplayQueue( Url: Url );
+
+      }
+
+      this.UpdateTabPage( MacroscopeConstants.tabPageStructureLinkCounts );
+
+    }
+
     /** Load List *************************************************************/
 
     private void CallbackLoadUrlListTextFile ( object sender, EventArgs e )
