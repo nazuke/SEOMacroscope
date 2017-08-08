@@ -25,13 +25,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Timers;
-using System.Reflection;
 using System.Windows.Forms;
-using System.Threading;
-using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -70,14 +64,16 @@ namespace SEOMacroscope
           if( SearchText.Length > 0 )
           {
 
+            List<MacroscopeDocument> DocList = null;
+
             SearchTextBox.Text = SearchText;
 
             DebugMsg( string.Format( "CallbackSearchCollectionTextBoxSearchKeyUp sText: {0}", SearchText ) );
 
-            List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
-                                                 MacroscopeSearchIndex.SearchMode.AND,
-                                                 SearchText.Split( ' ' )
-                                               );
+            DocList = SearchIndex.ExecuteSearchForDocuments(
+              MacroscopeSearchIndex.SearchMode.AND,
+              SearchText.Split( ' ' )
+            );
 
             this.msDisplaySearchCollection.ClearData();
 

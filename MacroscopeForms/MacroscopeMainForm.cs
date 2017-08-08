@@ -1547,25 +1547,40 @@ namespace SEOMacroscope
     
     private void CallbackSearchTextBoxSearchKeyUp ( object sender, KeyEventArgs e )
     {
+
       ToolStripTextBox SearchTextBox = ( ToolStripTextBox )sender;
+
       switch( e.KeyCode )
       {
+
         case Keys.Return:
+
           DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
+
           MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
           string SearchText = MacroscopeStringTools.CleanHtmlText( Text: SearchTextBox.Text );
+
           if( SearchText.Length > 0 )
           {
+            List<MacroscopeDocument> DocList = null;
+            
             SearchTextBox.Text = SearchText;
-            List<MacroscopeDocument> DocList = SearchIndex.ExecuteSearchForDocuments(
-                                                 MacroscopeSearchIndex.SearchMode.AND,
-                                                 SearchText.Split( ' ' )
-                                               );
+
+            DocList = SearchIndex.ExecuteSearchForDocuments(
+              MacroscopeSearchIndex.SearchMode.AND,
+              SearchText.Split( ' ' )
+            );
+
             this.msDisplayStructure.ClearData();
+            
             this.msDisplayStructure.RefreshData( DocList );
+            
           }
+
           break;
+
       }
+
     }
 
     /** SITE OVERVIEW PANEL ***************************************************/
@@ -1675,12 +1690,23 @@ namespace SEOMacroscope
     
     private void UpdateSiteOverviewKeywordAnalysis ()
     {
+
       if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
       {
-        this.msSiteStructureKeywordAnalysis.RefreshKeywordAnalysisData( 
-          DocCollection: this.JobMaster.GetDocCollection()
-        );
+
+        MacroscopeDocumentCollection DocCollection = this.JobMaster.GetDocCollection();
+
+        lock( DocCollection )
+        {
+
+          this.msSiteStructureKeywordAnalysis.RefreshKeywordAnalysisData(
+            DocCollection: DocCollection
+          );
+
+        }
+        
       }
+
     }
 
     /** SITE OVERVIEW PANEL CALLBACKS *****************************************/

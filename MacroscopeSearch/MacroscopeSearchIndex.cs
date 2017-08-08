@@ -120,18 +120,21 @@ namespace SEOMacroscope
       for( int i = 0 ; i < Terms.Count ; i++ )
       {
 
-        string sTerm = Terms[ i ];
+        string Term = Terms[ i ];
 
         Dictionary<string,MacroscopeDocument> DocumentReference;
 
-        if( InvertedIndex.ContainsKey( sTerm ) )
+        
+        DebugMsg( string.Format( "ProcessText: Term :: {0}", Term ) );        
+        
+        if( InvertedIndex.ContainsKey( Term ) )
         {
-          DocumentReference = this.InvertedIndex[ sTerm ];
+          DocumentReference = this.InvertedIndex[ Term ];
         }
         else
         {
           DocumentReference = new Dictionary<string,MacroscopeDocument> ();
-          this.InvertedIndex.Add( sTerm, DocumentReference );
+          this.InvertedIndex.Add( Term, DocumentReference );
         }
 
         if( !DocumentReference.ContainsKey( msDoc.GetUrl() ) )

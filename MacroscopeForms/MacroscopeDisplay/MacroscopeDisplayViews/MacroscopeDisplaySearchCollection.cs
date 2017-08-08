@@ -140,7 +140,7 @@ namespace SEOMacroscope
 
       }
 
-      this.DocumentCount.Text = string.Format( "Documents: {0}", DisplayListView.Items.Count );
+      //this.DocumentCount.Text = string.Format( "Documents: {0}", DisplayListView.Items.Count );
               
     }
 
@@ -148,6 +148,7 @@ namespace SEOMacroscope
 
     protected override void RenderUrlCount ()
     {
+      this.DocumentCount.Text = string.Format( "Documents Found: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/
