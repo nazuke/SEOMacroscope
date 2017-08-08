@@ -1,8 +1,8 @@
+User-agent: *
+Allow: /
+Host: https://nazuke.github.io
+Sitemap: https://nazuke.github.io/SEOMacroscope/sitemap.xml
+
 User-agent: SEOMacroscope
 Allow: /
 Crawl-Delay: 1
-
-User-agent: *
-Allow: /
-Sitemap: https://nazuke.github.io/SEOMacroscope/sitemap.xml
-Host: nazuke.github.io
