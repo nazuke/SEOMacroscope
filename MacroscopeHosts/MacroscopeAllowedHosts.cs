@@ -41,16 +41,12 @@ namespace SEOMacroscope
 
     Dictionary<string,Boolean> Hostnames;
 
-    MacroscopeDomainWrangler DomainWrangler;
-
     /**************************************************************************/
 
     public MacroscopeAllowedHosts ()
     {
 
       this.Hostnames = new Dictionary<string,Boolean> ( 32 );
-
-      this.DomainWrangler = new MacroscopeDomainWrangler ();
 
     }
 
@@ -99,9 +95,12 @@ namespace SEOMacroscope
 
     public void Remove ( string Hostname )
     {
-      if( !this.Hostnames.ContainsKey( Hostname ) )
+      if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        this.Hostnames.Remove( Hostname );
+        lock( this.Hostnames )
+        {
+          this.Hostnames.Remove( key: Hostname );
+        }
       }
     }
 
@@ -127,7 +126,54 @@ namespace SEOMacroscope
 
       if( FromUrl != null )
       {
-        this.Remove( FromUrl.Host );
+        this.Remove( Hostname: FromUrl.Host );
+      }
+
+    }
+
+    /**************************************************************************/
+
+    public int Count ()
+    {
+      return( this.Hostnames.Count );
+    }
+
+    /**************************************************************************/
+
+    public Dictionary<string,Boolean> ListHostnames ()
+    {
+
+      Dictionary<string,Boolean> HostnamesCopy = new Dictionary<string,Boolean> ( this.Hostnames.Count );
+      
+      lock( this.Hostnames )
+      {
+
+        foreach( string Url in this.Hostnames.Keys )
+        {
+          HostnamesCopy.Add( Url, this.Hostnames[ Url ] );
+        }
+        
+      }
+
+      return( HostnamesCopy );
+
+    }
+
+    /**************************************************************************/
+
+    public IEnumerable<KeyValuePair<string,Boolean>> IterateHostnames ()
+    {
+
+      lock( this.Hostnames )
+      {
+
+        foreach( string Url in this.Hostnames.Keys )
+        {
+
+          yield return new KeyValuePair<string, bool> ( Url, this.Hostnames[ Url ] );
+
+        }
+        
       }
 
     }
@@ -164,12 +210,16 @@ namespace SEOMacroscope
 
     public Boolean IsAllowed ( string Hostname )
     {
-      Boolean IsAllowed = false;
+
+      Boolean HostIsAllowed = false;
+
       if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        IsAllowed = this.Hostnames[ Hostname ];
+        HostIsAllowed = this.Hostnames[ Hostname ];
       }
-      return( IsAllowed );
+
+      return( HostIsAllowed );
+
     }
 
     /**************************************************************************/
@@ -307,31 +357,6 @@ namespace SEOMacroscope
       
       return( Hostname );
       
-    }
-
-    /**************************************************************************/
-
-    public Boolean IsWithinAllowedDomain ( string Hostname )
-    {
-      
-      // TODO: This does not work.
-
-      Boolean IsAllowedInDomain = false;
-
-      lock( this.Hostnames )
-      {
-        foreach( string AllowedHostname in this.Hostnames.Keys )
-        {
-          if( this.DomainWrangler.IsWithinSameDomain( Hostname, AllowedHostname ) )
-          {
-            IsAllowedInDomain = true;
-            break;
-          }
-        }
-      }
-
-      return( IsAllowedInDomain );
-
     }
 
     /**************************************************************************/

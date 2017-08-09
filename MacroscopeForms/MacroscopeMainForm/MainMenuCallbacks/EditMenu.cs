@@ -94,6 +94,18 @@ namespace SEOMacroscope
               
         /** ---------------------------------------------------------------- **/
 
+        /** Structure Overview Controls ------------------------------------ **/
+        
+        this.ReconfigureStructureOverviewControls();
+              
+        /** ---------------------------------------------------------------- **/
+
+        /** Search Controls ------------------------------------------------ **/
+        
+        this.ReconfigureSearchCollectionControls();
+              
+        /** ---------------------------------------------------------------- **/
+
       }
 
       PreferencesForm.Dispose();

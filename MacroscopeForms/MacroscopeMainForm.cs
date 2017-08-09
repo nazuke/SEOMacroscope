@@ -1848,6 +1848,10 @@ namespace SEOMacroscope
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
       this.ReconfigureReportsMenu();
+
+      this.ReconfigureStructureOverviewControls();
+              
+      this.ReconfigureSearchCollectionControls();
       
     }
 
@@ -1871,6 +1875,10 @@ namespace SEOMacroscope
 
       this.ReconfigureReportsMenu();
       
+      this.ReconfigureStructureOverviewControls();
+              
+      this.ReconfigureSearchCollectionControls();
+      
     }
 
     private void ScanningControlsStopping ()
@@ -1892,6 +1900,10 @@ namespace SEOMacroscope
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
 
       this.ReconfigureReportsMenu();
+      
+      this.ReconfigureStructureOverviewControls();
+              
+      this.ReconfigureSearchCollectionControls();
             
     }
 
@@ -1916,6 +1928,10 @@ namespace SEOMacroscope
       this.UpdateProgressBarScan( 0 );
       
       this.ReconfigureReportsMenu();
+      
+      this.ReconfigureStructureOverviewControls();
+              
+      this.ReconfigureSearchCollectionControls();
 
     }
 
@@ -1941,6 +1957,10 @@ namespace SEOMacroscope
       
       this.ReconfigureReportsMenu();
       
+      this.ReconfigureStructureOverviewControls();
+              
+      this.ReconfigureSearchCollectionControls();
+      
     }
 
     private void ScanningControlsComplete ()
@@ -1962,6 +1982,10 @@ namespace SEOMacroscope
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
       
       this.ReconfigureReportsMenu();
+      
+      this.ReconfigureStructureOverviewControls();
+
+      this.ReconfigureSearchCollectionControls();
 
     }
 

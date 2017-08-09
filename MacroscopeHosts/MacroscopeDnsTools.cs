@@ -29,69 +29,70 @@ using System.Net;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeDnsTools.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeDnsTools.
+  /// </summary>
 
-	public class MacroscopeDnsTools : Macroscope
-	{
+  public class MacroscopeDnsTools : Macroscope
+  {
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-		public MacroscopeDnsTools ()
-		{
-		}
+    public MacroscopeDnsTools ()
+    {
+      this.SuppressDebugMsg = true;
+    }
 
-		/** Check Hostnames *******************************************************/
+    /** Check Hostnames *******************************************************/
 
-		public static Boolean CheckValidHostname ( string Url )
-		{
+    public static Boolean CheckValidHostname ( string Url )
+    {
 
-			Boolean Success = false;
-			string Hostname = null;
-			Uri RobotUri = null;
+      Boolean Success = false;
+      string Hostname = null;
+      Uri RobotUri = null;
 
-			try
-			{
-				RobotUri = new Uri ( Url, UriKind.Absolute );
-				Hostname = RobotUri.Host;
-			}
-			catch( InvalidOperationException ex )
-			{
-				DebugMsg( string.Format( "CheckValidHostname: {0}", ex.Message ), true );
-			}
-			catch( UriFormatException ex )
-			{
-				DebugMsg( string.Format( "CheckValidHostname: {0}", ex.Message ), true );
-			}
+      try
+      {
+        RobotUri = new Uri ( Url, UriKind.Absolute );
+        Hostname = RobotUri.Host;
+      }
+      catch( InvalidOperationException ex )
+      {
+        DebugMsg( string.Format( "CheckValidHostname: {0}", ex.Message ), true );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "CheckValidHostname: {0}", ex.Message ), true );
+      }
 
-			if( Hostname != null )
-			{
-				IPHostEntry ip = null;
-				try
-				{
-					ip = Dns.GetHostEntry( Hostname );
-				}
-				catch( System.Net.Sockets.SocketException ex )
-				{
-					DebugMsg( string.Format( "CheckValidHostname SocketException: {0}", ex.Message ), true );
-				}
-				catch( Exception ex )
-				{
-					DebugMsg( string.Format( "CheckValidHostname Exception: {0}", ex.Message ), true );
-				}
-				if( ip != null )
-				{
-					Success = true;
-				}
-			}
+      if( Hostname != null )
+      {
+        IPHostEntry ip = null;
+        try
+        {
+          ip = Dns.GetHostEntry( Hostname );
+        }
+        catch( System.Net.Sockets.SocketException ex )
+        {
+          DebugMsg( string.Format( "CheckValidHostname SocketException: {0}", ex.Message ), true );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "CheckValidHostname Exception: {0}", ex.Message ), true );
+        }
+        if( ip != null )
+        {
+          Success = true;
+        }
+      }
 
-			return( Success );
+      return( Success );
 
-		}
+    }
 
-		/**************************************************************************/
+    /**************************************************************************/
 
-	}
+  }
 
 }

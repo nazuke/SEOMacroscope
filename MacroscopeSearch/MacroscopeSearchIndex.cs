@@ -86,6 +86,7 @@ namespace SEOMacroscope
 
       List<string> TextBlocks = new List<string> ( 16 );
       List<string> Terms = new List<string> ( 256 );
+      Boolean CaseSensitive = MacroscopePreferencesManager.GetCaseSensitiveTextIndexing();
 
       TextBlocks.Add( msDoc.GetTitle() );
       TextBlocks.Add( msDoc.GetDescription() );
@@ -120,12 +121,16 @@ namespace SEOMacroscope
       for( int i = 0 ; i < Terms.Count ; i++ )
       {
 
-        string Term = Terms[ i ];
-
         Dictionary<string,MacroscopeDocument> DocumentReference;
 
-        
-        DebugMsg( string.Format( "ProcessText: Term :: {0}", Term ) );        
+        string Term = Terms[ i ];
+
+        if( !CaseSensitive )
+        {
+          Term = Term.ToLower();
+        }
+
+        DebugMsg( string.Format( "ProcessText: Term :: {0}", Term ) );
         
         if( InvertedIndex.ContainsKey( Term ) )
         {
@@ -150,6 +155,7 @@ namespace SEOMacroscope
 
     private void RemoveDocumentFromIndex ( MacroscopeDocument msDoc )
     {
+      // TODO: Implement this.
     }
 
     /** SEARCH INDEX **********************************************************/
@@ -159,7 +165,20 @@ namespace SEOMacroscope
       string [] Terms
     )
     {
+
       List<MacroscopeDocument> DocList = null;
+      Boolean CaseSensitive = MacroscopePreferencesManager.GetCaseSensitiveTextIndexing();
+
+      for( int i = 0 ; i < Terms.Length ; i++ )
+      {
+
+        if( !CaseSensitive )
+        {
+          Terms[ i ] = Terms[ i ].ToLower();
+        }
+      
+      }
+
       switch( SMode )
       {
         case MacroscopeSearchIndex.SearchMode.OR:
@@ -169,7 +188,9 @@ namespace SEOMacroscope
           DocList = this.ExecuteSearchForDocumentsAND( Terms );
           break;
       }
+
       return( DocList );
+
     }
 
     /** SEARCH INDEX: OR METHOD ***********************************************/

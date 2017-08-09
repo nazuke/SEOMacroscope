@@ -16,6 +16,9 @@
     <Setting Name="AppVersion" Type="System.String" Scope="User" Roaming="false">
       <Value Profile="(Default)">v0.0.0.0</Value>
     </Setting>
+    <Setting Name="CaseSensitiveTextIndexing" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="CheckExternalLinks" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -107,6 +110,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="EnableMemoryGuard" Type="System.Boolean" Scope="User" Roaming="false">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnableTextIndexing" Type="System.Boolean" Scope="User" Roaming="false">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="FetchAudio" Type="System.Boolean" Scope="User" Roaming="false">

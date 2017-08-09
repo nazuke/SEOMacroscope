@@ -24,26 +24,35 @@
 */
 
 using System;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeMainForm : Form, IMacroscopeTaskController
+  [TestFixture]
+  public class TestMacroscopeDnsTools : Macroscope
   {
 
     /**************************************************************************/
 
-    public void ReconfigureStructureOverviewControls ()
+    [Test]
+    public void TestCheckValidHostname ()
     {
 
-      if( MacroscopePreferencesManager.GetEnableTextIndexing() )
+      SortedDictionary<string,Boolean> TestUrls = new SortedDictionary<string, bool> ();
+
+      TestUrls.Add( "https://nazuke.github.io/SEOMacroscope/", true );
+      TestUrls.Add( "https://bogus.bogus.com/some/path/index.html", false );
+      TestUrls.Add( "https://www.google.com/", true );
+      
+      foreach( string Url in TestUrls.Keys )
       {
-        this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
-      }
-      else
-      {
-        this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = false;
+        Assert.AreEqual(
+          TestUrls[ Url ],
+          MacroscopeDnsTools.CheckValidHostname( Url: Url ),
+          string.Format( "FAIL: {0}", Url )
+        );
       }
 
     }

@@ -163,6 +163,8 @@
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\ReportsMenu.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\TaskParametersMenu.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\ViewMenu.cs" />
+    <Compile Include="MacroscopeHosts\t\TestMacroscopeAllowedHosts.cs" />
+    <Compile Include="MacroscopeHosts\t\TestMacroscopeDnsTools.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\MacroscopeCsvBrokenLinksReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetBrokenLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetGoodLinks.cs" />
@@ -405,8 +407,6 @@
     </Compile>
     <Compile Include="MacroscopeHosts\MacroscopeAllowedHosts.cs" />
     <Compile Include="MacroscopeHosts\MacroscopeDnsTools.cs" />
-    <Compile Include="MacroscopeHosts\MacroscopeDomainWrangler.cs" />
-    <Compile Include="MacroscopeHosts\t\TestMacroscopeDomainWrangler.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
     <Compile Include="MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />

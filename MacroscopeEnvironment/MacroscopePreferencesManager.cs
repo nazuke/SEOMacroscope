@@ -113,6 +113,9 @@ namespace SEOMacroscope
     static Boolean ScanSitesInList;
     static Boolean WarnAboutInsecureLinks;
 
+    static Boolean EnableTextIndexing;
+    static Boolean CaseSensitiveTextIndexing;
+
     /** SEO Options -------------------------------------------------------- **/
 
     static int TitleMinLen;
@@ -225,7 +228,10 @@ namespace SEOMacroscope
           CheckHreflangs = Preferences.CheckHreflangs;
           ScanSitesInList = Preferences.ScanSitesInList;
           WarnAboutInsecureLinks = Preferences.WarnAboutInsecureLinks;
-          
+
+          EnableTextIndexing = Preferences.EnableTextIndexing;
+          CaseSensitiveTextIndexing = Preferences.CaseSensitiveTextIndexing;
+
           EnableLevenshteinDeduplication = Preferences.EnableLevenshteinDeduplication;
           MaxLevenshteinSizeDifference = Preferences.MaxLevenshteinSizeDifference;
           MaxLevenshteinDistance = Preferences.MaxLevenshteinDistance;
@@ -403,6 +409,9 @@ namespace SEOMacroscope
       CheckHreflangs = true;
       ScanSitesInList = false;
       WarnAboutInsecureLinks = true;
+
+      EnableTextIndexing = true;
+      CaseSensitiveTextIndexing = false;      
       
       EnableLevenshteinDeduplication = true;
       MaxLevenshteinSizeDifference = 64;
@@ -462,7 +471,7 @@ namespace SEOMacroscope
       
       /** Advanced Settings ------------------------------------------------ **/
       
-      EnableMemoryGuard = true;
+      EnableMemoryGuard = false;
       
     }
 
@@ -604,6 +613,9 @@ namespace SEOMacroscope
         Preferences.ScanSitesInList = ScanSitesInList;
         Preferences.WarnAboutInsecureLinks = WarnAboutInsecureLinks;
 
+        Preferences.EnableTextIndexing = EnableTextIndexing;
+        Preferences.CaseSensitiveTextIndexing = CaseSensitiveTextIndexing;
+        
         Preferences.EnableLevenshteinDeduplication = EnableLevenshteinDeduplication;
         Preferences.MaxLevenshteinSizeDifference = MaxLevenshteinSizeDifference;
         Preferences.MaxLevenshteinDistance = MaxLevenshteinDistance;
@@ -958,6 +970,30 @@ namespace SEOMacroscope
     public static void SetWarnAboutInsecureLinks ( Boolean State )
     {
       WarnAboutInsecureLinks = State;
+    }
+
+    /**************************************************************************/
+
+    public static Boolean GetEnableTextIndexing ()
+    {
+      return( EnableTextIndexing );
+    }
+
+    public static void SetEnableTextIndexing ( Boolean State )
+    {
+      EnableTextIndexing = State;
+    }
+    
+    /** -------------------------------------------------------------------- **/
+
+    public static Boolean GetCaseSensitiveTextIndexing ()
+    {
+      return( CaseSensitiveTextIndexing );
+    }
+
+    public static void SetCaseSensitiveTextIndexing ( Boolean State )
+    {
+      CaseSensitiveTextIndexing = State;
     }
 
     /** Levenshtein Deduplication *********************************************/

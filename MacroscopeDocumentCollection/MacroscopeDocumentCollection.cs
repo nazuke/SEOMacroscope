@@ -2109,21 +2109,26 @@ namespace SEOMacroscope
     private void AddDocumentToSearchIndex ( MacroscopeDocument msDoc )
     {
       
-      Boolean Proceed = false;
+      if( MacroscopePreferencesManager.GetEnableTextIndexing() )
+      {
+
+        Boolean Proceed = false;
       
-      if( msDoc.GetIsHtml() )
-      {
-        Proceed = true;
-      }
-      else
-      if( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
-      }
+        if( msDoc.GetIsHtml() )
+        {
+          Proceed = true;
+        }
+        else
+        if( msDoc.GetIsPdf() )
+        {
+          Proceed = true;
+        }
       
-      if( Proceed )
-      {
-        this.SearchIndex.AddDocumentToIndex( msDoc );
+        if( Proceed )
+        {
+          this.SearchIndex.AddDocumentToIndex( msDoc );
+        }
+
       }
       
     }

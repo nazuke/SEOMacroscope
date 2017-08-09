@@ -74,6 +74,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool CaseSensitiveTextIndexing {
+			get {
+				return ((bool)(this["CaseSensitiveTextIndexing"]));
+			}
+			set {
+				this["CaseSensitiveTextIndexing"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
 		public bool CheckExternalLinks {
 			get {
 				return ((bool)(this["CheckExternalLinks"]));
@@ -440,6 +452,18 @@ namespace SEOMacroscope {
 			}
 			set {
 				this["EnableMemoryGuard"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool EnableTextIndexing {
+			get {
+				return ((bool)(this["EnableTextIndexing"]));
+			}
+			set {
+				this["EnableTextIndexing"] = value;
 			}
 		}
 		

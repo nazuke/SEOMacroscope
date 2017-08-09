@@ -125,6 +125,9 @@ namespace SEOMacroscope
         this.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
         this.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
 
+        this.checkBoxEnableTextIndexing.Checked = MacroscopePreferencesManager.GetEnableTextIndexing();
+        this.checkBoxCaseSensitiveTextIndexing.Checked = MacroscopePreferencesManager.GetCaseSensitiveTextIndexing();
+
         /** SEO Options ---------------------------------------------------- **/
 
         this.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
@@ -248,6 +251,9 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetScanSitesInList( this.checkBoxScanSitesInList.Checked );
       MacroscopePreferencesManager.SetWarnAboutInsecureLinks( this.checkBoxWarnAboutInsecureLinks.Checked );
 
+      MacroscopePreferencesManager.SetEnableTextIndexing( this.checkBoxEnableTextIndexing.Checked );
+      MacroscopePreferencesManager.SetCaseSensitiveTextIndexing( this.checkBoxCaseSensitiveTextIndexing.Checked );
+        
       /** SEO Options ------------------------------------------------------ **/
       
       MacroscopePreferencesManager.SetTitleMinLen( ( int )this.numericUpDownTitleMinLen.Value );

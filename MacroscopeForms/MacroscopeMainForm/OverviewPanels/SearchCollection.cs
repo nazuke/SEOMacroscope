@@ -35,6 +35,24 @@ namespace SEOMacroscope
 
     /** SEARCH COLLECTION PANEL CALLBACKS *************************************/
 
+    public void ReconfigureSearchCollectionControls ()
+    {
+
+      if( MacroscopePreferencesManager.GetEnableTextIndexing() )
+      {
+        this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = true;
+        this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = true;
+      }
+      else
+      {
+        this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionButtonClear.Enabled = false;
+        this.macroscopeOverviewTabPanelInstance.toolStripSearchCollectionTextBoxSearch.Enabled = false;
+      }
+
+    }
+
+    /**************************************************************************/
+
     private void CallbackSearchCollectionButtonClear ( object sender, EventArgs e )
     {
       this.msDisplaySearchCollection.ClearData();
