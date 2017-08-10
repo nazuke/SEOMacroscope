@@ -6,7 +6,7 @@ title: "Preferences :: Analysis Options"
 Set further localization, list processing, and analysis options here.
 {: .lead }
 
-![SEO Macroscope spidering control preferences](../../images/preferences-analysis-options.png){: .img-responsive .box-shadow}
+![SEO Macroscope analysis options](../../images/preferences-analysis-options.png){: .img-responsive .box-shadow}
 {: .screenshot }
 
 ## Localized Pages

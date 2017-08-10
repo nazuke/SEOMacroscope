@@ -6,7 +6,7 @@ title: "Preferences :: Network Settings"
 Configure your network settings here.
 {: .lead }
 
-![SEO Macroscope spidering control preferences](../../images/preferences-network-settings.png){: .img-responsive .box-shadow}
+![SEO Macroscope network settings](../../images/preferences-network-settings.png){: .img-responsive .box-shadow}
 {: .screenshot }
 
 ## HTTP Proxy
