@@ -153,7 +153,7 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, Occurrences );
 
           if( Occurrences > 1 )
           {
@@ -178,7 +178,7 @@ namespace SEOMacroscope
           }
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( DescriptionLength.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, DescriptionLength );
 
           if( DescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
           {

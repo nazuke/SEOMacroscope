@@ -145,19 +145,19 @@ namespace SEOMacroscope
         this.InsertAndFormatRedirectCell( ws, iRow, iCol, msDoc );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDurationInSecondsFormatted().ToString() ) );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetDurationInSecondsFormatted() );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCrawledDate() ) );
+        this.InsertAndFormatDateCell( ws, iRow, iCol, msDoc.GetCrawledDate() );
         iCol++;
         
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateServer() ) );
+        this.InsertAndFormatDateCell( ws, iRow, iCol, msDoc.GetDateServer() );
         iCol++;
           
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateModified() ) );
+        this.InsertAndFormatDateCell( ws, iRow, iCol, msDoc.GetDateModified() );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDateExpires() ) );
+        this.InsertAndFormatDateCell( ws, iRow, iCol, msDoc.GetDateExpires() );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetMimeType() ) );
@@ -172,28 +172,28 @@ namespace SEOMacroscope
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCanonical() ) );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.CountInlinks().ToString() ) );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.CountInlinks() );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.CountOutlinks().ToString() ) );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.CountOutlinks() );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.CountHyperlinksIn().ToString() ) );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.CountHyperlinksIn() );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.CountHyperlinksOut().ToString() ) );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.CountHyperlinksOut() );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitle() ) );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitleLength().ToString() ) );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetTitleLength().ToString() );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDescription() ) );
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetDescriptionLength().ToString() ) );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetDescriptionLength() );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetErrorCondition() ) );

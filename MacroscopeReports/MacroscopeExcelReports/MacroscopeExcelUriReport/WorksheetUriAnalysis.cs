@@ -105,7 +105,7 @@ namespace SEOMacroscope
           
         iCol++;
 
-        this.InsertAndFormatContentCell( ws, iRow, iCol, Count.ToString() );
+        this.InsertAndFormatContentCell( ws, iRow, iCol, Count );
           
         if( Count > 1 )
         {

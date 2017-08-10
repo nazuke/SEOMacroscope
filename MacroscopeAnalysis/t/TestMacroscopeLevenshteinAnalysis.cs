@@ -119,11 +119,14 @@ namespace SEOMacroscope
                                                             CrossCheckList: CrossCheckList
                                                           );
 
-      List<string> TargetUrls = new List<string> () { {
+      List<string> TargetUrls = new List<string> () {
+        {
           "https://nazuke.github.io/SEOMacroscope/blog/"
-        }, {
+        },
+        {
           "https://nazuke.github.io/SEOMacroscope/downloads/"
-        }, {
+        },
+        {
           "https://nazuke.github.io/SEOMacroscope/manual/"
         }
       };
@@ -139,9 +142,11 @@ namespace SEOMacroscope
       for( int i = 1 ; i <= 10 ; i++ )
       {
 
-        Dictionary<MacroscopeDocument,int> DocList = LevenshteinAnalysis.AnalyzeDocCollection(
-                                                       DocCollection: DocCollection
-                                                     );
+        Dictionary<MacroscopeDocument,int> DocList;
+
+        DocList = LevenshteinAnalysis.AnalyzeDocCollection(
+          DocCollection: DocCollection
+        );
 
         DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
 

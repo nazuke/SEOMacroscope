@@ -185,7 +185,7 @@ namespace SEOMacroscope
 
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TitleLength.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, TitleLength );
 
           if( TitleLength < MacroscopePreferencesManager.GetTitleMinLen() )
           {
@@ -203,7 +203,7 @@ namespace SEOMacroscope
 
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( TitlePixelWidth.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, TitlePixelWidth );
           
           if( TitlePixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
           {

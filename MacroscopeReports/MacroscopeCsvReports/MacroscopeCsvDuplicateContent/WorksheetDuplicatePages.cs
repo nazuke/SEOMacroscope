@@ -118,9 +118,7 @@ namespace SEOMacroscope
         );
 
         DocListCount = ( decimal )DocList.Count;
-      
-        DebugMsg( string.Format( "DocListCount: {0}", DocListCount ) );
-        
+             
         foreach( MacroscopeDocument msDocDuplicate in DocList.Keys )
         {
 

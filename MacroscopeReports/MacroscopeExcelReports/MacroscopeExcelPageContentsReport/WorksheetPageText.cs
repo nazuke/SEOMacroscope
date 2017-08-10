@@ -187,7 +187,7 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( WordCount.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, WordCount );
 
           if( msDoc.GetIsInternal() )
           {

@@ -120,7 +120,7 @@ namespace SEOMacroscope
 
               iCol++;
 
-              this.InsertAndFormatContentCell( ws, iRow, iCol, Occurences.ToString() );
+              this.InsertAndFormatContentCell( ws, iRow, iCol, Occurences );
 
               if( ( Occurences > 1 ) && ( msDoc.GetIsInternal() ) )
               {

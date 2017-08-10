@@ -44,10 +44,7 @@ namespace SEOMacroscope
       AND = 2
     }
 
-    // Url, MacroscopeDocument
-    private Dictionary<string,MacroscopeDocument> DocumentIndex;
-
-    // Url, InvertedIndex ( sKeyword, Boolean )
+    // Url, InvertedIndex ( Keyword, Boolean )
     private Dictionary<string,Dictionary<string,Boolean>> ForwardIndex;
 
     // Url, DocumentIndex
@@ -60,8 +57,6 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = true;
 
-      this.DocumentIndex = new Dictionary<string, MacroscopeDocument> ( 4096 );
-
       this.ForwardIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
 
       this.InvertedIndex = new Dictionary<string, Dictionary<string,MacroscopeDocument>> ( 4096 );
@@ -73,9 +68,9 @@ namespace SEOMacroscope
     public void AddDocumentToIndex ( MacroscopeDocument msDoc )
     {
 
-      this.RemoveDocumentFromIndex( msDoc );
+      this.RemoveDocumentFromIndex( msDoc: msDoc );
 
-      this.ProcessText( msDoc );
+      this.ProcessText( msDoc: msDoc );
 
     }
 
@@ -155,7 +150,36 @@ namespace SEOMacroscope
 
     private void RemoveDocumentFromIndex ( MacroscopeDocument msDoc )
     {
-      // TODO: Implement this.
+
+      string Url = msDoc.GetUrl();
+
+      if( this.ForwardIndex.ContainsKey( key: Url ) )
+      {
+
+        lock( this.ForwardIndex )
+        {
+
+          foreach( string Term in this.ForwardIndex[Url].Keys )
+          {
+
+            if( this.InvertedIndex.ContainsKey( key: Term ) )
+            {
+                  
+              lock( this.InvertedIndex )
+              {
+                this.InvertedIndex.Remove( key: Term );
+              }
+
+            }
+
+          }
+
+          this.ForwardIndex.Remove( key: Url );
+
+        }
+
+      }
+
     }
 
     /** SEARCH INDEX **********************************************************/

@@ -53,7 +53,7 @@ namespace SEOMacroscope
 
       {
 
-        ws.Cell( iRow, iCol ).Value = "Telephone Number";
+        ws.Cell( iRow, iCol ).Value = "Email Address";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "URL";

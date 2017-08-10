@@ -48,9 +48,15 @@ namespace SEOMacroscope
 
     public MacroscopeColumnSorter ()
     {
+
+      this.SuppressDebugMsg = true;
+
       this.ColumnToSort = 0;
+
       this.OrderOfSort = SortOrder.None;
+
       this.ObjectCompare = new CaseInsensitiveComparer ();
+
     }
 
     /**************************************************************************/
@@ -60,7 +66,8 @@ namespace SEOMacroscope
 
       int compareResult;
       ListViewItem listviewX, listviewY;
-
+      object [] ObjectPair;
+      string ColumnName;
       listviewX = ( ListViewItem )x;
       listviewY = ( ListViewItem )y;
 
@@ -71,11 +78,27 @@ namespace SEOMacroscope
         return 0;
       }
 
-      object [] ObjectPair = DetermineValueType(
-                               listviewX.SubItems[ this.ColumnToSort ].Text,
-                               listviewY.SubItems[ this.ColumnToSort ].Text
-                             );
+      ColumnName = listviewX.ListView.Columns[ this.ColumnToSort ].Text;
 
+      if( Regex.IsMatch( ColumnName, @"\s+Date" ) )
+      {
+      
+        ObjectPair = DetermineValueTypeDate(
+          listviewX.SubItems[ this.ColumnToSort ].Text,
+          listviewY.SubItems[ this.ColumnToSort ].Text
+        );
+      
+      }
+      else
+      {
+      
+        ObjectPair = DetermineValueType(
+          listviewX.SubItems[ this.ColumnToSort ].Text,
+          listviewY.SubItems[ this.ColumnToSort ].Text
+        );
+
+      }
+      
       compareResult = ObjectCompare.Compare( ObjectPair[ 0 ], ObjectPair[ 1 ] );
 
       if( this.OrderOfSort == SortOrder.Ascending )
@@ -141,7 +164,7 @@ namespace SEOMacroscope
         ObjectPair[ 0 ] = DecimalX;
         ObjectPair[ 1 ] = DecimalY;
       }
-
+      else
       if(
         Regex.IsMatch( TextX, @"^[0-9]+\.[0-9]+$" )
         && Regex.IsMatch( TextY, @"^[0-9]+\.[0-9]+$" ) )
@@ -152,7 +175,34 @@ namespace SEOMacroscope
         ObjectPair[ 1 ] = DecimalY;
       }
 
-      // TODO: Add dates, etc.
+      return( ObjectPair );
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private object[] DetermineValueTypeDate ( string TextX, string TextY )
+    {
+
+      object [] ObjectPair = new object[2];
+
+      ObjectPair[ 0 ] = TextX;
+      ObjectPair[ 1 ] = TextY;
+
+      try
+      {
+
+        DateTime DateX = DateTime.Parse( TextX );
+        DateTime DateY = DateTime.Parse( TextY );
+
+        ObjectPair[ 0 ] = DateX;
+        ObjectPair[ 1 ] = DateY;
+
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( ex.Message ) );
+      }
 
       return( ObjectPair );
       

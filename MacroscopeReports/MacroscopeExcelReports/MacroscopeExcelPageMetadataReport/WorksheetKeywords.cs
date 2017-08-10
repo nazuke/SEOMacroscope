@@ -124,7 +124,7 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Occurrences.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, Occurrences );
 
           iCol++;
 
@@ -132,11 +132,11 @@ namespace SEOMacroscope
 
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsLength.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, KeywordsLength );
 
           iCol++;
           
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( KeywordsNumber.ToString() ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, KeywordsNumber );
 
           iRow++;
           

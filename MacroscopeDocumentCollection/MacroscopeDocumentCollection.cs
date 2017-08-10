@@ -285,7 +285,8 @@ namespace SEOMacroscope
       this.AddDocument( msDoc.GetUrl(), msDoc );
     }
 
-    // TODO: There may be a bug here, whereby two or more error pages are added multiple times.
+    /** -------------------------------------------------------------------- **/
+
     public void AddDocument ( string Url, MacroscopeDocument msDoc )
     {
 

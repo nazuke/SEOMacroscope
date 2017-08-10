@@ -2599,8 +2599,7 @@ namespace SEOMacroscope
       
       req.Headers.Add( "Accept-Charset", "utf-8, us-ascii" );
 
-      // TODO: Add support for compressed responses
-      //req.Headers.Add( "Accept-Encoding", "gzip, deflate" );
+      req.Headers.Add( "Accept-Encoding", "gzip, deflate" );
 
       req.Headers.Add( "Accept-Language", "*" );
 
@@ -2850,7 +2849,7 @@ namespace SEOMacroscope
         }
 
         // Probe Character Set
-        // TODO: implement this
+        // TODO: Implement character set probing
         if( HttpHeaderName.ToLower().Equals( "content-type" ) )
         {
           //string NewCharSet = "";

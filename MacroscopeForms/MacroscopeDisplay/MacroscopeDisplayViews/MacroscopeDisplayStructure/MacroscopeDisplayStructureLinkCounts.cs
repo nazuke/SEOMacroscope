@@ -114,10 +114,6 @@ namespace SEOMacroscope
           lvItem.SubItems[ ColIndexOuthyperlinks ].Text = msDoc.CountHyperlinksOut().ToString();
 
         }
-        else
-        {
-          DebugMsg( string.Format( "MacroscopeDisplayStructureLinkCounts: {0}", "lvItem is NULL" ) );
-        }
 
       }
 

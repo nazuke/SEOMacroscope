@@ -223,11 +223,16 @@ namespace SEOMacroscope
       string Value
     )
     {
+
       ws.Cell( Row, Col ).Value = Value;
+
       if( Value == "MISSING" )
       {
         ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
       }
+
+      this.SetContentCellType( ws, Row, Col, XLCellValues.Text );
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -239,7 +244,64 @@ namespace SEOMacroscope
       int Value 
     )
     {
+
       ws.Cell( Row, Col ).Value = Value;
+
+      this.SetContentCellType( ws, Row, Col, XLCellValues.Number );
+
+    }
+
+    /** -------------------------------------------------------------------- **/ 
+
+    public void InsertAndFormatContentCell (
+      IXLWorksheet ws, 
+      int Row,
+      int Col,
+      decimal Value
+    )
+    {
+
+      ws.Cell( Row, Col ).Value = Value;
+
+      this.SetContentCellType( ws, Row, Col, XLCellValues.Number );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void InsertAndFormatDateCell (
+      IXLWorksheet ws,
+      int Row,
+      int Col,
+      string Value
+    )
+    {
+
+      ws.Cell( Row, Col ).Value = Value;
+
+      this.SetContentCellType( ws, Row, Col, XLCellValues.DateTime );
+
+    }
+
+    /**************************************************************************/
+
+    private void SetContentCellType (
+      IXLWorksheet ws, 
+      int Row,
+      int Col,
+      XLCellValues CellType
+    )
+    {
+
+      try
+      {
+        ws.Cell( Row, Col ).SetDataType( dataType: CellType );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+      }
+
     }
 
     /**************************************************************************/

@@ -46,7 +46,7 @@ namespace SEOMacroscope
 
       {
 
-        ws.WriteField( "Telephone Number" );
+        ws.WriteField( "Email Address" );
         ws.WriteField( "URL" );
         
         ws.NextRecord();

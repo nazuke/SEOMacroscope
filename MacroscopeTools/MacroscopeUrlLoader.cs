@@ -46,11 +46,15 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MemoryStream LoadMemoryStreamFromUrl ( string sUrl, List<string> lExpects )
+    public MemoryStream LoadMemoryStreamFromUrl ( string Url, List<string> Expects )
     {
+
       // TODO: List of expected mime types
-      MemoryStream msStream = null;
-      return( msStream );
+
+      MemoryStream StreamLoader = null;
+
+      return( StreamLoader );
+
     }
 
     /**************************************************************************/

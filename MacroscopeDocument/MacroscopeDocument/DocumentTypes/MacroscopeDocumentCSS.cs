@@ -280,8 +280,6 @@ namespace SEOMacroscope
 
                 if( LinkUrlAbs != null )
                 {
-
-                  // TODO: Verify that this actually works:
                   
                   MacroscopeHyperlinkOut HyperlinkOut = null;
                   MacroscopeLink Outlink = null;
@@ -321,8 +319,6 @@ namespace SEOMacroscope
 
                 if( LinkUrlAbs != null )
                 {     
-
-                  // TODO: Verify that this actually works:
 
                   MacroscopeHyperlinkOut HyperlinkOut = null;
                   MacroscopeLink Outlink = null;
