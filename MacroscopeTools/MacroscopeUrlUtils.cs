@@ -624,7 +624,7 @@ namespace SEOMacroscope
 
     }
     
-    /**************************************************************************/
+    /** Strip Query String ****************************************************/
     
     public static string StripQueryString ( string Url )
     {
@@ -653,10 +653,11 @@ namespace SEOMacroscope
         {
           UriNew = new Uri (
             string.Format(
-              "{0}://{1}{2}",
+              "{0}://{1}{2}{3}",
               UriBase.Scheme,
               UriBase.Host,
-              UriBase.AbsolutePath
+              UriBase.AbsolutePath,
+              UriBase.Fragment
             ),
             UriKind.Absolute
           );
@@ -689,7 +690,76 @@ namespace SEOMacroscope
       return( NewUrl );
 
     }
+
+    /** Strip Hash Fragment ***************************************************/
+    
+    public static string StripHashFragment ( string Url )
+    {
+
+      Uri UriBase = null;
+      Uri UriNew = null;
+      string NewUrl = null;
+
+      try
+      {
+        UriBase = new Uri ( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "StripHashFragment: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "StripHashFragment: {0}", ex.Message ), true );
+      }
+
+      DebugMsg( string.Format( "UriBase.Query: {0}", UriBase.Query ), true );
+
+      if( UriBase != null )
+      {
+
+        try
+        {
+          UriNew = new Uri (
+            string.Format(
+              "{0}://{1}{2}{3}",
+              UriBase.Scheme,
+              UriBase.Host,
+              UriBase.AbsolutePath,
+              UriBase.Query
+            ),
+            UriKind.Absolute
+          );
+
+        }
+        catch( InvalidOperationException ex )
+        {
+          DebugMsg( ex.Message, true );
+        }
+        catch( UriFormatException ex )
+        {
+          DebugMsg( ex.Message, true );
+        }
       
+        if( UriBase != null )
+        {
+          NewUrl = UriNew.ToString();
+        }
+        else
+        {
+          NewUrl = Url;
+        }
+
+      }
+      else
+      {
+        NewUrl = Url;
+      }
+
+      return( NewUrl );
+
+    }
+    
     /**************************************************************************/
 
     public static string GetMimeTypeOfUrl ( string Url )

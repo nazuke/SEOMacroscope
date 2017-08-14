@@ -177,6 +177,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.GroupBox groupBox27;
 		public System.Windows.Forms.CheckBox checkBoxEnableTextIndexing;
 		public System.Windows.Forms.CheckBox checkBoxCaseSensitiveTextIndexing;
+		public System.Windows.Forms.CheckBox checkBoxIgnoreHashFragments;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -209,6 +210,7 @@ namespace SEOMacroscope
 			this.checkBoxFollowSitemapLinks = new System.Windows.Forms.CheckBox();
 			this.groupBox10 = new System.Windows.Forms.GroupBox();
 			this.checkBoxCrawlStrictUrlCheck = new System.Windows.Forms.CheckBox();
+			this.checkBoxIgnoreHashFragments = new System.Windows.Forms.CheckBox();
 			this.checkBoxIgnoreQueries = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowNoFollow = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowHrefLangLinks = new System.Windows.Forms.CheckBox();
@@ -255,6 +257,9 @@ namespace SEOMacroscope
 			this.checkBoxProcessStylesheets = new System.Windows.Forms.CheckBox();
 			this.groupBox11 = new System.Windows.Forms.GroupBox();
 			this.checkBoxScanSitesInList = new System.Windows.Forms.CheckBox();
+			this.groupBox27 = new System.Windows.Forms.GroupBox();
+			this.checkBoxCaseSensitiveTextIndexing = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnableTextIndexing = new System.Windows.Forms.CheckBox();
 			this.groupBox13 = new System.Windows.Forms.GroupBox();
 			this.checkBoxWarnAboutInsecureLinks = new System.Windows.Forms.CheckBox();
 			this.tabPageSeo = new System.Windows.Forms.TabPage();
@@ -343,9 +348,6 @@ namespace SEOMacroscope
 			this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
 			this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-			this.groupBox27 = new System.Windows.Forms.GroupBox();
-			this.checkBoxEnableTextIndexing = new System.Windows.Forms.CheckBox();
-			this.checkBoxCaseSensitiveTextIndexing = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -368,6 +370,7 @@ namespace SEOMacroscope
 			this.groupBox6.SuspendLayout();
 			this.groupBox16.SuspendLayout();
 			this.groupBox11.SuspendLayout();
+			this.groupBox27.SuspendLayout();
 			this.groupBox13.SuspendLayout();
 			this.tabPageSeo.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
@@ -416,7 +419,6 @@ namespace SEOMacroscope
 			this.tabPageAdvancedSettings.SuspendLayout();
 			this.flowLayoutPanel7.SuspendLayout();
 			this.groupBox19.SuspendLayout();
-			this.groupBox27.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label9
@@ -518,6 +520,7 @@ namespace SEOMacroscope
 			// 
 			this.groupBox10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox10.Controls.Add(this.checkBoxCrawlStrictUrlCheck);
+			this.groupBox10.Controls.Add(this.checkBoxIgnoreHashFragments);
 			this.groupBox10.Controls.Add(this.checkBoxIgnoreQueries);
 			this.groupBox10.Controls.Add(this.checkBoxFollowNoFollow);
 			this.groupBox10.Controls.Add(this.checkBoxFollowHrefLangLinks);
@@ -526,23 +529,32 @@ namespace SEOMacroscope
 			this.groupBox10.Location = new System.Drawing.Point(10, 80);
 			this.groupBox10.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
 			this.groupBox10.Name = "groupBox10";
-			this.groupBox10.Size = new System.Drawing.Size(500, 90);
+			this.groupBox10.Size = new System.Drawing.Size(500, 120);
 			this.groupBox10.TabIndex = 2;
 			this.groupBox10.TabStop = false;
 			this.groupBox10.Text = "Links";
 			// 
 			// checkBoxCrawlStrictUrlCheck
 			// 
-			this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(340, 50);
+			this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(336, 20);
 			this.checkBoxCrawlStrictUrlCheck.Name = "checkBoxCrawlStrictUrlCheck";
 			this.checkBoxCrawlStrictUrlCheck.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxCrawlStrictUrlCheck.TabIndex = 6;
 			this.checkBoxCrawlStrictUrlCheck.Text = "Strict URL Check";
 			this.checkBoxCrawlStrictUrlCheck.UseVisualStyleBackColor = true;
 			// 
+			// checkBoxIgnoreHashFragments
+			// 
+			this.checkBoxIgnoreHashFragments.Location = new System.Drawing.Point(180, 80);
+			this.checkBoxIgnoreHashFragments.Name = "checkBoxIgnoreHashFragments";
+			this.checkBoxIgnoreHashFragments.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxIgnoreHashFragments.TabIndex = 5;
+			this.checkBoxIgnoreHashFragments.Text = "Ignore hash fragment";
+			this.checkBoxIgnoreHashFragments.UseVisualStyleBackColor = true;
+			// 
 			// checkBoxIgnoreQueries
 			// 
-			this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(340, 20);
+			this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(180, 50);
 			this.checkBoxIgnoreQueries.Name = "checkBoxIgnoreQueries";
 			this.checkBoxIgnoreQueries.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxIgnoreQueries.TabIndex = 5;
@@ -551,7 +563,7 @@ namespace SEOMacroscope
 			// 
 			// checkBoxFollowNoFollow
 			// 
-			this.checkBoxFollowNoFollow.Location = new System.Drawing.Point(180, 50);
+			this.checkBoxFollowNoFollow.Location = new System.Drawing.Point(20, 80);
 			this.checkBoxFollowNoFollow.Name = "checkBoxFollowNoFollow";
 			this.checkBoxFollowNoFollow.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxFollowNoFollow.TabIndex = 4;
@@ -589,7 +601,7 @@ namespace SEOMacroscope
 			// 
 			this.groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.groupBox7.Controls.Add(this.checkBoxCheckExternalLinks);
-			this.groupBox7.Location = new System.Drawing.Point(10, 180);
+			this.groupBox7.Location = new System.Drawing.Point(10, 210);
 			this.groupBox7.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox7.Name = "groupBox7";
 			this.groupBox7.Size = new System.Drawing.Size(500, 60);
@@ -621,7 +633,7 @@ namespace SEOMacroscope
 			this.groupBox4.Controls.Add(this.label12);
 			this.groupBox4.Controls.Add(this.numericUpDownPageLimit);
 			this.groupBox4.Controls.Add(this.numericUpDownDepth);
-			this.groupBox4.Location = new System.Drawing.Point(10, 250);
+			this.groupBox4.Location = new System.Drawing.Point(10, 280);
 			this.groupBox4.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(500, 120);
@@ -830,7 +842,7 @@ namespace SEOMacroscope
 			this.groupBox1.Controls.Add(this.checkBoxFetchImages);
 			this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
 			this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
-			this.groupBox1.Location = new System.Drawing.Point(10, 380);
+			this.groupBox1.Location = new System.Drawing.Point(10, 410);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(500, 120);
@@ -1093,6 +1105,37 @@ namespace SEOMacroscope
 			this.checkBoxScanSitesInList.TabIndex = 1;
 			this.checkBoxScanSitesInList.Text = "Scan sites in list";
 			this.checkBoxScanSitesInList.UseVisualStyleBackColor = true;
+			// 
+			// groupBox27
+			// 
+			this.groupBox27.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox27.Controls.Add(this.checkBoxCaseSensitiveTextIndexing);
+			this.groupBox27.Controls.Add(this.checkBoxEnableTextIndexing);
+			this.groupBox27.Location = new System.Drawing.Point(10, 350);
+			this.groupBox27.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox27.Name = "groupBox27";
+			this.groupBox27.Size = new System.Drawing.Size(500, 60);
+			this.groupBox27.TabIndex = 6;
+			this.groupBox27.TabStop = false;
+			this.groupBox27.Text = "Search Index";
+			// 
+			// checkBoxCaseSensitiveTextIndexing
+			// 
+			this.checkBoxCaseSensitiveTextIndexing.Location = new System.Drawing.Point(180, 20);
+			this.checkBoxCaseSensitiveTextIndexing.Name = "checkBoxCaseSensitiveTextIndexing";
+			this.checkBoxCaseSensitiveTextIndexing.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxCaseSensitiveTextIndexing.TabIndex = 2;
+			this.checkBoxCaseSensitiveTextIndexing.Text = "Case sensitive indexing";
+			this.checkBoxCaseSensitiveTextIndexing.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxEnableTextIndexing
+			// 
+			this.checkBoxEnableTextIndexing.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxEnableTextIndexing.Name = "checkBoxEnableTextIndexing";
+			this.checkBoxEnableTextIndexing.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxEnableTextIndexing.TabIndex = 1;
+			this.checkBoxEnableTextIndexing.Text = "Enable text indexing";
+			this.checkBoxEnableTextIndexing.UseVisualStyleBackColor = true;
 			// 
 			// groupBox13
 			// 
@@ -2183,37 +2226,6 @@ namespace SEOMacroscope
 			this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
 			this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
 			// 
-			// groupBox27
-			// 
-			this.groupBox27.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox27.Controls.Add(this.checkBoxCaseSensitiveTextIndexing);
-			this.groupBox27.Controls.Add(this.checkBoxEnableTextIndexing);
-			this.groupBox27.Location = new System.Drawing.Point(10, 350);
-			this.groupBox27.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-			this.groupBox27.Name = "groupBox27";
-			this.groupBox27.Size = new System.Drawing.Size(500, 60);
-			this.groupBox27.TabIndex = 6;
-			this.groupBox27.TabStop = false;
-			this.groupBox27.Text = "Search Index";
-			// 
-			// checkBoxEnableTextIndexing
-			// 
-			this.checkBoxEnableTextIndexing.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxEnableTextIndexing.Name = "checkBoxEnableTextIndexing";
-			this.checkBoxEnableTextIndexing.Size = new System.Drawing.Size(150, 24);
-			this.checkBoxEnableTextIndexing.TabIndex = 1;
-			this.checkBoxEnableTextIndexing.Text = "Enable text indexing";
-			this.checkBoxEnableTextIndexing.UseVisualStyleBackColor = true;
-			// 
-			// checkBoxCaseSensitiveTextIndexing
-			// 
-			this.checkBoxCaseSensitiveTextIndexing.Location = new System.Drawing.Point(180, 20);
-			this.checkBoxCaseSensitiveTextIndexing.Name = "checkBoxCaseSensitiveTextIndexing";
-			this.checkBoxCaseSensitiveTextIndexing.Size = new System.Drawing.Size(150, 24);
-			this.checkBoxCaseSensitiveTextIndexing.TabIndex = 2;
-			this.checkBoxCaseSensitiveTextIndexing.Text = "Case sensitive indexing";
-			this.checkBoxCaseSensitiveTextIndexing.UseVisualStyleBackColor = true;
-			// 
 			// MacroscopePrefsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2243,6 +2255,7 @@ namespace SEOMacroscope
 			this.groupBox6.ResumeLayout(false);
 			this.groupBox16.ResumeLayout(false);
 			this.groupBox11.ResumeLayout(false);
+			this.groupBox27.ResumeLayout(false);
 			this.groupBox13.ResumeLayout(false);
 			this.tabPageSeo.ResumeLayout(false);
 			this.flowLayoutPanel2.ResumeLayout(false);
@@ -2293,7 +2306,6 @@ namespace SEOMacroscope
 			this.tabPageAdvancedSettings.ResumeLayout(false);
 			this.flowLayoutPanel7.ResumeLayout(false);
 			this.groupBox19.ResumeLayout(false);
-			this.groupBox27.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

@@ -70,6 +70,7 @@ namespace SEOMacroscope
     static Boolean CrawlStrictUrlCheck;
         
     static Boolean IgnoreQueries;
+    static Boolean IgnoreHashFragments;
         
     static Boolean CheckExternalLinks;
 
@@ -220,6 +221,7 @@ namespace SEOMacroscope
           CrawlStrictUrlCheck = Preferences.CrawlStrictUrlCheck;
           
           IgnoreQueries = Preferences.IgnoreQueries;
+          IgnoreHashFragments = Preferences.IgnoreHashFragments;
           
           CheckExternalLinks = Preferences.CheckExternalLinks;
 
@@ -369,6 +371,7 @@ namespace SEOMacroscope
       CrawlStrictUrlCheck = false;
       
       IgnoreQueries = false;
+      IgnoreHashFragments = true;
                 
       CheckExternalLinks = false;
 
@@ -604,7 +607,8 @@ namespace SEOMacroscope
         Preferences.CrawlStrictUrlCheck = CrawlStrictUrlCheck;
         
         Preferences.IgnoreQueries = IgnoreQueries;
-                  
+        Preferences.IgnoreHashFragments = IgnoreHashFragments;
+
         Preferences.CheckExternalLinks = CheckExternalLinks;
 
         Preferences.ResolveAddresses = ResolveAddresses;
@@ -910,6 +914,18 @@ namespace SEOMacroscope
     public static void SetIgnoreQueries ( Boolean State )
     {
       IgnoreQueries = State;
+    }
+
+    /** Ignore Hash Fragments *************************************************/
+
+    public static Boolean GetIgnoreHashFragments ()
+    {
+      return( IgnoreHashFragments );
+    }
+
+    public static void SetIgnoreHashFragments ( Boolean State )
+    {
+      IgnoreHashFragments = State;
     }
 
     /** Domain Spidering Controls *********************************************/

@@ -24,7 +24,7 @@
 */
 
 using System;
-using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -41,19 +41,23 @@ namespace SEOMacroscope
     public void TestMakeUrlAbsoluteUrls ()
     {
 
-      Hashtable UrlTable = new Hashtable () {
-        {
-          "path/to/images/picture.gif",
-          "http://www.host.com/path/to/page/path/to/images/picture.gif"
-        }, {
-          "../path/to/images/picture.gif" ,
-          "http://www.host.com/path/to/path/to/images/picture.gif"
-        }, {
-          "../../path/to/images/picture.gif" ,
-          "http://www.host.com/path/path/to/images/picture.gif"
-        }
-      };
+      Dictionary<string,string> UrlTable = new Dictionary<string,string> ();
 
+      UrlTable.Add(
+        "path/to/images/picture.gif",
+        "http://www.host.com/path/to/page/path/to/images/picture.gif"
+      );
+
+      UrlTable.Add(
+        "../path/to/images/picture.gif",
+        "http://www.host.com/path/to/path/to/images/picture.gif"
+      );
+
+      UrlTable.Add(
+        "../../path/to/images/picture.gif",
+        "http://www.host.com/path/path/to/images/picture.gif"
+      );
+      
       string BaseUrl = "http://www.host.com/path/to/page/";
       string Filename = "index.html";
       string Url = string.Join( "", BaseUrl, Filename );
@@ -80,52 +84,63 @@ namespace SEOMacroscope
           Absolute URL
       */
 
-      List<List<string>> TestList = new List<List<string>> () {
+      List<List<string>> TestList = new List<List<string>> ();
+
+      TestList.Add(
         new List<string> () {
-          "http://www.host.com/BASEHREF/index.html",
+            "http://www.host.com/BASEHREF/index.html",
           "http://www.host.com/path/to/page/",
           "http://www.host.com/path/to/page/to/pages/index.html",
-          "http://www.host.com/path/to/page/to/pages/index.html"
-        },
+            "http://www.host.com/path/to/page/to/pages/index.html"
+        }
+      );
+
+      TestList.Add(
         new List<string> () {
-          "http://www.host.com/BASEHREF/index.html",
+            "http://www.host.com/BASEHREF/index.html",
           "http://www.host.com/path/to/page/",
           "path/to/pages/index.html",
-          "http://www.host.com/BASEHREF/path/to/pages/index.html"
-        },
+            "http://www.host.com/BASEHREF/path/to/pages/index.html"
+        }
+      );
+            
+      TestList.Add(
         new List<string> () {
-          "http://www.host.com/BASEHREF/index.html",
+            "http://www.host.com/BASEHREF/index.html",
           "http://www.host.com/path/to/page/",
           "../path/to/pages/index.html",
-          "http://www.host.com/path/to/pages/index.html"
-        },
+            "http://www.host.com/path/to/pages/index.html"
+        }
+      );
+            
+      TestList.Add(
         new List<string> () {
           "http://www.host.com/BASEHREF/index.html",
-          "http://www.host.com/path/to/page/",
+            "http://www.host.com/path/to/page/",
           "../../path/to/pages/index.html",
           "http://www.host.com/path/to/pages/index.html"
         }
-      };
+      );
 
-     foreach( List<string> UrlSet in TestList )
+      foreach( List<string> UrlSet in TestList )
       {
 
-       string BaseHref = UrlSet[0];
-       string BaseUrl= UrlSet[1];
-       string PageUrl= UrlSet[2];
-       string AbsoluteUrl = UrlSet[3];
+        string BaseHref = UrlSet[ 0 ];
+        string BaseUrl = UrlSet[ 1 ];
+        string PageUrl = UrlSet[ 2 ];
+        string AbsoluteUrl = UrlSet[ 3 ];
 
-       string ResolvedUrl;
+        string ResolvedUrl;
 
-       ResolvedUrl = MacroscopeUrlUtils.MakeUrlAbsolute(
+        ResolvedUrl = MacroscopeUrlUtils.MakeUrlAbsolute(
           BaseHref: BaseHref,
           BaseUrl: BaseUrl,
           Url: PageUrl
         );
        
-       Assert.AreEqual( AbsoluteUrl, ResolvedUrl, "DO NOT MATCH" );
+        Assert.AreEqual( AbsoluteUrl, ResolvedUrl, "DO NOT MATCH" );
       
-     }
+      }
 
     }
 
@@ -135,34 +150,37 @@ namespace SEOMacroscope
     public void TestValidateUrls ()
     {
 
-      Hashtable htUrls = new Hashtable () {
-        {
-          "http://www.host.com/",
-          true
-        }, {
-          "http://www.host.com/index.html",
-          true
-        },
-        {
-          "http://www.host.com/path/path/to/images/picture.gif",
-          true
-        }, {
-          "http://www.host.com/??",
-          true
-        },
-        {
-          "http://www.host.com/ ",
-          true
-        }, {
-          "http://   www.host.com/",
-          false
-        }
-      };
+      Dictionary<string,Boolean> UrlList = new Dictionary<string,Boolean> ();
+        
+      UrlList.Add(
+        "http://www.host.com/",
+        true
+      );
+      UrlList.Add(
+        "http://www.host.com/index.html",
+        true
+      );
+      UrlList.Add(
+        "http://www.host.com/path/path/to/images/picture.gif",
+        true
+      );
+      UrlList.Add(
+        "http://www.host.com/??",
+        true
+      );
+      UrlList.Add(
+        "http://www.host.com/ ",
+        true
+      );
+      UrlList.Add(
+        "http://   www.host.com/",
+        false
+      );
 
-      foreach( string Url in htUrls.Keys )
+      foreach( string Url in UrlList.Keys )
       {
         Boolean IsValid = MacroscopeUrlUtils.ValidateUrl( Url );
-        Assert.AreEqual( htUrls[ Url ], IsValid, string.Format( "NOT VALID: {0}", Url ) );
+        Assert.AreEqual( UrlList[ Url ], IsValid, string.Format( "NOT VALID: {0}", Url ) );
       }
 
     }
@@ -173,57 +191,103 @@ namespace SEOMacroscope
     public void TestCleanUrlCss ()
     {
 
-      Hashtable PropertiesTable = new Hashtable () {
-        {
-          "background-image:none;",
-          null
-        },
-        {
-          "background: #0b7bee url(none) no-repeat center center/cover;",
-          null
-        },
-        {
-          "background: #0b7bee url(images/video-bg.jpg) no-repeat center center/cover;",
-          "images/video-bg.jpg"
-        },
-        {
-          "background: #0b7bee url(\"images/video-bg.jpg\") no-repeat center center/cover;",
-          "images/video-bg.jpg"
-        },
-        {
-          "src: url(\"fonts/company/latin-e-bold-eot.eot\");",
-          "fonts/company/latin-e-bold-eot.eot"
-        },
-        {
-          "src: url(\"fonts/company/latin-e-bold-eot.eot?#iefix\") format(\"embedded-opentype\"),url(\"fonts/company/latin-e-bold-woff.woff\") format(\"woff\"),url(\"fonts/company/latin-e-bold-ttf.ttf\") format(\"truetype\");",
-          "fonts/company/latin-e-bold-eot.eot?#iefix"
-        },
-        {
-          "background: #ffffff url(images/services/features-background.png) no-repeat left bottom;",
-          "images/services/features-background.png"
-        },
-        {
-          "background: transparent url(\"images/home/mouse.png\") no-repeat 90% top;",
-          "images/home/mouse.png"
-        },
-        {
-          "background: #0b7bee url(images/services/features-background_hover.png) no-repeat left bottom;",
-          "images/services/features-background_hover.png"
-        },
-        {
-          "background-image: url(\"images/global/page-head-trans.png\");",
-          "images/global/page-head-trans.png"
-        },
-        {
-          "background-image: url(\"images/heroes/hero.jpg\");",
-          "images/heroes/hero.jpg"
-        }
-      };
+      Dictionary<string,string> PropertiesTable = new Dictionary<string,string> ();
+
+      PropertiesTable.Add(
+        "background-image:none;",          
+        null
+      );
+      PropertiesTable.Add(
+        "background: #0b7bee url(none) no-repeat center center/cover;",
+        null
+      );
+      PropertiesTable.Add(
+        "background: #0b7bee url(images/video-bg.jpg) no-repeat center center/cover;",
+        "images/video-bg.jpg"
+      );
+      PropertiesTable.Add(
+        "background: #0b7bee url(\"images/video-bg.jpg\") no-repeat center center/cover;",
+        "images/video-bg.jpg"
+      );
+      PropertiesTable.Add(
+        "src: url(\"fonts/company/latin-e-bold-eot.eot\");",
+        "fonts/company/latin-e-bold-eot.eot"
+      );
+      PropertiesTable.Add( 
+        "src: url(\"fonts/company/latin-e-bold-eot.eot?#iefix\") format(\"embedded-opentype\"),url(\"fonts/company/latin-e-bold-woff.woff\") format(\"woff\"),url(\"fonts/company/latin-e-bold-ttf.ttf\") format(\"truetype\");",
+        "fonts/company/latin-e-bold-eot.eot?#iefix"
+      );
+      PropertiesTable.Add( 
+        "background: #ffffff url(images/services/features-background.png) no-repeat left bottom;",
+        "images/services/features-background.png"
+      );
+      PropertiesTable.Add( 
+        "background: transparent url(\"images/home/mouse.png\") no-repeat 90% top;",
+        "images/home/mouse.png"
+      );
+      PropertiesTable.Add( 
+        "background: #0b7bee url(images/services/features-background_hover.png) no-repeat left bottom;",
+        "images/services/features-background_hover.png"
+      );
+      PropertiesTable.Add( 
+        "background-image: url(\"images/global/page-head-trans.png\");",
+        "images/global/page-head-trans.png"
+      );
+      PropertiesTable.Add( 
+        "background-image: url(\"images/heroes/hero.jpg\");",
+        "images/heroes/hero.jpg"
+      );
 
       foreach( string PropertyKey in PropertiesTable.Keys )
       {
         string Cleaned = MacroscopeUrlUtils.CleanUrlCss( PropertyKey );
         Assert.AreEqual( PropertiesTable[ PropertyKey ], Cleaned, string.Format( "NOT VALID: {0}", Cleaned ) );
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestStripQueryString ()
+    {
+
+      Dictionary<string,string> UrlList = new Dictionary<string,string> ();
+
+      UrlList.Add( "http://www.host.com/#aberdeen-angus", "http://www.host.com/#aberdeen-angus" );
+      UrlList.Add( "http://www.host.com/product/list/#boris", "http://www.host.com/product/list/#boris" );
+      UrlList.Add( "http://www.host.com/product/list/index.html#boris", "http://www.host.com/product/list/index.html#boris" );
+      UrlList.Add( "http://www.host.com/?key1=value1&key2=value2&key3=value3#boris", "http://www.host.com/#boris" );
+      UrlList.Add( "http://www.host.com/?key1=value1&key2=value2&key3=value3#gonzo", "http://www.host.com/#gonzo" );
+      UrlList.Add( "http://www.host.com/index.html?key1=value1&key2=value2&key3=value3#gonzo", "http://www.host.com/index.html#gonzo" );
+
+      foreach( string Url in UrlList.Keys )
+      {
+        string UrlResult = MacroscopeUrlUtils.StripQueryString( Url );
+        Assert.AreEqual( UrlList[ Url ], UrlResult, string.Format( "NOT VALID: {0}", Url ) );
+      }
+
+    }
+    
+    /**************************************************************************/
+
+    [Test]
+    public void TestStripHashFragment ()
+    {
+
+      Dictionary<string,string> UrlList = new Dictionary<string,string> ();
+
+      UrlList.Add( "http://www.host.com/#aberdeen-angus", "http://www.host.com/" );
+      UrlList.Add( "http://www.host.com/product/list/#boris", "http://www.host.com/product/list/" );
+      UrlList.Add( "http://www.host.com/product/list/index.html#boris", "http://www.host.com/product/list/index.html" );
+      UrlList.Add( "http://www.host.com/?key1=value1&key2=value2&key3=value3", "http://www.host.com/?key1=value1&key2=value2&key3=value3" );
+      UrlList.Add( "http://www.host.com/?key1=value1&key2=value2&key3=value3#gonzo", "http://www.host.com/?key1=value1&key2=value2&key3=value3" );
+      UrlList.Add( "http://www.host.com/index.html?key1=value1&key2=value2&key3=value3#gonzo", "http://www.host.com/index.html?key1=value1&key2=value2&key3=value3" );
+
+      foreach( string Url in UrlList.Keys )
+      {
+        string UrlResult = MacroscopeUrlUtils.StripHashFragment( Url );
+        Assert.AreEqual( UrlList[ Url ], UrlResult, string.Format( "NOT VALID: {0}", Url ) );
       }
 
     }

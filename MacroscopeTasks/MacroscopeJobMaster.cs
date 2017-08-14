@@ -721,10 +721,15 @@ namespace SEOMacroscope
     {
 
       string NewUrl = Url;
-      
+
       if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
         NewUrl = MacroscopeUrlUtils.StripQueryString( Url: NewUrl );
+      }
+
+      if( MacroscopePreferencesManager.GetIgnoreHashFragments() )
+      {
+        NewUrl = MacroscopeUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
       if( !this.JobHistory.SeenHistoryItem( Url: NewUrl ) )
@@ -789,6 +794,11 @@ namespace SEOMacroscope
       if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
         NewUrl = MacroscopeUrlUtils.StripQueryString( Url: NewUrl );
+      }
+
+      if( MacroscopePreferencesManager.GetIgnoreHashFragments() )
+      {
+        NewUrl = MacroscopeUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
       this.NamedQueue.ForgetNamedQueueItem(
