@@ -420,15 +420,15 @@ namespace SEOMacroscope
     private void ProcessHrefLangLanguages ( MacroscopeDocument msDoc )
     {
 
-      string sLocale = msDoc.GetLocale();
-      Dictionary<string,MacroscopeHrefLang> HrefLangs = msDoc.GetHrefLangs();
+      string Locale = msDoc.GetLocale();
+      Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
 
-      if( sLocale != null )
+      if( Locale != null )
       {
-        this.JobMaster.AddLocales( sLocale );
+        this.JobMaster.AddLocales( Locale );
       }
 
-      foreach( string KeyLocale in HrefLangs.Keys )
+      foreach( string KeyLocale in HrefLangsTable.Keys )
       {
         this.JobMaster.AddLocales( KeyLocale );
       }
@@ -445,8 +445,6 @@ namespace SEOMacroscope
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
       {
-
-        DebugMsg( string.Format( "ProcessOutlinks LISTMODE: {0}", this.JobMaster.GetRunTimeMode() ) );
 
         if( !MacroscopePreferencesManager.GetScanSitesInList() )
         {
@@ -479,7 +477,13 @@ namespace SEOMacroscope
         {
           if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() )
           {
-            DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", this.JobMaster.GetPageLimit(), this.JobMaster.GetPageLimitCount() ) );
+            this.DebugMsg(
+              string.Format(
+                "PAGE LIMIT REACHED: {0} :: {1}",
+                this.JobMaster.GetPageLimit(),
+                this.JobMaster.GetPageLimitCount()
+              )
+            );
             Proceed = false;
           }
         }

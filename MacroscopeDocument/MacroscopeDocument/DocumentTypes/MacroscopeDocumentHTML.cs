@@ -324,7 +324,11 @@ namespace SEOMacroscope
           }
 
           { // HREFLANG Alternatives
+
             this.ExtractHrefLangAlternates( HtmlDoc: HtmlDoc );
+
+            this.AnalyzeHrefLangAlternates( HtmlDoc: HtmlDoc );
+
           }
 
           { // Process META Tags
@@ -1322,7 +1326,7 @@ namespace SEOMacroscope
     {
 
       HtmlNodeCollection NodeList = HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
-
+      
       if( NodeList != null )
       {
 
@@ -1334,7 +1338,7 @@ namespace SEOMacroscope
           string HrefLangLocale = LinkNode.GetAttributeValue( "hreflang", "" );
           string Href = LinkNode.GetAttributeValue( "href", "" );
 
-          if( HrefLangLocale == "" )
+          if( string.IsNullOrEmpty( HrefLangLocale ) || string.IsNullOrWhiteSpace( HrefLangLocale ) )
           {
             continue;
           }
@@ -1373,15 +1377,62 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private void AnalyzeHrefLangAlternates ( HtmlDocument HtmlDoc )
+    {
+
+      HtmlNodeCollection NodeList = HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
+      string DocumentLocale = this.GetLocale();
+      Boolean SelfReferentialLocalePresent = false;
+
+      if( NodeList != null )
+      {
+
+        foreach( HtmlNode LinkNode in NodeList )
+        {
+
+          string HrefLangLocale = LinkNode.GetAttributeValue( "hreflang", "" );
+
+          if( string.IsNullOrEmpty( HrefLangLocale ) || string.IsNullOrWhiteSpace( HrefLangLocale ) )
+          {
+            continue;
+          }
+          else
+          {
+
+            DebugMsg( string.Format( "AnalyzeHrefLangAlternates: {0}, {1}", DocumentLocale, HrefLangLocale ) );
+            
+            if( HrefLangLocale == DocumentLocale )
+            {
+              SelfReferentialLocalePresent = true;
+              break;
+            }
+
+          }
+
+        }
+
+      }
+
+      if( !SelfReferentialLocalePresent )
+      {
+        this.AddRemark( @"A self-referential HrefLang element appears to be missing from this page." );
+      }
+
+    }
+
+    /**************************************************************************/
+
     private void ExtractHtmlHeadings ( HtmlDocument HtmlDoc )
     {
 
       for( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
       {
 
-        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes(
-                                              string.Format( "//h{0}", HeadingLevel )
-                                            );
+        HtmlNodeCollection NodeCollection;
+
+        NodeCollection = HtmlDoc.DocumentNode.SelectNodes(
+          string.Format( "//h{0}", HeadingLevel )
+        );
 
         if( NodeCollection != null )
         {

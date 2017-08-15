@@ -91,7 +91,8 @@ namespace SEOMacroscope
         }
 
         { // Probe Locale
-          this.Locale = "en"; // Implement locale probing
+          //this.Locale = "en"; // Implement locale probing
+          this.Locale = "x-default"; // Implement locale probing
           this.SetHreflang( HrefLangLocale: this.Locale, Url: this.DocUrl );
         }
 

@@ -37,6 +37,12 @@ namespace SEOMacroscope
   public class MacroscopeAnalyzeTextLanguage : Macroscope
   {
 
+    /*
+      
+      http://unicode.org/iso15924/iso15924-codes.html
+
+    */
+    
     /**************************************************************************/
 
     LanguageDetector DetectLanguage;

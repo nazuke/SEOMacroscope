@@ -340,13 +340,13 @@ namespace SEOMacroscope
                     if( HrefLangsTable.ContainsKey( Locale ) )
                     {
 
-                      MacroscopeHrefLang HrefLangAlternative = HrefLangsTable[ Locale ];
+                      MacroscopeHrefLang HrefLangAlternate = HrefLangsTable[ Locale ];
 
-                      if( HrefLangAlternative != null )
+                      if( HrefLangAlternate != null )
                       {
-                        HrefLangUrl = HrefLangAlternative.GetUrl();
-                        HrefLangDateServer = HrefLangAlternative.GetDateServer();
-                        HrefLangDateModified = HrefLangAlternative.GetDateModified();
+                        HrefLangUrl = HrefLangAlternate.GetUrl();
+                        HrefLangDateServer = HrefLangAlternate.GetDateServer();
+                        HrefLangDateModified = HrefLangAlternate.GetDateModified();
                       }
 
                     }

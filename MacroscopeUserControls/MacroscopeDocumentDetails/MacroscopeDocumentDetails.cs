@@ -475,9 +475,9 @@ namespace SEOMacroscope
         if( msDoc.GetIsHtml() )
         {
 
-          Dictionary<string,MacroscopeHrefLang> htHrefLangs = msDoc.GetHrefLangs();
+          Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
 
-          if( htHrefLangs != null )
+          if( HrefLangsTable != null )
           {
 
             {
@@ -530,15 +530,15 @@ namespace SEOMacroscope
                 lvItem.SubItems.Add( "" );
                 lvItem.SubItems.Add( "" );
 
-                if( htHrefLangs.ContainsKey( Locale ) )
+                if( HrefLangsTable.ContainsKey( Locale ) )
                 {
 
-                  MacroscopeHrefLang msHrefLang = htHrefLangs[ Locale ];
+                  MacroscopeHrefLang HrefLangAlternate = HrefLangsTable[ Locale ];
 
-                  if( msHrefLang != null )
+                  if( HrefLangAlternate != null )
                   {
 
-                    DocHrefLangUrl = msHrefLang.GetUrl();
+                    DocHrefLangUrl = HrefLangAlternate.GetUrl();
 
                     if( DocCollection.DocumentExists( DocHrefLangUrl ) )
                     {

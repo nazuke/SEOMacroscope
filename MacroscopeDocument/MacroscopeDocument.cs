@@ -1554,14 +1554,34 @@ namespace SEOMacroscope
 
     private void SetHreflang ( string HrefLangLocale, string Url )
     {
+
       string LocaleProcessed = HrefLangLocale.ToLower();
-      MacroscopeHrefLang msHrefLang = new MacroscopeHrefLang ( LocaleProcessed, Url );
-      this.HrefLang[ LocaleProcessed ] = msHrefLang;
+
+      MacroscopeHrefLang HrefLangAlternate = new MacroscopeHrefLang ( LocaleProcessed, Url );
+
+      this.HrefLang[ LocaleProcessed ] = HrefLangAlternate;
+
     }
 
+    /** -------------------------------------------------------------------- **/
+    
     public Dictionary<string,MacroscopeHrefLang> GetHrefLangs ()
     {
       return( this.HrefLang );
+    }
+    
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<KeyValuePair<string,MacroscopeHrefLang>> IterateHrefLangs ()
+    {
+      lock( this.HrefLang )
+      {
+        foreach( string Key  in this.HrefLang.Keys )
+        {
+          KeyValuePair<string,MacroscopeHrefLang> KP = new KeyValuePair<string,MacroscopeHrefLang> ( Key, this.HrefLang[ Key ] );
+          yield return KP;
+        }
+      }
     }
 
     /** META Headers **********************************************************/
@@ -1829,7 +1849,7 @@ namespace SEOMacroscope
           case "x-default":
             AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
             break;
-          case"en":
+          case "en":
             AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
             break;
           default:

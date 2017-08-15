@@ -154,8 +154,8 @@ namespace SEOMacroscope
               if( HrefLangsTable.ContainsKey( LocaleKey ) )
               {
 
-                MacroscopeHrefLang msHrefLang = HrefLangsTable[ LocaleKey ];
-                string Value = msHrefLang.GetUrl();
+                MacroscopeHrefLang HrefLangAlternate = HrefLangsTable[ LocaleKey ];
+                string Value = HrefLangAlternate.GetUrl();
 
                 ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Value = Value;
 

@@ -105,6 +105,8 @@ namespace SEOMacroscope
     MacroscopeDataExtractorRegexes DataExtractorRegexes;
     MacroscopeDataExtractorXpaths DataExtractorXpaths;
 
+    MacroscopeDisplayRemarks msDisplayRemarks;
+
     private static object LockerOverviewTabPages = new object ();
     private static object LockerDocumentDetailsDisplay = new object ();
     private object LockerSiteStructureDisplay;
@@ -324,6 +326,8 @@ namespace SEOMacroscope
 
       this.msDisplayDisplayDataExtractorXpaths = new MacroscopeDisplayDataExtractorXpaths ( this, this.macroscopeOverviewTabPanelInstance.listViewDataExtractorXpaths );
       this.msDisplayDisplayDataExtractorXpaths.ResetColumns();
+
+      this.msDisplayRemarks = new MacroscopeDisplayRemarks ( this, this.macroscopeOverviewTabPanelInstance.listViewRemarks );      
 
       this.msDisplayUriQueue = new MacroscopeDisplayUriQueue ( this, this.macroscopeOverviewTabPanelInstance.listViewUriQueue );
       this.msDisplayHistory = new MacroscopeDisplayHistory ( this, this.macroscopeOverviewTabPanelInstance.listViewHistory );
@@ -1203,6 +1207,13 @@ namespace SEOMacroscope
           }
           break;
 
+        case MacroscopeConstants.tabPageRemarks:
+          this.msDisplayRemarks.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayRemarks )
+          );
+          break;
+
         case MacroscopeConstants.tabPageUriQueue:
           this.msDisplayUriQueue.RefreshData(
             UriQueue: this.JobMaster.GetUrlQueueAsArray()
@@ -1816,6 +1827,8 @@ namespace SEOMacroscope
       this.msDisplayDisplayDataExtractorXpaths.ClearData();
       this.msDisplayDisplayDataExtractorXpaths.ResetColumns();
 
+      this.msDisplayRemarks.ClearData();
+            
       this.msDisplayUriQueue.ClearData();
       this.msDisplayHistory.ClearData();
 

@@ -67,10 +67,24 @@ namespace SEOMacroscope
 
         foreach( string LocaleKey in LocalesTable.Keys )
         {
+
           DebugMsg( string.Format( "EXCEL Locale: {0}", LocaleKey ) );
+
+          string LocaleLabel = LocaleKey.ToUpper();
+          string DateServerLabel = string.Format( "{0} Date Server", LocaleKey.ToUpper() );
+          string DateModifiedLabel = string.Format( "{0} Date Modified", LocaleKey.ToUpper() );
+
           LocaleCols[ LocaleKey ] = iCol;
-          ws.Cell( iRow, iCol ).Value = LocaleKey;
+
+          ws.Cell( iRow, iCol ).Value = LocaleLabel;
           iCol++;
+
+          ws.Cell( iRow, iCol ).Value = DateServerLabel;
+          iCol++;
+
+          ws.Cell( iRow, iCol ).Value = DateModifiedLabel;
+          iCol++;
+
         }
 
         for( int i = 1 ; i <= iCol ; i++ )
@@ -118,7 +132,7 @@ namespace SEOMacroscope
           
         if( LocaleCol != null )
         {
-          ws.Cell( iRow, LocaleCols[ LocaleCol ] ).Value = msDoc.GetUrl();
+          this.InsertAndFormatUrlCell( ws, iRow, LocaleCols[ LocaleCol ], msDoc.GetUrl() );
         }
         else
         {
@@ -134,12 +148,15 @@ namespace SEOMacroscope
             if( HrefLangsTable.ContainsKey( LocaleKey ) )
             {
 
-              MacroscopeHrefLang msHrefLang = HrefLangsTable[ LocaleKey ];
-              string Value = msHrefLang.GetUrl();
+              MacroscopeHrefLang HrefLangAlternate = HrefLangsTable[ LocaleKey ];
 
-              ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Value = Value;
+              string HrefLangUrl = HrefLangAlternate.GetUrl();
+              DateTime HrefLangDateServer = HrefLangAlternate.GetDateServer();
+              DateTime HrefLangDateModified = HrefLangAlternate.GetDateModified();
 
-              if( JobMaster.GetAllowedHosts().IsInternalUrl( Value ) )
+              this.InsertAndFormatUrlCell( ws, iRow, LocaleCols[ LocaleKey ], HrefLangUrl );
+
+              if( JobMaster.GetAllowedHosts().IsInternalUrl( HrefLangUrl ) )
               {
                 ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Green );
               }
@@ -148,11 +165,17 @@ namespace SEOMacroscope
                 ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Blue );
               }
 
+              this.InsertAndFormatDateCell( ws, iRow, LocaleCols[ LocaleKey ] + 1, HrefLangDateServer.ToString() );
+
+              this.InsertAndFormatDateCell( ws, iRow, LocaleCols[ LocaleKey ] + 2, HrefLangDateModified.ToString() );
+
             }
             else
             {
               ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Style.Font.SetFontColor( XLColor.Red );
               ws.Cell( iRow, LocaleCols[ LocaleKey ] ).Value = "NOT SPECIFIED";
+              ws.Cell( iRow, LocaleCols[ LocaleKey ] + 1 ).Value = "";
+              ws.Cell( iRow, LocaleCols[ LocaleKey ] + 2 ).Value = "";
             }
               
           }

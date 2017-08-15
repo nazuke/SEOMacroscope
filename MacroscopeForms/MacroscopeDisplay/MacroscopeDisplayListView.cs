@@ -523,8 +523,8 @@ namespace SEOMacroscope
 
           this.RenderListView(
             ListViewItems: ListViewItems,
-            msDoc: msDoc, Url:
-            msDoc.GetUrl()
+            msDoc: msDoc,
+            Url: msDoc.GetUrl()
           );
 
         }

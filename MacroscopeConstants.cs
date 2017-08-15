@@ -105,6 +105,8 @@ namespace SEOMacroscope
     public const string NamedQueueDisplayDataExtractorsRegexes = "DisplayDataExtractorsRegexes";
     public const string NamedQueueDisplayDataExtractorsXpaths = "DisplayDataExtractorsXpaths";
 
+    public const string NamedQueueDisplayRemarks = "DisplayRemarks";
+        
     public const string RecalculateDocCollection = "RecalculateDocCollection";
 
     /** END: Named Queues *****************************************************/
@@ -138,6 +140,7 @@ namespace SEOMacroscope
     public const string tabPageTelephoneNumbers = "tabPageTelephoneNumbers";
     public const string tabPageCustomFilters = "tabPageCustomFilters";
     public const string tabPageDataExtractors = "tabPageDataExtractors";
+    public const string tabPageRemarks = "tabPageRemarks";
     public const string tabPageUriQueue = "tabPageUriQueue";
     public const string tabPageHistory = "tabPageHistory";
     public const string tabPageSearch = "tabPageSearch";
@@ -340,23 +343,23 @@ namespace SEOMacroscope
     public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () {
       {
         MacroscopeConstants.TextPresence.UNDEFINED,
-        "UNDEFINED"
+        @"UNDEFINED"
       },
       {
         MacroscopeConstants.TextPresence.CONTAINS,
-        "CONTAINS STRING"
+        @"CONTAINS STRING"
       },
       {
         MacroscopeConstants.TextPresence.MUSTCONTAIN,
-        "MUST CONTAIN STRING"
+        @"MUST CONTAIN STRING"
       },
       {
         MacroscopeConstants.TextPresence.NOTCONTAINS,
-        "DOES NOT CONTAIN STRING"
+        @"DOES NOT CONTAIN STRING"
       },
       {
         MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN,
-        "SHOULD NOT CONTAIN STRING"
+        @"SHOULD NOT CONTAIN STRING"
       }
     };
 

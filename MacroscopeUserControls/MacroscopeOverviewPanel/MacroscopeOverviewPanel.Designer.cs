@@ -293,6 +293,15 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ColumnHeader PageTextReadabilityGrade;
 		private System.Windows.Forms.ColumnHeader PageTextReadabilityGradeType;
 		private System.Windows.Forms.ColumnHeader PageTextReadabilityGradeDescription;
+		private System.Windows.Forms.TabPage tabPageRemarks;
+		public System.Windows.Forms.ListView listViewRemarks;
+		private System.Windows.Forms.ColumnHeader columnHeaderRemarksURL;
+		private System.Windows.Forms.ColumnHeader columnHeaderRemarksStatusCode;
+		private System.Windows.Forms.ColumnHeader columnHeaderRemarksStatus;
+		private System.Windows.Forms.ColumnHeader columnHeaderRemarksObservation;
+		public System.Windows.Forms.TableLayoutPanel tableLayoutPanelRemarks;
+		public System.Windows.Forms.ToolStrip toolStrip10;
+		public System.Windows.Forms.ToolStripLabel toolStripLabelRemarksItems;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -565,6 +574,15 @@ namespace SEOMacroscope
 			this.toolStrip9 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabelXpaths = new System.Windows.Forms.ToolStripLabel();
 			this.listViewDataExtractorXpaths = new System.Windows.Forms.ListView();
+			this.tabPageRemarks = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanelRemarks = new System.Windows.Forms.TableLayoutPanel();
+			this.toolStrip10 = new System.Windows.Forms.ToolStrip();
+			this.toolStripLabelRemarksItems = new System.Windows.Forms.ToolStripLabel();
+			this.listViewRemarks = new System.Windows.Forms.ListView();
+			this.columnHeaderRemarksURL = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderRemarksStatusCode = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderRemarksStatus = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderRemarksObservation = new System.Windows.Forms.ColumnHeader();
 			this.tabPageUriQueue = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanelUriQueue = new System.Windows.Forms.TableLayoutPanel();
 			this.toolStrip6 = new System.Windows.Forms.ToolStrip();
@@ -634,6 +652,9 @@ namespace SEOMacroscope
 			this.tabPageXpaths.SuspendLayout();
 			this.tableLayoutPanelDataExtractorXpaths.SuspendLayout();
 			this.toolStrip9.SuspendLayout();
+			this.tabPageRemarks.SuspendLayout();
+			this.tableLayoutPanelRemarks.SuspendLayout();
+			this.toolStrip10.SuspendLayout();
 			this.tabPageUriQueue.SuspendLayout();
 			this.tableLayoutPanelUriQueue.SuspendLayout();
 			this.toolStrip6.SuspendLayout();
@@ -671,6 +692,7 @@ namespace SEOMacroscope
 			this.tabControlMain.Controls.Add(this.tabPageTelephoneNumbers);
 			this.tabControlMain.Controls.Add(this.tabPageCustomFilters);
 			this.tabControlMain.Controls.Add(this.tabPageDataExtractors);
+			this.tabControlMain.Controls.Add(this.tabPageRemarks);
 			this.tabControlMain.Controls.Add(this.tabPageUriQueue);
 			this.tabControlMain.Controls.Add(this.tabPageHistory);
 			this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2861,6 +2883,90 @@ namespace SEOMacroscope
 			this.listViewDataExtractorXpaths.UseCompatibleStateImageBehavior = false;
 			this.listViewDataExtractorXpaths.View = System.Windows.Forms.View.Details;
 			// 
+			// tabPageRemarks
+			// 
+			this.tabPageRemarks.BackColor = System.Drawing.Color.LightGray;
+			this.tabPageRemarks.Controls.Add(this.tableLayoutPanelRemarks);
+			this.tabPageRemarks.Location = new System.Drawing.Point(4, 58);
+			this.tabPageRemarks.Name = "tabPageRemarks";
+			this.tabPageRemarks.Size = new System.Drawing.Size(792, 438);
+			this.tabPageRemarks.TabIndex = 31;
+			this.tabPageRemarks.Text = "Remarks";
+			// 
+			// tableLayoutPanelRemarks
+			// 
+			this.tableLayoutPanelRemarks.ColumnCount = 1;
+			this.tableLayoutPanelRemarks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelRemarks.Controls.Add(this.toolStrip10, 0, 0);
+			this.tableLayoutPanelRemarks.Controls.Add(this.listViewRemarks, 0, 1);
+			this.tableLayoutPanelRemarks.Location = new System.Drawing.Point(20, 20);
+			this.tableLayoutPanelRemarks.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanelRemarks.Name = "tableLayoutPanelRemarks";
+			this.tableLayoutPanelRemarks.RowCount = 2;
+			this.tableLayoutPanelRemarks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tableLayoutPanelRemarks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanelRemarks.Size = new System.Drawing.Size(750, 400);
+			this.tableLayoutPanelRemarks.TabIndex = 3;
+			// 
+			// toolStrip10
+			// 
+			this.toolStrip10.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.toolStrip10.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toolStrip10.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripLabelRemarksItems});
+			this.toolStrip10.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip10.Name = "toolStrip10";
+			this.toolStrip10.Padding = new System.Windows.Forms.Padding(0);
+			this.toolStrip10.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.toolStrip10.Size = new System.Drawing.Size(750, 28);
+			this.toolStrip10.TabIndex = 1;
+			this.toolStrip10.Text = "toolStrip1";
+			// 
+			// toolStripLabelRemarksItems
+			// 
+			this.toolStripLabelRemarksItems.Name = "toolStripLabelRemarksItems";
+			this.toolStripLabelRemarksItems.Size = new System.Drawing.Size(88, 25);
+			this.toolStripLabelRemarksItems.Text = "Observations: 0";
+			// 
+			// listViewRemarks
+			// 
+			this.listViewRemarks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.columnHeaderRemarksURL,
+			this.columnHeaderRemarksStatusCode,
+			this.columnHeaderRemarksStatus,
+			this.columnHeaderRemarksObservation});
+			this.listViewRemarks.ContextMenuStrip = this.contextMenuStripStructure;
+			this.listViewRemarks.FullRowSelect = true;
+			this.listViewRemarks.GridLines = true;
+			this.listViewRemarks.Location = new System.Drawing.Point(0, 28);
+			this.listViewRemarks.Margin = new System.Windows.Forms.Padding(0);
+			this.listViewRemarks.Name = "listViewRemarks";
+			this.listViewRemarks.Size = new System.Drawing.Size(700, 300);
+			this.listViewRemarks.TabIndex = 2;
+			this.listViewRemarks.UseCompatibleStateImageBehavior = false;
+			this.listViewRemarks.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeaderRemarksURL
+			// 
+			this.columnHeaderRemarksURL.Text = "URL";
+			this.columnHeaderRemarksURL.Width = 300;
+			// 
+			// columnHeaderRemarksStatusCode
+			// 
+			this.columnHeaderRemarksStatusCode.Text = "Status Code";
+			this.columnHeaderRemarksStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.columnHeaderRemarksStatusCode.Width = 100;
+			// 
+			// columnHeaderRemarksStatus
+			// 
+			this.columnHeaderRemarksStatus.Text = "Status";
+			this.columnHeaderRemarksStatus.Width = 100;
+			// 
+			// columnHeaderRemarksObservation
+			// 
+			this.columnHeaderRemarksObservation.Text = "Observation";
+			this.columnHeaderRemarksObservation.Width = 500;
+			// 
 			// tabPageUriQueue
 			// 
 			this.tabPageUriQueue.BackColor = System.Drawing.Color.LightGray;
@@ -3085,6 +3191,11 @@ namespace SEOMacroscope
 			this.tableLayoutPanelDataExtractorXpaths.PerformLayout();
 			this.toolStrip9.ResumeLayout(false);
 			this.toolStrip9.PerformLayout();
+			this.tabPageRemarks.ResumeLayout(false);
+			this.tableLayoutPanelRemarks.ResumeLayout(false);
+			this.tableLayoutPanelRemarks.PerformLayout();
+			this.toolStrip10.ResumeLayout(false);
+			this.toolStrip10.PerformLayout();
 			this.tabPageUriQueue.ResumeLayout(false);
 			this.tableLayoutPanelUriQueue.ResumeLayout(false);
 			this.tableLayoutPanelUriQueue.PerformLayout();

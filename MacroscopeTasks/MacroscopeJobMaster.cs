@@ -216,6 +216,8 @@ namespace SEOMacroscope
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayDataExtractorsRegexes );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayDataExtractorsXpaths );
 
+        this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayRemarks );
+
       }
       // END: Named Queues
 
@@ -683,6 +685,8 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayDataExtractorsCssSelectors, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayDataExtractorsRegexes, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayDataExtractorsXpaths, Url );
+
+      NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayRemarks, Url );
 
     }
 
