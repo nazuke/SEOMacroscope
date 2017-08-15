@@ -40,7 +40,8 @@ namespace SEOMacroscope
 
     string Locale;
     string Url;
-    //DateTime DateModified;
+    DateTime DateModified;
+    DateTime DateServer;
     Boolean Available;
 
     /**************************************************************************/
@@ -57,7 +58,7 @@ namespace SEOMacroscope
 
       if( CheckHrefLang )
       {
-        this.Available = Check();
+        this.Available = this.Check();
       }
       else
       {
@@ -82,6 +83,20 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public DateTime GetDateModified ()
+    {
+      return( this.DateModified );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public DateTime GetDateServer ()
+    {
+      return( this.DateServer );
+    }
+
+    /**************************************************************************/
+
     public Boolean IsAvailable ()
     {
       return( this.Available );
@@ -89,7 +104,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    Boolean Check ()
+    private Boolean Check ()
     {
       
       // TODO: Increase level of detail here. 
@@ -117,7 +132,15 @@ namespace SEOMacroscope
 
           if( res.StatusCode == HttpStatusCode.OK )
           {
+
             IsAvailableCheck = true;
+
+            this.ProcessResponseHttpHeaders( req: req, res: res );
+
+          }
+          else
+          {
+            IsAvailableCheck = false;
           }
 
           res.Close();
@@ -135,6 +158,40 @@ namespace SEOMacroscope
       }
 
       return( IsAvailableCheck );
+
+    }
+
+    /**************************************************************************/
+
+    private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
+    {
+
+      foreach( string HttpHeaderName in res.Headers )
+      {
+
+        if( HttpHeaderName.ToLower().Equals( "date" ) )
+        {
+          string DateString = res.GetResponseHeader( HttpHeaderName );
+          this.DateServer = MacroscopeDateTools.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
+        }
+
+        if( HttpHeaderName.ToLower().Equals( "last-modified" ) )
+        {
+          string DateString = res.GetResponseHeader( HttpHeaderName );
+          this.DateModified = MacroscopeDateTools.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
+        }
+
+      }
+
+      if( this.DateServer.Date == new DateTime ().Date )
+      {
+        this.DateServer = DateTime.UtcNow;
+      }
+
+      if( this.DateModified.Date == new DateTime ().Date )
+      {
+        this.DateModified = this.DateServer;
+      }
 
     }
 

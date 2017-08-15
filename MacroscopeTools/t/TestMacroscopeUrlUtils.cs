@@ -44,22 +44,22 @@ namespace SEOMacroscope
       Dictionary<string,string> UrlTable = new Dictionary<string,string> ();
 
       UrlTable.Add(
-        "path/to/images/picture.gif",
-        "http://www.host.com/path/to/page/path/to/images/picture.gif"
+        @"path/to/images/picture.gif",
+        @"http://www.host.com/path/to/page/path/to/images/picture.gif"
       );
 
       UrlTable.Add(
-        "../path/to/images/picture.gif",
-        "http://www.host.com/path/to/path/to/images/picture.gif"
+        @"../path/to/images/picture.gif",
+        @"http://www.host.com/path/to/path/to/images/picture.gif"
       );
 
       UrlTable.Add(
-        "../../path/to/images/picture.gif",
-        "http://www.host.com/path/path/to/images/picture.gif"
+        @"../../path/to/images/picture.gif",
+        @"http://www.host.com/path/path/to/images/picture.gif"
       );
       
-      string BaseUrl = "http://www.host.com/path/to/page/";
-      string Filename = "index.html";
+      const string BaseUrl = "http://www.host.com/path/to/page/";
+      const string Filename = "index.html";
       string Url = string.Join( "", BaseUrl, Filename );
 
       foreach( string RelativeUrl in UrlTable.Keys )
@@ -88,28 +88,19 @@ namespace SEOMacroscope
 
       TestList.Add(
         new List<string> () {
-            "http://www.host.com/BASEHREF/index.html",
-          "http://www.host.com/path/to/page/",
-          "http://www.host.com/path/to/page/to/pages/index.html",
-            "http://www.host.com/path/to/page/to/pages/index.html"
+          "http://www.host.com/BASEHREF/index.html",
+            "http://www.host.com/path/to/page/",
+            "http://www.host.com/path/to/page/to/pages/index.html",
+          "http://www.host.com/path/to/page/to/pages/index.html"
         }
       );
 
       TestList.Add(
         new List<string> () {
-            "http://www.host.com/BASEHREF/index.html",
-          "http://www.host.com/path/to/page/",
-          "path/to/pages/index.html",
-            "http://www.host.com/BASEHREF/path/to/pages/index.html"
-        }
-      );
-            
-      TestList.Add(
-        new List<string> () {
-            "http://www.host.com/BASEHREF/index.html",
-          "http://www.host.com/path/to/page/",
-          "../path/to/pages/index.html",
-            "http://www.host.com/path/to/pages/index.html"
+          "http://www.host.com/BASEHREF/index.html",
+            "http://www.host.com/path/to/page/",
+            "path/to/pages/index.html",
+          "http://www.host.com/BASEHREF/path/to/pages/index.html"
         }
       );
             
@@ -117,8 +108,17 @@ namespace SEOMacroscope
         new List<string> () {
           "http://www.host.com/BASEHREF/index.html",
             "http://www.host.com/path/to/page/",
-          "../../path/to/pages/index.html",
+            "../path/to/pages/index.html",
           "http://www.host.com/path/to/pages/index.html"
+        }
+      );
+            
+      TestList.Add(
+        new List<string> () {
+            "http://www.host.com/BASEHREF/index.html",
+          "http://www.host.com/path/to/page/",
+            "../../path/to/pages/index.html",
+            "http://www.host.com/path/to/pages/index.html"
         }
       );
 
@@ -156,22 +156,27 @@ namespace SEOMacroscope
         "http://www.host.com/",
         true
       );
+      
       UrlList.Add(
         "http://www.host.com/index.html",
         true
       );
+      
       UrlList.Add(
         "http://www.host.com/path/path/to/images/picture.gif",
         true
       );
+      
       UrlList.Add(
         "http://www.host.com/??",
         true
       );
+      
       UrlList.Add(
         "http://www.host.com/ ",
         true
       );
+      
       UrlList.Add(
         "http://   www.host.com/",
         false
@@ -197,42 +202,52 @@ namespace SEOMacroscope
         "background-image:none;",          
         null
       );
+      
       PropertiesTable.Add(
         "background: #0b7bee url(none) no-repeat center center/cover;",
         null
       );
+      
       PropertiesTable.Add(
         "background: #0b7bee url(images/video-bg.jpg) no-repeat center center/cover;",
         "images/video-bg.jpg"
       );
+      
       PropertiesTable.Add(
         "background: #0b7bee url(\"images/video-bg.jpg\") no-repeat center center/cover;",
         "images/video-bg.jpg"
       );
+      
       PropertiesTable.Add(
         "src: url(\"fonts/company/latin-e-bold-eot.eot\");",
         "fonts/company/latin-e-bold-eot.eot"
       );
+      
       PropertiesTable.Add( 
         "src: url(\"fonts/company/latin-e-bold-eot.eot?#iefix\") format(\"embedded-opentype\"),url(\"fonts/company/latin-e-bold-woff.woff\") format(\"woff\"),url(\"fonts/company/latin-e-bold-ttf.ttf\") format(\"truetype\");",
         "fonts/company/latin-e-bold-eot.eot?#iefix"
       );
+      
       PropertiesTable.Add( 
         "background: #ffffff url(images/services/features-background.png) no-repeat left bottom;",
         "images/services/features-background.png"
       );
+      
       PropertiesTable.Add( 
         "background: transparent url(\"images/home/mouse.png\") no-repeat 90% top;",
         "images/home/mouse.png"
       );
+      
       PropertiesTable.Add( 
         "background: #0b7bee url(images/services/features-background_hover.png) no-repeat left bottom;",
         "images/services/features-background_hover.png"
       );
+      
       PropertiesTable.Add( 
         "background-image: url(\"images/global/page-head-trans.png\");",
         "images/global/page-head-trans.png"
       );
+      
       PropertiesTable.Add( 
         "background-image: url(\"images/heroes/hero.jpg\");",
         "images/heroes/hero.jpg"
@@ -255,10 +270,15 @@ namespace SEOMacroscope
       Dictionary<string,string> UrlList = new Dictionary<string,string> ();
 
       UrlList.Add( "http://www.host.com/#aberdeen-angus", "http://www.host.com/#aberdeen-angus" );
+
       UrlList.Add( "http://www.host.com/product/list/#boris", "http://www.host.com/product/list/#boris" );
+
       UrlList.Add( "http://www.host.com/product/list/index.html#boris", "http://www.host.com/product/list/index.html#boris" );
+
       UrlList.Add( "http://www.host.com/?key1=value1&key2=value2&key3=value3#boris", "http://www.host.com/#boris" );
+
       UrlList.Add( "http://www.host.com/?key1=value1&key2=value2&key3=value3#gonzo", "http://www.host.com/#gonzo" );
+
       UrlList.Add( "http://www.host.com/index.html?key1=value1&key2=value2&key3=value3#gonzo", "http://www.host.com/index.html#gonzo" );
 
       foreach( string Url in UrlList.Keys )
@@ -278,10 +298,15 @@ namespace SEOMacroscope
       Dictionary<string,string> UrlList = new Dictionary<string,string> ();
 
       UrlList.Add( "http://www.host.com/#aberdeen-angus", "http://www.host.com/" );
+
       UrlList.Add( "http://www.host.com/product/list/#boris", "http://www.host.com/product/list/" );
+
       UrlList.Add( "http://www.host.com/product/list/index.html#boris", "http://www.host.com/product/list/index.html" );
+
       UrlList.Add( "http://www.host.com/?key1=value1&key2=value2&key3=value3", "http://www.host.com/?key1=value1&key2=value2&key3=value3" );
+
       UrlList.Add( "http://www.host.com/?key1=value1&key2=value2&key3=value3#gonzo", "http://www.host.com/?key1=value1&key2=value2&key3=value3" );
+
       UrlList.Add( "http://www.host.com/index.html?key1=value1&key2=value2&key3=value3#gonzo", "http://www.host.com/index.html?key1=value1&key2=value2&key3=value3" );
 
       foreach( string Url in UrlList.Keys )

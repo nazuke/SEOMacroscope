@@ -129,7 +129,8 @@ namespace SEOMacroscope
     {
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      Hashtable LocaleColsTable = new Hashtable ();
+
+      SortedDictionary<string,int> LocaleColsTable = new SortedDictionary<string,int> ();
       
       if( DocCollection.CountDocuments() == 0 )
       {
@@ -160,7 +161,7 @@ namespace SEOMacroscope
 
       {
 
-        int LocaleColCount = 4;
+        int LocaleColCount = 5;
 
         this.DisplayListView.Columns.Add( "URL", "URL" );
         this.DisplayListView.Columns.Add( "Status Code", "Status Code" );
@@ -170,9 +171,24 @@ namespace SEOMacroscope
 
         foreach( string Locale in LocalesList.Keys )
         {
-          this.DisplayListView.Columns.Add( Locale, Locale );
+
+          string LocaleLabel = Locale.ToUpper();
+          string DateServerLabel = string.Format( "{0} Date Server", Locale.ToUpper() );
+          string DateModifiedLabel = string.Format( "{0} Date Modified", Locale.ToUpper() );
+
+          this.DisplayListView.Columns.Add( LocaleLabel, LocaleLabel );
+          this.DisplayListView.Columns.Add( DateServerLabel, DateServerLabel );
+          this.DisplayListView.Columns.Add( DateModifiedLabel, DateModifiedLabel );
+
           LocaleColsTable[ Locale ] = LocaleColCount;
           LocaleColCount++;
+
+          LocaleColsTable[ DateServerLabel ] = LocaleColCount;
+          LocaleColCount++;
+
+          LocaleColsTable[ DateModifiedLabel ] = LocaleColCount;
+          LocaleColCount++;
+
         }
 
       }
@@ -245,6 +261,8 @@ namespace SEOMacroscope
             for( int i = 0 ; i < LocalesList.Keys.Count ; i++ )
             {
               lvItem.SubItems.Add( "" );
+              lvItem.SubItems.Add( "" );
+              lvItem.SubItems.Add( "" );
             }
 
             ListViewItems.Add( lvItem );
@@ -310,7 +328,9 @@ namespace SEOMacroscope
                 {
 
                   string HrefLangUrl = null;
-                  int LocaleCol = ( int )LocaleColsTable[ Locale ];
+                  DateTime HrefLangDateServer = new DateTime ();
+                  DateTime HrefLangDateModified = new DateTime ();
+                  int LocaleCol = LocaleColsTable[ Locale ];
 
                   if( 
                     ( HrefLangsTable != null )
@@ -320,11 +340,13 @@ namespace SEOMacroscope
                     if( HrefLangsTable.ContainsKey( Locale ) )
                     {
 
-                      MacroscopeHrefLang msHrefLang = HrefLangsTable[ Locale ];
+                      MacroscopeHrefLang HrefLangAlternative = HrefLangsTable[ Locale ];
 
-                      if( msHrefLang != null )
+                      if( HrefLangAlternative != null )
                       {
-                        HrefLangUrl = msHrefLang.GetUrl();
+                        HrefLangUrl = HrefLangAlternative.GetUrl();
+                        HrefLangDateServer = HrefLangAlternative.GetDateServer();
+                        HrefLangDateModified = HrefLangAlternative.GetDateModified();
                       }
 
                     }
@@ -333,13 +355,24 @@ namespace SEOMacroscope
 
                   if( !string.IsNullOrEmpty( HrefLangUrl ) )
                   {
+
                     lvItem.SubItems[ LocaleCol ].ForeColor = Color.Blue;
+
                     lvItem.SubItems[ LocaleCol ].Text = HrefLangUrl;
+
+                    lvItem.SubItems[ LocaleCol + 1 ].Text = HrefLangDateServer.ToString();
+                    lvItem.SubItems[ LocaleCol + 2 ].Text = HrefLangDateModified.ToString();
+
                   }
                   else
                   {
+                    
                     lvItem.SubItems[ LocaleCol ].ForeColor = Color.Red;
+
                     lvItem.SubItems[ LocaleCol ].Text = "NOT SPECIFIED";
+                    lvItem.SubItems[ LocaleCol + 1 ].Text = "NOT SPECIFIED";
+                    lvItem.SubItems[ LocaleCol + 2 ].Text = "NOT SPECIFIED";
+
                   }
 
                 }

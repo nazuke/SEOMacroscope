@@ -1329,7 +1329,7 @@ namespace SEOMacroscope
         foreach( HtmlNode LinkNode in NodeList )
         {
 
-          MacroscopeHrefLang msHrefLang;
+          MacroscopeHrefLang HrefLangAlternate = null;
           string Rel = LinkNode.GetAttributeValue( "rel", "" );
           string HrefLangLocale = LinkNode.GetAttributeValue( "hreflang", "" );
           string Href = LinkNode.GetAttributeValue( "href", "" );
@@ -1359,9 +1359,9 @@ namespace SEOMacroscope
 
             }
 
-            msHrefLang = new MacroscopeHrefLang ( HrefLangLocale, Href );
+            HrefLangAlternate = new MacroscopeHrefLang ( HrefLangLocale, Href );
 
-            this.HrefLang[ HrefLangLocale ] = msHrefLang;
+            this.HrefLang[ HrefLangLocale ] = HrefLangAlternate;
 
           }
 

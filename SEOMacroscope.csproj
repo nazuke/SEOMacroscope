@@ -198,6 +198,7 @@
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MaroscopeCsvRemarksReport\MaroscopeCsvRemarksReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MaroscopeCsvRemarksReport\WorksheetObservations.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelReports.cs" />
+    <Compile Include="MacroscopeTools\MacroscopeDateTools.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorPanel.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorPanel.Designer.cs">
       <DependentUpon>MacroscopeDataExtractorPanel.cs</DependentUpon>

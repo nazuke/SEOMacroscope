@@ -2996,6 +2996,8 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    // TODO: This could be swapped for static method in MacroscopeDateTools.
+    
     private DateTime ParseHttpDate ( string HeaderField, string DateString )
     {
 
