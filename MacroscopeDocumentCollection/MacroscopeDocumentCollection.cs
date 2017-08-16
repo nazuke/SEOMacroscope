@@ -561,10 +561,12 @@ namespace SEOMacroscope
     private void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
     {
 
+      Boolean DrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
+              
       try
       {
 
-        Boolean DrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
+        this.TimerRecalc.Stop();
 
         if( DrainQueue )
         {
@@ -575,6 +577,8 @@ namespace SEOMacroscope
         {
           this.TimerRecalc.Interval = 10000;
         }
+
+        this.TimerRecalc.Start();
 
       }
       catch( Exception ex )

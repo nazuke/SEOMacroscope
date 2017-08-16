@@ -85,6 +85,9 @@ namespace SEOMacroscope
       foreach( string Host in HostsList.Keys )
       {
 
+        string Pathname;
+        string Filename;
+        string NewPathname;
         string XmlSitemapSerialized = null;
         XmlDocument SitemapXml = this.GenerateXmlSitemap( Host: Host );
         StringWriter SitemapXmlStringWriter = new StringWriter ();
@@ -94,18 +97,18 @@ namespace SEOMacroscope
 
         XmlSitemapSerialized = SitemapXmlStringWriter.ToString();
 
-        string Pathname = Path.GetDirectoryName( NewPath );
-        string Filename = Path.GetFileNameWithoutExtension( NewPath );
+        Pathname = Path.GetDirectoryName( NewPath );
+        Filename = Path.GetFileNameWithoutExtension( NewPath );
 
-        string NewPathname = string.Join(
-                               ".",
-                               string.Join(
-                                 Path.DirectorySeparatorChar.ToString(),
-                                 Pathname,
-                                 string.Join( "-", Filename, Host )
-                               ),
-                               "xml"
-                             );
+        NewPathname = string.Join(
+          ".",
+          string.Join(
+            Path.DirectorySeparatorChar.ToString(),
+            Pathname,
+            string.Join( "-", Filename, Host )
+          ),
+          "xml"
+        );
  
         File.WriteAllText(
           NewPathname,
@@ -122,11 +125,14 @@ namespace SEOMacroscope
     public void WriteSitemapText ( string NewPath )
     {
 
-      string StartHost = this.DocCollection.GetDocument(
-                           Url: this.DocCollection.GetJobMaster().GetStartUrl()
-                         ).GetHostname();
+      string StartHost;
+      List<string> SitemapText;
 
-      List<string> SitemapText = this.GenerateTextSitemap( Host: StartHost );
+      StartHost = this.DocCollection.GetDocument(
+        Url: this.DocCollection.GetJobMaster().GetStartUrl()
+      ).GetHostname();
+
+      SitemapText = this.GenerateTextSitemap( Host: StartHost );
 
       File.WriteAllLines( NewPath, SitemapText, new System.Text.UTF8Encoding ( false ) );
 
@@ -142,20 +148,25 @@ namespace SEOMacroscope
       foreach( string Host in HostsList.Keys )
       {
 
-        List<string> SitemapText = this.GenerateTextSitemap( Host: Host );
+        List<string> SitemapText;
+        string Pathname;
+        string Filename;
+        string NewPathname;
 
-        string Pathname = Path.GetDirectoryName( NewPath );
-        string Filename = Path.GetFileNameWithoutExtension( NewPath );
+        SitemapText = this.GenerateTextSitemap( Host: Host );
 
-        string NewPathname = string.Join(
-                               ".",
-                               string.Join(
-                                 Path.DirectorySeparatorChar.ToString(),
-                                 Pathname,
-                                 string.Join( "-", Filename, Host )
-                               ),
-                               "txt"
-                             );
+        Pathname = Path.GetDirectoryName( NewPath );
+        Filename = Path.GetFileNameWithoutExtension( NewPath );
+
+        NewPathname = string.Join(
+          ".",
+          string.Join(
+            Path.DirectorySeparatorChar.ToString(),
+            Pathname,
+            string.Join( "-", Filename, Host )
+          ),
+          "txt"
+        );
 
         File.WriteAllLines( NewPathname, SitemapText, new System.Text.UTF8Encoding ( false ) );
       

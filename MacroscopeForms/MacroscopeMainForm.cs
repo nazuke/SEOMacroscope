@@ -865,6 +865,9 @@ namespace SEOMacroscope
        
         try
         {
+
+          this.TimerTabPages.Stop();
+
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -880,6 +883,9 @@ namespace SEOMacroscope
           {
             this.CallbackTabPageTimerExec();
           }
+
+          this.TimerTabPages.Start();
+
         }
         catch( Exception ex )
         {
@@ -1647,6 +1653,9 @@ namespace SEOMacroscope
         
         try
         {
+
+          this.TimerSiteOverview.Stop();
+
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -1662,6 +1671,9 @@ namespace SEOMacroscope
           {
             this.CallbackSiteOverviewTimerExec();
           }
+
+          this.TimerSiteOverview.Start();
+
         }
         catch( Exception ex )
         {
@@ -2107,6 +2119,9 @@ namespace SEOMacroscope
 
         try
         {
+
+          this.TimerAuthentication.Stop();
+
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -2122,6 +2137,9 @@ namespace SEOMacroscope
           {
             this.ShowAuthenticationDialogue();
           }
+
+          this.TimerAuthentication.Start();
+
         }
         catch( Exception ex )
         {

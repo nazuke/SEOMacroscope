@@ -86,11 +86,12 @@ namespace SEOMacroscope
       
       if( Monitor.TryEnter( LockerTimerProgressBarScan, 1000 ) )
       {
-        
-        //DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "OBTAINED LOCK" ) );
-       
+
         try
         {
+
+          this.TimerProgressBarScan.Stop();
+          
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -106,6 +107,9 @@ namespace SEOMacroscope
           {
             this.UpdateProgressBarScan();
           }
+
+          this.TimerProgressBarScan.Start();
+
         }
         catch( Exception ex )
         {
@@ -114,13 +118,8 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerProgressBarScan );
-          //DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "RELEASED LOCK" ) );
         }
-        
-      }
-      else
-      {
-        //DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", "CANNOT OBTAIN LOCK" ) );
+
       }
             
     }

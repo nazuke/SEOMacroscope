@@ -70,11 +70,12 @@ namespace SEOMacroscope
 
       if( Monitor.TryEnter( LockerTimerStatusBar, 1000 ) )
       {
-         
-        //DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", "OBTAINED LOCK" ) );
-                
+
         try
         {
+
+          this.TimerStatusBar.Stop();
+
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -90,6 +91,9 @@ namespace SEOMacroscope
           {
             this.UpdateStatusBar();
           }
+          
+          this.TimerStatusBar.Start();
+                
         }
         catch( Exception ex )
         {
@@ -98,13 +102,8 @@ namespace SEOMacroscope
         finally
         {
           Monitor.Exit( LockerTimerStatusBar );
-          //DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", "RELEASED LOCK" ) );
         }
 
-      }
-      else
-      {
-        //DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", "CANNOT OBTAIN LOCK" ) );
       }
       
     }

@@ -83,12 +83,10 @@ namespace SEOMacroscope
     public void TestHtmlDocument ()
     {
 
-      List<string> UrlList = new List<string> () {
-        {
-          "https://nazuke.github.io/SEOMacroscope/"
-        }
-      };
-     
+      List<string> UrlList = new List<string> ();
+      
+      UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
+    
       foreach( string Url in UrlList )
       {
 
@@ -114,12 +112,10 @@ namespace SEOMacroscope
     public void TestDetectLanguage ()
     {
 
-      List<string> UrlList = new List<string> () {
-        {
-          "https://nazuke.github.io/SEOMacroscope/"
-        }
-      };
+      List<string> UrlList = new List<string> ();
 
+      UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
+    
       MacroscopePreferencesManager.SetDetectLanguage( Detect: true );
       MacroscopePreferencesManager.SetRequestTimeout( Seconds: 10 );
                 

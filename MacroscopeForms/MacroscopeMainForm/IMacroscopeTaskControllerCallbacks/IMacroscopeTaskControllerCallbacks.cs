@@ -24,10 +24,7 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Timers;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace SEOMacroscope
 {

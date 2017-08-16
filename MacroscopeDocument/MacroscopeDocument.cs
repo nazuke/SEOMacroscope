@@ -364,33 +364,42 @@ namespace SEOMacroscope
     private TimeDuration GetTimeDurationDelegate ()
     {
 
-      TimeDuration fTimeDuration = delegate( Action ProcessMethod )
+      TimeDuration DelegateTimeDuration = delegate( Action ProcessMethod )
+
       {
-        Stopwatch swDuration = new Stopwatch ();
-        long lDuration;
-        swDuration.Start();
+
+        Stopwatch DelegateStopWatch = new Stopwatch ();
+        long FinalDuration;
+
+        DelegateStopWatch.Start();
+
         try
         {
           ProcessMethod();
         }
         catch( MacroscopeDocumentException ex )
         {
-          DebugMsg( string.Format( "fTimeDuration: {0}", ex.Message ) );
+          DebugMsg( string.Format( "GetTimeDurationDelegate: {0}", ex.Message ) );
         }
-        swDuration.Stop();
-        lDuration = swDuration.ElapsedMilliseconds;
-        if( lDuration > 0 )
+
+        DelegateStopWatch.Stop();
+
+        FinalDuration = DelegateStopWatch.ElapsedMilliseconds;
+
+        if( FinalDuration > 0 )
         {
-          this.Duration = lDuration;
+          this.Duration = FinalDuration;
         }
         else
         {
           this.Duration = 0;
         }
-        DebugMsg( string.Format( "DURATION: {0} :: {1}", lDuration, this.Duration ) );
+
+        DebugMsg( string.Format( "DURATION: {0} :: {1}", FinalDuration, this.Duration ) );
+
       };
 
-      return( fTimeDuration );
+      return( DelegateTimeDuration );
 
     }
 
