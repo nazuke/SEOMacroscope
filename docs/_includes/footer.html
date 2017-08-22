@@ -1,3 +1,7 @@
+{% if jekyll.environment == 'production' and site.yandex_metrika %}
+{% include yandex-metrika.html %}
+{% endif %}
+
 <footer class="container">
 
 	<div class="row">
