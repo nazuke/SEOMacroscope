@@ -49,16 +49,18 @@ namespace SEOMacroscope
       
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
+      /** Column Sorters ******************************************************/
+            
       this.lvColumnSorter = new MacroscopeColumnSorter ();
 
-      // Site Overview
-      
+      /** Site Overview *******************************************************/
+
       this.tabControlSiteStructure.Dock = DockStyle.Fill;
       this.splitContainerSiteOverview.Dock = DockStyle.Fill;
       this.treeViewSiteOverview.Dock = DockStyle.Fill;
 
-      // Keyword Analysis
-      
+      /** Keyword Analysis ****************************************************/
+
       this.tabControlKeywordAnalysisPhrases.Dock = DockStyle.Fill;
         
       this.listViewKeywordAnalysis1.Dock = DockStyle.Fill;
@@ -71,7 +73,7 @@ namespace SEOMacroscope
       this.listViewKeywordAnalysis3.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis4.ColumnClick += this.CallbackColumnClick;
 
-      // Site Speed
+      /** Site Speed **********************************************************/
 
       this.tableLayoutPanelSiteSpeed.Dock = DockStyle.Fill;
       this.tabControlSiteSpeed.Dock = DockStyle.Fill;
@@ -85,6 +87,13 @@ namespace SEOMacroscope
       this.listViewSiteSpeedFastest.Sorting = SortOrder.None;
 
       this.toolStripLabelSiteSpeedAverage.Text = string.Format( "Average Response Time: {0:0.00}s", 0 );
+
+      
+      /** Charts **************************************************************/
+
+      this.splitContainerSiteOverview.Panel2Collapsed = true;
+      
+      this.siteStructurePanelCharts.Dock = DockStyle.Fill;
 
     }
 

@@ -66,6 +66,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSiteSpeed;
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		public System.Windows.Forms.ToolStripLabel toolStripLabelSiteSpeedAverage;
+		public SEOMacroscope.MacroscopeSiteStructurePanelCharts siteStructurePanelCharts;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -92,6 +93,7 @@ namespace SEOMacroscope
 			this.tabPageSiteOverview = new System.Windows.Forms.TabPage();
 			this.splitContainerSiteOverview = new System.Windows.Forms.SplitContainer();
 			this.treeViewSiteOverview = new System.Windows.Forms.TreeView();
+			this.siteStructurePanelCharts = new SEOMacroscope.MacroscopeSiteStructurePanelCharts();
 			this.tabPageSiteSpeed = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanelSiteSpeed = new System.Windows.Forms.TableLayoutPanel();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -127,6 +129,7 @@ namespace SEOMacroscope
 			this.tabPageSiteOverview.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).BeginInit();
 			this.splitContainerSiteOverview.Panel1.SuspendLayout();
+			this.splitContainerSiteOverview.Panel2.SuspendLayout();
 			this.splitContainerSiteOverview.SuspendLayout();
 			this.tabPageSiteSpeed.SuspendLayout();
 			this.tableLayoutPanelSiteSpeed.SuspendLayout();
@@ -173,8 +176,13 @@ namespace SEOMacroscope
 			// 
 			// splitContainerSiteOverview.Panel1
 			// 
+			this.splitContainerSiteOverview.Panel1.BackColor = System.Drawing.Color.DarkGray;
 			this.splitContainerSiteOverview.Panel1.Controls.Add(this.treeViewSiteOverview);
-			this.splitContainerSiteOverview.Panel2Collapsed = true;
+			// 
+			// splitContainerSiteOverview.Panel2
+			// 
+			this.splitContainerSiteOverview.Panel2.BackColor = System.Drawing.Color.DarkGray;
+			this.splitContainerSiteOverview.Panel2.Controls.Add(this.siteStructurePanelCharts);
 			this.splitContainerSiteOverview.Size = new System.Drawing.Size(300, 300);
 			this.splitContainerSiteOverview.SplitterDistance = 200;
 			this.splitContainerSiteOverview.SplitterIncrement = 10;
@@ -188,6 +196,13 @@ namespace SEOMacroscope
 			this.treeViewSiteOverview.Name = "treeViewSiteOverview";
 			this.treeViewSiteOverview.Size = new System.Drawing.Size(150, 150);
 			this.treeViewSiteOverview.TabIndex = 0;
+			// 
+			// siteStructurePanelCharts
+			// 
+			this.siteStructurePanelCharts.Location = new System.Drawing.Point(10, 10);
+			this.siteStructurePanelCharts.Name = "siteStructurePanelCharts";
+			this.siteStructurePanelCharts.Size = new System.Drawing.Size(250, 70);
+			this.siteStructurePanelCharts.TabIndex = 0;
 			// 
 			// tabPageSiteSpeed
 			// 
@@ -486,6 +501,7 @@ namespace SEOMacroscope
 			this.tabControlSiteStructure.ResumeLayout(false);
 			this.tabPageSiteOverview.ResumeLayout(false);
 			this.splitContainerSiteOverview.Panel1.ResumeLayout(false);
+			this.splitContainerSiteOverview.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerSiteOverview)).EndInit();
 			this.splitContainerSiteOverview.ResumeLayout(false);
 			this.tabPageSiteSpeed.ResumeLayout(false);
