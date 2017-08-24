@@ -91,7 +91,7 @@ namespace SEOMacroscope
       
       /** Charts **************************************************************/
 
-      this.splitContainerSiteOverview.Panel2Collapsed = true;
+      this.splitContainerSiteOverview.Panel2Collapsed = false;
       
       this.siteStructurePanelCharts.Dock = DockStyle.Fill;
 

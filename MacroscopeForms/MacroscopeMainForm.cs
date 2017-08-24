@@ -1683,7 +1683,7 @@ namespace SEOMacroscope
         {
           Monitor.Exit( LockerTimerSiteOverview );
         }
-        
+
       }
       
     }
@@ -1692,10 +1692,7 @@ namespace SEOMacroscope
     
     private void CallbackSiteOverviewTimerExec ()
     {
-      lock( this.LockerSiteStructureDisplay )
-      {
-        this.UpdateSiteOverview();
-      }
+      this.UpdateSiteOverview();
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1703,9 +1700,14 @@ namespace SEOMacroscope
     private void UpdateSiteOverview ()
     {
 
-      this.msSiteStructureOverview.RefreshData( DocCollection: this.JobMaster.GetDocCollection() );
+      lock( this.LockerSiteStructureDisplay )
+      {
 
-      this.msSiteStructureSiteSpeed.RefreshSiteSpeedData( DocCollection: this.JobMaster.GetDocCollection() );
+        this.msSiteStructureOverview.RefreshData( DocCollection: this.JobMaster.GetDocCollection() );
+        
+        this.msSiteStructureSiteSpeed.RefreshSiteSpeedData( DocCollection: this.JobMaster.GetDocCollection() );
+
+      }
 
     }
 
@@ -2265,7 +2267,7 @@ namespace SEOMacroscope
       this.RecalculateLinkCounts();
     }
 
-    /** Relaculate Link Counts  ***********************************************/
+    /** Recalculate Link Counts  **********************************************/
 
     public void RecalculateLinkCounts ()
     {

@@ -59,7 +59,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.SplitContainer splitContainerStructureAndDocumentDetails;
 		public SEOMacroscope.MacroscopeOverviewPanel macroscopeOverviewTabPanelInstance;
 		private SEOMacroscope.MacroscopeDocumentDetails macroscopeDocumentDetailsInstance;
-		private SEOMacroscope.MacroscopeSiteStructurePanel macroscopeSiteStructurePanelInstance;
+		internal SEOMacroscope.MacroscopeSiteStructurePanel macroscopeSiteStructurePanelInstance;
 		public System.Windows.Forms.ToolStripMenuItem loadUrlListToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem loadFromTextFileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pasteFromClipboardToolStripMenuItem;

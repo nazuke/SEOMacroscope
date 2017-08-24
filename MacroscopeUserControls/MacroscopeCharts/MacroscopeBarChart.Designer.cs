@@ -40,7 +40,6 @@ namespace SEOMacroscope
 		{
 			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
 			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
 			this.dataView1 = new System.Data.DataView();
 			this.barChartPanel = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			((System.ComponentModel.ISupportInitialize)(this.dataView1)).BeginInit();
@@ -55,11 +54,7 @@ namespace SEOMacroscope
 			this.barChartPanel.Legends.Add(legend1);
 			this.barChartPanel.Location = new System.Drawing.Point(10, 10);
 			this.barChartPanel.Name = "barChartPanel";
-			this.barChartPanel.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SeaGreen;
-			series1.ChartArea = "ChartAreaMain";
-			series1.Legend = "Legend1";
-			series1.Name = "SeriesMain";
-			this.barChartPanel.Series.Add(series1);
+			this.barChartPanel.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Fire;
 			this.barChartPanel.Size = new System.Drawing.Size(250, 150);
 			this.barChartPanel.TabIndex = 0;
 			this.barChartPanel.Text = "chart1";

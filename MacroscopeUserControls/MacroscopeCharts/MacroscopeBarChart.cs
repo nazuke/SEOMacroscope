@@ -44,8 +44,7 @@ namespace SEOMacroscope
     Chart BarChart;
 
     /**************************************************************************/
-    
-    
+
     public MacroscopeBarChart ()
     {
 
@@ -55,23 +54,22 @@ namespace SEOMacroscope
 
       this.BarChart.Dock = DockStyle.Fill;
       
+      this.Clear();
+
     }
 
     /**************************************************************************/
 
     public void SetTitle ( string Title )
     {
-
       this.BarChart.Text = Title;
-
     }
+
     /**************************************************************************/
 
     public void Clear ()
     {
-
       this.BarChart.Series.Clear();
-
     }
 
     /**************************************************************************/
@@ -79,17 +77,38 @@ namespace SEOMacroscope
     public void Update ( SortedDictionary<string,double> DataPoints )
     {
 
+      double Max = 10;
+      double Count = 1;
+      
       this.BarChart.Series.Clear();
-
+      
       foreach( string DataPointKey in DataPoints.Keys )
       {
 
-        this.BarChart.Series.Add( name: DataPointKey );
+        string SeriesName = DataPointKey;
+        DataPoint DataPointItem = new DataPoint ();
+        ChartArea Area;
+  
+        this.BarChart.Series.Add( name: SeriesName );
+        this.BarChart.Series[ SeriesName ].ChartType = SeriesChartType.Column;
+        this.BarChart.Series[ SeriesName ].LegendText = string.Format( "{0}: {1}", SeriesName, DataPoints[ DataPointKey ] );
+        
+        DataPointItem.AxisLabel = SeriesName;
+        DataPointItem.SetValueXY( Count, DataPoints[ DataPointKey ] );      
 
-        DataPoint DataPointItem = new DataPoint ( 0, DataPoints[ DataPointKey ] );
+        this.BarChart.Series[ SeriesName ].Points.Add( item: DataPointItem );
 
-        this.BarChart.Series[ 0 ].Points.Add( item: DataPointItem );
+        if( DataPoints[ DataPointKey ] > Max )
+        {
+          Max = DataPoints[ DataPointKey ];
+        }
 
+        Area = this.BarChart.ChartAreas[ 0 ];
+        Area.AxisY.Maximum = Max + 10;
+        Area.AxisY.Minimum = 0;
+        
+        Count++;
+        
       }
 
     }

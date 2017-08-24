@@ -34,7 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeSiteStructurePanelCharts.
   /// </summary>
 
-  public partial class MacroscopeSiteStructurePanelCharts : UserControl
+  public partial class MacroscopeSiteStructurePanelCharts : MacroscopeUserControl
   {
 
     /**************************************************************************/
@@ -80,32 +80,67 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public void SelectTabPage ( string TabName )
+    {
+
+      TabControl TabControlPanel = this.tabControlCharts;
+
+      try
+      {
+
+        int ChosenTabIndex = TabControlPanel.TabPages.IndexOfKey( key: TabName );
+
+        TabControlPanel.SelectTab( index: ChosenTabIndex );
+
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "SelectTabPage: {0}", ex.Message ) );
+      }
+      
+    }
+
+    /**************************************************************************/
+
     private void ClearSiteSummary ()
     {
       this.barChartSiteSummary.Clear();
     }
           
     /** -------------------------------------------------------------------- **/
-        
-    private void UpdateSiteSummary ()
+
+    public void UpdateSiteSummary ( SortedDictionary<string,double> DataPoints )
     {
-
-      this.barChartSiteSummary.SetTitle( "Site Summary" );
-
-      SortedDictionary<string,double> DataPoints = new SortedDictionary<string,double> ();
-
-      DataPoints.Add( "Item 1", 3 );
-      DataPoints.Add( "Item 2", 10 );
-      DataPoints.Add( "Item 3", 5 );
-
       this.barChartSiteSummary.Update( DataPoints: DataPoints );
-
     }
 
+    /**************************************************************************/
+
+    private void ClearLanguagesDetected ()
+    {
+      this.barChartLanguagesDetected.Clear();
+    }
+          
     /** -------------------------------------------------------------------- **/
 
+    public void UpdateLanguagesDetected ( SortedDictionary<string,double> DataPoints )
+    {
+      this.barChartLanguagesDetected.Update( DataPoints: DataPoints );
+    }
 
+    /**************************************************************************/
 
+    private void ClearReadability ()
+    {
+      this.barChartReadability.Clear();
+    }
+          
+    /** -------------------------------------------------------------------- **/
+
+    public void UpdateReadability ( SortedDictionary<string,double> DataPoints )
+    {
+      this.barChartReadability.Update( DataPoints: DataPoints );
+    }
 
     /**************************************************************************/
 
