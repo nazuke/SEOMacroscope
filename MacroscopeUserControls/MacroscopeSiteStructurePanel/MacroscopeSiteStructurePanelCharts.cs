@@ -48,7 +48,7 @@ namespace SEOMacroscope
       
       this.barChartSiteSummary.Dock = DockStyle.Fill;
       this.barChartLanguagesDetected.Dock = DockStyle.Fill;
-      this.barChartReadability.Dock = DockStyle.Fill;
+      this.pieChartReadability.Dock = DockStyle.Fill;
       
       this.ConfigureSiteSummary();
       this.ConfigureLanguagesDetected();
@@ -75,7 +75,7 @@ namespace SEOMacroscope
     
     private void ConfigureReadability ()
     {
-      this.barChartReadability.SetTitle( "Readability" );
+      this.pieChartReadability.SetTitle( "Readability" );
     }
 
     /**************************************************************************/
@@ -132,14 +132,14 @@ namespace SEOMacroscope
 
     private void ClearReadability ()
     {
-      this.barChartReadability.Clear();
+      this.pieChartReadability.Clear();
     }
           
     /** -------------------------------------------------------------------- **/
 
     public void UpdateReadability ( SortedDictionary<string,double> DataPoints )
     {
-      this.barChartReadability.Update( DataPoints: DataPoints );
+      this.pieChartReadability.Update( DataPoints: DataPoints );
     }
 
     /**************************************************************************/

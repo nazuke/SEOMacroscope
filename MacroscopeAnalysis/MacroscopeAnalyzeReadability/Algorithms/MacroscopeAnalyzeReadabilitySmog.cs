@@ -34,7 +34,7 @@ namespace SEOMacroscope
   /// Analyze the readability of the English text in a document with the SMOG Grade method.
   /// </summary>
 
-  public class MacroscopeAnalyzeReadabilitySmog : Macroscope,IMacroscopeAnalyzeReadability
+  public class MacroscopeAnalyzeReadabilitySmog : Macroscope, IMacroscopeAnalyzeReadability
   {
 
     /**

@@ -50,6 +50,9 @@ namespace SEOMacroscope
 
     private Dictionary<string,Boolean> StatsHistory;
     private Dictionary<string,int> StatsHostnames;
+
+    private Dictionary<string,Boolean> StatsCanonicals;
+    
     private Dictionary<string,int> StatsTitles;
     private Dictionary<string,int> StatsDescriptions;
     private Dictionary<string,int> StatsKeywords;
@@ -105,6 +108,9 @@ namespace SEOMacroscope
       
       this.StatsHistory = new Dictionary<string,Boolean> ( 1024 );
       this.StatsHostnames = new Dictionary<string,int> ( 16 );
+
+      this.StatsCanonicals = new Dictionary<string,Boolean> ( 1024 );
+
       this.StatsTitles = new Dictionary<string,int> ( 256 );
       this.StatsDescriptions = new Dictionary<string,int> ( 256 );
       this.StatsKeywords = new Dictionary<string,int> ( 256 );
@@ -171,6 +177,9 @@ namespace SEOMacroscope
 
       this.StatsHistory = null;
       this.StatsHostnames = null;
+
+      this.StatsCanonicals = null;
+      
       this.StatsTitles = null;
       this.StatsDescriptions = null;
       this.StatsKeywords = null;
@@ -673,6 +682,8 @@ namespace SEOMacroscope
 
                 this.StatsHistory.Add( UrlTarget, true );
 
+                this.RecalculateStatsCanonicals( msDoc: msDoc );
+                  
                 this.RecalculateStatsHostnames( msDoc: msDoc );
 
                 this.RecalculateStatsTitles( msDoc: msDoc );
@@ -875,6 +886,75 @@ namespace SEOMacroscope
         
         DebugMsg( string.Format( "RecalculateHyperlinksIn: ALREADY PROCESSED: {0}", DocumentUrl ) );
         
+      }
+
+    }
+
+    /** Canonicals *************************************************************/
+
+    private void ClearStatsCanonicals ()
+    {
+      this.StatsCanonicals.Clear();
+    }
+
+    /** -------------------------------------------------------------------- **/
+        
+    public Dictionary<Boolean,int> GetStatsCanonicalsCount ()
+    {
+
+      Dictionary<Boolean,int> CanonicalsList = null;
+      
+      lock( this.StatsCanonicals )
+      {
+
+        CanonicalsList = new Dictionary<Boolean,int> ( this.StatsCanonicals.Count );
+        
+        foreach( string Url in this.StatsCanonicals.Keys )
+        {
+
+          if( CanonicalsList.ContainsKey( this.StatsCanonicals[ Url ] ) )
+          {
+            CanonicalsList[ this.StatsCanonicals[ Url ] ] = CanonicalsList[ this.StatsCanonicals[ Url ] ] + 1;
+          }
+          else
+          {
+            CanonicalsList.Add( this.StatsCanonicals[ Url ], 1 );
+          }
+
+        }
+        
+      }
+      
+      return( CanonicalsList );
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
+        
+    private void RecalculateStatsCanonicals ( MacroscopeDocument msDoc )
+    {
+
+      string Url = msDoc.GetUrl();
+      string Canonical = msDoc.GetCanonical();
+      Boolean Value = false;
+
+      if( !string.IsNullOrEmpty( Canonical ) )
+      {
+        Value = true;
+      }
+
+      lock( this.StatsCanonicals )
+      {
+          
+        if( this.StatsCanonicals.ContainsKey( Url ) )
+        {
+          this.StatsCanonicals[ Url ] = Value;
+        }
+        else
+        {
+          this.StatsCanonicals.Add( Url, Value );
+        }
+
       }
 
     }
@@ -1893,30 +1973,42 @@ namespace SEOMacroscope
         
     public SortedDictionary<string,int> GetStatsReadabilityGradesCount ()
     {
+
       SortedDictionary<string,int> dicStats = new SortedDictionary<string, int> ();
+
       lock( this.StatsReadabilityGrades )
       {
+
         foreach( string Key in this.StatsReadabilityGrades.Keys )
         {
           dicStats.Add( Key, this.StatsReadabilityGrades[ Key ] );
         }
+
       }
+
       return( dicStats );
+
     }
     
     /** -------------------------------------------------------------------- **/
         
     public SortedDictionary<string,int> GetStatsReadabilityGradeStringsCount ()
     {
+
       SortedDictionary<string,int> dicStats = new SortedDictionary<string, int> ();
+
       lock( this.StatsReadabilityGradeDescriptions )
       {
+
         foreach( string Key in this.StatsReadabilityGradeDescriptions.Keys )
         {
           dicStats.Add( Key, this.StatsReadabilityGradeDescriptions[ Key ] );
         }
+
       }
+
       return( dicStats );
+
     }
     
     /** -------------------------------------------------------------------- **/

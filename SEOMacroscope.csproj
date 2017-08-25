@@ -205,6 +205,10 @@
     <Compile Include="MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.Designer.cs">
       <DependentUpon>MacroscopeBarChart.cs</DependentUpon>
     </Compile>
+    <Compile Include="MacroscopeUserControls\MacroscopeCharts\MacroscopePieChart.cs" />
+    <Compile Include="MacroscopeUserControls\MacroscopeCharts\MacroscopePieChart.Designer.cs">
+      <DependentUpon>MacroscopePieChart.cs</DependentUpon>
+    </Compile>
     <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorPanel.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorPanel.Designer.cs">
       <DependentUpon>MacroscopeDataExtractorPanel.cs</DependentUpon>
@@ -322,6 +326,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.resx">
       <DependentUpon>MacroscopeBarChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MacroscopeUserControls\MacroscopeCharts\MacroscopePieChart.resx">
+      <DependentUpon>MacroscopePieChart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanelCharts.resx">
       <DependentUpon>MacroscopeSiteStructurePanelCharts.cs</DependentUpon>

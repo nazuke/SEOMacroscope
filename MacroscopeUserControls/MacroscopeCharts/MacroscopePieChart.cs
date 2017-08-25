@@ -36,23 +36,23 @@ namespace SEOMacroscope
   /// Description of MacroscopeBarChart.
   /// </summary>
 
-  public partial class MacroscopeBarChart : UserControl
+  public partial class MacroscopePieChart : UserControl
   {
 
     /**************************************************************************/
 
-    Chart BarChart;
+    Chart PieChart;
 
     /**************************************************************************/
 
-    public MacroscopeBarChart ()
+    public MacroscopePieChart ()
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
-      this.BarChart = this.barChartPanel;
+      this.PieChart = this.pieChartPanel;
 
-      this.BarChart.Dock = DockStyle.Fill;
+      this.PieChart.Dock = DockStyle.Fill;
       
       this.Clear();
 
@@ -62,14 +62,14 @@ namespace SEOMacroscope
 
     public void SetTitle ( string Title )
     {
-      this.BarChart.Text = Title;
+      this.PieChart.Text = Title;
     }
 
     /**************************************************************************/
 
     public void Clear ()
     {
-      this.BarChart.Series.Clear();
+      this.PieChart.Series.Clear();
     }
 
     /**************************************************************************/
@@ -77,42 +77,30 @@ namespace SEOMacroscope
     public void Update ( SortedDictionary<string,double> DataPoints )
     {
 
-      double Max = 10;
-      double Count = 1;
-      
-      this.BarChart.Series.Clear();
-      
+      string SeriesName = "Readbility";
+      Series DataSeries = new Series ();
+
+      DataSeries.Name = SeriesName;
+      DataSeries.ChartType = SeriesChartType.Pie;
+
+      this.PieChart.Series.Clear();
+      this.PieChart.Series.Add( item: DataSeries );
+
       foreach( string DataPointKey in DataPoints.Keys )
       {
 
-        string SeriesName = DataPointKey;
-        DataPoint DataPointItem = new DataPoint ();
-        ChartArea Area;
-  
-        this.BarChart.Series.Add( name: SeriesName );
-        this.BarChart.Series[ SeriesName ].ChartType = SeriesChartType.Column;
-        this.BarChart.Series[ SeriesName ].LegendText = string.Format( "{0}: {1}", SeriesName, DataPoints[ DataPointKey ] );
+        double Value = DataPoints[ DataPointKey ];
         
-        DataPointItem.AxisLabel = SeriesName;
-        DataPointItem.SetValueXY( Count, DataPoints[ DataPointKey ] );      
+        DataPoint DataPointItem = DataSeries.Points.Add( Value );
 
-        this.BarChart.Series[ SeriesName ].Points.Add( item: DataPointItem );
-
-        if( DataPoints[ DataPointKey ] > Max )
-        {
-          Max = DataPoints[ DataPointKey ];
-        }
-
-        Area = this.BarChart.ChartAreas[ 0 ];
-        Area.AxisY.Maximum = Max + 10;
-        Area.AxisY.Minimum = 0;
+        DataPointItem.AxisLabel = Value.ToString();
+        DataPointItem.LegendText = string.Format( "{0}: {1}", DataPointKey, DataPoints[ DataPointKey ] );
         
-        Count++;
         
       }
 
-      this.BarChart.Invalidate();
-            
+      this.PieChart.Invalidate();
+      
     }
 
     /**************************************************************************/

@@ -20,7 +20,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.TabPage tabPageChartsReadability;
 		public SEOMacroscope.MacroscopeBarChart barChartSiteSummary;
 		private SEOMacroscope.MacroscopeBarChart barChartLanguagesDetected;
-		public SEOMacroscope.MacroscopeBarChart barChartReadability;
+		public SEOMacroscope.MacroscopePieChart pieChartReadability;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -45,11 +45,11 @@ namespace SEOMacroscope
 		{
 			this.tabControlCharts = new System.Windows.Forms.TabControl();
 			this.tabPageChartsSiteSummary = new System.Windows.Forms.TabPage();
-			this.tabPageChartsLanguagesDetected = new System.Windows.Forms.TabPage();
-			this.tabPageChartsReadability = new System.Windows.Forms.TabPage();
 			this.barChartSiteSummary = new SEOMacroscope.MacroscopeBarChart();
+			this.tabPageChartsLanguagesDetected = new System.Windows.Forms.TabPage();
 			this.barChartLanguagesDetected = new SEOMacroscope.MacroscopeBarChart();
-			this.barChartReadability = new SEOMacroscope.MacroscopeBarChart();
+			this.tabPageChartsReadability = new System.Windows.Forms.TabPage();
+			this.pieChartReadability = new SEOMacroscope.MacroscopePieChart();
 			this.tabControlCharts.SuspendLayout();
 			this.tabPageChartsSiteSummary.SuspendLayout();
 			this.tabPageChartsLanguagesDetected.SuspendLayout();
@@ -78,6 +78,13 @@ namespace SEOMacroscope
 			this.tabPageChartsSiteSummary.TabIndex = 0;
 			this.tabPageChartsSiteSummary.Text = "Site Summary";
 			// 
+			// barChartSiteSummary
+			// 
+			this.barChartSiteSummary.Location = new System.Drawing.Point(10, 10);
+			this.barChartSiteSummary.Name = "barChartSiteSummary";
+			this.barChartSiteSummary.Size = new System.Drawing.Size(200, 200);
+			this.barChartSiteSummary.TabIndex = 0;
+			// 
 			// tabPageChartsLanguagesDetected
 			// 
 			this.tabPageChartsLanguagesDetected.BackColor = System.Drawing.Color.LightGray;
@@ -89,24 +96,6 @@ namespace SEOMacroscope
 			this.tabPageChartsLanguagesDetected.TabIndex = 1;
 			this.tabPageChartsLanguagesDetected.Text = "Language Detected";
 			// 
-			// tabPageChartsReadability
-			// 
-			this.tabPageChartsReadability.BackColor = System.Drawing.Color.LightGray;
-			this.tabPageChartsReadability.CausesValidation = false;
-			this.tabPageChartsReadability.Controls.Add(this.barChartReadability);
-			this.tabPageChartsReadability.Location = new System.Drawing.Point(4, 22);
-			this.tabPageChartsReadability.Name = "tabPageChartsReadability";
-			this.tabPageChartsReadability.Size = new System.Drawing.Size(292, 274);
-			this.tabPageChartsReadability.TabIndex = 2;
-			this.tabPageChartsReadability.Text = "Readability";
-			// 
-			// barChartSiteSummary
-			// 
-			this.barChartSiteSummary.Location = new System.Drawing.Point(10, 10);
-			this.barChartSiteSummary.Name = "barChartSiteSummary";
-			this.barChartSiteSummary.Size = new System.Drawing.Size(200, 200);
-			this.barChartSiteSummary.TabIndex = 0;
-			// 
 			// barChartLanguagesDetected
 			// 
 			this.barChartLanguagesDetected.Location = new System.Drawing.Point(10, 10);
@@ -114,12 +103,23 @@ namespace SEOMacroscope
 			this.barChartLanguagesDetected.Size = new System.Drawing.Size(200, 200);
 			this.barChartLanguagesDetected.TabIndex = 1;
 			// 
-			// barChartReadability
+			// tabPageChartsReadability
 			// 
-			this.barChartReadability.Location = new System.Drawing.Point(10, 10);
-			this.barChartReadability.Name = "barChartReadability";
-			this.barChartReadability.Size = new System.Drawing.Size(200, 200);
-			this.barChartReadability.TabIndex = 1;
+			this.tabPageChartsReadability.BackColor = System.Drawing.Color.LightGray;
+			this.tabPageChartsReadability.CausesValidation = false;
+			this.tabPageChartsReadability.Controls.Add(this.pieChartReadability);
+			this.tabPageChartsReadability.Location = new System.Drawing.Point(4, 22);
+			this.tabPageChartsReadability.Name = "tabPageChartsReadability";
+			this.tabPageChartsReadability.Size = new System.Drawing.Size(292, 274);
+			this.tabPageChartsReadability.TabIndex = 2;
+			this.tabPageChartsReadability.Text = "Readability";
+			// 
+			// pieChartReadability
+			// 
+			this.pieChartReadability.Location = new System.Drawing.Point(10, 10);
+			this.pieChartReadability.Name = "pieChartReadability";
+			this.pieChartReadability.Size = new System.Drawing.Size(200, 200);
+			this.pieChartReadability.TabIndex = 2;
 			// 
 			// MacroscopeSiteStructurePanelCharts
 			// 
