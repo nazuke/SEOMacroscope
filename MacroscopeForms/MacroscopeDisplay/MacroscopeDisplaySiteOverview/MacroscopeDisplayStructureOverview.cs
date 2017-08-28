@@ -150,6 +150,7 @@ namespace SEOMacroscope
 
     public void ClearData ()
     {
+
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
@@ -176,153 +177,164 @@ namespace SEOMacroscope
 
       this.tvTreeView.Nodes.Clear();
 
+      try
       {
 
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "SUMMARY" );
+        {
+
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "SUMMARY" );
         
-        Leaf.Name = "SUMMARY";
-        Leaf.Tag = "SUMMARY";
-        Leaf.Text = "Site Summary";
+          Leaf.Name = "SUMMARY";
+          Leaf.Tag = "SUMMARY";
+          Leaf.Text = "Site Summary";
 
-        Leaf.Nodes.Add( "Total URLs Found: 0" ).Tag = "UrlsFound";
-        Leaf.Nodes.Add( "Total URLs Crawled: 0" ).Tag = "UrlsCrawled";
-        Leaf.Nodes.Add( "Total Internal URLs: 0" ).Tag = "UrlsInternal";
-        Leaf.Nodes.Add( "Total External URLs: 0" ).Tag = "UrlsExternal";
+          Leaf.Nodes.Add( "Total URLs Found: 0" ).Tag = "UrlsFound";
+          Leaf.Nodes.Add( "Total URLs Crawled: 0" ).Tag = "UrlsCrawled";
+          Leaf.Nodes.Add( "Total Internal URLs: 0" ).Tag = "UrlsInternal";
+          Leaf.Nodes.Add( "Total External URLs: 0" ).Tag = "UrlsExternal";
 
-      }
+        }
 
-      {
+        {
 
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "RESPONSETIMES" );
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "RESPONSETIMES" );
 
-        Leaf.Tag = "RESPONSETIMES";
-        Leaf.Text = "Response Times";
+          Leaf.Tag = "RESPONSETIMES";
+          Leaf.Text = "Response Times";
 
-        Leaf.Nodes.Add( "Fastest Page Response: 0.0 secs" ).Tag = "FastestPageResponse";
-        Leaf.Nodes.Add( "Slowest Page Response: 0.0 secs" ).Tag = "SlowestPageResponse";
-        Leaf.Nodes.Add( "Average Page Duration: 0.0 secs" ).Tag = "AveragePageDuration";
+          Leaf.Nodes.Add( "Fastest Page Response: 0.0 secs" ).Tag = "FastestPageResponse";
+          Leaf.Nodes.Add( "Slowest Page Response: 0.0 secs" ).Tag = "SlowestPageResponse";
+          Leaf.Nodes.Add( "Average Page Duration: 0.0 secs" ).Tag = "AveragePageDuration";
         
-      }
+        }
       
-      {
+        {
 
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "ROBOTS" );
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "ROBOTS" );
 
-        Leaf.Tag = "ROBOTS";
-        Leaf.Text = "Robots.txt";
+          Leaf.Tag = "ROBOTS";
+          Leaf.Text = "Robots.txt";
 
-        Leaf.Nodes.Add( "URLs Blocked by Robots.txt: 0" ).Tag = "UrlsRobotsBlocked";
+          Leaf.Nodes.Add( "URLs Blocked by Robots.txt: 0" ).Tag = "UrlsRobotsBlocked";
         
-      }
+        }
 
-      {
+        {
 
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "SITEMAPS" );
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "SITEMAPS" );
 
-        Leaf.Tag = "SITEMAPS";
-        Leaf.Text = "Sitemaps";
+          Leaf.Tag = "SITEMAPS";
+          Leaf.Text = "Sitemaps";
 
-        Leaf.Nodes.Add( "Sitemaps Found: 0" ).Tag = "SitemapsFound";
+          Leaf.Nodes.Add( "Sitemaps Found: 0" ).Tag = "SitemapsFound";
         
-      }
+        }
 
-      {
+        {
 
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "ISSUES" );
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "ISSUES" );
 
-        Leaf.Tag = "ISSUES";
-        Leaf.Text = "Fetch Issues";
+          Leaf.Tag = "ISSUES";
+          Leaf.Text = "Fetch Issues";
 
-        TreeNode LeafWarnings = Leaf.Nodes.Add( "FETCH_WARNINGS" );
+          TreeNode LeafWarnings = Leaf.Nodes.Add( "FETCH_WARNINGS" );
 
-        LeafWarnings.Tag = "FETCH_WARNINGS";
-        LeafWarnings.Name = "FETCH_WARNINGS";
-        LeafWarnings.Text = "Fetch Warnings";
+          LeafWarnings.Tag = "FETCH_WARNINGS";
+          LeafWarnings.Name = "FETCH_WARNINGS";
+          LeafWarnings.Text = "Fetch Warnings";
 
-        TreeNode LeafErrors = Leaf.Nodes.Add( "FETCH_ERRORS" );
+          TreeNode LeafErrors = Leaf.Nodes.Add( "FETCH_ERRORS" );
 
-        LeafErrors.Tag = "FETCH_ERRORS";
-        LeafErrors.Name = "FETCH_ERRORS";
-        LeafErrors.Text = "Fetch Errors";
+          LeafErrors.Tag = "FETCH_ERRORS";
+          LeafErrors.Name = "FETCH_ERRORS";
+          LeafErrors.Text = "Fetch Errors";
 
-      }
+        }
 
-      {
+        {
 
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "CANONICALS_SPECIFIED" );
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "CANONICALS_SPECIFIED" );
 
-        Leaf.Tag = "CANONICALS_SPECIFIED";
-        Leaf.Text = "Canonicals Specified";
+          Leaf.Tag = "CANONICALS_SPECIFIED";
+          Leaf.Text = "Canonicals Specified";
 
-        TreeNode LeafSpecified = Leaf.Nodes.Add( "CANONICALS_SPECIFIED_SPECIFIED" );
+          TreeNode LeafSpecified = Leaf.Nodes.Add( "CANONICALS_SPECIFIED_SPECIFIED" );
 
-        LeafSpecified.Tag = "CANONICALS_SPECIFIED_SPECIFIED";
-        LeafSpecified.Name = "CANONICALS_SPECIFIED_SPECIFIED";
-        LeafSpecified.Text = "Specified: 0";
+          LeafSpecified.Tag = "CANONICALS_SPECIFIED_SPECIFIED";
+          LeafSpecified.Name = "CANONICALS_SPECIFIED_SPECIFIED";
+          LeafSpecified.Text = "Specified: 0";
 
-        TreeNode LeafNotSpecified = Leaf.Nodes.Add( "CANONICALS_SPECIFIED_NOT_SPECIFIED" );
+          TreeNode LeafNotSpecified = Leaf.Nodes.Add( "CANONICALS_SPECIFIED_NOT_SPECIFIED" );
 
-        LeafNotSpecified.Tag = "CANONICALS_SPECIFIED_NOT_SPECIFIED";
-        LeafNotSpecified.Name = "CANONICALS_SPECIFIED_NOT_SPECIFIED";
-        LeafNotSpecified.Text = "Not Specified: 0";
+          LeafNotSpecified.Tag = "CANONICALS_SPECIFIED_NOT_SPECIFIED";
+          LeafNotSpecified.Name = "CANONICALS_SPECIFIED_NOT_SPECIFIED";
+          LeafNotSpecified.Text = "Not Specified: 0";
 
-      }
+        }
 
-      {
+        {
 
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "LANGUAGES_SPECIFIED" );
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "LANGUAGES_SPECIFIED" );
 
-        Leaf.Tag = "LANGUAGES_SPECIFIED";
-        Leaf.Text = "Languages Specified";
+          Leaf.Tag = "LANGUAGES_SPECIFIED";
+          Leaf.Text = "Languages Specified";
 
-        TreeNode LeafTitles = Leaf.Nodes.Add( "LANGUAGES_SPECIFIED_PAGES" );
+          TreeNode LeafTitles = Leaf.Nodes.Add( "LANGUAGES_SPECIFIED_PAGES" );
 
-        LeafTitles.Tag = "LANGUAGES_SPECIFIED_PAGES";
-        LeafTitles.Name = "LANGUAGES_SPECIFIED_PAGES";
-        LeafTitles.Text = "Pages";
+          LeafTitles.Tag = "LANGUAGES_SPECIFIED_PAGES";
+          LeafTitles.Name = "LANGUAGES_SPECIFIED_PAGES";
+          LeafTitles.Text = "Pages";
 
-      }
+        }
       
-      {
+        {
 
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "LANGUAGES_DETECTED" );
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "LANGUAGES_DETECTED" );
 
-        Leaf.Tag = "LANGUAGES_DETECTED";
-        Leaf.Text = "Languages Detected";
+          Leaf.Tag = "LANGUAGES_DETECTED";
+          Leaf.Text = "Languages Detected";
 
-        TreeNode LeafTitles = Leaf.Nodes.Add( "LANGUAGES_DETECTED_TITLES" );
+          TreeNode LeafTitles = Leaf.Nodes.Add( "LANGUAGES_DETECTED_TITLES" );
 
-        LeafTitles.Tag = "LANGUAGES_DETECTED_TITLES";
-        LeafTitles.Name = "LANGUAGES_DETECTED_TITLES";
-        LeafTitles.Text = "Titles";
+          LeafTitles.Tag = "LANGUAGES_DETECTED_TITLES";
+          LeafTitles.Name = "LANGUAGES_DETECTED_TITLES";
+          LeafTitles.Text = "Titles";
 
-        TreeNode LeafDescriptions = Leaf.Nodes.Add( "LANGUAGES_DETECTED_DESCRIPTIONS" );
+          TreeNode LeafDescriptions = Leaf.Nodes.Add( "LANGUAGES_DETECTED_DESCRIPTIONS" );
 
-        LeafDescriptions.Tag = "LANGUAGES_DETECTED_DESCRIPTIONS";
-        LeafDescriptions.Name = "LANGUAGES_DETECTED_DESCRIPTIONS";
-        LeafDescriptions.Text = "Descriptions";
+          LeafDescriptions.Tag = "LANGUAGES_DETECTED_DESCRIPTIONS";
+          LeafDescriptions.Name = "LANGUAGES_DETECTED_DESCRIPTIONS";
+          LeafDescriptions.Text = "Descriptions";
 
-        TreeNode LeafBodyTexts = Leaf.Nodes.Add( "LANGUAGES_DETECTED_BODYTEXTS" );
+          TreeNode LeafBodyTexts = Leaf.Nodes.Add( "LANGUAGES_DETECTED_BODYTEXTS" );
 
-        LeafBodyTexts.Tag = "LANGUAGES_DETECTED_BODYTEXTS";
-        LeafBodyTexts.Name = "LANGUAGES_DETECTED_BODYTEXTS";
-        LeafBodyTexts.Text = "Contents";
+          LeafBodyTexts.Tag = "LANGUAGES_DETECTED_BODYTEXTS";
+          LeafBodyTexts.Name = "LANGUAGES_DETECTED_BODYTEXTS";
+          LeafBodyTexts.Text = "Contents";
+
+        }
+
+        {
+
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "TEXT_READABILITY" );
+
+          Leaf.Tag = "TEXT_READABILITY";
+          Leaf.Name = "TEXT_READABILITY";
+          Leaf.Text = "Text Readability";
+        
+        }
 
       }
-
+      catch( Exception ex )
       {
-
-        TreeNode Leaf = this.tvTreeView.Nodes.Add( "TEXT_READABILITY" );
-
-        Leaf.Tag = "TEXT_READABILITY";
-        Leaf.Name = "TEXT_READABILITY";
-        Leaf.Text = "Text Readability";
-        
+        this.DebugMsg( ex.Message );
       }
 
       this.tvTreeView.ExpandAll();
 
       this.tvTreeView.EndUpdate();
+
+      return;
       
     }
 
