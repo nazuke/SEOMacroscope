@@ -353,7 +353,8 @@ namespace SEOMacroscope
       }
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.KeyUp += this.CallbackSearchTextBoxSearchUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
-
+      this.macroscopeOverviewTabPanelInstance.toolStripButtonExportToCsv.Click += this.CallbackExportListViewToCsvReport;
+      
       /** ListViewLinks ---------------------------------------------------- **/
 
       this.macroscopeOverviewTabPanelInstance.listViewLinks.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;

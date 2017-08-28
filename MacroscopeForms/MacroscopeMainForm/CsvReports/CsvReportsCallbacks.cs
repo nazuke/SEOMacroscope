@@ -37,6 +37,55 @@ namespace SEOMacroscope
     private const int CsvReportMegabytesRamRequired = 64;
 
     /**************************************************************************/
+    
+    private void CallbackExportListViewToCsvReport ( object sender, EventArgs e )
+    {
+      
+      
+      
+      return;
+      /*
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "csv";
+      Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Report.csv";
+
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+
+        string Path = Dialog.FileName;
+        MacroscopeCsvExportListViewReport CsvReport = new MacroscopeCsvExportListViewReport ();
+
+        try
+        {
+          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
+          {
+            CsvReport.WriteCsv( this.JobMaster, Path );
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving CSV Report", ex.Message );       
+        }
+        catch( MacroscopeSaveCsvFileException ex )
+        {
+          this.DialogueBoxError( "Error saving CSV Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving CSV Report", ex.Message );
+        }
+        
+      }
+
+      Dialog.Dispose();
+         */       
+    }
+
+    /**************************************************************************/
 
     private void CallbackSaveOverviewCsvReport ( object sender, EventArgs e )
     {
@@ -559,7 +608,7 @@ namespace SEOMacroscope
       this.CallbackSaveDuplicateContentCsvReport(
         sender: sender,
         e: e,
-        SelectedOutputWorksheet: MacroscopeCsvDuplicateContent.OutputWorksheet.TITLES,
+        SelectedOutputWorksheet: MacroscopeCsvDuplicateContentReport.OutputWorksheet.TITLES,
         OutputFilename: "Macroscope-Duplicate-Content-Titles.csv"
       );
     }
@@ -569,7 +618,7 @@ namespace SEOMacroscope
       this.CallbackSaveDuplicateContentCsvReport(
         sender: sender,
         e: e,
-        SelectedOutputWorksheet: MacroscopeCsvDuplicateContent.OutputWorksheet.CHECKSUMS,
+        SelectedOutputWorksheet: MacroscopeCsvDuplicateContentReport.OutputWorksheet.CHECKSUMS,
         OutputFilename: "Macroscope-Duplicate-Content-Checksums.csv"
       );
     }
@@ -579,7 +628,7 @@ namespace SEOMacroscope
       this.CallbackSaveDuplicateContentCsvReport(
         sender: sender,
         e: e,
-        SelectedOutputWorksheet: MacroscopeCsvDuplicateContent.OutputWorksheet.ETAGS,
+        SelectedOutputWorksheet: MacroscopeCsvDuplicateContentReport.OutputWorksheet.ETAGS,
         OutputFilename: "Macroscope-Duplicate-Content-Etags.csv"
       );
     }
@@ -589,7 +638,7 @@ namespace SEOMacroscope
       this.CallbackSaveDuplicateContentCsvReport(
         sender: sender,
         e: e,
-        SelectedOutputWorksheet: MacroscopeCsvDuplicateContent.OutputWorksheet.PAGES,
+        SelectedOutputWorksheet: MacroscopeCsvDuplicateContentReport.OutputWorksheet.PAGES,
         OutputFilename: "Macroscope-Duplicate-Content-Pages.csv"
       );
     }
@@ -597,7 +646,7 @@ namespace SEOMacroscope
     private void CallbackSaveDuplicateContentCsvReport (
       object sender,
       EventArgs e,
-      MacroscopeCsvDuplicateContent.OutputWorksheet SelectedOutputWorksheet,
+      MacroscopeCsvDuplicateContentReport.OutputWorksheet SelectedOutputWorksheet,
       string OutputFilename
     )
     {
@@ -615,11 +664,11 @@ namespace SEOMacroscope
 
         string Path = Dialog.FileName;
         MacroscopeTriplePercentageProgressForm ProgressForm;
-        MacroscopeCsvDuplicateContent CsvReport;
+        MacroscopeCsvDuplicateContentReport CsvReport;
 
         ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
 
-        CsvReport = new MacroscopeCsvDuplicateContent (
+        CsvReport = new MacroscopeCsvDuplicateContentReport (
           ProgressFormDialogue: ProgressForm
         );
 

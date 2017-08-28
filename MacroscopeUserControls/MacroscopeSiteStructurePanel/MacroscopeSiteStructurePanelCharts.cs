@@ -47,13 +47,14 @@ namespace SEOMacroscope
       this.tabControlCharts.Dock = DockStyle.Fill;
       
       this.barChartSiteSummary.Dock = DockStyle.Fill;
-      this.barChartLanguagesDetected.Dock = DockStyle.Fill;
+      this.pieChartResponseTimes.Dock = DockStyle.Fill;
+      this.pieChartLanguagesSpecified.Dock = DockStyle.Fill;
       this.pieChartReadability.Dock = DockStyle.Fill;
       
       this.ConfigureSiteSummary();
-      this.ConfigureLanguagesDetected();
+      this.ConfigureResponseTimes();
+      this.ConfigureLanguagesSpecified();
       this.ConfigureReadability();
-      
       
     }
 
@@ -64,11 +65,18 @@ namespace SEOMacroscope
       this.barChartSiteSummary.SetTitle( "Site Summary" );
     }
 
+    /** -------------------------------------------------------------------- **/  
+   
+    private void ConfigureResponseTimes ()
+    {
+      this.pieChartResponseTimes.SetTitle( "Response Times" );
+    }
+
     /** -------------------------------------------------------------------- **/
     
-    private void ConfigureLanguagesDetected ()
+    private void ConfigureLanguagesSpecified ()
     {
-      this.barChartLanguagesDetected.SetTitle( "Languages Detected" );
+      this.pieChartLanguagesSpecified.SetTitle( "Languages Specified" );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -101,8 +109,18 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
+    
+    public void ClearAll ()
+    {
+      this.ClearSiteSummary();
+      this.ClearResponseTimes();
+      this.ClearLanguagesSpecified();
+      this.ClearReadability();
+    }
+          
+    /**************************************************************************/
 
-    private void ClearSiteSummary ()
+    public void ClearSiteSummary ()
     {
       this.barChartSiteSummary.Clear();
     }
@@ -113,24 +131,38 @@ namespace SEOMacroscope
     {
       this.barChartSiteSummary.Update( DataPoints: DataPoints );
     }
-
+    
     /**************************************************************************/
 
-    private void ClearLanguagesDetected ()
+    public void ClearResponseTimes ()
     {
-      this.barChartLanguagesDetected.Clear();
+      this.pieChartResponseTimes.Clear();
     }
           
     /** -------------------------------------------------------------------- **/
 
-    public void UpdateLanguagesDetected ( SortedDictionary<string,double> DataPoints )
+    public void UpdateResponseTimes ( SortedDictionary<string,double> DataPoints )
     {
-      this.barChartLanguagesDetected.Update( DataPoints: DataPoints );
+      this.pieChartResponseTimes.Update( DataPoints: DataPoints );
     }
 
     /**************************************************************************/
 
-    private void ClearReadability ()
+    public void ClearLanguagesSpecified ()
+    {
+      this.pieChartLanguagesSpecified.Clear();
+    }
+          
+    /** -------------------------------------------------------------------- **/
+
+    public void UpdateLanguagesSpecified ( SortedDictionary<string,double> DataPoints )
+    {
+      this.pieChartLanguagesSpecified.Update( DataPoints: DataPoints );
+    }
+
+    /**************************************************************************/
+
+    public void ClearReadability ()
     {
       this.pieChartReadability.Clear();
     }

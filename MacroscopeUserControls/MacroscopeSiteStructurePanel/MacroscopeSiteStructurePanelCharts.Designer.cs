@@ -16,11 +16,13 @@ namespace SEOMacroscope
 		private System.ComponentModel.IContainer components = null;
 		public System.Windows.Forms.TabControl tabControlCharts;
 		private System.Windows.Forms.TabPage tabPageChartsSiteSummary;
-		private System.Windows.Forms.TabPage tabPageChartsLanguagesDetected;
+		private System.Windows.Forms.TabPage tabPageChartsLanguagesSpecified;
 		private System.Windows.Forms.TabPage tabPageChartsReadability;
 		public SEOMacroscope.MacroscopeBarChart barChartSiteSummary;
-		private SEOMacroscope.MacroscopeBarChart barChartLanguagesDetected;
 		public SEOMacroscope.MacroscopePieChart pieChartReadability;
+		private System.Windows.Forms.TabPage tabPageChartsResponseTimes;
+		public SEOMacroscope.MacroscopePieChart pieChartResponseTimes;
+		public SEOMacroscope.MacroscopePieChart pieChartLanguagesSpecified;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -46,22 +48,27 @@ namespace SEOMacroscope
 			this.tabControlCharts = new System.Windows.Forms.TabControl();
 			this.tabPageChartsSiteSummary = new System.Windows.Forms.TabPage();
 			this.barChartSiteSummary = new SEOMacroscope.MacroscopeBarChart();
-			this.tabPageChartsLanguagesDetected = new System.Windows.Forms.TabPage();
-			this.barChartLanguagesDetected = new SEOMacroscope.MacroscopeBarChart();
+			this.tabPageChartsResponseTimes = new System.Windows.Forms.TabPage();
+			this.pieChartResponseTimes = new SEOMacroscope.MacroscopePieChart();
+			this.tabPageChartsLanguagesSpecified = new System.Windows.Forms.TabPage();
 			this.tabPageChartsReadability = new System.Windows.Forms.TabPage();
 			this.pieChartReadability = new SEOMacroscope.MacroscopePieChart();
+			this.pieChartLanguagesSpecified = new SEOMacroscope.MacroscopePieChart();
 			this.tabControlCharts.SuspendLayout();
 			this.tabPageChartsSiteSummary.SuspendLayout();
-			this.tabPageChartsLanguagesDetected.SuspendLayout();
+			this.tabPageChartsResponseTimes.SuspendLayout();
+			this.tabPageChartsLanguagesSpecified.SuspendLayout();
 			this.tabPageChartsReadability.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControlCharts
 			// 
 			this.tabControlCharts.Controls.Add(this.tabPageChartsSiteSummary);
-			this.tabControlCharts.Controls.Add(this.tabPageChartsLanguagesDetected);
+			this.tabControlCharts.Controls.Add(this.tabPageChartsResponseTimes);
+			this.tabControlCharts.Controls.Add(this.tabPageChartsLanguagesSpecified);
 			this.tabControlCharts.Controls.Add(this.tabPageChartsReadability);
 			this.tabControlCharts.Location = new System.Drawing.Point(10, 10);
+			this.tabControlCharts.Multiline = true;
 			this.tabControlCharts.Name = "tabControlCharts";
 			this.tabControlCharts.SelectedIndex = 0;
 			this.tabControlCharts.Size = new System.Drawing.Size(300, 300);
@@ -72,9 +79,9 @@ namespace SEOMacroscope
 			this.tabPageChartsSiteSummary.BackColor = System.Drawing.Color.LightGray;
 			this.tabPageChartsSiteSummary.CausesValidation = false;
 			this.tabPageChartsSiteSummary.Controls.Add(this.barChartSiteSummary);
-			this.tabPageChartsSiteSummary.Location = new System.Drawing.Point(4, 22);
+			this.tabPageChartsSiteSummary.Location = new System.Drawing.Point(4, 40);
 			this.tabPageChartsSiteSummary.Name = "tabPageChartsSiteSummary";
-			this.tabPageChartsSiteSummary.Size = new System.Drawing.Size(292, 274);
+			this.tabPageChartsSiteSummary.Size = new System.Drawing.Size(292, 256);
 			this.tabPageChartsSiteSummary.TabIndex = 0;
 			this.tabPageChartsSiteSummary.Text = "Site Summary";
 			// 
@@ -85,32 +92,42 @@ namespace SEOMacroscope
 			this.barChartSiteSummary.Size = new System.Drawing.Size(200, 200);
 			this.barChartSiteSummary.TabIndex = 0;
 			// 
-			// tabPageChartsLanguagesDetected
+			// tabPageChartsResponseTimes
 			// 
-			this.tabPageChartsLanguagesDetected.BackColor = System.Drawing.Color.LightGray;
-			this.tabPageChartsLanguagesDetected.CausesValidation = false;
-			this.tabPageChartsLanguagesDetected.Controls.Add(this.barChartLanguagesDetected);
-			this.tabPageChartsLanguagesDetected.Location = new System.Drawing.Point(4, 22);
-			this.tabPageChartsLanguagesDetected.Name = "tabPageChartsLanguagesDetected";
-			this.tabPageChartsLanguagesDetected.Size = new System.Drawing.Size(292, 274);
-			this.tabPageChartsLanguagesDetected.TabIndex = 1;
-			this.tabPageChartsLanguagesDetected.Text = "Language Detected";
+			this.tabPageChartsResponseTimes.BackColor = System.Drawing.Color.LightGray;
+			this.tabPageChartsResponseTimes.Controls.Add(this.pieChartResponseTimes);
+			this.tabPageChartsResponseTimes.Location = new System.Drawing.Point(4, 22);
+			this.tabPageChartsResponseTimes.Name = "tabPageChartsResponseTimes";
+			this.tabPageChartsResponseTimes.Size = new System.Drawing.Size(292, 274);
+			this.tabPageChartsResponseTimes.TabIndex = 3;
+			this.tabPageChartsResponseTimes.Text = "Response Times";
 			// 
-			// barChartLanguagesDetected
+			// pieChartResponseTimes
 			// 
-			this.barChartLanguagesDetected.Location = new System.Drawing.Point(10, 10);
-			this.barChartLanguagesDetected.Name = "barChartLanguagesDetected";
-			this.barChartLanguagesDetected.Size = new System.Drawing.Size(200, 200);
-			this.barChartLanguagesDetected.TabIndex = 1;
+			this.pieChartResponseTimes.Location = new System.Drawing.Point(46, 28);
+			this.pieChartResponseTimes.Name = "pieChartResponseTimes";
+			this.pieChartResponseTimes.Size = new System.Drawing.Size(200, 200);
+			this.pieChartResponseTimes.TabIndex = 3;
+			// 
+			// tabPageChartsLanguagesSpecified
+			// 
+			this.tabPageChartsLanguagesSpecified.BackColor = System.Drawing.Color.LightGray;
+			this.tabPageChartsLanguagesSpecified.CausesValidation = false;
+			this.tabPageChartsLanguagesSpecified.Controls.Add(this.pieChartLanguagesSpecified);
+			this.tabPageChartsLanguagesSpecified.Location = new System.Drawing.Point(4, 40);
+			this.tabPageChartsLanguagesSpecified.Name = "tabPageChartsLanguagesSpecified";
+			this.tabPageChartsLanguagesSpecified.Size = new System.Drawing.Size(292, 256);
+			this.tabPageChartsLanguagesSpecified.TabIndex = 1;
+			this.tabPageChartsLanguagesSpecified.Text = "Languages Specified";
 			// 
 			// tabPageChartsReadability
 			// 
 			this.tabPageChartsReadability.BackColor = System.Drawing.Color.LightGray;
 			this.tabPageChartsReadability.CausesValidation = false;
 			this.tabPageChartsReadability.Controls.Add(this.pieChartReadability);
-			this.tabPageChartsReadability.Location = new System.Drawing.Point(4, 22);
+			this.tabPageChartsReadability.Location = new System.Drawing.Point(4, 40);
 			this.tabPageChartsReadability.Name = "tabPageChartsReadability";
-			this.tabPageChartsReadability.Size = new System.Drawing.Size(292, 274);
+			this.tabPageChartsReadability.Size = new System.Drawing.Size(292, 256);
 			this.tabPageChartsReadability.TabIndex = 2;
 			this.tabPageChartsReadability.Text = "Readability";
 			// 
@@ -121,6 +138,13 @@ namespace SEOMacroscope
 			this.pieChartReadability.Size = new System.Drawing.Size(200, 200);
 			this.pieChartReadability.TabIndex = 2;
 			// 
+			// pieChartLanguagesSpecified
+			// 
+			this.pieChartLanguagesSpecified.Location = new System.Drawing.Point(46, 28);
+			this.pieChartLanguagesSpecified.Name = "pieChartLanguagesSpecified";
+			this.pieChartLanguagesSpecified.Size = new System.Drawing.Size(200, 200);
+			this.pieChartLanguagesSpecified.TabIndex = 4;
+			// 
 			// MacroscopeSiteStructurePanelCharts
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -130,7 +154,8 @@ namespace SEOMacroscope
 			this.Size = new System.Drawing.Size(350, 350);
 			this.tabControlCharts.ResumeLayout(false);
 			this.tabPageChartsSiteSummary.ResumeLayout(false);
-			this.tabPageChartsLanguagesDetected.ResumeLayout(false);
+			this.tabPageChartsResponseTimes.ResumeLayout(false);
+			this.tabPageChartsLanguagesSpecified.ResumeLayout(false);
 			this.tabPageChartsReadability.ResumeLayout(false);
 			this.ResumeLayout(false);
 

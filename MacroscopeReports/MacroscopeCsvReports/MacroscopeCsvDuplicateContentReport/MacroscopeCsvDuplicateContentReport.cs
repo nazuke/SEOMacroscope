@@ -30,7 +30,7 @@ using CsvHelper;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvDuplicateContent : MacroscopeCsvReports, IMacroscopeAnalysisPercentageDone
+  public partial class MacroscopeCsvDuplicateContentReport : MacroscopeCsvReports, IMacroscopeAnalysisPercentageDone
   {
 
     /**************************************************************************/
@@ -47,7 +47,7 @@ namespace SEOMacroscope
       
     /**************************************************************************/
 
-    public MacroscopeCsvDuplicateContent ( IMacroscopeProgressForm ProgressFormDialogue )
+    public MacroscopeCsvDuplicateContentReport ( IMacroscopeProgressForm ProgressFormDialogue )
     {
       this.ProgressForm = ProgressFormDialogue;
     }
@@ -56,7 +56,7 @@ namespace SEOMacroscope
 
     public void WriteCsv (
       MacroscopeJobMaster JobMaster,
-      MacroscopeCsvDuplicateContent.OutputWorksheet SelectedOutputWorksheet,
+      MacroscopeCsvDuplicateContentReport.OutputWorksheet SelectedOutputWorksheet,
       string OutputFilename
     )
     {
@@ -74,7 +74,7 @@ namespace SEOMacroscope
           switch( SelectedOutputWorksheet )
           {
 
-            case MacroscopeCsvDuplicateContent.OutputWorksheet.TITLES:
+            case MacroscopeCsvDuplicateContentReport.OutputWorksheet.TITLES:
 
               this.ProgressForm.UpdatePercentages(
                 Title: "Processing Titles",
@@ -91,7 +91,7 @@ namespace SEOMacroscope
 
               break;
             
-            case MacroscopeCsvDuplicateContent.OutputWorksheet.CHECKSUMS:
+            case MacroscopeCsvDuplicateContentReport.OutputWorksheet.CHECKSUMS:
 
               this.ProgressForm.UpdatePercentages(
                 Title: "Processing Checksums",
@@ -108,7 +108,7 @@ namespace SEOMacroscope
 
               break;
 
-            case MacroscopeCsvDuplicateContent.OutputWorksheet.ETAGS:
+            case MacroscopeCsvDuplicateContentReport.OutputWorksheet.ETAGS:
 
               this.ProgressForm.UpdatePercentages(
                 Title: "Processing ETags",
@@ -125,7 +125,7 @@ namespace SEOMacroscope
 
               break;
 
-            case MacroscopeCsvDuplicateContent.OutputWorksheet.PAGES:
+            case MacroscopeCsvDuplicateContentReport.OutputWorksheet.PAGES:
 
               this.ProgressForm.UpdatePercentages(
                 Title: "Applying Levenshtein Distance",

@@ -29,7 +29,7 @@ using CsvHelper;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvDuplicateContent : MacroscopeCsvReports
+  public partial class MacroscopeCsvDuplicateContentReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
