@@ -159,6 +159,7 @@ namespace SEOMacroscope
     private int WordCount;
 
     private int Depth;
+    private MacroscopeDocumentChain HomePageLinkChain;
 
     private List<string> Remarks;
 
@@ -349,6 +350,8 @@ namespace SEOMacroscope
       
       this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
 
+      this.HomePageLinkChain = new MacroscopeDocumentChain ();
+          
       this.Remarks = new List<string> ();
 
       this.CustomFiltered = new Dictionary<string, MacroscopeConstants.TextPresence> ( 5 );
@@ -365,7 +368,6 @@ namespace SEOMacroscope
     {
 
       TimeDuration DelegateTimeDuration = delegate( Action ProcessMethod )
-
       {
 
         Stopwatch DelegateStopWatch = new Stopwatch ();
@@ -783,9 +785,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void SetErrorCondition ( string ErrorCondtionValue )
+    public void SetErrorCondition ( string Value )
     {
-      this.ErrorCondition = ErrorCondtionValue;
+      this.ErrorCondition = Value;
     }
     
     public string GetErrorCondition ()
@@ -1936,6 +1938,38 @@ namespace SEOMacroscope
       return( this.Depth );
     }
 
+    /** Home Page Link Chain **************************************************/
+
+    
+    
+    public void ComputeHomePageLinkChain ()
+    {
+      
+      // TODO: Implement analysis of link path from current document to home page.
+      
+
+
+    }
+
+
+
+    public MacroscopeDocumentChain GetHomePageLinkChain ()
+    {
+      
+      // TODO: Implement analysis of link path from current document to home page.
+      
+      return( this.HomePageLinkChain );
+
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
     /** Remarks ***************************************************************/
 
     public void AddRemark ( string Observation )

@@ -39,11 +39,11 @@ namespace SEOMacroscope
     private void BuildWorksheetPageDuplicateEtags (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
-      string sWorksheetLabel
+      string WorksheetLabel
     )
     {
       
-      var ws = wb.Worksheets.Add( sWorksheetLabel );
+      var ws = wb.Worksheets.Add( WorksheetLabel );
 
       int iRow = 1;
       int iCol = 1;

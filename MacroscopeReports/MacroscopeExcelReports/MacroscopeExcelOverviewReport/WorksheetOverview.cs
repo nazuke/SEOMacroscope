@@ -37,10 +37,10 @@ namespace SEOMacroscope
     private void BuildWorksheetOverview (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
-      string sWorksheetLabel
+      string WorksheetLabel
     )
     {
-      var ws = wb.Worksheets.Add( sWorksheetLabel );
+      var ws = wb.Worksheets.Add( WorksheetLabel );
 
       int iRow = 1;
       int iCol = 1;
@@ -88,6 +88,9 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Canonical";
         iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Page Depth";
+        iCol++;     
 
         ws.Cell( iRow, iCol ).Value = "Links In";
         iCol++;
@@ -171,6 +174,9 @@ namespace SEOMacroscope
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCanonical() ) );
         iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetDepth().ToString() );
+        iCol++;  
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.CountInlinks() );
         iCol++;

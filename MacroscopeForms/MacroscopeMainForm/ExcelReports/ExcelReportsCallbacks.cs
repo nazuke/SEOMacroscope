@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -38,6 +39,58 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private void CallbackExportListViewToExcelReport ( object sender, EventArgs e )
+    {
+      
+      KeyValuePair<string,ListView> SelectedListView = this.GetTabPageListView();
+      
+      SaveFileDialog Dialog = new SaveFileDialog ();
+      Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "xlsx";
+      Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Report.xlsx";
+
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+
+        string Path = Dialog.FileName;
+        MacroscopeExcelExportListViewReport msExcelReport;
+       
+        msExcelReport = new MacroscopeExcelExportListViewReport (
+          SelectedWorksheetName: SelectedListView.Key,
+          SelectedListView: SelectedListView.Value
+        );
+
+        try
+        {
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
+          {
+            msExcelReport.WriteXslx( this.JobMaster, Path );
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Excel Report", ex.Message );       
+        }
+        catch( MacroscopeSaveExcelFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Excel Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Excel Report", ex.Message );
+        }
+        
+      }
+
+      Dialog.Dispose();
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+    
     private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
     {
       

@@ -26,64 +26,61 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
-using CsvHelper;
+using ClosedXML.Excel;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvExportListViewReport : MacroscopeCsvReports
+  public partial class MacroscopeExcelExportListViewReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
+    private string WorksheetName;
+    
     private ListView TargetListView;
     
     /**************************************************************************/
 
-    public MacroscopeCsvExportListViewReport ( ListView SelectedListView )
+    public MacroscopeExcelExportListViewReport (
+      string SelectedWorksheetName,
+      ListView SelectedListView
+    )
     {
+
+      this.WorksheetName = SelectedWorksheetName;
+
       this.TargetListView = SelectedListView;
+
     }
 
     /**************************************************************************/
 
-    public void WriteCsv (
-      MacroscopeJobMaster JobMaster,
-      string OutputFilename
-    )
+    public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
+
+      XLWorkbook wb = new XLWorkbook ();
+
+      DebugMsg( string.Format( "EXCEL OutputFilename: {0}", OutputFilename ) );
+
+      lock( this.TargetListView )
+      {
+
+        this.BuildWorksheetListView( JobMaster, wb, WorksheetName );
+        
+      }
 
       try
       {
-              
-        using( StreamWriter writer = File.CreateText( OutputFilename ) )
-        {
-
-          CsvWriter ws = new CsvWriter ( writer );
-
-          lock( this.TargetListView )
-          {
-            this.BuildWorksheetListView( JobMaster, ws );
-          }
-
-        }
-
-      }
-      catch( CsvWriterException )
-      {
-        MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (
-          string.Format( "Cannot write to CSV file at {0}", OutputFilename )
-        );
-        throw CannotSaveCsvFileException;
+        wb.SaveAs( OutputFilename );
       }
       catch( IOException )
       {
-        MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (
-          string.Format( "Cannot write to CSV file at {0}", OutputFilename )
+        MacroscopeSaveExcelFileException CannotSaveExcelFileException;
+        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
+          string.Format( "Cannot write to Excel file at {0}", OutputFilename )
         );
-        throw CannotSaveCsvFileException;
+        throw CannotSaveExcelFileException;
       }
 
     }

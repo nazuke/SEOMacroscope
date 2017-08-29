@@ -161,6 +161,9 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
+		private System.Windows.Forms.ToolStripMenuItem exportCurrentListToCSVToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exportCurrentListToExcelToolStripMenuItem;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -196,6 +199,9 @@ namespace SEOMacroscope
 			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
 			this.sitemapTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sitemapTextOnePerHostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
+			this.exportCurrentListToCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exportCurrentListToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -362,7 +368,7 @@ namespace SEOMacroscope
 			this.loadFromTextFileToolStripMenuItem,
 			this.pasteFromClipboardToolStripMenuItem});
 			this.loadUrlListToolStripMenuItem.Name = "loadUrlListToolStripMenuItem";
-			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.loadUrlListToolStripMenuItem.Text = "Load URL List";
 			// 
 			// loadFromTextFileToolStripMenuItem
@@ -382,7 +388,7 @@ namespace SEOMacroscope
 			// toolStripSeparator8
 			// 
 			this.toolStripSeparator8.Name = "toolStripSeparator8";
-			this.toolStripSeparator8.Size = new System.Drawing.Size(142, 6);
+			this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
 			// 
 			// exportToolStripMenuItem
 			// 
@@ -391,9 +397,12 @@ namespace SEOMacroscope
 			this.sitemapXMLOnePerHostToolStripMenuItem,
 			this.toolStripSeparator10,
 			this.sitemapTextToolStripMenuItem,
-			this.sitemapTextOnePerHostToolStripMenuItem});
+			this.sitemapTextOnePerHostToolStripMenuItem,
+			this.toolStripSeparator26,
+			this.exportCurrentListToCSVToolStripMenuItem,
+			this.exportCurrentListToExcelToolStripMenuItem});
 			this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-			this.exportToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.exportToolStripMenuItem.Text = "Export";
 			// 
 			// sitemapXMLToolStripMenuItem
@@ -429,17 +438,36 @@ namespace SEOMacroscope
 			this.sitemapTextOnePerHostToolStripMenuItem.Text = "Sitemap Text For Each Host";
 			this.sitemapTextOnePerHostToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveGeneratorSitemapTextPerHost);
 			// 
+			// toolStripSeparator26
+			// 
+			this.toolStripSeparator26.Name = "toolStripSeparator26";
+			this.toolStripSeparator26.Size = new System.Drawing.Size(217, 6);
+			// 
+			// exportCurrentListToCSVToolStripMenuItem
+			// 
+			this.exportCurrentListToCSVToolStripMenuItem.Name = "exportCurrentListToCSVToolStripMenuItem";
+			this.exportCurrentListToCSVToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+			this.exportCurrentListToCSVToolStripMenuItem.Text = "Export Current List to CSV";
+			this.exportCurrentListToCSVToolStripMenuItem.Click += new System.EventHandler(this.CallbackExportListViewToCsvReport);
+			// 
+			// exportCurrentListToExcelToolStripMenuItem
+			// 
+			this.exportCurrentListToExcelToolStripMenuItem.Name = "exportCurrentListToExcelToolStripMenuItem";
+			this.exportCurrentListToExcelToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+			this.exportCurrentListToExcelToolStripMenuItem.Text = "Export Current List to Excel";
+			this.exportCurrentListToExcelToolStripMenuItem.Click += new System.EventHandler(this.CallbackExportListViewToExcelReport);
+			// 
 			// toolStripSeparator9
 			// 
 			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(142, 6);
+			this.toolStripSeparator9.Size = new System.Drawing.Size(149, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.CallbackFileExit);
 			// 

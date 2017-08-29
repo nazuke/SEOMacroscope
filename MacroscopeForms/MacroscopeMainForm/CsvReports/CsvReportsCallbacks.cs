@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SEOMacroscope
@@ -40,11 +41,9 @@ namespace SEOMacroscope
     
     private void CallbackExportListViewToCsvReport ( object sender, EventArgs e )
     {
-      
-      
-      
-      return;
-      /*
+
+      KeyValuePair<string,ListView> SelectedListView = this.GetTabPageListView();
+
       SaveFileDialog Dialog = new SaveFileDialog ();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
@@ -57,7 +56,9 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvExportListViewReport CsvReport = new MacroscopeCsvExportListViewReport ();
+        MacroscopeCsvExportListViewReport CsvReport;
+
+        CsvReport = new MacroscopeCsvExportListViewReport ( SelectedListView: SelectedListView.Value );
 
         try
         {
@@ -82,7 +83,7 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
-         */       
+
     }
 
     /**************************************************************************/

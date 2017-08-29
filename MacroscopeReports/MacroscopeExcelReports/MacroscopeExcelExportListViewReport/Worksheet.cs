@@ -24,49 +24,74 @@
 */
 
 using System;
-using CsvHelper;
+using ClosedXML.Excel;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvExportListViewReport : MacroscopeCsvReports
+  public partial class MacroscopeExcelExportListViewReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
     private void BuildWorksheetListView (
       MacroscopeJobMaster JobMaster,
-      CsvWriter ws
+      XLWorkbook wb,
+      string WorksheetLabel
     )
     {
+      
+      var ws = wb.Worksheets.Add( WorksheetLabel );
+
+      int iRow = 1;
+      int iCol = 0;
+      int iColMax = 1;
 
       for( int i = 0 ; i < this.TargetListView.Columns.Count ; i++ )
       {
 
         string ColumnName = this.TargetListView.Columns[ i ].Text;
 
-        ws.WriteField( ColumnName );
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = ColumnName;
 
       }
-        
-      ws.NextRecord();
+      
+      for( int i = 1 ; i <= iCol ; i++ )
+      {
+        ws.Cell( iRow, i ).Style.Font.SetBold();
+      }
+
+      iColMax = iCol;
+
+      iRow++;
 
       for( int j = 0 ; j < this.TargetListView.Items.Count ; j++ )
       {
 
+        iCol = 0;
+
         for( int k = 0 ; k < this.TargetListView.Items[ j ].SubItems.Count ; k++ )
         {
-      
+
           string CellValue = this.TargetListView.Items[ j ].SubItems[ k ].Text;
-          
-          this.InsertAndFormatContentCell( ws, CellValue );
-      
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, CellValue );
+
         }
       
-        ws.NextRecord();
+        iRow++;
 
       }
-      
+
+      {
+        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
+        var excelTable = rangeData.CreateTable();
+      }
+
     }
 
     /**************************************************************************/

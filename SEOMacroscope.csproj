@@ -132,6 +132,7 @@
     <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractorCssSelectors.cs" />
     <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractorRegexes.cs" />
     <Compile Include="MacroscopeDataExtractor\t\TestMacroscopeDataExtractorXpaths.cs" />
+    <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentChain.cs" />
     <Compile Include="MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentCustomFilters.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentDataExtractors.cs" />
@@ -202,6 +203,8 @@
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport\WorksheetUriAnalysis.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MaroscopeCsvRemarksReport\MaroscopeCsvRemarksReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MaroscopeCsvRemarksReport\WorksheetObservations.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\MacroscopeExcelExportListViewReport.cs" />
+    <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\Worksheet.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelReports.cs" />
     <Compile Include="MacroscopeTools\MacroscopeDateTools.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.cs" />
@@ -706,6 +709,7 @@
     <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDataExtractorReport" />
     <Folder Include="MacroscopeReports\MacroscopeCsvReports" />
     <Folder Include="MacroscopeReports\MacroscopeExcelReports" />
+    <Folder Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\MacroscopeXpathRestrictions" />

@@ -57,6 +57,7 @@ namespace SEOMacroscope
         ws.WriteField( "Locale" );
         ws.WriteField( "Language" );
         ws.WriteField( "Canonical" );
+        ws.WriteField( "Page Depth" );
         ws.WriteField( "Links In" );
         ws.WriteField( "Links Out" );
         ws.WriteField( "Hyperlinks In" );
@@ -102,6 +103,8 @@ namespace SEOMacroscope
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetCanonical() ) );
 
+        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetDepth().ToString() ) );
+        
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountInlinks().ToString() ) );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountOutlinks().ToString() ) );

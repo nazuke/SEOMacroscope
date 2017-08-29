@@ -353,7 +353,6 @@ namespace SEOMacroscope
       }
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearchUrl.KeyUp += this.CallbackSearchTextBoxSearchUrlKeyUp;
       this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.KeyUp += this.CallbackSearchTextBoxSearchKeyUp;
-      this.macroscopeOverviewTabPanelInstance.toolStripButtonExportToCsv.Click += this.CallbackExportListViewToCsvReport;
       
       /** ListViewLinks ---------------------------------------------------- **/
 
@@ -1242,6 +1241,172 @@ namespace SEOMacroscope
 
       }
       
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private KeyValuePair<string,ListView> GetTabPageListView ()
+    {
+      
+      KeyValuePair<string,ListView> KeyPair;
+      string TabName = this.macroscopeOverviewTabPanelInstance.tabControlMain.SelectedTab.Name;
+      string TabLabel = this.macroscopeOverviewTabPanelInstance.tabControlMain.SelectedTab.Text;
+      string SelectedTabLabel = TabLabel;
+      ListView CurrentListView = null;
+
+      switch( TabName )
+      {
+
+        case MacroscopeConstants.tabPageStructureOverview:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewStructure;
+          break;
+
+        case MacroscopeConstants.tabPageRobots:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewRobots;
+          break;
+
+        case MacroscopeConstants.tabPageSitemaps:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewSitemaps;
+          break;
+          
+        case MacroscopeConstants.tabPageCanonicalAnalysis:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis;
+          break;
+
+        case MacroscopeConstants.tabPageHrefLangAnalysis:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewHrefLang;
+          break;
+
+        case MacroscopeConstants.tabPageErrors:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewErrors;
+          break;
+
+        case MacroscopeConstants.tabPageHostnames:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewHostnames;
+          break;
+          
+        case MacroscopeConstants.tabPageRedirectsAudit:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit;
+          break;
+
+        case MacroscopeConstants.tabPageLinks:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewLinks;
+          break;
+          
+        case MacroscopeConstants.tabPageHyperlinks:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewHyperlinks;
+          break;
+
+        case MacroscopeConstants.tabPageUriAnalysis:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis;
+          break;
+
+        case MacroscopeConstants.tabPagePageTitles:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewPageTitles;
+          break;
+
+        case MacroscopeConstants.tabPagePageDescriptions:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions;
+          break;
+
+        case MacroscopeConstants.tabPagePageKeywords:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewPageKeywords;
+          break;
+
+        case MacroscopeConstants.tabPagePageHeadings:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewPageHeadings;
+          break;
+
+        case MacroscopeConstants.tabPagePageText:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewPageText;
+          break;
+
+        case MacroscopeConstants.tabPageStylesheets:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewStylesheets;
+          break;
+
+        case MacroscopeConstants.tabPageJavascripts:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewJavascripts;
+          break;
+
+        case MacroscopeConstants.tabPageImages:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewImages;
+          break;
+
+        case MacroscopeConstants.tabPageAudios:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewAudios;
+          break;
+
+        case MacroscopeConstants.tabPageVideos:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewVideos;
+          break;
+
+        case MacroscopeConstants.tabPageEmailAddresses:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewEmailAddresses;
+          break;
+
+        case MacroscopeConstants.tabPageTelephoneNumbers:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewTelephoneNumbers;
+          break;
+
+        case MacroscopeConstants.tabPageCustomFilters:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewCustomFilters;
+          break;
+
+        case MacroscopeConstants.tabPageDataExtractors:
+
+          string SubTabName = this.macroscopeOverviewTabPanelInstance.tabControlDataExtractors.SelectedTab.Name;
+          string SubTabLabel = this.macroscopeOverviewTabPanelInstance.tabControlDataExtractors.SelectedTab.Text;
+
+          SelectedTabLabel = SubTabLabel;
+
+          switch( SubTabName )
+          {
+            case MacroscopeConstants.tabPageCssSelectors:
+              CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewDataExtractorCssSelectors;
+              break;
+            case MacroscopeConstants.tabPageRegexes:
+              CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewDataExtractorRegexes;
+              break;
+            case MacroscopeConstants.tabPageXpaths:
+              CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewDataExtractorXpaths;
+              break;
+            default:
+              DebugMsg( string.Format( "UNKNOWN SUB TAB: {0}", SubTabName ) );
+              break;
+          }
+          
+          break;
+
+        case MacroscopeConstants.tabPageRemarks:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewRemarks;
+          break;
+
+        case MacroscopeConstants.tabPageUriQueue:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewUriQueue;
+          break;
+          
+        case MacroscopeConstants.tabPageHistory:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewHistory;
+          break;
+
+        case MacroscopeConstants.tabPageSearch:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewSearchCollection;
+          break;
+
+        default:
+          DebugMsg( string.Format( "UNKNOWN TAB: {0}", TabName ) );
+          break;
+
+      }
+      
+      KeyPair = new KeyValuePair<string,ListView> (
+        key: SelectedTabLabel,
+        value: CurrentListView
+      );
+
+      return( KeyPair );
+
     }
 
     /** ListView Show Document Details on URL Click ***************************/

@@ -45,6 +45,8 @@ namespace SEOMacroscope
       : base( MainForm, TargetListView )
     {
 
+      this.SuppressDebugMsg = false;
+      
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
       this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelStructureItems;
@@ -96,6 +98,8 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.Language, MacroscopeConstants.Language );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
         
+        this.DisplayListView.Columns.Add( MacroscopeConstants.PageDepth, MacroscopeConstants.PageDepth );
+
         this.DisplayListView.Columns.Add( MacroscopeConstants.Inlinks, MacroscopeConstants.Inlinks );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Outlinks, MacroscopeConstants.Outlinks );
         
@@ -115,7 +119,6 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.KeywordsCount, MacroscopeConstants.KeywordsCount );
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.BodyTextLang, MacroscopeConstants.BodyTextLang );
-        
         
         for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
         {
@@ -234,6 +237,8 @@ namespace SEOMacroscope
         StructureItems.Add( MacroscopeConstants.DateExpires, msDoc.GetDateExpires() );
 
         StructureItems.Add( MacroscopeConstants.Canonical, msDoc.GetCanonical() );
+        
+        StructureItems.Add( MacroscopeConstants.PageDepth, msDoc.GetDepth().ToString() );
 
         StructureItems.Add( MacroscopeConstants.Inlinks, msDoc.CountInlinks().ToString() );
         StructureItems.Add( MacroscopeConstants.Outlinks, msDoc.CountOutlinks().ToString() );
@@ -283,9 +288,9 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = Url;
 
-          foreach( string Key in StructureItems.Keys )
+          for( int i = 0 ; i < this.DisplayListView.Columns.Count ; i++ )
           {
-            lvItem.SubItems.Add( Key );
+            lvItem.SubItems.Add( "" );
           }
 
           ListViewItems.Add( lvItem );
@@ -384,15 +389,10 @@ namespace SEOMacroscope
     private void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> ColExplicitWidth = new Dictionary<string,int> () {
-        {
-          MacroscopeConstants.Url,
-          300
-        }, {
-          MacroscopeConstants.Title,
-          300
-        }
-      };
+      Dictionary<string,int> ColExplicitWidth = new Dictionary<string,int> ( 2 );
+
+      ColExplicitWidth.Add( MacroscopeConstants.Url, 300 );
+      ColExplicitWidth.Add( MacroscopeConstants.Title, 300 );
 
       for( int ColIndex = 0 ; ColIndex < this.DisplayListView.Columns.Count ; ColIndex++ )
       {
@@ -411,25 +411,32 @@ namespace SEOMacroscope
     private void ListViewResizeColumns ()
     {
 
-      List<string> lColDataWidth = new List<string> () {
-          MacroscopeConstants.Url,
-        MacroscopeConstants.DateServer,
-          MacroscopeConstants.DateModified,
-        MacroscopeConstants.Title
-      };
+      List<string> ColDataWidth = new List<string> ( 4 );
+      List<string> ColHeaderWidth = new List<string> ( 3 );
+      
+      ColDataWidth.Add( MacroscopeConstants.Url );
+      ColDataWidth.Add( MacroscopeConstants.DateServer );
+      ColDataWidth.Add( MacroscopeConstants.DateModified );
+      ColDataWidth.Add( MacroscopeConstants.Title );
 
-      List<string> lColHeaderWidth = new List<string> () {
-          MacroscopeConstants.DateModified
-      };
+      ColHeaderWidth.Add( MacroscopeConstants.DateModified );
+      ColHeaderWidth.Add( MacroscopeConstants.DateServer );
+      ColHeaderWidth.Add( MacroscopeConstants.DateExpires );
 
-      foreach( string sColName in lColDataWidth )
+      foreach( string ColName in ColDataWidth )
       {
-        this.DisplayListView.AutoResizeColumn( this.DisplayListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.ColumnContent );
+        this.DisplayListView.AutoResizeColumn(
+          this.DisplayListView.Columns[ ColName ].Index,
+          ColumnHeaderAutoResizeStyle.ColumnContent
+        );
       }
 
-      foreach( string sColName in lColHeaderWidth )
+      foreach( string ColName in ColHeaderWidth )
       {
-        this.DisplayListView.AutoResizeColumn( this.DisplayListView.Columns[ sColName ].Index, ColumnHeaderAutoResizeStyle.HeaderSize );
+        this.DisplayListView.AutoResizeColumn(
+          this.DisplayListView.Columns[ ColName ].Index, 
+          ColumnHeaderAutoResizeStyle.HeaderSize
+        );
       }
 
     }

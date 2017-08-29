@@ -268,7 +268,6 @@ namespace SEOMacroscope
               lvItem.SubItems[ ColMimeType ].Text = MimeType;
               lvItem.SubItems[ ColRegexLabel ].Text = RegexLabel;
               lvItem.SubItems[ ColExtractedValue ].Text = ExtractedValue;
-              lvItem.SubItems[ ColExtractedValue + 1 ].Text = PairKey;
 
             }
             catch( Exception ex )

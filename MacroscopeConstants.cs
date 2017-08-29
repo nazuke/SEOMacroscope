@@ -139,7 +139,12 @@ namespace SEOMacroscope
     public const string tabPageEmailAddresses = "tabPageEmailAddresses";
     public const string tabPageTelephoneNumbers = "tabPageTelephoneNumbers";
     public const string tabPageCustomFilters = "tabPageCustomFilters";
+
     public const string tabPageDataExtractors = "tabPageDataExtractors";
+    public const string tabPageCssSelectors = "tabPageCssSelectors";
+    public const string tabPageRegexes = "tabPageRegexes";
+    public const string tabPageXpaths = "tabPageXpaths";
+
     public const string tabPageRemarks = "tabPageRemarks";
     public const string tabPageUriQueue = "tabPageUriQueue";
     public const string tabPageHistory = "tabPageHistory";
@@ -273,6 +278,8 @@ namespace SEOMacroscope
 
     public const string Canonical = "Canonical";
 
+    public const string PageDepth = "Page Depth";
+    
     public const string Inlinks = "Links In";
     public const string Outlinks = "Links Out";
 
