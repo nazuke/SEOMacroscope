@@ -159,7 +159,7 @@ namespace SEOMacroscope
     private int WordCount;
 
     private int Depth;
-    private MacroscopeDocumentChain HomePageLinkChain;
+    private Dictionary<string,MacroscopeDocumentChain> HomePageLinkChains;
 
     private List<string> Remarks;
 
@@ -350,7 +350,7 @@ namespace SEOMacroscope
       
       this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
 
-      this.HomePageLinkChain = new MacroscopeDocumentChain ();
+      this.HomePageLinkChains = new Dictionary<string,MacroscopeDocumentChain> ();
           
       this.Remarks = new List<string> ();
 
@@ -1251,9 +1251,33 @@ namespace SEOMacroscope
 
     public MacroscopeHyperlinksIn GetHyperlinksIn ()
     {
+
       MacroscopeHyperlinksIn DocumentHyperlinksIn = this.DocCollection.GetDocumentHyperlinksIn( this.GetUrl() );
+
       return( DocumentHyperlinksIn );
+
     }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<MacroscopeHyperlinkIn> IterateHyperlinksIn ()
+    {
+
+      MacroscopeHyperlinksIn DocumentHyperlinksIn = this.DocCollection.GetDocumentHyperlinksIn( this.GetUrl() );
+
+      lock( DocumentHyperlinksIn )
+      {
+
+        foreach( MacroscopeHyperlinkIn Link in DocumentHyperlinksIn.IterateLinks() )
+        {
+          yield return Link;
+        }
+
+      }
+      
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     public int CountHyperlinksIn ()
     {
@@ -1277,20 +1301,28 @@ namespace SEOMacroscope
       this.ProcessHyperlinksIn = true;
     }
        
+    /** -------------------------------------------------------------------- **/
+
     public void UnsetProcessHyperlinksIn ()
     {
       this.ProcessHyperlinksIn = false;
     }
     
+    /** -------------------------------------------------------------------- **/
+
     public Boolean GetProcessHyperlinksIn ()
     {
       return( this.ProcessHyperlinksIn );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeHyperlinksOut GetHyperlinksOut ()
     {
       return( this.HyperlinksOut );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public IEnumerable<MacroscopeHyperlinkOut> IterateHyperlinksOut ()
     {
@@ -1302,6 +1334,8 @@ namespace SEOMacroscope
         }
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void SetProcessHyperlinksInForUrl ( string Url )
     {
@@ -1321,10 +1355,13 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public int CountHyperlinksOut ()
     {
-      int iCount = this.HyperlinksOut.Count();
-      return( iCount );
+
+      return( this.HyperlinksOut.Count() );
+
     }
 
     /** Email Addresses *******************************************************/
@@ -1940,25 +1977,40 @@ namespace SEOMacroscope
 
     /** Home Page Link Chain **************************************************/
 
-    
-    
-    public void ComputeHomePageLinkChain ()
+    public void ComputeHomePageLinkChains ()
     {
-      
+
       // TODO: Implement analysis of link path from current document to home page.
+
+      HomePageLinkChain LinkChains;
+        
+      lock( this.HomePageLinkChains )
+      {
+
+        LinkChains = new HomePageLinkChain ( 
+          DocCollection: this.DocCollection,
+          msDoc: this
+        );
+
+        // this.HomePageLinkChains = LinkChains.Compute();
+
+        LinkChains.Compute();
+
+      }
+
+      return;
       
-
-
     }
 
 
+    /** -------------------------------------------------------------------- **/
 
-    public MacroscopeDocumentChain GetHomePageLinkChain ()
+    public Dictionary<string,MacroscopeDocumentChain> GetHomePageLinkChain ()
     {
       
       // TODO: Implement analysis of link path from current document to home page.
       
-      return( this.HomePageLinkChain );
+      return( this.HomePageLinkChains );
 
     }
 

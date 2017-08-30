@@ -724,6 +724,15 @@ namespace SEOMacroscope
 
               }
 
+              try
+              {
+                this.RecalculateHomePageLinkChains( msDoc: msDoc );
+              }
+              catch( Exception ex )
+              {
+                this.DebugMsg( string.Format( "RecalculateHomePageLinkChains: {0}", ex.Message ) );
+              }
+
               if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
               {
                 this.StatsUrlsInternal++;
@@ -2192,6 +2201,18 @@ namespace SEOMacroscope
       
       }
       
+    }
+
+    /** Calculate Home Page Link Chains ***************************************/
+
+    public void RecalculateHomePageLinkChains ( MacroscopeDocument msDoc )
+    {
+
+      if( msDoc.GetIsHtml() )
+      {
+        msDoc.ComputeHomePageLinkChains();
+      }
+
     }
 
     /** Search Index **********************************************************/

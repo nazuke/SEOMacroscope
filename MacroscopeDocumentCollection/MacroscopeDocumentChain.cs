@@ -65,6 +65,7 @@ namespace SEOMacroscope
 
 
 
+
         //this.DocumentChain.Add( Url, msDoc );
 
       }

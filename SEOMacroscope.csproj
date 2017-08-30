@@ -111,6 +111,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MacroscopeAnalysis\HomePageLinkChain.cs" />
     <Compile Include="MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageBodyText.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzePageDescriptions.cs" />

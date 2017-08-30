@@ -113,7 +113,8 @@ namespace SEOMacroscope
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "CallbackProgressBarScanTimer: {0}", ex.Message ) );
+          DebugMsg( string.Format( "CallbackProgressBarScanTimer1: {0}", ex.Message ) );
+          DebugMsg( string.Format( "CallbackProgressBarScanTimer2: {0}", ex.StackTrace ) );
         }
         finally
         {
