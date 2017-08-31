@@ -43,7 +43,7 @@ namespace SEOMacroscope
       : base( MainForm, tvTreeView )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.ConfigureTreeView();
 

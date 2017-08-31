@@ -724,6 +724,7 @@ namespace SEOMacroscope
 
               }
 
+              /*
               try
               {
                 this.RecalculateHomePageLinkChains( msDoc: msDoc );
@@ -732,7 +733,8 @@ namespace SEOMacroscope
               {
                 this.DebugMsg( string.Format( "RecalculateHomePageLinkChains: {0}", ex.Message ) );
               }
-
+              */
+             
               if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
               {
                 this.StatsUrlsInternal++;

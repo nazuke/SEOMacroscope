@@ -63,10 +63,7 @@ namespace SEOMacroscope
       lock( this.DocumentChain )
       {
 
-
-
-
-        //this.DocumentChain.Add( Url, msDoc );
+        this.DocumentChain.AddLast( msDoc );
 
       }
 
@@ -77,13 +74,10 @@ namespace SEOMacroscope
     public void RemoveDocument ( MacroscopeDocument msDoc )
     {
 
-           
       lock( this.DocumentChain )
       {
 
-
-        //          this.DocumentChain.Remove( Url );
-
+        this.DocumentChain.Remove( msDoc );
 
       }
 
@@ -91,17 +85,35 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    public MacroscopeDocument GetDocument ()
+    public MacroscopeDocument GetFirstDocument ()
     {
 
       MacroscopeDocument msDoc = null;
 
-      /*
-      if( this.DocumentChain.ContainsKey( Url ) )
+      lock( this.DocumentChain )
       {
-        msDoc = this.DocumentChain[ Url ];
+
+        msDoc = this.DocumentChain.First.Value;
+
       }
-      */
+     
+      return( msDoc );
+
+    }
+    
+    /**************************************************************************/
+    
+    public MacroscopeDocument GetLastDocument ()
+    {
+
+      MacroscopeDocument msDoc = null;
+
+      lock( this.DocumentChain )
+      {
+
+        msDoc = this.DocumentChain.Last.Value;
+
+      }
      
       return( msDoc );
 
@@ -128,7 +140,9 @@ namespace SEOMacroscope
 
     public int CountDocuments ()
     {
+
       return( this.DocumentChain.Count );
+
     }
     
     /**************************************************************************/

@@ -67,24 +67,26 @@ namespace SEOMacroscope
     public Boolean Compute ()
     {
 
+      MacroscopeDocumentChain LinkChain = new MacroscopeDocumentChain ();
       Boolean Success = false;
+
+      string CurrentPageUrl = this.LeafMsDoc.GetUrl();
+
+      this.DebugMsg( string.Format( "CURRENT PAGE URL: {0}", CurrentPageUrl ) );
+
+      LinkChain.AddDocument( msDoc: this.LeafMsDoc );
       
+      this.Descend( LinkChain: LinkChain, CurrentDoc: this.LeafMsDoc );
 
-
-
-      foreach( MacroscopeHyperlinkIn HyperLinkIn in this.LeafMsDoc.IterateHyperlinksIn() )
+      
+      foreach( MacroscopeDocument doc in  LinkChain.IterateDocuments() )
       {
-        
-        string SourceUrl = HyperLinkIn.GetSourceUrl();
-        string TargetUrl = HyperLinkIn.GetTargetUrl();
-        
-        this.DebugMsg( string.Format( "SourceUrl: {0}", SourceUrl ) );
-        this.DebugMsg( string.Format( "TargetUrl: {0}", TargetUrl ) );
-        
-        
+
+        this.DebugMsg( string.Format( "DOC: {0}", doc.GetUrl() ) );
+
       }
       
-           
+      
       
       
       
@@ -94,6 +96,55 @@ namespace SEOMacroscope
       
       
       return( Success );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void Descend (
+      MacroscopeDocumentChain LinkChain,
+      MacroscopeDocument CurrentDoc
+    )
+    {
+
+      string CurrentPageUrl = CurrentDoc.GetUrl();
+
+      foreach( MacroscopeHyperlinkIn HyperLinkIn in CurrentDoc.IterateHyperlinksIn() )
+      {
+
+        string SourceUrl = HyperLinkIn.GetSourceUrl();
+        string TargetUrl = HyperLinkIn.GetTargetUrl();
+
+        if( CurrentPageUrl.Equals( TargetUrl ) && ( !CurrentPageUrl.Equals( this.LeafMsDoc.GetUrl() ) ) )
+        {
+
+          MacroscopeDocument ParentDoc = this.LeafDocCollection.GetDocument( Url: SourceUrl );
+
+          if( ParentDoc != null )
+          {
+
+            
+            
+            
+            
+            //this.DebugMsg( string.Format( "SourceUrl: {0}", SourceUrl ) );
+            //this.DebugMsg( string.Format( "TargetUrl: {0}", TargetUrl ) );
+
+            LinkChain.AddDocument( msDoc: ParentDoc );
+                
+            //this.Descend( LinkChain: LinkChain, CurrentDoc: ParentDoc );
+          
+          }
+                
+        }
+
+      }
+
+      
+      
+      
+      
+      return;
 
     }
 
