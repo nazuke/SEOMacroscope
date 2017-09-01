@@ -122,9 +122,10 @@
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability\t\TestMacroscopeAnalyzeReadabilityFleschKincaid.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability\t\TestMacroscopeAnalyzeReadabilitySmog.cs" />
     <Compile Include="MacroscopeAnalysis\MacroscopeAnalyzeTextLanguage.cs" />
-    <Compile Include="MacroscopeAnalysis\MacroscopeLinkChainBTree\MacroscopeLinkChainBinaryTree.cs" />
-    <Compile Include="MacroscopeAnalysis\MacroscopeLinkChainBTree\MacroscopeLinkChainBinaryTreeNode.cs" />
-    <Compile Include="MacroscopeAnalysis\MacroscopeLinkChainBTree\t\TestMacroscopeLinkChainBinaryTree.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeLinkChainBinaryTree\MacroscopeLinkChainBinaryTree.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeLinkChainBinaryTree\MacroscopeLinkChainBinaryTreeNode.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeLinkChainBinaryTree\t\TestMacroscopeLinkChainBinaryTree.cs" />
+    <Compile Include="MacroscopeAnalysis\MacroscopeLinkChainTreeTraverser\MacroscopeLinkChainTreeTraverser.cs" />
     <Compile Include="MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="MacroscopeCustomFilters\MacroscopeCustomFilters.cs" />
     <Compile Include="MacroscopeCustomFilters\t\TestMacroscopeCustomFilters.cs" />
@@ -646,8 +647,10 @@
     <Folder Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability" />
     <Folder Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability\Algorithms" />
     <Folder Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability\t" />
-    <Folder Include="MacroscopeAnalysis\MacroscopeLinkChainBTree" />
-    <Folder Include="MacroscopeAnalysis\MacroscopeLinkChainBTree\t" />
+    <Folder Include="MacroscopeAnalysis\MacroscopeLinkChainBinaryTree" />
+    <Folder Include="MacroscopeAnalysis\MacroscopeLinkChainBinaryTree\t" />
+    <Folder Include="MacroscopeAnalysis\MacroscopeLinkChainTreeTraverser" />
+    <Folder Include="MacroscopeAnalysis\MacroscopeLinkChainTreeTraverser\t" />
     <Folder Include="MacroscopeAnalysis\t" />
     <Folder Include="MacroscopeCustomFilters\t" />
     <Folder Include="MacroscopeDataExtractor\t" />
