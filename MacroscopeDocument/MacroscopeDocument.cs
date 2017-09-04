@@ -159,7 +159,6 @@ namespace SEOMacroscope
     private int WordCount;
 
     private int Depth;
-    private Dictionary<string,MacroscopeDocumentChain> HomePageLinkChains;
 
     private List<string> Remarks;
 
@@ -350,8 +349,6 @@ namespace SEOMacroscope
       
       this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
 
-      this.HomePageLinkChains = new Dictionary<string,MacroscopeDocumentChain> ();
-          
       this.Remarks = new List<string> ();
 
       this.CustomFiltered = new Dictionary<string, MacroscopeConstants.TextPresence> ( 5 );
@@ -1975,44 +1972,10 @@ namespace SEOMacroscope
       return( this.Depth );
     }
 
-    /** Home Page Link Chain **************************************************/
-
-    public void ComputeHomePageLinkChains ()
-    {
-
-      // TODO: Implement analysis of link path from current document to home page.
-
-      HomePageLinkChain LinkChains;
-        
-      lock( this.HomePageLinkChains )
-      {
-
-        LinkChains = new HomePageLinkChain ( 
-          DocCollection: this.DocCollection,
-          msDoc: this
-        );
-
-        // this.HomePageLinkChains = LinkChains.Compute();
-
-        LinkChains.Compute();
-
-      }
-
-      return;
-      
-    }
 
 
-    /** -------------------------------------------------------------------- **/
 
-    public Dictionary<string,MacroscopeDocumentChain> GetHomePageLinkChain ()
-    {
-      
-      // TODO: Implement analysis of link path from current document to home page.
-      
-      return( this.HomePageLinkChains );
 
-    }
 
     
     

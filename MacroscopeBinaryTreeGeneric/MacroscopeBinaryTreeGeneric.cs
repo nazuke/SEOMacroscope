@@ -31,19 +31,21 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeLinkChainBinaryTree.
+  /// Description of MacroscopeBinaryTreeGeneric.
   /// </summary>
 
-  public class MacroscopeLinkChainBinaryTree<T> where T : IComparable<T>
+  public class MacroscopeBinaryTreeGeneric<T> where T : IComparable<T>
   {
 
+    // TODO: This implementation incomplete    
+    
     /**************************************************************************/
 
-    private MacroscopeLinkChainBinaryTreeNode<T> Tree;
+    private MacroscopeBinaryTreeGenericNode<T> Tree;
 
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTree ()
+    public MacroscopeBinaryTreeGeneric ()
     {
 
       this.Tree = null;
@@ -52,13 +54,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode<T> SetRootNode (
+    public MacroscopeBinaryTreeGenericNode<T> SetRootNode (
       string Name,
       T Value
     )
     {
 
-      this.Tree = new MacroscopeLinkChainBinaryTreeNode<T> (
+      this.Tree = new MacroscopeBinaryTreeGenericNode<T> (
         Name: Name,
         Value: Value
       );
@@ -69,15 +71,15 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode<T> CreateNode (
+    public MacroscopeBinaryTreeGenericNode<T> CreateNode (
       string Name,
       T Value
     )
     {
 
-      MacroscopeLinkChainBinaryTreeNode<T> NewNode;
+      MacroscopeBinaryTreeGenericNode<T> NewNode;
       
-      NewNode = new MacroscopeLinkChainBinaryTreeNode<T> (
+      NewNode = new MacroscopeBinaryTreeGenericNode<T> (
         Name: Name,
         Value: Value
       );
@@ -90,9 +92,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    private MacroscopeLinkChainBinaryTreeNode<T> InsertNode (
-      MacroscopeLinkChainBinaryTreeNode<T> Node,
-      MacroscopeLinkChainBinaryTreeNode<T> NewNode
+    private MacroscopeBinaryTreeGenericNode<T> InsertNode (
+      MacroscopeBinaryTreeGenericNode<T> Node,
+      MacroscopeBinaryTreeGenericNode<T> NewNode
     )
     {
 
@@ -101,22 +103,22 @@ namespace SEOMacroscope
       this.DebugMsg( "InsertNode" );
       this.DebugMsg( string.Format( "NewNode: {0}", NewNode.GetNodeName() ) );
 
-      MacroscopeLinkChainBinaryTreeNode<T> ChildNode;
+      MacroscopeBinaryTreeGenericNode<T> ChildNode;
       
       T NodeValue = Node.GetNodeValue();
       T NewNodeValue = NewNode.GetNodeValue();
 
       this.DebugMsg( string.Format( "NodeValue/NodeValue: {0} / {1}", NodeValue, NewNodeValue ) );
 
-      MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation Orientation;
+      MacroscopeBinaryTreeGenericNode<T>.NodeOrientation Orientation;
       
       if( NewNodeValue.CompareTo( NodeValue ) <= 0 )
       {
-        Orientation = MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation.LEFT;
+        Orientation = MacroscopeBinaryTreeGenericNode<T>.NodeOrientation.LEFT;
       }
       else
       {
-        Orientation = MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation.RIGHT;
+        Orientation = MacroscopeBinaryTreeGenericNode<T>.NodeOrientation.RIGHT;
       }
 
       ChildNode = Node.GetChildNode( Orientation: Orientation );
@@ -138,8 +140,8 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode<T> SetNodeName (
-      MacroscopeLinkChainBinaryTreeNode<T> Node,
+    public MacroscopeBinaryTreeGenericNode<T> SetNodeName (
+      MacroscopeBinaryTreeGenericNode<T> Node,
       string Name
     )
     {
@@ -150,8 +152,8 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode<T> SetNodeValue (
-      MacroscopeLinkChainBinaryTreeNode<T> Node,
+    public MacroscopeBinaryTreeGenericNode<T> SetNodeValue (
+      MacroscopeBinaryTreeGenericNode<T> Node,
       T Value
     )
     {

@@ -45,6 +45,8 @@ namespace SEOMacroscope
     private MacroscopeSearchIndex SearchIndex;
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
 
+    private     string StartUrl;
+    
     private Dictionary<string,MacroscopeLinkList> StructInlinks;
     private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn;
 
@@ -65,7 +67,7 @@ namespace SEOMacroscope
     private Dictionary<string,int> StatsLanguagesTitles;
     private Dictionary<string,int> StatsLanguagesDescriptions;
     private Dictionary<string,int> StatsLanguagesBodyTexts;
-    
+
     private Dictionary<string,decimal> StatsDurations;
     
     private Dictionary<string,MacroscopeDocumentList> StatsDeepKeywordAnalysisDocs;
@@ -79,6 +81,8 @@ namespace SEOMacroscope
     private int StatsUrlsSitemaps;
 
     private Dictionary<string,IPHostEntry> DnsCache;
+
+    private MacroscopeClickPathAnalysis ClickPathAnalysis;
 
     private static object LockerDocCollection = new object ();
     private static object LockerRecalc = new object ();
@@ -103,6 +107,8 @@ namespace SEOMacroscope
 
       this.SearchIndex = new MacroscopeSearchIndex ();
 
+      this.StartUrl = null;
+      
       this.StructInlinks = new Dictionary<string,MacroscopeLinkList> ( 1024 );
       this.StructHyperlinksIn = new Dictionary<string,MacroscopeHyperlinksIn> ( 1024 );
       
@@ -149,7 +155,9 @@ namespace SEOMacroscope
       this.StatsUrlsSitemaps = 0;
 
       this.DnsCache = new Dictionary<string,IPHostEntry> ( 16 );
-          
+
+      this.ClickPathAnalysis = new MacroscopeClickPathAnalysis ( DocumentCollection: this );
+
       this.StartRecalcTimer();
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
@@ -172,6 +180,8 @@ namespace SEOMacroscope
       this.SearchIndex = null;
       this.AnalyzeKeywords = null;
 
+      this.StartUrl = null;
+      
       this.StructInlinks = null;
       this.StructHyperlinksIn = null;
 
@@ -202,6 +212,8 @@ namespace SEOMacroscope
 
       this.DnsCache = null;
 
+      this.ClickPathAnalysis = null;
+      
     }
 
     /** Job Master Methods ****************************************************/
@@ -209,6 +221,25 @@ namespace SEOMacroscope
     public MacroscopeJobMaster GetJobMaster ()
     {
       return( this.JobMaster );
+    }
+
+    /** Start URL *************************************************************/
+    
+    
+    public void SetStartUrl ( string Url )
+    {
+          
+      this.StartUrl = Url;
+          
+    }
+
+    /** -------------------------------------------------------------------- **/
+    
+    public string GetStartUrl ()
+    {
+          
+      return( this.StartUrl );
+          
     }
 
     /** Allowed Hosts Methods *************************************************/
@@ -724,17 +755,6 @@ namespace SEOMacroscope
 
               }
 
-              /*
-              try
-              {
-                this.RecalculateHomePageLinkChains( msDoc: msDoc );
-              }
-              catch( Exception ex )
-              {
-                this.DebugMsg( string.Format( "RecalculateHomePageLinkChains: {0}", ex.Message ) );
-              }
-              */
-             
               if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
               {
                 this.StatsUrlsInternal++;
@@ -751,6 +771,15 @@ namespace SEOMacroscope
 
               Thread.Yield();
 
+            }
+
+            try
+            {
+              this.RecalculateClickPaths();
+            }
+            catch( Exception ex )
+            {
+              this.DebugMsg( string.Format( "RecalculateClickPaths: {0}", ex.Message ) );
             }
 
           }
@@ -2207,12 +2236,23 @@ namespace SEOMacroscope
 
     /** Calculate Home Page Link Chains ***************************************/
 
-    public void RecalculateHomePageLinkChains ( MacroscopeDocument msDoc )
+    public void RecalculateClickPaths ()
     {
 
-      if( msDoc.GetIsHtml() )
+      // TODO: Implement this
+
+      MacroscopeDocument msDoc = this.GetDocument( Url: this.GetStartUrl() );
+
+      if( msDoc != null )
       {
-        msDoc.ComputeHomePageLinkChains();
+
+        if( msDoc.GetIsHtml() )
+        {
+
+          this.ClickPathAnalysis.Analyze( RootDoc: msDoc );
+        
+        }
+      
       }
 
     }

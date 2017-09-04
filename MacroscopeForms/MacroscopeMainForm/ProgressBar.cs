@@ -90,7 +90,10 @@ namespace SEOMacroscope
         try
         {
 
-          this.TimerProgressBarScan.Stop();
+          if( this.TimerProgressBarScan != null ) // Avoid race condition
+          {
+            this.TimerProgressBarScan.Stop();
+          }
           
           if( this.InvokeRequired )
           {
@@ -107,8 +110,11 @@ namespace SEOMacroscope
           {
             this.UpdateProgressBarScan();
           }
-
-          this.TimerProgressBarScan.Start();
+          
+          if( this.TimerProgressBarScan != null ) // Avoid race condition
+          {
+            this.TimerProgressBarScan.Start();
+          }
 
         }
         catch( Exception ex )

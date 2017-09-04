@@ -31,10 +31,10 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeLinkChainBinaryTreeNode.
+  /// Description of MacroscopeBinaryTreeGenericNode.
   /// </summary>
 
-  public class MacroscopeLinkChainBinaryTreeNode<T> where T : IComparable<T>
+  public class MacroscopeBinaryTreeGenericNode<T> where T : IComparable<T>
   {
 
     /**************************************************************************/
@@ -49,13 +49,13 @@ namespace SEOMacroscope
 
     private T NodeValue;
 
-    private MacroscopeLinkChainBinaryTreeNode<T> ChildNodeLeft;
+    private MacroscopeBinaryTreeGenericNode<T> ChildNodeLeft;
 
-    private MacroscopeLinkChainBinaryTreeNode<T> ChildNodeRight;
+    private MacroscopeBinaryTreeGenericNode<T> ChildNodeRight;
 
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode ( string Name, T Value )
+    public MacroscopeBinaryTreeGenericNode ( string Name, T Value )
     {
 
       this.NodeName = Name;
@@ -70,7 +70,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode<T> SetNodeName (
+    public MacroscopeBinaryTreeGenericNode<T> SetNodeName (
       string Name
     )
     {
@@ -90,7 +90,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode<T> SetNodeValue ( 
+    public MacroscopeBinaryTreeGenericNode<T> SetNodeValue ( 
       T Value
     )
     {
@@ -110,18 +110,18 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode<T> AddChildNode (
-      MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation Orientation,
-      MacroscopeLinkChainBinaryTreeNode<T> ChildNode
+    public MacroscopeBinaryTreeGenericNode<T> AddChildNode (
+      MacroscopeBinaryTreeGenericNode<T>.NodeOrientation Orientation,
+      MacroscopeBinaryTreeGenericNode<T> ChildNode
     )
     {
 
       switch( Orientation )
       {
-        case MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation.LEFT:
+        case MacroscopeBinaryTreeGenericNode<T>.NodeOrientation.LEFT:
           this.ChildNodeLeft = ChildNode;
           break;
-        case MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation.RIGHT:
+        case MacroscopeBinaryTreeGenericNode<T>.NodeOrientation.RIGHT:
           this.ChildNodeRight = ChildNode;
           break;
         default:
@@ -134,19 +134,19 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public MacroscopeLinkChainBinaryTreeNode<T> GetChildNode (
-      MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation Orientation
+    public MacroscopeBinaryTreeGenericNode<T> GetChildNode (
+      MacroscopeBinaryTreeGenericNode<T>.NodeOrientation Orientation
     )
     {
 
-      MacroscopeLinkChainBinaryTreeNode<T> ChildNode;
+      MacroscopeBinaryTreeGenericNode<T> ChildNode;
       
       switch( Orientation )
       {
-        case MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation.LEFT:
+        case MacroscopeBinaryTreeGenericNode<T>.NodeOrientation.LEFT:
           ChildNode = this.ChildNodeLeft;
           break;
-        case MacroscopeLinkChainBinaryTreeNode<T>.NodeOrientation.RIGHT:
+        case MacroscopeBinaryTreeGenericNode<T>.NodeOrientation.RIGHT:
           ChildNode = this.ChildNodeRight;
           break;
         default:

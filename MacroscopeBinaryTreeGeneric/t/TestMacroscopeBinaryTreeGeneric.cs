@@ -30,7 +30,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeLinkChainBinaryTree
+  public class TestMacroscopeBinaryTreeGeneric
   {
 
     /**************************************************************************/
@@ -39,7 +39,7 @@ namespace SEOMacroscope
     public void TestCreateTree ()
     {
       
-      MacroscopeLinkChainBinaryTree<int> Tree = new MacroscopeLinkChainBinaryTree<int> ();
+      MacroscopeBinaryTreeGeneric<int> Tree = new MacroscopeBinaryTreeGeneric<int> ();
 
       Assert.IsNotNull( Tree, "Tree is null" );
 
@@ -51,14 +51,14 @@ namespace SEOMacroscope
     public void TestInsertNode ()
     {
       
-      MacroscopeLinkChainBinaryTree<int> Tree = new MacroscopeLinkChainBinaryTree<int> ();
+      MacroscopeBinaryTreeGeneric<int> Tree = new MacroscopeBinaryTreeGeneric<int> ();
 
       const string Name = "root";
       int Value = new Random ().Next( 1, 666 );
       
       Assert.IsNotNull( Tree, "Tree is null" );
 
-      MacroscopeLinkChainBinaryTreeNode<int> Node = Tree.SetRootNode( Name, Value );
+      MacroscopeBinaryTreeGenericNode<int> Node = Tree.SetRootNode( Name, Value );
       
       Assert.IsNotNull( Node, "Root node is null" );
 
@@ -74,9 +74,9 @@ namespace SEOMacroscope
     public void TestInsertManyNodes ()
     {
       
-      MacroscopeLinkChainBinaryTree<int> Tree = new MacroscopeLinkChainBinaryTree<int> ();
+      MacroscopeBinaryTreeGeneric<int> Tree = new MacroscopeBinaryTreeGeneric<int> ();
 
-      MacroscopeLinkChainBinaryTreeNode<int> RootNode;
+      MacroscopeBinaryTreeGenericNode<int> RootNode;
       const string Name = "root";
       int Value = new Random ().Next( 1, 666 );
       
@@ -85,7 +85,7 @@ namespace SEOMacroscope
       for( int i = 1 ; i <= 100 ; i++ )
       {
 
-        MacroscopeLinkChainBinaryTreeNode<int> ChildNode;
+        MacroscopeBinaryTreeGenericNode<int> ChildNode;
         string ChildName = i.ToString();
         int ChildValue = new Random ().Next( 1, 666 );
 

@@ -41,39 +41,24 @@ namespace SEOMacroscope
     public void TestIsWithinParentDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-                                        TaskController: this
-                                      );
-
+      MacroscopeJobMaster JobMaster;
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
+      List<string> TargetUrls = new List<string> ();
 
-      List<string> TargetUrls = new List<string> () {
-        {
-          "http://www.companyname.com/path/to/some/deep/folder/"
-        },
-        {
-          "http://www.companyname.com/path/to/some/deep/folder/index.html"
-        },
-        {
-          "http://www.companyname.com/path/to/some/deep/folder/image"
-        },
-        {
-          "http://www.companyname.com/path/to/some/deep/index.html"
-        }, {
-          "http://www.companyname.com/path/to/some/page.jsp"
-        },
-        {
-          "http://www.companyname.com/path/to/file.pdf"
-        }, {
-          "http://www.companyname.com/path/"
-        },
-        {
-          "http://www.companyname.com/path/index.php"
-        }, {
-          "http://www.companyname.com/"
-        }
-      };
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/folder/" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/folder/index.html" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/folder/image" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/index.html" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/page.jsp" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/file.pdf" );
+      TargetUrls.Add( "http://www.companyname.com/path/" );
+      TargetUrls.Add( "http://www.companyname.com/path/index.php" );
+      TargetUrls.Add( "http://www.companyname.com/" );
+
+      JobMaster = new MacroscopeJobMaster (
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
+      );
 
       JobMaster.SetStartUrl( Url: StartUrl );
 
@@ -92,27 +77,19 @@ namespace SEOMacroscope
     public void TestIsNotWithinParentDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-                                        TaskController: this
-                                      );
-
+      MacroscopeJobMaster JobMaster;
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
+      List<string> TargetUrls = new List<string> ();
+      
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/folder/sub-folder/index.html" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html" );
+      TargetUrls.Add( "http://www.companyname.com/images/some-image.jpg" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/folder/media/image" );
 
-      List<string> TargetUrls = new List<string> () {
-        {
-          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/index.html"
-        },
-        {
-          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
-        },
-        {
-          "http://www.companyname.com/images/some-image.jpg"
-        },
-        {
-          "http://www.companyname.com/path/to/some/folder/media/image"
-        }
-      };
+      JobMaster = new MacroscopeJobMaster (
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
+      );
 
       JobMaster.SetStartUrl( Url: StartUrl );
 
@@ -131,20 +108,17 @@ namespace SEOMacroscope
     public void TestIsWithinChildDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-                                        TaskController: this
-                                      );
-
+      MacroscopeJobMaster JobMaster;
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/index.html";
+      List<string> TargetUrls = new List<string> ();
+      
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/folder/sub-folder/image" );
 
-      List<string> TargetUrls = new List<string> () {
-        {
-          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html"
-        }, {
-          "http://www.companyname.com/path/to/some/deep/folder/sub-folder/image"
-        }
-      };
+      JobMaster = new MacroscopeJobMaster (
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
+      );
 
       JobMaster.SetStartUrl( Url: StartUrl );
 
@@ -163,23 +137,18 @@ namespace SEOMacroscope
     public void TestIsNotWithinChildDirectory ()
     {
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-                                        TaskController: this
-                                      );
-
+      MacroscopeJobMaster JobMaster;
       const string StartUrl = "http://www.companyname.com/path/to/some/deep/folder/sub-folder/sub-folder/index.html";
+      List<string> TargetUrls = new List<string> ();
 
-      List<string> TargetUrls = new List<string> () { {
-          "http://www.companyname.com/path/to/some/deep/folder/index.html"
-        },
-        {
-          "http://www.companyname.com/path/to/some/folder/image"
-        },
-        {
-          "http://www.companyname.com/folder/image"
-        }
-      };
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/deep/folder/index.html" );
+      TargetUrls.Add( "http://www.companyname.com/path/to/some/folder/image" );
+      TargetUrls.Add( "http://www.companyname.com/folder/image" );
+
+      JobMaster = new MacroscopeJobMaster (
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
+      );
 
       JobMaster.SetStartUrl( Url: StartUrl );
 

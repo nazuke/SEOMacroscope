@@ -171,7 +171,7 @@ namespace SEOMacroscope
         this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
       }
       
-      this.DocCollection = new MacroscopeDocumentCollection ( this );
+      this.DocCollection = new MacroscopeDocumentCollection ( JobMaster: this );
       this.AllowedHosts = new MacroscopeAllowedHosts ();
 
       // BEGIN: Named Queues
@@ -355,9 +355,6 @@ namespace SEOMacroscope
       return( this.DataExtractorXpaths );
     }
 
-
-
-
     /** Execute Job ***********************************************************/
 
     public Boolean Execute ()
@@ -369,6 +366,8 @@ namespace SEOMacroscope
 
       this.StartUrl = MacroscopeUrlUtils.SanitizeUrl( this.StartUrl );
       
+      this.DocCollection.SetStartUrl( Url: this.StartUrl );
+
       this.DetermineStartingDirectory();
       
       this.SetThreadsStop( false );
