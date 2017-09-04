@@ -45,7 +45,7 @@ namespace SEOMacroscope
     private MacroscopeSearchIndex SearchIndex;
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
 
-    private     string StartUrl;
+    private string StartUrl;
     
     private Dictionary<string,MacroscopeLinkList> StructInlinks;
     private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn;
