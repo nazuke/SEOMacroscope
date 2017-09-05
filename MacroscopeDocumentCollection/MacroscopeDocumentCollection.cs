@@ -773,6 +773,7 @@ namespace SEOMacroscope
 
             }
 
+            /*
             try
             {
               this.RecalculateClickPaths();
@@ -781,7 +782,8 @@ namespace SEOMacroscope
             {
               this.DebugMsg( string.Format( "RecalculateClickPaths: {0}", ex.Message ) );
             }
-
+            */
+           
           }
           finally
           {
@@ -2246,7 +2248,7 @@ namespace SEOMacroscope
       if( msDoc != null )
       {
 
-        if( msDoc.GetIsHtml() )
+        if( msDoc.GetIsInternal() && msDoc.GetIsHtml() )
         {
 
           this.ClickPathAnalysis.Analyze( RootDoc: msDoc );

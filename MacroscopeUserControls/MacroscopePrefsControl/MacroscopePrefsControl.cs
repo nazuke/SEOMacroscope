@@ -78,6 +78,10 @@ namespace SEOMacroscope
         this.textBoxHttpProxyHost.Text = MacroscopePreferencesManager.GetHttpProxyHost();
         this.numericUpDownHttpProxyPort.Value = MacroscopePreferencesManager.GetHttpProxyPort();
 
+        /** Server Certificate Options --------------------------------------- **/
+
+        this.checkBoxServerCertificateValidation.Checked = MacroscopePreferencesManager.GetServerCertificateValidation();
+        
         /** Spidering Control ---------------------------------------------- **/
 
         this.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
@@ -204,6 +208,10 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetHttpProxyHost( this.textBoxHttpProxyHost.Text );
       MacroscopePreferencesManager.SetHttpProxyPort( ( int )this.numericUpDownHttpProxyPort.Value );
+      
+      /** Server Certificate Options --------------------------------------- **/
+
+      MacroscopePreferencesManager.SetServerCertificateValidation( this.checkBoxServerCertificateValidation.Checked );
 
       /** Spidering Control ------------------------------------------------ **/
 

@@ -364,15 +364,15 @@ namespace SEOMacroscope
 
       //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
 
-      this.StartUrl = MacroscopeUrlUtils.SanitizeUrl( this.StartUrl );
+      this.StartUrl = MacroscopeUrlUtils.SanitizeUrl( Url: this.StartUrl );
       
       this.DocCollection.SetStartUrl( Url: this.StartUrl );
 
       this.DetermineStartingDirectory();
       
-      this.SetThreadsStop( false );
+      this.SetThreadsStop( Stopped: false );
 
-      this.AllowedHosts.AddFromUrl( this.StartUrl );
+      this.AllowedHosts.AddFromUrl( Url: this.StartUrl );
 
       if( !this.PeekUrlQueue() )
       {
@@ -390,10 +390,9 @@ namespace SEOMacroscope
 
       }
 
-      {
-        this.ProbeRobotsFile( this.StartUrl );
-        this.SetCrawlDelay( this.StartUrl );
-      }
+      this.ProbeRobotsFile( Url: this.StartUrl );
+        
+      this.SetCrawlDelay( Url: this.StartUrl );
 
       this.SpawnWorkers();
 
@@ -404,7 +403,7 @@ namespace SEOMacroscope
         this.TaskController.ICallbackScanComplete();
       }
 
-      this.AddUpdateDisplayQueue( this.StartUrl );
+      this.AddUpdateDisplayQueue( Url: this.StartUrl );
 
       return( true );
 
@@ -441,7 +440,7 @@ namespace SEOMacroscope
               if( this.MemoryGate( RequiredMegabytes: 32 ) )
               {
 
-                SemaphoreWorkers.WaitOne();
+                this.SemaphoreWorkers.WaitOne();
 
                 Boolean NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 
@@ -512,7 +511,7 @@ namespace SEOMacroscope
 
       }
 
-      SemaphoreWorkers.Release( 1 );
+      this.SemaphoreWorkers.Release( 1 );
 
     }
 
@@ -1402,28 +1401,38 @@ namespace SEOMacroscope
 
     public void RemoveFromBlockedByRobots ( string Url )
     {
+
       lock( this.BlockedByRobots )
       {
+
         if( this.BlockedByRobots.ContainsKey( Url ) )
         {
           this.BlockedByRobots.Remove( Url );
         }
+
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     public Dictionary<string,Boolean> GetBlockedByRobotsList ()
     {
+
       Dictionary<string,Boolean> DicCopy = new Dictionary<string,Boolean> ();
+
       lock( this.BlockedByRobots )
       {
+
         foreach( string Url in this.BlockedByRobots.Keys )
         {
           DicCopy.Add( Url, this.BlockedByRobots[ Url ] );
         }
+
       }
+
       return( DicCopy );
+
     }
 
     /**************************************************************************/

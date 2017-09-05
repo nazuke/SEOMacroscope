@@ -56,6 +56,10 @@ namespace SEOMacroscope
     //static string HttpProxyUsername;
     //static string HttpProxyPassword;
 
+    /** Global Server Certificate Validation ------------------------------- **/
+
+    static Boolean ServerCertificateValidation;
+
     /** Spidering Control -------------------------------------------------- **/
 
     static string StartUrl;
@@ -207,6 +211,8 @@ namespace SEOMacroscope
           HttpProxyHost = Preferences.HttpProxyHost;
           HttpProxyPort = Preferences.HttpProxyPort;
 
+          ServerCertificateValidation = Preferences.ServerCertificateValidation;
+          
           StartUrl = Preferences.StartUrl;
 
           MaxThreads = Preferences.MaxThreads;
@@ -315,6 +321,8 @@ namespace SEOMacroscope
 
       ConfigureHttpProxy();
 
+      ConfigureServerCertificateValidation();
+            
       DebugMsg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
       DebugMsg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
       DebugMsg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
@@ -356,6 +364,10 @@ namespace SEOMacroscope
 
       HttpProxyHost = "";
       HttpProxyPort = 0;
+
+      /** Global Server Certificate Validation ----------------------------- **/
+          
+      SetServerCertificateValidation( true );
 
       /** Spidering Control ------------------------------------------------ **/
 
@@ -792,6 +804,48 @@ namespace SEOMacroscope
       {
         req.Proxy = wpProxy;
       }
+    }
+
+    /** Global Server Certificate Validation ******************************************************/
+
+    public static Boolean GetServerCertificateValidation ()
+    {
+      return( ServerCertificateValidation );
+    }
+
+    public static void SetServerCertificateValidation ( Boolean Value )
+    {
+      
+      ServerCertificateValidation = Value;
+      
+      ConfigureServerCertificateValidation();
+      
+    }
+
+    private static void ConfigureServerCertificateValidation ()
+    {
+      if( ServerCertificateValidation )
+      {
+        ServicePointManager.ServerCertificateValidationCallback += ServerCertificateValidationCallback;
+      }
+      else
+      {
+        if( ServicePointManager.ServerCertificateValidationCallback != null )
+        {
+          ServicePointManager.ServerCertificateValidationCallback -= ServerCertificateValidationCallback;
+        }
+      }
+
+    }
+
+    private static Boolean ServerCertificateValidationCallback (
+      object sender,
+      System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+      System.Security.Cryptography.X509Certificates.X509Chain chain,
+      System.Net.Security.SslPolicyErrors sslPolicyErrors
+    )
+    {
+      return( true );
     }
 
     /** Set Starting URL ******************************************************/

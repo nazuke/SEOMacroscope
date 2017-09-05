@@ -42,9 +42,9 @@ namespace SEOMacroscope
 
     MacroscopeDocument RootDoc;
 
-    List<Guid> Guids;
-
     SortedDictionary<string,List<int>> ClickPathDepth;
+
+    Dictionary<MacroscopeDocument,List<MacroscopeHyperlinkOut>> NodeVisited;
 
     /**************************************************************************/
 
@@ -54,11 +54,11 @@ namespace SEOMacroscope
       this.DocCollection = DocumentCollection;
       
       this.RootDoc = null;
-      
-      this.Guids = null;
-      
+
       this.ClickPathDepth = null;
-            
+
+      this.NodeVisited = null;
+
     }
 
     /**************************************************************************/
@@ -67,8 +67,9 @@ namespace SEOMacroscope
     {
 
       this.RootDoc = RootDoc;
-      this.Guids = new List<Guid> ();
       this.ClickPathDepth = new SortedDictionary<string,List<int>> ();
+
+      this.NodeVisited = new Dictionary<MacroscopeDocument,List<MacroscopeHyperlinkOut>> ();
 
       if( this.RootDoc != null )
       {
@@ -78,16 +79,35 @@ namespace SEOMacroscope
 
           this.DebugMsg( string.Format( "GetTargetUrl: {0}", HyperlinkOut.GetTargetUrl() ) );
 
-          this.Descend(
-            Depth: 1,
-            ParentDoc: this.RootDoc,
-            ParentHyperlinkOut: HyperlinkOut
-          );
+          if( this.CheckNodeAlreadyVisited( msDoc: this.RootDoc, HyperlinkOut: HyperlinkOut ) )
+          {
+            continue;
+          }
+          else
+          {
 
+            this.Descend(
+              Depth: 1,
+              ParentDoc: this.RootDoc,
+              ParentHyperlinkOut: HyperlinkOut
+            );
+
+          }
+          
         }
 
       }
-      
+
+      foreach( string Url in this.ClickPathDepth.Keys )
+      {
+        foreach( int Depth in this.ClickPathDepth[Url] )
+        {
+          this.DebugMsg( string.Format( "DEPTH: {0} :: {1}", Depth, Url ) );
+        }
+      }
+
+      return;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -108,50 +128,86 @@ namespace SEOMacroscope
         
         if( CurrentDoc.GetUrl().Equals( ParentDoc.GetUrl() ) )
         {
-
           return;
         }
-        
-        
-        
-        
-        
+
         foreach( MacroscopeHyperlinkOut HyperlinkOut in CurrentDoc.IterateHyperlinksOut() )
         {
 
-          
           if( CurrentDoc.GetUrl().Equals( HyperlinkOut.GetTargetUrl() ) )
           {
-            continue;
-          }
-        
-        
-          
-          
-          
-          Guid LinkGuid = HyperlinkOut.GetGuid();
-          
-          if( this.Guids.Contains( LinkGuid ) )
-          {
-            this.DebugMsg( string.Format( "SEEN: {0}", LinkGuid ) );
-            continue;
+
+            string CurrentDocUrl = CurrentDoc.GetUrl();
+            
+            if( this.ClickPathDepth.ContainsKey( CurrentDocUrl ) )
+            {
+              if( !this.ClickPathDepth[ CurrentDocUrl ].Contains( Depth ) )
+              {
+                this.ClickPathDepth[ CurrentDocUrl ].Add( Depth );
+              }
+            }
+            else
+            {
+              this.ClickPathDepth[ CurrentDocUrl ] = new List<int> ();
+              this.ClickPathDepth[ CurrentDocUrl ].Add( Depth );
+            }
+
           }
           else
           {
-            this.DebugMsg( string.Format( "UNSEEN: {0}", LinkGuid ) );
+
+            if( this.CheckNodeAlreadyVisited( msDoc: CurrentDoc, HyperlinkOut: HyperlinkOut ) )
+            {
+              continue;
+            }
+
+            this.Descend(
+              Depth: CurrentDepth,
+              ParentDoc: CurrentDoc,
+              ParentHyperlinkOut: HyperlinkOut
+            );
+
           }
-
-          this.DebugMsg( string.Format( "Descend: {0} : {1}", CurrentDepth, HyperlinkOut.GetTargetUrl() ) );
-
-          this.Descend(
-            Depth: CurrentDepth,
-            ParentDoc: CurrentDoc,
-            ParentHyperlinkOut: HyperlinkOut
-          );
-
+          
         }
       
       }
+
+    }
+
+    /**************************************************************************/
+
+    private Boolean CheckNodeAlreadyVisited (
+      MacroscopeDocument msDoc,
+      MacroscopeHyperlinkOut HyperlinkOut
+    )
+    {
+      
+      Boolean Result = false;
+
+      if( this.NodeVisited.ContainsKey( msDoc ) )
+      {
+
+        if( this.NodeVisited[ msDoc ].Contains( HyperlinkOut ) )
+        {
+          Result = true;
+        }
+        else
+        {
+          this.NodeVisited[ msDoc ].Add( HyperlinkOut );
+        }
+
+      }
+      else
+      {
+
+        this.NodeVisited[ msDoc ] = new List<MacroscopeHyperlinkOut> ();
+
+        this.NodeVisited[ msDoc ].Add( HyperlinkOut );
+
+      }
+
+      return( Result );
 
     }
 

@@ -110,7 +110,7 @@ namespace SEOMacroscope
           {
             this.UpdateProgressBarScan();
           }
-          
+
           if( this.TimerProgressBarScan != null ) // Avoid race condition
           {
             this.TimerProgressBarScan.Start();
@@ -159,6 +159,11 @@ namespace SEOMacroscope
 
       int Percentage = 0;
 
+      if( !this.ProgressBarScan.IsDisposed )
+      {
+        return;
+      }
+            
       if( this.JobMaster != null )
       {
 
@@ -195,8 +200,11 @@ namespace SEOMacroscope
 
       //DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
 
-      this.ProgressBarScan.Value = Percentage;
-
+      if( !this.ProgressBarScan.IsDisposed )
+      {
+        this.ProgressBarScan.Value = Percentage;
+      }
+      
     }
 
     /**************************************************************************/

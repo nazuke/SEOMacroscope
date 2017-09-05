@@ -317,7 +317,7 @@ namespace SEOMacroscope
 
         if( DocumentUrl != null )
         {
-          if( !this.IsAllowed( DocumentUrl.Host ) )
+          if( !this.IsAllowed( Hostname: DocumentUrl.Host ) )
           {
             IsExternal = true;
           }

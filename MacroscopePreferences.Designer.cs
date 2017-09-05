@@ -938,6 +938,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("True")]
+		public bool ServerCertificateValidation {
+			get {
+				return ((bool)(this["ServerCertificateValidation"]));
+			}
+			set {
+				this["ServerCertificateValidation"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("True")]
 		public bool ShowProgressDialogues {
 			get {
 				return ((bool)(this["ShowProgressDialogues"]));

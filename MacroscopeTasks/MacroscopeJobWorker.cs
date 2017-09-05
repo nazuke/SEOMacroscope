@@ -256,10 +256,13 @@ namespace SEOMacroscope
           if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
           {
 
-            MacroscopeCredential Credential = this.JobMaster.GetCredentialsHttp().GetCredential(
-                                                msDoc.GetHostname(),
-                                                msDoc.GetAuthenticationRealm()
-                                              );
+            MacroscopeCredential Credential;
+
+            Credential = this.JobMaster.GetCredentialsHttp().GetCredential(
+              msDoc.GetHostname(),
+              msDoc.GetAuthenticationRealm()
+            );
+
             if( Credential != null )
             {
               msDoc = this.DocCollection.CreateDocument(
@@ -316,10 +319,10 @@ namespace SEOMacroscope
 
       this.JobMaster.GetJobHistory().AddHistoryItem( Url );
 
-      if( this.AllowedHosts.IsExternalUrl( Url ) )
+      if( this.AllowedHosts.IsExternalUrl( Url: Url ) )
       {
         DebugMsg( string.Format( "IsExternalUrl: {0}", Url ) );
-        msDoc.SetIsExternal( true );
+        msDoc.SetIsExternal( State: true );
       }
 
       if( this.DocCollection.ContainsDocument( Url ) )
