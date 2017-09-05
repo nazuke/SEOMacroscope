@@ -5,6 +5,12 @@ title: "SEO Macroscope Manual"
 
 ![The SEO Macroscope application window.](images/application-001.png){: .img-responsive .box-shadow}
 
+## File Operations
+
+Export sitemaps in text and XML formats, and list views to CSV and Excel files.
+
+> [Go to file operations pages](file/)
+
 ## Site Scan
 
 TBD
@@ -24,6 +30,12 @@ Please refer to the preferences settings before beginning a spidering job.
 How to set crawl-specific parameters.
 
 > [Go to task parameters pages](task-parameters/)
+
+## View
+
+Quickly switch between overview lists.
+
+> [Go to view pages](view/)
 
 ## Reports
 
