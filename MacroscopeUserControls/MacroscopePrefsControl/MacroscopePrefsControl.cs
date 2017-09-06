@@ -94,6 +94,8 @@ namespace SEOMacroscope
         this.checkBoxCrawlStrictUrlCheck.Checked = MacroscopePreferencesManager.GetCrawlStrictUrlCheck();
 
         this.checkBoxCheckExternalLinks.Checked = MacroscopePreferencesManager.GetCheckExternalLinks();
+        this.checkBoxFetchExternalLinks.Checked = MacroscopePreferencesManager.GetFetchExternalLinks();
+        
         this.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
         this.checkBoxFollowSitemapLinks.Checked = MacroscopePreferencesManager.GetFollowSitemapLinks();
         this.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
@@ -225,6 +227,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetCrawlStrictUrlCheck( this.checkBoxCrawlStrictUrlCheck.Checked );
               
       MacroscopePreferencesManager.SetCheckExternalLinks( this.checkBoxCheckExternalLinks.Checked );
+      MacroscopePreferencesManager.SetFetchExternalLinks( this.checkBoxFetchExternalLinks.Checked );
+
       MacroscopePreferencesManager.SetFollowRobotsProtocol( this.checkBoxFollowRobotsProtocol.Checked );
       MacroscopePreferencesManager.SetFollowSitemapLinks( this.checkBoxFollowSitemapLinks.Checked );
       MacroscopePreferencesManager.SetFollowRedirects( this.checkBoxFollowRedirects.Checked );

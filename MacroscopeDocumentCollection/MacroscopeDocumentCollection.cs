@@ -779,6 +779,7 @@ namespace SEOMacroscope
 
             }
 
+            // TODO: implement click paths
             /*
             try
             {

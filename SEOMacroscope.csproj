@@ -177,6 +177,7 @@
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\ViewMenu.cs" />
     <Compile Include="MacroscopeHosts\t\TestMacroscopeAllowedHosts.cs" />
     <Compile Include="MacroscopeHosts\t\TestMacroscopeDnsTools.cs" />
+    <Compile Include="MacroscopeNamedQueue\t\TestMacroscopeNamedQueue.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\MacroscopeCsvBrokenLinksReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetBrokenLinks.cs" />
     <Compile Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetGoodLinks.cs" />
@@ -691,6 +692,7 @@
     <Folder Include="MacroscopeHyperlinks\MacroscopeHyperlink" />
     <Folder Include="MacroscopeNamedQueue\t" />
     <Folder Include="MacroscopeLinks" />
+    <Folder Include="MacroscopeNamedQueue\t" />
     <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport" />
     <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport" />
     <Folder Include="MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRedirectsReport" />

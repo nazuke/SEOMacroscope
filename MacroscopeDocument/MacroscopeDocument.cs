@@ -172,7 +172,7 @@ namespace SEOMacroscope
 
 
     // Delegate Functions
-    private delegate void TimeDuration( Action ProcessMethod );
+    private delegate void TimeDuration(Action ProcessMethod);
 
     /**************************************************************************/
 
@@ -2278,7 +2278,7 @@ namespace SEOMacroscope
         return( true );
       }
 
-      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      if( !MacroscopePreferencesManager.GetFetchExternalLinks() )
       {
         if( this.GetIsExternal() )
         {

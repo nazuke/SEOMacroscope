@@ -400,7 +400,7 @@ namespace SEOMacroscope
 
       MacroscopeLink OutLink = null;
       Boolean Proceed = true;
-            
+
       if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
         MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();

@@ -180,6 +180,7 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxIgnoreHashFragments;
 		private System.Windows.Forms.GroupBox groupBox28;
 		public System.Windows.Forms.CheckBox checkBoxServerCertificateValidation;
+		public System.Windows.Forms.CheckBox checkBoxFetchExternalLinks;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -346,12 +347,13 @@ namespace SEOMacroscope
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
 			this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
+			this.groupBox28 = new System.Windows.Forms.GroupBox();
+			this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
 			this.tabPageAdvancedSettings = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
 			this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-			this.groupBox28 = new System.Windows.Forms.GroupBox();
-			this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
+			this.checkBoxFetchExternalLinks = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -420,10 +422,10 @@ namespace SEOMacroscope
 			this.flowLayoutPanel4.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).BeginInit();
+			this.groupBox28.SuspendLayout();
 			this.tabPageAdvancedSettings.SuspendLayout();
 			this.flowLayoutPanel7.SuspendLayout();
 			this.groupBox19.SuspendLayout();
-			this.groupBox28.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label9
@@ -605,6 +607,7 @@ namespace SEOMacroscope
 			// groupBox7
 			// 
 			this.groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox7.Controls.Add(this.checkBoxFetchExternalLinks);
 			this.groupBox7.Controls.Add(this.checkBoxCheckExternalLinks);
 			this.groupBox7.Location = new System.Drawing.Point(10, 210);
 			this.groupBox7.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
@@ -2191,6 +2194,27 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
+			// groupBox28
+			// 
+			this.groupBox28.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox28.Controls.Add(this.checkBoxServerCertificateValidation);
+			this.groupBox28.Location = new System.Drawing.Point(10, 140);
+			this.groupBox28.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+			this.groupBox28.Name = "groupBox28";
+			this.groupBox28.Size = new System.Drawing.Size(500, 90);
+			this.groupBox28.TabIndex = 4;
+			this.groupBox28.TabStop = false;
+			this.groupBox28.Text = "Server Certificates";
+			// 
+			// checkBoxServerCertificateValidation
+			// 
+			this.checkBoxServerCertificateValidation.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxServerCertificateValidation.Name = "checkBoxServerCertificateValidation";
+			this.checkBoxServerCertificateValidation.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxServerCertificateValidation.TabIndex = 1;
+			this.checkBoxServerCertificateValidation.Text = "Enable Certificate Validation";
+			this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
+			// 
 			// tabPageAdvancedSettings
 			// 
 			this.tabPageAdvancedSettings.Controls.Add(this.flowLayoutPanel7);
@@ -2232,26 +2256,14 @@ namespace SEOMacroscope
 			this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
 			this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
 			// 
-			// groupBox28
+			// checkBoxFetchExternalLinks
 			// 
-			this.groupBox28.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox28.Controls.Add(this.checkBoxServerCertificateValidation);
-			this.groupBox28.Location = new System.Drawing.Point(10, 140);
-			this.groupBox28.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-			this.groupBox28.Name = "groupBox28";
-			this.groupBox28.Size = new System.Drawing.Size(500, 90);
-			this.groupBox28.TabIndex = 4;
-			this.groupBox28.TabStop = false;
-			this.groupBox28.Text = "Server Certificates";
-			// 
-			// checkBoxServerCertificateValidation
-			// 
-			this.checkBoxServerCertificateValidation.Location = new System.Drawing.Point(20, 20);
-			this.checkBoxServerCertificateValidation.Name = "checkBoxServerCertificateValidation";
-			this.checkBoxServerCertificateValidation.Size = new System.Drawing.Size(200, 24);
-			this.checkBoxServerCertificateValidation.TabIndex = 1;
-			this.checkBoxServerCertificateValidation.Text = "Enable Certificate Validation";
-			this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
+			this.checkBoxFetchExternalLinks.Location = new System.Drawing.Point(180, 20);
+			this.checkBoxFetchExternalLinks.Name = "checkBoxFetchExternalLinks";
+			this.checkBoxFetchExternalLinks.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxFetchExternalLinks.TabIndex = 2;
+			this.checkBoxFetchExternalLinks.Text = "Fetch external links";
+			this.checkBoxFetchExternalLinks.UseVisualStyleBackColor = true;
 			// 
 			// MacroscopePrefsControl
 			// 
@@ -2330,10 +2342,10 @@ namespace SEOMacroscope
 			this.groupBox8.ResumeLayout(false);
 			this.groupBox8.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).EndInit();
+			this.groupBox28.ResumeLayout(false);
 			this.tabPageAdvancedSettings.ResumeLayout(false);
 			this.flowLayoutPanel7.ResumeLayout(false);
 			this.groupBox19.ResumeLayout(false);
-			this.groupBox28.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

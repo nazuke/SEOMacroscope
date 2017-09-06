@@ -387,7 +387,7 @@ namespace SEOMacroscope
       IgnoreQueries = false;
       IgnoreHashFragments = true;
                 
-      CheckExternalLinks = false;
+      CheckExternalLinks = true;
       FetchExternalLinks = false;
       
       FollowRobotsProtocol = true;

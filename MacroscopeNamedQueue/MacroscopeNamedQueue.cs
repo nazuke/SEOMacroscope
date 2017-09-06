@@ -179,8 +179,11 @@ namespace SEOMacroscope
 
       if( this.NamedQueuesMode[ Name ] == MacroscopeNamedQueue<T>.MODE.USE_HISTORY )
       {
+        
         lock( this.NamedQueuesHistory[Name] )
         {
+        
+          // TODO: This does not work with reference values
           if( this.NamedQueuesHistory[ Name ].ContainsKey( Item ) )
           {
             Proceed = false;
@@ -190,7 +193,9 @@ namespace SEOMacroscope
           {
             this.NamedQueuesHistory[ Name ].Add( Item, true );
           }
+        
         }
+      
       }
 
       if( Proceed )
