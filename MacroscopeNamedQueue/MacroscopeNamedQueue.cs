@@ -353,7 +353,7 @@ namespace SEOMacroscope
 
             Item = this.NamedQueues[ Name ].Dequeue();
 
-            if( Item.Equals( default(T) ) )
+            if( !EqualityComparer<T>.Default.Equals( Item, default(T) ) )
             {
 
               lock( this.NamedQueuesIndex[Name] )
@@ -368,7 +368,9 @@ namespace SEOMacroscope
         }
 
       }
+      
       return( Item );
+
     }
 
     /**************************************************************************/
@@ -410,12 +412,12 @@ namespace SEOMacroscope
 
         do
         {
-          if( Item.Equals( default(T) ) )
+          if( !EqualityComparer<T>.Default.Equals( Item, default(T) ) )
           {
             lItems.Add( Item );
           }
           Item = this.GetNamedQueueItem( Name );
-        } while( Item.Equals( default(T) ) );
+        } while( !EqualityComparer<T>.Default.Equals( Item, default(T) ) );
 
       }
 
@@ -439,7 +441,7 @@ namespace SEOMacroscope
         do
         {
 
-          if( Item.Equals( default(T) ) )
+          if( !EqualityComparer<T>.Default.Equals( Item, default(T) ) )
           {
             Items.Add( Item );
           }
@@ -453,7 +455,7 @@ namespace SEOMacroscope
             break;
           }
 
-        } while( Item.Equals( default(T) ) );
+        } while( !EqualityComparer<T>.Default.Equals( Item, default(T) ) );
 
       }
 
