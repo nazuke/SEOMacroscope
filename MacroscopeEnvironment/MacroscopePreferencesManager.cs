@@ -77,6 +77,7 @@ namespace SEOMacroscope
     static Boolean IgnoreHashFragments;
         
     static Boolean CheckExternalLinks;
+    static Boolean FetchExternalLinks;
 
     static Boolean FollowRobotsProtocol;
     static Boolean FollowSitemapLinks;
@@ -230,6 +231,7 @@ namespace SEOMacroscope
           IgnoreHashFragments = Preferences.IgnoreHashFragments;
           
           CheckExternalLinks = Preferences.CheckExternalLinks;
+          FetchExternalLinks = Preferences.FetchExternalLinks;
 
           ResolveAddresses = Preferences.ResolveAddresses;
             
@@ -386,7 +388,8 @@ namespace SEOMacroscope
       IgnoreHashFragments = true;
                 
       CheckExternalLinks = false;
-
+      FetchExternalLinks = false;
+      
       FollowRobotsProtocol = true;
       FollowSitemapLinks = true;
 
@@ -622,6 +625,7 @@ namespace SEOMacroscope
         Preferences.IgnoreHashFragments = IgnoreHashFragments;
 
         Preferences.CheckExternalLinks = CheckExternalLinks;
+        Preferences.FetchExternalLinks = FetchExternalLinks;
 
         Preferences.ResolveAddresses = ResolveAddresses;
         
@@ -992,6 +996,18 @@ namespace SEOMacroscope
     public static void SetCheckExternalLinks ( Boolean State )
     {
       CheckExternalLinks = State;
+    }
+
+    /** -------------------------------------------------------------------- **/    
+    
+    public static Boolean GetFetchExternalLinks ()
+    {
+      return( FetchExternalLinks );
+    }
+
+    public static void SetFetchExternalLinks ( Boolean State )
+    {
+      FetchExternalLinks = State;
     }
 
     /**************************************************************************/

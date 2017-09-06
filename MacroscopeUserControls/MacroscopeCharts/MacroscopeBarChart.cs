@@ -90,8 +90,14 @@ namespace SEOMacroscope
         ChartArea Area;
   
         this.BarChart.Series.Add( name: SeriesName );
+
         this.BarChart.Series[ SeriesName ].ChartType = SeriesChartType.Column;
-        this.BarChart.Series[ SeriesName ].LegendText = string.Format( "{0}: {1}", SeriesName, DataPoints[ DataPointKey ] );
+
+        this.BarChart.Series[ SeriesName ].LegendText = string.Format(
+          "{0}: {1:0.00}",
+          SeriesName,
+          DataPoints[ DataPointKey ]
+        );
         
         DataPointItem.AxisLabel = SeriesName;
         DataPointItem.SetValueXY( Count, DataPoints[ DataPointKey ] );      

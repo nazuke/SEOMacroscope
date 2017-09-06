@@ -63,15 +63,12 @@ namespace SEOMacroscope
 
       this.IncludeExcludeUrls = this.JobMaster.GetIncludeExcludeUrls();
 
-      if( MacroscopePreferencesManager.GetCrawlDelay() > 0 )
-      {
+      if( MacroscopePreferencesManager.GetCrawlDelay() > 0 ) {
         this.CrawlDelay = MacroscopePreferencesManager.GetCrawlDelay();
       }
 
-      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
-      {
-        if( this.JobMaster.GetCrawlDelay() > 0 )
-        {
+      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() ) {
+        if( this.JobMaster.GetCrawlDelay() > 0 ) {
           this.CrawlDelay = this.JobMaster.GetCrawlDelay();
         }
       }
@@ -80,101 +77,84 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void Execute ()
+    public void Execute()
     {
 
       int MaxFetches = MacroscopePreferencesManager.GetMaxFetchesPerWorker();
 
-      while( MaxFetches > 0 )
-      {
+      while( MaxFetches > 0 ) {
 
-        if( this.JobMaster.GetThreadsStop() )
-        {
+        if( this.JobMaster.GetThreadsStop() ) {
 
           DebugMsg( string.Format( "JobMaster.GetThreadsStop: {0}", this.JobMaster.GetThreadsStop() ) );
           break;
 
-        }
-        else
-        {
+        } else {
 
-          string Url = this.JobMaster.GetUrlQueueItem();
+          MacroscopeJobItem JobItem = this.JobMaster.GetUrlQueueItem();
+          string Url = null;
+          
+          if( JobItem != null ) {
+            Url = JobItem.GetItemUrl();
+          }
 
-          if( Url != null )
-          {
-            if( !this.CheckIncludeExcludeUrl( Url ) )
-            {
+          if( !string.IsNullOrEmpty( Url ) ) {
+            if( !this.CheckIncludeExcludeUrl( Url ) ) {
               Url = null;
             }
           }
 
-          if( Url != null )
-          {
+          if( !string.IsNullOrEmpty( Url ) ) {
 
             if(
               !MacroscopePreferencesManager.GetCrawlParentDirectories()
               && !MacroscopePreferencesManager.GetCrawlChildDirectories()
-              && Url != this.JobMaster.GetStartUrl() )
-            {
+              && Url != this.JobMaster.GetStartUrl() ) {
               Url = null;
-            }
-            else
-            if(
+            } else if(
               !MacroscopePreferencesManager.GetCrawlParentDirectories()
-              || !MacroscopePreferencesManager.GetCrawlChildDirectories() )
-            {
+              || !MacroscopePreferencesManager.GetCrawlChildDirectories() ) {
 
               DebugMsg( string.Format( "Running Parent/Child Check: {0}", Url ) ); 
 
               if( 
                 MacroscopePreferencesManager.GetCrawlParentDirectories()
-                && ( Url != null ) )
-              {
-                if( !this.JobMaster.IsWithinParentDirectory( Url ) )
-                {
+                && ( !string.IsNullOrEmpty( Url ) ) ) {
+                if( !this.JobMaster.IsWithinParentDirectory( Url ) ) {
                   Url = null;
                 }
               }
               
               if( 
                 MacroscopePreferencesManager.GetCrawlChildDirectories()
-                && ( Url != null ) )
-              {
-                if( !this.JobMaster.IsWithinChildDirectory( Url ) )
-                {
+                && ( !string.IsNullOrEmpty( Url ) ) ) {
+                if( !this.JobMaster.IsWithinChildDirectory( Url ) ) {
                   Url = null;
                 }
               }
 
-            }
-            else
-            {
+            } else {
               DebugMsg( string.Format( "Skipping Parent/Child Check: {0}", Url ) ); 
             }
 
           }
 
-          if( Url != null )
-          {
+          if( !string.IsNullOrEmpty( Url ) ) {
 
             DebugMsg( string.Format( "Execute: {0}", Url ) );
 
             int Tries = MacroscopePreferencesManager.GetMaxRetries();
 
-            do
-            {
+            do {
               
               DebugMsg( string.Format( "Trying Fetch: {0} :: {1}", Tries, Url ) );
               
               if( 
                 ( this.Fetch( Url ) == MacroscopeConstants.FetchStatus.ERROR )
-                || ( this.Fetch( Url ) == MacroscopeConstants.FetchStatus.ERROR ) )
-              {
+                || ( this.Fetch( Url ) == MacroscopeConstants.FetchStatus.ERROR ) ) {
                 DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
                 Thread.Sleep( 1000 );
-              }
-              else
-              {
+              } else {
                 this.JobMaster.NotifyWorkersFetched( Url );
                 break;
               }
@@ -183,8 +163,7 @@ namespace SEOMacroscope
             
             } while( Tries > 0 );
 
-            if( this.CrawlDelay > 0 )
-            {
+            if( this.CrawlDelay > 0 ) {
               DebugMsg( string.Format( "CRAWL DELAY: Sleeping for {0} seconds...", this.CrawlDelay ) );
               Thread.Sleep( CrawlDelay * 1000 );
             }
@@ -205,33 +184,25 @@ namespace SEOMacroscope
 
     /** Check Include/Exclude URL *********************************************/
 
-    private Boolean CheckIncludeExcludeUrl ( string Url )
+    private Boolean CheckIncludeExcludeUrl( string Url )
     {
 
       Boolean Success = true;
 
-      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseIncludeUrlPatterns() ) )
-      {
-        if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url ) )
-        {
+      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseIncludeUrlPatterns() ) ) {
+        if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url ) ) {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES INCLUDE URL: {0}", Url ) );
-        }
-        else
-        {
+        } else {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", Url ) );
           Success = false;
         }
       }
 
-      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseExcludeUrlPatterns() ) )
-      {
-        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) )
-        {
+      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseExcludeUrlPatterns() ) ) {
+        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) ) {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", Url ) );
           Success = false;
-        }
-        else
-        {
+        } else {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH EXCLUDE URL: {0}", Url ) );
         }
       }
@@ -242,19 +213,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private MacroscopeConstants.FetchStatus Fetch ( string Url )
+    private MacroscopeConstants.FetchStatus Fetch( string Url )
     {
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
       MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
 
-      if( msDoc != null )
-      {
+      if( msDoc != null ) {
 
-        if( msDoc.GetAuthenticationRealm() != null )
-        {
-          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
-          {
+        if( msDoc.GetAuthenticationRealm() != null ) {
+          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC ) {
 
             MacroscopeCredential Credential;
 
@@ -263,8 +231,7 @@ namespace SEOMacroscope
               msDoc.GetAuthenticationRealm()
             );
 
-            if( Credential != null )
-            {
+            if( Credential != null ) {
               msDoc = this.DocCollection.CreateDocument(
                 Credential: Credential,
                 Url: Url
@@ -275,9 +242,7 @@ namespace SEOMacroscope
 
         }
 
-      }
-      else
-      {
+      } else {
 
         msDoc = this.DocCollection.CreateDocument( Url );
 
@@ -285,8 +250,7 @@ namespace SEOMacroscope
 
       msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.OK );
               
-      if( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) )
-      {
+      if( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) ) {
 
         DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
 
@@ -298,8 +262,7 @@ namespace SEOMacroscope
 
       }
 
-      if( !this.JobMaster.GetRobots().ApplyRobotRule( Url ) )
-      {
+      if( !this.JobMaster.GetRobots().ApplyRobotRule( Url ) ) {
 
         DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
 
@@ -311,50 +274,40 @@ namespace SEOMacroscope
 
         this.JobMaster.GetJobHistory().VisitedHistoryItem( msDoc.GetUrl() );
                 
-      }
-      else
-      {
+      } else {
         this.JobMaster.RemoveFromBlockedByRobots( Url );
       }
 
       this.JobMaster.GetJobHistory().AddHistoryItem( Url );
 
-      if( this.AllowedHosts.IsExternalUrl( Url: Url ) )
-      {
+      if( this.AllowedHosts.IsExternalUrl( Url: Url ) ) {
         DebugMsg( string.Format( "IsExternalUrl: {0}", Url ) );
         msDoc.SetIsExternal( State: true );
       }
 
-      if( this.DocCollection.ContainsDocument( Url ) )
-      {
-        if( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
-        {
+      if( this.DocCollection.ContainsDocument( Url ) ) {
+        if( !this.DocCollection.GetDocument( Url ).GetIsDirty() ) {
           FetchStatus = MacroscopeConstants.FetchStatus.ALREADY_SEEN;
           return( FetchStatus );
         }
       }
 
-      if( this.JobMaster.GetDepth() > 0 )
-      {
+      if( this.JobMaster.GetDepth() > 0 ) {
         int Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
-        if( Depth > this.JobMaster.GetDepth() )
-        {
+        if( Depth > this.JobMaster.GetDepth() ) {
           DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
           FetchStatus = MacroscopeConstants.FetchStatus.SKIPPED;
           return( FetchStatus );
         }
       }
 
-      if( msDoc.Execute() )
-      {
+      if( msDoc.Execute() ) {
 
         this.DocCollection.AddDocument( Url, msDoc );
 
-        if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized )
-        {
+        if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized ) {
 
-          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
-          {
+          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC ) {
 
             MacroscopeCredentialsHttp CredentialsHttp = this.JobMaster.GetCredentialsHttp();
 
@@ -374,14 +327,12 @@ namespace SEOMacroscope
 
         this.JobMaster.IncPageLimitCount();
 
-        if( msDoc.GetIsRedirect() )
-        {
+        if( msDoc.GetIsRedirect() ) {
 
           DebugMsg( string.Format( "REDIRECTION DETECTED GetUrl: {0}", msDoc.GetUrl() ) );
           DebugMsg( string.Format( "REDIRECTION DETECTED From: {0}", msDoc.GetUrlRedirectFrom() ) );
 
-          if( MacroscopePreferencesManager.GetFollowRedirects() )
-          {
+          if( MacroscopePreferencesManager.GetFollowRedirects() ) {
 
             string Hostname = msDoc.GetHostname();
             string HostnameFrom = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectFrom() );
@@ -395,9 +346,7 @@ namespace SEOMacroscope
 
           this.JobMaster.AddUrlQueueItem( Url: msDoc.GetUrlRedirectTo() );
 
-        }
-        else
-        {
+        } else {
 
           this.ProcessHrefLangLanguages( msDoc ); // Process Languages from HrefLang
 
@@ -407,9 +356,7 @@ namespace SEOMacroscope
 
         FetchStatus = MacroscopeConstants.FetchStatus.SUCCESS;
 
-      }
-      else
-      {
+      } else {
         DebugMsg( string.Format( "EXECUTE FAILED: {0}", Url ) );
         FetchStatus = MacroscopeConstants.FetchStatus.ERROR;
       }
@@ -420,19 +367,17 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessHrefLangLanguages ( MacroscopeDocument msDoc )
+    private void ProcessHrefLangLanguages( MacroscopeDocument msDoc )
     {
 
       string Locale = msDoc.GetLocale();
       Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
 
-      if( Locale != null )
-      {
+      if( Locale != null ) {
         this.JobMaster.AddLocales( Locale );
       }
 
-      foreach( string KeyLocale in HrefLangsTable.Keys )
-      {
+      foreach( string KeyLocale in HrefLangsTable.Keys ) {
         this.JobMaster.AddLocales( KeyLocale );
       }
 
@@ -440,46 +385,38 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessOutlinks ( MacroscopeDocument msDoc )
+    private void ProcessOutlinks( MacroscopeDocument msDoc )
     {
 
       if(
         ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
-        || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
-      {
+        || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) ) {
 
-        if( !MacroscopePreferencesManager.GetScanSitesInList() )
-        {
+        if( !MacroscopePreferencesManager.GetScanSitesInList() ) {
           return;
         }
 
       }
 
-      foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
-      {
+      foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() ) {
 
         Boolean Proceed = true;
 
-        if( !Outlink.GetDoFollow() )
-        {
+        if( !Outlink.GetDoFollow() ) {
           continue;
         }
 
-        if( Outlink.GetTargetUrl() == null )
-        {
+        if( Outlink.GetTargetUrl() == null ) {
           continue;
         }
 
-        if( this.JobMaster.GetJobHistory().SeenHistoryItem( Outlink.GetTargetUrl() ) )
-        {
+        if( this.JobMaster.GetJobHistory().SeenHistoryItem( Outlink.GetTargetUrl() ) ) {
           continue;
         }
 
-        if( this.JobMaster.GetPageLimit() > -1 )
-        {
-          if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() )
-          {
+        if( this.JobMaster.GetPageLimit() > -1 ) {
+          if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() ) {
             this.DebugMsg(
               string.Format(
                 "PAGE LIMIT REACHED: {0} :: {1}",
@@ -491,8 +428,7 @@ namespace SEOMacroscope
           }
         }
 
-        if( Proceed )
-        {
+        if( Proceed ) {
 
           this.JobMaster.AddUrlQueueItem(
             Url: Outlink.GetTargetUrl(),

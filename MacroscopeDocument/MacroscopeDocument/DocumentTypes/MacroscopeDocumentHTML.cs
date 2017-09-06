@@ -1232,6 +1232,7 @@ namespace SEOMacroscope
       MacroscopeLink OutLink = null;
       Boolean Proceed = true;
 
+      // TODO: Add "fetch external pages yes/no"
       if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
         

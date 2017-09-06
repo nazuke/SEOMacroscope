@@ -52,7 +52,10 @@ namespace SEOMacroscope
         
     private MacroscopeDocumentCollection DocCollection;
     private MacroscopeAllowedHosts AllowedHosts;
+
+    private MacroscopeNamedQueue<MacroscopeJobItem> NamedQueueJobItems;
     private MacroscopeNamedQueue<string> NamedQueue;
+
     private MacroscopeRobots Robots;
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
@@ -174,15 +177,19 @@ namespace SEOMacroscope
       this.DocCollection = new MacroscopeDocumentCollection ( JobMaster: this );
       this.AllowedHosts = new MacroscopeAllowedHosts ();
 
-      // BEGIN: Named Queues
+      /** BEGIN: Named Queues *************************************************/
+
+      this.NamedQueueJobItems = new MacroscopeNamedQueue<MacroscopeJobItem> ();
+
+      this.NamedQueueJobItems.CreateNamedQueue(
+        Name: MacroscopeConstants.NamedQueueUrlList,
+        QueueMode: MacroscopeNamedQueue<MacroscopeJobItem>.MODE.USE_HISTORY
+      );
+
       this.NamedQueue = new MacroscopeNamedQueue<string> ();
+
       {
-
-        this.NamedQueue.CreateNamedQueue(
-          Name: MacroscopeConstants.NamedQueueUrlList,
-          QueueMode: MacroscopeNamedQueue<string>.MODE.USE_HISTORY
-        );
-
+        
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayQueue );
 
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayStructure );
@@ -219,7 +226,8 @@ namespace SEOMacroscope
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayRemarks );
 
       }
-      // END: Named Queues
+
+      /** END: Named Queues ***************************************************/
 
       this.CrawlDelay = 0;
 
@@ -697,14 +705,14 @@ namespace SEOMacroscope
 
     /** URL Queue *************************************************************/
 
-    public string [] GetUrlQueueAsArray ()
+    public MacroscopeJobItem [] GetUrlQueueAsArray ()
     {
       
-      string [] ItemsArray = null;
+      MacroscopeJobItem [] ItemsArray = null;
       
       try
       {
-        ItemsArray = this.NamedQueue.GetNamedQueueItemsAsArray(
+        ItemsArray = this.NamedQueueJobItems.GetNamedQueueItemsAsArray(
           MacroscopeConstants.NamedQueueUrlList
         );
       }
@@ -736,17 +744,27 @@ namespace SEOMacroscope
 
       if( !this.JobHistory.SeenHistoryItem( Url: NewUrl ) )
       {
+
         try
         {
-          this.NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueUrlList, NewUrl );
+
+          // TODO: Set proper ParentUrl:
+          MacroscopeJobItem JobItem = new MacroscopeJobItem ( Url: NewUrl, ParentUrl: "" );
+
+          this.NamedQueueJobItems.AddToNamedQueue(
+            Name: MacroscopeConstants.NamedQueueUrlList,
+            Item: JobItem
+          );
+
         }
         catch( MacroscopeNamedQueueException ex )
         {
           this.DebugMsg( string.Format( "AddUrlQueueItem: {0}", ex.Message ) );
         }
+
       }
 
-      this.AddToProgress( NewUrl );
+      this.AddToProgress( Url: NewUrl );
 
     }
 
@@ -781,9 +799,13 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public string GetUrlQueueItem ()
+    public MacroscopeJobItem GetUrlQueueItem ()
     {
-      return( this.NamedQueue.GetNamedQueueItem( MacroscopeConstants.NamedQueueUrlList ) );
+
+      MacroscopeJobItem JobItem = this.NamedQueueJobItems.GetNamedQueueItem( MacroscopeConstants.NamedQueueUrlList );
+
+      return( JobItem );
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -791,6 +813,7 @@ namespace SEOMacroscope
     public void ForgetUrlQueueItem ( string Url )
     {
 
+      MacroscopeJobItem JobItem;
       string NewUrl = Url;
       
       if( MacroscopePreferencesManager.GetIgnoreQueries() )
@@ -803,25 +826,36 @@ namespace SEOMacroscope
         NewUrl = MacroscopeUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
-      this.NamedQueue.ForgetNamedQueueItem(
+      JobItem = new MacroscopeJobItem ( Url: NewUrl, ParentUrl: "" );
+
+      this.NamedQueueJobItems.ForgetNamedQueueItem(
         Name: MacroscopeConstants.NamedQueueUrlList,
-        Item: NewUrl
+        Item: JobItem
       );
 
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public List<string> DrainUrlQueueAsList ()
+    public List<MacroscopeJobItem> DrainUrlQueueAsList ()
     {
-      return( this.NamedQueue.DrainNamedQueueItemsAsList( MacroscopeConstants.NamedQueueUrlList, 5 ) );
+
+      List<MacroscopeJobItem> JobItems;
+
+      JobItems = this.NamedQueueJobItems.DrainNamedQueueItemsAsList(
+        Name: MacroscopeConstants.NamedQueueUrlList,
+        Limit: 5
+      );
+
+      return( JobItems );
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     public Boolean PeekUrlQueue ()
     {
-      Boolean Peek = this.NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
+      Boolean Peek = this.NamedQueueJobItems.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
       return( Peek );
     }
 
@@ -829,7 +863,7 @@ namespace SEOMacroscope
 
     public int CountUrlQueueItems ()
     {
-      return( this.NamedQueue.CountNamedQueueItems( MacroscopeConstants.NamedQueueUrlList ) );
+      return( this.NamedQueueJobItems.CountNamedQueueItems( MacroscopeConstants.NamedQueueUrlList ) );
     }
 
     /** Retry Broken Links ****************************************************/

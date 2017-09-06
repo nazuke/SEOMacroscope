@@ -104,7 +104,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RefreshData ( string [] UriQueue )
+    public void RefreshData ( MacroscopeJobItem [] UriQueue )
     {
       
       if( this.MainForm.InvokeRequired )
@@ -148,7 +148,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderListView ( string [] UriQueue )
+    private void RenderListView ( MacroscopeJobItem [] UriQueue )
     {
 
       if( UriQueue.Length == 0 )
@@ -181,7 +181,7 @@ namespace SEOMacroscope
       {
 
         ListViewItem lvItem = null;
-        string Url = UriQueue[ i ];
+        string Url = UriQueue[ i ].GetItemUrl();
         
         if( this.DisplayListView.Items.ContainsKey( Url ) )
         {

@@ -150,6 +150,7 @@
     <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentImage.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentJS.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentPDF.cs" />
+    <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentSkipped.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentText.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentVideo.cs" />
     <Compile Include="MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentXml.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\MacroscopeExcelExportListViewReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\Worksheet.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelReports.cs" />
+    <Compile Include="MacroscopeTasks\MacroscopeJobItem.cs" />
     <Compile Include="MacroscopeTools\MacroscopeDateTools.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.Designer.cs">

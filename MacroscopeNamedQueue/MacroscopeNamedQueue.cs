@@ -471,15 +471,23 @@ namespace SEOMacroscope
       if( this.NamedQueuesIndex.ContainsKey( Name ) )
       {
               
-        if( this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
+        lock( this.NamedQueuesIndex[Name] )
         {
-
-          lock( this.NamedQueuesIndex[Name] )
+          
+          string ItemValue = Item.ToString();
+          
+          foreach( T ItemKey in this.NamedQueuesIndex[Name].Keys )
           {
-            this.NamedQueuesIndex[ Name ].Remove( Item );
-                
-          }
+            
+            if( NamedQueuesIndex[ Name ][ ItemKey ].ToString().Equals( ItemValue ) )
+            {
 
+              this.NamedQueuesIndex[ Name ].Remove( ItemKey );
+
+            }
+            
+          }
+          
         }
 
       }

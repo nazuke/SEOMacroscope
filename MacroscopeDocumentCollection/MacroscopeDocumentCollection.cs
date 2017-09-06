@@ -391,15 +391,21 @@ namespace SEOMacroscope
 
       MacroscopeDocument msDoc = null;
 
-      if(
-        ( !string.IsNullOrEmpty( Url ) )
-        && this.DocCollection.ContainsKey( Url ) )
+      try
       {
-        msDoc = this.DocCollection[ Url ];
+      
+        if( !string.IsNullOrEmpty( Url ) )
+        {
+          if( this.DocCollection.ContainsKey( Url ) )
+          {
+            msDoc = this.DocCollection[ Url ];
+          }
+        }
+
       }
-      else
+      catch( Exception ex )
       {
-        //throw new MacroscopeDocumentCollectionException ( string.Format( "Document not in collection: {0}", Url ) );
+        this.DebugMsg( ex.Message );
       }
 
       return( msDoc );

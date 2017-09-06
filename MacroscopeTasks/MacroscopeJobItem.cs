@@ -24,87 +24,57 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-
 
 namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeBarChart.
+  /// Description of MacroscopeJobItem.
   /// </summary>
 
-  public partial class MacroscopePieChart : UserControl
+  public class MacroscopeJobItem
   {
 
     /**************************************************************************/
 
-    Chart PieChart;
+    private string ItemUrl;
 
+    private string ItemParentUrl;
+    
     /**************************************************************************/
 
-    public MacroscopePieChart ()
+    public MacroscopeJobItem ( string Url, string ParentUrl )
     {
 
-      InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
+      this.ItemUrl = Url;
 
-      this.PieChart = this.pieChartPanel;
-
-      this.PieChart.Dock = DockStyle.Fill;
-      
-      this.Clear();
+      this.ItemParentUrl = ParentUrl;
 
     }
 
     /**************************************************************************/
 
-    public void SetTitle ( string Title )
+    public override string ToString ()
     {
-      this.PieChart.Text = Title;
+      return( this.ItemUrl );
     }
 
     /**************************************************************************/
 
-    public void Clear ()
+    public string GetItemUrl ()
     {
-      this.PieChart.Series.Clear();
+      return( this.ItemUrl );
     }
 
     /**************************************************************************/
 
-    public void Update ( SortedDictionary<string,double> DataPoints )
+    public string GetItemParentUrl ()
     {
-
-      const string SeriesName = "Readbility";
-      Series DataSeries = new Series ();
-
-      DataSeries.Name = SeriesName;
-      DataSeries.ChartType = SeriesChartType.Pie;
-
-      this.PieChart.Series.Clear();
-      this.PieChart.Series.Add( item: DataSeries );
-
-      foreach( string DataPointKey in DataPoints.Keys )
-      {
-
-        double Value = DataPoints[ DataPointKey ];
-        
-        DataPoint DataPointItem = DataSeries.Points.Add( Value );
-
-        DataPointItem.AxisLabel = string.Format( "{0:0.00}", Value );
-
-        DataPointItem.LegendText = string.Format( "{0}: {1:0.00}", DataPointKey, Value );
-
-      }
-
-      this.PieChart.Invalidate();
-      
+      return( this.ItemParentUrl );
     }
 
     /**************************************************************************/
-
+    
   }
 
 }

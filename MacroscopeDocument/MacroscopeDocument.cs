@@ -212,7 +212,7 @@ namespace SEOMacroscope
       this.AuthenticationCredential = Credential;
     }
 
-    /** Self Destruct Sequence ************************************************/
+    /** Self-Destruct Sequence ************************************************/
     
     ~MacroscopeDocument ()
     {
@@ -428,9 +428,9 @@ namespace SEOMacroscope
 
     /** Fetch Status **********************************************************/
 
-    public void SetFetchStatus ( MacroscopeConstants.FetchStatus NewFetchStatus )
+    public void SetFetchStatus ( MacroscopeConstants.FetchStatus Status )
     {
-      this.FetchStatus = NewFetchStatus;
+      this.FetchStatus = Status;
     }
 
     public void ClearFetchStatus ()
@@ -840,6 +840,25 @@ namespace SEOMacroscope
       return( this.DocumentType );
     }
 
+    /** -------------------------------------------------------------------- **/
+        
+    public void SetIsSkipped ()
+    {
+      this.DocumentType = MacroscopeConstants.DocumentType.SKIPPED;
+    }
+
+    public Boolean GetIsSkipped ()
+    {
+      if( this.DocumentType == MacroscopeConstants.DocumentType.SKIPPED )
+      {
+        return( true );
+      }
+      else
+      {
+        return( false );
+      }
+    }
+    
     /** -------------------------------------------------------------------- **/
         
     public void SetIsBinary ()
@@ -2269,7 +2288,7 @@ namespace SEOMacroscope
 
       if( this.DocCollection == null )
       {
-        this.SetFetchStatus( NewFetchStatus: MacroscopeConstants.FetchStatus.OK );
+        this.SetFetchStatus( Status: MacroscopeConstants.FetchStatus.OK );
       }
       else
       if( this.GetFetchStatus() != MacroscopeConstants.FetchStatus.OK )
@@ -2401,7 +2420,17 @@ namespace SEOMacroscope
       }
       else
       {
+
         DebugMsg( string.Format( "SKIPPING DOWNLOAD:: {0}", this.DocUrl ) );
+
+        this.SetIsSkipped();
+
+        this.CrawledDate = DateTime.UtcNow;
+
+        DebugMsg( string.Format( "IS SKIPPED PAGE: {0}", this.DocUrl ) );
+          
+        fTimeDuration( this.ProcessSkippedPage );
+
       }
 
       if( this.GetTitleLength() > 0 )
@@ -2532,15 +2561,17 @@ namespace SEOMacroscope
           if( !string.IsNullOrEmpty( LinkUrlAbs ) )
           {
             
+            MacroscopeLink OutLink;
+            
             this.SetUrlRedirectFrom( Url: OriginalUrl );
 
             this.SetUrlRedirectTo( Url: LinkUrlAbs );
             
-            MacroscopeLink OutLink = this.AddDocumentOutlink(
-                                       AbsoluteUrl: LinkUrlAbs,
-                                       LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
-                                       Follow: true
-                                     );
+            OutLink = this.AddDocumentOutlink(
+              AbsoluteUrl: LinkUrlAbs,
+              LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
+              Follow: true
+            );
             
             OutLink.SetRawTargetUrl( res.GetResponseHeader( "Location" ) );
           
@@ -2559,13 +2590,6 @@ namespace SEOMacroscope
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
       
-      /*
-      if( res != null )
-      {
-        res.Dispose();
-      }
-      */
-
     }
 
     /**************************************************************************/
@@ -2576,19 +2600,21 @@ namespace SEOMacroscope
       // Reference: https://en.wikipedia.org/wiki/Basic_access_authentication#Protocol
 
       Boolean IsAuthenticating = false;
-
+      byte [] UsernamePassword;
+      string UsernamePasswordB64Encoded;
+      
       if( this.GetAuthenticationCredential() != null )
       {
        
-        byte [] UsernamePassword = Encoding.UTF8.GetBytes(
-                                     string.Join(
-                                       ":",
-                                       this.GetAuthenticationCredential().GetUsername(),
-                                       this.GetAuthenticationCredential().GetPassword()
-                                     )
-                                   );
+        UsernamePassword = Encoding.UTF8.GetBytes(
+          string.Join(
+            ":",
+            this.GetAuthenticationCredential().GetUsername(),
+            this.GetAuthenticationCredential().GetPassword()
+          )
+        );
 
-        string UsernamePasswordB64Encoded = System.Convert.ToBase64String( UsernamePassword );
+        UsernamePasswordB64Encoded = System.Convert.ToBase64String( UsernamePassword );
 
         if( req != null )
         {
