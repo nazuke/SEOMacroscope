@@ -52,7 +52,7 @@ namespace SEOMacroscope
         
     private MacroscopeDocumentCollection DocCollection;
     private MacroscopeAllowedHosts AllowedHosts;
-    private MacroscopeNamedQueue NamedQueue;
+    private MacroscopeNamedQueue<string> NamedQueue;
     private MacroscopeRobots Robots;
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
@@ -175,12 +175,12 @@ namespace SEOMacroscope
       this.AllowedHosts = new MacroscopeAllowedHosts ();
 
       // BEGIN: Named Queues
-      this.NamedQueue = new MacroscopeNamedQueue ();
+      this.NamedQueue = new MacroscopeNamedQueue<string> ();
       {
 
         this.NamedQueue.CreateNamedQueue(
           Name: MacroscopeConstants.NamedQueueUrlList,
-          QueueMode: MacroscopeNamedQueue.MODE.USE_HISTORY
+          QueueMode: MacroscopeNamedQueue<string>.MODE.USE_HISTORY
         );
 
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayQueue );

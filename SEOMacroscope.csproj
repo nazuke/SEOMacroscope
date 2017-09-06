@@ -79,6 +79,9 @@
     <Reference Include="HtmlAgilityPack.CssSelectors">
       <HintPath>packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.CssSelectors.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="LanguageDetection">
       <HintPath>packages\LanguageDetection.1.2.0\lib\net45\LanguageDetection.dll</HintPath>
     </Reference>
@@ -448,8 +451,6 @@
     <Compile Include="MacroscopeLinks\MacroscopeLink.cs" />
     <Compile Include="MacroscopeLinks\MacroscopeLinkList.cs" />
     <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueue.cs" />
-    <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueueGeneric.cs" />
-    <Compile Include="MacroscopeNamedQueue\MacroscopeNamedQueueItem.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>

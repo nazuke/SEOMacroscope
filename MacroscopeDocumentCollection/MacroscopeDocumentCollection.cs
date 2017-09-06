@@ -41,7 +41,7 @@ namespace SEOMacroscope
     private Dictionary<string,MacroscopeDocument> DocCollection;
 
     private MacroscopeJobMaster JobMaster;
-    private MacroscopeNamedQueue NamedQueue;
+    private MacroscopeNamedQueue<string> NamedQueue;
     private MacroscopeSearchIndex SearchIndex;
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
 
@@ -102,7 +102,7 @@ namespace SEOMacroscope
 
       this.JobMaster = JobMaster;
 
-      this.NamedQueue = new MacroscopeNamedQueue ();
+      this.NamedQueue = new MacroscopeNamedQueue<string> ();
       this.NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
 
       this.SearchIndex = new MacroscopeSearchIndex ();
