@@ -147,6 +147,8 @@ namespace SEOMacroscope
     
     static Boolean DetectLanguage;
 
+    static Boolean AnalyzeClickPaths;
+    
     /** Custom Filters Options --------------------------------------------- **/
 
     static Boolean CustomFiltersEnable;
@@ -292,6 +294,8 @@ namespace SEOMacroscope
 
           DetectLanguage = Preferences.DetectLanguage;
 
+          AnalyzeClickPaths = Preferences.AnalyzeClickPaths;
+          
           CustomFiltersEnable = Preferences.CustomFiltersEnable;
           CustomFiltersMaxItems = Preferences.CustomFiltersMaxItems;
           CustomFiltersApplyToHtml = Preferences.CustomFiltersApplyToHtml;
@@ -436,6 +440,8 @@ namespace SEOMacroscope
       MaxLevenshteinDistance = 16;
       
       DetectLanguage = true;
+      
+      AnalyzeClickPaths = true;
       
       /** SEO Options ------------------------------------------------------ **/
       
@@ -687,6 +693,8 @@ namespace SEOMacroscope
         Preferences.AnalyzeTextReadabilityEnglishAlgorithm = AnalyzeTextReadabilityEnglishAlgorithm;
     
         Preferences.DetectLanguage = DetectLanguage;
+        
+        Preferences.AnalyzeClickPaths = AnalyzeClickPaths;
 
         Preferences.CustomFiltersEnable = CustomFiltersEnable;
         Preferences.CustomFiltersMaxItems = CustomFiltersMaxItems;
@@ -1546,9 +1554,21 @@ namespace SEOMacroscope
       return( DetectLanguage );
     }
 
-    public static void SetDetectLanguage ( Boolean Detect )
+    public static void SetDetectLanguage ( Boolean Enabled )
     {
-      DetectLanguage = Detect;
+      DetectLanguage = Enabled;
+    }
+
+        /* ---------------------------------------------------------------------- */
+
+    public static Boolean GetAnalyzeClickPaths ()
+    {
+      return( AnalyzeClickPaths );
+    }
+
+    public static void SetAnalyzeClickPaths ( Boolean Enabled )
+    {
+      AnalyzeClickPaths = Enabled;
     }
 
     /** Custom Filter Options *************************************************/

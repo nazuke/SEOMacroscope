@@ -26,6 +26,18 @@ namespace SEOMacroscope {
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("False")]
+		public bool AnalyzeClickPaths {
+			get {
+				return ((bool)(this["AnalyzeClickPaths"]));
+			}
+			set {
+				this["AnalyzeClickPaths"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("False")]
 		public bool AnalyzeKeywordsInText {
 			get {
 				return ((bool)(this["AnalyzeKeywordsInText"]));

@@ -116,7 +116,7 @@ namespace SEOMacroscope
 
       UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
     
-      MacroscopePreferencesManager.SetDetectLanguage( Detect: true );
+      MacroscopePreferencesManager.SetDetectLanguage( Enabled: true );
       MacroscopePreferencesManager.SetRequestTimeout( Seconds: 10 );
                 
       for( int i = 0 ; i < 10 ; i++ )

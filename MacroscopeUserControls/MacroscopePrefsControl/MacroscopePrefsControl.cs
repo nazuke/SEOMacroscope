@@ -158,6 +158,8 @@ namespace SEOMacroscope
         this.numericUpDownMaxLevenshteinSizeDifference.Value = MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference();
         this.numericUpDownMaxLevenshteinDistance.Value = MacroscopePreferencesManager.GetMaxLevenshteinDistance();
         
+        this.checkBoxAnalyzeClickPaths.Checked = MacroscopePreferencesManager.GetAnalyzeClickPaths();
+              
         /** Custom Filter Options ------------------------------------------ **/
 
         this.checkBoxCustomFiltersEnable.Checked = MacroscopePreferencesManager.GetCustomFiltersEnable();
@@ -252,7 +254,7 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetResolveAddresses( this.checkBoxResolveAddresses.Checked );
 
       MacroscopePreferencesManager.SetCheckHreflangs( this.checkBoxCheckHreflangs.Checked );
-      MacroscopePreferencesManager.SetDetectLanguage( Detect: this.checkBoxDetectLanguage.Checked );
+      MacroscopePreferencesManager.SetDetectLanguage( Enabled: this.checkBoxDetectLanguage.Checked );
 
       MacroscopePreferencesManager.SetProcessStylesheets( this.checkBoxProcessStylesheets.Checked );
       MacroscopePreferencesManager.SetProcessJavascripts( this.checkBoxProcessJavascripts.Checked );
@@ -292,6 +294,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( ( int )this.numericUpDownMaxLevenshteinSizeDifference.Value );
       MacroscopePreferencesManager.SetMaxLevenshteinDistance( ( int )this.numericUpDownMaxLevenshteinDistance.Value );
 
+      MacroscopePreferencesManager.SetAnalyzeClickPaths( this.checkBoxAnalyzeClickPaths.Checked );
+      
       /** Custom Filter Options -------------------------------------------- **/
 
       MacroscopePreferencesManager.SetCustomFiltersEnable( this.checkBoxCustomFiltersEnable.Checked );

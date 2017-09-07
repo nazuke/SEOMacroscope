@@ -181,6 +181,8 @@ namespace SEOMacroscope
 		private System.Windows.Forms.GroupBox groupBox28;
 		public System.Windows.Forms.CheckBox checkBoxServerCertificateValidation;
 		public System.Windows.Forms.CheckBox checkBoxFetchExternalLinks;
+		private System.Windows.Forms.GroupBox groupBox29;
+		public System.Windows.Forms.CheckBox checkBoxAnalyzeClickPaths;
 
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -220,6 +222,7 @@ namespace SEOMacroscope
 			this.checkBoxFollowCanonicalLinks = new System.Windows.Forms.CheckBox();
 			this.checkBoxFollowRedirects = new System.Windows.Forms.CheckBox();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.checkBoxFetchExternalLinks = new System.Windows.Forms.CheckBox();
 			this.checkBoxCheckExternalLinks = new System.Windows.Forms.CheckBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.label17 = new System.Windows.Forms.Label();
@@ -301,6 +304,8 @@ namespace SEOMacroscope
 			this.numericUpDownMaxLevenshteinSizeDifference = new System.Windows.Forms.NumericUpDown();
 			this.label22 = new System.Windows.Forms.Label();
 			this.numericUpDownMaxLevenshteinDistance = new System.Windows.Forms.NumericUpDown();
+			this.groupBox29 = new System.Windows.Forms.GroupBox();
+			this.checkBoxAnalyzeClickPaths = new System.Windows.Forms.CheckBox();
 			this.tabPageCustomFilterOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel9 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox23 = new System.Windows.Forms.GroupBox();
@@ -353,7 +358,6 @@ namespace SEOMacroscope
 			this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupBox19 = new System.Windows.Forms.GroupBox();
 			this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-			this.checkBoxFetchExternalLinks = new System.Windows.Forms.CheckBox();
 			label9 = new System.Windows.Forms.Label();
 			label10 = new System.Windows.Forms.Label();
 			this.tabControlPreferences.SuspendLayout();
@@ -397,6 +401,7 @@ namespace SEOMacroscope
 			this.groupBox14.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinSizeDifference)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinDistance)).BeginInit();
+			this.groupBox29.SuspendLayout();
 			this.tabPageCustomFilterOptions.SuspendLayout();
 			this.flowLayoutPanel9.SuspendLayout();
 			this.groupBox23.SuspendLayout();
@@ -616,6 +621,15 @@ namespace SEOMacroscope
 			this.groupBox7.TabIndex = 3;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "Domain Restrictions";
+			// 
+			// checkBoxFetchExternalLinks
+			// 
+			this.checkBoxFetchExternalLinks.Location = new System.Drawing.Point(180, 20);
+			this.checkBoxFetchExternalLinks.Name = "checkBoxFetchExternalLinks";
+			this.checkBoxFetchExternalLinks.Size = new System.Drawing.Size(150, 24);
+			this.checkBoxFetchExternalLinks.TabIndex = 2;
+			this.checkBoxFetchExternalLinks.Text = "Fetch external links";
+			this.checkBoxFetchExternalLinks.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxCheckExternalLinks
 			// 
@@ -1186,6 +1200,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel2.Controls.Add(this.groupBox9);
 			this.flowLayoutPanel2.Controls.Add(this.groupBox12);
 			this.flowLayoutPanel2.Controls.Add(this.groupBox14);
+			this.flowLayoutPanel2.Controls.Add(this.groupBox29);
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
@@ -1664,6 +1679,27 @@ namespace SEOMacroscope
 			0,
 			0,
 			0});
+			// 
+			// groupBox29
+			// 
+			this.groupBox29.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBox29.Controls.Add(this.checkBoxAnalyzeClickPaths);
+			this.groupBox29.Location = new System.Drawing.Point(10, 604);
+			this.groupBox29.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBox29.Name = "groupBox29";
+			this.groupBox29.Size = new System.Drawing.Size(500, 70);
+			this.groupBox29.TabIndex = 8;
+			this.groupBox29.TabStop = false;
+			this.groupBox29.Text = "Page Navigation Analysis";
+			// 
+			// checkBoxAnalyzeClickPaths
+			// 
+			this.checkBoxAnalyzeClickPaths.Location = new System.Drawing.Point(20, 20);
+			this.checkBoxAnalyzeClickPaths.Name = "checkBoxAnalyzeClickPaths";
+			this.checkBoxAnalyzeClickPaths.Size = new System.Drawing.Size(200, 24);
+			this.checkBoxAnalyzeClickPaths.TabIndex = 1;
+			this.checkBoxAnalyzeClickPaths.Text = "Analyze Click Paths";
+			this.checkBoxAnalyzeClickPaths.UseVisualStyleBackColor = true;
 			// 
 			// tabPageCustomFilterOptions
 			// 
@@ -2256,15 +2292,6 @@ namespace SEOMacroscope
 			this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
 			this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
 			// 
-			// checkBoxFetchExternalLinks
-			// 
-			this.checkBoxFetchExternalLinks.Location = new System.Drawing.Point(180, 20);
-			this.checkBoxFetchExternalLinks.Name = "checkBoxFetchExternalLinks";
-			this.checkBoxFetchExternalLinks.Size = new System.Drawing.Size(150, 24);
-			this.checkBoxFetchExternalLinks.TabIndex = 2;
-			this.checkBoxFetchExternalLinks.Text = "Fetch external links";
-			this.checkBoxFetchExternalLinks.UseVisualStyleBackColor = true;
-			// 
 			// MacroscopePrefsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2315,6 +2342,7 @@ namespace SEOMacroscope
 			this.groupBox14.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinSizeDifference)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinDistance)).EndInit();
+			this.groupBox29.ResumeLayout(false);
 			this.tabPageCustomFilterOptions.ResumeLayout(false);
 			this.flowLayoutPanel9.ResumeLayout(false);
 			this.groupBox23.ResumeLayout(false);
