@@ -808,6 +808,10 @@ namespace SEOMacroscope
       {
         req.Proxy = wpProxy;
       }
+      else
+      {
+        req.Proxy = null;
+      }
     }
 
     /** Global Server Certificate Validation ******************************************************/

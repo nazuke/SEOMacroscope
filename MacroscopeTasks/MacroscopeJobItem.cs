@@ -38,17 +38,13 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private string ItemUrl;
-
-    private string ItemParentUrl;
-    
+   
     /**************************************************************************/
 
-    public MacroscopeJobItem ( string Url, string ParentUrl )
+    public MacroscopeJobItem ( string Url  )
     {
 
       this.ItemUrl = Url;
-
-      this.ItemParentUrl = ParentUrl;
 
     }
 
@@ -64,13 +60,6 @@ namespace SEOMacroscope
     public string GetItemUrl ()
     {
       return( this.ItemUrl );
-    }
-
-    /**************************************************************************/
-
-    public string GetItemParentUrl ()
-    {
-      return( this.ItemParentUrl );
     }
 
     /**************************************************************************/

@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
     private void StartProgressBarScanTimer ( int Delay )
     {
-      this.TimerProgressBarScan = new System.Timers.Timer ( Delay );
+      this.TimerProgressBarScan.Interval = Delay;
       this.TimerProgressBarScan.Elapsed += this.CallbackProgressBarScanTimer;
       this.TimerProgressBarScan.AutoReset = true;
       this.TimerProgressBarScan.Enabled = true;
@@ -55,7 +55,6 @@ namespace SEOMacroscope
         try
         {
           this.TimerProgressBarScan.Stop();
-          this.TimerProgressBarScan.Dispose();
         }
         catch( Exception ex )
         {
@@ -90,11 +89,6 @@ namespace SEOMacroscope
         try
         {
 
-          if( this.TimerProgressBarScan != null ) // Avoid race condition
-          {
-            this.TimerProgressBarScan.Stop();
-          }
-          
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -109,11 +103,6 @@ namespace SEOMacroscope
           else
           {
             this.UpdateProgressBarScan();
-          }
-
-          if( this.TimerProgressBarScan != null ) // Avoid race condition
-          {
-            this.TimerProgressBarScan.Start();
           }
 
         }
@@ -159,11 +148,6 @@ namespace SEOMacroscope
 
       int Percentage = 0;
 
-      if( !this.ProgressBarScan.IsDisposed )
-      {
-        return;
-      }
-            
       if( this.JobMaster != null )
       {
 
@@ -191,19 +175,13 @@ namespace SEOMacroscope
           Percentage = 100;
         }
 
-        //DebugMsg( string.Format( "ProgressBarScan: iTotal {0}", Total ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iProcessed {0}", iProcessed ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iQueued {0}", iQueued ) );
-        //DebugMsg( string.Format( "ProgressBarScan: iPercentage {0}", iPercentage ) );
-
       }
 
-      //DebugMsg( string.Format( "ProgressBarScan: {0}", this.ProgressBarScan.Value ) );
-
-      if( !this.ProgressBarScan.IsDisposed )
-      {
-        this.ProgressBarScan.Value = Percentage;
-      }
+      this.TimerProgressBarScan.Stop();
+      
+      this.ProgressBarScan.Value = Percentage;
+      
+      this.TimerProgressBarScan.Start();
       
     }
 

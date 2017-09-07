@@ -38,7 +38,7 @@ namespace SEOMacroscope
 
     private void StartStatusBarTimer ( int Delay )
     {
-      this.TimerStatusBar = new System.Timers.Timer ( Delay );
+      this.TimerStatusBar.Interval = Delay;
       this.TimerStatusBar.Elapsed += this.CallbackStatusBarTimer;
       this.TimerStatusBar.AutoReset = true;
       this.TimerStatusBar.Enabled = true;
@@ -54,7 +54,6 @@ namespace SEOMacroscope
         try
         {
           this.TimerStatusBar.Stop();
-          this.TimerStatusBar.Dispose();
         }
         catch( Exception ex )
         {
@@ -74,8 +73,6 @@ namespace SEOMacroscope
         try
         {
 
-          this.TimerStatusBar.Stop();
-
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -91,9 +88,7 @@ namespace SEOMacroscope
           {
             this.UpdateStatusBar();
           }
-          
-          this.TimerStatusBar.Start();
-                
+                         
         }
         catch( Exception ex )
         {
@@ -112,12 +107,20 @@ namespace SEOMacroscope
         
     private void UpdateStatusBar ()
     {
+
       if( this.JobMaster != null )
       {
+        
+        this.TimerStatusBar.Stop();
+                  
         this.toolStripThreads.Text = string.Format( "Threads: {0}", this.JobMaster.CountRunningThreads() );
         this.toolStripUrlCount.Text = string.Format( "URLs in Queue: {0}", this.JobMaster.CountUrlQueueItems() );
         this.toolStripFound.Text = string.Format( "URLs Crawled: {0}", this.JobMaster.GetDocCollection().CountDocuments() );
+        
+        this.TimerStatusBar.Start();
+                  
       }
+      
     }
 
     /**************************************************************************/

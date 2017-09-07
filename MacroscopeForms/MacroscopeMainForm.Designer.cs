@@ -164,6 +164,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
 		private System.Windows.Forms.ToolStripMenuItem exportCurrentListToCSVToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exportCurrentListToExcelToolStripMenuItem;
+		private System.Windows.Forms.ToolStripButton toolStripButton2;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -307,6 +308,7 @@ namespace SEOMacroscope
 			this.toolStripButtonRetryTimedOutLinks = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripExecuteControls = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabelStartUrl = new System.Windows.Forms.ToolStripLabel();
 			this.textBoxStartUrl = new System.Windows.Forms.ToolStripTextBox();
@@ -368,7 +370,7 @@ namespace SEOMacroscope
 			this.loadFromTextFileToolStripMenuItem,
 			this.pasteFromClipboardToolStripMenuItem});
 			this.loadUrlListToolStripMenuItem.Name = "loadUrlListToolStripMenuItem";
-			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.loadUrlListToolStripMenuItem.Text = "Load URL List";
 			// 
 			// loadFromTextFileToolStripMenuItem
@@ -388,7 +390,7 @@ namespace SEOMacroscope
 			// toolStripSeparator8
 			// 
 			this.toolStripSeparator8.Name = "toolStripSeparator8";
-			this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator8.Size = new System.Drawing.Size(142, 6);
 			// 
 			// exportToolStripMenuItem
 			// 
@@ -402,7 +404,7 @@ namespace SEOMacroscope
 			this.exportCurrentListToCSVToolStripMenuItem,
 			this.exportCurrentListToExcelToolStripMenuItem});
 			this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-			this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exportToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exportToolStripMenuItem.Text = "Export";
 			// 
 			// sitemapXMLToolStripMenuItem
@@ -460,14 +462,14 @@ namespace SEOMacroscope
 			// toolStripSeparator9
 			// 
 			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator9.Size = new System.Drawing.Size(142, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.CallbackFileExit);
 			// 
@@ -1240,7 +1242,8 @@ namespace SEOMacroscope
 			this.toolStripButtonRetryBrokenLinks,
 			this.toolStripButtonRetryTimedOutLinks,
 			this.toolStripSeparator25,
-			this.toolStripButton1});
+			this.toolStripButton1,
+			this.toolStripButton2});
 			this.toolStripViewControls.Location = new System.Drawing.Point(0, 30);
 			this.toolStripViewControls.Name = "toolStripViewControls";
 			this.toolStripViewControls.Size = new System.Drawing.Size(1008, 30);
@@ -1280,6 +1283,16 @@ namespace SEOMacroscope
 			this.toolStripButton1.Size = new System.Drawing.Size(132, 27);
 			this.toolStripButton1.Text = "Recalculate Link Count";
 			this.toolStripButton1.Click += new System.EventHandler(this.CallbackRecalculateLinkCountsClick);
+			// 
+			// toolStripButton2
+			// 
+			this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+			this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton2.Name = "toolStripButton2";
+			this.toolStripButton2.Size = new System.Drawing.Size(132, 27);
+			this.toolStripButton2.Text = "Recalculate Click Paths";
+			this.toolStripButton2.Click += new System.EventHandler(this.CallbackRecalculateClickPathsClick);
 			// 
 			// toolStripExecuteControls
 			// 

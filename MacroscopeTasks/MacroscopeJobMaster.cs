@@ -748,8 +748,9 @@ namespace SEOMacroscope
         try
         {
 
-          // TODO: Set proper ParentUrl:
-          MacroscopeJobItem JobItem = new MacroscopeJobItem ( Url: NewUrl, ParentUrl: "" );
+          MacroscopeJobItem JobItem;
+
+          JobItem = new MacroscopeJobItem ( Url: NewUrl );
 
           this.NamedQueueJobItems.AddToNamedQueue(
             Name: MacroscopeConstants.NamedQueueUrlList,
@@ -826,7 +827,7 @@ namespace SEOMacroscope
         NewUrl = MacroscopeUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
-      JobItem = new MacroscopeJobItem ( Url: NewUrl, ParentUrl: "" );
+      JobItem = new MacroscopeJobItem ( Url: NewUrl );
 
       this.NamedQueueJobItems.ForgetNamedQueueItem(
         Name: MacroscopeConstants.NamedQueueUrlList,

@@ -779,18 +779,6 @@ namespace SEOMacroscope
 
             }
 
-            // TODO: implement click paths
-            /*
-            try
-            {
-              this.RecalculateClickPaths();
-            }
-            catch( Exception ex )
-            {
-              this.DebugMsg( string.Format( "RecalculateClickPaths: {0}", ex.Message ) );
-            }
-            */
-           
           }
           finally
           {

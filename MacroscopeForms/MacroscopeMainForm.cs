@@ -117,13 +117,12 @@ namespace SEOMacroscope
     private static object LockerTimerSiteOverview = new object ();
     private static object LockerTimerStatusBar = new object ();
     private static object LockerTimerAuthentication = new object ();
-
     
-    public System.Timers.Timer TimerProgressBarScan;
-    public System.Timers.Timer TimerTabPages;
-    public System.Timers.Timer TimerSiteOverview;
-    public System.Timers.Timer TimerStatusBar;
-    public System.Timers.Timer TimerAuthentication;
+    public System.Timers.Timer TimerProgressBarScan = new System.Timers.Timer ( 10 );
+    public System.Timers.Timer TimerTabPages = new System.Timers.Timer ( 10 );
+    public System.Timers.Timer TimerSiteOverview = new System.Timers.Timer ( 10 );
+    public System.Timers.Timer TimerStatusBar = new System.Timers.Timer ( 10 );
+    public System.Timers.Timer TimerAuthentication = new System.Timers.Timer ( 10 );
 
     /**************************************************************************/
 
@@ -830,7 +829,7 @@ namespace SEOMacroscope
 
     private void StartTabPageTimer ( int Delay )
     {
-      this.TimerTabPages = new System.Timers.Timer ( Delay );
+      this.TimerTabPages.Interval = Delay;
       this.TimerTabPages.Elapsed += this.CallbackTabPageTimer;
       this.TimerTabPages.AutoReset = true;
       this.TimerTabPages.Enabled = true;
@@ -846,7 +845,6 @@ namespace SEOMacroscope
         try
         {
           this.TimerTabPages.Stop();
-          this.TimerTabPages.Dispose();
         }
         catch( Exception ex )
         {
@@ -866,8 +864,6 @@ namespace SEOMacroscope
         try
         {
 
-          this.TimerTabPages.Stop();
-
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -883,8 +879,6 @@ namespace SEOMacroscope
           {
             this.CallbackTabPageTimerExec();
           }
-
-          this.TimerTabPages.Start();
 
         }
         catch( Exception ex )
@@ -906,7 +900,13 @@ namespace SEOMacroscope
     {
       if( !MacroscopePreferencesManager.GetPauseDisplayDuringScan() )
       {
+
+        this.TimerTabPages.Stop();
+
         this.UpdateFocusedTabPage();
+
+        this.TimerTabPages.Start();
+
       }
     }
 
@@ -1770,7 +1770,7 @@ namespace SEOMacroscope
 
     private void StartSiteOverviewTimer ( int Delay )
     {
-      this.TimerSiteOverview = new System.Timers.Timer ( Delay );
+      this.TimerSiteOverview.Interval = Delay;
       this.TimerSiteOverview.Elapsed += this.CallbackSiteOverviewTimer;
       this.TimerSiteOverview.AutoReset = true;
       this.TimerSiteOverview.Enabled = true;
@@ -1800,7 +1800,6 @@ namespace SEOMacroscope
         try
         {
           this.TimerSiteOverview.Stop();
-          this.TimerSiteOverview.Dispose();
         }
         catch( Exception ex )
         {
@@ -1820,8 +1819,6 @@ namespace SEOMacroscope
         try
         {
 
-          this.TimerSiteOverview.Stop();
-
           if( this.InvokeRequired )
           {
             this.Invoke(
@@ -1837,8 +1834,6 @@ namespace SEOMacroscope
           {
             this.CallbackSiteOverviewTimerExec();
           }
-
-          this.TimerSiteOverview.Start();
 
         }
         catch( Exception ex )
@@ -1858,7 +1853,13 @@ namespace SEOMacroscope
     
     private void CallbackSiteOverviewTimerExec ()
     {
+      
+      this.TimerSiteOverview.Stop();
+                
       this.UpdateSiteOverview();
+      
+      this.TimerSiteOverview.Start();
+                
     }
 
     /** -------------------------------------------------------------------- **/
@@ -2252,7 +2253,7 @@ namespace SEOMacroscope
 
     private void StartAuthenticationTimer ( int Delay )
     {
-      this.TimerAuthentication = new System.Timers.Timer ( Delay );
+      this.TimerAuthentication.Interval = Delay;
       this.TimerAuthentication.Elapsed += this.CallbackAuthenticationTimer;
       this.TimerAuthentication.AutoReset = true;
       this.TimerAuthentication.Enabled = true;
@@ -2268,7 +2269,6 @@ namespace SEOMacroscope
         try
         {
           this.TimerAuthentication.Stop();
-          this.TimerAuthentication.Dispose();
         }
         catch( Exception ex )
         {
@@ -2344,9 +2344,11 @@ namespace SEOMacroscope
             
             CredentialRequest = this.CredentialsHttp.DequeueCredentialRequest();
                         
-            if( this.CredentialsHttp.CredentialExists( 
-                  Domain: CredentialRequest.GetDomain(),
-                  Realm: CredentialRequest.GetRealm() ) )
+            if( 
+              this.CredentialsHttp.CredentialExists(
+                Domain: CredentialRequest.GetDomain(),
+                Realm: CredentialRequest.GetRealm()
+              ) )
             {
 
               DebugMsg(
@@ -2433,6 +2435,13 @@ namespace SEOMacroscope
       this.RecalculateLinkCounts();
     }
 
+    /** -------------------------------------------------------------------- **/
+    
+    private void CallbackRecalculateClickPathsClick ( object sender, EventArgs e )
+    {
+      this.RecalculateClickPathAnalysis();
+    }
+
     /** Recalculate Link Counts  **********************************************/
 
     public void RecalculateLinkCounts ()
@@ -2449,6 +2458,18 @@ namespace SEOMacroscope
 
       this.UpdateTabPage( MacroscopeConstants.tabPageStructureLinkCounts );
 
+    }
+
+    /** Recalculate Click Path Analysis ***************************************/
+
+    public void RecalculateClickPathAnalysis ()
+    {
+
+      this.JobMaster.GetDocCollection().RecalculateClickPaths();
+
+      // TODO: Implement this:
+      //this.UpdateTabPage( MacroscopeConstants.tabPageStructureClickPathAnalysis );
+            
     }
 
     /** Load List *************************************************************/

@@ -50,7 +50,7 @@ namespace SEOMacroscope
 
     private Dictionary<string,MacroscopeNamedQueue<T>.MODE> NamedQueuesMode;
     
-    private Dictionary<string,Dictionary<T,Boolean>> NamedQueuesHistory;
+    private Dictionary<string,Dictionary<string,Boolean>> NamedQueuesHistory;
 
     /**************************************************************************/
 
@@ -63,7 +63,7 @@ namespace SEOMacroscope
       
       this.NamedQueuesMode = new Dictionary<string,MacroscopeNamedQueue<T>.MODE> ( 4096 );
 
-      this.NamedQueuesHistory = new Dictionary<string,Dictionary<T,Boolean>> ( 4096 );
+      this.NamedQueuesHistory = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
 
     }
 
@@ -118,8 +118,11 @@ namespace SEOMacroscope
 
         lock( this.NamedQueues[Name] )
         {
-          Dictionary<T,Boolean> NamedQueueHistory = new Dictionary<T,Boolean> ( 4096 );
+
+          Dictionary<string,Boolean> NamedQueueHistory = new Dictionary<string,Boolean> ( 4096 );
+
           this.NamedQueuesHistory.Add( Name, NamedQueueHistory );
+
         }
 
       }
@@ -184,14 +187,14 @@ namespace SEOMacroscope
         {
         
           // TODO: This does not work with reference values
-          if( this.NamedQueuesHistory[ Name ].ContainsKey( Item ) )
+          if( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
           {
             Proceed = false;
             throw( new MacroscopeNamedQueueException ( string.Format( "Item already seen in queue \"{0}\"", Name ) ) );
           }
           else
           {
-            this.NamedQueuesHistory[ Name ].Add( Item, true );
+            this.NamedQueuesHistory[ Name ].Add( Item.ToString(), true );
           }
         
         }

@@ -21,7 +21,7 @@
   You should have received a copy of the GNU General Public License
   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 using System;
 using System.Collections.Generic;
@@ -38,14 +38,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    MacroscopeDocumentCollection DocCollection;
+    private MacroscopeDocumentCollection DocCollection;
 
-    MacroscopeDocument RootDoc;
+    private MacroscopeDocument RootDoc;
 
-    SortedDictionary<string,List<int>> ClickPathDepth;
+    private Dictionary<MacroscopeDocument,List<MacroscopeHyperlinkOut>> NodeVisited;
 
-    Dictionary<MacroscopeDocument,List<MacroscopeHyperlinkOut>> NodeVisited;
-
+    private SortedDictionary<string,List<LinkedList<string>>> PageChains;
+    
     /**************************************************************************/
 
     public MacroscopeClickPathAnalysis ( MacroscopeDocumentCollection DocumentCollection )
@@ -55,9 +55,9 @@ namespace SEOMacroscope
       
       this.RootDoc = null;
 
-      this.ClickPathDepth = null;
-
-      this.NodeVisited = null;
+      this.NodeVisited = new Dictionary<MacroscopeDocument,List<MacroscopeHyperlinkOut>> ();
+      
+      this.PageChains = new SortedDictionary<string,List<LinkedList<string>>> ();
 
     }
 
@@ -66,112 +66,117 @@ namespace SEOMacroscope
     public void Analyze ( MacroscopeDocument RootDoc )
     {
 
+      LinkedList<string> PageChain = new LinkedList<string> ();
+
       this.RootDoc = RootDoc;
-      this.ClickPathDepth = new SortedDictionary<string,List<int>> ();
+      
+      this.NodeVisited.Clear();
 
-      this.NodeVisited = new Dictionary<MacroscopeDocument,List<MacroscopeHyperlinkOut>> ();
+      this.PageChains.Clear();
 
-      if( this.RootDoc != null )
+      this.Descend(
+        PageChain: PageChain,
+        ParentDoc: RootDoc
+      );
+
+
+
+      // TODO: Remove this after debugging: 
+      foreach( string Url in this.PageChains.Keys )
       {
-
-        foreach( MacroscopeHyperlinkOut HyperlinkOut in this.RootDoc.IterateHyperlinksOut() )
+        this.DebugMsg( string.Format( "PageChains URL: {0}", Url ) );
+        int Count = 0;
+        foreach( LinkedList<string> Chain in this.PageChains[Url] )
         {
-
-          this.DebugMsg( string.Format( "GetTargetUrl: {0}", HyperlinkOut.GetTargetUrl() ) );
-
-          if( this.CheckNodeAlreadyVisited( msDoc: this.RootDoc, HyperlinkOut: HyperlinkOut ) )
+          this.DebugMsg( string.Format( "----{0}:", Count ) );
+          foreach( string ChainedUrl in Chain )
           {
-            continue;
+            this.DebugMsg( string.Format( "--------ChainedUrl: {0}", ChainedUrl ) );
           }
-          else
-          {
-
-            this.Descend(
-              Depth: 1,
-              ParentDoc: this.RootDoc,
-              ParentHyperlinkOut: HyperlinkOut
-            );
-
-          }
-          
+          Count++;
         }
 
       }
 
-      foreach( string Url in this.ClickPathDepth.Keys )
-      {
-        foreach( int Depth in this.ClickPathDepth[Url] )
-        {
-          this.DebugMsg( string.Format( "DEPTH: {0} :: {1}", Depth, Url ) );
-        }
-      }
-
+      
+      
+      
+      
       return;
 
     }
 
-    /** -------------------------------------------------------------------- **/
+    /**************************************************************************/
 
+    // TODO: Finish this.
+    
     private void Descend (
-      int Depth,
-      MacroscopeDocument ParentDoc,
-      MacroscopeHyperlinkOut ParentHyperlinkOut
+      LinkedList<string> PageChain,
+      MacroscopeDocument ParentDoc
     )
     {
 
-      MacroscopeDocument CurrentDoc = this.DocCollection.GetDocument( Url: ParentHyperlinkOut.GetTargetUrl() );
-      int CurrentDepth = Depth + 1;
+      string ParentUrl = ParentDoc.GetUrl();
 
-      if( CurrentDoc != null )
+      PageChain.AddLast( ParentUrl );
+
+      foreach( MacroscopeHyperlinkOut HyperlinkOut in ParentDoc.IterateHyperlinksOut() )
       {
 
-        
-        if( CurrentDoc.GetUrl().Equals( ParentDoc.GetUrl() ) )
+        if( HyperlinkOut.GetTargetUrl().Equals( ParentUrl ) )
         {
-          return;
+          continue;
         }
 
-        foreach( MacroscopeHyperlinkOut HyperlinkOut in CurrentDoc.IterateHyperlinksOut() )
+        if( this.CheckNodeAlreadyVisited( msDoc: ParentDoc, HyperlinkOut: HyperlinkOut ) )
+        {
+          continue;
+        }
+        else
         {
 
-          if( CurrentDoc.GetUrl().Equals( HyperlinkOut.GetTargetUrl() ) )
+          MacroscopeDocument CurrentDoc = this.DocCollection.GetDocument( Url: HyperlinkOut.GetTargetUrl() );
+
+          if( CurrentDoc != null )
           {
 
-            string CurrentDocUrl = CurrentDoc.GetUrl();
-            
-            if( this.ClickPathDepth.ContainsKey( CurrentDocUrl ) )
+            if( CurrentDoc.GetHostname().Equals( ParentDoc.GetHostname() ) )
             {
-              if( !this.ClickPathDepth[ CurrentDocUrl ].Contains( Depth ) )
-              {
-                this.ClickPathDepth[ CurrentDocUrl ].Add( Depth );
-              }
-            }
-            else
-            {
-              this.ClickPathDepth[ CurrentDocUrl ] = new List<int> ();
-              this.ClickPathDepth[ CurrentDocUrl ].Add( Depth );
-            }
 
-          }
-          else
-          {
+              this.Descend(
+                PageChain: PageChain,
+                ParentDoc: CurrentDoc
+              );
 
-            if( this.CheckNodeAlreadyVisited( msDoc: CurrentDoc, HyperlinkOut: HyperlinkOut ) )
-            {
-              continue;
             }
-
-            this.Descend(
-              Depth: CurrentDepth,
-              ParentDoc: CurrentDoc,
-              ParentHyperlinkOut: HyperlinkOut
-            );
 
           }
           
         }
-      
+
       }
+
+      {
+        
+        LinkedList<string> PageChainClone = new LinkedList<string> ();
+
+        foreach( string Url in PageChain )
+        {
+          PageChainClone.AddLast( Url );
+        }
+
+        if( !this.PageChains.ContainsKey( PageChain.Last.Value ) )
+        {
+          this.PageChains.Add( PageChain.Last.Value, new List<LinkedList<string>> () );
+        }
+
+        this.PageChains[ PageChain.Last.Value ].Add( PageChainClone );
+        
+      }
+
+      PageChain.RemoveLast();
+
+      return;
 
     }
 
