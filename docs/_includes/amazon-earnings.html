@@ -1,1 +1,5 @@
-<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=3ecca03b-35a2-40f7-821d-4c61aa8e6433"></script>
+{% if jekyll.environment == 'production' %}
+  <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=3ecca03b-35a2-40f7-821d-4c61aa8e6433"></script>
+{% else %}
+  <div>AMAZON EARNINGS NOT INCLUDED IN DEVELOPMENT MODE</div>
+{% endif %}

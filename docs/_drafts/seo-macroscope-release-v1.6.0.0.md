@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "New v1.6 release of SEO Macroscope: The Flesch Prevails"
-date: "2017-08-07 21:00:00 -09:00"
+date: "2017-09-06 21:00:00 -09:00"
 published: true
 description: "This release of SEO Macroscope includes support for English language text readability scoring."
 excerpt: "This release of SEO Macroscope includes support for English language text readability scoring."
@@ -25,6 +25,12 @@ I've also fixed many minor bugs and other issues.
 * Include and Exclude Patterns now take a list of regular expressions.
 
 * New overview panel selector menu.
+
+* Most display lists may be exported to CSV or Excel formats, including search results.
+
+* Links to external pages and files are now included in results lists.
+
+* Some simple chart displays.
 
 ## Bug fixes
 

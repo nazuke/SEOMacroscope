@@ -6,11 +6,7 @@
 
   <body>
 
-    {% if jekyll.environment == 'production' and site.google_tag_manager %}
-      {% include google-tag-manager-body.html %}
-    {% endif %}
-
-		{% include header.html %}
+    {% include header.html %}
 
 		<main class="container" aria-label="Content">
 
@@ -32,7 +28,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<!-- END: jQuery and Bootstrap JavaScript -->
 
-    {% if jekyll.environment == 'production' and site.google_analytics %}
+    {% if jekyll.environment == 'production' and site.google_analytics.production %}
       <script type="text/javascript" src="{{ '/assets/google-analytics-scripts.js' | relative_url }}"></script>
     {% endif %}
 

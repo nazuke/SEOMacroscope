@@ -8,21 +8,27 @@
 
   <!-- BEGIN: Webmaster Tools Services -->
   {% if jekyll.environment == 'production' %}
-    {% if site.google_site_verification %}
-      <meta name="google-site-verification" content="{{ site.google_site_verification }}">
+    {% if site.google_site_verification.production %}
+      <meta name="google-site-verification" content="{{ site.google_site_verification.production }}">
     {% endif %}
-    {% if site.yandex_site_verification %}
-      <meta name="yandex-verification" content="{{ site.yandex_site_verification }}">
+    {% if site.yandex_site_verification.production %}
+      <meta name="yandex-verification" content="{{ site.yandex_site_verification.production }}">
     {% endif %}
-    {% if site.bing_site_verification %}
-      <meta name="msvalidate.01" content="{{ site.bing_site_verification }}">
+    {% if site.bing_site_verification.production %}
+      <meta name="msvalidate.01" content="{{ site.bing_site_verification.production }}">
+    {% endif %}
+  {% else %}
+    {% if site.google_site_verification.development %}
+      <meta name="google-site-verification" content="{{ site.google_site_verification.development }}">
+    {% endif %}
+    {% if site.yandex_site_verification.development %}
+      <meta name="yandex-verification" content="{{ site.yandex_site_verification.development }}">
+    {% endif %}
+    {% if site.bing_site_verification.development %}
+      <meta name="msvalidate.01" content="{{ site.bing_site_verification.development }}">
     {% endif %}
   {% endif %}
   <!-- END: Webmaster Tools Services -->
-
-  {% if jekyll.environment == 'production' and site.google_tag_manager %}
-    {% include google-tag-manager-head.html %}
-  {% endif %}
 
   <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon">
 
@@ -47,11 +53,11 @@
 
   <meta name="environment" content="{{ jekyll.environment | escape }}">
 
-  {% comment %}
-  {% if jekyll.environment == 'production' and site.google_analytics %}
-    {% include google-analytics.html %}
+  {% if jekyll.environment == 'production' and site.google_analytics.production %}
+    {% include google-analytics.html tracker=site.google_analytics.production %}
+  {% else %}
+    {% include google-analytics.html tracker=site.google_analytics.development %}
   {% endif %}
-  {% endcomment %}
 
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
