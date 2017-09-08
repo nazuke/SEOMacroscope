@@ -80,8 +80,9 @@ namespace SEOMacroscope
       );
 
 
+      this.DebugMsg( "######################################################" );
 
-      // TODO: Remove this after debugging: 
+      // TODO: Remove this after debugging:
       foreach( string Url in this.PageChains.Keys )
       {
         this.DebugMsg( string.Format( "PageChains URL: {0}", Url ) );
@@ -98,10 +99,23 @@ namespace SEOMacroscope
 
       }
 
-      
-      
-      
-      
+      this.DebugMsg( "######################################################" );
+
+      // TODO: Remove this after debugging:
+      foreach( string Url in this.PageChains.Keys )
+      {
+        this.DebugMsg( string.Format( "PageChains URL: {0}", Url ) );
+        int Count = 0;
+        foreach( LinkedList<string> Chain in this.PageChains[Url] )
+        {
+          this.DebugMsg( string.Format( "----{0}: {1}", Count, Chain.Count ) );
+          Count++;
+        }
+
+      }
+
+      this.DebugMsg( "######################################################" );
+
       return;
 
     }
