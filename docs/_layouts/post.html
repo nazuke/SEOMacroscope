@@ -36,7 +36,11 @@ comments: true
     </div>
 
     <div class="container-adsense">
-      {% include google-adsense.html %}
+      {% if jekyll.environment == 'production' %}
+        {% include google-adsense.html %}
+      {% else %}
+        <div>GOOGLE ADSENSE NOT INCLUDED IN DEVELOPMENT MODE</div>
+      {% endif %}
     </div>
 
     {% if site.disqus.shortname %}
@@ -53,7 +57,11 @@ comments: true
     </div>
 
     <div>
-      {% include google-adsense.html %}
+      {% if jekyll.environment == 'production' %}
+        {% include google-adsense.html %}
+      {% else %}
+        <div>GOOGLE ADSENSE NOT INCLUDED IN DEVELOPMENT MODE</div>
+      {% endif %}
     </div>
 
   </div>

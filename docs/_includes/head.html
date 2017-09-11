@@ -55,7 +55,7 @@
 
   {% if jekyll.environment == 'production' and site.google_analytics.production %}
     {% include google-analytics.html tracker=site.google_analytics.production %}
-  {% else %}
+  {% elsif jekyll.environment == 'development' and site.google_analytics.development %}
     {% include google-analytics.html tracker=site.google_analytics.development %}
   {% endif %}
 

@@ -15,12 +15,18 @@
       <section class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <br>
-          {% include google-adsense.html %}
+          {% if jekyll.environment == 'production' %}
+            {% include google-adsense.html %}
+          {% else %}
+            <div>GOOGLE ADSENSE NOT INCLUDED IN DEVELOPMENT MODE</div>
+          {% endif %}
         </div>
       </section>
 
     </main>
 
+    
+    
     {% include footer.html %}
 
 		<!-- BEGIN: jQuery and Bootstrap JavaScript -->
@@ -29,6 +35,8 @@
 		<!-- END: jQuery and Bootstrap JavaScript -->
 
     {% if jekyll.environment == 'production' and site.google_analytics.production %}
+      <script type="text/javascript" src="{{ '/assets/google-analytics-scripts.js' | relative_url }}"></script>
+    {% elsif jekyll.environment == 'development' and site.google_analytics.development %}
       <script type="text/javascript" src="{{ '/assets/google-analytics-scripts.js' | relative_url }}"></script>
     {% endif %}
 

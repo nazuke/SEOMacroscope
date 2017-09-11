@@ -24,7 +24,11 @@ layout: default
     </div>
 
     <div>
-      {% include google-adsense.html %}
+      {% if jekyll.environment == 'production' %}
+        {% include google-adsense.html %}
+      {% else %}
+        <div>GOOGLE ADSENSE NOT INCLUDED IN DEVELOPMENT MODE</div>
+      {% endif %}
     </div>
 
   </div>

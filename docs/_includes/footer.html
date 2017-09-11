@@ -1,5 +1,7 @@
 {% if jekyll.environment == 'production' and site.yandex_metrika.production %}
-{% include yandex-metrika.html %}
+	{% include yandex-metrika.html tracker=site.yandex_metrika.production %}
+{% elsif jekyll.environment == 'development' and site.yandex_metrika.development %}
+	{% include yandex-metrika.html tracker=site.yandex_metrika.development %}
 {% endif %}
 
 <footer class="container">
