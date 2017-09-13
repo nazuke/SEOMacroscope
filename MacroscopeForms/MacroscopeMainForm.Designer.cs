@@ -164,7 +164,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
 		private System.Windows.Forms.ToolStripMenuItem exportCurrentListToCSVToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exportCurrentListToExcelToolStripMenuItem;
-		private System.Windows.Forms.ToolStripButton toolStripButton2;
+		private System.Windows.Forms.ToolStripButton toolStripButtonRecalculateClickPaths;
 
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -308,7 +308,7 @@ namespace SEOMacroscope
 			this.toolStripButtonRetryTimedOutLinks = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButtonRecalculateClickPaths = new System.Windows.Forms.ToolStripButton();
 			this.toolStripExecuteControls = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabelStartUrl = new System.Windows.Forms.ToolStripLabel();
 			this.textBoxStartUrl = new System.Windows.Forms.ToolStripTextBox();
@@ -505,7 +505,7 @@ namespace SEOMacroscope
 			this.toolStripSeparator6,
 			this.clearHTTPAuthenticationToolStripMenuItem});
 			this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+			this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
 			this.taskParametersToolStripMenuItem.Text = "Task Parameters";
 			// 
 			// includeURLPatternsToolStripMenuItem
@@ -1014,26 +1014,26 @@ namespace SEOMacroscope
 			// combinedExcelReportToolStripMenuItem8
 			// 
 			this.combinedExcelReportToolStripMenuItem8.Name = "combinedExcelReportToolStripMenuItem8";
-			this.combinedExcelReportToolStripMenuItem8.Size = new System.Drawing.Size(244, 22);
+			this.combinedExcelReportToolStripMenuItem8.Size = new System.Drawing.Size(243, 22);
 			this.combinedExcelReportToolStripMenuItem8.Text = "Combined Excel Report";
 			this.combinedExcelReportToolStripMenuItem8.Click += new System.EventHandler(this.CallbackSaveContactDetailsExcelReport);
 			// 
 			// toolStripSeparator23
 			// 
 			this.toolStripSeparator23.Name = "toolStripSeparator23";
-			this.toolStripSeparator23.Size = new System.Drawing.Size(241, 6);
+			this.toolStripSeparator23.Size = new System.Drawing.Size(240, 6);
 			// 
 			// emailAddressesCSVReportToolStripMenuItem
 			// 
 			this.emailAddressesCSVReportToolStripMenuItem.Name = "emailAddressesCSVReportToolStripMenuItem";
-			this.emailAddressesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
+			this.emailAddressesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
 			this.emailAddressesCSVReportToolStripMenuItem.Text = "Email Addresses CSV Report";
 			this.emailAddressesCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsCsvReportEmail);
 			// 
 			// telephoneNumbersCSVReportToolStripMenuItem
 			// 
 			this.telephoneNumbersCSVReportToolStripMenuItem.Name = "telephoneNumbersCSVReportToolStripMenuItem";
-			this.telephoneNumbersCSVReportToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
+			this.telephoneNumbersCSVReportToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
 			this.telephoneNumbersCSVReportToolStripMenuItem.Text = "Telephone Numbers CSV Report";
 			this.telephoneNumbersCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsCsvReportTelephone);
 			// 
@@ -1243,7 +1243,7 @@ namespace SEOMacroscope
 			this.toolStripButtonRetryTimedOutLinks,
 			this.toolStripSeparator25,
 			this.toolStripButton1,
-			this.toolStripButton2});
+			this.toolStripButtonRecalculateClickPaths});
 			this.toolStripViewControls.Location = new System.Drawing.Point(0, 30);
 			this.toolStripViewControls.Name = "toolStripViewControls";
 			this.toolStripViewControls.Size = new System.Drawing.Size(1008, 30);
@@ -1284,15 +1284,15 @@ namespace SEOMacroscope
 			this.toolStripButton1.Text = "Recalculate Link Count";
 			this.toolStripButton1.Click += new System.EventHandler(this.CallbackRecalculateLinkCountsClick);
 			// 
-			// toolStripButton2
+			// toolStripButtonRecalculateClickPaths
 			// 
-			this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-			this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton2.Name = "toolStripButton2";
-			this.toolStripButton2.Size = new System.Drawing.Size(132, 27);
-			this.toolStripButton2.Text = "Recalculate Click Paths";
-			this.toolStripButton2.Click += new System.EventHandler(this.CallbackRecalculateClickPathsClick);
+			this.toolStripButtonRecalculateClickPaths.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButtonRecalculateClickPaths.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRecalculateClickPaths.Image")));
+			this.toolStripButtonRecalculateClickPaths.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButtonRecalculateClickPaths.Name = "toolStripButtonRecalculateClickPaths";
+			this.toolStripButtonRecalculateClickPaths.Size = new System.Drawing.Size(132, 27);
+			this.toolStripButtonRecalculateClickPaths.Text = "Recalculate Click Paths";
+			this.toolStripButtonRecalculateClickPaths.Click += new System.EventHandler(this.CallbackRecalculateClickPathsClick);
 			// 
 			// toolStripExecuteControls
 			// 

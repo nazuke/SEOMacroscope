@@ -2040,6 +2040,7 @@ namespace SEOMacroscope
 
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
+      this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
       this.ReconfigureReportsMenu();
 
@@ -2066,6 +2067,7 @@ namespace SEOMacroscope
       
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
+      this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
       this.ReconfigureReportsMenu();
       
@@ -2092,6 +2094,7 @@ namespace SEOMacroscope
       
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
+      this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
       this.ReconfigureReportsMenu();
       
@@ -2118,6 +2121,7 @@ namespace SEOMacroscope
       
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
+      this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
       this.UpdateProgressBarScan( 0 );
       
@@ -2146,6 +2150,7 @@ namespace SEOMacroscope
 
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
+      this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
       this.UpdateProgressBarScan( 0 );
       
@@ -2174,7 +2179,8 @@ namespace SEOMacroscope
       
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
-      
+      this.toolStripButtonRecalculateClickPaths.Enabled = false;
+
       this.ReconfigureReportsMenu();
       
       this.ReconfigureStructureOverviewControls();

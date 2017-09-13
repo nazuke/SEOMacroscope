@@ -66,6 +66,8 @@ namespace SEOMacroscope
     public void Analyze ( MacroscopeDocument RootDoc )
     {
 
+#if DEBUG
+      
       LinkedList<string> PageChain = new LinkedList<string> ();
 
       this.RootDoc = RootDoc;
@@ -115,6 +117,8 @@ namespace SEOMacroscope
       }
 
       this.DebugMsg( "######################################################" );
+
+#endif
 
       return;
 

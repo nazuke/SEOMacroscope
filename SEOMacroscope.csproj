@@ -653,7 +653,6 @@
     <Folder Include="MacroscopeBinaryTreeGeneric" />
     <Folder Include="MacroscopeBinaryTreeGeneric\t" />
     <Folder Include="MacroscopeAnalysis\MacroscopeClickPathAnalysis" />
-    <Folder Include="MacroscopeAnalysis\MacroscopeClickPathAnalysis\t" />
     <Folder Include="MacroscopeAnalysis\t" />
     <Folder Include="MacroscopeCustomFilters\t" />
     <Folder Include="MacroscopeDataExtractor\t" />
