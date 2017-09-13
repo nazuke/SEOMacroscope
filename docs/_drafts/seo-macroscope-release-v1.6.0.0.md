@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "New v1.6 release of SEO Macroscope: The Flesch Prevails"
-date: "2017-09-06 21:00:00 -09:00"
+date: "2017-09-10 21:00:00 -09:00"
 published: true
 description: "This release of SEO Macroscope includes support for English language text readability scoring."
 excerpt: "This release of SEO Macroscope includes support for English language text readability scoring."

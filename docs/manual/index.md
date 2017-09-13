@@ -15,6 +15,19 @@ title: "SEO Macroscope Manual"
 
 <!-- *********************************************************************** -->
 
+## Getting Started
+
+To run a link scan of a website, simply enter a valid URL into the **Start URL** field, and click **Start**.
+{:.lead}
+
+The running scan may be stopped at any time by clicking **Stop**. It may be resumed again by clicking **Start**.
+
+To clear the results of a full or partial scan, click **Reset**.
+
+{% include go-to-top.html %}
+
+<!-- *********************************************************************** -->
+
 ## File Menu
 
 Export sitemaps in text and XML formats, and list views to CSV and Excel files.
@@ -23,14 +36,13 @@ Export sitemaps in text and XML formats, and list views to CSV and Excel files.
 
 A list of URLs to be scanned may be either loaded from a text file, or pasted from the clipboard. The scanning process is the same for either method.
 
-
 ### Export Sitemaps
 
-TBD
+The crawled results may be exported to XML or Text format sitemap files.
 
 ### Export Reports
 
-TBD
+The currently viewed list may be exported to CSV or Excel format files. This option is most useful for those list views that do not have their own report option, such as the search results list.
 
 {% include go-to-top.html %}
 
@@ -39,7 +51,6 @@ TBD
 ## Preferences Menu
 
 The default preferences are set to enable modest spidering of your site, but will omit attempting to download large files, will not descend into localized pages, and will not perform some of the more intense SEO analyses.
-{: .lead }
 
 Some expensive processing options are also disabled by default, such as deep keyword analysis. Check these options, as some of them need to be enabled before crawling takes place.
 
@@ -52,7 +63,6 @@ Please refer to the preferences settings before beginning a spidering job.
 ### Spidering Control
 
 These settings control how SEO Macroscope crawls the links on your site.
-{: .lead }
 
 ![SEO Macroscope spidering control preferences](images/preferences-spidering-control.png){: .img-responsive .box-shadow .screenshot}
 
@@ -191,9 +201,14 @@ For example, a linked .EXE file will have a HEAD request issued against it, to c
 ### Analysis Options
 
 Set further localization, list processing, and analysis options here.
-{: .lead }
 
 ![SEO Macroscope analysis options](images/preferences-analysis-options.png){: .img-responsive .box-shadow .screenshot }
+
+#### Web Server Options
+
+##### Resolve server IP addresses
+
+If checked, then the remote IP addresses for the host will be resolved and collected. Please note that each host may resolve to multiple IP addresses.
 
 #### Localized Pages
 
@@ -209,13 +224,11 @@ Enable the *Follow HrefLang Links* option under the *Spidering Control* tab if y
 
 Please note that HTML documents are *always* crawled.
 
-Otherwise, to speed things up, we can exclude document types that we are not interested in crawling.
-
-In general, excluded document types will still have a HEAD request issued against them, but they will not be downloaded and crawled further.
+Otherwise, to speed things up, we can exclude document types that we are not interested in crawling or processing further.
 
 ##### CSS stylesheets
 
-Enabling this option will cause CSS stylesheets to be fetched, and crawled.
+Enabling this option will cause CSS stylesheets to be parsed, with some links inside further crawled and processed.
 
 Please not that currently, there is partial support for crawling further linked assets, such as background images, within stylesheets.
 
@@ -237,7 +250,7 @@ Enabling this option will cause PDF files to be downloaded, and if possible, pro
 
 If this option is enabled, PDF texts will be processed in the same manner as HTML text, including having their keyword terms analyzed, and Levenshtein processing applied.
 
-This option is off by default. Please note that enabling this option may use a lot more bandwidth.
+This option is off by default. Please note that enabling this option may consume a lot more bandwidth.
 
 ##### Audio files
 
@@ -263,7 +276,7 @@ Binary files are any other file type for which no specific handling occurs.
 
 For example, a linked .EXE file will have a HEAD request issued against it, to check that it is not a broken link, but disabling this option will not download the file itself.
 
-### List File Processing
+#### List File Processing
 
 ##### Scan sites in list
 
@@ -273,11 +286,31 @@ Please note that this may take a long time to complete if there are many website
 
 Uncheck this option, if you only need to check the exact URLs in the URL list.
 
+#### Search Index
+
+##### Enable text indexing
+
+If enabled, then text content in HTML pages will be indexed and searchable after a crawl.
+
+##### Case sensitive indexing
+
+If enabled, then text content will indexed and searchable in a case sensitive manner.
+
 #### Page Fault Analysis
 
 ##### Warn about insecure links
 
 Enabling this option will report insecure links to pages or resources from secure pages.
+
+{% include go-to-top.html %}
+
+<!-- ======================================================================= -->
+
+### SEO Options
+
+Configure SEO policies and analysis options here.
+
+![SEO Macroscope SEO options](images/preferences-seo-options.png){: .img-responsive .box-shadow .screenshot }
 
 #### Levenshtein Edit Distance Processing
 
@@ -307,18 +340,6 @@ If the two documents are within this threshold, then the Levenshtein algorithm i
 
 Set this value to the maximum number of "edits" that consider the two documents to have very similar texts.
 
-{% include go-to-top.html %}
-
-<!-- ======================================================================= -->
-
-### SEO Options
-
-Configure SEO policies and analysis options here.
-{: .lead }
-
-![SEO Macroscope SEO options](images/preferences-seo-options.png){: .img-responsive .box-shadow .screenshot }
-
-TBD
 
 {% include go-to-top.html %}
 
@@ -326,7 +347,9 @@ TBD
 
 ### Custom Filter Options
 
-TBD
+The custom filters may be used to check that your website pages contain, or do not contain, a specific value.
+
+For example, this may be used to check that all of your HTML pages contain a Google Analytics tracking value.
 
 {% include go-to-top.html %}
 
@@ -334,7 +357,27 @@ TBD
 
 ### Data Extractor Options
 
-TBD
+Content may be scraped from the crawled pages by using regular expressions, XPath queries, or CSS selectors.
+
+The scraped data may then be exported to CSV or Excel format report files.
+
+#### CSS Selectors
+
+Extract data with CSS selectors.
+
+TODO...
+
+#### Regular Expressions
+
+Extract data with regular expressions.
+
+TODO...
+
+#### XPath Queries
+
+Extract data with XPath queries.
+
+TODO...
 
 {% include go-to-top.html %}
 
@@ -343,7 +386,6 @@ TBD
 ### Export Options
 
 These settings control how SEO Macroscope exports your crawled data.
-{: .lead }
 
 ![SEO Macroscope export options](images/preferences-export-options.png){: .img-responsive .box-shadow}
 {: .screenshot }
@@ -365,9 +407,8 @@ Enabling this option will cause links to PDFs from HTML pages to be included in 
 ### Display Settings
 
 These settings control how SEO Macroscope updates the display during a crawling operation.
-{: .lead }
 
-![SEO Macroscope display settings](images/preferences-display-settings.png){: .img-responsive .box-shadow .screenshot }
+![SEO Macroscope display settings](images/preferences-display-options.png){: .img-responsive .box-shadow .screenshot }
 
 #### Overview Panels
 
@@ -386,7 +427,6 @@ Disabling this option will prevent progress dialogues from being displayed.
 ### Network Settings
 
 Configure your network settings here.
-{: .lead }
 
 ![SEO Macroscope network settings](images/preferences-network-settings.png){: .img-responsive .box-shadow}
 {: .screenshot }
@@ -411,12 +451,12 @@ Set this to 0 if no web proxy is required.
 
 <!-- ======================================================================= -->
 
+
 ### Advanced Settings
 
 These settings control some internal aspects of  SEO Macroscope's behaviour.
-{: .lead }
 
-![SEO Macroscope advanced settings](images/preferences-advanced-settings.png){: .img-responsive .box-shadow .screenshot }
+![SEO Macroscope advanced settings](images/preferences-advanced-options.png){: .img-responsive .box-shadow .screenshot }
 
 #### RAM
 
@@ -435,9 +475,8 @@ On 64 bit systems, this option should be turned off.
 ## Task Parameters Menu
 
 How to set crawl-specific parameters.
-{: .lead }
 
-TBD
+TODO...
 
 {% include go-to-top.html %}
 
@@ -446,9 +485,6 @@ TBD
 ## View Menu
 
 Quickly switch between lists from the **View** menu.
-{: .lead }
-
-TBD
 
 {% include go-to-top.html %}
 
@@ -456,16 +492,21 @@ TBD
 
 ## Reports Menu
 
-How to export crawled data to Excel report files.
-{: .lead }
+Export reports to Excel or CSV format files.
+
+Also refer to the **File**->**Export** commands.
 
 ### Excel Reports
 
-TBD
+Reports may be exported to Excel format for most types of lists.
+
+The Excel reports each combine one or more worksheets into a single report file.
 
 ### CSV Reports
 
-TBD
+Reports may be exported to CSV format for most types of lists.
+
+Each worksheet must be exported to a separate CSV file.
 
 {% include go-to-top.html %}
 
@@ -474,7 +515,6 @@ TBD
 ## Concepts
 
 Explanations of how SEO Macroscope deals with a few details under the hood.
-{: .lead }
 
 ### "Internal" and "External" Hosts
 

@@ -4,6 +4,7 @@ $color-black:#000000;
 $color-white:#FFFFFF;
 $color-orange:#FF8800;
 $color-purple:#9724A1;
+$color-green:#448030;
 $color-dark-grey:#444444;
 $color-medium-grey:#888888;
 $color-light-grey:#EEEEEE;
@@ -43,6 +44,35 @@ main
 	{
 		font-size:24px;
 		margin-top:30px;
+		color:$color-purple;
+	}
+
+	h3
+	{
+		font-size:20px;
+		margin-top:10px;
+		color:$color-orange;
+	}
+	
+	h4
+	{
+		font-size:18px;
+		margin-top:10px;
+		color:$color-green;
+	}
+	
+	h5
+	{
+		font-size:16px;
+		margin-top:10px;
+		color:$color-dark-grey;
+	}
+
+	h6
+	{
+		font-size:14px;
+		margin-top:10px;
+		color:$color-medium-grey;
 	}
 
 }
