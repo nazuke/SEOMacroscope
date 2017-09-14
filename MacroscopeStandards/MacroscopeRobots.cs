@@ -248,12 +248,20 @@ namespace SEOMacroscope
       {
         
         BaseUri = new Uri ( Url, UriKind.Absolute );
-              
+
+        string BaseUriPort = "";
+        
+        if( BaseUri.Port > 0 )
+        {
+          BaseUriPort = string.Format( ":{0}", BaseUri.Port );
+        }     
+
         RobotsUri = new Uri (
           string.Format(
-            "{0}://{1}{2}",
+            "{0}://{1}{2}{3}",
             BaseUri.Scheme,
             BaseUri.Host,
+            BaseUriPort,
             "/robots.txt"
           ),
           UriKind.Absolute

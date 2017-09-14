@@ -1056,14 +1056,20 @@ namespace SEOMacroscope
       
       Uri StartUri = null;
       string Path = "/";
+      string StartUriPort = "";
 
       try
       {
         
         StartUri = new Uri ( this.GetStartUrl() );
               
+        if( StartUri.Port > 0 )
+        {
+          StartUriPort = string.Format( ":{0}", StartUri.Port );
+        }     
+
         Path = StartUri.AbsolutePath;
-              
+
       }
       catch( UriFormatException ex )
       {
@@ -1086,6 +1092,7 @@ namespace SEOMacroscope
         StartUri.Scheme,
         "://",
         StartUri.Host,
+        StartUriPort,
         Path
       );
 
@@ -1095,6 +1102,7 @@ namespace SEOMacroscope
         StartUri.Scheme,
         "://",
         StartUri.Host,
+        StartUriPort,
         Path
       );
 
@@ -1107,10 +1115,18 @@ namespace SEOMacroscope
 
       Boolean IsWithin = false;
       Uri CurrentUri = null;
-
+      string CurrentUriPort = "";
+      
       try
       {
+
         CurrentUri = new Uri ( Url );
+
+        if( CurrentUri.Port > 0 )
+        {
+          CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
+        }     
+
       }
       catch( UriFormatException ex )
       {
@@ -1130,22 +1146,28 @@ namespace SEOMacroscope
         {
 
           string Path = CurrentUri.AbsolutePath;
+          string CurrentUriString;
+          int ParentStartingDirectoryLength;
+          int CurrentUriStringLength;
+          
           Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+
           if( Path.Length == 0 )
           {
             Path = "/";
           }
 
-          string CurrentUriString = string.Join(
-                                      "",
-                                      CurrentUri.Scheme,
-                                      "://",
-                                      CurrentUri.Host,
-                                      Path
-                                    );
+          CurrentUriString = string.Join(
+            "",
+            CurrentUri.Scheme,
+            "://",
+            CurrentUri.Host,
+            CurrentUriPort,
+            Path
+          );
 
-          int ParentStartingDirectoryLength = this.ParentStartingDirectory.Length;
-          int CurrentUriStringLength = CurrentUriString.Length;
+          ParentStartingDirectoryLength = this.ParentStartingDirectory.Length;
+          CurrentUriStringLength = CurrentUriString.Length;
 
           if( ParentStartingDirectoryLength >= CurrentUriStringLength )
           {
@@ -1171,10 +1193,18 @@ namespace SEOMacroscope
       
       Boolean IsWithin = false;
       Uri CurrentUri = null;
-
+      string CurrentUriPort = "";
+      
       try
       {
+
         CurrentUri = new Uri ( Url );
+
+        if( CurrentUri.Port > 0 )
+        {
+          CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
+        }     
+
       }
       catch( UriFormatException ex )
       {
@@ -1194,25 +1224,32 @@ namespace SEOMacroscope
         {
 
           string Path = CurrentUri.AbsolutePath;
+          string CurrentUriString;
+          int ChildStartingDirectoryLength;
+          int CurrentUriStringLength;
+          
           Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+
           if( Path.Length == 0 )
           {
             Path = "/";
           }
 
-          string CurrentUriString = string.Join(
-                                      "",
-                                      CurrentUri.Scheme,
-                                      "://",
-                                      CurrentUri.Host,
-                                      Path
-                                    );
+          CurrentUriString = string.Join(
+            "",
+            CurrentUri.Scheme,
+            "://",
+            CurrentUri.Host,
+            CurrentUriPort,
+            Path
+          );
 
-          int ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
-          int CurrentUriStringLength = CurrentUriString.Length;
+          ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
+          CurrentUriStringLength = CurrentUriString.Length;
         
           if( CurrentUriStringLength >= ChildStartingDirectoryLength )
           {
+
             if( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
             {
               IsWithin = true;

@@ -322,11 +322,13 @@ namespace SEOMacroscope
           if( UrlCleaned != null )
           {
             
-            MacroscopeLink Outlink = this.AddSitemapTextOutlink(
-                                       AbsoluteUrl: UrlCleaned,
-                                       LinkType: MacroscopeConstants.InOutLinkType.SITEMAPTEXT,
-                                       Follow: true
-                                     );
+            MacroscopeLink Outlink;
+
+            Outlink = this.AddSitemapTextOutlink(
+              AbsoluteUrl: UrlCleaned,
+              LinkType: MacroscopeConstants.InOutLinkType.SITEMAPTEXT,
+              Follow: true
+            );
 
             if( Outlink != null )
             {
@@ -387,11 +389,13 @@ namespace SEOMacroscope
             if( UrlCleaned != null )
             {
 
-              MacroscopeLink Outlink = this.AddSitemapTextOutlink(
-                                         AbsoluteUrl: UrlCleaned,
-                                         LinkType: MacroscopeConstants.InOutLinkType.ROBOTSTEXT,
-                                         Follow: true
-                                       );
+              MacroscopeLink Outlink;
+
+              Outlink = this.AddSitemapTextOutlink(
+                AbsoluteUrl: UrlCleaned,
+                LinkType: MacroscopeConstants.InOutLinkType.ROBOTSTEXT,
+                Follow: true
+              );
             
               if( Outlink != null )
               {

@@ -649,13 +649,21 @@ namespace SEOMacroscope
       if( UriBase != null )
       {
 
+        string UriBasePort = "";
+        
+        if( UriBase.Port > 0 )
+        {
+          UriBasePort = string.Format( ":{0}", UriBase.Port );
+        }
+
         try
         {
           UriNew = new Uri (
             string.Format(
-              "{0}://{1}{2}{3}",
+              "{0}://{1}{2}{3}{4}",
               UriBase.Scheme,
               UriBase.Host,
+              UriBasePort,
               UriBase.AbsolutePath,
               UriBase.Fragment
             ),
@@ -718,13 +726,21 @@ namespace SEOMacroscope
       if( UriBase != null )
       {
 
+        string UriBasePort = "";
+        
+        if( UriBase.Port > 0 )
+        {
+          UriBasePort = string.Format( ":{0}", UriBase.Port );
+        }
+        
         try
         {
           UriNew = new Uri (
             string.Format(
-              "{0}://{1}{2}{3}",
+              "{0}://{1}{2}{3}{4}",
               UriBase.Scheme,
               UriBase.Host,
+              UriBasePort,
               UriBase.AbsolutePath,
               UriBase.Query
             ),

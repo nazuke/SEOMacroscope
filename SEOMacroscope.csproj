@@ -175,6 +175,7 @@
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\ReportsMenu.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\TaskParametersMenu.cs" />
     <Compile Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\ViewMenu.cs" />
+    <Compile Include="MacroscopeForms\MacroscopeMainForm\ScanningControls\ScanningControls.cs" />
     <Compile Include="MacroscopeHosts\t\TestMacroscopeAllowedHosts.cs" />
     <Compile Include="MacroscopeHosts\t\TestMacroscopeDnsTools.cs" />
     <Compile Include="MacroscopeNamedQueue\t\TestMacroscopeNamedQueue.cs" />
@@ -650,6 +651,7 @@
     <Folder Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability" />
     <Folder Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability\Algorithms" />
     <Folder Include="MacroscopeAnalysis\MacroscopeAnalyzeReadability\t" />
+    <Folder Include="MacroscopeAnalysis\MacroscopeClickPathAnalysis\t" />
     <Folder Include="MacroscopeBinaryTreeGeneric" />
     <Folder Include="MacroscopeBinaryTreeGeneric\t" />
     <Folder Include="MacroscopeAnalysis\MacroscopeClickPathAnalysis" />
@@ -672,6 +674,7 @@
     <Folder Include="MacroscopeForms\MacroscopeMainForm\Generators" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\CsvReports" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks" />
+    <Folder Include="MacroscopeForms\MacroscopeMainForm\ScanningControls" />
     <Folder Include="MacroscopeForms\MacroscopeMainForm\OverviewPanels" />
     <Folder Include="MacroscopeForms\MacroscopePrefsForm" />
     <Folder Include="MacroscopeForms\MacroscopeAboutForm" />

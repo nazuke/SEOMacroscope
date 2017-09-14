@@ -2236,22 +2236,27 @@ namespace SEOMacroscope
     public void RecalculateClickPaths ()
     {
 
-      // TODO: Implement this
-
-      MacroscopeDocument msDoc = this.GetDocument( Url: this.GetStartUrl() );
-
-      if( msDoc != null )
+      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
 
-        if( msDoc.GetIsInternal() && msDoc.GetIsHtml() )
+        // TODO: Implement this
+
+        MacroscopeDocument msDoc = this.GetDocument( Url: this.GetStartUrl() );
+
+        if( msDoc != null )
         {
 
-          this.ClickPathAnalysis.Analyze( RootDoc: msDoc );
-        
-        }
-      
-      }
+          if( msDoc.GetIsInternal() && msDoc.GetIsHtml() )
+          {
 
+            this.ClickPathAnalysis.Analyze( RootDoc: msDoc );
+        
+          }
+      
+        }
+
+      }
+      
     }
 
     /** Search Index **********************************************************/
