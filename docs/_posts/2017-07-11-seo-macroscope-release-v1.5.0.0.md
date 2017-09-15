@@ -40,5 +40,5 @@ I've also fixed many minor bugs and other issues.
 
 Please report issues at [https://github.com/nazuke/SEOMacroscope/issues](https://github.com/nazuke/SEOMacroscope/issues).
 
-![SEO Macroscope Application Window]({{ "../media/screenshots/seo-macroscope-main-window-v1.5.png" | relative_url }}){: .img-responsive .box-shadow}
+![SEO Macroscope Application Window]({{ "/media/screenshots/seo-macroscope-main-window-v1.5.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
