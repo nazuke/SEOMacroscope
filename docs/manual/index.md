@@ -84,23 +84,39 @@ SEO Macroscope will attempt to discover Google Sitemap XML files specified by yo
 
 #### Links
 
-##### Follow Redirects
+##### Follow redirects
 
 If this option is checked, then SEO Macroscope will log and follow redirects. External URLs will only be logged.
 
-##### Follow Canonical Links
+##### Follow canonical links
 
 If this option is checked, then SEO Macroscope will log and follow canonical links, if present. External URLs will only be logged.
 
-##### Follow HrefLang Links
+##### Follow rel="nofollow" links
+
+If this option is checked, then SEO Macroscope will log and follow HTML links that are set to "nofollow", otherwise, those links will not be crawled.
+
+##### Follow HrefLang links
 
 If this option is checked, then SEO Macroscope will log and follow HrefLang links in the head section of HTML pages.
 
 Please note that this will also mark localized hosts as being "internal" hosts.
 
-##### Follow rel="nofollow" Links
+##### Ignore URL queries
 
-If this option is checked, then SEO Macroscope will log and follow HTML links that are set to "nofollow", otherwise, those links will not be crawled.
+If this option is enabled, then the query string will be stripped from the URL, and the resultant URL crawled.
+
+##### Ignore hash fragment
+
+If this option is enabled, then the hash fragment will be stripped from the URL, and the resultant URL crawled.
+
+In many cases, this may help to speed up crawling, as it will help to prevent duplicate content from being crawled.
+
+##### Strict URL check
+
+If this option is enabled, then strict include/exclude URL checking is applied before each URL is added to the crawl queue.
+
+This may help to speed up the crawling process.
 
 #### Domain Restrictions
 
@@ -108,7 +124,7 @@ If this option is checked, then SEO Macroscope will log and follow HTML links th
 
 If this option is checked, then SEO Macroscope will log and follow links that are on external hosts.
 
-Please note, this may result in an infinite crawl, or may take an extremely long time to complete.
+Please note, this may result in an infinite crawl, or may otherwise take an extremely long time to complete.
 
 Use the include/exclude *Task Parameters* to explicitly specify which external hosts you may potentially like to crawl.
 
@@ -170,10 +186,6 @@ Enabling this option will cause Javascripts to be checked. Beyond that, no furth
 
 Enabling this option will cause images to be checked. Beyond that, no further crawling occurs with images.
 
-##### PDFs
-
-Enabling this option will cause PDF files to be checked.
-
 ##### Audio files
 
 Enabling this option will cause audio files to be checked. Beyond that, no further crawling occurs with audio files.
@@ -212,13 +224,19 @@ If checked, then the remote IP addresses for the host will be resolved and colle
 
 #### Localized Pages
 
-##### Check Linked HrefLang Pages
+##### Check linked HrefLang pages
 
 Enabling this option will perform a simple HEAD request against detected HrefLang tags found in HTML pages.
 
 By itself, this option will not cause SEO Macrosope to recurse into the websites referenced by the HrefLang tags if the referenced websites are considered to be "external."
 
 Enable the *Follow HrefLang Links* option under the *Spidering Control* tab if you would like to also scan the websites referenced by the HrefLang tags.
+
+##### Detect page text language
+
+If this option is enabled, then SEO Macroscope will attempt to detect the written language of the web page.
+
+The results of this may be checked elsewhere. In some cases, this may flag mis-specified page language configuration, or translation problems.
 
 #### Process Document Types
 
@@ -308,9 +326,73 @@ Enabling this option will report insecure links to pages or resources from secur
 
 ### SEO Options
 
-Configure SEO policies and analysis options here.
+Configure SEO policies and analysis options here. SEO guidelines can change over time, so it is possible to set the ideal desired thresholds for certain page attributes as you see fit.
 
 ![SEO Macroscope SEO options](images/preferences-seo-options.png){: .img-responsive .box-shadow .screenshot }
+
+#### Page Title Policies
+
+##### Minimum title lenth
+
+Set this to the minimum number acceptable characters, including white space, for page titles.
+
+##### Maximum title lenth
+
+Set this to the maximum number acceptable characters, including white space, for page titles.
+
+##### Minimum title words
+
+Set this to the minimum number acceptable number of words for page titles.
+
+##### Maximum title words
+
+Set this to the maximum number acceptable number of words for page titles.
+
+##### Maximum title pixel width
+
+Set this to the maximum acceptable width in pixels of the page title.
+
+This value is calculated approximately.
+
+#### Page Description Policies
+
+##### Minimum description lenth
+
+Set this to the minimum number acceptable characters, including white space, for page descriptions.
+
+##### Maximum description lenth
+
+Set this to the maximum number acceptable characters, including white space, for page descriptions.
+
+##### Minimum description words
+
+Set this to the minimum number acceptable number of words for page descriptions.
+
+##### Maximum description words
+
+Set this to the maximum number acceptable number of words for page descriptions.
+
+#### Page Header Element Policies
+
+##### Analyze heading elements cutoff
+
+Set this option to the maximum page header level that you are interested in analyzing.
+
+#### Document Text
+
+##### Analyze keywords in page text
+
+If this option is enabled, then some analysis is performed on keywords in the page body text.
+
+Please note, this process occurs at the end of a scan, and may take quite some time to complete.
+
+##### Analyze text readability
+
+If this options is enabled, then the readability algorithm specified is appled to the document body text, dependent upon the document language.
+
+##### English readability analysis method
+
+Select the readability analysis algorithm for the English language.
 
 #### Levenshtein Edit Distance Processing
 
@@ -349,7 +431,21 @@ Set this value to the maximum number of "edits" that consider the two documents 
 
 The custom filters may be used to check that your website pages contain, or do not contain, a specific value.
 
-For example, this may be used to check that all of your HTML pages contain a Google Analytics tracking value.
+#### Enable/Disable Custom Filters
+
+##### Enable custom filter processing
+
+Enable this option to activate the custom filter processing during a crawl. Disabling this option may speed up a crawl slightly.
+
+#### Custom Filter Items
+
+##### Number of custom filters
+
+Set this option to the exact number of custom filters needed for the crawl.
+
+#### Apply Custom Filters to Document Types
+
+Check only those document types that need to have custom filters applied to them. Unchecking unneeded document types may help to speed up the crawling process.
 
 {% include go-to-top.html %}
 
@@ -359,25 +455,35 @@ For example, this may be used to check that all of your HTML pages contain a Goo
 
 Content may be scraped from the crawled pages by using regular expressions, XPath queries, or CSS selectors.
 
-The scraped data may then be exported to CSV or Excel format report files.
+#### Enable/Disable Data Extractors
 
-#### CSS Selectors
+##### Enable data extraction processing
 
-Extract data with CSS selectors.
+Enable this option to activate the data extraction processing during a crawl. Disabling this option may speed up a crawl slightly.
 
-TODO...
+#### Extractor Items
 
-#### Regular Expressions
+##### Number of CSS Selectors extractors
 
-Extract data with regular expressions.
+Set this option to the exact number of CSS Selectors extractors needed for the crawl.
 
-TODO...
+##### Number of Regular Expression extractors
 
-#### XPath Queries
+Set this option to the exact number of Regular Expression extractors needed for the crawl.
 
-Extract data with XPath queries.
+##### Number of XPath Expression extractors
 
-TODO...
+Set this option to the exact number of XPath Expression extractors needed for the crawl.
+
+#### Apply Data Extractors to Document Types
+
+Check only those document types that need to have data extractors applied to them. Unchecking unneeded document types may help to speed up the crawling process.
+
+#### Process Text
+
+##### Clean white space
+
+Enable this option to clean white space in extracted data. Each item will be topped and tailed, and have internal white space compacted.
 
 {% include go-to-top.html %}
 
@@ -447,10 +553,19 @@ Enter the port that your web proxy requires.
 
 Set this to 0 if no web proxy is required.
 
+#### Server Certificates
+
+##### Enable certificate validation
+
+Disabled this option to skip server certificate validation checks.
+
+**WARNING:** Do not disable this unless you are sure that you know what you are doing.
+
+This option is most useful for working with development sites that use self-signed certificates.
+
 {% include go-to-top.html %}
 
 <!-- ======================================================================= -->
-
 
 ### Advanced Settings
 
@@ -474,9 +589,49 @@ On 64 bit systems, this option should be turned off.
 
 ## Task Parameters Menu
 
-How to set crawl-specific parameters.
+Set crawl-specific parameters.
 
-TODO...
+### Include URL Patterns
+
+![Include URL patterns](images/task-include-url-patterns.png){: .img-responsive .box-shadow .screenshot }
+
+Enter one or more regular expressions that each crawled URL must match in order to be considered for crawling.
+
+### Exclude URL Patterns
+
+![Exclude URL patterns](images/task-exclude-url-patterns.png){: .img-responsive .box-shadow .screenshot }
+
+Enter one or more regular expressions that each crawled URL must not match in order to be considered for crawling.
+
+### Custom Filters
+
+![Custom filters](images/task-custom-filters.png){: .img-responsive .box-shadow .screenshot }
+
+Each custom filter may be entered as either plain text, or a regular expression.
+
+### Data Extractors
+
+Content may be scraped from the crawled pages by using regular expressions, XPath queries, or CSS selectors.
+
+The scraped data may then be exported to CSV or Excel format report files.
+
+#### CSS Selectors
+
+![CSS Selectors data extractors](images/task-data-extractor-css.png){: .img-responsive .box-shadow .screenshot }
+
+Extract data with CSS selectors.
+
+#### Regular Expressions
+
+![Regular Expressions data extractors](images/task-data-extractor-regex.png){: .img-responsive .box-shadow .screenshot }
+
+Extract data with regular expressions.
+
+#### XPath Queries
+
+![XPath Queries data extractors](images/task-data-extractor-xpath.png){: .img-responsive .box-shadow .screenshot }
+
+Extract data with XPath queries.
 
 {% include go-to-top.html %}
 
