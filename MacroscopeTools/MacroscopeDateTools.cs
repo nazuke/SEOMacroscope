@@ -54,7 +54,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-
+    
     public static DateTime ParseHttpDate ( string HeaderField, string DateString )
     {
 

@@ -227,7 +227,7 @@ namespace SEOMacroscope
             MacroscopeCredential Credential;
 
             Credential = this.JobMaster.GetCredentialsHttp().GetCredential(
-              msDoc.GetHostname(),
+              msDoc.GetHostAndPort(),
               msDoc.GetAuthenticationRealm()
             );
 
@@ -312,7 +312,7 @@ namespace SEOMacroscope
             MacroscopeCredentialsHttp CredentialsHttp = this.JobMaster.GetCredentialsHttp();
 
             CredentialsHttp.EnqueueCredentialRequest( 
-              Domain: msDoc.GetHostname(),
+              Domain: msDoc.GetHostAndPort(),
               Realm: msDoc.GetAuthenticationRealm(),
               Url: msDoc.GetUrl()
             );
@@ -334,7 +334,7 @@ namespace SEOMacroscope
 
           if( MacroscopePreferencesManager.GetFollowRedirects() ) {
 
-            string Hostname = msDoc.GetHostname();
+            string Hostname = msDoc.GetHostAndPort();
             string HostnameFrom = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectFrom() );
             string UrlRedirectTo = msDoc.GetUrlRedirectTo();
             string HostnameTo = MacroscopeAllowedHosts.ParseHostnameFromUrl( UrlRedirectTo );

@@ -70,6 +70,21 @@ namespace SEOMacroscope
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Locale", this.GetLocale() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Language", this.GetIsoLanguageCode() ) );
+
+      {
+       
+        Encoding TextEncoding = this.GetCharacterEncoding();
+        string TextEncodingValue = "";
+       
+        if( TextEncoding != null )
+        {
+          TextEncodingValue = TextEncoding.EncodingName;
+        }
+      
+        DetailsList.Add( new KeyValuePair<string,string> ( "Character Encoding", TextEncodingValue ) );
+     
+      }
+      
       DetailsList.Add( new KeyValuePair<string,string> ( "Character Set", this.GetCharacterSet() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
@@ -145,7 +160,8 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Server Addresses", this.GetServerAddressesAsCsv() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Scheme", this.GetScheme() ) );
-      DetailsList.Add( new KeyValuePair<string,string> ( "Hostname", this.GetHostname() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Host and Port", this.GetHostAndPort() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Host", this.GetHostname() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Port", this.GetPort().ToString() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Path", this.GetPath() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Query", this.GetQueryString() ) );

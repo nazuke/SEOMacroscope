@@ -57,15 +57,21 @@ namespace SEOMacroscope
     public void WriteSitemapXml ( string NewPath )
     {
 
-      string StartHost = this.DocCollection.GetDocument(
-                           Url: this.DocCollection.GetJobMaster().GetStartUrl()
-                         ).GetHostname();
+      string StartHost;
+      string XmlSitemapSerialized;
+      XmlDocument SitemapXml;
+      StringWriter SitemapXmlStringWriter;
+      XmlTextWriter SitemapXmlTextWriter;
+      
+      StartHost = this.DocCollection.GetDocument(
+        Url: this.DocCollection.GetJobMaster().GetStartUrl()
+      ).GetHostAndPort();
 
-      string XmlSitemapSerialized = null;
+      XmlSitemapSerialized = null;
 
-      XmlDocument SitemapXml = this.GenerateXmlSitemap( Host: StartHost );
-      StringWriter SitemapXmlStringWriter = new StringWriter ();
-      XmlTextWriter SitemapXmlTextWriter = new XmlTextWriter ( SitemapXmlStringWriter );
+      SitemapXml = this.GenerateXmlSitemap( Host: StartHost );
+      SitemapXmlStringWriter = new StringWriter ();
+      SitemapXmlTextWriter = new XmlTextWriter ( SitemapXmlStringWriter );
       
       SitemapXml.WriteTo( SitemapXmlTextWriter );
 
@@ -130,7 +136,7 @@ namespace SEOMacroscope
 
       StartHost = this.DocCollection.GetDocument(
         Url: this.DocCollection.GetJobMaster().GetStartUrl()
-      ).GetHostname();
+      ).GetHostAndPort();
 
       SitemapText = this.GenerateTextSitemap( Host: StartHost );
 
@@ -215,7 +221,7 @@ namespace SEOMacroscope
 
         if( !string.IsNullOrEmpty( Host ) )
         {
-          if( msDoc.GetHostname().Equals( Host ) )
+          if( msDoc.GetHostAndPort().Equals( Host ) )
           {
             Proceed = true;
           }
@@ -385,7 +391,7 @@ namespace SEOMacroscope
 
         if( !string.IsNullOrEmpty( Host ) )
         {
-          if( msDoc.GetHostname().Equals( Host ) )
+          if( msDoc.GetHostAndPort().Equals( Host ) )
           {
             Proceed = true;
           }

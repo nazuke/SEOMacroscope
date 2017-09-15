@@ -120,7 +120,7 @@ namespace SEOMacroscope
         req.Method = "HEAD";
         req.Timeout = 10000;
         req.KeepAlive = false;
-        req.Host = MacroscopeUrlUtils.GetHostnameFromUrl( this.Url );
+        req.Host = MacroscopeUrlUtils.GetHostnameAndPortFromUrl( this.Url );
         req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
         
         MacroscopePreferencesManager.EnableHttpProxy( req );

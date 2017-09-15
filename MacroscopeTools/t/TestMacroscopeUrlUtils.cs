@@ -85,41 +85,29 @@ namespace SEOMacroscope
 
       List<List<string>> TestList = new List<List<string>> ();
 
-      TestList.Add(
-        new List<string> () {
-          "http://www.host.com/BASEHREF/index.html",
-            "http://www.host.com/path/to/page/",
-            "http://www.host.com/path/to/page/to/pages/index.html",
-          "http://www.host.com/path/to/page/to/pages/index.html"
-        }
-      );
+      TestList.Add( new List<string> () );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/BASEHREF/index.html" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/path/to/page/" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/path/to/page/to/pages/index.html" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/path/to/page/to/pages/index.html" );
 
-      TestList.Add(
-        new List<string> () {
-          "http://www.host.com/BASEHREF/index.html",
-            "http://www.host.com/path/to/page/",
-            "path/to/pages/index.html",
-          "http://www.host.com/BASEHREF/path/to/pages/index.html"
-        }
-      );
+      TestList.Add( new List<string> () );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/BASEHREF/index.html" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/path/to/page/" );
+      TestList[ TestList.Count - 1 ].Add( "path/to/pages/index.html" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/BASEHREF/path/to/pages/index.html" );
             
-      TestList.Add(
-        new List<string> () {
-          "http://www.host.com/BASEHREF/index.html",
-            "http://www.host.com/path/to/page/",
-            "../path/to/pages/index.html",
-          "http://www.host.com/path/to/pages/index.html"
-        }
-      );
+      TestList.Add( new List<string> () );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/BASEHREF/index.html" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/path/to/page/" );
+      TestList[ TestList.Count - 1 ].Add( "../path/to/pages/index.html" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/path/to/pages/index.html" );
             
-      TestList.Add(
-        new List<string> () {
-            "http://www.host.com/BASEHREF/index.html",
-          "http://www.host.com/path/to/page/",
-            "../../path/to/pages/index.html",
-            "http://www.host.com/path/to/pages/index.html"
-        }
-      );
+      TestList.Add( new List<string> () );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/BASEHREF/index.html" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/path/to/page/" );
+      TestList[ TestList.Count - 1 ].Add( "../../path/to/pages/index.html" );
+      TestList[ TestList.Count - 1 ].Add( "http://www.host.com/path/to/pages/index.html" );
 
       foreach( List<string> UrlSet in TestList )
       {

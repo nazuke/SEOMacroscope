@@ -66,8 +66,6 @@ namespace SEOMacroscope
     public void Analyze ( MacroscopeDocument RootDoc )
     {
 
-#if DEBUG
-      
       LinkedList<string> PageChain = new LinkedList<string> ();
 
       this.RootDoc = RootDoc;
@@ -81,7 +79,6 @@ namespace SEOMacroscope
         ParentDoc: RootDoc
       );
 
-
       this.DebugMsg( "######################################################" );
 
       // TODO: Remove this after debugging:
@@ -91,18 +88,18 @@ namespace SEOMacroscope
         int Count = 0;
         foreach( LinkedList<string> Chain in this.PageChains[Url] )
         {
-          this.DebugMsg( string.Format( "----{0}:", Count ) );
+          this.DebugMsg( string.Format( "----{0}: {1}", Count, Url ) );
           foreach( string ChainedUrl in Chain )
           {
             this.DebugMsg( string.Format( "--------ChainedUrl: {0}", ChainedUrl ) );
           }
           Count++;
         }
-
       }
 
       this.DebugMsg( "######################################################" );
 
+      /*
       // TODO: Remove this after debugging:
       foreach( string Url in this.PageChains.Keys )
       {
@@ -113,12 +110,10 @@ namespace SEOMacroscope
           this.DebugMsg( string.Format( "----{0}: {1}", Count, Chain.Count ) );
           Count++;
         }
-
       }
-
+      */
+     
       this.DebugMsg( "######################################################" );
-
-#endif
 
       return;
 
@@ -158,7 +153,7 @@ namespace SEOMacroscope
           if( CurrentDoc != null )
           {
 
-            if( CurrentDoc.GetHostname().Equals( ParentDoc.GetHostname() ) )
+            if( CurrentDoc.GetHostAndPort().Equals( ParentDoc.GetHostAndPort() ) )
             {
 
               this.Descend(
@@ -180,7 +175,14 @@ namespace SEOMacroscope
 
         foreach( string Url in PageChain )
         {
+
           PageChainClone.AddLast( Url );
+
+          if( ParentDoc.GetUrl().Equals( Url ) )
+          {
+            break;
+          }
+
         }
 
         if( !this.PageChains.ContainsKey( PageChain.Last.Value ) )

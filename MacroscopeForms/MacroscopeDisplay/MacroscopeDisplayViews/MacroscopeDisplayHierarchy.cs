@@ -199,7 +199,7 @@ namespace SEOMacroscope
     {
 
       TreeNode CurrentNode = this.tvTreeView.Nodes[ 0 ];
-      string sPath = string.Join( "/", msDoc.GetHostname(), msDoc.GetPath() );
+      string sPath = string.Join( "/", msDoc.GetHostAndPort(), msDoc.GetPath() );
 
       if( sPath != null )
       {

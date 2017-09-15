@@ -617,7 +617,14 @@ namespace SEOMacroscope
 
       if( DocumentUri != null )
       {
-        HostnameAndPort = string.Join( ":", DocumentUri.Host, DocumentUri.Port );
+        if( DocumentUri.Port > 0 )
+        {
+          HostnameAndPort = string.Join( ":", DocumentUri.Host, DocumentUri.Port );
+        }
+        else
+        {
+          HostnameAndPort = DocumentUri.Host;
+        }
       }
 
       return( HostnameAndPort );

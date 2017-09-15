@@ -108,9 +108,9 @@ namespace SEOMacroscope
 
           Encoding encUseEncoding = Encoding.UTF8;
 
-          if( this.CharSet != null )
+          if( this.GetCharacterEncoding() != null )
           {
-            encUseEncoding = this.CharSet;
+            encUseEncoding = this.GetCharacterEncoding();
           }
           else
           {

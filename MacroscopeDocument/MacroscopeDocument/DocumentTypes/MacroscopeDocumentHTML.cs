@@ -101,18 +101,19 @@ namespace SEOMacroscope
 
           DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
-          Encoding encUseEncoding = Encoding.UTF8;
-          if( this.CharSet != null )
+          Encoding UseEncoding = Encoding.UTF8;
+
+          if( this.GetCharacterEncoding() != null )
           {
-            encUseEncoding = this.CharSet;
+            UseEncoding = this.GetCharacterEncoding();
           }
           else
           {
-            encUseEncoding = this.HtmlSniffCharset();
+            UseEncoding = this.HtmlSniffCharset();
           }
 
           Stream ResponseStream = res.GetResponseStream();
-          StreamReader ResponseStreamReader = new StreamReader ( ResponseStream, encUseEncoding );
+          StreamReader ResponseStreamReader = new StreamReader ( ResponseStream, UseEncoding );
           RawData = ResponseStreamReader.ReadToEnd();
           this.ContentLength = RawData.Length; // May need to find bytes length
           this.SetChecksum( RawData );
@@ -1785,15 +1786,131 @@ namespace SEOMacroscope
 
     /** Sniff Charset *********************************************************/
 
-    Encoding HtmlSniffCharset ()
+    private Encoding HtmlSniffCharset ()
     {
 
-      Encoding encSniffed = Encoding.UTF8;
+      // TODO: Implement add more encodings detectors
 
-      // TODO: Implement code to download HTML, and examine the content-type meta tag.
+      Encoding EncSniffed = Encoding.UTF8;
+      string HtmlData = this.FetchHtmlFile( Url: this.DocUrl );
+      byte [] HtmlBytes = Encoding.ASCII.GetBytes( HtmlData );
 
-      return( encSniffed );
+      if( ( HtmlBytes.Length > 2 ) && HtmlBytes[ 0 ].Equals( 0xFE ) && HtmlBytes[ 1 ].Equals( 0xFF ) ) // UTF-8 BOM: Big Endian: FE FF
+      {
+        EncSniffed = Encoding.UTF8; 
+      }
+      else
+      if( ( HtmlBytes.Length > 2 ) && HtmlBytes[ 0 ].Equals( 0xFF ) && HtmlBytes[ 1 ].Equals( 0xFE ) ) // UTF-8 BOM: Little Endian: FF FE
+      {
+        EncSniffed = Encoding.UTF8; 
+      }
+      else
+      {
 
+        if( Regex.IsMatch( HtmlData.ToLower(), @"<meta[^<>]+charset=""[^""]*utf-8[^""]*""[^<>]*>" ) )
+        {
+          EncSniffed = Encoding.UTF8; 
+        }
+        else
+        if( Regex.IsMatch( HtmlData.ToLower(), @"<meta[^<>]+content=""[^""]*text/html;\s*charset=utf-8[^""]*""[^<>]*>" ) )
+        {
+          EncSniffed = Encoding.UTF8; 
+        }
+        else
+        {
+          EncSniffed = Encoding.UTF8; 
+        }
+
+      }
+      
+      return( EncSniffed );
+
+    }
+
+    /** Fetch HTML File *******************************************************/
+
+    private string FetchHtmlFile ( string Url )
+    {
+
+      Boolean Proceed = false;
+      HttpWebRequest req = null;
+      HttpWebResponse res = null;
+      string HtmlData = "";
+      string RawData = "";
+
+      try
+      {
+
+        req = WebRequest.CreateHttp( Url );
+        req.Method = "GET";
+        req.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
+        req.KeepAlive = false;
+        req.UserAgent = this.UserAgent();
+
+        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+        
+        MacroscopePreferencesManager.EnableHttpProxy( req );
+        
+        res = ( HttpWebResponse )req.GetResponse();
+
+        Proceed = true;
+
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "Exception: {0}", Url ) );
+      }
+      catch( WebException ex )
+      {
+        DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "WebException: {0}", Url ) );
+        DebugMsg( string.Format( "WebExceptionStatus: {0}", ex.Status ) );
+      }
+      catch( NotSupportedException ex )
+      {
+        DebugMsg( string.Format( "NotSupportedException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "NotSupportedException: {0}", Url ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        DebugMsg( string.Format( "Exception: {0}", Url ) );
+      }
+
+      if( ( Proceed ) && ( res != null ) )
+      {
+
+        try
+        {
+          Stream ResponseStream = res.GetResponseStream();
+          StreamReader ReadStream = new StreamReader ( ResponseStream );
+          RawData = ReadStream.ReadToEnd();
+        }
+        catch( WebException ex )
+        {
+          DebugMsg( string.Format( "FetchHtmlFile: WebException: {0}", ex.Message ) );
+          RawData = "";
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "FetchHtmlFile: Exception: {0}", ex.Message ) );
+          RawData = "";
+        }
+
+        res.Close();
+        
+        res.Dispose();
+      
+      }
+
+      if( !string.IsNullOrEmpty( RawData ) )
+      {
+        HtmlData = RawData;
+      }
+
+      return( HtmlData );
+      
     }
 
     /**************************************************************************/

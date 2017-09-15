@@ -38,9 +38,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    Dictionary<string,Robots> RobotSquad;
+    private Dictionary<string,Robots> RobotSquad;
     
-    Dictionary<Uri,Boolean> BadRobots;
+    private Dictionary<Uri,Boolean> BadRobots;
 
     /**************************************************************************/
 
@@ -322,7 +322,7 @@ namespace SEOMacroscope
 
     /** Fetch Robots Text *****************************************************/
 
-    string FetchRobotTextFile ( Uri RobotsUri )
+    private string FetchRobotTextFile ( Uri RobotsUri )
     {
       Boolean Proceed = false;
       HttpWebRequest req = null;

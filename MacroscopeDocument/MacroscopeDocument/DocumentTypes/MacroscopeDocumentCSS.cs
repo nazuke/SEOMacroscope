@@ -109,9 +109,9 @@ namespace SEOMacroscope
           Stream ResponseStream = res.GetResponseStream();
           StreamReader ResponseStreamReader;
 
-          if( this.CharSet != null )
+          if( this.GetCharacterEncoding() != null )
           {
-            ResponseStreamReader = new StreamReader ( ResponseStream, this.CharSet );
+            ResponseStreamReader = new StreamReader ( ResponseStream, this.GetCharacterEncoding() );
           }
           else
           {

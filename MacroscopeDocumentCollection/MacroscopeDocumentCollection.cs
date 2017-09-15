@@ -2239,7 +2239,7 @@ namespace SEOMacroscope
       if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
 
-        // TODO: Implement this
+        // TODO: Implement this:
 
         MacroscopeDocument msDoc = this.GetDocument( Url: this.GetStartUrl() );
 

@@ -101,7 +101,7 @@ namespace SEOMacroscope
 
     private string Locale;
     private string IsoLanguageCode;
-    private Encoding CharSet;
+    private Encoding CharacterEncoding;
     private string CharacterSet;
 
     private long Duration;
@@ -172,7 +172,7 @@ namespace SEOMacroscope
 
 
     // Delegate Functions
-    private delegate void TimeDuration(Action ProcessMethod);
+    private delegate void TimeDuration( Action ProcessMethod );
 
     /**************************************************************************/
 
@@ -288,7 +288,7 @@ namespace SEOMacroscope
 
       this.Locale = null;
       this.IsoLanguageCode = null;
-      this.CharSet = null;
+      this.CharacterEncoding = Encoding.UTF8;
       this.CharacterSet = null;
 
       this.Duration = 0;
@@ -581,7 +581,22 @@ namespace SEOMacroscope
 
     public string GetHostname ()
     {
-      return( this.Hostname );
+      string Host = this.Hostname;
+      return( Host );
+    }
+
+    public string GetHostAndPort ()
+    {
+
+      string HostAndPort = this.Hostname;
+
+      if( this.Port > 0 )
+      {
+        HostAndPort = string.Join( ":", this.Hostname, this.Port.ToString() );
+      }
+
+      return( HostAndPort );
+
     }
 
     public int GetPort ()
@@ -1126,6 +1141,18 @@ namespace SEOMacroscope
     public string GetIsoLanguageCode ()
     {
       return( this.IsoLanguageCode );
+    }
+
+    /** Character Encoding ****************************************************/
+
+    public Encoding GetCharacterEncoding ()
+    {
+      return( this.CharacterEncoding );
+    }
+
+    public void SetCharacterEncoding ( Encoding NewEncoding )
+    {
+      this.CharacterEncoding = NewEncoding;
     }
 
     /** Character Set *********************************************************/
@@ -2540,7 +2567,7 @@ namespace SEOMacroscope
 
         foreach( string HttpHeaderKey in res.Headers )
         {
-          DebugMsg( string.Format( "HEADERS: {0} => {1}", HttpHeaderKey, res.GetResponseHeader( HttpHeaderKey ) ) );
+          DebugMsg( string.Format( "RES HEADERS: {0} => {1}", HttpHeaderKey, res.GetResponseHeader( HttpHeaderKey ) ) );
         }
 
         this.ProcessResponseHttpHeaders( req, res );
@@ -2554,26 +2581,34 @@ namespace SEOMacroscope
         {
 
           this.IsRedirect = true;
-          string Location = res.GetResponseHeader( "Location" );
-          Location = Uri.UnescapeDataString( Location );
-          string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: Location );
 
-          if( !string.IsNullOrEmpty( LinkUrlAbs ) )
+          string Location = res.GetResponseHeader( "Location" );
+
+          if( !string.IsNullOrEmpty( Location ) )
           {
             
-            MacroscopeLink OutLink;
-            
-            this.SetUrlRedirectFrom( Url: OriginalUrl );
+            Location = Uri.UnescapeDataString( stringToUnescape: Location );
 
-            this.SetUrlRedirectTo( Url: LinkUrlAbs );
+            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: Location );
+
+            if( !string.IsNullOrEmpty( LinkUrlAbs ) )
+            {
             
-            OutLink = this.AddDocumentOutlink(
-              AbsoluteUrl: LinkUrlAbs,
-              LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
-              Follow: true
-            );
+              MacroscopeLink OutLink;
             
-            OutLink.SetRawTargetUrl( res.GetResponseHeader( "Location" ) );
+              this.SetUrlRedirectFrom( Url: OriginalUrl );
+
+              this.SetUrlRedirectTo( Url: LinkUrlAbs );
+            
+              OutLink = this.AddDocumentOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
+                Follow: true
+              );
+            
+              OutLink.SetRawTargetUrl( res.GetResponseHeader( "Location" ) );
+          
+            }
           
           }
 
@@ -2695,7 +2730,7 @@ namespace SEOMacroscope
     private void PrepareRequestHttpHeaders ( HttpWebRequest req )
     {
 
-      req.Host = this.GetHostname();
+      req.Host = this.GetHostAndPort();
 
       req.UserAgent = this.UserAgent();
 
@@ -2890,20 +2925,38 @@ namespace SEOMacroscope
 
         if( HttpHeaderName.ToLower().Equals( "date" ) )
         {
+
           string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateServer = this.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
+
+          this.DateServer = MacroscopeDateTools.ParseHttpDate(
+            HeaderField: HttpHeaderName, 
+            DateString: DateString 
+          );
+
         }
 
         if( HttpHeaderName.ToLower().Equals( "last-modified" ) )
         {
+
           string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateModified = this.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
+
+          this.DateModified = MacroscopeDateTools.ParseHttpDate( 
+            HeaderField: HttpHeaderName,
+            DateString: DateString
+          );
+
         }
 
         if( HttpHeaderName.ToLower().Equals( "expires" ) )
         {
+          
           string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateExpires = this.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
+          
+          this.DateExpires = MacroscopeDateTools.ParseHttpDate( 
+            HeaderField: HttpHeaderName,
+            DateString: DateString
+          );
+        
         }
 
         if( HttpHeaderName.ToLower().Equals( "content-encoding" ) )
@@ -2957,7 +3010,7 @@ namespace SEOMacroscope
         if( HttpHeaderName.ToLower().Equals( "content-type" ) )
         {
           //string NewCharSet = "";
-          this.CharSet = null;
+          //this.SetCharacterEncoding( NewEncoding: null );
         }
 
         // Process Etag
@@ -3098,32 +3151,7 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
-
-    // TODO: This could be swapped for static method in MacroscopeDateTools.
-    
-    private DateTime ParseHttpDate ( string HeaderField, string DateString )
-    {
-
-      DateTime ParsedDate = DateTime.UtcNow;
-
-      try
-      {
-        ParsedDate = DateTime.Parse( DateString );
-      }
-      catch( FormatException ex )
-      {
-        DebugMsg( string.Format( "ParseHttpDate: {0}", ex.Message ) );
-        this.AddRemark( Observation: string.Format( "Bad HTTP Date in \"{0}\": \"{1}\"", HeaderField, DateString ) );
-        ParsedDate = DateTime.UtcNow;
-      }
-
-      return( ParsedDate );
-
-    }
-
     /** Language Detection ****************************************************/
-
     
     public string ProbeTextLanguage ( string Text )
     {
