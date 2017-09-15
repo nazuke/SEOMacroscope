@@ -160,6 +160,12 @@ namespace SEOMacroscope
         
         this.checkBoxAnalyzeClickPaths.Checked = MacroscopePreferencesManager.GetAnalyzeClickPaths();
               
+#if DEBUG
+        this.groupBoxPageNavigationAnalysis.Visible = true;
+#else
+        this.groupBoxPageNavigationAnalysis.Visible = false;
+#endif
+        
         /** Custom Filter Options ------------------------------------------ **/
 
         this.checkBoxCustomFiltersEnable.Checked = MacroscopePreferencesManager.GetCustomFiltersEnable();

@@ -179,6 +179,8 @@ namespace SEOMacroscope
       this.LockerAuthenticationDialogue = new object ();
       this.StartAuthenticationTimer( Delay: 1000 ); // 1000ms
       
+      this.ScanningControlsConfigure();
+      
       this.ScanningControlsEnable();
 
     }

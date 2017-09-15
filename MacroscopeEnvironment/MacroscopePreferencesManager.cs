@@ -441,7 +441,7 @@ namespace SEOMacroscope
       
       DetectLanguage = true;
       
-      AnalyzeClickPaths = true;
+      AnalyzeClickPaths = false;
       
       /** SEO Options ------------------------------------------------------ **/
       
@@ -1559,7 +1559,7 @@ namespace SEOMacroscope
       DetectLanguage = Enabled;
     }
 
-        /* ---------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
 
     public static Boolean GetAnalyzeClickPaths ()
     {

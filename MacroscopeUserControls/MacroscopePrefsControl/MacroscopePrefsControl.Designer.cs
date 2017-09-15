@@ -181,7 +181,7 @@ namespace SEOMacroscope
 		private System.Windows.Forms.GroupBox groupBox28;
 		public System.Windows.Forms.CheckBox checkBoxServerCertificateValidation;
 		public System.Windows.Forms.CheckBox checkBoxFetchExternalLinks;
-		private System.Windows.Forms.GroupBox groupBox29;
+		private System.Windows.Forms.GroupBox groupBoxPageNavigationAnalysis;
 		public System.Windows.Forms.CheckBox checkBoxAnalyzeClickPaths;
 
 		/// <summary>
@@ -304,7 +304,7 @@ namespace SEOMacroscope
 			this.numericUpDownMaxLevenshteinSizeDifference = new System.Windows.Forms.NumericUpDown();
 			this.label22 = new System.Windows.Forms.Label();
 			this.numericUpDownMaxLevenshteinDistance = new System.Windows.Forms.NumericUpDown();
-			this.groupBox29 = new System.Windows.Forms.GroupBox();
+			this.groupBoxPageNavigationAnalysis = new System.Windows.Forms.GroupBox();
 			this.checkBoxAnalyzeClickPaths = new System.Windows.Forms.CheckBox();
 			this.tabPageCustomFilterOptions = new System.Windows.Forms.TabPage();
 			this.flowLayoutPanel9 = new System.Windows.Forms.FlowLayoutPanel();
@@ -401,7 +401,7 @@ namespace SEOMacroscope
 			this.groupBox14.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinSizeDifference)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinDistance)).BeginInit();
-			this.groupBox29.SuspendLayout();
+			this.groupBoxPageNavigationAnalysis.SuspendLayout();
 			this.tabPageCustomFilterOptions.SuspendLayout();
 			this.flowLayoutPanel9.SuspendLayout();
 			this.groupBox23.SuspendLayout();
@@ -552,7 +552,7 @@ namespace SEOMacroscope
 			this.checkBoxCrawlStrictUrlCheck.Name = "checkBoxCrawlStrictUrlCheck";
 			this.checkBoxCrawlStrictUrlCheck.Size = new System.Drawing.Size(150, 24);
 			this.checkBoxCrawlStrictUrlCheck.TabIndex = 6;
-			this.checkBoxCrawlStrictUrlCheck.Text = "Strict URL Check";
+			this.checkBoxCrawlStrictUrlCheck.Text = "Strict URL check";
 			this.checkBoxCrawlStrictUrlCheck.UseVisualStyleBackColor = true;
 			// 
 			// checkBoxIgnoreHashFragments
@@ -1200,7 +1200,7 @@ namespace SEOMacroscope
 			this.flowLayoutPanel2.Controls.Add(this.groupBox9);
 			this.flowLayoutPanel2.Controls.Add(this.groupBox12);
 			this.flowLayoutPanel2.Controls.Add(this.groupBox14);
-			this.flowLayoutPanel2.Controls.Add(this.groupBox29);
+			this.flowLayoutPanel2.Controls.Add(this.groupBoxPageNavigationAnalysis);
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
@@ -1237,7 +1237,7 @@ namespace SEOMacroscope
 			this.label16.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
 			this.label16.Size = new System.Drawing.Size(160, 20);
 			this.label16.TabIndex = 9;
-			this.label16.Text = "Minimum title pixel width";
+			this.label16.Text = "Maximum title pixel width";
 			// 
 			// numericUpDownTitleMaxPixelWidth
 			// 
@@ -1680,17 +1680,17 @@ namespace SEOMacroscope
 			0,
 			0});
 			// 
-			// groupBox29
+			// groupBoxPageNavigationAnalysis
 			// 
-			this.groupBox29.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.groupBox29.Controls.Add(this.checkBoxAnalyzeClickPaths);
-			this.groupBox29.Location = new System.Drawing.Point(10, 604);
-			this.groupBox29.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
-			this.groupBox29.Name = "groupBox29";
-			this.groupBox29.Size = new System.Drawing.Size(500, 70);
-			this.groupBox29.TabIndex = 8;
-			this.groupBox29.TabStop = false;
-			this.groupBox29.Text = "Page Navigation Analysis";
+			this.groupBoxPageNavigationAnalysis.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.groupBoxPageNavigationAnalysis.Controls.Add(this.checkBoxAnalyzeClickPaths);
+			this.groupBoxPageNavigationAnalysis.Location = new System.Drawing.Point(10, 604);
+			this.groupBoxPageNavigationAnalysis.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.groupBoxPageNavigationAnalysis.Name = "groupBoxPageNavigationAnalysis";
+			this.groupBoxPageNavigationAnalysis.Size = new System.Drawing.Size(500, 70);
+			this.groupBoxPageNavigationAnalysis.TabIndex = 8;
+			this.groupBoxPageNavigationAnalysis.TabStop = false;
+			this.groupBoxPageNavigationAnalysis.Text = "Page Navigation Analysis";
 			// 
 			// checkBoxAnalyzeClickPaths
 			// 
@@ -1764,7 +1764,7 @@ namespace SEOMacroscope
 			this.label19.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
 			this.label19.Size = new System.Drawing.Size(230, 20);
 			this.label19.TabIndex = 9;
-			this.label19.Text = "Number of Custom Filters";
+			this.label19.Text = "Number of custom filters";
 			// 
 			// numericUpDownCustomFiltersMaxItems
 			// 
@@ -2248,7 +2248,7 @@ namespace SEOMacroscope
 			this.checkBoxServerCertificateValidation.Name = "checkBoxServerCertificateValidation";
 			this.checkBoxServerCertificateValidation.Size = new System.Drawing.Size(200, 24);
 			this.checkBoxServerCertificateValidation.TabIndex = 1;
-			this.checkBoxServerCertificateValidation.Text = "Enable Certificate Validation";
+			this.checkBoxServerCertificateValidation.Text = "Enable certificate validation";
 			this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
 			// 
 			// tabPageAdvancedSettings
@@ -2342,7 +2342,7 @@ namespace SEOMacroscope
 			this.groupBox14.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinSizeDifference)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevenshteinDistance)).EndInit();
-			this.groupBox29.ResumeLayout(false);
+			this.groupBoxPageNavigationAnalysis.ResumeLayout(false);
 			this.tabPageCustomFilterOptions.ResumeLayout(false);
 			this.flowLayoutPanel9.ResumeLayout(false);
 			this.groupBox23.ResumeLayout(false);

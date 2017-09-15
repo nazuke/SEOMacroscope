@@ -2248,9 +2248,9 @@ namespace SEOMacroscope
 
           if( msDoc.GetIsInternal() && msDoc.GetIsHtml() )
           {
-
+#if DEBUG
             this.ClickPathAnalysis.Analyze( RootDoc: msDoc );
-        
+#endif
           }
       
         }

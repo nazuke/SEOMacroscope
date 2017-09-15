@@ -1789,9 +1789,13 @@ namespace SEOMacroscope
     private Encoding HtmlSniffCharset ()
     {
 
+      // TODO: Make this optional in preferences
+
       // TODO: Implement add more encodings detectors
 
       Encoding EncSniffed = Encoding.UTF8;
+
+#if DEBUG
       string HtmlData = this.FetchHtmlFile( Url: this.DocUrl );
       byte [] HtmlBytes = Encoding.ASCII.GetBytes( HtmlData );
 
@@ -1822,7 +1826,8 @@ namespace SEOMacroscope
         }
 
       }
-      
+#endif
+
       return( EncSniffed );
 
     }

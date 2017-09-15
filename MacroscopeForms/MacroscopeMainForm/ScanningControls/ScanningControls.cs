@@ -36,6 +36,17 @@ namespace SEOMacroscope
 
     /** Scanning Controls *****************************************************/
 
+    private void ScanningControlsConfigure ()
+    {
+      #if DEBUG
+      this.toolStripButtonRecalculateClickPaths.Visible = true;
+      #else
+      this.toolStripButtonRecalculateClickPaths.Visible = false;
+      #endif
+    }
+    
+    /** -------------------------------------------------------------------- **/
+        
     private void ScanningControlsEnable ()
     {
 
