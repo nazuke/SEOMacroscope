@@ -619,19 +619,37 @@ The scraped data may then be exported to CSV or Excel format report files.
 
 ![CSS Selectors data extractors](images/task-data-extractor-css.png){: .img-responsive .box-shadow .screenshot }
 
-Extract data with CSS selectors.
+Web scraping may be done with CSS selectors.
+
+Give each extractor a name, this will be used in the list views, and CSV/Excel reports, for each found item.
+
+Enter a CSS selector query that will locate the data that you wish to extract.
+
+Finally, specify whether the CSS selector should extract the matched HTML element and all of its children, only the matched child elements, or extract only the text value.
 
 #### Regular Expressions
 
 ![Regular Expressions data extractors](images/task-data-extractor-regex.png){: .img-responsive .box-shadow .screenshot }
 
-Extract data with regular expressions.
+Web scraping may be done with regular expressions.
+
+Give each extractor a name, this will be used in the list views, and CSV/Excel reports, for each found item.
+
+Enter a regular expression that will locate the data that you wish to extract.
+
+It is important that the regular expression includes capture groups; otherwise nothing will be extracted. Each capture group will be extracted into its own record.
 
 #### XPath Queries
 
 ![XPath Queries data extractors](images/task-data-extractor-xpath.png){: .img-responsive .box-shadow .screenshot }
 
-Extract data with XPath queries.
+Web scraping may be done with XPath queries.
+
+Give each extractor a name, this will be used in the list views, and CSV/Excel reports, for each found item.
+
+Enter a XPath query that will locate the data that you wish to extract.
+
+Finally, specify whether the XPath query should extract the matched HTML element and all of its children, only the matched child elements, or extract only the text value.
 
 {% include go-to-top.html %}
 
