@@ -617,9 +617,9 @@ The scraped data may then be exported to CSV or Excel format report files.
 
 #### CSS Selectors
 
-![CSS Selectors data extractors](images/task-data-extractor-css.png){: .img-responsive .box-shadow .screenshot }
-
 Web scraping may be done with CSS selectors.
+
+![CSS Selectors data extractors](images/task-data-extractor-css.png){: .img-responsive .box-shadow .screenshot }
 
 Give each extractor a name, this will be used in the list views, and CSV/Excel reports, for each found item.
 
@@ -629,9 +629,9 @@ Finally, specify whether the CSS selector should extract the matched HTML elemen
 
 #### Regular Expressions
 
-![Regular Expressions data extractors](images/task-data-extractor-regex.png){: .img-responsive .box-shadow .screenshot }
-
 Web scraping may be done with regular expressions.
+
+![Regular Expressions data extractors](images/task-data-extractor-regex.png){: .img-responsive .box-shadow .screenshot }
 
 Give each extractor a name, this will be used in the list views, and CSV/Excel reports, for each found item.
 
@@ -641,9 +641,9 @@ It is important that the regular expression includes capture groups; otherwise n
 
 #### XPath Queries
 
-![XPath Queries data extractors](images/task-data-extractor-xpath.png){: .img-responsive .box-shadow .screenshot }
-
 Web scraping may be done with XPath queries.
+
+![XPath Queries data extractors](images/task-data-extractor-xpath.png){: .img-responsive .box-shadow .screenshot }
 
 Give each extractor a name, this will be used in the list views, and CSV/Excel reports, for each found item.
 
