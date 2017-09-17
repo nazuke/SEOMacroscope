@@ -1,12 +1,11 @@
 ---
 layout: page
-title: Blog Posts
+title: SEO Macroscope Blog Posts
 ---
 
 {% for post in site.posts %}
 
-*   [{{ post.title }}]({{ post.url | relative_url }})
-
-    {{ post.excerpt }}
+### {{ post.date | date_to_string }} - [{{ post.title }}]({{ post.url | relative_url }}){: .post-link }
+{{ post.excerpt }}
 
 {% endfor %}

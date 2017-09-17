@@ -56,3 +56,9 @@ gems:
 exclude:
   - Gemfile
   - Gemfile.lock
+
+
+# Releases collection
+collections:
+  collection_releases:
+    output: false

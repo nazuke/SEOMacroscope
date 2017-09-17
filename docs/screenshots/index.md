@@ -13,7 +13,7 @@ The main application runs in a single window, with one scanning session running 
 ![SEO Macroscope main application window]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
 
-<p>SEO Macroscope main application window</p>
+SEO Macroscope main application window
 
 ## Application Preferences
 
@@ -22,24 +22,24 @@ Primarily a website link scanner, I am also implementing simple SEO features tha
 ![Spidering control options]({{ "/manual/images/preferences-spidering-control.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
 
-<p>Spidering control options</p>
+Spidering control options
 
 ![Page and document analysis options]({{ "/manual/images/preferences-analysis-options.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
 
-<p>Page and document analysis options</p>
+Page and document analysis options
 
 ![Technical SEO policy options]({{ "/manual/images/preferences-seo-options.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
 
-<p>Technical SEO policy options</p>
+Technical SEO policy options
 
 ![Display options]({{ "/manual/images/preferences-display-options.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
 
-<p>Display options</p>
+Display options
 
 ![Network settings]({{ "/manual/images/preferences-network-settings.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
 
-<p>Network settings</p>
+Network settings

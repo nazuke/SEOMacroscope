@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "SEO Macroscope Manual"
+title: SEO Macroscope User Manual
 ---
 
 ![The SEO Macroscope application window.](images/application-001.png){: .img-responsive .box-shadow .screenshot}

@@ -2,10 +2,50 @@
 
 $("window").ready(
   function () {
-    //configureGaReleaseLinks();
-    //configureGaInstallerLinks();
+
+    configureGaBlogPostLinks();
+
+    configureGaReleaseLinks();
+    
+    configureGaInstallerLinks();
+
   }
 );
+
+/******************************************************************************/
+
+function configureGaBlogPostLinks() {
+
+  $(".post-link").click(
+
+    function ( event ) {
+
+      event.preventDefault();
+
+      let LinkClicked = this;
+      let TagHref = $(LinkClicked).attr("href");
+      let Tag = TagHref.split('/').pop().split('#')[0].split('?')[0];
+
+      ga(
+        'send',
+        {
+          hitType: 'event',
+          eventCategory: 'blog',
+          eventAction: 'post-link',
+          eventLabel: Tag,
+          eventValue: 0,
+          transport: 'beacon',
+          hitCallback: function() {
+            window.location = TagHref;
+          }
+        }
+      );
+
+    }
+
+  );
+
+}
 
 /******************************************************************************/
 
@@ -20,8 +60,6 @@ function configureGaReleaseLinks() {
       let LinkClicked = this;
       let TagHref = $(LinkClicked).attr("href");
       let Tag = TagHref.split('/').pop().split('#')[0].split('?')[0];
-
-      console.log( "TagHref:", TagHref );
 
       ga(
         'send',
@@ -42,14 +80,12 @@ function configureGaReleaseLinks() {
 
   );
 
-  console.log("Done: configureGaReleaseLinks");
-
 }
 
 /******************************************************************************/
 
 function configureGaInstallerLinks() {
-
+ 
   $(".link-installer").click(
 
     function ( event ) {
@@ -59,8 +95,6 @@ function configureGaInstallerLinks() {
       let LinkClicked = this;
       let TagHref = $(LinkClicked).attr("href");
       let Tag = TagHref.split('/').pop().split('#')[0].split('?')[0];
-
-      console.log( "TagHref:", TagHref );
 
       ga(
         'send',
@@ -80,8 +114,6 @@ function configureGaInstallerLinks() {
     }
 
   );
-
-  console.log("Done: configureGaInstallerLinks");
 
 }
 

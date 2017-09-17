@@ -3,6 +3,8 @@ layout: page
 title: "SEO Macroscope Installer Downloads"
 ---
 
+{% assign releases = site.collection_releases | reverse %}
+
 ## PLATFORMS
 
 **SEO Macroscope** is developed on Windows. Currently, tested on Windows 7 and 10 with the .NET 4.5.2 framework.
@@ -18,25 +20,15 @@ Releases of SEO Macroscope may be found on GitHub at:
 
 The most recent release is at:
 
-* [SEO Macrocope v1.6.0.0](https://github.com/nazuke/SEOMacroscope/releases/tag/v1.6.0.0){: .link-release }
-    * Windows 64 bit installer: [SEOMacroscope-Installer-1.6.0.0.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v1.6.0.0/SEOMacroscope-Installer-1.6.0.0.exe){: .link-installer }
+* [{{ releases[0].name }}](https://github.com/nazuke/SEOMacroscope/releases/tag/{{ releases[0].tag }}){: class="link-release" target="_blank" }
+    * Windows {{ releases[0].arch }} bit installer: [{{ releases[0].installer }}](https://github.com/nazuke/SEOMacroscope/releases/download/{{ releases[0].tag }}/{{ releases[0].installer }}){: class="link-installer" target="_blank" }
 
-Older releases:
+Previous releases:
 
-* [SEO Macrocope v1.5.0.0](https://github.com/nazuke/SEOMacroscope/releases/tag/v1.5.0.0){: .link-release }
-    * Windows 64 bit installer: [SEOMacroscope-Installer-1.5.0.0.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v1.5.0.0/SEOMacroscope-Installer-1.5.0.0.exe){: .link-installer }
-* [SEO Macrocope v1.1.0.0](https://github.com/nazuke/SEOMacroscope/releases/tag/v1.1.0.0){: .link-release }
-    * Windows 32 bit installer: [SEOMacroscope-Installer-1.1.0.0.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v1.1.0.0/SEOMacroscope-Installer-1.1.0.0.exe){: .link-installer }
-* [SEO Macrocope v1.0.0.0](https://github.com/nazuke/SEOMacroscope/releases/tag/v1.0.0.0){: .link-release }
-    * Windows 32 bit installer: [SEOMacroscope-Installer-1.0.0.0.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v1.0.0.0/SEOMacroscope-Installer-1.0.0.0.exe){: .link-installer }
-* [SEO Macrocope v0.9.0.4b](https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.4b){: .link-release }
-    * Windows 32 bit installer: [SEOMacroscope-Installer-0.9.0.4b.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v0.9.0.4b/SEOMacroscope-Installer-0.9.0.4b.exe){: .link-installer }
-* [SEO Macrocope v0.9.0.3b](https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.3b){: .link-release }
-    * Windows 32 bit installer: [SEOMacroscope-Installer-0.9.0.3b.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v0.9.0.3b/SEOMacroscope-Installer-0.9.0.3b.exe){: .link-installer }
-* [SEO Macroscope v0.9.0.2b](https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.2b){: .link-release }
-    * Windows 32 bit installer: [SEOMacroscope-Installer-0.9.0.2b.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v0.9.0.2b/SEOMacroscope-Installer-0.9.0.2b.exe){: .link-installer }
-* [SEO Macroscope v0.9.0.1b](https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.1b){: .link-release }
-    * Windows 32 bit installer: [SEOMacroscope-Installer-0.9.0.1b.exe](https://github.com/nazuke/SEOMacroscope/releases/download/v0.9.0.1b/SEOMacroscope-Installer-0.9.0.1b.exe){: .link-installer }
+{% for release in releases %}
+* [{{ release.name }}](https://github.com/nazuke/SEOMacroscope/releases/tag/{{ release.tag }}){: class="link-release"ß target="_blank" }
+    * Windows {{ release.arch }} bit installer: [{{ release.installer }}](https://github.com/nazuke/SEOMacroscope/releases/download/{{ release.tag }}/{{ release.installer }}){: class="link-installer" target="_blank" }
+{% endfor %}
 
 ## SOURCE CODE
 
@@ -44,4 +36,4 @@ The source code project may be cloned directly from the Git repository at:
 
 * [https://github.com/nazuke/SEOMacroscope](https://github.com/nazuke/SEOMacroscope)
 
-I am developing SEO Macroscope with [SharpDevelop](http://www.icsharpcode.net/opensource/sd/Default.aspx) 5; however, the project should also build with [Microsoft Visual Studio](https://www.visualstudio.com/).
+SEO Macroscope is currently developed with [SharpDevelop 5](http://www.icsharpcode.net/opensource/sd/); however, the project should also build with [Microsoft Visual Studio](https://www.visualstudio.com/).
