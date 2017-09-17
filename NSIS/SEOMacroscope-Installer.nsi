@@ -1,5 +1,4 @@
 !include "..\version.nsh"
-#!include "MUI2.nsh"
 	
 RequestExecutionLevel none
 
@@ -12,15 +11,7 @@ LicenseData ..\LICENSE
 
 Name "SEO Macroscope ${VERSION}"
 
-#InstallDir "$DESKTOP\QA"
 InstallDir "$PROGRAMFILES64"
-
-# ICONS AND SPLASH SCREENS --------------------------------------------------- #
-
-#!define MUI_ICON "..\BlenderProjects\MacroscopeIcon-64x64.ico"
-#!define MUI_HEADERIMAGE
-#!define MUI_HEADERIMAGE_BITMAP "path\to\InstallerLogo.bmp"
-#!define MUI_HEADERIMAGE_RIGHT
 
 # VARIABLES ------------------------------------------------------------------ #
 
@@ -56,8 +47,6 @@ Section
 	###	END: SET VARIABLES
 
 	SetOutPath "$INSTDIR\$SEOMacroscopeDir"
-
-	#File ..\bin\Release\*.*
 
 	File ..\bin\Release\LICENSE
 	File ..\bin\Release\README.md
