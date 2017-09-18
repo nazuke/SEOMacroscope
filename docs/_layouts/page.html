@@ -11,7 +11,13 @@ layout: default
     </header>
 
     <div class="post-content">
+
       {{ content }}
+
+      {% if site.disqus.shortname %}
+  			{% include disqus_comments.html %}
+	  	{% endif %}
+
     </div>
 
   </article>
