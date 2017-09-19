@@ -243,16 +243,17 @@ namespace SEOMacroscope
       HREFLANG = 7,
       AHREF = 8,
       META = 9,
-      IFRAME = 10,
-      MAP = 11,
-      IMAGE = 12,
-      SCRIPT = 13,
-      AUDIO = 14,
-      VIDEO = 15,
-      EMBED = 16,
-      OBJECT = 17,
-      ALTERNATE = 18,
-      PDF = 19
+      FRAME = 10,
+      IFRAME = 11,
+      MAP = 12,
+      IMAGE = 13,
+      SCRIPT = 14,
+      AUDIO = 15,
+      VIDEO = 16,
+      EMBED = 17,
+      OBJECT = 18,
+      ALTERNATE = 19,
+      PDF = 20
     }
 
     /** END: Outlink Types ****************************************************/
@@ -324,13 +325,16 @@ namespace SEOMacroscope
       MUSTNOTHAVE = 2
     }
 
-    public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () { {
+    public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () {
+      {
         MacroscopeConstants.Contains.UNDEFINED,
         "UNDEFINED"
-      }, {
+      },
+      {
         MacroscopeConstants.Contains.MUSTHAVE,
         "MUST HAVE STRING"
-      }, {
+      },
+      {
         MacroscopeConstants.Contains.MUSTNOTHAVE,
         "MUST NOT HAVE STRING"
       }
@@ -345,19 +349,24 @@ namespace SEOMacroscope
       SHOULDNOTCONTAIN = 4
     }
 
-    public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () { {
+    public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () {
+      {
         MacroscopeConstants.TextPresence.UNDEFINED,
         @"UNDEFINED"
-      }, {
+      },
+      {
         MacroscopeConstants.TextPresence.CONTAINS,
         @"CONTAINS STRING"
-      }, {
+      },
+      {
         MacroscopeConstants.TextPresence.MUSTCONTAIN,
         @"MUST CONTAIN STRING"
-      }, {
+      },
+      {
         MacroscopeConstants.TextPresence.NOTCONTAINS,
         @"DOES NOT CONTAIN STRING"
-      }, {
+      },
+      {
         MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN,
         @"SHOULD NOT CONTAIN STRING"
       }
