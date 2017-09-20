@@ -96,15 +96,18 @@ namespace SEOMacroscope
         
     private string _UserAgent ()
     {
+
       #if (DEBUG)
-      const string MyUserAgent = "BOT";
+      const string MyUserAgent = "SEO Macroscope / DEVELOPER MODE";
       #else
       string Location = Assembly.GetExecutingAssembly().Location;
       string Name = FileVersionInfo.GetVersionInfo( Location ).ProductName;
       string Version = FileVersionInfo.GetVersionInfo( Location ).ProductVersion;
       string MyUserAgent = string.Format( "{0}/{1}", Name, Version );
       #endif
+
       return( MyUserAgent );
+
     }
 
     /** Text Digest ***********************************************************/
