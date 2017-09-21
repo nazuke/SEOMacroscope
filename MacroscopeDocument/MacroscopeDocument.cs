@@ -590,7 +590,7 @@ namespace SEOMacroscope
 
       string HostAndPort = this.Hostname;
 
-      if( this.Port > 0 )
+      if( ( this.Port > 0 ) && ( this.Port != 80 ) )
       {
         HostAndPort = string.Join( ":", this.Hostname, this.Port.ToString() );
       }
@@ -814,12 +814,12 @@ namespace SEOMacroscope
       return( this.RawHttpRequestHeaders );
     }
 
-    public string GetHttpStatusLineAsText ()
+    public string GetHttpResponseStatusLineAsText ()
     {
       return( this.RawHttpStatusLine );
     }
 
-    public string GetHttpHeadersAsText ()
+    public string GetHttpResponseHeadersAsText ()
     {
       return( this.RawHttpHeaders );
     }
@@ -2564,7 +2564,7 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "StatusCode: {0}", res.StatusCode ) );
               
         this.SetErrorCondition( res.StatusDescription );
-
+        
         foreach( string HttpHeaderKey in res.Headers )
         {
           DebugMsg( string.Format( "RES HEADERS: {0} => {1}", HttpHeaderKey, res.GetResponseHeader( HttpHeaderKey ) ) );
@@ -2625,6 +2625,10 @@ namespace SEOMacroscope
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
       
+      this.PostProcessRequestHttpHeaders( req: req );
+
+      this.PostProcessRequestHttpHeaders( req: req );
+            
     }
 
     /**************************************************************************/
@@ -2735,17 +2739,36 @@ namespace SEOMacroscope
       req.UserAgent = this.UserAgent();
 
       req.Accept = "*/*";
-      
+
       req.Headers.Add( "Accept-Charset", "utf-8, us-ascii" );
 
       req.Headers.Add( "Accept-Encoding", "gzip, deflate" );
 
       req.Headers.Add( "Accept-Language", "*" );
-
-      this.RawHttpRequestHeaders = req.Headers.ToString();
+      
+      this.PostProcessRequestHttpHeaders( req: req );
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    private void PostProcessRequestHttpHeaders ( HttpWebRequest req )
+    {
+
+      string Headers = "";
+      
+      foreach( string Key in req.Headers.AllKeys )
+      {
+        Headers = string.Concat( Headers, Key, ": ", req.Headers[ Key ], "\r\n" );
+      }
+
+      Headers = string.Concat( Headers, "\r\n" );
+              
+      this.RawHttpRequestHeaders = Headers;
+
+    }
+
+    
     /** -------------------------------------------------------------------- **/
     
     private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )

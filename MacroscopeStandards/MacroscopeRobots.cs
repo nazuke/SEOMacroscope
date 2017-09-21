@@ -349,6 +349,8 @@ namespace SEOMacroscope
         
         MacroscopePreferencesManager.EnableHttpProxy( req );
 				
+        this.PrepareRequestHttpHeaders( RobotsUri: RobotsUri, req: req );
+        
         res = ( HttpWebResponse )req.GetResponse();
 
         Proceed = true;
@@ -424,8 +426,40 @@ namespace SEOMacroscope
       
     }
 
-    /**************************************************************************/
+    /** HTTP Headers **********************************************************/
 
+    // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+    
+    private void PrepareRequestHttpHeaders ( Uri RobotsUri, HttpWebRequest req )
+    {
+
+      string HostAndPort = RobotsUri.Host;
+
+      if( RobotsUri.Port > 0 )
+      {
+        HostAndPort = string.Join( ":", RobotsUri.Host, RobotsUri.Port.ToString() );
+      }
+
+      req.Host = HostAndPort;
+
+      req.UserAgent = this.UserAgent();
+
+      req.Accept = "*/*";
+      
+      //req.Headers.Add( "Host", HostAndPort );
+      
+      req.Headers.Add( "Accept-Charset", "utf-8, us-ascii" );
+
+      req.Headers.Add( "Accept-Encoding", "gzip, deflate" );
+
+      req.Headers.Add( "Accept-Language", "*" );
+
+      return;
+      
+    }
+
+    /**************************************************************************/
+    
   }
 
 }

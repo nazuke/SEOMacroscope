@@ -442,6 +442,8 @@ namespace SEOMacroscope
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
 
+      this.PostProcessRequestHttpHeaders( req: req );
+            
     }
 
     /**************************************************************************/

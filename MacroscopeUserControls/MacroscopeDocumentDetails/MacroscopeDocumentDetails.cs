@@ -361,8 +361,8 @@ namespace SEOMacroscope
       
       this.textBoxHttpResponseHeaders.Text = string.Join(
         "",
-        msDoc.GetHttpStatusLineAsText(),
-        msDoc.GetHttpHeadersAsText()
+        msDoc.GetHttpResponseStatusLineAsText(),
+        msDoc.GetHttpResponseHeadersAsText()
       );
 
     }
