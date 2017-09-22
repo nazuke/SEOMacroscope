@@ -34,7 +34,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeDocument : Macroscope
+  public class TestMacroscopeDocument : Macroscope, IMacroscopeTaskController
   {
 
     /**************************************************************************/
@@ -118,18 +118,25 @@ namespace SEOMacroscope
     
       MacroscopePreferencesManager.SetDetectLanguage( Enabled: true );
       MacroscopePreferencesManager.SetRequestTimeout( Seconds: 10 );
-                
+
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
+                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+                                        TaskController: this
+                                      );
+
+      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
+     
       for( int i = 0 ; i < 10 ; i++ )
       {
         
         foreach( string Url in UrlList )
         {
 
-          MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
-        
+          MacroscopeDocument msDoc = DocCollection.CreateDocument( Url: Url );
+
           Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
-          Assert.IsTrue( msDoc.Execute(), string.Format( "FAIL: {0}", "Execute()" ) );
+          //       Assert.IsTrue( msDoc.Execute(), string.Format( "FAIL: {0}", "Execute()" ) );
 
           Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
@@ -181,6 +188,22 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    public void ICallbackScanComplete ()
+    {
+    }
+
+    public MacroscopeCredentialsHttp IGetCredentialsHttp ()
+    {
+      MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp ();
+      return( CredentialsHttp );
+    }
+
+    public void ICallbackOutOfMemory ()
+    {
     }
 
     /**************************************************************************/
