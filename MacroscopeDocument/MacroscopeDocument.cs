@@ -81,8 +81,8 @@ namespace SEOMacroscope
     private MacroscopeCredential AuthenticationCredential;
 
     private string RawHttpRequestHeaders;
-    private string RawHttpStatusLine;
-    private string RawHttpHeaders;
+    private string RawHttpResponseStatusLine;
+    private string RawHttpResponseHeaders;
 
     private Boolean HypertextStrictTransportPolicy;
     private Boolean IsSecureUrl;
@@ -113,6 +113,12 @@ namespace SEOMacroscope
 
     private string Canonical;
     private Dictionary<string,MacroscopeHrefLang> HrefLang;
+    
+    private string LinkShortLink;
+    private string LinkFirst;
+    private string LinkPrev;
+    private string LinkNext;
+    private string LinkLast;
 
     private Dictionary<string,string> MetaHeaders;
     
@@ -231,7 +237,7 @@ namespace SEOMacroscope
     private void InitializeDocument ( string Url )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       DocCollection = null;
       
@@ -254,8 +260,8 @@ namespace SEOMacroscope
       this.UrlRedirectTo = "";
 
       this.RawHttpRequestHeaders = "";
-      this.RawHttpStatusLine = "";
-      this.RawHttpHeaders = "";
+      this.RawHttpResponseStatusLine = "";
+      this.RawHttpResponseHeaders = "";
 
       this.ServerName = "";
       this.ServerAddresses = new List<IPAddress> ( 1 );
@@ -301,6 +307,12 @@ namespace SEOMacroscope
       this.Canonical = "";
       this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
 
+      this.LinkShortLink = "";
+      this.LinkFirst = "";
+      this.LinkPrev = "";
+      this.LinkNext = "";
+      this.LinkLast = "";
+    
       this.MetaHeaders = new Dictionary<string,string> ( 8 );
       
       this.ProcessInlinks = false;
@@ -378,7 +390,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeDocumentException ex )
         {
-          DebugMsg( string.Format( "GetTimeDurationDelegate: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "GetTimeDurationDelegate: {0}", ex.Message ) );
         }
 
         DelegateStopWatch.Stop();
@@ -394,7 +406,7 @@ namespace SEOMacroscope
           this.Duration = 0;
         }
 
-        DebugMsg( string.Format( "DURATION: {0} :: {1}", FinalDuration, this.Duration ) );
+        this.DebugMsg( string.Format( "DURATION: {0} :: {1}", FinalDuration, this.Duration ) );
 
       };
 
@@ -814,14 +826,36 @@ namespace SEOMacroscope
       return( this.RawHttpRequestHeaders );
     }
 
+    /** -------------------------------------------------------------------- **/    
+
+    public void SetHttpResponseStatusLine ( HttpWebResponse res )
+    {
+
+      this.RawHttpResponseStatusLine = string.Join(
+        " ",
+        string.Join( "/", "HTTP", res.ProtocolVersion ),
+        ( ( int )res.StatusCode ).ToString(),
+        res.StatusDescription,
+        Environment.NewLine
+      );
+
+    }
+
     public string GetHttpResponseStatusLineAsText ()
     {
-      return( this.RawHttpStatusLine );
+      return( this.RawHttpResponseStatusLine );
+    }
+
+    /** -------------------------------------------------------------------- **/    
+
+    public void SetHttpResponseHeaders ( HttpWebResponse res )
+    {
+      this.RawHttpResponseHeaders = res.Headers.ToString();
     }
 
     public string GetHttpResponseHeadersAsText ()
     {
-      return( this.RawHttpHeaders );
+      return( this.RawHttpResponseHeaders );
     }
 
     /**************************************************************************/
@@ -1169,14 +1203,78 @@ namespace SEOMacroscope
 
     /** Canonical *************************************************************/
 
+    public void SetCanonical ( string Url )
+    {
+      this.Canonical = Url;
+    }
+
     public string GetCanonical ()
     {
       return( this.Canonical );
     }
 
-    public void SetCanonical ( string NewCanonical )
+    /** HTTP Link Header URLs *************************************************/
+
+    // https://webmasters.googleblog.com/2011/09/pagination-with-relnext-and-relprev.html
+
+    /** -------------------------------------------------------------------- **/       
+
+    public void SetLinkShortLink ( string Url )
     {
-      this.Canonical = NewCanonical;
+      this.LinkShortLink = Url;
+    }
+
+    public string GetLinkShortLink ()
+    {
+      return( this.LinkShortLink );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void SetLinkFirst ( string Url )
+    {
+      this.LinkFirst = Url;
+    }
+
+    public string GetLinkFirst ()
+    {
+      return( this.LinkFirst );
+    }
+    
+    /** -------------------------------------------------------------------- **/
+
+    public void SetLinkPrev ( string Url )
+    {
+      this.LinkPrev = Url;
+    }
+
+    public string GetLinkPrev ()
+    {
+      return( this.LinkPrev );
+    }
+    
+    /** -------------------------------------------------------------------- **/    
+
+    public void SetLinkNext ( string Url )
+    {
+      this.LinkNext = Url;
+    }
+
+    public string GetLinkNext ()
+    {
+      return( this.LinkNext );
+    }
+    
+    /** -------------------------------------------------------------------- **/    
+
+    public void SetLinkLast ( string Url )
+    {
+      this.LinkLast = Url;
+    }
+
+    public string GetLinkLast ()
+    {
+      return( this.LinkLast );
     }
 
     /** Dates *****************************************************************/
@@ -1251,6 +1349,8 @@ namespace SEOMacroscope
       return( this.Outlinks );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public IEnumerable<MacroscopeLink> IterateOutlinks ()
     {
       lock( this.Outlinks )
@@ -1262,11 +1362,15 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public int CountOutlinks ()
     {
       int iCount = this.Outlinks.Count();
       return( iCount );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private MacroscopeLink AddDocumentOutlink (
       string AbsoluteUrl,
@@ -1809,7 +1913,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "SetWordCount: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "SetWordCount: {0}", ex.Message ) );
       }
 
     }
@@ -2129,11 +2233,11 @@ namespace SEOMacroscope
       }
       catch( KeyNotFoundException ex )
       {
-        DebugMsg( string.Format( "GetCustomFilteredItem: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "GetCustomFilteredItem: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "GetCustomFilteredItem: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "GetCustomFilteredItem: {0}", ex.Message ) );
       }
 
       return( Pair );
@@ -2284,7 +2388,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
       }
 
       fTimeDuration( this.ExecuteHeadRequest );
@@ -2301,7 +2405,7 @@ namespace SEOMacroscope
 
       if( this.GetIsRedirect() )
       {
-        DebugMsg( string.Format( "REDIRECT DETECTED: {0}", this.DocUrl ) );
+        this.DebugMsg( string.Format( "REDIRECT DETECTED: {0}", this.DocUrl ) );
         return( true );
       }
 
@@ -2331,7 +2435,7 @@ namespace SEOMacroscope
         if( this.GetIsHtml() )
         {
           
-          DebugMsg( string.Format( "IS HTML PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS HTML PAGE: {0}", this.DocUrl ) );
           
           fTimeDuration( this.ProcessHtmlPage );
 
@@ -2340,7 +2444,7 @@ namespace SEOMacroscope
         if( this.GetIsCss() )
         {
           
-          DebugMsg( string.Format( "IS CSS PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS CSS PAGE: {0}", this.DocUrl ) );
           
           if( MacroscopePreferencesManager.GetProcessStylesheets() )
           {
@@ -2352,7 +2456,7 @@ namespace SEOMacroscope
         if( this.GetIsImage() )
         {
           
-          DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.DocUrl ) );
           
           if( MacroscopePreferencesManager.GetProcessImages() )
           {
@@ -2364,7 +2468,7 @@ namespace SEOMacroscope
         if( this.GetIsJavascript() )
         {
           
-          DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.DocUrl ) );
           
           if( MacroscopePreferencesManager.GetProcessJavascripts() )
           {
@@ -2376,7 +2480,7 @@ namespace SEOMacroscope
         if( this.GetIsPdf() )
         {
           
-          DebugMsg( string.Format( "IS PDF PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS PDF PAGE: {0}", this.DocUrl ) );
           
           if( MacroscopePreferencesManager.GetProcessPdfs() )
           {
@@ -2388,7 +2492,7 @@ namespace SEOMacroscope
         if( this.GetIsXml() )
         {
           
-          DebugMsg( string.Format( "IS XML PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS XML PAGE: {0}", this.DocUrl ) );
           
           if( MacroscopePreferencesManager.GetProcessXml() )
           {
@@ -2400,7 +2504,7 @@ namespace SEOMacroscope
         if( this.GetIsText() )
         {
           
-          DebugMsg( string.Format( "IS TEXT PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS TEXT PAGE: {0}", this.DocUrl ) );
 
           fTimeDuration( this.ProcessTextPage );
 
@@ -2409,7 +2513,7 @@ namespace SEOMacroscope
         if( this.GetIsAudio() )
         {
           
-          DebugMsg( string.Format( "IS AUDIO PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS AUDIO PAGE: {0}", this.DocUrl ) );
           
           if( MacroscopePreferencesManager.GetProcessAudio() )
           {
@@ -2421,7 +2525,7 @@ namespace SEOMacroscope
         if( this.GetIsVideo() )
         {
           
-          DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.DocUrl ) );
           
           if( MacroscopePreferencesManager.GetProcessVideo() )
           {
@@ -2432,7 +2536,7 @@ namespace SEOMacroscope
         else
         if( this.GetIsBinary() )
         {
-          DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.DocUrl ) );
           if( MacroscopePreferencesManager.GetProcessBinaries() )
           {
             fTimeDuration( this.ProcessBinaryPage );
@@ -2441,20 +2545,20 @@ namespace SEOMacroscope
         }
         else
         {
-          DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.DocUrl ) );
+          this.DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.DocUrl ) );
         }
 
       }
       else
       {
 
-        DebugMsg( string.Format( "SKIPPING DOWNLOAD:: {0}", this.DocUrl ) );
+        this.DebugMsg( string.Format( "SKIPPING DOWNLOAD:: {0}", this.DocUrl ) );
 
         this.SetIsSkipped();
 
         this.CrawledDate = DateTime.UtcNow;
 
-        DebugMsg( string.Format( "IS SKIPPED PAGE: {0}", this.DocUrl ) );
+        this.DebugMsg( string.Format( "IS SKIPPED PAGE: {0}", this.DocUrl ) );
           
         fTimeDuration( this.ProcessSkippedPage );
 
@@ -2527,8 +2631,8 @@ namespace SEOMacroscope
         req.KeepAlive = false;
         req.AllowAutoRedirect = false;
         req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-        
-        this.PrepareRequestHttpHeaders( req: req );
+
+        this.PrepareRequestHttpHeaders( Request: req );
 
         IsAuthenticating = this.AuthenticateRequest( req );
                             
@@ -2541,33 +2645,33 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "ExecuteHeadRequest :: UriFormatException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "ExecuteHeadRequest :: UriFormatException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
       }
       catch( TimeoutException ex )
       {
-        DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
       }
       catch( WebException ex )
       {
-        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
         res = ( HttpWebResponse )ex.Response;
         ResponseErrorCondition = ex.Status.ToString();
       }
 
-      DebugMsg( string.Format( "ResponseErrorCondition: {0}", ResponseErrorCondition ) );
+      this.DebugMsg( string.Format( "ResponseErrorCondition: {0}", ResponseErrorCondition ) );
 
       if( res != null )
       {
 
-        DebugMsg( string.Format( "StatusCode: {0}", res.StatusCode ) );
+        this.DebugMsg( string.Format( "StatusCode: {0}", res.StatusCode ) );
               
         this.SetErrorCondition( res.StatusDescription );
         
         foreach( string HttpHeaderKey in res.Headers )
         {
-          DebugMsg( string.Format( "RES HEADERS: {0} => {1}", HttpHeaderKey, res.GetResponseHeader( HttpHeaderKey ) ) );
+          this.DebugMsg( string.Format( "RES HEADERS: {0} => {1}", HttpHeaderKey, res.GetResponseHeader( HttpHeaderKey ) ) );
         }
 
         this.ProcessResponseHttpHeaders( req, res );
@@ -2625,10 +2729,8 @@ namespace SEOMacroscope
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
       
-      this.PostProcessRequestHttpHeaders( req: req );
+      this.PostProcessRequestHttpHeaders( Request: req );
 
-      this.PostProcessRequestHttpHeaders( req: req );
-            
     }
 
     /**************************************************************************/
@@ -2682,7 +2784,8 @@ namespace SEOMacroscope
 
       if( this.GetAuthenticationCredential() != null )
       {
-        DebugMsg( string.Format( "VerifyCredential: {0}", this.GetStatusCode() ) );
+
+        this.DebugMsg( string.Format( "VerifyCredential: {0}", this.GetStatusCode() ) );
         
         if( this.GetStatusCode() == HttpStatusCode.Unauthorized )
         {
@@ -2731,35 +2834,46 @@ namespace SEOMacroscope
 
     // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
     
-    private void PrepareRequestHttpHeaders ( HttpWebRequest req )
+    private void PrepareRequestHttpHeaders ( HttpWebRequest Request )
     {
 
-      req.Host = this.GetHostAndPort();
+      Request.Host = this.GetHostAndPort();
 
-      req.UserAgent = this.UserAgent();
+      Request.UserAgent = this.UserAgent();
 
-      req.Accept = "*/*";
+      Request.Accept = "*/*";
 
-      req.Headers.Add( "Accept-Charset", "utf-8, us-ascii" );
+      Request.CookieContainer = this.DocCollection.GetJobMaster().GetCookieJar();
+              
+      Request.Headers.Add( "Accept-Charset", "utf-8, us-ascii" );
 
-      req.Headers.Add( "Accept-Encoding", "gzip, deflate" );
+      Request.Headers.Add( "Accept-Encoding", "gzip, deflate" );
 
-      req.Headers.Add( "Accept-Language", "*" );
+      Request.Headers.Add( "Accept-Language", "*" );
       
-      this.PostProcessRequestHttpHeaders( req: req );
+      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DNT
+      Request.Headers.Add( "DNT", "1" );
+      
+      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Upgrade-Insecure-Requests
+      Request.Headers.Add( "Upgrade-Insecure-Requests", "1" );
+
+      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+      Request.Headers.Add( "Cache-Control", "max-age=0" );
+
+      this.PostProcessRequestHttpHeaders( Request: Request );
 
     }
 
     /** -------------------------------------------------------------------- **/
 
-    private void PostProcessRequestHttpHeaders ( HttpWebRequest req )
+    private void PostProcessRequestHttpHeaders ( HttpWebRequest Request )
     {
 
       string Headers = "";
       
-      foreach( string Key in req.Headers.AllKeys )
+      foreach( string Key in Request.Headers.AllKeys )
       {
-        Headers = string.Concat( Headers, Key, ": ", req.Headers[ Key ], "\r\n" );
+        Headers = string.Concat( Headers, Key, ": ", Request.Headers[ Key ], "\r\n" );
       }
 
       Headers = string.Concat( Headers, "\r\n" );
@@ -2861,7 +2975,7 @@ namespace SEOMacroscope
       }
       catch( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
       }
 
       if( IsRedirectUrl )
@@ -2870,14 +2984,10 @@ namespace SEOMacroscope
       }
 
       // Raw HTTP Headers
-      this.RawHttpStatusLine = string.Join(
-        " ",
-        string.Join( "/", "HTTP", res.ProtocolVersion ),
-        ( ( int )res.StatusCode ).ToString(),
-        res.StatusDescription,
-        Environment.NewLine
-      );
-      this.RawHttpHeaders = res.Headers.ToString();
+
+      this.SetHttpResponseStatusLine( res: res );
+
+      this.SetHttpResponseHeaders( res: res );
 
       // Common HTTP Headers
       {
@@ -2910,7 +3020,7 @@ namespace SEOMacroscope
       foreach( string HttpHeaderName in res.Headers )
       {
 
-        //DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", HttpHeaderName, res.GetResponseHeader( sHeader ) ) );
+        //this.DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", HttpHeaderName, res.GetResponseHeader( sHeader ) ) );
 
         if( HttpHeaderName.ToLower().Equals( "www-authenticate" ) )
         {
@@ -2923,7 +3033,7 @@ namespace SEOMacroscope
 
           MatchCollection matches = Regex.Matches( NewAuthenticationValue, "^\\s*(Basic)\\s+realm=\"([^\"]+)\"", RegexOptions.IgnoreCase );
 
-          DebugMsg( string.Format( "www-authenticate: \"{0}\"", NewAuthenticationValue ) );
+          this.DebugMsg( string.Format( "www-authenticate: \"{0}\"", NewAuthenticationValue ) );
 
           foreach( Match match in matches )
           {
@@ -2931,7 +3041,7 @@ namespace SEOMacroscope
             NewAuthenticationRealm = match.Groups[ 2 ].Value;
           }
 
-          DebugMsg( string.Format( "www-authenticate: \"{0}\" :: \"{1}\"", NewAuthenticationType, NewAuthenticationRealm ) );
+          this.DebugMsg( string.Format( "www-authenticate: \"{0}\" :: \"{1}\"", NewAuthenticationType, NewAuthenticationRealm ) );
 
           if( NewAuthenticationType.ToLower() == "basic" )
           {
@@ -3000,32 +3110,10 @@ namespace SEOMacroscope
           // TODO: implement includeSubDomains
         }
 
-        // Canonical HTTP Header
-        // Link: <http://www.example.com/downloads/white-paper.pdf>; rel="canonical"
+        // Link HTTP Headers
         if( HttpHeaderName.ToLower().Equals( "link" ) )
         {
-
-          string Url = null;
-          string Rel = null;
-          string Raw = res.GetResponseHeader( HttpHeaderName );
-
-          MatchCollection matches = Regex.Matches( Raw, "<([^<>]+)>\\s*;\\srel=\"([^\"]+)\"" );
-
-          foreach( Match match in matches )
-          {
-            Url = match.Groups[ 1 ].Value;
-            Rel = match.Groups[ 2 ].Value;
-          }
-
-          if( ( Rel != null ) && ( Rel.ToLower() == "canonical" ) )
-          {
-
-            if( ( Url != null ) && ( Url.Length > 0 ) )
-            {
-              this.SetCanonical( Url );
-            }
-          }
-
+          this.ProcessHttpLinkHeader( HttpLinkHeader: res.GetResponseHeader( HttpHeaderName ) );          
         }
 
         // Probe Character Set
@@ -3133,6 +3221,96 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private void ProcessHttpLinkHeader ( string HttpLinkHeader )
+    {
+
+      // https://webmasters.googleblog.com/2011/09/pagination-with-relnext-and-relprev.html
+
+      // Link: <http://www.example.com/downloads/white-paper.pdf>; rel="canonical"
+
+      string [] HttpLinkHeaderItems = Regex.Split( HttpLinkHeader, @",\s*" );
+
+      for( int i = 0 ; i < HttpLinkHeaderItems.Length ; i++ )
+      {
+
+        string Url = null;
+        string Rel = null;
+        MatchCollection matches;
+
+        matches = Regex.Matches( HttpLinkHeader, "<([^<>]+)>\\s*;\\srel=\"([^\"]+)\"" );
+
+        foreach( Match match in matches )
+        {
+          Url = match.Groups[ 1 ].Value;
+          Rel = match.Groups[ 2 ].Value;
+        }
+
+        if(
+          ( !string.IsNullOrEmpty( Rel ) )
+          && ( !string.IsNullOrEmpty( Url ) ) )
+        {
+
+          string LinkUrl = null;
+          string LinkUrlAbs = null;
+          MacroscopeConstants.InOutLinkType LinkType = MacroscopeConstants.InOutLinkType.RELATED;
+                
+          switch( Rel.ToLower() )
+          {
+            case @"canonical":
+              this.SetCanonical( Url: Url );
+              break;
+            case @"shortlink":
+              this.SetLinkShortLink( Url: Url );
+              break;
+            case @"first":
+              this.SetLinkFirst( Url: Url );
+              break;
+            case @"prev":
+              this.SetLinkPrev( Url: Url );
+              break;
+            case @"next":
+              this.SetLinkNext( Url: Url );
+              break;
+            case @"last":
+              this.SetLinkLast( Url: Url );
+              break;
+            default:
+              this.DebugMsgForced( string.Format( "Link Rel: {0} :: {1}", Rel, Url ) );
+              break;
+          }
+
+          LinkUrl = Uri.UnescapeDataString( stringToUnescape: Url );
+
+          if( !string.IsNullOrEmpty( LinkUrlAbs ) )
+          {
+
+            LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute(
+              BaseHref: this.GetBaseHref(),
+              BaseUrl: this.DocUrl,
+              Url: LinkUrl
+            );
+            
+            if( !string.IsNullOrEmpty( LinkUrlAbs ) )
+            {
+              this.AddDocumentOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: LinkType,
+                Follow: true 
+              );
+            }
+
+          }
+
+        }
+
+      }
+
+      return;
+        
+    }
+
+    /**************************************************************************/
+
     private void ProcessUrlElements ()
     {
 
@@ -3144,11 +3322,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
       }
 
       if( DocumentUri != null )

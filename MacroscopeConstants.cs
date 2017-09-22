@@ -253,7 +253,8 @@ namespace SEOMacroscope
       EMBED = 17,
       OBJECT = 18,
       ALTERNATE = 19,
-      PDF = 20
+      RELATED = 20,
+      PDF = 21
     }
 
     /** END: Outlink Types ****************************************************/

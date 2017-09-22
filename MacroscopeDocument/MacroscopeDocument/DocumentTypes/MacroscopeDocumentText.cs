@@ -57,7 +57,7 @@ namespace SEOMacroscope
         req.KeepAlive = false;
         req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
                 
-        this.PrepareRequestHttpHeaders( req: req );
+        this.PrepareRequestHttpHeaders( Request: req );
 
         IsAuthenticating = this.AuthenticateRequest( req );
                                       
@@ -220,7 +220,7 @@ namespace SEOMacroscope
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
 
-      this.PostProcessRequestHttpHeaders( req: req );
+      this.PostProcessRequestHttpHeaders( Request: req );
             
     }
 

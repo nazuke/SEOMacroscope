@@ -88,6 +88,12 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Character Set", this.GetCharacterSet() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Canonical", this.GetCanonical() ) );
+     
+      DetailsList.Add( new KeyValuePair<string,string> ( "Link: Shortlink", this.GetLinkShortLink() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Link: First", this.GetLinkFirst() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Link: Prev", this.GetLinkPrev() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Link: Next", this.GetLinkNext() ) );
+      DetailsList.Add( new KeyValuePair<string,string> ( "Link: Last", this.GetLinkLast() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Redirect", this.GetIsRedirect().ToString() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Redirected From", this.UrlRedirectFrom ) );

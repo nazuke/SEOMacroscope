@@ -56,6 +56,8 @@ namespace SEOMacroscope
     private MacroscopeNamedQueue<MacroscopeJobItem> NamedQueueJobItems;
     private MacroscopeNamedQueue<string> NamedQueue;
 
+    private CookieContainer CookieJar;
+    
     private MacroscopeRobots Robots;
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
@@ -131,6 +133,8 @@ namespace SEOMacroscope
 
       this.NamedQueue = null;
 
+      this.CookieJar = null;
+      
       this.Robots = null;
 
       this.IncludeExcludeUrls = null;
@@ -256,6 +260,8 @@ namespace SEOMacroscope
 
       this.Locales = new Dictionary<string,string> ( 32 );
 
+      this.CookieJar = new CookieContainer ();
+      
       this.Robots = new MacroscopeRobots ();
       this.BlockedByRobots = new Dictionary<string,Boolean> ();
 
@@ -1416,6 +1422,13 @@ namespace SEOMacroscope
           this.Locales[ Locale ] = Locale;
         }
       }
+    }
+
+    /** Cookie Jar ************************************************************/
+
+    public CookieContainer GetCookieJar ()
+    {
+      return( this.CookieJar );
     }
 
     /** Robots ****************************************************************/
