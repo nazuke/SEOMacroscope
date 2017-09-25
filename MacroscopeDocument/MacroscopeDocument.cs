@@ -936,14 +936,20 @@ namespace SEOMacroscope
 
     public Boolean GetIsHtml ()
     {
+
+      Boolean IsHtml = false;
+
       if( this.DocumentType == MacroscopeConstants.DocumentType.HTML )
       {
-        return( true );
+        IsHtml = true;
       }
       else
       {
-        return( false );
+        IsHtml = false;
       }
+
+      return( IsHtml );
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -2420,6 +2426,11 @@ namespace SEOMacroscope
       if( this.DocCollection == null )
       {
         this.SetFetchStatus( Status: MacroscopeConstants.FetchStatus.OK );
+      }
+      else
+      if( this.GetFetchStatus() == MacroscopeConstants.FetchStatus.VOID )
+      {
+        DoDownloadDocument = true;
       }
       else
       if( this.GetFetchStatus() != MacroscopeConstants.FetchStatus.OK )

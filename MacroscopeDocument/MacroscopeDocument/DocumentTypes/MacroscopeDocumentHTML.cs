@@ -56,8 +56,6 @@ namespace SEOMacroscope
         req.Timeout = this.Timeout;
         req.KeepAlive = false;
         req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-        
-
 
         this.PrepareRequestHttpHeaders( Request: req );
                 

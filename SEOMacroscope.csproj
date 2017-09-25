@@ -82,6 +82,12 @@
     <Reference Include="HtmlAgilityPack.CssSelectors">
       <HintPath>packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.CssSelectors.dll</HintPath>
     </Reference>
+    <Reference Include="HttpTwo">
+      <HintPath>packages\HttpTwo.0.0.1.19\lib\net45\HttpTwo.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpTwo.HPack">
+      <HintPath>packages\HttpTwo.0.0.1.19\lib\net45\HttpTwo.HPack.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp">
       <HintPath>packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
     </Reference>
@@ -223,6 +229,7 @@
     <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\MacroscopeExcelExportListViewReport.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\Worksheet.cs" />
     <Compile Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelReports.cs" />
+    <Compile Include="MacroscopeStandards\HTTP2\t\TestMacroscopeHttpTwo.cs" />
     <Compile Include="MacroscopeTasks\MacroscopeJobItem.cs" />
     <Compile Include="MacroscopeTools\MacroscopeDateTools.cs" />
     <Compile Include="MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.cs" />
@@ -732,6 +739,8 @@
     <Folder Include="MacroscopeReports\MacroscopeCsvReports" />
     <Folder Include="MacroscopeReports\MacroscopeExcelReports" />
     <Folder Include="MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport" />
+    <Folder Include="MacroscopeStandards\HTTP2" />
+    <Folder Include="MacroscopeStandards\HTTP2\t" />
     <Folder Include="MacroscopeTasks\MacroscopeUrlList" />
     <Folder Include="MacroscopeTasks\MacroscopeIncludeExcludeUrls" />
     <Folder Include="MacroscopeTasks\MacroscopeXpathRestrictions" />

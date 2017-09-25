@@ -83,14 +83,26 @@ namespace SEOMacroscope
     public void TestHtmlDocument ()
     {
 
+      MacroscopeJobMaster JobMaster;
+      MacroscopeDocumentCollection DocCollection;
+
       List<string> UrlList = new List<string> ();
       
       UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
     
+      JobMaster = new MacroscopeJobMaster (
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
+      );
+
+      DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
+
       foreach( string Url in UrlList )
       {
 
-        MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
+        MacroscopeDocument msDoc = DocCollection.CreateDocument( Url: Url );
+
+        //MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
         
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
@@ -112,6 +124,9 @@ namespace SEOMacroscope
     public void TestDetectLanguage ()
     {
 
+      MacroscopeJobMaster JobMaster;
+      MacroscopeDocumentCollection DocCollection;
+      
       List<string> UrlList = new List<string> ();
 
       UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
@@ -119,12 +134,12 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetDetectLanguage( Enabled: true );
       MacroscopePreferencesManager.SetRequestTimeout( Seconds: 10 );
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-                                        TaskController: this
-                                      );
+      JobMaster = new MacroscopeJobMaster (
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
+      );
 
-      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
+      DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
      
       for( int i = 0 ; i < 10 ; i++ )
       {
@@ -136,7 +151,9 @@ namespace SEOMacroscope
 
           Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
-          //       Assert.IsTrue( msDoc.Execute(), string.Format( "FAIL: {0}", "Execute()" ) );
+          Boolean ExecuteResult = msDoc.Execute();
+
+          Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
 
           Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
