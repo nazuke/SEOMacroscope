@@ -157,9 +157,11 @@ namespace SEOMacroscope
 
           Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
-          Assert.IsNotNullOrEmpty( msDoc.GetTitle(), string.Format( "FAIL: {0}", msDoc.GetTitle() ) );
+                    Assert.IsNotNull(msDoc.GetTitle(), string.Format("FAIL: {0}", msDoc.GetTitle()));
 
-          string LanguageTitle = msDoc.GetTitleLanguage();
+                    Assert.IsNotEmpty(msDoc.GetTitle(), string.Format("FAIL: {0}", msDoc.GetTitle()));
+
+                    string LanguageTitle = msDoc.GetTitleLanguage();
           string LanguageDescription = msDoc.GetDescriptionLanguage();
           string LanguageBodyText = msDoc.GetDocumentTextLanguage();
 
