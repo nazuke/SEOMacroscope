@@ -324,6 +324,7 @@ namespace SEOMacroscope
 
     private string FetchRobotTextFile ( Uri RobotsUri )
     {
+
       Boolean Proceed = false;
       HttpWebRequest req = null;
       HttpWebResponse res = null;

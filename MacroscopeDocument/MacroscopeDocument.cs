@@ -2892,8 +2892,7 @@ namespace SEOMacroscope
       this.RawHttpRequestHeaders = Headers;
 
     }
-
-    
+        
     /** -------------------------------------------------------------------- **/
     
     private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )

@@ -35,7 +35,7 @@ namespace SEOMacroscope
   [TestFixture]
   public class TestMacroscopeHttpTwo : Macroscope
   {
-
+    
     /**************************************************************************/
 
     //[Test]
@@ -74,7 +74,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    [Test]
+    //[Test]
     public void TestHttpTwoConnectWinHandler()
     {
 
