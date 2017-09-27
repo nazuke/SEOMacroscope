@@ -800,9 +800,6 @@
     <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanelCharts.resx">
       <DependentUpon>MacroscopeSiteStructurePanelCharts.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LICENSE">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <None Include="MacroscopePreferences.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MacroscopePreferences.Designer.cs</LastGenOutput>
@@ -817,9 +814,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="README.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="version.nsh">
       <DependentUpon>version.tt</DependentUpon>
       <AutoGen>True</AutoGen>

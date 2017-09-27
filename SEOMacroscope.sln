@@ -7,18 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEOMacroscopeSeriesOne", "S
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|64-bit = Debug|64-bit
 		Debug|Any CPU = Debug|Any CPU
-		Release|64-bit = Release|64-bit
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Debug|64-bit.ActiveCfg = Debug|Any CPU
-		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Debug|64-bit.Build.0 = Debug|Any CPU
 		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Release|64-bit.ActiveCfg = Release|Any CPU
-		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Release|64-bit.Build.0 = Release|Any CPU
 		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
