@@ -38,35 +38,28 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Dictionary<string,string> HtmlDocs;
+    private Dictionary<string, string> HtmlDocs;
 
     /**************************************************************************/
-    
+
     public TestMacroscopeStringTools ()
     {
 
       StreamReader Reader;
-      List<string> HtmlDocKeys = new List<string> ( 16 );
+      List<string> DocKeys = new List<string>( 16 );
 
-      this.HtmlDocs = new Dictionary<string,string> ();
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeTools.t.HtmlDocs.StringToolsHtmlDoc001.html" );
 
-      this.HtmlDocs.Add( "StringToolsHtmlDoc001", null );
+      this.HtmlDocs = new Dictionary<string, string>( 16 );
 
-      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      foreach( string Filename in DocKeys )
       {
-        HtmlDocKeys.Add( HtmlDocKey );
-      }
 
-      foreach( string HtmlDocKey in HtmlDocKeys )
-      {
-        
-        Reader = new StreamReader (
-          Assembly.GetExecutingAssembly().GetManifestResourceStream(
-            HtmlDocKey
-          )
+        Reader = new StreamReader(
+          stream: Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
         );
 
-        this.HtmlDocs[ HtmlDocKey ] = Reader.ReadToEnd();
+        this.HtmlDocs.Add( Filename, Reader.ReadToEnd() );
 
         Reader.Close();
 
@@ -77,12 +70,12 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-                
+
     [Test]
     public void TestCleanText ()
     {
 
-      Dictionary<string,string> StringsTable = new Dictionary<string,string> ();
+      Dictionary<string, string> StringsTable = new Dictionary<string, string>();
 
       StringsTable.Add(
         key: "!\"#$%&'()=~|-^\\/,.<>;:@`{}[]*+The quick brown fox jumps over the lazy dog's!\"#$%&'()=~|-^\\/,.<>;:@`{}[]*+",
@@ -93,7 +86,7 @@ namespace SEOMacroscope
         key: "The quick/slow, and the fast-stop and the second-best things we don't know about.",
         value: "The quick/slow and the fast-stop and the second-best things we don't know about"
       );
-      
+
       StringsTable.Add(
         key: "The markets opened at $100.00 today.",
         value: "The markets opened at $100.00 today"
@@ -112,13 +105,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    [Test]
+    //[Test]
     public void TestCleanTextWithHtmlDoc ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string> ();
-      
-      AssetDic.Add( 
+      Dictionary<string, string> AssetDic = new Dictionary<string, string>();
+
+      AssetDic.Add(
         key: "StringToolsHtmlDoc001",
         value: "First Heading"
       );

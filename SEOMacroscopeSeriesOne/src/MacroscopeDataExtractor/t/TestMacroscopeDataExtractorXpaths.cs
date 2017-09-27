@@ -38,39 +38,32 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Dictionary<string,string> HtmlDocs;
+    private Dictionary<string, string> HtmlDocs;
 
     /**************************************************************************/
-    
+
     public TestMacroscopeDataExtractorXpaths ()
     {
 
       StreamReader Reader;
-      List<string> HtmlDocKeys = new List<string> ( 16 );
+      List<string> DocKeys = new List<string>( 16 );
 
-      this.HtmlDocs = new Dictionary<string,string> ();
+      this.HtmlDocs = new Dictionary<string, string>();
 
-      this.HtmlDocs.Add( "HtmlDoc001", null );
-      this.HtmlDocs.Add( "HtmlDoc002", null );
-      this.HtmlDocs.Add( "HtmlDoc003", null );
-      this.HtmlDocs.Add( "HtmlDoc004", null );
-      this.HtmlDocs.Add( "HtmlDoc005", null );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc001.html" );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc002.html" );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc003.html" );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc004.html" );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc005.html" );
 
-      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      foreach( string Filename in DocKeys )
       {
-        HtmlDocKeys.Add( HtmlDocKey );
-      }
 
-      foreach( string HtmlDocKey in HtmlDocKeys )
-      {
-        
-        Reader = new StreamReader (
-          Assembly.GetExecutingAssembly().GetManifestResourceStream(
-            HtmlDocKey
-          )
+        Reader = new StreamReader(
+          Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
         );
 
-        this.HtmlDocs[ HtmlDocKey ] = Reader.ReadToEnd();
+        this.HtmlDocs.Add( Filename, Reader.ReadToEnd() );
 
         Reader.Close();
 
@@ -86,30 +79,15 @@ namespace SEOMacroscope
     public void TestTitlesOuterHtml ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string> () {
-        {
-          "HtmlDoc001",
-          "<title>HtmlDoc001</title>"
-        },
-        {
-          "HtmlDoc002",
-          "<title>HtmlDoc002</title>"
-        },
-        {
-          "HtmlDoc003",
-          "<title>HtmlDoc003</title>"
-        },
-        {
-          "HtmlDoc004",
-          "<title>HtmlDoc004</title>"
-        },
-        {
-          "HtmlDoc005",
-          "<title>HtmlDoc005</title>"
-        }
-      };
+      Dictionary<string, string> AssetDic = new Dictionary<string, string>();
 
-      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc001.html", "<title>HtmlDoc001</title>" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc002.html", "<title>HtmlDoc002</title>" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc003.html", "<title>HtmlDoc003</title>" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc004.html", "<title>HtmlDoc004</title>" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc005.html", "<title>HtmlDoc005</title>" );
+
+      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths( Size: 1 );
 
       DataExtractor.SetXpath(
         Slot: 0,
@@ -122,13 +100,13 @@ namespace SEOMacroscope
         Slot: 0,
         State: MacroscopeConstants.ActiveInactive.ACTIVE
       );
-      
+
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
-           
+
         string Html = this.HtmlDocs[ HtmlDocKey ];
 
-        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
+        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
 
         DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: {1}", HtmlDocKey, ResultList[ 0 ].Value ) );
 
@@ -139,37 +117,22 @@ namespace SEOMacroscope
       }
 
     }
-    
+
     /**************************************************************************/
 
     [Test]
     public void TestTitlesInnerHtml ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string> () {
-        {
-          "HtmlDoc001",
-          "HtmlDoc001"
-        },
-        {
-          "HtmlDoc002",
-          "HtmlDoc002"
-        },
-        {
-          "HtmlDoc003",
-          "HtmlDoc003"
-        },
-        {
-          "HtmlDoc004",
-          "HtmlDoc004"
-        },
-        {
-          "HtmlDoc005",
-          "HtmlDoc005"
-        }
-      };
+      Dictionary<string, string> AssetDic = new Dictionary<string, string>();
 
-      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc001.html", "HtmlDoc001" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc002.html", "HtmlDoc002" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc003.html", "HtmlDoc003" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc004.html", "HtmlDoc004" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc005.html", "HtmlDoc005" );
+
+      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths( Size: 1 );
 
       DataExtractor.SetXpath(
         Slot: 0,
@@ -182,13 +145,13 @@ namespace SEOMacroscope
         Slot: 0,
         State: MacroscopeConstants.ActiveInactive.ACTIVE
       );
-      
+
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
-           
+
         string Html = this.HtmlDocs[ HtmlDocKey ];
 
-        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
+        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
 
         DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: {1}", HtmlDocKey, ResultList[ 0 ].Value ) );
 
@@ -199,37 +162,22 @@ namespace SEOMacroscope
       }
 
     }
-    
+
     /**************************************************************************/
 
     [Test]
     public void TestTitlesInnerText ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string> () {
-        {
-          "HtmlDoc001",
-          "HtmlDoc001"
-        },
-        {
-          "HtmlDoc002",
-          "HtmlDoc002"
-        },
-        {
-          "HtmlDoc003",
-          "HtmlDoc003"
-        },
-        {
-          "HtmlDoc004",
-          "HtmlDoc004"
-        },
-        {
-          "HtmlDoc005",
-          "HtmlDoc005"
-        }
-      };
+      Dictionary<string, string> AssetDic = new Dictionary<string, string>();
 
-      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths ( Size: 1 );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc001.html", "HtmlDoc001" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc002.html", "HtmlDoc002" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc003.html", "HtmlDoc003" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc004.html", "HtmlDoc004" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc005.html", "HtmlDoc005" );
+
+      MacroscopeDataExtractorXpaths DataExtractor = new MacroscopeDataExtractorXpaths( Size: 1 );
 
       DataExtractor.SetXpath(
         Slot: 0,
@@ -242,13 +190,13 @@ namespace SEOMacroscope
         Slot: 0,
         State: MacroscopeConstants.ActiveInactive.ACTIVE
       );
-      
+
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
-           
+
         string Html = this.HtmlDocs[ HtmlDocKey ];
 
-        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
+        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
 
         DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: {1}", HtmlDocKey, ResultList[ 0 ].Value ) );
 
@@ -261,7 +209,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
   }
-	
+
 }

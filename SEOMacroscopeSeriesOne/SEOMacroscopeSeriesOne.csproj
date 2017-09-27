@@ -845,7 +845,9 @@
     <EmbeddedResource Include="src\MacroscopeDocument\t\HtmlDocs\TestHtmlDocument001.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="src\MacroscopeTools\t\HtmlDocs\StringToolsHtmlDoc001.html" />
+    <EmbeddedResource Include="src\MacroscopeTools\t\HtmlDocs\StringToolsHtmlDoc001.html">
+      <CustomToolNamespace>SEOMacroscope</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="version.tt">
@@ -864,6 +866,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MacroscopeIcon-64x64.ico" />

@@ -39,35 +39,28 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Dictionary<string,string> HtmlDocs;
+    private Dictionary<string, string> HtmlDocs;
 
     /**************************************************************************/
-    
+
     public TestMacroscopeDocument ()
     {
 
       StreamReader Reader;
-      List<string> HtmlDocKeys = new List<string> ( 16 );
+      List<string> DocKeys = new List<string>( 16 );
 
-      this.HtmlDocs = new Dictionary<string,string> ();
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDocument.t.HtmlDocs.TestHtmlDocument001.html" );
 
-      this.HtmlDocs.Add( "TestHtmlDocument001", null );
+      this.HtmlDocs = new Dictionary<string, string>();
 
-      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      foreach( string Filename in DocKeys )
       {
-        HtmlDocKeys.Add( HtmlDocKey );
-      }
 
-      foreach( string HtmlDocKey in HtmlDocKeys )
-      {
-        
-        Reader = new StreamReader (
-          Assembly.GetExecutingAssembly().GetManifestResourceStream(
-            HtmlDocKey
-          )
+        Reader = new StreamReader(
+          Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
         );
 
-        this.HtmlDocs[ HtmlDocKey ] = Reader.ReadToEnd();
+        this.HtmlDocs.Add( Filename, Reader.ReadToEnd() );
 
         Reader.Close();
 
@@ -86,16 +79,16 @@ namespace SEOMacroscope
       MacroscopeJobMaster JobMaster;
       MacroscopeDocumentCollection DocCollection;
 
-      List<string> UrlList = new List<string> ();
-      
+      List<string> UrlList = new List<string>();
+
       UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
-    
-      JobMaster = new MacroscopeJobMaster (
+
+      JobMaster = new MacroscopeJobMaster(
         JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
         TaskController: this
       );
 
-      DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
+      DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
 
       foreach( string Url in UrlList )
       {
@@ -103,21 +96,21 @@ namespace SEOMacroscope
         MacroscopeDocument msDoc = DocCollection.CreateDocument( Url: Url );
 
         //MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
-        
+
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
         Boolean ExecuteResult = msDoc.Execute();
-        
+
         Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
-          
+
         Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
-      
+
         Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
       }
 
     }
-    
+
     /**************************************************************************/
 
     [Test]
@@ -126,24 +119,24 @@ namespace SEOMacroscope
 
       MacroscopeJobMaster JobMaster;
       MacroscopeDocumentCollection DocCollection;
-      
-      List<string> UrlList = new List<string> ();
+
+      List<string> UrlList = new List<string>();
 
       UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
-    
+
       MacroscopePreferencesManager.SetDetectLanguage( Enabled: true );
       MacroscopePreferencesManager.SetRequestTimeout( Seconds: 10 );
 
-      JobMaster = new MacroscopeJobMaster (
+      JobMaster = new MacroscopeJobMaster(
         JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
         TaskController: this
       );
 
-      DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
-     
+      DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
+
       for( int i = 0 ; i < 10 ; i++ )
       {
-        
+
         foreach( string Url in UrlList )
         {
 
@@ -157,11 +150,11 @@ namespace SEOMacroscope
 
           Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
 
-                    Assert.IsNotNull(msDoc.GetTitle(), string.Format("FAIL: {0}", msDoc.GetTitle()));
+          Assert.IsNotNull( msDoc.GetTitle(), string.Format( "FAIL: {0}", msDoc.GetTitle() ) );
 
-                    Assert.IsNotEmpty(msDoc.GetTitle(), string.Format("FAIL: {0}", msDoc.GetTitle()));
+          Assert.IsNotEmpty( msDoc.GetTitle(), string.Format( "FAIL: {0}", msDoc.GetTitle() ) );
 
-                    string LanguageTitle = msDoc.GetTitleLanguage();
+          string LanguageTitle = msDoc.GetTitleLanguage();
           string LanguageDescription = msDoc.GetDescriptionLanguage();
           string LanguageBodyText = msDoc.GetDocumentTextLanguage();
 
@@ -172,7 +165,7 @@ namespace SEOMacroscope
           Assert.AreEqual( "en", LanguageBodyText, string.Format( "FAIL: {0} :: {1}", "LanguageBodyText", LanguageBodyText ) );
 
         }
-      
+
       }
 
     }
@@ -183,21 +176,14 @@ namespace SEOMacroscope
     public void TestGetNodeText ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string> ();
-      
-      AssetDic.Add( 
-        key: "TestHtmlDocument001",
-        value: ""
-      );
-
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
-        
-        MacroscopeDocument msDoc = new MacroscopeDocument ( Url: "https://nazuke.github.io/" );
-          
+
+        MacroscopeDocument msDoc = new MacroscopeDocument( Url: "https://nazuke.github.io/" );
+
         string Html = this.HtmlDocs[ HtmlDocKey ];
 
-        HtmlDocument HtmlDoc = new HtmlDocument ();
+        HtmlDocument HtmlDoc = new HtmlDocument();
 
         HtmlDoc.LoadHtml( html: Html );
 
@@ -217,8 +203,8 @@ namespace SEOMacroscope
 
     public MacroscopeCredentialsHttp IGetCredentialsHttp ()
     {
-      MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp ();
-      return( CredentialsHttp );
+      MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp();
+      return ( CredentialsHttp );
     }
 
     public void ICallbackOutOfMemory ()

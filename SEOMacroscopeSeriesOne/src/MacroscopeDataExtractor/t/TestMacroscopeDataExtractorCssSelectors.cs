@@ -38,39 +38,32 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Dictionary<string,string> HtmlDocs;
+    private Dictionary<string, string> HtmlDocs;
 
     /**************************************************************************/
-    
+
     public TestMacroscopeDataExtractorCssSelectors ()
     {
 
       StreamReader Reader;
-      List<string> HtmlDocKeys = new List<string> ( 16 );
+      List<string> DocKeys = new List<string>( 16 );
 
-      this.HtmlDocs = new Dictionary<string,string> ();
+      this.HtmlDocs = new Dictionary<string, string>();
 
-      this.HtmlDocs.Add( "HtmlDoc001", null );
-      this.HtmlDocs.Add( "HtmlDoc002", null );
-      this.HtmlDocs.Add( "HtmlDoc003", null );
-      this.HtmlDocs.Add( "HtmlDoc004", null );
-      this.HtmlDocs.Add( "HtmlDoc005", null );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc001.html" );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc002.html" );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc003.html" );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc004.html" );
+      DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc005.html" );
 
-      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      foreach( string Filename in DocKeys )
       {
-        HtmlDocKeys.Add( HtmlDocKey );
-      }
 
-      foreach( string HtmlDocKey in HtmlDocKeys )
-      {
-        
-        Reader = new StreamReader (
-          Assembly.GetExecutingAssembly().GetManifestResourceStream(
-            HtmlDocKey
-          )
+        Reader = new StreamReader(
+          Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
         );
 
-        this.HtmlDocs[ HtmlDocKey ] = Reader.ReadToEnd();
+        this.HtmlDocs.Add( Filename, Reader.ReadToEnd() );
 
         Reader.Close();
 
@@ -86,30 +79,15 @@ namespace SEOMacroscope
     public void TestHeadingsLevel1 ()
     {
 
-      Dictionary<string,string> AssetDic = new Dictionary<string, string> () {
-        {
-          "HtmlDoc001",
-          "First Heading"
-        },
-        {
-          "HtmlDoc002",
-          "First Heading"
-        },
-        {
-          "HtmlDoc003",
-          "First Heading"
-        },
-        {
-          "HtmlDoc004",
-          "First Heading"
-        },
-        {
-          "HtmlDoc005",
-          "First Heading"
-        }
-      };
+      Dictionary<string, string> AssetDic = new Dictionary<string, string>();
 
-      MacroscopeDataExtractorCssSelectors DataExtractor = new MacroscopeDataExtractorCssSelectors ( Size: 1 );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc001.html", "First Heading" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc002.html", "First Heading" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc003.html", "First Heading" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc004.html", "First Heading" );
+      AssetDic.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc005.html", "First Heading" );
+
+      MacroscopeDataExtractorCssSelectors DataExtractor = new MacroscopeDataExtractorCssSelectors( Size: 1 );
 
       DataExtractor.SetCssSelector(
         Slot: 0,
@@ -125,10 +103,10 @@ namespace SEOMacroscope
 
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
-           
+
         string Html = this.HtmlDocs[ HtmlDocKey ];
 
-        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
+        List<KeyValuePair<string, string>> ResultList = DataExtractor.AnalyzeHtml( Html: Html );
 
         DebugMsg( string.Format( "HtmlDocKey: {0} :: Value: {1}", HtmlDocKey, ResultList[ 0 ].Value ) );
 
@@ -141,7 +119,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-		    
+
   }
-	
+
 }
