@@ -40,11 +40,14 @@ namespace SEOMacroscope
     public async Task TestHttpProtocolProbe ()
     {
 
-      MacroscopeHttpProtocolProbe HttpProtocolProbe = new MacroscopeHttpProtocolProbe();
-      string Url = "https://nazuke.github.io/SEOMacroscope/";
+      MacroscopeHttpProtocolProbe HttpProtocolProbe;
+      MacroscopeHttpProtocolProbe.HttpProtocolVersion HttpProtocolVersion;
+      string Url;
 
-      MacroscopeHttpProtocolProbe.HttpProtocolVersion HttpProtocolVersion = await HttpProtocolProbe.Probe( Url: Url );
+      HttpProtocolProbe = new MacroscopeHttpProtocolProbe();
+      Url = "https://nazuke.github.io/SEOMacroscope/";
 
+      HttpProtocolVersion = await HttpProtocolProbe.Probe( Url: Url );
 
       this.DebugMsg( string.Format( "HttpProtocolVersion: {0}", HttpProtocolVersion ) );
 

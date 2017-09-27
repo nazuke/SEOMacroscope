@@ -64,7 +64,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public async Task<MacroscopeHttpProtocolProbe.HttpProtocolVersion> Probe (
+    public async Task<HttpProtocolVersion> Probe (
       string Url
       )
     {
@@ -74,7 +74,6 @@ namespace SEOMacroscope
 
       if( IsHttpTwo )
       {
-
         HttpProtocolVersionProbed = HttpProtocolVersion.HTTP_TWO;
       }
       else
@@ -105,10 +104,19 @@ namespace SEOMacroscope
     {
 
       Boolean IsHttpTwo = false;
+      Uri DocumentUri;
+      Http2Client Client;
+      NameValueCollection Headers;
 
-      Uri DocumentUri = new Uri( Url );
-      Http2Client Client = new Http2Client( DocumentUri );
-      NameValueCollection Headers = new NameValueCollection();
+      DocumentUri = new Uri( Url );
+      Client = new Http2Client( DocumentUri );
+      Headers = new NameValueCollection();
+
+      Client.ConnectionSettings.ConnectionTimeout = new TimeSpan(
+        hours: 0,
+        minutes: 0,
+        seconds: 5
+        );
 
       //Headers.Add( "User-Agent", this.UserAgent() );
 
@@ -125,7 +133,7 @@ namespace SEOMacroscope
       }
       */
 
-      return( IsHttpTwo );
+      return ( IsHttpTwo );
 
     }
 
