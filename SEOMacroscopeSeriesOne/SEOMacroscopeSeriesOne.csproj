@@ -1,0 +1,886 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4CBF3E3F-9BCA-46F1-A316-836EA580779F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SEOMacroscope</RootNamespace>
+    <AssemblyName>SEOMacroscopeSeriesOne</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DEVMODE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASEMODE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SEOMacroscope.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MacroscopeIcon-64x64.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.89.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.89.0\lib\net452\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ExCSS, Version=2.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExCSS.2.0.6\lib\net451\ExCSS.dll</HintPath>
+    </Reference>
+    <Reference Include="Fastenshtein, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fastenshtein.1.0.0.4\lib\net40-client\Fastenshtein.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack.CssSelectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.CssSelectors.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpTwo, Version=1.0.5858.36836, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HttpTwo.0.0.1.19\lib\net45\HttpTwo.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpTwo.HPack, Version=1.0.5858.36836, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HttpTwo.0.0.1.19\lib\net45\HttpTwo.HPack.dll</HintPath>
+    </Reference>
+    <Reference Include="LanguageDetection, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LanguageDetection.1.2.0\lib\net45\LanguageDetection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotsTxt, Version=1.0.5163.29496, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RobotsTxt.2014.02.19\lib\RobotsTxt.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.4.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WinHttpHandler, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.WinHttpHandler.4.4.0\lib\net461\System.Net.Http.WinHttpHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.1\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Icons.Designer.cs">
+      <DependentUpon>Icons.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Images.Designer.cs">
+      <DependentUpon>Images.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Macroscope.cs" />
+    <Compile Include="MacroscopeConstants.cs" />
+    <Compile Include="MacroscopePreferences.Designer.cs">
+      <DependentUpon>MacroscopePreferences.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="src\MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePageBodyText.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePageDescriptions.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePageTitles.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\Algorithms\MacroscopeAnalyzeReadabilityFleschKincaid.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\Algorithms\MacroscopeAnalyzeReadabilitySmog.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\IMacroscopeAnalyzeReadability.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\MacroscopeAnalyzeReadability.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\t\TestMacroscopeAnalyzeReadabilityFleschKincaid.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\t\TestMacroscopeAnalyzeReadabilitySmog.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeTextLanguage.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeClickPathAnalysis\MacroscopeClickPathAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeHrefLang.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeInsecureLinks.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeAnalyzePageTitles.cs" />
+    <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
+    <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeDeepKeywordAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeLevenshteinAnalysis.cs" />
+    <Compile Include="src\MacroscopeBinaryTreeGeneric\MacroscopeBinaryTreeGeneric.cs" />
+    <Compile Include="src\MacroscopeBinaryTreeGeneric\MacroscopeBinaryTreeGenericNode.cs" />
+    <Compile Include="src\MacroscopeBinaryTreeGeneric\t\TestMacroscopeBinaryTreeGeneric.cs" />
+    <Compile Include="src\MacroscopeCredentials\MacroscopeCredential.cs" />
+    <Compile Include="src\MacroscopeCredentials\MacroscopeCredentialRequest.cs" />
+    <Compile Include="src\MacroscopeCredentials\MacroscopeCredentialsHttp.cs" />
+    <Compile Include="src\MacroscopeCredentials\t\TestMacroscopeCredentialsHttp.cs" />
+    <Compile Include="src\MacroscopeCustomFilters\MacroscopeCustomFilters.cs" />
+    <Compile Include="src\MacroscopeCustomFilters\t\TestMacroscopeCustomFilters.cs" />
+    <Compile Include="src\MacroscopeDataExtractor\MacroscopeDataExtractor.cs" />
+    <Compile Include="src\MacroscopeDataExtractor\MacroscopeDataExtractorCssSelectors.cs" />
+    <Compile Include="src\MacroscopeDataExtractor\MacroscopeDataExtractorExpression.cs" />
+    <Compile Include="src\MacroscopeDataExtractor\MacroscopeDataExtractorRegexes.cs" />
+    <Compile Include="src\MacroscopeDataExtractor\MacroscopeDataExtractorXpaths.cs" />
+    <Compile Include="src\MacroscopeDataExtractor\t\TestMacroscopeDataExtractorCssSelectors.cs" />
+    <Compile Include="src\MacroscopeDataExtractor\t\TestMacroscopeDataExtractorRegexes.cs" />
+    <Compile Include="src\MacroscopeDataExtractor\t\TestMacroscopeDataExtractorXpaths.cs" />
+    <Compile Include="src\MacroscopeDocumentCollection\MacroscopeDocumentChain.cs" />
+    <Compile Include="src\MacroscopeDocumentCollection\MacroscopeDocumentCollection.cs" />
+    <Compile Include="src\MacroscopeDocumentCollection\MacroscopeDocumentList.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentCustomFilters.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentDataExtractors.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentDetails.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentAudio.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentBinary.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentCSS.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentHTML.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentImage.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentJS.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentPDF.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentSkipped.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentText.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentVideo.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\MacroscopeDocumentXml.cs" />
+    <Compile Include="src\MacroscopeDocument\t\TestMacroscopeDocument.cs" />
+    <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesManager.cs" />
+    <Compile Include="src\MacroscopeExceptions\MacroscopeDevelopmentException.cs" />
+    <Compile Include="src\MacroscopeExceptions\MacroscopeDocumentCollectionException.cs" />
+    <Compile Include="src\MacroscopeExceptions\MacroscopeDocumentException.cs" />
+    <Compile Include="src\MacroscopeExceptions\MacroscopeInsufficientMemoryException.cs" />
+    <Compile Include="src\MacroscopeExceptions\MacroscopeNamedQueueException.cs" />
+    <Compile Include="src\MacroscopeExceptions\MacroscopeSaveCsvFileException.cs" />
+    <Compile Include="src\MacroscopeExceptions\MacroscopeSaveExcelFileException.cs" />
+    <Compile Include="src\MacroscopeExceptions\MacroscopeUriFormatException.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.Designer.cs">
+      <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeContextMenus\MacroscopeContextMenus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.Designer.cs">
+      <DependentUpon>MacroscopeCustomFilterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorCssSelectorsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorRegexesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorRegexesForm.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorRegexesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorXpathsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorXpathsForm.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorXpathsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayListView.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureKeywordAnalysis.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureOverview.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplaySiteOverview\MacroscopeDisplayStructureSiteSpeed.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayTreeView.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayAudios.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayCanonical.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayCustomFilters.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayDataExtractorCssSelectors.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayDataExtractorRegexes.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayDataExtractorXpaths.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayDescriptions.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayEmailAddresses.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayErrors.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayHeadings.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayHierarchy.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayHistory.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayHostnames.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayHrefLang.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayHyperlinks.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayImages.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayJavascripts.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayKeywords.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayLinks.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayPageText.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayRedirectsAudit.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayRemarks.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayRobots.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySearchCollection.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemaps.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayStructure.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayStructure\MacroscopeDisplayStructureLinkCounts.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayStylesheets.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTelephoneNumbers.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayTitles.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayUriAnalysis.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayUriQueue.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayVideos.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.Designer.cs">
+      <DependentUpon>MacroscopeGetCredentialsHttp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeLicenceForm\MacroscopeLicenceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeLicenceForm\MacroscopeLicenceForm.Designer.cs">
+      <DependentUpon>MacroscopeLicenceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.Designer.cs">
+      <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm.Designer.cs">
+      <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\CsvReports\CsvReportsCallbacks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\ExcelReports\ExcelReportsCallbacks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\Generators\GeneratorsCallbacks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\IMacroscopeTaskControllerCallbacks\IMacroscopeTaskControllerCallbacks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\EditMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\FileMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\HelpMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\ReportsMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\TaskParametersMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\MainMenuCallbacks\ViewMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Audio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\CanonicalAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\EmailAddresses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Errors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Hierarchy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\History.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Hostnames.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\HrefLangAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Hyperlinks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Images.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Javascripts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Links.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\MetaDescriptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\MetaKeywords.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Overview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\PageHeadings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\PageTitles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\RedirectsAudit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\RobotsPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\SearchCollection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Stylesheets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\TelephoneNumbers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\UriAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\OverviewPanels\Videos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\ProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\ScanningControls\ScanningControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\StatusBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.Designer.cs">
+      <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeProgressForms\IMacroscopeProgressForm.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.Designer.cs">
+      <DependentUpon>MacroscopeDoublePercentageProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.Designer.cs">
+      <DependentUpon>MacroscopeSinglePercentageProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeTriplePercentageProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeTriplePercentageProgressForm.Designer.cs">
+      <DependentUpon>MacroscopeTriplePercentageProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.Designer.cs">
+      <DependentUpon>MacroscopeExcludeUrlPatterns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeIncludeUrlPatterns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeIncludeUrlPatterns.Designer.cs">
+      <DependentUpon>MacroscopeIncludeUrlPatterns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeXpathPrefixes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeXpathPrefixes.Designer.cs">
+      <DependentUpon>MacroscopeXpathPrefixes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeGenerators\MacroscopeSitemapGenerator\MacroscopeSitemapGenerator.cs" />
+    <Compile Include="src\MacroscopeGenerators\t\TestMacroscopeSitemapGenerator.cs" />
+    <Compile Include="src\MacroscopeHosts\MacroscopeAllowedHosts.cs" />
+    <Compile Include="src\MacroscopeHosts\MacroscopeDnsTools.cs" />
+    <Compile Include="src\MacroscopeHosts\t\TestMacroscopeAllowedHosts.cs" />
+    <Compile Include="src\MacroscopeHosts\t\TestMacroscopeDnsTools.cs" />
+    <Compile Include="src\MacroscopeHyperlinks\MacroscopeHyperlinksIn.cs" />
+    <Compile Include="src\MacroscopeHyperlinks\MacroscopeHyperlinksOut.cs" />
+    <Compile Include="src\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkIn.cs" />
+    <Compile Include="src\MacroscopeHyperlinks\MacroscopeHyperlink\MacroscopeHyperlinkOut.cs" />
+    <Compile Include="src\MacroscopeLinks\MacroscopeLink.cs" />
+    <Compile Include="src\MacroscopeLinks\MacroscopeLinkList.cs" />
+    <Compile Include="src\MacroscopeNamedQueue\MacroscopeNamedQueue.cs" />
+    <Compile Include="src\MacroscopeNamedQueue\t\TestMacroscopeNamedQueue.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\MacroscopeCsvBrokenLinksReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetBrokenLinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetGoodLinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\WorksheetRedirectedLinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvContactDetailsReport\MacroscopeCsvContactDetailsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvContactDetailsReport\WorksheetEmailAddresses.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvContactDetailsReport\WorksheetTelephoneNumbers.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvCustomFilterReport\MacroscopeCsvCustomFilterReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvCustomFilterReport\WorksheetCustomFilter.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDataExtractorReport\MacroscopeCsvDataExtractorReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDataExtractorReport\WorksheetCssSelectors.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDataExtractorReport\WorksheetRegularExpressions.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDataExtractorReport\WorksheetXpaths.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContentReport\MacroscopeCsvDuplicateContentReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContentReport\WorksheetDuplicateChecksums.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContentReport\WorksheetDuplicateEtags.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContentReport\WorksheetDuplicatePages.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContentReport\WorksheetDuplicateTitles.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvErrorsReport\MacroscopeCsvErrorsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvErrorsReport\WorksheetErrors.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvExportListViewReport\MacroscopeCsvExportListViewReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvExportListViewReport\Worksheet.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvOverviewReport\MacroscopeCsvOverviewReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvOverviewReport\WorksheetOverview.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport\MacroscopeCsvPageContentsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport\WorksheetHeadings.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport\WorksheetPageText.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageMetadataReport\MacroscopeCsvPageMetadataReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageMetadataReport\WorksheetDescriptions.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageMetadataReport\WorksheetKeywords.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageMetadataReport\WorksheetTitles.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRedirectsReport\MacroscopeCsvRedirectsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRedirectsReport\WorksheetRedirectsAudit.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvReports.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport\MacroscopeCsvUriReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport\WorksheetHyperlinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport\WorksheetLinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport\WorksheetUriAnalysis.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MaroscopeCsvRemarksReport\MaroscopeCsvRemarksReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MaroscopeCsvRemarksReport\WorksheetObservations.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelBrokenLinksReport\MacroscopeExcelBrokenLinksReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelBrokenLinksReport\WorksheetBrokenLinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelBrokenLinksReport\WorksheetGoodLinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelBrokenLinksReport\WorksheetRedirectedLinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelContactDetailsReport\MacroscopeExcelContactDetailsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelContactDetailsReport\WorksheetEmailAddresses.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelContactDetailsReport\WorksheetTelephoneNumbers.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelCustomFilterReport\MacroscopeExcelCustomFilterReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelCustomFilterReport\WorksheetCustomFilter.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDataExtractorReport\MacroscopeExcelDataExtractorReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDataExtractorReport\WorksheetCssSelectors.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDataExtractorReport\WorksheetRegularExpressions.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDataExtractorReport\WorksheetXpaths.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDuplicateContent\MacroscopeExcelDuplicateContent.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateChecksums.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateEtags.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDuplicateContent\WorksheetDuplicatePages.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDuplicateContent\WorksheetDuplicateTitles.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelErrorsReport\MacroscopeExcelErrorsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelErrorsReport\WorksheetErrors.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\MacroscopeExcelExportListViewReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\Worksheet.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelKeywordAnalysisReport\MacroscopeExcelKeywordAnalysisReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelKeywordAnalysisReport\WorksheetKeywordTerms.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelLanguagesReport\MacroscopeExcelLanguagesReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelLanguagesReport\WorksheetHrefLangMatrix.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelLanguagesReport\WorksheetHrefLangMatrixUnspecified.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelLanguagesReport\WorksheetMissingLanguageSpecifier.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelOverviewReport\MacroscopeExcelOverviewReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelOverviewReport\WorksheetOverview.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageContentsReport\MacroscopeExcelPageContentsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageContentsReport\WorksheetHeadings.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageContentsReport\WorksheetPageText.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageMetadataReport\MacroscopeExcelPageMetadataReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageMetadataReport\WorksheetDescriptions.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageMetadataReport\WorksheetKeywords.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageMetadataReport\WorksheetTitles.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRedirectsReport\MacroscopeExcelRedirectsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRedirectsReport\WorksheetRedirectsAudit.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelReports.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport\MacroscopeExcelUriReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport\WorksheetHyperlinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport\WorksheetLinks.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport\WorksheetUriAnalysis.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MaroscopeExcelRemarksReport\MaroscopeExcelRemarksReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MaroscopeExcelRemarksReport\WorksheetObservations.cs" />
+    <Compile Include="src\MacroscopeSearch\MacroscopeSearchIndex.cs" />
+    <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpProtocolProbe.cs" />
+    <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoHandler.cs" />
+    <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpProtocolProbe.cs" />
+    <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpTwo.cs" />
+    <Compile Include="src\MacroscopeStandards\MacroscopeRobots.cs" />
+    <Compile Include="src\MacroscopeTasks\IMacroscopeTaskController.cs" />
+    <Compile Include="src\MacroscopeTasks\MacroscopeIncludeExcludeUrls\MacroscopeIncludeExcludeUrls.cs" />
+    <Compile Include="src\MacroscopeTasks\MacroscopeJobHistory.cs" />
+    <Compile Include="src\MacroscopeTasks\MacroscopeJobItem.cs" />
+    <Compile Include="src\MacroscopeTasks\MacroscopeJobMaster.cs" />
+    <Compile Include="src\MacroscopeTasks\MacroscopeJobWorker.cs" />
+    <Compile Include="src\MacroscopeTasks\MacroscopeUrlList\MacroscopeUrlListLoader.cs" />
+    <Compile Include="src\MacroscopeTasks\MacroscopeXpathRestrictions\MacroscopeXpathRestrictions.cs" />
+    <Compile Include="src\MacroscopeTasks\t\TestMacroscopeJobMaster.cs" />
+    <Compile Include="src\MacroscopeTasks\t\TestMacroscopeJobWorker.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopeColumnSorter.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopeDateTools.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopeDecimalSorter.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopeLocaleTools.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopePdfTools.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopeStringTools.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopeUrlLoader.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopeUrlUtils.cs" />
+    <Compile Include="src\MacroscopeTools\t\TestMacroscopeStringTools.cs" />
+    <Compile Include="src\MacroscopeTools\t\TestMacroscopeUrlUtils.cs" />
+    <Compile Include="src\MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.Designer.cs">
+      <DependentUpon>MacroscopeBarChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeCharts\MacroscopePieChart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeCharts\MacroscopePieChart.Designer.cs">
+      <DependentUpon>MacroscopePieChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeCustomFilterPanel\MacroscopeCustomFilterPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeCustomFilterPanel\MacroscopeCustomFilterPanel.Designer.cs">
+      <DependentUpon>MacroscopeCustomFilterPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorCssSelectorPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorPanel.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorRegexesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorRegexesPanel.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorRegexesPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorXpathPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorXpathPanel.Designer.cs">
+      <DependentUpon>MacroscopeDataExtractorXpathPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.Designer.cs">
+      <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeOverviewPanel\MacroscopeOverviewPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeOverviewPanel\MacroscopeOverviewPanel.Designer.cs">
+      <DependentUpon>MacroscopeOverviewPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.Designer.cs">
+      <DependentUpon>MacroscopePrefsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanel.Designer.cs">
+      <DependentUpon>MacroscopeSiteStructurePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanelCharts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanelCharts.Designer.cs">
+      <DependentUpon>MacroscopeSiteStructurePanelCharts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MacroscopeUserControls\MacroscopeUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="Icons.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeAboutForm\MacroscopeAboutForm.resx">
+      <DependentUpon>MacroscopeAboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeCustomFilterForm\MacroscopeCustomFilterForm.resx">
+      <DependentUpon>MacroscopeCustomFilterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorCssSelectorsForm.resx">
+      <DependentUpon>MacroscopeDataExtractorCssSelectorsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorRegexesForm.resx">
+      <DependentUpon>MacroscopeDataExtractorRegexesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeDataExtractorForms\MacroscopeDataExtractorXpathsForm.resx">
+      <DependentUpon>MacroscopeDataExtractorXpathsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeGetCredentialsHttp\MacroscopeGetCredentialsHttp.resx">
+      <DependentUpon>MacroscopeGetCredentialsHttp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeLicenceForm\MacroscopeLicenceForm.resx">
+      <DependentUpon>MacroscopeLicenceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeLoadUrlList\MacroscopeLoadUrlListFromClipboard.resx">
+      <DependentUpon>MacroscopeLoadUrlListFromClipboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeMainForm.resx">
+      <DependentUpon>MacroscopeMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopePrefsForm\MacroscopePrefsForm.resx">
+      <DependentUpon>MacroscopePrefsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeDoublePercentageProgressForm.resx">
+      <DependentUpon>MacroscopeDoublePercentageProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeSinglePercentageProgressForm.resx">
+      <DependentUpon>MacroscopeSinglePercentageProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeProgressForms\MacroscopeTriplePercentageProgressForm.resx">
+      <DependentUpon>MacroscopeTriplePercentageProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeExcludeUrlPatterns.resx">
+      <DependentUpon>MacroscopeExcludeUrlPatterns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeIncludeUrlPatterns.resx">
+      <DependentUpon>MacroscopeIncludeUrlPatterns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeForms\MacroscopeTaskParameters\MacroscopeXpathPrefixes.resx">
+      <DependentUpon>MacroscopeXpathPrefixes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.resx">
+      <DependentUpon>MacroscopeBarChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeCharts\MacroscopePieChart.resx">
+      <DependentUpon>MacroscopePieChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeCustomFilterPanel\MacroscopeCustomFilterPanel.resx">
+      <DependentUpon>MacroscopeCustomFilterPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorCssSelectorPanel.resx">
+      <DependentUpon>MacroscopeDataExtractorCssSelectorPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorRegexesPanel.resx">
+      <DependentUpon>MacroscopeDataExtractorRegexesPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeDataExtractorPanel\MacroscopeDataExtractorXpathPanel.resx">
+      <DependentUpon>MacroscopeDataExtractorXpathPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeDocumentDetails\MacroscopeDocumentDetails.resx">
+      <DependentUpon>MacroscopeDocumentDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeOverviewPanel\MacroscopeOverviewPanel.resx">
+      <DependentUpon>MacroscopeOverviewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopePrefsControl\MacroscopePrefsControl.resx">
+      <DependentUpon>MacroscopePrefsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanel.resx">
+      <DependentUpon>MacroscopeSiteStructurePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanelCharts.resx">
+      <DependentUpon>MacroscopeSiteStructurePanelCharts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LICENSE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="MacroscopePreferences.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>MacroscopePreferences.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="version.nsh">
+      <DependentUpon>version.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\MacroscopeCustomFilters\t\Custom Filter Test Patterns.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\MacroscopeDataExtractor\t\HtmlDocs\HtmlDoc001.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\MacroscopeDataExtractor\t\HtmlDocs\HtmlDoc002.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\MacroscopeDataExtractor\t\HtmlDocs\HtmlDoc003.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\MacroscopeDataExtractor\t\HtmlDocs\HtmlDoc004.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\MacroscopeDataExtractor\t\HtmlDocs\HtmlDoc005.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\MacroscopeDocument\t\HtmlDocs\TestHtmlDocument001.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\MacroscopeTools\t\HtmlDocs\StringToolsHtmlDoc001.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="version.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>version.nsh</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\MacroscopeAnalysis\MacroscopeClickPathAnalysis\t\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MacroscopeIcon-64x64.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.8.0\build\net35\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
+  </Target>
+  <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
+</Project>

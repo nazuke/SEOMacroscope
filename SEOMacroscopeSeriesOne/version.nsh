@@ -1,0 +1,2 @@
+﻿
+!define VERSION "0"
