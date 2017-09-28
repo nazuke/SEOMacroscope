@@ -84,9 +84,21 @@ SEO Macroscope will attempt to discover Google Sitemap XML files specified by yo
 
 #### Links
 
+##### Check redirects
+
+If this option is checked, then SEO Macroscope will log and check redirects.
+
+External URLs will only be logged.
+
 ##### Follow redirects
 
-If this option is checked, then SEO Macroscope will log and follow redirects. External URLs will only be logged.
+If this option is checked, then SEO Macroscope will log and follow redirects.
+
+Redirected URLs will count as being internal hosts. Use caution here, as enabling this option may result in lengthy or infinite crawls.
+
+In general, it is safer to crawl the sites redirected to separately.
+
+External URLs will only be logged.
 
 ##### Follow canonical links
 

@@ -1078,5 +1078,17 @@ namespace SEOMacroscope {
                 this["WarnAboutInsecureLinks"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckRedirects {
+            get {
+                return ((bool)(this["CheckRedirects"]));
+            }
+            set {
+                this["CheckRedirects"] = value;
+            }
+        }
     }
 }

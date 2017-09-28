@@ -98,7 +98,10 @@ namespace SEOMacroscope
         
         this.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
         this.checkBoxFollowSitemapLinks.Checked = MacroscopePreferencesManager.GetFollowSitemapLinks();
+        
+        this.checkBoxCheckRedirects.Checked = MacroscopePreferencesManager.GetCheckRedirects();
         this.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
+        
         this.checkBoxFollowNoFollow.Checked = MacroscopePreferencesManager.GetFollowNoFollow();
         this.checkBoxIgnoreQueries.Checked = MacroscopePreferencesManager.GetIgnoreQueries();
         this.checkBoxIgnoreHashFragments.Checked = MacroscopePreferencesManager.GetIgnoreHashFragments();
@@ -239,7 +242,10 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetFollowRobotsProtocol( this.checkBoxFollowRobotsProtocol.Checked );
       MacroscopePreferencesManager.SetFollowSitemapLinks( this.checkBoxFollowSitemapLinks.Checked );
+
+      MacroscopePreferencesManager.SetCheckRedirects( this.checkBoxCheckRedirects.Checked );
       MacroscopePreferencesManager.SetFollowRedirects( this.checkBoxFollowRedirects.Checked );
+
       MacroscopePreferencesManager.SetFollowNoFollow( this.checkBoxFollowNoFollow.Checked );
       MacroscopePreferencesManager.SetIgnoreQueries( this.checkBoxIgnoreQueries.Checked );
       MacroscopePreferencesManager.SetIgnoreHashFragments( this.checkBoxIgnoreHashFragments.Checked );

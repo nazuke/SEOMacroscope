@@ -327,26 +327,38 @@ namespace SEOMacroscope
 
         this.JobMaster.IncPageLimitCount();
 
-        if( msDoc.GetIsRedirect() ) {
+        if( msDoc.GetIsRedirect() )
+        {
 
           DebugMsg( string.Format( "REDIRECTION DETECTED GetUrl: {0}", msDoc.GetUrl() ) );
           DebugMsg( string.Format( "REDIRECTION DETECTED From: {0}", msDoc.GetUrlRedirectFrom() ) );
 
-          if( MacroscopePreferencesManager.GetFollowRedirects() ) {
+          if( MacroscopePreferencesManager.GetCheckRedirects() )
+          {
 
             string Hostname = msDoc.GetHostAndPort();
+
             string HostnameFrom = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectFrom() );
+
             string UrlRedirectTo = msDoc.GetUrlRedirectTo();
+
             string HostnameTo = MacroscopeAllowedHosts.ParseHostnameFromUrl( UrlRedirectTo );
 
             DebugMsg( string.Format( "REDIRECTION DETECTED UrlRedirectTo: {0}", UrlRedirectTo ) );
             DebugMsg( string.Format( "REDIRECTION DETECTED HostnameTo: {0}", HostnameTo ) );
-            
+
+            if( MacroscopePreferencesManager.GetFollowRedirects() )
+            {
+              this.AllowedHosts.AddFromUrl( Url: msDoc.GetUrlRedirectTo() );
+            }
+
           }
 
           this.JobMaster.AddUrlQueueItem( Url: msDoc.GetUrlRedirectTo() );
 
-        } else {
+        }
+        else
+        {
 
           this.ProcessHrefLangLanguages( msDoc ); // Process Languages from HrefLang
 

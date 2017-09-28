@@ -82,6 +82,7 @@ namespace SEOMacroscope
     static Boolean FollowRobotsProtocol;
     static Boolean FollowSitemapLinks;
 
+    static Boolean CheckRedirects;
     static Boolean FollowRedirects;
     static Boolean FollowNoFollow;
     static Boolean FollowCanonicalLinks;
@@ -251,6 +252,7 @@ namespace SEOMacroscope
           FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
           FollowSitemapLinks = Preferences.FollowSitemapLinks;
 
+          CheckRedirects = Preferences.CheckRedirects;
           FollowRedirects = Preferences.FollowRedirects;
           FollowNoFollow = Preferences.FollowNoFollow;
           FollowCanonicalLinks = Preferences.FollowCanonicalLinks;
@@ -397,6 +399,7 @@ namespace SEOMacroscope
       FollowRobotsProtocol = true;
       FollowSitemapLinks = true;
 
+      CheckRedirects = true;
       FollowRedirects = false;
       FollowNoFollow = true;
       FollowCanonicalLinks = true;
@@ -648,8 +651,10 @@ namespace SEOMacroscope
 
         Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
         Preferences.FollowSitemapLinks = FollowSitemapLinks;
-
+                       
+        Preferences.CheckRedirects = CheckRedirects;
         Preferences.FollowRedirects = FollowRedirects;
+
         Preferences.FollowNoFollow = FollowNoFollow;
         Preferences.FollowCanonicalLinks = FollowCanonicalLinks;
         Preferences.FollowHrefLangLinks = FollowHrefLangLinks;
@@ -1151,6 +1156,19 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
+    
+    public static Boolean GetCheckRedirects ()
+    {
+      return ( CheckRedirects );
+    }
+
+    public static void SetCheckRedirects ( Boolean State )
+    {
+      CheckRedirects = State;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public static Boolean GetFollowRedirects ()
     {
       return( FollowRedirects );
