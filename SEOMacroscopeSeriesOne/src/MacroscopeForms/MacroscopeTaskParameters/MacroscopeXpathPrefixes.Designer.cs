@@ -59,112 +59,113 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.textBoxXpathPrefixes = new System.Windows.Forms.TextBox();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.buttonCancel = new System.Windows.Forms.Button();
-			this.buttonOK = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
-			this.tableLayoutPanel1.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.textBoxXpathPrefixes, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 2);
-			this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 3;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(484, 462);
-			this.tableLayoutPanel1.TabIndex = 1;
-			// 
-			// textBoxXpathPrefixes
-			// 
-			this.textBoxXpathPrefixes.AcceptsReturn = true;
-			this.textBoxXpathPrefixes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBoxXpathPrefixes.Location = new System.Drawing.Point(20, 60);
-			this.textBoxXpathPrefixes.Margin = new System.Windows.Forms.Padding(20, 0, 20, 20);
-			this.textBoxXpathPrefixes.Multiline = true;
-			this.textBoxXpathPrefixes.Name = "textBoxXpathPrefixes";
-			this.textBoxXpathPrefixes.Size = new System.Drawing.Size(444, 322);
-			this.textBoxXpathPrefixes.TabIndex = 0;
-			this.textBoxXpathPrefixes.TabStop = false;
-			this.textBoxXpathPrefixes.WordWrap = false;
-			// 
-			// flowLayoutPanel1
-			// 
-			this.flowLayoutPanel1.Controls.Add(this.buttonCancel);
-			this.flowLayoutPanel1.Controls.Add(this.buttonOK);
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 405);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(478, 54);
-			this.flowLayoutPanel1.TabIndex = 1;
-			// 
-			// buttonCancel
-			// 
-			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(380, 13);
-			this.buttonCancel.Name = "buttonCancel";
-			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 2;
-			this.buttonCancel.Text = "Cancel";
-			this.buttonCancel.UseVisualStyleBackColor = true;
-			// 
-			// buttonOK
-			// 
-			this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonOK.Location = new System.Drawing.Point(299, 13);
-			this.buttonOK.Name = "buttonOK";
-			this.buttonOK.Size = new System.Drawing.Size(75, 23);
-			this.buttonOK.TabIndex = 1;
-			this.buttonOK.Text = "OK";
-			this.buttonOK.UseVisualStyleBackColor = true;
-			// 
-			// label1
-			// 
-			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label1.Location = new System.Drawing.Point(20, 20);
-			this.label1.Margin = new System.Windows.Forms.Padding(20);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(444, 20);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Enter XPath prefixes one per line:";
-			// 
-			// MacroscopeXpathPrefixes
-			// 
-			this.AcceptButton = this.buttonOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(484, 462);
-			this.ControlBox = false;
-			this.Controls.Add(this.tableLayoutPanel1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
-			this.KeyPreview = true;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "MacroscopeXpathPrefixes";
-			this.ShowInTaskbar = false;
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "XPath Prefixes";
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
-			this.flowLayoutPanel1.ResumeLayout(false);
-			this.ResumeLayout(false);
+      this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+      this.textBoxXpathPrefixes = new System.Windows.Forms.TextBox();
+      this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+      this.buttonCancel = new System.Windows.Forms.Button();
+      this.buttonOK = new System.Windows.Forms.Button();
+      this.label1 = new System.Windows.Forms.Label();
+      this.tableLayoutPanel1.SuspendLayout();
+      this.flowLayoutPanel1.SuspendLayout();
+      this.SuspendLayout();
+      // 
+      // tableLayoutPanel1
+      // 
+      this.tableLayoutPanel1.ColumnCount = 1;
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel1.Controls.Add(this.textBoxXpathPrefixes, 0, 1);
+      this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 2);
+      this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+      this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+      this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+      this.tableLayoutPanel1.RowCount = 3;
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+      this.tableLayoutPanel1.Size = new System.Drawing.Size(484, 462);
+      this.tableLayoutPanel1.TabIndex = 1;
+      // 
+      // textBoxXpathPrefixes
+      // 
+      this.textBoxXpathPrefixes.AcceptsReturn = true;
+      this.textBoxXpathPrefixes.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.textBoxXpathPrefixes.Location = new System.Drawing.Point(20, 60);
+      this.textBoxXpathPrefixes.Margin = new System.Windows.Forms.Padding(20, 0, 20, 20);
+      this.textBoxXpathPrefixes.Multiline = true;
+      this.textBoxXpathPrefixes.Name = "textBoxXpathPrefixes";
+      this.textBoxXpathPrefixes.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+      this.textBoxXpathPrefixes.Size = new System.Drawing.Size(444, 322);
+      this.textBoxXpathPrefixes.TabIndex = 0;
+      this.textBoxXpathPrefixes.TabStop = false;
+      this.textBoxXpathPrefixes.WordWrap = false;
+      // 
+      // flowLayoutPanel1
+      // 
+      this.flowLayoutPanel1.Controls.Add(this.buttonCancel);
+      this.flowLayoutPanel1.Controls.Add(this.buttonOK);
+      this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+      this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 405);
+      this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+      this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
+      this.flowLayoutPanel1.Size = new System.Drawing.Size(478, 54);
+      this.flowLayoutPanel1.TabIndex = 1;
+      // 
+      // buttonCancel
+      // 
+      this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+      this.buttonCancel.Location = new System.Drawing.Point(380, 13);
+      this.buttonCancel.Name = "buttonCancel";
+      this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+      this.buttonCancel.TabIndex = 2;
+      this.buttonCancel.Text = "Cancel";
+      this.buttonCancel.UseVisualStyleBackColor = true;
+      // 
+      // buttonOK
+      // 
+      this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+      this.buttonOK.Location = new System.Drawing.Point(299, 13);
+      this.buttonOK.Name = "buttonOK";
+      this.buttonOK.Size = new System.Drawing.Size(75, 23);
+      this.buttonOK.TabIndex = 1;
+      this.buttonOK.Text = "OK";
+      this.buttonOK.UseVisualStyleBackColor = true;
+      // 
+      // label1
+      // 
+      this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.label1.Location = new System.Drawing.Point(20, 20);
+      this.label1.Margin = new System.Windows.Forms.Padding(20);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(444, 20);
+      this.label1.TabIndex = 2;
+      this.label1.Text = "Enter XPath prefixes one per line:";
+      // 
+      // MacroscopeXpathPrefixes
+      // 
+      this.AcceptButton = this.buttonOK;
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+      this.CancelButton = this.buttonCancel;
+      this.ClientSize = new System.Drawing.Size(484, 462);
+      this.ControlBox = false;
+      this.Controls.Add(this.tableLayoutPanel1);
+      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+      this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
+      this.KeyPreview = true;
+      this.MaximizeBox = false;
+      this.MinimizeBox = false;
+      this.Name = "MacroscopeXpathPrefixes";
+      this.ShowInTaskbar = false;
+      this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+      this.Text = "XPath Prefixes";
+      this.tableLayoutPanel1.ResumeLayout(false);
+      this.tableLayoutPanel1.PerformLayout();
+      this.flowLayoutPanel1.ResumeLayout(false);
+      this.ResumeLayout(false);
 
 		}
 	}

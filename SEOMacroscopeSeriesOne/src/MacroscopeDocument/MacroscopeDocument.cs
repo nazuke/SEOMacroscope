@@ -1567,7 +1567,17 @@ namespace SEOMacroscope
 
       if( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
       {
-        Value = HtmlEntity.DeEntitize( TitleText );
+
+        try
+        {
+          Value = HtmlEntity.DeEntitize( TitleText );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", TitleText ) );
+        }
+
       }
 
       Value = Regex.Replace( Value, @"[\s]+", " ", RegexOptions.Singleline );
@@ -1714,14 +1724,32 @@ namespace SEOMacroscope
 
     /** AltText ***************************************************************/
 
-    public void SetAltText ( string AltText, MacroscopeConstants.TextProcessingMode ProcessingMode )
+    public void SetAltText (
+      string AltText,
+      MacroscopeConstants.TextProcessingMode ProcessingMode
+      )
     {
 
       string Value = AltText;
 
       if( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
       {
-        Value = HtmlEntity.DeEntitize( AltText );
+
+        if( !string.IsNullOrEmpty( AltText ) )
+        {
+
+          try
+          {
+            Value = HtmlEntity.DeEntitize( AltText );
+          }
+          catch( Exception ex )
+          {
+            DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+            DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", AltText ) );
+          }
+
+        }
+
       }
 
       this.AltText = Value;

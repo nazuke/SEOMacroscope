@@ -362,7 +362,7 @@ namespace SEOMacroscope
 
           this.ProcessHrefLangLanguages( msDoc ); // Process Languages from HrefLang
 
-          this.ProcessOutlinks( msDoc ); // Process Outlinks from document
+          this.ProcessOutlinks( msDoc: msDoc ); // Process Outlinks from document
 
         }
 

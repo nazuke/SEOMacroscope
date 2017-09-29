@@ -503,7 +503,7 @@ namespace SEOMacroscope
       if( !this.GetThreadsStop() )
       {
 
-        MacroscopeJobWorker JobWorker = new MacroscopeJobWorker ( this );
+        MacroscopeJobWorker JobWorker = new MacroscopeJobWorker ( JobMaster: this );
 
         this.IncRunningThreads();
 

@@ -60,23 +60,23 @@ namespace SEOMacroscope
         Output += Input[ i ];
       }
 
-      return( Output );
+      return ( Output );
 
     }
 
     /**************************************************************************/
 
-    public static string[] ReverseStringArray ( string [] Input )
+    public static string[] ReverseStringArray ( string[] Input )
     {
 
-      string [] Output = new string[Input.Length];
+      string[] Output = new string[ Input.Length ];
 
       for( int i = 0 ; i < Input.Length ; i++ )
       {
         Output[ i ] = MacroscopeStringTools.ReverseString( Input[ i ] );
       }
 
-      return( Output );
+      return ( Output );
 
     }
 
@@ -108,8 +108,8 @@ namespace SEOMacroscope
         CleanedText = CleanText( Text: CleanedText );
 
       }
-      
-      return( CleanedText );
+
+      return ( CleanedText );
 
     }
 
@@ -135,8 +135,8 @@ namespace SEOMacroscope
         CleanedText = CleanText( Text: CleanedText );
 
       }
-      
-      return( CleanedText );
+
+      return ( CleanedText );
 
     }
 
@@ -149,17 +149,17 @@ namespace SEOMacroscope
 
       if( !string.IsNullOrEmpty( Text ) )
       {
-        
+
         CleanedText = Text;
 
         CleanedText = Regex.Replace( CleanedText, @"<!.+?>", " ", RegexOptions.Singleline );
         CleanedText = Regex.Replace( CleanedText, @"<!--.+?-->", " ", RegexOptions.Singleline );
-        
+
         CleanedText = CleanedText.Trim();
 
       }
-      
-      return( CleanedText );
+
+      return ( CleanedText );
 
     }
 
@@ -172,7 +172,7 @@ namespace SEOMacroscope
 
       if( !string.IsNullOrEmpty( Text ) )
       {
-        
+
         CleanedText = Text;
 
         CleanedText = Regex.Replace( CleanedText, @"<!.+?>", " ", RegexOptions.Singleline ); // Strip <!DOCTYPE>
@@ -181,20 +181,18 @@ namespace SEOMacroscope
 
         CleanedText = Regex.Replace( CleanedText, @"(?<![\w\d])([^\w\d\p{Sc}]+)", " ", RegexOptions.Singleline );
         CleanedText = Regex.Replace( CleanedText, @"([^\w\d\p{Sc}]+)(?![\w\d])", " ", RegexOptions.Singleline );
-        
+
         CleanedText = Regex.Replace( CleanedText, @"([\p{P}\p{Sc}]+)(?![\w\d])", " ", RegexOptions.Singleline ); // Strip punctuation
         CleanedText = Regex.Replace( CleanedText, @"[\s]+", " ", RegexOptions.Singleline ); // Compact white space
 
         CleanedText = CleanedText.Trim();
 
       }
-      
-      return( CleanedText );
+
+      return ( CleanedText );
 
     }
 
-    
-    
     /*
 
     public static string CleanText ( string Text )
@@ -224,25 +222,14 @@ namespace SEOMacroscope
     }
 
     */
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**************************************************************************/
-    
+
     public static string CompactWhiteSpace ( string Text )
     {
 
       string NewText = Text;
-          
+
       if( !string.IsNullOrEmpty( NewText ) )
       {
 
@@ -261,17 +248,17 @@ namespace SEOMacroscope
 
       }
 
-      return( NewText );
+      return ( NewText );
 
     }
-    
+
     /**************************************************************************/
-    
+
     public static string StripNewLines ( string Text )
     {
 
       string NewText = Text;
-          
+
       if( !string.IsNullOrEmpty( Text ) )
       {
 
@@ -281,7 +268,7 @@ namespace SEOMacroscope
 
       }
 
-      return( NewText );
+      return ( NewText );
 
     }
 

@@ -585,9 +585,20 @@ namespace SEOMacroscope
 
               if( LinkTitle.Length > 0 )
               {
-                LinkTitle = HtmlEntity.DeEntitize( LinkTitle );
-                if( LinkTitle.Length > 0 )
+
+                try
+                {
+                  LinkTitle = HtmlEntity.DeEntitize( LinkTitle );
+                }
+                catch( Exception ex )
+                {
+                  DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+                  DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkTitle ) );
+                }
+
+                if( !string.IsNullOrEmpty( LinkTitle ) )
                   HyperlinkOut.SetLinkTitle( LinkTitle );
+
               }
 
               { // FOLLOW / NOFOLLOW
@@ -617,13 +628,24 @@ namespace SEOMacroscope
 
                 string LinkText = LinkNode.InnerText;
 
-                if( ( LinkText != null ) && ( LinkText.Length > 0 ) )
+                if( !string.IsNullOrEmpty( LinkText ) )
                 {
-                  LinkText = HtmlEntity.DeEntitize( LinkText );
-                  if( LinkText.Length > 0 )
+
+                  try
+                  {
+                    LinkText = HtmlEntity.DeEntitize( LinkText );
+                  }
+                  catch( Exception ex )
+                  {
+                    DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+                    DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkText ) );
+                  }
+
+                  if( !string.IsNullOrEmpty( LinkText ) )
                     HyperlinkOut.SetLinkText( LinkText );
+
                 }
-            
+
               }
 
               { // IMAGE LINK
@@ -641,13 +663,25 @@ namespace SEOMacroscope
                   string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
               
                   DebugMsg( string.Format( "ImageNode: LinkAltText: {0}", LinkAltText ) );
-                            
-                  if( ( LinkAltText != null ) && ( LinkAltText.Length > 0 ) )
+
+                  if( !string.IsNullOrEmpty( LinkAltText ) )
                   {
-                    LinkAltText = HtmlEntity.DeEntitize( LinkAltText );
-                    HyperlinkOut.SetAltText( LinkAltText );
+
+                    try
+                    {
+                      LinkAltText = HtmlEntity.DeEntitize( LinkAltText );
+                    }
+                    catch( Exception ex )
+                    {
+                      DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+                      DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkAltText ) );
+                    }
+
+                    if( !string.IsNullOrEmpty( LinkAltText ) )
+                      HyperlinkOut.SetAltText( LinkAltText );
+
                   }
-              
+
                 }
 
               }

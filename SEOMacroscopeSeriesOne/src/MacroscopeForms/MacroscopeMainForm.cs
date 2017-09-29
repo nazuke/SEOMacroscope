@@ -746,22 +746,22 @@ namespace SEOMacroscope
     private void CallackScanStartUrlListFromClipboardExecute ( string [] UrlListText )
     {
 
-      MacroscopeUrlListLoader msUrlListLoader = null;
+      MacroscopeUrlListLoader UrlListLoader = null;
         
       this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LISTTEXT );
 
-      msUrlListLoader = new MacroscopeUrlListLoader (
+      UrlListLoader = new MacroscopeUrlListLoader (
         JobMaster: this.JobMaster,
         UrlListText: UrlListText
       );
 
-      if( msUrlListLoader != null )
+      if( UrlListLoader != null )
       {
 
-        if( msUrlListLoader.Execute() )
+        if( UrlListLoader.Execute() )
         {
 
-          string NewStartUrl = msUrlListLoader.GetUrlListItem( 0 );
+          string NewStartUrl = UrlListLoader.GetUrlListItem( 0 );
 
           this.SetUrl( Url: NewStartUrl );
 
@@ -2352,9 +2352,12 @@ namespace SEOMacroscope
 
       if( LoadUrlListDialogue.ShowDialog() == DialogResult.OK )
       {
+
         string UrlListText = LoadUrlListDialogue.GetUrlsText();
         string [] UrlList = Regex.Split( UrlListText, "[\\r\\n]+", RegexOptions.Singleline );
-        this.CallackScanStartUrlListFromClipboardExecute( UrlList );
+
+        this.CallackScanStartUrlListFromClipboardExecute( UrlListText: UrlList );
+
       }
       
       LoadUrlListDialogue.Dispose();

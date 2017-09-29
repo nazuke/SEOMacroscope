@@ -29,33 +29,33 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-  
+
   /// <summary>
   /// Description of MacroscopeLoadUrlListFromClipboard.
   /// </summary>
- 
+
   public partial class MacroscopeLoadUrlListFromClipboard : Form
   {
-	  
+
     /**************************************************************************/
-	      
+
     public MacroscopeLoadUrlListFromClipboard ()
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
       this.textBoxUrls.MaxLength = 1024 * 1024; // 1MB
-      
+
       this.textBoxUrls.KeyUp += this.CallbackPatternsTextKeyUp;
 
     }
-    
+
     /**************************************************************************/
 
     private void CallbackPatternsTextKeyUp ( object sender, KeyEventArgs e )
     {
-      
-      TextBox PatternsTextBox = ( TextBox )sender;
+
+      TextBox PatternsTextBox = ( TextBox ) sender;
 
       if( e.Control && ( e.KeyCode == Keys.A ) )
       {
@@ -66,16 +66,16 @@ namespace SEOMacroscope
       }
 
     }
-    
+
     /**************************************************************************/
-    
+
     public string GetUrlsText ()
     {
-      return( this.textBoxUrls.Text );
+      return ( this.textBoxUrls.Text );
     }
 
     /**************************************************************************/
-		    
+
   }
-	
+
 }
