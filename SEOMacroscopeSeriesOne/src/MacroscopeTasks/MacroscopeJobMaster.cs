@@ -100,19 +100,29 @@ namespace SEOMacroscope
       MacroscopeConstants.RunTimeMode JobRunTimeMode
     )
     {
+
       this.SuppressDebugMsg = true;
+
       this.TaskController = null;
-      InitializeJobMaster( JobRunTimeMode: JobRunTimeMode );
+
+      this.InitializeJobMaster( JobRunTimeMode: JobRunTimeMode );
+
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public MacroscopeJobMaster (
       MacroscopeConstants.RunTimeMode JobRunTimeMode,
       IMacroscopeTaskController TaskController
     )
     {
+
       this.SuppressDebugMsg = true;
+
       this.TaskController = TaskController;
-      InitializeJobMaster( JobRunTimeMode: JobRunTimeMode );
+
+      this.InitializeJobMaster( JobRunTimeMode: JobRunTimeMode );
+
     }
 
     /** Self Destruct Sequence ************************************************/

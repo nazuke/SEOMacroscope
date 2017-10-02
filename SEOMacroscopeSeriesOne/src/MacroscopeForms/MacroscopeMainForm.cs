@@ -45,8 +45,9 @@ namespace SEOMacroscope
 
     MacroscopeJobMaster JobMaster;
     MacroscopeCredentialsHttp CredentialsHttp;
-    
+
     Boolean StartUrlDirty;
+    Boolean EnableStartUrlCallbacks;
 
     MacroscopeContextMenus ContextMenusCallbacks;
     
@@ -158,6 +159,7 @@ namespace SEOMacroscope
       /** ------------------------------------------------------------------ **/
 
       this.StartUrlDirty = false;
+      this.EnableStartUrlCallbacks = true;
 
       this.ConfigureOverviewTabPanelInstance();
       this.ConfigureDocumentDetailsInstance();
@@ -515,7 +517,7 @@ namespace SEOMacroscope
 
       this.textBoxStartUrl.Text = Url;
 
-      this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
+      //this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
       
     }
 
@@ -538,8 +540,6 @@ namespace SEOMacroscope
 
     private void ScanReset ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
     {
-
-      //this.ScanningControlsReset();
 
       this.JobMaster.ClearAllQueues();
 
@@ -608,8 +608,11 @@ namespace SEOMacroscope
 
       this.StartUrlDirty = true;
 
-      this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
-            
+      if( this.EnableStartUrlCallbacks )
+      {
+        this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
+      }
+
       if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
       {
         MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
@@ -709,7 +712,11 @@ namespace SEOMacroscope
 
           string NewStartUrl = msUrlListLoader.GetUrlListItem( 0 );
 
+          this.EnableStartUrlCallbacks = false;
+
           this.SetUrl( Url: NewStartUrl );
+
+          this.EnableStartUrlCallbacks = true;
 
           if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
           {
@@ -763,7 +770,11 @@ namespace SEOMacroscope
 
           string NewStartUrl = UrlListLoader.GetUrlListItem( 0 );
 
+          this.EnableStartUrlCallbacks = false;
+
           this.SetUrl( Url: NewStartUrl );
+
+          this.EnableStartUrlCallbacks = true;
 
           if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
           {
