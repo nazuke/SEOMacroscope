@@ -74,11 +74,13 @@ namespace SEOMacroscope
 
       if( IsHttpTwo )
       {
+
         HttpProtocolVersionProbed = HttpProtocolVersion.HTTP_TWO;
+
       }
       else
       {
-        /*
+
         Boolean IsHttpOnePointOne = this.ProbeHttpOnePointOne( Url: Url );
 
         if( IsHttpOnePointOne )
@@ -89,7 +91,7 @@ namespace SEOMacroscope
         {
           HttpProtocolVersionProbed = HttpProtocolVersion.HTTP_UNKNOWN;
         }
-        */
+
       }
 
       this.DebugMsg( string.Format( "HttpProtocolVersionProbed: {0}", HttpProtocolVersionProbed ) );
@@ -107,6 +109,8 @@ namespace SEOMacroscope
       Uri DocumentUri;
       Http2Client Client;
       NameValueCollection Headers;
+      byte[] data;
+      Http2Client.Http2Response response = null;
 
       DocumentUri = new Uri( Url );
       Client = new Http2Client( DocumentUri );
@@ -115,14 +119,25 @@ namespace SEOMacroscope
       Client.ConnectionSettings.ConnectionTimeout = new TimeSpan(
         hours: 0,
         minutes: 0,
-        seconds: 5
+        seconds: MacroscopePreferencesManager.GetRequestTimeout()
         );
 
       //Headers.Add( "User-Agent", this.UserAgent() );
 
-      byte[] data = null;
+      data = null;
 
-      var response = await Client.Send( DocumentUri, HttpMethod.Get, Headers, data );
+      try
+      {
+
+        response = await Client.Send( DocumentUri, HttpMethod.Head, Headers, data );
+
+        IsHttpTwo = true;
+
+      }
+      catch( TimeoutException ex )
+      {
+        IsHttpTwo = false;
+      }
 
       /*
       this.DebugMsg( response.Status.ToString() );
@@ -194,6 +209,8 @@ namespace SEOMacroscope
         {
           this.DebugMsg( string.Format( "RES HEADERS: {0} => {1}", HttpHeaderKey, res.GetResponseHeader( HttpHeaderKey ) ) );
         }
+
+        IsHttpOnePointOne = true;
 
         res.Close();
 
