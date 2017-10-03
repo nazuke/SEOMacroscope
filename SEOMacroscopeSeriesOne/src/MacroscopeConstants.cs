@@ -402,6 +402,12 @@ namespace SEOMacroscope
 
     /** END: Specifiers *******************************************************/
 
+    /** BEGIN: Unit Testing ***************************************************/
+
+    public const string MacroscopeTestHarnessWebsite = "https://nazuke.github.io/MacroscopeTestHarness/";
+
+    /** END: Unit Testing *****************************************************/
+
   }
 
 }

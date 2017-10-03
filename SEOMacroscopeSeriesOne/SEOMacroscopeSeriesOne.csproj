@@ -174,16 +174,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Macroscope.cs" />
-    <Compile Include="MacroscopeConstants.cs" />
+    <Compile Include="src\Macroscope.cs" />
+    <Compile Include="src\MacroscopeConstants.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="src\Settings.cs" />
     <Compile Include="src\MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePageBodyText.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePageDescriptions.cs" />

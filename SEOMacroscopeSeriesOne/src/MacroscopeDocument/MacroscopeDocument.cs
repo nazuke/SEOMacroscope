@@ -237,7 +237,7 @@ namespace SEOMacroscope
     private void InitializeDocument ( string Url )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       DocCollection = null;
       

@@ -169,7 +169,7 @@ namespace SEOMacroscope
         req = WebRequest.CreateHttp( Url );
 
         req.Method = "HEAD";
-        req.Timeout = MacroscopePreferencesManager.GetRequestTimeout();
+        req.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
         req.KeepAlive = false;
         req.AllowAutoRedirect = false;
         req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;

@@ -26,6 +26,7 @@
 using System;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
@@ -42,19 +43,25 @@ namespace SEOMacroscope
 
       MacroscopeHttpProtocolProbe HttpProtocolProbe;
       MacroscopeHttpProtocolProbe.HttpProtocolVersion HttpProtocolVersion;
-      string Url;
+      Dictionary<string, MacroscopeHttpProtocolProbe.HttpProtocolVersion> UrlList;
+
+      UrlList = new Dictionary<string, MacroscopeHttpProtocolProbe.HttpProtocolVersion>();
+
+      UrlList.Add( "https://nazuke.github.io/", MacroscopeHttpProtocolProbe.HttpProtocolVersion.HTTP_ONE_POINT_ONE );
+      UrlList.Add( "https://http2.akamai.com/demo", MacroscopeHttpProtocolProbe.HttpProtocolVersion.HTTP_TWO );
 
       HttpProtocolProbe = new MacroscopeHttpProtocolProbe();
-      Url = "https://nazuke.github.io/SEOMacroscope/";
 
-      HttpProtocolVersion = await HttpProtocolProbe.Probe( Url: Url );
+      foreach( string Url in UrlList.Keys )
+      {
 
-      this.DebugMsg( string.Format( "HttpProtocolVersion: {0}", HttpProtocolVersion ) );
+        HttpProtocolVersion = await HttpProtocolProbe.Probe( Url: Url );
 
+        this.DebugMsg( string.Format( "HttpProtocolVersion: {0}", HttpProtocolVersion ) );
 
+        Assert.AreEqual( UrlList[ Url ], HttpProtocolVersion );
 
-
-
+      }
 
     }
 
