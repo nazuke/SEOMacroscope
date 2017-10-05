@@ -28,17 +28,75 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
+using System.Collections.Generic;
+using Mono.Options;
+
+/*
+
+  Reference:
+
+  https://components.xamarin.com/gettingstarted/mono.options?version=5.3.0
+
+ */
+
 namespace SEOMacroscope
 {
 
   internal sealed class Program
   {
 
+
+
+
+
+
+
+
+
+
+
     /**************************************************************************/
 
     [STAThread]
     private static void Main ( string [] args )
     {
+
+
+
+
+      // these variables will be set when the command line is parsed
+      /*
+      var verbosity = 0;
+      var shouldShowHelp = false;
+      var names = new List<string>();
+      var repeat = 1;
+
+      // thses are the available options, not that they set the variables
+      var options = new OptionSet {
+      { "n|name=", "the name of someone to greet.", n => names.Add (n) },
+      { "r|repeat=", "the number of times to repeat the greeting.", (int r) => repeat = r },
+      { "v", "increase debug message verbosity", v => {
+      if (v != null)
+      ++verbosity;
+      } },
+      { "h|help", "show this message and exit", h => shouldShowHelp = h != null },
+      };
+      */
+
+
+
+      /*
+      OptionSet CommandOptions = new OptionSet();
+      CommandOptions.Add( "m|mode=", "The runtime mode.", m => (m) );
+      */
+
+
+
+
+
+
+
+
 
       InitializeEventLog();
       

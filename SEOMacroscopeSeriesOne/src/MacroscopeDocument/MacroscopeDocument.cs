@@ -828,14 +828,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/    
 
-    public void SetHttpResponseStatusLine ( HttpWebResponse res )
+    public void SetHttpResponseStatusLine ( HttpWebResponse Response )
     {
 
       this.RawHttpResponseStatusLine = string.Join(
         " ",
-        string.Join( "/", "HTTP", res.ProtocolVersion ),
-        ( ( int )res.StatusCode ).ToString(),
-        res.StatusDescription,
+        string.Join( "/", "HTTP", Response.ProtocolVersion ),
+        ( ( int ) Response.StatusCode ).ToString(),
+        Response.StatusDescription,
         Environment.NewLine
       );
 
@@ -848,9 +848,9 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/    
 
-    public void SetHttpResponseHeaders ( HttpWebResponse res )
+    public void SetHttpResponseHeaders ( HttpWebResponse Response )
     {
-      this.RawHttpResponseHeaders = res.Headers.ToString();
+      this.RawHttpResponseHeaders = Response.Headers.ToString();
     }
 
     public string GetHttpResponseHeadersAsText ()
@@ -2909,28 +2909,33 @@ namespace SEOMacroscope
     {
 
       string Headers = "";
-      
-      foreach( string Key in Request.Headers.AllKeys )
-      {
-        Headers = string.Concat( Headers, Key, ": ", Request.Headers[ Key ], "\r\n" );
-      }
 
-      Headers = string.Concat( Headers, "\r\n" );
-              
+      if( Request != null )
+      {
+
+        foreach( string Key in Request.Headers.AllKeys )
+        {
+          Headers = string.Concat( Headers, Key, ": ", Request.Headers[ Key ], "\r\n" );
+        }
+
+        Headers = string.Concat( Headers, "\r\n" );
+
+      }
+      
       this.RawHttpRequestHeaders = Headers;
 
     }
         
     /** -------------------------------------------------------------------- **/
     
-    private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
+    private void ProcessResponseHttpHeaders ( HttpWebRequest Request, HttpWebResponse Response )
     {
 
       Boolean IsRedirectUrl = false;
             
       // Status Code
-      this.SetStatusCode( res.StatusCode );
-      this.SetErrorCondition( res.StatusDescription );
+      this.SetStatusCode( Response.StatusCode );
+      this.SetErrorCondition( Response.StatusDescription );
 
       try
       {
@@ -3023,39 +3028,39 @@ namespace SEOMacroscope
 
       // Raw HTTP Headers
 
-      this.SetHttpResponseStatusLine( res: res );
+      this.SetHttpResponseStatusLine( Response: Response );
 
-      this.SetHttpResponseHeaders( res: res );
+      this.SetHttpResponseHeaders( Response: Response );
 
       // Common HTTP Headers
       {
 
-        if( res.ContentType != null )
+        if( Response.ContentType != null )
         {
-          this.MimeType = res.ContentType;
+          this.MimeType = Response.ContentType;
         }
         else
         {
           this.MimeType = MacroscopeConstants.DefaultMimeType;
         }
 
-        this.ContentLength = res.ContentLength;
+        this.ContentLength = Response.ContentLength;
       }
 
       // Server Information
       {
-        this.ServerName = res.Server;
+        this.ServerName = Response.Server;
       }
 
       // Compression
-      if( !string.IsNullOrEmpty( res.ContentEncoding ) )
+      if( !string.IsNullOrEmpty( Response.ContentEncoding ) )
       {
         this.IsCompressed = true;
-        this.CompressionMethod = res.ContentEncoding;
+        this.CompressionMethod = Response.ContentEncoding;
       }
 
       // Probe HTTP Headers
-      foreach( string HttpHeaderName in res.Headers )
+      foreach( string HttpHeaderName in Response.Headers )
       {
 
         //this.DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", HttpHeaderName, res.GetResponseHeader( sHeader ) ) );
@@ -3067,7 +3072,7 @@ namespace SEOMacroscope
 
           string NewAuthenticationType = "";    
           string NewAuthenticationRealm = "";
-          string NewAuthenticationValue = res.GetResponseHeader( HttpHeaderName );
+          string NewAuthenticationValue = Response.GetResponseHeader( HttpHeaderName );
 
           MatchCollection matches = Regex.Matches( NewAuthenticationValue, "^\\s*(Basic)\\s+realm=\"([^\"]+)\"", RegexOptions.IgnoreCase );
 
@@ -3097,7 +3102,7 @@ namespace SEOMacroscope
         if( HttpHeaderName.ToLower().Equals( "date" ) )
         {
 
-          string DateString = res.GetResponseHeader( HttpHeaderName );
+          string DateString = Response.GetResponseHeader( HttpHeaderName );
 
           this.DateServer = MacroscopeDateTools.ParseHttpDate(
             HeaderField: HttpHeaderName, 
@@ -3109,7 +3114,7 @@ namespace SEOMacroscope
         if( HttpHeaderName.ToLower().Equals( "last-modified" ) )
         {
 
-          string DateString = res.GetResponseHeader( HttpHeaderName );
+          string DateString = Response.GetResponseHeader( HttpHeaderName );
 
           this.DateModified = MacroscopeDateTools.ParseHttpDate( 
             HeaderField: HttpHeaderName,
@@ -3121,7 +3126,7 @@ namespace SEOMacroscope
         if( HttpHeaderName.ToLower().Equals( "expires" ) )
         {
           
-          string DateString = res.GetResponseHeader( HttpHeaderName );
+          string DateString = Response.GetResponseHeader( HttpHeaderName );
           
           this.DateExpires = MacroscopeDateTools.ParseHttpDate( 
             HeaderField: HttpHeaderName,
@@ -3135,7 +3140,7 @@ namespace SEOMacroscope
           if( string.IsNullOrEmpty( this.CompressionMethod ) )
           {
             this.IsCompressed = true;
-            this.CompressionMethod = res.GetResponseHeader( HttpHeaderName );
+            this.CompressionMethod = Response.GetResponseHeader( HttpHeaderName );
           }
         }
 
@@ -3151,7 +3156,7 @@ namespace SEOMacroscope
         // Link HTTP Headers
         if( HttpHeaderName.ToLower().Equals( "link" ) )
         {
-          this.ProcessHttpLinkHeader( HttpLinkHeader: res.GetResponseHeader( HttpHeaderName ) );          
+          this.ProcessHttpLinkHeader( HttpLinkHeader: Response.GetResponseHeader( HttpHeaderName ) );          
         }
 
         // Probe Character Set
@@ -3165,7 +3170,7 @@ namespace SEOMacroscope
         // Process Etag
         if( HttpHeaderName.ToLower().Equals( "etag" ) )
         {
-          string ETag = res.GetResponseHeader( HttpHeaderName );
+          string ETag = Response.GetResponseHeader( HttpHeaderName );
           if( ( ETag != null ) && ( ETag.Length > 0 ) )
           {
             ETag = Regex.Replace( ETag, "[\"'\\s]+", "", RegexOptions.Singleline );

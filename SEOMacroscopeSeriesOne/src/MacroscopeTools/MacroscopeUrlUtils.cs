@@ -686,7 +686,11 @@ namespace SEOMacroscope
         {
           DebugMsg( ex.Message, true );
         }
-      
+        catch( Exception ex )
+        {
+          DebugMsg( ex.Message, true );
+        }
+
         if( UriBase != null )
         {
           NewUrl = UriNew.ToString();
@@ -728,8 +732,6 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "StripHashFragment: {0}", ex.Message ), true );
       }
 
-      DebugMsg( string.Format( "UriBase.Query: {0}", UriBase.Query ), true );
-
       if( UriBase != null )
       {
 
@@ -763,7 +765,11 @@ namespace SEOMacroscope
         {
           DebugMsg( ex.Message, true );
         }
-      
+        catch( Exception ex )
+        {
+          DebugMsg( ex.Message, true );
+        }
+
         if( UriBase != null )
         {
           NewUrl = UriNew.ToString();
@@ -826,8 +832,12 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ), true );
       }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ), true );
+      }
 
-      return( MimeType );
+      return ( MimeType );
       
     }
 
