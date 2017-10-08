@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "SEO Macroscope Installer Downloads"
+description: "Download the current and previous releases of SEO Macroscope."
 ---
 
 {% assign releases = site.collection_releases | reverse %}

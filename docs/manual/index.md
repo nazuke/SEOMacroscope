@@ -1,6 +1,7 @@
 ---
 layout: page
 title: SEO Macroscope User Manual
+description: "The SEO Macroscope user manual."
 ---
 
 ![The SEO Macroscope application window.](images/application-001.png){: .img-responsive .box-shadow .screenshot}
@@ -102,7 +103,15 @@ External URLs will only be logged.
 
 ##### Follow canonical links
 
-If this option is checked, then SEO Macroscope will log and follow canonical links, if present. External URLs will only be logged.
+If this option is checked, then SEO Macroscope will log and follow canonical links, if present.
+
+External URLs will only be logged.
+
+##### Follow alternate links
+
+If this option is checked, then SEO Macroscope will log and follow links element that have their rel attribute set as "alternate".
+
+External URLs will only be logged.
 
 ##### Follow rel="nofollow" links
 
