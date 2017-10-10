@@ -86,6 +86,7 @@ namespace SEOMacroscope
     static Boolean FollowRedirects;
     static Boolean FollowNoFollow;
     static Boolean FollowCanonicalLinks;
+    static Boolean FollowAlternateLinks;
     static Boolean FollowHrefLangLinks;
     static Boolean FollowListLinks;
     
@@ -256,6 +257,7 @@ namespace SEOMacroscope
           FollowRedirects = Preferences.FollowRedirects;
           FollowNoFollow = Preferences.FollowNoFollow;
           FollowCanonicalLinks = Preferences.FollowCanonicalLinks;
+          FollowAlternateLinks = Preferences.FollowAlternateLinks;
           FollowHrefLangLinks = Preferences.FollowHrefLangLinks;
           FollowListLinks = Preferences.FollowListLinks;
           
@@ -403,6 +405,7 @@ namespace SEOMacroscope
       FollowRedirects = false;
       FollowNoFollow = true;
       FollowCanonicalLinks = true;
+      FollowAlternateLinks = true;
       FollowHrefLangLinks = false;
       FollowListLinks = false;
 
@@ -1195,7 +1198,7 @@ namespace SEOMacroscope
 
     public static Boolean GetFollowCanonicalLinks ()
     {
-      return( FollowCanonicalLinks );
+      return ( FollowCanonicalLinks );
     }
 
     public static void SetFollowCanonicalLinks ( Boolean State )
@@ -1203,6 +1206,18 @@ namespace SEOMacroscope
       FollowCanonicalLinks = State;
     }
 
+    /**************************************************************************/
+
+    public static Boolean GetFollowAlternateLinks ()
+    {
+      return (FollowAlternateLinks );
+    }
+
+    public static void SetFollowAlternateLinks ( Boolean State )
+    {
+      FollowAlternateLinks = State;
+    }
+    
     /**************************************************************************/
 
     public static Boolean GetFollowHrefLangLinks ()

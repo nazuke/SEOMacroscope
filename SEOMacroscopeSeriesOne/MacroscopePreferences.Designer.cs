@@ -1090,5 +1090,17 @@ namespace SEOMacroscope {
                 this["CheckRedirects"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FollowAlternateLinks {
+            get {
+                return ((bool)(this["FollowAlternateLinks"]));
+            }
+            set {
+                this["FollowAlternateLinks"] = value;
+            }
+        }
     }
 }

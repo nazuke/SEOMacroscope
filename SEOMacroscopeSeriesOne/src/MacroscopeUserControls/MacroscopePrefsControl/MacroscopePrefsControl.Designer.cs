@@ -214,6 +214,7 @@ namespace SEOMacroscope
       this.checkBoxFollowRobotsProtocol = new System.Windows.Forms.CheckBox();
       this.checkBoxFollowSitemapLinks = new System.Windows.Forms.CheckBox();
       this.groupBox10 = new System.Windows.Forms.GroupBox();
+      this.checkBoxCheckRedirects = new System.Windows.Forms.CheckBox();
       this.checkBoxCrawlStrictUrlCheck = new System.Windows.Forms.CheckBox();
       this.checkBoxIgnoreHashFragments = new System.Windows.Forms.CheckBox();
       this.checkBoxIgnoreQueries = new System.Windows.Forms.CheckBox();
@@ -358,7 +359,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-      this.checkBoxCheckRedirects = new System.Windows.Forms.CheckBox();
+      this.checkBoxFollowAlternateLinks = new System.Windows.Forms.CheckBox();
       label9 = new System.Windows.Forms.Label();
       label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
@@ -532,6 +533,7 @@ namespace SEOMacroscope
       // groupBox10
       // 
       this.groupBox10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox10.Controls.Add(this.checkBoxFollowAlternateLinks);
       this.groupBox10.Controls.Add(this.checkBoxCheckRedirects);
       this.groupBox10.Controls.Add(this.checkBoxCrawlStrictUrlCheck);
       this.groupBox10.Controls.Add(this.checkBoxIgnoreHashFragments);
@@ -548,9 +550,18 @@ namespace SEOMacroscope
       this.groupBox10.TabStop = false;
       this.groupBox10.Text = "Links";
       // 
+      // checkBoxCheckRedirects
+      // 
+      this.checkBoxCheckRedirects.Location = new System.Drawing.Point(20, 20);
+      this.checkBoxCheckRedirects.Name = "checkBoxCheckRedirects";
+      this.checkBoxCheckRedirects.Size = new System.Drawing.Size(150, 24);
+      this.checkBoxCheckRedirects.TabIndex = 7;
+      this.checkBoxCheckRedirects.Text = "Check redirects";
+      this.checkBoxCheckRedirects.UseVisualStyleBackColor = true;
+      // 
       // checkBoxCrawlStrictUrlCheck
       // 
-      this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(340, 50);
+      this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(340, 80);
       this.checkBoxCrawlStrictUrlCheck.Name = "checkBoxCrawlStrictUrlCheck";
       this.checkBoxCrawlStrictUrlCheck.Size = new System.Drawing.Size(150, 24);
       this.checkBoxCrawlStrictUrlCheck.TabIndex = 6;
@@ -559,7 +570,7 @@ namespace SEOMacroscope
       // 
       // checkBoxIgnoreHashFragments
       // 
-      this.checkBoxIgnoreHashFragments.Location = new System.Drawing.Point(340, 20);
+      this.checkBoxIgnoreHashFragments.Location = new System.Drawing.Point(340, 50);
       this.checkBoxIgnoreHashFragments.Name = "checkBoxIgnoreHashFragments";
       this.checkBoxIgnoreHashFragments.Size = new System.Drawing.Size(150, 24);
       this.checkBoxIgnoreHashFragments.TabIndex = 5;
@@ -568,7 +579,7 @@ namespace SEOMacroscope
       // 
       // checkBoxIgnoreQueries
       // 
-      this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(180, 80);
+      this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(340, 20);
       this.checkBoxIgnoreQueries.Name = "checkBoxIgnoreQueries";
       this.checkBoxIgnoreQueries.Size = new System.Drawing.Size(150, 24);
       this.checkBoxIgnoreQueries.TabIndex = 5;
@@ -577,7 +588,7 @@ namespace SEOMacroscope
       // 
       // checkBoxFollowNoFollow
       // 
-      this.checkBoxFollowNoFollow.Location = new System.Drawing.Point(180, 20);
+      this.checkBoxFollowNoFollow.Location = new System.Drawing.Point(180, 50);
       this.checkBoxFollowNoFollow.Name = "checkBoxFollowNoFollow";
       this.checkBoxFollowNoFollow.Size = new System.Drawing.Size(150, 24);
       this.checkBoxFollowNoFollow.TabIndex = 4;
@@ -586,7 +597,7 @@ namespace SEOMacroscope
       // 
       // checkBoxFollowHrefLangLinks
       // 
-      this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(180, 50);
+      this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(180, 80);
       this.checkBoxFollowHrefLangLinks.Name = "checkBoxFollowHrefLangLinks";
       this.checkBoxFollowHrefLangLinks.Size = new System.Drawing.Size(150, 24);
       this.checkBoxFollowHrefLangLinks.TabIndex = 3;
@@ -2294,14 +2305,14 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
       // 
-      // checkBoxCheckRedirects
+      // checkBoxFollowAlternateLinks
       // 
-      this.checkBoxCheckRedirects.Location = new System.Drawing.Point(20, 20);
-      this.checkBoxCheckRedirects.Name = "checkBoxCheckRedirects";
-      this.checkBoxCheckRedirects.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxCheckRedirects.TabIndex = 7;
-      this.checkBoxCheckRedirects.Text = "Check redirects";
-      this.checkBoxCheckRedirects.UseVisualStyleBackColor = true;
+      this.checkBoxFollowAlternateLinks.Location = new System.Drawing.Point(180, 20);
+      this.checkBoxFollowAlternateLinks.Name = "checkBoxFollowAlternateLinks";
+      this.checkBoxFollowAlternateLinks.Size = new System.Drawing.Size(150, 24);
+      this.checkBoxFollowAlternateLinks.TabIndex = 8;
+      this.checkBoxFollowAlternateLinks.Text = "Follow alternate links";
+      this.checkBoxFollowAlternateLinks.UseVisualStyleBackColor = true;
       // 
       // MacroscopePrefsControl
       // 
@@ -2390,5 +2401,6 @@ namespace SEOMacroscope
 		}
 
     public System.Windows.Forms.CheckBox checkBoxCheckRedirects;
+    public System.Windows.Forms.CheckBox checkBoxFollowAlternateLinks;
   }
 }

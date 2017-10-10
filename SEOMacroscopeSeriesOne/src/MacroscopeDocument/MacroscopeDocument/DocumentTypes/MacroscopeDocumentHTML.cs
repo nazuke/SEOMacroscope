@@ -303,11 +303,8 @@ namespace SEOMacroscope
           }
 
           { // Outlinks
-
             this.ProcessHtmlHyperlinksOut( HtmlDoc: HtmlDoc );
-
             this.ProcessHtmlOutlinks( HtmlDoc: HtmlDoc );
-
           }
 
           { // Process Inline CSS Links

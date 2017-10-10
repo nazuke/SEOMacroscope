@@ -106,6 +106,7 @@ namespace SEOMacroscope
         this.checkBoxIgnoreQueries.Checked = MacroscopePreferencesManager.GetIgnoreQueries();
         this.checkBoxIgnoreHashFragments.Checked = MacroscopePreferencesManager.GetIgnoreHashFragments();
         this.checkBoxFollowCanonicalLinks.Checked = MacroscopePreferencesManager.GetFollowCanonicalLinks();
+        this.checkBoxFollowAlternateLinks.Checked = MacroscopePreferencesManager.GetFollowAlternateLinks();
         this.checkBoxFollowHrefLangLinks.Checked = MacroscopePreferencesManager.GetFollowHrefLangLinks();
 
         this.checkBoxFetchStylesheets.Checked = MacroscopePreferencesManager.GetFetchStylesheets();
@@ -251,6 +252,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetIgnoreHashFragments( this.checkBoxIgnoreHashFragments.Checked );
 
       MacroscopePreferencesManager.SetFollowCanonicalLinks( this.checkBoxFollowCanonicalLinks.Checked );
+      MacroscopePreferencesManager.SetFollowAlternateLinks( this.checkBoxFollowAlternateLinks.Checked );
+      
       MacroscopePreferencesManager.SetFollowHrefLangLinks( this.checkBoxFollowHrefLangLinks.Checked );
 
       MacroscopePreferencesManager.SetFetchStylesheets( this.checkBoxFetchStylesheets.Checked );
