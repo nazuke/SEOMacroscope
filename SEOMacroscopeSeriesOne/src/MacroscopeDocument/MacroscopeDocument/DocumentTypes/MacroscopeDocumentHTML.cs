@@ -864,18 +864,18 @@ namespace SEOMacroscope
 
             if( LinkUrlAbs != null )
             {
-              
+
               Outlink = this.AddHtmlOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: LinkType,
                 Follow: Follow
               );
-              
+
               if( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
-              
+
             }
 
           }
@@ -1364,6 +1364,18 @@ namespace SEOMacroscope
 
       switch( LinkType )
       {
+        case MacroscopeConstants.InOutLinkType.CANONICAL:
+          if( !MacroscopePreferencesManager.GetFollowCanonicalLinks() )
+          {
+            Proceed = false;
+          }
+          break;
+        case MacroscopeConstants.InOutLinkType.ALTERNATE:
+          if( !MacroscopePreferencesManager.GetFollowAlternateLinks() )
+          {
+            Proceed = false;
+          }
+          break;
         case MacroscopeConstants.InOutLinkType.STYLESHEET:
           if( !MacroscopePreferencesManager.GetFetchStylesheets() )
           {
