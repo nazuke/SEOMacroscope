@@ -23,10 +23,17 @@
 
 */
 
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace SEOMacroscope
 {
-	partial class MacroscopeDataExtractorCssSelectorPanel
-	{
+	public partial class MacroscopeDataExtractorCssSelectorPanel : MacroscopeDataExtractorPanel
+  {
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>

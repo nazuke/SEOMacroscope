@@ -57,7 +57,7 @@ namespace SEOMacroscope
 		internal System.Windows.Forms.ToolStripButton toolStripButtonRetryBrokenLinks;
 		private System.Windows.Forms.SplitContainer splitContainerLeftAndRightViews;
 		public System.Windows.Forms.SplitContainer splitContainerStructureAndDocumentDetails;
-		public SEOMacroscope.MacroscopeOverviewPanel macroscopeOverviewTabPanelInstance;
+		public MacroscopeOverviewPanel macroscopeOverviewTabPanelInstance;
 		private SEOMacroscope.MacroscopeDocumentDetails macroscopeDocumentDetailsInstance;
 		internal SEOMacroscope.MacroscopeSiteStructurePanel macroscopeSiteStructurePanelInstance;
 		public System.Windows.Forms.ToolStripMenuItem loadUrlListToolStripMenuItem;

@@ -35,7 +35,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeUserControl ()
+    public MacroscopeUserControl () : base()
     {
     }
 
