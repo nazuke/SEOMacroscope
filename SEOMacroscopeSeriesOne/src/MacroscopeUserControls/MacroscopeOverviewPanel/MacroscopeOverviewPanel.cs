@@ -36,7 +36,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeOverviewPanel.
   /// </summary>
 
-  public partial class MacroscopeOverviewPanel : UserControl
+  public partial class MacroscopeOverviewPanel : MacroscopeUserControl
   {
 
     /**************************************************************************/

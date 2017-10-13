@@ -33,7 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopePrefsControl.
   /// </summary>
 
-  public partial class MacroscopePrefsControl : UserControl
+  public partial class MacroscopePrefsControl : MacroscopeUserControl
   {
 
     /**************************************************************************/

@@ -29,11 +29,11 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-  
+
   /// <summary>
   /// Description of MacroscopeDataExtractorXpathsForm.
   /// </summary>
-  
+
   public partial class MacroscopeDataExtractorXpathsForm : Form
   {
 
@@ -43,34 +43,41 @@ namespace SEOMacroscope
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-      
+
       this.dataExtractorInstance.ConfigureDataExtractorForm(
-        NewContainerForm: this, 
-        NewDataExtractor: NewDataExtractor 
+        NewContainerForm: this,
+        NewDataExtractor: NewDataExtractor
       );
 
       this.dataExtractorInstance.SetDataExtractor();
 
-      this.buttonClear.Click += ClearDataExtractorForm;
+      this.FormClosing += this.CallbackFormClosing;
+      this.buttonClear.Click += this.ClearDataExtractorForm;
+      this.buttonCancel.Click += this.CloseDataExtractorForm;
 
-      this.FormClosing += CallbackFormClosing;
-            
     }
-    
+
+    /**************************************************************************/
+
+    public MacroscopeDataExtractorXpaths GetDataExtractor ()
+    {
+      return ( this.dataExtractorInstance.GetDataExtractor() );
+    }
+
     /**************************************************************************/
 
     public void DisableButtonOk ()
     {
       this.buttonOK.Enabled = false;
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     public void EnableButtonOk ()
     {
       this.buttonOK.Enabled = true;
     }
-    
+
     /**************************************************************************/
 
     private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
@@ -82,25 +89,23 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
-    public MacroscopeDataExtractorXpaths GetDataExtractor ()
+
+    public void ClearDataExtractorForm ( object sender, EventArgs e )
     {
-      return( this.dataExtractorInstance.GetDataExtractor() );
+      this.dataExtractorInstance.ClearDataExtractorForm();
+      this.EnableButtonOk();
     }
 
     /**************************************************************************/
 
-    public void ClearDataExtractorForm ( object sender, EventArgs e )
+    public void CloseDataExtractorForm ( object sender, EventArgs e )
     {
-
-      this.dataExtractorInstance.ClearDataExtractorForm();
-
-      this.EnableButtonOk();
-
+      this.FormClosing -= this.CallbackFormClosing;
+      this.Close();
     }
 
     /**************************************************************************/
 
   }
-  
+
 }

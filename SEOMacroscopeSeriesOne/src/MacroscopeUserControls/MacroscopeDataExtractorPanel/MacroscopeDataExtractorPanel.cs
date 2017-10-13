@@ -35,7 +35,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDataExtractorPanel.
   /// </summary>
 
-  public partial class MacroscopeDataExtractorPanel : UserControl
+  public partial class MacroscopeDataExtractorPanel : MacroscopeUserControl
   {
 
     /**************************************************************************/

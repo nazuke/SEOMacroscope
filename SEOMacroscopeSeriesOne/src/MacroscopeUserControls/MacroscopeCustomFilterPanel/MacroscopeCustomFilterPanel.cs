@@ -37,7 +37,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeCustomFilterPanel.
   /// </summary>
 
-  public partial class MacroscopeCustomFilterPanel : UserControl
+  public partial class MacroscopeCustomFilterPanel : MacroscopeUserControl
   {
 
     /**************************************************************************/
@@ -79,6 +79,8 @@ namespace SEOMacroscope
     {
       this.EnableValidation = State;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     protected Boolean GetEnableValidation ()
     {

@@ -69,7 +69,7 @@ namespace SEOMacroscope
         }
 
       }
-      catch( CsvWriterException )
+      catch( CsvHelperException )
       {
         MacroscopeSaveCsvFileException CannotSaveCsvFileException;
         CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (

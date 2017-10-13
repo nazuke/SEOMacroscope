@@ -25,8 +25,8 @@
 
 namespace SEOMacroscope
 {
-	partial class MacroscopeDataExtractorRegexesPanel
-	{
+	partial class MacroscopeDataExtractorRegexesPanel : MacroscopeDataExtractorPanel
+  {
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>

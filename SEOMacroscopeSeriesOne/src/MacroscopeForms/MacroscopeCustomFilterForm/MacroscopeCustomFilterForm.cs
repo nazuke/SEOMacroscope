@@ -51,31 +51,27 @@ namespace SEOMacroscope
 
       this.customFilterPanelInstance.SetCustomFilter();
 
-      this.FormClosing += CallbackFormClosing;
-            
-    }
+      this.FormClosing += this.CallbackFormClosing;
+      this.buttonClear.Click += this.ClearCustomFilterForm;
+      this.buttonCancel.Click += this.CloseCustomFilterForm;
 
-    /**************************************************************************/
-
-    private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
-    {
-      
-      Boolean IsValid = false;
-      
-      IsValid = this.customFilterPanelInstance.ValidateForm( ShowErrorDialogue: true );
-
-      if( !IsValid )
-      {
-        e.Cancel = true;
-      }
-      
     }
 
     /**************************************************************************/
 
     public MacroscopeCustomFilters GetCustomFilter ()
     {
-      return( this.customFilterPanelInstance.GetCustomFilter() );
+      return ( this.customFilterPanelInstance.GetCustomFilter() );
+    }
+
+    /**************************************************************************/
+
+    private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
+    {
+      if( !this.customFilterPanelInstance.ValidateForm( ShowErrorDialogue: true ) )
+      {
+        e.Cancel = true;
+      }
     }
 
     /**************************************************************************/
@@ -83,6 +79,14 @@ namespace SEOMacroscope
     public void ClearCustomFilterForm ( object sender, EventArgs e )
     {
       this.customFilterPanelInstance.ClearCustomFilterForm();
+    }
+
+    /**************************************************************************/
+
+    public void CloseCustomFilterForm ( object sender, EventArgs e )
+    {
+      this.FormClosing -= this.CallbackFormClosing;
+      this.Close();
     }
 
     /**************************************************************************/

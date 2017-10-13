@@ -43,7 +43,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-        
+
     public MacroscopeCsvBrokenLinksReport ()
     {
     }
@@ -59,12 +59,12 @@ namespace SEOMacroscope
 
       try
       {
-              
+
         using( StreamWriter writer = File.CreateText( OutputFilename ) )
         {
-        
-          CsvWriter ws = new CsvWriter ( writer );
-        
+
+          CsvWriter ws = new CsvWriter( writer );
+
           switch( SelectedOutputWorksheet )
           {
             case MacroscopeCsvBrokenLinksReport.OutputWorksheet.BROKEN_LINKS:
@@ -83,10 +83,10 @@ namespace SEOMacroscope
         }
 
       }
-      catch( CsvWriterException )
+      catch( CsvHelperException )
       {
         MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (
+        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
           string.Format( "Cannot write to CSV file at {0}", OutputFilename )
         );
         throw CannotSaveCsvFileException;
@@ -94,7 +94,7 @@ namespace SEOMacroscope
       catch( IOException )
       {
         MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (
+        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
           string.Format( "Cannot write to CSV file at {0}", OutputFilename )
         );
         throw CannotSaveCsvFileException;

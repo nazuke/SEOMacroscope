@@ -165,6 +165,23 @@ namespace SEOMacroscope
       this.ConfigureDocumentDetailsInstance();
       this.ConfigureSiteStructurePanelInstance();
 
+      /** Events ----------------------------------------------------------- **/
+
+      this.FormClosing += this.CallbackFormClosing;
+      
+      // TODO: migrate menu callbacks to here
+      
+      this.ButtonStart.Click += this.CallbackScanStart;
+      this.ButtonStop.Click += this.CallbackScanStop;
+      this.ButtonReset.Click += this.CallbackScanReset;
+
+      this.toolStripButtonRetryBrokenLinks.Click += this.CallbackRetryBrokenLinksClick;
+      this.toolStripButtonRetryTimedOutLinks.Click += this.CallbackRetryTimedOutLinksClick;
+      this.toolStripButtonRecalculateLinkCount.Click += this.CallbackRecalculateLinkCountsClick;
+      this.toolStripButtonRecalculateClickPaths.Click += this.CallbackRecalculateClickPathsClick;
+      
+      /** ------------------------------------------------------------------ **/
+
       this.SetUrl( MacroscopePreferencesManager.GetStartUrl() );
 
       #if DEBUG

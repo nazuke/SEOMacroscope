@@ -25,8 +25,8 @@
 
 namespace SEOMacroscope
 {
-	partial class MacroscopeOverviewPanel
-	{
+	partial class MacroscopeOverviewPanel : MacroscopeUserControl
+  {
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>

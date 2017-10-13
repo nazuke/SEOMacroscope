@@ -8,8 +8,8 @@
  */
 namespace SEOMacroscope
 {
-	partial class MacroscopeSiteStructurePanelCharts
-	{
+	partial class MacroscopeSiteStructurePanelCharts : MacroscopeUserControl
+  {
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>

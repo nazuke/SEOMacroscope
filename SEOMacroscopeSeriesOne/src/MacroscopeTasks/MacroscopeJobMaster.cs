@@ -470,7 +470,7 @@ namespace SEOMacroscope
 
                 if( NewThreadStarted )
                 {
-                  Thread.Sleep( 100 );
+                  Thread.Sleep( 2000 );
                 }
 
                 this.AdjustThreadsMax();
@@ -891,15 +891,13 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
-        string Url = msDoc.GetUrl();
-
         switch( msDoc.GetStatusCode() )
         {
 
         // Bogus Range
 
           case 0:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
 
         // 200 Range
@@ -910,43 +908,43 @@ namespace SEOMacroscope
         // 400 Range
 
           case HttpStatusCode.BadRequest:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.Unauthorized:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.Forbidden:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.NotFound:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.Gone:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.RequestTimeout:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.RequestUriTooLong:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
 
         // 500 Range
 
           case HttpStatusCode.InternalServerError:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.NotImplemented:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.BadGateway:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.ServiceUnavailable:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
           case HttpStatusCode.GatewayTimeout:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
 
         // Default
@@ -964,42 +962,62 @@ namespace SEOMacroscope
 
     public void RetryTimedOutLinks ()
     {
+
       foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
-        string Url = msDoc.GetUrl();
+
         switch( msDoc.GetStatusCode() )
         {
+
           case HttpStatusCode.RequestTimeout:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
+
           case HttpStatusCode.GatewayTimeout:
-            this.ResetLink( Url );
+            this.ResetLink( msDoc: msDoc );
             break;
+
           default:
             break;
+
         }
+
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     public void RetryLink ( string Url )
     {
-      this.ResetLink( Url: Url );
+      MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
+
+
+      this.ResetLink( msDoc: msDoc );
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    public void RetryLink ( MacroscopeDocument msDoc )
+    {
+      this.ResetLink( msDoc: msDoc );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+      /*
     private void ResetLink ( string Url )
     {
-      
+
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
-      
+
       if( msDoc != null )
       {
 
         msDoc.SetIsDirty();
-        
+
         this.ForgetUrlQueueItem( Url: Url );
-        
+
         this.JobHistory.ResetHistoryItem( Url: Url );
 
         this.AddUrlQueueItem( Url: Url );
@@ -1009,7 +1027,34 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "ResetLink ERROR: {0}", Url ) );
       }
-      
+
+    }
+    */
+
+    /** -------------------------------------------------------------------- **/
+
+    private void ResetLink ( MacroscopeDocument msDoc )
+    {
+
+      if( msDoc != null )
+      {
+
+        string Url = msDoc.GetUrl();
+
+        msDoc.SetIsDirty();
+
+        this.ForgetUrlQueueItem( Url: Url );
+
+        this.JobHistory.ResetHistoryItem( Url: Url );
+
+        this.AddUrlQueueItem( Url: Url );
+
+      }
+      else
+      {
+        DebugMsg( string.Format( "ResetLink ERROR" ) );
+      }
+
     }
 
     /** Start URL *************************************************************/

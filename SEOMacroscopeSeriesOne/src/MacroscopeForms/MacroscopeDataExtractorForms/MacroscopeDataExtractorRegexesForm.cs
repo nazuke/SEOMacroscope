@@ -29,11 +29,11 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-	
+
   /// <summary>
   /// Description of MacroscopeDataExtractorRegexesForm.
   /// </summary>
-	
+
   public partial class MacroscopeDataExtractorRegexesForm : Form
   {
 
@@ -43,7 +43,7 @@ namespace SEOMacroscope
     {
 
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-			     
+
       this.dataExtractorInstance.ConfigureDataExtractorForm(
         NewContainerForm: this,
         NewDataExtractor: NewDataExtractor
@@ -51,47 +51,41 @@ namespace SEOMacroscope
 
       this.dataExtractorInstance.SetDataExtractor();
 
-      this.buttonClear.Click += ClearDataExtractorForm;
+      this.FormClosing += this.CallbackFormClosing;
+      this.buttonClear.Click += this.ClearDataExtractorForm;
+      this.buttonCancel.Click += this.CloseDataExtractorForm;
 
-      this.FormClosing += CallbackFormClosing;
-            
-    }
-    
-    /**************************************************************************/
-
-    public void DisableButtonOk ()
-    {
-      this.buttonOK.Enabled = false;
-    }
-    
-    /** -------------------------------------------------------------------- **/
-
-    public void EnableButtonOk ()
-    {
-      this.buttonOK.Enabled = true;
-    }
-    
-    /**************************************************************************/
-
-    private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
-    {
-      
-      Boolean IsValid = false;
-      
-      IsValid = this.dataExtractorInstance.ValidateForm( ShowErrorDialogue: true );
-
-      if( !IsValid )
-      {
-        e.Cancel = true;
-      }
-      
     }
 
     /**************************************************************************/
 
     public MacroscopeDataExtractorRegexes GetDataExtractor ()
     {
-      return( this.dataExtractorInstance.GetDataExtractor() );
+      return ( this.dataExtractorInstance.GetDataExtractor() );
+    }
+
+    /**************************************************************************/
+
+    public void DisableButtonOk ()
+    {
+      this.buttonOK.Enabled = false;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void EnableButtonOk ()
+    {
+      this.buttonOK.Enabled = true;
+    }
+
+    /**************************************************************************/
+
+    private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
+    {
+      if( !this.dataExtractorInstance.ValidateForm( ShowErrorDialogue: true ) )
+      {
+        e.Cancel = true;
+      }
     }
 
     /**************************************************************************/
@@ -103,6 +97,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public void CloseDataExtractorForm ( object sender, EventArgs e )
+    {
+      this.FormClosing -= this.CallbackFormClosing;
+      this.Close();
+    }
+
+    /**************************************************************************/
+
   }
-	
+
 }

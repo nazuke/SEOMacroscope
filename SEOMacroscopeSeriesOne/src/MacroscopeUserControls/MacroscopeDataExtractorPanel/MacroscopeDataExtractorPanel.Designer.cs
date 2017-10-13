@@ -30,7 +30,7 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-  public partial class MacroscopeDataExtractorPanel : UserControl
+  public partial class MacroscopeDataExtractorPanel : MacroscopeUserControl
   {
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
