@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEOMacroscopeSeriesOne", "SEOMacroscopeSeriesOne\SEOMacroscopeSeriesOne.csproj", "{4CBF3E3F-9BCA-46F1-A316-836EA580779F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SEOMacroscopeInstaller", "SEOMacroscopeInstaller\SEOMacroscopeInstaller.vdproj", "{EA48835B-BAA1-4C6F-BC27-4D86B538D1CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CBF3E3F-9BCA-46F1-A316-836EA580779F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA48835B-BAA1-4C6F-BC27-4D86B538D1CE}.Debug|Any CPU.ActiveCfg = Debug
+		{EA48835B-BAA1-4C6F-BC27-4D86B538D1CE}.Debug|Any CPU.Build.0 = Debug
+		{EA48835B-BAA1-4C6F-BC27-4D86B538D1CE}.Release|Any CPU.ActiveCfg = Release
+		{EA48835B-BAA1-4C6F-BC27-4D86B538D1CE}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

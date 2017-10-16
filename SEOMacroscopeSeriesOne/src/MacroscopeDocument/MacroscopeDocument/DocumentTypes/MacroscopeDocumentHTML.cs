@@ -591,6 +591,7 @@ namespace SEOMacroscope
                 {
                   DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
                   DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkTitle ) );
+                  DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                 }
 
                 if( !string.IsNullOrEmpty( LinkTitle ) )
@@ -636,6 +637,7 @@ namespace SEOMacroscope
                   {
                     DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
                     DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkText ) );
+                    DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                   }
 
                   if( !string.IsNullOrEmpty( LinkText ) )
@@ -672,6 +674,7 @@ namespace SEOMacroscope
                     {
                       DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
                       DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkAltText ) );
+                      DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                     }
 
                     if( !string.IsNullOrEmpty( LinkAltText ) )

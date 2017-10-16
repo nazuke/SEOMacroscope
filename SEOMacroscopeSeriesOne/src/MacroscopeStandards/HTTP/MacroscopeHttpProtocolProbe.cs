@@ -137,6 +137,7 @@ namespace SEOMacroscope
       catch( TimeoutException ex )
       {
         IsHttpTwo = false;
+        this.DebugMsg( ex.Message );
       }
 
       /*

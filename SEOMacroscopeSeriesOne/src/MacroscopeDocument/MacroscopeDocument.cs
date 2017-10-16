@@ -1576,6 +1576,7 @@ namespace SEOMacroscope
         {
           DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
           DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", TitleText ) );
+          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
         }
 
       }
@@ -1746,6 +1747,7 @@ namespace SEOMacroscope
           {
             DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
             DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", AltText ) );
+            DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
           }
 
         }

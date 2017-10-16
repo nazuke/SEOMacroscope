@@ -192,7 +192,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Conditional( "DEVMODE" )]
-    public void DebugMsg ( String Msg )
+    new public void DebugMsg ( String Msg )
     {
       System.Diagnostics.Debug.WriteLine( Msg );
     }
