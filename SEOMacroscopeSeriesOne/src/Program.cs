@@ -45,19 +45,10 @@ namespace SEOMacroscope
   internal sealed class Program
   {
 
-
-
-
-
-
-
-
-
-
-
+    
     /**************************************************************************/
 
-    [STAThread]
+    [ STAThread]
     private static void Main ( string [] args )
     {
 

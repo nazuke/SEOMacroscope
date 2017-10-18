@@ -1,0 +1,25 @@
+﻿<Window x:Class="SEOMacroscopeSeriesTwo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SEOMacroscopeSeriesTwo"
+        mc:Ignorable="d"
+        Title="SEO Macroscope" Height="800" Width="1000">
+
+
+
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Exit">
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+    </Grid>
+
+
+
+</Window>
