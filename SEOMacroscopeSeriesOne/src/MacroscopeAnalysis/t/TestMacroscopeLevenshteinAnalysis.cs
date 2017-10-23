@@ -1,25 +1,25 @@
 ﻿/*
 
-  This file is part of SEOMacroscope.
+This file is part of SEOMacroscope.
 
-  Copyright 2017 Jason Holland.
+Copyright 2017 Jason Holland.
 
-  The GitHub repository may be found at:
+The GitHub repository may be found at:
 
-    https://github.com/nazuke/SEOMacroscope
+https://github.com/nazuke/SEOMacroscope
 
-  Foobar is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+Foobar is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-  Foobar is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+Foobar is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
@@ -40,49 +40,64 @@ namespace SEOMacroscope
     public void TestDuplicate ()
     {
 
-      const string StartUrl = "https://nazuke.github.io/SEOMacroscope/";                  
+      const string StartUrl = "https://nazuke.github.io/SEOMacroscope/";
       const string DupeUrl = "https://nazuke.github.io/SEOMacroscope/index.html";
+      MacroscopeJobMaster JobMaster;
+      MacroscopeDocumentCollection DocCollection;
+      Dictionary<string, Boolean> CrossCheckList;
+      MacroscopeDocument msDoc;
+      MacroscopeDocument msDocDifferent;
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-                                        TaskController: this
-                                      );
+      JobMaster = new MacroscopeJobMaster(
+      JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+      TaskController: this
+      );
 
-      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
+      DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
 
-      Dictionary<string,Boolean> CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList( Capacity: DocCollection.CountDocuments() );
+      CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList( Capacity: DocCollection.CountDocuments() );
 
-      MacroscopeDocument msDoc = DocCollection.CreateDocument( StartUrl );
-      MacroscopeDocument msDocDifferent = DocCollection.CreateDocument( DupeUrl );
-      
+      msDoc = DocCollection.CreateDocument( StartUrl );
+      msDocDifferent = DocCollection.CreateDocument( DupeUrl );
+
       msDoc.Execute();
       msDocDifferent.Execute();
-      
+
       DocCollection.AddDocument( msDoc );
       DocCollection.AddDocument( msDocDifferent );
 
       DebugMsg( string.Format( "msDoc: {0}", msDoc.GetStatusCode() ) );
-      
+
       DebugMsg( string.Format( "msDocDifferent: {0}", msDocDifferent.GetStatusCode() ) );
 
       for( int i = 1 ; i <= 100 ; i++ )
       {
 
-        MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis (
-                                                              msDoc: msDoc,
-                                                              SizeDifference: 64,
-                                                              Threshold: 16,
-                                                              CrossCheckList: CrossCheckList
-                                                            );
+        MacroscopeLevenshteinAnalysis LevenshteinAnalysis;
+        Dictionary<MacroscopeDocument, int> DocList;
 
-        Dictionary<MacroscopeDocument,int> DocList = LevenshteinAnalysis.AnalyzeDocCollection( DocCollection: DocCollection );
-      
+        LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis(
+        msDoc: msDoc,
+        SizeDifference: 64,
+        Threshold: 16,
+        CrossCheckList: CrossCheckList
+        );
+
+        DocList = LevenshteinAnalysis.AnalyzeDocCollection( DocCollection: DocCollection );
+
         DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
 
         foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
         {
+
           DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
-          Assert.AreEqual( DocList[ msDocAnalyzed ], 0, string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
+
+          Assert.AreEqual(
+          DocList[ msDocAnalyzed ],
+          0,
+          string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() )
+          );
+
         }
 
       }
@@ -90,46 +105,45 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
     [Test]
     public void TestDifferent ()
     {
 
       const string StartUrl = "https://nazuke.github.io/SEOMacroscope/";
+      MacroscopeJobMaster JobMaster;
+      MacroscopeDocumentCollection DocCollection;
+      Dictionary<string, Boolean> CrossCheckList;
+      MacroscopeDocument msDoc;
+      MacroscopeLevenshteinAnalysis LevenshteinAnalysis;
+      List<string> TargetUrls;
 
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-                                        TaskController: this
-                                      );
+      JobMaster = new MacroscopeJobMaster(
+      JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+      TaskController: this
+      );
 
-      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection ( JobMaster: JobMaster );
-      
-      Dictionary<string,Boolean> CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList( Capacity: DocCollection.CountDocuments() );
-            
-      MacroscopeDocument msDoc = DocCollection.CreateDocument( StartUrl );
+      DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
+
+      CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList( Capacity: DocCollection.CountDocuments() );
+
+      msDoc = DocCollection.CreateDocument( StartUrl );
       msDoc.Execute();
       DocCollection.AddDocument( msDoc );
 
       DebugMsg( string.Format( "msDoc: {0}", msDoc.GetStatusCode() ) );
 
-      MacroscopeLevenshteinAnalysis LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis (
-                                                            msDoc: msDoc,
-                                                            SizeDifference: 64,
-                                                            Threshold: 16,
-                                                            CrossCheckList: CrossCheckList
-                                                          );
+      LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis(
+        msDoc: msDoc,
+        SizeDifference: 64,
+        Threshold: 16,
+        CrossCheckList: CrossCheckList
+      );
 
-      List<string> TargetUrls = new List<string> () {
-        {
-          "https://nazuke.github.io/SEOMacroscope/blog/"
-        },
-        {
-          "https://nazuke.github.io/SEOMacroscope/downloads/"
-        },
-        {
-          "https://nazuke.github.io/SEOMacroscope/manual/"
-        }
-      };
+      TargetUrls = new List<string>();
+      TargetUrls.Add( "https://nazuke.github.io/SEOMacroscope/blog/" );
+      TargetUrls.Add( "https://nazuke.github.io/SEOMacroscope/downloads/" );
+      TargetUrls.Add( "https://nazuke.github.io/SEOMacroscope/manual/" );
 
       foreach( string TargetUrl in TargetUrls )
       {
@@ -142,29 +156,29 @@ namespace SEOMacroscope
       for( int i = 1 ; i <= 10 ; i++ )
       {
 
-        Dictionary<MacroscopeDocument,int> DocList;
+        Dictionary<MacroscopeDocument, int> DocList;
 
         DocList = LevenshteinAnalysis.AnalyzeDocCollection(
-          DocCollection: DocCollection
+        DocCollection: DocCollection
         );
 
         DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
 
         foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
         {
-        
+
           DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
-        
+
           Assert.AreNotEqual(
-            DocList[ msDocAnalyzed ],
-            0,
-            string.Format(
-              "FAIL: {0} => {1}",
-              DocList[ msDocAnalyzed ],
-              msDocAnalyzed.GetUrl()
-            )
+          DocList[ msDocAnalyzed ],
+          0,
+          string.Format(
+          "FAIL: {0} => {1}",
+          DocList[ msDocAnalyzed ],
+          msDocAnalyzed.GetUrl()
+          )
           );
-        
+
         }
 
       }
@@ -179,8 +193,8 @@ namespace SEOMacroscope
 
     public MacroscopeCredentialsHttp IGetCredentialsHttp ()
     {
-      MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp ();
-      return( CredentialsHttp );
+      MacroscopeCredentialsHttp CredentialsHttp = new MacroscopeCredentialsHttp();
+      return ( CredentialsHttp );
     }
 
     public void ICallbackOutOfMemory ()
@@ -189,7 +203,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
   }
 
 }

@@ -156,6 +156,8 @@ namespace SEOMacroscope
 
     private string BodyTextRaw;
 
+    private MacroscopeLevenshteinFingerprint LevenshteinFingerprint;
+
     private List<Dictionary<string,int>> DeepKeywordAnalysis;
 
     private double ReadabilityGrade;
@@ -346,7 +348,9 @@ namespace SEOMacroscope
       this.DocumentTextLanguage = "";
       
       this.BodyTextRaw = "";
-      
+
+      this.LevenshteinFingerprint = new MacroscopeLevenshteinFingerprint( msDoc: this );
+
       this.DeepKeywordAnalysis = new List<Dictionary<string,int>> ( 4 );
       for( int i = 0 ; i <= 3 ; i++ )
       {
@@ -1991,6 +1995,8 @@ namespace SEOMacroscope
       
       }
 
+      this.SetLevenshteinFingerprint();
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1998,6 +2004,20 @@ namespace SEOMacroscope
     public string GetBodyTextRaw ()
     {
       return( this.BodyTextRaw );
+    }
+
+    /** Levenshtein Fingerprint ***********************************************/
+
+    private void SetLevenshteinFingerprint ()
+    {
+      this.LevenshteinFingerprint.Analyze();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public string GetLevenshteinFingerprint ()
+    {
+      return ( this.LevenshteinFingerprint.GetFingerprint() );
     }
 
     /** Deep Keyword Analysis *************************************************/

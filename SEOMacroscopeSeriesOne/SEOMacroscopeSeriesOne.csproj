@@ -149,6 +149,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="src\Macroscope.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\MacroscopeLevenshteinFingerprint.cs" />
     <Compile Include="src\MacroscopeConstants.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
@@ -173,7 +174,7 @@
     <Compile Include="src\MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeHrefLang.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeInsecureLinks.cs" />
-    <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\MacroscopeLevenshteinAnalysis.cs" />
     <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeAnalyzePageTitles.cs" />
     <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeDeepKeywordAnalysis.cs" />

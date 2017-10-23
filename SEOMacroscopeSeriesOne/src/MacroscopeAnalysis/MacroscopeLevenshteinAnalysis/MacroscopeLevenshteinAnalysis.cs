@@ -35,6 +35,8 @@ namespace SEOMacroscope
   /// Description of MacroscopeLevenshteinAnalysis.
   /// </summary>
 
+  // TODO: Perform deeper analysis on similarly detected documents.
+
   public class MacroscopeLevenshteinAnalysis : Macroscope
   {
 	  
@@ -61,10 +63,13 @@ namespace SEOMacroscope
     )
     {
       
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
       
       this.msDocOriginal = msDoc;
-      this.MonstrousText = msDoc.GetDocumentTextRaw().ToLower();
+
+      //this.MonstrousText = msDoc.GetDocumentTextRaw().ToLower();
+      this.MonstrousText = msDoc.GetLevenshteinFingerprint();
+
       this.Monster = new Levenshtein ( MonstrousText );
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
@@ -83,10 +88,13 @@ namespace SEOMacroscope
     )
     {
       
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
       
       this.msDocOriginal = msDoc;
-      this.MonstrousText = msDoc.GetDocumentTextRaw().ToLower();
+
+      //this.MonstrousText = msDoc.GetDocumentTextRaw().ToLower();
+      this.MonstrousText = msDoc.GetLevenshteinFingerprint();
+
       this.Monster = new Levenshtein ( MonstrousText );
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
@@ -157,7 +165,8 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {
 
-        string BodyText = msDocCompare.GetDocumentTextRaw().ToLower();
+        //string BodyText = msDocCompare.GetDocumentTextRaw().ToLower();
+        string BodyText = msDocCompare.GetLevenshteinFingerprint();
         Boolean DoCheck = false;
         
         Count++;
