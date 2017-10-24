@@ -66,10 +66,7 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = false;
       
       this.msDocOriginal = msDoc;
-
-      //this.MonstrousText = msDoc.GetDocumentTextRaw().ToLower();
       this.MonstrousText = msDoc.GetLevenshteinFingerprint();
-
       this.Monster = new Levenshtein ( MonstrousText );
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
@@ -91,10 +88,7 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = false;
       
       this.msDocOriginal = msDoc;
-
-      //this.MonstrousText = msDoc.GetDocumentTextRaw().ToLower();
       this.MonstrousText = msDoc.GetLevenshteinFingerprint();
-
       this.Monster = new Levenshtein ( MonstrousText );
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
@@ -255,14 +249,15 @@ namespace SEOMacroscope
           
           if( Distance <= this.ComparisonThreshold )
           {
+
             DocList.Add( msDocCompare, Distance );
+
+            if( MacroscopePreferencesManager.GetLevenshteinAnalysisLevel() == 2 )
+            {
+              // TODO: Implement second level Levenshtein analysis
+            }
+
           }
-          
-        }
-        else
-        {
-          
-          //DebugMsg( string.Format( "DoCheck: {0}", DoCheck ) );
           
         }
 

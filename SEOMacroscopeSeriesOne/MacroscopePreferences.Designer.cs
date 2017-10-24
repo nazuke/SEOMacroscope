@@ -1102,5 +1102,17 @@ namespace SEOMacroscope {
                 this["FollowAlternateLinks"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int LevenshteinAnalysisLevel {
+            get {
+                return ((int)(this["LevenshteinAnalysisLevel"]));
+            }
+            set {
+                this["LevenshteinAnalysisLevel"] = value;
+            }
+        }
     }
 }

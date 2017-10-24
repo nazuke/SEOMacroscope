@@ -144,6 +144,7 @@ namespace SEOMacroscope
     static int AnalyzeTextReadabilityEnglishAlgorithm;
 
     static Boolean EnableLevenshteinDeduplication;
+    static int LevenshteinAnalysisLevel;
     static int MaxLevenshteinSizeDifference;
     static int MaxLevenshteinDistance;
     
@@ -247,6 +248,7 @@ namespace SEOMacroscope
           CaseSensitiveTextIndexing = Preferences.CaseSensitiveTextIndexing;
 
           EnableLevenshteinDeduplication = Preferences.EnableLevenshteinDeduplication;
+          LevenshteinAnalysisLevel = Preferences.LevenshteinAnalysisLevel;
           MaxLevenshteinSizeDifference = Preferences.MaxLevenshteinSizeDifference;
           MaxLevenshteinDistance = Preferences.MaxLevenshteinDistance;
           
@@ -442,6 +444,7 @@ namespace SEOMacroscope
       CaseSensitiveTextIndexing = false;      
       
       EnableLevenshteinDeduplication = true;
+      LevenshteinAnalysisLevel = 1; // 1 | 2
       MaxLevenshteinSizeDifference = 64;
       MaxLevenshteinDistance = 16;
       
@@ -649,6 +652,7 @@ namespace SEOMacroscope
         Preferences.CaseSensitiveTextIndexing = CaseSensitiveTextIndexing;
         
         Preferences.EnableLevenshteinDeduplication = EnableLevenshteinDeduplication;
+        Preferences.LevenshteinAnalysisLevel = LevenshteinAnalysisLevel;
         Preferences.MaxLevenshteinSizeDifference = MaxLevenshteinSizeDifference;
         Preferences.MaxLevenshteinDistance = MaxLevenshteinDistance;
 
@@ -1114,6 +1118,20 @@ namespace SEOMacroscope
       EnableLevenshteinDeduplication = State;
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    public static int GetLevenshteinAnalysisLevel ()
+    {
+      return ( LevenshteinAnalysisLevel );
+    }
+
+    public static void SetLevenshteinAnalysisLevel ( int Level )
+    {
+      LevenshteinAnalysisLevel = Level;
+    }
+    
+    /** -------------------------------------------------------------------- **/
+
     public static int GetMaxLevenshteinSizeDifference ()
     {
       return( MaxLevenshteinSizeDifference );
@@ -1123,6 +1141,8 @@ namespace SEOMacroscope
     {
       MaxLevenshteinSizeDifference = Max;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public static int GetMaxLevenshteinDistance ()
     {
