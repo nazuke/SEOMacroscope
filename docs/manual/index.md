@@ -431,6 +431,16 @@ Enabling this option will make the Levenshtein Edit Distance algorithm be applie
 
 Currently, the comparison data is only available in the duplicate content Excel report.
 
+##### Levenshtein Analysis Level
+
+The Levenshtein analysis can be quite expensive computationally, so there are two analysis levels that may be chosen to assist with speeding up the process.
+
+When the text of each web page is extracted, SEO Macroscope generates a *"Levenshtein Fingerprint"* of the text. This is a vastly simplified representation of the text in the document, and may more quickly be analyzed.
+
+* Level 1 will use only the Levenshtein Fingerprint for analysis of the document set. Generally, this will be sufficient to identify most near-duplicates in a reasonable time. This may yield false-positives.
+
+* Level 2 will execute the Level 1 pass, but then apply the Levenshtein algorithm on the full text of documents that are identified as being near-duplicates.
+
 ##### Maximum Levenshtein Text Length Difference
 
 This value is used to consider whether to apply the Levenshtein algorithm to two documents, or not.
