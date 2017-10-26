@@ -30,7 +30,7 @@ using Fastenshtein;
 
 namespace SEOMacroscope
 {
-  
+
   /// <summary>
   /// Description of MacroscopeLevenshteinAnalysis.
   /// </summary>
@@ -39,82 +39,99 @@ namespace SEOMacroscope
 
   public class MacroscopeLevenshteinAnalysis : Macroscope
   {
-	  
+
     /**************************************************************************/
 
     private const long EstimateMemoryAllocation = 8192;
     private IMacroscopeAnalysisPercentageDone PercentageDone;
-    
+
     private readonly MacroscopeDocument msDocOriginal;
-    private string MonstrousText;
-    private Levenshtein Monster;
+    private string Fingerprint;
+    private string DocumentText;
+    private Levenshtein AnalyzerFingerprint;
+    private Levenshtein AnalyzerText;
     private int ComparisonSizeDifference;
     private int ComparisonThreshold;
-    private Dictionary<string,Boolean> CrossCheck;
-    
+    private Dictionary<string, Boolean> CrossCheck;
+
     /**************************************************************************/
-	      
+
     public MacroscopeLevenshteinAnalysis (
       MacroscopeDocument msDoc,
       int SizeDifference,
       int Threshold,
-      Dictionary<string,Boolean> CrossCheckList,
+      Dictionary<string, Boolean> CrossCheckList,
       IMacroscopeAnalysisPercentageDone IPercentageDone
     )
     {
-      
+
       this.SuppressDebugMsg = false;
-      
+
       this.msDocOriginal = msDoc;
-      this.MonstrousText = msDoc.GetLevenshteinFingerprint();
-      this.Monster = new Levenshtein ( MonstrousText );
+
+      this.Fingerprint = msDoc.GetLevenshteinFingerprint();
+      this.DocumentText = msDoc.GetDocumentTextRaw().ToLower();
+
+      this.AnalyzerFingerprint = new Levenshtein( Fingerprint );
+      this.AnalyzerText = new Levenshtein( DocumentText );
+
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
-      
+
       this.CrossCheck = CrossCheckList;
-      
+
       this.PercentageDone = IPercentageDone;
-      
+
     }
 
     public MacroscopeLevenshteinAnalysis (
       MacroscopeDocument msDoc,
       int SizeDifference,
       int Threshold,
-      Dictionary<string,Boolean> CrossCheckList
+      Dictionary<string, Boolean> CrossCheckList
     )
     {
-      
+
       this.SuppressDebugMsg = false;
-      
+
       this.msDocOriginal = msDoc;
-      this.MonstrousText = msDoc.GetLevenshteinFingerprint();
-      this.Monster = new Levenshtein ( MonstrousText );
+
+      this.Fingerprint = msDoc.GetLevenshteinFingerprint();
+      this.DocumentText = msDoc.GetDocumentTextRaw().ToLower();
+
+      this.AnalyzerFingerprint = new Levenshtein( Fingerprint );
+      this.AnalyzerText = new Levenshtein( DocumentText );
+
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
-      
+
       this.CrossCheck = CrossCheckList;
-            
+
       this.PercentageDone = null;
-      
+
     }
 
     /**************************************************************************/
 
-    public Dictionary<MacroscopeDocument,int> AnalyzeDocCollection (
+    public Dictionary<MacroscopeDocument, int> AnalyzeDocCollection (
       MacroscopeDocumentCollection DocCollection
     )
     {
 
-      if( this.Monster.GetType() != typeof( Levenshtein ) )
+      Dictionary<MacroscopeDocument, int> DocList;
+      decimal DocListCount;
+      decimal Count;
+      Boolean Proceed;
+
+      if( this.AnalyzerFingerprint.GetType() != typeof( Levenshtein ) )
       {
-        throw new Exception ( "MacroscopeLevenshteinAnalysis not initialized" );
+        throw new Exception( "MacroscopeLevenshteinAnalysis not initialized" );
       }
-      
-      Dictionary<MacroscopeDocument,int> DocList = new Dictionary<MacroscopeDocument,int> ( DocCollection.CountDocuments() );
-      decimal DocListCount = ( decimal )DocCollection.CountDocuments();
-      decimal Count = 0;
-      Boolean Proceed = false;
+
+      DocList = new Dictionary<MacroscopeDocument, int>( DocCollection.CountDocuments() );
+      DocListCount = (decimal) DocCollection.CountDocuments();
+      Count = 0;
+      Proceed = false;
 
       try
       {
@@ -132,7 +149,7 @@ namespace SEOMacroscope
         }
 
         MemoryEstimateBytes = 512 * DocumentCount;
-        RequiredMegabytes = ( int )( MemoryEstimateBytes / ( long )1024 );
+        RequiredMegabytes = (int) ( MemoryEstimateBytes / (long) 1024 );
 
         if( this.MemoryGate( RequiredMegabytes: RequiredMegabytes ) )
         {
@@ -142,7 +159,7 @@ namespace SEOMacroscope
         {
           Proceed = false;
         }
-     
+
       }
       catch( MacroscopeInsufficientMemoryException ex )
       {
@@ -153,38 +170,37 @@ namespace SEOMacroscope
 
       if( !Proceed )
       {
-        return( DocList );
+        return ( DocList );
       }
 
       foreach( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {
 
-        //string BodyText = msDocCompare.GetDocumentTextRaw().ToLower();
-        string BodyText = msDocCompare.GetLevenshteinFingerprint();
+        string CompareFingerprint = msDocCompare.GetLevenshteinFingerprint();
         Boolean DoCheck = false;
-        
+
         Count++;
 
         if( ( this.PercentageDone != null ) && ( DocListCount > 0 ) )
         {
-          this.PercentageDone.PercentageDone( ( ( ( decimal )100 / DocListCount ) * Count ), msDocCompare.GetUrl() );
+          this.PercentageDone.PercentageDone( ( ( (decimal) 100 / DocListCount ) * Count ), msDocCompare.GetUrl() );
         }
-        
-        if( CrossCheckDocuments( msDocCompare: msDocCompare ) )
+
+        if( this.CrossCheckDocuments( msDocCompare: msDocCompare ) )
         {
           continue;
         }
-        
+
         if( msDocCompare.GetIsExternal() )
         {
           continue;
         }
-        
+
         if( msDocCompare.GetIsRedirect() )
         {
           continue;
         }
-        
+
         if( !msDocCompare.GetIsHtml() )
         {
           continue;
@@ -195,7 +211,7 @@ namespace SEOMacroscope
           continue;
         }
         else
-        if( BodyText.Length == 0 )
+        if( CompareFingerprint.Length == 0 )
         {
           continue;
         }
@@ -207,65 +223,66 @@ namespace SEOMacroscope
         }
 
         //DebugMsg( string.Format( "msDocOriginal: {0}", this.msDocOriginal.GetUrl() ) );
-        //DebugMsg( string.Format( "this.MonstrousText.Length: {0}", this.MonstrousText.Length ) );
+        //DebugMsg( string.Format( "this.Fingerprint.Length: {0}", this.Fingerprint.Length ) );
         //DebugMsg( string.Format( "msDocCompare: {0}", msDocCompare.GetUrl() ) );
-        //DebugMsg( string.Format( "BodyText.Length: {0}", BodyText.Length ) );        
+        //DebugMsg( string.Format( "CompareFingerprint.Length: {0}", CompareFingerprint.Length ) );        
 
         //DebugMsg( string.Format( "this.ComparisonThreshold: {0}", this.ComparisonThreshold ) );        
 
-        if( BodyText.Length > this.MonstrousText.Length )
+        if( CompareFingerprint.Length > this.Fingerprint.Length )
         {
-          
-          int iLen = BodyText.Length - this.MonstrousText.Length;
-          
-          //DebugMsg( string.Format( "iLen 1: {0}", iLen ) );
-          
-          if( iLen <= this.ComparisonSizeDifference )
+          int Len = CompareFingerprint.Length - this.Fingerprint.Length;
+          if( Len <= this.ComparisonSizeDifference )
           {
             DoCheck = true;
           }
-          
         }
         else
         {
-          
-          int iLen = this.MonstrousText.Length - BodyText.Length;
-          
-          //DebugMsg( string.Format( "iLen 2: {0}", iLen ) );
-          
-          if( iLen <= this.ComparisonSizeDifference )
+          int Len = this.Fingerprint.Length - CompareFingerprint.Length;
+          if( Len <= this.ComparisonSizeDifference )
           {
             DoCheck = true;
           }
-          
         }
 
         if( DoCheck )
         {
-          
-          int Distance = this.Monster.Distance( BodyText );
-          
-          //DebugMsg( string.Format( "Distance: {0}", Distance ) );
-          
-          if( Distance <= this.ComparisonThreshold )
-          {
 
-            DocList.Add( msDocCompare, Distance );
+          int DistanceFingerprint = this.AnalyzerFingerprint.Distance( CompareFingerprint );
+
+          if( DistanceFingerprint <= this.ComparisonThreshold )
+          {
 
             if( MacroscopePreferencesManager.GetLevenshteinAnalysisLevel() == 2 )
             {
-              // TODO: Implement second level Levenshtein analysis
+
+              string CompareDocumentText = msDocCompare.GetDocumentTextRaw().ToLower();
+
+              int DistanceDocumentText = this.AnalyzerText.Distance( CompareDocumentText );
+
+              if( DistanceDocumentText <= this.ComparisonThreshold )
+              {
+                DocList.Add( msDocCompare, DistanceDocumentText );
+              }
+
+            }
+            else
+            {
+
+              DocList.Add( msDocCompare, DistanceFingerprint );
+
             }
 
           }
-          
+
         }
 
         Thread.Yield();
-        
+
       }
 
-      return( DocList );
+      return ( DocList );
 
     }
 
@@ -302,20 +319,23 @@ namespace SEOMacroscope
 
       }
 
-      return( CrossChecked );
+      return ( CrossChecked );
 
     }
 
     /**************************************************************************/
 
-    public static Dictionary<string,Boolean> GetCrossCheckList ( int Capacity )
+    public static Dictionary<string, Boolean> GetCrossCheckList ( int Capacity )
     {
-      Dictionary<string,Boolean> CrossCheck = new Dictionary<string,Boolean> ( Capacity );
-      return( CrossCheck );
+
+      Dictionary<string, Boolean> CrossCheck = new Dictionary<string, Boolean>( Capacity );
+
+      return ( CrossCheck );
+
     }
 
     /**************************************************************************/
-  
+
   }
-	
+
 }

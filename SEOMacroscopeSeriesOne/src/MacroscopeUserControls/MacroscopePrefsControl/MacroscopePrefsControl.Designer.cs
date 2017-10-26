@@ -214,6 +214,7 @@ namespace SEOMacroscope
       this.checkBoxFollowRobotsProtocol = new System.Windows.Forms.CheckBox();
       this.checkBoxFollowSitemapLinks = new System.Windows.Forms.CheckBox();
       this.groupBox10 = new System.Windows.Forms.GroupBox();
+      this.checkBoxFollowAlternateLinks = new System.Windows.Forms.CheckBox();
       this.checkBoxCheckRedirects = new System.Windows.Forms.CheckBox();
       this.checkBoxCrawlStrictUrlCheck = new System.Windows.Forms.CheckBox();
       this.checkBoxIgnoreHashFragments = new System.Windows.Forms.CheckBox();
@@ -359,7 +360,8 @@ namespace SEOMacroscope
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-      this.checkBoxFollowAlternateLinks = new System.Windows.Forms.CheckBox();
+      this.comboBoxLevenshteinAnalysisLevel = new System.Windows.Forms.ComboBox();
+      this.label21 = new System.Windows.Forms.Label();
       label9 = new System.Windows.Forms.Label();
       label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
@@ -549,6 +551,15 @@ namespace SEOMacroscope
       this.groupBox10.TabIndex = 2;
       this.groupBox10.TabStop = false;
       this.groupBox10.Text = "Links";
+      // 
+      // checkBoxFollowAlternateLinks
+      // 
+      this.checkBoxFollowAlternateLinks.Location = new System.Drawing.Point(180, 20);
+      this.checkBoxFollowAlternateLinks.Name = "checkBoxFollowAlternateLinks";
+      this.checkBoxFollowAlternateLinks.Size = new System.Drawing.Size(150, 24);
+      this.checkBoxFollowAlternateLinks.TabIndex = 8;
+      this.checkBoxFollowAlternateLinks.Text = "Follow alternate links";
+      this.checkBoxFollowAlternateLinks.UseVisualStyleBackColor = true;
       // 
       // checkBoxCheckRedirects
       // 
@@ -1587,7 +1598,7 @@ namespace SEOMacroscope
       this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Location = new System.Drawing.Point(20, 50);
       this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Name = "comboBoxAnalyzeTextReadabilityEnglishAlgorithm";
       this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.Size = new System.Drawing.Size(150, 21);
-      this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.TabIndex = 12;
+      this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.TabIndex = 3;
       // 
       // label20
       // 
@@ -1619,6 +1630,8 @@ namespace SEOMacroscope
       // groupBox14
       // 
       this.groupBox14.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox14.Controls.Add(this.comboBoxLevenshteinAnalysisLevel);
+      this.groupBox14.Controls.Add(this.label21);
       this.groupBox14.Controls.Add(this.checkBoxEnableLevenshteinDeduplication);
       this.groupBox14.Controls.Add(this.labelMaxLevenshteinSizeDifference);
       this.groupBox14.Controls.Add(this.numericUpDownMaxLevenshteinSizeDifference);
@@ -1627,7 +1640,7 @@ namespace SEOMacroscope
       this.groupBox14.Location = new System.Drawing.Point(10, 470);
       this.groupBox14.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
       this.groupBox14.Name = "groupBox14";
-      this.groupBox14.Size = new System.Drawing.Size(500, 124);
+      this.groupBox14.Size = new System.Drawing.Size(500, 150);
       this.groupBox14.TabIndex = 7;
       this.groupBox14.TabStop = false;
       this.groupBox14.Text = "Levenshtein Edit Distance Processing";
@@ -1643,7 +1656,7 @@ namespace SEOMacroscope
       // 
       // labelMaxLevenshteinSizeDifference
       // 
-      this.labelMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(96, 50);
+      this.labelMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(176, 80);
       this.labelMaxLevenshteinSizeDifference.Name = "labelMaxLevenshteinSizeDifference";
       this.labelMaxLevenshteinSizeDifference.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
       this.labelMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(250, 20);
@@ -1652,15 +1665,15 @@ namespace SEOMacroscope
       // 
       // numericUpDownMaxLevenshteinSizeDifference
       // 
-      this.numericUpDownMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(20, 50);
+      this.numericUpDownMaxLevenshteinSizeDifference.Location = new System.Drawing.Point(20, 80);
       this.numericUpDownMaxLevenshteinSizeDifference.Maximum = new decimal(new int[] {
             512,
             0,
             0,
             0});
       this.numericUpDownMaxLevenshteinSizeDifference.Name = "numericUpDownMaxLevenshteinSizeDifference";
-      this.numericUpDownMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(70, 20);
-      this.numericUpDownMaxLevenshteinSizeDifference.TabIndex = 2;
+      this.numericUpDownMaxLevenshteinSizeDifference.Size = new System.Drawing.Size(150, 20);
+      this.numericUpDownMaxLevenshteinSizeDifference.TabIndex = 3;
       this.numericUpDownMaxLevenshteinSizeDifference.Value = new decimal(new int[] {
             64,
             0,
@@ -1669,7 +1682,7 @@ namespace SEOMacroscope
       // 
       // label22
       // 
-      this.label22.Location = new System.Drawing.Point(96, 80);
+      this.label22.Location = new System.Drawing.Point(176, 110);
       this.label22.Name = "label22";
       this.label22.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
       this.label22.Size = new System.Drawing.Size(250, 20);
@@ -1678,15 +1691,15 @@ namespace SEOMacroscope
       // 
       // numericUpDownMaxLevenshteinDistance
       // 
-      this.numericUpDownMaxLevenshteinDistance.Location = new System.Drawing.Point(20, 80);
+      this.numericUpDownMaxLevenshteinDistance.Location = new System.Drawing.Point(20, 110);
       this.numericUpDownMaxLevenshteinDistance.Maximum = new decimal(new int[] {
             512,
             0,
             0,
             0});
       this.numericUpDownMaxLevenshteinDistance.Name = "numericUpDownMaxLevenshteinDistance";
-      this.numericUpDownMaxLevenshteinDistance.Size = new System.Drawing.Size(70, 20);
-      this.numericUpDownMaxLevenshteinDistance.TabIndex = 3;
+      this.numericUpDownMaxLevenshteinDistance.Size = new System.Drawing.Size(150, 20);
+      this.numericUpDownMaxLevenshteinDistance.TabIndex = 4;
       this.numericUpDownMaxLevenshteinDistance.Value = new decimal(new int[] {
             16,
             0,
@@ -1697,7 +1710,7 @@ namespace SEOMacroscope
       // 
       this.groupBoxPageNavigationAnalysis.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBoxPageNavigationAnalysis.Controls.Add(this.checkBoxAnalyzeClickPaths);
-      this.groupBoxPageNavigationAnalysis.Location = new System.Drawing.Point(10, 604);
+      this.groupBoxPageNavigationAnalysis.Location = new System.Drawing.Point(10, 630);
       this.groupBoxPageNavigationAnalysis.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
       this.groupBoxPageNavigationAnalysis.Name = "groupBoxPageNavigationAnalysis";
       this.groupBoxPageNavigationAnalysis.Size = new System.Drawing.Size(500, 70);
@@ -2305,14 +2318,26 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
       // 
-      // checkBoxFollowAlternateLinks
+      // comboBoxLevenshteinAnalysisLevel
       // 
-      this.checkBoxFollowAlternateLinks.Location = new System.Drawing.Point(180, 20);
-      this.checkBoxFollowAlternateLinks.Name = "checkBoxFollowAlternateLinks";
-      this.checkBoxFollowAlternateLinks.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxFollowAlternateLinks.TabIndex = 8;
-      this.checkBoxFollowAlternateLinks.Text = "Follow alternate links";
-      this.checkBoxFollowAlternateLinks.UseVisualStyleBackColor = true;
+      this.comboBoxLevenshteinAnalysisLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.comboBoxLevenshteinAnalysisLevel.FormattingEnabled = true;
+      this.comboBoxLevenshteinAnalysisLevel.Items.AddRange(new object[] {
+            "Level 1",
+            "Level 2"});
+      this.comboBoxLevenshteinAnalysisLevel.Location = new System.Drawing.Point(20, 50);
+      this.comboBoxLevenshteinAnalysisLevel.Name = "comboBoxLevenshteinAnalysisLevel";
+      this.comboBoxLevenshteinAnalysisLevel.Size = new System.Drawing.Size(150, 21);
+      this.comboBoxLevenshteinAnalysisLevel.TabIndex = 2;
+      // 
+      // label21
+      // 
+      this.label21.Location = new System.Drawing.Point(176, 50);
+      this.label21.Name = "label21";
+      this.label21.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+      this.label21.Size = new System.Drawing.Size(250, 20);
+      this.label21.TabIndex = 13;
+      this.label21.Text = "English readability analysis method";
       // 
       // MacroscopePrefsControl
       // 
@@ -2402,5 +2427,7 @@ namespace SEOMacroscope
 
     public System.Windows.Forms.CheckBox checkBoxCheckRedirects;
     public System.Windows.Forms.CheckBox checkBoxFollowAlternateLinks;
+    private System.Windows.Forms.ComboBox comboBoxLevenshteinAnalysisLevel;
+    private System.Windows.Forms.Label label21;
   }
 }

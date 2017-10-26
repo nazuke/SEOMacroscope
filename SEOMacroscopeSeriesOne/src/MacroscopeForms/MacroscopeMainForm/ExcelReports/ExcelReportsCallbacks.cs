@@ -52,6 +52,8 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Report.xlsx";
 
+      this.Enabled = false;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -87,10 +89,12 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
-    
+
     private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
     {
       
@@ -101,6 +105,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Overview.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -131,10 +137,12 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
-                
+
+      this.Enabled = true;
+
     }
 
-    /** -------------------------------------------------------------------- **/  
+    /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveErrorsExcelReport ( object sender, EventArgs e )
     {
@@ -146,6 +154,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Errors.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -177,6 +187,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -191,6 +203,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Broken-Links.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -222,6 +236,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -236,6 +252,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Languages.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -273,6 +291,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -287,6 +307,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Page-Metadata.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -324,6 +346,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -338,6 +362,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Page-Contents.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -375,6 +401,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -389,6 +417,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-URI-Analysis.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -426,6 +456,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -441,6 +473,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Redirects.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -478,6 +512,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -493,7 +529,9 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Keyword-Analysis.xlsx";
-      
+
+      this.Enabled = false;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -534,7 +572,9 @@ namespace SEOMacroscope
       }
       
       Dialog.Dispose();
-    
+
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -550,17 +590,22 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Duplicate-Content.xlsx";
-      
+
+      this.Enabled = false;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
-        string Path = Dialog.FileName;
+        this.Enabled = false;
 
-        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
+        string Path;
+        MacroscopeTriplePercentageProgressForm ProgressForm;
+        MacroscopeExcelDuplicateContent msExcelReport;
 
-        MacroscopeExcelDuplicateContent msExcelReport = new MacroscopeExcelDuplicateContent (
-                                                          ProgressFormDialogue: ProgressForm
-                                                        );
+        Path = Dialog.FileName;
+        ProgressForm = new MacroscopeTriplePercentageProgressForm( MainForm: this );
+        msExcelReport = new MacroscopeExcelDuplicateContent( ProgressFormDialogue: ProgressForm );
+
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
@@ -591,7 +636,9 @@ namespace SEOMacroscope
       }
       
       Dialog.Dispose();
-    
+
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -607,6 +654,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Contact-Details.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -644,6 +693,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -659,6 +710,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Remarks.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -696,6 +749,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -711,6 +766,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Custom-Filters.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -748,6 +805,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -763,6 +822,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "xlsx";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Data-Extractors.xlsx";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -805,6 +866,8 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
+
+      this.Enabled = true;
 
     }
 

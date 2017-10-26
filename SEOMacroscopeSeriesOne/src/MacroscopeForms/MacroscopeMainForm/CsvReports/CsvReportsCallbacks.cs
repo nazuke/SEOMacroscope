@@ -52,6 +52,8 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Report.csv";
 
+      this.Enabled = false;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -84,6 +86,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /**************************************************************************/
@@ -98,6 +102,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Overview.csv";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -128,10 +134,12 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
-                
+
+      this.Enabled = true;
+
     }
 
-    /** -------------------------------------------------------------------- **/  
+    /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveErrorsCsvReport ( object sender, EventArgs e )
     {
@@ -143,6 +151,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Errors.csv";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -173,6 +183,8 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
+
+      this.Enabled = true;
 
     }
 
@@ -224,6 +236,8 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       Dialog.FileName = OutputFilename;
 
+      this.Enabled = false;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -269,6 +283,8 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
+
+      this.Enabled = true;
 
     }
 
@@ -320,6 +336,8 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       Dialog.FileName = OutputFilename;
 
+      this.Enabled = false;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -366,6 +384,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** Page Contents Report **************************************************/
@@ -405,6 +425,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
       Dialog.FileName = OutputFilename;
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -451,6 +473,8 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
+
+      this.Enabled = true;
 
     }
 
@@ -502,6 +526,8 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       Dialog.FileName = OutputFilename;
 
+      this.Enabled = false;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -548,8 +574,10 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
-   
+
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveRedirectsCsvReport ( object sender, EventArgs e )
@@ -563,6 +591,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Redirects.csv";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -599,6 +629,8 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
+
+      this.Enabled = true;
 
     }
 
@@ -660,6 +692,8 @@ namespace SEOMacroscope
       Dialog.AddExtension = true;
       Dialog.FileName = OutputFilename;
 
+      this.Enabled = false;
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
@@ -713,6 +747,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** Contact Details ---------------------------------------------------- **/
@@ -752,6 +788,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
       Dialog.FileName = OutputFilename;
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -799,6 +837,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** Remarks ------------------------------------------------------------ **/
@@ -814,6 +854,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Remarks.csv";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -851,6 +893,8 @@ namespace SEOMacroscope
 
       Dialog.Dispose();
 
+      this.Enabled = true;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -866,6 +910,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
       Dialog.FileName = "Macroscope-Custom-Filters.csv";
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -902,6 +948,8 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
+
+      this.Enabled = true;
 
     }
 
@@ -952,6 +1000,8 @@ namespace SEOMacroscope
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
       Dialog.FileName = OutputFilename;
+
+      this.Enabled = false;
 
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
@@ -1004,6 +1054,8 @@ namespace SEOMacroscope
       }
 
       Dialog.Dispose();
+
+      this.Enabled = true;
 
     }
 
