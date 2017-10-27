@@ -47,9 +47,7 @@ namespace SEOMacroscope
 
     private readonly MacroscopeDocument msDocOriginal;
     private string Fingerprint;
-    private string DocumentText;
     private Levenshtein AnalyzerFingerprint;
-    private Levenshtein AnalyzerText;
     private int ComparisonSizeDifference;
     private int ComparisonThreshold;
     private Dictionary<string, Boolean> CrossCheck;
@@ -68,18 +66,11 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = false;
 
       this.msDocOriginal = msDoc;
-
       this.Fingerprint = msDoc.GetLevenshteinFingerprint();
-      this.DocumentText = msDoc.GetDocumentTextRaw().ToLower();
-
       this.AnalyzerFingerprint = new Levenshtein( Fingerprint );
-      this.AnalyzerText = new Levenshtein( DocumentText );
-
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
-
       this.CrossCheck = CrossCheckList;
-
       this.PercentageDone = IPercentageDone;
 
     }
@@ -95,27 +86,36 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = false;
 
       this.msDocOriginal = msDoc;
-
       this.Fingerprint = msDoc.GetLevenshteinFingerprint();
-      this.DocumentText = msDoc.GetDocumentTextRaw().ToLower();
-
       this.AnalyzerFingerprint = new Levenshtein( Fingerprint );
-      this.AnalyzerText = new Levenshtein( DocumentText );
-
       this.ComparisonSizeDifference = SizeDifference;
       this.ComparisonThreshold = Threshold;
-
       this.CrossCheck = CrossCheckList;
-
       this.PercentageDone = null;
 
     }
 
     /**************************************************************************/
 
+    public Dictionary<MacroscopeDocument, int> ReanalyzeDocCollection (
+MacroscopeDocumentCollection DocCollection
+)
+    {
+
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      {
+        msDoc.ClearLevenshteinNearDuplicates();
+      }
+
+      return ( this.AnalyzeDocCollection( DocCollection: DocCollection ) );
+
+    }
+
+    /**************************************************************************/
+
     public Dictionary<MacroscopeDocument, int> AnalyzeDocCollection (
-      MacroscopeDocumentCollection DocCollection
-    )
+    MacroscopeDocumentCollection DocCollection
+  )
     {
 
       Dictionary<MacroscopeDocument, int> DocList;
@@ -257,9 +257,10 @@ namespace SEOMacroscope
             if( MacroscopePreferencesManager.GetLevenshteinAnalysisLevel() == 2 )
             {
 
+              string DocumentText = this.msDocOriginal.GetDocumentTextRaw().ToLower();
               string CompareDocumentText = msDocCompare.GetDocumentTextRaw().ToLower();
-
-              int DistanceDocumentText = this.AnalyzerText.Distance( CompareDocumentText );
+              Levenshtein AnalyzerText = new Levenshtein( value: DocumentText );
+              int DistanceDocumentText = AnalyzerText.Distance( value: CompareDocumentText );
 
               if( DistanceDocumentText <= this.ComparisonThreshold )
               {

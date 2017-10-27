@@ -157,6 +157,7 @@ namespace SEOMacroscope
     private string BodyTextRaw;
 
     private MacroscopeLevenshteinFingerprint LevenshteinFingerprint;
+    private SortedDictionary<MacroscopeDocument, int> LevenshteinNearDuplicates;
 
     private List<Dictionary<string,int>> DeepKeywordAnalysis;
 
@@ -350,6 +351,7 @@ namespace SEOMacroscope
       this.BodyTextRaw = "";
 
       this.LevenshteinFingerprint = new MacroscopeLevenshteinFingerprint( msDoc: this );
+      this.ClearLevenshteinNearDuplicates();
 
       this.DeepKeywordAnalysis = new List<Dictionary<string,int>> ( 4 );
       for( int i = 0 ; i <= 3 ; i++ )
@@ -2018,6 +2020,44 @@ namespace SEOMacroscope
     public string GetLevenshteinFingerprint ()
     {
       return ( this.LevenshteinFingerprint.GetFingerprint() );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void ClearLevenshteinNearDuplicates ()
+    {
+      lock( this.LevenshteinNearDuplicates )
+      {
+        this.LevenshteinNearDuplicates = new SortedDictionary<MacroscopeDocument, int>();
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public SortedDictionary<MacroscopeDocument, int> GetLevenshteinNearDuplicates ()
+    {
+      SortedDictionary<MacroscopeDocument, int> Copy = new SortedDictionary<MacroscopeDocument, int>();
+      lock( this.LevenshteinNearDuplicates )
+      {
+        foreach( MacroscopeDocument msDocKey in this.LevenshteinNearDuplicates.Keys )
+        {
+          this.LevenshteinNearDuplicates.Add( msDocKey, this.LevenshteinNearDuplicates[msDocKey] );
+        }
+      }
+      return ( Copy );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void AddLevenshteinNearDuplicates ( MacroscopeDocument msDocNearDuplicate, int EditDistance )
+    {
+      lock( this.LevenshteinNearDuplicates )
+      {
+        if( !this.LevenshteinNearDuplicates.ContainsKey( msDocNearDuplicate ) )
+        {
+          this.LevenshteinNearDuplicates.Add( msDocNearDuplicate, EditDistance );
+        }
+      }
     }
 
     /** Deep Keyword Analysis *************************************************/
