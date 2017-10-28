@@ -37,4 +37,4 @@ The source code project may be cloned directly from the Git repository at:
 
 * [https://github.com/nazuke/SEOMacroscope](https://github.com/nazuke/SEOMacroscope)
 
-SEO Macroscope is currently developed with [SharpDevelop 5](http://www.icsharpcode.net/opensource/sd/); however, the project should also build with [Microsoft Visual Studio](https://www.visualstudio.com/).
+SEO Macroscope is currently developed with [Microsoft Visual Studio](https://www.visualstudio.com/). Earlier versions were developed with [SharpDevelop](http://www.icsharpcode.net/opensource/sd/).

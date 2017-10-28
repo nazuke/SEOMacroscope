@@ -16,9 +16,9 @@ The most recent installer may be found under the project releases area on GitHub
 
 > [https://github.com/nazuke/SEOMacroscope/releases](https://github.com/nazuke/SEOMacroscope/releases)
 
-The C# solution itself may be opened and run using SharpDevelop 5 or Visual Studio; it may also compile and run using MonoDevelop.
+The C# solution is now being developed with Visual Studio 2017.
 
-Open the solution in SharpDevelop or Visual Studio, ensure that the references are satisfied, set build to **Debug**, compile and run.
+Open the solution in Visual Studio 2017 or later, ensure that the references are satisfied, set build to **Debug**, compile and run.
 
 ## USAGE
 
