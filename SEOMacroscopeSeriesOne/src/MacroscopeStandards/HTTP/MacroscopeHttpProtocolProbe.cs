@@ -25,11 +25,9 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using HttpTwo;
 
 namespace SEOMacroscope
 {
@@ -106,48 +104,52 @@ namespace SEOMacroscope
     {
 
       Boolean IsHttpTwo = false;
-      Uri DocumentUri;
-      Http2Client Client;
-      NameValueCollection Headers;
-      byte[] data;
-      Http2Client.Http2Response response = null;
+      Uri DocumentUri = new Uri( Url );
 
-      DocumentUri = new Uri( Url );
-      Client = new Http2Client( DocumentUri );
-      Headers = new NameValueCollection();
-
-      Client.ConnectionSettings.ConnectionTimeout = new TimeSpan(
-        hours: 0,
-        minutes: 0,
-        seconds: MacroscopePreferencesManager.GetRequestTimeout()
-        );
-
-      //Headers.Add( "User-Agent", this.UserAgent() );
-
-      data = null;
-
-      try
+      using( HttpClient Client = new HttpClient( new WinHttpHandler() ) )
       {
 
-        response = await Client.Send( DocumentUri, HttpMethod.Head, Headers, data );
+        //Client.Timeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
 
-        IsHttpTwo = true;
+        using( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Get, DocumentUri ) )
+        {
+
+          Request.Version = new Version( 2, 0 );
+          Request.Headers.Add( "User-Agent", this.UserAgent() );
+
+          try
+          {
+
+            HttpResponseMessage Response = await Client.SendAsync( Request );
+
+            this.DebugMsg( string.Format( "Url: {0}", Url ) );
+            this.DebugMsg( string.Format( "Version: {0}", Response.Version ) );
+
+            if( Response.Version == new Version( 2, 0 ) )
+            {
+              IsHttpTwo = true;
+            }
+
+            foreach( var HeaderItem in Response.Headers )
+            {
+              this.DebugMsg( string.Format( "{0} => {1}", HeaderItem.Key, HeaderItem.Value ) );
+            }
+
+            using( HttpContent Content = Response.Content )
+            {
+              //this.DebugMsg( Content.ReadAsStringAsync().Result );
+            }
+
+          }
+          catch( TimeoutException ex )
+          {
+            IsHttpTwo = false;
+            this.DebugMsg( ex.Message );
+          }
+
+        }
 
       }
-      catch( TimeoutException ex )
-      {
-        IsHttpTwo = false;
-        this.DebugMsg( ex.Message );
-      }
-
-      /*
-      this.DebugMsg( response.Status.ToString() );
-
-      foreach( string Key in response.Headers.Keys )
-      {
-        this.DebugMsg( string.Format( "{0}: {1}", Key.ToString(), response.Headers[ Key ].ToString() ) );
-      }
-      */
 
       return ( IsHttpTwo );
 

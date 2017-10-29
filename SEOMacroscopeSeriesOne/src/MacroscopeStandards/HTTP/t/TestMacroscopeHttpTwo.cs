@@ -26,7 +26,6 @@
 using System;
 using NUnit.Framework;
 using System.Net.Http;
-using HttpTwo;
 using System.Collections.Specialized;
 
 namespace SEOMacroscope
@@ -41,7 +40,7 @@ namespace SEOMacroscope
     //[Test]
     public async void TestHttpTwoConnect()
     {
-
+      /*
       Uri DocumentUri = new Uri( "https://nazuke.github.io/SEOMacroscope/" );
 
       Http2Client Client = new Http2Client( DocumentUri );
@@ -69,7 +68,7 @@ namespace SEOMacroscope
       {
         this.DebugMsg( string.Format( "{0}: {1}", Key.ToString(), response.Headers[ Key ].ToString() ) );
       }
-
+      */
     }
 
     /**************************************************************************/

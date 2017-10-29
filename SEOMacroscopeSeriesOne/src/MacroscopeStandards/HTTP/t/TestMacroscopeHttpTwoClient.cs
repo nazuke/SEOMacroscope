@@ -25,6 +25,7 @@
 
 using System;
 using NUnit.Framework;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -32,7 +33,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeHttpProtocolProbe : Macroscope
+  public class TestMacroscopeHttpTwoClient : Macroscope
   {
 
     /**************************************************************************/
@@ -40,31 +41,31 @@ namespace SEOMacroscope
     [Test]
     public async Task TestHttpProtocolProbe ()
     {
+      MacroscopeHttpTwoClient Client = new MacroscopeHttpTwoClient();
+      List<string> UrlList = new List<string>();
 
-      MacroscopeHttpProtocolProbe HttpProtocolProbe;
-      MacroscopeHttpProtocolProbe.HttpProtocolVersion HttpProtocolVersion;
-      Dictionary<string, MacroscopeHttpProtocolProbe.HttpProtocolVersion> UrlList;
+      UrlList.Add( "https://nazuke.github.io/robots.txt" );
 
-      UrlList = new Dictionary<string, MacroscopeHttpProtocolProbe.HttpProtocolVersion>();
-
-      UrlList.Add( "https://nazuke.github.io/", MacroscopeHttpProtocolProbe.HttpProtocolVersion.HTTP_TWO );
-      UrlList.Add( "https://http2.akamai.com/demo", MacroscopeHttpProtocolProbe.HttpProtocolVersion.HTTP_TWO );
-      UrlList.Add( "https://http1.akamai.com/demo/h2_demo_frame.html", MacroscopeHttpProtocolProbe.HttpProtocolVersion.HTTP_ONE_POINT_ONE );
-      UrlList.Add( "https://http2.akamai.com/demo/h2_demo_frame.html", MacroscopeHttpProtocolProbe.HttpProtocolVersion.HTTP_TWO );
-     
-      HttpProtocolProbe = new MacroscopeHttpProtocolProbe();
-
-      foreach( string Url in UrlList.Keys )
+      foreach( string Url in UrlList)
       {
 
-        HttpProtocolVersion = await HttpProtocolProbe.Probe( Url: Url );
+        this.DebugMsg( string.Format( "Url: {0}", Url ) );
 
-        this.DebugMsg( string.Format( "HttpProtocolVersion: {0}", HttpProtocolVersion ) );
+        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Get( Url: Url, ConfigureRequestHeaders: this.ConfigureRequestHeaders );
 
-        Assert.AreEqual( UrlList[ Url ], HttpProtocolVersion );
+        Assert.Greater( ClientResponse.GetContentAsString().Length, 0 );
+
+        this.DebugMsg( ClientResponse.GetContentAsString() );
 
       }
 
+    }
+
+    /**************************************************************************/
+
+    private void ConfigureRequestHeaders ( HttpRequestMessage Request )
+    {
+      this.DebugMsg( "ConfigureRequestHeaders Called" );
     }
 
     /**************************************************************************/

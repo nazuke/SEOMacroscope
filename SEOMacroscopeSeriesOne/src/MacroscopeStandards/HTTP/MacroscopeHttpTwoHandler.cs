@@ -24,9 +24,6 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 
@@ -36,14 +33,21 @@ namespace SEOMacroscope
   public class MacroscopeHttpTwoHandler : WinHttpHandler
   {
 
-    protected override Task<HttpResponseMessage> SendAsync(
-      HttpRequestMessage request,
+    /**************************************************************************/
+
+    protected override Task<HttpResponseMessage> SendAsync (
+      HttpRequestMessage Request,
       System.Threading.CancellationToken cancellationToken
       )
     {
-      request.Version = new Version( "2.0" );
-      return base.SendAsync( request, cancellationToken );
+
+      Request.Version = new Version( 2, 0 );
+
+      return ( base.SendAsync( Request, cancellationToken ) );
+
     }
+
+    /**************************************************************************/
 
   }
 
