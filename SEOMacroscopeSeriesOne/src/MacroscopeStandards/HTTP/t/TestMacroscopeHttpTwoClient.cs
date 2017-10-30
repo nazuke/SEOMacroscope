@@ -39,23 +39,54 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public async Task TestHttpProtocolProbe ()
+    public async Task TestHttpTwoClientHead ()
     {
       MacroscopeHttpTwoClient Client = new MacroscopeHttpTwoClient();
-      List<string> UrlList = new List<string>();
+      List<Uri> UrlList = new List<Uri>();
 
-      UrlList.Add( "https://nazuke.github.io/robots.txt" );
+      UrlList.Add( new Uri( "https://nazuke.github.io/robots.txt" ) );
 
-      foreach( string Url in UrlList)
+      foreach( Uri Url in UrlList )
       {
 
         this.DebugMsg( string.Format( "Url: {0}", Url ) );
 
-        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Get( Url: Url, ConfigureRequestHeaders: this.ConfigureRequestHeaders );
+        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Head( Url: Url, ConfigureCustomRequestHeaders: this.ConfigureRequestHeaders );
+
+        HttpResponseMessage Response = ClientResponse.GetResponse();
+
+        this.DebugMsg( string.Format( "Response.Version: {0}", Response.Version ) );
+        
+        Assert.AreEqual( 200, (int) Response.StatusCode );
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public async Task TestHttpTwoClientGet ()
+    {
+      MacroscopeHttpTwoClient Client = new MacroscopeHttpTwoClient();
+      List<Uri> UrlList = new List<Uri>();
+
+      UrlList.Add( new Uri( "https://nazuke.github.io/robots.txt" ) );
+
+      foreach( Uri Url in UrlList )
+      {
+
+        this.DebugMsg( string.Format( "Url: {0}", Url ) );
+
+        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Get( Url: Url, ConfigureCustomRequestHeaders: this.ConfigureRequestHeaders );
+
+        HttpResponseMessage Response = ClientResponse.GetResponse();
+
+        this.DebugMsg( string.Format( "Response.Version: {0}", Response.Version ) );
+
+        Assert.AreEqual( 200, (int) Response.StatusCode );
 
         Assert.Greater( ClientResponse.GetContentAsString().Length, 0 );
-
-        this.DebugMsg( ClientResponse.GetContentAsString() );
 
       }
 

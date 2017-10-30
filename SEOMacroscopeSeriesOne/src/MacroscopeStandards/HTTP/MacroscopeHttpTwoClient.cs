@@ -24,7 +24,10 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
+using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace SEOMacroscope
@@ -38,13 +41,22 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private static HttpClient Client;
+    private static WinHttpHandler HttpHandler;
 
     /**************************************************************************/
 
     static MacroscopeHttpTwoClient ()
     {
 
-      Client = new HttpClient( new WinHttpHandler() );
+      // https://msdn.microsoft.com/en-us/library/system.net.http.winhttphandler(v=vs.105).aspx
+
+      HttpHandler = new WinHttpHandler();
+      HttpHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+      HttpHandler.AutomaticRedirection = false;
+
+      MacroscopePreferencesManager.EnableHttpProxy( HttpHandler: HttpHandler );
+
+      Client = new HttpClient( HttpHandler );
 
     }
 
@@ -52,54 +64,108 @@ namespace SEOMacroscope
 
     public MacroscopeHttpTwoClient ()
     {
-
       this.SuppressDebugMsg = false;
-
     }
 
     /**************************************************************************/
 
-    public HttpResponseMessage Head ()
+    public WinHttpHandler GetHttpHandler ()
     {
-
-      // TODO: Implement this
-
-      HttpResponseMessage Response = null;
-
-
-
-      return( Response );
-
+      return ( HttpHandler );
     }
 
     /**************************************************************************/
 
-    public async Task<MacroscopeHttpTwoClientResponse> Get ( string Url, Action<HttpRequestMessage> ConfigureRequestHeaders )
+    public async Task<MacroscopeHttpTwoClientResponse> Head ( Uri Url, Action<HttpRequestMessage> ConfigureCustomRequestHeaders )
     {
 
-      Uri DocumentUri = new Uri( Url );
       MacroscopeHttpTwoClientResponse ClientResponse = new MacroscopeHttpTwoClientResponse();
 
-      using( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Get, DocumentUri ) )
+      using( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Head, Url ) )
       {
 
         Request.Version = new Version( 2, 0 );
-        Request.Headers.Host = DocumentUri.Host;
-        Request.Headers.Add( "User-Agent", this.UserAgent() );
 
-        ConfigureRequestHeaders( Request );
+        try
+        {
+          this.ConfigureDefaultRequestHeaders( Request: Request );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "Head: {0}", ex.Message ) );
+        }
+
+        try
+        {
+          ConfigureCustomRequestHeaders( Request );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "Head: {0}", ex.Message ) );
+        }
+
+        try
+        {
+          using( HttpResponseMessage Response = await Client.SendAsync( Request ) )
+          {
+            ClientResponse.SetResponse( RequestResponse: Response );
+          }
+        }
+        catch( TimeoutException ex )
+        {
+          this.DebugMsg( ex.Message );
+        }
+
+      }
+
+      return ( ClientResponse );
+
+    }
+
+    /**************************************************************************/
+
+    public async Task<MacroscopeHttpTwoClientResponse> Get ( Uri Url, Action<HttpRequestMessage> ConfigureCustomRequestHeaders )
+    {
+
+      MacroscopeHttpTwoClientResponse ClientResponse = new MacroscopeHttpTwoClientResponse();
+
+      using( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Get, Url ) )
+      {
+
+        Request.Version = new Version( 2, 0 );
+
+        try
+        {
+          this.ConfigureDefaultRequestHeaders( Request: Request );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "Get: {0}", ex.Message ) );
+        }
+
+        try
+        {
+          ConfigureCustomRequestHeaders( Request );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "Get: {0}", ex.Message ) );
+        }
 
         try
         {
 
           using( HttpResponseMessage Response = await Client.SendAsync( Request ) )
           {
+
+            ClientResponse.SetResponse( RequestResponse: Response );
+
             using( HttpContent ResponseContent = Response.Content )
             {
-              
+
               // TODO: add options to get string and/or bytes[] here:
 
-              ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result);
+              ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
 
             }
 
@@ -114,29 +180,85 @@ namespace SEOMacroscope
 
       return ( ClientResponse );
 
-      /*
-      req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+    }
 
-      MacroscopePreferencesManager.EnableHttpProxy( req );
+    /**************************************************************************/
 
-      this.PrepareRequestHttpHeaders( RobotsUri: RobotsUri, req: req );
+    public async Task<MacroscopeHttpTwoClientResponse> Post ()
+    {
 
-      */
+      // TODO: Implement this
+
+      MacroscopeHttpTwoClientResponse Response = null;
+
+
+
+      return ( Response );
 
     }
 
     /**************************************************************************/
 
-    public HttpResponseMessage Post ()
+    private void ConfigureDefaultRequestHeaders ( HttpRequestMessage Request )
     {
+      
+      try
+      {
+        Request.Headers.Host = Request.RequestUri.Host;
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "Get: {0}", ex.Message ) );
+      }
 
-      // TODO: Implement this
+      try
+      {
+        ProductHeaderValue ProductHeaderValueUserAgent = new ProductHeaderValue( this.UserAgent() );
+        ProductInfoHeaderValue ProductInfoHeaderValueUserAgent = new ProductInfoHeaderValue( ProductHeaderValueUserAgent );
+        Request.Headers.UserAgent.Clear();
+        Request.Headers.UserAgent.Add( ProductInfoHeaderValueUserAgent );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        throw ex;
+      }
 
-      HttpResponseMessage Response = null;
+      try
+      {
+        Request.Headers.Accept.Clear();
+        Request.Headers.Accept.Add( new MediaTypeWithQualityHeaderValue( "*/*", 1 ) );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        throw ex;
+      }
 
+      try
+      {
+        Request.Headers.AcceptCharset.Clear();
+        Request.Headers.AcceptCharset.Add( new StringWithQualityHeaderValue( "utf-8", 1 ) );
+        Request.Headers.AcceptCharset.Add( new StringWithQualityHeaderValue( "us-ascii", 0.9 ) );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        throw ex;
+      }
 
+      try
+      {
+        Request.Headers.AcceptEncoding.Clear();
+        Request.Headers.AcceptEncoding.Add( new StringWithQualityHeaderValue( "gzip", 1 ) );
+        Request.Headers.AcceptEncoding.Add( new StringWithQualityHeaderValue( "deflate", 0.9 ) );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        throw ex;
+      }
 
-      return ( Response );
 
     }
 

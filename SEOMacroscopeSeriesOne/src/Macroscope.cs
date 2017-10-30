@@ -89,6 +89,7 @@ namespace SEOMacroscope
     
     public string UserAgent ()
     {
+      //string agent = string.Format( "{0}/{1}", this.UserAgentString, GetVersion() );
       return( this.UserAgentString );
     }
     
@@ -98,7 +99,7 @@ namespace SEOMacroscope
     {
 
       #if (DEBUG)
-      const string MyUserAgent = "SEO Macroscope / DEVELOPER MODE";
+      const string MyUserAgent = "SEO-Macroscope-DEVELOPER-MODE";
       #else
       string Location = Assembly.GetExecutingAssembly().Location;
       string Name = FileVersionInfo.GetVersionInfo( Location ).ProductName;

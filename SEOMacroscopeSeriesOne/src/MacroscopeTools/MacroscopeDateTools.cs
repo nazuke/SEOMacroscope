@@ -39,22 +39,22 @@ namespace SEOMacroscope
 
     static MacroscopeDateTools ()
     {
-      
+
       SuppressStaticDebugMsg = true;
-      
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     public MacroscopeDateTools ()
     {
-      
+
       this.SuppressDebugMsg = true;
-      
+
     }
 
     /**************************************************************************/
-    
+
     public static DateTime ParseHttpDate ( string HeaderField, string DateString )
     {
 
@@ -70,10 +70,10 @@ namespace SEOMacroscope
         ParsedDate = DateTime.UtcNow;
       }
 
-      return( ParsedDate );
+      return ( ParsedDate );
 
     }
-        
+
     /**************************************************************************/
 
   }

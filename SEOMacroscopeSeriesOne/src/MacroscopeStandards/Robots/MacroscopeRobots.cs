@@ -25,22 +25,24 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using RobotsTxt;
 
 namespace SEOMacroscope
 {
-
 
   public class MacroscopeRobots : Macroscope
   {
 
     /**************************************************************************/
 
-    private Dictionary<string,Robots> RobotSquad;
-    
-    private Dictionary<Uri,Boolean> BadRobots;
+    private Dictionary<string, Robots> RobotSquad;
+
+    private Dictionary<Uri, Boolean> BadRobots;
+
+    private MacroscopeHttpTwoClient Client;
 
     /**************************************************************************/
 
@@ -49,15 +51,17 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = true;
 
-      this.RobotSquad = new Dictionary<string,Robots> ( 8 );
+      this.RobotSquad = new Dictionary<string, Robots>( 8 );
 
-      this.BadRobots = new Dictionary<Uri,Boolean> ( 8 );
+      this.BadRobots = new Dictionary<Uri, Boolean>( 8 );
+
+      this.Client = new MacroscopeHttpTwoClient();
 
     }
 
     /** ROBOT RULES ***********************************************************/
 
-    public Boolean ApplyRobotRule ( string Url )
+    public async Task<Boolean> ApplyRobotRule ( string Url )
     {
 
       Boolean Allowed = false;
@@ -65,17 +69,17 @@ namespace SEOMacroscope
       if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
         DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ) );
-        return( true );
+        return ( true );
       }
       else
       {
 
-        Robots robot = this.FetchRobot( Url: Url );
+        Robots robot = await this.FetchRobot( Url: Url );
         Uri BaseUri = null;
 
         try
         {
-          BaseUri = new Uri ( Url, UriKind.Absolute );
+          BaseUri = new Uri( Url, UriKind.Absolute );
         }
         catch( UriFormatException ex )
         {
@@ -103,44 +107,53 @@ namespace SEOMacroscope
 
       }
 
-      return( Allowed );
+      return ( Allowed );
 
     }
 
     /** Sitemaps **************************************************************/
 
-    public List<string> GetSitemapsAsList ( string Url )
+    public async Task<List<string>> GetSitemapsAsList ( string Url )
     {
 
-      List<string> SitemapsList = new List<string> ();
-      Robots robot = this.FetchRobot( Url: Url );
+      List<string> SitemapsList = new List<string>();
+      Robots robot = await this.FetchRobot( Url: Url );
 
-      if( ( robot != null ) && ( robot.Sitemaps != null ) )
+      try
       {
 
-        foreach( Sitemap SitemapEntry in robot.Sitemaps )
+        if( ( robot != null ) && ( robot.Sitemaps != null ) )
         {
 
-          string SitemapUrl = SitemapEntry.Url.ToString();
-          SitemapsList.Add( SitemapUrl );
+          foreach( Sitemap SitemapEntry in robot.Sitemaps )
+          {
 
-          DebugMsg( string.Format( "ROBOTS SitemapUrl: {0}", SitemapUrl ) );
+            string SitemapUrl = SitemapEntry.Url.ToString();
+            SitemapsList.Add( SitemapUrl );
+
+            this.DebugMsg( string.Format( "ROBOTS SitemapUrl: {0}", SitemapUrl ) );
+
+          }
 
         }
 
       }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+      }
 
-      return( SitemapsList );
+      return ( SitemapsList );
 
     }
 
     /** Crawl Delay ***********************************************************/
 
-    public int GetCrawlDelay ( string Url )
+    public async Task<int> GetCrawlDelay ( string Url )
     {
 
       int Delay = 0;
-      Robots robot = this.FetchRobot( Url: Url );
+      Robots robot = await this.FetchRobot( Url: Url );
 
       if( robot != null )
       {
@@ -154,7 +167,7 @@ namespace SEOMacroscope
 
         if( CrawlDelayTime > 0 )
         {
-          Delay = ( int )( CrawlDelayTime / 1000 );
+          Delay = (int) ( CrawlDelayTime / 1000 );
         }
 
         DebugMsg( string.Format( "ROBOTS CrawlDelayTime: {0}", CrawlDelayTime ) );
@@ -162,7 +175,7 @@ namespace SEOMacroscope
 
       }
 
-      return( Delay );
+      return ( Delay );
 
     }
 
@@ -172,10 +185,10 @@ namespace SEOMacroscope
     {
 
       string RobotUrl = null;
-      
+
       if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
-        
+
         DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ), true );
 
         Uri BaseUri = null;
@@ -186,14 +199,14 @@ namespace SEOMacroscope
         try
         {
 
-          BaseUri = new Uri ( Url, UriKind.Absolute );
+          BaseUri = new Uri( Url, UriKind.Absolute );
 
           if( BaseUri.Port > 0 )
           {
             BaseUriPort = string.Format( ":{0}", BaseUri.Port );
           }
-                  
-          RobotsUri = new Uri (
+
+          RobotsUri = new Uri(
             string.Format(
               "{0}://{1}{2}{3}",
               BaseUri.Scheme,
@@ -220,16 +233,16 @@ namespace SEOMacroscope
         {
           RobotUrl = RobotsTxtUrl;
         }
-    
+
       }
-    
-      return( RobotUrl );
-      
+
+      return ( RobotUrl );
+
     }
 
     /** Fetch Robot ***********************************************************/
 
-    public Robots FetchRobot ( string Url )
+    public async Task<Robots> FetchRobot ( string Url )
     {
 
       Robots robot = null;
@@ -237,7 +250,7 @@ namespace SEOMacroscope
       if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
         DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ) );
-        return( robot );
+        return ( robot );
       }
 
       Uri BaseUri = null;
@@ -246,17 +259,17 @@ namespace SEOMacroscope
 
       try
       {
-        
-        BaseUri = new Uri ( Url, UriKind.Absolute );
+
+        BaseUri = new Uri( Url, UriKind.Absolute );
 
         string BaseUriPort = "";
-        
+
         if( BaseUri.Port > 0 )
         {
           BaseUriPort = string.Format( ":{0}", BaseUri.Port );
-        }     
+        }
 
-        RobotsUri = new Uri (
+        RobotsUri = new Uri(
           string.Format(
             "{0}://{1}{2}{3}",
             BaseUri.Scheme,
@@ -288,73 +301,69 @@ namespace SEOMacroscope
         }
       }
       */
-     
+
       if( !string.IsNullOrEmpty( RobotsTxtUrl ) )
       {
 
-        lock( this.RobotSquad )
+        if( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
         {
-
-          if( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
+          lock( this.RobotSquad )
           {
             robot = this.RobotSquad[ RobotsTxtUrl ];
           }
-          else
+        }
+        else
+        {
+
+          String RobotsText = await this.FetchRobotTextFile( RobotsUri: RobotsUri );
+
+          if( RobotsText != null )
           {
-
-            String RobotsText = this.FetchRobotTextFile( RobotsUri: RobotsUri );
-
-            if( RobotsText != null )
+            lock( this.RobotSquad )
             {
-              robot = new Robots ( content: RobotsText );
-              this.RobotSquad.Add( RobotsTxtUrl, robot );
-            }
 
+              if( !this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
+              {
+
+                robot = new Robots( content: RobotsText );
+                this.RobotSquad.Add( RobotsTxtUrl, robot );
+              }
+            }
           }
 
         }
 
       }
 
-      return( robot );
+      return ( robot );
 
     }
 
     /** Fetch Robots Text *****************************************************/
 
-    private string FetchRobotTextFile ( Uri RobotsUri )
+    private async Task<string> FetchRobotTextFile ( Uri RobotsUri )
     {
 
+      MacroscopeHttpTwoClientResponse Response = null;
       Boolean Proceed = false;
-      HttpWebRequest req = null;
-      HttpWebResponse res = null;
       string RobotText = "";
       string RawData = "";
 
       if( !MacroscopeDnsTools.CheckValidHostname( Url: RobotsUri.ToString() ) )
       {
         DebugMsg( string.Format( "FetchRobotTextFile :: CheckValidHostname: {0}", "NOT OK" ) );
-        return( RobotText );
+        return ( RobotText );
       }
 
       try
       {
 
-        req = WebRequest.CreateHttp( RobotsUri );
-        req.Method = "GET";
-        req.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
-        req.KeepAlive = false;
-        req.UserAgent = this.UserAgent();
-        req.Host = RobotsUri.Host;
-        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-        
-        MacroscopePreferencesManager.EnableHttpProxy( req );
-				
-        this.PrepareRequestHttpHeaders( RobotsUri: RobotsUri, req: req );
-        
-        res = ( HttpWebResponse )req.GetResponse();
+        Response = await this.Client.Get( RobotsUri, this.ConfigureRequestHeaders );
 
-        Proceed = true;
+        if( Response != null )
+        {
+          Proceed = true;
+        }
 
       }
       catch( UriFormatException ex )
@@ -379,14 +388,12 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "Exception: {0}", RobotsUri.ToString() ) );
       }
 
-      if( ( Proceed ) && ( res != null ) )
+      if( ( Proceed ) && ( Response != null ) )
       {
 
         try
         {
-          Stream ResponseStream = res.GetResponseStream();
-          StreamReader ReadStream = new StreamReader ( ResponseStream );
-          RawData = ReadStream.ReadToEnd();
+          RawData = Response.GetContentAsString();
         }
         catch( WebException ex )
         {
@@ -399,10 +406,6 @@ namespace SEOMacroscope
           RawData = "";
         }
 
-        res.Close();
-        
-        res.Dispose();
-      
       }
       else
       {
@@ -423,17 +426,17 @@ namespace SEOMacroscope
         RobotText = RawData;
       }
 
-      return( RobotText );
-      
+      return ( RobotText );
+
     }
 
     /** HTTP Headers **********************************************************/
 
     // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
-    
-    private void PrepareRequestHttpHeaders ( Uri RobotsUri, HttpWebRequest req )
-    {
 
+    private void ConfigureRequestHeaders ( HttpRequestMessage Request )
+    {
+      /*
       string HostAndPort = RobotsUri.Host;
 
       if( RobotsUri.Port > 0 )
@@ -442,25 +445,12 @@ namespace SEOMacroscope
       }
 
       req.Host = HostAndPort;
+      */
 
-      req.UserAgent = this.UserAgent();
-
-      req.Accept = "*/*";
-      
-      //req.Headers.Add( "Host", HostAndPort );
-      
-      req.Headers.Add( "Accept-Charset", "utf-8, us-ascii" );
-
-      req.Headers.Add( "Accept-Encoding", "gzip, deflate" );
-
-      req.Headers.Add( "Accept-Language", "*" );
-
-      return;
-      
     }
 
     /**************************************************************************/
-    
+
   }
 
 }

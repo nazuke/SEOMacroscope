@@ -575,7 +575,7 @@
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoHandler.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpProtocolProbe.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpTwo.cs" />
-    <Compile Include="src\MacroscopeStandards\MacroscopeRobots.cs" />
+    <Compile Include="src\MacroscopeStandards\Robots\MacroscopeRobots.cs" />
     <Compile Include="src\MacroscopeTasks\IMacroscopeTaskController.cs" />
     <Compile Include="src\MacroscopeTasks\MacroscopeIncludeExcludeUrls\MacroscopeIncludeExcludeUrls.cs" />
     <Compile Include="src\MacroscopeTasks\MacroscopeJobHistory.cs" />

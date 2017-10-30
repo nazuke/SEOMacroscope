@@ -27,6 +27,7 @@ using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Windows;
 
@@ -822,6 +823,7 @@ namespace SEOMacroscope
       return( wpProxy );
     }
 
+    // TODO: Deprecate this:
     public static void EnableHttpProxy ( WebRequest req )
     {
       if( wpProxy != null )
@@ -831,6 +833,18 @@ namespace SEOMacroscope
       else
       {
         req.Proxy = null;
+      }
+    }
+
+    public static void EnableHttpProxy ( WinHttpHandler HttpHandler )
+    {
+      if( wpProxy != null )
+      {
+        HttpHandler.Proxy = wpProxy;
+      }
+      else
+      {
+        HttpHandler.Proxy = null;
       }
     }
 

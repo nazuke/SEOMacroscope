@@ -49,7 +49,13 @@ namespace SEOMacroscope
 
     private IMacroscopeTaskController TaskController;
     MacroscopeCredentialsHttp CredentialsHttp;
-        
+
+
+    private MacroscopeHttpTwoClient Client;
+
+
+
+
     private MacroscopeDocumentCollection DocCollection;
     private MacroscopeAllowedHosts AllowedHosts;
 
@@ -101,7 +107,7 @@ namespace SEOMacroscope
     )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       this.TaskController = null;
 
@@ -117,7 +123,7 @@ namespace SEOMacroscope
     )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       this.TaskController = TaskController;
 
@@ -182,7 +188,9 @@ namespace SEOMacroscope
       */
      
       this.RunTimeMode = JobRunTimeMode;
-      
+
+      this.Client = new MacroscopeHttpTwoClient();
+
       if( this.TaskController != null )
       {
         this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
@@ -310,6 +318,13 @@ namespace SEOMacroscope
     public MacroscopeConstants.RunTimeMode GetRunTimeMode ()
     {
       return( this.RunTimeMode );
+    }
+
+    /** HTTP Client ***********************************************************/
+
+    public MacroscopeHttpTwoClient GetHttpClient ()
+    {
+      return ( this.Client );
     }
 
     /** Credentials **********************************************************/
@@ -513,7 +528,11 @@ namespace SEOMacroscope
       if( !this.GetThreadsStop() )
       {
 
-        MacroscopeJobWorker JobWorker = new MacroscopeJobWorker ( JobMaster: this );
+
+
+          MacroscopeJobWorker JobWorker = new MacroscopeJobWorker ( JobMaster: this );
+
+
 
         this.IncRunningThreads();
 
@@ -1495,9 +1514,23 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void SetCrawlDelay ( string Url )
+    private async void SetCrawlDelay ( string Url )
     {
-      this.CrawlDelay = this.Robots.GetCrawlDelay( Url );
+     // try
+      //{
+
+
+        this.CrawlDelay = await this.Robots.GetCrawlDelay( Url );
+      /*
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "SetCrawlDelay: {0}", ex.Message ) );
+        DebugMsg( string.Format( "SetCrawlDelay: {0}", ex.Message ) );
+      }
+      */
+      return;
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1509,11 +1542,11 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public void ProbeRobotsFile ( string Url )
+    public async void ProbeRobotsFile ( string Url )
     {
       if( MacroscopePreferencesManager.GetFollowSitemapLinks() )
       {
-        List<string> SitemapList = Robots.GetSitemapsAsList( Url );
+        List<string> SitemapList = await Robots.GetSitemapsAsList( Url );
         if( SitemapList.Count > 0 )
         {
           for( int i = 0 ; i < SitemapList.Count ; i++ )

@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -53,7 +54,7 @@ namespace SEOMacroscope
     public MacroscopeJobWorker ( MacroscopeJobMaster JobMaster )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       this.JobMaster = JobMaster;
 
@@ -77,7 +78,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void Execute()
+    public async void Execute()
     {
 
       int MaxFetches = MacroscopePreferencesManager.GetMaxFetchesPerWorker();
@@ -145,10 +146,36 @@ namespace SEOMacroscope
 
             int Tries = MacroscopePreferencesManager.GetMaxRetries();
 
-            do {
-              
+            do
+            {
+
               DebugMsg( string.Format( "Trying Fetch: {0} :: {1}", Tries, Url ) );
-              
+
+              MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
+
+              try
+              {
+                FetchStatus = await this.Fetch( Url );
+              }
+              catch( Exception ex )
+              {
+                DebugMsg( string.Format( "FetchStatus: {0}", ex.Message ) );
+                DebugMsg( string.Format( "Url: {0}", Url ) );
+                DebugMsg( string.Format( "FetchStatus: {0}", FetchStatus ) );
+              }
+
+              if( ( FetchStatus == MacroscopeConstants.FetchStatus.ERROR ) || ( FetchStatus == MacroscopeConstants.FetchStatus.NETWORK_ERROR ) )
+              {
+                DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
+                Thread.Sleep( 1000 );
+              }
+              else
+              {
+                this.JobMaster.NotifyWorkersFetched( Url );
+                break;
+              }
+
+              /*
               if( 
                 ( this.Fetch( Url ) == MacroscopeConstants.FetchStatus.ERROR )
                 || ( this.Fetch( Url ) == MacroscopeConstants.FetchStatus.ERROR ) ) {
@@ -158,7 +185,8 @@ namespace SEOMacroscope
                 this.JobMaster.NotifyWorkersFetched( Url );
                 break;
               }
-              
+              */
+
               Tries--;
             
             } while( Tries > 0 );
@@ -213,7 +241,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private MacroscopeConstants.FetchStatus Fetch( string Url )
+    private async Task<MacroscopeConstants.FetchStatus> Fetch( string Url )
     {
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
@@ -262,9 +290,16 @@ namespace SEOMacroscope
 
       }
 
-      if( !this.JobMaster.GetRobots().ApplyRobotRule( Url ) ) {
 
-        DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
+      Boolean WillApplyRobotRules = await this.JobMaster.GetRobots().ApplyRobotRule( Url );
+
+
+
+//      if( !this.JobMaster.GetRobots().ApplyRobotRule( Url ) )
+        if( !WillApplyRobotRules )
+        {
+
+          DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
 
         this.JobMaster.AddToBlockedByRobots( Url );
 
