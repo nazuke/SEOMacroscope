@@ -51,7 +51,7 @@ namespace SEOMacroscope
 
         this.DebugMsg( string.Format( "Url: {0}", Url ) );
 
-        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Head( Url: Url, ConfigureCustomRequestHeaders: this.ConfigureRequestHeaders );
+        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Head( Url, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
 
         HttpResponseMessage Response = ClientResponse.GetResponse();
 
@@ -78,7 +78,7 @@ namespace SEOMacroscope
 
         this.DebugMsg( string.Format( "Url: {0}", Url ) );
 
-        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Get( Url: Url, ConfigureCustomRequestHeaders: this.ConfigureRequestHeaders );
+        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Get( Url, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
 
         HttpResponseMessage Response = ClientResponse.GetResponse();
 
@@ -94,9 +94,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ConfigureRequestHeaders ( HttpRequestMessage Request )
+    private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
     {
-      this.DebugMsg( "ConfigureRequestHeaders Called" );
+      this.DebugMsg( "ConfigureHeadRequestHeadersCallback Called" );
+    }
+
+    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request )
+    {
+      this.DebugMsg( "PostProcessRequestHttpHeadersCallback Called" );
     }
 
     /**************************************************************************/

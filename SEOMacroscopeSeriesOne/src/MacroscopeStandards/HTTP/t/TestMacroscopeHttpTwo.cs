@@ -34,42 +34,6 @@ namespace SEOMacroscope
   [TestFixture]
   public class TestMacroscopeHttpTwo : Macroscope
   {
-    
-    /**************************************************************************/
-
-    //[Test]
-    public async void TestHttpTwoConnect()
-    {
-      /*
-      Uri DocumentUri = new Uri( "https://nazuke.github.io/SEOMacroscope/" );
-
-      Http2Client Client = new Http2Client( DocumentUri );
-
-      NameValueCollection Headers = new NameValueCollection();
-
-      //Headers.Add ("some-header", "value");
-
-      // For some requests you may have a request body
-      byte[] data = null;
-
-      // Await our response
-      var response = await Client.Send( DocumentUri, HttpMethod.Get, Headers, data );
-
-      // Response object has properties:
-      //  HttpStatusCode Status
-      //  HttpStream Stream (contains Frames history)
-      //  NameValueCollection Headers
-      //  byte[] Body
-      // ...
-
-      this.DebugMsg( response.Status.ToString() );
-
-      foreach( string Key in response.Headers.Keys )
-      {
-        this.DebugMsg( string.Format( "{0}: {1}", Key.ToString(), response.Headers[ Key ].ToString() ) );
-      }
-      */
-    }
 
     /**************************************************************************/
 

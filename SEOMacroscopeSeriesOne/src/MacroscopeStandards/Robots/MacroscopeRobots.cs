@@ -358,7 +358,7 @@ namespace SEOMacroscope
       try
       {
 
-        Response = await this.Client.Get( RobotsUri, this.ConfigureRequestHeaders );
+        Response = await this.Client.Get( RobotsUri, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
 
         if( Response != null )
         {
@@ -434,7 +434,7 @@ namespace SEOMacroscope
 
     // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
 
-    private void ConfigureRequestHeaders ( HttpRequestMessage Request )
+    private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
     {
       /*
       string HostAndPort = RobotsUri.Host;
@@ -447,6 +447,12 @@ namespace SEOMacroscope
       req.Host = HostAndPort;
       */
 
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request )
+    {
     }
 
     /**************************************************************************/
