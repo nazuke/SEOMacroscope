@@ -107,7 +107,7 @@ namespace SEOMacroscope
 
       }
 
-      return ( Allowed );
+      return( Allowed );
 
     }
 
@@ -143,7 +143,7 @@ namespace SEOMacroscope
         this.DebugMsg( ex.Message );
       }
 
-      return ( SitemapsList );
+      return( SitemapsList );
 
     }
 
@@ -175,7 +175,7 @@ namespace SEOMacroscope
 
       }
 
-      return ( Delay );
+      return( Delay );
 
     }
 
@@ -236,7 +236,7 @@ namespace SEOMacroscope
 
       }
 
-      return ( RobotUrl );
+      return( RobotUrl );
 
     }
 
@@ -317,7 +317,7 @@ namespace SEOMacroscope
 
           String RobotsText = await this.FetchRobotTextFile( RobotsUri: RobotsUri );
 
-          if( RobotsText != null )
+          if( !string.IsNullOrEmpty( RobotsText ) )
           {
             lock( this.RobotSquad )
             {
@@ -335,7 +335,7 @@ namespace SEOMacroscope
 
       }
 
-      return ( robot );
+      return( robot );
 
     }
 
@@ -370,12 +370,6 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
         DebugMsg( string.Format( "Exception: {0}", RobotsUri.ToString() ) );
-      }
-      catch( WebException ex )
-      {
-        DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "WebException: {0}", RobotsUri.ToString() ) );
-        DebugMsg( string.Format( "WebExceptionStatus: {0}", ex.Status ) );
       }
       catch( NotSupportedException ex )
       {
@@ -426,7 +420,7 @@ namespace SEOMacroscope
         RobotText = RawData;
       }
 
-      return ( RobotText );
+      return( RobotText );
 
     }
 
@@ -436,6 +430,7 @@ namespace SEOMacroscope
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
     {
+
       /*
       string HostAndPort = RobotsUri.Host;
 

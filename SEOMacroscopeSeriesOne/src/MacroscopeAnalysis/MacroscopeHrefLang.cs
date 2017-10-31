@@ -172,13 +172,13 @@ namespace SEOMacroscope
         if( HttpHeaderName.ToLower().Equals( "date" ) )
         {
           string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateServer = MacroscopeDateTools.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
+          this.DateServer = MacroscopeDateTools.ParseHttpDate(  DateString: DateString );
         }
 
         if( HttpHeaderName.ToLower().Equals( "last-modified" ) )
         {
           string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateModified = MacroscopeDateTools.ParseHttpDate( HeaderField: HttpHeaderName, DateString: DateString );
+          this.DateModified = MacroscopeDateTools.ParseHttpDate(  DateString: DateString );
         }
 
       }

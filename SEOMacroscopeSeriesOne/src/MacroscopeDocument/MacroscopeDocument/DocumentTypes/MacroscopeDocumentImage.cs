@@ -24,8 +24,15 @@
 */
 
 using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace SEOMacroscope
 {
@@ -35,30 +42,29 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessImagePage ()
+    private void ConfigureImagePageRequestHeadersCallback ( HttpRequestMessage Request )
+    {
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async void ProcessImagePage ()
     {
 
-      HttpWebRequest req = null;
-      HttpWebResponse res = null;
+      MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
+      MacroscopeHttpTwoClientResponse Response = null;
+      Uri DocUri;
       string ResponseErrorCondition = null;
       Boolean IsAuthenticating = false;
       
       try
       {
 
-        req = WebRequest.CreateHttp( this.DocUrl );
-        req.Method = "HEAD";
-        req.Timeout = this.Timeout;
-        req.KeepAlive = false;
-        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                
-        this.PrepareRequestHttpHeaders( Request: req );
-                
-        IsAuthenticating = this.AuthenticateRequest( req );
-				                              
-        MacroscopePreferencesManager.EnableHttpProxy( req );
+        DocUri = new Uri( this.DocUrl );
+        Response = await Client.Head( DocUri, this.ConfigureImagePageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
 
-        res = ( HttpWebResponse )req.GetResponse();
+        // TODO: Fix this:
+        //IsAuthenticating = this.AuthenticateRequest( req );
 
       }
       catch( UriFormatException ex )
@@ -66,21 +72,16 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "ProcessImagePage :: UriFormatException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
       }
-      catch( WebException ex )
+      catch( Exception ex )
       {
-
-        DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ex.Status ) );
-        DebugMsg( string.Format( "ProcessImagePage :: WebException: {0}", ( int )ex.Status ) );
-
-        ResponseErrorCondition = ex.Status.ToString();
-
+        DebugMsg( string.Format( "ProcessImagePage :: Exception: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
       }
 
-      if( res != null )
+      if( Response != null )
       {
 
-        this.ProcessResponseHttpHeaders( req, res );
+        this.ProcessResponseHttpHeaders( Response: Response );
 
         if( IsAuthenticating )
         {
@@ -113,18 +114,12 @@ namespace SEOMacroscope
 
         }
 
-        res.Close();
-        
-        res.Dispose();
-
       }
 
       if( ResponseErrorCondition != null )
       {
         this.ErrorCondition = ResponseErrorCondition;
       }
-
-      this.PostProcessRequestHttpHeaders( Request: req );
             
     }
 

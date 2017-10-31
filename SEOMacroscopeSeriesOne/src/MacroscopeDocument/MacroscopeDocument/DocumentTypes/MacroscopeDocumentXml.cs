@@ -24,9 +24,15 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Xml;
 
 namespace SEOMacroscope
@@ -37,31 +43,30 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessXmlPage ()
+    private void ConfigureXmlPageRequestHeadersCallback ( HttpRequestMessage Request )
+    {
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async void ProcessXmlPage ()
     {
 
       XmlDocument XmlDoc = null;
-      HttpWebRequest req = null;
-      HttpWebResponse res = null;
+      MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
+      MacroscopeHttpTwoClientResponse Response = null;
+      Uri DocUri;
       string ResponseErrorCondition = null;
       Boolean IsAuthenticating = false;
       
       try
       {
 
-        req = WebRequest.CreateHttp( this.DocUrl );
-        req.Method = "GET";
-        req.Timeout = this.Timeout;
-        req.KeepAlive = false;
-        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                
-        this.PrepareRequestHttpHeaders( Request: req );
+        DocUri = new Uri( this.DocUrl );
+        Response = await Client.Get( DocUri, this.ConfigureXmlPageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
 
-        IsAuthenticating = this.AuthenticateRequest( req );
-                                      
-        MacroscopePreferencesManager.EnableHttpProxy( req );
-
-        res = ( HttpWebResponse )req.GetResponse();
+        // TODO: Fix this:
+        //IsAuthenticating = this.AuthenticateRequest( req );
 
       }
       catch( UriFormatException ex )
@@ -69,22 +74,18 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "ProcessXmlPage :: UriFormatException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
       }
-      catch( WebException ex )
+      catch( Exception ex )
       {
-
-        DebugMsg( string.Format( "ProcessXmlPage :: WebException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "ProcessXmlPage :: WebException: {0}", this.DocUrl ) );
-        DebugMsg( string.Format( "ProcessXmlPage :: WebExceptionStatus: {0}", ex.Status ) );
-        ResponseErrorCondition = ex.Status.ToString();
-
+        DebugMsg( string.Format( "ProcessXmlPage :: Exception: {0}", ex.Message ) );
+        ResponseErrorCondition = ex.Message;
       }
 
-      if( res != null )
+      if( Response != null )
       {
 
         string RawData = "";
 
-        this.ProcessResponseHttpHeaders( req, res );
+        this.ProcessResponseHttpHeaders( Response: Response );
 
         if( IsAuthenticating )
         {
@@ -97,10 +98,8 @@ namespace SEOMacroscope
           
           DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
-          Stream ResponseStream = res.GetResponseStream();
-          StreamReader ResponseStreamReader = new StreamReader ( ResponseStream, Encoding.UTF8 ); // Assume UTF-8
-          RawData = ResponseStreamReader.ReadToEnd();
-          
+          RawData = Response.GetContentAsString();
+
           this.ContentLength = RawData.Length; // May need to find bytes length
           
           this.SetWasDownloaded( true );
@@ -208,18 +207,12 @@ namespace SEOMacroscope
           }
         }
 
-        res.Close();
-        
-        res.Dispose();
-
       }
 
       if( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
-
-      this.PostProcessRequestHttpHeaders( Request: req );
             
     }
 

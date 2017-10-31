@@ -46,15 +46,14 @@ namespace SEOMacroscope
     /** HTTP Headers **********************************************************/
 
     // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
-
-    private void PrepareRequestHttpHeaders ( HttpWebRequest Request )
+    // TODO: Deprecate this:
+    private void DEPRECATEDPrepareRequestHttpHeaders ( HttpWebRequest Request )
     {
-
+      /*
       Request.Host = this.GetHostAndPort();
 
       Request.UserAgent = this.UserAgent();
 
-      Request.Accept = "*/*";
 
       Request.CookieContainer = this.DocCollection.GetJobMaster().GetCookieJar();
 
@@ -74,7 +73,7 @@ namespace SEOMacroscope
       Request.Headers.Add( "Cache-Control", "max-age=0" );
 
       //this.PostProcessRequestHttpHeaders( Request: Request );
-
+      */
     }
 
     /**************************************************************************/
@@ -209,55 +208,50 @@ namespace SEOMacroscope
 
       this.SetHttpResponseHeaders( Response: Response );
 
-      // Common HTTP Headers
-      {
-
-        if( ResponseHeaders.Contains("Content-Type") )
-        {
-          this.MimeType = ResponseHeaders.GetValues( "Content-Type").First();
-        }
-        else
-        {
-          this.MimeType = MacroscopeConstants.DefaultMimeType;
-        }
-
-        if( ResponseHeaders.Contains( "Content-Length" ) )
-        {
-          this.ContentLength = long.Parse( ResponseHeaders.GetValues( "Content-Length" ).First() );
-        }
-        else
-        {
-          this.ContentLength = 0;
-        }
-
-      }
-
       // Server Information
       {
         this.ServerName = ResponseHeaders.Server.First().ToString();
       }
 
-      // Compression
-      if( ResponseHeaders.Contains( "Content-Encoding" ) )
-      {
-        this.IsCompressed = true;
-        this.CompressionMethod = ResponseHeaders.GetValues( "Content-Encoding" ).First();
-      }
-
       // Probe HTTP Headers
-      foreach( HttpResponseHeader ResponseHeader in ResponseHeaders )
+      foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
       {
 
         //this.DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", ResponseHeader, res.GetResponseHeader( sHeader ) ) );
 
-        if( ResponseHeader.ToLower().Equals( "www-authenticate" ) )
+
+        if( ResponseHeader.Key.ToLower().Equals( "Content-Type" ) )
+        {
+          this.MimeType = ResponseHeader.Value.First();
+        }
+
+        if( ResponseHeader.Key.ToLower().Equals( "Content-Length" ) )
+        {
+          this.ContentLength = long.Parse( ResponseHeader.Value.First() );
+        }
+
+
+
+        if( ResponseHeader.Key.ToLower().Equals( "Content-Encoding" ) )
+        {
+          this.IsCompressed = true;
+          this.CompressionMethod = ResponseHeader.Value.First();
+        }
+
+
+
+        
+
+
+
+        if( ResponseHeader.Key.ToLower().Equals( "www-authenticate" ) )
         {
 
           // EXAMPLE: WWW-Authenticate: Basic realm="Access to the staging site"
 
           string NewAuthenticationType = "";
           string NewAuthenticationRealm = "";
-          string NewAuthenticationValue = Response.GetResponseHeader( ResponseHeader );
+          string NewAuthenticationValue = ResponseHeader.Value.First();
 
           MatchCollection matches = Regex.Matches( NewAuthenticationValue, "^\\s*(Basic)\\s+realm=\"([^\"]+)\"", RegexOptions.IgnoreCase );
 
@@ -284,78 +278,60 @@ namespace SEOMacroscope
 
         }
 
-        if( ResponseHeader.ToLower().Equals( "date" ) )
+        if( ResponseHeader.Key.ToLower().Equals( "date" ) )
         {
-
-          string DateString = Response.GetResponseHeader( ResponseHeader );
-
-          this.DateServer = MacroscopeDateTools.ParseHttpDate(
-            HeaderField: ResponseHeader,
-            DateString: DateString
-          );
-
+          string DateString = ResponseHeader.Value.First();
+          this.DateServer = MacroscopeDateTools.ParseHttpDate(DateString: DateString);
         }
 
-        if( ResponseHeader.ToLower().Equals( "last-modified" ) )
+        if( ResponseHeader.Key.ToLower().Equals( "last-modified" ) )
         {
-
-          string DateString = Response.GetResponseHeader( ResponseHeader );
-
-          this.DateModified = MacroscopeDateTools.ParseHttpDate(
-            HeaderField: ResponseHeader,
-            DateString: DateString
-          );
-
+          string DateString =  ResponseHeader.Value.First();
+          this.DateModified = MacroscopeDateTools.ParseHttpDate(DateString: DateString);
         }
 
-        if( ResponseHeader.ToLower().Equals( "expires" ) )
+        if( ResponseHeader.Key.ToLower().Equals( "expires" ) )
         {
-
-          string DateString = Response.GetResponseHeader( ResponseHeader );
-
-          this.DateExpires = MacroscopeDateTools.ParseHttpDate(
-            HeaderField: ResponseHeader,
-            DateString: DateString
-          );
-
+          string DateString = ResponseHeader.Value.First();
+          this.DateExpires = MacroscopeDateTools.ParseHttpDate(DateString: DateString);
         }
 
-        if( ResponseHeader.ToLower().Equals( "content-encoding" ) )
+        if( ResponseHeader.Key.ToLower().Equals( "content-encoding" ) )
         {
           if( string.IsNullOrEmpty( this.CompressionMethod ) )
           {
             this.IsCompressed = true;
-            this.CompressionMethod = Response.GetResponseHeader( ResponseHeader );
+            this.CompressionMethod = ResponseHeader.Value.First();
           }
         }
 
         // Process HTST Policy
         // https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
         // Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-        if( ResponseHeader.ToLower().Equals( "strict-transport-security" ) )
+        if( ResponseHeader.Key.ToLower().Equals( "strict-transport-security" ) )
         {
           this.HypertextStrictTransportPolicy = true;
           // TODO: implement includeSubDomains
         }
 
         // Link HTTP Headers
-        if( ResponseHeader.ToLower().Equals( "link" ) )
+        if( ResponseHeader.Key.ToLower().Equals( "link" ) )
         {
-          this.ProcessHttpLinkHeader( HttpLinkHeader: Response.GetResponseHeader( ResponseHeader ) );
+          this.ProcessHttpLinkHeader( HttpLinkHeader: ResponseHeader.Value.First() );
         }
 
         // Probe Character Set
         // TODO: Implement character set probing
-        if( ResponseHeader.ToLower().Equals( "content-type" ) )
+        if( ResponseHeader.Key.ToLower().Equals( "content-type" ) )
         {
           //string NewCharSet = "";
           //this.SetCharacterEncoding( NewEncoding: null );
         }
 
         // Process Etag
-        if( ResponseHeader.ToLower().Equals( "etag" ) )
+        if( ResponseHeader.Key.ToLower().Equals( "etag" ) )
         {
-          string ETag = Response.GetResponseHeader( ResponseHeader );
+          string ETag = ResponseHeader.Value.First();
           if( ( ETag != null ) && ( ETag.Length > 0 ) )
           {
             ETag = Regex.Replace( ETag, "[\"'\\s]+", "", RegexOptions.Singleline );
