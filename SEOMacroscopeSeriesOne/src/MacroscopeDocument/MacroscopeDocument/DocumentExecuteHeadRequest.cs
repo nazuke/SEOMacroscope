@@ -100,6 +100,8 @@ namespace SEOMacroscope
 
       this.DebugMsg( string.Format( "ResponseErrorCondition: {0}", ResponseErrorCondition ) );
 
+      ;
+
       if( Response != null )
       {
 
@@ -157,13 +159,17 @@ namespace SEOMacroscope
         }
 
       }
+      else
+      {
+        throw new MacroscopeDocumentException( "ExecuteHeadRequest failure" );
+      }
 
       if( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
 
-      //this.PostProcessRequestHttpHeaders( Request: req );
+      return;
 
     }
 

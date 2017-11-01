@@ -80,23 +80,16 @@ namespace SEOMacroscope
 
     private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request )
     {
-
       string Headers = "";
-
       if( Request != null )
       {
-
         foreach( var HeaderItem in Request.Headers )
         {
           Headers = string.Concat( Headers, HeaderItem.Key, ": ", HeaderItem.Value, Environment.NewLine );
         }
-
         Headers = string.Concat( Headers, Environment.NewLine );
-
       }
-
       this.RawHttpRequestHeaders = Headers;
-
     }
 
     /**************************************************************************/
@@ -213,31 +206,46 @@ namespace SEOMacroscope
         this.ServerName = ResponseHeaders.Server.First().ToString();
       }
 
+      this.SuppressDebugMsg = false;
+
       // Probe HTTP Headers
       foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
       {
+        this.SuppressDebugMsg = false;
 
         //this.DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", ResponseHeader, res.GetResponseHeader( sHeader ) ) );
 
 
-        if( ResponseHeader.Key.ToLower().Equals( "Content-Type" ) )
+        foreach( string Value in ResponseHeader.Value )
         {
-          this.MimeType = ResponseHeader.Value.First();
+          this.DebugMsg( string.Format( "ResponseHeader: {0} :: {1}", ResponseHeader.Key, Value ) );
         }
 
-        if( ResponseHeader.Key.ToLower().Equals( "Content-Length" ) )
+
+
+        ;
+
+
+        if( ResponseHeader.Key.ToLower().Equals( "content-type" ) )
+        {
+          this.MimeType = ResponseHeader.Value.First();
+          ;
+        }
+
+        if( ResponseHeader.Key.ToLower().Equals( "content-length" ) )
         {
           this.ContentLength = long.Parse( ResponseHeader.Value.First() );
         }
 
 
 
-        if( ResponseHeader.Key.ToLower().Equals( "Content-Encoding" ) )
+        /*
+        if( ResponseHeader.Key.ToLower().Equals( "content-encoding" ) )
         {
           this.IsCompressed = true;
           this.CompressionMethod = ResponseHeader.Value.First();
         }
-
+        */
 
 
         
@@ -421,6 +429,8 @@ namespace SEOMacroscope
 
       }
 
+      return;
+
     }
 
     /**************************************************************************/
@@ -512,16 +522,6 @@ namespace SEOMacroscope
       return;
 
     }
-
-
-
-
-
-
-
-
-
-
 
     /**************************************************************************/
 
