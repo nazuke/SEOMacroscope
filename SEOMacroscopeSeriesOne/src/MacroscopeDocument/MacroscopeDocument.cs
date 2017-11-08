@@ -91,7 +91,7 @@ namespace SEOMacroscope
     
     private HttpStatusCode StatusCode;
     private string ErrorCondition;
-    private long ContentLength;
+    private long? ContentLength;
 
     private string MimeType;
     private MacroscopeConstants.DocumentType DocumentType;
@@ -241,7 +241,7 @@ namespace SEOMacroscope
     private void InitializeDocument ( string Url )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       DocCollection = null;
       
@@ -1185,7 +1185,7 @@ namespace SEOMacroscope
 
     /** Content Length ********************************************************/
 
-    public long GetContentLength ()
+    public long? GetContentLength ()
     {
       return( this.ContentLength );
     }

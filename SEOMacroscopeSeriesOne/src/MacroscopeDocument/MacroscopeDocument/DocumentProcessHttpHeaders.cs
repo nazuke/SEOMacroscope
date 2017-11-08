@@ -78,6 +78,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+
     private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request )
     {
       string Headers = "";
@@ -101,8 +102,9 @@ namespace SEOMacroscope
 
       HttpResponseMessage ResponseMessage = Response.GetResponse();
       HttpResponseHeaders ResponseHeaders = ResponseMessage.Headers;
+      HttpContentHeaders ContentHeaders = ResponseMessage.Content.Headers;
 
-      // Status Code
+      /** Status Code ------------------------------------------------------ **/
       this.SetStatusCode( ResponseMessage.StatusCode );
       this.SetErrorCondition( ResponseMessage.ReasonPhrase );
 
@@ -195,22 +197,75 @@ namespace SEOMacroscope
         this.IsRedirect = true;
       }
 
-      // Raw HTTP Headers
+      /** Raw HTTP Headers ------------------------------------------------- **/
 
       this.SetHttpResponseStatusLine( Response: Response );
 
       this.SetHttpResponseHeaders( Response: Response );
 
-      // Server Information
+      /** Server Information ----------------------------------------------- **/
       {
         this.ServerName = ResponseHeaders.Server.First().ToString();
       }
 
-      this.SuppressDebugMsg = false;
 
-      // Probe HTTP Headers
+
+
+
+
+
+      /** Probe HTTP Headers ----------------------------------------------- **/
+
+      {
+        MediaTypeHeaderValue HeaderValue = ContentHeaders.ContentType;
+        this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
+        this.MimeType = HeaderValue.MediaType;
+        if( HeaderValue.CharSet != null )
+        {
+          this.SetCharacterSet( HeaderValue.CharSet );
+          // TODO: Implement character set probing
+          this.SetCharacterEncoding( NewEncoding: new UTF8Encoding() );
+        }
+      }
+
+
+      try
+      {
+        long? HeaderValue = ContentHeaders.ContentLength;
+        this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
+        if( HeaderValue != null )
+        {
+          this.ContentLength = HeaderValue;
+        }
+      }
+      catch( Exception ex )
+      {
+        this.ContentLength = 0;
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          foreach( string HeaderValue in HeaderValues )
+          {
+            this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
+          }
+          this.ContentLength = long.Parse( HeaderValues.First() );
+        };
+        this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback );
+      }
+
+
+      /*
+      if( ResponseHeader.Key.ToLower().Equals( "content-length" ) )
+      {
+        this.ContentLength = long.Parse( ResponseHeader.Value.First() );
+      }
+      */
+
+
+
+      /*
       foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
       {
+
         this.SuppressDebugMsg = false;
 
         //this.DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", ResponseHeader, res.GetResponseHeader( sHeader ) ) );
@@ -223,30 +278,10 @@ namespace SEOMacroscope
 
 
 
-        ;
-
-
-        if( ResponseHeader.Key.ToLower().Equals( "content-type" ) )
-        {
-          this.MimeType = ResponseHeader.Value.First();
-          ;
-        }
-
-        if( ResponseHeader.Key.ToLower().Equals( "content-length" ) )
-        {
-          this.ContentLength = long.Parse( ResponseHeader.Value.First() );
-        }
 
 
 
-        /*
-        if( ResponseHeader.Key.ToLower().Equals( "content-encoding" ) )
-        {
-          this.IsCompressed = true;
-          this.CompressionMethod = ResponseHeader.Value.First();
-        }
-        */
-
+        
 
         
 
@@ -328,13 +363,6 @@ namespace SEOMacroscope
           this.ProcessHttpLinkHeader( HttpLinkHeader: ResponseHeader.Value.First() );
         }
 
-        // Probe Character Set
-        // TODO: Implement character set probing
-        if( ResponseHeader.Key.ToLower().Equals( "content-type" ) )
-        {
-          //string NewCharSet = "";
-          //this.SetCharacterEncoding( NewEncoding: null );
-        }
 
         // Process Etag
         if( ResponseHeader.Key.ToLower().Equals( "etag" ) )
@@ -353,7 +381,10 @@ namespace SEOMacroscope
 
       }
 
-      // Process Dates
+      */
+
+
+      /** Process Dates ---------------------------------------------------- **/
       {
         if( this.DateServer.Date == new DateTime().Date )
         {
@@ -365,7 +396,7 @@ namespace SEOMacroscope
         }
       }
 
-      // Process MIME Type
+      /** Process MIME Type ------------------------------------------------ **/
       {
 
         Regex reIsHtml = new Regex( @"^(text/html|application/xhtml+xml)", RegexOptions.IgnoreCase );
@@ -432,6 +463,84 @@ namespace SEOMacroscope
       return;
 
     }
+
+    /**************************************************************************/
+
+    /*
+FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+{
+        foreach( string HeaderValue in HeaderValues )
+{
+  this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
+            }
+                      string mt = HeaderValues.First();
+this.MimeType = HeaderValues.First();
+        };
+this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback );
+*/
+
+    delegate void FindHttpResponseHeaderCallback ( IEnumerable<string> HeaderValues );
+    delegate void FindHttpContentHeaderCallback ( IEnumerable<string> HeaderValues );
+
+    private void FindHttpResponseHeader ( HttpResponseHeaders ResponseHeaders, string HeaderName, FindHttpResponseHeaderCallback Callback )
+    {
+
+      foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
+      {
+
+        this.DebugMsg( string.Format( "ResponseHeader.key: {0} :: {1}", HeaderName.ToLower(), ResponseHeader.Key.ToLower() ) );
+
+
+
+        if( ResponseHeader.Key.ToLower().Equals( HeaderName.ToLower() ) )
+        {
+          IEnumerable<string> HeaderValues = ResponseHeader.Value;
+          this.DebugMsg( string.Format( "FindHttpRequestHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
+          Callback( HeaderValues );
+          break;
+        }
+      }
+
+      return;
+
+    }
+
+
+
+    private void FindHttpContentHeader ( HttpContentHeaders ContentHeaders, string HeaderName, FindHttpContentHeaderCallback Callback )
+    {
+
+      foreach( KeyValuePair<string, IEnumerable<string>> ContentHeader in ContentHeaders )
+      {
+
+        this.DebugMsg( string.Format( "ContentHeader.key: {0} :: {1}", HeaderName.ToLower(), ContentHeader.Key.ToLower() ) );
+
+
+
+        if( ContentHeader.Key.ToLower().Equals( HeaderName.ToLower() ) )
+        {
+          IEnumerable<string> HeaderValues = ContentHeader.Value;
+          this.DebugMsg( string.Format( "FindHttpContentHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
+          Callback( HeaderValues );
+          break;
+        }
+      }
+
+      return;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**************************************************************************/
 
