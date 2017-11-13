@@ -26,6 +26,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
@@ -44,14 +45,26 @@ namespace SEOMacroscope
 
     public MacroscopeHttpTwoClientResponse ()
     {
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
     }
 
     /**************************************************************************/
 
     public void SetResponse ( HttpResponseMessage RequestResponse )
     {
+
       this.Response = RequestResponse;
+
+      foreach( KeyValuePair<string, IEnumerable<string>> Item in this.Response.Headers )
+      {
+        foreach( string Value in Item.Value )
+        {
+          this.DebugMsg( string.Format( "SETRESPONSE: {0} => {1}", Item.Key, Value ) );
+        }
+      }
+
+      return;
+
     }
 
     public HttpResponseMessage GetResponse ()
@@ -63,7 +76,19 @@ namespace SEOMacroscope
 
     public void SetResponseContent ( HttpContent RequestResponseContent )
     {
+
       this.ResponseContent = RequestResponseContent;
+
+      foreach( KeyValuePair<string, IEnumerable<string>> Item in this.ResponseContent.Headers )
+      {
+        foreach( string Value in Item.Value )
+        {
+          this.DebugMsg( string.Format( "SETRESPONSECONTENT: {0} => {1}", Item.Key, Value ) );
+        }
+      }
+
+      return;
+
     }
 
     public HttpContent GetResponseContent ()
@@ -78,7 +103,7 @@ namespace SEOMacroscope
       this.ContentAsBytes = RequestContentAsBytes;
     }
 
-    public byte[] GetContentAsBytes ( )
+    public byte[] GetContentAsBytes ()
     {
       return ( this.ContentAsBytes );
     }
@@ -90,7 +115,7 @@ namespace SEOMacroscope
       this.ContentAsString = RequestContentAsString;
     }
 
-    public string GetContentAsString ( )
+    public string GetContentAsString ()
     {
       return ( this.ContentAsString );
     }
