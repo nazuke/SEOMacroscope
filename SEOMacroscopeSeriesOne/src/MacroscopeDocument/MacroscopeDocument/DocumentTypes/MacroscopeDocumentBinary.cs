@@ -33,6 +33,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -48,7 +49,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async void ProcessBinaryPage ()
+    private async Task ProcessBinaryPage ()
     {
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();

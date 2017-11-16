@@ -336,7 +336,7 @@ namespace SEOMacroscope
         }
       }
 
-      if( msDoc.Execute() ) {
+      if( await msDoc.Execute() ) {
 
         this.DocCollection.AddDocument( Url, msDoc );
 

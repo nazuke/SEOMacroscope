@@ -33,6 +33,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -49,7 +50,7 @@ namespace SEOMacroscope
     /** -------------------------------------------------------------------- **/
 
 
-    private async void ProcessTextPage ()
+    private async Task ProcessTextPage ()
     {
 
       List<string> TextDoc = new List<string> ();

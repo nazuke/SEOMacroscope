@@ -33,6 +33,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 using HtmlAgilityPack;
 
@@ -50,7 +51,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async void ProcessHtmlPage ()
+    private async Task ProcessHtmlPage ()
     {
 
       HtmlDocument HtmlDoc = null;

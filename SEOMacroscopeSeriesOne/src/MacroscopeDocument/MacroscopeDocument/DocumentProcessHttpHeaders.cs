@@ -105,7 +105,9 @@ namespace SEOMacroscope
       HttpContentHeaders ContentHeaders = ResponseMessage.Content.Headers;
 
       /** Status Code ------------------------------------------------------ **/
+
       this.SetStatusCode( ResponseMessage.StatusCode );
+
       this.SetErrorCondition( ResponseMessage.ReasonPhrase );
 
       try
@@ -211,11 +213,13 @@ namespace SEOMacroscope
 
 
 
+      this.DebugMsg( "###########################################################################################################" );
 
 
 
       /** Probe HTTP Headers ----------------------------------------------- **/
 
+      try
       {
         MediaTypeHeaderValue HeaderValue = ContentHeaders.ContentType;
         this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
@@ -227,12 +231,21 @@ namespace SEOMacroscope
           this.SetCharacterEncoding( NewEncoding: new UTF8Encoding() );
         }
       }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( "MediaType Exception: {0}", ex.Message ) );
+      }
+
+      this.DebugMsg( string.Format( "this.MimeType: {0}", this.MimeType ) );
+      this.DebugMsg( string.Format( "this.MimeType: {0}", this.MimeType ) );
+
+
 
 
       try
       {
         long? HeaderValue = ContentHeaders.ContentLength;
-        this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
+        this.DebugMsg( string.Format( "ContentHeaders.ContentLength: {0}", HeaderValue ) );
         if( HeaderValue != null )
         {
           this.ContentLength = HeaderValue;
@@ -251,6 +264,7 @@ namespace SEOMacroscope
         };
         this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback );
       }
+
 
 
       /*
@@ -383,6 +397,7 @@ namespace SEOMacroscope
 
       */
 
+      this.DebugMsg( "###########################################################################################################" );
 
       /** Process Dates ---------------------------------------------------- **/
       {

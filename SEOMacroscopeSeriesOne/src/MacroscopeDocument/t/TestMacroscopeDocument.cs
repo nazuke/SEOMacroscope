@@ -27,7 +27,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
+
 using HtmlAgilityPack;
+
 using NUnit.Framework;
 
 namespace SEOMacroscope
@@ -73,7 +76,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public void TestHtmlDocument ()
+    public async void TestHtmlDocument ()
     {
 
       MacroscopeJobMaster JobMaster;
@@ -81,7 +84,7 @@ namespace SEOMacroscope
 
       List<string> UrlList = new List<string>();
 
-      UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
+      UrlList.Add( "https://nazuke.github.io/" );
 
       JobMaster = new MacroscopeJobMaster(
         JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
@@ -95,11 +98,9 @@ namespace SEOMacroscope
 
         MacroscopeDocument msDoc = DocCollection.CreateDocument( Url: Url );
 
-        //MacroscopeDocument msDoc = new MacroscopeDocument ( Url: Url );
-
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
-        Boolean ExecuteResult = msDoc.Execute();
+        Boolean ExecuteResult = await msDoc.Execute();
 
         Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
 
@@ -114,7 +115,46 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public void TestDetectLanguage ()
+    public async Task TestTextDocument ()
+    {
+
+      MacroscopeJobMaster JobMaster;
+      MacroscopeDocumentCollection DocCollection;
+
+      List<string> UrlList = new List<string>();
+
+      UrlList.Add( "https://nazuke.github.io/robots.txt" );
+
+      JobMaster = new MacroscopeJobMaster(
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
+      );
+
+      DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
+
+      foreach( string Url in UrlList )
+      {
+
+        MacroscopeDocument msDoc = DocCollection.CreateDocument( Url: Url );
+
+        Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
+
+        Boolean ExecuteResult = await msDoc.Execute();
+
+        Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
+
+        Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
+
+        Assert.IsTrue( msDoc.GetIsText(), string.Format( "FAIL: {0}", Url ) );
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public async void TestDetectLanguage ()
     {
 
       MacroscopeJobMaster JobMaster;
@@ -144,7 +184,7 @@ namespace SEOMacroscope
 
           Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
-          Boolean ExecuteResult = msDoc.Execute();
+          Boolean ExecuteResult = await msDoc.Execute();
 
           Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
 

@@ -31,6 +31,9 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+
 using HtmlAgilityPack;
 
 namespace SEOMacroscope
@@ -809,6 +812,7 @@ namespace SEOMacroscope
     public void SetStatusCode ( HttpStatusCode Status )
     {
       this.StatusCode = Status;
+      return;
     }
 
     public HttpStatusCode GetStatusCode ()
@@ -2497,10 +2501,10 @@ namespace SEOMacroscope
 
     /** Executor **************************************************************/
 
-    public Boolean Execute ()
+    public async Task<Boolean> Execute ()
     {
 
-      TimeDuration fTimeDuration = this.GetTimeDurationDelegate();
+      //TimeDuration fTimeDuration = this.GetTimeDurationDelegate();
       Boolean DoDownloadDocument = true;
 
       this.ClearIsDirty();
@@ -2517,7 +2521,8 @@ namespace SEOMacroscope
         this.DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
       }
 
-      fTimeDuration( this.ExecuteHeadRequest );
+      await this.ExecuteHeadRequest();
+      //fTimeDuration( this.ExecuteHeadRequest );
 
       if( this.GetStatusCode() == HttpStatusCode.RequestTimeout )
       {
@@ -2567,8 +2572,9 @@ namespace SEOMacroscope
         {
           
           this.DebugMsg( string.Format( "IS HTML PAGE: {0}", this.DocUrl ) );
-          
-          fTimeDuration( this.ProcessHtmlPage );
+
+          await this.ProcessHtmlPage();
+          //fTimeDuration( this.ProcessHtmlPage );
 
         }
         else
@@ -2579,7 +2585,8 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessStylesheets() )
           {
-            fTimeDuration( this.ProcessCssPage );
+            await this.ProcessCssPage();
+            //fTimeDuration( this.ProcessCssPage );
           }
 
         }
@@ -2591,7 +2598,8 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessImages() )
           {
-            fTimeDuration( this.ProcessImagePage );
+            await this.ProcessImagePage();
+            //fTimeDuration( this.ProcessImagePage );
           }
 
         }
@@ -2603,7 +2611,8 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessJavascripts() )
           {
-            fTimeDuration( this.ProcessJavascriptPage );
+            await this.ProcessJavascriptPage();
+            //fTimeDuration( this.ProcessJavascriptPage );
           }
 
         }
@@ -2615,7 +2624,8 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessPdfs() )
           {
-            fTimeDuration( this.ProcessPdfPage );
+            await this.ProcessPdfPage();
+            //fTimeDuration( this.ProcessPdfPage );
           }
 
         }
@@ -2627,7 +2637,8 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessXml() )
           {
-            fTimeDuration( this.ProcessXmlPage );
+            await this.ProcessXmlPage();
+            //fTimeDuration( this.ProcessXmlPage );
           }
 
         }
@@ -2637,7 +2648,8 @@ namespace SEOMacroscope
           
           this.DebugMsg( string.Format( "IS TEXT PAGE: {0}", this.DocUrl ) );
 
-          fTimeDuration( this.ProcessTextPage );
+          await this.ProcessTextPage();
+          //fTimeDuration( this.ProcessTextPage );
 
         }
         else
@@ -2648,9 +2660,10 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessAudio() )
           {
-            fTimeDuration( this.ProcessAudioPage );
+            await this.ProcessAudioPage();
+            //fTimeDuration( this.ProcessAudioPage );
           }
-          
+
         }
         else
         if( this.GetIsVideo() )
@@ -2660,9 +2673,10 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessVideo() )
           {
-            fTimeDuration( this.ProcessVideoPage );
+            await this.ProcessVideoPage();
+            //fTimeDuration( this.ProcessVideoPage );
           }
-          
+
         }
         else
         if( this.GetIsBinary() )
@@ -2670,7 +2684,8 @@ namespace SEOMacroscope
           this.DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.DocUrl ) );
           if( MacroscopePreferencesManager.GetProcessBinaries() )
           {
-            fTimeDuration( this.ProcessBinaryPage );
+            await this.ProcessBinaryPage();
+            //fTimeDuration( this.ProcessBinaryPage );
           }
 
         }
@@ -2690,8 +2705,9 @@ namespace SEOMacroscope
         this.CrawledDate = DateTime.UtcNow;
 
         this.DebugMsg( string.Format( "IS SKIPPED PAGE: {0}", this.DocUrl ) );
-          
-        fTimeDuration( this.ProcessSkippedPage );
+
+        await this.ProcessSkippedPage();
+        //fTimeDuration( this.ProcessSkippedPage );
 
       }
 

@@ -32,6 +32,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -58,7 +59,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async void ExecuteHeadRequest ()
+    private async Task ExecuteHeadRequest ()
     {
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
@@ -100,62 +101,65 @@ namespace SEOMacroscope
 
       this.DebugMsg( string.Format( "ResponseErrorCondition: {0}", ResponseErrorCondition ) );
 
-      ;
-
       if( Response != null )
       {
 
-        this.DebugMsg( string.Format( "StatusCode: {0}", Response.GetResponse().StatusCode ) );
-
-        this.SetErrorCondition( Response.GetResponse().ReasonPhrase );
-
-        foreach( var HeaderItem in Response.GetResponse().Headers )
-        {
-          this.DebugMsg( string.Format( "RES HEADERS:{0} => {1}", HeaderItem.Key, HeaderItem.Value ) );
-        }
-
-        this.ProcessResponseHttpHeaders( Response: Response );
-
-        if( IsAuthenticating )
-        {
-          this.VerifyOrPurgeCredential();
-        }
-
-        if( this.IsRedirect )
+        try
         {
 
-          this.IsRedirect = true;
+          this.DebugMsg( string.Format( "StatusCode: {0}", Response.GetResponse().StatusCode ) );
 
-          string Location = Response.GetResponse().Headers.GetValues( "Location" ).ToString();
+          this.SetErrorCondition( Response.GetResponse().ReasonPhrase );
 
-          if( !string.IsNullOrEmpty( Location ) )
+          this.ProcessResponseHttpHeaders( Response: Response );
+
+          if( IsAuthenticating )
+          {
+            this.VerifyOrPurgeCredential();
+          }
+
+          if( this.IsRedirect )
           {
 
-            string LocationUnescaped = Uri.UnescapeDataString( stringToUnescape: Location );
+            this.IsRedirect = true;
 
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LocationUnescaped );
+            string Location = Response.GetResponse().Headers.GetValues( "Location" ).ToString();
 
-            if( !string.IsNullOrEmpty( LinkUrlAbs ) )
+            if( !string.IsNullOrEmpty( Location ) )
             {
 
-              MacroscopeLink OutLink;
+              string LocationUnescaped = Uri.UnescapeDataString( stringToUnescape: Location );
 
-              this.SetUrlRedirectFrom( Url: DocUri.ToString() );
+              string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LocationUnescaped );
 
-              this.SetUrlRedirectTo( Url: LinkUrlAbs );
+              if( !string.IsNullOrEmpty( LinkUrlAbs ) )
+              {
 
-              OutLink = this.AddDocumentOutlink(
-                AbsoluteUrl: LinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
-                Follow: true
-              );
+                MacroscopeLink OutLink;
 
-              OutLink.SetRawTargetUrl( TargetUrl: Location );
+                this.SetUrlRedirectFrom( Url: DocUri.ToString() );
+
+                this.SetUrlRedirectTo( Url: LinkUrlAbs );
+
+                OutLink = this.AddDocumentOutlink(
+                  AbsoluteUrl: LinkUrlAbs,
+                  LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
+                  Follow: true
+                );
+
+                OutLink.SetRawTargetUrl( TargetUrl: Location );
+
+              }
 
             }
 
           }
 
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
+          ResponseErrorCondition = ex.Message;
         }
 
       }

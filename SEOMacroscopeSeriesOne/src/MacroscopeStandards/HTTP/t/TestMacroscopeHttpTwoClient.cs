@@ -44,6 +44,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClient Client = new MacroscopeHttpTwoClient();
       List<Uri> UrlList = new List<Uri>();
 
+      UrlList.Add( new Uri( "https://nazuke.github.io/" ) );
       UrlList.Add( new Uri( "https://nazuke.github.io/robots.txt" ) );
 
       foreach( Uri Url in UrlList )
@@ -51,7 +52,11 @@ namespace SEOMacroscope
 
         this.DebugMsg( string.Format( "Url: {0}", Url ) );
 
-        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Head( Url, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Head(
+          Url: Url,
+          ConfigureCustomRequestHeadersCallback: this.ConfigureHeadRequestHeadersCallback,
+          PostProcessRequestHttpHeadersCallback: this.PostProcessRequestHttpHeadersCallback
+        );
 
         HttpResponseMessage Response = ClientResponse.GetResponse();
 

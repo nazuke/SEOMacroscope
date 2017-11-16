@@ -29,6 +29,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
@@ -50,6 +51,8 @@ namespace SEOMacroscope
 
       // https://msdn.microsoft.com/en-us/library/system.net.http.winhttphandler(v=vs.105).aspx
 
+      SuppressStaticDebugMsg = false;
+
       HttpHandler = new WinHttpHandler();
       HttpHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
       HttpHandler.AutomaticRedirection = false;
@@ -57,6 +60,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.EnableHttpProxy( HttpHandler: HttpHandler );
 
       Client = new HttpClient( HttpHandler );
+
+      Client.Timeout = new TimeSpan( hours: 0, minutes: 0, seconds: 60 );
 
     }
 
@@ -76,7 +81,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public async Task<MacroscopeHttpTwoClientResponse> Head ( Uri Url, Action<HttpRequestMessage> ConfigureCustomRequestHeadersCallback, Action<HttpRequestMessage> PostProcessRequestHttpHeadersCallback )
+    public async Task<MacroscopeHttpTwoClientResponse> Head (
+      Uri Url,
+      Action<HttpRequestMessage> ConfigureCustomRequestHeadersCallback,
+      Action<HttpRequestMessage> PostProcessRequestHttpHeadersCallback
+    )
     {
 
       MacroscopeHttpTwoClientResponse ClientResponse = new MacroscopeHttpTwoClientResponse();
@@ -108,7 +117,32 @@ namespace SEOMacroscope
         {
           using( HttpResponseMessage Response = await Client.SendAsync( Request ) )
           {
+
             ClientResponse.SetResponse( RequestResponse: Response );
+
+            foreach( KeyValuePair<string, IEnumerable<string>> Item in Response.Headers )
+            {
+              foreach( string Value in Item.Value )
+              {
+                this.DebugMsg( string.Format( "HEAD RESPONSE: {0} => {1}", Item.Key, Value ) );
+                ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
+              }
+            }
+
+            using( HttpContent ResponseContent = Response.Content )
+            {
+              // TODO: add options to get string and/or bytes[] here:
+              ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+              foreach( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
+              {
+                foreach( string Value in Item.Value )
+                {
+                  this.DebugMsg( string.Format( "HEAD RESPONSECONTENT: {0} => {1}", Item.Key, Value ) );
+                  ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
+                }
+              }
+            }
+
           }
         }
         catch( TimeoutException ex )
@@ -169,12 +203,30 @@ namespace SEOMacroscope
 
             ClientResponse.SetResponse( RequestResponse: Response );
 
+            foreach( KeyValuePair<string, IEnumerable<string>> Item in Response.Headers )
+            {
+              foreach( string Value in Item.Value )
+              {
+                this.DebugMsg( string.Format( "HEAD RESPONSE: {0} => {1}", Item.Key, Value ) );
+                ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
+              }
+            }
+
             using( HttpContent ResponseContent = Response.Content )
             {
 
               // TODO: add options to get string and/or bytes[] here:
 
               ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+
+              foreach( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
+              {
+                foreach( string Value in Item.Value )
+                {
+                  this.DebugMsg( string.Format( "HEAD RESPONSECONTENT: {0} => {1}", Item.Key, Value ) );
+                  ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
+                }
+              }
 
             }
 

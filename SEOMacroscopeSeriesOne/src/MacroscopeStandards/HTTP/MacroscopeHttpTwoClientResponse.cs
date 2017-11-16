@@ -38,6 +38,7 @@ namespace SEOMacroscope
 
     private HttpResponseMessage Response;
     private HttpContent ResponseContent;
+    private SortedDictionary<string, List<string>> ConsolidatedHttpHeaders;
     private byte[] ContentAsBytes;
     private string ContentAsString;
 
@@ -45,7 +46,11 @@ namespace SEOMacroscope
 
     public MacroscopeHttpTwoClientResponse ()
     {
+
       this.SuppressDebugMsg = false;
+
+      this.ConsolidatedHttpHeaders = new SortedDictionary<string, List<string>>();
+
     }
 
     /**************************************************************************/
@@ -70,6 +75,49 @@ namespace SEOMacroscope
     public HttpResponseMessage GetResponse ()
     {
       return ( this.Response );
+    }
+
+    /**************************************************************************/
+
+    public void AddConsolidatedHttpHeader ( string Name, string Value )
+    {
+      lock( this.ConsolidatedHttpHeaders )
+      {
+        if( this.ConsolidatedHttpHeaders.ContainsKey( Name ) )
+        {
+          this.ConsolidatedHttpHeaders[ Name ].Add( Value );
+        }
+        else
+        {
+          this.ConsolidatedHttpHeaders.Add( Name, new List<string>() { Value } );
+        }
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<string> IterateConsolidatedHttpHeaders ()
+    {
+      lock( this.ConsolidatedHttpHeaders )
+      {
+        foreach( string Name in this.ConsolidatedHttpHeaders.Keys )
+        {
+          yield return ( Name );
+        }
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<string> IterateConsolidatedHttpHeaderValues ( string Name )
+    {
+      lock( this.ConsolidatedHttpHeaders[ Name ] )
+      {
+        foreach( string Value in this.ConsolidatedHttpHeaders[ Name ] )
+        {
+          yield return ( Value );
+        }
+      }
     }
 
     /**************************************************************************/

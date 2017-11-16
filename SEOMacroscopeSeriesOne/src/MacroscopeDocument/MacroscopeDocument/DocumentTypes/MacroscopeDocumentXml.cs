@@ -34,6 +34,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Xml;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -49,7 +50,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async void ProcessXmlPage ()
+    private async Task ProcessXmlPage ()
     {
 
       XmlDocument XmlDoc = null;
