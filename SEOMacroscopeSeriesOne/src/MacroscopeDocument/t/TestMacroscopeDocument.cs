@@ -76,7 +76,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public async void TestHtmlDocument ()
+    public async Task TestHtmlDocument ()
     {
 
       MacroscopeJobMaster JobMaster;
@@ -147,6 +147,11 @@ namespace SEOMacroscope
 
         Assert.IsTrue( msDoc.GetIsText(), string.Format( "FAIL: {0}", Url ) );
 
+        /** Content Property Assertions ------------------------------------ **/
+
+        Assert.AreEqual( "text/plain", msDoc.GetMimeType() );
+        Assert.Greater( msDoc.GetContentLength(), 0 );
+
       }
 
     }
@@ -154,7 +159,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public async void TestDetectLanguage ()
+    public async Task TestDetectLanguage ()
     {
 
       MacroscopeJobMaster JobMaster;

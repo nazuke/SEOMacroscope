@@ -49,7 +49,7 @@ namespace SEOMacroscope
     public MacroscopeRobots ()
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       this.RobotSquad = new Dictionary<string, Robots>( 8 );
 
@@ -419,6 +419,12 @@ namespace SEOMacroscope
       {
         RobotText = RawData;
       }
+
+
+
+
+
+
 
       return( RobotText );
 

@@ -2301,25 +2301,25 @@ namespace SEOMacroscope
     {
 
       IPHostEntry HostEntry = null;
-      string ServerName = msDoc.GetServerName();
+      string Hostname = msDoc.GetHostname();
 
-      if( this.DnsCache.ContainsKey( ServerName ) )
+      if( this.DnsCache.ContainsKey( Hostname ) )
       {
 
-        msDoc.SetServerAddresses( HostEntry: this.DnsCache[ ServerName ] );
+        msDoc.SetHostAddresses( HostEntry: this.DnsCache[ Hostname ] );
 
       }
       else
       {
 
-        HostEntry = msDoc.SetServerAddresses();
+        HostEntry = msDoc.SetHostAddresses();
 
         lock( this.DnsCache )
         {
           
-          if( !this.DnsCache.ContainsKey( ServerName ) )
+          if( !this.DnsCache.ContainsKey( Hostname ) )
           {
-            this.DnsCache.Add( ServerName, HostEntry );
+            this.DnsCache.Add( Hostname, HostEntry );
           }
 
         }

@@ -116,7 +116,7 @@ namespace SEOMacroscope
           */
 
           RawData = Response.GetContentAsString();
-          this.ContentLength = RawData.Length; // May need to find bytes length
+          this.SetContentLength( Length: RawData.Length ); // May need to find bytes length
           this.SetChecksum( RawData );
           
           this.SetWasDownloaded( true );
@@ -130,7 +130,7 @@ namespace SEOMacroscope
            this.SetStatusCode( HttpStatusCode.Ambiguous );
           
           RawData = "";
-          this.ContentLength = 0;
+          this.SetContentLength( Length: 0 );
 
         }
 

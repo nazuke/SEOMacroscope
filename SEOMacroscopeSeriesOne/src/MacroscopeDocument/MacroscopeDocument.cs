@@ -66,10 +66,11 @@ namespace SEOMacroscope
 
     private Boolean IsRedirect;
     private string UrlRedirectFrom;
+    private string UrlRedirectFromRaw;
     private string UrlRedirectTo;
+    private string UrlRedirectToRaw;
 
-    private string ServerName;
-    private List<IPAddress> ServerAddresses;
+    private string ServerName; // HTTP Server Identifier
 
     private string BaseHref;
 
@@ -79,6 +80,8 @@ namespace SEOMacroscope
     private string Path;
     private string QueryString;
     private string Fragment;
+
+    private List<IPAddress> ServerAddresses;
 
     private MacroscopeConstants.AuthenticationType AuthenticationType;
     private string AuthenticationRealm;
@@ -474,32 +477,105 @@ namespace SEOMacroscope
       this.ServerName = NewServerName;
     }
 
-    public string GetServerName ()
-    {
-      return( this.ServerName );
-    }
-
     /** -------------------------------------------------------------------- **/
 
-    public IPHostEntry SetServerAddresses ()
+    public string GetServerName ()
+    {
+      return ( this.ServerName );
+    }
+
+    /** Base HREF *************************************************************/
+
+    public void UnsetBaseHref ()
+    {
+      this.BaseHref = "";
+    }
+
+    public void SetBaseHref ( string Url )
+    {
+      this.BaseHref = Url;
+    }
+
+    public string GetBaseHref ()
+    {
+      return ( this.BaseHref );
+    }
+
+    /** Host Details **********************************************************/
+
+    public string GetUrl ()
+    {
+      return ( this.DocUrl );
+    }
+
+    public string GetScheme ()
+    {
+      return ( this.Scheme );
+    }
+
+    public string GetHostname ()
+    {
+      string Host = this.Hostname;
+      return ( Host );
+    }
+
+    public string GetHostAndPort ()
+    {
+
+      string HostAndPort = this.Hostname;
+
+      if( ( this.Port > 0 ) && ( this.Port != 80 ) )
+      {
+        HostAndPort = string.Join( ":", this.Hostname, this.Port.ToString() );
+      }
+
+      return ( HostAndPort );
+
+    }
+
+    public int GetPort ()
+    {
+      return ( this.Port );
+    }
+
+    public string GetPath ()
+    {
+      return ( this.Path );
+    }
+
+    public string GetFragment ()
+    {
+      return ( this.Fragment );
+    }
+
+    public string GetQueryString ()
+    {
+      return ( this.QueryString );
+    }
+
+    /** Host Addresses ********************************************************/
+
+    public IPHostEntry SetHostAddresses ()
     {
 
       IPHostEntry HostEntry = null;
 
-      if( !string.IsNullOrEmpty( this.ServerName ) )
+      if( !string.IsNullOrEmpty( this.GetHostname() ) )
       {
 
-        HostEntry = Dns.GetHostEntry( this.ServerName );
+        HostEntry = Dns.GetHostEntry( this.GetHostname() );
 
-        this.SetServerAddresses( HostEntry: HostEntry );
+        this.SetHostAddresses( HostEntry: HostEntry );
 
       }
 
-      return( HostEntry );
+      return ( HostEntry );
 
     }
 
-    public IPHostEntry SetServerAddresses ( IPHostEntry HostEntry )
+    /** -------------------------------------------------------------------- **/
+
+    public IPHostEntry SetHostAddresses ( IPHostEntry HostEntry )
     {
 
       lock( this.ServerAddresses )
@@ -512,11 +588,13 @@ namespace SEOMacroscope
 
       }
 
-      return( HostEntry );
+      return ( HostEntry );
 
     }
 
-    public IEnumerable<IPAddress> IterateServerAddresses ()
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<IPAddress> IterateHostAddresses ()
     {
       lock( this.ServerAddresses )
       {
@@ -527,11 +605,12 @@ namespace SEOMacroscope
       }
     }
 
-        
-    public List<IPAddress> GetServerAddresses ()
+    /** -------------------------------------------------------------------- **/
+
+    public List<IPAddress> GetHostAddresses ()
     {
 
-      List<IPAddress> AddressList = new List<IPAddress> ( this.ServerAddresses.Count );
+      List<IPAddress> AddressList = new List<IPAddress>( this.ServerAddresses.Count );
 
       lock( this.ServerAddresses )
       {
@@ -539,20 +618,22 @@ namespace SEOMacroscope
         foreach( IPAddress Address in this.ServerAddresses )
         {
           AddressList.Add( Address );
-          
+
         }
 
       }
 
-      return( AddressList );
+      return ( AddressList );
 
     }
 
-    public string GetServerAddressesAsCsv ()
+    /** -------------------------------------------------------------------- **/
+
+    public string GetHostAddressesAsCsv ()
     {
 
-      List<IPAddress> AddressList = new List<IPAddress> ( this.ServerAddresses.Count );
-      List<string> AddressesListCsv = new List<string> ( this.ServerAddresses.Count );
+      List<IPAddress> AddressList = new List<IPAddress>( this.ServerAddresses.Count );
+      List<string> AddressesListCsv = new List<string>( this.ServerAddresses.Count );
       string AddressesCsv = "";
 
       lock( this.ServerAddresses )
@@ -570,77 +651,8 @@ namespace SEOMacroscope
         AddressesCsv = string.Join( ", ", AddressesListCsv );
       }
 
-      return( AddressesCsv );
+      return ( AddressesCsv );
 
-    }
-
-    /** Base HREF *************************************************************/
-
-    public void UnsetBaseHref ()
-    {
-      this.BaseHref = "";
-    }
-    
-    public void SetBaseHref ( string Url )
-    {
-      this.BaseHref = Url;
-    }
-
-    public string GetBaseHref ()
-    {
-      return( this.BaseHref );
-    }
-
-    /** Host Details **********************************************************/
-
-    public string GetUrl ()
-    {
-      return( this.DocUrl );
-    }
-
-    public string GetScheme ()
-    {
-      return( this.Scheme );
-    }
-
-    public string GetHostname ()
-    {
-      string Host = this.Hostname;
-      return( Host );
-    }
-
-    public string GetHostAndPort ()
-    {
-
-      string HostAndPort = this.Hostname;
-
-      if( ( this.Port > 0 ) && ( this.Port != 80 ) )
-      {
-        HostAndPort = string.Join( ":", this.Hostname, this.Port.ToString() );
-      }
-
-      return( HostAndPort );
-
-    }
-
-    public int GetPort ()
-    {
-      return( this.Port );
-    }
-
-    public string GetPath ()
-    {
-      return( this.Path );
-    }
-
-    public string GetFragment ()
-    {
-      return( this.Fragment );
-    }
-
-    public string GetQueryString ()
-    {
-      return( this.QueryString );
     }
 
     /** Authentication ********************************************************/
@@ -782,29 +794,83 @@ namespace SEOMacroscope
 
     /** Is Redirect Flag ******************************************************/
 
+    public void SetIsRedirect ()
+    {
+      this.IsRedirect = true;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public Boolean GetIsRedirect ()
     {
-      return( this.IsRedirect );
+      return ( this.IsRedirect );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void SetUrlRedirectFrom ( string Url )
     {
       this.UrlRedirectFrom = Url;
+      this.UrlRedirectFromRaw = Url;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetUrlRedirectFrom ()
     {
-      return( this.UrlRedirectFrom );
+      return ( this.UrlRedirectFrom );
     }
 
-    public void SetUrlRedirectTo ( string  Url )
+    /** -------------------------------------------------------------------- **/
+
+    public string GetUrlRedirectFromRaw ()
     {
-      this.UrlRedirectTo = Url;
+      return ( this.UrlRedirectFromRaw );
     }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void SetUrlRedirectTo ( string Url )
+    {
+
+      this.UrlRedirectToRaw = Url;
+
+      if( !string.IsNullOrEmpty( Url ) )
+      {
+
+        string UrlUnescaped = Uri.UnescapeDataString( stringToUnescape: Url );
+
+        string UrlAbsolute = MacroscopeUrlUtils.MakeUrlAbsolute(
+          BaseHref: this.GetBaseHref(),
+          BaseUrl: this.GetUrl(),
+          Url: UrlUnescaped
+         );
+
+        if( !string.IsNullOrEmpty( UrlAbsolute ) )
+        {
+          this.UrlRedirectTo = UrlAbsolute;
+        }
+
+      }
+      else
+      {
+        this.UrlRedirectTo = "";
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetUrlRedirectTo ()
     {
-      return( this.UrlRedirectTo );
+      return ( this.UrlRedirectTo );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public string GetUrlRedirectToRaw ()
+    {
+      return ( this.UrlRedirectToRaw );
     }
 
     /**************************************************************************/
@@ -1189,9 +1255,21 @@ namespace SEOMacroscope
 
     /** Content Length ********************************************************/
 
+    public void SetContentLength ( long Length )
+    {
+      this.ContentLength = Length;
+    }
+
+    public void SetContentLength ( int Length )
+    {
+      this.ContentLength = (long)Length;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public long? GetContentLength ()
     {
-      return( this.ContentLength );
+      return ( this.ContentLength );
     }
 
     /** Language/Locale *******************************************************/

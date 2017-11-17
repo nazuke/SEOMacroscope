@@ -163,7 +163,6 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Page Depth", this.GetDepth().ToString() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Server Name", this.GetServerName() ) );
-      DetailsList.Add( new KeyValuePair<string,string> ( "Server Addresses", this.GetServerAddressesAsCsv() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Scheme", this.GetScheme() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Host and Port", this.GetHostAndPort() ) );
@@ -172,8 +171,10 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Path", this.GetPath() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Query", this.GetQueryString() ) );
       DetailsList.Add( new KeyValuePair<string,string> ( "Fragment", this.GetFragment() ) );
-      
-      return( DetailsList );
+
+      DetailsList.Add( new KeyValuePair<string, string>( "Server Addresses", this.GetHostAddressesAsCsv() ) );
+
+      return ( DetailsList );
 
     }
 

@@ -78,7 +78,6 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-
     private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request )
     {
       string Headers = "";
@@ -196,7 +195,7 @@ namespace SEOMacroscope
 
       if( IsRedirectUrl )
       {
-        this.IsRedirect = true;
+        this.SetIsRedirect();
       }
 
       /** Raw HTTP Headers ------------------------------------------------- **/
@@ -206,19 +205,39 @@ namespace SEOMacroscope
       this.SetHttpResponseHeaders( Response: Response );
 
       /** Server Information ----------------------------------------------- **/
-      {
+      /*{
         this.ServerName = ResponseHeaders.Server.First().ToString();
-      }
-
-
-
+      }*/
 
       this.DebugMsg( "###########################################################################################################" );
 
+      /** PROBE HTTP HEADERS ----------------------------------------------- **/
 
+      /** Server HTTP Header ----------------------------------------------- **/
+      try
+      {
+        HttpHeaderValueCollection<ProductInfoHeaderValue> HeaderValue = ResponseHeaders.Server;
+        if( HeaderValue != null )
+        {
+          this.SetServerName( HeaderValue.FirstOrDefault().ToString() );
+        }
+      }
+      catch( Exception ex )
+      {
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.SetServerName( HeaderValues.First().ToString() );
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "server", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "server", Callback: Callback );
+        }
+      }
 
-      /** Probe HTTP Headers ----------------------------------------------- **/
+      this.DebugMsg( string.Format( "this.ServerName: {0}", this.ServerName ) );
 
+      /** Content-Type HTTP Header ----------------------------------------- **/
       try
       {
         MediaTypeHeaderValue HeaderValue = ContentHeaders.ContentType;
@@ -237,15 +256,11 @@ namespace SEOMacroscope
       }
 
       this.DebugMsg( string.Format( "this.MimeType: {0}", this.MimeType ) );
-      this.DebugMsg( string.Format( "this.MimeType: {0}", this.MimeType ) );
 
-
-
-
+      /** Content-Length HTTP Header --------------------------------------- **/
       try
       {
         long? HeaderValue = ContentHeaders.ContentLength;
-        this.DebugMsg( string.Format( "ContentHeaders.ContentLength: {0}", HeaderValue ) );
         if( HeaderValue != null )
         {
           this.ContentLength = HeaderValue;
@@ -253,53 +268,345 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
-        this.ContentLength = 0;
+        this.SetContentLength( Length: 0 );
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.SetContentLength( Length: long.Parse( HeaderValues.FirstOrDefault() ) );
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "content-length", Callback: Callback );
+        }
+      }
+
+      this.DebugMsg( string.Format( "this.GetContentLength(): {0}", this.GetContentLength() ) );
+
+      /** Content-Encoding HTTP Header ------------------------------------- **/
+      try
+      {
+        ICollection<string> HeaderValue = ContentHeaders.ContentEncoding;
+        if( HeaderValue != null )
+        {
+          this.ContentEncoding = HeaderValue.FirstOrDefault();
+        }
+      }
+      catch( Exception ex )
+      {
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.ContentEncoding = HeaderValues.FirstOrDefault();
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-encoding", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "content-encoding", Callback: Callback );
+        }
+      }
+
+      if( string.IsNullOrEmpty( this.CompressionMethod ) && ( !string.IsNullOrEmpty( this.ContentEncoding ) ) )
+      {
+        this.IsCompressed = true;
+        this.CompressionMethod = this.ContentEncoding;
+      }
+
+      this.DebugMsg( string.Format( "this.ContentEncoding: {0}", this.ContentEncoding ) );
+      this.DebugMsg( string.Format( "this.CompressionMethod: {0}", this.CompressionMethod ) );
+
+      /** Date HTTP Header ------------------------------------------------- **/
+      try
+      {
+        DateTimeOffset? HeaderValue = ResponseHeaders.Date;
+        if( HeaderValue != null )
+        {
+          this.DateServer = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValue.ToString() );
+        }
+      }
+      catch( Exception ex )
+      {
+        this.DateServer = new DateTime();
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.DateServer = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValues.First().ToString() );
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "date", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "date", Callback: Callback );
+        }
+      }
+
+      this.DebugMsg( string.Format( "this.DateServer: {0}", this.DateServer ) );
+
+      /** Last-Modified HTTP Header ---------------------------------------- **/
+      try
+      {
+        DateTimeOffset? HeaderValue = ContentHeaders.LastModified;
+        if( HeaderValue != null )
+        {
+          this.DateModified = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValue.ToString() );
+        }
+      }
+      catch( Exception ex )
+      {
+        this.DateModified = new DateTime();
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.DateModified = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValues.First().ToString() );
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "last-modified", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "last-modified", Callback: Callback );
+        }
+      }
+
+      this.DebugMsg( string.Format( "this.DateModified: {0}", this.DateModified ) );
+
+      /** Expires HTTP Header ---------------------------------------------- **/
+      try
+      {
+        DateTimeOffset? HeaderValue = ContentHeaders.Expires;
+        if( HeaderValue != null )
+        {
+          this.DateExpires = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValue.ToString() );
+        }
+      }
+      catch( Exception ex )
+      {
+        this.DateExpires = new DateTime();
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.DateExpires = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValues.First().ToString() );
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "expires", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "expires", Callback: Callback );
+        }
+      }
+
+      this.DebugMsg( string.Format( "this.DateExpires: {0}", this.DateExpires ) );
+
+      /** HTST Policy HTTP Header ------------------------------------------ **/
+      // https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
+      // Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+      {
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.HypertextStrictTransportPolicy = true;
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "strict-transport-security", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "strict-transport-security", Callback: Callback );
+        }
+      }
+
+      this.DebugMsg( string.Format( "this.HypertextStrictTransportPolicy: {0}", this.HypertextStrictTransportPolicy ) );
+
+      /** Location (Redirect) HTTP Header ---------------------------------- **/
+      try
+      {
+        Uri HeaderValue = ResponseHeaders.Location;
+        if( HeaderValue != null )
+        {
+          this.SetUrlRedirectTo( Url: HeaderValue.ToString() );
+        }
+      }
+      catch( Exception ex )
+      {
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.SetUrlRedirectTo( Url: HeaderValues.FirstOrDefault().ToString() );
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "location", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "location", Callback: Callback );
+        }
+      }
+
+      this.DebugMsg( string.Format( "this.GetIsRedirect(): {0}", this.GetIsRedirect() ) );
+      this.DebugMsg( string.Format( "this.GetUrlRedirectTo(): {0}", this.GetUrlRedirectTo() ) );
+
+      /** Link HTTP Headers ------------------------------------------------ **/
+      {
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
           foreach( string HeaderValue in HeaderValues )
           {
             this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
+            this.ProcessHttpLinkHeader( HttpLinkHeader: HeaderValue );
           }
-          this.ContentLength = long.Parse( HeaderValues.First() );
+          return ( true );
         };
-        this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback );
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "link", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "link", Callback: Callback );
+        }
       }
+
+      /** ETag HTTP Header ------------------------------------------------- **/
+      try
+      {
+        EntityTagHeaderValue HeaderValue = ResponseHeaders.ETag;
+        if( HeaderValue != null )
+        {
+          string ETagValue = HeaderValue.Tag;
+          if( !string.IsNullOrEmpty( ETagValue ) )
+          {
+            this.SetEtag( HeaderValue.Tag );
+          }
+        }
+      }
+      catch( Exception ex )
+      {
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          string HeaderValue = HeaderValues.FirstOrDefault();
+          if( HeaderValue != null )
+          {
+            if( !string.IsNullOrEmpty( HeaderValue ) )
+            {
+              this.SetEtag( HeaderValue );
+            }
+          }
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "etag", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "etag", Callback: Callback );
+        }
+      }
+
+      this.DebugMsg( string.Format( "this.Etag: {0}", this.Etag ) );
+
+      
+      
+      
+      
+      
+      /** WWW-AUTHENTICATE HTTP Header ------------------------------------- **/
+      /*
+      try
+      {
+        HttpHeaderValueCollection<AuthenticationHeaderValue> HeaderValue = ResponseHeaders.WwwAuthenticate;
+        if( HeaderValue != null )
+        {
+          string ETagValue = HeaderValue.Tag;
+          if( !string.IsNullOrEmpty( ETagValue ) )
+          {
+            this.SetEtag( HeaderValue.Tag );
+          }
+        }
+      }
+      catch( Exception ex )
+      {
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          string HeaderValue = HeaderValues.FirstOrDefault();
+          if( HeaderValue != null )
+          {
+            if( !string.IsNullOrEmpty( HeaderValue ) )
+            {
+              this.SetEtag( HeaderValue );
+            }
+          }
+          return ( true );
+        };
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "etag", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "etag", Callback: Callback );
+        }
+      }
+
+      this.DebugMsg( string.Format( "this.Etag: {0}", this.Etag ) );
+      */
+
+
+
 
 
 
       /*
-      if( ResponseHeader.Key.ToLower().Equals( "content-length" ) )
+      if( ResponseHeader.Key.ToLower().Equals( "www-authenticate" ) )
       {
-        this.ContentLength = long.Parse( ResponseHeader.Value.First() );
+
+        // EXAMPLE: WWW-Authenticate: Basic realm="Access to the staging site"
+
+        string NewAuthenticationType = "";
+        string NewAuthenticationRealm = "";
+        string NewAuthenticationValue = ResponseHeader.Value.First();
+
+        MatchCollection matches = Regex.Matches( NewAuthenticationValue, "^\\s*(Basic)\\s+realm=\"([^\"]+)\"", RegexOptions.IgnoreCase );
+
+        this.DebugMsg( string.Format( "www-authenticate: \"{0}\"", NewAuthenticationValue ) );
+
+        foreach( Match match in matches )
+        {
+          NewAuthenticationType = match.Groups[ 1 ].Value;
+          NewAuthenticationRealm = match.Groups[ 2 ].Value;
+        }
+
+        this.DebugMsg( string.Format( "www-authenticate: \"{0}\" :: \"{1}\"", NewAuthenticationType, NewAuthenticationRealm ) );
+
+        if( NewAuthenticationType.ToLower() == "basic" )
+        {
+          this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.BASIC );
+        }
+        else
+        {
+          this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.UNSUPPORTED );
+        }
+
+        this.SetAuthenticationRealm( NewAuthenticationRealm );
+
       }
       */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
       /*
       foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
       {
-
-        this.SuppressDebugMsg = false;
-
-        //this.DebugMsg( string.Format( "HTTP HEADER: {0} :: {1}", ResponseHeader, res.GetResponseHeader( sHeader ) ) );
-
-
-        foreach( string Value in ResponseHeader.Value )
-        {
-          this.DebugMsg( string.Format( "ResponseHeader: {0} :: {1}", ResponseHeader.Key, Value ) );
-        }
-
-
-
-
-
-
-        
-
-        
-
-
 
         if( ResponseHeader.Key.ToLower().Equals( "www-authenticate" ) )
         {
@@ -335,63 +642,11 @@ namespace SEOMacroscope
 
         }
 
-        if( ResponseHeader.Key.ToLower().Equals( "date" ) )
-        {
-          string DateString = ResponseHeader.Value.First();
-          this.DateServer = MacroscopeDateTools.ParseHttpDate(DateString: DateString);
-        }
-
-        if( ResponseHeader.Key.ToLower().Equals( "last-modified" ) )
-        {
-          string DateString =  ResponseHeader.Value.First();
-          this.DateModified = MacroscopeDateTools.ParseHttpDate(DateString: DateString);
-        }
-
-        if( ResponseHeader.Key.ToLower().Equals( "expires" ) )
-        {
-          string DateString = ResponseHeader.Value.First();
-          this.DateExpires = MacroscopeDateTools.ParseHttpDate(DateString: DateString);
-        }
-
-        if( ResponseHeader.Key.ToLower().Equals( "content-encoding" ) )
-        {
-          if( string.IsNullOrEmpty( this.CompressionMethod ) )
-          {
-            this.IsCompressed = true;
-            this.CompressionMethod = ResponseHeader.Value.First();
-          }
-        }
-
-        // Process HTST Policy
-        // https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet
-        // Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-        if( ResponseHeader.Key.ToLower().Equals( "strict-transport-security" ) )
-        {
-          this.HypertextStrictTransportPolicy = true;
-          // TODO: implement includeSubDomains
-        }
-
-        // Link HTTP Headers
-        if( ResponseHeader.Key.ToLower().Equals( "link" ) )
-        {
-          this.ProcessHttpLinkHeader( HttpLinkHeader: ResponseHeader.Value.First() );
-        }
 
 
-        // Process Etag
-        if( ResponseHeader.Key.ToLower().Equals( "etag" ) )
-        {
-          string ETag = ResponseHeader.Value.First();
-          if( ( ETag != null ) && ( ETag.Length > 0 ) )
-          {
-            ETag = Regex.Replace( ETag, "[\"'\\s]+", "", RegexOptions.Singleline );
-          }
-          else
-          {
-            ETag = "";
-          }
-          this.SetEtag( ETag );
-        }
+
+
+
 
       }
 
@@ -482,80 +737,64 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     /*
-FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
-{
-        foreach( string HeaderValue in HeaderValues )
-{
-  this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
-            }
-                      string mt = HeaderValues.First();
-this.MimeType = HeaderValues.First();
-        };
-this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback );
-*/
-
-    delegate void FindHttpResponseHeaderCallback ( IEnumerable<string> HeaderValues );
-    delegate void FindHttpContentHeaderCallback ( IEnumerable<string> HeaderValues );
-
-    private void FindHttpResponseHeader ( HttpResponseHeaders ResponseHeaders, string HeaderName, FindHttpResponseHeaderCallback Callback )
+    FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
     {
+      foreach( string HeaderValue in HeaderValues )
+      {
+        this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
+      }
+      string mt = HeaderValues.First();
+      this.MimeType = HeaderValues.First();
+      return ( true );
+    };
+    this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback );
+    */
 
+    delegate Boolean FindHttpResponseHeaderCallback ( IEnumerable<string> HeaderValues );
+
+    private Boolean FindHttpResponseHeader (
+      HttpResponseHeaders ResponseHeaders,
+      string HeaderName,
+      FindHttpResponseHeaderCallback Callback
+    )
+    {
+      Boolean Success = false;
       foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
       {
-
         this.DebugMsg( string.Format( "ResponseHeader.key: {0} :: {1}", HeaderName.ToLower(), ResponseHeader.Key.ToLower() ) );
-
-
-
         if( ResponseHeader.Key.ToLower().Equals( HeaderName.ToLower() ) )
         {
           IEnumerable<string> HeaderValues = ResponseHeader.Value;
           this.DebugMsg( string.Format( "FindHttpRequestHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
-          Callback( HeaderValues );
+          Success = Callback ( HeaderValues );
           break;
         }
       }
-
-      return;
-
+      return( Success );
     }
 
+    /** -------------------------------------------------------------------- **/
 
-
-    private void FindHttpContentHeader ( HttpContentHeaders ContentHeaders, string HeaderName, FindHttpContentHeaderCallback Callback )
+    private Boolean FindHttpContentHeader (
+      HttpContentHeaders ContentHeaders,
+      string HeaderName,
+      FindHttpResponseHeaderCallback Callback
+    )
     {
-
+      Boolean Success = false;
       foreach( KeyValuePair<string, IEnumerable<string>> ContentHeader in ContentHeaders )
       {
-
         this.DebugMsg( string.Format( "ContentHeader.key: {0} :: {1}", HeaderName.ToLower(), ContentHeader.Key.ToLower() ) );
-
-
-
         if( ContentHeader.Key.ToLower().Equals( HeaderName.ToLower() ) )
         {
           IEnumerable<string> HeaderValues = ContentHeader.Value;
           this.DebugMsg( string.Format( "FindHttpContentHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
-          Callback( HeaderValues );
+          Success = Callback( HeaderValues );
           break;
         }
       }
-
-      return;
-
+      return ( Success );
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**************************************************************************/
 

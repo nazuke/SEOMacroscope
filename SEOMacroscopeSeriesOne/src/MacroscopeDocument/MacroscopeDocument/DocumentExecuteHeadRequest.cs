@@ -118,38 +118,25 @@ namespace SEOMacroscope
             this.VerifyOrPurgeCredential();
           }
 
-          if( this.IsRedirect )
+          if( this.GetIsRedirect() )
           {
 
-            this.IsRedirect = true;
-
-            string Location = Response.GetResponse().Headers.GetValues( "Location" ).ToString();
+            string Location = this.GetUrlRedirectTo();
 
             if( !string.IsNullOrEmpty( Location ) )
             {
 
-              string LocationUnescaped = Uri.UnescapeDataString( stringToUnescape: Location );
+              MacroscopeLink OutLink = null;
 
-              string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LocationUnescaped );
+              this.SetUrlRedirectTo( Url: Location );
 
-              if( !string.IsNullOrEmpty( LinkUrlAbs ) )
-              {
+              OutLink = this.AddDocumentOutlink(
+                AbsoluteUrl: Location,
+                LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
+                Follow: true
+              );
 
-                MacroscopeLink OutLink;
-
-                this.SetUrlRedirectFrom( Url: DocUri.ToString() );
-
-                this.SetUrlRedirectTo( Url: LinkUrlAbs );
-
-                OutLink = this.AddDocumentOutlink(
-                  AbsoluteUrl: LinkUrlAbs,
-                  LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
-                  Follow: true
-                );
-
-                OutLink.SetRawTargetUrl( TargetUrl: Location );
-
-              }
+              OutLink.SetRawTargetUrl( TargetUrl: this.GetUrlRedirectToRaw() );
 
             }
 
@@ -306,7 +293,7 @@ namespace SEOMacroscope
 
     }
     */
-    
+
     /**************************************************************************/
 
   }

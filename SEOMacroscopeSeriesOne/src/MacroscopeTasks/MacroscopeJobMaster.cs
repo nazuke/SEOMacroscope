@@ -50,11 +50,7 @@ namespace SEOMacroscope
     private IMacroscopeTaskController TaskController;
     MacroscopeCredentialsHttp CredentialsHttp;
 
-
     private MacroscopeHttpTwoClient Client;
-
-
-
 
     private MacroscopeDocumentCollection DocCollection;
     private MacroscopeAllowedHosts AllowedHosts;

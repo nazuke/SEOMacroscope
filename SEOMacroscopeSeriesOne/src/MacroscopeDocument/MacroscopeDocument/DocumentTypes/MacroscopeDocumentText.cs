@@ -102,8 +102,8 @@ namespace SEOMacroscope
 
           RawData = Response.GetContentAsString();
 
-          this.ContentLength = RawData.Length; // May need to find bytes length
-          
+          this.SetContentLength( Length: RawData.Length ); // May need to find bytes length
+
           this.SetWasDownloaded( true );
           
           this.SetChecksum( RawData );
@@ -123,18 +123,18 @@ namespace SEOMacroscope
           }
 
           RawData = "";
-          this.ContentLength = 0;
+          this.SetContentLength( Length: 0 );
         }
         catch( Exception ex )
         {
           DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           this.SetStatusCode( HttpStatusCode.BadRequest );
           RawData = "";
-          this.ContentLength = 0;
+          this.SetContentLength( Length: 0 );
         }
 
         /** ---------------------------------------------------------------- **/
-        
+
         if( !string.IsNullOrEmpty( RawData ) )
         {
           

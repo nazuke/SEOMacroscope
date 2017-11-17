@@ -107,7 +107,7 @@ namespace SEOMacroscope
           {
 
             byte [] RawData = Response.GetContentAsBytes();
-            this.ContentLength = RawData.Length;
+            this.SetContentLength( Length: RawData.Length );
 
             pdfTools = new MacroscopePdfTools ( RawData );
 						
@@ -134,7 +134,7 @@ namespace SEOMacroscope
             }
 
             pdfTools = null;
-            this.ContentLength = 0;
+            this.SetContentLength( Length: 0 );
 
           }
           catch( Exception ex )
@@ -143,10 +143,10 @@ namespace SEOMacroscope
             DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
             this.SetStatusCode( HttpStatusCode.BadRequest );
             pdfTools = null;
-            this.ContentLength = 0;
+            this.SetContentLength( Length: 0 );
 
           }
-          
+
         }
 
         /** Title ---------------------------------------------------------- **/
