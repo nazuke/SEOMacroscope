@@ -2599,7 +2599,7 @@ namespace SEOMacroscope
         this.DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
       }
 
-      await this.ExecuteHeadRequest();
+      await this._ExecuteHeadRequest();
       //fTimeDuration( this.ExecuteHeadRequest );
 
       if( this.GetStatusCode() == HttpStatusCode.RequestTimeout )
@@ -2651,7 +2651,7 @@ namespace SEOMacroscope
           
           this.DebugMsg( string.Format( "IS HTML PAGE: {0}", this.DocUrl ) );
 
-          await this.ProcessHtmlPage();
+          await this._ProcessHtmlPage();
           //fTimeDuration( this.ProcessHtmlPage );
 
         }
@@ -2663,7 +2663,7 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessStylesheets() )
           {
-            await this.ProcessCssPage();
+            await this._ProcessCssPage();
             //fTimeDuration( this.ProcessCssPage );
           }
 
@@ -2676,7 +2676,7 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessImages() )
           {
-            await this.ProcessImagePage();
+            await this._ProcessImagePage();
             //fTimeDuration( this.ProcessImagePage );
           }
 
@@ -2689,7 +2689,7 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessJavascripts() )
           {
-            await this.ProcessJavascriptPage();
+            await this._ProcessJavascriptPage();
             //fTimeDuration( this.ProcessJavascriptPage );
           }
 
@@ -2702,7 +2702,7 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessPdfs() )
           {
-            await this.ProcessPdfPage();
+            await this._ProcessPdfPage();
             //fTimeDuration( this.ProcessPdfPage );
           }
 
@@ -2715,7 +2715,7 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessXml() )
           {
-            await this.ProcessXmlPage();
+            await this._ProcessXmlPage();
             //fTimeDuration( this.ProcessXmlPage );
           }
 
@@ -2726,7 +2726,7 @@ namespace SEOMacroscope
           
           this.DebugMsg( string.Format( "IS TEXT PAGE: {0}", this.DocUrl ) );
 
-          await this.ProcessTextPage();
+          await this._ProcessTextPage();
           //fTimeDuration( this.ProcessTextPage );
 
         }
@@ -2738,7 +2738,7 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessAudio() )
           {
-            await this.ProcessAudioPage();
+            await this._ProcessAudioPage();
             //fTimeDuration( this.ProcessAudioPage );
           }
 
@@ -2751,7 +2751,7 @@ namespace SEOMacroscope
           
           if( MacroscopePreferencesManager.GetProcessVideo() )
           {
-            await this.ProcessVideoPage();
+            await this._ProcessVideoPage();
             //fTimeDuration( this.ProcessVideoPage );
           }
 
@@ -2762,7 +2762,7 @@ namespace SEOMacroscope
           this.DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.DocUrl ) );
           if( MacroscopePreferencesManager.GetProcessBinaries() )
           {
-            await this.ProcessBinaryPage();
+            await this._ProcessBinaryPage();
             //fTimeDuration( this.ProcessBinaryPage );
           }
 
@@ -2784,7 +2784,7 @@ namespace SEOMacroscope
 
         this.DebugMsg( string.Format( "IS SKIPPED PAGE: {0}", this.DocUrl ) );
 
-        await this.ProcessSkippedPage();
+        await this._ProcessSkippedPage();
         //fTimeDuration( this.ProcessSkippedPage );
 
       }

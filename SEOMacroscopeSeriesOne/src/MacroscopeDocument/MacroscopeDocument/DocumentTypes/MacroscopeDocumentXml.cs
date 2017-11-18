@@ -50,7 +50,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task ProcessXmlPage ()
+    private async void ProcessXmlPage ()
+    {
+      await this._ProcessXmlPage();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async Task _ProcessXmlPage ()
     {
 
       XmlDocument XmlDoc = null;

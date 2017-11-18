@@ -49,8 +49,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
+    private async void ProcessTextPage ()
+    {
+      await this._ProcessTextPage();
+    }
 
-    private async Task ProcessTextPage ()
+    /** -------------------------------------------------------------------- **/
+
+    private async Task _ProcessTextPage ()
     {
 
       List<string> TextDoc = new List<string> ();

@@ -59,7 +59,12 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task ExecuteHeadRequest ()
+    private async void ExecuteHeadRequest ()
+    {
+      await this._ExecuteHeadRequest();
+    }
+
+    private async Task _ExecuteHeadRequest ()
     {
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();

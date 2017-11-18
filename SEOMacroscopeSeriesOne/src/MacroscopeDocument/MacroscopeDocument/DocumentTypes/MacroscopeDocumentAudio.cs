@@ -49,7 +49,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task ProcessAudioPage ()
+    private async void ProcessAudioPage ()
+    {
+      await this._ProcessAudioPage();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async Task _ProcessAudioPage ()
     {
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();

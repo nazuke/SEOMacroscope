@@ -49,7 +49,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task ProcessPdfPage ()
+    private async void ProcessPdfPage ()
+    {
+      await this._ProcessPdfPage();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async Task _ProcessPdfPage ()
     {
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();

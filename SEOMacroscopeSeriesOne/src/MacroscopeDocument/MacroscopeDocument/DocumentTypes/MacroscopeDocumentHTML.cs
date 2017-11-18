@@ -51,7 +51,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task ProcessHtmlPage ()
+    private async void ProcessHtmlPage ()
+    {
+      await this._ProcessHtmlPage();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async Task _ProcessHtmlPage ()
     {
 
       HtmlDocument HtmlDoc = null;

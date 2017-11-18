@@ -49,7 +49,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task ProcessBinaryPage ()
+    private async void ProcessBinaryPage ()
+    {
+      await this._ProcessBinaryPage();
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async Task _ProcessBinaryPage ()
     {
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
