@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -49,9 +50,22 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async void ProcessPdfPage ()
+    private async Task ProcessPdfPage ()
     {
+      Stopwatch TimeDuration = new Stopwatch();
+      long FinalDuration;
+      TimeDuration.Start();
       await this._ProcessPdfPage();
+      TimeDuration.Stop();
+      FinalDuration = TimeDuration.ElapsedMilliseconds;
+      if( FinalDuration > 0 )
+      {
+        this.Duration = FinalDuration;
+      }
+      else
+      {
+        this.Duration = 0;
+      }
     }
 
     /** -------------------------------------------------------------------- **/

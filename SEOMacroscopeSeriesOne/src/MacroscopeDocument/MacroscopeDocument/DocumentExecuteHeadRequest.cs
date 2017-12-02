@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -59,10 +60,25 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async void ExecuteHeadRequest ()
+    private async Task ExecuteHeadRequest ()
     {
+      Stopwatch TimeDuration= new Stopwatch();
+      long FinalDuration;
+      TimeDuration.Start();
       await this._ExecuteHeadRequest();
+      TimeDuration.Stop();
+      FinalDuration = TimeDuration.ElapsedMilliseconds;
+      if( FinalDuration > 0 )
+      {
+        this.Duration = FinalDuration;
+      }
+      else
+      {
+        this.Duration = 0;
+      }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private async Task _ExecuteHeadRequest ()
     {

@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -49,9 +50,22 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async void ProcessTextPage ()
+    private async Task ProcessTextPage ()
     {
+      Stopwatch TimeDuration = new Stopwatch();
+      long FinalDuration;
+      TimeDuration.Start();
       await this._ProcessTextPage();
+      TimeDuration.Stop();
+      FinalDuration = TimeDuration.ElapsedMilliseconds;
+      if( FinalDuration > 0 )
+      {
+        this.Duration = FinalDuration;
+      }
+      else
+      {
+        this.Duration = 0;
+      }
     }
 
     /** -------------------------------------------------------------------- **/
@@ -103,7 +117,7 @@ namespace SEOMacroscope
 
         try
         {
-          
+
           DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
           RawData = Response.GetContentAsString();

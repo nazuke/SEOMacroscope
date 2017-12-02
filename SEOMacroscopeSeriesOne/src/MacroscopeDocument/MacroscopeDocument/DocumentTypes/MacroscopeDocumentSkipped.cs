@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace SEOMacroscope
@@ -38,14 +39,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessSkippedPage ()
+    private async Task ProcessSkippedPage ()
     {
-      this.ExecuteHeadRequest();
-    }
-
-    private async Task _ProcessSkippedPage ()
-    {
-      await this._ExecuteHeadRequest();
+      this._ExecuteHeadRequest();
     }
 
     /**************************************************************************/
