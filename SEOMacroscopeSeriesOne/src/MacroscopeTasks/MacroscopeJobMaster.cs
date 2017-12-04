@@ -103,7 +103,7 @@ namespace SEOMacroscope
     )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.TaskController = null;
 
@@ -119,7 +119,7 @@ namespace SEOMacroscope
     )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.TaskController = TaskController;
 

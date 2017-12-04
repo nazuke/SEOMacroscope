@@ -69,7 +69,7 @@ namespace SEOMacroscope
 
     public MacroscopeHttpTwoClient ()
     {
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/

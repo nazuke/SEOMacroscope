@@ -45,7 +45,7 @@ namespace SEOMacroscope
     public MacroscopeLinkList ()
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       
       this.Links = new List<MacroscopeLink> ( 256 );
 

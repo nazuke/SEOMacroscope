@@ -54,7 +54,7 @@ namespace SEOMacroscope
     public MacroscopeHttpProtocolProbe ()
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.Cache = new Dictionary<string, HttpProtocolVersion>( 16 );
 

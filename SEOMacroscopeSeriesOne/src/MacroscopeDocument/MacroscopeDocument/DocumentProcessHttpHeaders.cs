@@ -24,6 +24,8 @@
 */
 
 using System;
+using System.Collections;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -85,9 +87,12 @@ namespace SEOMacroscope
       {
         foreach( var HeaderItem in Request.Headers )
         {
-          Headers = string.Concat( Headers, HeaderItem.Key, ": ", HeaderItem.Value, Environment.NewLine );
+          foreach( var HeaderValue in HeaderItem.Value )
+          {
+            Headers = string.Concat( Headers, HeaderItem.Key, ": ", HeaderValue, Environment.NewLine );
+          }
+          Headers = string.Concat( Headers, Environment.NewLine );
         }
-        Headers = string.Concat( Headers, Environment.NewLine );
       }
       this.RawHttpRequestHeaders = Headers;
     }

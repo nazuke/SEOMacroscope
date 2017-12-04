@@ -52,7 +52,7 @@ namespace SEOMacroscope
     public MacroscopeDisplayStructureOverview ( MacroscopeMainForm MainForm, TreeView tvTreeView )
     {
       
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       
       this.MainForm = MainForm;
       

@@ -53,7 +53,7 @@ namespace SEOMacroscope
     )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       
       this.MainForm = MainForm;
       

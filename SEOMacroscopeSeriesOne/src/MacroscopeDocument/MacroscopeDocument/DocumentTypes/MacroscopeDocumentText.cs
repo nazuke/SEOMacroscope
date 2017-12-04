@@ -73,13 +73,13 @@ namespace SEOMacroscope
     private async Task _ProcessTextPage ()
     {
 
-      List<string> TextDoc = new List<string> ();
+      List<string> TextDoc = new List<string>();
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse Response = null;
       Uri DocUri;
       string ResponseErrorCondition = null;
       Boolean IsAuthenticating = false;
-      
+
       try
       {
 
@@ -101,7 +101,16 @@ namespace SEOMacroscope
         ResponseErrorCondition = ex.Message;
       }
 
-      if( Response != null )
+      if( Response == null )
+      {
+
+
+        DebugMsg( string.Format( "ProcessTextPage :: Response: {0}", Response.ToString() ) );
+
+
+
+      }
+      else if( Response != null )
       {
 
         string RawData = "";

@@ -47,7 +47,7 @@ namespace SEOMacroscope
     public MacroscopeHttpTwoClientResponse ()
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.ConsolidatedHttpHeaders = new SortedDictionary<string, List<string>>();
 

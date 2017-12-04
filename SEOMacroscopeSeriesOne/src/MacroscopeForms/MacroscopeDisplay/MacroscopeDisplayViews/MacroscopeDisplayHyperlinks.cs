@@ -57,7 +57,7 @@ namespace SEOMacroscope
       : base( MainForm, TargetListView )
     {
       
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;

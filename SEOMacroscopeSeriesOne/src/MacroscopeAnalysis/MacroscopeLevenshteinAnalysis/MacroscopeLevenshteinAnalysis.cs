@@ -63,7 +63,7 @@ namespace SEOMacroscope
     )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.msDocOriginal = msDoc;
       this.Fingerprint = msDoc.GetLevenshteinFingerprint();
@@ -83,7 +83,7 @@ namespace SEOMacroscope
     )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.msDocOriginal = msDoc;
       this.Fingerprint = msDoc.GetLevenshteinFingerprint();

@@ -242,7 +242,7 @@ namespace SEOMacroscope
     private void InitializeDocument ( string Url )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       DocCollection = null;
       
@@ -854,7 +854,7 @@ namespace SEOMacroscope
 
     public string GetHttpRequestHeadersAsText ()
     {
-      return( this.RawHttpRequestHeaders );
+      return ( this.RawHttpRequestHeaders );
     }
 
     /** -------------------------------------------------------------------- **/

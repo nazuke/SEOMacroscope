@@ -48,28 +48,31 @@ namespace SEOMacroscope
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
     private int CrawlDelay;
-    
+
     /**************************************************************************/
 
     public MacroscopeJobWorker ( MacroscopeJobMaster JobMaster )
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.JobMaster = JobMaster;
 
       this.DocCollection = this.JobMaster.GetDocCollection();
-      
+
       this.AllowedHosts = this.JobMaster.GetAllowedHosts();
 
       this.IncludeExcludeUrls = this.JobMaster.GetIncludeExcludeUrls();
 
-      if( MacroscopePreferencesManager.GetCrawlDelay() > 0 ) {
+      if( MacroscopePreferencesManager.GetCrawlDelay() > 0 )
+      {
         this.CrawlDelay = MacroscopePreferencesManager.GetCrawlDelay();
       }
 
-      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() ) {
-        if( this.JobMaster.GetCrawlDelay() > 0 ) {
+      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      {
+        if( this.JobMaster.GetCrawlDelay() > 0 )
+        {
           this.CrawlDelay = this.JobMaster.GetCrawlDelay();
         }
       }
@@ -78,69 +81,87 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public async void Execute()
+    public async void Execute ()
     {
 
       int MaxFetches = MacroscopePreferencesManager.GetMaxFetchesPerWorker();
 
-      while( MaxFetches > 0 ) {
+      while( MaxFetches > 0 )
+      {
 
-        if( this.JobMaster.GetThreadsStop() ) {
+        if( this.JobMaster.GetThreadsStop() )
+        {
 
           DebugMsg( string.Format( "JobMaster.GetThreadsStop: {0}", this.JobMaster.GetThreadsStop() ) );
           break;
 
-        } else {
+        }
+        else
+        {
 
           MacroscopeJobItem JobItem = this.JobMaster.GetUrlQueueItem();
           string Url = null;
-          
-          if( JobItem != null ) {
+
+          if( JobItem != null )
+          {
             Url = JobItem.GetItemUrl();
           }
 
-          if( !string.IsNullOrEmpty( Url ) ) {
-            if( !this.CheckIncludeExcludeUrl( Url ) ) {
+          if( !string.IsNullOrEmpty( Url ) )
+          {
+            if( !this.CheckIncludeExcludeUrl( Url ) )
+            {
               Url = null;
             }
           }
 
-          if( !string.IsNullOrEmpty( Url ) ) {
+          if( !string.IsNullOrEmpty( Url ) )
+          {
 
             if(
               !MacroscopePreferencesManager.GetCrawlParentDirectories()
               && !MacroscopePreferencesManager.GetCrawlChildDirectories()
-              && Url != this.JobMaster.GetStartUrl() ) {
+              && Url != this.JobMaster.GetStartUrl() )
+            {
               Url = null;
-            } else if(
-              !MacroscopePreferencesManager.GetCrawlParentDirectories()
-              || !MacroscopePreferencesManager.GetCrawlChildDirectories() ) {
+            }
+            else if(
+            !MacroscopePreferencesManager.GetCrawlParentDirectories()
+            || !MacroscopePreferencesManager.GetCrawlChildDirectories() )
+            {
 
-              DebugMsg( string.Format( "Running Parent/Child Check: {0}", Url ) ); 
+              DebugMsg( string.Format( "Running Parent/Child Check: {0}", Url ) );
 
-              if( 
+              if(
                 MacroscopePreferencesManager.GetCrawlParentDirectories()
-                && ( !string.IsNullOrEmpty( Url ) ) ) {
-                if( !this.JobMaster.IsWithinParentDirectory( Url ) ) {
-                  Url = null;
-                }
-              }
-              
-              if( 
-                MacroscopePreferencesManager.GetCrawlChildDirectories()
-                && ( !string.IsNullOrEmpty( Url ) ) ) {
-                if( !this.JobMaster.IsWithinChildDirectory( Url ) ) {
+                && ( !string.IsNullOrEmpty( Url ) ) )
+              {
+                if( !this.JobMaster.IsWithinParentDirectory( Url ) )
+                {
                   Url = null;
                 }
               }
 
-            } else {
-              DebugMsg( string.Format( "Skipping Parent/Child Check: {0}", Url ) ); 
+              if(
+                MacroscopePreferencesManager.GetCrawlChildDirectories()
+                && ( !string.IsNullOrEmpty( Url ) ) )
+              {
+                if( !this.JobMaster.IsWithinChildDirectory( Url ) )
+                {
+                  Url = null;
+                }
+              }
+
+            }
+            else
+            {
+              DebugMsg( string.Format( "Skipping Parent/Child Check: {0}", Url ) );
             }
 
           }
 
-          if( !string.IsNullOrEmpty( Url ) ) {
+          if( !string.IsNullOrEmpty( Url ) )
+          {
 
             DebugMsg( string.Format( "Execute: {0}", Url ) );
 
@@ -188,10 +209,11 @@ namespace SEOMacroscope
               */
 
               Tries--;
-            
+
             } while( Tries > 0 );
 
-            if( this.CrawlDelay > 0 ) {
+            if( this.CrawlDelay > 0 )
+            {
               DebugMsg( string.Format( "CRAWL DELAY: Sleeping for {0} seconds...", this.CrawlDelay ) );
               Thread.Sleep( CrawlDelay * 1000 );
             }
@@ -201,9 +223,9 @@ namespace SEOMacroscope
         }
 
         MaxFetches--;
-        
+
         Thread.Yield();
-        
+
       }
 
       this.JobMaster.NotifyWorkersDone();
@@ -212,45 +234,57 @@ namespace SEOMacroscope
 
     /** Check Include/Exclude URL *********************************************/
 
-    private Boolean CheckIncludeExcludeUrl( string Url )
+    private Boolean CheckIncludeExcludeUrl ( string Url )
     {
 
       Boolean Success = true;
 
-      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseIncludeUrlPatterns() ) ) {
-        if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url ) ) {
+      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseIncludeUrlPatterns() ) )
+      {
+        if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url ) )
+        {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES INCLUDE URL: {0}", Url ) );
-        } else {
+        }
+        else
+        {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", Url ) );
           Success = false;
         }
       }
 
-      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseExcludeUrlPatterns() ) ) {
-        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) ) {
+      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseExcludeUrlPatterns() ) )
+      {
+        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) )
+        {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", Url ) );
           Success = false;
-        } else {
+        }
+        else
+        {
           DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH EXCLUDE URL: {0}", Url ) );
         }
       }
 
-      return( Success );
+      return ( Success );
 
     }
 
     /**************************************************************************/
 
-    private async Task<MacroscopeConstants.FetchStatus> Fetch( string Url )
+    private async Task<MacroscopeConstants.FetchStatus> Fetch ( string Url )
     {
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
       MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
+      Boolean BlockedByRobotsRule;
 
-      if( msDoc != null ) {
+      if( msDoc != null )
+      {
 
-        if( msDoc.GetAuthenticationRealm() != null ) {
-          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC ) {
+        if( msDoc.GetAuthenticationRealm() != null )
+        {
+          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
+          {
 
             MacroscopeCredential Credential;
 
@@ -259,7 +293,8 @@ namespace SEOMacroscope
               msDoc.GetAuthenticationRealm()
             );
 
-            if( Credential != null ) {
+            if( Credential != null )
+            {
               msDoc = this.DocCollection.CreateDocument(
                 Credential: Credential,
                 Url: Url
@@ -270,15 +305,18 @@ namespace SEOMacroscope
 
         }
 
-      } else {
+      }
+      else
+      {
 
         msDoc = this.DocCollection.CreateDocument( Url );
 
       }
 
       msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.OK );
-              
-      if( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) ) {
+
+      if( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) )
+      {
 
         DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
 
@@ -290,16 +328,12 @@ namespace SEOMacroscope
 
       }
 
+      BlockedByRobotsRule = await this.JobMaster.GetRobots().ApplyRobotRule( Url );
 
-      Boolean WillApplyRobotRules = await this.JobMaster.GetRobots().ApplyRobotRule( Url );
+      if( !BlockedByRobotsRule )
+      {
 
-
-
-//      if( !this.JobMaster.GetRobots().ApplyRobotRule( Url ) )
-        if( !WillApplyRobotRules )
-        {
-
-          DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
+        DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
 
         this.JobMaster.AddToBlockedByRobots( Url );
 
@@ -308,45 +342,55 @@ namespace SEOMacroscope
         msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED );
 
         this.JobMaster.GetJobHistory().VisitedHistoryItem( msDoc.GetUrl() );
-                
-      } else {
+
+      }
+      else
+      {
         this.JobMaster.RemoveFromBlockedByRobots( Url );
       }
 
       this.JobMaster.GetJobHistory().AddHistoryItem( Url );
 
-      if( this.AllowedHosts.IsExternalUrl( Url: Url ) ) {
+      if( this.AllowedHosts.IsExternalUrl( Url: Url ) )
+      {
         DebugMsg( string.Format( "IsExternalUrl: {0}", Url ) );
         msDoc.SetIsExternal( State: true );
       }
 
-      if( this.DocCollection.ContainsDocument( Url ) ) {
-        if( !this.DocCollection.GetDocument( Url ).GetIsDirty() ) {
+      if( this.DocCollection.ContainsDocument( Url ) )
+      {
+        if( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
+        {
           FetchStatus = MacroscopeConstants.FetchStatus.ALREADY_SEEN;
-          return( FetchStatus );
+          return ( FetchStatus );
         }
       }
 
-      if( this.JobMaster.GetDepth() > 0 ) {
+      if( this.JobMaster.GetDepth() > 0 )
+      {
         int Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
-        if( Depth > this.JobMaster.GetDepth() ) {
+        if( Depth > this.JobMaster.GetDepth() )
+        {
           DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
           FetchStatus = MacroscopeConstants.FetchStatus.SKIPPED;
-          return( FetchStatus );
+          return ( FetchStatus );
         }
       }
 
-      if( await msDoc.Execute() ) {
+      if( await msDoc.Execute() )
+      {
 
         this.DocCollection.AddDocument( Url, msDoc );
 
-        if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized ) {
+        if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized )
+        {
 
-          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC ) {
+          if( msDoc.GetAuthenticationType() == MacroscopeConstants.AuthenticationType.BASIC )
+          {
 
             MacroscopeCredentialsHttp CredentialsHttp = this.JobMaster.GetCredentialsHttp();
 
-            CredentialsHttp.EnqueueCredentialRequest( 
+            CredentialsHttp.EnqueueCredentialRequest(
               Domain: msDoc.GetHostAndPort(),
               Realm: msDoc.GetAuthenticationRealm(),
               Url: msDoc.GetUrl()
@@ -403,28 +447,32 @@ namespace SEOMacroscope
 
         FetchStatus = MacroscopeConstants.FetchStatus.SUCCESS;
 
-      } else {
+      }
+      else
+      {
         DebugMsg( string.Format( "EXECUTE FAILED: {0}", Url ) );
         FetchStatus = MacroscopeConstants.FetchStatus.ERROR;
       }
 
-      return( FetchStatus );
+      return ( FetchStatus );
 
     }
 
     /**************************************************************************/
 
-    private void ProcessHrefLangLanguages( MacroscopeDocument msDoc )
+    private void ProcessHrefLangLanguages ( MacroscopeDocument msDoc )
     {
 
       string Locale = msDoc.GetLocale();
-      Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
+      Dictionary<string, MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
 
-      if( Locale != null ) {
+      if( Locale != null )
+      {
         this.JobMaster.AddLocales( Locale );
       }
 
-      foreach( string KeyLocale in HrefLangsTable.Keys ) {
+      foreach( string KeyLocale in HrefLangsTable.Keys )
+      {
         this.JobMaster.AddLocales( KeyLocale );
       }
 
@@ -432,38 +480,46 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessOutlinks( MacroscopeDocument msDoc )
+    private void ProcessOutlinks ( MacroscopeDocument msDoc )
     {
 
       if(
         ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
-        || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) ) {
+        || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
+      {
 
-        if( !MacroscopePreferencesManager.GetScanSitesInList() ) {
+        if( !MacroscopePreferencesManager.GetScanSitesInList() )
+        {
           return;
         }
 
       }
 
-      foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() ) {
+      foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
+      {
 
         Boolean Proceed = true;
 
-        if( !Outlink.GetDoFollow() ) {
+        if( !Outlink.GetDoFollow() )
+        {
           continue;
         }
 
-        if( Outlink.GetTargetUrl() == null ) {
+        if( Outlink.GetTargetUrl() == null )
+        {
           continue;
         }
 
-        if( this.JobMaster.GetJobHistory().SeenHistoryItem( Outlink.GetTargetUrl() ) ) {
+        if( this.JobMaster.GetJobHistory().SeenHistoryItem( Outlink.GetTargetUrl() ) )
+        {
           continue;
         }
 
-        if( this.JobMaster.GetPageLimit() > -1 ) {
-          if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() ) {
+        if( this.JobMaster.GetPageLimit() > -1 )
+        {
+          if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() )
+          {
             this.DebugMsg(
               string.Format(
                 "PAGE LIMIT REACHED: {0} :: {1}",
@@ -475,7 +531,8 @@ namespace SEOMacroscope
           }
         }
 
-        if( Proceed ) {
+        if( Proceed )
+        {
 
           this.JobMaster.AddUrlQueueItem(
             Url: Outlink.GetTargetUrl(),

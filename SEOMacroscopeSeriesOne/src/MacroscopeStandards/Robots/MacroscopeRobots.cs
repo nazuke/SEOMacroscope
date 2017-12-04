@@ -49,7 +49,7 @@ namespace SEOMacroscope
     public MacroscopeRobots ()
     {
 
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
 
       this.RobotSquad = new Dictionary<string, Robots>( 8 );
 
@@ -107,7 +107,7 @@ namespace SEOMacroscope
 
       }
 
-      return( Allowed );
+      return ( Allowed );
 
     }
 
@@ -143,7 +143,7 @@ namespace SEOMacroscope
         this.DebugMsg( ex.Message );
       }
 
-      return( SitemapsList );
+      return ( SitemapsList );
 
     }
 
@@ -175,7 +175,7 @@ namespace SEOMacroscope
 
       }
 
-      return( Delay );
+      return ( Delay );
 
     }
 
@@ -236,7 +236,7 @@ namespace SEOMacroscope
 
       }
 
-      return( RobotUrl );
+      return ( RobotUrl );
 
     }
 
@@ -246,16 +246,15 @@ namespace SEOMacroscope
     {
 
       Robots robot = null;
+      Uri BaseUri = null;
+      Uri RobotsUri = null;
+      string RobotsTxtUrl = null;
 
       if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
         DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ) );
         return ( robot );
       }
-
-      Uri BaseUri = null;
-      Uri RobotsUri = null;
-      string RobotsTxtUrl = null;
 
       try
       {
@@ -291,6 +290,10 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
       }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
+      }
 
       /*
       lock( this.BadRobots )
@@ -321,21 +324,28 @@ namespace SEOMacroscope
           {
             lock( this.RobotSquad )
             {
-
-              if( !this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
+              if( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
               {
-
+                robot = this.RobotSquad[ RobotsTxtUrl ];
+              }
+              else
+              {
                 robot = new Robots( content: RobotsText );
                 this.RobotSquad.Add( RobotsTxtUrl, robot );
               }
             }
+          }
+          else
+          {
+            robot = new Robots( content: "" );
+            this.RobotSquad.Add( RobotsTxtUrl, robot );
           }
 
         }
 
       }
 
-      return( robot );
+      return ( robot );
 
     }
 
@@ -420,13 +430,7 @@ namespace SEOMacroscope
         RobotText = RawData;
       }
 
-
-
-
-
-
-
-      return( RobotText );
+      return ( RobotText );
 
     }
 

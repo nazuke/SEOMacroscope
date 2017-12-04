@@ -61,7 +61,7 @@ namespace SEOMacroscope
     static Macroscope ()
     {
 
-      SuppressStaticDebugMsg = false;
+      SuppressStaticDebugMsg = true;
 
       ThrowInsufficientMemoryException = false;
 
@@ -70,7 +70,7 @@ namespace SEOMacroscope
     public Macroscope ()
     {
       
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
       
       this.UserAgentString = this._UserAgent();
       

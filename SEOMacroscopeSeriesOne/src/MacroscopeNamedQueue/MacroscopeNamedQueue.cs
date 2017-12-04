@@ -56,7 +56,9 @@ namespace SEOMacroscope
 
     public MacroscopeNamedQueue ()
     {
-     
+
+      this.SuppressDebugMsg = true;
+
       this.NamedQueues = new Dictionary<string,Queue<T>> ( 32 );
 
       this.NamedQueuesIndex = new Dictionary<string,Dictionary<T,Boolean>> ( 4096 );
