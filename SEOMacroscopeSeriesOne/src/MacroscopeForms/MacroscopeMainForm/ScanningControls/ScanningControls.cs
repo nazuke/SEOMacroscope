@@ -77,7 +77,8 @@ namespace SEOMacroscope
       this.ReconfigureReportsMenu();
 
       this.ReconfigureStructureOverviewControls();
-              
+      this.SetStructureOverviewControlsToEnabled();
+
       this.ReconfigureSearchCollectionControls();
       
     }
@@ -106,7 +107,8 @@ namespace SEOMacroscope
       this.ReconfigureReportsMenu();
       
       this.ReconfigureStructureOverviewControls();
-              
+      this.SetStructureOverviewControlsToScanning();
+
       this.ReconfigureSearchCollectionControls();
       
     }
@@ -135,7 +137,8 @@ namespace SEOMacroscope
       this.ReconfigureReportsMenu();
       
       this.ReconfigureStructureOverviewControls();
-              
+      this.SetStructureOverviewControlsToEnabled();
+
       this.ReconfigureSearchCollectionControls();
             
     }
@@ -174,7 +177,8 @@ namespace SEOMacroscope
       this.ReconfigureReportsMenu();
       
       this.ReconfigureStructureOverviewControls();
-              
+      this.SetStructureOverviewControlsToEnabled();
+
       this.ReconfigureSearchCollectionControls();
 
     }
@@ -213,7 +217,8 @@ namespace SEOMacroscope
       this.ReconfigureReportsMenu();
       
       this.ReconfigureStructureOverviewControls();
-              
+      this.SetStructureOverviewControlsToEnabled();
+
       this.ReconfigureSearchCollectionControls();
       
     }
@@ -250,6 +255,7 @@ namespace SEOMacroscope
       this.ReconfigureReportsMenu();
       
       this.ReconfigureStructureOverviewControls();
+      this.SetStructureOverviewControlsToEnabled();
 
       this.ReconfigureSearchCollectionControls();
 

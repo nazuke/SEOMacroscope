@@ -45,6 +45,53 @@ namespace SEOMacroscope
 
     /** Authenticate Request **************************************************/
 
+    private Boolean AuthenticateRequest ( HttpRequestMessage Request )
+    {
+
+      // Reference: https://en.wikipedia.org/wiki/Basic_access_authentication#Protocol
+
+      Boolean IsAuthenticating = false;
+      byte[] UsernamePassword;
+      string UsernamePasswordB64Encoded;
+
+      /*
+      if( this.GetAuthenticationCredential() != null )
+      {
+
+        UsernamePassword = Encoding.UTF8.GetBytes(
+          string.Join(
+            ":",
+            this.GetAuthenticationCredential().GetUsername(),
+            this.GetAuthenticationCredential().GetPassword()
+          )
+        );
+
+        UsernamePasswordB64Encoded = System.Convert.ToBase64String( UsernamePassword );
+
+        if( Request != null )
+        {
+
+          Request.PreAuthenticate = true;
+
+          Request.Headers.Add(
+            HttpRequestHeader.Authorization,
+            string.Join( " ", "Basic", UsernamePasswordB64Encoded )
+          );
+
+          IsAuthenticating = true;
+
+        }
+
+      }
+      */
+
+      return ( IsAuthenticating );
+
+    }
+
+
+
+    /*
     private Boolean AuthenticateRequest ( HttpWebRequest req )
     {
 
@@ -86,6 +133,8 @@ namespace SEOMacroscope
       return ( IsAuthenticating );
 
     }
+      */
+
 
     /** -------------------------------------------------------------------- **/
 

@@ -969,6 +969,52 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
+    // TODO: THIS DOES NOT WORK
+    private void EnableTabPage ( string TabName )
+    {
+      TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+      try
+      {
+        int ChosenTabIndex = OverviewTabControl.TabPages.IndexOfKey( key: TabName );
+
+
+        if( ChosenTabIndex >= 0 )
+        {
+          //OverviewTabControl.TabPages[ ChosenTabIndex ].Enabled = true;
+        }
+
+
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "EnableTabPage: {0}", ex.Message ) );
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    // TODO: THIS DOES NOT WORK
+    private void DisableTabPage ( string TabName )
+    {
+      TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+      try
+      {
+        int ChosenTabIndex = OverviewTabControl.TabPages.IndexOfKey( key: TabName );
+
+        if( ChosenTabIndex >= 0 )
+        {
+          //OverviewTabControl.TabPages[ ChosenTabIndex ].Enabled = false;
+        }
+
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "DisableTabPage: {0}", ex.Message ) );
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     private void UpdateFocusedTabPage ()
     {
 

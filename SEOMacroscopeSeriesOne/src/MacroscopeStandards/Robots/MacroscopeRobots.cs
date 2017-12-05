@@ -322,23 +322,23 @@ namespace SEOMacroscope
 
           if( !string.IsNullOrEmpty( RobotsText ) )
           {
-            lock( this.RobotSquad )
-            {
-              if( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
-              {
-                robot = this.RobotSquad[ RobotsTxtUrl ];
-              }
-              else
-              {
-                robot = new Robots( content: RobotsText );
-                this.RobotSquad.Add( RobotsTxtUrl, robot );
-              }
-            }
+            robot = new Robots( content: RobotsText );
           }
           else
           {
             robot = new Robots( content: "" );
-            this.RobotSquad.Add( RobotsTxtUrl, robot );
+          }
+
+          lock( this.RobotSquad )
+          {
+            if( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
+            {
+              robot = this.RobotSquad[ RobotsTxtUrl ];
+            }
+            else
+            {
+              this.RobotSquad.Add( RobotsTxtUrl, robot );
+            }
           }
 
         }

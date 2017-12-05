@@ -49,6 +49,13 @@ namespace SEOMacroscope
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
     {
+
+      Boolean IsAuthenticating = this.AuthenticateRequest( Request: Request );
+
+
+
+
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -95,11 +102,13 @@ namespace SEOMacroscope
       try
       {
 
+        // TODO: Fix this:
+//        IsAuthenticating = this.AuthenticateRequest( req );
+
+
         DocUri = new Uri( this.DocUrl );
         Response = await Client.Head( DocUri, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
 
-        // TODO: Fix this:
-        //IsAuthenticating = this.AuthenticateRequest( req );
 
         this.CrawledDate = DateTime.UtcNow;
 

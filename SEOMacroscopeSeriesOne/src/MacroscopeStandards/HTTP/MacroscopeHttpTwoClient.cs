@@ -216,7 +216,7 @@ namespace SEOMacroscope
             {
 
               // TODO: add options to get string and/or bytes[] here:
-
+              // TODO: there is an encoding bug here:
               ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
 
               foreach( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )

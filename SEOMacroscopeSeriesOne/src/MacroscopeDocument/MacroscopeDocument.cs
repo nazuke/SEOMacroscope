@@ -244,7 +244,7 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = true;
 
-      DocCollection = null;
+      this.DocCollection = null;
       
       this.IsDirty = true;
 

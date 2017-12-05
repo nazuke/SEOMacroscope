@@ -136,14 +136,12 @@ namespace SEOMacroscope
 
         }
 
-
       }
 
       if( ResponseErrorCondition != null )
       {
         this.ErrorCondition = ResponseErrorCondition;
       }
-
 
     }
 
