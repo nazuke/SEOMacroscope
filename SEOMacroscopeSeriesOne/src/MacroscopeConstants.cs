@@ -268,6 +268,8 @@ namespace SEOMacroscope
     
     public const string IsRedirect = "Redirect";
 
+    public const string RobotsRule = "Robots";
+
     public const string Duration = "Duration (seconds)";
 
     public const string DateCrawled = "Crawled Date";

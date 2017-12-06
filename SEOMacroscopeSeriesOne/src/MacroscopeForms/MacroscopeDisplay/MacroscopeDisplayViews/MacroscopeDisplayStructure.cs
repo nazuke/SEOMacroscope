@@ -86,6 +86,8 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
         this.DisplayListView.Columns.Add( MacroscopeConstants.IsRedirect, MacroscopeConstants.IsRedirect );
 
+        this.DisplayListView.Columns.Add( MacroscopeConstants.RobotsRule, MacroscopeConstants.RobotsRule );
+
         this.DisplayListView.Columns.Add( MacroscopeConstants.Duration, MacroscopeConstants.Duration );
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.DateCrawled, MacroscopeConstants.DateCrawled );
@@ -207,6 +209,8 @@ namespace SEOMacroscope
         StructureItems.Add( MacroscopeConstants.StatusCode, StatusCode.ToString() );
         StructureItems.Add( MacroscopeConstants.Status, msDoc.GetStatusCode().ToString() );
         StructureItems.Add( MacroscopeConstants.IsRedirect, msDoc.GetIsRedirect().ToString() );
+
+        StructureItems.Add( MacroscopeConstants.RobotsRule, msDoc.GetAllowedByRobotsAsString() );
 
         StructureItems.Add( MacroscopeConstants.Duration, msDoc.GetDurationInSecondsFormatted() );
 
@@ -357,6 +361,18 @@ namespace SEOMacroscope
                 lvItem.SubItems[ ColIndex ].ForeColor = Color.Blue;
                 lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Blue;
                 lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Blue;
+              }
+            }
+
+            if( ItemsKey == MacroscopeConstants.RobotsRule )
+            {
+              if( Text.ToLower() == "disallowed" )
+              {
+                lvItem.SubItems[ ColIndex ].ForeColor = Color.Red;
+              }
+              else
+              {
+                lvItem.SubItems[ ColIndex ].ForeColor = Color.Green;
               }
             }
 

@@ -62,6 +62,8 @@ namespace SEOMacroscope
     private string Checksum;
     private string Etag;
 
+    private Boolean AllowedByRobots;
+
     private Boolean IsExternal;
 
     private Boolean IsRedirect;
@@ -257,6 +259,8 @@ namespace SEOMacroscope
 
       this.Checksum = "";
       this.Etag = "";
+
+      this.AllowedByRobots = true;
 
       this.IsExternal = false;
 
@@ -695,7 +699,7 @@ namespace SEOMacroscope
     }
 
     /** Etag Value ************************************************************/
-    
+
     public void SetEtag ( string EtagValue )
     {
       this.Etag = EtagValue;
@@ -703,7 +707,33 @@ namespace SEOMacroscope
 
     public string GetEtag ()
     {
-      return( this.Etag );
+      return ( this.Etag );
+    }
+
+    /** Robots ****************************************************************/
+
+    public void SetAllowedByRobots ( Boolean Value )
+    {
+      this.AllowedByRobots = Value;
+    }
+
+    public Boolean GetAllowedByRobots ()
+    {
+      return ( this.AllowedByRobots );
+    }
+
+    public string GetAllowedByRobotsAsString ()
+    {
+      string Value = "";
+      if( this.AllowedByRobots )
+      {
+        Value = "ALLOWED";
+      }
+      else
+      {
+        Value = "DISALLOWED";
+      }
+      return ( Value );
     }
 
     /** Is External Flag ******************************************************/

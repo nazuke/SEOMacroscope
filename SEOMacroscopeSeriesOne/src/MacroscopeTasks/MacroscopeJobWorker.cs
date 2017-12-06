@@ -332,20 +332,16 @@ namespace SEOMacroscope
 
       if( !BlockedByRobotsRule )
       {
-
         DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
-
+        msDoc.SetAllowedByRobots( false );
         this.JobMaster.AddToBlockedByRobots( Url );
-
         FetchStatus = MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED;
-
         msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED );
-
         this.JobMaster.GetJobHistory().VisitedHistoryItem( msDoc.GetUrl() );
-
       }
       else
       {
+        msDoc.SetAllowedByRobots( true );
         this.JobMaster.RemoveFromBlockedByRobots( Url );
       }
 

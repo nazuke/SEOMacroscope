@@ -105,9 +105,9 @@ namespace SEOMacroscope
     public void RenderListView ( MacroscopeJobMaster JobMaster )
     {
 
-      Dictionary<String,Boolean> dicBlocked = JobMaster.GetBlockedByRobotsList();
+      Dictionary<String,Boolean> Blocked = JobMaster.GetBlockedByRobotsList();
 
-      if( dicBlocked.Count == 0 )
+      if( Blocked.Count == 0 )
       {
         return;
       }
@@ -116,7 +116,7 @@ namespace SEOMacroscope
       
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )dicBlocked.Count;
+      decimal TotalDocs = ( decimal ) Blocked.Count;
       decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
       
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
@@ -131,7 +131,7 @@ namespace SEOMacroscope
 
       }
             
-      foreach( string Url in dicBlocked.Keys )
+      foreach( string Url in Blocked.Keys )
       {
 
         Boolean IsInternal = JobMaster.GetAllowedHosts().IsInternalUrl( Url );
@@ -139,7 +139,7 @@ namespace SEOMacroscope
         this.RenderListView(
           ListViewItems: ListViewItems,
           Url: Url,
-          IsBlocked: dicBlocked[ Url ], 
+          IsBlocked: Blocked[ Url ], 
           IsInternal: IsInternal
         );
         
