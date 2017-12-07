@@ -328,12 +328,26 @@ namespace SEOMacroscope
 
       }
 
-      BlockedByRobotsRule = await this.JobMaster.GetRobots().ApplyRobotRule( Url );
+
+
+
+      if( await this.JobMaster.GetRobots().CheckRobotRule( Url: Url ) )
+      {
+        msDoc.SetAllowedByRobots( false );
+      }
+      else
+      {
+        msDoc.SetAllowedByRobots( true );
+      }
+
+
+
+
+      BlockedByRobotsRule = await this.JobMaster.GetRobots().ApplyRobotRule( Url: Url );
 
       if( !BlockedByRobotsRule )
       {
         DebugMsg( string.Format( "Disallowed by robots.txt: {0}", Url ) );
-        msDoc.SetAllowedByRobots( false );
         this.JobMaster.AddToBlockedByRobots( Url );
         FetchStatus = MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED;
         msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED );
@@ -341,7 +355,6 @@ namespace SEOMacroscope
       }
       else
       {
-        msDoc.SetAllowedByRobots( true );
         this.JobMaster.RemoveFromBlockedByRobots( Url );
       }
 

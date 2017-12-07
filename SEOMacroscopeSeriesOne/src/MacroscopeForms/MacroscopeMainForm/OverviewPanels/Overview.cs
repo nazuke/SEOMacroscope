@@ -55,9 +55,6 @@ namespace SEOMacroscope
 
       this.SelectTabPage( TabName: MacroscopeConstants.tabPageStructureOverview );
 
-      this.macroscopeOverviewTabPanelInstance.Enabled = false;
-
-      /*
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageStructureOverview );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageStructureLinkCounts );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageHierarchy );
@@ -94,7 +91,6 @@ namespace SEOMacroscope
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageUriQueue );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageHistory );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageSearch );
-      */
 
     }
 
@@ -103,9 +99,8 @@ namespace SEOMacroscope
     public void SetStructureOverviewControlsToEnabled ()
     {
 
-      this.macroscopeOverviewTabPanelInstance.Enabled = true;
+      this.SelectTabPage( TabName: MacroscopeConstants.tabPageStructureOverview );
 
-      /*
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageStructureOverview );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageStructureLinkCounts );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageHierarchy );
@@ -142,7 +137,6 @@ namespace SEOMacroscope
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageUriQueue );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageHistory );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageSearch );
-      */
 
     }
 

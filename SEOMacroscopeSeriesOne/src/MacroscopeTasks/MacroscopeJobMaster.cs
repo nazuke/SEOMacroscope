@@ -412,11 +412,24 @@ namespace SEOMacroscope
       if( !this.PeekUrlQueue() )
       {
 
-        string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.StartUrl );
+        { // Add robots.txt URL to queue
+          string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.StartUrl );
+          if( !string.IsNullOrEmpty( RobotsUrl ) )
+          {
+            this.AddUrlQueueItem( Url: RobotsUrl );
+          }
+        }
 
-        if( !string.IsNullOrEmpty( RobotsUrl ) )
-        {
-          this.AddUrlQueueItem( Url: RobotsUrl );
+        { // Add sitemap.xml URLs to queue
+          MacroscopeSitemapPaths SitemapPaths = new MacroscopeSitemapPaths();
+          foreach( string SitemapPath in SitemapPaths.IterateSitemapPaths() )
+          {
+            string SitemapUrl = MacroscopeSitemapPaths.GenerateSitemapUrl( Url: this.StartUrl, SitemapPath: SitemapPath );
+            if( !string.IsNullOrEmpty( SitemapUrl ) )
+            {
+              this.AddUrlQueueItem( Url: SitemapUrl );
+            }
+          }
         }
 
         this.IncludeExcludeUrls.AddExplicitIncludeUrl( Url: this.StartUrl );

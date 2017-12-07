@@ -969,21 +969,37 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    // TODO: THIS DOES NOT WORK
+    private Boolean IsTabPageEnabled ( string TabName )
+    {
+      TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;
+      Boolean IsEnabled = false;
+      try
+      {
+        int ChosenTabIndex = OverviewTabControl.TabPages.IndexOfKey( key: TabName );
+        if( ChosenTabIndex >= 0 )
+        {
+          IsEnabled = OverviewTabControl.TabPages[ ChosenTabIndex ].Enabled;
+        }
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "EnableTabPage: {0}", ex.Message ) );
+      }
+      return ( IsEnabled );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     private void EnableTabPage ( string TabName )
     {
       TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;
       try
       {
         int ChosenTabIndex = OverviewTabControl.TabPages.IndexOfKey( key: TabName );
-
-
         if( ChosenTabIndex >= 0 )
         {
-          //OverviewTabControl.TabPages[ ChosenTabIndex ].Enabled = true;
+          OverviewTabControl.TabPages[ ChosenTabIndex ].Enabled = true;
         }
-
-
       }
       catch( Exception ex )
       {
@@ -993,19 +1009,16 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    // TODO: THIS DOES NOT WORK
     private void DisableTabPage ( string TabName )
     {
       TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;
       try
       {
         int ChosenTabIndex = OverviewTabControl.TabPages.IndexOfKey( key: TabName );
-
         if( ChosenTabIndex >= 0 )
         {
-          //OverviewTabControl.TabPages[ ChosenTabIndex ].Enabled = false;
+          OverviewTabControl.TabPages[ ChosenTabIndex ].Enabled = false;
         }
-
       }
       catch( Exception ex )
       {
@@ -1078,6 +1091,11 @@ namespace SEOMacroscope
         
     private void UpdateTabPage ( string TabName )
     {
+
+      if( !this.IsTabPageEnabled( TabName: TabName ) )
+      {
+        return;
+      }
       
       switch( TabName )
       {

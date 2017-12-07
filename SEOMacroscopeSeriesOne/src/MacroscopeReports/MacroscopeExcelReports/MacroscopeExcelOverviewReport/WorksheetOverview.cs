@@ -61,7 +61,10 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Redirect";
         iCol++;
-        
+
+        ws.Cell( iRow, iCol ).Value = "Robots";
+        iCol++;
+
         ws.Cell( iRow, iCol ).Value = "Duration";
         iCol++;
        
@@ -146,6 +149,9 @@ namespace SEOMacroscope
         iCol++;
 
         this.InsertAndFormatRedirectCell( ws, iRow, iCol, msDoc );
+        iCol++;
+
+        this.InsertAndFormatRobotsCell( ws, iRow, iCol, msDoc );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetDurationInSecondsFormatted() );

@@ -61,6 +61,47 @@ namespace SEOMacroscope
 
     /** ROBOT RULES ***********************************************************/
 
+    public async Task<Boolean> CheckRobotRule ( string Url )
+    {
+
+      Boolean Allowed = false;
+      Robots robot = await this.FetchRobot( Url: Url );
+      Uri BaseUri = null;
+
+      try
+      {
+        BaseUri = new Uri( Url, UriKind.Absolute );
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+      }
+
+      if( ( robot != null ) && ( BaseUri != null ) )
+      {
+
+        if( robot.IsPathAllowed( "*", BaseUri.AbsolutePath ) )
+        {
+          Allowed = true;
+        }
+        else
+        {
+          DebugMsg( string.Format( "ROBOTS Disallowed: {0}", Url ) );
+          DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", BaseUri.AbsolutePath ) );
+        }
+
+      }
+
+      return ( Allowed );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public async Task<Boolean> ApplyRobotRule ( string Url )
     {
 
@@ -74,6 +115,7 @@ namespace SEOMacroscope
       else
       {
 
+        // TODO: This is duplicate code:
         Robots robot = await this.FetchRobot( Url: Url );
         Uri BaseUri = null;
 
@@ -104,6 +146,7 @@ namespace SEOMacroscope
           }
 
         }
+
 
       }
 

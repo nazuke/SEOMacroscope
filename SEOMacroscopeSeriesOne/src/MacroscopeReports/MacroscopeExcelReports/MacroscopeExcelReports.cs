@@ -87,13 +87,13 @@ namespace SEOMacroscope
     )
     {
 
-      string Value = ( ( int )msDoc.GetStatusCode() ).ToString();
-      
+      string Value = ( (int) msDoc.GetStatusCode() ).ToString();
+
       if( string.IsNullOrEmpty( Value ) )
       {
         Value = "0";
       }
-      
+
       ws.Cell( Row, Col ).Value = Value;
 
       {
@@ -153,9 +153,9 @@ namespace SEOMacroscope
       }
 
     }
-    
+
     /** -------------------------------------------------------------------- **/
-        
+
     public void InsertAndFormatStatusCodeCell (
       IXLWorksheet ws,
       int Row,
@@ -167,17 +167,17 @@ namespace SEOMacroscope
       ws.Cell( Row, Col ).Value = StatusCode.ToString();
 
       {
-        if( ( ( int )StatusCode >= 200 ) && ( ( int )StatusCode <= 299 ) )
+        if( ( (int) StatusCode >= 200 ) && ( (int) StatusCode <= 299 ) )
         {
           ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Green );
         }
         else
-        if( ( ( int )StatusCode >= 300 ) && ( ( int )StatusCode <= 399 ) )
+        if( ( (int) StatusCode >= 300 ) && ( (int) StatusCode <= 399 ) )
         {
           ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Goldenrod );
         }
         else
-        if( ( ( int )StatusCode >= 400 ) && ( ( int )StatusCode <= 599 ) )
+        if( ( (int) StatusCode >= 400 ) && ( (int) StatusCode <= 599 ) )
         {
           ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
         }
@@ -200,7 +200,7 @@ namespace SEOMacroscope
     {
 
       string Value = msDoc.GetIsRedirect().ToString();
-      
+
       ws.Cell( Row, Col ).Value = Value;
 
       if( Value.ToLower() == "true" )
@@ -210,6 +210,31 @@ namespace SEOMacroscope
       else
       {
         ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Gray );
+      }
+
+    }
+    
+    /**************************************************************************/
+
+    public void InsertAndFormatRobotsCell (
+      IXLWorksheet ws,
+      int Row,
+      int Col,
+      MacroscopeDocument msDoc
+    )
+    {
+
+      Boolean Value = msDoc.GetAllowedByRobots();
+
+      ws.Cell( Row, Col ).Value = msDoc.GetAllowedByRobotsAsString();
+
+      if( Value )
+      {
+        ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Green );
+      }
+      else
+      {
+        ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
       }
 
     }
@@ -238,10 +263,10 @@ namespace SEOMacroscope
     /** -------------------------------------------------------------------- **/
 
     public void InsertAndFormatContentCell (
-      IXLWorksheet ws, 
+      IXLWorksheet ws,
       int Row,
       int Col,
-      int Value 
+      int Value
     )
     {
 
@@ -251,10 +276,10 @@ namespace SEOMacroscope
 
     }
 
-    /** -------------------------------------------------------------------- **/ 
+    /** -------------------------------------------------------------------- **/
 
     public void InsertAndFormatContentCell (
-      IXLWorksheet ws, 
+      IXLWorksheet ws,
       int Row,
       int Col,
       decimal Value
@@ -286,7 +311,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private void SetContentCellType (
-      IXLWorksheet ws, 
+      IXLWorksheet ws,
       int Row,
       int Col,
       XLCellValues CellType
@@ -325,7 +350,7 @@ namespace SEOMacroscope
         FormattedValue = Value;
       }
 
-      return( FormattedValue );
+      return ( FormattedValue );
 
     }
 

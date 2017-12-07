@@ -48,6 +48,7 @@ namespace SEOMacroscope
         ws.WriteField( "Status Code" );
         ws.WriteField( "Status" );
         ws.WriteField( "Redirect" );
+        ws.WriteField( "Robots" );
         ws.WriteField( "Duration" );
         ws.WriteField( "Crawled Date" );
         ws.WriteField( "Server Date" );
@@ -84,6 +85,8 @@ namespace SEOMacroscope
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
 
         this.InsertAndFormatRedirectCell( ws, msDoc );
+
+        this.InsertAndFormatRobotsCell( ws, msDoc );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetDurationInSecondsFormatted() ) );
 

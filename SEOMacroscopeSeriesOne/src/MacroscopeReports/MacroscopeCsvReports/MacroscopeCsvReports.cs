@@ -36,13 +36,13 @@ namespace SEOMacroscope
 
   public class MacroscopeCsvReports : Macroscope
   {
-	  
+
     /**************************************************************************/
-	      
+
     public MacroscopeCsvReports ()
     {
     }
-		
+
     /**************************************************************************/
 
     public void InsertAndFormatUrlCell (
@@ -62,7 +62,7 @@ namespace SEOMacroscope
       string Url
     )
     {
-      
+
       ws.WriteField( Url );
 
     }
@@ -75,8 +75,8 @@ namespace SEOMacroscope
     )
     {
 
-      string Value = ( ( int )msDoc.GetStatusCode() ).ToString();
-      
+      string Value = ( (int) msDoc.GetStatusCode() ).ToString();
+
       if( string.IsNullOrEmpty( Value ) )
       {
         Value = "0";
@@ -99,9 +99,9 @@ namespace SEOMacroscope
       ws.WriteField( Value );
 
     }
-    
+
     /** -------------------------------------------------------------------- **/
-        
+
     public void InsertAndFormatStatusCodeCell (
       CsvWriter ws,
       HttpStatusCode StatusCode
@@ -123,7 +123,21 @@ namespace SEOMacroscope
     {
 
       string Value = msDoc.GetIsRedirect().ToString();
-      
+
+      ws.WriteField( Value );
+
+    }
+
+    /**************************************************************************/
+
+    public void InsertAndFormatRobotsCell (
+      CsvWriter ws,
+      MacroscopeDocument msDoc
+    )
+    {
+
+      string Value = msDoc.GetAllowedByRobotsAsString();
+
       ws.WriteField( Value );
 
     }
@@ -135,7 +149,7 @@ namespace SEOMacroscope
       string Value
     )
     {
-   
+
       ws.WriteField( Value );
 
     }
@@ -143,13 +157,13 @@ namespace SEOMacroscope
     /** -------------------------------------------------------------------- **/
 
     public void InsertAndFormatContentCell (
-      CsvWriter ws, 
-      int Value 
+      CsvWriter ws,
+      int Value
     )
     {
-      
+
       ws.WriteField( Value );
-    
+
     }
 
     /**************************************************************************/
@@ -173,12 +187,12 @@ namespace SEOMacroscope
         FormattedValue = Value;
       }
 
-      return( FormattedValue );
+      return ( FormattedValue );
 
     }
 
     /**************************************************************************/
-		    
+
   }
-	
+
 }
