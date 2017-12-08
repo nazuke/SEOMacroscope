@@ -328,20 +328,14 @@ namespace SEOMacroscope
 
       }
 
-
-
-
       if( await this.JobMaster.GetRobots().CheckRobotRule( Url: Url ) )
-      {
-        msDoc.SetAllowedByRobots( false );
-      }
-      else
       {
         msDoc.SetAllowedByRobots( true );
       }
-
-
-
+      else
+      {
+        msDoc.SetAllowedByRobots( false );
+      }
 
       BlockedByRobotsRule = await this.JobMaster.GetRobots().ApplyRobotRule( Url: Url );
 

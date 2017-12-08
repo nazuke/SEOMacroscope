@@ -192,7 +192,6 @@ namespace SEOMacroscope
           if( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
           {
             Proceed = false;
-//            throw( new MacroscopeNamedQueueException ( string.Format( "Item already seen in queue \"{0}\"", Name ) ) );
           }
           else
           {

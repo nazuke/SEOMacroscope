@@ -41,7 +41,7 @@ namespace SEOMacroscope
 
     private async Task ProcessSkippedPage ()
     {
-      this._ExecuteHeadRequest();
+      await this._ExecuteHeadRequest();
     }
 
     /**************************************************************************/

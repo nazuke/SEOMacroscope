@@ -26,6 +26,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -37,7 +38,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public void TestDuplicate ()
+    public async Task TestDuplicate ()
     {
 
       const string StartUrl = "https://nazuke.github.io/SEOMacroscope/";
@@ -60,8 +61,8 @@ namespace SEOMacroscope
       msDoc = DocCollection.CreateDocument( StartUrl );
       msDocDifferent = DocCollection.CreateDocument( DupeUrl );
 
-      msDoc.Execute();
-      msDocDifferent.Execute();
+      await msDoc.Execute();
+      await msDocDifferent.Execute();
 
       DocCollection.AddDocument( msDoc );
       DocCollection.AddDocument( msDocDifferent );
@@ -107,7 +108,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public void TestDifferent ()
+    public async Task TestDifferent ()
     {
 
       const string StartUrl = "https://nazuke.github.io/SEOMacroscope/";
@@ -128,7 +129,7 @@ namespace SEOMacroscope
       CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList( Capacity: DocCollection.CountDocuments() );
 
       msDoc = DocCollection.CreateDocument( StartUrl );
-      msDoc.Execute();
+      await msDoc.Execute();
       DocCollection.AddDocument( msDoc );
 
       DebugMsg( string.Format( "msDoc: {0}", msDoc.GetStatusCode() ) );
@@ -148,7 +149,7 @@ namespace SEOMacroscope
       foreach( string TargetUrl in TargetUrls )
       {
         MacroscopeDocument msDocTarget = DocCollection.CreateDocument( TargetUrl );
-        msDocTarget.Execute();
+        await msDocTarget.Execute();
         DocCollection.AddDocument( msDocTarget );
         DebugMsg( string.Format( "msDocTarget: {0}", msDocTarget.GetStatusCode() ) );
       }

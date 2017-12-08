@@ -229,6 +229,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        this.DebugMsg( ex.Message );
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
           this.SetServerName( HeaderValues.First().ToString() );
@@ -273,6 +274,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        this.DebugMsg( ex.Message );
         this.SetContentLength( Length: 0 );
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
@@ -298,6 +300,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        this.DebugMsg( ex.Message );
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
           this.ContentEncoding = HeaderValues.FirstOrDefault();
@@ -329,6 +332,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        this.DebugMsg( ex.Message );
         this.DateServer = new DateTime();
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
@@ -354,6 +358,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        this.DebugMsg( ex.Message );
         this.DateModified = new DateTime();
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
@@ -379,6 +384,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        this.DebugMsg( ex.Message );
         this.DateExpires = new DateTime();
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
@@ -421,6 +427,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        this.DebugMsg( ex.Message );
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
           this.SetUrlRedirectTo( Url: HeaderValues.FirstOrDefault().ToString() );
@@ -467,6 +474,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        this.DebugMsg( ex.Message );
         FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
           string HeaderValue = HeaderValues.FirstOrDefault();

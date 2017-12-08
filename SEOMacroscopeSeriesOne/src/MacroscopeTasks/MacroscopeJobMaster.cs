@@ -775,6 +775,7 @@ namespace SEOMacroscope
     {
 
       string NewUrl = Url;
+      MacroscopeJobItem JobItem;
 
       if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
@@ -792,14 +793,14 @@ namespace SEOMacroscope
         try
         {
 
-          MacroscopeJobItem JobItem;
-
-          JobItem = new MacroscopeJobItem ( Url: NewUrl );
+          JobItem = new MacroscopeJobItem( Url: NewUrl );
 
           this.NamedQueueJobItems.AddToNamedQueue(
             Name: MacroscopeConstants.NamedQueueUrlList,
             Item: JobItem
           );
+
+          this.AddToProgress( Url: NewUrl );
 
         }
         catch( MacroscopeNamedQueueException ex )
@@ -809,8 +810,6 @@ namespace SEOMacroscope
 
       }
 
-      this.AddToProgress( Url: NewUrl );
-
     }
 
     /** -------------------------------------------------------------------- **/
@@ -818,9 +817,9 @@ namespace SEOMacroscope
     public void AddUrlQueueItem ( string Url, Boolean Check )
     {
 
-      Boolean Proceed = Check;
+      Boolean Proceed = true;
 
-      if( Proceed && MacroscopePreferencesManager.GetCrawlStrictUrlCheck() )
+      if( Check && MacroscopePreferencesManager.GetCrawlStrictUrlCheck() )
       {
 
         if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url: Url ) )

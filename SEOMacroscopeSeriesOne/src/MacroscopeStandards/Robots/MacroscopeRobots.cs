@@ -64,7 +64,7 @@ namespace SEOMacroscope
     public async Task<Boolean> CheckRobotRule ( string Url )
     {
 
-      Boolean Allowed = false;
+      Boolean Allowed = true;
       Robots robot = await this.FetchRobot( Url: Url );
       Uri BaseUri = null;
 
@@ -74,26 +74,25 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
       }
 
       if( ( robot != null ) && ( BaseUri != null ) )
       {
-
         if( robot.IsPathAllowed( "*", BaseUri.AbsolutePath ) )
         {
           Allowed = true;
         }
         else
         {
-          DebugMsg( string.Format( "ROBOTS Disallowed: {0}", Url ) );
-          DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", BaseUri.AbsolutePath ) );
+          Allowed = false;
+          this.DebugMsg( string.Format( "ROBOTS Disallowed: {0}", Url ) );
+          this.DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", BaseUri.AbsolutePath ) );
         }
-
       }
 
       return ( Allowed );
@@ -105,49 +104,11 @@ namespace SEOMacroscope
     public async Task<Boolean> ApplyRobotRule ( string Url )
     {
 
-      Boolean Allowed = false;
+      Boolean Allowed = true;
 
-      if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
-        DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ) );
-        return ( true );
-      }
-      else
-      {
-
-        // TODO: This is duplicate code:
-        Robots robot = await this.FetchRobot( Url: Url );
-        Uri BaseUri = null;
-
-        try
-        {
-          BaseUri = new Uri( Url, UriKind.Absolute );
-        }
-        catch( UriFormatException ex )
-        {
-          DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
-        }
-        catch( Exception ex )
-        {
-          DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
-        }
-
-        if( ( robot != null ) && ( BaseUri != null ) )
-        {
-
-          if( robot.IsPathAllowed( "*", BaseUri.AbsolutePath ) )
-          {
-            Allowed = true;
-          }
-          else
-          {
-            DebugMsg( string.Format( "ROBOTS Disallowed: {0}", Url ) );
-            DebugMsg( string.Format( "ROBOTS AbsolutePath: {0}", BaseUri.AbsolutePath ) );
-          }
-
-        }
-
-
+        Allowed = await this.CheckRobotRule( Url: Url );
       }
 
       return ( Allowed );
@@ -160,30 +121,36 @@ namespace SEOMacroscope
     {
 
       List<string> SitemapsList = new List<string>();
-      Robots robot = await this.FetchRobot( Url: Url );
 
-      try
+      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
 
-        if( ( robot != null ) && ( robot.Sitemaps != null ) )
+        Robots robot = await this.FetchRobot( Url: Url );
+
+        try
         {
 
-          foreach( Sitemap SitemapEntry in robot.Sitemaps )
+          if( ( robot != null ) && ( robot.Sitemaps != null ) )
           {
 
-            string SitemapUrl = SitemapEntry.Url.ToString();
-            SitemapsList.Add( SitemapUrl );
+            foreach( Sitemap SitemapEntry in robot.Sitemaps )
+            {
 
-            this.DebugMsg( string.Format( "ROBOTS SitemapUrl: {0}", SitemapUrl ) );
+              string SitemapUrl = SitemapEntry.Url.ToString();
+              SitemapsList.Add( SitemapUrl );
+
+              this.DebugMsg( string.Format( "ROBOTS SitemapUrl: {0}", SitemapUrl ) );
+
+            }
 
           }
 
         }
+        catch( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
+        }
 
-      }
-      catch( Exception ex )
-      {
-        this.DebugMsg( ex.Message );
       }
 
       return ( SitemapsList );
@@ -196,7 +163,14 @@ namespace SEOMacroscope
     {
 
       int Delay = 0;
-      Robots robot = await this.FetchRobot( Url: Url );
+      Robots robot;
+
+      if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      {
+        return ( Delay );
+      }
+
+      robot = await this.FetchRobot( Url: Url );
 
       if( robot != null )
       {
@@ -293,11 +267,13 @@ namespace SEOMacroscope
       Uri RobotsUri = null;
       string RobotsTxtUrl = null;
 
+      /*
       if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
         DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ) );
         return ( robot );
       }
+      */
 
       try
       {
