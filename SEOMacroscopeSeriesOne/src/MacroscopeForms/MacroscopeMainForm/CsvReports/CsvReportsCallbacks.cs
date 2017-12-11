@@ -38,13 +38,13 @@ namespace SEOMacroscope
     private const int CsvReportMegabytesRamRequired = 64;
 
     /**************************************************************************/
-    
+
     private void CallbackExportListViewToCsvReport ( object sender, EventArgs e )
     {
 
-      KeyValuePair<string,ListView> SelectedListView = this.GetTabPageListView();
+      KeyValuePair<string, ListView> SelectedListView = this.GetTabPageListView();
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -60,7 +60,7 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeCsvExportListViewReport CsvReport;
 
-        CsvReport = new MacroscopeCsvExportListViewReport ( SelectedListView: SelectedListView.Value );
+        CsvReport = new MacroscopeCsvExportListViewReport( SelectedListView: SelectedListView.Value );
 
         try
         {
@@ -71,7 +71,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -81,7 +81,7 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving CSV Report", ex.Message );
         }
-        
+
       }
 
       Dialog.Dispose();
@@ -94,8 +94,8 @@ namespace SEOMacroscope
 
     private void CallbackSaveOverviewCsvReport ( object sender, EventArgs e )
     {
-      
-      SaveFileDialog Dialog = new SaveFileDialog ();
+
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -109,7 +109,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvOverviewReport CsvReport = new MacroscopeCsvOverviewReport ();
+        MacroscopeCsvOverviewReport CsvReport = new MacroscopeCsvOverviewReport();
 
         try
         {
@@ -120,7 +120,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Overview CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Overview CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -130,7 +130,7 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Overview CSV Report", ex.Message );
         }
-        
+
       }
 
       Dialog.Dispose();
@@ -144,7 +144,7 @@ namespace SEOMacroscope
     private void CallbackSaveErrorsCsvReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -158,7 +158,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvErrorsReport CsvReport = new MacroscopeCsvErrorsReport ();
+        MacroscopeCsvErrorsReport CsvReport = new MacroscopeCsvErrorsReport();
 
         try
         {
@@ -169,7 +169,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Errors CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Errors CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -178,6 +178,55 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Errors CSV Report", ex.Message );
+        }
+
+      }
+
+      Dialog.Dispose();
+
+      this.Enabled = true;
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackSaveRobotsCsvReport ( object sender, EventArgs e )
+    {
+
+      SaveFileDialog Dialog = new SaveFileDialog();
+      Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "csv";
+      Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Robots.csv";
+
+      this.Enabled = false;
+
+      if( Dialog.ShowDialog() == DialogResult.OK )
+      {
+
+        string Path = Dialog.FileName;
+        MacroscopeCsvRobotsReport CsvReport = new MacroscopeCsvRobotsReport();
+
+        try
+        {
+          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
+          {
+            CsvReport.WriteCsv( this.JobMaster, Path );
+          }
+        }
+        catch( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Robots CSV Report", ex.Message );
+        }
+        catch( MacroscopeSaveCsvFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Robots CSV Report", ex.Message );
+        }
+        catch( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Robots CSV Report", ex.Message );
         }
 
       }
@@ -228,7 +277,7 @@ namespace SEOMacroscope
     )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -242,30 +291,30 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvBrokenLinksReport CsvReport = new MacroscopeCsvBrokenLinksReport ();
+        MacroscopeCsvBrokenLinksReport CsvReport = new MacroscopeCsvBrokenLinksReport();
 
         try
         {
-          
+
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            
+
             Cursor.Current = Cursors.WaitCursor;
-            
+
             CsvReport.WriteCsv(
               JobMaster: this.JobMaster,
               SelectedOutputWorksheet: SelectedOutputWorksheet,
               OutputFilename: Path
             );
-            
+
             Cursor.Current = Cursors.Default;
-          
+
           }
-          
+
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Broken Links CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Broken Links CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -328,7 +377,7 @@ namespace SEOMacroscope
     )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -342,30 +391,30 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvPageMetadataReport CsvReport = new MacroscopeCsvPageMetadataReport ();
+        MacroscopeCsvPageMetadataReport CsvReport = new MacroscopeCsvPageMetadataReport();
 
         try
         {
-          
+
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            
+
             Cursor.Current = Cursors.WaitCursor;
-            
+
             CsvReport.WriteCsv(
               JobMaster: this.JobMaster,
               SelectedOutputWorksheet: SelectedOutputWorksheet,
               OutputFilename: Path
             );
-            
+
             Cursor.Current = Cursors.Default;
-          
+
           }
-          
+
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -418,7 +467,7 @@ namespace SEOMacroscope
     )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -432,30 +481,30 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvPageContentsReport CsvReport = new MacroscopeCsvPageContentsReport ();
+        MacroscopeCsvPageContentsReport CsvReport = new MacroscopeCsvPageContentsReport();
 
         try
         {
-          
+
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            
+
             Cursor.Current = Cursors.WaitCursor;
-            
+
             CsvReport.WriteCsv(
               JobMaster: this.JobMaster,
               SelectedOutputWorksheet: SelectedOutputWorksheet,
               OutputFilename: Path
             );
-            
+
             Cursor.Current = Cursors.Default;
-          
+
           }
-          
+
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Page Contents CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Page Contents CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -518,7 +567,7 @@ namespace SEOMacroscope
     )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -532,30 +581,30 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvUriReport CsvReport = new MacroscopeCsvUriReport ();
+        MacroscopeCsvUriReport CsvReport = new MacroscopeCsvUriReport();
 
         try
         {
-          
+
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            
+
             Cursor.Current = Cursors.WaitCursor;
-            
+
             CsvReport.WriteCsv(
               JobMaster: this.JobMaster,
               SelectedOutputWorksheet: SelectedOutputWorksheet,
               OutputFilename: Path
             );
-            
+
             Cursor.Current = Cursors.Default;
-          
+
           }
-          
+
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving URI Analysis CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving URI Analysis CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -583,8 +632,8 @@ namespace SEOMacroscope
     private void CallbackSaveRedirectsCsvReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -598,7 +647,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvRedirectsReport CsvReport = new MacroscopeCsvRedirectsReport ();
+        MacroscopeCsvRedirectsReport CsvReport = new MacroscopeCsvRedirectsReport();
 
         try
         {
@@ -611,7 +660,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Redirects CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Redirects CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -655,7 +704,7 @@ namespace SEOMacroscope
         OutputFilename: "Macroscope-Duplicate-Content-Checksums.csv"
       );
     }
-            
+
     private void CallbackSaveDuplicateContentCsvReportEtags ( object sender, EventArgs e )
     {
       this.CallbackSaveDuplicateContentCsvReport(
@@ -665,7 +714,7 @@ namespace SEOMacroscope
         OutputFilename: "Macroscope-Duplicate-Content-Etags.csv"
       );
     }
-                
+
     private void CallbackSaveDuplicateContentCsvReportPages ( object sender, EventArgs e )
     {
       this.CallbackSaveDuplicateContentCsvReport(
@@ -684,7 +733,7 @@ namespace SEOMacroscope
     )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -701,18 +750,18 @@ namespace SEOMacroscope
         MacroscopeTriplePercentageProgressForm ProgressForm;
         MacroscopeCsvDuplicateContentReport CsvReport;
 
-        ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
+        ProgressForm = new MacroscopeTriplePercentageProgressForm( MainForm: this );
 
-        CsvReport = new MacroscopeCsvDuplicateContentReport (
+        CsvReport = new MacroscopeCsvDuplicateContentReport(
           ProgressFormDialogue: ProgressForm
         );
 
         try
         {
-          
+
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            
+
             Cursor.Current = Cursors.WaitCursor;
 
             CsvReport.WriteCsv(
@@ -720,15 +769,15 @@ namespace SEOMacroscope
               SelectedOutputWorksheet: SelectedOutputWorksheet,
               OutputFilename: Path
             );
-            
+
             Cursor.Current = Cursors.Default;
-          
+
           }
-          
+
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Duplicate Content CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -762,7 +811,7 @@ namespace SEOMacroscope
         OutputFilename: "Macroscope-Contact-Details-Telephone.csv"
       );
     }
-    
+
     private void CallbackSaveContactDetailsCsvReportTelephone ( object sender, EventArgs e )
     {
       this.CallbackSaveContactDetailsCsvReport(
@@ -781,7 +830,7 @@ namespace SEOMacroscope
     )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -795,30 +844,30 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvContactDetailsReport CsvReport = new MacroscopeCsvContactDetailsReport ();
+        MacroscopeCsvContactDetailsReport CsvReport = new MacroscopeCsvContactDetailsReport();
 
         try
         {
-          
+
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            
+
             Cursor.Current = Cursors.WaitCursor;
-            
+
             CsvReport.WriteCsv(
               JobMaster: this.JobMaster,
               SelectedOutputWorksheet: SelectedOutputWorksheet,
               OutputFilename: Path
             );
-            
+
             Cursor.Current = Cursors.Default;
-          
+
           }
-          
+
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Contact Details CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Contact Details CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -846,8 +895,8 @@ namespace SEOMacroscope
     private void CallbackSaveRemarksCsvReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -861,7 +910,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MaroscopeCsvRemarksReport CsvReport = new MaroscopeCsvRemarksReport ();
+        MaroscopeCsvRemarksReport CsvReport = new MaroscopeCsvRemarksReport();
 
         try
         {
@@ -874,7 +923,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Remarks CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Remarks CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -902,8 +951,8 @@ namespace SEOMacroscope
     private void CallbackSaveCustomFilterCsvReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -917,7 +966,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeCsvCustomFilterReport CsvReport = new MacroscopeCsvCustomFilterReport ( NewCustomFilter: this.CustomFilter );
+        MacroscopeCsvCustomFilterReport CsvReport = new MacroscopeCsvCustomFilterReport( NewCustomFilter: this.CustomFilter );
 
         try
         {
@@ -930,7 +979,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Custom Filters CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Custom Filters CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -993,7 +1042,7 @@ namespace SEOMacroscope
     )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -1009,7 +1058,7 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeCsvDataExtractorReport CsvReport;
 
-        CsvReport = new MacroscopeCsvDataExtractorReport (
+        CsvReport = new MacroscopeCsvDataExtractorReport(
           NewDataExtractorCssSelectors: this.DataExtractorCssSelectors,
           NewDataExtractorRegexes: this.DataExtractorRegexes,
           NewDataExtractorXpaths: this.DataExtractorXpaths
@@ -1017,26 +1066,26 @@ namespace SEOMacroscope
 
         try
         {
-          
+
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
-            
+
             Cursor.Current = Cursors.WaitCursor;
-            
+
             CsvReport.WriteCsv(
               JobMaster: this.JobMaster,
               SelectedOutputWorksheet: SelectedOutputWorksheet,
               OutputFilename: Path
             );
-            
+
             Cursor.Current = Cursors.Default;
-          
+
           }
-          
+
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {

@@ -1082,6 +1082,8 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "ResetLink ERROR" ) );
       }
 
+      return;
+
     }
 
     /** Start URL *************************************************************/
