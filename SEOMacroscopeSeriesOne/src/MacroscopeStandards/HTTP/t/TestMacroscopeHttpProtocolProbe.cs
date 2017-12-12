@@ -37,7 +37,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    [Test]
+    //[Test] DISABLED - Does not work below Windows 10
     public async Task TestHttpProtocolProbe ()
     {
 

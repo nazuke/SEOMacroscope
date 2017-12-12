@@ -35,7 +35,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void BuildWorksheetRobots (
+    private void BuildWorksheetBlockedByRobots (
       MacroscopeJobMaster JobMaster,
       CsvWriter ws
     )
@@ -57,7 +57,7 @@ namespace SEOMacroscope
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
 
-        if( msDoc.GetIsInternal() )
+        if( msDoc.GetIsInternal() && ( !msDoc.GetAllowedByRobots() ) )
         {
 
           this.InsertAndFormatUrlCell( ws, Url );

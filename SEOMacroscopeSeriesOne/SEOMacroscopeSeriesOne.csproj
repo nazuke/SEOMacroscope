@@ -154,7 +154,7 @@
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentExecuteHeadRequest.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentProcessHttpHeaders.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\MacroscopeCsvRobotsReport.cs" />
-    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\WorksheetRobots.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\WorksheetBlocked.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReports\MacroscopeExcelRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReports\WorksheetBlocked.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClientResponse.cs" />

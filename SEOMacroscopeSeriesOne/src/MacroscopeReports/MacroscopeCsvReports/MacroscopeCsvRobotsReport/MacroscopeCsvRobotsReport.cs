@@ -55,7 +55,7 @@ namespace SEOMacroscope
 
           CsvWriter ws = new CsvWriter ( writer );
 
-          this.BuildWorksheetRobots( JobMaster, ws );
+          this.BuildWorksheetBlockedByRobots( JobMaster, ws );
 
         }
 

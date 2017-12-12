@@ -328,6 +328,8 @@ namespace SEOMacroscope
 
       }
 
+      this.JobMaster.GetJobHistory().AddHistoryItem( Url: Url );
+
       if( await this.JobMaster.GetRobots().CheckRobotRule( Url: Url ) )
       {
         msDoc.SetAllowedByRobots( true );
@@ -345,14 +347,14 @@ namespace SEOMacroscope
         this.JobMaster.AddToBlockedByRobots( Url );
         FetchStatus = MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED;
         msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED );
-        this.JobMaster.GetJobHistory().VisitedHistoryItem( msDoc.GetUrl() );
+        this.JobMaster.GetJobHistory().VisitedHistoryItem( Url: msDoc.GetUrl() );
       }
       else
       {
         this.JobMaster.RemoveFromBlockedByRobots( Url );
       }
 
-      this.JobMaster.GetJobHistory().AddHistoryItem( Url );
+//      this.JobMaster.GetJobHistory().AddHistoryItem( Url: Url );
 
       if( this.AllowedHosts.IsExternalUrl( Url: Url ) )
       {
@@ -405,7 +407,7 @@ namespace SEOMacroscope
 
         }
 
-        this.JobMaster.GetJobHistory().VisitedHistoryItem( msDoc.GetUrl() );
+        this.JobMaster.GetJobHistory().VisitedHistoryItem( Url: msDoc.GetUrl() );
 
         this.JobMaster.IncPageLimitCount();
 
@@ -514,7 +516,7 @@ namespace SEOMacroscope
           continue;
         }
 
-        if( this.JobMaster.GetJobHistory().SeenHistoryItem( Outlink.GetTargetUrl() ) )
+        if( this.JobMaster.GetJobHistory().SeenHistoryItem( Url: Outlink.GetTargetUrl() ) )
         {
           continue;
         }

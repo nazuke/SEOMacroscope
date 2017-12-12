@@ -44,33 +44,35 @@ namespace SEOMacroscope
 
     public MacroscopeJobHistory ()
     {
-
       this.History = new Dictionary<string, bool> ( 4096 );
-       
     }
 
     /**************************************************************************/
 
     public void AddHistoryItem ( string Url )
     {
-      if( !this.History.ContainsKey( Url ) )
+      lock( this.History )
       {
-        lock( this.History )
+        if( !this.History.ContainsKey( Url ) )
         {
           this.History.Add( Url, false );
         }
       }
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     public void VisitedHistoryItem ( string Url )
     {
-      if( this.History.ContainsKey( Url ) )
+      lock( this.History )
       {
-        lock( this.History )
+        if( this.History.ContainsKey( Url ) )
         {
           this.History[ Url ] = true;
+        }
+        else
+        {
+          this.History.Add( Url, true);
         }
       }
     }
@@ -79,9 +81,9 @@ namespace SEOMacroscope
 
     public void ResetHistoryItem ( string Url )
     {
-      if( this.History.ContainsKey( Url ) )
+      lock( this.History )
       {
-        lock( this.History )
+        if( this.History.ContainsKey( Url ) )
         {
           this.History.Remove( Url );
         }
@@ -93,11 +95,14 @@ namespace SEOMacroscope
     public Boolean SeenHistoryItem ( string Url )
     {
       Boolean Seen = false;
-      if( this.History.ContainsKey( Url ) )
+      lock( this.History )
       {
-        Seen = this.History[ Url ];
+        if( this.History.ContainsKey( Url ) )
+        {
+          Seen = this.History[ Url ];
+        }
       }
-      return( Seen );
+      return ( Seen );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -107,9 +112,9 @@ namespace SEOMacroscope
       Dictionary<string,Boolean> HistoryCopy = new Dictionary<string,Boolean> ( this.History.Count );
       lock( this.History )
       {
-        foreach( string sKey in this.History.Keys )
+        foreach( string Key in this.History.Keys )
         {
-          HistoryCopy.Add( sKey, this.History[ sKey ] );
+          HistoryCopy.Add( Key, this.History[ Key ] );
         }
       }
       return( HistoryCopy );
@@ -129,7 +134,12 @@ namespace SEOMacroscope
 
     public int CountHistory ()
     {
-      return( this.History.Count );
+      int Total = 0;
+      lock( this.History )
+      {
+        Total = this.History.Count;
+      }
+      return ( Total );
     }
 
     /**************************************************************************/

@@ -46,7 +46,7 @@ namespace SEOMacroscope
 
       XLWorkbook wb = new XLWorkbook ();
 
-      this.BuildWorksheetBlocked( JobMaster, wb, "Blocked by Robots" );
+      this.BuildWorksheetBlockedByRobots( JobMaster, wb, "Blocked by Robots" );
 
       try
       {

@@ -223,14 +223,24 @@ namespace SEOMacroscope
 
           if( this.GetPath().EndsWith( "robots.txt", StringComparison.InvariantCultureIgnoreCase ) )
           {
-            this.ProcessRobotsTextOutlinks( TextDoc: TextDoc );
-          }
 
-          if( this.DetectSitemapTextDocument( TextDoc: TextDoc ) )
-          {
-            DebugMsg( string.Format( "ProcessTextPage: {0} :: {1}", "SITEMAP DETECTED", this.GetUrl() ) );
-            this.SetIsSitemapText();
-            this.ProcessSitemapTextOutlinks( TextDoc );
+            long? TextSize = this.GetContentLength();
+            long? RobotsMaxTextSize = 1024 * 512;
+
+            this.ProcessRobotsTextOutlinks( TextDoc: TextDoc );
+
+            if( this.DetectSitemapTextDocument( TextDoc: TextDoc ) )
+            {
+              DebugMsg( string.Format( "ProcessTextPage: {0} :: {1}", "SITEMAP DETECTED", this.GetUrl() ) );
+              this.SetIsSitemapText();
+              this.ProcessSitemapTextOutlinks( TextDoc );
+            }
+
+            if( TextSize > RobotsMaxTextSize )
+            {
+              this.AddRemark( "Robots.txt is larger than 512KB" );
+            }
+
           }
 
         }

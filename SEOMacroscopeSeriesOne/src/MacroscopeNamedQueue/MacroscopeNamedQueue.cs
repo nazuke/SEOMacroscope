@@ -43,14 +43,14 @@ namespace SEOMacroscope
       IGNORE_HISTORY = 0,
       USE_HISTORY = 1
     }
-    
-    private Dictionary<string,Queue<T>> NamedQueues;
 
-    private Dictionary<string,Dictionary<T,Boolean>> NamedQueuesIndex;
+    private Dictionary<string, Queue<T>> NamedQueues;
 
-    private Dictionary<string,MacroscopeNamedQueue<T>.MODE> NamedQueuesMode;
-    
-    private Dictionary<string,Dictionary<string,Boolean>> NamedQueuesHistory;
+    private Dictionary<string, Dictionary<T, Boolean>> NamedQueuesIndex;
+
+    private Dictionary<string, MacroscopeNamedQueue<T>.MODE> NamedQueuesMode;
+
+    private Dictionary<string, Dictionary<string, Boolean>> NamedQueuesHistory;
 
     /**************************************************************************/
 
@@ -59,13 +59,13 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = true;
 
-      this.NamedQueues = new Dictionary<string,Queue<T>> ( 32 );
+      this.NamedQueues = new Dictionary<string, Queue<T>>( 32 );
 
-      this.NamedQueuesIndex = new Dictionary<string,Dictionary<T,Boolean>> ( 4096 );
-      
-      this.NamedQueuesMode = new Dictionary<string,MacroscopeNamedQueue<T>.MODE> ( 4096 );
+      this.NamedQueuesIndex = new Dictionary<string, Dictionary<T, Boolean>>( 4096 );
 
-      this.NamedQueuesHistory = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
+      this.NamedQueuesMode = new Dictionary<string, MacroscopeNamedQueue<T>.MODE>( 4096 );
+
+      this.NamedQueuesHistory = new Dictionary<string, Dictionary<string, Boolean>>( 4096 );
 
     }
 
@@ -85,16 +85,16 @@ namespace SEOMacroscope
       else
       {
 
-        NamedQueue = new Queue<T> ( 4096 );
+        NamedQueue = new Queue<T>( 4096 );
 
         lock( this.NamedQueues )
         {
 
           this.NamedQueues.Add( Name, NamedQueue );
 
-          lock( this.NamedQueues[Name] )
+          lock( this.NamedQueues[ Name ] )
           {
-            Dictionary<T,Boolean> NamedQueueIndex = new Dictionary<T,Boolean> ( 4096 );
+            Dictionary<T, Boolean> NamedQueueIndex = new Dictionary<T, Boolean>( 4096 );
             this.NamedQueuesIndex.Add( Name, NamedQueueIndex );
           }
 
@@ -102,7 +102,7 @@ namespace SEOMacroscope
 
       }
 
-      return( NamedQueue );
+      return ( NamedQueue );
 
     }
 
@@ -118,10 +118,10 @@ namespace SEOMacroscope
       lock( this.NamedQueues )
       {
 
-        lock( this.NamedQueues[Name] )
+        lock( this.NamedQueues[ Name ] )
         {
 
-          Dictionary<string,Boolean> NamedQueueHistory = new Dictionary<string,Boolean> ( 4096 );
+          Dictionary<string, Boolean> NamedQueueHistory = new Dictionary<string, Boolean>( 4096 );
 
           this.NamedQueuesHistory.Add( Name, NamedQueueHistory );
 
@@ -129,7 +129,7 @@ namespace SEOMacroscope
 
       }
 
-      return( NamedQueue );
+      return ( NamedQueue );
 
     }
 
@@ -172,22 +172,22 @@ namespace SEOMacroscope
 
       Queue<T> NamedQueue;
       Boolean Proceed = true;
-      
+
       if( this.NamedQueues.ContainsKey( Name ) )
       {
         NamedQueue = this.NamedQueues[ Name ];
       }
       else
       {
-        throw( new MacroscopeNamedQueueException ( string.Format( "Named queue \"{0}\" does not exist", Name ) ) );
+        throw ( new MacroscopeNamedQueueException( string.Format( "Named queue \"{0}\" does not exist", Name ) ) );
       }
 
       if( this.NamedQueuesMode[ Name ] == MacroscopeNamedQueue<T>.MODE.USE_HISTORY )
       {
-        
-        lock( this.NamedQueuesHistory[Name] )
+
+        lock( this.NamedQueuesHistory[ Name ] )
         {
-        
+
           // TODO: This does not work with reference values
           if( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
           {
@@ -197,38 +197,36 @@ namespace SEOMacroscope
           {
             this.NamedQueuesHistory[ Name ].Add( Item.ToString(), true );
           }
-        
+
         }
-      
+
       }
 
       if( Proceed )
       {
-        
-        lock( this.NamedQueues[Name] )
+
+        lock( this.NamedQueues[ Name ] )
         {
 
           if( !NamedQueue.Contains( Item ) )
           {
 
-            if( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
+            lock( this.NamedQueuesIndex[ Name ] )
             {
-
-              lock( this.NamedQueuesIndex[Name] )
+              if( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
               {
                 this.NamedQueuesIndex[ Name ].Add( Item, true );
                 NamedQueue.Enqueue( Item );
               }
-
             }
-        
+
           }
 
         }
-      
+
       }
-      
-      return( NamedQueue );
+
+      return ( NamedQueue );
 
     }
 
@@ -241,7 +239,7 @@ namespace SEOMacroscope
 
       if( this.NamedQueues.ContainsKey( Name ) )
       {
-        lock( this.NamedQueues[Name] )
+        lock( this.NamedQueues[ Name ] )
         {
           if( this.NamedQueues[ Name ].Count > 0 )
           {
@@ -250,7 +248,7 @@ namespace SEOMacroscope
         }
       }
 
-      return( Peek );
+      return ( Peek );
 
     }
 
@@ -264,7 +262,7 @@ namespace SEOMacroscope
       if( this.NamedQueues.ContainsKey( Name ) )
       {
 
-        lock( this.NamedQueues[Name] )
+        lock( this.NamedQueues[ Name ] )
         {
 
           if( this.NamedQueues[ Name ].Count > 0 )
@@ -276,7 +274,7 @@ namespace SEOMacroscope
 
       }
 
-      return( Count );
+      return ( Count );
 
     }
 
@@ -307,7 +305,7 @@ namespace SEOMacroscope
             }
 
           }
-          
+
         }
 
       }
@@ -337,7 +335,7 @@ namespace SEOMacroscope
             }
 
           }
-          
+
         }
 
       }
@@ -349,12 +347,12 @@ namespace SEOMacroscope
     public T GetNamedQueueItem ( string Name )
     {
 
-      T Item = default(T);
+      T Item = default( T );
 
       if( this.NamedQueues.ContainsKey( Name ) )
       {
 
-        lock( this.NamedQueues[Name] )
+        lock( this.NamedQueues[ Name ] )
         {
 
           if( this.NamedQueues[ Name ].Count > 0 )
@@ -362,14 +360,12 @@ namespace SEOMacroscope
 
             Item = this.NamedQueues[ Name ].Dequeue();
 
-            if( !EqualityComparer<T>.Default.Equals( Item, default(T) ) )
+            lock( this.NamedQueuesIndex[ Name ] )
             {
-
-              lock( this.NamedQueuesIndex[Name] )
+              if( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
               {
                 this.NamedQueuesIndex[ Name ].Remove( Item );
               }
-
             }
 
           }
@@ -377,24 +373,24 @@ namespace SEOMacroscope
         }
 
       }
-      
-      return( Item );
+
+      return ( Item );
 
     }
 
     /**************************************************************************/
 
-    public T [] GetNamedQueueItemsAsArray ( string Name )
+    public T[] GetNamedQueueItemsAsArray ( string Name )
     {
-		
+
       // TODO: implement this, such that items can be pulled from the queue without being deleted
 
-      T [] ItemsArray = null;
+      T[] ItemsArray = null;
 
       if( this.NamedQueues.ContainsKey( Name ) )
       {
-        
-        lock( this.NamedQueues[Name] )
+
+        lock( this.NamedQueues[ Name ] )
         {
 
           ItemsArray = this.NamedQueues[ Name ].ToArray();
@@ -403,7 +399,7 @@ namespace SEOMacroscope
 
       }
 
-      return( ItemsArray );
+      return ( ItemsArray );
 
     }
 
@@ -412,7 +408,7 @@ namespace SEOMacroscope
     public List<T> DrainNamedQueueItemsAsList ( string Name )
     {
 
-      List<T> lItems = new List<T> ();
+      List<T> lItems = new List<T>();
 
       if( this.NamedQueues.ContainsKey( Name ) )
       {
@@ -421,16 +417,16 @@ namespace SEOMacroscope
 
         do
         {
-          if( !EqualityComparer<T>.Default.Equals( Item, default(T) ) )
+          if( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
           {
             lItems.Add( Item );
           }
           Item = this.GetNamedQueueItem( Name );
-        } while( !EqualityComparer<T>.Default.Equals( Item, default(T) ) );
+        } while( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) );
 
       }
 
-      return( lItems );
+      return ( lItems );
 
     }
 
@@ -439,7 +435,7 @@ namespace SEOMacroscope
     public List<T> DrainNamedQueueItemsAsList ( string Name, int Limit )
     {
 
-      List<T> Items = new List<T> ();
+      List<T> Items = new List<T>();
       int Count = 0;
 
       if( this.NamedQueues.ContainsKey( Name ) )
@@ -450,7 +446,7 @@ namespace SEOMacroscope
         do
         {
 
-          if( !EqualityComparer<T>.Default.Equals( Item, default(T) ) )
+          if( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
           {
             Items.Add( Item );
           }
@@ -464,11 +460,11 @@ namespace SEOMacroscope
             break;
           }
 
-        } while( !EqualityComparer<T>.Default.Equals( Item, default(T) ) );
+        } while( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) );
 
       }
 
-      return( Items );
+      return ( Items );
 
     }
 
@@ -479,24 +475,20 @@ namespace SEOMacroscope
 
       if( this.NamedQueuesIndex.ContainsKey( Name ) )
       {
-              
-        lock( this.NamedQueuesIndex[Name] )
+
+        lock( this.NamedQueuesIndex[ Name ] )
         {
-          
+
           string ItemValue = Item.ToString();
-          
-          foreach( T ItemKey in this.NamedQueuesIndex[Name].Keys )
+
+          foreach( T ItemKey in this.NamedQueuesIndex[ Name ].Keys )
           {
-            
             if( NamedQueuesIndex[ Name ][ ItemKey ].ToString().Equals( ItemValue ) )
             {
-
               this.NamedQueuesIndex[ Name ].Remove( ItemKey );
-
             }
-            
           }
-          
+
         }
 
       }
@@ -506,7 +498,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
   }
 
 }

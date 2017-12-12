@@ -34,7 +34,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void BuildWorksheetBlocked (
+    private void BuildWorksheetBlockedByRobots (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string WorksheetLabel
@@ -67,7 +67,7 @@ namespace SEOMacroscope
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
 
-        if( msDoc.GetIsInternal() )
+        if( msDoc.GetIsInternal() && ( !msDoc.GetAllowedByRobots() ) )
         {
 
           iCol = 1;
