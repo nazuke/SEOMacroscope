@@ -94,15 +94,22 @@ namespace SEOMacroscope
 
     public Boolean SeenHistoryItem ( string Url )
     {
+
       Boolean Seen = false;
+
       lock( this.History )
       {
+
         if( this.History.ContainsKey( Url ) )
         {
-          Seen = this.History[ Url ];
+          //Seen = this.History[ Url ]; // OLD METHOD
+          Seen = true;
         }
+
       }
+
       return ( Seen );
+
     }
 
     /** -------------------------------------------------------------------- **/

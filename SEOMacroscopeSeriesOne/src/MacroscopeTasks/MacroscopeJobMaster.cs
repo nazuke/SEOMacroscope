@@ -777,6 +777,14 @@ namespace SEOMacroscope
       string NewUrl = Url;
       MacroscopeJobItem JobItem;
 
+      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      {
+        if( this.AllowedHosts.IsExternalUrl( Url: Url ) )
+        {
+          return;
+        }
+      }
+
       if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
         NewUrl = MacroscopeUrlUtils.StripQueryString( Url: NewUrl );

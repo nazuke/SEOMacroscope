@@ -433,7 +433,17 @@ namespace SEOMacroscope
 
             if( MacroscopePreferencesManager.GetFollowRedirects() )
             {
-              this.AllowedHosts.AddFromUrl( Url: msDoc.GetUrlRedirectTo() );
+              if( MacroscopePreferencesManager.GetCheckExternalLinks() )
+              {
+                this.AllowedHosts.AddFromUrl( Url: UrlRedirectTo );
+              }
+              else
+              {
+                if( this.AllowedHosts.IsInternalUrl( Url: UrlRedirectTo ) )
+                {
+                  this.AllowedHosts.AddFromUrl( Url: UrlRedirectTo );
+                }
+              }
             }
 
           }

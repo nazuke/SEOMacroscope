@@ -45,9 +45,8 @@ namespace SEOMacroscope
 
     public MacroscopeAllowedHosts ()
     {
-
+      this.SuppressDebugMsg = true;
       this.Hostnames = new Dictionary<string,Boolean> ( 32 );
-
     }
 
     /**************************************************************************/
