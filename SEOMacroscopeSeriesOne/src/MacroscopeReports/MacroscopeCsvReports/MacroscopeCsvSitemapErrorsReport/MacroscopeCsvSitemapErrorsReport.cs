@@ -30,12 +30,12 @@ using CsvHelper;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvRobotsReport : MacroscopeCsvReports
+  public partial class MacroscopeCsvSitemapErrorsReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
-    public MacroscopeCsvRobotsReport ()
+    public MacroscopeCsvSitemapErrorsReport ()
     {
     }
 
@@ -55,8 +55,7 @@ namespace SEOMacroscope
 
           CsvWriter ws = new CsvWriter( writer );
 
-          this.BuildWorksheetBlockedByRobotsInternal( JobMaster, ws );
-          this.BuildWorksheetBlockedByRobotsExternal( JobMaster, ws );
+          this.BuildWorksheetSitemapErrors( JobMaster, ws );
 
         }
 

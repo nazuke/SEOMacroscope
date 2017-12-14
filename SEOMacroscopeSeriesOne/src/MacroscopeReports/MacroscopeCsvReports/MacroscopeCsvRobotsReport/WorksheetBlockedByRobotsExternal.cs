@@ -24,47 +24,56 @@
 */
 
 using System;
-using System.IO;
-using ClosedXML.Excel;
+using System.Collections.Generic;
+using CsvHelper;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelRobotsReport : MacroscopeExcelReports
+  public partial class MacroscopeCsvRobotsReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
-    public MacroscopeExcelRobotsReport ()
-    {
-    }
-
-    /**************************************************************************/
-
-    public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
+    private void BuildWorksheetBlockedByRobotsExternal (
+      MacroscopeJobMaster JobMaster,
+      CsvWriter ws
+    )
     {
 
-      XLWorkbook wb = new XLWorkbook ();
+      MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
 
-      this.BuildWorksheetBlockedByRobots( JobMaster, wb, "Blocked by Robots" );
-
-      try
       {
-        wb.SaveAs( OutputFilename );
+
+        ws.WriteField( "URL" );
+        ws.WriteField( "Status" );
+
+        ws.NextRecord();
+
       }
-      catch( IOException )
+
+      foreach ( string Url in DocCollection.DocumentKeys() )
       {
-        MacroscopeSaveExcelFileException CannotSaveExcelFileException;
-        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
-          string.Format( "Cannot write to Excel file at {0}", OutputFilename )
-        );
-        throw CannotSaveExcelFileException;
+
+        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+
+        if ( msDoc.GetIsExternal() && ( !msDoc.GetAllowedByRobots() ) )
+        {
+
+          this.InsertAndFormatUrlCell( ws, Url );
+
+          this.InsertAndFormatRobotsCell( ws, msDoc );
+
+          ws.NextRecord();
+
+        }
+
       }
 
     }
-
-    /**************************************************************************/
 
   }
+
+  /**************************************************************************/
 
 }

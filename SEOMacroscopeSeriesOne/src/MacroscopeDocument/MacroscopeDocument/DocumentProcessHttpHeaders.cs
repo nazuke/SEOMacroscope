@@ -82,19 +82,31 @@ namespace SEOMacroscope
 
     private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request )
     {
+
       string Headers = "";
+
       if( Request != null )
       {
+
         foreach( var HeaderItem in Request.Headers )
         {
+
           foreach( var HeaderValue in HeaderItem.Value )
           {
-            Headers = string.Concat( Headers, HeaderItem.Key, ": ", HeaderValue, Environment.NewLine );
+
+            if( !string.IsNullOrEmpty( HeaderValue ) )
+            {
+              Headers = string.Concat( Headers, HeaderItem.Key, ": ", HeaderValue, Environment.NewLine );
+            }
+
           }
-          Headers = string.Concat( Headers, Environment.NewLine );
+
         }
+
       }
-      this.RawHttpRequestHeaders = Headers;
+
+      this.RawHttpRequestHeaders = Headers.ToString();
+
     }
 
     /**************************************************************************/

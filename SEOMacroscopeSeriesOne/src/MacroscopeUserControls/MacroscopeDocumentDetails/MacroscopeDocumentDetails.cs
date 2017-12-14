@@ -353,12 +353,9 @@ namespace SEOMacroscope
 
     private void RenderDocumentHttpHeaders ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
-          
-      this.textBoxHttpRequestHeaders.Text = string.Join(
-        "",
-        msDoc.GetHttpRequestHeadersAsText()
-      );
-      
+
+      this.textBoxHttpRequestHeaders.Text = msDoc.GetHttpRequestHeadersAsText();
+
       this.textBoxHttpResponseHeaders.Text = string.Join(
         "",
         msDoc.GetHttpResponseStatusLineAsText(),

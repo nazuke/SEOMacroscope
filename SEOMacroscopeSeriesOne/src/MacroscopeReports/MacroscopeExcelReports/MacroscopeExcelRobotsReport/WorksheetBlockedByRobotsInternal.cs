@@ -34,7 +34,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void BuildWorksheetBlockedByRobots (
+    private void BuildWorksheetBlockedByRobotsInternal (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string WorksheetLabel
@@ -62,19 +62,19 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( string Url in DocCollection.DocumentKeys() )
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
 
-        if( msDoc.GetIsInternal() && ( !msDoc.GetAllowedByRobots() ) )
+        if ( msDoc.GetIsInternal() && ( !msDoc.GetAllowedByRobots() ) )
         {
 
           iCol = 1;
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, Url );
 
-          if( AllowedHosts.IsInternalUrl( Url: Url ) )
+          if ( AllowedHosts.IsInternalUrl( Url: Url ) )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }

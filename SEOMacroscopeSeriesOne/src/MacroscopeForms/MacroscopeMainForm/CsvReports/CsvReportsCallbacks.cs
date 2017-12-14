@@ -237,6 +237,55 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    private void CallbackSaveSitemapErrorsCsvReport ( object sender, EventArgs e )
+    {
+
+      SaveFileDialog Dialog = new SaveFileDialog();
+      Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+      Dialog.FilterIndex = 2;
+      Dialog.RestoreDirectory = true;
+      Dialog.DefaultExt = "csv";
+      Dialog.AddExtension = true;
+      Dialog.FileName = "Macroscope-Sitemap-Errors.csv";
+
+      this.Enabled = false;
+
+      if ( Dialog.ShowDialog() == DialogResult.OK )
+      {
+
+        string Path = Dialog.FileName;
+        MacroscopeCsvSitemapErrorsReport CsvReport = new MacroscopeCsvSitemapErrorsReport();
+
+        try
+        {
+          if ( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
+          {
+            CsvReport.WriteCsv( this.JobMaster, Path );
+          }
+        }
+        catch ( MacroscopeInsufficientMemoryException ex )
+        {
+          this.DialogueBoxError( "Error saving Sitemap Errors CSV Report", ex.Message );
+        }
+        catch ( MacroscopeSaveCsvFileException ex )
+        {
+          this.DialogueBoxError( "Error saving Sitemap Errors CSV Report", ex.Message );
+        }
+        catch ( Exception ex )
+        {
+          this.DialogueBoxError( "Error saving Sitemap Errors CSV Report", ex.Message );
+        }
+
+      }
+
+      Dialog.Dispose();
+
+      this.Enabled = true;
+
+    }
+
     /** Broken Links Report ------------------------------------------------ **/
 
     private void CallbackSaveBrokenLinksCsvReportBrokenLinks ( object sender, EventArgs e )

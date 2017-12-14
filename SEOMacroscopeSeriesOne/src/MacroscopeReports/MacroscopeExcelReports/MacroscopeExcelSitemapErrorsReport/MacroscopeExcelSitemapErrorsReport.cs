@@ -25,57 +25,40 @@
 
 using System;
 using System.IO;
-using CsvHelper;
+using ClosedXML.Excel;
 
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvRobotsReport : MacroscopeCsvReports
+  public partial class MacroscopeExcelSitemapErrorsReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    public MacroscopeCsvRobotsReport ()
+    public MacroscopeExcelSitemapErrorsReport ()
     {
     }
 
     /**************************************************************************/
 
-    public void WriteCsv (
-      MacroscopeJobMaster JobMaster,
-      string OutputFilename
-    )
+    public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
+
+      XLWorkbook wb = new XLWorkbook();
+
+      this.BuildWorksheetSitemapXmlErrors( JobMaster, wb, "Sitemap XML Errors" );
 
       try
       {
-
-        using ( StreamWriter writer = File.CreateText( OutputFilename ) )
-        {
-
-          CsvWriter ws = new CsvWriter( writer );
-
-          this.BuildWorksheetBlockedByRobotsInternal( JobMaster, ws );
-          this.BuildWorksheetBlockedByRobotsExternal( JobMaster, ws );
-
-        }
-
-      }
-      catch ( CsvHelperException )
-      {
-        MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
-          string.Format( "Cannot write to CSV file at {0}", OutputFilename )
-        );
-        throw CannotSaveCsvFileException;
+        wb.SaveAs( OutputFilename );
       }
       catch ( IOException )
       {
-        MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
-          string.Format( "Cannot write to CSV file at {0}", OutputFilename )
+        MacroscopeSaveExcelFileException CannotSaveExcelFileException;
+        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException(
+          string.Format( "Cannot write to Excel file at {0}", OutputFilename )
         );
-        throw CannotSaveCsvFileException;
+        throw CannotSaveExcelFileException;
       }
 
     }
