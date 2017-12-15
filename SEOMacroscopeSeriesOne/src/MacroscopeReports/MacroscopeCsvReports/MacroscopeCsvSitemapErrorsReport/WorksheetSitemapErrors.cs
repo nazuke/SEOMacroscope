@@ -63,10 +63,10 @@ namespace SEOMacroscope
         if ( msDoc.GetIsInternal() && msDoc.GetIsSitemapXml() )
         {
 
-          foreach ( MacroscopeHyperlinkOut HyperlinkOut in msDoc.IterateHyperlinksOut() )
+          foreach ( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
           {
 
-            string TargetUrl = HyperlinkOut.GetTargetUrl();
+            string TargetUrl = Outlink.GetTargetUrl();
             MacroscopeDocument msDocLinked = DocCollection.GetDocument( Url: TargetUrl );
             Boolean InsertRow = false;
 

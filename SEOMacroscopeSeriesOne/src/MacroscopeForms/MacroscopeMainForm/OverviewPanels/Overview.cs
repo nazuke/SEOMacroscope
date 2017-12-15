@@ -60,6 +60,7 @@ namespace SEOMacroscope
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageHierarchy );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageRobots );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageSitemaps );
+      this.DisableTabPage( TabName: MacroscopeConstants.tabPageSitemapErrors );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageCanonicalAnalysis );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageHrefLangAnalysis );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageErrors );
@@ -106,6 +107,7 @@ namespace SEOMacroscope
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageHierarchy );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageRobots );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageSitemaps );
+      this.EnableTabPage( TabName: MacroscopeConstants.tabPageSitemapErrors );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageCanonicalAnalysis );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageHrefLangAnalysis );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageErrors );

@@ -58,6 +58,7 @@ namespace SEOMacroscope
 
     MacroscopeDisplayRobots msDisplayRobots;
     MacroscopeDisplaySitemaps msDisplaySitemaps;
+    MacroscopeDisplaySitemapErrors msDisplaySitemapErrors;
 
     MacroscopeDisplayCanonical msDisplayCanonical;
     MacroscopeDisplayHrefLang msDisplayHrefLang;
@@ -310,8 +311,12 @@ namespace SEOMacroscope
       this.msDisplayStructureLinkCounts = new MacroscopeDisplayStructureLinkCounts ( this, this.macroscopeOverviewTabPanelInstance.listViewStructure );
 
       this.msDisplayHierarchy = new MacroscopeDisplayHierarchy ( this, this.macroscopeOverviewTabPanelInstance.treeViewHierarchy );
+
       this.msDisplayRobots = new MacroscopeDisplayRobots ( this, this.macroscopeOverviewTabPanelInstance.listViewRobots );
+
       this.msDisplaySitemaps = new MacroscopeDisplaySitemaps ( this, this.macroscopeOverviewTabPanelInstance.listViewSitemaps );
+      this.msDisplaySitemapErrors = new MacroscopeDisplaySitemapErrors( this, this.macroscopeOverviewTabPanelInstance.listViewSitemapErrors );
+
       this.msDisplayCanonical = new MacroscopeDisplayCanonical ( this, this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
       this.msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
       this.msDisplayErrors = new MacroscopeDisplayErrors ( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
@@ -1133,7 +1138,11 @@ namespace SEOMacroscope
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplaySitemaps )
           );
           break;
-          
+
+        case MacroscopeConstants.tabPageSitemapErrors:
+          this.msDisplaySitemapErrors.RefreshDataSitemapErrors( DocCollection: this.JobMaster.GetDocCollection() );
+          break;
+
         case MacroscopeConstants.tabPageCanonicalAnalysis:
           this.msDisplayCanonical.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
@@ -2064,7 +2073,8 @@ namespace SEOMacroscope
       
       this.msDisplayRobots.ClearData();
       this.msDisplaySitemaps.ClearData();
-      
+      this.msDisplaySitemapErrors.ClearData();
+
       this.msDisplayCanonical.ClearData();
       this.msDisplayHrefLang.ClearData();
       
@@ -2383,9 +2393,7 @@ namespace SEOMacroscope
       
       foreach( string Url in DocumentKeys )
       {
-
         this.JobMaster.AddUpdateDisplayQueue( Url: Url );
-
       }
 
       this.UpdateTabPage( MacroscopeConstants.tabPageStructureLinkCounts );

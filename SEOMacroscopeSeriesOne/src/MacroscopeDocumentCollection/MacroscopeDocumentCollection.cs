@@ -84,6 +84,8 @@ namespace SEOMacroscope
 
     private MacroscopeClickPathAnalysis ClickPathAnalysis;
 
+    private Dictionary<string, Dictionary<string, Dictionary<string, string>>> StatsSitemapErrors;
+
     private static object LockerDocCollection = new object ();
     private static object LockerRecalc = new object ();
     
@@ -158,7 +160,9 @@ namespace SEOMacroscope
 
       this.ClickPathAnalysis = new MacroscopeClickPathAnalysis ( DocumentCollection: this );
 
-      this.StartRecalcTimer();
+      this.StatsSitemapErrors = new Dictionary<string, Dictionary<string, Dictionary<string, string>>> ();
+
+      this.StartRecalcTimer ();
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
 
@@ -759,9 +763,11 @@ namespace SEOMacroscope
                   this.DnsLookup( msDoc: msDoc );
                 }
 
+                this.RecalculateSitemapErrors( msDoc: msDoc );
+
               }
 
-              if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
+              if ( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
               {
                 this.StatsUrlsInternal++;
               }
@@ -2257,6 +2263,147 @@ namespace SEOMacroscope
 
       }
       
+    }
+
+    /** Sitemap Errors ********************************************************/
+
+    private void RecalculateSitemapErrors ( MacroscopeDocument msDoc )
+    {
+
+      Boolean Proceed = false;
+      string Url = msDoc.GetUrl();
+
+      if ( msDoc.GetIsSitemapXml() || msDoc.GetIsSitemapText() )
+      {
+        Proceed = true;
+      }
+
+      if ( msDoc.GetIsExternal() )
+      {
+        Proceed = false;
+      }
+
+      if ( !Proceed )
+      {
+        return;
+      }
+
+      foreach ( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
+      {
+
+        string TargetUrl = Outlink.GetTargetUrl();
+        MacroscopeDocument msDocLinked = this.GetDocument( Url: TargetUrl );
+        Boolean InsertDoc = false;
+
+        if ( msDocLinked.GetIsInternal() )
+        {
+          int StatusCode = (int) msDocLinked.GetStatusCode();
+          if ( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
+          {
+            InsertDoc= true;
+          }
+          if ( !msDocLinked.GetAllowedByRobots() )
+          {
+            InsertDoc = true;
+          }
+        }
+
+        InsertDoc = true; // TODO: remove this after debugging
+
+        if ( InsertDoc )
+        {
+
+          string LinkedUrl = msDocLinked.GetUrl();
+
+          Dictionary<string, Dictionary<string, string>> DocumentList; // URL => PropertyList
+          Dictionary<string, string> PropertyList = new Dictionary<string, string>();
+
+          lock ( this.StatsSitemapErrors )
+          {
+
+            if ( this.StatsSitemapErrors.ContainsKey( Url ) )
+            {
+              DocumentList = this.StatsSitemapErrors[ Url ];
+            }
+            else
+            {
+              DocumentList = new Dictionary<string, Dictionary<string, string>>();
+              this.StatsSitemapErrors.Add( Url, DocumentList );
+            }
+
+            lock ( this.StatsSitemapErrors[ Url ] )
+            {
+
+              if ( DocumentList.ContainsKey( LinkedUrl ) )
+              {
+                lock ( DocumentList[ LinkedUrl ] )
+                {
+                  DocumentList.Remove( LinkedUrl );
+                }
+              }
+
+              lock ( DocumentList )
+              {
+                DocumentList.Add( LinkedUrl, PropertyList );
+                PropertyList.Add( "sitemap_url", msDoc.GetUrl() );
+                PropertyList.Add( "status_code", msDocLinked.GetStatusCode().ToString() );
+                PropertyList.Add( "robots", msDocLinked.GetAllowedByRobotsAsString() );
+                PropertyList.Add( "target_url", TargetUrl );
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+      return;
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public List<Dictionary<string, string>> GetSitemapErrorsAsTable ()
+    {
+
+      List<Dictionary<string, string>> CompiledTable = new List<Dictionary<string, string>>();
+
+      lock ( this.StatsSitemapErrors )
+      {
+
+        foreach ( string SitemapUrl in this.StatsSitemapErrors.Keys )
+        {
+
+          if ( this.StatsSitemapErrors.ContainsKey( SitemapUrl ) )
+          {
+
+            Dictionary<string, Dictionary<string, string>> DocumentList = this.StatsSitemapErrors[ SitemapUrl ];
+
+            foreach ( string DocumentUrl in DocumentList.Keys )
+            {
+
+              Dictionary<string, string> PropertyList = DocumentList[ DocumentUrl ];
+              Dictionary<string, string> Entry = new Dictionary<string, string>();
+
+              Entry.Add( "sitemap_url", PropertyList[ "sitemap_url" ] );
+              Entry.Add( "status_code", PropertyList[ "status_code" ] );
+              Entry.Add( "robots", PropertyList[ "robots" ] );
+              Entry.Add( "target_url", PropertyList[ "target_url" ] );
+
+              CompiledTable.Add( Entry );
+
+            }
+
+          }
+
+        }
+
+      }
+
+      return ( CompiledTable );
+
     }
 
     /** Search Index **********************************************************/

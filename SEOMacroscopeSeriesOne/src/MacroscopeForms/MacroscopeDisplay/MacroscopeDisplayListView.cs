@@ -336,7 +336,9 @@ namespace SEOMacroscope
     public virtual void RenderListView ( MacroscopeDocument msDoc, string Url )
     {
 
-      if( msDoc == null )
+      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
+
+      if ( msDoc == null )
       {
         return;
       }
@@ -368,6 +370,7 @@ namespace SEOMacroscope
       {
         this.RenderListView(
           ListViewItems: ListViewItems,
+          DocCollection: DocCollection,
           msDoc: msDoc,
           Url: msDoc.GetUrl()
         );
@@ -404,7 +407,7 @@ namespace SEOMacroscope
     public virtual void RenderListView ( MacroscopeDocumentCollection DocCollection )
     {
 
-      if( DocCollection.CountDocuments() == 0 )
+      if ( DocCollection.CountDocuments() == 0 )
       {
         return;
       }
@@ -439,6 +442,7 @@ namespace SEOMacroscope
         {
           this.RenderListView(
             ListViewItems: ListViewItems,
+            DocCollection: DocCollection,
             msDoc: msDoc,
             Url: msDoc.GetUrl()
           );
@@ -523,6 +527,7 @@ namespace SEOMacroscope
 
           this.RenderListView(
             ListViewItems: ListViewItems,
+            DocCollection: DocCollection,
             msDoc: msDoc,
             Url: msDoc.GetUrl()
           );
@@ -561,8 +566,10 @@ namespace SEOMacroscope
 
     public void RenderListView ( List<MacroscopeDocument> DocList )
     {
-      
-      if( DocList.Count == 0 )
+
+      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
+
+      if ( DocList.Count == 0 )
       {
         return;
       }
@@ -597,6 +604,7 @@ namespace SEOMacroscope
         {
           this.RenderListView(
             ListViewItems: ListViewItems,
+            DocCollection: DocCollection,
             msDoc: msDoc,
             Url: msDoc.GetUrl()
           );
@@ -680,6 +688,7 @@ namespace SEOMacroscope
               {
                 this.RenderListView(
                   ListViewItems: ListViewItems,
+                  DocCollection: DocCollection,
                   msDoc: msDoc,
                   Url: msDoc.GetUrl()
                 );
@@ -691,6 +700,7 @@ namespace SEOMacroscope
               {
                 this.RenderListView(
                   ListViewItems: ListViewItems,
+                  DocCollection: DocCollection,
                   msDoc: msDoc,
                   Url: msDoc.GetUrl()
                 );
@@ -704,6 +714,7 @@ namespace SEOMacroscope
               {
                 this.RenderListView(
                   ListViewItems: ListViewItems,
+                  DocCollection: DocCollection,
                   msDoc: msDoc,
                   Url: msDoc.GetUrl()
                 );
@@ -787,6 +798,7 @@ namespace SEOMacroscope
           {
             this.RenderListView(
               ListViewItems: ListViewItems,
+              DocCollection: DocCollection,
               msDoc: msDoc,
               Url: Url
             );
@@ -861,6 +873,7 @@ namespace SEOMacroscope
 
     abstract protected void RenderListView (
       List<ListViewItem> ListViewItems,
+      MacroscopeDocumentCollection DocCollection,
       MacroscopeDocument msDoc,
       string Url
     );

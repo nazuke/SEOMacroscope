@@ -85,6 +85,7 @@ namespace SEOMacroscope
 
     protected override void RenderListView (
       List<ListViewItem> ListViewItems,
+      MacroscopeDocumentCollection DocCollection,
       MacroscopeDocument msDoc,
       string Url
     )
@@ -115,7 +116,6 @@ namespace SEOMacroscope
       if( Proceed )
       {
 
-        MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
         string PageLanguage = msDoc.GetIsoLanguageCode();
         string DetectedLanguage = msDoc.GetTitleLanguage();
         string Text = msDoc.GetTitle();

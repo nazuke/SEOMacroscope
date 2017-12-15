@@ -344,10 +344,15 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected override void RenderListView ( List<ListViewItem> ListViewItems, MacroscopeDocument msDoc, string Url )
+    protected override void RenderListView (
+      List<ListViewItem> ListViewItems,
+      MacroscopeDocumentCollection DocCollection,
+      MacroscopeDocument msDoc,
+      string Url
+    )
     {
     }
-    
+
     /**************************************************************************/
 
     protected override void RenderUrlCount ()

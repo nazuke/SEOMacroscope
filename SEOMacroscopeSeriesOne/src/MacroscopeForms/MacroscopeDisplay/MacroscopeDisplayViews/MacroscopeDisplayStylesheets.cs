@@ -80,7 +80,8 @@ namespace SEOMacroscope
 
     protected override void RenderListView ( 
       List<ListViewItem> ListViewItems,
-      MacroscopeDocument msDoc, 
+      MacroscopeDocumentCollection DocCollection,
+      MacroscopeDocument msDoc,
       string Url
     )
     {

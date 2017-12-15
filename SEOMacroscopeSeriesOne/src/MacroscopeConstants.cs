@@ -95,6 +95,8 @@ namespace SEOMacroscope
     public const string NamedQueueDisplayVideos = "DisplayVideos";
     public const string NamedQueueDisplayRobots = "DisplayRobots";
     public const string NamedQueueDisplaySitemaps = "DisplaySitemaps";
+    public const string NamedQueueDisplaySitemapErrors = "DisplaySitemapErrors";
+
     public const string NamedQueueDisplayEmailAddresses = "DisplayEmailAddresses";
     public const string NamedQueueDisplayTelephoneNumbers = "DisplayTelephoneNumbers";
     public const string NamedQueueDisplayHostnames = "DisplayHostnames";
@@ -118,6 +120,7 @@ namespace SEOMacroscope
     public const string tabPageHierarchy = "tabPageHierarchy";
     public const string tabPageRobots = "tabPageRobots";
     public const string tabPageSitemaps = "tabPageSitemaps";
+    public const string tabPageSitemapErrors = "tabPageSitemapErrors";
     public const string tabPageCanonicalAnalysis = "tabPageCanonicalAnalysis";
     public const string tabPageHrefLangAnalysis = "tabPageHrefLangAnalysis";
     public const string tabPageErrors = "tabPageErrors";

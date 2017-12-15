@@ -93,6 +93,7 @@ namespace SEOMacroscope
 
     protected override void RenderListView (
       List<ListViewItem> ListViewItems,
+      MacroscopeDocumentCollection DocCollection,
       MacroscopeDocument msDoc,
       string Url
     )
@@ -118,8 +119,6 @@ namespace SEOMacroscope
       if( Proceed )
       {
       
-        MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
-
         for( ushort HeadingLevel = 1 ; HeadingLevel <= MacroscopePreferencesManager.GetMaxHeadingDepth() ; HeadingLevel++ )
         {
 

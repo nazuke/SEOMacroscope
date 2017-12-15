@@ -75,6 +75,7 @@ namespace SEOMacroscope
 
     protected override void RenderListView (
       List<ListViewItem> ListViewItems,
+      MacroscopeDocumentCollection DocCollection,
       MacroscopeDocument msDoc,
       string Url
     )

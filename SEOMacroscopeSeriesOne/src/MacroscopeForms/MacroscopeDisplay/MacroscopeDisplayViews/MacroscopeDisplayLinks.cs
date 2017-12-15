@@ -227,6 +227,7 @@ namespace SEOMacroscope
 
           this.RenderListView(
             ListViewItems: ListViewItems,
+            DocCollection: DocCollection,
             msDoc: msDoc,
             Url: Url 
           );
@@ -333,6 +334,7 @@ namespace SEOMacroscope
 
     protected override void RenderListView (
       List<ListViewItem> ListViewItems,
+      MacroscopeDocumentCollection DocCollection,
       MacroscopeDocument msDoc,
       string Url
     )
