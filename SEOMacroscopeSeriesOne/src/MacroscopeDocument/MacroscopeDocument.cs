@@ -874,10 +874,19 @@ namespace SEOMacroscope
     {
       this.ErrorCondition = Value;
     }
-    
+
     public string GetErrorCondition ()
     {
-      return( this.ErrorCondition );
+
+      string Value = "";
+
+      if ( this.ErrorCondition != null )
+      {
+        Value = this.ErrorCondition;
+      }
+
+      return( Value );
+
     }
 
     /** HTTP Headers **********************************************************/

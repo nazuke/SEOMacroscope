@@ -52,10 +52,6 @@ namespace SEOMacroscope
 
       Boolean IsAuthenticating = this.AuthenticateRequest( Request: Request );
 
-
-
-
-
     }
 
     /** -------------------------------------------------------------------- **/
@@ -69,13 +65,25 @@ namespace SEOMacroscope
 
     private async Task ExecuteHeadRequest ()
     {
-      Stopwatch TimeDuration= new Stopwatch();
+
+      Stopwatch TimeDuration = new Stopwatch();
       long FinalDuration;
+
       TimeDuration.Start();
-      await this._ExecuteHeadRequest();
+
+      try
+      {
+        await this._ExecuteHeadRequest();
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( string.Format( "ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
+      }
+
       TimeDuration.Stop();
       FinalDuration = TimeDuration.ElapsedMilliseconds;
-      if( FinalDuration > 0 )
+
+      if ( FinalDuration > 0 )
       {
         this.Duration = FinalDuration;
       }
@@ -83,6 +91,7 @@ namespace SEOMacroscope
       {
         this.Duration = 0;
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -91,7 +100,7 @@ namespace SEOMacroscope
     {
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
-      MacroscopeHttpTwoClientResponse Response = null;
+      MacroscopeHttpTwoClientResponse ClientResponse = null;
       Uri DocUri = null;
       string ResponseErrorCondition = null;
       Boolean IsAuthenticating = false;
@@ -103,57 +112,57 @@ namespace SEOMacroscope
       {
 
         // TODO: Fix this:
-//        IsAuthenticating = this.AuthenticateRequest( req );
-
+        //        IsAuthenticating = this.AuthenticateRequest( req );
 
         DocUri = new Uri( this.DocUrl );
-        Response = await Client.Head( DocUri, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
-
+        ClientResponse = await Client.Head( DocUri, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
 
         this.CrawledDate = DateTime.UtcNow;
 
       }
-      catch( UriFormatException ex )
+      catch ( MacroscopeDocumentException ex )
       {
-        this.DebugMsg( string.Format( "ExecuteHeadRequest :: UriFormatException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ExecuteHeadRequest :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
-      catch( TimeoutException ex )
+      catch ( Exception ex )
       {
-        this.DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
-      }
-      catch( Exception ex )
-      {
-        this.DebugMsg( string.Format( "ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
-        ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
 
-      this.DebugMsg( string.Format( "ResponseErrorCondition: {0}", ResponseErrorCondition ) );
-
-      if( Response != null )
+      if ( ClientResponse != null )
       {
 
         try
         {
 
-          this.DebugMsg( string.Format( "StatusCode: {0}", Response.GetResponse().StatusCode ) );
+          this.DebugMsg( string.Format( "StatusCode: {0}", ClientResponse.GetResponse().StatusCode ) );
 
-          this.SetErrorCondition( Response.GetResponse().ReasonPhrase );
+          if ( ClientResponse.GetResponse() != null )
+          {
+            this.SetErrorCondition( ClientResponse.GetResponse().ReasonPhrase );
+          }
+          else
+          {
+            throw new MacroscopeDocumentException( "Bad Response in ExecuteHeadRequest" );
+          }
 
-          this.ProcessResponseHttpHeaders( Response: Response );
+          this.ProcessResponseHttpHeaders( Response: ClientResponse );
 
-          if( IsAuthenticating )
+          if ( IsAuthenticating )
           {
             this.VerifyOrPurgeCredential();
           }
 
-          if( this.GetIsRedirect() )
+          if ( this.GetIsRedirect() )
           {
 
             string Location = this.GetUrlRedirectTo();
 
-            if( !string.IsNullOrEmpty( Location ) )
+            if ( !string.IsNullOrEmpty( Location ) )
             {
 
               MacroscopeLink OutLink = null;
@@ -173,19 +182,19 @@ namespace SEOMacroscope
           }
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
-          this.DebugMsg( string.Format( "ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "_ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
           ResponseErrorCondition = ex.Message;
         }
 
       }
       else
       {
-        throw new MacroscopeDocumentException( "ExecuteHeadRequest failure" );
+        // NO-OP
       }
 
-      if( ResponseErrorCondition != null )
+      if ( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
@@ -193,136 +202,6 @@ namespace SEOMacroscope
       return;
 
     }
-
-
-
-
-
-    /*
-    private void ExecuteHeadRequestOLD ()
-    {
-
-      HttpWebRequest req = null;
-      HttpWebResponse res = null;
-      string OriginalUrl = this.DocUrl;
-      string ResponseErrorCondition = null;
-      Boolean IsAuthenticating = false;
-
-      this.SetProcessInlinks();
-      this.SetProcessHyperlinksIn();
-
-      try
-      {
-
-        req = WebRequest.CreateHttp( this.DocUrl );
-
-        req.Method = "HEAD";
-        req.Timeout = this.Timeout;
-        req.KeepAlive = false;
-        req.AllowAutoRedirect = false;
-        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-        this.PrepareRequestHttpHeaders( Request: req );
-
-        IsAuthenticating = this.AuthenticateRequest( req );
-
-        MacroscopePreferencesManager.EnableHttpProxy( req );
-
-        this.CrawledDate = DateTime.UtcNow;
-
-        res = (HttpWebResponse) req.GetResponse();
-
-      }
-      catch( UriFormatException ex )
-      {
-        this.DebugMsg( string.Format( "ExecuteHeadRequest :: UriFormatException: {0}", ex.Message ) );
-        ResponseErrorCondition = ex.Message;
-      }
-      catch( TimeoutException ex )
-      {
-        this.DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ) );
-        ResponseErrorCondition = ex.Message;
-      }
-      catch( WebException ex )
-      {
-        this.DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ) );
-        res = (HttpWebResponse) ex.Response;
-        ResponseErrorCondition = ex.Status.ToString();
-      }
-
-      this.DebugMsg( string.Format( "ResponseErrorCondition: {0}", ResponseErrorCondition ) );
-
-      if( res != null )
-      {
-
-        this.DebugMsg( string.Format( "StatusCode: {0}", res.StatusCode ) );
-
-        this.SetErrorCondition( res.StatusDescription );
-
-        foreach( string HttpHeaderKey in res.Headers )
-        {
-          this.DebugMsg( string.Format( "RES HEADERS: {0} => {1}", HttpHeaderKey, res.GetResponseHeader( HttpHeaderKey ) ) );
-        }
-
-        this.ProcessResponseHttpHeaders( req, res );
-
-        if( IsAuthenticating )
-        {
-          this.VerifyOrPurgeCredential();
-        }
-
-        if( this.IsRedirect )
-        {
-
-          this.IsRedirect = true;
-
-          string Location = res.GetResponseHeader( "Location" );
-
-          if( !string.IsNullOrEmpty( Location ) )
-          {
-
-            Location = Uri.UnescapeDataString( stringToUnescape: Location );
-
-            string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: Location );
-
-            if( !string.IsNullOrEmpty( LinkUrlAbs ) )
-            {
-
-              MacroscopeLink OutLink;
-
-              this.SetUrlRedirectFrom( Url: OriginalUrl );
-
-              this.SetUrlRedirectTo( Url: LinkUrlAbs );
-
-              OutLink = this.AddDocumentOutlink(
-                AbsoluteUrl: LinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.REDIRECT,
-                Follow: true
-              );
-
-              OutLink.SetRawTargetUrl( res.GetResponseHeader( "Location" ) );
-
-            }
-
-          }
-
-        }
-
-        res.Close();
-
-        res.Dispose();
-
-      }
-
-      if( ResponseErrorCondition != null )
-      {
-        this.ProcessErrorCondition( ResponseErrorCondition );
-      }
-
-      this.PostProcessRequestHttpHeaders( Request: req );
-
-    }
-    */
 
     /**************************************************************************/
 

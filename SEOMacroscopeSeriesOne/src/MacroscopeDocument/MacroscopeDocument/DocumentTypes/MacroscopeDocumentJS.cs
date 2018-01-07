@@ -52,13 +52,26 @@ namespace SEOMacroscope
 
     private async Task ProcessJavascriptPage ()
     {
+
       Stopwatch TimeDuration = new Stopwatch();
       long FinalDuration;
+
       TimeDuration.Start();
-      await this._ProcessJavascriptPage();
+
+      try
+      {
+        await this._ProcessJavascriptPage();
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( string.Format( "ProcessJavascriptPage :: Exception: {0}", ex.Message ) );
+      }
+
       TimeDuration.Stop();
+
       FinalDuration = TimeDuration.ElapsedMilliseconds;
-      if( FinalDuration > 0 )
+
+      if ( FinalDuration > 0 )
       {
         this.Duration = FinalDuration;
       }
@@ -66,6 +79,7 @@ namespace SEOMacroscope
       {
         this.Duration = 0;
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -89,23 +103,20 @@ namespace SEOMacroscope
         //IsAuthenticating = this.AuthenticateRequest( req );
 
       }
-      catch( UriFormatException ex )
+      catch ( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "ProcessJavascriptPage :: UriFormatException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ProcessJavascriptPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
-      catch( TimeoutException ex )
+      catch ( Exception ex )
       {
-        DebugMsg( string.Format( "ProcessJavascriptPage :: TimeoutException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ProcessJavascriptPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "ProcessJavascriptPage :: Exception: {0}", ex.Message ) );
-        ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
 
-      if( Response != null )
+      if ( Response != null )
       {
 
         string RawData = "";

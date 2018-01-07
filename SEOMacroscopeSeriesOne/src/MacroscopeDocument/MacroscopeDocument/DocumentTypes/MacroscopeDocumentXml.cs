@@ -53,13 +53,26 @@ namespace SEOMacroscope
 
     private async Task ProcessXmlPage ()
     {
+
       Stopwatch TimeDuration = new Stopwatch();
       long FinalDuration;
+
       TimeDuration.Start();
-      await this._ProcessXmlPage();
+
+      try
+      {
+        await this._ProcessXmlPage();
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( string.Format( "ProcessXmlPage :: Exception: {0}", ex.Message ) );
+      }
+
       TimeDuration.Stop();
+
       FinalDuration = TimeDuration.ElapsedMilliseconds;
-      if( FinalDuration > 0 )
+
+      if ( FinalDuration > 0 )
       {
         this.Duration = FinalDuration;
       }
@@ -67,6 +80,7 @@ namespace SEOMacroscope
       {
         this.Duration = 0;
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -80,7 +94,7 @@ namespace SEOMacroscope
       Uri DocUri;
       string ResponseErrorCondition = null;
       Boolean IsAuthenticating = false;
-      
+
       try
       {
 
@@ -91,25 +105,27 @@ namespace SEOMacroscope
         //IsAuthenticating = this.AuthenticateRequest( req );
 
       }
-      catch( UriFormatException ex )
+      catch ( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "ProcessXmlPage :: UriFormatException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ProcessXmlPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
-        DebugMsg( string.Format( "ProcessXmlPage :: Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ProcessXmlPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
 
-      if( Response != null )
+      if ( Response != null )
       {
 
         string RawData = "";
 
         this.ProcessResponseHttpHeaders( Response: Response );
 
-        if( IsAuthenticating )
+        if ( IsAuthenticating )
         {
           this.VerifyOrPurgeCredential();
         }
@@ -117,35 +133,19 @@ namespace SEOMacroscope
         // Get Response Body
         try
         {
-          
+
           DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
           RawData = Response.GetContentAsString();
 
-          this.SetContentLength( Length: RawData.Length); // May need to find bytes length
-          
+          this.SetContentLength( Length: RawData.Length ); // May need to find bytes length
+
           this.SetWasDownloaded( true );
-          
+
           this.SetChecksum( RawData );
-        
-        }
-        catch( WebException ex )
-        {
-          DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
 
-          if( ex.Response != null )
-          {
-            this.SetStatusCode( ( ( HttpWebResponse )ex.Response ).StatusCode );
-          }
-          else
-          {
-            this.SetStatusCode( ( HttpStatusCode )ex.Status );
-          }
-
-          RawData = "";
-          this.SetContentLength( Length: 0 );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           this.SetStatusCode( HttpStatusCode.BadRequest );
@@ -153,26 +153,26 @@ namespace SEOMacroscope
           this.SetContentLength( Length: 0 );
         }
 
-        if( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( RawData ) )
         {
-          
-          XmlDoc = new XmlDocument ();
-          
+
+          XmlDoc = new XmlDocument();
+
           try
           {
             XmlDoc.LoadXml( RawData );
           }
-          catch( XmlException ex )
+          catch ( XmlException ex )
           {
             DebugMsg( string.Format( "XmlException: {0}", ex.Message ) );
           }
-          catch( Exception ex )
+          catch ( Exception ex )
           {
             DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           }
-          
+
           DebugMsg( string.Format( "XmlDoc: {0}", XmlDoc ) );
-        
+
         }
         else
         {
@@ -181,34 +181,34 @@ namespace SEOMacroscope
 
         /** Custom Filters ------------------------------------------------- **/
 
-        if( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( RawData ) )
         {
 
-          if(
+          if (
             MacroscopePreferencesManager.GetCustomFiltersEnable()
             && MacroscopePreferencesManager.GetCustomFiltersApplyToXml() )
           {
-          
+
             MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
 
-            if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+            if ( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
             {
               this.ProcessGenericCustomFiltered(
-                CustomFilter: CustomFilter, 
+                CustomFilter: CustomFilter,
                 GenericText: RawData
               );
             }
 
           }
-          
+
         }
 
         /** Data Extractors ------------------------------------------------ **/
 
-        if( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( RawData ) )
         {
 
-          if(
+          if (
             MacroscopePreferencesManager.GetDataExtractorsEnable()
             && MacroscopePreferencesManager.GetDataExtractorsApplyToXml() )
           {
@@ -219,9 +219,9 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-        if( ( XmlDoc != null ) & ( XmlDoc.DocumentElement != null ) )
+        if ( ( XmlDoc != null ) & ( XmlDoc.DocumentElement != null ) )
         {
-          if( this.DetectSitemapXmlDocument( XmlDoc ) )
+          if ( this.DetectSitemapXmlDocument( XmlDoc ) )
           {
             DebugMsg( string.Format( "ProcessXmlPage: {0} :: {1}", "SITEMAP DETECTED", this.GetUrl() ) );
             this.SetIsSitemapXml();
@@ -231,50 +231,50 @@ namespace SEOMacroscope
 
       }
 
-      if( ResponseErrorCondition != null )
+      if ( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
-            
+
     }
 
     /**************************************************************************/
 
     Boolean DetectSitemapXmlDocument ( XmlDocument XmlDoc )
     {
-      
+
       // Reference: https://www.sitemaps.org/protocol.html
-      
+
       Boolean IsSitemapXml = false;
-      
+
       try
       {
-        
+
         string XmlnsValue = XmlDoc.DocumentElement.GetAttribute( "xmlns" );
 
         DebugMsg( string.Format( "DetectSitemapXmlDocument sXmlns: {0} :: {1}", XmlnsValue, this.GetUrl() ) );
 
-        if( XmlnsValue != null )
+        if ( XmlnsValue != null )
         {
-          if( XmlnsValue == MacroscopeConstants.SitemapXmlNamespace )
+          if ( XmlnsValue == MacroscopeConstants.SitemapXmlNamespace )
           {
             DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", XmlnsValue ) );
             IsSitemapXml = true;
           }
         }
-      
+
       }
-      catch( XmlException ex )
+      catch ( XmlException ex )
       {
         DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "DetectSitemapXmlDocument: {0}", ex.Message ) );
       }
-      
-      return( IsSitemapXml );
-    
+
+      return ( IsSitemapXml );
+
     }
 
     /**************************************************************************/
@@ -286,10 +286,10 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "ProcessSitemapXmlOutlinks nlOutlinks: {0}", OutlinksList.Count ) );
 
-      if( OutlinksList != null )
+      if ( OutlinksList != null )
       {
 
-        foreach( XmlNode LinkNode in OutlinksList )
+        foreach ( XmlNode LinkNode in OutlinksList )
         {
 
           string LinkUrl = null;
@@ -299,26 +299,26 @@ namespace SEOMacroscope
             LinkUrl = LinkNode.InnerText;
             DebugMsg( string.Format( "ProcessSitemapXmlOutlinks sLinkUrl: {0}", LinkUrl ) );
           }
-          catch( Exception ex )
+          catch ( Exception ex )
           {
             DebugMsg( string.Format( "ProcessSitemapXmlOutlinks: {0}", ex.Message ) );
           }
 
-          if( LinkUrl != null )
+          if ( LinkUrl != null )
           {
             MacroscopeLink Outlink;
-            
+
             Outlink = this.AddSitemapXmlOutlink(
               AbsoluteUrl: LinkUrl,
               LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
               Follow: true
             );
-            
-            if( Outlink != null )
+
+            if ( Outlink != null )
             {
               Outlink.SetRawTargetUrl( LinkUrl );
             }
-            
+
           }
 
         }
@@ -338,33 +338,33 @@ namespace SEOMacroscope
 
       MacroscopeLink OutLink = null;
       Boolean Proceed = true;
-            
-      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+
+      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
         MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if( AllowedHosts != null )
+        if ( AllowedHosts != null )
         {
-          if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
           {
             Proceed = false;
           }
         }
       }
 
-      switch( LinkType )
+      switch ( LinkType )
       {
         case MacroscopeConstants.InOutLinkType.SITEMAPXML:
-          if( !MacroscopePreferencesManager.GetFetchXml() )
+          if ( !MacroscopePreferencesManager.GetFetchXml() )
           {
             Proceed = false;
           }
           break;
       }
-      
-      if( Proceed )
+
+      if ( Proceed )
       {
 
-        OutLink = new MacroscopeLink (
+        OutLink = new MacroscopeLink(
           SourceUrl: this.GetUrl(),
           TargetUrl: AbsoluteUrl,
           LinkType: LinkType,
@@ -372,11 +372,11 @@ namespace SEOMacroscope
         );
 
         this.Outlinks.Add( OutLink );
-      
+
       }
-      
-      return( OutLink );
-            
+
+      return ( OutLink );
+
     }
 
     /**************************************************************************/

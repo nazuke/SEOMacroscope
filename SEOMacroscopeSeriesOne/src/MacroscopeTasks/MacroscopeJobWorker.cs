@@ -308,9 +308,7 @@ namespace SEOMacroscope
       }
       else
       {
-
         msDoc = this.DocCollection.CreateDocument( Url );
-
       }
 
       msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.OK );

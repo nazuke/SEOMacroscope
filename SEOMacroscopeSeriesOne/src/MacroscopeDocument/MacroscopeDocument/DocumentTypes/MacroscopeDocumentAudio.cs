@@ -52,13 +52,26 @@ namespace SEOMacroscope
 
     private async Task ProcessAudioPage ()
     {
+
       Stopwatch TimeDuration = new Stopwatch();
       long FinalDuration;
+
       TimeDuration.Start();
-      await this._ProcessAudioPage();
+
+      try
+      {
+        await this._ProcessAudioPage();
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( string.Format( "ProcessAudioPage :: Exception: {0}", ex.Message ) );
+      }
+
       TimeDuration.Stop();
+
       FinalDuration = TimeDuration.ElapsedMilliseconds;
-      if( FinalDuration > 0 )
+
+      if ( FinalDuration > 0 )
       {
         this.Duration = FinalDuration;
       }
@@ -66,6 +79,7 @@ namespace SEOMacroscope
       {
         this.Duration = 0;
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -89,23 +103,25 @@ namespace SEOMacroscope
         //IsAuthenticating = this.AuthenticateRequest( req );
 
       }
-      catch( UriFormatException ex )
+      catch ( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "ProcessAudioPage :: UriFormatException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ProcessAudioPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
-        DebugMsg( string.Format( "ProcessAudioPage :: Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ProcessAudioPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
 
-      if( Response != null )
+      if ( Response != null )
       {
 
         this.ProcessResponseHttpHeaders( Response: Response );
 
-        if( IsAuthenticating )
+        if ( IsAuthenticating )
         {
           this.VerifyOrPurgeCredential();
         }
@@ -115,16 +131,16 @@ namespace SEOMacroscope
           MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
           string DocumentTitle = null;
 
-          foreach( Match match in reMatches )
+          foreach ( Match match in reMatches )
           {
-            if( match.Groups[ 1 ].Value.Length > 0 )
+            if ( match.Groups[ 1 ].Value.Length > 0 )
             {
               DocumentTitle = match.Groups[ 1 ].Value.ToString();
               break;
             }
           }
 
-          if( DocumentTitle != null )
+          if ( DocumentTitle != null )
           {
             this.SetTitle( DocumentTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
             DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
@@ -138,7 +154,7 @@ namespace SEOMacroscope
 
       }
 
-      if( ResponseErrorCondition != null )
+      if ( ResponseErrorCondition != null )
       {
         this.ErrorCondition = ResponseErrorCondition;
       }

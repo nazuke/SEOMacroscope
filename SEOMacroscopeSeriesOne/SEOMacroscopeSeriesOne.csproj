@@ -153,6 +153,7 @@
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentAuthenticateRequest.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentExecuteHeadRequest.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentProcessHttpHeaders.cs" />
+    <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesPresets.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapErrors.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\MacroscopeCsvSitemapErrorsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\WorksheetSitemapErrors.cs" />

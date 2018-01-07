@@ -57,11 +57,13 @@ namespace SEOMacroscope
       HttpHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
       HttpHandler.AutomaticRedirection = false;
 
+      HttpHandler.SendTimeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
+      HttpHandler.ReceiveHeadersTimeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
+      HttpHandler.ReceiveDataTimeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
+
       MacroscopePreferencesManager.EnableHttpProxy( HttpHandler: HttpHandler );
 
       Client = new HttpClient( HttpHandler );
-
-      Client.Timeout = new TimeSpan( hours: 0, minutes: 0, seconds: 60 );
 
     }
 
@@ -94,7 +96,7 @@ namespace SEOMacroscope
       {
 
         Request.Version = new Version( 2, 0 );
-
+                
         try
         {
           this.ConfigureDefaultRequestHeaders( Request: Request );
@@ -145,9 +147,25 @@ namespace SEOMacroscope
 
           }
         }
-        catch( TimeoutException ex )
+        catch ( UriFormatException ex )
         {
           this.DebugMsg( ex.Message );
+          throw new MacroscopeDocumentException( ex.Message );
+        }
+        catch ( HttpRequestException ex )
+        {
+          string message = ex.Message;
+          if ( ex.InnerException != null )
+          {
+            message = ex.InnerException.Message;
+          }
+          this.DebugMsg( message );
+         throw new MacroscopeDocumentException( message );
+        }
+        catch ( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
+          throw new MacroscopeDocumentException( ex.Message );
         }
 
         try
@@ -176,7 +194,7 @@ namespace SEOMacroscope
       {
 
         Request.Version = new Version( 2, 0 );
-
+        
         try
         {
           this.ConfigureDefaultRequestHeaders( Request: Request );
@@ -232,9 +250,25 @@ namespace SEOMacroscope
 
           }
         }
-        catch( TimeoutException ex )
+        catch ( UriFormatException ex )
         {
           this.DebugMsg( ex.Message );
+          throw new MacroscopeDocumentException( ex.Message );
+        }
+        catch ( HttpRequestException ex )
+        {
+          string message = ex.Message;
+          if ( ex.InnerException != null )
+          {
+            message = ex.InnerException.Message;
+          }
+          this.DebugMsg( message );
+          throw new MacroscopeDocumentException( message );
+        }
+        catch ( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
+          throw new MacroscopeDocumentException( ex.Message );
         }
 
         try
@@ -260,9 +294,9 @@ namespace SEOMacroscope
 
       // TODO: Implement this
 
-      MacroscopeHttpTwoClientResponse Response = null;
+      MacroscopeHttpTwoClientResponse ClientResponse = null;
 
-      return ( Response );
+      return ( ClientResponse );
 
     }
     */

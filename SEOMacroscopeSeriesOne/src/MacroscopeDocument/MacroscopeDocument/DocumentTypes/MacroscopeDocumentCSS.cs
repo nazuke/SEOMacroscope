@@ -54,13 +54,26 @@ namespace SEOMacroscope
 
     private async Task ProcessCssPage ()
     {
+
       Stopwatch TimeDuration = new Stopwatch();
       long FinalDuration;
+
       TimeDuration.Start();
-      await this._ProcessCssPage();
+
+      try
+      {
+        await this._ProcessCssPage();
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( string.Format( "ProcessCssPage :: Exception: {0}", ex.Message ) );
+      }
+
       TimeDuration.Stop();
+
       FinalDuration = TimeDuration.ElapsedMilliseconds;
-      if( FinalDuration > 0 )
+
+      if ( FinalDuration > 0 )
       {
         this.Duration = FinalDuration;
       }
@@ -68,6 +81,7 @@ namespace SEOMacroscope
       {
         this.Duration = 0;
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -93,25 +107,20 @@ namespace SEOMacroscope
         //IsAuthenticating = this.AuthenticateRequest( req );
 
       }
-      catch( UriFormatException ex )
+      catch ( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "ProcessCssPage :: UriFormatException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ProcessCssPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
-      catch( TimeoutException ex )
+      catch ( Exception ex )
       {
-
-        DebugMsg( string.Format( "ProcessCssPage :: TimeoutException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "_ProcessCssPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
-
-      }
-      catch( Exception ex )
-      {
-        DebugMsg( string.Format( "ProcessCssPage :: Exception: {0}", ex.Message ) );
-        ResponseErrorCondition = ex.Message;
+        this.SetStatusCode( HttpStatusCode.BadRequest );
       }
 
-      if( Response != null )
+      if ( Response != null )
       {
 
         string RawData = "";
