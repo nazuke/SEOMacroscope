@@ -30,19 +30,65 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-	public class TestMacroscopeNamedQueue
-	{
+  public class TestMacroscopeNamedQueue : Macroscope
+  {
 
     /**************************************************************************/
 
     [Test]
-		public void TestMethod()
-		{
-			// TODO: Add your test.
-		}
+    public void TestCreateNamedQueue ()
+    {
+      string QueueName = "TEST";
+      MacroscopeNamedQueue<MacroscopeJobItem> NamedQueue = new MacroscopeNamedQueue<MacroscopeJobItem>();
+      NamedQueue.CreateNamedQueue( QueueName );
+      MacroscopeJobItem JobItem = new MacroscopeJobItem( "http://www.company.com/" );
+      NamedQueue.AddToNamedQueue( QueueName, JobItem );
+      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QueueName ) );
+    }
 
     /**************************************************************************/
 
-	}
+    [Test]
+    public void TestFailAddingDuplicateToNamedQueue ()
+    {
+      string QueueName = "TEST";
+      MacroscopeNamedQueue<MacroscopeJobItem> NamedQueue = new MacroscopeNamedQueue<MacroscopeJobItem>();
+      NamedQueue.CreateNamedQueue( QueueName, MacroscopeNamedQueue<MacroscopeJobItem>.MODE.USE_HISTORY );
+      MacroscopeJobItem JobItem1 = new MacroscopeJobItem( "http://www.company.com/" );
+      MacroscopeJobItem JobItem2 = new MacroscopeJobItem( "http://www.company.com/" );
+      NamedQueue.AddToNamedQueue( QueueName, JobItem1 );
+      NamedQueue.AddToNamedQueue( QueueName, JobItem2 );
+      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QueueName ) );
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestAddRemoveAddAgainToNamedQueue ()
+    {
+      string QueueName = "TEST";
+
+      MacroscopeNamedQueue<MacroscopeJobItem> NamedQueue = new MacroscopeNamedQueue<MacroscopeJobItem>();
+      NamedQueue.CreateNamedQueue( QueueName, MacroscopeNamedQueue<MacroscopeJobItem>.MODE.USE_HISTORY );
+
+      MacroscopeJobItem JobItem1 = new MacroscopeJobItem( "http://www.company.com/" );
+
+      NamedQueue.AddToNamedQueue( QueueName, JobItem1 );
+
+      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QueueName ) );
+
+      NamedQueue.GetNamedQueueItem( QueueName );
+
+      Assert.AreEqual( 0, NamedQueue.CountNamedQueueItems( QueueName ) );
+
+      NamedQueue.AddToNamedQueue( QueueName, JobItem1 );
+
+      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QueueName ) );
+
+    }
+
+    /**************************************************************************/
+
+  }
 
 }

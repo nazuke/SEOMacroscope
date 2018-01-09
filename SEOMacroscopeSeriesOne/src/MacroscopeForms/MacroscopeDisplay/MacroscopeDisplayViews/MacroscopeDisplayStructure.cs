@@ -363,9 +363,17 @@ namespace SEOMacroscope
                 lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Blue;
                 lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Blue;
               }
+
+              if ( StatusCode == 410 )
+              {
+                lvItem.SubItems[ ColIndex ].ForeColor = Color.Purple;
+                lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Purple;
+                lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Purple;
+              }
+
             }
 
-            if( ItemsKey == MacroscopeConstants.RobotsRule )
+            if ( ItemsKey == MacroscopeConstants.RobotsRule )
             {
               if( Text.ToLower() == "disallowed" )
               {

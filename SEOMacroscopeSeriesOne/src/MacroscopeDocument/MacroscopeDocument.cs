@@ -898,20 +898,6 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-      // TODO: Deprecate this:
-    public void SetHttpResponseStatusLine ( HttpWebResponse Response )
-    {
-
-      this.RawHttpResponseStatusLine = string.Join(
-        " ",
-        string.Join( "/", "HTTP", Response.ProtocolVersion ),
-        ( (int) Response.StatusCode ).ToString(),
-        Response.StatusDescription,
-        Environment.NewLine
-      );
-
-    }
-
     public void SetHttpResponseStatusLine ( MacroscopeHttpTwoClientResponse Response )
     {
 
@@ -931,12 +917,6 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-
-    // TODO: Deprecate this:
-    public void SetHttpResponseHeaders ( HttpWebResponse Response )
-    {
-      this.RawHttpResponseHeaders = Response.Headers.ToString();
-    }
 
     public void SetHttpResponseHeaders ( MacroscopeHttpTwoClientResponse Response )
     {

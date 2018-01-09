@@ -798,7 +798,11 @@ namespace SEOMacroscope
         NewUrl = MacroscopeUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
-      if( !this.JobHistory.SeenHistoryItem( Url: NewUrl ) )
+      if ( this.JobHistory.SeenHistoryItem( Url: NewUrl ) )
+      {
+        this.DebugMsg( string.Format( "Already seen: {0}", Url ) );
+      }
+      else
       {
 
         try
@@ -820,6 +824,8 @@ namespace SEOMacroscope
         }
 
       }
+
+      return;
 
     }
 
@@ -849,6 +855,8 @@ namespace SEOMacroscope
       {
         this.AddUrlQueueItem( Url: Url );
       }
+
+      return;
 
     }
 
@@ -908,6 +916,9 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
+    /*
+     * Check to see if queue has items waiting in it.
+    */
     public Boolean PeekUrlQueue ()
     {
       Boolean Peek = this.NamedQueueJobItems.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
@@ -1029,9 +1040,8 @@ namespace SEOMacroscope
     public void RetryLink ( string Url )
     {
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
-
-
       this.ResetLink( msDoc: msDoc );
+      return;
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1039,35 +1049,8 @@ namespace SEOMacroscope
     public void RetryLink ( MacroscopeDocument msDoc )
     {
       this.ResetLink( msDoc: msDoc );
+      return;
     }
-
-    /** -------------------------------------------------------------------- **/
-
-      /*
-    private void ResetLink ( string Url )
-    {
-
-      MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
-
-      if( msDoc != null )
-      {
-
-        msDoc.SetIsDirty();
-
-        this.ForgetUrlQueueItem( Url: Url );
-
-        this.JobHistory.ResetHistoryItem( Url: Url );
-
-        this.AddUrlQueueItem( Url: Url );
-
-      }
-      else
-      {
-        DebugMsg( string.Format( "ResetLink ERROR: {0}", Url ) );
-      }
-
-    }
-    */
 
     /** -------------------------------------------------------------------- **/
 
@@ -1090,7 +1073,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "ResetLink ERROR" ) );
+        this.DebugMsg( string.Format( "ResetLink ERROR" ) );
       }
 
       return;

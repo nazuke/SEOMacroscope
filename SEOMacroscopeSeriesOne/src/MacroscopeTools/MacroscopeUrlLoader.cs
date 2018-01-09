@@ -59,6 +59,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    // TODO: Fix this so that it is HTTP/2 compliant
     public MemoryStream LoadMemoryStreamFromUrl ( string Url )
     {
 

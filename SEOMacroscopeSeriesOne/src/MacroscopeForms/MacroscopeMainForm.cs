@@ -1627,8 +1627,8 @@ namespace SEOMacroscope
 
       if( Url != null )
       {
-        this.JobMaster.GetAllowedHosts().AddFromUrl( Url );
-        this.JobMaster.RetryLink( Url );
+        this.JobMaster.GetAllowedHosts().AddFromUrl( Url: Url );
+        this.JobMaster.RetryLink( Url: Url );
         this.RerunScanQueue();
       }
 
@@ -1730,6 +1730,8 @@ namespace SEOMacroscope
         this.JobMaster.RetryLink( Url: Url );
         this.RerunScanQueue();
       }
+
+      return;
 
     }
 
@@ -2188,6 +2190,8 @@ namespace SEOMacroscope
         this.ThreadScanner.Start();
 
       }
+
+      return;
 
     }
 

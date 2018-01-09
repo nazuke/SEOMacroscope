@@ -43,23 +43,29 @@ namespace SEOMacroscope
 
     public MacroscopeJobItem ( string Url  )
     {
-
       this.ItemUrl = Url;
-
     }
 
     /**************************************************************************/
 
     public override string ToString ()
     {
-      return( this.ItemUrl );
+
+      string Url = this.ItemUrl;
+
+      return ( Url );
+
     }
 
     /**************************************************************************/
 
     public string GetItemUrl ()
     {
-      return( this.ItemUrl );
+
+      string Url = this.ItemUrl;
+
+      return ( Url );
+
     }
 
     /**************************************************************************/

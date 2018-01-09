@@ -2308,8 +2308,6 @@ namespace SEOMacroscope
           }
         }
 
-        InsertDoc = true; // TODO: remove this after debugging
-
         if ( InsertDoc )
         {
 

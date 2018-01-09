@@ -47,39 +47,6 @@ namespace SEOMacroscope
 
     /** HTTP Headers **********************************************************/
 
-    // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
-    // TODO: Deprecate this:
-    private void DEPRECATEDPrepareRequestHttpHeaders ( HttpWebRequest Request )
-    {
-      /*
-      Request.Host = this.GetHostAndPort();
-
-      Request.UserAgent = this.UserAgent();
-
-
-      Request.CookieContainer = this.DocCollection.GetJobMaster().GetCookieJar();
-
-      Request.Headers.Add( "Accept-Charset", "utf-8, us-ascii" );
-
-      Request.Headers.Add( "Accept-Encoding", "gzip, deflate" );
-
-      Request.Headers.Add( "Accept-Language", "*" );
-
-      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DNT
-      Request.Headers.Add( "DNT", "1" );
-
-      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Upgrade-Insecure-Requests
-      Request.Headers.Add( "Upgrade-Insecure-Requests", "1" );
-
-      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
-      Request.Headers.Add( "Cache-Control", "max-age=0" );
-
-      //this.PostProcessRequestHttpHeaders( Request: Request );
-      */
-    }
-
-    /**************************************************************************/
-
     private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request )
     {
 

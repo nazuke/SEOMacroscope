@@ -360,13 +360,17 @@ namespace SEOMacroscope
         msDoc.SetIsExternal( State: true );
       }
 
-      if( this.DocCollection.ContainsDocument( Url ) )
+      if ( this.DocCollection.ContainsDocument( Url ) )
       {
-        if( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
+        if ( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
         {
           FetchStatus = MacroscopeConstants.FetchStatus.ALREADY_SEEN;
           return ( FetchStatus );
         }
+      }
+      else
+      {
+        ; // NO-OP
       }
 
       if( this.JobMaster.GetDepth() > 0 )

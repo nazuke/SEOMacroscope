@@ -191,7 +191,11 @@ namespace SEOMacroscope
           // TODO: This does not work with reference values
           if( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
           {
+
+            // TODO: This is blocking ResetEntry scanning from working properly
+
             Proceed = false;
+
           }
           else
           {
@@ -232,6 +236,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    /*
+     * Check to see if queue has items waiting in it.
+    */
     public Boolean PeekNamedQueue ( string Name )
     {
 
@@ -473,20 +480,25 @@ namespace SEOMacroscope
     public void ForgetNamedQueueItem ( string Name, T Item )
     {
 
-      if( this.NamedQueuesIndex.ContainsKey( Name ) )
+      lock ( this.NamedQueuesIndex )
       {
 
-        lock( this.NamedQueuesIndex[ Name ] )
+        if ( this.NamedQueuesIndex.ContainsKey( Name ) )
         {
 
-          string ItemValue = Item.ToString();
-
-          foreach( T ItemKey in this.NamedQueuesIndex[ Name ].Keys )
+          lock ( this.NamedQueuesIndex[ Name ] )
           {
-            if( NamedQueuesIndex[ Name ][ ItemKey ].ToString().Equals( ItemValue ) )
+
+            string ItemValue = Item.ToString();
+
+            foreach ( T ItemKey in this.NamedQueuesIndex[ Name ].Keys )
             {
-              this.NamedQueuesIndex[ Name ].Remove( ItemKey );
+              if ( NamedQueuesIndex[ Name ][ ItemKey ].ToString().Equals( ItemValue ) )
+              {
+                this.NamedQueuesIndex[ Name ].Remove( ItemKey );
+              }
             }
+
           }
 
         }

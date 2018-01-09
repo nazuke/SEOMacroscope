@@ -92,16 +92,16 @@ namespace SEOMacroscope
 
       MacroscopeHttpTwoClientResponse ClientResponse = new MacroscopeHttpTwoClientResponse();
 
-      using( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Head, Url ) )
+      using ( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Head, Url ) )
       {
 
         Request.Version = new Version( 2, 0 );
-                
+
         try
         {
           this.ConfigureDefaultRequestHeaders( Request: Request );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "Head: {0}", ex.Message ) );
         }
@@ -110,34 +110,34 @@ namespace SEOMacroscope
         {
           ConfigureCustomRequestHeadersCallback( Request );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "Head: {0}", ex.Message ) );
         }
 
         try
         {
-          using( HttpResponseMessage Response = await Client.SendAsync( Request ) )
+          using ( HttpResponseMessage Response = await Client.SendAsync( Request ) )
           {
 
             ClientResponse.SetResponse( RequestResponse: Response );
 
-            foreach( KeyValuePair<string, IEnumerable<string>> Item in Response.Headers )
+            foreach ( KeyValuePair<string, IEnumerable<string>> Item in Response.Headers )
             {
-              foreach( string Value in Item.Value )
+              foreach ( string Value in Item.Value )
               {
                 this.DebugMsg( string.Format( "HEAD RESPONSE: {0} => {1}", Item.Key, Value ) );
                 ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
               }
             }
 
-            using( HttpContent ResponseContent = Response.Content )
+            using ( HttpContent ResponseContent = Response.Content )
             {
               // TODO: add options to get string and/or bytes[] here:
               ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
-              foreach( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
+              foreach ( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
               {
-                foreach( string Value in Item.Value )
+                foreach ( string Value in Item.Value )
                 {
                   this.DebugMsg( string.Format( "HEAD RESPONSECONTENT: {0} => {1}", Item.Key, Value ) );
                   ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
@@ -160,7 +160,7 @@ namespace SEOMacroscope
             message = ex.InnerException.Message;
           }
           this.DebugMsg( message );
-         throw new MacroscopeDocumentException( message );
+          throw new MacroscopeDocumentException( message );
         }
         catch ( Exception ex )
         {
@@ -172,7 +172,7 @@ namespace SEOMacroscope
         {
           PostProcessRequestHttpHeadersCallback( Request );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "Get: {0}", ex.Message ) );
         }
@@ -190,16 +190,16 @@ namespace SEOMacroscope
 
       MacroscopeHttpTwoClientResponse ClientResponse = new MacroscopeHttpTwoClientResponse();
 
-      using( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Get, Url ) )
+      using ( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Get, Url ) )
       {
 
         Request.Version = new Version( 2, 0 );
-        
+
         try
         {
           this.ConfigureDefaultRequestHeaders( Request: Request );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "Get: {0}", ex.Message ) );
         }
@@ -208,7 +208,7 @@ namespace SEOMacroscope
         {
           ConfigureCustomRequestHeadersCallback( Request );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "Get: {0}", ex.Message ) );
         }
@@ -216,30 +216,30 @@ namespace SEOMacroscope
         try
         {
 
-          using( HttpResponseMessage Response = await Client.SendAsync( Request ) )
+          using ( HttpResponseMessage Response = await Client.SendAsync( Request ) )
           {
 
             ClientResponse.SetResponse( RequestResponse: Response );
 
-            foreach( KeyValuePair<string, IEnumerable<string>> Item in Response.Headers )
+            foreach ( KeyValuePair<string, IEnumerable<string>> Item in Response.Headers )
             {
-              foreach( string Value in Item.Value )
+              foreach ( string Value in Item.Value )
               {
                 this.DebugMsg( string.Format( "HEAD RESPONSE: {0} => {1}", Item.Key, Value ) );
                 ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
               }
             }
 
-            using( HttpContent ResponseContent = Response.Content )
+            using ( HttpContent ResponseContent = Response.Content )
             {
 
               // TODO: add options to get string and/or bytes[] here:
               // TODO: there is an encoding bug here:
               ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
 
-              foreach( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
+              foreach ( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
               {
-                foreach( string Value in Item.Value )
+                foreach ( string Value in Item.Value )
                 {
                   this.DebugMsg( string.Format( "HEAD RESPONSECONTENT: {0} => {1}", Item.Key, Value ) );
                   ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
@@ -275,7 +275,7 @@ namespace SEOMacroscope
         {
           PostProcessRequestHttpHeadersCallback( Request );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "Get: {0}", ex.Message ) );
         }
@@ -303,14 +303,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+
     private void ConfigureDefaultRequestHeaders ( HttpRequestMessage Request )
     {
-      
+
       try
       {
         Request.Headers.Host = Request.RequestUri.Host;
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "Get: {0}", ex.Message ) );
       }
@@ -322,7 +324,7 @@ namespace SEOMacroscope
         Request.Headers.UserAgent.Clear();
         Request.Headers.UserAgent.Add( ProductInfoHeaderValueUserAgent );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
         throw ex;
@@ -333,7 +335,7 @@ namespace SEOMacroscope
         Request.Headers.Accept.Clear();
         Request.Headers.Accept.Add( new MediaTypeWithQualityHeaderValue( "*/*", 1 ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
         throw ex;
@@ -345,7 +347,7 @@ namespace SEOMacroscope
         Request.Headers.AcceptCharset.Add( new StringWithQualityHeaderValue( "utf-8", 1 ) );
         Request.Headers.AcceptCharset.Add( new StringWithQualityHeaderValue( "us-ascii", 0.9 ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
         throw ex;
@@ -357,12 +359,55 @@ namespace SEOMacroscope
         Request.Headers.AcceptEncoding.Add( new StringWithQualityHeaderValue( "gzip", 1 ) );
         Request.Headers.AcceptEncoding.Add( new StringWithQualityHeaderValue( "deflate", 0.9 ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
         throw ex;
       }
 
+      try
+      {
+        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+        Request.Headers.CacheControl.MaxAge = new TimeSpan( 0, 0, 0 );
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        throw ex;
+      }
+
+      try
+      {
+        Request.Headers.AcceptLanguage.Clear();
+        Request.Headers.AcceptLanguage.Add( new StringWithQualityHeaderValue( "*", 1 ) );
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        throw ex;
+      }
+
+      try
+      {
+        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DNT
+        Request.Headers.Add( "DNT", "1" );
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        throw ex;
+      }
+
+      try
+      {
+        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Upgrade-Insecure-Requests
+        Request.Headers.Add( "Upgrade-Insecure-Requests", "1" );
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        throw ex;
+      }
 
     }
 

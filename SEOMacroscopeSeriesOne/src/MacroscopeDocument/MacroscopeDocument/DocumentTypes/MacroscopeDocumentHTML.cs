@@ -1985,6 +1985,7 @@ namespace SEOMacroscope
 
     /** Fetch HTML File *******************************************************/
 
+    // TODO: Fix this so that it is HTTP/2 compliant
     private string FetchHtmlFile ( string Url )
     {
 

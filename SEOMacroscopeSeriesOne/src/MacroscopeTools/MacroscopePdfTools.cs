@@ -41,10 +41,10 @@ namespace SEOMacroscope
     private PdfDocument Pdf;
     private Boolean HasError;
     private string ErrorMessage;
-		
+
     /**************************************************************************/
 
-    public MacroscopePdfTools ( byte [] PdfData )
+    public MacroscopePdfTools ( byte[] PdfData )
     {
 
       this.HasError = false;
@@ -53,13 +53,13 @@ namespace SEOMacroscope
       try
       {
 
-        using( MemoryStream ms = new MemoryStream ( PdfData ) )
+        using ( MemoryStream ms = new MemoryStream( PdfData ) )
         {
           Pdf = PdfReader.Open( ms, PdfDocumentOpenMode.InformationOnly );
         }
 
       }
-      catch( PdfReaderException ex )
+      catch ( PdfReaderException ex )
       {
 
         DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
@@ -67,7 +67,7 @@ namespace SEOMacroscope
         this.ErrorMessage = ex.Message;
 
       }
-      catch( PdfSharpException ex )
+      catch ( PdfSharpException ex )
       {
 
         DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
@@ -75,7 +75,7 @@ namespace SEOMacroscope
         this.ErrorMessage = ex.Message;
 
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
 
         DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
@@ -88,18 +88,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Dictionary<string,string> GetMetadata ()
+    public Dictionary<string, string> GetMetadata ()
     {
 
-      Dictionary<string,string> dicMetadata = new Dictionary<string,string> ( 32 );
+      Dictionary<string, string> dicMetadata = new Dictionary<string, string>( 32 );
 
-      if( Pdf != null )
+      if ( Pdf != null )
       {
         PdfDocumentInformation pdfInfo = Pdf.Info;
         dicMetadata.Add( "title", pdfInfo.Title );
       }
 
-      return( dicMetadata );
+      return ( dicMetadata );
 
     }
 
@@ -108,15 +108,15 @@ namespace SEOMacroscope
     public string GetTitle ()
     {
 
-      Dictionary<string,string> dicMetadata = this.GetMetadata();
+      Dictionary<string, string> dicMetadata = this.GetMetadata();
       string Title = "";
 
-      if( dicMetadata.ContainsKey( "title" ) )
+      if ( dicMetadata.ContainsKey( "title" ) )
       {
         Title = dicMetadata[ "title" ];
       }
 
-      return( Title );
+      return ( Title );
 
     }
 
@@ -124,34 +124,35 @@ namespace SEOMacroscope
 
     public Boolean GetHasError ()
     {
-      return( this.HasError );
+      return ( this.HasError );
     }
-    
+
     /**************************************************************************/
 
     public string GetErrorMessage ()
     {
-      return( this.ErrorMessage );
+      return ( this.ErrorMessage );
     }
 
     /**************************************************************************/
 
+    // TODO: Fix this so that it is HTTP/2 compliant
     public Boolean IsPdfUrl ( string Url )
     {
-    
+
       Boolean Result = false;
       string MimeType = MacroscopeUrlUtils.GetMimeTypeOfUrl( Url: Url );
-      
-      if( !string.IsNullOrEmpty( MimeType ) )
+
+      if ( !string.IsNullOrEmpty( MimeType ) )
       {
-        if( Regex.IsMatch( MimeType, "^application/pdf$", RegexOptions.IgnoreCase ) )
+        if ( Regex.IsMatch( MimeType, "^application/pdf$", RegexOptions.IgnoreCase ) )
         {
           Result = true;
         }
       }
 
-      return( Result );
-      
+      return ( Result );
+
     }
 
     /**************************************************************************/

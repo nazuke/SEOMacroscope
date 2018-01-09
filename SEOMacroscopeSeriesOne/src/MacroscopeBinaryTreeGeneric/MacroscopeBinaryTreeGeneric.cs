@@ -98,7 +98,7 @@ namespace SEOMacroscope
     )
     {
 
-      // TODO: this is broken
+      // TODO: This is broken
       
       this.DebugMsg( "InsertNode" );
       this.DebugMsg( string.Format( "NewNode: {0}", NewNode.GetNodeName() ) );
