@@ -201,8 +201,13 @@ namespace SEOMacroscope
         
         this.checkBoxSitemapIncludeLinkedPdfs.Checked = MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs();
 
+        /** Ignore Errors Settings ----------------------------------------- **/
+
+        this.checkBoxIgnoreErrors410.Checked = MacroscopePreferencesManager.GetIgnoreErrors410();
+        this.checkBoxIgnoreErrors451.Checked = MacroscopePreferencesManager.GetIgnoreErrors451();
+
         /** Advanced Settings ---------------------------------------------- **/
-        
+
         this.checkBoxEnableMemoryGuard.Checked = MacroscopePreferencesManager.GetEnableMemoryGuard();
 
       }
@@ -344,6 +349,11 @@ namespace SEOMacroscope
       /** Export Options --------------------------------------------------- **/
               
       MacroscopePreferencesManager.SetSitemapIncludeLinkedPdfs( this.checkBoxSitemapIncludeLinkedPdfs.Checked );
+
+      /** Ignore Errors Settings ----------------------------------------- **/
+
+      MacroscopePreferencesManager.SetIgnoreErrors410( this.checkBoxIgnoreErrors410.Checked );
+      MacroscopePreferencesManager.SetIgnoreErrors451( this.checkBoxIgnoreErrors451.Checked );
 
       /** Advanced Settings ---------------------------------------------- **/
 

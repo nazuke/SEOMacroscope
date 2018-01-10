@@ -301,6 +301,8 @@ namespace SEOMacroscope
       this.checkBoxAnalyzeTextReadability = new System.Windows.Forms.CheckBox();
       this.checkBoxAnalyzeKeywordsInText = new System.Windows.Forms.CheckBox();
       this.groupBox14 = new System.Windows.Forms.GroupBox();
+      this.comboBoxLevenshteinAnalysisLevel = new System.Windows.Forms.ComboBox();
+      this.label21 = new System.Windows.Forms.Label();
       this.checkBoxEnableLevenshteinDeduplication = new System.Windows.Forms.CheckBox();
       this.labelMaxLevenshteinSizeDifference = new System.Windows.Forms.Label();
       this.numericUpDownMaxLevenshteinSizeDifference = new System.Windows.Forms.NumericUpDown();
@@ -360,8 +362,9 @@ namespace SEOMacroscope
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-      this.comboBoxLevenshteinAnalysisLevel = new System.Windows.Forms.ComboBox();
-      this.label21 = new System.Windows.Forms.Label();
+      this.groupBox29 = new System.Windows.Forms.GroupBox();
+      this.checkBoxIgnoreErrors451 = new System.Windows.Forms.CheckBox();
+      this.checkBoxIgnoreErrors410 = new System.Windows.Forms.CheckBox();
       label9 = new System.Windows.Forms.Label();
       label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
@@ -435,6 +438,7 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.SuspendLayout();
       this.flowLayoutPanel7.SuspendLayout();
       this.groupBox19.SuspendLayout();
+      this.groupBox29.SuspendLayout();
       this.SuspendLayout();
       // 
       // label9
@@ -1645,6 +1649,27 @@ namespace SEOMacroscope
       this.groupBox14.TabStop = false;
       this.groupBox14.Text = "Levenshtein Edit Distance Processing";
       // 
+      // comboBoxLevenshteinAnalysisLevel
+      // 
+      this.comboBoxLevenshteinAnalysisLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.comboBoxLevenshteinAnalysisLevel.FormattingEnabled = true;
+      this.comboBoxLevenshteinAnalysisLevel.Items.AddRange(new object[] {
+            "Level 1",
+            "Level 2"});
+      this.comboBoxLevenshteinAnalysisLevel.Location = new System.Drawing.Point(20, 50);
+      this.comboBoxLevenshteinAnalysisLevel.Name = "comboBoxLevenshteinAnalysisLevel";
+      this.comboBoxLevenshteinAnalysisLevel.Size = new System.Drawing.Size(150, 21);
+      this.comboBoxLevenshteinAnalysisLevel.TabIndex = 2;
+      // 
+      // label21
+      // 
+      this.label21.Location = new System.Drawing.Point(176, 50);
+      this.label21.Name = "label21";
+      this.label21.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+      this.label21.Size = new System.Drawing.Size(250, 20);
+      this.label21.TabIndex = 13;
+      this.label21.Text = "English readability analysis method";
+      // 
       // checkBoxEnableLevenshteinDeduplication
       // 
       this.checkBoxEnableLevenshteinDeduplication.Location = new System.Drawing.Point(20, 20);
@@ -2152,6 +2177,7 @@ namespace SEOMacroscope
       // flowLayoutPanel5
       // 
       this.flowLayoutPanel5.Controls.Add(this.groupBox15);
+      this.flowLayoutPanel5.Controls.Add(this.groupBox29);
       this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 3);
       this.flowLayoutPanel5.Name = "flowLayoutPanel5";
@@ -2318,26 +2344,36 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
       // 
-      // comboBoxLevenshteinAnalysisLevel
+      // groupBox29
       // 
-      this.comboBoxLevenshteinAnalysisLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.comboBoxLevenshteinAnalysisLevel.FormattingEnabled = true;
-      this.comboBoxLevenshteinAnalysisLevel.Items.AddRange(new object[] {
-            "Level 1",
-            "Level 2"});
-      this.comboBoxLevenshteinAnalysisLevel.Location = new System.Drawing.Point(20, 50);
-      this.comboBoxLevenshteinAnalysisLevel.Name = "comboBoxLevenshteinAnalysisLevel";
-      this.comboBoxLevenshteinAnalysisLevel.Size = new System.Drawing.Size(150, 21);
-      this.comboBoxLevenshteinAnalysisLevel.TabIndex = 2;
+      this.groupBox29.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox29.Controls.Add(this.checkBoxIgnoreErrors451);
+      this.groupBox29.Controls.Add(this.checkBoxIgnoreErrors410);
+      this.groupBox29.Location = new System.Drawing.Point(10, 110);
+      this.groupBox29.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox29.Name = "groupBox29";
+      this.groupBox29.Size = new System.Drawing.Size(500, 90);
+      this.groupBox29.TabIndex = 4;
+      this.groupBox29.TabStop = false;
+      this.groupBox29.Text = "Ignore Errors";
       // 
-      // label21
+      // checkBoxIgnoreErrors451
       // 
-      this.label21.Location = new System.Drawing.Point(176, 50);
-      this.label21.Name = "label21";
-      this.label21.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-      this.label21.Size = new System.Drawing.Size(250, 20);
-      this.label21.TabIndex = 13;
-      this.label21.Text = "English readability analysis method";
+      this.checkBoxIgnoreErrors451.Location = new System.Drawing.Point(20, 50);
+      this.checkBoxIgnoreErrors451.Name = "checkBoxIgnoreErrors451";
+      this.checkBoxIgnoreErrors451.Size = new System.Drawing.Size(210, 24);
+      this.checkBoxIgnoreErrors451.TabIndex = 2;
+      this.checkBoxIgnoreErrors451.Text = "451 Unavailable for legal reasons";
+      this.checkBoxIgnoreErrors451.UseVisualStyleBackColor = true;
+      // 
+      // checkBoxIgnoreErrors410
+      // 
+      this.checkBoxIgnoreErrors410.Location = new System.Drawing.Point(20, 20);
+      this.checkBoxIgnoreErrors410.Name = "checkBoxIgnoreErrors410";
+      this.checkBoxIgnoreErrors410.Size = new System.Drawing.Size(210, 24);
+      this.checkBoxIgnoreErrors410.TabIndex = 1;
+      this.checkBoxIgnoreErrors410.Text = "410 Page gone";
+      this.checkBoxIgnoreErrors410.UseVisualStyleBackColor = true;
       // 
       // MacroscopePrefsControl
       // 
@@ -2421,6 +2457,7 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.ResumeLayout(false);
       this.flowLayoutPanel7.ResumeLayout(false);
       this.groupBox19.ResumeLayout(false);
+      this.groupBox29.ResumeLayout(false);
       this.ResumeLayout(false);
 
 		}
@@ -2429,5 +2466,8 @@ namespace SEOMacroscope
     public System.Windows.Forms.CheckBox checkBoxFollowAlternateLinks;
     private System.Windows.Forms.ComboBox comboBoxLevenshteinAnalysisLevel;
     private System.Windows.Forms.Label label21;
+    private System.Windows.Forms.GroupBox groupBox29;
+    public System.Windows.Forms.CheckBox checkBoxIgnoreErrors451;
+    public System.Windows.Forms.CheckBox checkBoxIgnoreErrors410;
   }
 }

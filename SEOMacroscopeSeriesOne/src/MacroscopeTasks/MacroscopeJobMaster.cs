@@ -878,8 +878,9 @@ namespace SEOMacroscope
 
       MacroscopeJobItem JobItem;
       string NewUrl = Url;
-      
-      if( MacroscopePreferencesManager.GetIgnoreQueries() )
+      bool Forgotten = false;
+
+      if ( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
         NewUrl = MacroscopeUrlUtils.StripQueryString( Url: NewUrl );
       }
@@ -891,7 +892,7 @@ namespace SEOMacroscope
 
       JobItem = new MacroscopeJobItem ( Url: NewUrl );
 
-      this.NamedQueueJobItems.ForgetNamedQueueItem(
+      Forgotten = this.NamedQueueJobItems.ForgetNamedQueueItem(
         Name: MacroscopeConstants.NamedQueueUrlList,
         Item: JobItem
       );

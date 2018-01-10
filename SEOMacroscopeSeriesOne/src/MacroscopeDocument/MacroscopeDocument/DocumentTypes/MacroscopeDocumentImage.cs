@@ -108,12 +108,14 @@ namespace SEOMacroscope
         this.DebugMsg( string.Format( "_ProcessImagePage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
+        this.AddRemark( ex.Message );
       }
       catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "_ProcessImagePage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
+        this.AddRemark( ex.Message );
       }
 
       if ( Response != null )

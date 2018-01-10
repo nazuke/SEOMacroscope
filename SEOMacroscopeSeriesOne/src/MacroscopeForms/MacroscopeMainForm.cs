@@ -643,27 +643,40 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-    
+
     private void CallbackStartUrlKeyUp ( object sender, KeyEventArgs e )
     {
-
-      switch( e.KeyCode )
+      
+      switch ( e.Modifiers )
       {
+        case Keys.Shift:
+          DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "SHIFT" ) );
+          return;
+        case Keys.Control:
+          DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "CONTROL" ) );
+          return;
+        case Keys.Alt:
+          DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "ALT" ) );
+          return;
+        default:
+          break;
+      }
 
+      switch ( e.KeyCode )
+      {
         case Keys.Return:
           DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
           this.CallackScanStartExecute();
           break;
-
         case Keys.Escape:
           DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "ESCAPE" ) );
           this.textBoxStartUrl.Text = "";
           break;
-
         default:
           break;
-
       }
+
+      return;
 
     }
 
@@ -1843,7 +1856,7 @@ namespace SEOMacroscope
 
         case Keys.Return:
 
-          DebugMsg( string.Format( "CallbackStartUrlKeyUp: {0}", "RETURN" ) );
+          DebugMsg( string.Format( "CallbackSearchTextBoxSearchKeyUp: {0}", "RETURN" ) );
 
           MacroscopeSearchIndex	SearchIndex = this.JobMaster.GetDocCollection().GetSearchIndex();
           string SearchText = MacroscopeStringTools.CleanHtmlText( Text: SearchTextBox.Text );
@@ -2685,6 +2698,8 @@ namespace SEOMacroscope
     {
       System.Diagnostics.Debug.WriteLine( Msg );
     }
+
+
 
     /**************************************************************************/
 

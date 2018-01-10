@@ -46,11 +46,11 @@ namespace SEOMacroscope
 
     private Dictionary<string, Queue<T>> NamedQueues;
 
-    private Dictionary<string, Dictionary<T, Boolean>> NamedQueuesIndex;
+    private Dictionary<string, Dictionary<T, Boolean>> NamedQueuesIndex; // Ensures that a new queued item is not added twice
 
     private Dictionary<string, MacroscopeNamedQueue<T>.MODE> NamedQueuesMode;
 
-    private Dictionary<string, Dictionary<string, Boolean>> NamedQueuesHistory;
+    private Dictionary<string, Dictionary<string, Boolean>> NamedQueuesHistory; // Ensures that a previously seen item is not queued again
 
     /**************************************************************************/
 
@@ -78,7 +78,7 @@ namespace SEOMacroscope
 
       this.NamedQueuesMode.Add( Name, MacroscopeNamedQueue<T>.MODE.IGNORE_HISTORY );
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
         NamedQueue = this.NamedQueues[ Name ];
       }
@@ -87,12 +87,12 @@ namespace SEOMacroscope
 
         NamedQueue = new Queue<T>( 4096 );
 
-        lock( this.NamedQueues )
+        lock ( this.NamedQueues )
         {
 
           this.NamedQueues.Add( Name, NamedQueue );
 
-          lock( this.NamedQueues[ Name ] )
+          lock ( this.NamedQueues[ Name ] )
           {
             Dictionary<T, Boolean> NamedQueueIndex = new Dictionary<T, Boolean>( 4096 );
             this.NamedQueuesIndex.Add( Name, NamedQueueIndex );
@@ -115,10 +115,10 @@ namespace SEOMacroscope
 
       this.NamedQueuesMode[ Name ] = QueueMode;
 
-      lock( this.NamedQueues )
+      lock ( this.NamedQueues )
       {
 
-        lock( this.NamedQueues[ Name ] )
+        lock ( this.NamedQueues[ Name ] )
         {
 
           Dictionary<string, Boolean> NamedQueueHistory = new Dictionary<string, Boolean>( 4096 );
@@ -138,22 +138,22 @@ namespace SEOMacroscope
     public void DeleteNamedQueue ( string Name )
     {
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
 
-        lock( this.NamedQueues )
+        lock ( this.NamedQueues )
         {
 
           this.NamedQueues.Remove( Name );
 
-          lock( this.NamedQueuesIndex )
+          lock ( this.NamedQueuesIndex )
           {
             this.NamedQueuesIndex.Remove( Name );
           }
 
-          if( this.NamedQueuesMode[ Name ] == MacroscopeNamedQueue<T>.MODE.USE_HISTORY )
+          if ( this.NamedQueuesMode[ Name ] == MacroscopeNamedQueue<T>.MODE.USE_HISTORY )
           {
-            lock( this.NamedQueuesHistory )
+            lock ( this.NamedQueuesHistory )
             {
               this.NamedQueuesHistory.Remove( Name );
             }
@@ -173,7 +173,7 @@ namespace SEOMacroscope
       Queue<T> NamedQueue;
       Boolean Proceed = true;
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
         NamedQueue = this.NamedQueues[ Name ];
       }
@@ -182,20 +182,16 @@ namespace SEOMacroscope
         throw ( new MacroscopeNamedQueueException( string.Format( "Named queue \"{0}\" does not exist", Name ) ) );
       }
 
-      if( this.NamedQueuesMode[ Name ] == MacroscopeNamedQueue<T>.MODE.USE_HISTORY )
+      if ( this.NamedQueuesMode[ Name ] == MacroscopeNamedQueue<T>.MODE.USE_HISTORY )
       {
 
-        lock( this.NamedQueuesHistory[ Name ] )
+        lock ( this.NamedQueuesHistory[ Name ] )
         {
 
           // TODO: This does not work with reference values
-          if( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
+          if ( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
           {
-
-            // TODO: This is blocking ResetEntry scanning from working properly
-
             Proceed = false;
-
           }
           else
           {
@@ -206,18 +202,18 @@ namespace SEOMacroscope
 
       }
 
-      if( Proceed )
+      if ( Proceed )
       {
 
-        lock( this.NamedQueues[ Name ] )
+        lock ( this.NamedQueues[ Name ] )
         {
 
-          if( !NamedQueue.Contains( Item ) )
+          if ( !NamedQueue.Contains( Item ) )
           {
 
-            lock( this.NamedQueuesIndex[ Name ] )
+            lock ( this.NamedQueuesIndex[ Name ] )
             {
-              if( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
+              if ( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
               {
                 this.NamedQueuesIndex[ Name ].Add( Item, true );
                 NamedQueue.Enqueue( Item );
@@ -244,11 +240,11 @@ namespace SEOMacroscope
 
       Boolean Peek = false;
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
-        lock( this.NamedQueues[ Name ] )
+        lock ( this.NamedQueues[ Name ] )
         {
-          if( this.NamedQueues[ Name ].Count > 0 )
+          if ( this.NamedQueues[ Name ].Count > 0 )
           {
             Peek = true;
           }
@@ -266,13 +262,13 @@ namespace SEOMacroscope
 
       int Count = 0;
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
 
-        lock( this.NamedQueues[ Name ] )
+        lock ( this.NamedQueues[ Name ] )
         {
 
-          if( this.NamedQueues[ Name ].Count > 0 )
+          if ( this.NamedQueues[ Name ].Count > 0 )
           {
             Count = this.NamedQueues[ Name ].Count;
           }
@@ -290,21 +286,21 @@ namespace SEOMacroscope
     public void ClearAllNamedQueues ()
     {
 
-      lock( this.NamedQueues )
+      lock ( this.NamedQueues )
       {
 
-        lock( this.NamedQueuesIndex )
+        lock ( this.NamedQueuesIndex )
         {
 
-          lock( this.NamedQueuesHistory )
+          lock ( this.NamedQueuesHistory )
           {
 
-            foreach( string Name in this.NamedQueues.Keys )
+            foreach ( string Name in this.NamedQueues.Keys )
             {
               this.NamedQueues[ Name ].Clear();
               this.NamedQueuesIndex[ Name ].Clear();
 
-              if( this.NamedQueuesHistory.ContainsKey( Name ) )
+              if ( this.NamedQueuesHistory.ContainsKey( Name ) )
               {
                 this.NamedQueuesHistory[ Name ].Clear();
               }
@@ -324,19 +320,19 @@ namespace SEOMacroscope
     public void ClearNamedQueue ( string Name )
     {
 
-      lock( this.NamedQueues )
+      lock ( this.NamedQueues )
       {
 
-        lock( this.NamedQueuesIndex )
+        lock ( this.NamedQueuesIndex )
         {
 
-          lock( this.NamedQueuesHistory )
+          lock ( this.NamedQueuesHistory )
           {
 
             this.NamedQueues[ Name ].Clear();
             this.NamedQueuesIndex[ Name ].Clear();
 
-            if( this.NamedQueuesHistory.ContainsKey( Name ) )
+            if ( this.NamedQueuesHistory.ContainsKey( Name ) )
             {
               this.NamedQueuesHistory[ Name ].Clear();
             }
@@ -356,20 +352,20 @@ namespace SEOMacroscope
 
       T Item = default( T );
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
 
-        lock( this.NamedQueues[ Name ] )
+        lock ( this.NamedQueues[ Name ] )
         {
 
-          if( this.NamedQueues[ Name ].Count > 0 )
+          if ( this.NamedQueues[ Name ].Count > 0 )
           {
 
             Item = this.NamedQueues[ Name ].Dequeue();
 
-            lock( this.NamedQueuesIndex[ Name ] )
+            lock ( this.NamedQueuesIndex[ Name ] )
             {
-              if( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
+              if ( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
               {
                 this.NamedQueuesIndex[ Name ].Remove( Item );
               }
@@ -394,10 +390,10 @@ namespace SEOMacroscope
 
       T[] ItemsArray = null;
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
 
-        lock( this.NamedQueues[ Name ] )
+        lock ( this.NamedQueues[ Name ] )
         {
 
           ItemsArray = this.NamedQueues[ Name ].ToArray();
@@ -417,19 +413,19 @@ namespace SEOMacroscope
 
       List<T> lItems = new List<T>();
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
 
         T Item = this.GetNamedQueueItem( Name );
 
         do
         {
-          if( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
+          if ( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
           {
             lItems.Add( Item );
           }
           Item = this.GetNamedQueueItem( Name );
-        } while( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) );
+        } while ( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) );
 
       }
 
@@ -445,7 +441,7 @@ namespace SEOMacroscope
       List<T> Items = new List<T>();
       int Count = 0;
 
-      if( this.NamedQueues.ContainsKey( Name ) )
+      if ( this.NamedQueues.ContainsKey( Name ) )
       {
 
         T Item = this.GetNamedQueueItem( Name );
@@ -453,7 +449,7 @@ namespace SEOMacroscope
         do
         {
 
-          if( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
+          if ( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) )
           {
             Items.Add( Item );
           }
@@ -462,12 +458,12 @@ namespace SEOMacroscope
 
           Count++;
 
-          if( Count >= Limit )
+          if ( Count >= Limit )
           {
             break;
           }
 
-        } while( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) );
+        } while ( !EqualityComparer<T>.Default.Equals( Item, default( T ) ) );
 
       }
 
@@ -477,35 +473,43 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void ForgetNamedQueueItem ( string Name, T Item )
+    public bool ForgetNamedQueueItem ( string Name, T Item )
     {
 
-      lock ( this.NamedQueuesIndex )
+      bool Forgotten = false;
+
+      if ( this.NamedQueuesIndex.ContainsKey( Name ) )
       {
-
-        if ( this.NamedQueuesIndex.ContainsKey( Name ) )
+        lock ( this.NamedQueuesIndex[ Name ] )
         {
-
-          lock ( this.NamedQueuesIndex[ Name ] )
+          if ( this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
           {
-
-            string ItemValue = Item.ToString();
-
-            foreach ( T ItemKey in this.NamedQueuesIndex[ Name ].Keys )
-            {
-              if ( NamedQueuesIndex[ Name ][ ItemKey ].ToString().Equals( ItemValue ) )
-              {
-                this.NamedQueuesIndex[ Name ].Remove( ItemKey );
-              }
-            }
-
+            this.NamedQueuesIndex[ Name ].Remove( Item );
           }
-
+          else
+          {
+            this.DebugMsg( string.Format( "Not in NamedQueuesIndex: {0} :: {1}", Name, Item.ToString() ) );
+          }
         }
-
       }
 
-      return;
+      if ( this.NamedQueuesHistory.ContainsKey( Name ) )
+      {
+        lock ( this.NamedQueuesHistory[ Name ] )
+        {
+          if ( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
+          {
+            this.NamedQueuesHistory[ Name ].Remove( Item.ToString() );
+            Forgotten = true;
+          }
+          else
+          {
+            this.DebugMsg( string.Format( "Not in NamedQueuesHistory: {0} :: {1}", Name, Item.ToString() ) );
+          }
+        }
+      }
+
+      return ( Forgotten );
 
     }
 

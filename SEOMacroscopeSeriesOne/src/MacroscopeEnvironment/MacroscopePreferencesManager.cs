@@ -183,6 +183,11 @@ namespace SEOMacroscope
 
     static Boolean SitemapIncludeLinkedPdfs;
 
+    /** Ignore Errors Settings --------------------------------------------- **/
+
+    static Boolean IgnoreErrors410; // Page GONE
+    static Boolean IgnoreErrors451; // Unavailable for legal reason
+
     /** Advanced Settings -------------------------------------------------- **/
 
     static Boolean EnableMemoryGuard;
@@ -323,7 +328,10 @@ namespace SEOMacroscope
           DataExtractorsApplyToXml = Preferences.DataExtractorsApplyToXml;
 
           SitemapIncludeLinkedPdfs = Preferences.SitemapIncludeLinkedPdfs;
-          
+
+          IgnoreErrors410 = Preferences.IgnoreErrors410;
+          IgnoreErrors451 = Preferences.IgnoreErrors451;
+
           EnableMemoryGuard = Preferences.EnableMemoryGuard;
           
         }
@@ -502,9 +510,14 @@ namespace SEOMacroscope
       /** Export Options --------------------------------------------------- **/
             
       SitemapIncludeLinkedPdfs = false;
-      
+
+      /** Ignore Errors Settings --------------------------------------------- **/
+
+      IgnoreErrors410 = true;
+      IgnoreErrors451 = true;
+
       /** Advanced Settings ------------------------------------------------ **/
-      
+
       EnableMemoryGuard = false;
       
     }
@@ -729,7 +742,10 @@ namespace SEOMacroscope
         Preferences.DataExtractorsApplyToXml = DataExtractorsApplyToXml;
         
         Preferences.SitemapIncludeLinkedPdfs = SitemapIncludeLinkedPdfs;
-                  
+
+        Preferences.IgnoreErrors410 = IgnoreErrors410;
+        Preferences.IgnoreErrors451 = IgnoreErrors451;
+
         Preferences.EnableMemoryGuard = EnableMemoryGuard;
 
         Preferences.Save();
@@ -1836,6 +1852,30 @@ namespace SEOMacroscope
     public static void SetSitemapIncludeLinkedPdfs ( Boolean State )
     {
       SitemapIncludeLinkedPdfs = State;
+    }
+
+    /** Ignore Errors Settings ************************************************/
+
+    public static Boolean GetIgnoreErrors410 ()
+    {
+      return ( IgnoreErrors410 );
+    }
+
+    public static void SetIgnoreErrors410 ( Boolean State )
+    {
+      IgnoreErrors410 = State;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public static Boolean GetIgnoreErrors451 ()
+    {
+      return ( IgnoreErrors451 );
+    }
+
+    public static void SetIgnoreErrors451 ( Boolean State )
+    {
+      IgnoreErrors451 = State;
     }
 
     /** Advanced Settings *****************************************************/

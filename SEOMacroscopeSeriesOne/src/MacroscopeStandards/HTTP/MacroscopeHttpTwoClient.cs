@@ -369,6 +369,9 @@ namespace SEOMacroscope
       {
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
         Request.Headers.CacheControl.MaxAge = new TimeSpan( 0, 0, 0 );
+        Request.Headers.CacheControl.NoCache = true;
+        Request.Headers.CacheControl.MustRevalidate = true;
+        Request.Headers.CacheControl.ProxyRevalidate = true;
       }
       catch ( Exception ex )
       {

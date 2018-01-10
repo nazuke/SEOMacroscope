@@ -35,15 +35,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private static string QUEUENAME = "TEST";
+
+    /**************************************************************************/
+
     [Test]
     public void TestCreateNamedQueue ()
     {
-      string QueueName = "TEST";
       MacroscopeNamedQueue<MacroscopeJobItem> NamedQueue = new MacroscopeNamedQueue<MacroscopeJobItem>();
-      NamedQueue.CreateNamedQueue( QueueName );
-      MacroscopeJobItem JobItem = new MacroscopeJobItem( "http://www.company.com/" );
-      NamedQueue.AddToNamedQueue( QueueName, JobItem );
-      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QueueName ) );
+      NamedQueue.CreateNamedQueue( QUEUENAME );
+      MacroscopeJobItem JobItem1 = new MacroscopeJobItem( "http://www.company.com/" );
+      NamedQueue.AddToNamedQueue( QUEUENAME, JobItem1 );
+      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QUEUENAME ) );
     }
 
     /**************************************************************************/
@@ -51,14 +54,13 @@ namespace SEOMacroscope
     [Test]
     public void TestFailAddingDuplicateToNamedQueue ()
     {
-      string QueueName = "TEST";
       MacroscopeNamedQueue<MacroscopeJobItem> NamedQueue = new MacroscopeNamedQueue<MacroscopeJobItem>();
-      NamedQueue.CreateNamedQueue( QueueName, MacroscopeNamedQueue<MacroscopeJobItem>.MODE.USE_HISTORY );
+      NamedQueue.CreateNamedQueue( QUEUENAME, MacroscopeNamedQueue<MacroscopeJobItem>.MODE.USE_HISTORY );
       MacroscopeJobItem JobItem1 = new MacroscopeJobItem( "http://www.company.com/" );
       MacroscopeJobItem JobItem2 = new MacroscopeJobItem( "http://www.company.com/" );
-      NamedQueue.AddToNamedQueue( QueueName, JobItem1 );
-      NamedQueue.AddToNamedQueue( QueueName, JobItem2 );
-      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QueueName ) );
+      NamedQueue.AddToNamedQueue( QUEUENAME, JobItem1 );
+      NamedQueue.AddToNamedQueue( QUEUENAME, JobItem2 );
+      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QUEUENAME ) );
     }
 
     /**************************************************************************/
@@ -66,24 +68,25 @@ namespace SEOMacroscope
     [Test]
     public void TestAddRemoveAddAgainToNamedQueue ()
     {
-      string QueueName = "TEST";
 
       MacroscopeNamedQueue<MacroscopeJobItem> NamedQueue = new MacroscopeNamedQueue<MacroscopeJobItem>();
-      NamedQueue.CreateNamedQueue( QueueName, MacroscopeNamedQueue<MacroscopeJobItem>.MODE.USE_HISTORY );
+      NamedQueue.CreateNamedQueue( QUEUENAME, MacroscopeNamedQueue<MacroscopeJobItem>.MODE.USE_HISTORY );
 
       MacroscopeJobItem JobItem1 = new MacroscopeJobItem( "http://www.company.com/" );
 
-      NamedQueue.AddToNamedQueue( QueueName, JobItem1 );
+      NamedQueue.AddToNamedQueue( QUEUENAME, JobItem1 );
 
-      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QueueName ) );
+      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QUEUENAME ) );
 
-      NamedQueue.GetNamedQueueItem( QueueName );
+      MacroscopeJobItem JobItem2 = NamedQueue.GetNamedQueueItem( QUEUENAME  );
 
-      Assert.AreEqual( 0, NamedQueue.CountNamedQueueItems( QueueName ) );
+      Assert.AreEqual( 0, NamedQueue.CountNamedQueueItems( QUEUENAME ) );
 
-      NamedQueue.AddToNamedQueue( QueueName, JobItem1 );
+      bool Forgotten = NamedQueue.ForgetNamedQueueItem( QUEUENAME, JobItem1 );
 
-      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QueueName ) );
+      NamedQueue.AddToNamedQueue( QUEUENAME, JobItem1 );
+
+      Assert.AreEqual( 1, NamedQueue.CountNamedQueueItems( QUEUENAME ) );
 
     }
 

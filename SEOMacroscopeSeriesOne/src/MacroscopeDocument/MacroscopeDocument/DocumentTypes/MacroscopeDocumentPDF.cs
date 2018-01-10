@@ -106,11 +106,13 @@ namespace SEOMacroscope
       {
         this.DebugMsg( string.Format( "_ProcessPdfPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.AddRemark( ex.Message );
       }
       catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "_ProcessPdfPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
+        this.AddRemark( ex.Message );
       }
 
       if ( ClientResponse != null )

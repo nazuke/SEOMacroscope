@@ -125,7 +125,17 @@ namespace SEOMacroscope
           Proceed = true;
         }
 
-        if( Proceed )
+        if ( MacroscopePreferencesManager.GetIgnoreErrors410() && ( (int) msDoc.GetStatusCode() == 410 ) )
+        {
+          Proceed = false;
+        }
+
+        if ( MacroscopePreferencesManager.GetIgnoreErrors451() && ( (int) msDoc.GetStatusCode() == 451 ) )
+        {
+          Proceed = false;
+        }
+
+        if ( Proceed )
         {
           this.RenderListView( 
             ListViewItems: ListViewItems,

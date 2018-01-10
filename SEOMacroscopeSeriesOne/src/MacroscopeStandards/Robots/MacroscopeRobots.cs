@@ -72,18 +72,18 @@ namespace SEOMacroscope
       {
         BaseUri = new Uri( Url, UriKind.Absolute );
       }
-      catch( UriFormatException ex )
+      catch ( UriFormatException ex )
       {
         this.DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "ApplyRobotRule: {0}", ex.Message ) );
       }
 
-      if( ( robot != null ) && ( BaseUri != null ) )
+      if ( ( robot != null ) && ( BaseUri != null ) )
       {
-        if( robot.IsPathAllowed( "*", BaseUri.AbsolutePath ) )
+        if ( robot.IsPathAllowed( "*", BaseUri.AbsolutePath ) )
         {
           Allowed = true;
         }
@@ -106,7 +106,7 @@ namespace SEOMacroscope
 
       Boolean Allowed = true;
 
-      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      if ( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
         Allowed = await this.CheckRobotRule( Url: Url );
       }
@@ -122,7 +122,7 @@ namespace SEOMacroscope
 
       List<string> SitemapsList = new List<string>();
 
-      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      if ( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
 
         Robots robot = await this.FetchRobot( Url: Url );
@@ -130,10 +130,10 @@ namespace SEOMacroscope
         try
         {
 
-          if( ( robot != null ) && ( robot.Sitemaps != null ) )
+          if ( ( robot != null ) && ( robot.Sitemaps != null ) )
           {
 
-            foreach( Sitemap SitemapEntry in robot.Sitemaps )
+            foreach ( Sitemap SitemapEntry in robot.Sitemaps )
             {
 
               string SitemapUrl = SitemapEntry.Url.ToString();
@@ -146,7 +146,7 @@ namespace SEOMacroscope
           }
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           this.DebugMsg( ex.Message );
         }
@@ -165,24 +165,24 @@ namespace SEOMacroscope
       int Delay = 0;
       Robots robot;
 
-      if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      if ( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
         return ( Delay );
       }
 
       robot = await this.FetchRobot( Url: Url );
 
-      if( robot != null )
+      if ( robot != null )
       {
 
         long CrawlDelayTime = robot.CrawlDelay( this.UserAgent() );
 
-        if( CrawlDelayTime == 0 )
+        if ( CrawlDelayTime == 0 )
         {
           CrawlDelayTime = robot.CrawlDelay( "*" );
         }
 
-        if( CrawlDelayTime > 0 )
+        if ( CrawlDelayTime > 0 )
         {
           Delay = (int) ( CrawlDelayTime / 1000 );
         }
@@ -203,7 +203,7 @@ namespace SEOMacroscope
 
       string RobotUrl = null;
 
-      if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+      if ( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
 
         DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ), true );
@@ -218,7 +218,7 @@ namespace SEOMacroscope
 
           BaseUri = new Uri( Url, UriKind.Absolute );
 
-          if( BaseUri.Port > 0 )
+          if ( BaseUri.Port > 0 )
           {
             BaseUriPort = string.Format( ":{0}", BaseUri.Port );
           }
@@ -237,16 +237,16 @@ namespace SEOMacroscope
           RobotsTxtUrl = RobotsUri.ToString();
 
         }
-        catch( InvalidOperationException ex )
+        catch ( InvalidOperationException ex )
         {
           DebugMsg( string.Format( "GenerateRobotUrl: {0}", ex.Message ), true );
         }
-        catch( UriFormatException ex )
+        catch ( UriFormatException ex )
         {
           DebugMsg( string.Format( "GenerateRobotUrl: {0}", ex.Message ), true );
         }
 
-        if( !string.IsNullOrEmpty( RobotsTxtUrl ) )
+        if ( !string.IsNullOrEmpty( RobotsTxtUrl ) )
         {
           RobotUrl = RobotsTxtUrl;
         }
@@ -282,7 +282,7 @@ namespace SEOMacroscope
 
         string BaseUriPort = "";
 
-        if( BaseUri.Port > 0 )
+        if ( BaseUri.Port > 0 )
         {
           BaseUriPort = string.Format( ":{0}", BaseUri.Port );
         }
@@ -301,15 +301,15 @@ namespace SEOMacroscope
         RobotsTxtUrl = RobotsUri.ToString();
 
       }
-      catch( InvalidOperationException ex )
+      catch ( InvalidOperationException ex )
       {
         DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
       }
-      catch( UriFormatException ex )
+      catch ( UriFormatException ex )
       {
         DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "FetchRobot: {0}", ex.Message ) );
       }
@@ -324,12 +324,12 @@ namespace SEOMacroscope
       }
       */
 
-      if( !string.IsNullOrEmpty( RobotsTxtUrl ) )
+      if ( !string.IsNullOrEmpty( RobotsTxtUrl ) )
       {
 
-        if( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
+        if ( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
         {
-          lock( this.RobotSquad )
+          lock ( this.RobotSquad )
           {
             robot = this.RobotSquad[ RobotsTxtUrl ];
           }
@@ -339,7 +339,7 @@ namespace SEOMacroscope
 
           String RobotsText = await this.FetchRobotTextFile( RobotsUri: RobotsUri );
 
-          if( !string.IsNullOrEmpty( RobotsText ) )
+          if ( !string.IsNullOrEmpty( RobotsText ) )
           {
             robot = new Robots( content: RobotsText );
           }
@@ -348,9 +348,9 @@ namespace SEOMacroscope
             robot = new Robots( content: "" );
           }
 
-          lock( this.RobotSquad )
+          lock ( this.RobotSquad )
           {
-            if( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
+            if ( this.RobotSquad.ContainsKey( RobotsTxtUrl ) )
             {
               robot = this.RobotSquad[ RobotsTxtUrl ];
             }
@@ -378,7 +378,7 @@ namespace SEOMacroscope
       string RobotText = "";
       string RawData = "";
 
-      if( !MacroscopeDnsTools.CheckValidHostname( Url: RobotsUri.ToString() ) )
+      if ( !MacroscopeDnsTools.CheckValidHostname( Url: RobotsUri.ToString() ) )
       {
         DebugMsg( string.Format( "FetchRobotTextFile :: CheckValidHostname: {0}", "NOT OK" ) );
         return ( RobotText );
@@ -389,41 +389,36 @@ namespace SEOMacroscope
 
         Response = await this.Client.Get( RobotsUri, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
 
-        if( Response != null )
+        if ( Response != null )
         {
           Proceed = true;
         }
 
       }
-      catch( UriFormatException ex )
+      catch ( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "Exception: {0}", RobotsUri.ToString() ) );
+        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
+        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", RobotsUri.ToString() ) );
       }
-      catch( NotSupportedException ex )
-      {
-        DebugMsg( string.Format( "NotSupportedException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "NotSupportedException: {0}", RobotsUri.ToString() ) );
-      }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
         DebugMsg( string.Format( "Exception: {0}", RobotsUri.ToString() ) );
       }
 
-      if( ( Proceed ) && ( Response != null ) )
+      if ( ( Proceed ) && ( Response != null ) )
       {
 
         try
         {
           RawData = Response.GetContentAsString();
         }
-        catch( WebException ex )
+        catch ( WebException ex )
         {
           DebugMsg( string.Format( "FetchRobotTextFile: WebException: {0}", ex.Message ) );
           RawData = "";
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "FetchRobotTextFile: Exception: {0}", ex.Message ) );
           RawData = "";
@@ -433,9 +428,9 @@ namespace SEOMacroscope
       else
       {
 
-        lock( this.BadRobots )
+        lock ( this.BadRobots )
         {
-          if( !this.BadRobots.ContainsKey( RobotsUri ) )
+          if ( !this.BadRobots.ContainsKey( RobotsUri ) )
           {
             this.BadRobots.Add( RobotsUri, true );
             RobotText = "";
@@ -444,7 +439,7 @@ namespace SEOMacroscope
 
       }
 
-      if( !string.IsNullOrEmpty( RawData ) )
+      if ( !string.IsNullOrEmpty( RawData ) )
       {
         RobotText = RawData;
       }

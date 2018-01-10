@@ -12,7 +12,7 @@ namespace SEOMacroscope {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
     internal sealed partial class MacroscopePreferences : global::System.Configuration.ApplicationSettingsBase {
         
         private static MacroscopePreferences defaultInstance = ((MacroscopePreferences)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new MacroscopePreferences())));
@@ -1112,6 +1112,30 @@ namespace SEOMacroscope {
             }
             set {
                 this["LevenshteinAnalysisLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IgnoreErrors410 {
+            get {
+                return ((bool)(this["IgnoreErrors410"]));
+            }
+            set {
+                this["IgnoreErrors410"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IgnoreErrors451 {
+            get {
+                return ((bool)(this["IgnoreErrors451"]));
+            }
+            set {
+                this["IgnoreErrors451"] = value;
             }
         }
     }
