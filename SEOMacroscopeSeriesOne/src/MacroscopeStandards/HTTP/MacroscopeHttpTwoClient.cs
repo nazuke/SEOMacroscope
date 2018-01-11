@@ -37,6 +37,8 @@ namespace SEOMacroscope
   public class MacroscopeHttpTwoClient : Macroscope
   {
 
+    // TODO: Finish implementing authentication
+
     // TODO: finish this class
 
     /**************************************************************************/

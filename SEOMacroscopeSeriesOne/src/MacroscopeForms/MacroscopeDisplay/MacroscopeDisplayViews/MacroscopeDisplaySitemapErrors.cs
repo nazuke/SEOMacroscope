@@ -89,7 +89,7 @@ namespace SEOMacroscope
             {
               Cursor.Current = Cursors.WaitCursor;
               this.DisplayListView.BeginUpdate();
-              this.RenderListViewSitemapErrors( DocCollection );
+              this.RenderListViewSitemapErrors( DocCollection: DocCollection );
               this.RenderUrlCount();
               this.DisplayListView.EndUpdate();
               Cursor.Current = Cursors.Default;
@@ -101,7 +101,7 @@ namespace SEOMacroscope
       {
         Cursor.Current = Cursors.WaitCursor;
         this.DisplayListView.BeginUpdate();
-        this.RenderListViewSitemapErrors( DocCollection );
+        this.RenderListViewSitemapErrors( DocCollection: DocCollection );
         this.RenderUrlCount();
         this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
@@ -113,6 +113,8 @@ namespace SEOMacroscope
 
     private void RenderListViewSitemapErrors ( MacroscopeDocumentCollection DocCollection )
     {
+
+      // TODO: Sitemap errors listing appears to be broken
 
       List<ListViewItem> ListViewItems = new List<ListViewItem>( 1 );
       List<Dictionary<string, string>> CompiledTable = DocCollection.GetSitemapErrorsAsTable();

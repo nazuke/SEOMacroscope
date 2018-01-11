@@ -43,6 +43,8 @@ namespace SEOMacroscope
   public partial class MacroscopeDocument : Macroscope
   {
 
+    // TODO: Finish implementing authentication
+
     /** Authenticate Request **************************************************/
 
     private void AuthenticateRequest ( HttpRequestMessage Request )
