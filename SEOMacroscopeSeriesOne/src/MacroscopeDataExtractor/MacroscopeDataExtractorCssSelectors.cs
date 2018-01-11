@@ -254,10 +254,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    public static Boolean SyntaxCheckCssSelector ( string CssSelectorString )
+    public static bool SyntaxCheckCssSelector ( string CssSelectorString )
     {
       
-      Boolean IsValid = false;
+      bool IsValid = false;
       
       try
       {

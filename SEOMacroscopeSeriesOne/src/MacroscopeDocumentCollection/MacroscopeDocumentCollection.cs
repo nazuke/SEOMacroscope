@@ -41,7 +41,7 @@ namespace SEOMacroscope
     private Dictionary<string,MacroscopeDocument> DocCollection;
 
     private MacroscopeJobMaster JobMaster;
-    private MacroscopeNamedQueue<Boolean> NamedQueue;
+    private MacroscopeNamedQueue<bool> NamedQueue;
     private MacroscopeSearchIndex SearchIndex;
     private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
 
@@ -50,10 +50,10 @@ namespace SEOMacroscope
     private Dictionary<string,MacroscopeLinkList> StructInlinks;
     private Dictionary<string,MacroscopeHyperlinksIn> StructHyperlinksIn;
 
-    private Dictionary<string,Boolean> StatsHistory;
+    private Dictionary<string,bool> StatsHistory;
     private Dictionary<string,int> StatsHostnames;
 
-    private Dictionary<string,Boolean> StatsCanonicals;
+    private Dictionary<string,bool> StatsCanonicals;
     
     private Dictionary<string,int> StatsTitles;
     private Dictionary<string,int> StatsDescriptions;
@@ -104,7 +104,7 @@ namespace SEOMacroscope
 
       this.JobMaster = JobMaster;
 
-      this.NamedQueue = new MacroscopeNamedQueue<Boolean> ();
+      this.NamedQueue = new MacroscopeNamedQueue<bool> ();
       this.NamedQueue.CreateNamedQueue( MacroscopeConstants.RecalculateDocCollection );
 
       this.SearchIndex = new MacroscopeSearchIndex ();
@@ -114,10 +114,10 @@ namespace SEOMacroscope
       this.StructInlinks = new Dictionary<string,MacroscopeLinkList> ( 1024 );
       this.StructHyperlinksIn = new Dictionary<string,MacroscopeHyperlinksIn> ( 1024 );
       
-      this.StatsHistory = new Dictionary<string,Boolean> ( 1024 );
+      this.StatsHistory = new Dictionary<string,bool> ( 1024 );
       this.StatsHostnames = new Dictionary<string,int> ( 16 );
 
-      this.StatsCanonicals = new Dictionary<string,Boolean> ( 1024 );
+      this.StatsCanonicals = new Dictionary<string,bool> ( 1024 );
 
       this.StatsTitles = new Dictionary<string,int> ( 256 );
       this.StatsDescriptions = new Dictionary<string,int> ( 256 );
@@ -255,10 +255,10 @@ namespace SEOMacroscope
 
     /** Document Collection Methods *******************************************/
 
-    public Boolean ContainsDocument ( string Url )
+    public bool ContainsDocument ( string Url )
     {
 
-      Boolean DocumentPresent = false;
+      bool DocumentPresent = false;
 
       if( this.DocCollection.ContainsKey( Url ) )
       {
@@ -374,10 +374,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean DocumentExists ( string Url )
+    public bool DocumentExists ( string Url )
     {
 
-      Boolean DocumentPresent = false;
+      bool DocumentPresent = false;
 
       if( this.DocCollection.ContainsKey( Url ) )
       {
@@ -611,7 +611,7 @@ namespace SEOMacroscope
     private void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
     {
 
-      Boolean DrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
+      bool DrainQueue = this.DrainWorkerRecalculateDocCollectionQueue();
               
       try
       {
@@ -649,9 +649,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean DrainWorkerRecalculateDocCollectionQueue ()
+    public bool DrainWorkerRecalculateDocCollectionQueue ()
     {
-      Boolean Result = false;
+      bool Result = false;
       try
       {
         if( this.NamedQueue.PeekNamedQueue( MacroscopeConstants.RecalculateDocCollection ) )
@@ -804,7 +804,7 @@ namespace SEOMacroscope
     private void RecalculateInlinks ( MacroscopeDocument msDoc )
     {
 
-      Boolean ProcessInlinks = msDoc.GetProcessInlinks();
+      bool ProcessInlinks = msDoc.GetProcessInlinks();
       string DocumentUrl = msDoc.GetUrl();
       
       DebugMsg( string.Format( "RecalculateInlinks: {0} :: {1}", ProcessInlinks, DocumentUrl ) );
@@ -942,15 +942,15 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
         
-    public Dictionary<Boolean,int> GetStatsCanonicalsCount ()
+    public Dictionary<bool,int> GetStatsCanonicalsCount ()
     {
 
-      Dictionary<Boolean,int> CanonicalsList = null;
+      Dictionary<bool,int> CanonicalsList = null;
       
       lock( this.StatsCanonicals )
       {
 
-        CanonicalsList = new Dictionary<Boolean,int> ( this.StatsCanonicals.Count );
+        CanonicalsList = new Dictionary<bool,int> ( this.StatsCanonicals.Count );
         
         foreach( string Url in this.StatsCanonicals.Keys )
         {
@@ -979,7 +979,7 @@ namespace SEOMacroscope
 
       string Url = msDoc.GetUrl();
       string Canonical = msDoc.GetCanonical();
-      Boolean Value = false;
+      bool Value = false;
 
       if( !string.IsNullOrEmpty( Canonical ) )
       {
@@ -1130,7 +1130,7 @@ namespace SEOMacroscope
     private void RecalculateStatsTitles ( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
       int Value = -1;
       
       if( msDoc.GetIsRedirect() )
@@ -1237,7 +1237,7 @@ namespace SEOMacroscope
     private void RecalculateStatsDescriptions ( MacroscopeDocument msDoc )
     {
 
-      Boolean Process;
+      bool Process;
       int Value = -1;
       
       if( msDoc.GetIsHtml() )
@@ -1343,7 +1343,7 @@ namespace SEOMacroscope
     private void RecalculateStatsKeywords ( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
       int Value = -1;
       
       if( msDoc.GetIsRedirect() )
@@ -1917,7 +1917,7 @@ namespace SEOMacroscope
     private void RecalculateStatsDeepKeywordAnalysis ( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
 
       if( msDoc.GetIsRedirect() )
       {
@@ -2059,7 +2059,7 @@ namespace SEOMacroscope
     private void RecalculateStatsReadabilityGrades ( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
 
       if( msDoc.GetIsRedirect() )
       {
@@ -2106,7 +2106,7 @@ namespace SEOMacroscope
     private void RecalculateStatsReadabilityGradeDescriptions ( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
 
       if( msDoc.GetIsRedirect() )
       {
@@ -2190,7 +2190,7 @@ namespace SEOMacroscope
     private void RecalculateStatsHeadings ( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
 
       if( msDoc.GetIsRedirect() )
       {
@@ -2270,7 +2270,7 @@ namespace SEOMacroscope
     private void RecalculateSitemapErrors ( MacroscopeDocument msDoc )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
       string Url = msDoc.GetUrl();
 
       if ( msDoc.GetIsSitemapXml() || msDoc.GetIsSitemapText() )
@@ -2293,7 +2293,7 @@ namespace SEOMacroscope
 
         string TargetUrl = Outlink.GetTargetUrl();
         MacroscopeDocument msDocLinked = this.GetDocument( Url: TargetUrl );
-        Boolean InsertDoc = false;
+        bool InsertDoc = false;
 
         if ( msDocLinked.GetIsInternal() )
         {
@@ -2419,7 +2419,7 @@ namespace SEOMacroscope
       if( MacroscopePreferencesManager.GetEnableTextIndexing() )
       {
 
-        Boolean Proceed = false;
+        bool Proceed = false;
       
         if( msDoc.GetIsHtml() )
         {

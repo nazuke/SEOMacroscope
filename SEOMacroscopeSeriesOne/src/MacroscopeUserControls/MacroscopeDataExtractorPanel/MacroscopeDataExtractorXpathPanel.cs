@@ -384,10 +384,10 @@ namespace SEOMacroscope
 
     /** Form Validator ********************************************************/
 
-    public Boolean ValidateForm ( Boolean ShowErrorDialogue )
+    public bool ValidateForm ( bool ShowErrorDialogue )
     {
 
-      Boolean IsValid = true;
+      bool IsValid = true;
       int Max = this.DataExtractor.GetSize();
 
       for( int Slot = 0 ; Slot < Max ; Slot++ )
@@ -452,10 +452,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    protected override Boolean ValidateLabel ( TextBox TextBoxObject, Boolean ShowErrorDialogue )
+    protected override bool ValidateLabel ( TextBox TextBoxObject, bool ShowErrorDialogue )
     {
 
-      Boolean IsValid = true;
+      bool IsValid = true;
 
       if( TextBoxObject.Text.Length > 0 )
       {
@@ -479,10 +479,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    protected override Boolean ValidateExpression ( TextBox TextBoxObject, Boolean ShowErrorDialogue )
+    protected override bool ValidateExpression ( TextBox TextBoxObject, bool ShowErrorDialogue )
     {
 
-      Boolean IsValid = false;
+      bool IsValid = false;
       
       if( !this.GetEnableValidation() )
       {

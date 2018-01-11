@@ -202,13 +202,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Boolean CheckNodeAlreadyVisited (
+    private bool CheckNodeAlreadyVisited (
       MacroscopeDocument msDoc,
       MacroscopeHyperlinkOut HyperlinkOut
     )
     {
       
-      Boolean Result = false;
+      bool Result = false;
 
       if( this.NodeVisited.ContainsKey( msDoc ) )
       {

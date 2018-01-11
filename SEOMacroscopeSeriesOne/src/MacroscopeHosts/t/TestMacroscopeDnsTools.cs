@@ -40,7 +40,7 @@ namespace SEOMacroscope
     public void TestCheckValidHostname ()
     {
 
-      SortedDictionary<string,Boolean> TestUrls = new SortedDictionary<string, bool> ();
+      SortedDictionary<string,bool> TestUrls = new SortedDictionary<string, bool> ();
 
       TestUrls.Add( "https://nazuke.github.io/SEOMacroscope/", true );
       TestUrls.Add( "https://bogus.bogus.com/some/path/index.html", false );

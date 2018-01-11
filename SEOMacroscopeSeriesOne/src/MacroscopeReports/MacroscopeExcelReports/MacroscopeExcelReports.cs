@@ -224,7 +224,7 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean Value = msDoc.GetAllowedByRobots();
+      bool Value = msDoc.GetAllowedByRobots();
 
       ws.Cell( Row, Col ).Value = msDoc.GetAllowedByRobotsAsString();
 

@@ -74,7 +74,7 @@ namespace SEOMacroscope
       {
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        Boolean Proceed = false;
+        bool Proceed = false;
 
         if( msDoc.GetIsExternal() )
         {

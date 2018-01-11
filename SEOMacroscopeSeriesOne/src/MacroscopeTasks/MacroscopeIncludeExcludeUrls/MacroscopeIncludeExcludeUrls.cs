@@ -170,10 +170,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean UseIncludeUrlPatterns ()
+    public bool UseIncludeUrlPatterns ()
     {
 
-      Boolean IncludePatterns = false;
+      bool IncludePatterns = false;
 
       if( this.IncludeUrlPatternsList.Count > 0 )
       {
@@ -186,10 +186,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean MatchesIncludeUrlPattern ( string Url )
+    public bool MatchesIncludeUrlPattern ( string Url )
     {
 
-      Boolean PatternMatches = false;
+      bool PatternMatches = false;
 
       for( int i = 0 ; i < this.ExplicitIncludeUrlPatternsList.Count ; i++ )
       {
@@ -279,10 +279,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean UseExcludeUrlPatterns ()
+    public bool UseExcludeUrlPatterns ()
     {
 
-      Boolean ExcludePatterns = false;
+      bool ExcludePatterns = false;
 
       if( this.ExcludeUrlPatternsList.Count > 0 )
       {
@@ -295,10 +295,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean MatchesExcludeUrlPattern ( string Url )
+    public bool MatchesExcludeUrlPattern ( string Url )
     {
 
-      Boolean PatternMatches = false;
+      bool PatternMatches = false;
 
       if( this.ExplicitExcludeUrlPatternsList.Count > 0 )
       {

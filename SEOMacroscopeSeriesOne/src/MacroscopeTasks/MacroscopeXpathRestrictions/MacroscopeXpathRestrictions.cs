@@ -87,10 +87,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean UseIncludeUrlPatterns ()
+    public bool UseIncludeUrlPatterns ()
     {
       
-      Boolean IncludePatterns = false;
+      bool IncludePatterns = false;
 
       if( this.IncludeXpathsList.Count > 0 )
       {
@@ -103,10 +103,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean MatchesXpath( HtmlDocument HtmlDoc )
+    public bool MatchesXpath( HtmlDocument HtmlDoc )
     {
 
-      Boolean XpathMatches = false;
+      bool XpathMatches = false;
 
       return( XpathMatches );
       

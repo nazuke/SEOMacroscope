@@ -39,7 +39,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private PdfDocument Pdf;
-    private Boolean HasError;
+    private bool HasError;
     private string ErrorMessage;
 
     /**************************************************************************/
@@ -122,7 +122,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean GetHasError ()
+    public bool GetHasError ()
     {
       return ( this.HasError );
     }
@@ -137,10 +137,10 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     // TODO: Fix this so that it is HTTP/2 compliant
-    public Boolean IsPdfUrl ( string Url )
+    public bool IsPdfUrl ( string Url )
     {
 
-      Boolean Result = false;
+      bool Result = false;
       string MimeType = MacroscopeUrlUtils.GetMimeTypeOfUrl( Url: Url );
 
       if ( !string.IsNullOrEmpty( MimeType ) )

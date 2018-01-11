@@ -90,7 +90,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse ClientResponse = null;
       Uri DocUri;
       string ResponseErrorCondition = null;
-      Boolean Authenticating = false;
+      bool Authenticating = false;
 
       try
       {

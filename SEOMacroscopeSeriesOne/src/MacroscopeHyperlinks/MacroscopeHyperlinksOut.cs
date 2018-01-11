@@ -100,10 +100,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean ContainsLink ( MacroscopeHyperlinkOut  Link )
+    public bool ContainsLink ( MacroscopeHyperlinkOut  Link )
     {
 
-      Boolean LinkPresent = false;
+      bool LinkPresent = false;
 
       lock( this.Links )
       {
@@ -121,10 +121,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean ContainsHyperlinkOut ( string Url )
+    public bool ContainsHyperlinkOut ( string Url )
     {
 
-      Boolean LinkPresent = false;
+      bool LinkPresent = false;
 
       lock( this.Links )
       {

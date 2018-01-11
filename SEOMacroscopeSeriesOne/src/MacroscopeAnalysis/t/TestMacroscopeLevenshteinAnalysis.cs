@@ -45,7 +45,7 @@ namespace SEOMacroscope
       const string DupeUrl = "https://nazuke.github.io/SEOMacroscope/index.html";
       MacroscopeJobMaster JobMaster;
       MacroscopeDocumentCollection DocCollection;
-      Dictionary<string, Boolean> CrossCheckList;
+      Dictionary<string, bool> CrossCheckList;
       MacroscopeDocument msDoc;
       MacroscopeDocument msDocDifferent;
 
@@ -114,7 +114,7 @@ namespace SEOMacroscope
       const string StartUrl = "https://nazuke.github.io/SEOMacroscope/";
       MacroscopeJobMaster JobMaster;
       MacroscopeDocumentCollection DocCollection;
-      Dictionary<string, Boolean> CrossCheckList;
+      Dictionary<string, bool> CrossCheckList;
       MacroscopeDocument msDoc;
       MacroscopeLevenshteinAnalysis LevenshteinAnalysis;
       List<string> TargetUrls;

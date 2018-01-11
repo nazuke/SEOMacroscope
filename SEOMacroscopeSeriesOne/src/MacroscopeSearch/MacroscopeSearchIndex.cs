@@ -44,8 +44,8 @@ namespace SEOMacroscope
       AND = 2
     }
 
-    // Url, InvertedIndex ( Keyword, Boolean )
-    private Dictionary<string,Dictionary<string,Boolean>> ForwardIndex;
+    // Url, InvertedIndex ( Keyword, bool )
+    private Dictionary<string,Dictionary<string,bool>> ForwardIndex;
 
     // Url, DocumentIndex
     private Dictionary<string,Dictionary<string,MacroscopeDocument>> InvertedIndex;
@@ -57,7 +57,7 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = true;
 
-      this.ForwardIndex = new Dictionary<string,Dictionary<string,Boolean>> ( 4096 );
+      this.ForwardIndex = new Dictionary<string,Dictionary<string,bool>> ( 4096 );
 
       this.InvertedIndex = new Dictionary<string, Dictionary<string,MacroscopeDocument>> ( 4096 );
 
@@ -81,7 +81,7 @@ namespace SEOMacroscope
 
       List<string> TextBlocks = new List<string> ( 16 );
       List<string> Terms = new List<string> ( 256 );
-      Boolean CaseSensitive = MacroscopePreferencesManager.GetCaseSensitiveTextIndexing();
+      bool CaseSensitive = MacroscopePreferencesManager.GetCaseSensitiveTextIndexing();
 
       TextBlocks.Add( msDoc.GetTitle() );
       TextBlocks.Add( msDoc.GetDescription() );
@@ -191,7 +191,7 @@ namespace SEOMacroscope
     {
 
       List<MacroscopeDocument> DocList = null;
-      Boolean CaseSensitive = MacroscopePreferencesManager.GetCaseSensitiveTextIndexing();
+      bool CaseSensitive = MacroscopePreferencesManager.GetCaseSensitiveTextIndexing();
 
       for( int i = 0 ; i < Terms.Length ; i++ )
       {

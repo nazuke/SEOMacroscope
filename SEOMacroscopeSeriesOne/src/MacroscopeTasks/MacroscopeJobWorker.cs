@@ -234,10 +234,10 @@ namespace SEOMacroscope
 
     /** Check Include/Exclude URL *********************************************/
 
-    private Boolean CheckIncludeExcludeUrl ( string Url )
+    private bool CheckIncludeExcludeUrl ( string Url )
     {
 
-      Boolean Success = true;
+      bool Success = true;
 
       if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseIncludeUrlPatterns() ) )
       {
@@ -276,7 +276,7 @@ namespace SEOMacroscope
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
       MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
-      Boolean BlockedByRobotsRule;
+      bool BlockedByRobotsRule;
 
       if( msDoc != null )
       {
@@ -516,7 +516,7 @@ namespace SEOMacroscope
       foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
       {
 
-        Boolean Proceed = true;
+        bool Proceed = true;
 
         if( !Outlink.GetDoFollow() )
         {

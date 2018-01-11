@@ -68,7 +68,7 @@ namespace SEOMacroscope
 
             string TargetUrl = Outlink.GetTargetUrl();
             MacroscopeDocument msDocLinked = DocCollection.GetDocument( Url: TargetUrl );
-            Boolean InsertRow = false;
+            bool InsertRow = false;
 
             if ( msDocLinked.GetIsInternal() )
             {

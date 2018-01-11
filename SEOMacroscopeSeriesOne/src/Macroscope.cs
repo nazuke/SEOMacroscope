@@ -45,16 +45,16 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     // Override SuppressDebugMsg to enable/disable debugging output statically.
-    public static Boolean SuppressStaticDebugMsg;
+    public static bool SuppressStaticDebugMsg;
 
     // Set SuppressDebugMsg to enable/disable debugging output in object.
-    public Boolean SuppressDebugMsg;
+    public bool SuppressDebugMsg;
 
     private string UserAgentString;
 
     protected static Dictionary<string,string> Memoize = new Dictionary<string,string> ( 1024 );
 
-    protected static Boolean ThrowInsufficientMemoryException;
+    protected static bool ThrowInsufficientMemoryException;
 
     /**************************************************************************/
 
@@ -179,7 +179,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    protected Boolean MemoryGate ( int RequiredMegabytes )
+    protected bool MemoryGate ( int RequiredMegabytes )
     {
 
       GC.Collect();
@@ -229,7 +229,7 @@ namespace SEOMacroscope
     
     /** -------------------------------------------------------------------- **/
     
-    public static Boolean MemoryGuard ( int RequiredMegabytes )
+    public static bool MemoryGuard ( int RequiredMegabytes )
     {
 
       GC.Collect();
@@ -280,7 +280,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 		
     [Conditional( "DEVMODE" )]
-    public static void DebugMsg ( string Msg, Boolean Flag )
+    public static void DebugMsg ( string Msg, bool Flag )
     {
       if( !SuppressStaticDebugMsg )
       {

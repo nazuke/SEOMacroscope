@@ -57,7 +57,7 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      Dictionary<string,Boolean> CrossCheckList;
+      Dictionary<string,bool> CrossCheckList;
 
       CrossCheckList = MacroscopeLevenshteinAnalysis.GetCrossCheckList(
         Capacity: DocCollection.CountDocuments()

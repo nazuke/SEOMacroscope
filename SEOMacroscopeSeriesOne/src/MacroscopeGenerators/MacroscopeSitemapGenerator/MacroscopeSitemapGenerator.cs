@@ -185,7 +185,7 @@ namespace SEOMacroscope
     public XmlDocument GenerateXmlSitemap ( string Host )
     {
 
-      Dictionary<string,Boolean> Dedupe = new Dictionary<string,Boolean> ( DocCollection.CountDocuments() );
+      Dictionary<string,bool> Dedupe = new Dictionary<string,bool> ( DocCollection.CountDocuments() );
             
       XmlDocument SitemapXml = new XmlDocument ();
       XmlDeclaration SitemapXmlDeclaration = SitemapXml.CreateXmlDeclaration( "1.0", "UTF-8", null );
@@ -198,7 +198,7 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
-        Boolean Proceed = false;
+        bool Proceed = false;
 
         if( !msDoc.GetStatusCode().Equals( HttpStatusCode.OK ) )
         {
@@ -294,7 +294,7 @@ namespace SEOMacroscope
       MacroscopeDocument msDoc,
       XmlDocument SitemapXml,
       XmlElement UrlSetNode,
-      Dictionary<string,Boolean> Dedupe
+      Dictionary<string,bool> Dedupe
     )
     {
 
@@ -361,14 +361,14 @@ namespace SEOMacroscope
     public List<string> GenerateTextSitemap ( string Host )
     {
 
-      Dictionary<string,Boolean> Dedupe = new Dictionary<string,Boolean> ( DocCollection.CountDocuments() );
+      Dictionary<string,bool> Dedupe = new Dictionary<string,bool> ( DocCollection.CountDocuments() );
 
       List<string> SitemapText = new List<string> ( this.DocCollection.CountDocuments() );
 
       foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
-        Boolean Proceed = false;
+        bool Proceed = false;
 
         if( !msDoc.GetStatusCode().Equals( HttpStatusCode.OK ) )
         {
@@ -432,7 +432,7 @@ namespace SEOMacroscope
     private void GenerateTextSitemapPdfEntries (
       MacroscopeDocument msDoc,
       List<string> SitemapText,
-      Dictionary<string,Boolean> Dedupe
+      Dictionary<string,bool> Dedupe
     )
     {
 

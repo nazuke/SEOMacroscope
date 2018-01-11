@@ -40,7 +40,7 @@ namespace SEOMacroscope
 
     private Dictionary<string, Robots> RobotSquad;
 
-    private Dictionary<Uri, Boolean> BadRobots;
+    private Dictionary<Uri, bool> BadRobots;
 
     private MacroscopeHttpTwoClient Client;
 
@@ -53,7 +53,7 @@ namespace SEOMacroscope
 
       this.RobotSquad = new Dictionary<string, Robots>( 8 );
 
-      this.BadRobots = new Dictionary<Uri, Boolean>( 8 );
+      this.BadRobots = new Dictionary<Uri, bool>( 8 );
 
       this.Client = new MacroscopeHttpTwoClient();
 
@@ -61,10 +61,10 @@ namespace SEOMacroscope
 
     /** ROBOT RULES ***********************************************************/
 
-    public async Task<Boolean> CheckRobotRule ( string Url )
+    public async Task<bool> CheckRobotRule ( string Url )
     {
 
-      Boolean Allowed = true;
+      bool Allowed = true;
       Robots robot = await this.FetchRobot( Url: Url );
       Uri BaseUri = null;
 
@@ -101,10 +101,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public async Task<Boolean> ApplyRobotRule ( string Url )
+    public async Task<bool> ApplyRobotRule ( string Url )
     {
 
-      Boolean Allowed = true;
+      bool Allowed = true;
 
       if ( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
@@ -374,7 +374,7 @@ namespace SEOMacroscope
     {
 
       MacroscopeHttpTwoClientResponse Response = null;
-      Boolean Proceed = false;
+      bool Proceed = false;
       string RobotText = "";
       string RawData = "";
 

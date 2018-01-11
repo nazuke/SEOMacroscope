@@ -46,11 +46,11 @@ namespace SEOMacroscope
 
     private Dictionary<string, Queue<T>> NamedQueues;
 
-    private Dictionary<string, Dictionary<T, Boolean>> NamedQueuesIndex; // Ensures that a new queued item is not added twice
+    private Dictionary<string, Dictionary<T, bool>> NamedQueuesIndex; // Ensures that a new queued item is not added twice
 
     private Dictionary<string, MacroscopeNamedQueue<T>.MODE> NamedQueuesMode;
 
-    private Dictionary<string, Dictionary<string, Boolean>> NamedQueuesHistory; // Ensures that a previously seen item is not queued again
+    private Dictionary<string, Dictionary<string, bool>> NamedQueuesHistory; // Ensures that a previously seen item is not queued again
 
     /**************************************************************************/
 
@@ -61,11 +61,11 @@ namespace SEOMacroscope
 
       this.NamedQueues = new Dictionary<string, Queue<T>>( 32 );
 
-      this.NamedQueuesIndex = new Dictionary<string, Dictionary<T, Boolean>>( 4096 );
+      this.NamedQueuesIndex = new Dictionary<string, Dictionary<T, bool>>( 4096 );
 
       this.NamedQueuesMode = new Dictionary<string, MacroscopeNamedQueue<T>.MODE>( 4096 );
 
-      this.NamedQueuesHistory = new Dictionary<string, Dictionary<string, Boolean>>( 4096 );
+      this.NamedQueuesHistory = new Dictionary<string, Dictionary<string, bool>>( 4096 );
 
     }
 
@@ -94,7 +94,7 @@ namespace SEOMacroscope
 
           lock ( this.NamedQueues[ Name ] )
           {
-            Dictionary<T, Boolean> NamedQueueIndex = new Dictionary<T, Boolean>( 4096 );
+            Dictionary<T, bool> NamedQueueIndex = new Dictionary<T, bool>( 4096 );
             this.NamedQueuesIndex.Add( Name, NamedQueueIndex );
           }
 
@@ -121,7 +121,7 @@ namespace SEOMacroscope
         lock ( this.NamedQueues[ Name ] )
         {
 
-          Dictionary<string, Boolean> NamedQueueHistory = new Dictionary<string, Boolean>( 4096 );
+          Dictionary<string, bool> NamedQueueHistory = new Dictionary<string, bool>( 4096 );
 
           this.NamedQueuesHistory.Add( Name, NamedQueueHistory );
 
@@ -171,7 +171,7 @@ namespace SEOMacroscope
     {
 
       Queue<T> NamedQueue;
-      Boolean Proceed = true;
+      bool Proceed = true;
 
       if ( this.NamedQueues.ContainsKey( Name ) )
       {
@@ -235,10 +235,10 @@ namespace SEOMacroscope
     /*
      * Check to see if queue has items waiting in it.
     */
-    public Boolean PeekNamedQueue ( string Name )
+    public bool PeekNamedQueue ( string Name )
     {
 
-      Boolean Peek = false;
+      bool Peek = false;
 
       if ( this.NamedQueues.ContainsKey( Name ) )
       {

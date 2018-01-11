@@ -40,7 +40,7 @@ namespace SEOMacroscope
 
     private ListView DisplayListView;
 
-    private Boolean ListViewConfigured = false;
+    private bool ListViewConfigured = false;
     
     private ToolStripLabel UriQueueCount;
 

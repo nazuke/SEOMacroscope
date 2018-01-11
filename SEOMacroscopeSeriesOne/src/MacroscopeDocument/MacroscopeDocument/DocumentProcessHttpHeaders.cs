@@ -81,7 +81,7 @@ namespace SEOMacroscope
     private void ProcessResponseHttpHeaders ( MacroscopeHttpTwoClientResponse Response )
     {
 
-      Boolean IsRedirectUrl = false;
+      bool IsRedirectUrl = false;
 
       HttpResponseMessage ResponseMessage = Response.GetResponse();
       HttpResponseHeaders ResponseHeaders = ResponseMessage.Headers;
@@ -742,15 +742,15 @@ namespace SEOMacroscope
     this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback );
     */
 
-    delegate Boolean FindHttpResponseHeaderCallback ( IEnumerable<string> HeaderValues );
+    delegate bool FindHttpResponseHeaderCallback ( IEnumerable<string> HeaderValues );
 
-    private Boolean FindHttpResponseHeader (
+    private bool FindHttpResponseHeader (
       HttpResponseHeaders ResponseHeaders,
       string HeaderName,
       FindHttpResponseHeaderCallback Callback
     )
     {
-      Boolean Success = false;
+      bool Success = false;
       foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
       {
         this.DebugMsg( string.Format( "ResponseHeader.key: {0} :: {1}", HeaderName.ToLower(), ResponseHeader.Key.ToLower() ) );
@@ -767,13 +767,13 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private Boolean FindHttpContentHeader (
+    private bool FindHttpContentHeader (
       HttpContentHeaders ContentHeaders,
       string HeaderName,
       FindHttpResponseHeaderCallback Callback
     )
     {
-      Boolean Success = false;
+      bool Success = false;
       foreach( KeyValuePair<string, IEnumerable<string>> ContentHeader in ContentHeaders )
       {
         this.DebugMsg( string.Format( "ContentHeader.key: {0} :: {1}", HeaderName.ToLower(), ContentHeader.Key.ToLower() ) );

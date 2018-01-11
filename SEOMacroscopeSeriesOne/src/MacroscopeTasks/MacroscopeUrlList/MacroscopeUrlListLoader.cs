@@ -65,10 +65,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean Execute ()
+    public bool Execute ()
     {
       
-      Boolean Success = false;
+      bool Success = false;
       MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
 
       this.CleanseList();
@@ -96,10 +96,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Boolean CleanseList ()
+    private bool CleanseList ()
     {
 
-      Boolean Success = false;
+      bool Success = false;
       string [] Urls = null;
 
       if( this.Path != null )

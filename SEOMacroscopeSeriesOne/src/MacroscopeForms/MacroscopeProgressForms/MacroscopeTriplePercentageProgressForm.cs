@@ -41,9 +41,9 @@ namespace SEOMacroscope
     /**************************************************************************/
     
     private MacroscopeMainForm MainForm;
-    private Boolean IsCancelled;
+    private bool IsCancelled;
 
-    private Boolean FormShown;
+    private bool FormShown;
 
     private Stopwatch OperationDuration;
     private static long OperationDurationLimit = 5000;
@@ -240,7 +240,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean Cancelled ()
+    public bool Cancelled ()
     {
       return( this.IsCancelled );
     }

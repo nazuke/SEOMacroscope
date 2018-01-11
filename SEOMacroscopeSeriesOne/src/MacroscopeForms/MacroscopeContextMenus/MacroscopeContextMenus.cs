@@ -96,12 +96,12 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private Boolean OpenUrlInBrowserSelector ( ListView TargetListView, string ColumnName )
+    private bool OpenUrlInBrowserSelector ( ListView TargetListView, string ColumnName )
     {
 
       string Url = null;
       int UrlColumn = -1;
-      Boolean Success = false;
+      bool Success = false;
       
       lock( TargetListView )
       {

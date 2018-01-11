@@ -61,9 +61,9 @@ namespace SEOMacroscope
 
         {
           
-          Boolean ReconfigureInitializeCssSelectors = false;
-          Boolean ReconfigureDataExtractorMaxItemsRegexes = false;
-          Boolean ReconfigureDataExtractorMaxItemsXpaths = false;
+          bool ReconfigureInitializeCssSelectors = false;
+          bool ReconfigureDataExtractorMaxItemsRegexes = false;
+          bool ReconfigureDataExtractorMaxItemsXpaths = false;
 
           if( DataExtractorsMaxItemsCssSelectors != MacroscopePreferencesManager.GetDataExtractorsMaxItemsCssSelectors() )
           {

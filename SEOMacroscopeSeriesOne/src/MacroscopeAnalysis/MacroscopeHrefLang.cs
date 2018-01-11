@@ -42,14 +42,14 @@ namespace SEOMacroscope
     string Url;
     DateTime DateModified;
     DateTime DateServer;
-    Boolean Available;
+    bool Available;
 
     /**************************************************************************/
 
     public MacroscopeHrefLang ( string Locale, string Url )
     {
 
-      Boolean CheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
+      bool CheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
 
       this.SuppressDebugMsg = true;
       
@@ -97,7 +97,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean IsAvailable ()
+    public bool IsAvailable ()
     {
       return( this.Available );
     }
@@ -105,14 +105,14 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     // TODO: Fix this so that it is HTTP/2 compliant
-    private Boolean Check ()
+    private bool Check ()
     {
       
       // TODO: Increase level of detail here. 
 
       HttpWebRequest req = null;
       HttpWebResponse res = null;
-      Boolean IsAvailableCheck = false;
+      bool IsAvailableCheck = false;
 
       try
       {

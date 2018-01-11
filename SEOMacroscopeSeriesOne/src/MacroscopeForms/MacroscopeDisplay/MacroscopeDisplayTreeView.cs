@@ -38,7 +38,7 @@ namespace SEOMacroscope
 
     public TreeView tvTreeView;
 
-    protected Boolean TreeViewConfigured = false;
+    protected bool TreeViewConfigured = false;
         
     /**************************************************************************/
 

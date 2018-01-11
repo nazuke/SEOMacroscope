@@ -105,7 +105,7 @@ namespace SEOMacroscope
     public void RenderListView ( MacroscopeJobMaster JobMaster )
     {
 
-      Dictionary<String,Boolean> Blocked = JobMaster.GetBlockedByRobotsList();
+      Dictionary<String,bool> Blocked = JobMaster.GetBlockedByRobotsList();
 
       if( Blocked.Count == 0 )
       {
@@ -134,7 +134,7 @@ namespace SEOMacroscope
       foreach( string Url in Blocked.Keys )
       {
 
-        Boolean IsInternal = JobMaster.GetAllowedHosts().IsInternalUrl( Url );
+        bool IsInternal = JobMaster.GetAllowedHosts().IsInternalUrl( Url );
 
         this.RenderListView(
           ListViewItems: ListViewItems,
@@ -171,8 +171,8 @@ namespace SEOMacroscope
     private void RenderListView (
       List<ListViewItem> ListViewItems,
       string Url,
-      Boolean IsBlocked,
-      Boolean IsInternal
+      bool IsBlocked,
+      bool IsInternal
     )
     {
 

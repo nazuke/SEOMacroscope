@@ -50,7 +50,7 @@ namespace SEOMacroscope
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
     {
 
-      Boolean IsAuthenticating = this.AuthenticateRequest( Request: Request );
+      bool IsAuthenticating = this.AuthenticateRequest( Request: Request );
 
     }
 
@@ -103,7 +103,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse ClientResponse = null;
       Uri DocUri = null;
       string ResponseErrorCondition = null;
-      Boolean IsAuthenticating = false;
+      bool IsAuthenticating = false;
 
       this.SetProcessInlinks();
       this.SetProcessHyperlinksIn();

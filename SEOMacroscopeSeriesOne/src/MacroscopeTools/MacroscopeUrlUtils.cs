@@ -48,10 +48,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static Boolean ValidateUrl ( string Url )
+    public static bool ValidateUrl ( string Url )
     {
 
-      Boolean IsValid = false;
+      bool IsValid = false;
 
       if ( Url.StartsWith( "http", StringComparison.Ordinal ) )
       {
@@ -211,7 +211,7 @@ namespace SEOMacroscope
 
       if ( !reHTTP.IsMatch( Url ) )
       {
-        Boolean IsSuspect = false;
+        bool IsSuspect = false;
         if (
           ( !reDoubleSlash.IsMatch( Url ) )
           && ( !reSlash.IsMatch( Url ) )
@@ -424,9 +424,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static Boolean VerifySameHost ( string BaseUrl, string Url )
+    public static bool VerifySameHost ( string BaseUrl, string Url )
     {
-      Boolean Success = false;
+      bool Success = false;
       Uri BaseUri = null;
       Uri NewUri = null;
 

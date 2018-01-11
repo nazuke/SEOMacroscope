@@ -113,7 +113,7 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        Boolean Proceed = false;
+        bool Proceed = false;
 
         if( ( ( int )msDoc.GetStatusCode() >= 400 ) && ( ( int )msDoc.GetStatusCode() <= 499 ) )
         {

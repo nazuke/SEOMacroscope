@@ -52,7 +52,7 @@ namespace SEOMacroscope
     private List<ComboBox> StateComboBoxFilters;
     private List<TextBox> TextBoxFilters;
 
-    private Boolean EnableValidation;
+    private bool EnableValidation;
 
     /**************************************************************************/
 	      
@@ -75,14 +75,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected void SetEnableValidation ( Boolean State )
+    protected void SetEnableValidation ( bool State )
     {
       this.EnableValidation = State;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    protected Boolean GetEnableValidation ()
+    protected bool GetEnableValidation ()
     {
       return( this.EnableValidation );
     }
@@ -295,10 +295,10 @@ namespace SEOMacroscope
 
     /** Form Validator ********************************************************/
 
-    public Boolean ValidateForm ( Boolean ShowErrorDialogue )
+    public bool ValidateForm ( bool ShowErrorDialogue )
     {
 
-      Boolean IsValid = true;
+      bool IsValid = true;
       int Max = this.CustomFilter.GetSize();
 
       for( int Slot = 0 ; Slot < Max ; Slot++ )
@@ -360,10 +360,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private Boolean ValidateExpression ( TextBox TextBoxObject, Boolean ShowErrorDialogue )
+    private bool ValidateExpression ( TextBox TextBoxObject, bool ShowErrorDialogue )
     {
 
-      Boolean IsValid = false;
+      bool IsValid = false;
       
       if( !this.GetEnableValidation() )
       {
@@ -404,7 +404,7 @@ namespace SEOMacroscope
     {
 
       TextBox TextBoxObject = ( TextBox )sender;
-      Boolean IsValid = false;
+      bool IsValid = false;
 
       TextBoxObject.Text = MacroscopeStringTools.StripNewLines( Text: TextBoxObject.Text );
 

@@ -94,7 +94,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse ClientResponse = null;
       Uri DocUri;
       string ResponseErrorCondition = null;
-      Boolean IsAuthenticating = false;
+      bool IsAuthenticating = false;
       
       try
       {
@@ -843,7 +843,7 @@ namespace SEOMacroscope
             string LinkUrl = LinkNode.GetAttributeValue( "href", null );
             string LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeConstants.InOutLinkType LinkType = MacroscopeConstants.InOutLinkType.LINK;
-            Boolean Follow = true;
+            bool Follow = true;
             MacroscopeLink Outlink = null;
 
             if( !string.IsNullOrEmpty( LinkNode.GetAttributeValue( "hreflang", null ) ) )
@@ -1348,12 +1348,12 @@ namespace SEOMacroscope
     private MacroscopeLink AddHtmlOutlink (
       string AbsoluteUrl,
       MacroscopeConstants.InOutLinkType LinkType,
-      Boolean Follow
+      bool Follow
     )
     {
       
       MacroscopeLink OutLink = null;
-      Boolean Proceed = true;
+      bool Proceed = true;
 
       if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
@@ -1536,7 +1536,7 @@ namespace SEOMacroscope
 
       HtmlNodeCollection NodeList = HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
       string DocumentLocale = this.GetLocale();
-      Boolean SelfReferentialLocalePresent = false;
+      bool SelfReferentialLocalePresent = false;
 
       if( NodeList != null )
       {
@@ -1991,7 +1991,7 @@ namespace SEOMacroscope
     private string FetchHtmlFile ( string Url )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
       HttpWebRequest req = null;
       HttpWebResponse res = null;
       string HtmlData = "";

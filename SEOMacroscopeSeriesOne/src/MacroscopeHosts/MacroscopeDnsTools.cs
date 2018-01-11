@@ -45,10 +45,10 @@ namespace SEOMacroscope
 
     /** Check Hostnames *******************************************************/
 
-    public static Boolean CheckValidHostname ( string Url )
+    public static bool CheckValidHostname ( string Url )
     {
 
-      Boolean Success = false;
+      bool Success = false;
       string Hostname = null;
       Uri RobotUri = null;
 

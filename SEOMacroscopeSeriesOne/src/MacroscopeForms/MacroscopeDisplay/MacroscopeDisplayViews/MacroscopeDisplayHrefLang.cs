@@ -195,7 +195,7 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        Boolean Proceed = false;
+        bool Proceed = false;
 
         if( msDoc.GetIsInternal() )
         {

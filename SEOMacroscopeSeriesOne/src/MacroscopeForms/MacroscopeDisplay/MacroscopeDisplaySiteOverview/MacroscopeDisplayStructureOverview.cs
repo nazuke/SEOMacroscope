@@ -43,7 +43,7 @@ namespace SEOMacroscope
 
     private TreeView tvTreeView;
    
-    private Boolean TreeViewConfigured = false;
+    private bool TreeViewConfigured = false;
 
     private MacroscopeSiteStructurePanelCharts SiteStructurePanelCharts;
 
@@ -613,7 +613,7 @@ namespace SEOMacroscope
 
         {
 
-          Dictionary<Boolean,int> Canonicals = DocCollection.GetStatsCanonicalsCount();
+          Dictionary<bool,int> Canonicals = DocCollection.GetStatsCanonicalsCount();
 
           {
             

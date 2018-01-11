@@ -45,12 +45,12 @@ namespace SEOMacroscope
 
     /** Authenticate Request **************************************************/
 
-    private Boolean AuthenticateRequest ( HttpRequestMessage Request )
+    private bool AuthenticateRequest ( HttpRequestMessage Request )
     {
 
       // Reference: https://en.wikipedia.org/wiki/Basic_access_authentication#Protocol
 
-      Boolean IsAuthenticating = false;
+      bool IsAuthenticating = false;
       byte[] UsernamePassword;
       string UsernamePasswordB64Encoded;
 
@@ -92,12 +92,12 @@ namespace SEOMacroscope
 
 
     /*
-    private Boolean AuthenticateRequest ( HttpWebRequest req )
+    private bool AuthenticateRequest ( HttpWebRequest req )
     {
 
       // Reference: https://en.wikipedia.org/wiki/Basic_access_authentication#Protocol
 
-      Boolean IsAuthenticating = false;
+      bool IsAuthenticating = false;
       byte[] UsernamePassword;
       string UsernamePasswordB64Encoded;
 

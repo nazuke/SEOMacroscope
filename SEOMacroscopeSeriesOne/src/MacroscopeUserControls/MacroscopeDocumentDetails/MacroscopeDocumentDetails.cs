@@ -206,7 +206,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean UpdateDisplay ( MacroscopeJobMaster JobMaster, string Url )
+    public bool UpdateDisplay ( MacroscopeJobMaster JobMaster, string Url )
     {
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();

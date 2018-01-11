@@ -46,8 +46,8 @@ namespace SEOMacroscope
     MacroscopeJobMaster JobMaster;
     MacroscopeCredentialsHttp CredentialsHttp;
 
-    Boolean StartUrlDirty;
-    Boolean EnableStartUrlCallbacks;
+    bool StartUrlDirty;
+    bool EnableStartUrlCallbacks;
 
     MacroscopeContextMenus ContextMenusCallbacks;
     
@@ -240,9 +240,9 @@ namespace SEOMacroscope
     /** Initialize Data Extractors ********************************************/
 
     private void InitializeDataExtractors (
-      Boolean InitializeCssSelectors,
-      Boolean InitializeRegexes,
-      Boolean InitializeXpaths
+      bool InitializeCssSelectors,
+      bool InitializeRegexes,
+      bool InitializeXpaths
     )
     {
     
@@ -987,10 +987,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private Boolean IsTabPageEnabled ( string TabName )
+    private bool IsTabPageEnabled ( string TabName )
     {
       TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-      Boolean IsEnabled = false;
+      bool IsEnabled = false;
       try
       {
         int ChosenTabIndex = OverviewTabControl.TabPages.IndexOfKey( key: TabName );
@@ -2286,7 +2286,7 @@ namespace SEOMacroscope
     private void ShowAuthenticationDialogue ()
     {
       
-      Boolean DoRerun = false;
+      bool DoRerun = false;
       string RerunUrl = null;
       
       if( this.JobMaster != null )

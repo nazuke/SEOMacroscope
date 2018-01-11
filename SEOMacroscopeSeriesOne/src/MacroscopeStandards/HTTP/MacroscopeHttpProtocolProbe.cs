@@ -68,7 +68,7 @@ namespace SEOMacroscope
     {
 
       HttpProtocolVersion HttpProtocolVersionProbed = HttpProtocolVersion.HTTP_UNKNOWN;
-      Boolean IsHttpTwo = await this.ProbeHttpTwo( Url: Url );
+      bool IsHttpTwo = await this.ProbeHttpTwo( Url: Url );
 
       if( IsHttpTwo )
       {
@@ -79,7 +79,7 @@ namespace SEOMacroscope
       else
       {
 
-        Boolean IsHttpOnePointOne = this.ProbeHttpOnePointOne( Url: Url );
+        bool IsHttpOnePointOne = this.ProbeHttpOnePointOne( Url: Url );
 
         if( IsHttpOnePointOne )
         {
@@ -100,10 +100,10 @@ namespace SEOMacroscope
 
     /** HTTP/2 ****************************************************************/
 
-    private async Task<Boolean> ProbeHttpTwo ( string Url )
+    private async Task<bool> ProbeHttpTwo ( string Url )
     {
 
-      Boolean IsHttpTwo = false;
+      bool IsHttpTwo = false;
       Uri DocumentUri = new Uri( Url );
 
       using( HttpClient Client = new HttpClient( new WinHttpHandler() ) )
@@ -157,10 +157,10 @@ namespace SEOMacroscope
 
     /** HTTP/1.1 **************************************************************/
 
-    private Boolean ProbeHttpOnePointOne ( string Url )
+    private bool ProbeHttpOnePointOne ( string Url )
     {
 
-      Boolean IsHttpOnePointOne = false;
+      bool IsHttpOnePointOne = false;
 
       HttpWebRequest req = null;
       HttpWebResponse res = null;

@@ -44,7 +44,7 @@ namespace SEOMacroscope
     private string SourceUrl;
     private string TargetUrl;
     
-    private Boolean DoFollow;
+    private bool DoFollow;
 
     private string Title;
     private string AltText;
@@ -58,7 +58,7 @@ namespace SEOMacroscope
       string SourceUrl,
       string TargetUrl,
       MacroscopeConstants.InOutLinkType LinkType,
-      Boolean Follow
+      bool Follow
     )
     {
       
@@ -131,7 +131,7 @@ namespace SEOMacroscope
       this.DoFollow = false;
     }
 
-    public Boolean GetDoFollow ()
+    public bool GetDoFollow ()
     {
       return( this.DoFollow );
     }

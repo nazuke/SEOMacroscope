@@ -96,10 +96,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean ContainsLink ( MacroscopeLink Link )
+    public bool ContainsLink ( MacroscopeLink Link )
     {
 
-      Boolean LinkPresent = false;
+      bool LinkPresent = false;
 
       lock( this.Links )
       {
@@ -117,9 +117,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean ContainsSourceLink ( string Url )
+    public bool ContainsSourceLink ( string Url )
     {
-      Boolean LinkPresent = false;
+      bool LinkPresent = false;
       lock( this.Links )
       {
         foreach( MacroscopeLink Link in this.Links )
@@ -135,9 +135,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    public Boolean ContainsTargetLink ( string Url )
+    public bool ContainsTargetLink ( string Url )
     {
-      Boolean LinkPresent = false;
+      bool LinkPresent = false;
       lock( this.Links )
       {
         foreach( MacroscopeLink Link in this.Links )

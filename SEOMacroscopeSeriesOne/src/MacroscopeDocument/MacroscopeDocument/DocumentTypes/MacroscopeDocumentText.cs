@@ -92,7 +92,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse Response = null;
       Uri DocUri;
       string ResponseErrorCondition = null;
-      Boolean IsAuthenticating = false;
+      bool IsAuthenticating = false;
 
       try
       {
@@ -273,10 +273,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    Boolean DetectSitemapTextDocument ( List<string> TextDoc )
+    bool DetectSitemapTextDocument ( List<string> TextDoc )
     {
 
-      Boolean IsSitemap = false;
+      bool IsSitemap = false;
 
       foreach ( string Url in TextDoc )
       {
@@ -466,7 +466,7 @@ namespace SEOMacroscope
     private MacroscopeLink AddSitemapTextOutlink (
       string AbsoluteUrl,
       MacroscopeConstants.InOutLinkType LinkType,
-      Boolean Follow
+      bool Follow
     )
     {
 

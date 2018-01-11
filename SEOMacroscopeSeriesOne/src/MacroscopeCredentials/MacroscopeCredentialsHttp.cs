@@ -129,10 +129,10 @@ namespace SEOMacroscope
 
     /* ---------------------------------------------------------------------- */
 
-    public Boolean PeekCredentialRequest ()
+    public bool PeekCredentialRequest ()
     {
 
-      Boolean Result = false;
+      bool Result = false;
 
       lock( this.CredentialRequests )
       {
@@ -231,11 +231,11 @@ namespace SEOMacroscope
 
     /* ---------------------------------------------------------------------- */
 
-    public Boolean CredentialExists ( string Domain, string Realm )
+    public bool CredentialExists ( string Domain, string Realm )
     {
 
       string Key = this.GenerateKey( Domain, Realm );
-      Boolean Result = false;
+      bool Result = false;
       
       lock( this.Credentials )
       {

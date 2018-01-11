@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Boolean Enabled;
+    private bool Enabled;
 
     private int Max;
     
@@ -84,7 +84,7 @@ namespace SEOMacroscope
       this.Enabled = true;
     }
     
-    public Boolean IsEnabled ()
+    public bool IsEnabled ()
     {
       return( this.Enabled );
     }
@@ -195,10 +195,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean CanApplyCustomFiltersToDocument ( MacroscopeDocument msDoc )
+    public bool CanApplyCustomFiltersToDocument ( MacroscopeDocument msDoc )
     {
 
-      Boolean CanApply = true;
+      bool CanApply = true;
       
       if(
         ( msDoc == null )

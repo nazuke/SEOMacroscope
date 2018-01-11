@@ -66,7 +66,7 @@ namespace SEOMacroscope
     
     void Cancel ();
     
-    Boolean Cancelled ();
+    bool Cancelled ();
     
   }
 

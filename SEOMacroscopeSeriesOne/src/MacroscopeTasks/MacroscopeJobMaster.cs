@@ -72,9 +72,9 @@ namespace SEOMacroscope
     private int CrawlDelay;
     private int ThreadsMax;
     private int ThreadsRunning;
-    private Boolean ThreadsStop;
+    private bool ThreadsStop;
     private object ThreadsLock = new object ();
-    private Dictionary<int,Boolean> ThreadsDict;
+    private Dictionary<int,bool> ThreadsDict;
 
     private Semaphore SemaphoreWorkers;
 
@@ -90,11 +90,11 @@ namespace SEOMacroscope
 
     private MacroscopeJobHistory JobHistory;
     
-    private Dictionary<string,Dictionary<string,Boolean>> Progress;
+    private Dictionary<string,Dictionary<string,bool>> Progress;
 
     private Dictionary<string,string> Locales;
 
-    private Dictionary<string,Boolean> BlockedByRobots;
+    private Dictionary<string,bool> BlockedByRobots;
 
     /**************************************************************************/
 
@@ -254,7 +254,7 @@ namespace SEOMacroscope
       this.AdjustThreadsMax();
       this.ThreadsRunning = 0;
       this.ThreadsStop = false;
-      this.ThreadsDict = new Dictionary<int,Boolean> ();
+      this.ThreadsDict = new Dictionary<int,bool> ();
 
       this.SemaphoreWorkers = new Semaphore ( 0, this.ThreadsMax );
       this.SemaphoreWorkers.Release( this.ThreadsMax );
@@ -279,7 +279,7 @@ namespace SEOMacroscope
       this.CookieJar = new CookieContainer ();
       
       this.Robots = new MacroscopeRobots ();
-      this.BlockedByRobots = new Dictionary<string,Boolean> ();
+      this.BlockedByRobots = new Dictionary<string,bool> ();
 
     }
 
@@ -394,7 +394,7 @@ namespace SEOMacroscope
 
     /** Execute Job ***********************************************************/
 
-    public Boolean Execute ()
+    public bool Execute ()
     {
 
       DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
@@ -464,7 +464,7 @@ namespace SEOMacroscope
     private void SpawnWorkers ()
     {
 
-      Boolean DoRun = true;
+      bool DoRun = true;
 
       while( DoRun == true )
       {
@@ -492,7 +492,7 @@ namespace SEOMacroscope
 
                 this.SemaphoreWorkers.WaitOne();
 
-                Boolean NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
+                bool NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 
                 if( NewThreadStarted )
                 {
@@ -608,10 +608,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean AreWorkersStopped ()
+    public bool AreWorkersStopped ()
     {
 
-      Boolean IsStopped = false;
+      bool IsStopped = false;
 
       if( this.CountRunningThreads() == 0 )
       {
@@ -626,14 +626,14 @@ namespace SEOMacroscope
 
     /** Track Thread Count ****************************************************/
 
-    private void SetThreadsStop ( Boolean Stopped )
+    private void SetThreadsStop ( bool Stopped )
     {
       this.ThreadsStop = Stopped;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean GetThreadsStop ()
+    public bool GetThreadsStop ()
     {
       return( this.ThreadsStop );
     }
@@ -688,7 +688,7 @@ namespace SEOMacroscope
 
     /** Display Queue *********************************************************/
 
-    public Boolean PeekUpdateDisplayQueue ()
+    public bool PeekUpdateDisplayQueue ()
     {
       return( NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue ) );
     }
@@ -831,10 +831,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public void AddUrlQueueItem ( string Url, Boolean Check )
+    public void AddUrlQueueItem ( string Url, bool Check )
     {
 
-      Boolean Proceed = true;
+      bool Proceed = true;
 
       if( Check && MacroscopePreferencesManager.GetCrawlStrictUrlCheck() )
       {
@@ -920,9 +920,9 @@ namespace SEOMacroscope
     /*
      * Check to see if queue has items waiting in it.
     */
-    public Boolean PeekUrlQueue ()
+    public bool PeekUrlQueue ()
     {
-      Boolean Peek = this.NamedQueueJobItems.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
+      bool Peek = this.NamedQueueJobItems.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
       return( Peek );
     }
 
@@ -1195,10 +1195,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean IsWithinParentDirectory ( string Url )
+    public bool IsWithinParentDirectory ( string Url )
     {
 
-      Boolean IsWithin = false;
+      bool IsWithin = false;
       Uri CurrentUri = null;
       string CurrentUriPort = "";
       
@@ -1273,10 +1273,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean IsWithinChildDirectory ( string Url )
+    public bool IsWithinChildDirectory ( string Url )
     {
       
-      Boolean IsWithin = false;
+      bool IsWithin = false;
       Uri CurrentUri = null;
       string CurrentUriPort = "";
       
@@ -1361,10 +1361,10 @@ namespace SEOMacroscope
 
     private void InitProgress ()
     {
-      this.Progress = new Dictionary<string,Dictionary<string,Boolean>> ();
-      this.Progress.Add( "list", new Dictionary<string,Boolean> ( 4096 ) );
-      this.Progress.Add( "done", new Dictionary<string,Boolean> ( 4096 ) );
-      this.Progress.Add( "wait", new Dictionary<string,Boolean> ( 4096 ) );
+      this.Progress = new Dictionary<string,Dictionary<string,bool>> ();
+      this.Progress.Add( "list", new Dictionary<string,bool> ( 4096 ) );
+      this.Progress.Add( "done", new Dictionary<string,bool> ( 4096 ) );
+      this.Progress.Add( "wait", new Dictionary<string,bool> ( 4096 ) );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1403,7 +1403,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public void UpdateProgress ( string Url, Boolean State )
+    public void UpdateProgress ( string Url, bool State )
     {
 
       if( State && this.AllowedHosts.IsAllowedFromUrl( Url ) )
@@ -1594,10 +1594,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Dictionary<string,Boolean> GetBlockedByRobotsList ()
+    public Dictionary<string,bool> GetBlockedByRobotsList ()
     {
 
-      Dictionary<string,Boolean> DicCopy = new Dictionary<string,Boolean> ();
+      Dictionary<string,bool> DicCopy = new Dictionary<string,bool> ();
 
       lock( this.BlockedByRobots )
       {

@@ -93,7 +93,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse Response = null;
       Uri DocUri;
       string ResponseErrorCondition = null;
-      Boolean IsAuthenticating = false;
+      bool IsAuthenticating = false;
       
       DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 
@@ -393,12 +393,12 @@ namespace SEOMacroscope
     private MacroscopeLink AddCssOutlink (
       string AbsoluteUrl,
       MacroscopeConstants.InOutLinkType LinkType,
-      Boolean Follow
+      bool Follow
     )
     {
 
       MacroscopeLink OutLink = null;
-      Boolean Proceed = true;
+      bool Proceed = true;
 
       if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {

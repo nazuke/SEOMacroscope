@@ -38,7 +38,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
         
-    private Dictionary<string,Boolean> History;
+    private Dictionary<string,bool> History;
     
     /**************************************************************************/
 
@@ -92,10 +92,10 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean SeenHistoryItem ( string Url )
+    public bool SeenHistoryItem ( string Url )
     {
 
-      Boolean Seen = false;
+      bool Seen = false;
 
       lock( this.History )
       {
@@ -114,9 +114,9 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Dictionary<string,Boolean> GetHistory ()
+    public Dictionary<string,bool> GetHistory ()
     {
-      Dictionary<string,Boolean> HistoryCopy = new Dictionary<string,Boolean> ( this.History.Count );
+      Dictionary<string,bool> HistoryCopy = new Dictionary<string,bool> ( this.History.Count );
       lock( this.History )
       {
         foreach( string Key in this.History.Keys )

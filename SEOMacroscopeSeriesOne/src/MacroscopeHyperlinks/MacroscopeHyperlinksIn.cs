@@ -132,10 +132,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Boolean ContainsGuid ( Guid ExtantGuid )
+    private bool ContainsGuid ( Guid ExtantGuid )
     {
 
-      Boolean LinkPresent = false;
+      bool LinkPresent = false;
 
       lock( this.Links )
       {
@@ -158,10 +158,10 @@ namespace SEOMacroscope
     
     /**************************************************************************/
 
-    public Boolean ContainsLink ( MacroscopeHyperlinkIn Link )
+    public bool ContainsLink ( MacroscopeHyperlinkIn Link )
     {
 
-      Boolean LinkPresent = false;
+      bool LinkPresent = false;
 
       lock( this.Links )
       {
@@ -179,10 +179,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Boolean ContainsHyperlinkIn ( string Url )
+    public bool ContainsHyperlinkIn ( string Url )
     {
 
-      Boolean LinkPresent = false;
+      bool LinkPresent = false;
 
       lock( this.Links )
       {

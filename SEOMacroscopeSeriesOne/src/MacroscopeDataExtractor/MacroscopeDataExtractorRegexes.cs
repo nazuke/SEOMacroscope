@@ -200,10 +200,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    public static Boolean SyntaxCheckRegex ( string RegexString )
+    public static bool SyntaxCheckRegex ( string RegexString )
     {
       
-      Boolean IsValid = false;
+      bool IsValid = false;
 
       try
       {

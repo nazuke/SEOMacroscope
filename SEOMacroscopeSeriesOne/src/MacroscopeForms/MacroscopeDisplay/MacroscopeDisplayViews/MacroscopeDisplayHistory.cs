@@ -40,7 +40,7 @@ namespace SEOMacroscope
 
     private ListView DisplayListView;
 
-    private Boolean ListViewConfigured = false;
+    private bool ListViewConfigured = false;
     
     private ToolStripLabel DocumentCount;
     
@@ -104,7 +104,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RefreshData ( Dictionary<string,Boolean> History )
+    public void RefreshData ( Dictionary<string,bool> History )
     {
       if( this.MainForm.InvokeRequired )
       {
@@ -142,7 +142,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderListView ( Dictionary<string,Boolean> History )
+    private void RenderListView ( Dictionary<string,bool> History )
     {
 
       if( History.Count == 0 )

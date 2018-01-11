@@ -89,7 +89,7 @@ namespace SEOMacroscope
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Key );
         Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
-        Boolean Proceed = false;
+        bool Proceed = false;
 
         foreach( string LocaleKey in LocalesTable.Keys )
         {

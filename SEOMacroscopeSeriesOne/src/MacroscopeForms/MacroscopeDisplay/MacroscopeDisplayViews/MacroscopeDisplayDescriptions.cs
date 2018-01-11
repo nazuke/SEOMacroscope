@@ -94,7 +94,7 @@ namespace SEOMacroscope
     )
     {
 
-      Boolean Proceed = false;
+      bool Proceed = false;
 
       if( msDoc.GetIsExternal() )
       {

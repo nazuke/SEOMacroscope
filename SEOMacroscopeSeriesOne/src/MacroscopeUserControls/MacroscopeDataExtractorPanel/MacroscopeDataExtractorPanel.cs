@@ -42,7 +42,7 @@ namespace SEOMacroscope
         
     protected Macroscope ms;
 
-    protected Boolean EnableValidation;
+    protected bool EnableValidation;
         
     /**************************************************************************/
 
@@ -59,24 +59,24 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected void SetEnableValidation ( Boolean State )
+    protected void SetEnableValidation ( bool State )
     {
       this.EnableValidation = State;
     }
 
-    protected Boolean GetEnableValidation ()
+    protected bool GetEnableValidation ()
     {
       return( this.EnableValidation );
     }
 
     /** Overridable Validators ************************************************/
     
-    protected virtual Boolean ValidateLabel ( TextBox TextBoxObject, Boolean ShowErrorDialogue )
+    protected virtual bool ValidateLabel ( TextBox TextBoxObject, bool ShowErrorDialogue )
     {
       return( true );
     }
 
-    protected virtual Boolean ValidateExpression ( TextBox TextBoxObject, Boolean ShowErrorDialogue )
+    protected virtual bool ValidateExpression ( TextBox TextBoxObject, bool ShowErrorDialogue )
     {
       return( true );
     }
@@ -87,7 +87,7 @@ namespace SEOMacroscope
     {
 
       TextBox TextBoxObject = ( TextBox )sender;
-      Boolean IsValid = false;
+      bool IsValid = false;
 
       TextBoxObject.Text = MacroscopeStringTools.StripNewLines( Text: TextBoxObject.Text );
             
@@ -110,7 +110,7 @@ namespace SEOMacroscope
     {
 
       TextBox TextBoxObject = ( TextBox )sender;
-      Boolean IsValid = false;
+      bool IsValid = false;
 
       TextBoxObject.Text = MacroscopeStringTools.StripNewLines( Text: TextBoxObject.Text );
 

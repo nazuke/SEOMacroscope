@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
     public ListView DisplayListView;
 
-    protected Boolean ListViewConfigured = false;
+    protected bool ListViewConfigured = false;
         
     /**************************************************************************/
 

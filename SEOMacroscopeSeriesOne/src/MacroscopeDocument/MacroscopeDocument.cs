@@ -50,23 +50,22 @@ namespace SEOMacroscope
 
     private MacroscopeDocumentCollection DocCollection;
 
-    private Boolean IsDirty;
+    private bool IsDirty;
 
     private MacroscopeConstants.FetchStatus FetchStatus;
 
     private DateTime CrawledDate;
-    
+
     private string DocUrl;
-    private int Timeout;
 
     private string Checksum;
     private string Etag;
 
-    private Boolean AllowedByRobots;
+    private bool AllowedByRobots;
 
-    private Boolean IsExternal;
+    private bool IsExternal;
 
-    private Boolean IsRedirect;
+    private bool IsRedirect;
     private string UrlRedirectFrom;
     private string UrlRedirectFromRaw;
     private string UrlRedirectTo;
@@ -93,10 +92,10 @@ namespace SEOMacroscope
     private string RawHttpResponseStatusLine;
     private string RawHttpResponseHeaders;
 
-    private Boolean HypertextStrictTransportPolicy;
-    private Boolean IsSecureUrl;
+    private bool HypertextStrictTransportPolicy;
+    private bool IsSecureUrl;
     private List<string> InSecureLinks;
-    
+
     private HttpStatusCode StatusCode;
     private string ErrorCondition;
     private long? ContentLength;
@@ -104,7 +103,7 @@ namespace SEOMacroscope
     private string MimeType;
     private MacroscopeConstants.DocumentType DocumentType;
 
-    private Boolean IsCompressed;
+    private bool IsCompressed;
     private string CompressionMethod;
     private string ContentEncoding;
 
@@ -114,38 +113,38 @@ namespace SEOMacroscope
     private string CharacterSet;
 
     private long Duration;
-    private Boolean WasDownloaded;
+    private bool WasDownloaded;
 
     private DateTime DateServer;
     private DateTime DateModified;
     private DateTime DateExpires;
 
     private string Canonical;
-    private Dictionary<string,MacroscopeHrefLang> HrefLang;
-    
+    private Dictionary<string, MacroscopeHrefLang> HrefLang;
+
     private string LinkShortLink;
     private string LinkFirst;
     private string LinkPrev;
     private string LinkNext;
     private string LinkLast;
 
-    private Dictionary<string,string> MetaHeaders;
-    
+    private Dictionary<string, string> MetaHeaders;
+
     // Inbound links
-    private Boolean ProcessInlinks;
-    
+    private bool ProcessInlinks;
+
     // Outbound links to pages and linked assets to follow
     //private Dictionary<string,MacroscopeLink> Outlinks;
     private MacroscopeLinkList Outlinks;
 
     // Inbound hypertext links
-    private Boolean ProcessHyperlinksIn;
+    private bool ProcessHyperlinksIn;
 
     // Outbound hypertext links
     private MacroscopeHyperlinksOut HyperlinksOut;
 
-    private Dictionary<string,string> EmailAddresses;
-    private Dictionary<string,string> TelephoneNumbers;
+    private Dictionary<string, string> EmailAddresses;
+    private Dictionary<string, string> TelephoneNumbers;
 
     private MacroscopeAnalyzePageTitles AnalyzePageTitles;
 
@@ -156,8 +155,8 @@ namespace SEOMacroscope
     private string DescriptionLanguage;
     private string Keywords;
     private string AltText;
-    
-    private Dictionary<ushort,List<string>> Headings;
+
+    private Dictionary<ushort, List<string>> Headings;
 
     private string DocumentTextRaw;
     private string DocumentTextCleaned;
@@ -168,26 +167,26 @@ namespace SEOMacroscope
     private MacroscopeLevenshteinFingerprint LevenshteinFingerprint;
     private SortedDictionary<MacroscopeDocument, int> LevenshteinNearDuplicates;
 
-    private List<Dictionary<string,int>> DeepKeywordAnalysis;
+    private List<Dictionary<string, int>> DeepKeywordAnalysis;
 
     private double ReadabilityGrade;
     private MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod ReadabilityGradeMethod;
     private string ReadabilityGradeDescription;
-    
+
     private int WordCount;
 
     private int Depth;
 
     private List<string> Remarks;
 
-    private Dictionary<string, MacroscopeConstants.TextPresence> CustomFiltered;
-    
-    // Label, list of values found
-    private Dictionary<string, List<string>> DataExtractedCssSelectors;
-    private Dictionary<string, List<string>> DataExtractedRegexes;
-    private Dictionary<string, List<string>> DataExtractedXpaths;
+    private Dictionary<string, MacroscopeConstants.TextPresence> CustomFiltered;
 
-    /**************************************************************************/
+    // Label, list of values found
+    private Dictionary<string, List<string>> DataExtractedCssSelectors;
+    private Dictionary<string, List<string>> DataExtractedRegexes;
+    private Dictionary<string, List<string>> DataExtractedXpaths;
+
+    /** Constructors **********************************************************/
 
     public MacroscopeDocument (
       string Url
@@ -195,7 +194,9 @@ namespace SEOMacroscope
     {
       this.InitializeDocument( Url );
     }
-    
+
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeDocument (
       MacroscopeDocumentCollection DocumentCollection,
       string Url
@@ -205,6 +206,8 @@ namespace SEOMacroscope
       this.SetDocumentCollection( DocumentCollection );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeDocument (
       MacroscopeCredential Credential,
       string Url
@@ -213,7 +216,9 @@ namespace SEOMacroscope
       this.InitializeDocument( Url );
       this.AuthenticationCredential = Credential;
     }
-    
+
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeDocument (
       MacroscopeDocumentCollection DocumentCollection,
       MacroscopeCredential Credential,
@@ -226,7 +231,7 @@ namespace SEOMacroscope
     }
 
     /** Self-Destruct Sequence ************************************************/
-    
+
     ~MacroscopeDocument ()
     {
 
@@ -247,15 +252,14 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = true;
 
       this.DocCollection = null;
-      
+
       this.IsDirty = true;
 
       this.ClearFetchStatus();
-      
+
       this.CrawledDate = DateTime.UtcNow;
-          
+
       this.DocUrl = Url;
-      this.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
 
       this.Checksum = "";
       this.Etag = "";
@@ -273,7 +277,7 @@ namespace SEOMacroscope
       this.RawHttpResponseHeaders = "";
 
       this.ServerName = "";
-      this.ServerAddresses = new List<IPAddress> ( 1 );
+      this.ServerAddresses = new List<IPAddress>( 1 );
 
       this.BaseHref = "";
 
@@ -287,11 +291,11 @@ namespace SEOMacroscope
       AuthenticationType = MacroscopeConstants.AuthenticationType.NONE;
       AuthenticationRealm = null;
       AuthenticationCredential = null;
-      
+
       this.HypertextStrictTransportPolicy = false;
       this.IsSecureUrl = false;
-      this.InSecureLinks = new List<string> ( 128 );
-    
+      this.InSecureLinks = new List<string>( 128 );
+
       this.StatusCode = 0;
       this.ErrorCondition = "";
       this.ContentLength = 0;
@@ -311,31 +315,31 @@ namespace SEOMacroscope
       this.Duration = 0;
       this.WasDownloaded = false;
 
-      this.DateServer = new DateTime ();
-      this.DateModified = new DateTime ();
-      this.DateExpires = new DateTime ();
+      this.DateServer = new DateTime();
+      this.DateModified = new DateTime();
+      this.DateExpires = new DateTime();
 
       this.Canonical = "";
-      this.HrefLang = new Dictionary<string,MacroscopeHrefLang> ( 1024 );
+      this.HrefLang = new Dictionary<string, MacroscopeHrefLang>( 1024 );
 
       this.LinkShortLink = "";
       this.LinkFirst = "";
       this.LinkPrev = "";
       this.LinkNext = "";
       this.LinkLast = "";
-    
-      this.MetaHeaders = new Dictionary<string,string> ( 8 );
-      
+
+      this.MetaHeaders = new Dictionary<string, string>( 8 );
+
       this.ProcessInlinks = false;
-      this.Outlinks = new MacroscopeLinkList ();
+      this.Outlinks = new MacroscopeLinkList();
 
       this.ProcessHyperlinksIn = false;
-      this.HyperlinksOut = new MacroscopeHyperlinksOut ();
+      this.HyperlinksOut = new MacroscopeHyperlinksOut();
 
-      this.EmailAddresses = new Dictionary<string,string> ( 256 );
-      this.TelephoneNumbers = new Dictionary<string,string> ( 256 );
+      this.EmailAddresses = new Dictionary<string, string>( 256 );
+      this.TelephoneNumbers = new Dictionary<string, string>( 256 );
 
-      this.AnalyzePageTitles = new MacroscopeAnalyzePageTitles ();
+      this.AnalyzePageTitles = new MacroscopeAnalyzePageTitles();
 
       this.Title = "";
       this.TitleLanguage = "";
@@ -344,49 +348,49 @@ namespace SEOMacroscope
       this.DescriptionLanguage = "";
       this.Keywords = "";
       this.AltText = "";
-      
-      this.Headings = new Dictionary<ushort,List<string>> ( 7 );
 
-      for( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
+      this.Headings = new Dictionary<ushort, List<string>>( 7 );
+
+      for ( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
       {
-        this.Headings.Add( HeadingLevel, new List<string> ( 16 ) );
+        this.Headings.Add( HeadingLevel, new List<string>( 16 ) );
       }
 
       this.DocumentTextRaw = "";
       this.DocumentTextCleaned = "";
       this.DocumentTextLanguage = "";
-      
+
       this.BodyTextRaw = "";
 
       this.LevenshteinFingerprint = new MacroscopeLevenshteinFingerprint( msDoc: this );
       this.ClearLevenshteinNearDuplicates();
 
-      this.DeepKeywordAnalysis = new List<Dictionary<string,int>> ( 4 );
-      for( int i = 0 ; i <= 3 ; i++ )
+      this.DeepKeywordAnalysis = new List<Dictionary<string, int>>( 4 );
+      for ( int i = 0 ; i <= 3 ; i++ )
       {
-        this.DeepKeywordAnalysis.Add( new Dictionary<string,int> ( 256 ) );
+        this.DeepKeywordAnalysis.Add( new Dictionary<string, int>( 256 ) );
       }
 
       this.ReadabilityGrade = 0;
       this.ReadabilityGradeMethod = MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.UNKNOWN;
       this.ReadabilityGradeDescription = "";
-      
+
       this.WordCount = 0;
-      
+
       this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
 
-      this.Remarks = new List<string> ();
+      this.Remarks = new List<string>();
 
-      this.CustomFiltered = new Dictionary<string, MacroscopeConstants.TextPresence> ( 5 );
+      this.CustomFiltered = new Dictionary<string, MacroscopeConstants.TextPresence>( 5 );
 
-      this.DataExtractedCssSelectors = new Dictionary<string, List<string>> ( 8 );
-      this.DataExtractedRegexes = new Dictionary<string, List<string>> ( 8 );
-      this.DataExtractedXpaths = new Dictionary<string, List<string>> ( 8 );
+      this.DataExtractedCssSelectors = new Dictionary<string, List<string>>( 8 );
+      this.DataExtractedRegexes = new Dictionary<string, List<string>>( 8 );
+      this.DataExtractedXpaths = new Dictionary<string, List<string>>( 8 );
 
     }
 
     /** DocumentCollection ****************************************************/
-    
+
     private void SetDocumentCollection ( MacroscopeDocumentCollection DocumentCollection )
     {
       this.DocCollection = DocumentCollection;
@@ -404,9 +408,9 @@ namespace SEOMacroscope
       this.IsDirty = false;
     }
 
-    public Boolean GetIsDirty ()
+    public bool GetIsDirty ()
     {
-      return( this.IsDirty );
+      return ( this.IsDirty );
     }
 
     /** Fetch Status **********************************************************/
@@ -423,7 +427,7 @@ namespace SEOMacroscope
 
     public MacroscopeConstants.FetchStatus GetFetchStatus ()
     {
-      return( this.FetchStatus );
+      return ( this.FetchStatus );
     }
 
     /** Server Details ********************************************************/
@@ -480,7 +484,7 @@ namespace SEOMacroscope
 
       string HostAndPort = this.Hostname;
 
-      if( ( this.Port > 0 ) && ( this.Port != 80 ) )
+      if ( ( this.Port > 0 ) && ( this.Port != 80 ) )
       {
         HostAndPort = string.Join( ":", this.Hostname, this.Port.ToString() );
       }
@@ -516,7 +520,7 @@ namespace SEOMacroscope
 
       IPHostEntry HostEntry = null;
 
-      if( !string.IsNullOrEmpty( this.GetHostname() ) )
+      if ( !string.IsNullOrEmpty( this.GetHostname() ) )
       {
 
         HostEntry = Dns.GetHostEntry( this.GetHostname() );
@@ -534,10 +538,10 @@ namespace SEOMacroscope
     public IPHostEntry SetHostAddresses ( IPHostEntry HostEntry )
     {
 
-      lock( this.ServerAddresses )
+      lock ( this.ServerAddresses )
       {
 
-        foreach( IPAddress Address in HostEntry.AddressList )
+        foreach ( IPAddress Address in HostEntry.AddressList )
         {
           this.ServerAddresses.Add( Address );
         }
@@ -552,9 +556,9 @@ namespace SEOMacroscope
 
     public IEnumerable<IPAddress> IterateHostAddresses ()
     {
-      lock( this.ServerAddresses )
+      lock ( this.ServerAddresses )
       {
-        foreach( IPAddress Address in this.ServerAddresses )
+        foreach ( IPAddress Address in this.ServerAddresses )
         {
           yield return Address;
         }
@@ -568,10 +572,10 @@ namespace SEOMacroscope
 
       List<IPAddress> AddressList = new List<IPAddress>( this.ServerAddresses.Count );
 
-      lock( this.ServerAddresses )
+      lock ( this.ServerAddresses )
       {
 
-        foreach( IPAddress Address in this.ServerAddresses )
+        foreach ( IPAddress Address in this.ServerAddresses )
         {
           AddressList.Add( Address );
 
@@ -592,17 +596,17 @@ namespace SEOMacroscope
       List<string> AddressesListCsv = new List<string>( this.ServerAddresses.Count );
       string AddressesCsv = "";
 
-      lock( this.ServerAddresses )
+      lock ( this.ServerAddresses )
       {
 
-        foreach( IPAddress Address in this.ServerAddresses )
+        foreach ( IPAddress Address in this.ServerAddresses )
         {
           AddressesListCsv.Add( Address.ToString() );
         }
 
       }
 
-      if( AddressesListCsv.Count > 0 )
+      if ( AddressesListCsv.Count > 0 )
       {
         AddressesCsv = string.Join( ", ", AddressesListCsv );
       }
@@ -617,59 +621,59 @@ namespace SEOMacroscope
     {
       this.AuthenticationType = AuthenticationType;
     }
-    
+
     public MacroscopeConstants.AuthenticationType GetAuthenticationType ()
     {
-      return( this.AuthenticationType );
+      return ( this.AuthenticationType );
     }
 
     public void SetAuthenticationRealm ( string AuthenticationRealm )
     {
       this.AuthenticationRealm = AuthenticationRealm;
     }
-    
+
     public string GetAuthenticationRealm ()
     {
-      return( this.AuthenticationRealm );
+      return ( this.AuthenticationRealm );
     }
 
     private MacroscopeCredential GetAuthenticationCredential ()
     {
-      return( this.AuthenticationCredential );
+      return ( this.AuthenticationCredential );
     }
 
     /** Secure URLs ***********************************************************/
 
-    public void SetIsSecureUrl ( Boolean State )
+    public void SetIsSecureUrl ( bool State )
     {
       this.IsSecureUrl = State;
     }
 
-    public Boolean GetIsSecureUrl ()
+    public bool GetIsSecureUrl ()
     {
-      return( this.IsSecureUrl );
+      return ( this.IsSecureUrl );
     }
 
     public void AddInsecureLink ( string Url )
     {
       this.InSecureLinks.Add( Url );
     }
-    
+
     public List<string> GetInsecureLinks ()
     {
-      List<string> DocList = new List<string> ( 128 );
-      lock( this.InSecureLinks )
+      List<string> DocList = new List<string>( 128 );
+      lock ( this.InSecureLinks )
       {
         int iCount = this.InSecureLinks.Count;
-        if( iCount > 0 )
+        if ( iCount > 0 )
         {
-          for( int i = 0 ; i < iCount ; i++ )
+          for ( int i = 0 ; i < iCount ; i++ )
           {
             DocList.Add( this.InSecureLinks[ i ] );
           }
         }
       }
-      return( DocList );
+      return ( DocList );
     }
 
     /** Checksum Value ********************************************************/
@@ -681,21 +685,21 @@ namespace SEOMacroscope
 
     public string GetChecksum ()
     {
-      return( this.Checksum );
+      return ( this.Checksum );
     }
 
     private string GenerateChecksum ( string RawData )
     {
       HashAlgorithm Digest = HashAlgorithm.Create( "SHA256" );
-      byte [] BytesIn = Encoding.UTF8.GetBytes( RawData );
-      byte [] Hashed = Digest.ComputeHash( BytesIn );
-      StringBuilder sbString = new StringBuilder ();
-      for( int i = 0 ; i < Hashed.Length ; i++ )
+      byte[] BytesIn = Encoding.UTF8.GetBytes( RawData );
+      byte[] Hashed = Digest.ComputeHash( BytesIn );
+      StringBuilder sbString = new StringBuilder();
+      for ( int i = 0 ; i < Hashed.Length ; i++ )
       {
         sbString.Append( Hashed[ i ].ToString( "X2" ) );
       }
       string ChecksumValue = sbString.ToString();
-      return( ChecksumValue );
+      return ( ChecksumValue );
     }
 
     /** Etag Value ************************************************************/
@@ -712,12 +716,12 @@ namespace SEOMacroscope
 
     /** Robots ****************************************************************/
 
-    public void SetAllowedByRobots ( Boolean Value )
+    public void SetAllowedByRobots ( bool Value )
     {
       this.AllowedByRobots = Value;
     }
 
-    public Boolean GetAllowedByRobots ()
+    public bool GetAllowedByRobots ()
     {
       return ( this.AllowedByRobots );
     }
@@ -725,7 +729,7 @@ namespace SEOMacroscope
     public string GetAllowedByRobotsAsString ()
     {
       string Value = "";
-      if( this.AllowedByRobots )
+      if ( this.AllowedByRobots )
       {
         Value = "ALLOWED";
       }
@@ -738,9 +742,9 @@ namespace SEOMacroscope
 
     /** Is External Flag ******************************************************/
 
-    public void SetIsInternal ( Boolean State )
+    public void SetIsInternal ( bool State )
     {
-      if( State )
+      if ( State )
       {
         this.IsExternal = false;
       }
@@ -750,28 +754,28 @@ namespace SEOMacroscope
       }
     }
 
-    public Boolean GetIsInternal ()
+    public bool GetIsInternal ()
     {
-      if( this.IsExternal )
+      if ( this.IsExternal )
       {
-        return( false );
+        return ( false );
       }
       else
       {
-        return( true );
+        return ( true );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-    
-    public void SetIsExternal ( Boolean State )
+
+    public void SetIsExternal ( bool State )
     {
       this.IsExternal = State;
     }
 
-    public Boolean GetIsExternal ()
+    public bool GetIsExternal ()
     {
-      return( this.IsExternal );
+      return ( this.IsExternal );
     }
 
     /** Is Redirect Flag ******************************************************/
@@ -783,7 +787,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Boolean GetIsRedirect ()
+    public bool GetIsRedirect ()
     {
       return ( this.IsRedirect );
     }
@@ -817,7 +821,7 @@ namespace SEOMacroscope
 
       this.UrlRedirectToRaw = Url;
 
-      if( !string.IsNullOrEmpty( Url ) )
+      if ( !string.IsNullOrEmpty( Url ) )
       {
 
         string UrlUnescaped = Uri.UnescapeDataString( stringToUnescape: Url );
@@ -828,7 +832,7 @@ namespace SEOMacroscope
           Url: UrlUnescaped
          );
 
-        if( !string.IsNullOrEmpty( UrlAbsolute ) )
+        if ( !string.IsNullOrEmpty( UrlAbsolute ) )
         {
           this.UrlRedirectTo = UrlAbsolute;
         }
@@ -865,7 +869,7 @@ namespace SEOMacroscope
 
     public HttpStatusCode GetStatusCode ()
     {
-      return( this.StatusCode );
+      return ( this.StatusCode );
     }
 
     /**************************************************************************/
@@ -885,7 +889,7 @@ namespace SEOMacroscope
         Value = this.ErrorCondition;
       }
 
-      return( Value );
+      return ( Value );
 
     }
 
@@ -904,7 +908,7 @@ namespace SEOMacroscope
       this.RawHttpResponseStatusLine = string.Join(
         " ",
         string.Join( "/", "HTTP", Response.GetResponse().Version ),
-        ( (int) Response.GetResponse().StatusCode).ToString(),
+        ( (int) Response.GetResponse().StatusCode ).ToString(),
         Response.GetResponse().ReasonPhrase,
         Environment.NewLine
       );
@@ -913,7 +917,7 @@ namespace SEOMacroscope
 
     public string GetHttpResponseStatusLineAsText ()
     {
-      return( this.RawHttpResponseStatusLine );
+      return ( this.RawHttpResponseStatusLine );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -925,7 +929,7 @@ namespace SEOMacroscope
 
     public string GetHttpResponseHeadersAsText ()
     {
-      return( this.RawHttpResponseHeaders );
+      return ( this.RawHttpResponseHeaders );
     }
 
     /**************************************************************************/
@@ -933,83 +937,83 @@ namespace SEOMacroscope
     public string GetMimeType ()
     {
       string DocumentMimeType = null;
-      if( this.MimeType == null )
+      if ( this.MimeType == null )
       {
         DocumentMimeType = MacroscopeConstants.DefaultMimeType;
       }
       else
       {
         MatchCollection matches = Regex.Matches( this.MimeType, @"^([^\s;/]+)/([^\s;/]+)" );
-        foreach( Match match in matches )
+        foreach ( Match match in matches )
         {
           DocumentMimeType = String.Format( "{0}/{1}", match.Groups[ 1 ].Value, match.Groups[ 2 ].Value );
         }
-        if( DocumentMimeType == null )
+        if ( DocumentMimeType == null )
         {
           DocumentMimeType = this.MimeType;
         }
       }
-      return( DocumentMimeType );
+      return ( DocumentMimeType );
     }
 
     /** Document Type Methods *************************************************/
 
     public MacroscopeConstants.DocumentType GetDocumentType ()
     {
-      return( this.DocumentType );
+      return ( this.DocumentType );
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsSkipped ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.SKIPPED;
     }
 
-    public Boolean GetIsSkipped ()
+    public bool GetIsSkipped ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.SKIPPED )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.SKIPPED )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
-    
+
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsBinary ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.BINARY;
     }
 
-    public Boolean GetIsBinary ()
+    public bool GetIsBinary ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.BINARY )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.BINARY )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsHtml ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.HTML;
     }
 
-    public Boolean GetIsHtml ()
+    public bool GetIsHtml ()
     {
 
-      Boolean IsHtml = false;
+      bool IsHtml = false;
 
-      if( this.DocumentType == MacroscopeConstants.DocumentType.HTML )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.HTML )
       {
         IsHtml = true;
       }
@@ -1018,48 +1022,48 @@ namespace SEOMacroscope
         IsHtml = false;
       }
 
-      return( IsHtml );
+      return ( IsHtml );
 
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsCss ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.CSS;
     }
 
-    public Boolean GetIsCss ()
+    public bool GetIsCss ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.CSS )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.CSS )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsJavascript ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.JAVASCRIPT;
     }
 
-    public Boolean GetIsJavascript ()
+    public bool GetIsJavascript ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.JAVASCRIPT )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.JAVASCRIPT )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     public void SetIsImage ()
@@ -1067,18 +1071,18 @@ namespace SEOMacroscope
       this.DocumentType = MacroscopeConstants.DocumentType.IMAGE;
     }
 
-    public Boolean GetIsImage ()
+    public bool GetIsImage ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.IMAGE )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.IMAGE )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     public void SetIsPdf ()
@@ -1086,113 +1090,113 @@ namespace SEOMacroscope
       this.DocumentType = MacroscopeConstants.DocumentType.PDF;
     }
 
-    public Boolean GetIsPdf ()
+    public bool GetIsPdf ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.PDF )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.PDF )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsAudio ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.AUDIO;
     }
 
-    public Boolean GetIsAudio ()
+    public bool GetIsAudio ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.AUDIO )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.AUDIO )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsVideo ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.VIDEO;
     }
 
-    public Boolean GetIsVideo ()
+    public bool GetIsVideo ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.VIDEO )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.VIDEO )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsXml ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.XML;
     }
 
-    public Boolean GetIsXml ()
+    public bool GetIsXml ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.XML )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.XML )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsSitemapXml ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.SITEMAPXML;
     }
 
-    public Boolean GetIsSitemapXml ()
+    public bool GetIsSitemapXml ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPXML )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPXML )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
-    
+
     /** -------------------------------------------------------------------- **/
-        
+
     public void SetIsText ()
     {
       this.DocumentType = MacroscopeConstants.DocumentType.TEXT;
     }
 
-    public Boolean GetIsText ()
+    public bool GetIsText ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.TEXT )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.TEXT )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     public void SetIsSitemapText ()
@@ -1200,28 +1204,28 @@ namespace SEOMacroscope
       this.DocumentType = MacroscopeConstants.DocumentType.SITEMAPTEXT;
     }
 
-    public Boolean GetIsSitemapText ()
+    public bool GetIsSitemapText ()
     {
-      if( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPTEXT )
+      if ( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPTEXT )
       {
-        return( true );
+        return ( true );
       }
       else
       {
-        return( false );
+        return ( false );
       }
     }
-    
+
     /** Compression ***********************************************************/
 
-    public Boolean GetIsCompressed ()
+    public bool GetIsCompressed ()
     {
-      return( this.IsCompressed );
+      return ( this.IsCompressed );
     }
 
     public string GetCompressionMethod ()
     {
-      return( this.CompressionMethod );
+      return ( this.CompressionMethod );
     }
 
     /** Content Length ********************************************************/
@@ -1233,7 +1237,7 @@ namespace SEOMacroscope
 
     public void SetContentLength ( int Length )
     {
-      this.ContentLength = (long)Length;
+      this.ContentLength = (long) Length;
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1252,24 +1256,24 @@ namespace SEOMacroscope
 
     public string GetLocale ()
     {
-      return( this.Locale );
+      return ( this.Locale );
     }
-            
+
     public void SetIsoLanguageCode ( string LanguageCode )
     {
       this.IsoLanguageCode = LanguageCode;
     }
-    
+
     public string GetIsoLanguageCode ()
     {
-      return( this.IsoLanguageCode );
+      return ( this.IsoLanguageCode );
     }
 
     /** Character Encoding ****************************************************/
 
     public Encoding GetCharacterEncoding ()
     {
-      return( this.CharacterEncoding );
+      return ( this.CharacterEncoding );
     }
 
     public void SetCharacterEncoding ( Encoding NewEncoding )
@@ -1281,7 +1285,7 @@ namespace SEOMacroscope
 
     public string GetCharacterSet ()
     {
-      return( this.CharacterSet );
+      return ( this.CharacterSet );
     }
 
     public void SetCharacterSet ( string NewCharSet )
@@ -1298,14 +1302,14 @@ namespace SEOMacroscope
 
     public string GetCanonical ()
     {
-      return( this.Canonical );
+      return ( this.Canonical );
     }
 
     /** HTTP Link Header URLs *************************************************/
 
     // https://webmasters.googleblog.com/2011/09/pagination-with-relnext-and-relprev.html
 
-    /** -------------------------------------------------------------------- **/       
+    /** -------------------------------------------------------------------- **/
 
     public void SetLinkShortLink ( string Url )
     {
@@ -1314,7 +1318,7 @@ namespace SEOMacroscope
 
     public string GetLinkShortLink ()
     {
-      return( this.LinkShortLink );
+      return ( this.LinkShortLink );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1326,9 +1330,9 @@ namespace SEOMacroscope
 
     public string GetLinkFirst ()
     {
-      return( this.LinkFirst );
+      return ( this.LinkFirst );
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     public void SetLinkPrev ( string Url )
@@ -1338,10 +1342,10 @@ namespace SEOMacroscope
 
     public string GetLinkPrev ()
     {
-      return( this.LinkPrev );
+      return ( this.LinkPrev );
     }
-    
-    /** -------------------------------------------------------------------- **/    
+
+    /** -------------------------------------------------------------------- **/
 
     public void SetLinkNext ( string Url )
     {
@@ -1350,10 +1354,10 @@ namespace SEOMacroscope
 
     public string GetLinkNext ()
     {
-      return( this.LinkNext );
+      return ( this.LinkNext );
     }
-    
-    /** -------------------------------------------------------------------- **/    
+
+    /** -------------------------------------------------------------------- **/
 
     public void SetLinkLast ( string Url )
     {
@@ -1362,88 +1366,88 @@ namespace SEOMacroscope
 
     public string GetLinkLast ()
     {
-      return( this.LinkLast );
+      return ( this.LinkLast );
     }
 
     /** Dates *****************************************************************/
 
     public string GetCrawledDate ()
     {
-      return( this.CrawledDate.ToUniversalTime().ToString( "r" ) );
+      return ( this.CrawledDate.ToUniversalTime().ToString( "r" ) );
     }
 
     public string GetDateServer ()
     {
-      return( this.DateServer.ToUniversalTime().ToString( "r" ) );
+      return ( this.DateServer.ToUniversalTime().ToString( "r" ) );
     }
 
     public string GetDateModified ()
     {
-      return( this.DateModified.ToUniversalTime().ToString( "r" ) );
+      return ( this.DateModified.ToUniversalTime().ToString( "r" ) );
     }
 
     public string GetDateModifiedForSitemapXml ()
     {
-      return( this.DateModified.ToUniversalTime().ToString( "yyyy-MM-dd" ) );
+      return ( this.DateModified.ToUniversalTime().ToString( "yyyy-MM-dd" ) );
     }
 
     public string GetDateExpires ()
     {
-      return( this.DateExpires.ToUniversalTime().ToString( "r" ) );
+      return ( this.DateExpires.ToUniversalTime().ToString( "r" ) );
     }
 
     /** Inlinks ***************************************************************/
-    
+
     public void SetProcessInlinks ()
     {
       this.ProcessInlinks = true;
     }
-       
+
     public void UnsetProcessInlinks ()
     {
       this.ProcessInlinks = false;
     }
-    
-    public Boolean GetProcessInlinks ()
+
+    public bool GetProcessInlinks ()
     {
-      return( this.ProcessInlinks );
+      return ( this.ProcessInlinks );
     }
 
     public MacroscopeLinkList GetLinksIn ()
     {
       MacroscopeLinkList DocumentLinksIn = this.DocCollection.GetDocumentInlinks( this.GetUrl() );
-      return( DocumentLinksIn );
+      return ( DocumentLinksIn );
     }
 
     public int CountInlinks ()
     {
-      
+
       MacroscopeLinkList LinksIn = this.GetLinksIn();
       int Count = 0;
-      
-      if( LinksIn != null )
+
+      if ( LinksIn != null )
       {
         Count = LinksIn.Count();
       }
-      
-      return( Count );
-      
+
+      return ( Count );
+
     }
-        
+
     /** Outlinks **************************************************************/
 
     public MacroscopeLinkList GetOutlinks ()
     {
-      return( this.Outlinks );
+      return ( this.Outlinks );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public IEnumerable<MacroscopeLink> IterateOutlinks ()
     {
-      lock( this.Outlinks )
+      lock ( this.Outlinks )
       {
-        foreach( MacroscopeLink Link in this.Outlinks.IterateLinks() )
+        foreach ( MacroscopeLink Link in this.Outlinks.IterateLinks() )
         {
           yield return Link;
         }
@@ -1455,7 +1459,7 @@ namespace SEOMacroscope
     public int CountOutlinks ()
     {
       int iCount = this.Outlinks.Count();
-      return( iCount );
+      return ( iCount );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1463,13 +1467,13 @@ namespace SEOMacroscope
     private MacroscopeLink AddDocumentOutlink (
       string AbsoluteUrl,
       MacroscopeConstants.InOutLinkType LinkType,
-      Boolean Follow
+      bool Follow
     )
     {
 
       MacroscopeLink OutLink;
-      
-      OutLink = new MacroscopeLink ( 
+
+      OutLink = new MacroscopeLink(
         SourceUrl: this.GetUrl(),
         TargetUrl: AbsoluteUrl,
         LinkType: LinkType,
@@ -1478,7 +1482,7 @@ namespace SEOMacroscope
 
       this.Outlinks.Add( OutLink );
 
-      return( OutLink );
+      return ( OutLink );
 
     }
 
@@ -1489,7 +1493,7 @@ namespace SEOMacroscope
 
       MacroscopeHyperlinksIn DocumentHyperlinksIn = this.DocCollection.GetDocumentHyperlinksIn( this.GetUrl() );
 
-      return( DocumentHyperlinksIn );
+      return ( DocumentHyperlinksIn );
 
     }
 
@@ -1500,16 +1504,16 @@ namespace SEOMacroscope
 
       MacroscopeHyperlinksIn DocumentHyperlinksIn = this.DocCollection.GetDocumentHyperlinksIn( this.GetUrl() );
 
-      lock( DocumentHyperlinksIn )
+      lock ( DocumentHyperlinksIn )
       {
 
-        foreach( MacroscopeHyperlinkIn Link in DocumentHyperlinksIn.IterateLinks() )
+        foreach ( MacroscopeHyperlinkIn Link in DocumentHyperlinksIn.IterateLinks() )
         {
           yield return Link;
         }
 
       }
-      
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1519,14 +1523,14 @@ namespace SEOMacroscope
 
       MacroscopeHyperlinksIn DocumentHyperlinksIn = this.DocCollection.GetDocumentHyperlinksIn( this.GetUrl() );
       int Count = 0;
-      
-      if( DocumentHyperlinksIn != null )
+
+      if ( DocumentHyperlinksIn != null )
       {
-        
+
         Count = DocumentHyperlinksIn.Count();
       }
 
-      return( Count );
+      return ( Count );
     }
 
     /** Hyperlinks Out ********************************************************/
@@ -1535,35 +1539,35 @@ namespace SEOMacroscope
     {
       this.ProcessHyperlinksIn = true;
     }
-       
+
     /** -------------------------------------------------------------------- **/
 
     public void UnsetProcessHyperlinksIn ()
     {
       this.ProcessHyperlinksIn = false;
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
-    public Boolean GetProcessHyperlinksIn ()
+    public bool GetProcessHyperlinksIn ()
     {
-      return( this.ProcessHyperlinksIn );
+      return ( this.ProcessHyperlinksIn );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public MacroscopeHyperlinksOut GetHyperlinksOut ()
     {
-      return( this.HyperlinksOut );
+      return ( this.HyperlinksOut );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public IEnumerable<MacroscopeHyperlinkOut> IterateHyperlinksOut ()
     {
-      lock( this.HyperlinksOut )
+      lock ( this.HyperlinksOut )
       {
-        foreach( MacroscopeHyperlinkOut Link in this.HyperlinksOut.IterateLinks() )
+        foreach ( MacroscopeHyperlinkOut Link in this.HyperlinksOut.IterateLinks() )
         {
           yield return Link;
         }
@@ -1575,17 +1579,17 @@ namespace SEOMacroscope
     private void SetProcessHyperlinksInForUrl ( string Url )
     {
 
-      if( this.DocCollection != null )
+      if ( this.DocCollection != null )
       {
-        
+
         MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
-      
-        if( msDoc != null )
+
+        if ( msDoc != null )
         {
           msDoc.SetProcessInlinks();
           msDoc.SetProcessHyperlinksIn();
         }
-      
+
       }
 
     }
@@ -1595,7 +1599,7 @@ namespace SEOMacroscope
     public int CountHyperlinksOut ()
     {
 
-      return( this.HyperlinksOut.Count() );
+      return ( this.HyperlinksOut.Count() );
 
     }
 
@@ -1603,7 +1607,7 @@ namespace SEOMacroscope
 
     public void AddEmailAddress ( string EmailAddress )
     {
-      if( this.EmailAddresses.ContainsKey( EmailAddress ) )
+      if ( this.EmailAddresses.ContainsKey( EmailAddress ) )
       {
         this.EmailAddresses[ EmailAddress ] = this.GetUrl();
       }
@@ -1613,16 +1617,16 @@ namespace SEOMacroscope
       }
     }
 
-    public Dictionary<string,string> GetEmailAddresses ()
+    public Dictionary<string, string> GetEmailAddresses ()
     {
-      return( this.EmailAddresses );
+      return ( this.EmailAddresses );
     }
 
     /** Telephone Numbers *****************************************************/
 
     public void AddTelephoneNumber ( string TelephoneNumber )
     {
-      if( this.TelephoneNumbers.ContainsKey( TelephoneNumber ) )
+      if ( this.TelephoneNumbers.ContainsKey( TelephoneNumber ) )
       {
         this.TelephoneNumbers[ TelephoneNumber ] = this.GetUrl();
       }
@@ -1632,9 +1636,9 @@ namespace SEOMacroscope
       }
     }
 
-    public Dictionary<string,string> GetTelephoneNumbers ()
+    public Dictionary<string, string> GetTelephoneNumbers ()
     {
-      return( this.TelephoneNumbers );
+      return ( this.TelephoneNumbers );
     }
 
     /** Title *****************************************************************/
@@ -1647,14 +1651,14 @@ namespace SEOMacroscope
 
       string Value = TitleText;
 
-      if( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
+      if ( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
       {
 
         try
         {
           Value = HtmlEntity.DeEntitize( TitleText );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
           DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", TitleText ) );
@@ -1673,7 +1677,7 @@ namespace SEOMacroscope
     public string GetTitle ()
     {
       string TitleValue;
-      if( this.Title != null )
+      if ( this.Title != null )
       {
         TitleValue = this.Title;
       }
@@ -1681,12 +1685,12 @@ namespace SEOMacroscope
       {
         TitleValue = "";
       }
-      return( TitleValue );
+      return ( TitleValue );
     }
 
     public int GetTitleLength ()
     {
-      return( this.Title.Length );
+      return ( this.Title.Length );
     }
 
     public void SetTitlePixelWidth ( int Width )
@@ -1696,14 +1700,14 @@ namespace SEOMacroscope
 
     public int GetTitlePixelWidth ()
     {
-      return( this.TitlePixelWidth );
+      return ( this.TitlePixelWidth );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public void DetectTitleLanguage ()
     {
-      if( this.GetIsHtml() || this.GetIsPdf() )
+      if ( this.GetIsHtml() || this.GetIsPdf() )
       {
         this.TitleLanguage = this.ProbeTextLanguage( Text: this.Title );
       }
@@ -1711,7 +1715,7 @@ namespace SEOMacroscope
 
     public string GetTitleLanguage ()
     {
-      return( this.TitleLanguage );
+      return ( this.TitleLanguage );
     }
 
     /** Description ***********************************************************/
@@ -1719,7 +1723,7 @@ namespace SEOMacroscope
     public string GetDescription ()
     {
       string DescriptionValue;
-      if( this.Description != null )
+      if ( this.Description != null )
       {
         DescriptionValue = this.Description;
       }
@@ -1727,19 +1731,19 @@ namespace SEOMacroscope
       {
         DescriptionValue = "";
       }
-      return( DescriptionValue );
+      return ( DescriptionValue );
     }
 
     public int GetDescriptionLength ()
     {
-      return( this.GetDescription().Length );
+      return ( this.GetDescription().Length );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public void DetectDescriptionLanguage ()
     {
-      if( this.GetIsHtml() || this.GetIsPdf() )
+      if ( this.GetIsHtml() || this.GetIsPdf() )
       {
         this.DescriptionLanguage = this.ProbeTextLanguage( Text: this.Description );
       }
@@ -1747,9 +1751,9 @@ namespace SEOMacroscope
 
     public string GetDescriptionLanguage ()
     {
-      return( this.DescriptionLanguage );
+      return ( this.DescriptionLanguage );
     }
-    
+
     /** Keywords **************************************************************/
 
     public string GetKeywords ()
@@ -1757,7 +1761,7 @@ namespace SEOMacroscope
 
       string KeywordsValue;
 
-      if( this.Keywords != null )
+      if ( this.Keywords != null )
       {
         KeywordsValue = this.Keywords;
       }
@@ -1766,7 +1770,7 @@ namespace SEOMacroscope
         KeywordsValue = "";
       }
 
-      return( KeywordsValue );
+      return ( KeywordsValue );
 
     }
 
@@ -1774,34 +1778,34 @@ namespace SEOMacroscope
 
     public int GetKeywordsLength ()
     {
-      
+
       int Length = 0;
 
-      if( this.Keywords != null )
+      if ( this.Keywords != null )
       {
         Length = this.Keywords.Length;
       }
-      
-      return( Length );
+
+      return ( Length );
 
     }
 
     /** -------------------------------------------------------------------- **/
-    
+
     public int GetKeywordsCount ()
     {
 
       int Count = 0;
-      
-      if(
+
+      if (
         ( this.Keywords != null )
         && ( this.Keywords.Length > 0 ) )
       {
-        string [] KeywordsList = Regex.Split( this.Keywords, @"[\s,]+" );
+        string[] KeywordsList = Regex.Split( this.Keywords, @"[\s,]+" );
         Count = KeywordsList.GetLength( 0 );
       }
 
-      return( Count );
+      return ( Count );
 
     }
 
@@ -1815,17 +1819,17 @@ namespace SEOMacroscope
 
       string Value = AltText;
 
-      if( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
+      if ( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
       {
 
-        if( !string.IsNullOrEmpty( AltText ) )
+        if ( !string.IsNullOrEmpty( AltText ) )
         {
 
           try
           {
             Value = HtmlEntity.DeEntitize( AltText );
           }
-          catch( Exception ex )
+          catch ( Exception ex )
           {
             DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
             DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", AltText ) );
@@ -1845,7 +1849,7 @@ namespace SEOMacroscope
     public string GetAltText ()
     {
       string Value;
-      if( this.AltText != null )
+      if ( this.AltText != null )
       {
         Value = this.AltText;
       }
@@ -1853,14 +1857,14 @@ namespace SEOMacroscope
       {
         Value = "";
       }
-      return( Value );
+      return ( Value );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public int GetAltTextLength ()
     {
-      return( this.AltText.Length );
+      return ( this.AltText.Length );
     }
 
     /** HrefLang **************************************************************/
@@ -1870,28 +1874,28 @@ namespace SEOMacroscope
 
       string LocaleProcessed = HrefLangLocale.ToLower();
 
-      MacroscopeHrefLang HrefLangAlternate = new MacroscopeHrefLang ( LocaleProcessed, Url );
+      MacroscopeHrefLang HrefLangAlternate = new MacroscopeHrefLang( LocaleProcessed, Url );
 
       this.HrefLang[ LocaleProcessed ] = HrefLangAlternate;
 
     }
 
     /** -------------------------------------------------------------------- **/
-    
-    public Dictionary<string,MacroscopeHrefLang> GetHrefLangs ()
+
+    public Dictionary<string, MacroscopeHrefLang> GetHrefLangs ()
     {
-      return( this.HrefLang );
+      return ( this.HrefLang );
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
-    public IEnumerable<KeyValuePair<string,MacroscopeHrefLang>> IterateHrefLangs ()
+    public IEnumerable<KeyValuePair<string, MacroscopeHrefLang>> IterateHrefLangs ()
     {
-      lock( this.HrefLang )
+      lock ( this.HrefLang )
       {
-        foreach( string Key  in this.HrefLang.Keys )
+        foreach ( string Key in this.HrefLang.Keys )
         {
-          KeyValuePair<string,MacroscopeHrefLang> KP = new KeyValuePair<string,MacroscopeHrefLang> ( Key, this.HrefLang[ Key ] );
+          KeyValuePair<string, MacroscopeHrefLang> KP = new KeyValuePair<string, MacroscopeHrefLang>( Key, this.HrefLang[ Key ] );
           yield return KP;
         }
       }
@@ -1899,13 +1903,13 @@ namespace SEOMacroscope
 
     /** META Headers **********************************************************/
 
-    public IEnumerable<KeyValuePair<string,string>> IterateMetaTags ()
+    public IEnumerable<KeyValuePair<string, string>> IterateMetaTags ()
     {
-      lock( this.MetaHeaders )
+      lock ( this.MetaHeaders )
       {
-        foreach( string Key  in this.MetaHeaders.Keys )
+        foreach ( string Key in this.MetaHeaders.Keys )
         {
-          KeyValuePair<string,string> KP = new KeyValuePair<string,string> ( Key, this.MetaHeaders[ Key ] );
+          KeyValuePair<string, string> KP = new KeyValuePair<string, string>( Key, this.MetaHeaders[ Key ] );
           yield return KP;
         }
       }
@@ -1914,18 +1918,18 @@ namespace SEOMacroscope
     public string GetMetaTag ( string Key )
     {
       string Value = "";
-      if( this.MetaHeaders.ContainsKey( Key ) )
+      if ( this.MetaHeaders.ContainsKey( Key ) )
       {
         Value = this.MetaHeaders[ Key ];
       }
-      return( Value );
+      return ( Value );
     }
 
     /** Headings **************************************************************/
 
     public void AddHeading ( ushort HeadingLevel, string HeadingText )
     {
-      if( this.Headings.ContainsKey( HeadingLevel ) )
+      if ( this.Headings.ContainsKey( HeadingLevel ) )
       {
         List<string> lHeadings = this.Headings[ HeadingLevel ];
         lHeadings.Add( HeadingText );
@@ -1933,15 +1937,15 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-    
+
     public List<string> GetHeadings ( ushort HeadingLevel )
     {
-      List<string> HeadingList = new List<string> ();
-      if( this.Headings.ContainsKey( HeadingLevel ) )
+      List<string> HeadingList = new List<string>();
+      if ( this.Headings.ContainsKey( HeadingLevel ) )
       {
         HeadingList = this.Headings[ HeadingLevel ];
       }
-      return( HeadingList );
+      return ( HeadingList );
     }
 
     /** Entire Document Text **************************************************/
@@ -1949,87 +1953,87 @@ namespace SEOMacroscope
     public void SetDocumentText ( string Text )
     {
 
-      if( !string.IsNullOrEmpty( Text ) )
+      if ( !string.IsNullOrEmpty( Text ) )
       {
 
         this.DocumentTextRaw = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
         this.DocumentTextRaw = MacroscopeStringTools.StripHtmlDocTypeAndCommentsFromText( Text: this.DocumentTextRaw );
-        
+
         this.DocumentTextCleaned = MacroscopeStringTools.CleanDocumentText( msDoc: this );
-        
-        if( !string.IsNullOrEmpty( this.DocumentTextCleaned ) )
+
+        if ( !string.IsNullOrEmpty( this.DocumentTextCleaned ) )
         {
           this.SetWordCount();
         }
-        
-        if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
+
+        if ( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
         {
           this.CalculateReadabilityGrade();
         }
-        
+
       }
       else
       {
         this.DocumentTextRaw = "";
         this.DocumentTextCleaned = "";
       }
-          
+
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public string GetDocumentTextRaw ()
     {
-      return( this.DocumentTextRaw );
+      return ( this.DocumentTextRaw );
     }
-    
+
     public string GetDocumentTextCleaned ()
     {
-      return( this.DocumentTextCleaned );
+      return ( this.DocumentTextCleaned );
     }
-    
+
     /** -------------------------------------------------------------------- **/
-        
+
     public int GetDocumentTextRawLength ()
     {
-      return( this.DocumentTextRaw.Length );
+      return ( this.DocumentTextRaw.Length );
     }
 
     public int GetDocumentTextCleanedLength ()
     {
-      return( this.DocumentTextCleaned.Length );
+      return ( this.DocumentTextCleaned.Length );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public void DetectDocumentTextLanguage ()
     {
-      if( this.GetIsHtml() || this.GetIsPdf() )
+      if ( this.GetIsHtml() || this.GetIsPdf() )
       {
         this.DocumentTextLanguage = this.ProbeTextLanguage( Text: this.DocumentTextCleaned );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public string GetDocumentTextLanguage ()
     {
-      return( this.DocumentTextLanguage );
+      return ( this.DocumentTextLanguage );
     }
 
     /** -------------------------------------------------------------------- **/
 
     private void SetWordCount ()
     {
-          
+
       this.WordCount = 0;
 
       try
       {
-        string [] Words = Regex.Split( this.DocumentTextCleaned, @"\s+", RegexOptions.Singleline );
+        string[] Words = Regex.Split( this.DocumentTextCleaned, @"\s+", RegexOptions.Singleline );
         this.WordCount = Words.Length;
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "SetWordCount: {0}", ex.Message ) );
       }
@@ -2038,7 +2042,7 @@ namespace SEOMacroscope
 
     public int GetWordCount ()
     {
-      return( this.WordCount );
+      return ( this.WordCount );
     }
 
     /** Body Text *************************************************************/
@@ -2047,8 +2051,8 @@ namespace SEOMacroscope
     {
 
       string TextCopy = Text;
-      
-      if( !string.IsNullOrEmpty( TextCopy ) )
+
+      if ( !string.IsNullOrEmpty( TextCopy ) )
       {
 
         TextCopy = MacroscopeStringTools.StripHtmlDocTypeAndCommentsFromText( Text: TextCopy );
@@ -2063,14 +2067,14 @@ namespace SEOMacroscope
 
       this.BodyTextRaw = TextCopy;
 
-      if( !string.IsNullOrEmpty( this.BodyTextRaw ) )
+      if ( !string.IsNullOrEmpty( this.BodyTextRaw ) )
       {
 
-        if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
+        if ( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
         {
           this.CalculateReadabilityGrade();
         }
-      
+
       }
 
       this.SetLevenshteinFingerprint();
@@ -2078,10 +2082,10 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public string GetBodyTextRaw ()
     {
-      return( this.BodyTextRaw );
+      return ( this.BodyTextRaw );
     }
 
     /** Levenshtein Fingerprint ***********************************************/
@@ -2102,9 +2106,9 @@ namespace SEOMacroscope
 
     public void ClearLevenshteinNearDuplicates ()
     {
-      if( this.LevenshteinNearDuplicates != null )
+      if ( this.LevenshteinNearDuplicates != null )
       {
-        lock( this.LevenshteinNearDuplicates )
+        lock ( this.LevenshteinNearDuplicates )
         {
           this.LevenshteinNearDuplicates = new SortedDictionary<MacroscopeDocument, int>();
         }
@@ -2120,11 +2124,11 @@ namespace SEOMacroscope
     public SortedDictionary<MacroscopeDocument, int> GetLevenshteinNearDuplicates ()
     {
       SortedDictionary<MacroscopeDocument, int> Copy = new SortedDictionary<MacroscopeDocument, int>();
-      lock( this.LevenshteinNearDuplicates )
+      lock ( this.LevenshteinNearDuplicates )
       {
-        foreach( MacroscopeDocument msDocKey in this.LevenshteinNearDuplicates.Keys )
+        foreach ( MacroscopeDocument msDocKey in this.LevenshteinNearDuplicates.Keys )
         {
-          this.LevenshteinNearDuplicates.Add( msDocKey, this.LevenshteinNearDuplicates[msDocKey] );
+          this.LevenshteinNearDuplicates.Add( msDocKey, this.LevenshteinNearDuplicates[ msDocKey ] );
         }
       }
       return ( Copy );
@@ -2134,9 +2138,9 @@ namespace SEOMacroscope
 
     public void AddLevenshteinNearDuplicates ( MacroscopeDocument msDocNearDuplicate, int EditDistance )
     {
-      lock( this.LevenshteinNearDuplicates )
+      lock ( this.LevenshteinNearDuplicates )
       {
-        if( !this.LevenshteinNearDuplicates.ContainsKey( msDocNearDuplicate ) )
+        if ( !this.LevenshteinNearDuplicates.ContainsKey( msDocNearDuplicate ) )
         {
           this.LevenshteinNearDuplicates.Add( msDocNearDuplicate, EditDistance );
         }
@@ -2147,78 +2151,78 @@ namespace SEOMacroscope
 
     private void ExecuteDeepKeywordAnalysis ()
     {
-      
-      Boolean Proceed = false;
 
-      if( this.GetIsHtml() )
+      bool Proceed = false;
+
+      if ( this.GetIsHtml() )
       {
         Proceed = true;
       }
       else
-      if( this.GetIsPdf() )
+      if ( this.GetIsPdf() )
       {
         Proceed = true;
       }
-      
-      if( Proceed )
+
+      if ( Proceed )
       {
 
-        MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis ();
-      
-        lock( this.DeepKeywordAnalysis )
+        MacroscopeDeepKeywordAnalysis AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis();
+
+        lock ( this.DeepKeywordAnalysis )
         {
-          for( int Words = 0 ; Words <= 3 ; Words++ )
+          for ( int Words = 0 ; Words <= 3 ; Words++ )
           {
-            lock( this.DeepKeywordAnalysis[ Words ] )
+            lock ( this.DeepKeywordAnalysis[ Words ] )
             {
               this.DeepKeywordAnalysis[ Words ].Clear();
               AnalyzeKeywords.Analyze(
-                Text: this.GetDocumentTextCleaned(), 
+                Text: this.GetDocumentTextCleaned(),
                 Terms: this.DeepKeywordAnalysis[ Words ],
                 Words: Words + 1
               );
             }
           }
         }
-      
+
       }
-      
+
     }
 
     /** -------------------------------------------------------------------- **/
-        
-    public Dictionary<string,int> GetDeepKeywordAnalysisAsDictonary ( int Words )
+
+    public Dictionary<string, int> GetDeepKeywordAnalysisAsDictonary ( int Words )
     {
       int WordsOffset = Words - 1;
-      Dictionary<string,int> Terms = new Dictionary<string,int> ( this.DeepKeywordAnalysis.Count );
-      lock( this.DeepKeywordAnalysis )
+      Dictionary<string, int> Terms = new Dictionary<string, int>( this.DeepKeywordAnalysis.Count );
+      lock ( this.DeepKeywordAnalysis )
       {
-        foreach( string Term in this.DeepKeywordAnalysis[WordsOffset].Keys )
+        foreach ( string Term in this.DeepKeywordAnalysis[ WordsOffset ].Keys )
         {
           Terms.Add( Term, this.DeepKeywordAnalysis[ WordsOffset ][ Term ] );
         }
       }
-      return( Terms );
+      return ( Terms );
     }
-    
+
     /** Text Readability ******************************************************/
 
     public void CalculateReadabilityGrade ()
     {
-      
+
       double Grade = 0;
       string GradeDescription = "";
       MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod GradeMethod = MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.UNKNOWN;
       IMacroscopeAnalyzeReadability AnalyzeReadability = null;
-      
-      if( this.GetIsRedirect() )
+
+      if ( this.GetIsRedirect() )
       {
         return;
       }
-            
-      if( this.GetIsHtml() || this.GetIsPdf() )
+
+      if ( this.GetIsHtml() || this.GetIsPdf() )
       {
-        switch( this.GetIsoLanguageCode() )
+        switch ( this.GetIsoLanguageCode() )
         {
           case "x-default":
             AnalyzeReadability = MacroscopeAnalyzeReadability.AnalyzerFactory( msDoc: this );
@@ -2231,7 +2235,7 @@ namespace SEOMacroscope
         }
       }
 
-      if( AnalyzeReadability != null )
+      if ( AnalyzeReadability != null )
       {
         Grade = AnalyzeReadability.AnalyzeReadability( msDoc: this );
         GradeMethod = AnalyzeReadability.GetAnalyzeReadabilityMethod();
@@ -2246,17 +2250,17 @@ namespace SEOMacroscope
 
     public double GetReadabilityGrade ()
     {
-      return( this.ReadabilityGrade );
+      return ( this.ReadabilityGrade );
     }
-    
+
     public MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod GetReadabilityGradeMethod ()
     {
-      return( this.ReadabilityGradeMethod );
+      return ( this.ReadabilityGradeMethod );
     }
 
     public string GetReadabilityGradeDescription ()
     {
-      return( this.ReadabilityGradeDescription );
+      return ( this.ReadabilityGradeDescription );
     }
 
     /** Durations *************************************************************/
@@ -2268,69 +2272,56 @@ namespace SEOMacroscope
 
     public long GetDuration ()
     {
-      return( this.Duration );
+      return ( this.Duration );
     }
 
     public decimal GetDurationInSeconds ()
     {
-      decimal DurationSeconds = ( decimal )( ( decimal )this.GetDuration() / ( decimal )1000 );
-      return( DurationSeconds );
+      decimal DurationSeconds = (decimal) ( (decimal) this.GetDuration() / (decimal) 1000 );
+      return ( DurationSeconds );
     }
 
     public string GetDurationInSecondsFormatted ()
     {
       decimal DurationSeconds = this.GetDurationInSeconds();
       string DurationText = DurationSeconds.ToString( "0.00" );
-      return( DurationText );
+      return ( DurationText );
     }
 
-    public void SetWasDownloaded ( Boolean State )
+    public void SetWasDownloaded ( bool State )
     {
       this.WasDownloaded = State;
     }
 
-    public Boolean GetWasDownloaded ()
+    public bool GetWasDownloaded ()
     {
-      return( this.WasDownloaded );
+      return ( this.WasDownloaded );
     }
 
     /** Page Depth ************************************************************/
 
     public int GetDepth ()
     {
-      return( this.Depth );
+      return ( this.Depth );
     }
 
-
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
     /** Remarks ***************************************************************/
 
     public void AddRemark ( string Observation )
     {
-      lock( this.Remarks )
+      lock ( this.Remarks )
       {
         this.Remarks.Add( Observation );
       }
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     public IEnumerable<string> IterateRemarks ()
     {
-      lock( this.Remarks )
+      lock ( this.Remarks )
       {
-        foreach( string Observation in this.Remarks )
+        foreach ( string Observation in this.Remarks )
         {
           yield return Observation;
         }
@@ -2341,85 +2332,84 @@ namespace SEOMacroscope
 
     public void SetCustomFiltered ( string Text, MacroscopeConstants.TextPresence Presence )
     {
-
-      if( this.CustomFiltered.ContainsKey( Text ) )
+      lock ( this.CustomFiltered )
       {
-        this.CustomFiltered[ Text ] = Presence;
-        
+        if ( this.CustomFiltered.ContainsKey( Text ) )
+        {
+          this.CustomFiltered[ Text ] = Presence;
+        }
+        else
+        {
+          this.CustomFiltered.Add( Text, Presence );
+        }
       }
-      else
-      {
-        this.CustomFiltered.Add( Text, Presence );
-        
-      }
-
     }
 
     /** -------------------------------------------------------------------- **/
 
     public IEnumerable<string> IterateCustomFiltered ()
     {
-      lock( this.CustomFiltered )
+      lock ( this.CustomFiltered )
       {
-        foreach( string Text in this.CustomFiltered.Keys )
+        foreach ( string Text in this.CustomFiltered.Keys )
         {
           yield return Text;
         }
       }
     }
-        
-    /** -------------------------------------------------------------------- **/ 
 
-    public Dictionary<string, MacroscopeConstants.TextPresence> GetCustomFiltered ()
+    /** -------------------------------------------------------------------- **/
+
+    public Dictionary<string, MacroscopeConstants.TextPresence> GetCustomFiltered ()
     {
 
-      Dictionary<string, MacroscopeConstants.TextPresence> ListCopy = new Dictionary<string, MacroscopeConstants.TextPresence> ( this.CustomFiltered.Count );
+      Dictionary<string, MacroscopeConstants.TextPresence> ListCopy = new Dictionary<string, MacroscopeConstants.TextPresence>( this.CustomFiltered.Count );
 
-      lock( this.CustomFiltered )
+      lock ( this.CustomFiltered )
       {
 
-        foreach( string Key in this.CustomFiltered.Keys )
+        foreach ( string Key in this.CustomFiltered.Keys )
         {
           ListCopy.Add( Key, this.CustomFiltered[ Key ] );
         }
 
       }
 
-      return( ListCopy );
+      return ( ListCopy );
 
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
-    public KeyValuePair<string, MacroscopeConstants.TextPresence> GetCustomFilteredItem ( string Text )
+    public KeyValuePair<string, MacroscopeConstants.TextPresence> GetCustomFilteredItem ( string Text )
     {
 
-      KeyValuePair<string, MacroscopeConstants.TextPresence> Pair;
+      KeyValuePair<string, MacroscopeConstants.TextPresence> Pair;
 
-      Pair = new KeyValuePair<string, MacroscopeConstants.TextPresence> (
+      Pair = new KeyValuePair<string, MacroscopeConstants.TextPresence>(
         null,
         MacroscopeConstants.TextPresence.UNDEFINED
       );
-      
+
       try
       {
-        
-        Pair = new KeyValuePair<string, MacroscopeConstants.TextPresence> (
+
+        Pair = new KeyValuePair<string, MacroscopeConstants.TextPresence>(
           Text,
           this.CustomFiltered[ Text ]
         );
 
       }
-      catch( KeyNotFoundException ex )
+      catch ( KeyNotFoundException ex )
       {
         this.DebugMsg( string.Format( "GetCustomFilteredItem: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "GetCustomFilteredItem: {0}", ex.Message ) );
       }
 
-      return( Pair );
+      return ( Pair );
 
     }
 
@@ -2430,13 +2420,13 @@ namespace SEOMacroscope
     public void SetDataExtractedCssSelectors ( string Label, string Text )
     {
       List<string> Items = null;
-      if( this.DataExtractedCssSelectors.ContainsKey( Label ) )
+      if ( this.DataExtractedCssSelectors.ContainsKey( Label ) )
       {
         Items = this.DataExtractedCssSelectors[ Label ];
       }
       else
       {
-        Items = new List<string> ( 8 );
+        Items = new List<string>( 8 );
         this.DataExtractedCssSelectors.Add( Label, Items );
       }
       Items.Add( Text );
@@ -2444,20 +2434,20 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public IEnumerable<KeyValuePair<string,string>> IterateDataExtractedCssSelectors ()
+    public IEnumerable<KeyValuePair<string, string>> IterateDataExtractedCssSelectors ()
     {
-      lock( this.DataExtractedCssSelectors )
+      lock ( this.DataExtractedCssSelectors )
       {
-        foreach( string Label in this.DataExtractedCssSelectors.Keys )
+        foreach ( string Label in this.DataExtractedCssSelectors.Keys )
         {
-          if( this.DataExtractedCssSelectors.ContainsKey( Label ) )
+          if ( this.DataExtractedCssSelectors.ContainsKey( Label ) )
           {
             List<string> Items = this.DataExtractedCssSelectors[ Label ];
-            lock( Items )
+            lock ( Items )
             {
-              foreach( string Text in Items )
+              foreach ( string Text in Items )
               {
-                KeyValuePair<string,string> Pair = new KeyValuePair<string, string> ( Label, Text );
+                KeyValuePair<string, string> Pair = new KeyValuePair<string, string>( Label, Text );
                 yield return Pair;
               }
             }
@@ -2471,13 +2461,13 @@ namespace SEOMacroscope
     public void SetDataExtractedRegexes ( string Label, string Text )
     {
       List<string> Items = null;
-      if( this.DataExtractedRegexes.ContainsKey( Label ) )
+      if ( this.DataExtractedRegexes.ContainsKey( Label ) )
       {
         Items = this.DataExtractedRegexes[ Label ];
       }
       else
       {
-        Items = new List<string> ( 8 );
+        Items = new List<string>( 8 );
         this.DataExtractedRegexes.Add( Label, Items );
       }
       Items.Add( Text );
@@ -2485,20 +2475,20 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public IEnumerable<KeyValuePair<string,string>> IterateDataExtractedRegexes ()
+    public IEnumerable<KeyValuePair<string, string>> IterateDataExtractedRegexes ()
     {
-      lock( this.DataExtractedRegexes )
+      lock ( this.DataExtractedRegexes )
       {
-        foreach( string Label in this.DataExtractedRegexes.Keys )
+        foreach ( string Label in this.DataExtractedRegexes.Keys )
         {
-          if( this.DataExtractedRegexes.ContainsKey( Label ) )
+          if ( this.DataExtractedRegexes.ContainsKey( Label ) )
           {
             List<string> Items = this.DataExtractedRegexes[ Label ];
-            lock( Items )
+            lock ( Items )
             {
-              foreach( string Text in Items )
+              foreach ( string Text in Items )
               {
-                KeyValuePair<string,string> Pair = new KeyValuePair<string, string> ( Label, Text );
+                KeyValuePair<string, string> Pair = new KeyValuePair<string, string>( Label, Text );
                 yield return Pair;
               }
             }
@@ -2512,13 +2502,13 @@ namespace SEOMacroscope
     public void SetDataExtractedXpaths ( string Label, string Text )
     {
       List<string> Items = null;
-      if( this.DataExtractedXpaths.ContainsKey( Label ) )
+      if ( this.DataExtractedXpaths.ContainsKey( Label ) )
       {
         Items = this.DataExtractedXpaths[ Label ];
       }
       else
       {
-        Items = new List<string> ( 8 );
+        Items = new List<string>( 8 );
         this.DataExtractedXpaths.Add( Label, Items );
       }
       Items.Add( Text );
@@ -2526,20 +2516,20 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public IEnumerable<KeyValuePair<string,string>> IterateDataExtractedXpaths ()
+    public IEnumerable<KeyValuePair<string, string>> IterateDataExtractedXpaths ()
     {
-      lock( this.DataExtractedXpaths )
+      lock ( this.DataExtractedXpaths )
       {
-        foreach( string Label in this.DataExtractedXpaths.Keys )
+        foreach ( string Label in this.DataExtractedXpaths.Keys )
         {
-          if( this.DataExtractedXpaths.ContainsKey( Label ) )
+          if ( this.DataExtractedXpaths.ContainsKey( Label ) )
           {
             List<string> Items = this.DataExtractedXpaths[ Label ];
-            lock( Items )
+            lock ( Items )
             {
-              foreach( string Text in Items )
+              foreach ( string Text in Items )
               {
-                KeyValuePair<string,string> Pair = new KeyValuePair<string, string> ( Label, Text );
+                KeyValuePair<string, string> Pair = new KeyValuePair<string, string>( Label, Text );
                 yield return Pair;
               }
             }
@@ -2550,177 +2540,177 @@ namespace SEOMacroscope
 
     /** Executor **************************************************************/
 
-    public async Task<Boolean> Execute ()
+    public async Task<bool> Execute ()
     {
 
-      Boolean DoDownloadDocument = true;
+      bool DoDownloadDocument = true;
 
       this.ClearIsDirty();
 
       this.SetProcessInlinks();
       this.SetProcessHyperlinksIn();
-            
+
       try
       {
         this.ProcessUrlElements();
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
       }
 
       await this.ExecuteHeadRequest();
 
-      if( this.GetStatusCode() == HttpStatusCode.RequestTimeout )
+      if ( this.GetStatusCode() == HttpStatusCode.RequestTimeout )
       {
-        return( false );
+        return ( false );
       }
       else
-      if( this.GetStatusCode() == HttpStatusCode.GatewayTimeout )
+      if ( this.GetStatusCode() == HttpStatusCode.GatewayTimeout )
       {
-        return( false );
+        return ( false );
       }
 
-      if( this.GetIsRedirect() )
+      if ( this.GetIsRedirect() )
       {
         this.DebugMsg( string.Format( "REDIRECT DETECTED: {0}", this.DocUrl ) );
-        return( true );
+        return ( true );
       }
 
-      if( !MacroscopePreferencesManager.GetFetchExternalLinks() )
+      if ( !MacroscopePreferencesManager.GetFetchExternalLinks() )
       {
-        if( this.GetIsExternal() )
+        if ( this.GetIsExternal() )
         {
           DoDownloadDocument = false;
         }
       }
 
-      if( this.DocCollection == null )
+      if ( this.DocCollection == null )
       {
         this.SetFetchStatus( Status: MacroscopeConstants.FetchStatus.OK );
       }
       else
-      if( this.GetFetchStatus() == MacroscopeConstants.FetchStatus.VOID )
+      if ( this.GetFetchStatus() == MacroscopeConstants.FetchStatus.VOID )
       {
         DoDownloadDocument = true;
       }
       else
-      if( this.GetFetchStatus() != MacroscopeConstants.FetchStatus.OK )
+      if ( this.GetFetchStatus() != MacroscopeConstants.FetchStatus.OK )
       {
         DoDownloadDocument = false;
       }
-      
-      if( DoDownloadDocument )
+
+      if ( DoDownloadDocument )
       {
 
         this.CrawledDate = DateTime.UtcNow;
-              
-        if( this.GetIsHtml() )
+
+        if ( this.GetIsHtml() )
         {
-          
+
           this.DebugMsg( string.Format( "IS HTML PAGE: {0}", this.DocUrl ) );
 
           await this.ProcessHtmlPage();
 
         }
         else
-        if( this.GetIsCss() )
+        if ( this.GetIsCss() )
         {
-          
+
           this.DebugMsg( string.Format( "IS CSS PAGE: {0}", this.DocUrl ) );
-          
-          if( MacroscopePreferencesManager.GetProcessStylesheets() )
+
+          if ( MacroscopePreferencesManager.GetProcessStylesheets() )
           {
             await this.ProcessCssPage();
           }
 
         }
         else
-        if( this.GetIsImage() )
+        if ( this.GetIsImage() )
         {
-          
+
           this.DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.DocUrl ) );
-          
-          if( MacroscopePreferencesManager.GetProcessImages() )
+
+          if ( MacroscopePreferencesManager.GetProcessImages() )
           {
             await this.ProcessImagePage();
           }
 
         }
         else
-        if( this.GetIsJavascript() )
+        if ( this.GetIsJavascript() )
         {
-          
+
           this.DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.DocUrl ) );
-          
-          if( MacroscopePreferencesManager.GetProcessJavascripts() )
+
+          if ( MacroscopePreferencesManager.GetProcessJavascripts() )
           {
             await this.ProcessJavascriptPage();
           }
 
         }
         else
-        if( this.GetIsPdf() )
+        if ( this.GetIsPdf() )
         {
-          
+
           this.DebugMsg( string.Format( "IS PDF PAGE: {0}", this.DocUrl ) );
-          
-          if( MacroscopePreferencesManager.GetProcessPdfs() )
+
+          if ( MacroscopePreferencesManager.GetProcessPdfs() )
           {
             await this.ProcessPdfPage();
           }
 
         }
         else
-        if( this.GetIsXml() )
+        if ( this.GetIsXml() )
         {
-          
+
           this.DebugMsg( string.Format( "IS XML PAGE: {0}", this.DocUrl ) );
-          
-          if( MacroscopePreferencesManager.GetProcessXml() )
+
+          if ( MacroscopePreferencesManager.GetProcessXml() )
           {
             await this.ProcessXmlPage();
           }
 
         }
         else
-        if( this.GetIsText() )
+        if ( this.GetIsText() )
         {
-          
+
           this.DebugMsg( string.Format( "IS TEXT PAGE: {0}", this.DocUrl ) );
 
           await this.ProcessTextPage();
 
         }
         else
-        if( this.GetIsAudio() )
+        if ( this.GetIsAudio() )
         {
-          
+
           this.DebugMsg( string.Format( "IS AUDIO PAGE: {0}", this.DocUrl ) );
-          
-          if( MacroscopePreferencesManager.GetProcessAudio() )
+
+          if ( MacroscopePreferencesManager.GetProcessAudio() )
           {
             await this.ProcessAudioPage();
           }
 
         }
         else
-        if( this.GetIsVideo() )
+        if ( this.GetIsVideo() )
         {
-          
+
           this.DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.DocUrl ) );
-          
-          if( MacroscopePreferencesManager.GetProcessVideo() )
+
+          if ( MacroscopePreferencesManager.GetProcessVideo() )
           {
             await this.ProcessVideoPage();
           }
 
         }
         else
-        if( this.GetIsBinary() )
+        if ( this.GetIsBinary() )
         {
           this.DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.DocUrl ) );
-          if( MacroscopePreferencesManager.GetProcessBinaries() )
+          if ( MacroscopePreferencesManager.GetProcessBinaries() )
           {
             await this.ProcessBinaryPage();
           }
@@ -2747,46 +2737,46 @@ namespace SEOMacroscope
 
       }
 
-      if( this.GetTitleLength() > 0 )
+      if ( this.GetTitleLength() > 0 )
       {
 
         this.SetTitlePixelWidth( AnalyzePageTitles.CalcTitleWidth( this.GetTitle() ) );
 
-        if( MacroscopePreferencesManager.GetDetectLanguage() )
+        if ( MacroscopePreferencesManager.GetDetectLanguage() )
         {
           this.DetectTitleLanguage();
         }
 
       }
 
-      if( this.GetDescriptionLength() > 0 )
+      if ( this.GetDescriptionLength() > 0 )
       {
-        if( MacroscopePreferencesManager.GetDetectLanguage() )
+        if ( MacroscopePreferencesManager.GetDetectLanguage() )
         {
           this.DetectDescriptionLanguage();
         }
       }
 
-      if( this.GetDocumentTextRawLength() > 0 )
+      if ( this.GetDocumentTextRawLength() > 0 )
       {
-        if( MacroscopePreferencesManager.GetDetectLanguage() )
+        if ( MacroscopePreferencesManager.GetDetectLanguage() )
         {
           this.DetectDocumentTextLanguage();
         }
       }
 
-      if( MacroscopePreferencesManager.GetWarnAboutInsecureLinks() )
+      if ( MacroscopePreferencesManager.GetWarnAboutInsecureLinks() )
       {
-        MacroscopeInsecureLinks InsecureLinks = new MacroscopeInsecureLinks ();
+        MacroscopeInsecureLinks InsecureLinks = new MacroscopeInsecureLinks();
         InsecureLinks.Analyze( this );
       }
 
-      if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+      if ( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
       {
         this.ExecuteDeepKeywordAnalysis();
       }
 
-      return( true );
+      return ( true );
 
     }
 
@@ -2795,10 +2785,10 @@ namespace SEOMacroscope
     private void ProcessErrorCondition ( string ResponseErrorCondition )
     {
 
-      if( ResponseErrorCondition != null )
+      if ( ResponseErrorCondition != null )
       {
 
-        switch( ResponseErrorCondition.ToLower() )
+        switch ( ResponseErrorCondition.ToLower() )
         {
           case "timeout":
             this.SetStatusCode( HttpStatusCode.RequestTimeout );
@@ -2816,7 +2806,7 @@ namespace SEOMacroscope
       }
 
     }
-    
+
     /**************************************************************************/
 
     private void ProcessUrlElements ()
@@ -2826,18 +2816,18 @@ namespace SEOMacroscope
 
       try
       {
-        DocumentUri = new Uri ( this.GetUrl(), UriKind.Absolute );
+        DocumentUri = new Uri( this.GetUrl(), UriKind.Absolute );
       }
-      catch( UriFormatException ex )
+      catch ( UriFormatException ex )
       {
         this.DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "ProcessUrlElements: {0}", ex.Message ) );
       }
 
-      if( DocumentUri != null )
+      if ( DocumentUri != null )
       {
 
         this.Scheme = DocumentUri.Scheme;
@@ -2847,11 +2837,11 @@ namespace SEOMacroscope
         this.Fragment = DocumentUri.Fragment;
         this.QueryString = DocumentUri.Query;
 
-        if( this.Scheme.ToLower().Equals( "https" ) )
+        if ( this.Scheme.ToLower().Equals( "https" ) )
         {
           this.SetIsSecureUrl( true );
         }
-      
+
       }
       else
       {
@@ -2861,7 +2851,7 @@ namespace SEOMacroscope
     }
 
     /** Language Detection ****************************************************/
-    
+
     public string ProbeTextLanguage ( string Text )
     {
 
@@ -2869,20 +2859,20 @@ namespace SEOMacroscope
 
       MacroscopeAnalyzeTextLanguage AnalyzeTextLanguage;
 
-      if( !string.IsNullOrEmpty( Text ) )
+      if ( !string.IsNullOrEmpty( Text ) )
       {
 
         string LanguageCode = this.GetIsoLanguageCode();
 
-        AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage ( IsoLanguageCode: LanguageCode );
+        AnalyzeTextLanguage = new MacroscopeAnalyzeTextLanguage( IsoLanguageCode: LanguageCode );
 
         LanguagedDetected = AnalyzeTextLanguage.AnalyzeLanguage( Text: Text );
 
         AnalyzeTextLanguage = null;
 
       }
-     
-      return( LanguagedDetected );
+
+      return ( LanguagedDetected );
 
     }
 

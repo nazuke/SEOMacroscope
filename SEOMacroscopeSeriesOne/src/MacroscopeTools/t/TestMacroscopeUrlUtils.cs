@@ -137,7 +137,7 @@ namespace SEOMacroscope
     public void TestValidateUrls ()
     {
 
-      Dictionary<string,Boolean> UrlList = new Dictionary<string,Boolean> ();
+      Dictionary<string,bool> UrlList = new Dictionary<string,bool> ();
         
       UrlList.Add(
         "http://www.host.com/",
@@ -171,7 +171,7 @@ namespace SEOMacroscope
 
       foreach( string Url in UrlList.Keys )
       {
-        Boolean IsValid = MacroscopeUrlUtils.ValidateUrl( Url );
+        bool IsValid = MacroscopeUrlUtils.ValidateUrl( Url );
         Assert.AreEqual( UrlList[ Url ], IsValid, string.Format( "NOT VALID: {0}", Url ) );
       }
 

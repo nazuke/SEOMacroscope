@@ -255,10 +255,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
     
-    public static Boolean SyntaxCheckXpath ( string XpathString )
+    public static bool SyntaxCheckXpath ( string XpathString )
     {
       
-      Boolean IsValid = false;
+      bool IsValid = false;
 
       try
       {

@@ -100,7 +100,7 @@ namespace SEOMacroscope
 
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
-        Boolean ExecuteResult = await msDoc.Execute();
+        bool ExecuteResult = await msDoc.Execute();
 
         Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
 
@@ -139,7 +139,7 @@ namespace SEOMacroscope
 
         Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
-        Boolean ExecuteResult = await msDoc.Execute();
+        bool ExecuteResult = await msDoc.Execute();
 
         Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
 
@@ -189,7 +189,7 @@ namespace SEOMacroscope
 
           Assert.IsNotNull( msDoc, string.Format( "FAIL: {0}", Url ) );
 
-          Boolean ExecuteResult = await msDoc.Execute();
+          bool ExecuteResult = await msDoc.Execute();
 
           Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
 

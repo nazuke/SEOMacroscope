@@ -50,7 +50,7 @@ namespace SEOMacroscope
     private Levenshtein AnalyzerFingerprint;
     private int ComparisonSizeDifference;
     private int ComparisonThreshold;
-    private Dictionary<string, Boolean> CrossCheck;
+    private Dictionary<string, bool> CrossCheck;
 
     /**************************************************************************/
 
@@ -58,7 +58,7 @@ namespace SEOMacroscope
       MacroscopeDocument msDoc,
       int SizeDifference,
       int Threshold,
-      Dictionary<string, Boolean> CrossCheckList,
+      Dictionary<string, bool> CrossCheckList,
       IMacroscopeAnalysisPercentageDone IPercentageDone
     )
     {
@@ -79,7 +79,7 @@ namespace SEOMacroscope
       MacroscopeDocument msDoc,
       int SizeDifference,
       int Threshold,
-      Dictionary<string, Boolean> CrossCheckList
+      Dictionary<string, bool> CrossCheckList
     )
     {
 
@@ -121,7 +121,7 @@ MacroscopeDocumentCollection DocCollection
       Dictionary<MacroscopeDocument, int> DocList;
       decimal DocListCount;
       decimal Count;
-      Boolean Proceed;
+      bool Proceed;
 
       if( this.AnalyzerFingerprint.GetType() != typeof( Levenshtein ) )
       {
@@ -177,7 +177,7 @@ MacroscopeDocumentCollection DocCollection
       {
 
         string CompareFingerprint = msDocCompare.GetLevenshteinFingerprint();
-        Boolean DoCheck = false;
+        bool DoCheck = false;
 
         Count++;
 
@@ -289,10 +289,10 @@ MacroscopeDocumentCollection DocCollection
 
     /**************************************************************************/
 
-    private Boolean CrossCheckDocuments ( MacroscopeDocument msDocCompare )
+    private bool CrossCheckDocuments ( MacroscopeDocument msDocCompare )
     {
 
-      Boolean CrossChecked = false;
+      bool CrossChecked = false;
 
       string Key1 = string.Join( "::", this.msDocOriginal.GetChecksum(), msDocCompare.GetChecksum() );
       string Key2 = string.Join( "::", msDocCompare.GetChecksum(), this.msDocOriginal.GetChecksum() );
@@ -326,10 +326,10 @@ MacroscopeDocumentCollection DocCollection
 
     /**************************************************************************/
 
-    public static Dictionary<string, Boolean> GetCrossCheckList ( int Capacity )
+    public static Dictionary<string, bool> GetCrossCheckList ( int Capacity )
     {
 
-      Dictionary<string, Boolean> CrossCheck = new Dictionary<string, Boolean>( Capacity );
+      Dictionary<string, bool> CrossCheck = new Dictionary<string, bool>( Capacity );
 
       return ( CrossCheck );
 
