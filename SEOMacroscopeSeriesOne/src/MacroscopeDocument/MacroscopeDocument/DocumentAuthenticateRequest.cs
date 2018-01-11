@@ -45,7 +45,7 @@ namespace SEOMacroscope
 
     /** Authenticate Request **************************************************/
 
-    private bool AuthenticateRequest ( HttpRequestMessage Request )
+    private void AuthenticateRequest ( HttpRequestMessage Request )
     {
 
       // Reference: https://en.wikipedia.org/wiki/Basic_access_authentication#Protocol
@@ -54,7 +54,6 @@ namespace SEOMacroscope
       byte[] UsernamePassword;
       string UsernamePasswordB64Encoded;
 
-      /*
       if( this.GetAuthenticationCredential() != null )
       {
 
@@ -71,6 +70,12 @@ namespace SEOMacroscope
         if( Request != null )
         {
 
+          // TODO: Implement this:
+
+
+          
+
+        /*
           Request.PreAuthenticate = true;
 
           Request.Headers.Add(
@@ -79,13 +84,20 @@ namespace SEOMacroscope
           );
 
           IsAuthenticating = true;
+          */
 
         }
 
       }
-      */
 
-      return ( IsAuthenticating );
+
+      if ( IsAuthenticating )
+      {
+        this.VerifyOrPurgeCredential();
+      }
+
+
+      return;
 
     }
 

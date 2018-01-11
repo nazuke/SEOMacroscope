@@ -57,6 +57,8 @@ namespace SEOMacroscope
       HttpHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
       HttpHandler.AutomaticRedirection = false;
 
+      HttpHandler.PreAuthenticate = true;
+
       HttpHandler.SendTimeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
       HttpHandler.ReceiveHeadersTimeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
       HttpHandler.ReceiveDataTimeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
@@ -85,7 +87,7 @@ namespace SEOMacroscope
 
     public async Task<MacroscopeHttpTwoClientResponse> Head (
       Uri Url,
-      Action<HttpRequestMessage> ConfigureCustomRequestHeadersCallback,
+      Action<HttpRequestMessage> PreProcessCustomRequestHeadersCallback,
       Action<HttpRequestMessage> PostProcessRequestHttpHeadersCallback
     )
     {
@@ -108,7 +110,7 @@ namespace SEOMacroscope
 
         try
         {
-          ConfigureCustomRequestHeadersCallback( Request );
+          PreProcessCustomRequestHeadersCallback( Request );
         }
         catch ( Exception ex )
         {
@@ -174,7 +176,7 @@ namespace SEOMacroscope
         }
         catch ( Exception ex )
         {
-          DebugMsg( string.Format( "Get: {0}", ex.Message ) );
+          DebugMsg( string.Format( "Head: {0}", ex.Message ) );
         }
 
       }

@@ -48,6 +48,7 @@ namespace SEOMacroscope
 
     private void ConfigureCssPageRequestHeadersCallback ( HttpRequestMessage Request )
     {
+      this.AuthenticateRequest( Request: Request );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -93,8 +94,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse Response = null;
       Uri DocUri;
       string ResponseErrorCondition = null;
-      bool IsAuthenticating = false;
-      
+     
       DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 
       try
@@ -102,9 +102,6 @@ namespace SEOMacroscope
 
         DocUri = new Uri( this.DocUrl );
         Response = await Client.Get( DocUri, this.ConfigureCssPageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
-
-        // TODO: Fix this:
-        //IsAuthenticating = this.AuthenticateRequest( req );
 
       }
       catch ( MacroscopeDocumentException ex )
@@ -128,11 +125,6 @@ namespace SEOMacroscope
         string RawData = "";
 
         this.ProcessResponseHttpHeaders( Response: Response );
-
-        if( IsAuthenticating )
-        {
-          this.VerifyOrPurgeCredential();
-        }
 
         /** Get Response Body ---------------------------------------------- **/
 

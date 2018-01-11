@@ -46,6 +46,7 @@ namespace SEOMacroscope
 
     private void ConfigureAudioPageRequestHeadersCallback ( HttpRequestMessage Request )
     {
+      this.AuthenticateRequest( Request: Request );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -91,17 +92,13 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse Response = null;
       Uri DocUri;
       string ResponseErrorCondition = null;
-      bool IsAuthenticating = false;
 
       try
       {
 
         DocUri = new Uri( this.DocUrl );
         Response = await Client.Get( DocUri, this.ConfigureAudioPageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
-
-        // TODO: Fix this:
-        //IsAuthenticating = this.AuthenticateRequest( req );
-
+        
       }
       catch ( MacroscopeDocumentException ex )
       {
@@ -122,11 +119,6 @@ namespace SEOMacroscope
       {
 
         this.ProcessResponseHttpHeaders( Response: Response );
-
-        if ( IsAuthenticating )
-        {
-          this.VerifyOrPurgeCredential();
-        }
 
         { // Title
 

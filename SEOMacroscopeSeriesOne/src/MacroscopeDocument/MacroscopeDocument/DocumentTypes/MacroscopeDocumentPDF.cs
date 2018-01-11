@@ -46,6 +46,7 @@ namespace SEOMacroscope
 
     private void ConfigurePdfPageRequestHeadersCallback ( HttpRequestMessage Request )
     {
+      this.AuthenticateRequest( Request: Request );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -90,16 +91,12 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse ClientResponse = null;
       Uri DocUri;
       string ResponseErrorCondition = null;
-      bool Authenticating = false;
 
       try
       {
 
         DocUri = new Uri( this.DocUrl );
         ClientResponse = await Client.Get( DocUri, this.ConfigurePdfPageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
-
-        // TODO: Fix this:
-        //IsAuthenticating = this.AuthenticateRequest( req );
 
       }
       catch ( MacroscopeDocumentException ex )
@@ -121,11 +118,6 @@ namespace SEOMacroscope
         MacroscopePdfTools pdfTools;
 
         this.ProcessResponseHttpHeaders( Response: ClientResponse );
-
-        if ( Authenticating )
-        {
-          this.VerifyOrPurgeCredential();
-        }
 
         { // Probe Locale
           //this.Locale = "en"; // Implement locale probing

@@ -49,9 +49,7 @@ namespace SEOMacroscope
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
     {
-
-      bool IsAuthenticating = this.AuthenticateRequest( Request: Request );
-
+      this.AuthenticateRequest( Request: Request );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -103,7 +101,6 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClientResponse ClientResponse = null;
       Uri DocUri = null;
       string ResponseErrorCondition = null;
-      bool IsAuthenticating = false;
 
       this.SetProcessInlinks();
       this.SetProcessHyperlinksIn();
@@ -111,11 +108,13 @@ namespace SEOMacroscope
       try
       {
 
-        // TODO: Fix this:
-        //        IsAuthenticating = this.AuthenticateRequest( req );
-
         DocUri = new Uri( this.DocUrl );
-        ClientResponse = await Client.Head( DocUri, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+
+        ClientResponse = await Client.Head(
+          DocUri,
+          this.ConfigureHeadRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback
+         );
 
         this.CrawledDate = DateTime.UtcNow;
 
@@ -154,10 +153,6 @@ namespace SEOMacroscope
 
           this.ProcessResponseHttpHeaders( Response: ClientResponse );
 
-          if ( IsAuthenticating )
-          {
-            this.VerifyOrPurgeCredential();
-          }
 
           if ( this.GetIsRedirect() )
           {
