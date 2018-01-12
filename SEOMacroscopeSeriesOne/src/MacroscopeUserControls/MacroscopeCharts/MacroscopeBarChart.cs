@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2017 Jason Holland.
+  Copyright 2018 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-
 
 namespace SEOMacroscope
 {
