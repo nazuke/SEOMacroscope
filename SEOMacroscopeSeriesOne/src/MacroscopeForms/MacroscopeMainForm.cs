@@ -46,6 +46,7 @@ namespace SEOMacroscope
     MacroscopeJobMaster JobMaster;
     MacroscopeCredentialsHttp CredentialsHttp;
 
+    string StartUrlString;
     bool StartUrlDirty;
     bool EnableStartUrlCallbacks;
 
@@ -156,9 +157,10 @@ namespace SEOMacroscope
         InitializeRegexes: true,
         InitializeXpaths: true
       );
-      
+
       /** ------------------------------------------------------------------ **/
 
+      this.StartUrlString = "";
       this.StartUrlDirty = false;
       this.EnableStartUrlCallbacks = true;
 
@@ -628,16 +630,25 @@ namespace SEOMacroscope
 
       string NewStartUrl = this.GetUrl();
 
-      this.StartUrlDirty = true;
-
-      if( this.EnableStartUrlCallbacks )
+      if ( !NewStartUrl.Equals( this.StartUrlString ) )
       {
-        this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
-      }
 
-      if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
-      {
-        MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
+        this.StartUrlDirty = true;
+
+        if ( this.EnableStartUrlCallbacks )
+        {
+          this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
+        }
+
+        if ( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
+        {
+
+          this.StartUrlString = NewStartUrl;
+
+          MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
+
+        }
+
       }
 
     }
@@ -708,6 +719,9 @@ namespace SEOMacroscope
           
         }
 
+        this.StartUrlString = NewStartUrl;
+
+
         MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
 
         MacroscopePreferencesManager.SavePreferences();
@@ -757,6 +771,8 @@ namespace SEOMacroscope
           {
 
             this.ScanningControlsStart();
+
+            this.StartUrlString = NewStartUrl;
 
             MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
 
@@ -815,6 +831,8 @@ namespace SEOMacroscope
           {
 
             this.ScanningControlsStart();
+
+            this.StartUrlString = NewStartUrl;
 
             MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
 
@@ -2406,12 +2424,14 @@ namespace SEOMacroscope
     public void RecalculateLinkCounts ()
     {
 
-      List<string> DocumentKeys = this.JobMaster.GetDocCollection().DocumentKeys();
-      
-      foreach( string Url in DocumentKeys )
+      MacroscopeDocumentCollection DocCollection = this.JobMaster.GetDocCollection();
+
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-        this.JobMaster.AddUpdateDisplayQueue( Url: Url );
+        this.JobMaster.AddUpdateDisplayQueue( Url: msDoc.GetUrl() );
       }
+
+      DocCollection.RecalculateDocCollection();
 
       this.UpdateTabPage( MacroscopeConstants.tabPageStructureLinkCounts );
 

@@ -114,8 +114,6 @@ namespace SEOMacroscope
     private void RenderListViewSitemapErrors ( MacroscopeDocumentCollection DocCollection )
     {
 
-      // TODO: Sitemap errors listing appears to be broken
-
       List<ListViewItem> ListViewItems = new List<ListViewItem>( 1 );
       List<Dictionary<string, string>> CompiledTable = DocCollection.GetSitemapErrorsAsTable();
 

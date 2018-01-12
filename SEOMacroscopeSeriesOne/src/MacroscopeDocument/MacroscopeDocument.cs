@@ -2775,7 +2775,7 @@ namespace SEOMacroscope
       {
         this.ExecuteDeepKeywordAnalysis();
       }
-
+      
       return ( true );
 
     }
