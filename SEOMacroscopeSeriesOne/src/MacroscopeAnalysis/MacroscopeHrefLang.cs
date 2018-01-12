@@ -24,7 +24,16 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -52,13 +61,13 @@ namespace SEOMacroscope
       bool CheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
 
       this.SuppressDebugMsg = true;
-      
+
       this.Locale = Locale;
       this.Url = Url;
 
-      if( CheckHrefLang )
+      if ( CheckHrefLang )
       {
-        this.Available = this.Check();
+        this.Available = await this.Check();
       }
       else
       {
@@ -71,40 +80,41 @@ namespace SEOMacroscope
 
     public string GetLocale ()
     {
-      return( this.Locale );
+      return ( this.Locale );
     }
 
     /**************************************************************************/
 
     public string GetUrl ()
     {
-      return( this.Url );
+      return ( this.Url );
     }
 
     /**************************************************************************/
 
     public DateTime GetDateModified ()
     {
-      return( this.DateModified );
+      return ( this.DateModified );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public DateTime GetDateServer ()
     {
-      return( this.DateServer );
+      return ( this.DateServer );
     }
 
     /**************************************************************************/
 
     public bool IsAvailable ()
     {
-      return( this.Available );
+      return ( this.Available );
     }
 
     /**************************************************************************/
 
     // TODO: Fix this so that it is HTTP/2 compliant
+    /*
     private bool Check ()
     {
       
@@ -161,38 +171,146 @@ namespace SEOMacroscope
       return( IsAvailableCheck );
 
     }
+    */
 
     /**************************************************************************/
 
     private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
     {
 
-      foreach( string HttpHeaderName in res.Headers )
+      foreach ( string HttpHeaderName in res.Headers )
       {
 
-        if( HttpHeaderName.ToLower().Equals( "date" ) )
+        if ( HttpHeaderName.ToLower().Equals( "date" ) )
         {
           string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateServer = MacroscopeDateTools.ParseHttpDate(  DateString: DateString );
+          this.DateServer = MacroscopeDateTools.ParseHttpDate( DateString: DateString );
         }
 
-        if( HttpHeaderName.ToLower().Equals( "last-modified" ) )
+        if ( HttpHeaderName.ToLower().Equals( "last-modified" ) )
         {
           string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateModified = MacroscopeDateTools.ParseHttpDate(  DateString: DateString );
+          this.DateModified = MacroscopeDateTools.ParseHttpDate( DateString: DateString );
         }
 
       }
 
-      if( this.DateServer.Date == new DateTime ().Date )
+      if ( this.DateServer.Date == new DateTime().Date )
       {
         this.DateServer = DateTime.UtcNow;
       }
 
-      if( this.DateModified.Date == new DateTime ().Date )
+      if ( this.DateModified.Date == new DateTime().Date )
       {
         this.DateModified = this.DateServer;
       }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /** Execute Head Request **************************************************/
+
+    private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
+    {
+      //this.AuthenticateRequest( Request: Request );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request )
+    {
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async Task<bool> Check ()
+    {
+
+      bool IsAvailableCheck = false;
+
+      try
+      {
+        IsAvailableCheck = await this._ExecuteHeadCheck();
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( string.Format( "Check :: Exception: {0}", ex.Message ) );
+      }
+
+      return ( IsAvailableCheck );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private async Task<bool> _ExecuteHeadCheck ()
+    {
+
+      bool IsAvailableCheck = false;
+      MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
+      MacroscopeHttpTwoClientResponse ClientResponse = null;
+      Uri DocUri = null;
+
+      try
+      {
+
+        DocUri = new Uri( this.Url );
+
+        ClientResponse = await Client.Head(
+          DocUri,
+          this.ConfigureHeadRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback
+         );
+
+      }
+      catch ( MacroscopeDocumentException ex )
+      {
+        this.DebugMsg( string.Format( "_ExecuteHeadCheck :: MacroscopeDocumentException: {0}", ex.Message ) );
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( string.Format( "_ExecuteHeadCheck :: Exception: {0}", ex.Message ) );
+      }
+
+      if ( ClientResponse != null )
+      {
+
+        try
+        {
+          this.DebugMsg( string.Format( "StatusCode: {0}", ClientResponse.GetResponse().StatusCode ) );
+          if ( ClientResponse.GetResponse() != null )
+          {
+            if ( ClientResponse.GetResponse().StatusCode == HttpStatusCode.OK )
+            {
+              IsAvailableCheck = true;
+            }
+          }
+          else
+          {
+            throw new MacroscopeDocumentException( "Bad Response in _ExecuteHeadCheck" );
+          }
+        }
+        catch ( Exception ex )
+        {
+          this.DebugMsg( string.Format( "_ExecuteHeadCheck :: Exception: {0}", ex.Message ) );
+        }
+
+      }
+      else
+      {
+        // NO-OP
+      }
+
+      return ( IsAvailableCheck );
 
     }
 

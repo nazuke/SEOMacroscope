@@ -839,7 +839,8 @@ namespace SEOMacroscope
       return( wpProxy );
     }
 
-    // TODO: Deprecate this:
+    // DEPRECATED: remove this
+    /*
     public static void EnableHttpProxy ( WebRequest req )
     {
       if( wpProxy != null )
@@ -851,6 +852,7 @@ namespace SEOMacroscope
         req.Proxy = null;
       }
     }
+    */
 
     public static void EnableHttpProxy ( WinHttpHandler HttpHandler )
     {
