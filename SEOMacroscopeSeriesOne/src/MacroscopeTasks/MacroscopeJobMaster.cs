@@ -401,7 +401,7 @@ namespace SEOMacroscope
 
       //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
 
-      this.StartUrl = MacroscopeUrlUtils.SanitizeUrl( Url: this.StartUrl );
+      this.StartUrl = MacroscopeHttpUrlUtils.SanitizeUrl( Url: this.StartUrl );
       
       this.DocCollection.SetStartUrl( Url: this.StartUrl );
 
@@ -790,12 +790,12 @@ namespace SEOMacroscope
 
       if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
-        NewUrl = MacroscopeUrlUtils.StripQueryString( Url: NewUrl );
+        NewUrl = MacroscopeHttpUrlUtils.StripQueryString( Url: NewUrl );
       }
 
       if( MacroscopePreferencesManager.GetIgnoreHashFragments() )
       {
-        NewUrl = MacroscopeUrlUtils.StripHashFragment( Url: NewUrl );
+        NewUrl = MacroscopeHttpUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
       if ( this.JobHistory.SeenHistoryItem( Url: NewUrl ) )
@@ -882,12 +882,12 @@ namespace SEOMacroscope
 
       if ( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
-        NewUrl = MacroscopeUrlUtils.StripQueryString( Url: NewUrl );
+        NewUrl = MacroscopeHttpUrlUtils.StripQueryString( Url: NewUrl );
       }
 
       if( MacroscopePreferencesManager.GetIgnoreHashFragments() )
       {
-        NewUrl = MacroscopeUrlUtils.StripHashFragment( Url: NewUrl );
+        NewUrl = MacroscopeHttpUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
       JobItem = new MacroscopeJobItem ( Url: NewUrl );

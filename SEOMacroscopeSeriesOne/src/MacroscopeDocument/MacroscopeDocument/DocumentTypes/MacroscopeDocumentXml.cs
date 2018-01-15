@@ -92,14 +92,16 @@ namespace SEOMacroscope
       XmlDocument XmlDoc = null;
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse Response = null;
-      Uri DocUri;
       string ResponseErrorCondition = null;
 
       try
       {
 
-        DocUri = new Uri( this.DocUrl );
-        Response = await Client.Get( DocUri, this.ConfigureXmlPageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+        Response = await Client.Get(
+          this.GetUri(),
+          this.ConfigureXmlPageRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback
+        );
 
       }
       catch ( MacroscopeDocumentException ex )

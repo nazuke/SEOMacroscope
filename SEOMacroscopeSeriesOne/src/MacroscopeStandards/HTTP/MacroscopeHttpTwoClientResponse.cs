@@ -25,6 +25,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Collections.Generic;
 
 namespace SEOMacroscope
@@ -74,6 +75,17 @@ namespace SEOMacroscope
     public HttpResponseMessage GetResponse ()
     {
       return ( this.Response );
+    }
+
+    /**************************************************************************/
+
+    public MediaTypeHeaderValue GetMimeType ()
+    {
+
+      MediaTypeHeaderValue MimeType = this.Response.Content.Headers.ContentType;
+
+      return ( MimeType );
+
     }
 
     /**************************************************************************/

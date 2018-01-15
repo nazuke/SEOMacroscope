@@ -323,7 +323,7 @@ namespace SEOMacroscope
           continue;
         }
 
-        if( !MacroscopeUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
+        if( !MacroscopeHttpUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
         {      
           continue;
         }
@@ -461,7 +461,7 @@ namespace SEOMacroscope
           continue;
         }
 
-        if( !MacroscopeUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
+        if( !MacroscopeHttpUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
         {      
           continue;
         }

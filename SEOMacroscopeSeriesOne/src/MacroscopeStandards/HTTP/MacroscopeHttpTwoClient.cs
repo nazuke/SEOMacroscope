@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
     // TODO: Finish implementing authentication
 
-    // TODO: finish this class
+    // TODO: Finish this class
 
     /**************************************************************************/
 
@@ -336,8 +336,11 @@ namespace SEOMacroscope
 
       try
       {
-        Request.Headers.Accept.Clear();
-        Request.Headers.Accept.Add( new MediaTypeWithQualityHeaderValue( "*/*", 1 ) );
+        if ( Request.Headers.Accept != null )
+        {
+          Request.Headers.Accept.Clear();
+          Request.Headers.Accept.Add( new MediaTypeWithQualityHeaderValue( "*/*", 1 ) );
+        }
       }
       catch ( Exception ex )
       {
@@ -347,9 +350,12 @@ namespace SEOMacroscope
 
       try
       {
-        Request.Headers.AcceptCharset.Clear();
-        Request.Headers.AcceptCharset.Add( new StringWithQualityHeaderValue( "utf-8", 1 ) );
-        Request.Headers.AcceptCharset.Add( new StringWithQualityHeaderValue( "us-ascii", 0.9 ) );
+        if ( Request.Headers.AcceptCharset != null )
+        {
+          Request.Headers.AcceptCharset.Clear();
+          Request.Headers.AcceptCharset.Add( new StringWithQualityHeaderValue( "utf-8", 1 ) );
+          Request.Headers.AcceptCharset.Add( new StringWithQualityHeaderValue( "us-ascii", 0.9 ) );
+        }
       }
       catch ( Exception ex )
       {
@@ -359,9 +365,12 @@ namespace SEOMacroscope
 
       try
       {
-        Request.Headers.AcceptEncoding.Clear();
-        Request.Headers.AcceptEncoding.Add( new StringWithQualityHeaderValue( "gzip", 1 ) );
-        Request.Headers.AcceptEncoding.Add( new StringWithQualityHeaderValue( "deflate", 0.9 ) );
+        if ( Request.Headers.AcceptEncoding != null )
+        {
+          Request.Headers.AcceptEncoding.Clear();
+          Request.Headers.AcceptEncoding.Add( new StringWithQualityHeaderValue( "gzip", 1 ) );
+          Request.Headers.AcceptEncoding.Add( new StringWithQualityHeaderValue( "deflate", 0.9 ) );
+        }
       }
       catch ( Exception ex )
       {
@@ -372,10 +381,13 @@ namespace SEOMacroscope
       try
       {
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
-        Request.Headers.CacheControl.MaxAge = new TimeSpan( 0, 0, 0 );
-        Request.Headers.CacheControl.NoCache = true;
-        Request.Headers.CacheControl.MustRevalidate = true;
-        Request.Headers.CacheControl.ProxyRevalidate = true;
+        if ( Request.Headers.CacheControl != null )
+        {
+          Request.Headers.CacheControl.MaxAge = new TimeSpan( 0, 0, 0 );
+          Request.Headers.CacheControl.NoCache = true;
+          Request.Headers.CacheControl.MustRevalidate = true;
+          Request.Headers.CacheControl.ProxyRevalidate = true;
+        }
       }
       catch ( Exception ex )
       {
@@ -385,8 +397,11 @@ namespace SEOMacroscope
 
       try
       {
-        Request.Headers.AcceptLanguage.Clear();
-        Request.Headers.AcceptLanguage.Add( new StringWithQualityHeaderValue( "*", 1 ) );
+        if ( Request.Headers.AcceptLanguage != null )
+        {
+          Request.Headers.AcceptLanguage.Clear();
+          Request.Headers.AcceptLanguage.Add( new StringWithQualityHeaderValue( "*", 1 ) );
+        }
       }
       catch ( Exception ex )
       {

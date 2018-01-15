@@ -413,11 +413,6 @@ namespace SEOMacroscope
         {
           RawData = Response.GetContentAsString();
         }
-        catch ( WebException ex )
-        {
-          DebugMsg( string.Format( "FetchRobotTextFile: WebException: {0}", ex.Message ) );
-          RawData = "";
-        }
         catch ( Exception ex )
         {
           DebugMsg( string.Format( "FetchRobotTextFile: Exception: {0}", ex.Message ) );

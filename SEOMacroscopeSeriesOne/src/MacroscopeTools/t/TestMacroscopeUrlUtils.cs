@@ -63,7 +63,7 @@ namespace SEOMacroscope
 
       foreach( string RelativeUrl in UrlTable.Keys )
       {
-        string sAbsoluteUrl = MacroscopeUrlUtils.MakeUrlAbsolute( Url, RelativeUrl );
+        string sAbsoluteUrl = MacroscopeHttpUrlUtils.MakeUrlAbsolute( Url, RelativeUrl );
         Assert.AreEqual( UrlTable[ RelativeUrl ], sAbsoluteUrl, "DO NOT MATCH" );
       }
 
@@ -119,7 +119,7 @@ namespace SEOMacroscope
 
         string ResolvedUrl;
 
-        ResolvedUrl = MacroscopeUrlUtils.MakeUrlAbsolute(
+        ResolvedUrl = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
           BaseHref: BaseHref,
           BaseUrl: BaseUrl,
           Url: PageUrl
@@ -171,7 +171,7 @@ namespace SEOMacroscope
 
       foreach( string Url in UrlList.Keys )
       {
-        bool IsValid = MacroscopeUrlUtils.ValidateUrl( Url );
+        bool IsValid = MacroscopeHttpUrlUtils.ValidateUrl( Url );
         Assert.AreEqual( UrlList[ Url ], IsValid, string.Format( "NOT VALID: {0}", Url ) );
       }
 
@@ -242,7 +242,7 @@ namespace SEOMacroscope
 
       foreach( string PropertyKey in PropertiesTable.Keys )
       {
-        string Cleaned = MacroscopeUrlUtils.CleanUrlCss( PropertyKey );
+        string Cleaned = MacroscopeHttpUrlUtils.CleanUrlCss( PropertyKey );
         Assert.AreEqual( PropertiesTable[ PropertyKey ], Cleaned, string.Format( "NOT VALID: {0}", Cleaned ) );
       }
 
@@ -270,7 +270,7 @@ namespace SEOMacroscope
 
       foreach( string Url in UrlList.Keys )
       {
-        string UrlResult = MacroscopeUrlUtils.StripQueryString( Url );
+        string UrlResult = MacroscopeHttpUrlUtils.StripQueryString( Url );
         Assert.AreEqual( UrlList[ Url ], UrlResult, string.Format( "NOT VALID: {0}", Url ) );
       }
 
@@ -298,7 +298,7 @@ namespace SEOMacroscope
 
       foreach( string Url in UrlList.Keys )
       {
-        string UrlResult = MacroscopeUrlUtils.StripHashFragment( Url );
+        string UrlResult = MacroscopeHttpUrlUtils.StripHashFragment( Url );
         Assert.AreEqual( UrlList[ Url ], UrlResult, string.Format( "NOT VALID: {0}", Url ) );
       }
 

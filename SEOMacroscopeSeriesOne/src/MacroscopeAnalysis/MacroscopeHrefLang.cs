@@ -47,6 +47,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    MacroscopeJobMaster MsJobMaster;
     string Locale;
     string Url;
     DateTime DateModified;
@@ -55,19 +56,17 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeHrefLang ( string Locale, string Url )
+    public MacroscopeHrefLang ( MacroscopeJobMaster JobMaster, string Locale, string Url )
     {
 
-      bool CheckHrefLang = MacroscopePreferencesManager.GetCheckHreflangs();
-
       this.SuppressDebugMsg = true;
-
+      this.MsJobMaster = JobMaster;
       this.Locale = Locale;
       this.Url = Url;
 
-      if ( CheckHrefLang )
+      if ( MacroscopePreferencesManager.GetCheckHreflangs() )
       {
-        this.Available = await this.Check();
+        this.Check();
       }
       else
       {
@@ -113,68 +112,6 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    // TODO: Fix this so that it is HTTP/2 compliant
-    /*
-    private bool Check ()
-    {
-      
-      // TODO: Increase level of detail here. 
-
-      HttpWebRequest req = null;
-      HttpWebResponse res = null;
-      bool IsAvailableCheck = false;
-
-      try
-      {
-
-        req = WebRequest.CreateHttp( this.Url );
-        req.Method = "HEAD";
-        req.Timeout = 10000;
-        req.KeepAlive = false;
-        req.Host = MacroscopeUrlUtils.GetHostnameAndPortFromUrl( this.Url );
-        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-        
-        MacroscopePreferencesManager.EnableHttpProxy( req );
-
-        using( res = ( HttpWebResponse )req.GetResponse() )
-        {
-
-          DebugMsg( string.Format( "MacroscopeHrefLang Status: {0}", res.StatusCode ) );
-
-          if( res.StatusCode == HttpStatusCode.OK )
-          {
-
-            IsAvailableCheck = true;
-
-            this.ProcessResponseHttpHeaders( req: req, res: res );
-
-          }
-          else
-          {
-            IsAvailableCheck = false;
-          }
-
-          res.Close();
-        
-        }
-
-      }
-      catch( UriFormatException ex )
-      {
-        DebugMsg( string.Format( "MacroscopeHrefLang UriFormatException: {0}", ex.Message ) );
-      }
-      catch( WebException ex )
-      {
-        DebugMsg( string.Format( "MacroscopeHrefLang WebException: {0}", ex.Message ) );
-      }
-
-      return( IsAvailableCheck );
-
-    }
-    */
-
-    /**************************************************************************/
-
     private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
     {
 
@@ -206,17 +143,7 @@ namespace SEOMacroscope
       }
 
     }
-
-
-
-
-
-
-
-
-
-
-
+    
     /** Execute Head Request **************************************************/
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
@@ -232,7 +159,12 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task<bool> Check ()
+    private async void Check ()
+    {
+      this.Available = await this._Check();
+    }
+
+    private async Task<bool> _Check ()
     {
 
       bool IsAvailableCheck = false;
@@ -256,7 +188,7 @@ namespace SEOMacroscope
     {
 
       bool IsAvailableCheck = false;
-      MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
+      MacroscopeHttpTwoClient Client = this.MsJobMaster.GetHttpClient();
       MacroscopeHttpTwoClientResponse ClientResponse = null;
       Uri DocUri = null;
 

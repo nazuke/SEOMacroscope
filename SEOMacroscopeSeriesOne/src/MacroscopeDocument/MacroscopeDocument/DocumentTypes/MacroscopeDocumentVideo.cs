@@ -90,14 +90,16 @@ namespace SEOMacroscope
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse Response = null;
-      Uri DocUri;
       string ResponseErrorCondition = null;
 
       try
       {
 
-        DocUri = new Uri( this.DocUrl );
-        Response = await Client.Get( DocUri, this.ConfigureVideoPageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+        Response = await Client.Get(
+          this.GetUri(),
+          this.ConfigureVideoPageRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback
+        );
 
       }
       catch ( MacroscopeDocumentException ex )

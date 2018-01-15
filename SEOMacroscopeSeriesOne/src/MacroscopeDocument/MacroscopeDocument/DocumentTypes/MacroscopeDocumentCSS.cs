@@ -92,7 +92,6 @@ namespace SEOMacroscope
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse Response = null;
-      Uri DocUri;
       string ResponseErrorCondition = null;
      
       DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
@@ -100,8 +99,11 @@ namespace SEOMacroscope
       try
       {
 
-        DocUri = new Uri( this.DocUrl );
-        Response = await Client.Get( DocUri, this.ConfigureCssPageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+        Response = await Client.Get(
+          this.GetUri(),
+          this.ConfigureCssPageRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback
+        );
 
       }
       catch ( MacroscopeDocumentException ex )
@@ -353,14 +355,14 @@ namespace SEOMacroscope
     {
 
       string LinkUrlAbs = null;
-      string LinkUrlCleaned = MacroscopeUrlUtils.CleanUrlCss( BackgroundImageUrl );
+      string LinkUrlCleaned = MacroscopeHttpUrlUtils.CleanUrlCss( BackgroundImageUrl );
 
       if( LinkUrlCleaned != null )
       {
 
         try
         {
-          LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute(
+          LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
             BaseUrl: this.DocUrl,
             Url: LinkUrlCleaned
           );

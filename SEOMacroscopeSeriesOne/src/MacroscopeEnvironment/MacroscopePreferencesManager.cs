@@ -783,20 +783,28 @@ namespace SEOMacroscope
       return( HttpProxyHost );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public static void SetHttpProxyHost ( string Value )
     {
       HttpProxyHost = Value;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public static int GetHttpProxyPort ()
     {
       return( HttpProxyPort );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public static void SetHttpProxyPort ( int Value )
     {
       HttpProxyPort = Value;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public static void ConfigureHttpProxy ()
     {
@@ -834,25 +842,14 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public static WebProxy GetHttpProxy ()
     {
       return( wpProxy );
     }
 
-    // DEPRECATED: remove this
-    /*
-    public static void EnableHttpProxy ( WebRequest req )
-    {
-      if( wpProxy != null )
-      {
-        req.Proxy = wpProxy;
-      }
-      else
-      {
-        req.Proxy = null;
-      }
-    }
-    */
+    /** -------------------------------------------------------------------- **/
 
     public static void EnableHttpProxy ( WinHttpHandler HttpHandler )
     {
@@ -873,6 +870,8 @@ namespace SEOMacroscope
       return( ServerCertificateValidation );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public static void SetServerCertificateValidation ( bool Value )
     {
       
@@ -881,6 +880,8 @@ namespace SEOMacroscope
       ConfigureServerCertificateValidation();
       
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private static void ConfigureServerCertificateValidation ()
     {
@@ -897,6 +898,8 @@ namespace SEOMacroscope
       }
 
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private static bool ServerCertificateValidationCallback (
       object sender,

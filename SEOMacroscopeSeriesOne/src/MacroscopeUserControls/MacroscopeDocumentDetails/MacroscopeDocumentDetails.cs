@@ -37,7 +37,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private MacroscopeUrlLoader UrlLoader;
+    private MacroscopeHttpUrlLoader HttpUrlLoader;
 
     private MacroscopeColumnSorter lvColumnSorter;
         
@@ -76,7 +76,7 @@ namespace SEOMacroscope
       this.textBoxBodyTextRaw.Dock = DockStyle.Fill;
       this.listViewCustomFilters.Dock = DockStyle.Fill;
 
-      this.UrlLoader = new MacroscopeUrlLoader ();
+      this.HttpUrlLoader = new MacroscopeHttpUrlLoader ();
       this.listViewDocInfo.Dock = DockStyle.Fill;
 
       /** ListView Sorters ------------------------------------------------- **/
@@ -2297,7 +2297,7 @@ namespace SEOMacroscope
       if( msDoc.GetIsImage() )
       {
         this.splitContainerDocumentDetails.Panel2Collapsed = false;
-        this.RenderImagePreview( msDoc );
+        this.RenderImagePreview( JobMaster: JobMaster, msDoc: msDoc );
       }
       else
       {
@@ -2318,14 +2318,14 @@ namespace SEOMacroscope
 
     /** Image Preview *********************************************************/
 
-    private void RenderImagePreview ( MacroscopeDocument msDoc )
+    private async void RenderImagePreview ( MacroscopeJobMaster JobMaster,  MacroscopeDocument msDoc )
     {
       if( msDoc.GetIsImage() )
       {
-        MemoryStream msStream = this.UrlLoader.LoadMemoryStreamFromUrl( msDoc.GetUrl() );
-        if( msStream != null )
+        MemoryStream MemStream = await this.HttpUrlLoader.LoadMemoryStreamFromUrl( JobMaster: JobMaster, TargetUri: msDoc.GetUri() );
+        if( MemStream != null )
         {
-          this.pictureBoxDocumentDetailsImage.Image = Image.FromStream( msStream );
+          this.pictureBoxDocumentDetailsImage.Image = Image.FromStream( MemStream );
           this.RenderImagePreviewListView( msDoc, this.pictureBoxDocumentDetailsImage.Image );
         }
       }

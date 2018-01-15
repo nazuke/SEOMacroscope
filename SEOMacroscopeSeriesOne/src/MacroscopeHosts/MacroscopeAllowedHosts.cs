@@ -336,22 +336,27 @@ namespace SEOMacroscope
       string Hostname = null;
       Uri DocumentUrl = null;
 
-      try
+      if ( !string.IsNullOrEmpty( Url ) )
       {
-        DocumentUrl = new Uri( Url, UriKind.Absolute );
-      }
-      catch ( UriFormatException ex )
-      {
-        DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
-      }
-      catch ( Exception ex )
-      {
-        DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
-      }
 
-      if ( DocumentUrl != null )
-      {
-        Hostname = DocumentUrl.Host;
+        try
+        {
+          DocumentUrl = new Uri( Url, UriKind.Absolute );
+        }
+        catch ( UriFormatException ex )
+        {
+          DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
+        }
+        catch ( Exception ex )
+        {
+          DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
+        }
+
+        if ( DocumentUrl != null )
+        {
+          Hostname = DocumentUrl.Host;
+        }
+
       }
 
       return ( Hostname );

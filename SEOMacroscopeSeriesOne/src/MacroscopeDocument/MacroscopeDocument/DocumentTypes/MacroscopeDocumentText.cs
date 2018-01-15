@@ -91,14 +91,16 @@ namespace SEOMacroscope
       List<string> TextDoc = new List<string>();
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse Response = null;
-      Uri DocUri;
       string ResponseErrorCondition = null;
 
       try
       {
 
-        DocUri = new Uri( this.DocUrl );
-        Response = await Client.Get( DocUri, this.ConfigureTextPageRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+        Response = await Client.Get(
+          this.GetUri(),
+          this.ConfigureTextPageRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback
+        );
 
       }
       catch ( MacroscopeDocumentException ex )
@@ -144,22 +146,6 @@ namespace SEOMacroscope
 
           this.SetChecksum( RawData );
 
-        }
-        catch ( WebException ex )
-        {
-          DebugMsg( string.Format( "WebException: {0}", ex.Message ) );
-
-          if ( ex.Response != null )
-          {
-            this.SetStatusCode( ( (HttpWebResponse) ex.Response ).StatusCode );
-          }
-          else
-          {
-            this.SetStatusCode( (HttpStatusCode) ex.Status );
-          }
-
-          RawData = "";
-          this.SetContentLength( Length: 0 );
         }
         catch ( Exception ex )
         {

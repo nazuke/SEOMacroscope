@@ -26,22 +26,25 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace SEOMacroscope
 {
 
-  public class MacroscopeUrlUtils : Macroscope
+  public class MacroscopeHttpUrlUtils : Macroscope
   {
 
     /**************************************************************************/
 
-    static MacroscopeUrlUtils ()
+    static MacroscopeHttpUrlUtils ()
     {
       SuppressStaticDebugMsg = true;
     }
 
-    public MacroscopeUrlUtils ()
+    public MacroscopeHttpUrlUtils ()
     {
       SuppressDebugMsg = true;
     }
@@ -120,7 +123,7 @@ namespace SEOMacroscope
       if ( !string.IsNullOrEmpty( value: BaseHref ) )
       {
 
-        AbsoluteBaseHref = MacroscopeUrlUtils.MakeUrlAbsolute(
+        AbsoluteBaseHref = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
           BaseUrl: BaseUrl,
           Url: BaseHref
         );
@@ -128,7 +131,7 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "BASEHREF: {0}", BaseHref ), true );
         DebugMsg( string.Format( "ABSOLUTEBASEHREF: {0}", AbsoluteBaseHref ), true );
 
-        UrlFixed = MacroscopeUrlUtils.MakeUrlAbsolute(
+        UrlFixed = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
           BaseUrl: AbsoluteBaseHref,
           Url: Url
         );
@@ -140,7 +143,7 @@ namespace SEOMacroscope
       else
       {
 
-        UrlFixed = MacroscopeUrlUtils.MakeUrlAbsolute(
+        UrlFixed = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
           BaseUrl: BaseUrl,
           Url: Url
         );
@@ -799,55 +802,49 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    // TODO: Fix this so that it is HTTP/2 compliant
-    public static string GetMimeTypeOfUrl ( string Url )
+    public static async Task<string> GetMimeTypeOfUrl ( MacroscopeJobMaster JobMaster, Uri TargetUri )
     {
 
-      HttpWebRequest req = null;
-      HttpWebResponse res = null;
+      MacroscopeHttpTwoClient Client = JobMaster.GetHttpClient();
+      MacroscopeHttpTwoClientResponse Response = null;
       string MimeType = null;
 
       try
       {
 
-        req = WebRequest.CreateHttp( Url );
+        Response = await Client.Head( TargetUri, ConfigureHeadRequestHeadersCallback, PostProcessRequestHttpHeadersCallback );
 
-        req.Method = "HEAD";
-        req.Timeout = MacroscopePreferencesManager.GetRequestTimeout() * 1000;
-        req.KeepAlive = false;
-        req.AllowAutoRedirect = false;
-        req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-        MacroscopePreferencesManager.EnableHttpProxy( req );
-
-        res = (HttpWebResponse) req.GetResponse();
-
-        MimeType = res.Headers[ HttpResponseHeader.ContentType ];
-
-        res.Close();
-
-        res.Dispose();
+        if ( Response != null )
+        {
+          MimeType = Response.GetMimeType().ToString();
+        }
 
       }
-      catch ( UriFormatException ex )
+      catch ( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "ExecuteHeadRequest :: UriFormatException: {0}", ex.Message ), true );
-      }
-      catch ( TimeoutException ex )
-      {
-        DebugMsg( string.Format( "ExecuteHeadRequest :: TimeoutException: {0}", ex.Message ), true );
-      }
-      catch ( WebException ex )
-      {
-        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ), true );
+        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ), true );
+        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", TargetUri.ToString() ), true );
       }
       catch ( Exception ex )
       {
-        DebugMsg( string.Format( "ExecuteHeadRequest :: WebException: {0}", ex.Message ), true );
+        DebugMsg( string.Format( "Exception: {0}", ex.Message ), true );
+        DebugMsg( string.Format( "Exception: {0}", TargetUri.ToString() ), true );
       }
 
       return ( MimeType );
 
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private static void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
+    {
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private static void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request )
+    {
     }
 
     /**************************************************************************/

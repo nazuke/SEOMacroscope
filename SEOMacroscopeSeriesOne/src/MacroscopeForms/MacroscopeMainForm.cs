@@ -640,7 +640,7 @@ namespace SEOMacroscope
           this.ScanReset( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
         }
 
-        if ( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
+        if ( MacroscopeHttpUrlUtils.ValidateUrl( Url: NewStartUrl ) )
         {
 
           this.StartUrlString = NewStartUrl;
@@ -705,7 +705,7 @@ namespace SEOMacroscope
 
       string NewStartUrl = this.GetUrl();
 
-      if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
+      if( MacroscopeHttpUrlUtils.ValidateUrl( Url: NewStartUrl ) )
       {
 
         this.ScanningControlsStart();
@@ -767,7 +767,7 @@ namespace SEOMacroscope
 
           this.EnableStartUrlCallbacks = true;
 
-          if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
+          if( MacroscopeHttpUrlUtils.ValidateUrl( Url: NewStartUrl ) )
           {
 
             this.ScanningControlsStart();
@@ -827,7 +827,7 @@ namespace SEOMacroscope
 
           this.EnableStartUrlCallbacks = true;
 
-          if( MacroscopeUrlUtils.ValidateUrl( Url: NewStartUrl ) )
+          if( MacroscopeHttpUrlUtils.ValidateUrl( Url: NewStartUrl ) )
           {
 
             this.ScanningControlsStart();

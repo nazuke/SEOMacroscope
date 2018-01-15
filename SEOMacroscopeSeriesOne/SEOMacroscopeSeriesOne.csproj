@@ -587,8 +587,6 @@
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MaroscopeExcelRemarksReport\MaroscopeExcelRemarksReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MaroscopeExcelRemarksReport\WorksheetObservations.cs" />
     <Compile Include="src\MacroscopeSearch\MacroscopeSearchIndex.cs" />
-    <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpProtocolProbe.cs" />
-    <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpProtocolProbe.cs" />
     <Compile Include="src\MacroscopeStandards\Robots\MacroscopeRobots.cs" />
     <Compile Include="src\MacroscopeTasks\IMacroscopeTaskController.cs" />
     <Compile Include="src\MacroscopeTasks\MacroscopeIncludeExcludeUrls\MacroscopeIncludeExcludeUrls.cs" />
@@ -606,8 +604,8 @@
     <Compile Include="src\MacroscopeTools\MacroscopeLocaleTools.cs" />
     <Compile Include="src\MacroscopeTools\MacroscopePdfTools.cs" />
     <Compile Include="src\MacroscopeTools\MacroscopeStringTools.cs" />
-    <Compile Include="src\MacroscopeTools\MacroscopeUrlLoader.cs" />
-    <Compile Include="src\MacroscopeTools\MacroscopeUrlUtils.cs" />
+    <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpUrlLoader.cs" />
+    <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpUrlUtils.cs" />
     <Compile Include="src\MacroscopeTools\t\TestMacroscopeStringTools.cs" />
     <Compile Include="src\MacroscopeTools\t\TestMacroscopeUrlUtils.cs" />
     <Compile Include="src\MacroscopeUserControls\MacroscopeCharts\MacroscopeBarChart.cs">

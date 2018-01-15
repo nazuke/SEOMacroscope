@@ -377,7 +377,7 @@ namespace SEOMacroscope
 
       this.WordCount = 0;
 
-      this.Depth = MacroscopeUrlUtils.FindUrlDepth( Url );
+      this.Depth = MacroscopeHttpUrlUtils.FindUrlDepth( Url );
 
       this.Remarks = new List<string>();
 
@@ -463,21 +463,34 @@ namespace SEOMacroscope
 
     /** Host Details **********************************************************/
 
+    public Uri GetUri()
+    {
+      return ( new Uri( this.DocUrl, UriKind.Absolute ) );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public string GetUrl ()
     {
       return ( this.DocUrl );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetScheme ()
     {
       return ( this.Scheme );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetHostname ()
     {
       string Host = this.Hostname;
       return ( Host );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetHostAndPort ()
     {
@@ -493,20 +506,28 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public int GetPort ()
     {
       return ( this.Port );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetPath ()
     {
       return ( this.Path );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetFragment ()
     {
       return ( this.Fragment );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetQueryString ()
     {
@@ -826,7 +847,7 @@ namespace SEOMacroscope
 
         string UrlUnescaped = Uri.UnescapeDataString( stringToUnescape: Url );
 
-        string UrlAbsolute = MacroscopeUrlUtils.MakeUrlAbsolute(
+        string UrlAbsolute = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
           BaseHref: this.GetBaseHref(),
           BaseUrl: this.GetUrl(),
           Url: UrlUnescaped
@@ -1873,8 +1894,7 @@ namespace SEOMacroscope
     {
 
       string LocaleProcessed = HrefLangLocale.ToLower();
-
-      MacroscopeHrefLang HrefLangAlternate = new MacroscopeHrefLang( LocaleProcessed, Url );
+      MacroscopeHrefLang HrefLangAlternate = new MacroscopeHrefLang( JobMaster: this.DocCollection.GetJobMaster(), Locale: LocaleProcessed, Url: Url );
 
       this.HrefLang[ LocaleProcessed ] = HrefLangAlternate;
 

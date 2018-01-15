@@ -201,9 +201,12 @@ namespace SEOMacroscope
       try
       {
         HttpHeaderValueCollection<ProductInfoHeaderValue> HeaderValue = ResponseHeaders.Server;
-        if( HeaderValue != null )
+        if ( HeaderValue != null )
         {
-          this.SetServerName( HeaderValue.FirstOrDefault().ToString() );
+          if ( HeaderValue.FirstOrDefault() != null )
+          {
+            this.SetServerName( HeaderValue.FirstOrDefault().ToString() );
+          }
         }
       }
       catch( Exception ex )
@@ -226,13 +229,16 @@ namespace SEOMacroscope
       try
       {
         MediaTypeHeaderValue HeaderValue = ContentHeaders.ContentType;
-        this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
-        this.MimeType = HeaderValue.MediaType;
-        if( HeaderValue.CharSet != null )
+        if ( HeaderValue != null )
         {
-          this.SetCharacterSet( HeaderValue.CharSet );
-          // TODO: Implement character set probing
-          this.SetCharacterEncoding( NewEncoding: new UTF8Encoding() );
+          this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
+          this.MimeType = HeaderValue.MediaType;
+          if ( HeaderValue.CharSet != null )
+          {
+            this.SetCharacterSet( HeaderValue.CharSet );
+            // TODO: Implement character set probing
+            this.SetCharacterEncoding( NewEncoding: new UTF8Encoding() );
+          }
         }
       }
       catch( Exception ex )
@@ -853,7 +859,7 @@ namespace SEOMacroscope
           if( !string.IsNullOrEmpty( LinkUrlAbs ) )
           {
 
-            LinkUrlAbs = MacroscopeUrlUtils.MakeUrlAbsolute(
+            LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
               BaseHref: this.GetBaseHref(),
               BaseUrl: this.DocUrl,
               Url: LinkUrl

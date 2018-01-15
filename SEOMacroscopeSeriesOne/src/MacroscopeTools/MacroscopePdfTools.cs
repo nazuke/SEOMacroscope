@@ -30,6 +30,7 @@ using PdfSharp;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -137,11 +138,12 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     // TODO: Fix this so that it is HTTP/2 compliant
-    public bool IsPdfUrl ( string Url )
+    public async Task<bool> IsPdfUrl ( MacroscopeJobMaster JobMaster, string Url )
     {
 
       bool Result = false;
-      string MimeType = MacroscopeUrlUtils.GetMimeTypeOfUrl( Url: Url );
+      Uri TargetUri = new Uri( Url );
+      string MimeType = await MacroscopeHttpUrlUtils.GetMimeTypeOfUrl( JobMaster: JobMaster,TargetUri: TargetUri );
 
       if ( !string.IsNullOrEmpty( MimeType ) )
       {

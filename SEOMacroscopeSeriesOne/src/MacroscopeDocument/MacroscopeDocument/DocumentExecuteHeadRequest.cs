@@ -101,7 +101,6 @@ namespace SEOMacroscope
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse ClientResponse = null;
-      Uri DocUri = null;
       string ResponseErrorCondition = null;
 
       this.SetProcessInlinks();
@@ -110,10 +109,8 @@ namespace SEOMacroscope
       try
       {
 
-        DocUri = new Uri( this.DocUrl );
-
         ClientResponse = await Client.Head(
-          DocUri,
+          this.GetUri(),
           this.ConfigureHeadRequestHeadersCallback,
           this.PostProcessRequestHttpHeadersCallback
          );
