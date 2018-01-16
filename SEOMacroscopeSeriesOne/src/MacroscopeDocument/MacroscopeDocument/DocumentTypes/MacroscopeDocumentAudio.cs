@@ -96,11 +96,12 @@ namespace SEOMacroscope
       {
 
         Response = await Client.Get(
-          this.GetUri(),
+         this.GetUri(),
           this.ConfigureAudioPageRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
         );
-        
+
       }
       catch ( MacroscopeDocumentException ex )
       {

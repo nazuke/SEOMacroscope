@@ -109,7 +109,12 @@ namespace SEOMacroscope
 
         this.DebugMsg( string.Format( "Url: {0}", Url ) );
 
-        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Get( Url, this.PreProcessHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+        MacroscopeHttpTwoClientResponse ClientResponse = await Client.Get(
+          Url,
+          this.PreProcessHeadRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+        );
 
         HttpResponseMessage Response = ClientResponse.GetResponse();
 

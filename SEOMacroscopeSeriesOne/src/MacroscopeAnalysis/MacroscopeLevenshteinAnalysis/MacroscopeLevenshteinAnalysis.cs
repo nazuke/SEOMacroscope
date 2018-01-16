@@ -75,6 +75,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeLevenshteinAnalysis (
       MacroscopeDocument msDoc,
       int SizeDifference,
@@ -97,12 +99,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Dictionary<MacroscopeDocument, int> ReanalyzeDocCollection (
-MacroscopeDocumentCollection DocCollection
-)
+    public Dictionary<MacroscopeDocument, int> ReanalyzeDocCollection ( MacroscopeDocumentCollection DocCollection )
     {
 
-      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
         msDoc.ClearLevenshteinNearDuplicates();
       }
@@ -113,9 +113,7 @@ MacroscopeDocumentCollection DocCollection
 
     /**************************************************************************/
 
-    public Dictionary<MacroscopeDocument, int> AnalyzeDocCollection (
-    MacroscopeDocumentCollection DocCollection
-  )
+    public Dictionary<MacroscopeDocument, int> AnalyzeDocCollection ( MacroscopeDocumentCollection DocCollection )
     {
 
       Dictionary<MacroscopeDocument, int> DocList;
@@ -123,7 +121,7 @@ MacroscopeDocumentCollection DocCollection
       decimal Count;
       bool Proceed;
 
-      if( this.AnalyzerFingerprint.GetType() != typeof( Levenshtein ) )
+      if ( this.AnalyzerFingerprint.GetType() != typeof( Levenshtein ) )
       {
         throw new Exception( "MacroscopeLevenshteinAnalysis not initialized" );
       }
@@ -140,9 +138,9 @@ MacroscopeDocumentCollection DocCollection
         int RequiredMegabytes = 0;
         long DocumentCount = 0;
 
-        foreach( MacroscopeDocument msDocCheck in DocCollection.IterateDocuments() )
+        foreach ( MacroscopeDocument msDocCheck in DocCollection.IterateDocuments() )
         {
-          if( ( !msDocCheck.GetIsExternal() ) && ( !msDocCheck.GetIsRedirect() ) )
+          if ( ( !msDocCheck.GetIsExternal() ) && ( !msDocCheck.GetIsRedirect() ) )
           {
             DocumentCount++;
           }
@@ -151,7 +149,7 @@ MacroscopeDocumentCollection DocCollection
         MemoryEstimateBytes = 512 * DocumentCount;
         RequiredMegabytes = (int) ( MemoryEstimateBytes / (long) 1024 );
 
-        if( this.MemoryGate( RequiredMegabytes: RequiredMegabytes ) )
+        if ( this.MemoryGate( RequiredMegabytes: RequiredMegabytes ) )
         {
           Proceed = true;
         }
@@ -161,19 +159,19 @@ MacroscopeDocumentCollection DocCollection
         }
 
       }
-      catch( MacroscopeInsufficientMemoryException ex )
+      catch ( MacroscopeInsufficientMemoryException ex )
       {
         DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
         GC.Collect();
         Thread.Yield();
       }
 
-      if( !Proceed )
+      if ( !Proceed )
       {
         return ( DocList );
       }
 
-      foreach( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
+      foreach ( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {
 
         string CompareFingerprint = msDocCompare.GetLevenshteinFingerprint();
@@ -181,42 +179,42 @@ MacroscopeDocumentCollection DocCollection
 
         Count++;
 
-        if( ( this.PercentageDone != null ) && ( DocListCount > 0 ) )
+        if ( ( this.PercentageDone != null ) && ( DocListCount > 0 ) )
         {
           this.PercentageDone.PercentageDone( ( ( (decimal) 100 / DocListCount ) * Count ), msDocCompare.GetUrl() );
         }
 
-        if( this.CrossCheckDocuments( msDocCompare: msDocCompare ) )
+        if ( this.CrossCheckDocuments( msDocCompare: msDocCompare ) )
         {
           continue;
         }
 
-        if( msDocCompare.GetIsExternal() )
+        if ( msDocCompare.GetIsExternal() )
         {
           continue;
         }
 
-        if( msDocCompare.GetIsRedirect() )
+        if ( msDocCompare.GetIsRedirect() )
         {
           continue;
         }
 
-        if( !msDocCompare.GetIsHtml() )
+        if ( !msDocCompare.GetIsHtml() )
         {
           continue;
         }
         else
-        if( msDocCompare.GetUrl() == this.msDocOriginal.GetUrl() )
+        if ( msDocCompare.GetUrl() == this.msDocOriginal.GetUrl() )
         {
           continue;
         }
         else
-        if( CompareFingerprint.Length == 0 )
+        if ( CompareFingerprint.Length == 0 )
         {
           continue;
         }
 
-        if( msDocOriginal.GetChecksum() == msDocCompare.GetChecksum() )
+        if ( msDocOriginal.GetChecksum() == msDocCompare.GetChecksum() )
         {
           DocList.Add( msDocCompare, 0 );
           continue;
@@ -229,10 +227,10 @@ MacroscopeDocumentCollection DocCollection
 
         //DebugMsg( string.Format( "this.ComparisonThreshold: {0}", this.ComparisonThreshold ) );        
 
-        if( CompareFingerprint.Length > this.Fingerprint.Length )
+        if ( CompareFingerprint.Length > this.Fingerprint.Length )
         {
           int Len = CompareFingerprint.Length - this.Fingerprint.Length;
-          if( Len <= this.ComparisonSizeDifference )
+          if ( Len <= this.ComparisonSizeDifference )
           {
             DoCheck = true;
           }
@@ -240,39 +238,38 @@ MacroscopeDocumentCollection DocCollection
         else
         {
           int Len = this.Fingerprint.Length - CompareFingerprint.Length;
-          if( Len <= this.ComparisonSizeDifference )
+          if ( Len <= this.ComparisonSizeDifference )
           {
             DoCheck = true;
           }
         }
 
-        if( DoCheck )
+        if ( DoCheck )
         {
 
           int DistanceFingerprint = this.AnalyzerFingerprint.Distance( CompareFingerprint );
 
-          if( DistanceFingerprint <= this.ComparisonThreshold )
+          if ( DistanceFingerprint <= this.ComparisonThreshold )
           {
 
-            if( MacroscopePreferencesManager.GetLevenshteinAnalysisLevel() == 2 )
+            switch ( MacroscopePreferencesManager.GetLevenshteinAnalysisLevel() )
             {
-
-              string DocumentText = this.msDocOriginal.GetDocumentTextRaw().ToLower();
-              string CompareDocumentText = msDocCompare.GetDocumentTextRaw().ToLower();
-              Levenshtein AnalyzerText = new Levenshtein( value: DocumentText );
-              int DistanceDocumentText = AnalyzerText.Distance( value: CompareDocumentText );
-
-              if( DistanceDocumentText <= this.ComparisonThreshold )
-              {
-                DocList.Add( msDocCompare, DistanceDocumentText );
-              }
-
-            }
-            else
-            {
-
-              DocList.Add( msDocCompare, DistanceFingerprint );
-
+              case 1:
+                DocList.Add( msDocCompare, DistanceFingerprint );
+                break;
+              case 2:
+                string DocumentText = this.msDocOriginal.GetDocumentTextRaw().ToLower();
+                string CompareDocumentText = msDocCompare.GetDocumentTextRaw().ToLower();
+                Levenshtein AnalyzerText = new Levenshtein( value: DocumentText );
+                int DistanceDocumentText = AnalyzerText.Distance( value: CompareDocumentText );
+                if ( DistanceDocumentText <= this.ComparisonThreshold )
+                {
+                  DocList.Add( msDocCompare, DistanceDocumentText );
+                }
+                break;
+              default:
+                throw new Exception( "Invalid Levenshtein Analysis Level" );
+                break;
             }
 
           }
@@ -297,10 +294,10 @@ MacroscopeDocumentCollection DocCollection
       string Key1 = string.Join( "::", this.msDocOriginal.GetChecksum(), msDocCompare.GetChecksum() );
       string Key2 = string.Join( "::", msDocCompare.GetChecksum(), this.msDocOriginal.GetChecksum() );
 
-      lock( this.CrossCheck )
+      lock ( this.CrossCheck )
       {
 
-        if( this.CrossCheck.ContainsKey( Key1 ) )
+        if ( this.CrossCheck.ContainsKey( Key1 ) )
         {
           CrossChecked = true;
         }
@@ -309,7 +306,7 @@ MacroscopeDocumentCollection DocCollection
           this.CrossCheck.Add( Key1, true );
         }
 
-        if( this.CrossCheck.ContainsKey( Key2 ) )
+        if ( this.CrossCheck.ContainsKey( Key2 ) )
         {
           CrossChecked = true;
         }
@@ -328,11 +325,8 @@ MacroscopeDocumentCollection DocCollection
 
     public static Dictionary<string, bool> GetCrossCheckList ( int Capacity )
     {
-
       Dictionary<string, bool> CrossCheck = new Dictionary<string, bool>( Capacity );
-
       return ( CrossCheck );
-
     }
 
     /**************************************************************************/

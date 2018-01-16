@@ -1138,5 +1138,41 @@ namespace SEOMacroscope {
                 this["IgnoreErrors451"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DisregardHtml5ElementNav {
+            get {
+                return ((bool)(this["DisregardHtml5ElementNav"]));
+            }
+            set {
+                this["DisregardHtml5ElementNav"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DisregardHtml5ElementFooter {
+            get {
+                return ((bool)(this["DisregardHtml5ElementFooter"]));
+            }
+            set {
+                this["DisregardHtml5ElementFooter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DisregardHtml5ElementHeader {
+            get {
+                return ((bool)(this["DisregardHtml5ElementHeader"]));
+            }
+            set {
+                this["DisregardHtml5ElementHeader"] = value;
+            }
+        }
     }
 }

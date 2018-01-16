@@ -167,6 +167,7 @@
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\WorksheetBlockedByRobotsInternal.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClientResponse.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClient.cs" />
+    <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpImageLoader.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpTwoClient.cs" />
     <Compile Include="src\MacroscopeStandards\Sitemaps\MacroscopeSitemapPaths.cs" />
     <Compile Include="src\Program.cs" />

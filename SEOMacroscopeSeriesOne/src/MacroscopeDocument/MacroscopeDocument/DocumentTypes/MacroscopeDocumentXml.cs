@@ -100,7 +100,8 @@ namespace SEOMacroscope
         Response = await Client.Get(
           this.GetUri(),
           this.ConfigureXmlPageRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
         );
 
       }
@@ -215,7 +216,7 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-        if ( ( XmlDoc != null ) & ( XmlDoc.DocumentElement != null ) )
+        if ( ( XmlDoc != null ) && ( XmlDoc.DocumentElement != null ) )
         {
           if ( this.DetectSitemapXmlDocument( XmlDoc ) )
           {
@@ -224,6 +225,15 @@ namespace SEOMacroscope
             this.ProcessSitemapXmlOutlinks( XmlDoc );
           }
         }
+
+        /** ---------------------------------------------------------------- **/
+
+        if ( RawData != null )
+        {
+          this.SetDocumentText( Text: RawData );
+        }
+
+        /** ---------------------------------------------------------------- **/
 
       }
 

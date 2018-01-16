@@ -387,7 +387,12 @@ namespace SEOMacroscope
       try
       {
 
-        Response = await this.Client.Get( RobotsUri, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+        Response = await this.Client.Get(
+          RobotsUri,
+          this.ConfigureHeadRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+        );
 
         if ( Response != null )
         {

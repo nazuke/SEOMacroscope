@@ -101,7 +101,8 @@ namespace SEOMacroscope
         ClientResponse = await Client.Get(
           this.GetUri(),
           this.ConfigureHtmlPageRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
         );
 
       }
@@ -1987,7 +1988,7 @@ namespace SEOMacroscope
     }
 
     /** Fetch HTML File *******************************************************/
-    
+
     private async Task<string> FetchHtmlFile ( Uri HtmlUri )
     {
 
@@ -1997,10 +1998,15 @@ namespace SEOMacroscope
       string HtmlData = "";
       string RawData = "";
 
-     try
+      try
       {
 
-        Response = await Client.Get( HtmlUri, this.ConfigureHeadRequestHeadersCallback, this.PostProcessRequestHttpHeadersCallback );
+        Response = await Client.Get(
+          HtmlUri,
+          this.ConfigureHeadRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+        );
 
         if ( Response != null )
         {

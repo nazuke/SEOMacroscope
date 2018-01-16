@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -36,52 +37,28 @@ namespace SEOMacroscope
 {
 
   /// <summary>
-  /// Description of MacroscopeHttpUrlLoader.
+  /// Description of MacroscopeHttpImageLoader.
   /// </summary>
 
-  public class MacroscopeHttpUrlLoader : Macroscope
+  public class MacroscopeHttpImageLoader : Macroscope
   {
 
+    // TODO: Add some sort of cleanup for temp files.
+
     /**************************************************************************/
 
-    public MacroscopeHttpUrlLoader ()
+    public MacroscopeHttpImageLoader ()
     {
     }
 
     /**************************************************************************/
 
-    public MemoryStream LoadMemoryStreamFromUrl ( MacroscopeJobMaster JobMaster, Uri TargetUri, List<string> Expects )
-    {
-
-      // TODO: List of expected mime types
-
-      MemoryStream StreamLoader = null;
-
-      return ( StreamLoader );
-
-    }
-
-    /**************************************************************************/
-
-    public async Task<MemoryStream> LoadMemoryStreamFromUrl ( MacroscopeJobMaster JobMaster, Uri TargetUri )
-    {
-      MemoryStream MemStream = null;
-     byte[] ByteData = await this._LoadMemoryStreamFromUrl( JobMaster: JobMaster, TargetUri: TargetUri );
-
-      MemStream = new MemoryStream( ByteData );
-
-      return ( MemStream );
-
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private async Task<byte[]> _LoadMemoryStreamFromUrl ( MacroscopeJobMaster JobMaster, Uri TargetUri )
+    public async Task<Image> LoadImageFromUri ( MacroscopeJobMaster JobMaster, Uri TargetUri )
     {
 
       MacroscopeHttpTwoClient Client = JobMaster.GetHttpClient();
       MacroscopeHttpTwoClientResponse Response = null;
-      byte[] ByteData = null;
+      Image LoadedImage = null;
 
       try
       {
@@ -90,7 +67,7 @@ namespace SEOMacroscope
           TargetUri,
           this.ConfigureHeadRequestHeadersCallback,
           this.PostProcessRequestHttpHeadersCallback,
-          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.BYTES
         );
 
       }
@@ -110,7 +87,24 @@ namespace SEOMacroscope
 
         try
         {
-          ByteData = Response.GetContentAsBytes();
+
+          string ImageFilename = Path.GetTempFileName();
+          byte[] ByteData = Response.GetContentAsBytes();
+
+          using ( FileStream ImageStream = File.Create( ImageFilename ) )
+          {
+            foreach ( byte b in ByteData )
+            {
+              ImageStream.WriteByte( b );
+            }
+            ImageStream.Close();
+          }
+
+          if ( File.Exists( ImageFilename ) )
+          {
+            LoadedImage = Image.FromFile( ImageFilename );
+          }
+
         }
         catch ( Exception ex )
         {
@@ -118,12 +112,8 @@ namespace SEOMacroscope
         }
 
       }
-      else
-      {
-        this.DebugMsg( "NULL" );
-      }
 
-      return ( ByteData );
+      return ( LoadedImage );
 
     }
 

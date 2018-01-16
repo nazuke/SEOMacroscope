@@ -183,6 +183,14 @@ namespace SEOMacroscope
 
     static bool SitemapIncludeLinkedPdfs;
 
+    /** Disregard Html5 Elements Settings ---------------------------------- **/
+    
+    // TODO: Implement these preferences settings
+
+    static bool DisregardHtml5ElementNav;
+    static bool DisregardHtml5ElementHeader;
+    static bool DisregardHtml5ElementFooter;
+
     /** Ignore Errors Settings --------------------------------------------- **/
 
     static bool IgnoreErrors410; // Page GONE
@@ -445,7 +453,7 @@ namespace SEOMacroscope
       /** Analysis Options ------------------------------------------------- **/
 
       ResolveAddresses = false;
-      CheckHreflangs = true;
+      CheckHreflangs = false;
       ScanSitesInList = false;
       WarnAboutInsecureLinks = true;
 

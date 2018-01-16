@@ -93,7 +93,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse Response = null;
       string ResponseErrorCondition = null;
-     
+
       DebugMsg( string.Format( "ProcessCssPage: {0}", "" ) );
 
       try
@@ -102,7 +102,9 @@ namespace SEOMacroscope
         Response = await Client.Get(
           this.GetUri(),
           this.ConfigureCssPageRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback
+          this.PostProcessRequestHttpHeadersCallback,
+                    MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+
         );
 
       }
@@ -137,22 +139,22 @@ namespace SEOMacroscope
 
           RawData = Response.GetContentAsString();
 
-          this.SetContentLength( Length: RawData.Length); // May need to find bytes length
-         
+          this.SetContentLength( Length: RawData.Length ); // May need to find bytes length
+
           this.SetWasDownloaded( true );
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           this.SetStatusCode( HttpStatusCode.Ambiguous );
           this.SetContentLength( Length: 0 );
         }
 
-        if( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( RawData ) )
         {
 
-          ExCSS.Parser ExCssParser = new ExCSS.Parser ();
+          ExCSS.Parser ExCssParser = new ExCSS.Parser();
           ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( RawData );
 
           this.ProcessCssOutlinks( ExCssStylesheet );
@@ -160,24 +162,24 @@ namespace SEOMacroscope
         }
         else
         {
-          
+
           DebugMsg( string.Format( "ProcessCssPage: ERROR: {0}", this.GetUrl() ) );
-          
+
         }
 
         /** Custom Filters ------------------------------------------------- **/
 
-        if( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( RawData ) )
         {
 
-          if(
+          if (
             MacroscopePreferencesManager.GetCustomFiltersEnable()
             && MacroscopePreferencesManager.GetCustomFiltersApplyToCss() )
           {
-          
+
             MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
 
-            if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+            if ( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
             {
               this.ProcessGenericCustomFiltered(
                 CustomFilter: CustomFilter,
@@ -186,15 +188,15 @@ namespace SEOMacroscope
             }
 
           }
-          
+
         }
 
         /** Data Extractors ------------------------------------------------ **/
 
-        if( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( RawData ) )
         {
 
-          if(
+          if (
             MacroscopePreferencesManager.GetDataExtractorsEnable()
             && MacroscopePreferencesManager.GetDataExtractorsApplyToCss() )
           {
@@ -208,15 +210,15 @@ namespace SEOMacroscope
         {
           MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
           string DocumentTitle = null;
-          foreach( Match match in reMatches )
+          foreach ( Match match in reMatches )
           {
-            if( match.Groups[ 1 ].Value.Length > 0 )
+            if ( match.Groups[ 1 ].Value.Length > 0 )
             {
               DocumentTitle = match.Groups[ 1 ].Value.ToString();
               break;
             }
           }
-          if( DocumentTitle != null )
+          if ( DocumentTitle != null )
           {
             this.SetTitle( DocumentTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
             DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
@@ -229,11 +231,11 @@ namespace SEOMacroscope
 
       }
 
-      if( ResponseErrorCondition != null )
+      if ( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
-            
+
     }
 
     /**************************************************************************/
@@ -241,39 +243,39 @@ namespace SEOMacroscope
     private void ProcessCssOutlinks ( ExCSS.StyleSheet ExCssStylesheet )
     {
 
-      if( this.GetIsExternal() )
+      if ( this.GetIsExternal() )
       {
         return;
       }
-            
-      foreach( var CssRule in ExCssStylesheet.StyleRules )
+
+      foreach ( var CssRule in ExCssStylesheet.StyleRules )
       {
 
         int iRule = ExCssStylesheet.StyleRules.IndexOf( CssRule );
 
-        foreach( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties )
+        foreach ( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties )
         {
-          
+
           string BackgroundImageUrl;
           string LinkUrlAbs;
 
-          switch( pProp.Name.ToLower() )
+          switch ( pProp.Name.ToLower() )
           {
 
             case "background-image":
 
-              if( pProp.Term != null )
+              if ( pProp.Term != null )
               {
-                
+
                 BackgroundImageUrl = pProp.Term.ToString();
                 LinkUrlAbs = this.ProcessCssBackImageUrl( BackgroundImageUrl );
 
                 DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", BackgroundImageUrl ) );
                 DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", LinkUrlAbs ) );
 
-                if( LinkUrlAbs != null )
+                if ( LinkUrlAbs != null )
                 {
-                  
+
                   MacroscopeHyperlinkOut HyperlinkOut = null;
                   MacroscopeLink Outlink = null;
 
@@ -287,31 +289,31 @@ namespace SEOMacroscope
                     LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                     Follow: true
                   );
-                  
-                  if( Outlink != null )
+
+                  if ( Outlink != null )
                   {
                     Outlink.SetRawTargetUrl( BackgroundImageUrl );
                   }
 
                 }
-              
+
               }
 
               break;
 
             case "background":
 
-              if( pProp.Term != null )
+              if ( pProp.Term != null )
               {
-                
+
                 BackgroundImageUrl = pProp.Term.ToString();
                 LinkUrlAbs = this.ProcessCssBackImageUrl( BackgroundImageUrl );
 
                 DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", BackgroundImageUrl ) );
                 DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", LinkUrlAbs ) );
 
-                if( LinkUrlAbs != null )
-                {     
+                if ( LinkUrlAbs != null )
+                {
 
                   MacroscopeHyperlinkOut HyperlinkOut = null;
                   MacroscopeLink Outlink = null;
@@ -326,16 +328,16 @@ namespace SEOMacroscope
                     LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                     Follow: true
                   );
-                
-                  if( Outlink != null )
+
+                  if ( Outlink != null )
                   {
                     Outlink.SetRawTargetUrl( BackgroundImageUrl );
                   }
-                
+
                 }
-              
+
               }
-              
+
               break;
 
             default:
@@ -357,7 +359,7 @@ namespace SEOMacroscope
       string LinkUrlAbs = null;
       string LinkUrlCleaned = MacroscopeHttpUrlUtils.CleanUrlCss( BackgroundImageUrl );
 
-      if( LinkUrlCleaned != null )
+      if ( LinkUrlCleaned != null )
       {
 
         try
@@ -367,19 +369,19 @@ namespace SEOMacroscope
             Url: LinkUrlCleaned
           );
         }
-        catch( MacroscopeUriFormatException ex )
+        catch ( MacroscopeUriFormatException ex )
         {
           DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", ex.Message ) );
         }
-        
+
         DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", LinkUrlCleaned ) );
         DebugMsg( string.Format( "ProcessCssBackImageUrl: this.DocUrl: {0}", this.DocUrl ) );
         DebugMsg( string.Format( "ProcessCssBackImageUrl: LinkUrlAbs: {0}", LinkUrlAbs ) );
 
       }
 
-      return( LinkUrlAbs );
-      
+      return ( LinkUrlAbs );
+
     }
 
     /**************************************************************************/
@@ -394,32 +396,32 @@ namespace SEOMacroscope
       MacroscopeLink OutLink = null;
       bool Proceed = true;
 
-      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
         MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if( AllowedHosts != null )
+        if ( AllowedHosts != null )
         {
-          if( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
           {
             Proceed = false;
           }
         }
       }
 
-      switch( LinkType )
+      switch ( LinkType )
       {
         case MacroscopeConstants.InOutLinkType.STYLESHEET:
-          if( !MacroscopePreferencesManager.GetFetchStylesheets() )
+          if ( !MacroscopePreferencesManager.GetFetchStylesheets() )
           {
             Proceed = false;
           }
           break;
       }
-      
-      if( Proceed )
+
+      if ( Proceed )
       {
 
-        OutLink = new MacroscopeLink (
+        OutLink = new MacroscopeLink(
           SourceUrl: this.GetUrl(),
           TargetUrl: AbsoluteUrl,
           LinkType: LinkType,
@@ -430,12 +432,12 @@ namespace SEOMacroscope
 
       }
 
-      return( OutLink );
-            
+      return ( OutLink );
+
     }
 
     /**************************************************************************/
-    
+
   }
 
 }

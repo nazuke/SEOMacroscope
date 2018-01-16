@@ -99,7 +99,8 @@ namespace SEOMacroscope
         Response = await Client.Get(
           this.GetUri(),
           this.ConfigureTextPageRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
         );
 
       }
@@ -214,6 +215,8 @@ namespace SEOMacroscope
         if ( ( TextDoc != null ) && ( TextDoc.Count > 0 ) )
         {
 
+          this.SetDocumentText( Text: string.Join( Environment.NewLine, TextDoc ) );
+
           if ( this.GetPath().EndsWith( "robots.txt", StringComparison.InvariantCultureIgnoreCase ) )
           {
 
@@ -236,6 +239,10 @@ namespace SEOMacroscope
 
           }
 
+        }
+        else
+        {
+          this.SetDocumentText( Text: "" );
         }
 
         /** ---------------------------------------------------------------- **/

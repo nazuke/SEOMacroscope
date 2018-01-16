@@ -97,7 +97,8 @@ namespace SEOMacroscope
         ClientResponse = await Client.Get(
           this.GetUri(),
           this.ConfigurePdfPageRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.BYTES
         );
 
       }

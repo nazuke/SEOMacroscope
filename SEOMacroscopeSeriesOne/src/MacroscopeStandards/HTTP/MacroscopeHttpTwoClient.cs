@@ -46,6 +46,12 @@ namespace SEOMacroscope
     private static HttpClient Client;
     private static WinHttpHandler HttpHandler;
 
+    public enum DecodeResponseContentAs
+    {
+      STRING = 0,
+      BYTES = 1
+    }
+
     /**************************************************************************/
 
     static MacroscopeHttpTwoClient ()
@@ -189,7 +195,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public async Task<MacroscopeHttpTwoClientResponse> Get ( Uri Url, Action<HttpRequestMessage> ConfigureCustomRequestHeadersCallback, Action<HttpRequestMessage> PostProcessRequestHttpHeadersCallback )
+    public async Task<MacroscopeHttpTwoClientResponse> Get (
+      Uri Url,
+      Action<HttpRequestMessage> ConfigureCustomRequestHeadersCallback,
+      Action<HttpRequestMessage> PostProcessRequestHttpHeadersCallback,
+      DecodeResponseContentAs DecodeResponseContent
+    )
     {
 
       MacroscopeHttpTwoClientResponse ClientResponse = new MacroscopeHttpTwoClientResponse();
@@ -237,9 +248,20 @@ namespace SEOMacroscope
             using ( HttpContent ResponseContent = Response.Content )
             {
 
-              // TODO: add options to get string and/or bytes[] here:
-              // TODO: there is an encoding bug here:
-              ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+              switch ( DecodeResponseContent )
+              {
+                case DecodeResponseContentAs.BYTES:
+                  ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
+                  break;
+                case DecodeResponseContentAs.STRING:
+                  // TODO: There appears to be an encoding bug here:
+                  ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+                  break;
+                default:
+                  // TODO: There appears to be an encoding bug here:
+                  ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+                  break;
+              }
 
               foreach ( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
               {

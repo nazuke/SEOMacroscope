@@ -36,6 +36,8 @@ namespace SEOMacroscope
   public sealed class MacroscopeDocumentCollection : Macroscope
   {
 
+    // Implement scheduled Levenshtein analysis in this class
+
     /**************************************************************************/
 
     private Dictionary<string, MacroscopeDocument> DocCollection;

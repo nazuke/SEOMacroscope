@@ -463,7 +463,7 @@ namespace SEOMacroscope
 
     /** Host Details **********************************************************/
 
-    public Uri GetUri()
+    public Uri GetUri ()
     {
       return ( new Uri( this.DocUrl, UriKind.Absolute ) );
     }
@@ -1976,14 +1976,25 @@ namespace SEOMacroscope
       if ( !string.IsNullOrEmpty( Text ) )
       {
 
-        this.DocumentTextRaw = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
-        this.DocumentTextRaw = MacroscopeStringTools.StripHtmlDocTypeAndCommentsFromText( Text: this.DocumentTextRaw );
-
-        this.DocumentTextCleaned = MacroscopeStringTools.CleanDocumentText( msDoc: this );
-
-        if ( !string.IsNullOrEmpty( this.DocumentTextCleaned ) )
+        if ( this.GetIsHtml() )
         {
-          this.SetWordCount();
+
+          this.DocumentTextRaw = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
+          this.DocumentTextRaw = MacroscopeStringTools.StripHtmlDocTypeAndCommentsFromText( Text: this.DocumentTextRaw );
+
+          this.DocumentTextCleaned = MacroscopeStringTools.CleanDocumentText( msDoc: this );
+
+          if ( !string.IsNullOrEmpty( this.DocumentTextCleaned ) )
+          {
+            this.SetWordCount();
+          }
+
+        }
+
+        if ( this.GetIsText() || this.GetIsSitemapText() || this.GetIsXml() || this.GetIsSitemapXml() )
+        {
+          this.DocumentTextRaw = Text;
+          this.DocumentTextCleaned = Text;
         }
 
         if ( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
@@ -2795,7 +2806,7 @@ namespace SEOMacroscope
       {
         this.ExecuteDeepKeywordAnalysis();
       }
-      
+
       return ( true );
 
     }
