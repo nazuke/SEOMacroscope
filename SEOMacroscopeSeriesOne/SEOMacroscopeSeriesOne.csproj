@@ -14,6 +14,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -40,6 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -143,6 +144,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="src\Macroscope.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalysis.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\MacroscopeLevenshteinFingerprint.cs" />
     <Compile Include="src\MacroscopeConstants.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
@@ -174,25 +176,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Settings.cs" />
     <Compile Include="src\MacroscopeAnalysis\IMacroscopeAnalysisPercentageDone.cs" />
-    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePageBodyText.cs" />
-    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePageDescriptions.cs" />
-    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePageTitles.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePage\MacroscopeAnalyzePageBodyText.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePage\MacroscopeAnalyzePageDescriptions.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePage\MacroscopeAnalyzePageTitles.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\Algorithms\MacroscopeAnalyzeReadabilityFleschKincaid.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\Algorithms\MacroscopeAnalyzeReadabilitySmog.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\IMacroscopeAnalyzeReadability.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\MacroscopeAnalyzeReadability.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\t\TestMacroscopeAnalyzeReadabilityFleschKincaid.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeReadability\t\TestMacroscopeAnalyzeReadabilitySmog.cs" />
-    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeTextLanguage.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeLanguageAnalysis\MacroscopeAnalyzeTextLanguage.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeClickPathAnalysis\MacroscopeClickPathAnalysis.cs" />
-    <Compile Include="src\MacroscopeAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
-    <Compile Include="src\MacroscopeAnalysis\MacroscopeHrefLang.cs" />
-    <Compile Include="src\MacroscopeAnalysis\MacroscopeInsecureLinks.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeKeywordAnalysis\MacroscopeDeepKeywordAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeHrefLang\MacroscopeHrefLang.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeInsecureLinks\MacroscopeInsecureLinks.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\MacroscopeLevenshteinAnalysis.cs" />
-    <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeAnalyzePageTitles.cs" />
-    <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
-    <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeDeepKeywordAnalysis.cs" />
-    <Compile Include="src\MacroscopeAnalysis\t\TestMacroscopeLevenshteinAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzePage\t\TestMacroscopeAnalyzePageTitles.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeLanguageAnalysis\t\TestMacroscopeAnalyzeTextLanguage.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeKeywordAnalysis\t\TestMacroscopeDeepKeywordAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\t\TestMacroscopeLevenshteinAnalysis.cs" />
     <Compile Include="src\MacroscopeBinaryTreeGeneric\MacroscopeBinaryTreeGeneric.cs" />
     <Compile Include="src\MacroscopeBinaryTreeGeneric\MacroscopeBinaryTreeGenericNode.cs" />
     <Compile Include="src\MacroscopeBinaryTreeGeneric\t\TestMacroscopeBinaryTreeGeneric.cs" />
@@ -785,6 +787,8 @@
     <EmbeddedResource Include="src\MacroscopeUserControls\MacroscopeSiteStructurePanel\MacroscopeSiteStructurePanelCharts.resx">
       <DependentUpon>MacroscopeSiteStructurePanelCharts.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="MacroscopePreferences.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MacroscopePreferences.Designer.cs</LastGenOutput>
@@ -845,6 +849,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\MacroscopeAnalysis\MacroscopeClickPathAnalysis\t\" />
+    <Folder Include="src\MacroscopeAnalysis\t\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.txt" />

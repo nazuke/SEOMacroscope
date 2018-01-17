@@ -30,8 +30,8 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-	public class TestMacroscopeSitemapGenerator
-	{
+	public class TestMacroscopeSitemapGenerator : Macroscope
+  {
 
     /**************************************************************************/
 

@@ -31,7 +31,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeUrlUtils
+  public class TestMacroscopeUrlUtils : Macroscope
   {
 
     /**************************************************************************/

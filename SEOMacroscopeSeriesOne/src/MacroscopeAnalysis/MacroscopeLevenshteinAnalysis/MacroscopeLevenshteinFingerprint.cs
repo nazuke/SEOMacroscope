@@ -33,23 +33,23 @@ namespace SEOMacroscope
   /// Description of MacroscopeLevenshteinFingerprint.
   /// </summary>
 
-  public class MacroscopeLevenshteinFingerprint : Macroscope
+  public class MacroscopeLevenshteinFingerprint : MacroscopeAnalysis
   {
 
     /**************************************************************************/
 
     private MacroscopeDocument Document;
     private string Fingerprint;
+    private Object FingerprintLocker;
 
     /**************************************************************************/
 
     public MacroscopeLevenshteinFingerprint ( MacroscopeDocument msDoc )
     {
 
-      this.SuppressDebugMsg = true;
-
       this.Document = msDoc;
       this.Fingerprint = "";
+      this.FingerprintLocker = new Object();
 
     }
 
@@ -62,7 +62,7 @@ namespace SEOMacroscope
       SortedDictionary<char, int> Tokens;
       char[] Characters;
 
-      lock( this.Fingerprint )
+      lock( this.FingerprintLocker )
       {
 
         this.Fingerprint = "";

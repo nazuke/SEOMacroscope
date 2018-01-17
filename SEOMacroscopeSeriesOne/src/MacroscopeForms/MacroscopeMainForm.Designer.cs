@@ -166,19 +166,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem exportCurrentListToExcelToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton toolStripButtonRecalculateClickPaths;
 
-		/// <summary>
-		/// Disposes resources used by the form.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing) {
-				if (components != null) {
-					components.Dispose();
-				}
-			}
-			base.Dispose(disposing);
-		}
 
 		/// <summary>
 		/// This method is required for Windows Forms designer support.

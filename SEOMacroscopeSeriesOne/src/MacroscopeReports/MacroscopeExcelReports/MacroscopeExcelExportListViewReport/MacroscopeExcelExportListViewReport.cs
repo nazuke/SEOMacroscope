@@ -39,13 +39,13 @@ namespace SEOMacroscope
     private string WorksheetName;
     
     private ListView TargetListView;
-    
+
     /**************************************************************************/
 
     public MacroscopeExcelExportListViewReport (
       string SelectedWorksheetName,
       ListView SelectedListView
-    )
+    ) : base()
     {
 
       this.WorksheetName = SelectedWorksheetName;
@@ -63,7 +63,7 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "EXCEL OutputFilename: {0}", OutputFilename ) );
 
-      lock( this.TargetListView )
+      lock( this.TargetListViewLock )
       {
 
         this.BuildWorksheetListView( JobMaster, wb, WorksheetName );

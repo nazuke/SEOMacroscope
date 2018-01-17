@@ -37,6 +37,8 @@ namespace SEOMacroscope
   public static class MacroscopePreferencesManager
   {
 
+    // TODO: Many getters/setters can probably be simplified here.
+
     /**************************************************************************/
 
     static MacroscopePreferences Preferences;
@@ -44,12 +46,12 @@ namespace SEOMacroscope
 
     // Application Version
     //static string AppVersion;
-    
+
     /** Display Options ---------------------------------------------------- **/
 
     static bool PauseDisplayDuringScan;
     static bool ShowProgressDialogues;
-    
+
     /** WebProxy Options --------------------------------------------------- **/
 
     static string HttpProxyHost;
@@ -73,10 +75,10 @@ namespace SEOMacroscope
     static int CrawlDelay;
 
     static bool CrawlStrictUrlCheck;
-        
+
     static bool IgnoreQueries;
     static bool IgnoreHashFragments;
-        
+
     static bool CheckExternalLinks;
     static bool FetchExternalLinks;
 
@@ -90,7 +92,7 @@ namespace SEOMacroscope
     static bool FollowAlternateLinks;
     static bool FollowHrefLangLinks;
     static bool FollowListLinks;
-    
+
     static bool FetchStylesheets;
     static bool FetchJavascripts;
     static bool FetchImages;
@@ -107,7 +109,7 @@ namespace SEOMacroscope
     /** Analysis Options --------------------------------------------------- **/
 
     static bool ResolveAddresses;
-        
+
     static bool CheckHreflangs;
 
     static bool ProcessAudio;
@@ -148,11 +150,11 @@ namespace SEOMacroscope
     static int LevenshteinAnalysisLevel;
     static int MaxLevenshteinSizeDifference;
     static int MaxLevenshteinDistance;
-    
+
     static bool DetectLanguage;
 
     static bool AnalyzeClickPaths;
-    
+
     /** Custom Filters Options --------------------------------------------- **/
 
     static bool CustomFiltersEnable;
@@ -168,7 +170,7 @@ namespace SEOMacroscope
 
     static bool DataExtractorsEnable;
     static bool DataExtractorsCleanWhiteSpace;
-    
+
     static int DataExtractorsMaxItemsCssSelectors;
     static int DataExtractorsMaxItemsRegexes;
     static int DataExtractorsMaxItemsXpaths;
@@ -178,14 +180,12 @@ namespace SEOMacroscope
     static bool DataExtractorsApplyToJavascripts;
     static bool DataExtractorsApplyToText;
     static bool DataExtractorsApplyToXml;
-                        
+
     /** Export Options ----------------------------------------------------- **/
 
     static bool SitemapIncludeLinkedPdfs;
 
     /** Disregard Html5 Elements Settings ---------------------------------- **/
-    
-    // TODO: Implement these preferences settings
 
     static bool DisregardHtml5ElementNav;
     static bool DisregardHtml5ElementHeader;
@@ -205,16 +205,16 @@ namespace SEOMacroscope
     static MacroscopePreferencesManager ()
     {
 
-      Preferences = new MacroscopePreferences ();
+      Preferences = new MacroscopePreferences();
 
       //CheckAppVersion();
-      
+
       SetDefaultValues();
 
-      if( Preferences != null )
+      if ( Preferences != null )
       {
 
-        if( Preferences.FirstRun == true )
+        if ( Preferences.FirstRun == true )
         {
 
           SetDefaultValues();
@@ -227,12 +227,12 @@ namespace SEOMacroscope
 
           PauseDisplayDuringScan = Preferences.PauseDisplayDuringScan;
           ShowProgressDialogues = Preferences.ShowProgressDialogues;
-          
+
           HttpProxyHost = Preferences.HttpProxyHost;
           HttpProxyPort = Preferences.HttpProxyPort;
 
           ServerCertificateValidation = Preferences.ServerCertificateValidation;
-          
+
           StartUrl = Preferences.StartUrl;
 
           MaxThreads = Preferences.MaxThreads;
@@ -245,15 +245,15 @@ namespace SEOMacroscope
           CrawlDelay = Preferences.CrawlDelay;
 
           CrawlStrictUrlCheck = Preferences.CrawlStrictUrlCheck;
-          
+
           IgnoreQueries = Preferences.IgnoreQueries;
           IgnoreHashFragments = Preferences.IgnoreHashFragments;
-          
+
           CheckExternalLinks = Preferences.CheckExternalLinks;
           FetchExternalLinks = Preferences.FetchExternalLinks;
 
           ResolveAddresses = Preferences.ResolveAddresses;
-            
+
           CheckHreflangs = Preferences.CheckHreflangs;
           ScanSitesInList = Preferences.ScanSitesInList;
           WarnAboutInsecureLinks = Preferences.WarnAboutInsecureLinks;
@@ -265,7 +265,7 @@ namespace SEOMacroscope
           LevenshteinAnalysisLevel = Preferences.LevenshteinAnalysisLevel;
           MaxLevenshteinSizeDifference = Preferences.MaxLevenshteinSizeDifference;
           MaxLevenshteinDistance = Preferences.MaxLevenshteinDistance;
-          
+
           FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
           FollowSitemapLinks = Preferences.FollowSitemapLinks;
 
@@ -276,7 +276,7 @@ namespace SEOMacroscope
           FollowAlternateLinks = Preferences.FollowAlternateLinks;
           FollowHrefLangLinks = Preferences.FollowHrefLangLinks;
           FollowListLinks = Preferences.FollowListLinks;
-          
+
           FetchStylesheets = Preferences.FetchStylesheets;
           FetchJavascripts = Preferences.FetchJavascripts;
           FetchImages = Preferences.FetchImages;
@@ -295,7 +295,7 @@ namespace SEOMacroscope
           ProcessXml = Preferences.ProcessXml;
 
           CrawlParentDirectories = Preferences.CrawlParentDirectories;
-          CrawlChildDirectories = Preferences.CrawlChildDirectories;              
+          CrawlChildDirectories = Preferences.CrawlChildDirectories;
 
           TitleMinLen = Preferences.TitleMinLen;
           TitleMaxLen = Preferences.TitleMaxLen;
@@ -315,7 +315,7 @@ namespace SEOMacroscope
           DetectLanguage = Preferences.DetectLanguage;
 
           AnalyzeClickPaths = Preferences.AnalyzeClickPaths;
-          
+
           CustomFiltersEnable = Preferences.CustomFiltersEnable;
           CustomFiltersMaxItems = Preferences.CustomFiltersMaxItems;
           CustomFiltersApplyToHtml = Preferences.CustomFiltersApplyToHtml;
@@ -337,11 +337,15 @@ namespace SEOMacroscope
 
           SitemapIncludeLinkedPdfs = Preferences.SitemapIncludeLinkedPdfs;
 
+          DisregardHtml5ElementNav = Preferences.DisregardHtml5ElementNav;
+          DisregardHtml5ElementHeader = Preferences.DisregardHtml5ElementHeader;
+          DisregardHtml5ElementFooter = Preferences.DisregardHtml5ElementFooter;
+
           IgnoreErrors410 = Preferences.IgnoreErrors410;
           IgnoreErrors451 = Preferences.IgnoreErrors451;
 
           EnableMemoryGuard = Preferences.EnableMemoryGuard;
-          
+
         }
 
       }
@@ -351,7 +355,7 @@ namespace SEOMacroscope
       ConfigureHttpProxy();
 
       ConfigureServerCertificateValidation();
-            
+
       DebugMsg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
       DebugMsg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
       DebugMsg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
@@ -362,21 +366,21 @@ namespace SEOMacroscope
 
     private static void CheckAppVersion ()
     {
-      
+
       string SavedAppVersion = Preferences.AppVersion;
       bool DoReset = false;
 
-      if( string.IsNullOrEmpty( SavedAppVersion ) )
+      if ( string.IsNullOrEmpty( SavedAppVersion ) )
       {
         DoReset = true;
       }
 
-      if( DoReset )
+      if ( DoReset )
       {
         SetDefaultValues();
         SavePreferences();
       }
-      
+
     }
 
     /**************************************************************************/
@@ -385,17 +389,17 @@ namespace SEOMacroscope
     {
 
       /** Display Options -------------------------------------------------- **/
-      
+
       PauseDisplayDuringScan = false;
       ShowProgressDialogues = true;
-                
+
       /** WebProxy Options ------------------------------------------------- **/
 
       HttpProxyHost = "";
       HttpProxyPort = 0;
 
       /** Global Server Certificate Validation ----------------------------- **/
-          
+
       SetServerCertificateValidation( true );
 
       /** Spidering Control ------------------------------------------------ **/
@@ -408,15 +412,15 @@ namespace SEOMacroscope
       RequestTimeout = 10;
       MaxRetries = 0;
       CrawlDelay = 0;
-          
+
       CrawlStrictUrlCheck = false;
-      
+
       IgnoreQueries = false;
       IgnoreHashFragments = true;
-                
+
       CheckExternalLinks = true;
       FetchExternalLinks = false;
-      
+
       FollowRobotsProtocol = true;
       FollowSitemapLinks = true;
 
@@ -458,19 +462,19 @@ namespace SEOMacroscope
       WarnAboutInsecureLinks = true;
 
       EnableTextIndexing = true;
-      CaseSensitiveTextIndexing = false;      
-      
+      CaseSensitiveTextIndexing = false;
+
       EnableLevenshteinDeduplication = true;
       LevenshteinAnalysisLevel = 1; // 1 | 2
       MaxLevenshteinSizeDifference = 64;
       MaxLevenshteinDistance = 16;
-      
+
       DetectLanguage = true;
-      
+
       AnalyzeClickPaths = false;
-      
+
       /** SEO Options ------------------------------------------------------ **/
-      
+
       TitleMinLen = 10;
       TitleMaxLen = 70;
       TitleMinWords = 3;
@@ -487,7 +491,7 @@ namespace SEOMacroscope
       AnalyzeKeywordsInText = false;
       AnalyzeTextReadability = true;
       AnalyzeTextReadabilityEnglishAlgorithm = 0;
-    
+
       /** Custom Filter Options -------------------------------------------- **/
 
       CustomFiltersEnable = false;
@@ -501,10 +505,10 @@ namespace SEOMacroscope
       CustomFiltersApplyToXml = true;
 
       /** Extractor Options ------------------------------------------------ **/
-    
+
       DataExtractorsEnable = false;
       DataExtractorsCleanWhiteSpace = true;
-    
+
       DataExtractorsMaxItemsCssSelectors = 5;
       DataExtractorsMaxItemsRegexes = 5;
       DataExtractorsMaxItemsXpaths = 5;
@@ -516,8 +520,14 @@ namespace SEOMacroscope
       DataExtractorsApplyToXml = true;
 
       /** Export Options --------------------------------------------------- **/
-            
+
       SitemapIncludeLinkedPdfs = false;
+
+      /** Ignore Errors Settings --------------------------------------------- **/
+
+      DisregardHtml5ElementNav = true;
+      DisregardHtml5ElementHeader = true;
+      DisregardHtml5ElementFooter = true;
 
       /** Ignore Errors Settings --------------------------------------------- **/
 
@@ -527,7 +537,7 @@ namespace SEOMacroscope
       /** Advanced Settings ------------------------------------------------ **/
 
       EnableMemoryGuard = false;
-      
+
     }
 
     /**************************************************************************/
@@ -535,95 +545,95 @@ namespace SEOMacroscope
     static void SanitizeValues ()
     {
 
-      if( StartUrl.Length > 0 )
+      if ( StartUrl.Length > 0 )
       {
         StartUrl = Regex.Replace( StartUrl, @"^\s+", "" );
         StartUrl = Regex.Replace( StartUrl, @"\s+$", "" );
       }
 
-      if( Depth <= 0 )
+      if ( Depth <= 0 )
       {
         Depth = -1;
       }
 
-      if( PageLimit <= 0 )
+      if ( PageLimit <= 0 )
       {
         PageLimit = -1;
       }
 
-      if( RequestTimeout <= 10 )
+      if ( RequestTimeout <= 10 )
       {
         RequestTimeout = 10;
       }
 
-      if( RequestTimeout >= 50 )
+      if ( RequestTimeout >= 50 )
       {
         RequestTimeout = 50;
       }
 
-      if( MaxRetries <= 0 )
+      if ( MaxRetries <= 0 )
       {
         MaxRetries = 0;
       }
 
-      if( MaxRetries > 10 )
+      if ( MaxRetries > 10 )
       {
         MaxRetries = 10;
       }
 
-      if( CrawlDelay < 0 )
+      if ( CrawlDelay < 0 )
       {
         CrawlDelay = 0;
       }
 
-      if( CrawlDelay > 60 )
+      if ( CrawlDelay > 60 )
       {
         CrawlDelay = 60;
       }
 
       /** Custom Filter Options -------------------------------------------- **/
 
-      if( CustomFiltersMaxItems < 1 )
+      if ( CustomFiltersMaxItems < 1 )
       {
         CustomFiltersMaxItems = 1;
       }
-      
-      if( CustomFiltersMaxItems > 100 )
+
+      if ( CustomFiltersMaxItems > 100 )
       {
         CustomFiltersMaxItems = 100;
       }
 
       /** Data Extractor Options ------------------------------------------- **/
 
-      if( DataExtractorsMaxItemsCssSelectors < 1 )
+      if ( DataExtractorsMaxItemsCssSelectors < 1 )
       {
         DataExtractorsMaxItemsCssSelectors = 1;
       }
-      
-      if( DataExtractorsMaxItemsCssSelectors > 100 )
+
+      if ( DataExtractorsMaxItemsCssSelectors > 100 )
       {
         DataExtractorsMaxItemsCssSelectors = 100;
       }
 
-      if( DataExtractorsMaxItemsRegexes < 1 )
+      if ( DataExtractorsMaxItemsRegexes < 1 )
       {
         DataExtractorsMaxItemsRegexes = 1;
       }
-      
-      if( DataExtractorsMaxItemsRegexes > 100 )
+
+      if ( DataExtractorsMaxItemsRegexes > 100 )
       {
         DataExtractorsMaxItemsRegexes = 100;
       }
 
-      if( DataExtractorsMaxItemsXpaths < 1 )
+      if ( DataExtractorsMaxItemsXpaths < 1 )
       {
         DataExtractorsMaxItemsXpaths = 1;
       }
-      
-      if( DataExtractorsMaxItemsXpaths > 100 )
+
+      if ( DataExtractorsMaxItemsXpaths > 100 )
       {
         DataExtractorsMaxItemsXpaths = 100;
-      }      
+      }
 
       /** ------------------------------------------------------------------ **/
 
@@ -636,12 +646,12 @@ namespace SEOMacroscope
     public static void SavePreferences ()
     {
 
-      if( Preferences != null )
+      if ( Preferences != null )
       {
 
         Preferences.PauseDisplayDuringScan = PauseDisplayDuringScan;
         Preferences.ShowProgressDialogues = ShowProgressDialogues;
-                        
+
         Preferences.HttpProxyHost = HttpProxyHost;
         Preferences.HttpProxyPort = HttpProxyPort;
 
@@ -657,7 +667,7 @@ namespace SEOMacroscope
         Preferences.CrawlDelay = CrawlDelay;
 
         Preferences.CrawlStrictUrlCheck = CrawlStrictUrlCheck;
-        
+
         Preferences.IgnoreQueries = IgnoreQueries;
         Preferences.IgnoreHashFragments = IgnoreHashFragments;
 
@@ -665,14 +675,14 @@ namespace SEOMacroscope
         Preferences.FetchExternalLinks = FetchExternalLinks;
 
         Preferences.ResolveAddresses = ResolveAddresses;
-        
+
         Preferences.CheckHreflangs = CheckHreflangs;
         Preferences.ScanSitesInList = ScanSitesInList;
         Preferences.WarnAboutInsecureLinks = WarnAboutInsecureLinks;
 
         Preferences.EnableTextIndexing = EnableTextIndexing;
         Preferences.CaseSensitiveTextIndexing = CaseSensitiveTextIndexing;
-        
+
         Preferences.EnableLevenshteinDeduplication = EnableLevenshteinDeduplication;
         Preferences.LevenshteinAnalysisLevel = LevenshteinAnalysisLevel;
         Preferences.MaxLevenshteinSizeDifference = MaxLevenshteinSizeDifference;
@@ -680,7 +690,7 @@ namespace SEOMacroscope
 
         Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
         Preferences.FollowSitemapLinks = FollowSitemapLinks;
-                       
+
         Preferences.CheckRedirects = CheckRedirects;
         Preferences.FollowRedirects = FollowRedirects;
 
@@ -702,7 +712,7 @@ namespace SEOMacroscope
         Preferences.ProcessImages = ProcessImages;
         Preferences.ProcessJavascripts = ProcessJavascripts;
         Preferences.ProcessPdfs = ProcessPdfs;
-        Preferences.ProcessStylesheets = ProcessStylesheets;   
+        Preferences.ProcessStylesheets = ProcessStylesheets;
         Preferences.ProcessVideo = ProcessVideo;
         Preferences.ProcessXml = ProcessXml;
 
@@ -725,9 +735,9 @@ namespace SEOMacroscope
         Preferences.AnalyzeKeywordsInText = AnalyzeKeywordsInText;
         Preferences.AnalyzeTextReadability = AnalyzeTextReadability;
         Preferences.AnalyzeTextReadabilityEnglishAlgorithm = AnalyzeTextReadabilityEnglishAlgorithm;
-    
+
         Preferences.DetectLanguage = DetectLanguage;
-        
+
         Preferences.AnalyzeClickPaths = AnalyzeClickPaths;
 
         Preferences.CustomFiltersEnable = CustomFiltersEnable;
@@ -748,8 +758,12 @@ namespace SEOMacroscope
         Preferences.DataExtractorsApplyToJavascripts = DataExtractorsApplyToJavascripts;
         Preferences.DataExtractorsApplyToText = DataExtractorsApplyToText;
         Preferences.DataExtractorsApplyToXml = DataExtractorsApplyToXml;
-        
+
         Preferences.SitemapIncludeLinkedPdfs = SitemapIncludeLinkedPdfs;
+
+        Preferences.DisregardHtml5ElementNav = DisregardHtml5ElementNav;
+        Preferences.DisregardHtml5ElementHeader = DisregardHtml5ElementHeader;
+        Preferences.DisregardHtml5ElementFooter = DisregardHtml5ElementFooter;
 
         Preferences.IgnoreErrors410 = IgnoreErrors410;
         Preferences.IgnoreErrors451 = IgnoreErrors451;
@@ -766,7 +780,7 @@ namespace SEOMacroscope
 
     public static bool GetPauseDisplayDuringScan ()
     {
-      return( PauseDisplayDuringScan );
+      return ( PauseDisplayDuringScan );
     }
 
     public static void SetPauseDisplayDuringScan ( bool State )
@@ -776,7 +790,7 @@ namespace SEOMacroscope
 
     public static bool GetShowProgressDialogues ()
     {
-      return( ShowProgressDialogues );
+      return ( ShowProgressDialogues );
     }
 
     public static void SetShowProgressDialogues ( bool State )
@@ -788,7 +802,7 @@ namespace SEOMacroscope
 
     public static string GetHttpProxyHost ()
     {
-      return( HttpProxyHost );
+      return ( HttpProxyHost );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -802,7 +816,7 @@ namespace SEOMacroscope
 
     public static int GetHttpProxyPort ()
     {
-      return( HttpProxyPort );
+      return ( HttpProxyPort );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -820,12 +834,12 @@ namespace SEOMacroscope
       string NewHttpProxyHost;
       int NewHttpProxyPort;
 
-      if( HttpProxyHost.Length > 0 )
+      if ( HttpProxyHost.Length > 0 )
       {
 
         NewHttpProxyHost = HttpProxyHost;
 
-        if( HttpProxyPort >= 0 )
+        if ( HttpProxyPort >= 0 )
         {
           NewHttpProxyPort = HttpProxyPort;
         }
@@ -836,7 +850,7 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort ) );
 
-        wpProxy = new WebProxy ( NewHttpProxyHost, NewHttpProxyPort );
+        wpProxy = new WebProxy( NewHttpProxyHost, NewHttpProxyPort );
 
       }
       else
@@ -854,14 +868,14 @@ namespace SEOMacroscope
 
     public static WebProxy GetHttpProxy ()
     {
-      return( wpProxy );
+      return ( wpProxy );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public static void EnableHttpProxy ( WinHttpHandler HttpHandler )
     {
-      if( wpProxy != null )
+      if ( wpProxy != null )
       {
         HttpHandler.Proxy = wpProxy;
       }
@@ -875,31 +889,31 @@ namespace SEOMacroscope
 
     public static bool GetServerCertificateValidation ()
     {
-      return( ServerCertificateValidation );
+      return ( ServerCertificateValidation );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public static void SetServerCertificateValidation ( bool Value )
     {
-      
+
       ServerCertificateValidation = Value;
-      
+
       ConfigureServerCertificateValidation();
-      
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     private static void ConfigureServerCertificateValidation ()
     {
-      if( ServerCertificateValidation )
+      if ( ServerCertificateValidation )
       {
         ServicePointManager.ServerCertificateValidationCallback += ServerCertificateValidationCallback;
       }
       else
       {
-        if( ServicePointManager.ServerCertificateValidationCallback != null )
+        if ( ServicePointManager.ServerCertificateValidationCallback != null )
         {
           ServicePointManager.ServerCertificateValidationCallback -= ServerCertificateValidationCallback;
         }
@@ -916,7 +930,7 @@ namespace SEOMacroscope
       System.Net.Security.SslPolicyErrors sslPolicyErrors
     )
     {
-      return( true );
+      return ( true );
     }
 
     /** Set Starting URL ******************************************************/
@@ -927,17 +941,17 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-    
+
     public static string GetStartUrl ()
     {
-      return( StartUrl );
+      return ( StartUrl );
     }
-        
+
     /**************************************************************************/
 
     public static int GetMaxThreads ()
     {
-      return( MaxThreads );
+      return ( MaxThreads );
     }
 
     public static void SetMaxThreads ( int Max )
@@ -949,7 +963,7 @@ namespace SEOMacroscope
 
     public static int GetMaxFetchesPerWorker ()
     {
-      return( MaxFetchesPerWorker );
+      return ( MaxFetchesPerWorker );
     }
 
     public static void SetMaxFetchesPerWorker ( int Max )
@@ -961,7 +975,7 @@ namespace SEOMacroscope
 
     public static int GetDepth ()
     {
-      return( Depth );
+      return ( Depth );
     }
 
     public static void SetDepth ( int Max )
@@ -973,7 +987,7 @@ namespace SEOMacroscope
 
     public static int GetPageLimit ()
     {
-      return( PageLimit );
+      return ( PageLimit );
     }
 
     public static void SetPageLimit ( int Max )
@@ -985,7 +999,7 @@ namespace SEOMacroscope
 
     public static int GetRequestTimeout ()
     {
-      return( RequestTimeout );
+      return ( RequestTimeout );
     }
 
     public static void SetRequestTimeout ( int Seconds )
@@ -997,7 +1011,7 @@ namespace SEOMacroscope
 
     public static int GetMaxRetries ()
     {
-      return( MaxRetries );
+      return ( MaxRetries );
     }
 
     public static void SetMaxRetries ( int Retries )
@@ -1009,7 +1023,7 @@ namespace SEOMacroscope
 
     public static int GetCrawlDelay ()
     {
-      return( CrawlDelay );
+      return ( CrawlDelay );
     }
 
     public static void SetCrawlDelay ( int Seconds )
@@ -1021,7 +1035,7 @@ namespace SEOMacroscope
 
     public static bool GetCrawlStrictUrlCheck ()
     {
-      return( CrawlStrictUrlCheck );
+      return ( CrawlStrictUrlCheck );
     }
 
     public static void SetCrawlStrictUrlCheck ( bool State )
@@ -1033,7 +1047,7 @@ namespace SEOMacroscope
 
     public static bool GetIgnoreQueries ()
     {
-      return( IgnoreQueries );
+      return ( IgnoreQueries );
     }
 
     public static void SetIgnoreQueries ( bool State )
@@ -1045,7 +1059,7 @@ namespace SEOMacroscope
 
     public static bool GetIgnoreHashFragments ()
     {
-      return( IgnoreHashFragments );
+      return ( IgnoreHashFragments );
     }
 
     public static void SetIgnoreHashFragments ( bool State )
@@ -1057,7 +1071,7 @@ namespace SEOMacroscope
 
     public static bool GetCheckExternalLinks ()
     {
-      return( CheckExternalLinks );
+      return ( CheckExternalLinks );
     }
 
     public static void SetCheckExternalLinks ( bool State )
@@ -1065,11 +1079,11 @@ namespace SEOMacroscope
       CheckExternalLinks = State;
     }
 
-    /** -------------------------------------------------------------------- **/    
-    
+    /** -------------------------------------------------------------------- **/
+
     public static bool GetFetchExternalLinks ()
     {
-      return( FetchExternalLinks );
+      return ( FetchExternalLinks );
     }
 
     public static void SetFetchExternalLinks ( bool State )
@@ -1081,7 +1095,7 @@ namespace SEOMacroscope
 
     public static bool GetResolveAddresses ()
     {
-      return( ResolveAddresses );
+      return ( ResolveAddresses );
     }
 
     public static void SetResolveAddresses ( bool State )
@@ -1093,7 +1107,7 @@ namespace SEOMacroscope
 
     public static bool GetCheckHreflangs ()
     {
-      return( CheckHreflangs );
+      return ( CheckHreflangs );
     }
 
     public static void SetCheckHreflangs ( bool State )
@@ -1105,7 +1119,7 @@ namespace SEOMacroscope
 
     public static bool GetScanSitesInList ()
     {
-      return( ScanSitesInList );
+      return ( ScanSitesInList );
     }
 
     public static void SetScanSitesInList ( bool State )
@@ -1117,7 +1131,7 @@ namespace SEOMacroscope
 
     public static bool GetWarnAboutInsecureLinks ()
     {
-      return( WarnAboutInsecureLinks );
+      return ( WarnAboutInsecureLinks );
     }
 
     public static void SetWarnAboutInsecureLinks ( bool State )
@@ -1129,19 +1143,19 @@ namespace SEOMacroscope
 
     public static bool GetEnableTextIndexing ()
     {
-      return( EnableTextIndexing );
+      return ( EnableTextIndexing );
     }
 
     public static void SetEnableTextIndexing ( bool State )
     {
       EnableTextIndexing = State;
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     public static bool GetCaseSensitiveTextIndexing ()
     {
-      return( CaseSensitiveTextIndexing );
+      return ( CaseSensitiveTextIndexing );
     }
 
     public static void SetCaseSensitiveTextIndexing ( bool State )
@@ -1153,7 +1167,7 @@ namespace SEOMacroscope
 
     public static bool GetEnableLevenshteinDeduplication ()
     {
-      return( EnableLevenshteinDeduplication );
+      return ( EnableLevenshteinDeduplication );
     }
 
     public static void SetEnableLevenshteinDeduplication ( bool State )
@@ -1172,12 +1186,12 @@ namespace SEOMacroscope
     {
       LevenshteinAnalysisLevel = Level;
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     public static int GetMaxLevenshteinSizeDifference ()
     {
-      return( MaxLevenshteinSizeDifference );
+      return ( MaxLevenshteinSizeDifference );
     }
 
     public static void SetMaxLevenshteinSizeDifference ( int Max )
@@ -1189,7 +1203,7 @@ namespace SEOMacroscope
 
     public static int GetMaxLevenshteinDistance ()
     {
-      return( MaxLevenshteinDistance );
+      return ( MaxLevenshteinDistance );
     }
 
     public static void SetMaxLevenshteinDistance ( int Max )
@@ -1201,7 +1215,7 @@ namespace SEOMacroscope
 
     public static bool GetFollowRobotsProtocol ()
     {
-      return( FollowRobotsProtocol );
+      return ( FollowRobotsProtocol );
     }
 
     public static void SetFollowRobotsProtocol ( bool State )
@@ -1213,7 +1227,7 @@ namespace SEOMacroscope
 
     public static bool GetFollowSitemapLinks ()
     {
-      return( FollowSitemapLinks );
+      return ( FollowSitemapLinks );
     }
 
     public static void SetFollowSitemapLinks ( bool State )
@@ -1222,7 +1236,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
     public static bool GetCheckRedirects ()
     {
       return ( CheckRedirects );
@@ -1237,7 +1251,7 @@ namespace SEOMacroscope
 
     public static bool GetFollowRedirects ()
     {
-      return( FollowRedirects );
+      return ( FollowRedirects );
     }
 
     public static void SetFollowRedirects ( bool State )
@@ -1249,7 +1263,7 @@ namespace SEOMacroscope
 
     public static bool GetFollowNoFollow ()
     {
-      return( FollowNoFollow );
+      return ( FollowNoFollow );
     }
 
     public static void SetFollowNoFollow ( bool State )
@@ -1273,19 +1287,19 @@ namespace SEOMacroscope
 
     public static bool GetFollowAlternateLinks ()
     {
-      return (FollowAlternateLinks );
+      return ( FollowAlternateLinks );
     }
 
     public static void SetFollowAlternateLinks ( bool State )
     {
       FollowAlternateLinks = State;
     }
-    
+
     /**************************************************************************/
 
     public static bool GetFollowHrefLangLinks ()
     {
-      return( FollowHrefLangLinks );
+      return ( FollowHrefLangLinks );
     }
 
     public static void SetFollowHrefLangLinks ( bool State )
@@ -1297,7 +1311,7 @@ namespace SEOMacroscope
 
     public static bool GetFollowListLinks ()
     {
-      return( FollowListLinks );
+      return ( FollowListLinks );
     }
 
     public static void SetFollowListLinks ( bool State )
@@ -1309,7 +1323,7 @@ namespace SEOMacroscope
 
     public static bool GetFetchStylesheets ()
     {
-      return( FetchStylesheets );
+      return ( FetchStylesheets );
     }
 
     public static void SetFetchStylesheets ( bool State )
@@ -1321,7 +1335,7 @@ namespace SEOMacroscope
 
     public static bool GetFetchJavascripts ()
     {
-      return( FetchJavascripts );
+      return ( FetchJavascripts );
     }
 
     public static void SetFetchJavascripts ( bool State )
@@ -1333,7 +1347,7 @@ namespace SEOMacroscope
 
     public static bool GetFetchImages ()
     {
-      return( FetchImages );
+      return ( FetchImages );
     }
 
     public static void SetFetchImages ( bool State )
@@ -1345,7 +1359,7 @@ namespace SEOMacroscope
 
     public static bool GetFetchAudio ()
     {
-      return( FetchAudio );
+      return ( FetchAudio );
     }
 
     public static void SetFetchAudio ( bool State )
@@ -1357,7 +1371,7 @@ namespace SEOMacroscope
 
     public static bool GetFetchVideo ()
     {
-      return( FetchVideo );
+      return ( FetchVideo );
     }
 
     public static void SetFetchVideo ( bool State )
@@ -1369,7 +1383,7 @@ namespace SEOMacroscope
 
     public static bool GetFetchXml ()
     {
-      return( FetchXml );
+      return ( FetchXml );
     }
 
     public static void SetFetchXml ( bool State )
@@ -1381,7 +1395,7 @@ namespace SEOMacroscope
 
     public static bool GetFetchBinaries ()
     {
-      return( FetchBinaries );
+      return ( FetchBinaries );
     }
 
     public static void SetFetchBinaries ( bool State )
@@ -1393,7 +1407,7 @@ namespace SEOMacroscope
 
     public static bool GetProcessAudio ()
     {
-      return( ProcessAudio );
+      return ( ProcessAudio );
     }
 
     public static void SetProcessAudio ( bool State )
@@ -1405,7 +1419,7 @@ namespace SEOMacroscope
 
     public static bool GetProcessBinaries ()
     {
-      return( ProcessBinaries );
+      return ( ProcessBinaries );
     }
 
     public static void SetProcessBinaries ( bool State )
@@ -1417,43 +1431,43 @@ namespace SEOMacroscope
 
     public static bool GetProcessImages ()
     {
-      return( ProcessImages );
+      return ( ProcessImages );
     }
 
     public static void SetProcessImages ( bool State )
     {
       ProcessImages = State;
     }
-      
-    /** -------------------------------------------------------------------  **/            
+
+    /** -------------------------------------------------------------------  **/
 
     public static bool GetProcessJavascripts ()
     {
-      return( ProcessJavascripts );
+      return ( ProcessJavascripts );
     }
 
     public static void SetProcessJavascripts ( bool State )
     {
       ProcessJavascripts = State;
     }
-      
-    /** -------------------------------------------------------------------  **/    
+
+    /** -------------------------------------------------------------------  **/
 
     public static bool GetProcessPdfs ()
     {
-      return( ProcessPdfs );
+      return ( ProcessPdfs );
     }
 
     public static void SetProcessPdfs ( bool State )
     {
       ProcessPdfs = State;
     }
-    
-    /** -------------------------------------------------------------------  **/  
+
+    /** -------------------------------------------------------------------  **/
 
     public static bool GetProcessStylesheets ()
     {
-      return( ProcessStylesheets );
+      return ( ProcessStylesheets );
     }
 
     public static void SetProcessStylesheets ( bool State )
@@ -1465,7 +1479,7 @@ namespace SEOMacroscope
 
     public static bool GetProcessVideo ()
     {
-      return( ProcessVideo );
+      return ( ProcessVideo );
     }
 
     public static void SetProcessVideo ( bool State )
@@ -1477,7 +1491,7 @@ namespace SEOMacroscope
 
     public static bool GetProcessXml ()
     {
-      return( ProcessXml );
+      return ( ProcessXml );
     }
 
     public static void SetProcessXml ( bool State )
@@ -1489,7 +1503,7 @@ namespace SEOMacroscope
 
     public static bool GetCrawlParentDirectories ()
     {
-      return( CrawlParentDirectories );
+      return ( CrawlParentDirectories );
     }
 
     public static void SetCrawlParentDirectories ( bool State )
@@ -1499,7 +1513,7 @@ namespace SEOMacroscope
 
     public static bool GetCrawlChildDirectories ()
     {
-      return( CrawlChildDirectories );
+      return ( CrawlChildDirectories );
     }
 
     public static void SetCrawlChildDirectories ( bool State )
@@ -1511,7 +1525,7 @@ namespace SEOMacroscope
 
     public static int GetTitleMinLen ()
     {
-      return( TitleMinLen );
+      return ( TitleMinLen );
     }
 
     public static void SetTitleMinLen ( int Length )
@@ -1521,7 +1535,7 @@ namespace SEOMacroscope
 
     public static int GetTitleMaxLen ()
     {
-      return( TitleMaxLen );
+      return ( TitleMaxLen );
     }
 
     public static void SetTitleMaxLen ( int Length )
@@ -1531,7 +1545,7 @@ namespace SEOMacroscope
 
     public static int GetTitleMinWords ()
     {
-      return( TitleMinWords );
+      return ( TitleMinWords );
     }
 
     public static void SetTitleMinWords ( int Min )
@@ -1541,7 +1555,7 @@ namespace SEOMacroscope
 
     public static int GetTitleMaxWords ()
     {
-      return( TitleMaxWords );
+      return ( TitleMaxWords );
     }
 
     public static void SetTitleMaxWords ( int Max )
@@ -1551,7 +1565,7 @@ namespace SEOMacroscope
 
     public static int GetTitleMaxPixelWidth ()
     {
-      return( TitleMaxPixelWidth );
+      return ( TitleMaxPixelWidth );
     }
 
     public static void SetTitleMaxPixelWidth ( int Max )
@@ -1563,7 +1577,7 @@ namespace SEOMacroscope
 
     public static int GetDescriptionMinLen ()
     {
-      return( DescriptionMinLen );
+      return ( DescriptionMinLen );
     }
 
     public static void SetDescriptionMinLen ( int Length )
@@ -1573,7 +1587,7 @@ namespace SEOMacroscope
 
     public static int GetDescriptionMaxLen ()
     {
-      return( DescriptionMaxLen );
+      return ( DescriptionMaxLen );
     }
 
     public static void SetDescriptionMaxLen ( int Length )
@@ -1583,7 +1597,7 @@ namespace SEOMacroscope
 
     public static int GetDescriptionMinWords ()
     {
-      return( DescriptionMinWords );
+      return ( DescriptionMinWords );
     }
 
     public static void SetDescriptionMinWords ( int Min )
@@ -1593,7 +1607,7 @@ namespace SEOMacroscope
 
     public static int GetDescriptionMaxWords ()
     {
-      return( DescriptionMaxWords );
+      return ( DescriptionMaxWords );
     }
 
     public static void SetDescriptionMaxWords ( int Max )
@@ -1603,7 +1617,7 @@ namespace SEOMacroscope
 
     public static ushort GetMaxHeadingDepth ()
     {
-      return( MaxHeadingDepth );
+      return ( MaxHeadingDepth );
     }
 
     public static void SetMaxHeadingDepth ( ushort Depth )
@@ -1613,7 +1627,7 @@ namespace SEOMacroscope
 
     public static bool GetAnalyzeKeywordsInText ()
     {
-      return( AnalyzeKeywordsInText );
+      return ( AnalyzeKeywordsInText );
     }
 
     public static void SetAnalyzeKeywordsInText ( bool State )
@@ -1625,7 +1639,7 @@ namespace SEOMacroscope
 
     public static bool GetAnalyzeTextReadability ()
     {
-      return( AnalyzeTextReadability );
+      return ( AnalyzeTextReadability );
     }
 
     public static void SetAnalyzeTextReadability ( bool State )
@@ -1635,19 +1649,19 @@ namespace SEOMacroscope
 
     public static MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm GetAnalyzeTextReadabilityEnglishAlgorithm ()
     {
-      return( ( MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm )AnalyzeTextReadabilityEnglishAlgorithm );
+      return ( (MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm) AnalyzeTextReadabilityEnglishAlgorithm );
     }
 
     public static void SetAnalyzeTextReadabilityEnglishAlgorithm ( MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm Selected )
     {
-      AnalyzeTextReadabilityEnglishAlgorithm = ( int )Selected;
+      AnalyzeTextReadabilityEnglishAlgorithm = (int) Selected;
     }
 
     /* ---------------------------------------------------------------------- */
 
     public static bool GetDetectLanguage ()
     {
-      return( DetectLanguage );
+      return ( DetectLanguage );
     }
 
     public static void SetDetectLanguage ( bool Enabled )
@@ -1659,7 +1673,7 @@ namespace SEOMacroscope
 
     public static bool GetAnalyzeClickPaths ()
     {
-      return( AnalyzeClickPaths );
+      return ( AnalyzeClickPaths );
     }
 
     public static void SetAnalyzeClickPaths ( bool Enabled )
@@ -1671,7 +1685,7 @@ namespace SEOMacroscope
 
     public static bool GetCustomFiltersEnable ()
     {
-      return( CustomFiltersEnable );
+      return ( CustomFiltersEnable );
     }
 
     public static void SetCustomFiltersEnable ( bool State )
@@ -1680,10 +1694,10 @@ namespace SEOMacroscope
     }
 
     /* ---------------------------------------------------------------------- */
-    
+
     public static int GetCustomFiltersMaxItems ()
     {
-      return( CustomFiltersMaxItems );
+      return ( CustomFiltersMaxItems );
     }
 
     public static void SetCustomFiltersMaxItems ( int Max )
@@ -1695,47 +1709,47 @@ namespace SEOMacroscope
 
     public static bool GetCustomFiltersApplyToHtml ()
     {
-      return( CustomFiltersApplyToHtml );
+      return ( CustomFiltersApplyToHtml );
     }
 
     public static void SetCustomFiltersApplyToHtml ( bool State )
     {
       CustomFiltersApplyToHtml = State;
     }
-    
+
     public static bool GetCustomFiltersApplyToCss ()
     {
-      return( CustomFiltersApplyToCss );
+      return ( CustomFiltersApplyToCss );
     }
 
     public static void SetCustomFiltersApplyToCss ( bool State )
     {
       CustomFiltersApplyToCss = State;
     }
-    
+
     public static bool GetCustomFiltersApplyToJavascripts ()
     {
-      return( CustomFiltersApplyToJavascripts );
+      return ( CustomFiltersApplyToJavascripts );
     }
 
     public static void SetCustomFiltersApplyToJavascripts ( bool State )
     {
       CustomFiltersApplyToJavascripts = State;
     }
-    
+
     public static bool GetCustomFiltersApplyToText ()
     {
-      return( CustomFiltersApplyToText );
+      return ( CustomFiltersApplyToText );
     }
 
     public static void SetCustomFiltersApplyToText ( bool State )
     {
       CustomFiltersApplyToText = State;
     }
-    
+
     public static bool GetCustomFiltersApplyToXml ()
     {
-      return( CustomFiltersApplyToXml );
+      return ( CustomFiltersApplyToXml );
     }
 
     public static void SetCustomFiltersApplyToXml ( bool State )
@@ -1747,7 +1761,7 @@ namespace SEOMacroscope
 
     public static bool GetDataExtractorsEnable ()
     {
-      return( DataExtractorsEnable );
+      return ( DataExtractorsEnable );
     }
 
     public static void SetDataExtractorsEnable ( bool State )
@@ -1759,7 +1773,7 @@ namespace SEOMacroscope
 
     public static bool GetDataExtractorsCleanWhiteSpace ()
     {
-      return( DataExtractorsCleanWhiteSpace );
+      return ( DataExtractorsCleanWhiteSpace );
     }
 
     public static void SetDataExtractorsCleanWhiteSpace ( bool State )
@@ -1771,7 +1785,7 @@ namespace SEOMacroscope
 
     public static int GetDataExtractorsMaxItemsCssSelectors ()
     {
-      return( DataExtractorsMaxItemsCssSelectors );
+      return ( DataExtractorsMaxItemsCssSelectors );
     }
 
     public static void SetDataExtractorsMaxItemsCssSelectors ( int Max )
@@ -1783,7 +1797,7 @@ namespace SEOMacroscope
 
     public static int GetDataExtractorsMaxItemsRegexes ()
     {
-      return( DataExtractorsMaxItemsRegexes );
+      return ( DataExtractorsMaxItemsRegexes );
     }
 
     public static void SetDataExtractorsMaxItemsRegexes ( int Max )
@@ -1795,7 +1809,7 @@ namespace SEOMacroscope
 
     public static int GetDataExtractorsMaxItemsXpaths ()
     {
-      return( DataExtractorsMaxItemsXpaths );
+      return ( DataExtractorsMaxItemsXpaths );
     }
 
     public static void SetDataExtractorsMaxItemsXpaths ( int Max )
@@ -1807,7 +1821,7 @@ namespace SEOMacroscope
 
     public static bool GetDataExtractorsApplyToHtml ()
     {
-      return( DataExtractorsApplyToHtml );
+      return ( DataExtractorsApplyToHtml );
     }
 
     public static void SetDataExtractorsApplyToHtml ( bool State )
@@ -1817,7 +1831,7 @@ namespace SEOMacroscope
 
     public static bool GetDataExtractorsApplyToCss ()
     {
-      return( DataExtractorsApplyToCss );
+      return ( DataExtractorsApplyToCss );
     }
 
     public static void SetDataExtractorsApplyToCss ( bool State )
@@ -1827,7 +1841,7 @@ namespace SEOMacroscope
 
     public static bool GetDataExtractorsApplyToJavascripts ()
     {
-      return( DataExtractorsApplyToJavascripts );
+      return ( DataExtractorsApplyToJavascripts );
     }
 
     public static void SetDataExtractorsApplyToJavascripts ( bool State )
@@ -1837,7 +1851,7 @@ namespace SEOMacroscope
 
     public static bool GetDataExtractorsApplyToText ()
     {
-      return( DataExtractorsApplyToText );
+      return ( DataExtractorsApplyToText );
     }
 
     public static void SetDataExtractorsApplyToText ( bool State )
@@ -1847,7 +1861,7 @@ namespace SEOMacroscope
 
     public static bool GetDataExtractorsApplyToXml ()
     {
-      return( DataExtractorsApplyToXml );
+      return ( DataExtractorsApplyToXml );
     }
 
     public static void SetDataExtractorsApplyToXml ( bool State )
@@ -1859,12 +1873,49 @@ namespace SEOMacroscope
 
     public static bool GetSitemapIncludeLinkedPdfs ()
     {
-      return( SitemapIncludeLinkedPdfs );
+      return ( SitemapIncludeLinkedPdfs );
     }
 
     public static void SetSitemapIncludeLinkedPdfs ( bool State )
     {
       SitemapIncludeLinkedPdfs = State;
+    }
+
+    /** Disregard Html5 Elements Settings *************************************/
+
+
+    public static bool GetDisregardHtml5ElementNav ()
+    {
+      return ( DisregardHtml5ElementNav );
+    }
+
+    public static void SetDisregardHtml5ElementNav ( bool State )
+    {
+      DisregardHtml5ElementNav = State;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public static bool GetDisregardHtml5ElementHeader ()
+    {
+      return ( DisregardHtml5ElementHeader );
+    }
+
+    public static void SetDisregardHtml5ElementHeader ( bool State )
+    {
+      DisregardHtml5ElementHeader = State;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public static bool GetDisregardHtml5ElementFooter ()
+    {
+      return ( DisregardHtml5ElementFooter );
+    }
+
+    public static void SetDisregardHtml5ElementFooter ( bool State )
+    {
+      DisregardHtml5ElementFooter = State;
     }
 
     /** Ignore Errors Settings ************************************************/
@@ -1895,7 +1946,7 @@ namespace SEOMacroscope
 
     public static bool GetEnableMemoryGuard ()
     {
-      return( EnableMemoryGuard );
+      return ( EnableMemoryGuard );
     }
 
     public static void SetEnableMemoryGuard ( bool State )

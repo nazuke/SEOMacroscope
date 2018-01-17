@@ -31,7 +31,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeCustomFilter
+  public class TestMacroscopeCustomFilter : Macroscope
   {
 
     /**************************************************************************/

@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeNamedQueueException.
   /// </summary>
 
+  [Serializable]
   public class MacroscopeNamedQueueException : Exception, ISerializable
   {
 

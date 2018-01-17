@@ -1620,6 +1620,8 @@ namespace SEOMacroscope
       if ( HtmlDoc != null )
       {
 
+        this.StripDisregardedNodes( HtmlDoc: HtmlDoc );
+
         this.StripNonTextNodes( HtmlDoc: HtmlDoc );
 
         ExtractedText = this.GetNodeText( Node: HtmlDoc.DocumentNode );
@@ -1700,28 +1702,53 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void StripNonTextNodes ( HtmlDocument HtmlDoc )
+    private void StripNodes ( HtmlNodeCollection NodeCollection )
     {
-
-      HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//script|//style|//comment())" );
-
       if ( NodeCollection != null )
       {
-
         List<HtmlNode> NodesToRemove = new List<HtmlNode>();
-
         foreach ( HtmlNode Node in NodeCollection )
         {
           NodesToRemove.Add( Node );
         }
-
         for ( int i = 0 ; i < NodesToRemove.Count ; i++ )
         {
           NodesToRemove[ i ].Remove();
         }
+      }
+      return;
+    }
 
+    /**************************************************************************/
+
+    private void StripDisregardedNodes ( HtmlDocument HtmlDoc )
+    {
+
+      if ( MacroscopePreferencesManager.GetDisregardHtml5ElementNav() )
+      {
+        this.StripNodes( NodeCollection: HtmlDoc.DocumentNode.SelectNodes( "(//nav)" ) );
       }
 
+      if ( MacroscopePreferencesManager.GetDisregardHtml5ElementHeader() )
+      {
+        this.StripNodes( NodeCollection: HtmlDoc.DocumentNode.SelectNodes( "(//header)" ) );
+      }
+
+      if ( MacroscopePreferencesManager.GetDisregardHtml5ElementFooter() )
+      {
+        this.StripNodes( NodeCollection: HtmlDoc.DocumentNode.SelectNodes( "(//footer)" ) );
+      }
+
+      return;
+
+    }
+
+    /**************************************************************************/
+
+    private void StripNonTextNodes ( HtmlDocument HtmlDoc )
+    {
+      this.StripNodes( NodeCollection: HtmlDoc.DocumentNode.SelectNodes( "(//script|//style|//comment())" ) );
+      return;
     }
 
     /** Extract Email Addresses ***********************************************/

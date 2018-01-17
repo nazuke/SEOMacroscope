@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDocumentCollectionException.
   /// </summary>
 
+  [Serializable]
   public class MacroscopeDocumentCollectionException : Exception, ISerializable
   {
 

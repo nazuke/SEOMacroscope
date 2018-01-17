@@ -52,7 +52,7 @@ namespace SEOMacroscope
 
       this.HtmlDocs = new Dictionary<string, string>( 16 );
 
-      foreach( string Filename in DocKeys )
+      foreach ( string Filename in DocKeys )
       {
 
         Reader = new StreamReader(
@@ -62,8 +62,6 @@ namespace SEOMacroscope
         this.HtmlDocs.Add( Filename, Reader.ReadToEnd() );
 
         Reader.Close();
-
-        Reader.Dispose();
 
       }
 
@@ -92,7 +90,7 @@ namespace SEOMacroscope
         value: "The markets opened at $100.00 today"
       );
 
-      foreach( string StringKey in StringsTable.Keys )
+      foreach ( string StringKey in StringsTable.Keys )
       {
 
         string Cleaned = MacroscopeStringTools.CleanText( Text: StringKey );
@@ -116,7 +114,7 @@ namespace SEOMacroscope
         value: "First Heading"
       );
 
-      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      foreach ( string HtmlDocKey in this.HtmlDocs.Keys )
       {
 
         string Html = this.HtmlDocs[ HtmlDocKey ];

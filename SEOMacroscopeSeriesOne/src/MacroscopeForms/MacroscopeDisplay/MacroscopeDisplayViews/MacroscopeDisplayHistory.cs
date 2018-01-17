@@ -39,6 +39,7 @@ namespace SEOMacroscope
     private MacroscopeMainForm MainForm;
 
     private ListView DisplayListView;
+    private Object DisplayListViewLocker;
 
     private bool ListViewConfigured = false;
     
@@ -75,7 +76,10 @@ namespace SEOMacroscope
 
     private void ConfigureListView ()
     {
-      if( !this.ListViewConfigured )
+
+      this.DisplayListViewLocker = new object();
+
+      if ( !this.ListViewConfigured )
       {
         this.ListViewConfigured = true;
       }
@@ -112,7 +116,7 @@ namespace SEOMacroscope
           new MethodInvoker (
             delegate
             {
-              lock( this.DisplayListView )
+              lock( this.DisplayListViewLocker )
               {
                 Cursor.Current = Cursors.WaitCursor;
                 this.DisplayListView.BeginUpdate();
@@ -128,7 +132,7 @@ namespace SEOMacroscope
       }
       else
       {
-        lock( this.DisplayListView )
+        lock( this.DisplayListViewLocker )
         {
           Cursor.Current = Cursors.WaitCursor;
           this.DisplayListView.BeginUpdate();

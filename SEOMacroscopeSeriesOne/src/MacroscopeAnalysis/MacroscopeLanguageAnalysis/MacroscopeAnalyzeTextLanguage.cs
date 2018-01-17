@@ -126,13 +126,6 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-        
-    ~MacroscopeAnalyzeTextLanguage ()
-    {
-      this.DetectLanguage = null;
-    }
-
-    /**************************************************************************/
 
     public string AnalyzeLanguage ( string Text )
     {

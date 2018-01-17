@@ -33,7 +33,7 @@ using System.Threading;
 namespace SEOMacroscope
 {
 
-  public sealed class MacroscopeDocumentCollection : Macroscope
+  public class MacroscopeDocumentCollection : Macroscope, IDisposable
   {
 
     // Implement scheduled Levenshtein analysis in this class
@@ -171,57 +171,17 @@ namespace SEOMacroscope
     }
 
     /** Self Destruct Sequence ************************************************/
-
-    ~MacroscopeDocumentCollection ()
+    
+    public void Dispose ()
     {
-
-      this.DebugMsg( "MacroscopeDocumentCollection DESTRUCTOR CALLED" );
-
-      this.StopRecalcTimer();
-
-      this.DocCollection = null;
-
-      this.JobMaster = null;
-      this.NamedQueue = null;
-      this.SearchIndex = null;
-      this.AnalyzeKeywords = null;
-
-      this.StartUrl = null;
-
-      this.StructInlinks = null;
-      this.StructHyperlinksIn = null;
-
-      this.StatsHistory = null;
-      this.StatsHostnames = null;
-
-      this.StatsCanonicals = null;
-
-      this.StatsTitles = null;
-      this.StatsDescriptions = null;
-      this.StatsKeywords = null;
-      this.StatsHeadings = null;
-      this.StatsWarnings = null;
-      this.StatsErrors = null;
-      this.StatsChecksums = null;
-
-      this.StatsLanguagesPages = null;
-      this.StatsLanguagesTitles = null;
-      this.StatsLanguagesDescriptions = null;
-      this.StatsLanguagesBodyTexts = null;
-
-      this.StatsDurations = null;
-
-      this.StatsDeepKeywordAnalysisDocs = null;
-      this.StatsDeepKeywordAnalysis = null;
-
-      //this.AnalyzeTextLanguage = null;
-
-      this.DnsCache = null;
-
-      this.ClickPathAnalysis = null;
-
+      Dispose( true );
     }
 
+    protected virtual void Dispose ( bool disposing )
+    {
+      this.TimerRecalc.Dispose();
+    }
+    
     /** Job Master Methods ****************************************************/
 
     public MacroscopeJobMaster GetJobMaster ()

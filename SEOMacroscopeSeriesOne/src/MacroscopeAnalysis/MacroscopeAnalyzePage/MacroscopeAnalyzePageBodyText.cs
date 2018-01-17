@@ -28,25 +28,12 @@ using System;
 namespace SEOMacroscope
 {
 
-  /// <summary>
-  /// Description of MacroscopeAnalyzePageDescriptions.
-  /// </summary>
-
-  public class MacroscopeAnalyzePageDescriptions : Macroscope
+  public class MacroscopeAnalyzePageBodyText : MacroscopeAnalysis
   {
-
+       
     /**************************************************************************/
 
-    public MacroscopeAnalyzePageDescriptions ()
-    {
-
-      this.SuppressDebugMsg = true;
-
-    }
-
-    /**************************************************************************/
-
-    ~MacroscopeAnalyzePageDescriptions ()
+    public MacroscopeAnalyzePageBodyText () : base ()
     {
     }
 

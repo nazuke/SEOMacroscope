@@ -36,7 +36,7 @@ using System.Text.RegularExpressions;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeMainForm : Form, IMacroscopeTaskController
+  public partial class MacroscopeMainForm : Form, IMacroscopeTaskController, IDisposable
   {
 
     /**************************************************************************/
@@ -207,12 +207,19 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/
+    /** Self Destruct Sequence ************************************************/
 
-    ~MacroscopeMainForm ()
+    protected override void Dispose ( bool disposing )
     {
-      DebugMsg( "MacroscopeMainForm DESTRUCTOR CALLED" );
-      this.Cleanup();
+      if ( disposing )
+      {
+        if ( components != null )
+        {
+          components.Dispose();
+        }
+      }
+      this.JobMaster.Dispose();
+      base.Dispose( disposing );
     }
 
     /** Initialize Custom Filters *********************************************/
@@ -492,36 +499,6 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void Cleanup ()
-    {
-
-      DebugMsg( string.Format( "MacroscopeMainForm Cleanup: CALLED..." ) );
-
-      MacroscopePreferencesManager.SavePreferences();
-
-      if( this.ThreadScanner != null )
-      {
-        DebugMsg( "Cleaning up ThreadScanner" );
-        this.ThreadScanner.Abort();
-      }
-
-      this.StopProgressBarScanTimer();
-      this.StopTabPageTimer();
-      this.StopSiteOverviewTimer();
-      this.StopStatusBarTimer();
-
-      if( this.JobMaster != null )
-      {
-        this.JobMaster.ClearAllQueues();
-      }
-
-      this.JobMaster = null;
-
-      DebugMsg( string.Format( "MacroscopeMainForm Cleanup: DONE." ) );
-    }
-
-    /**************************************************************************/
-
     public MacroscopeJobMaster GetJobMaster ()
     {
       return( this.JobMaster );
@@ -591,7 +568,7 @@ namespace SEOMacroscope
 
     private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
     {
-      this.Cleanup();
+      this.CallbackScanStop( sender, e );
     }
 
     /** DIALOGUE BOXES ********************************************************/
@@ -1562,7 +1539,7 @@ namespace SEOMacroscope
           string Url = "NONE";
           int UrlColumn = -1;
 
-          lock( TargetListView )
+          lock( sender )
           {
 
             this.macroscopeDocumentDetailsInstance.Enabled = false;
@@ -1625,7 +1602,7 @@ namespace SEOMacroscope
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( TargetListView )
+      lock( sender )
       {
         
         for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
@@ -1676,7 +1653,7 @@ namespace SEOMacroscope
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( TargetListView )
+      lock( sender )
       {
         for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {
@@ -1725,7 +1702,7 @@ namespace SEOMacroscope
       string Url = "NONE";
       int UrlColumn = -1;
 
-      lock( TargetListView )
+      lock( sender )
       {
         for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
         {

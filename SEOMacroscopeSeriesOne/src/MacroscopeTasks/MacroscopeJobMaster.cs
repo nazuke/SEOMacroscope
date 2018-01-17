@@ -36,7 +36,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeJobMaster.
   /// </summary>
 
-  public class MacroscopeJobMaster : Macroscope
+  public class MacroscopeJobMaster : Macroscope, IDisposable
   {
 
     /**************************************************************************/
@@ -44,7 +44,7 @@ namespace SEOMacroscope
     //private EventLog JobMasterLog;
     //private Guid JobGuid;
     //private long JobMasterInstanceCounter = 1;
-    
+
     private MacroscopeConstants.RunTimeMode RunTimeMode;
 
     private IMacroscopeTaskController TaskController;
@@ -59,7 +59,7 @@ namespace SEOMacroscope
     private MacroscopeNamedQueue<string> NamedQueue;
 
     private CookieContainer CookieJar;
-    
+
     private MacroscopeRobots Robots;
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
 
@@ -73,8 +73,8 @@ namespace SEOMacroscope
     private int ThreadsMax;
     private int ThreadsRunning;
     private bool ThreadsStop;
-    private object ThreadsLock = new object ();
-    private Dictionary<int,bool> ThreadsDict;
+    private object ThreadsLock = new object();
+    private Dictionary<int, bool> ThreadsDict;
 
     private Semaphore SemaphoreWorkers;
 
@@ -89,12 +89,12 @@ namespace SEOMacroscope
     private string ChildStartingDirectory;
 
     private MacroscopeJobHistory JobHistory;
-    
-    private Dictionary<string,Dictionary<string,bool>> Progress;
 
-    private Dictionary<string,string> Locales;
+    private Dictionary<string, Dictionary<string, bool>> Progress;
 
-    private Dictionary<string,bool> BlockedByRobots;
+    private Dictionary<string, string> Locales;
+
+    private Dictionary<string, bool> BlockedByRobots;
 
     /**************************************************************************/
 
@@ -129,41 +129,20 @@ namespace SEOMacroscope
 
     /** Self Destruct Sequence ************************************************/
 
-    ~MacroscopeJobMaster ()
+    public void Dispose ()
+    {
+      Dispose( true );
+    }
+
+    protected virtual void Dispose ( bool disposing )
     {
 
-      DebugMsg( string.Format( "MacroscopeJobMaster: {0}", "DESTRUCTOR" ) );
-
-      if( this.SemaphoreWorkers != null )
+      if ( this.SemaphoreWorkers != null )
       {
         this.SemaphoreWorkers.Dispose();
       }
-      
-      this.DocCollection = null;
 
-      this.AllowedHosts = null;
-
-      this.NamedQueue = null;
-
-      this.CookieJar = null;
-      
-      this.Robots = null;
-
-      this.IncludeExcludeUrls = null;
-      
-      this.CustomFilter = null;
-
-      this.DataExtractorCssSelectors = null;   
-      this.DataExtractorRegexes = null;
-      this.DataExtractorXpaths = null;
-
-      this.JobHistory = null;
-
-      this.Progress = null;
-
-      this.Locales = null;
-
-      this.BlockedByRobots = null;
+      this.DocCollection.Dispose();
 
     }
 
@@ -173,7 +152,7 @@ namespace SEOMacroscope
     {
 
       GC.Collect();
-      
+
       /*
       {
         this.JobMasterLog = new EventLog ();
@@ -182,32 +161,32 @@ namespace SEOMacroscope
         this.LogEntry( string.Format( "Starting Job" ) );
       }
       */
-     
+
       this.RunTimeMode = JobRunTimeMode;
 
       this.Client = new MacroscopeHttpTwoClient();
 
-      if( this.TaskController != null )
+      if ( this.TaskController != null )
       {
         this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
       }
-      
-      this.DocCollection = new MacroscopeDocumentCollection ( JobMaster: this );
-      this.AllowedHosts = new MacroscopeAllowedHosts ();
+
+      this.DocCollection = new MacroscopeDocumentCollection( JobMaster: this );
+      this.AllowedHosts = new MacroscopeAllowedHosts();
 
       /** BEGIN: Named Queues *************************************************/
 
-      this.NamedQueueJobItems = new MacroscopeNamedQueue<MacroscopeJobItem> ();
+      this.NamedQueueJobItems = new MacroscopeNamedQueue<MacroscopeJobItem>();
 
       this.NamedQueueJobItems.CreateNamedQueue(
         Name: MacroscopeConstants.NamedQueueUrlList,
         QueueMode: MacroscopeNamedQueue<MacroscopeJobItem>.MODE.USE_HISTORY
       );
 
-      this.NamedQueue = new MacroscopeNamedQueue<string> ();
+      this.NamedQueue = new MacroscopeNamedQueue<string>();
 
       {
-        
+
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayQueue );
 
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayStructure );
@@ -238,7 +217,7 @@ namespace SEOMacroscope
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayEmailAddresses );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayCustomFilters );
-        
+
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayDataExtractorsCssSelectors );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayDataExtractorsRegexes );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayDataExtractorsXpaths );
@@ -254,9 +233,9 @@ namespace SEOMacroscope
       this.AdjustThreadsMax();
       this.ThreadsRunning = 0;
       this.ThreadsStop = false;
-      this.ThreadsDict = new Dictionary<int,bool> ();
+      this.ThreadsDict = new Dictionary<int, bool>();
 
-      this.SemaphoreWorkers = new Semaphore ( 0, this.ThreadsMax );
+      this.SemaphoreWorkers = new Semaphore( 0, this.ThreadsMax );
       this.SemaphoreWorkers.Release( this.ThreadsMax );
 
       this.Depth = MacroscopePreferencesManager.GetDepth();
@@ -270,21 +249,21 @@ namespace SEOMacroscope
         this.ChildStartingDirectory = "";
       }
 
-      this.JobHistory = new MacroscopeJobHistory ();
+      this.JobHistory = new MacroscopeJobHistory();
 
       this.InitProgress();
 
-      this.Locales = new Dictionary<string,string> ( 32 );
+      this.Locales = new Dictionary<string, string>( 32 );
 
-      this.CookieJar = new CookieContainer ();
-      
-      this.Robots = new MacroscopeRobots ();
-      this.BlockedByRobots = new Dictionary<string,bool> ();
+      this.CookieJar = new CookieContainer();
+
+      this.Robots = new MacroscopeRobots();
+      this.BlockedByRobots = new Dictionary<string, bool>();
 
     }
 
     /** Event Log *************************************************************/
-    
+
     /*
     private void LogEntry ( string Message )
     {
@@ -305,7 +284,7 @@ namespace SEOMacroscope
 
     }
     */
-   
+
     /** Runtime Mode **********************************************************/
 
     public void SetRunTimeMode ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
@@ -315,7 +294,7 @@ namespace SEOMacroscope
 
     public MacroscopeConstants.RunTimeMode GetRunTimeMode ()
     {
-      return( this.RunTimeMode );
+      return ( this.RunTimeMode );
     }
 
     /** HTTP Client ***********************************************************/
@@ -329,7 +308,7 @@ namespace SEOMacroscope
 
     public MacroscopeCredentialsHttp GetCredentialsHttp ()
     {
-      return( this.CredentialsHttp );
+      return ( this.CredentialsHttp );
     }
 
     /** Include/Exclude URLs **************************************************/
@@ -341,7 +320,7 @@ namespace SEOMacroscope
 
     public MacroscopeIncludeExcludeUrls GetIncludeExcludeUrls ()
     {
-      return( this.IncludeExcludeUrls );
+      return ( this.IncludeExcludeUrls );
     }
 
     /** Custom Filter *********************************************************/
@@ -353,7 +332,7 @@ namespace SEOMacroscope
 
     public MacroscopeCustomFilters GetCustomFilter ()
     {
-      return( this.CustomFilter );
+      return ( this.CustomFilter );
     }
 
     /** Data Extractors *********************************************************/
@@ -365,7 +344,7 @@ namespace SEOMacroscope
 
     public MacroscopeDataExtractorCssSelectors GetDataExtractorCssSelectors ()
     {
-      return( this.DataExtractorCssSelectors );
+      return ( this.DataExtractorCssSelectors );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -377,11 +356,11 @@ namespace SEOMacroscope
 
     public MacroscopeDataExtractorRegexes GetDataExtractorRegexes ()
     {
-      return( this.DataExtractorRegexes );
+      return ( this.DataExtractorRegexes );
     }
 
     /** -------------------------------------------------------------------- **/
-    
+
     public void SetDataExtractorXpaths ( MacroscopeDataExtractorXpaths NewDataExtractor )
     {
       this.DataExtractorXpaths = NewDataExtractor;
@@ -389,7 +368,7 @@ namespace SEOMacroscope
 
     public MacroscopeDataExtractorXpaths GetDataExtractorXpaths ()
     {
-      return( this.DataExtractorXpaths );
+      return ( this.DataExtractorXpaths );
     }
 
     /** Execute Job ***********************************************************/
@@ -402,21 +381,21 @@ namespace SEOMacroscope
       //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
 
       this.StartUrl = MacroscopeHttpUrlUtils.SanitizeUrl( Url: this.StartUrl );
-      
+
       this.DocCollection.SetStartUrl( Url: this.StartUrl );
 
       this.DetermineStartingDirectory();
-      
+
       this.SetThreadsStop( Stopped: false );
 
       this.AllowedHosts.AddFromUrl( Url: this.StartUrl );
 
-      if( !this.PeekUrlQueue() )
+      if ( !this.PeekUrlQueue() )
       {
 
         { // Add robots.txt URL to queue
           string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.StartUrl );
-          if( !string.IsNullOrEmpty( RobotsUrl ) )
+          if ( !string.IsNullOrEmpty( RobotsUrl ) )
           {
             this.AddUrlQueueItem( Url: RobotsUrl );
           }
@@ -424,10 +403,10 @@ namespace SEOMacroscope
 
         { // Add sitemap.xml URLs to queue
           MacroscopeSitemapPaths SitemapPaths = new MacroscopeSitemapPaths();
-          foreach( string SitemapPath in SitemapPaths.IterateSitemapPaths() )
+          foreach ( string SitemapPath in SitemapPaths.IterateSitemapPaths() )
           {
             string SitemapUrl = MacroscopeSitemapPaths.GenerateSitemapUrl( Url: this.StartUrl, SitemapPath: SitemapPath );
-            if( !string.IsNullOrEmpty( SitemapUrl ) )
+            if ( !string.IsNullOrEmpty( SitemapUrl ) )
             {
               this.AddUrlQueueItem( Url: SitemapUrl );
             }
@@ -441,21 +420,21 @@ namespace SEOMacroscope
       }
 
       this.ProbeRobotsFile( Url: this.StartUrl );
-        
+
       this.SetCrawlDelay( Url: this.StartUrl );
 
       this.SpawnWorkers();
 
       DebugMsg( string.Format( "Pages Found: {0}", this.GetPagesFound() ) );
 
-      if( this.TaskController != null )
+      if ( this.TaskController != null )
       {
         this.TaskController.ICallbackScanComplete();
       }
 
       this.AddUpdateDisplayQueue( Url: this.StartUrl );
 
-      return( true );
+      return ( true );
 
     }
 
@@ -466,10 +445,10 @@ namespace SEOMacroscope
 
       bool DoRun = true;
 
-      while( DoRun == true )
+      while ( DoRun == true )
       {
 
-        if( this.GetThreadsStop() )
+        if ( this.GetThreadsStop() )
         {
 
           DebugMsg( string.Format( "SpawnWorkers: {0}", "STOPPING" ) );
@@ -481,30 +460,37 @@ namespace SEOMacroscope
         else
         {
 
-          if( this.CountRunningThreads() < this.ThreadsMax )
+          if ( this.CountRunningThreads() < this.ThreadsMax )
           {
 
             try
             {
 
-              if( this.MemoryGate( RequiredMegabytes: 32 ) )
+              if ( this.MemoryGate( RequiredMegabytes: 32 ) )
               {
 
-                this.SemaphoreWorkers.WaitOne();
+                try
+                {
+                  this.SemaphoreWorkers.WaitOne();
+                }
+                catch ( Exception ex )
+                {
+                  DebugMsg( string.Format( "SpawnWorkers: {0}", ex.Message ) );
+                }
 
                 bool NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 
-                if( NewThreadStarted )
+                if ( NewThreadStarted )
                 {
                   Thread.Sleep( 2000 );
                 }
 
                 this.AdjustThreadsMax();
-            
+
               }
 
             }
-            catch( MacroscopeInsufficientMemoryException ex )
+            catch ( MacroscopeInsufficientMemoryException ex )
             {
               DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
               GC.Collect();
@@ -514,7 +500,7 @@ namespace SEOMacroscope
 
           }
 
-          if(
+          if (
             ( this.CountRunningThreads() == 0 )
             && ( !this.PeekUrlQueue() ) )
           {
@@ -536,12 +522,12 @@ namespace SEOMacroscope
     private void StartWorker ( object thContext )
     {
 
-      if( !this.GetThreadsStop() )
+      if ( !this.GetThreadsStop() )
       {
 
 
 
-          MacroscopeJobWorker JobWorker = new MacroscopeJobWorker ( JobMaster: this );
+        MacroscopeJobWorker JobWorker = new MacroscopeJobWorker( JobMaster: this );
 
 
 
@@ -553,7 +539,7 @@ namespace SEOMacroscope
           JobWorker.Execute();
 
         }
-        catch( OutOfMemoryException ex )
+        catch ( OutOfMemoryException ex )
         {
 
           DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.Message ) );
@@ -565,7 +551,14 @@ namespace SEOMacroscope
 
       }
 
-      this.SemaphoreWorkers.Release( 1 );
+      try
+      {
+        this.SemaphoreWorkers.Release( 1 );
+      }
+      catch ( Exception ex )
+      {
+        DebugMsg( string.Format( "StartWorker: {0}", ex.Message ) );
+      }
 
     }
 
@@ -594,7 +587,7 @@ namespace SEOMacroscope
       this.DecRunningThreads();
 
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
-     
+
       GC.Collect();
 
     }
@@ -613,14 +606,14 @@ namespace SEOMacroscope
 
       bool IsStopped = false;
 
-      if( this.CountRunningThreads() == 0 )
+      if ( this.CountRunningThreads() == 0 )
       {
         IsStopped = true;
       }
 
       this.GetDocCollection().RecalculateDocCollection();
 
-      return( IsStopped );
+      return ( IsStopped );
 
     }
 
@@ -635,7 +628,7 @@ namespace SEOMacroscope
 
     public bool GetThreadsStop ()
     {
-      return( this.ThreadsStop );
+      return ( this.ThreadsStop );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -658,12 +651,12 @@ namespace SEOMacroscope
 
     private void DecRunningThreads ()
     {
-      if( this.ThreadsRunning > 0 )
+      if ( this.ThreadsRunning > 0 )
       {
         int iThreadId = Thread.CurrentThread.ManagedThreadId;
-        if( this.ThreadsDict.ContainsKey( iThreadId ) )
+        if ( this.ThreadsDict.ContainsKey( iThreadId ) )
         {
-          lock( this.ThreadsDict )
+          lock ( this.ThreadsDict )
           {
             this.ThreadsDict.Remove( iThreadId );
           }
@@ -676,7 +669,7 @@ namespace SEOMacroscope
 
     public int CountRunningThreads ()
     {
-      return( this.ThreadsRunning );
+      return ( this.ThreadsRunning );
     }
 
     /** Queues ****************************************************************/
@@ -690,7 +683,7 @@ namespace SEOMacroscope
 
     public bool PeekUpdateDisplayQueue ()
     {
-      return( NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue ) );
+      return ( NamedQueue.PeekNamedQueue( MacroscopeConstants.NamedQueueDisplayQueue ) );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -747,29 +740,29 @@ namespace SEOMacroscope
 
     public List<string> DrainDisplayQueueAsList ( string NamedQueueName )
     {
-      return( this.NamedQueue.DrainNamedQueueItemsAsList( NamedQueueName ) );
+      return ( this.NamedQueue.DrainNamedQueueItemsAsList( NamedQueueName ) );
     }
 
     /** URL Queue *************************************************************/
 
-    public MacroscopeJobItem [] GetUrlQueueAsArray ()
+    public MacroscopeJobItem[] GetUrlQueueAsArray ()
     {
-      
-      MacroscopeJobItem [] ItemsArray = null;
-      
+
+      MacroscopeJobItem[] ItemsArray = null;
+
       try
       {
         ItemsArray = this.NamedQueueJobItems.GetNamedQueueItemsAsArray(
           MacroscopeConstants.NamedQueueUrlList
         );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "GetUrlQueueAsArray: {0}", ex.Message ) );
       }
-      
-      return( ItemsArray );
-    
+
+      return ( ItemsArray );
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -780,20 +773,20 @@ namespace SEOMacroscope
       string NewUrl = Url;
       MacroscopeJobItem JobItem;
 
-      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
-        if( this.AllowedHosts.IsExternalUrl( Url: Url ) )
+        if ( this.AllowedHosts.IsExternalUrl( Url: Url ) )
         {
           return;
         }
       }
 
-      if( MacroscopePreferencesManager.GetIgnoreQueries() )
+      if ( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
         NewUrl = MacroscopeHttpUrlUtils.StripQueryString( Url: NewUrl );
       }
 
-      if( MacroscopePreferencesManager.GetIgnoreHashFragments() )
+      if ( MacroscopePreferencesManager.GetIgnoreHashFragments() )
       {
         NewUrl = MacroscopeHttpUrlUtils.StripHashFragment( Url: NewUrl );
       }
@@ -818,7 +811,7 @@ namespace SEOMacroscope
           this.AddToProgress( Url: NewUrl );
 
         }
-        catch( MacroscopeNamedQueueException ex )
+        catch ( MacroscopeNamedQueueException ex )
         {
           this.DebugMsg( string.Format( "AddUrlQueueItem: {0}", ex.Message ) );
         }
@@ -836,22 +829,22 @@ namespace SEOMacroscope
 
       bool Proceed = true;
 
-      if( Check && MacroscopePreferencesManager.GetCrawlStrictUrlCheck() )
+      if ( Check && MacroscopePreferencesManager.GetCrawlStrictUrlCheck() )
       {
 
-        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url: Url ) )
+        if ( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url: Url ) )
         {
           Proceed = false;
         }
 
-        if( !this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url: Url ) )
+        if ( !this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url: Url ) )
         {
           Proceed = false;
         }
 
       }
-      
-      if( Proceed )
+
+      if ( Proceed )
       {
         this.AddUrlQueueItem( Url: Url );
       }
@@ -867,7 +860,7 @@ namespace SEOMacroscope
 
       MacroscopeJobItem JobItem = this.NamedQueueJobItems.GetNamedQueueItem( MacroscopeConstants.NamedQueueUrlList );
 
-      return( JobItem );
+      return ( JobItem );
 
     }
 
@@ -885,12 +878,12 @@ namespace SEOMacroscope
         NewUrl = MacroscopeHttpUrlUtils.StripQueryString( Url: NewUrl );
       }
 
-      if( MacroscopePreferencesManager.GetIgnoreHashFragments() )
+      if ( MacroscopePreferencesManager.GetIgnoreHashFragments() )
       {
         NewUrl = MacroscopeHttpUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
-      JobItem = new MacroscopeJobItem ( Url: NewUrl );
+      JobItem = new MacroscopeJobItem( Url: NewUrl );
 
       Forgotten = this.NamedQueueJobItems.ForgetNamedQueueItem(
         Name: MacroscopeConstants.NamedQueueUrlList,
@@ -911,7 +904,7 @@ namespace SEOMacroscope
         Limit: 5
       );
 
-      return( JobItems );
+      return ( JobItems );
 
     }
 
@@ -923,14 +916,14 @@ namespace SEOMacroscope
     public bool PeekUrlQueue ()
     {
       bool Peek = this.NamedQueueJobItems.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
-      return( Peek );
+      return ( Peek );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public int CountUrlQueueItems ()
     {
-      return( this.NamedQueueJobItems.CountNamedQueueItems( MacroscopeConstants.NamedQueueUrlList ) );
+      return ( this.NamedQueueJobItems.CountNamedQueueItems( MacroscopeConstants.NamedQueueUrlList ) );
     }
 
     /** Retry Broken Links ****************************************************/
@@ -938,24 +931,24 @@ namespace SEOMacroscope
     public void RetryBrokenLinks ()
     {
 
-      foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
+      foreach ( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
-        switch( msDoc.GetStatusCode() )
+        switch ( msDoc.GetStatusCode() )
         {
 
-        // Bogus Range
+          // Bogus Range
 
           case 0:
             this.ResetLink( msDoc: msDoc );
             break;
 
-        // 200 Range
+          // 200 Range
 
           case HttpStatusCode.OK:
             break;
 
-        // 400 Range
+          // 400 Range
 
           case HttpStatusCode.BadRequest:
             this.ResetLink( msDoc: msDoc );
@@ -979,7 +972,7 @@ namespace SEOMacroscope
             this.ResetLink( msDoc: msDoc );
             break;
 
-        // 500 Range
+          // 500 Range
 
           case HttpStatusCode.InternalServerError:
             this.ResetLink( msDoc: msDoc );
@@ -997,7 +990,7 @@ namespace SEOMacroscope
             this.ResetLink( msDoc: msDoc );
             break;
 
-        // Default
+          // Default
 
           default:
             break;
@@ -1013,10 +1006,10 @@ namespace SEOMacroscope
     public void RetryTimedOutLinks ()
     {
 
-      foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
+      foreach ( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
-        switch( msDoc.GetStatusCode() )
+        switch ( msDoc.GetStatusCode() )
         {
 
           case HttpStatusCode.RequestTimeout:
@@ -1058,7 +1051,7 @@ namespace SEOMacroscope
     private void ResetLink ( MacroscopeDocument msDoc )
     {
 
-      if( msDoc != null )
+      if ( msDoc != null )
       {
 
         string Url = msDoc.GetUrl();
@@ -1090,14 +1083,14 @@ namespace SEOMacroscope
 
     public string GetStartUrl ()
     {
-      return( this.StartUrl );
+      return ( this.StartUrl );
     }
 
     /** Page Depth ************************************************************/
 
     public int GetDepth ()
     {
-      return( this.Depth );
+      return ( this.Depth );
     }
 
     public void SetGetDepth ( int Value )
@@ -1109,7 +1102,7 @@ namespace SEOMacroscope
 
     public int GetPageLimit ()
     {
-      return( this.PageLimit );
+      return ( this.PageLimit );
     }
 
     /** Page Limit Count ******************************************************/
@@ -1121,7 +1114,7 @@ namespace SEOMacroscope
 
     public int GetPageLimitCount ()
     {
-      return( this.PageLimitCount );
+      return ( this.PageLimitCount );
     }
 
     public void IncPageLimitCount ()
@@ -1131,43 +1124,43 @@ namespace SEOMacroscope
 
     public int GetPagesFound ()
     {
-      return( this.PagesFound );
+      return ( this.PagesFound );
     }
 
     /** Crawl Parent / Child Directories **************************************/
 
     public void DetermineStartingDirectory ()
     {
-      
+
       Uri StartUri = null;
       string Path = "/";
       string StartUriPort = "";
 
       try
       {
-        
-        StartUri = new Uri ( this.GetStartUrl() );
-              
-        if( StartUri.Port > 0 )
+
+        StartUri = new Uri( this.GetStartUrl() );
+
+        if ( StartUri.Port > 0 )
         {
           StartUriPort = string.Format( ":{0}", StartUri.Port );
-        }     
+        }
 
         Path = StartUri.AbsolutePath;
 
       }
-      catch( UriFormatException ex )
+      catch ( UriFormatException ex )
       {
         DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
       }
 
       Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
 
-      if( Path.Length == 0 )
+      if ( Path.Length == 0 )
       {
         Path = "/";
       }
@@ -1201,31 +1194,31 @@ namespace SEOMacroscope
       bool IsWithin = false;
       Uri CurrentUri = null;
       string CurrentUriPort = "";
-      
+
       try
       {
 
-        CurrentUri = new Uri ( Url );
+        CurrentUri = new Uri( Url );
 
-        if( CurrentUri.Port > 0 )
+        if ( CurrentUri.Port > 0 )
         {
           CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
-        }     
+        }
 
       }
-      catch( UriFormatException ex )
+      catch ( UriFormatException ex )
       {
         DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
       }
 
-      if( CurrentUri != null )
+      if ( CurrentUri != null )
       {
 
-        if(
+        if (
           ( CurrentUri.Scheme.ToLower() == "http" )
           || ( CurrentUri.Scheme.ToLower() == "https" ) )
         {
@@ -1234,10 +1227,10 @@ namespace SEOMacroscope
           string CurrentUriString;
           int ParentStartingDirectoryLength;
           int CurrentUriStringLength;
-          
+
           Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
 
-          if( Path.Length == 0 )
+          if ( Path.Length == 0 )
           {
             Path = "/";
           }
@@ -1254,9 +1247,9 @@ namespace SEOMacroscope
           ParentStartingDirectoryLength = this.ParentStartingDirectory.Length;
           CurrentUriStringLength = CurrentUriString.Length;
 
-          if( ParentStartingDirectoryLength >= CurrentUriStringLength )
+          if ( ParentStartingDirectoryLength >= CurrentUriStringLength )
           {
-            if( this.ParentStartingDirectory.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
+            if ( this.ParentStartingDirectory.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
             {
               IsWithin = true;
             }
@@ -1266,44 +1259,44 @@ namespace SEOMacroscope
         }
 
       }
-      
-      return( IsWithin );
-      
+
+      return ( IsWithin );
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     public bool IsWithinChildDirectory ( string Url )
     {
-      
+
       bool IsWithin = false;
       Uri CurrentUri = null;
       string CurrentUriPort = "";
-      
+
       try
       {
 
-        CurrentUri = new Uri ( Url );
+        CurrentUri = new Uri( Url );
 
-        if( CurrentUri.Port > 0 )
+        if ( CurrentUri.Port > 0 )
         {
           CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
-        }     
+        }
 
       }
-      catch( UriFormatException ex )
+      catch ( UriFormatException ex )
       {
         DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
       }
 
-      if( CurrentUri != null )
+      if ( CurrentUri != null )
       {
 
-        if(
+        if (
           ( CurrentUri.Scheme.ToLower() == "http" )
           || ( CurrentUri.Scheme.ToLower() == "https" ) )
         {
@@ -1312,10 +1305,10 @@ namespace SEOMacroscope
           string CurrentUriString;
           int ChildStartingDirectoryLength;
           int CurrentUriStringLength;
-          
+
           Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
 
-          if( Path.Length == 0 )
+          if ( Path.Length == 0 )
           {
             Path = "/";
           }
@@ -1331,40 +1324,40 @@ namespace SEOMacroscope
 
           ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
           CurrentUriStringLength = CurrentUriString.Length;
-        
-          if( CurrentUriStringLength >= ChildStartingDirectoryLength )
+
+          if ( CurrentUriStringLength >= ChildStartingDirectoryLength )
           {
 
-            if( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
+            if ( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
             {
               IsWithin = true;
             }
 
           }
-        
+
         }
 
       }
-      
-      return( IsWithin );
-      
+
+      return ( IsWithin );
+
     }
 
     /** History ***************************************************************/
 
     public MacroscopeJobHistory GetJobHistory ()
     {
-      return( this.JobHistory );
+      return ( this.JobHistory );
     }
 
     /** Progress **************************************************************/
 
     private void InitProgress ()
     {
-      this.Progress = new Dictionary<string,Dictionary<string,bool>> ();
-      this.Progress.Add( "list", new Dictionary<string,bool> ( 4096 ) );
-      this.Progress.Add( "done", new Dictionary<string,bool> ( 4096 ) );
-      this.Progress.Add( "wait", new Dictionary<string,bool> ( 4096 ) );
+      this.Progress = new Dictionary<string, Dictionary<string, bool>>();
+      this.Progress.Add( "list", new Dictionary<string, bool>( 4096 ) );
+      this.Progress.Add( "done", new Dictionary<string, bool>( 4096 ) );
+      this.Progress.Add( "wait", new Dictionary<string, bool>( 4096 ) );
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1372,23 +1365,23 @@ namespace SEOMacroscope
     public void AddToProgress ( string Url )
     {
 
-      if( this.AllowedHosts.IsAllowedFromUrl( Url ) )
+      if ( this.AllowedHosts.IsAllowedFromUrl( Url ) )
       {
         DebugMsg( string.Format( "AddToProgress: INTERNAL: {0}", Url ) );
 
-        lock( this.Progress )
+        lock ( this.Progress )
         {
-          
-          if( !this.Progress[ "list" ].ContainsKey( Url ) )
+
+          if ( !this.Progress[ "list" ].ContainsKey( Url ) )
           {
 
             this.Progress[ "list" ].Add( Url, false );
 
-            if( !this.Progress[ "wait" ].ContainsKey( Url ) )
+            if ( !this.Progress[ "wait" ].ContainsKey( Url ) )
             {
               this.Progress[ "wait" ].Add( Url, true );
             }
-            
+
           }
 
         }
@@ -1406,25 +1399,25 @@ namespace SEOMacroscope
     public void UpdateProgress ( string Url, bool State )
     {
 
-      if( State && this.AllowedHosts.IsAllowedFromUrl( Url ) )
+      if ( State && this.AllowedHosts.IsAllowedFromUrl( Url ) )
       {
 
         DebugMsg( string.Format( "UpdateProgress: INTERNAL: {0}", Url ) );
 
-        lock( this.Progress )
+        lock ( this.Progress )
         {
 
-          if( this.Progress[ "list" ].ContainsKey( Url ) )
+          if ( this.Progress[ "list" ].ContainsKey( Url ) )
           {
-            
+
             this.Progress[ "list" ][ Url ] = true;
-            
-            if( this.Progress[ "wait" ].ContainsKey( Url ) )
+
+            if ( this.Progress[ "wait" ].ContainsKey( Url ) )
             {
               this.Progress[ "wait" ].Remove( Url );
             }
 
-            if( this.Progress[ "done" ].ContainsKey( Url ) )
+            if ( this.Progress[ "done" ].ContainsKey( Url ) )
             {
               this.Progress[ "done" ][ Url ] = true;
             }
@@ -1455,17 +1448,17 @@ namespace SEOMacroscope
 
     public List<decimal> GetProgress ()
     {
-      
-      List<decimal> Counts = new List<decimal> ( 3 );
-      
-      lock( this.Progress )
+
+      List<decimal> Counts = new List<decimal>( 3 );
+
+      lock ( this.Progress )
       {
         Counts.Add( this.Progress[ "list" ].Count );
         Counts.Add( this.Progress[ "done" ].Count );
         Counts.Add( this.Progress[ "wait" ].Count );
       }
-      
-      return( Counts );
+
+      return ( Counts );
 
     }
 
@@ -1473,30 +1466,30 @@ namespace SEOMacroscope
 
     public MacroscopeDocumentCollection GetDocCollection ()
     {
-      return( this.DocCollection );
+      return ( this.DocCollection );
     }
 
     /** Allowed Hosts *********************************************************/
 
     public MacroscopeAllowedHosts GetAllowedHosts ()
     {
-      return( this.AllowedHosts );
+      return ( this.AllowedHosts );
     }
 
     /** Locales ***************************************************************/
 
-    public Dictionary<string,string> GetLocales ()
+    public Dictionary<string, string> GetLocales ()
     {
-      return( this.Locales );
+      return ( this.Locales );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public void AddLocales ( string Locale )
     {
-      lock( this.Locales )
+      lock ( this.Locales )
       {
-        if( !this.Locales.ContainsKey( Locale ) )
+        if ( !this.Locales.ContainsKey( Locale ) )
         {
           this.Locales[ Locale ] = Locale;
         }
@@ -1507,25 +1500,25 @@ namespace SEOMacroscope
 
     public CookieContainer GetCookieJar ()
     {
-      return( this.CookieJar );
+      return ( this.CookieJar );
     }
 
     /** Robots ****************************************************************/
 
     public MacroscopeRobots GetRobots ()
     {
-      return( this.Robots );
+      return ( this.Robots );
     }
 
     /** -------------------------------------------------------------------- **/
 
     private async void SetCrawlDelay ( string Url )
     {
-     // try
+      // try
       //{
 
 
-        this.CrawlDelay = await this.Robots.GetCrawlDelay( Url );
+      this.CrawlDelay = await this.Robots.GetCrawlDelay( Url );
       /*
       }
       catch( Exception ex )
@@ -1542,19 +1535,19 @@ namespace SEOMacroscope
 
     public int GetCrawlDelay ()
     {
-      return( this.CrawlDelay );
+      return ( this.CrawlDelay );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public async void ProbeRobotsFile ( string Url )
     {
-      if( MacroscopePreferencesManager.GetFollowSitemapLinks() )
+      if ( MacroscopePreferencesManager.GetFollowSitemapLinks() )
       {
         List<string> SitemapList = await Robots.GetSitemapsAsList( Url );
-        if( SitemapList.Count > 0 )
+        if ( SitemapList.Count > 0 )
         {
-          for( int i = 0 ; i < SitemapList.Count ; i++ )
+          for ( int i = 0 ; i < SitemapList.Count ; i++ )
           {
             this.AddUrlQueueItem( Url: SitemapList[ i ] );
           }
@@ -1566,9 +1559,9 @@ namespace SEOMacroscope
 
     public void AddToBlockedByRobots ( string Url )
     {
-      lock( this.BlockedByRobots )
+      lock ( this.BlockedByRobots )
       {
-        if( !this.BlockedByRobots.ContainsKey( Url ) )
+        if ( !this.BlockedByRobots.ContainsKey( Url ) )
         {
           this.BlockedByRobots[ Url ] = true;
         }
@@ -1580,10 +1573,10 @@ namespace SEOMacroscope
     public void RemoveFromBlockedByRobots ( string Url )
     {
 
-      lock( this.BlockedByRobots )
+      lock ( this.BlockedByRobots )
       {
 
-        if( this.BlockedByRobots.ContainsKey( Url ) )
+        if ( this.BlockedByRobots.ContainsKey( Url ) )
         {
           this.BlockedByRobots.Remove( Url );
         }
@@ -1594,22 +1587,22 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Dictionary<string,bool> GetBlockedByRobotsList ()
+    public Dictionary<string, bool> GetBlockedByRobotsList ()
     {
 
-      Dictionary<string,bool> DicCopy = new Dictionary<string,bool> ();
+      Dictionary<string, bool> DicCopy = new Dictionary<string, bool>();
 
-      lock( this.BlockedByRobots )
+      lock ( this.BlockedByRobots )
       {
 
-        foreach( string Url in this.BlockedByRobots.Keys )
+        foreach ( string Url in this.BlockedByRobots.Keys )
         {
           DicCopy.Add( Url, this.BlockedByRobots[ Url ] );
         }
 
       }
 
-      return( DicCopy );
+      return ( DicCopy );
 
     }
 

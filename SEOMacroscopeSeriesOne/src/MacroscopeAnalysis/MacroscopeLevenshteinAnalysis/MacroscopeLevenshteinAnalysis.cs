@@ -37,7 +37,7 @@ namespace SEOMacroscope
 
   // TODO: Perform deeper analysis on similarly detected documents.
 
-  public class MacroscopeLevenshteinAnalysis : Macroscope
+  public class MacroscopeLevenshteinAnalysis : MacroscopeAnalysis
   {
 
     /**************************************************************************/
@@ -60,10 +60,8 @@ namespace SEOMacroscope
       int Threshold,
       Dictionary<string, bool> CrossCheckList,
       IMacroscopeAnalysisPercentageDone IPercentageDone
-    )
+    ) : base()
     {
-
-      this.SuppressDebugMsg = true;
 
       this.msDocOriginal = msDoc;
       this.Fingerprint = msDoc.GetLevenshteinFingerprint();
@@ -82,10 +80,8 @@ namespace SEOMacroscope
       int SizeDifference,
       int Threshold,
       Dictionary<string, bool> CrossCheckList
-    )
+    ) : base()
     {
-
-      this.SuppressDebugMsg = true;
 
       this.msDocOriginal = msDoc;
       this.Fingerprint = msDoc.GetLevenshteinFingerprint();
@@ -269,7 +265,6 @@ namespace SEOMacroscope
                 break;
               default:
                 throw new Exception( "Invalid Levenshtein Analysis Level" );
-                break;
             }
 
           }

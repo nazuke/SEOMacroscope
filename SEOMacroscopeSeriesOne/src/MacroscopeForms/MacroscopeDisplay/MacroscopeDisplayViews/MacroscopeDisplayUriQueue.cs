@@ -39,9 +39,10 @@ namespace SEOMacroscope
     private MacroscopeMainForm MainForm;
 
     private ListView DisplayListView;
+    private Object DisplayListViewLock;
 
     private bool ListViewConfigured = false;
-    
+
     private ToolStripLabel UriQueueCount;
 
     /**************************************************************************/
@@ -51,12 +52,13 @@ namespace SEOMacroscope
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
+      this.DisplayListViewLock = new object();
       this.UriQueueCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelUriQueueItems;
-      
-      if( this.MainForm.InvokeRequired )
+
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -75,7 +77,7 @@ namespace SEOMacroscope
 
     private void ConfigureListView ()
     {
-      if( !this.ListViewConfigured )
+      if ( !this.ListViewConfigured )
       {
         this.ListViewConfigured = true;
       }
@@ -85,10 +87,10 @@ namespace SEOMacroscope
 
     public void ClearData ()
     {
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.DisplayListView.Items.Clear();
@@ -104,16 +106,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RefreshData ( MacroscopeJobItem [] UriQueue )
+    public void RefreshData ( MacroscopeJobItem[] UriQueue )
     {
-      
-      if( this.MainForm.InvokeRequired )
+
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
-              lock( this.DisplayListView )
+              lock ( this.DisplayListViewLock )
               {
                 Cursor.Current = Cursors.WaitCursor;
                 this.DisplayListView.BeginUpdate();
@@ -130,7 +132,7 @@ namespace SEOMacroscope
       }
       else
       {
-        lock( this.DisplayListView )
+        lock ( this.DisplayListViewLock )
         {
           Cursor.Current = Cursors.WaitCursor;
           this.DisplayListView.BeginUpdate();
@@ -141,31 +143,31 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.Default;
         }
       }
-      
+
       GC.Collect();
 
     }
 
     /**************************************************************************/
 
-    private void RenderListView ( MacroscopeJobItem [] UriQueue )
+    private void RenderListView ( MacroscopeJobItem[] UriQueue )
     {
 
-      if( UriQueue.Length == 0 )
+      if ( UriQueue.Length == 0 )
       {
         return;
       }
-      
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
-            
+
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( 1 );
+
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       int Item = 1;
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )UriQueue.Length;
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      decimal TotalDocs = (decimal) UriQueue.Length;
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
 
         ProgressForm.UpdatePercentages(
@@ -173,17 +175,17 @@ namespace SEOMacroscope
           Message: "Processing URI Queue for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "URL {0} / {1}", Count, TotalDocs )
-        );  
+        );
 
       }
-      
-      for( int i = 0 ; i < UriQueue.Length ; i++ )
+
+      for ( int i = 0 ; i < UriQueue.Length ; i++ )
       {
 
         ListViewItem lvItem = null;
         string Url = UriQueue[ i ].GetItemUrl();
-        
-        if( this.DisplayListView.Items.ContainsKey( Url ) )
+
+        if ( this.DisplayListView.Items.ContainsKey( Url ) )
         {
 
           try
@@ -191,7 +193,7 @@ namespace SEOMacroscope
             lvItem = this.DisplayListView.Items[ Url ];
             lvItem.SubItems[ 0 ].Text = Item.ToString();
           }
-          catch( Exception ex )
+          catch ( Exception ex )
           {
             DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
           }
@@ -203,7 +205,7 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( Url );
+            lvItem = new ListViewItem( Url );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = Url;
             lvItem.SubItems[ 0 ].Text = Item.ToString();
@@ -212,21 +214,21 @@ namespace SEOMacroscope
             ListViewItems.Add( lvItem );
 
           }
-          catch( Exception ex )
+          catch ( Exception ex )
           {
             DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
           }
 
         }
 
-        if( lvItem != null )
+        if ( lvItem != null )
         {
 
           lvItem.ForeColor = Color.Blue;
 
           lvItem.SubItems[ 0 ].ForeColor = Color.Blue;
-                      
-          if( AllowedHosts.IsInternalUrl( Url ) )
+
+          if ( AllowedHosts.IsInternalUrl( Url ) )
           {
             lvItem.SubItems[ 1 ].ForeColor = Color.Green;
           }
@@ -237,35 +239,35 @@ namespace SEOMacroscope
 
         }
 
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
-          
+
           Count++;
-          TotalDocs = ( decimal )UriQueue.Length;
-          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+          TotalDocs = (decimal) UriQueue.Length;
+          MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
           ProgressForm.UpdatePercentages(
             Title: null,
             Message: null,
             MajorPercentage: MajorPercentage,
             ProgressLabelMajor: string.Format( "URL {0} / {1}", Count, TotalDocs )
           );
-          
+
         }
-       
+
         Item++;
-        
+
       }
-            
+
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-            
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-      
+
       ProgressForm.Dispose();
-      
+
     }
 
     /**************************************************************************/
@@ -274,9 +276,9 @@ namespace SEOMacroscope
     {
       this.UriQueueCount.Text = string.Format( "URL Queue Items: {0}", this.DisplayListView.Items.Count );
     }
-       
+
     /**************************************************************************/
-    
+
   }
 
 }

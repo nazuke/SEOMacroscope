@@ -32,6 +32,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeUriFormatException.
   /// </summary>
 
+  [Serializable]
   public class MacroscopeUriFormatException : Exception, ISerializable
   {
 

@@ -32,7 +32,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeJobItem.
   /// </summary>
 
-  public class MacroscopeJobItem
+  public class MacroscopeJobItem : Macroscope
   {
 
     /**************************************************************************/

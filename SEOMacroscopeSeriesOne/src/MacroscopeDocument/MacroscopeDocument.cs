@@ -43,7 +43,7 @@ namespace SEOMacroscope
   /// MacroscopeDocument is a representation of the document found at a crawled URL.
   /// </summary>
 
-  public partial class MacroscopeDocument : Macroscope
+  public partial class MacroscopeDocument : Macroscope, IDisposable
   {
 
     /**************************************************************************/
@@ -229,21 +229,7 @@ namespace SEOMacroscope
       this.SetDocumentCollection( DocumentCollection );
       this.AuthenticationCredential = Credential;
     }
-
-    /** Self-Destruct Sequence ************************************************/
-
-    ~MacroscopeDocument ()
-    {
-
-      this.DocCollection = null;
-
-      this.DocumentTextRaw = null;
-      this.DocumentTextCleaned = null;
-
-      this.DeepKeywordAnalysis = null;
-
-    }
-
+    
     /** -------------------------------------------------------------------- **/
 
     private void InitializeDocument ( string Url )
@@ -387,6 +373,18 @@ namespace SEOMacroscope
       this.DataExtractedRegexes = new Dictionary<string, List<string>>( 8 );
       this.DataExtractedXpaths = new Dictionary<string, List<string>>( 8 );
 
+    }
+
+    /** Self Destruct Sequence ************************************************/
+
+    public void Dispose ()
+    {
+      Dispose( true );
+    }
+
+    protected virtual void Dispose ( bool disposing )
+    {
+      this.AnalyzePageTitles.Dispose();
     }
 
     /** DocumentCollection ****************************************************/

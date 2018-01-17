@@ -39,8 +39,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    protected Object TargetListViewLock;
+
+    /**************************************************************************/
+
     public MacroscopeCsvReports ()
     {
+      this.TargetListViewLock = new Object();
     }
 
     /**************************************************************************/

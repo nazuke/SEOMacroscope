@@ -29,11 +29,12 @@ using System.Runtime.Serialization;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeDocumentException.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeDocumentException.
+  /// </summary>
 
-	public class MacroscopeDocumentException : Exception, ISerializable
+  [Serializable]
+  public class MacroscopeDocumentException : Exception, ISerializable
 	{
 
 		/**************************************************************************/

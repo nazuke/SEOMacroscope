@@ -30,7 +30,7 @@ using NUnit.Framework;
 namespace SEOMacroscope
 {
   [TestFixture]
-  public class TestMacroscopeAnalyzeReadabilityFleschKincaid
+  public class TestMacroscopeAnalyzeReadabilityFleschKincaid : Macroscope
   {
 
     /**************************************************************************/

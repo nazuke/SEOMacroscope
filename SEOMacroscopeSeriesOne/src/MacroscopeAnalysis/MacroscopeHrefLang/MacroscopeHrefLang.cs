@@ -42,7 +42,7 @@ namespace SEOMacroscope
   /// Analyze the HrefLang attributes of an HTML document.
   /// </summary>
 
-  public class MacroscopeHrefLang : Macroscope
+  public class MacroscopeHrefLang : MacroscopeAnalysis
   {
 
     /**************************************************************************/
@@ -56,10 +56,9 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeHrefLang ( MacroscopeJobMaster JobMaster, string Locale, string Url )
+    public MacroscopeHrefLang ( MacroscopeJobMaster JobMaster, string Locale, string Url ) : base ()
     {
 
-      this.SuppressDebugMsg = true;
       this.MsJobMaster = JobMaster;
       this.Locale = Locale;
       this.Url = Url;

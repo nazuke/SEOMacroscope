@@ -38,10 +38,15 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private MacroscopeHttpImageLoader HttpImageLoader;
-
     private MacroscopeColumnSorter lvColumnSorter;
-
     private MacroscopeContextMenus ContextMenusCallbacks;
+
+    private Object RenderListViewLock;
+
+    //private Object RenderDocumentDetailsLock;
+    //private Object RenderListViewMetaTagsLock;
+    //private Object RenderDocumentHrefLangLock;
+
 
     /**************************************************************************/
 
@@ -128,6 +133,17 @@ namespace SEOMacroscope
       /** Collapsible Panels ----------------------------------------------- **/
 
       this.splitContainerDocumentDetails.Panel2Collapsed = true;
+
+      /** Lock Objects ----------------------------------------------------- **/
+      
+      this.RenderListViewLock = new Object();
+
+
+      //this.RenderDocumentDetailsLock = new Object();
+      //this.RenderListViewMetaTagsLock = new Object();
+      //this.RenderDocumentHrefLangLock = new Object();
+
+      return;
 
     }
 
@@ -316,7 +332,7 @@ namespace SEOMacroscope
       List<KeyValuePair<string, string>> lItems = msDoc.DetailDocumentDetails();
       List<ListViewItem> ListViewItems = new List<ListViewItem>( lItems.Count );
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -373,7 +389,7 @@ namespace SEOMacroscope
       ListView TargetListView = this.listViewMetaTags;
       List<ListViewItem> ListViewItems = new List<ListViewItem>();
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -454,7 +470,7 @@ namespace SEOMacroscope
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
       Dictionary<string, string> LocalesList = JobMaster.GetLocales();
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -628,7 +644,7 @@ namespace SEOMacroscope
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -785,7 +801,7 @@ namespace SEOMacroscope
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -939,7 +955,7 @@ namespace SEOMacroscope
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1091,7 +1107,7 @@ namespace SEOMacroscope
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1245,7 +1261,7 @@ namespace SEOMacroscope
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1335,7 +1351,7 @@ namespace SEOMacroscope
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1450,7 +1466,7 @@ namespace SEOMacroscope
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1559,13 +1575,16 @@ namespace SEOMacroscope
       }
       else
       {
-        TargetListView.BeginUpdate();
-        TargetListView.Items.Clear();
-        TargetListView.EndUpdate();
+        lock ( this.RenderListViewLock )
+        {
+          TargetListView.BeginUpdate();
+          TargetListView.Items.Clear();
+          TargetListView.EndUpdate();
+        }
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1678,13 +1697,16 @@ namespace SEOMacroscope
       }
       else
       {
-        TargetListView.BeginUpdate();
-        TargetListView.Items.Clear();
-        TargetListView.EndUpdate();
+        lock ( this.RenderListViewLock )
+        {
+          TargetListView.BeginUpdate();
+          TargetListView.Items.Clear();
+          TargetListView.EndUpdate();
+        }
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1793,13 +1815,16 @@ namespace SEOMacroscope
       }
       else
       {
-        TargetListView.BeginUpdate();
-        TargetListView.Items.Clear();
-        TargetListView.EndUpdate();
+        lock ( this.RenderListViewLock )
+        {
+          TargetListView.BeginUpdate();
+          TargetListView.Items.Clear();
+          TargetListView.EndUpdate();
+        }
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1906,13 +1931,16 @@ namespace SEOMacroscope
       }
       else
       {
-        TargetListView.BeginUpdate();
-        TargetListView.Items.Clear();
-        TargetListView.EndUpdate();
+        lock ( this.RenderListViewLock )
+        {
+          TargetListView.BeginUpdate();
+          TargetListView.Items.Clear();
+          TargetListView.EndUpdate();
+        }
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -1994,7 +2022,7 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = new List<ListViewItem>();
       int Count = 1;
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -2097,7 +2125,7 @@ namespace SEOMacroscope
         DocumentText = msDoc.GetDocumentTextRaw();
       }
 
-      lock ( BodyText )
+      lock ( this.RenderListViewLock )
       {
         if ( !string.IsNullOrEmpty( DocumentText ) )
         {
@@ -2124,7 +2152,7 @@ namespace SEOMacroscope
         DocumentText = msDoc.GetDocumentTextCleaned();
       }
 
-      lock ( BodyText )
+      lock ( this.RenderListViewLock )
       {
 
         if ( !string.IsNullOrEmpty( DocumentText ) )
@@ -2153,7 +2181,7 @@ namespace SEOMacroscope
         DocumentText = msDoc.GetBodyTextRaw();
       }
 
-      lock ( BodyText )
+      lock ( this.RenderListViewLock )
       {
         if ( !string.IsNullOrEmpty( DocumentText ) )
         {
@@ -2183,7 +2211,7 @@ namespace SEOMacroscope
         return;
       }
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.BeginUpdate();
@@ -2348,7 +2376,7 @@ namespace SEOMacroscope
 
       ListView TargetListView = this.listViewDocInfo;
 
-      lock ( TargetListView )
+      lock ( this.RenderListViewLock )
       {
 
         TargetListView.Clear();

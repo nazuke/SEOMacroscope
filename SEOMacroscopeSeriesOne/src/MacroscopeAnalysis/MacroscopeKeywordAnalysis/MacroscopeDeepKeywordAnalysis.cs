@@ -33,7 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDeepKeywordAnalysis.
   /// </summary>
 
-  public class MacroscopeDeepKeywordAnalysis : Macroscope
+  public class MacroscopeDeepKeywordAnalysis : MacroscopeAnalysis
   {
 
     /**************************************************************************/
@@ -43,15 +43,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDeepKeywordAnalysis ()
+    public MacroscopeDeepKeywordAnalysis () : base ()
     {
-      this.SuppressDebugMsg = true;
       this.DocList = null;
     }
     
-    public MacroscopeDeepKeywordAnalysis ( Dictionary<string,MacroscopeDocumentList> DocList )
+    public MacroscopeDeepKeywordAnalysis ( Dictionary<string,MacroscopeDocumentList> DocList ) : base()
     {
-      this.SuppressDebugMsg = true;
       this.DocList = DocList;
     }
 

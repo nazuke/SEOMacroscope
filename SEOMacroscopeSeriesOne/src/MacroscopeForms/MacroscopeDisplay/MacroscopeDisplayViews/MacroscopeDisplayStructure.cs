@@ -176,7 +176,7 @@ namespace SEOMacroscope
     )
     {
 
-      lock( this.DisplayListView )
+      lock( this.DisplayListViewLock )
       {
 
         Dictionary <string,string> StructureItems = new Dictionary <string,string> ();

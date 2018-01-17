@@ -39,8 +39,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private Object TargetListViewLocker;
+
+    /**************************************************************************/
+
     public MacroscopeContextMenus ()
     {
+      this.TargetListViewLocker = new object();
     }
 
     /** OPEN URL IN BROWSER ***************************************************/
@@ -103,7 +108,7 @@ namespace SEOMacroscope
       int UrlColumn = -1;
       bool Success = false;
       
-      lock( TargetListView )
+      lock( this.TargetListViewLocker )
       {
 
         for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )
@@ -409,7 +414,7 @@ namespace SEOMacroscope
 
       int ColumnIndex = -1;
       
-      lock( TargetListView )
+      lock( this.TargetListViewLocker )
       {
 
         for( int i = 0 ; i < TargetListView.Columns.Count ; i++ )

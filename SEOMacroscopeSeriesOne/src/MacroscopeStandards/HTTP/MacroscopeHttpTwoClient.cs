@@ -353,7 +353,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
-        throw ex;
+        throw;
       }
 
       try
@@ -367,7 +367,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
-        throw ex;
+        throw;
       }
 
       try
@@ -382,7 +382,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
-        throw ex;
+        throw;
       }
 
       try
@@ -397,7 +397,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
-        throw ex;
+        throw;
       }
 
       try
@@ -414,7 +414,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
-        throw ex;
+        throw;
       }
 
       try
@@ -428,7 +428,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
-        throw ex;
+        throw;
       }
 
       try
@@ -439,7 +439,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
-        throw ex;
+        throw;
       }
 
       try
@@ -450,7 +450,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
-        throw ex;
+        throw;
       }
 
     }

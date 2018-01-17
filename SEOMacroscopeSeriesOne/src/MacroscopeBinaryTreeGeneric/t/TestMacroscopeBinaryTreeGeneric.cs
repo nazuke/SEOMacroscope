@@ -30,7 +30,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeBinaryTreeGeneric
+  public class TestMacroscopeBinaryTreeGeneric : Macroscope
   {
 
     /**************************************************************************/

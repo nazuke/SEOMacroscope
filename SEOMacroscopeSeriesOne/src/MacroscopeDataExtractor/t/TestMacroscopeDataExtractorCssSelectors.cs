@@ -56,18 +56,13 @@ namespace SEOMacroscope
       DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc004.html" );
       DocKeys.Add( "SEOMacroscope.src.MacroscopeDataExtractor.t.HtmlDocs.HtmlDoc005.html" );
 
-      foreach( string Filename in DocKeys )
+      foreach ( string Filename in DocKeys )
       {
 
-        Reader = new StreamReader(
-          Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
-        );
+        Reader = new StreamReader( Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename ) );
 
         this.HtmlDocs.Add( Filename, Reader.ReadToEnd() );
-
         Reader.Close();
-
-        Reader.Dispose();
 
       }
 
@@ -101,7 +96,7 @@ namespace SEOMacroscope
         State: MacroscopeConstants.ActiveInactive.ACTIVE
       );
 
-      foreach( string HtmlDocKey in this.HtmlDocs.Keys )
+      foreach ( string HtmlDocKey in this.HtmlDocs.Keys )
       {
 
         string Html = this.HtmlDocs[ HtmlDocKey ];

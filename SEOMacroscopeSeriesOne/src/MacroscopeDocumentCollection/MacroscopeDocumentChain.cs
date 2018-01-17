@@ -46,41 +46,24 @@ namespace SEOMacroscope
       this.DocumentChain = new LinkedList<MacroscopeDocument> ();
     }
 
-    /** Self Destruct Sequence ************************************************/
-        
-    ~MacroscopeDocumentChain ()
-    {
-      
-      this.DocumentChain = null;
-     
-    }
-
     /**************************************************************************/
     
     public void AddDocument ( MacroscopeDocument msDoc )
     {
-
       lock( this.DocumentChain )
       {
-
         this.DocumentChain.AddLast( msDoc );
-
       }
-
     }
 
     /**************************************************************************/
 
     public void RemoveDocument ( MacroscopeDocument msDoc )
     {
-
       lock( this.DocumentChain )
       {
-
         this.DocumentChain.Remove( msDoc );
-
       }
-
     }
 
     /**************************************************************************/
@@ -140,9 +123,7 @@ namespace SEOMacroscope
 
     public int CountDocuments ()
     {
-
       return( this.DocumentChain.Count );
-
     }
     
     /**************************************************************************/

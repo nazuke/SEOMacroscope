@@ -351,6 +351,9 @@ namespace SEOMacroscope
       this.groupBox15 = new System.Windows.Forms.GroupBox();
       this.checkBoxShowProgressDialogues = new System.Windows.Forms.CheckBox();
       this.checkBoxPauseDisplayDuringScan = new System.Windows.Forms.CheckBox();
+      this.groupBox29 = new System.Windows.Forms.GroupBox();
+      this.checkBoxIgnoreErrors451 = new System.Windows.Forms.CheckBox();
+      this.checkBoxIgnoreErrors410 = new System.Windows.Forms.CheckBox();
       this.tabPageNetworkSettings = new System.Windows.Forms.TabPage();
       this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -362,9 +365,10 @@ namespace SEOMacroscope
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-      this.groupBox29 = new System.Windows.Forms.GroupBox();
-      this.checkBoxIgnoreErrors451 = new System.Windows.Forms.CheckBox();
-      this.checkBoxIgnoreErrors410 = new System.Windows.Forms.CheckBox();
+      this.groupBox30 = new System.Windows.Forms.GroupBox();
+      this.checkBoxDisregardHtml5ElementHeader = new System.Windows.Forms.CheckBox();
+      this.checkBoxDisregardHtml5ElementNav = new System.Windows.Forms.CheckBox();
+      this.checkBoxDisregardHtml5ElementFooter = new System.Windows.Forms.CheckBox();
       label9 = new System.Windows.Forms.Label();
       label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
@@ -430,6 +434,7 @@ namespace SEOMacroscope
       this.tabPageDisplaySettings.SuspendLayout();
       this.flowLayoutPanel5.SuspendLayout();
       this.groupBox15.SuspendLayout();
+      this.groupBox29.SuspendLayout();
       this.tabPageNetworkSettings.SuspendLayout();
       this.flowLayoutPanel4.SuspendLayout();
       this.groupBox8.SuspendLayout();
@@ -438,7 +443,7 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.SuspendLayout();
       this.flowLayoutPanel7.SuspendLayout();
       this.groupBox19.SuspendLayout();
-      this.groupBox29.SuspendLayout();
+      this.groupBox30.SuspendLayout();
       this.SuspendLayout();
       // 
       // label9
@@ -984,6 +989,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel3.Controls.Add(this.groupBox16);
       this.flowLayoutPanel3.Controls.Add(this.groupBox11);
       this.flowLayoutPanel3.Controls.Add(this.groupBox27);
+      this.flowLayoutPanel3.Controls.Add(this.groupBox30);
       this.flowLayoutPanel3.Controls.Add(this.groupBox13);
       this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
@@ -1165,7 +1171,7 @@ namespace SEOMacroscope
       this.groupBox27.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox27.Name = "groupBox27";
       this.groupBox27.Size = new System.Drawing.Size(500, 60);
-      this.groupBox27.TabIndex = 6;
+      this.groupBox27.TabIndex = 5;
       this.groupBox27.TabStop = false;
       this.groupBox27.Text = "Search Index";
       // 
@@ -1191,11 +1197,11 @@ namespace SEOMacroscope
       // 
       this.groupBox13.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox13.Controls.Add(this.checkBoxWarnAboutInsecureLinks);
-      this.groupBox13.Location = new System.Drawing.Point(10, 420);
+      this.groupBox13.Location = new System.Drawing.Point(10, 490);
       this.groupBox13.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox13.Name = "groupBox13";
       this.groupBox13.Size = new System.Drawing.Size(500, 60);
-      this.groupBox13.TabIndex = 5;
+      this.groupBox13.TabIndex = 7;
       this.groupBox13.TabStop = false;
       this.groupBox13.Text = "Page Fault Analysis";
       // 
@@ -2215,6 +2221,37 @@ namespace SEOMacroscope
       this.checkBoxPauseDisplayDuringScan.Text = "Pause display during scan";
       this.checkBoxPauseDisplayDuringScan.UseVisualStyleBackColor = true;
       // 
+      // groupBox29
+      // 
+      this.groupBox29.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox29.Controls.Add(this.checkBoxIgnoreErrors451);
+      this.groupBox29.Controls.Add(this.checkBoxIgnoreErrors410);
+      this.groupBox29.Location = new System.Drawing.Point(10, 110);
+      this.groupBox29.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox29.Name = "groupBox29";
+      this.groupBox29.Size = new System.Drawing.Size(500, 90);
+      this.groupBox29.TabIndex = 4;
+      this.groupBox29.TabStop = false;
+      this.groupBox29.Text = "Ignore Errors";
+      // 
+      // checkBoxIgnoreErrors451
+      // 
+      this.checkBoxIgnoreErrors451.Location = new System.Drawing.Point(20, 50);
+      this.checkBoxIgnoreErrors451.Name = "checkBoxIgnoreErrors451";
+      this.checkBoxIgnoreErrors451.Size = new System.Drawing.Size(210, 24);
+      this.checkBoxIgnoreErrors451.TabIndex = 2;
+      this.checkBoxIgnoreErrors451.Text = "451 Unavailable for legal reasons";
+      this.checkBoxIgnoreErrors451.UseVisualStyleBackColor = true;
+      // 
+      // checkBoxIgnoreErrors410
+      // 
+      this.checkBoxIgnoreErrors410.Location = new System.Drawing.Point(20, 20);
+      this.checkBoxIgnoreErrors410.Name = "checkBoxIgnoreErrors410";
+      this.checkBoxIgnoreErrors410.Size = new System.Drawing.Size(210, 24);
+      this.checkBoxIgnoreErrors410.TabIndex = 1;
+      this.checkBoxIgnoreErrors410.Text = "410 Page gone";
+      this.checkBoxIgnoreErrors410.UseVisualStyleBackColor = true;
+      // 
       // tabPageNetworkSettings
       // 
       this.tabPageNetworkSettings.Controls.Add(this.flowLayoutPanel4);
@@ -2344,36 +2381,46 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
       // 
-      // groupBox29
+      // groupBox30
       // 
-      this.groupBox29.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.groupBox29.Controls.Add(this.checkBoxIgnoreErrors451);
-      this.groupBox29.Controls.Add(this.checkBoxIgnoreErrors410);
-      this.groupBox29.Location = new System.Drawing.Point(10, 110);
-      this.groupBox29.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-      this.groupBox29.Name = "groupBox29";
-      this.groupBox29.Size = new System.Drawing.Size(500, 90);
-      this.groupBox29.TabIndex = 4;
-      this.groupBox29.TabStop = false;
-      this.groupBox29.Text = "Ignore Errors";
+      this.groupBox30.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementFooter);
+      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementHeader);
+      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementNav);
+      this.groupBox30.Location = new System.Drawing.Point(10, 420);
+      this.groupBox30.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox30.Name = "groupBox30";
+      this.groupBox30.Size = new System.Drawing.Size(500, 60);
+      this.groupBox30.TabIndex = 6;
+      this.groupBox30.TabStop = false;
+      this.groupBox30.Text = "Disregard Text in HTML5 Elements";
       // 
-      // checkBoxIgnoreErrors451
+      // checkBoxDisregardHtml5ElementHeader
       // 
-      this.checkBoxIgnoreErrors451.Location = new System.Drawing.Point(20, 50);
-      this.checkBoxIgnoreErrors451.Name = "checkBoxIgnoreErrors451";
-      this.checkBoxIgnoreErrors451.Size = new System.Drawing.Size(210, 24);
-      this.checkBoxIgnoreErrors451.TabIndex = 2;
-      this.checkBoxIgnoreErrors451.Text = "451 Unavailable for legal reasons";
-      this.checkBoxIgnoreErrors451.UseVisualStyleBackColor = true;
+      this.checkBoxDisregardHtml5ElementHeader.Location = new System.Drawing.Point(180, 20);
+      this.checkBoxDisregardHtml5ElementHeader.Name = "checkBoxDisregardHtml5ElementHeader";
+      this.checkBoxDisregardHtml5ElementHeader.Size = new System.Drawing.Size(100, 24);
+      this.checkBoxDisregardHtml5ElementHeader.TabIndex = 2;
+      this.checkBoxDisregardHtml5ElementHeader.Text = "<HEADER>";
+      this.checkBoxDisregardHtml5ElementHeader.UseVisualStyleBackColor = true;
       // 
-      // checkBoxIgnoreErrors410
+      // checkBoxDisregardHtml5ElementNav
       // 
-      this.checkBoxIgnoreErrors410.Location = new System.Drawing.Point(20, 20);
-      this.checkBoxIgnoreErrors410.Name = "checkBoxIgnoreErrors410";
-      this.checkBoxIgnoreErrors410.Size = new System.Drawing.Size(210, 24);
-      this.checkBoxIgnoreErrors410.TabIndex = 1;
-      this.checkBoxIgnoreErrors410.Text = "410 Page gone";
-      this.checkBoxIgnoreErrors410.UseVisualStyleBackColor = true;
+      this.checkBoxDisregardHtml5ElementNav.Location = new System.Drawing.Point(20, 20);
+      this.checkBoxDisregardHtml5ElementNav.Name = "checkBoxDisregardHtml5ElementNav";
+      this.checkBoxDisregardHtml5ElementNav.Size = new System.Drawing.Size(100, 24);
+      this.checkBoxDisregardHtml5ElementNav.TabIndex = 1;
+      this.checkBoxDisregardHtml5ElementNav.Text = "<NAV>";
+      this.checkBoxDisregardHtml5ElementNav.UseVisualStyleBackColor = true;
+      // 
+      // checkBoxDisregardHtml5ElementFooter
+      // 
+      this.checkBoxDisregardHtml5ElementFooter.Location = new System.Drawing.Point(340, 20);
+      this.checkBoxDisregardHtml5ElementFooter.Name = "checkBoxDisregardHtml5ElementFooter";
+      this.checkBoxDisregardHtml5ElementFooter.Size = new System.Drawing.Size(100, 24);
+      this.checkBoxDisregardHtml5ElementFooter.TabIndex = 3;
+      this.checkBoxDisregardHtml5ElementFooter.Text = "<FOOTER>";
+      this.checkBoxDisregardHtml5ElementFooter.UseVisualStyleBackColor = true;
       // 
       // MacroscopePrefsControl
       // 
@@ -2447,6 +2494,7 @@ namespace SEOMacroscope
       this.tabPageDisplaySettings.ResumeLayout(false);
       this.flowLayoutPanel5.ResumeLayout(false);
       this.groupBox15.ResumeLayout(false);
+      this.groupBox29.ResumeLayout(false);
       this.tabPageNetworkSettings.ResumeLayout(false);
       this.tabPageNetworkSettings.PerformLayout();
       this.flowLayoutPanel4.ResumeLayout(false);
@@ -2457,7 +2505,7 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.ResumeLayout(false);
       this.flowLayoutPanel7.ResumeLayout(false);
       this.groupBox19.ResumeLayout(false);
-      this.groupBox29.ResumeLayout(false);
+      this.groupBox30.ResumeLayout(false);
       this.ResumeLayout(false);
 
 		}
@@ -2469,5 +2517,9 @@ namespace SEOMacroscope
     private System.Windows.Forms.GroupBox groupBox29;
     public System.Windows.Forms.CheckBox checkBoxIgnoreErrors451;
     public System.Windows.Forms.CheckBox checkBoxIgnoreErrors410;
+    private System.Windows.Forms.GroupBox groupBox30;
+    public System.Windows.Forms.CheckBox checkBoxDisregardHtml5ElementHeader;
+    public System.Windows.Forms.CheckBox checkBoxDisregardHtml5ElementNav;
+    public System.Windows.Forms.CheckBox checkBoxDisregardHtml5ElementFooter;
   }
 }

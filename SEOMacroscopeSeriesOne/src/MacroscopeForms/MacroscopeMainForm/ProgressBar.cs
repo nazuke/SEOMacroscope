@@ -50,7 +50,13 @@ namespace SEOMacroscope
         
     private void StopProgressBarScanTimer ()
     {
-      if( this.TimerProgressBarScan != null )
+
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
+      if ( this.TimerProgressBarScan != null )
       {
         try
         {
@@ -82,8 +88,13 @@ namespace SEOMacroscope
             
     private void CallbackProgressBarScanTimer ( Object self, ElapsedEventArgs e )
     {
-      
-      if( Monitor.TryEnter( LockerTimerProgressBarScan, 1000 ) )
+
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
+      if ( Monitor.TryEnter( LockerTimerProgressBarScan, 1000 ) )
       {
 
         try
@@ -124,7 +135,13 @@ namespace SEOMacroscope
 
     private void UpdateProgressBarScan ( int Percentage )
     {
-      if( this.InvokeRequired )
+
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
+      if ( this.InvokeRequired )
       {
         this.Invoke(
           new MethodInvoker (
@@ -148,7 +165,12 @@ namespace SEOMacroscope
 
       int Percentage = 0;
 
-      if( this.JobMaster != null )
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
+      if ( this.JobMaster != null )
       {
 
         List<decimal> Counts = this.JobMaster.GetProgress();
@@ -178,9 +200,16 @@ namespace SEOMacroscope
       }
 
       this.TimerProgressBarScan.Stop();
-      
-      this.ProgressBarScan.Value = Percentage;
-      
+
+      try
+      {
+        this.ProgressBarScan.Value = Percentage;
+      }
+      catch ( Exception ex )
+      {
+        DebugMsg( string.Format( "UpdateProgressBarScan: {0}", ex.Message ) );
+      }
+
       this.TimerProgressBarScan.Start();
       
     }

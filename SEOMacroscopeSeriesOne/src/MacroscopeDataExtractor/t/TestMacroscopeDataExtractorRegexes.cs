@@ -32,7 +32,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeDataExtractorRegexes
+  public class TestMacroscopeDataExtractorRegexes : Macroscope
   {
 
     /**************************************************************************/

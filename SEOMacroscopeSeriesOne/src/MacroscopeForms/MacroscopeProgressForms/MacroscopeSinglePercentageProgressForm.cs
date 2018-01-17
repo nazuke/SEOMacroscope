@@ -67,11 +67,6 @@ namespace SEOMacroscope
 
     }
 
-    ~MacroscopeSinglePercentageProgressForm ()
-    {
-      this.OperationDuration.Stop();
-    }
-    
     /**************************************************************************/
   
     private void CallbackFormShown ( object sender, EventArgs e )
@@ -82,6 +77,7 @@ namespace SEOMacroscope
     private void CallbackFormClosing ( object sender, FormClosingEventArgs e )
     {
       this.Cancel();
+      this.OperationDuration.Stop();
       this.MainForm.Enabled = true;
     }
 

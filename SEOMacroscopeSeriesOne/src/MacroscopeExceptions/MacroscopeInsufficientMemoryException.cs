@@ -29,11 +29,12 @@ using System.Runtime.Serialization;
 namespace SEOMacroscope
 {
 
-	/// <summary>
-	/// Description of MacroscopeInsufficientMemoryException.
-	/// </summary>
+  /// <summary>
+  /// Description of MacroscopeInsufficientMemoryException.
+  /// </summary>
 
-	public class MacroscopeInsufficientMemoryException : Exception, ISerializable
+  [Serializable]
+  public class MacroscopeInsufficientMemoryException : Exception, ISerializable
 	{
 
 		/**************************************************************************/

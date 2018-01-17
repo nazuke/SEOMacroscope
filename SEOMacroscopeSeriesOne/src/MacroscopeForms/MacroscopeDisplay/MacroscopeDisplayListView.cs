@@ -38,9 +38,10 @@ namespace SEOMacroscope
     public MacroscopeMainForm MainForm;
 
     public ListView DisplayListView;
+    public Object DisplayListViewLock;
 
     protected bool ListViewConfigured = false;
-        
+
     /**************************************************************************/
 
     protected MacroscopeDisplayListView (
@@ -50,6 +51,7 @@ namespace SEOMacroscope
     {
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
+      this.DisplayListViewLock = new object();
     }
 
     /**************************************************************************/
@@ -60,10 +62,10 @@ namespace SEOMacroscope
 
     public void ClearData ()
     {
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.DisplayListView.Items.Clear();
@@ -84,15 +86,15 @@ namespace SEOMacroscope
     public void RefreshData ( MacroscopeDocumentCollection DocCollection )
     {
 
-      if( DocCollection.CountDocuments() <= 0 )
+      if ( DocCollection.CountDocuments() <= 0 )
       {
         return;
       }
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -125,15 +127,15 @@ namespace SEOMacroscope
     )
     {
 
-      if( DocCollection.CountDocuments() <= 0 )
+      if ( DocCollection.CountDocuments() <= 0 )
       {
         return;
       }
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -166,15 +168,15 @@ namespace SEOMacroscope
     )
     {
 
-      if( msDoc == null )
+      if ( msDoc == null )
       {
         return;
       }
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -204,15 +206,15 @@ namespace SEOMacroscope
     public void RefreshData ( List<MacroscopeDocument> DocList )
     {
 
-      if( DocList.Count <= 0 )
+      if ( DocList.Count <= 0 )
       {
         return;
       }
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -245,15 +247,15 @@ namespace SEOMacroscope
     )
     {
 
-      if( DocCollection.CountDocuments() <= 0 )
+      if ( DocCollection.CountDocuments() <= 0 )
       {
         return;
       }
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -292,15 +294,15 @@ namespace SEOMacroscope
     )
     {
 
-      if( DocCollection.CountDocuments() <= 0 )
+      if ( DocCollection.CountDocuments() <= 0 )
       {
         return;
       }
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -343,30 +345,30 @@ namespace SEOMacroscope
         return;
       }
 
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
-      
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( 1 );
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )1;
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      decimal TotalDocs = (decimal) 1;
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-      
+
         ProgressForm.ControlBox = false;
-      
+
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );  
+        );
 
       }
 
       Application.DoEvents();
 
-      if( msDoc != null )
+      if ( msDoc != null )
       {
         this.RenderListView(
           ListViewItems: ListViewItems,
@@ -376,30 +378,30 @@ namespace SEOMacroscope
         );
       }
 
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-      
-        Count++; 
-        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+
+        Count++;
+        MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
         ProgressForm.UpdatePercentages(
           Title: null,
           Message: null,
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
         );
-        
+
       }
 
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-     
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-            
+
       ProgressForm.Dispose();
-      
+
     }
 
     /** Render Entire DocCollection *******************************************/
@@ -412,33 +414,33 @@ namespace SEOMacroscope
         return;
       }
 
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
-      
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( DocCollection.CountDocuments() );
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      decimal TotalDocs = (decimal) DocCollection.CountDocuments();
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-      
+
         ProgressForm.ControlBox = false;
-      
+
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );  
+        );
 
       }
-      
-      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         Application.DoEvents();
 
-        if( msDoc != null )
+        if ( msDoc != null )
         {
           this.RenderListView(
             ListViewItems: ListViewItems,
@@ -448,32 +450,32 @@ namespace SEOMacroscope
           );
         }
 
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
-      
-          Count++; 
-          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+
+          Count++;
+          MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
           ProgressForm.UpdatePercentages(
             Title: null,
             Message: null,
             MajorPercentage: MajorPercentage,
             ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
           );
-        
+
         }
 
       }
 
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-     
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-            
+
       ProgressForm.Dispose();
-      
+
     }
 
     /** Render List ***********************************************************/
@@ -483,46 +485,46 @@ namespace SEOMacroscope
       List<string> UrlList
     )
     {
-      
-      if( DocCollection.CountDocuments() == 0 )
-      {
-        return;
-      }
-     
-      if( UrlList.Count == 0 )
+
+      if ( DocCollection.CountDocuments() == 0 )
       {
         return;
       }
 
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( UrlList.Count );
+      if ( UrlList.Count == 0 )
+      {
+        return;
+      }
 
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( UrlList.Count );
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )UrlList.Count;
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      decimal TotalDocs = (decimal) UrlList.Count;
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-        
+
         ProgressForm.ControlBox = false;
-      
+
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
         );
-      
+
       }
-            
-      foreach( string Url in UrlList )
+
+      foreach ( string Url in UrlList )
       {
-      
+
         Application.DoEvents();
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-      
-        if( msDoc != null )
+
+        if ( msDoc != null )
         {
 
           this.RenderListView(
@@ -534,32 +536,32 @@ namespace SEOMacroscope
 
         }
 
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
-      
+
           Count++;
-          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+          MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
           ProgressForm.UpdatePercentages(
             Title: null,
             Message: null,
             MajorPercentage: MajorPercentage,
             ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
           );
-        
+
         }
-              
+
       }
 
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
 
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-            
+
       ProgressForm.Dispose();
-      
+
     }
 
     /** Render Document List **************************************************/
@@ -574,33 +576,33 @@ namespace SEOMacroscope
         return;
       }
 
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocList.Count );
-            
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( DocList.Count );
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )DocList.Count;
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      decimal TotalDocs = (decimal) DocList.Count;
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-      
+
         ProgressForm.ControlBox = false;
-      
+
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
         );
-              
+
       }
-      
-      for( int i = 0 ; i < DocList.Count ; i++ )
+
+      for ( int i = 0 ; i < DocList.Count ; i++ )
       {
-        
+
         MacroscopeDocument msDoc = DocList[ i ];
-        
-        if( msDoc != null )
+
+        if ( msDoc != null )
         {
           this.RenderListView(
             ListViewItems: ListViewItems,
@@ -609,33 +611,33 @@ namespace SEOMacroscope
             Url: msDoc.GetUrl()
           );
         }
-        
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
-      
+
           Count++;
-          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+          MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
           ProgressForm.UpdatePercentages(
             Title: null,
             Message: null,
             MajorPercentage: MajorPercentage,
             ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
           );
-                
+
         }
-              
+
       }
-      
+
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-            
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-            
+
       ProgressForm.Dispose();
-    
+
     }
 
     /** Render Filtered DocCollection *******************************************/
@@ -646,45 +648,45 @@ namespace SEOMacroscope
     )
     {
 
-      if( DocCollection.CountDocuments() == 0 )
+      if ( DocCollection.CountDocuments() == 0 )
       {
         return;
       }
 
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
-            
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( DocCollection.CountDocuments() );
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      decimal TotalDocs = (decimal) DocCollection.CountDocuments();
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-      
+
         ProgressForm.ControlBox = false;
-      
+
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
         );
-              
+
       }
 
-      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-        
+
         Application.DoEvents();
 
-        if( msDoc != null )
+        if ( msDoc != null )
         {
-          
-          switch( DocumentType )
+
+          switch ( DocumentType )
           {
-              
+
             case MacroscopeConstants.DocumentType.INTERNALURL:
-              if( msDoc.GetIsInternal() )
+              if ( msDoc.GetIsInternal() )
               {
                 this.RenderListView(
                   ListViewItems: ListViewItems,
@@ -694,9 +696,9 @@ namespace SEOMacroscope
                 );
               }
               break;
-              
+
             case MacroscopeConstants.DocumentType.EXTERNALURL:
-              if( msDoc.GetIsExternal() )
+              if ( msDoc.GetIsExternal() )
               {
                 this.RenderListView(
                   ListViewItems: ListViewItems,
@@ -706,9 +708,9 @@ namespace SEOMacroscope
                 );
               }
               break;
-              
+
             default:
-              if(
+              if (
                 ( msDoc.GetDocumentType() == DocumentType )
                 || ( DocumentType == MacroscopeConstants.DocumentType.ALL ) )
               {
@@ -724,31 +726,31 @@ namespace SEOMacroscope
           }
 
         }
-        
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
-      
+
           Count++;
-          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+          MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
           ProgressForm.UpdatePercentages(
             Title: null,
             Message: null,
             MajorPercentage: MajorPercentage,
             ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
           );
-        
+
         }
-                
+
       }
-      
+
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-            
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-            
+
       ProgressForm.Dispose();
     }
 
@@ -760,41 +762,41 @@ namespace SEOMacroscope
     )
     {
 
-      if( DocCollection.CountDocuments() == 0 )
+      if ( DocCollection.CountDocuments() == 0 )
       {
         return;
       }
-     
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
-            
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( DocCollection.CountDocuments() );
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      decimal TotalDocs = (decimal) DocCollection.CountDocuments();
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
-      
+
         ProgressForm.ControlBox = false;
-      
+
         ProgressForm.UpdatePercentages(
           Title: "Preparing Display",
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
         );
-              
+
       }
 
-      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-        
+
         Application.DoEvents();
 
-        if( msDoc != null )
+        if ( msDoc != null )
         {
           string Url = msDoc.GetUrl();
-          if( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
+          if ( Url.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 )
           {
             this.RenderListView(
               ListViewItems: ListViewItems,
@@ -804,33 +806,33 @@ namespace SEOMacroscope
             );
           }
         }
-        
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
-      
+
           Count++;
-          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+          MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
           ProgressForm.UpdatePercentages(
             Title: null,
             Message: null,
             MajorPercentage: MajorPercentage,
             ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
           );
-        
+
         }
-                
+
       }
-      
+
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-            
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-            
+
       ProgressForm.Dispose();
-      
+
     }
 
     /** Deduplicate List ***************************************************/
@@ -838,31 +840,31 @@ namespace SEOMacroscope
     public void DeduplicateListView ( ListView DuplicatedListView )
     {
 
-      List<string> ItemNames = new List<string> ( DuplicatedListView.Items.Count );
-        
-      foreach( ListViewItem lvItem in DuplicatedListView.Items )
+      List<string> ItemNames = new List<string>( DuplicatedListView.Items.Count );
+
+      foreach ( ListViewItem lvItem in DuplicatedListView.Items )
       {
-        if( !ItemNames.Contains( lvItem.Name ) )
+        if ( !ItemNames.Contains( lvItem.Name ) )
         {
           ItemNames.Add( lvItem.Name );
         }
       }
 
-      foreach( string ItemName in ItemNames )
+      foreach ( string ItemName in ItemNames )
       {
 
-        ListViewItem [] ListViewDuplicateItems = DuplicatedListView.Items.Find( key: ItemName, searchAllSubItems: false );
+        ListViewItem[] ListViewDuplicateItems = DuplicatedListView.Items.Find( key: ItemName, searchAllSubItems: false );
 
-        if( ListViewDuplicateItems.Length > 1 )
+        if ( ListViewDuplicateItems.Length > 1 )
         {
-            
-          for( int i = 1 ; i < ListViewDuplicateItems.Length ; i++ )
+
+          for ( int i = 1 ; i < ListViewDuplicateItems.Length ; i++ )
           {
 
             DuplicatedListView.Items.Remove( ListViewDuplicateItems[ i ] );
-              
+
           }
-            
+
         }
 
       }

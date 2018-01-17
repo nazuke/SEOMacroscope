@@ -31,7 +31,7 @@ namespace SEOMacroscope
 {
 
   [TestFixture]
-  public class TestMacroscopeAnalyzeTextLanguage
+  public class TestMacroscopeAnalyzeTextLanguage : Macroscope
   {
 
     /**************************************************************************/

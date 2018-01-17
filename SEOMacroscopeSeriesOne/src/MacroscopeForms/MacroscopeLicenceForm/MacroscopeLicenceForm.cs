@@ -61,7 +61,6 @@ namespace SEOMacroscope
       LicenceText = Reader.ReadToEnd();
 
       Reader.Close();
-      Reader.Dispose();
 
       this.richTextBoxLicence.Text = LicenceText;
 

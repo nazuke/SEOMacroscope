@@ -33,73 +33,70 @@ namespace SEOMacroscope
   /// Calculate the width of a title string in pixels.
   /// </summary>
 
-  public class MacroscopeAnalyzePageTitles : Macroscope
+  public class MacroscopeAnalyzePageTitles : MacroscopeAnalysis, IDisposable
   {
 
     /**************************************************************************/
 
     private string TitleFontName;
-		
+
     private FontFamily TitleFontFamily;
-		
+
     private int TitleFontSizeInPixels;
-		
+
     private Graphics GraphicsHandle;
-        
+
     /**************************************************************************/
 
-    public MacroscopeAnalyzePageTitles ()
+    public MacroscopeAnalyzePageTitles () : base ()
     {
-      this.SuppressDebugMsg = true;
       this.TitleFontName = "Arial";
       this.TitleFontSizeInPixels = 18;
-      this.TitleFontFamily = new FontFamily ( this.TitleFontName );
-      Image ImageInstance = new Bitmap ( 1, 1 );
+      this.TitleFontFamily = new FontFamily( this.TitleFontName );
+      Image ImageInstance = new Bitmap( 1, 1 );
       this.GraphicsHandle = Graphics.FromImage( ImageInstance );
     }
 
-    public MacroscopeAnalyzePageTitles ( string FontName )
+    public MacroscopeAnalyzePageTitles ( string FontName ) : base()
     {
-      this.SuppressDebugMsg = true;
       this.TitleFontName = FontName;
       this.TitleFontSizeInPixels = 18;
-      this.TitleFontFamily = new FontFamily ( this.TitleFontName );
-      Image ImageInstance = new Bitmap ( 1, 1 );
+      this.TitleFontFamily = new FontFamily( this.TitleFontName );
+      Image ImageInstance = new Bitmap( 1, 1 );
       this.GraphicsHandle = Graphics.FromImage( ImageInstance );
     }
 
-    public MacroscopeAnalyzePageTitles ( string FontName, int FontSize )
+    public MacroscopeAnalyzePageTitles ( string FontName, int FontSize ) : base()
     {
-      this.SuppressDebugMsg = true;
       this.TitleFontName = FontName;
       this.TitleFontSizeInPixels = FontSize;
-      this.TitleFontFamily = new FontFamily ( this.TitleFontName );
-      Image ImageInstance = new Bitmap ( 1, 1 );
+      this.TitleFontFamily = new FontFamily( this.TitleFontName );
+      Image ImageInstance = new Bitmap( 1, 1 );
       this.GraphicsHandle = Graphics.FromImage( ImageInstance );
     }
 
-    /**************************************************************************/
+    /** Self Destruct Sequence ************************************************/
 
-    ~MacroscopeAnalyzePageTitles ()
+    public void Dispose ()
     {
+      Dispose( true );
+    }
 
-      this.TitleFontName = null;
-    
-      this.TitleFontFamily = null;
-
-      this.GraphicsHandle = null;
-   
+    protected virtual void Dispose ( bool disposing )
+    {
+      this.TitleFontFamily.Dispose();
+      this.GraphicsHandle.Dispose();
     }
 
     /**************************************************************************/
 
     public int CalcTitleWidth ( string Text )
     {
-      Font FontInstance = new Font ( this.TitleFontFamily, this.TitleFontSizeInPixels, FontStyle.Regular, GraphicsUnit.Pixel );
+      Font FontInstance = new Font( this.TitleFontFamily, this.TitleFontSizeInPixels, FontStyle.Regular, GraphicsUnit.Pixel );
       SizeF FontTextSize = this.GraphicsHandle.MeasureString( Text, FontInstance );
-      int FontWidth = ( int )FontTextSize.Width;
-      DebugMsg( string.Format( "CalcTitleWidth: {0}", FontWidth ) );
-      return( FontWidth );
+      int FontWidth = (int) FontTextSize.Width;
+      this.DebugMsg( string.Format( "CalcTitleWidth: {0}", FontWidth ) );
+      return ( FontWidth );
     }
 
     /**************************************************************************/

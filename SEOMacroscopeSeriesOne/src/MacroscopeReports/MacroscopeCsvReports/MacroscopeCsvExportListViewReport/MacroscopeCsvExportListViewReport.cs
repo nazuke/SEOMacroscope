@@ -37,10 +37,10 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private ListView TargetListView;
-    
+
     /**************************************************************************/
 
-    public MacroscopeCsvExportListViewReport ( ListView SelectedListView )
+    public MacroscopeCsvExportListViewReport ( ListView SelectedListView ) : base ()
     {
       this.TargetListView = SelectedListView;
     }
@@ -61,7 +61,7 @@ namespace SEOMacroscope
 
           CsvWriter ws = new CsvWriter ( writer );
 
-          lock( this.TargetListView )
+          lock( this.TargetListViewLock )
           {
             this.BuildWorksheetListView( JobMaster, ws );
           }

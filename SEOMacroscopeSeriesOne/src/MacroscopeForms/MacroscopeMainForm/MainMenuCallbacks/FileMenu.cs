@@ -37,7 +37,6 @@ namespace SEOMacroscope
     private void CallbackFileExit ( object sender, EventArgs e )
     {
       DebugMsg( "CallbackFileExit Called" );
-      this.Cleanup();
       Program.Exit();
     }
 

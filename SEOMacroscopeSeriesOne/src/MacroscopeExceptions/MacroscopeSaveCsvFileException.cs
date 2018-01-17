@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeSaveCsvFileException.
   /// </summary>
 
+  [Serializable]
   public class MacroscopeSaveCsvFileException : Exception, ISerializable
   {
 

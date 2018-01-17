@@ -33,7 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeJobHistory.
   /// </summary>
 
-  public class MacroscopeJobHistory
+  public class MacroscopeJobHistory : Macroscope
   {
 
     /**************************************************************************/

@@ -89,7 +89,7 @@ namespace SEOMacroscope
     )
     {
 
-      lock( this.DisplayListView )
+      lock( this.DisplayListViewLock )
       {
         
         ListViewItem lvItem = null;

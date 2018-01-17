@@ -38,7 +38,13 @@ namespace SEOMacroscope
 
     private void ScanningControlsConfigure ()
     {
-      #if DEBUG
+
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
+#if DEBUG
       this.toolStripButtonRecalculateClickPaths.Visible = true;
       #else
       this.toolStripButtonRecalculateClickPaths.Visible = false;
@@ -49,6 +55,11 @@ namespace SEOMacroscope
         
     private void ScanningControlsEnable ()
     {
+
+      if ( this.IsDisposed )
+      {
+        return;
+      }
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
@@ -87,6 +98,10 @@ namespace SEOMacroscope
         
     private void ScanningControlsStart ()
     {
+      if ( this.IsDisposed )
+      {
+        return;
+      }
 
       this.loadUrlListToolStripMenuItem.Enabled = false;
       this.exportToolStripMenuItem.Enabled = false;
@@ -118,6 +133,11 @@ namespace SEOMacroscope
     private void ScanningControlsStopping ()
     {
 
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
       this.loadUrlListToolStripMenuItem.Enabled = false;
       this.exportToolStripMenuItem.Enabled = false;
       this.taskParametersToolStripMenuItem.Enabled = false;
@@ -147,6 +167,11 @@ namespace SEOMacroscope
         
     private void ScanningControlsStopped ()
     {
+
+      if ( this.IsDisposed )
+      {
+        return;
+      }
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
@@ -188,6 +213,11 @@ namespace SEOMacroscope
     private void ScanningControlsReset ()
     {
 
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
       this.loadUrlListToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
@@ -227,6 +257,11 @@ namespace SEOMacroscope
 
     private void ScanningControlsComplete ()
     {
+
+      if ( this.IsDisposed )
+      {
+        return;
+      }
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;

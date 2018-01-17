@@ -67,8 +67,6 @@ namespace SEOMacroscope
 
         Reader.Close();
 
-        Reader.Dispose();
-
       }
 
     }

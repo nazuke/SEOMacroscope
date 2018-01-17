@@ -44,7 +44,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-        
+
     public void SetPrefsFormControlFields ()
     {
 
@@ -81,27 +81,27 @@ namespace SEOMacroscope
         /** Server Certificate Options --------------------------------------- **/
 
         this.checkBoxServerCertificateValidation.Checked = MacroscopePreferencesManager.GetServerCertificateValidation();
-        
+
         /** Spidering Control ---------------------------------------------- **/
 
         this.numericUpDownMaxThreads.Value = MacroscopePreferencesManager.GetMaxThreads();
         this.numericUpDownDepth.Value = MacroscopePreferencesManager.GetDepth();
         this.numericUpDownPageLimit.Value = MacroscopePreferencesManager.GetPageLimit();
         this.numericUpDownCrawlDelay.Value = MacroscopePreferencesManager.GetCrawlDelay();
-        this.numericUpDownRequestTimeout.Value = ( Decimal )MacroscopePreferencesManager.GetRequestTimeout();
-        this.numericUpDownMaxRetries.Value = ( Decimal )MacroscopePreferencesManager.GetMaxRetries();
+        this.numericUpDownRequestTimeout.Value = (Decimal) MacroscopePreferencesManager.GetRequestTimeout();
+        this.numericUpDownMaxRetries.Value = (Decimal) MacroscopePreferencesManager.GetMaxRetries();
 
         this.checkBoxCrawlStrictUrlCheck.Checked = MacroscopePreferencesManager.GetCrawlStrictUrlCheck();
 
         this.checkBoxCheckExternalLinks.Checked = MacroscopePreferencesManager.GetCheckExternalLinks();
         this.checkBoxFetchExternalLinks.Checked = MacroscopePreferencesManager.GetFetchExternalLinks();
-        
+
         this.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
         this.checkBoxFollowSitemapLinks.Checked = MacroscopePreferencesManager.GetFollowSitemapLinks();
-        
+
         this.checkBoxCheckRedirects.Checked = MacroscopePreferencesManager.GetCheckRedirects();
         this.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
-        
+
         this.checkBoxFollowNoFollow.Checked = MacroscopePreferencesManager.GetFollowNoFollow();
         this.checkBoxIgnoreQueries.Checked = MacroscopePreferencesManager.GetIgnoreQueries();
         this.checkBoxIgnoreHashFragments.Checked = MacroscopePreferencesManager.GetIgnoreHashFragments();
@@ -118,7 +118,7 @@ namespace SEOMacroscope
         this.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
 
         /** Analysis Options ----------------------------------------------- **/
-        
+
         this.checkBoxResolveAddresses.Checked = MacroscopePreferencesManager.GetResolveAddresses();
 
         this.checkBoxCheckHreflangs.Checked = MacroscopePreferencesManager.GetCheckHreflangs();
@@ -139,6 +139,10 @@ namespace SEOMacroscope
         this.checkBoxEnableTextIndexing.Checked = MacroscopePreferencesManager.GetEnableTextIndexing();
         this.checkBoxCaseSensitiveTextIndexing.Checked = MacroscopePreferencesManager.GetCaseSensitiveTextIndexing();
 
+        this.checkBoxDisregardHtml5ElementNav.Checked = MacroscopePreferencesManager.GetDisregardHtml5ElementNav();
+        this.checkBoxDisregardHtml5ElementHeader.Checked = MacroscopePreferencesManager.GetDisregardHtml5ElementHeader();
+        this.checkBoxDisregardHtml5ElementFooter.Checked = MacroscopePreferencesManager.GetDisregardHtml5ElementFooter();
+
         /** SEO Options ---------------------------------------------------- **/
 
         this.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
@@ -156,21 +160,21 @@ namespace SEOMacroscope
 
         this.checkBoxAnalyzeKeywordsInText.Checked = MacroscopePreferencesManager.GetAnalyzeKeywordsInText();
         this.checkBoxAnalyzeTextReadability.Checked = MacroscopePreferencesManager.GetAnalyzeTextReadability();
-        this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.SelectedIndex = ( int )MacroscopePreferencesManager.GetAnalyzeTextReadabilityEnglishAlgorithm();
+        this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.SelectedIndex = (int) MacroscopePreferencesManager.GetAnalyzeTextReadabilityEnglishAlgorithm();
 
         this.checkBoxEnableLevenshteinDeduplication.Checked = MacroscopePreferencesManager.GetEnableLevenshteinDeduplication();
-        this.comboBoxLevenshteinAnalysisLevel.SelectedIndex = (int) MacroscopePreferencesManager.GetLevenshteinAnalysisLevel ();
+        this.comboBoxLevenshteinAnalysisLevel.SelectedIndex = (int) MacroscopePreferencesManager.GetLevenshteinAnalysisLevel();
         this.numericUpDownMaxLevenshteinSizeDifference.Value = MacroscopePreferencesManager.GetMaxLevenshteinSizeDifference();
         this.numericUpDownMaxLevenshteinDistance.Value = MacroscopePreferencesManager.GetMaxLevenshteinDistance();
-        
+
         this.checkBoxAnalyzeClickPaths.Checked = MacroscopePreferencesManager.GetAnalyzeClickPaths();
-              
+
 #if DEBUG
         this.groupBoxPageNavigationAnalysis.Visible = true;
 #else
         this.groupBoxPageNavigationAnalysis.Visible = false;
 #endif
-        
+
         /** Custom Filter Options ------------------------------------------ **/
 
         this.checkBoxCustomFiltersEnable.Checked = MacroscopePreferencesManager.GetCustomFiltersEnable();
@@ -198,7 +202,7 @@ namespace SEOMacroscope
         this.checkBoxDataExtractorsApplyToXml.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToXml();
 
         /** Export Options ------------------------------------------------- **/
-        
+
         this.checkBoxSitemapIncludeLinkedPdfs.Checked = MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs();
 
         /** Ignore Errors Settings ----------------------------------------- **/
@@ -215,7 +219,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-        
+
     public void SavePrefsFormControlFields ()
     {
 
@@ -227,23 +231,23 @@ namespace SEOMacroscope
       /** WebProxy Options ------------------------------------------------- **/
 
       MacroscopePreferencesManager.SetHttpProxyHost( this.textBoxHttpProxyHost.Text );
-      MacroscopePreferencesManager.SetHttpProxyPort( ( int )this.numericUpDownHttpProxyPort.Value );
-      
+      MacroscopePreferencesManager.SetHttpProxyPort( (int) this.numericUpDownHttpProxyPort.Value );
+
       /** Server Certificate Options --------------------------------------- **/
 
       MacroscopePreferencesManager.SetServerCertificateValidation( this.checkBoxServerCertificateValidation.Checked );
 
       /** Spidering Control ------------------------------------------------ **/
 
-      MacroscopePreferencesManager.SetMaxThreads( ( int )this.numericUpDownMaxThreads.Value );
-      MacroscopePreferencesManager.SetDepth( ( int )this.numericUpDownDepth.Value );
-      MacroscopePreferencesManager.SetPageLimit( ( int )this.numericUpDownPageLimit.Value );
-      MacroscopePreferencesManager.SetCrawlDelay( ( int )this.numericUpDownCrawlDelay.Value );
-      MacroscopePreferencesManager.SetRequestTimeout( ( int )this.numericUpDownRequestTimeout.Value );
-      MacroscopePreferencesManager.SetMaxRetries( ( int )this.numericUpDownMaxRetries.Value );
+      MacroscopePreferencesManager.SetMaxThreads( (int) this.numericUpDownMaxThreads.Value );
+      MacroscopePreferencesManager.SetDepth( (int) this.numericUpDownDepth.Value );
+      MacroscopePreferencesManager.SetPageLimit( (int) this.numericUpDownPageLimit.Value );
+      MacroscopePreferencesManager.SetCrawlDelay( (int) this.numericUpDownCrawlDelay.Value );
+      MacroscopePreferencesManager.SetRequestTimeout( (int) this.numericUpDownRequestTimeout.Value );
+      MacroscopePreferencesManager.SetMaxRetries( (int) this.numericUpDownMaxRetries.Value );
 
       MacroscopePreferencesManager.SetCrawlStrictUrlCheck( this.checkBoxCrawlStrictUrlCheck.Checked );
-              
+
       MacroscopePreferencesManager.SetCheckExternalLinks( this.checkBoxCheckExternalLinks.Checked );
       MacroscopePreferencesManager.SetFetchExternalLinks( this.checkBoxFetchExternalLinks.Checked );
 
@@ -259,7 +263,7 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetFollowCanonicalLinks( this.checkBoxFollowCanonicalLinks.Checked );
       MacroscopePreferencesManager.SetFollowAlternateLinks( this.checkBoxFollowAlternateLinks.Checked );
-      
+
       MacroscopePreferencesManager.SetFollowHrefLangLinks( this.checkBoxFollowHrefLangLinks.Checked );
 
       MacroscopePreferencesManager.SetFetchStylesheets( this.checkBoxFetchStylesheets.Checked );
@@ -291,63 +295,67 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetEnableTextIndexing( this.checkBoxEnableTextIndexing.Checked );
       MacroscopePreferencesManager.SetCaseSensitiveTextIndexing( this.checkBoxCaseSensitiveTextIndexing.Checked );
-        
+
+      MacroscopePreferencesManager.SetDisregardHtml5ElementNav( this.checkBoxDisregardHtml5ElementNav.Checked );
+      MacroscopePreferencesManager.SetDisregardHtml5ElementHeader( this.checkBoxDisregardHtml5ElementHeader.Checked );
+      MacroscopePreferencesManager.SetDisregardHtml5ElementFooter( this.checkBoxDisregardHtml5ElementFooter.Checked );
+
       /** SEO Options ------------------------------------------------------ **/
-      
-      MacroscopePreferencesManager.SetTitleMinLen( ( int )this.numericUpDownTitleMinLen.Value );
-      MacroscopePreferencesManager.SetTitleMaxLen( ( int )this.numericUpDownTitleMaxLen.Value );
-      MacroscopePreferencesManager.SetTitleMinWords( ( int )this.numericUpDownTitleMinWords.Value );
-      MacroscopePreferencesManager.SetTitleMaxWords( ( int )this.numericUpDownTitleMaxWords.Value );
-      MacroscopePreferencesManager.SetTitleMaxPixelWidth( ( int )this.numericUpDownTitleMaxPixelWidth.Value );
 
-      MacroscopePreferencesManager.SetDescriptionMinLen( ( int )this.numericUpDownDescriptionMinLen.Value );
-      MacroscopePreferencesManager.SetDescriptionMaxLen( ( int )this.numericUpDownDescriptionMaxLen.Value );
-      MacroscopePreferencesManager.SetDescriptionMinWords( ( int )this.numericUpDownDescriptionMinWords.Value );
-      MacroscopePreferencesManager.SetDescriptionMaxWords( ( int )this.numericUpDownDescriptionMaxWords.Value );
+      MacroscopePreferencesManager.SetTitleMinLen( (int) this.numericUpDownTitleMinLen.Value );
+      MacroscopePreferencesManager.SetTitleMaxLen( (int) this.numericUpDownTitleMaxLen.Value );
+      MacroscopePreferencesManager.SetTitleMinWords( (int) this.numericUpDownTitleMinWords.Value );
+      MacroscopePreferencesManager.SetTitleMaxWords( (int) this.numericUpDownTitleMaxWords.Value );
+      MacroscopePreferencesManager.SetTitleMaxPixelWidth( (int) this.numericUpDownTitleMaxPixelWidth.Value );
 
-      MacroscopePreferencesManager.SetMaxHeadingDepth( ( ushort )this.numericUpDownMaxHeadingDepth.Value );
+      MacroscopePreferencesManager.SetDescriptionMinLen( (int) this.numericUpDownDescriptionMinLen.Value );
+      MacroscopePreferencesManager.SetDescriptionMaxLen( (int) this.numericUpDownDescriptionMaxLen.Value );
+      MacroscopePreferencesManager.SetDescriptionMinWords( (int) this.numericUpDownDescriptionMinWords.Value );
+      MacroscopePreferencesManager.SetDescriptionMaxWords( (int) this.numericUpDownDescriptionMaxWords.Value );
+
+      MacroscopePreferencesManager.SetMaxHeadingDepth( (ushort) this.numericUpDownMaxHeadingDepth.Value );
 
       MacroscopePreferencesManager.SetAnalyzeKeywordsInText( this.checkBoxAnalyzeKeywordsInText.Checked );
       MacroscopePreferencesManager.SetAnalyzeTextReadability( this.checkBoxAnalyzeTextReadability.Checked );
-      MacroscopePreferencesManager.SetAnalyzeTextReadabilityEnglishAlgorithm( ( MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm )this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.SelectedIndex );
+      MacroscopePreferencesManager.SetAnalyzeTextReadabilityEnglishAlgorithm( (MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm) this.comboBoxAnalyzeTextReadabilityEnglishAlgorithm.SelectedIndex );
 
       MacroscopePreferencesManager.SetEnableLevenshteinDeduplication( this.checkBoxEnableLevenshteinDeduplication.Checked );
       MacroscopePreferencesManager.SetLevenshteinAnalysisLevel( (int) this.comboBoxLevenshteinAnalysisLevel.SelectedIndex );
-      MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( ( int )this.numericUpDownMaxLevenshteinSizeDifference.Value );
-      MacroscopePreferencesManager.SetMaxLevenshteinDistance( ( int )this.numericUpDownMaxLevenshteinDistance.Value );
+      MacroscopePreferencesManager.SetMaxLevenshteinSizeDifference( (int) this.numericUpDownMaxLevenshteinSizeDifference.Value );
+      MacroscopePreferencesManager.SetMaxLevenshteinDistance( (int) this.numericUpDownMaxLevenshteinDistance.Value );
 
       MacroscopePreferencesManager.SetAnalyzeClickPaths( this.checkBoxAnalyzeClickPaths.Checked );
-      
+
       /** Custom Filter Options -------------------------------------------- **/
 
       MacroscopePreferencesManager.SetCustomFiltersEnable( this.checkBoxCustomFiltersEnable.Checked );
 
-      MacroscopePreferencesManager.SetCustomFiltersMaxItems( ( int )this.numericUpDownCustomFiltersMaxItems.Value );
+      MacroscopePreferencesManager.SetCustomFiltersMaxItems( (int) this.numericUpDownCustomFiltersMaxItems.Value );
 
       MacroscopePreferencesManager.SetCustomFiltersApplyToHtml( this.checkBoxCustomFiltersApplyToHtml.Checked );
       MacroscopePreferencesManager.SetCustomFiltersApplyToCss( this.checkBoxCustomFiltersApplyToCss.Checked );
       MacroscopePreferencesManager.SetCustomFiltersApplyToJavascripts( this.checkBoxCustomFiltersApplyToJavascripts.Checked );
       MacroscopePreferencesManager.SetCustomFiltersApplyToText( this.checkBoxCustomFiltersApplyToText.Checked );
       MacroscopePreferencesManager.SetCustomFiltersApplyToXml( this.checkBoxCustomFiltersApplyToXml.Checked );
-      
-      
+
+
       /** Extractor Options ------------------------------------------------ **/
 
       MacroscopePreferencesManager.SetDataExtractorsEnable( this.checkBoxDataExtractorsEnable.Checked );
       MacroscopePreferencesManager.SetDataExtractorsCleanWhiteSpace( this.checkBoxDataExtractorsCleanWhiteSpace.Checked );
 
-      MacroscopePreferencesManager.SetDataExtractorsMaxItemsCssSelectors( ( int )this.numericUpDownDataExtractorsMaxItemsCssSelectors.Value );
-      MacroscopePreferencesManager.SetDataExtractorsMaxItemsRegexes( ( int )this.numericUpDownDataExtractorsMaxItemsRegexes.Value );
-      MacroscopePreferencesManager.SetDataExtractorsMaxItemsXpaths( ( int )this.numericUpDownDataExtractorsMaxItemsXpaths.Value );
+      MacroscopePreferencesManager.SetDataExtractorsMaxItemsCssSelectors( (int) this.numericUpDownDataExtractorsMaxItemsCssSelectors.Value );
+      MacroscopePreferencesManager.SetDataExtractorsMaxItemsRegexes( (int) this.numericUpDownDataExtractorsMaxItemsRegexes.Value );
+      MacroscopePreferencesManager.SetDataExtractorsMaxItemsXpaths( (int) this.numericUpDownDataExtractorsMaxItemsXpaths.Value );
 
       MacroscopePreferencesManager.SetDataExtractorsApplyToHtml( this.checkBoxDataExtractorsApplyToHtml.Checked );
       MacroscopePreferencesManager.SetDataExtractorsApplyToCss( this.checkBoxDataExtractorsApplyToCss.Checked );
       MacroscopePreferencesManager.SetDataExtractorsApplyToJavascripts( this.checkBoxDataExtractorsApplyToJavascripts.Checked );
       MacroscopePreferencesManager.SetDataExtractorsApplyToText( this.checkBoxDataExtractorsApplyToText.Checked );
       MacroscopePreferencesManager.SetDataExtractorsApplyToXml( this.checkBoxDataExtractorsApplyToXml.Checked );
-      
+
       /** Export Options --------------------------------------------------- **/
-              
+
       MacroscopePreferencesManager.SetSitemapIncludeLinkedPdfs( this.checkBoxSitemapIncludeLinkedPdfs.Checked );
 
       /** Ignore Errors Settings ----------------------------------------- **/
@@ -358,9 +366,9 @@ namespace SEOMacroscope
       /** Advanced Settings ---------------------------------------------- **/
 
       MacroscopePreferencesManager.SetEnableMemoryGuard( this.checkBoxEnableMemoryGuard.Checked );
-        
+
       /** Tidy Up ---------------------------------------------------------- **/
-      
+
       MacroscopePreferencesManager.SavePreferences();
       MacroscopePreferencesManager.ConfigureHttpProxy();
 
