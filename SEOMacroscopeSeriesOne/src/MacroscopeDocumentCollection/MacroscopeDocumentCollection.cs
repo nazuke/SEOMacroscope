@@ -87,6 +87,7 @@ namespace SEOMacroscope
     private MacroscopeClickPathAnalysis ClickPathAnalysis;
 
     private Dictionary<string, Dictionary<string, Dictionary<string, string>>> StatsSitemapErrors;
+    private List<MacroscopeDocumentList> DocumentsInSitemaps;
 
     private static object LockerDocCollection = new object();
     private static object LockerRecalc = new object();
@@ -163,6 +164,7 @@ namespace SEOMacroscope
       this.ClickPathAnalysis = new MacroscopeClickPathAnalysis( DocumentCollection: this );
 
       this.StatsSitemapErrors = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+      this.DocumentsInSitemaps = new List<MacroscopeDocumentList>( 2 );
 
       this.StartRecalcTimer();
 
@@ -171,7 +173,7 @@ namespace SEOMacroscope
     }
 
     /** Self Destruct Sequence ************************************************/
-    
+
     public void Dispose ()
     {
       Dispose( true );
@@ -181,7 +183,7 @@ namespace SEOMacroscope
     {
       this.TimerRecalc.Dispose();
     }
-    
+
     /** Job Master Methods ****************************************************/
 
     public MacroscopeJobMaster GetJobMaster ()
@@ -747,6 +749,8 @@ namespace SEOMacroscope
               Thread.Yield();
 
             }
+
+            this.RecalculateAnalyzeInSitemaps();
 
           }
           finally
@@ -2367,6 +2371,35 @@ namespace SEOMacroscope
 
       return ( CompiledTable );
 
+    }
+
+    /** Analyze Documents in Sitemaps *****************************************/
+
+    private void RecalculateAnalyzeInSitemaps ()
+    {
+
+      MacroscopeAnalyzeSitemapUrls Analyzer = new MacroscopeAnalyzeSitemapUrls();
+
+      this.DocumentsInSitemaps = Analyzer.AnalyzeInSitemaps( DocCollection: this );
+
+      return;
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public MacroscopeDocumentList GetDocumentsNotInSitemaps ()
+    {
+      MacroscopeDocumentList DocumentList = this.DocumentsInSitemaps[ 0 ];
+      return ( DocumentList );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public MacroscopeDocumentList GetDocumentsInSitemaps ()
+    {
+      MacroscopeDocumentList DocumentList = this.DocumentsInSitemaps[ 1 ];
+      return ( DocumentList );
     }
 
     /** Search Index **********************************************************/
