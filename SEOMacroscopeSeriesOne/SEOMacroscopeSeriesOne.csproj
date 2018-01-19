@@ -169,8 +169,9 @@
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\MacroscopeCsvRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\WorksheetBlockedByRobotsExternal.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\WorksheetBlockedByRobotsInternal.cs" />
-    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapErrorsReport\MacroscopeExcelSitemapErrorsReport.cs" />
-    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapErrorsReport\WorksheetSitemapXmlErrors.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\MacroscopeExcelSitemapsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\WorksheetSitemapsAudit.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\WorksheetSitemapXmlErrors.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\MacroscopeExcelRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\WorksheetBlockedByRobotsExternal.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\WorksheetBlockedByRobotsInternal.cs" />

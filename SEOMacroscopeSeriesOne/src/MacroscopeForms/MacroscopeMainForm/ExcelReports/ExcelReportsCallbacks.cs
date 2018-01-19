@@ -308,7 +308,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelSitemapErrorsReport msExcelReport = new MacroscopeExcelSitemapErrorsReport();
+        MacroscopeExcelSitemapsReport msExcelReport = new MacroscopeExcelSitemapsReport();
 
         try
         {

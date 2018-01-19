@@ -30,12 +30,12 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelSitemapErrorsReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelSitemapsReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    public MacroscopeExcelSitemapErrorsReport ()
+    public MacroscopeExcelSitemapsReport ()
     {
     }
 
@@ -45,8 +45,13 @@ namespace SEOMacroscope
     {
 
       XLWorkbook wb = new XLWorkbook();
+      MacroscopeDocumentList DocumentsNotInSitemaps = JobMaster.GetDocCollection().GetDocumentsNotInSitemaps();
+      MacroscopeDocumentList DocumentsInSitemaps = JobMaster.GetDocCollection().GetDocumentsInSitemaps();
 
       this.BuildWorksheetSitemapXmlErrors( JobMaster, wb, "Sitemap XML Errors" );
+
+      this.BuildWorksheetSitemapsAudit( JobMaster, wb, "Sitemaps Audit - Missing", DocumentsNotInSitemaps, false );
+      this.BuildWorksheetSitemapsAudit( JobMaster, wb, "Sitemaps Audit - Present", DocumentsInSitemaps, true );
 
       try
       {
