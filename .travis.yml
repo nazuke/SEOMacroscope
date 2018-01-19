@@ -1,0 +1,10 @@
+language: csharp
+solution: SEOMacroscope.sln
+mono:
+  - latest
+env:
+  - SEOMACROSCOPE_TESTING_STARTURL="https://nazuke.github.io/"
+branches:
+  only:
+    - master
+    - v1.7

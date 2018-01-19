@@ -393,6 +393,12 @@ namespace SEOMacroscope
       this.sitemapErrorsStatusCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.sitemapErrorsRobots = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.sitemapErrorsUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.tabPageSitemapsAudit = new System.Windows.Forms.TabPage();
+      this.listViewSitemapsAudit = new System.Windows.Forms.ListView();
+      this.sitemapsAuditUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.sitemapsAuditInSitemap = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.sitemapsAuditRobots = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.sitemapsAuditSitemapUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPageCanonicalAnalysis = new System.Windows.Forms.TabPage();
       this.listViewCanonicalAnalysis = new System.Windows.Forms.ListView();
       this.CanonicalAnalysisUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -603,6 +609,8 @@ namespace SEOMacroscope
       this.listViewHistory = new System.Windows.Forms.ListView();
       this.HistoryUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.HistoryVisited = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.sitemapsAuditIsRedirect = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.sitemapsAuditStatusCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabControlMain.SuspendLayout();
       this.tabPageStructureOverview.SuspendLayout();
       this.tableLayoutPanelStructure.SuspendLayout();
@@ -615,6 +623,7 @@ namespace SEOMacroscope
       this.tabPageRobots.SuspendLayout();
       this.tabPageSitemaps.SuspendLayout();
       this.tabPageSitemapErrors.SuspendLayout();
+      this.tabPageSitemapsAudit.SuspendLayout();
       this.tabPageCanonicalAnalysis.SuspendLayout();
       this.tabPageHrefLangAnalysis.SuspendLayout();
       this.tabPageRedirectsAudit.SuspendLayout();
@@ -678,6 +687,7 @@ namespace SEOMacroscope
       this.tabControlMain.Controls.Add(this.tabPageRobots);
       this.tabControlMain.Controls.Add(this.tabPageSitemaps);
       this.tabControlMain.Controls.Add(this.tabPageSitemapErrors);
+      this.tabControlMain.Controls.Add(this.tabPageSitemapsAudit);
       this.tabControlMain.Controls.Add(this.tabPageCanonicalAnalysis);
       this.tabControlMain.Controls.Add(this.tabPageHrefLangAnalysis);
       this.tabControlMain.Controls.Add(this.tabPageRedirectsAudit);
@@ -1279,6 +1289,56 @@ namespace SEOMacroscope
       // 
       this.sitemapErrorsUrl.Text = "Target URL";
       this.sitemapErrorsUrl.Width = 300;
+      // 
+      // tabPageSitemapsAudit
+      // 
+      this.tabPageSitemapsAudit.BackColor = System.Drawing.Color.LightGray;
+      this.tabPageSitemapsAudit.Controls.Add(this.listViewSitemapsAudit);
+      this.tabPageSitemapsAudit.Location = new System.Drawing.Point(4, 58);
+      this.tabPageSitemapsAudit.Name = "tabPageSitemapsAudit";
+      this.tabPageSitemapsAudit.Size = new System.Drawing.Size(792, 438);
+      this.tabPageSitemapsAudit.TabIndex = 33;
+      this.tabPageSitemapsAudit.Text = "Sitemaps Audit";
+      // 
+      // listViewSitemapsAudit
+      // 
+      this.listViewSitemapsAudit.CausesValidation = false;
+      this.listViewSitemapsAudit.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.sitemapsAuditUrl,
+            this.sitemapsAuditInSitemap,
+            this.sitemapsAuditStatusCode,
+            this.sitemapsAuditIsRedirect,
+            this.sitemapsAuditRobots,
+            this.sitemapsAuditSitemapUrl});
+      this.listViewSitemapsAudit.ContextMenuStrip = this.contextMenuStripStructure;
+      this.listViewSitemapsAudit.FullRowSelect = true;
+      this.listViewSitemapsAudit.GridLines = true;
+      this.listViewSitemapsAudit.Location = new System.Drawing.Point(20, 20);
+      this.listViewSitemapsAudit.Name = "listViewSitemapsAudit";
+      this.listViewSitemapsAudit.Size = new System.Drawing.Size(750, 200);
+      this.listViewSitemapsAudit.TabIndex = 2;
+      this.listViewSitemapsAudit.UseCompatibleStateImageBehavior = false;
+      this.listViewSitemapsAudit.View = System.Windows.Forms.View.Details;
+      // 
+      // sitemapsAuditUrl
+      // 
+      this.sitemapsAuditUrl.Text = "URL";
+      this.sitemapsAuditUrl.Width = 400;
+      // 
+      // sitemapsAuditInSitemap
+      // 
+      this.sitemapsAuditInSitemap.Text = "In Sitemap";
+      this.sitemapsAuditInSitemap.Width = 100;
+      // 
+      // sitemapsAuditRobots
+      // 
+      this.sitemapsAuditRobots.Text = "Robots";
+      this.sitemapsAuditRobots.Width = 100;
+      // 
+      // sitemapsAuditSitemapUrl
+      // 
+      this.sitemapsAuditSitemapUrl.Text = "Sitemap URL";
+      this.sitemapsAuditSitemapUrl.Width = 300;
       // 
       // tabPageCanonicalAnalysis
       // 
@@ -3164,6 +3224,15 @@ namespace SEOMacroscope
       this.HistoryVisited.Text = "Visited";
       this.HistoryVisited.Width = 100;
       // 
+      // sitemapsAuditIsRedirect
+      // 
+      this.sitemapsAuditIsRedirect.Text = "Redirect";
+      this.sitemapsAuditIsRedirect.Width = 100;
+      // 
+      // sitemapsAuditStatusCode
+      // 
+      this.sitemapsAuditStatusCode.Text = "Status";
+      // 
       // MacroscopeOverviewPanel
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3186,6 +3255,7 @@ namespace SEOMacroscope
       this.tabPageRobots.ResumeLayout(false);
       this.tabPageSitemaps.ResumeLayout(false);
       this.tabPageSitemapErrors.ResumeLayout(false);
+      this.tabPageSitemapsAudit.ResumeLayout(false);
       this.tabPageCanonicalAnalysis.ResumeLayout(false);
       this.tabPageHrefLangAnalysis.ResumeLayout(false);
       this.tabPageRedirectsAudit.ResumeLayout(false);
@@ -3272,5 +3342,13 @@ namespace SEOMacroscope
     private System.Windows.Forms.ColumnHeader sitemapErrorsStatusCode;
     private System.Windows.Forms.ColumnHeader sitemapErrorsUrl;
     private System.Windows.Forms.ColumnHeader sitemapErrorsRobots;
+    private System.Windows.Forms.TabPage tabPageSitemapsAudit;
+    public System.Windows.Forms.ListView listViewSitemapsAudit;
+    private System.Windows.Forms.ColumnHeader sitemapsAuditUrl;
+    private System.Windows.Forms.ColumnHeader sitemapsAuditInSitemap;
+    private System.Windows.Forms.ColumnHeader sitemapsAuditRobots;
+    private System.Windows.Forms.ColumnHeader sitemapsAuditSitemapUrl;
+    private System.Windows.Forms.ColumnHeader sitemapsAuditStatusCode;
+    private System.Windows.Forms.ColumnHeader sitemapsAuditIsRedirect;
   }
 }

@@ -56,18 +56,32 @@ namespace SEOMacroscope
       {
 
         bool InSitemap = false;
+        string DocumentNote = null;
+        string Url = msDoc.GetUrl();
 
+        if ( msDoc.GetIsExternal() )
+        {
+          continue;
+        }
+
+        if ( !msDoc.GetIsHtml() )
+        {
+          continue;
+        }
+        
         foreach ( string SitemapUrl in UrlMap.Keys )
         {
-          if ( UrlMap[ SitemapUrl ].ContainsKey( msDoc.GetUrl() ) )
+          if ( UrlMap[ SitemapUrl ].ContainsKey( Url ) )
           {
             InSitemap = true;
+            DocumentNote = SitemapUrl;
           }
         }
 
         if ( InSitemap )
         {
           InSitemapsDocumentList.AddDocument( msDoc: msDoc );
+          InSitemapsDocumentList.AddDocumentNote( msDoc: msDoc, Note: DocumentNote );
         }
         else
         {
@@ -95,9 +109,9 @@ namespace SEOMacroscope
         {
           UrlMap.Add( SitemapUrl, new Dictionary<string, bool>() );
         }
-        foreach ( MacroscopeHyperlinkOut HyperlinkOut in msDoc.IterateHyperlinksOut() )
+        foreach ( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
         {
-          string TargetUrl = HyperlinkOut.GetTargetUrl();
+          string TargetUrl = Outlink.GetTargetUrl();
           if ( !UrlMap.ContainsKey( TargetUrl ) )
           {
             UrlMap[ SitemapUrl ].Add( TargetUrl, false );
@@ -106,6 +120,7 @@ namespace SEOMacroscope
       }
 
       return ( UrlMap );
+
     }
 
     /**************************************************************************/
@@ -126,7 +141,6 @@ namespace SEOMacroscope
       return ( SitemapDocumentList );
 
     }
-
 
     /**************************************************************************/
 

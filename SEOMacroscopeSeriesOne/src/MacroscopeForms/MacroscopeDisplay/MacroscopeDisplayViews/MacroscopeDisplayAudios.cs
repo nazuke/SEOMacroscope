@@ -41,6 +41,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private const int COL_URL = 0;
+    private const int COL_STATUS_CODE = 1;
+    private const int COL_MIMETYPE = 2;
+    private const int COL_FILESIZE = 3;
+
+    /**************************************************************************/
+
     public MacroscopeDisplayAudios ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
@@ -48,10 +55,10 @@ namespace SEOMacroscope
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -70,7 +77,7 @@ namespace SEOMacroscope
 
     protected override void ConfigureListView ()
     {
-      if( !this.ListViewConfigured )
+      if ( !this.ListViewConfigured )
       {
         this.ListViewConfigured = true;
       }
@@ -86,12 +93,12 @@ namespace SEOMacroscope
     )
     {
 
-      if( msDoc.GetIsRedirect() )
+      if ( msDoc.GetIsRedirect() )
       {
         return;
       }
 
-      if( !msDoc.GetIsAudio() )
+      if ( !msDoc.GetIsAudio() )
       {
         return;
       }
@@ -104,20 +111,20 @@ namespace SEOMacroscope
 
       ListViewItem lvItem = null;
 
-      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
+      if ( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
           lvItem = this.DisplayListView.Items[ PairKey ];
-          lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = StatusCode;
-          lvItem.SubItems[ 2 ].Text = MimeType;
-          lvItem.SubItems[ 3 ].Text = FileSize;
+          lvItem.SubItems[ COL_URL ].Text = Url;
+          lvItem.SubItems[ COL_STATUS_CODE ].Text = StatusCode;
+          lvItem.SubItems[ COL_MIMETYPE ].Text = MimeType;
+          lvItem.SubItems[ COL_FILESIZE ].Text = FileSize;
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "MacroscopeDisplayAudios 1: {0}", ex.Message ) );
         }
@@ -129,11 +136,11 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( PairKey );
+          lvItem = new ListViewItem( PairKey );
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = PairKey;
 
-          lvItem.SubItems[ 0 ].Text = Url;
+          lvItem.SubItems[ COL_URL ].Text = Url;
           lvItem.SubItems.Add( StatusCode );
           lvItem.SubItems.Add( MimeType );
           lvItem.SubItems.Add( FileSize );
@@ -141,38 +148,38 @@ namespace SEOMacroscope
           this.DisplayListView.Items.Add( lvItem );
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "MacroscopeDisplayAudios 2: {0}", ex.Message ) );
         }
 
       }
 
-      if( lvItem != null )
+      if ( lvItem != null )
       {
 
         lvItem.ForeColor = Color.Blue;
 
-        // URL -------------------------------------------------------------//
-          
-        if( msDoc.GetIsInternal() )
+        /** URL ------------------------------------------------------------ **/
+
+        if ( msDoc.GetIsInternal() )
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+          lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
         }
         else
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+          lvItem.SubItems[ COL_URL ].ForeColor = Color.Gray;
         }
 
-        // Status Code -------------------------------------------------------//
+        /** Status Code ---------------------------------------------------- **/
 
-        if( msDoc.GetStatusCode() != HttpStatusCode.OK )
+        if ( msDoc.GetStatusCode() != HttpStatusCode.OK )
         {
-          lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+          lvItem.SubItems[ COL_STATUS_CODE ].ForeColor = Color.Red;
         }
         else
         {
-          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+          lvItem.SubItems[ COL_STATUS_CODE ].ForeColor = Color.Green;
         }
 
       }

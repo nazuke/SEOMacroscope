@@ -41,11 +41,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private const int ColUrl = 0;
-    private const int ColStatusCode = 1;
-    private const int ColMimeType = 2;
-    private const int ColFileSize = 3;
-    
+    private const int COL_URL = 0;
+    private const int COL_STATUS_CODE = 1;
+    private const int COL_MIMETYPE = 2;
+    private const int COL_FILESIZE = 3;
+
     /**************************************************************************/
         
     public MacroscopeDisplayImages ( MacroscopeMainForm MainForm, ListView TargetListView )
@@ -118,10 +118,10 @@ namespace SEOMacroscope
         {
 
           lvItem = this.DisplayListView.Items[ PairKey ];
-          lvItem.SubItems[ ColUrl ].Text = Url;
-          lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
-          lvItem.SubItems[ ColMimeType ].Text = MimeType;
-          lvItem.SubItems[ ColFileSize ].Text = FileSize;
+          lvItem.SubItems[ COL_URL ].Text = Url;
+          lvItem.SubItems[ COL_STATUS_CODE ].Text = StatusCode;
+          lvItem.SubItems[ COL_MIMETYPE ].Text = MimeType;
+          lvItem.SubItems[ COL_FILESIZE ].Text = FileSize;
 
         }
         catch( Exception ex )
@@ -140,7 +140,7 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = PairKey;
 
-          lvItem.SubItems[ ColUrl ].Text = Url;
+          lvItem.SubItems[ COL_URL ].Text = Url;
           lvItem.SubItems.Add( StatusCode );
           lvItem.SubItems.Add( MimeType );
           lvItem.SubItems.Add( FileSize );
@@ -164,22 +164,22 @@ namespace SEOMacroscope
 
         if( msDoc.GetIsInternal() )
         {
-          lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
+          lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
         }
         else
         {
-          lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
+          lvItem.SubItems[ COL_URL ].ForeColor = Color.Gray;
         }
 
         // Status Code -------------------------------------------------------//
 
         if( msDoc.GetStatusCode() != HttpStatusCode.OK )
         {
-          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Red;
+          lvItem.SubItems[ COL_STATUS_CODE ].ForeColor = Color.Red;
         }
         else
         {
-          lvItem.SubItems[ ColStatusCode ].ForeColor = Color.Green;
+          lvItem.SubItems[ COL_STATUS_CODE ].ForeColor = Color.Green;
         }
 
       }

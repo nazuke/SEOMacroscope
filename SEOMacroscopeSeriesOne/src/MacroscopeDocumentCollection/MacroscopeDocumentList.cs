@@ -37,95 +37,128 @@ namespace SEOMacroscope
   {
     /**************************************************************************/
 
-    private Dictionary<string,MacroscopeDocument> DocumentList;
+    private Dictionary<string, MacroscopeDocument> DocumentList;
+    private Dictionary<string, string> DocumentNote;
 
     /**************************************************************************/
 
     public MacroscopeDocumentList ()
     {
-      this.DocumentList = new Dictionary<string,MacroscopeDocument> ( 64 );
+      this.DocumentList = new Dictionary<string, MacroscopeDocument>( 64 );
+      this.DocumentNote = new Dictionary<string, string>( 64 ); // TODO: Possibly expand this to accept a list of notes
     }
 
     /**************************************************************************/
-    
+
     public void AddDocument ( MacroscopeDocument msDoc )
     {
-
       string Url = msDoc.GetUrl();
-      
-      lock( this.DocumentList )
+      lock ( this.DocumentList )
       {
-
-        if( this.DocumentList.ContainsKey( Url ) )
+        if ( this.DocumentList.ContainsKey( Url ) )
         {
           this.DocumentList.Remove( Url );
         }
-
         this.DocumentList.Add( Url, msDoc );
-
+        lock ( this.DocumentNote )
+        {
+          if ( this.DocumentNote.ContainsKey( Url ) )
+          {
+            this.DocumentNote.Remove( Url );
+          }
+          this.DocumentNote.Add( Url, null );
+        }
       }
-
     }
 
     /**************************************************************************/
 
     public void RemoveDocument ( MacroscopeDocument msDoc )
     {
-
       string Url = msDoc.GetUrl();
-            
-      lock( this.DocumentList )
+      lock ( this.DocumentList )
       {
-
-        if( this.DocumentList.ContainsKey( Url ) )
+        if ( this.DocumentList.ContainsKey( Url ) )
         {
           this.DocumentList.Remove( Url );
         }
-
+        lock ( this.DocumentNote )
+        {
+          if ( this.DocumentNote.ContainsKey( Url ) )
+          {
+            this.DocumentNote.Remove( Url );
+          }
+        }
       }
-
     }
 
     /**************************************************************************/
-    
+
     public MacroscopeDocument GetDocument ( string Url )
     {
-
       MacroscopeDocument msDoc = null;
-
-      if( this.DocumentList.ContainsKey( Url ) )
+      if ( this.DocumentList.ContainsKey( Url ) )
       {
         msDoc = this.DocumentList[ Url ];
       }
-
-      return( msDoc );
-
+      return ( msDoc );
     }
-    
+
     /**************************************************************************/
 
     public IEnumerable<MacroscopeDocument> IterateDocuments ()
     {
-
-      lock( this.DocumentList )
+      lock ( this.DocumentList )
       {
-
-        foreach( string Url in this.DocumentList.Keys )
+        foreach ( string Url in this.DocumentList.Keys )
         {
           yield return this.DocumentList[ Url ];
         }
-
       }
-
     }
 
     /**************************************************************************/
 
     public int CountDocuments ()
     {
-      return( this.DocumentList.Count );
+      return ( this.DocumentList.Count );
     }
-    
+
+    /**************************************************************************/
+
+    public void AddDocumentNote ( MacroscopeDocument msDoc, string Note )
+    {
+      string Url = msDoc.GetUrl();
+      lock ( this.DocumentNote )
+      {
+        if ( this.DocumentNote.ContainsKey( Url ) )
+        {
+          this.DocumentNote[ Url ] = Note;
+        }
+        else
+        {
+          this.DocumentNote.Add( Url, Note );
+
+        }
+      }
+    }
+
+    /**************************************************************************/
+
+    public string GetDocumentNote ( MacroscopeDocument msDoc )
+    {
+      string Url = msDoc.GetUrl();
+      string Note = null;
+      lock ( this.DocumentNote )
+      {
+        if ( this.DocumentNote.ContainsKey( Url ) )
+        {
+          Note = this.DocumentNote[ Url ];
+        }
+      }
+      return ( Note );
+    }
+
     /**************************************************************************/
 
   }

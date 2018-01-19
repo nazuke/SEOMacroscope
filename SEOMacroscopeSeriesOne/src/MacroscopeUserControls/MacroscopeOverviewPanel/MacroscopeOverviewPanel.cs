@@ -65,6 +65,7 @@ namespace SEOMacroscope
       this.listViewRobots.Dock = DockStyle.Fill;
       this.listViewSitemaps.Dock = DockStyle.Fill;
       this.listViewSitemapErrors.Dock = DockStyle.Fill;
+      this.listViewSitemapsAudit.Dock = DockStyle.Fill;
 
       this.listViewCanonicalAnalysis.Dock = DockStyle.Fill;
       this.listViewHrefLang.Dock = DockStyle.Fill;
@@ -128,6 +129,7 @@ namespace SEOMacroscope
       this.listViewRobots.ColumnClick += this.CallbackColumnClick;
       this.listViewSitemaps.ColumnClick += this.CallbackColumnClick;
       this.listViewSitemapErrors.ColumnClick += this.CallbackColumnClick;
+      this.listViewSitemapsAudit.ColumnClick += this.CallbackColumnClick;
       this.listViewCanonicalAnalysis.ColumnClick += this.CallbackColumnClick;
       this.listViewHrefLang.ColumnClick += this.CallbackColumnClick;
       this.listViewErrors.ColumnClick += this.CallbackColumnClick;

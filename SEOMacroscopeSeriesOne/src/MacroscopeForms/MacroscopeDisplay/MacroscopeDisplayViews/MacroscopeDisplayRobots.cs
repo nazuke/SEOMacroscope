@@ -21,7 +21,7 @@
 	You should have received a copy of the GNU General Public License
 	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
- */
+*/
 
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,11 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private const int COL_URL = 0;
+    private const int COL_BLOCKED = 1;
+
+    /**************************************************************************/
+
     public MacroscopeDisplayRobots ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
@@ -43,10 +48,10 @@ namespace SEOMacroscope
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -65,7 +70,7 @@ namespace SEOMacroscope
 
     protected override void ConfigureListView ()
     {
-      if( !this.ListViewConfigured )
+      if ( !this.ListViewConfigured )
       {
         this.ListViewConfigured = true;
       }
@@ -75,10 +80,10 @@ namespace SEOMacroscope
 
     public void RefreshData ( MacroscopeJobMaster JobMaster )
     {
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -105,21 +110,21 @@ namespace SEOMacroscope
     public void RenderListView ( MacroscopeJobMaster JobMaster )
     {
 
-      Dictionary<String,bool> Blocked = JobMaster.GetBlockedByRobotsList();
+      Dictionary<String, bool> Blocked = JobMaster.GetBlockedByRobotsList();
 
-      if( Blocked.Count == 0 )
+      if ( Blocked.Count == 0 )
       {
         return;
       }
-           
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
-      
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( 1 );
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal ) Blocked.Count;
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      decimal TotalDocs = (decimal) Blocked.Count;
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
 
         ProgressForm.UpdatePercentages(
@@ -127,11 +132,11 @@ namespace SEOMacroscope
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );  
+        );
 
       }
-            
-      foreach( string Url in Blocked.Keys )
+
+      foreach ( string Url in Blocked.Keys )
       {
 
         bool IsInternal = JobMaster.GetAllowedHosts().IsInternalUrl( Url );
@@ -139,13 +144,13 @@ namespace SEOMacroscope
         this.RenderListView(
           ListViewItems: ListViewItems,
           Url: Url,
-          IsBlocked: Blocked[ Url ], 
+          IsBlocked: Blocked[ Url ],
           IsInternal: IsInternal
         );
-        
+
         Count++;
-        MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+        MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
         ProgressForm.UpdatePercentages(
           Title: null,
           Message: null,
@@ -154,14 +159,14 @@ namespace SEOMacroscope
         );
 
       }
-     
+
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-            
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-      
+
       ProgressForm.Dispose();
 
     }
@@ -179,24 +184,24 @@ namespace SEOMacroscope
       string PairKey = string.Join( "", Url );
       string Blocked = "";
       ListViewItem lvItem = null;
-      
-      if( IsBlocked )
+
+      if ( IsBlocked )
       {
         Blocked = "BLOCKED";
       }
 
-      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
+      if ( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
         try
         {
 
           lvItem = this.DisplayListView.Items[ PairKey ];
-          lvItem.SubItems[ 0 ].Text = Url;
-          lvItem.SubItems[ 1 ].Text = Blocked;
+          lvItem.SubItems[ COL_URL ].Text = Url;
+          lvItem.SubItems[ COL_BLOCKED ].Text = Blocked;
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "MacroscopeDisplayRobots 1: {0}", ex.Message ) );
         }
@@ -208,43 +213,43 @@ namespace SEOMacroscope
         try
         {
 
-          lvItem = new ListViewItem ( PairKey );
+          lvItem = new ListViewItem( PairKey );
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = PairKey;
 
-          lvItem.SubItems[ 0 ].Text = Url;
+          lvItem.SubItems[ COL_URL ].Text = Url;
           lvItem.SubItems.Add( Blocked );
 
           ListViewItems.Add( lvItem );
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "MacroscopeDisplayRobots 2: {0}", ex.Message ) );
         }
 
       }
 
-      if( lvItem != null )
+      if ( lvItem != null )
       {
 
         lvItem.UseItemStyleForSubItems = false;
         lvItem.ForeColor = Color.Blue;
 
-        if( IsInternal )
+        if ( IsInternal )
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.Green;
-          lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-          if( IsBlocked )
+          lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
+          lvItem.SubItems[ COL_BLOCKED ].ForeColor = Color.Green;
+          if ( IsBlocked )
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Red;
-            lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+            lvItem.SubItems[ COL_URL ].ForeColor = Color.Red;
+            lvItem.SubItems[ COL_BLOCKED ].ForeColor = Color.Red;
           }
         }
         else
         {
-          lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
-          lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+          lvItem.SubItems[ COL_URL ].ForeColor = Color.Gray;
+          lvItem.SubItems[ COL_BLOCKED ].ForeColor = Color.Gray;
         }
 
       }
@@ -261,7 +266,7 @@ namespace SEOMacroscope
     )
     {
     }
-    
+
     /**************************************************************************/
 
     protected override void RenderUrlCount ()

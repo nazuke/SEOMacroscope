@@ -36,13 +36,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private const int ColUrl = 0;
-    private const int ColPageLanguage = 1;
-    private const int ColDetectedLanguage = 2;
-    private const int ColOccurences = 3;
-    private const int ColTitleText = 4;
-    private const int ColLength = 5;
-    private const int ColPixelWidth = 6;
+    private const int COL_URL = 0;
+    private const int COL_PAGE_LANGUAGE = 1;
+    private const int COL_DETECTED_LANGUAGE = 2;
+    private const int COL_OCCURENCES = 3;
+    private const int COL_TITLE_TEXT = 4;
+    private const int COL_LENGTH = 5;
+    private const int COL_PIXEL_WIDTH = 6;
     
     /**************************************************************************/
 
@@ -155,13 +155,13 @@ namespace SEOMacroscope
 
             lvItem = this.DisplayListView.Items[ PairKey ];
             
-            lvItem.SubItems[ ColUrl ].Text = Url;
-            lvItem.SubItems[ ColPageLanguage ].Text = PageLanguage;
-            lvItem.SubItems[ ColDetectedLanguage ].Text = DetectedLanguage;
-            lvItem.SubItems[ ColOccurences ].Text = TextOccurences.ToString();
-            lvItem.SubItems[ ColTitleText ].Text = TextLabel;
-            lvItem.SubItems[ ColLength ].Text = TextLength.ToString();
-            lvItem.SubItems[ ColPixelWidth ].Text = TextPixelWidth.ToString();
+            lvItem.SubItems[ COL_URL ].Text = Url;
+            lvItem.SubItems[ COL_PAGE_LANGUAGE ].Text = PageLanguage;
+            lvItem.SubItems[ COL_DETECTED_LANGUAGE ].Text = DetectedLanguage;
+            lvItem.SubItems[ COL_OCCURENCES ].Text = TextOccurences.ToString();
+            lvItem.SubItems[ COL_TITLE_TEXT ].Text = TextLabel;
+            lvItem.SubItems[ COL_LENGTH ].Text = TextLength.ToString();
+            lvItem.SubItems[ COL_PIXEL_WIDTH ].Text = TextPixelWidth.ToString();
             
           }
           catch( Exception ex )
@@ -180,7 +180,7 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
-            lvItem.SubItems[ ColUrl ].Text = Url;
+            lvItem.SubItems[ COL_URL ].Text = Url;
             lvItem.SubItems.Add( PageLanguage );     
             lvItem.SubItems.Add( DetectedLanguage );     
             lvItem.SubItems.Add( TextOccurences.ToString() );
@@ -207,11 +207,11 @@ namespace SEOMacroscope
           
           if( msDoc.GetIsInternal() )
           {
-            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
+            lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
           }
           else
           {
-            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
+            lvItem.SubItems[ COL_URL ].ForeColor = Color.Gray;
           }
 
           // Title Language --------------------------------------------------//
@@ -219,79 +219,79 @@ namespace SEOMacroscope
           if( msDoc.GetIsInternal() )
           {
 
-            lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Green;
-            lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Green;
+            lvItem.SubItems[ COL_PAGE_LANGUAGE ].ForeColor = Color.Green;
+            lvItem.SubItems[ COL_DETECTED_LANGUAGE ].ForeColor = Color.Green;
             
             if( DetectedLanguage != PageLanguage )
             {
-              lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Red;
-              lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Red;
+              lvItem.SubItems[ COL_PAGE_LANGUAGE ].ForeColor = Color.Red;
+              lvItem.SubItems[ COL_DETECTED_LANGUAGE ].ForeColor = Color.Red;
             }
 
           }
           else
           {
-            lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Gray;
-            lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Gray;
+            lvItem.SubItems[ COL_PAGE_LANGUAGE ].ForeColor = Color.Gray;
+            lvItem.SubItems[ COL_DETECTED_LANGUAGE ].ForeColor = Color.Gray;
           }
 
           // Check Missing Title ---------------------------------------------//
 
           if( TextLength <= 0 )
           {
-            lvItem.SubItems[ ColTitleText ].Text = "MISSING";
-            lvItem.SubItems[ ColTitleText ].ForeColor = Color.Red;
+            lvItem.SubItems[ COL_TITLE_TEXT ].Text = "MISSING";
+            lvItem.SubItems[ COL_TITLE_TEXT ].ForeColor = Color.Red;
           }
           else
           if( TextLength < MacroscopePreferencesManager.GetTitleMinLen() )
           {
-            lvItem.SubItems[ ColTitleText ].ForeColor = Color.Red;
+            lvItem.SubItems[ COL_TITLE_TEXT ].ForeColor = Color.Red;
           }
           else
           if( TextLength > MacroscopePreferencesManager.GetTitleMaxLen() )
           {
-            lvItem.SubItems[ ColTitleText ].ForeColor = Color.Red;
+            lvItem.SubItems[ COL_TITLE_TEXT ].ForeColor = Color.Red;
           }
           else
           {
-            lvItem.SubItems[ ColTitleText ].ForeColor = Color.Green;
+            lvItem.SubItems[ COL_TITLE_TEXT ].ForeColor = Color.Green;
           }
 
           // Check Title Length ----------------------------------------------//
 
           if( TextLength < MacroscopePreferencesManager.GetTitleMinLen() )
           {
-            lvItem.SubItems[ ColLength ].ForeColor = Color.Red;
+            lvItem.SubItems[ COL_LENGTH ].ForeColor = Color.Red;
           }
           else
           if( TextLength > MacroscopePreferencesManager.GetTitleMaxLen() )
           {
-            lvItem.SubItems[ ColLength ].ForeColor = Color.Red;
+            lvItem.SubItems[ COL_LENGTH ].ForeColor = Color.Red;
           }
           else
           {
-            lvItem.SubItems[ ColLength ].ForeColor = Color.Green;
+            lvItem.SubItems[ COL_LENGTH ].ForeColor = Color.Green;
           }
 
           // Check Pixel Width -----------------------------------------------//
 
           if( TextPixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
           {
-            lvItem.SubItems[ ColPixelWidth ].ForeColor = Color.Red;
+            lvItem.SubItems[ COL_PIXEL_WIDTH ].ForeColor = Color.Red;
           }
           else
           if( TextPixelWidth >= ( MacroscopePreferencesManager.GetTitleMaxPixelWidth() - 20 ) )
           {
-            lvItem.SubItems[ ColPixelWidth ].ForeColor = Color.Goldenrod;
+            lvItem.SubItems[ COL_PIXEL_WIDTH ].ForeColor = Color.Goldenrod;
           }
           else
           if( TextPixelWidth <= 0 )
           {
-            lvItem.SubItems[ ColPixelWidth ].ForeColor = Color.Orange;
+            lvItem.SubItems[ COL_PIXEL_WIDTH ].ForeColor = Color.Orange;
           }
           else
           {
-            lvItem.SubItems[ ColPixelWidth ].ForeColor = Color.Green;
+            lvItem.SubItems[ COL_PIXEL_WIDTH ].ForeColor = Color.Green;
           }
 
         }

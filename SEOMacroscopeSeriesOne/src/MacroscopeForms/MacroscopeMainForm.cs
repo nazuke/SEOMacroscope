@@ -60,6 +60,7 @@ namespace SEOMacroscope
     MacroscopeDisplayRobots msDisplayRobots;
     MacroscopeDisplaySitemaps msDisplaySitemaps;
     MacroscopeDisplaySitemapErrors msDisplaySitemapErrors;
+    MacroscopeDisplaySitemapsAudit msDisplaySitemapsAudit;
 
     MacroscopeDisplayCanonical msDisplayCanonical;
     MacroscopeDisplayHrefLang msDisplayHrefLang;
@@ -188,7 +189,7 @@ namespace SEOMacroscope
       this.SetUrl( MacroscopePreferencesManager.GetStartUrl() );
 
       #if DEBUG
-      this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "seomacroscope_scan_url" );
+      this.textBoxStartUrl.Text = Environment.GetEnvironmentVariable( "SEOMACROSCOPE_TESTING_STARTURL" );
       #endif
 
       this.LockerSiteStructureDisplay = new object ();
@@ -325,6 +326,7 @@ namespace SEOMacroscope
 
       this.msDisplaySitemaps = new MacroscopeDisplaySitemaps ( this, this.macroscopeOverviewTabPanelInstance.listViewSitemaps );
       this.msDisplaySitemapErrors = new MacroscopeDisplaySitemapErrors( this, this.macroscopeOverviewTabPanelInstance.listViewSitemapErrors );
+      this.msDisplaySitemapsAudit = new MacroscopeDisplaySitemapsAudit( this, this.macroscopeOverviewTabPanelInstance.listViewSitemapsAudit );
 
       this.msDisplayCanonical = new MacroscopeDisplayCanonical ( this, this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis );
       this.msDisplayHrefLang = new MacroscopeDisplayHrefLang ( this, this.macroscopeOverviewTabPanelInstance.listViewHrefLang );
@@ -404,6 +406,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.treeViewHierarchy.NodeMouseClick += this.CallbackHierarchyNodeMouseClick;
       this.macroscopeOverviewTabPanelInstance.listViewRobots.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewSitemaps.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewSitemapsAudit.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewHrefLang.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewErrors.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -958,16 +961,16 @@ namespace SEOMacroscope
     private void CallbackTabControlDisplaySelectedIndexChanged ( Object sender, EventArgs e )
     {
 
-      if( Monitor.TryEnter( LockerOverviewTabPages, 250 ) )
+      if ( Monitor.TryEnter( LockerOverviewTabPages, 250 ) )
       {
-       
+
         try
         {
           TabControl tcDisplay = this.macroscopeOverviewTabPanelInstance.tabControlMain;
           string TabPageName = tcDisplay.TabPages[ tcDisplay.SelectedIndex ].Name;
-          this.UpdateTabPage( TabPageName );
+          this.UpdateTabPage( TabName: TabPageName );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "CallbackTabControlDisplaySelectedIndexChanged: {0}", ex.Message ) );
         }
@@ -1149,6 +1152,10 @@ namespace SEOMacroscope
 
         case MacroscopeConstants.tabPageSitemapErrors:
           this.msDisplaySitemapErrors.RefreshDataSitemapErrors( DocCollection: this.JobMaster.GetDocCollection() );
+          break;
+
+        case MacroscopeConstants.tabPageSitemapsAudit:
+          this.msDisplaySitemapsAudit.RefreshDataSitemapsAudit( DocCollection: this.JobMaster.GetDocCollection() );
           break;
 
         case MacroscopeConstants.tabPageCanonicalAnalysis:
@@ -1379,7 +1386,15 @@ namespace SEOMacroscope
         case MacroscopeConstants.tabPageSitemaps:
           CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewSitemaps;
           break;
-          
+
+        case MacroscopeConstants.tabPageSitemapErrors:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewSitemapErrors;
+          break;
+
+        case MacroscopeConstants.tabPageSitemapsAudit:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewSitemapsAudit;
+          break;
+
         case MacroscopeConstants.tabPageCanonicalAnalysis:
           CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewCanonicalAnalysis;
           break;
@@ -2084,7 +2099,8 @@ namespace SEOMacroscope
       this.msDisplayRobots.ClearData();
       this.msDisplaySitemaps.ClearData();
       this.msDisplaySitemapErrors.ClearData();
-
+      this.msDisplaySitemapsAudit.ClearData();
+      
       this.msDisplayCanonical.ClearData();
       this.msDisplayHrefLang.ClearData();
       
