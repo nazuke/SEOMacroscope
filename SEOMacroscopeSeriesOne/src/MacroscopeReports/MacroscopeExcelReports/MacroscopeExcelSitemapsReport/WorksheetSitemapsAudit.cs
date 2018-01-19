@@ -82,7 +82,6 @@ namespace SEOMacroscope
         string Url = null;
         string Robots = null;
         string SitemapUrl = null;
-        string PairKey = null;
         int StatusCode;
 
         if ( !msDoc.GetIsHtml() )
