@@ -44,14 +44,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ConfigurePdfPageRequestHeadersCallback ( HttpRequestMessage Request )
+    private void ConfigurePdfPageRequestHeadersCallback(HttpRequestMessage Request)
     {
-      this.AuthenticateRequest( Request: Request );
+      this.AuthenticateRequest(Request: Request);
     }
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task ProcessPdfPage ()
+    private async Task ProcessPdfPage()
     {
 
       Stopwatch TimeDuration = new Stopwatch();
@@ -63,15 +63,15 @@ namespace SEOMacroscope
       {
         await this._ProcessPdfPage();
       }
-      catch ( Exception ex )
+      catch (Exception ex)
       {
-        this.DebugMsg( string.Format( "ProcessPdfPage: {0}", ex.Message ) );
+        this.DebugMsg(string.Format("ProcessPdfPage: {0}", ex.Message));
       }
 
       TimeDuration.Stop();
       FinalDuration = TimeDuration.ElapsedMilliseconds;
 
-      if ( FinalDuration > 0 )
+      if (FinalDuration > 0)
       {
         this.Duration = FinalDuration;
       }
@@ -84,7 +84,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task _ProcessPdfPage ()
+    private async Task _ProcessPdfPage()
     {
 
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
@@ -102,35 +102,35 @@ namespace SEOMacroscope
         );
 
       }
-      catch ( MacroscopeDocumentException ex )
+      catch (MacroscopeDocumentException ex)
       {
-        this.DebugMsg( string.Format( "_ProcessPdfPage :: MacroscopeDocumentException: {0}", ex.Message ) );
+        this.DebugMsg(string.Format("_ProcessPdfPage :: MacroscopeDocumentException: {0}", ex.Message));
         ResponseErrorCondition = ex.Message;
-        this.AddRemark( ex.Message );
+        this.AddRemark(ex.Message);
       }
-      catch ( Exception ex )
+      catch (Exception ex)
       {
-        this.DebugMsg( string.Format( "_ProcessPdfPage :: Exception: {0}", ex.Message ) );
+        this.DebugMsg(string.Format("_ProcessPdfPage :: Exception: {0}", ex.Message));
         ResponseErrorCondition = ex.Message;
-        this.AddRemark( ex.Message );
+        this.AddRemark(ex.Message);
       }
 
-      if ( ClientResponse != null )
+      if (ClientResponse != null)
       {
 
         MacroscopePdfTools pdfTools;
 
-        this.ProcessResponseHttpHeaders( Response: ClientResponse );
+        this.ProcessResponseHttpHeaders(Response: ClientResponse);
 
         { // Probe Locale
           //this.Locale = "en"; // Implement locale probing
           this.Locale = "x-default"; // Implement locale probing
-          this.SetHreflang( HrefLangLocale: this.Locale, Url: this.DocUrl );
+          this.SetHreflang(HrefLangLocale: this.Locale, Url: this.DocUrl);
         }
 
         { // Canonical
           this.Canonical = this.DocUrl;
-          DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
+          DebugMsg(string.Format("CANONICAL: {0}", this.Canonical));
         }
 
         /** Get Response Body ---------------------------------------------- **/
@@ -139,53 +139,54 @@ namespace SEOMacroscope
         {
 
           byte[] RawData = ClientResponse.GetContentAsBytes();
-          this.SetContentLength( Length: RawData.Length );
+          this.SetContentLength(Length: RawData.Length);
 
-          pdfTools = new MacroscopePdfTools( RawData );
+          pdfTools = new MacroscopePdfTools(PdfData: RawData);
 
-          if ( pdfTools.GetHasError() )
+          if (pdfTools.GetHasError())
           {
-            this.AddRemark( Observation: pdfTools.GetErrorMessage() );
+            this.AddRemark(Observation: pdfTools.GetErrorMessage());
           }
 
-          this.SetWasDownloaded( true );
+          this.SetWasDownloaded(true);
 
         }
-        catch ( Exception ex )
+        catch (Exception ex)
         {
 
-          DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-          this.SetStatusCode( HttpStatusCode.BadRequest );
+          DebugMsg(string.Format("Exception: {0}", ex.Message));
+          this.SetStatusCode(HttpStatusCode.BadRequest);
           pdfTools = null;
-          this.SetContentLength( Length: 0 );
+          this.SetContentLength(Length: 0);
 
         }
 
         /** Title ---------------------------------------------------------- **/
 
+        if (pdfTools != null)
         {
-          if ( pdfTools != null )
+
+          string DocumentTitle = pdfTools.GetTitle();
+
+          if (DocumentTitle != null)
           {
-            string DocumentTitle = pdfTools.GetTitle();
-            if ( DocumentTitle != null )
-            {
-              this.SetTitle( DocumentTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
-              DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
-            }
-            else
-            {
-              DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
-            }
+            this.SetTitle(DocumentTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING);
+            DebugMsg(string.Format("TITLE: {0}", this.GetTitle()));
           }
+          else
+          {
+            DebugMsg(string.Format("TITLE: {0}", "MISSING"));
+          }
+
         }
 
         /** ---------------------------------------------------------------- **/
 
       }
 
-      if ( ResponseErrorCondition != null )
+      if (ResponseErrorCondition != null)
       {
-        this.ProcessErrorCondition( ResponseErrorCondition );
+        this.ProcessErrorCondition(ResponseErrorCondition);
       }
 
     }

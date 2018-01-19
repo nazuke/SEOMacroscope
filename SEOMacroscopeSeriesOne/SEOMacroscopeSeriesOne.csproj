@@ -63,7 +63,7 @@
       <HintPath>..\packages\ClosedXML.0.90.0\lib\net452\ClosedXML.dll</HintPath>
     </Reference>
     <Reference Include="CsvHelper, Version=6.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsvHelper.6.1.0\lib\net45\CsvHelper.dll</HintPath>
+      <HintPath>..\packages\CsvHelper.6.1.1\lib\net45\CsvHelper.dll</HintPath>
     </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.8.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.8.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
@@ -180,6 +180,7 @@
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpImageLoader.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpTwoClient.cs" />
     <Compile Include="src\MacroscopeStandards\Sitemaps\MacroscopeSitemapPaths.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopePdfTools\t\TestMacroscopePdfTools.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Settings.cs" />
@@ -613,7 +614,7 @@
     <Compile Include="src\MacroscopeTools\MacroscopeDateTools.cs" />
     <Compile Include="src\MacroscopeTools\MacroscopeDecimalSorter.cs" />
     <Compile Include="src\MacroscopeTools\MacroscopeLocaleTools.cs" />
-    <Compile Include="src\MacroscopeTools\MacroscopePdfTools.cs" />
+    <Compile Include="src\MacroscopeTools\MacroscopePdfTools\MacroscopePdfTools.cs" />
     <Compile Include="src\MacroscopeTools\MacroscopeStringTools.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpUrlLoader.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpUrlUtils.cs" />
@@ -811,6 +812,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="src\MacroscopeTools\MacroscopePdfTools\t\PdfDocs\MacroscopePdfToolsExample001.pdf" />
     <None Include="version.nsh">
       <DependentUpon>version.tt</DependentUpon>
       <AutoGen>True</AutoGen>

@@ -54,16 +54,16 @@ namespace SEOMacroscope
       try
       {
 
-        using ( MemoryStream ms = new MemoryStream( PdfData ) )
+        using ( MemoryStream MemStream = new MemoryStream( PdfData ) )
         {
-          Pdf = PdfReader.Open( ms, PdfDocumentOpenMode.InformationOnly );
+          Pdf = PdfReader.Open(MemStream, PdfDocumentOpenMode.InformationOnly );
         }
 
       }
       catch ( PdfReaderException ex )
       {
 
-        DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format("PdfReaderException: {0}", ex.Message ) );
         this.HasError = true;
         this.ErrorMessage = ex.Message;
 
@@ -71,7 +71,7 @@ namespace SEOMacroscope
       catch ( PdfSharpException ex )
       {
 
-        DebugMsg( string.Format( "PDF Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format("PdfSharpException: {0}", ex.Message ) );
         this.HasError = true;
         this.ErrorMessage = ex.Message;
 
@@ -79,7 +79,7 @@ namespace SEOMacroscope
       catch ( Exception ex )
       {
 
-        DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
         this.HasError = true;
         this.ErrorMessage = ex.Message;
 
@@ -92,15 +92,15 @@ namespace SEOMacroscope
     public Dictionary<string, string> GetMetadata ()
     {
 
-      Dictionary<string, string> dicMetadata = new Dictionary<string, string>( 32 );
+      Dictionary<string, string> Metadata = new Dictionary<string, string>( 32 );
 
       if ( Pdf != null )
       {
         PdfDocumentInformation pdfInfo = Pdf.Info;
-        dicMetadata.Add( "title", pdfInfo.Title );
+        Metadata.Add( "title", pdfInfo.Title );
       }
 
-      return ( dicMetadata );
+      return (Metadata);
 
     }
 
@@ -137,7 +137,6 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    // TODO: Fix this so that it is HTTP/2 compliant
     public async Task<bool> IsPdfUrl ( MacroscopeJobMaster JobMaster, string Url )
     {
 
