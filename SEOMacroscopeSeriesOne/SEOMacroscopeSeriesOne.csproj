@@ -77,8 +77,8 @@
     <Reference Include="FastMember.Signed, Version=1.0.0.9, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
       <HintPath>..\packages\FastMember.Signed.1.1.0\lib\net40\FastMember.Signed.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.6.13.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.6.13\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.6.15.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.15\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack.CssSelectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.CssSelectors.1.0.2\lib\net45\HtmlAgilityPack.CssSelectors.dll</HintPath>
@@ -151,6 +151,7 @@
     <Compile Include="src\Macroscope.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalysis.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeSitemaps\MacroscopeAnalyzeSitemapUrls.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeInsecureLinks\t\TestMacroscopeInsecureLinks.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\MacroscopeLevenshteinFingerprint.cs" />
     <Compile Include="src\MacroscopeConstants.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
@@ -869,6 +870,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MacroscopeIcon-64x64.ico" />
+    <EmbeddedResource Include="src\MacroscopeAnalysis\MacroscopeInsecureLinks\t\HtmlDocs\MacroscopeInsecureLinks001.html" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

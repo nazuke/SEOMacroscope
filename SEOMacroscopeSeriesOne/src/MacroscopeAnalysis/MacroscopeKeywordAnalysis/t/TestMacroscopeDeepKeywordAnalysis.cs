@@ -56,7 +56,7 @@ namespace SEOMacroscope
 
       foreach( string Term in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS 1: {0} :: {1}", Terms[ Term ], Term ) );
+        this.DebugMsg( string.Format( "TOTALS 1: {0} :: {1}", Terms[ Term ], Term ) );
       }
     }
     
@@ -78,7 +78,7 @@ namespace SEOMacroscope
 
       foreach( string Term in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
+        this.DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
       }
     }
 
@@ -100,7 +100,7 @@ namespace SEOMacroscope
 
       foreach( string Term in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
+        this.DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
       }
     }
 
@@ -122,7 +122,7 @@ namespace SEOMacroscope
 
       foreach( string Term in Terms.Keys )
       {
-        DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
+        this.DebugMsg( string.Format( "TOTALS 2: {0} :: {1}", Terms[ Term ], Term ) );
       }
     }
     

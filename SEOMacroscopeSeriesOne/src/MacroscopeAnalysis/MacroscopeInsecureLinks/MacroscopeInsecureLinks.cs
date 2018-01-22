@@ -59,7 +59,7 @@ namespace SEOMacroscope
           
           if( Regex.IsMatch( Url, "^http://", RegexOptions.IgnoreCase ) )
           {
-            msDoc.AddInsecureLink( Url );
+            msDoc.AddInsecureLink( Url: Url );
           }
           
         }
