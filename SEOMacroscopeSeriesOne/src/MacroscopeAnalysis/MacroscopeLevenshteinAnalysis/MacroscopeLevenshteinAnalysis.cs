@@ -157,7 +157,7 @@ namespace SEOMacroscope
       }
       catch ( MacroscopeInsufficientMemoryException ex )
       {
-        DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
         GC.Collect();
         Thread.Yield();
       }
@@ -195,7 +195,7 @@ namespace SEOMacroscope
           continue;
         }
 
-        if ( !msDocCompare.GetIsHtml() )
+        if ( !this.AllowedDocType( msDoc: msDocCompare ) )
         {
           continue;
         }
@@ -216,12 +216,12 @@ namespace SEOMacroscope
           continue;
         }
 
-        //DebugMsg( string.Format( "msDocOriginal: {0}", this.msDocOriginal.GetUrl() ) );
-        //DebugMsg( string.Format( "this.Fingerprint.Length: {0}", this.Fingerprint.Length ) );
-        //DebugMsg( string.Format( "msDocCompare: {0}", msDocCompare.GetUrl() ) );
-        //DebugMsg( string.Format( "CompareFingerprint.Length: {0}", CompareFingerprint.Length ) );        
+        //this.DebugMsg( string.Format( "msDocOriginal: {0}", this.msDocOriginal.GetUrl() ) );
+        //this.DebugMsg( string.Format( "this.Fingerprint.Length: {0}", this.Fingerprint.Length ) );
+        //this.DebugMsg( string.Format( "msDocCompare: {0}", msDocCompare.GetUrl() ) );
+        //this.DebugMsg( string.Format( "CompareFingerprint.Length: {0}", CompareFingerprint.Length ) );        
 
-        //DebugMsg( string.Format( "this.ComparisonThreshold: {0}", this.ComparisonThreshold ) );        
+        //this.DebugMsg( string.Format( "this.ComparisonThreshold: {0}", this.ComparisonThreshold ) );        
 
         if ( CompareFingerprint.Length > this.Fingerprint.Length )
         {
@@ -322,6 +322,27 @@ namespace SEOMacroscope
     {
       Dictionary<string, bool> CrossCheck = new Dictionary<string, bool>( Capacity );
       return ( CrossCheck );
+    }
+
+    /**************************************************************************/
+
+    public bool AllowedDocType ( MacroscopeDocument msDoc )
+    {
+
+      bool Allowed = false;
+
+      if ( msDoc.GetIsHtml() )
+      {
+        Allowed = true;
+      }
+      else
+      if ( msDoc.GetIsPdf() )
+      {
+        Allowed = true;
+      }
+
+      return ( Allowed );
+
     }
 
     /**************************************************************************/

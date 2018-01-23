@@ -2019,7 +2019,7 @@ namespace SEOMacroscope
       if ( !string.IsNullOrEmpty( Text ) )
       {
 
-        if ( this.GetIsHtml() )
+        if ( this.GetIsHtml() || this.GetIsPdf() )
         {
 
           this.DocumentTextRaw = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
