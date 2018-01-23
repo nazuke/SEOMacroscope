@@ -26,22 +26,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using PdfSharp;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
 
-  public class MacroscopePdfTools : Macroscope
+  public class MacroscopePdfTools : Macroscope, IDisposable
   {
     /**************************************************************************/
 
-    private PdfDocument Pdf;
-    private bool HasError;
-    private string ErrorMessage;
+    private PdfDocument Pdf = null;
+    private bool HasError = false;
+    private string ErrorMessage = null;
 
     /**************************************************************************/
 
@@ -53,38 +52,36 @@ namespace SEOMacroscope
 
       try
       {
-
         using ( MemoryStream MemStream = new MemoryStream( PdfData ) )
         {
-          Pdf = PdfReader.Open(MemStream, PdfDocumentOpenMode.InformationOnly );
+          this.Pdf = new PdfDocument( new PdfReader( MemStream ) );
         }
-
-      }
-      catch ( PdfReaderException ex )
-      {
-
-        this.DebugMsg( string.Format("PdfReaderException: {0}", ex.Message ) );
-        this.HasError = true;
-        this.ErrorMessage = ex.Message;
-
-      }
-      catch ( PdfSharpException ex )
-      {
-
-        this.DebugMsg( string.Format("PdfSharpException: {0}", ex.Message ) );
-        this.HasError = true;
-        this.ErrorMessage = ex.Message;
-
       }
       catch ( Exception ex )
       {
-
         this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
         this.HasError = true;
         this.ErrorMessage = ex.Message;
-
       }
 
+    }
+
+    /** Self Destruct Sequence ************************************************/
+
+    public void Dispose ()
+    {
+      Dispose( true );
+    }
+
+    protected virtual void Dispose ( bool disposing )
+    {
+      if ( this.Pdf != null )
+      {
+        if ( !this.Pdf.IsClosed() )
+        {
+          this.Pdf.Close();
+        }
+      }
     }
 
     /**************************************************************************/
@@ -94,13 +91,14 @@ namespace SEOMacroscope
 
       Dictionary<string, string> Metadata = new Dictionary<string, string>( 32 );
 
-      if ( Pdf != null )
+      if ( this.Pdf != null )
       {
-        PdfDocumentInformation pdfInfo = Pdf.Info;
-        Metadata.Add( "title", pdfInfo.Title );
+        PdfDocumentInfo pdfInfo = this.Pdf.GetDocumentInfo();
+        Metadata.Add( "title", pdfInfo.GetTitle() );
+        Metadata.Add( "description", pdfInfo.GetSubject() );
       }
 
-      return (Metadata);
+      return ( Metadata );
 
     }
 
@@ -109,15 +107,60 @@ namespace SEOMacroscope
     public string GetTitle ()
     {
 
-      Dictionary<string, string> dicMetadata = this.GetMetadata();
-      string Title = "";
+      Dictionary<string, string> Metadata = this.GetMetadata();
+      string Text = null;
 
-      if ( dicMetadata.ContainsKey( "title" ) )
+      if ( Metadata.ContainsKey( "title" ) )
       {
-        Title = dicMetadata[ "title" ];
+        Text = Metadata[ "title" ];
       }
 
-      return ( Title );
+      return ( Text );
+
+    }
+
+    /**************************************************************************/
+
+    public string GetDescription ()
+    {
+
+      Dictionary<string, string> Metadata = this.GetMetadata();
+      string Text = null;
+
+      if ( Metadata.ContainsKey( "description" ) )
+      {
+        Text = Metadata[ "description" ];
+      }
+
+      return ( Text );
+
+    }
+
+
+    /**************************************************************************/
+
+    public string GetTextAsString ()
+    {
+      List<string> Texts = this.GetTextAsList();
+      string Text = string.Join( Environment.NewLine, Texts );
+      return ( Text );
+    }
+
+    /**************************************************************************/
+
+    public List<string> GetTextAsList ()
+    {
+
+      List<string> Texts = new List<string>( this.Pdf.GetNumberOfPages() );
+
+      for ( int i = 1 ; i <= this.Pdf.GetNumberOfPages() ; i++ )
+      {
+        PdfPage Page = this.Pdf.GetPage( i );
+        string PageText = PdfTextExtractor.GetTextFromPage( Page );
+        Texts.Add( PageText );
+      }
+
+      return ( Texts );
 
     }
 
@@ -142,7 +185,7 @@ namespace SEOMacroscope
 
       bool Result = false;
       Uri TargetUri = new Uri( Url );
-      string MimeType = await MacroscopeHttpUrlUtils.GetMimeTypeOfUrl( JobMaster: JobMaster,TargetUri: TargetUri );
+      string MimeType = await MacroscopeHttpUrlUtils.GetMimeTypeOfUrl( JobMaster: JobMaster, TargetUri: TargetUri );
 
       if ( !string.IsNullOrEmpty( MimeType ) )
       {

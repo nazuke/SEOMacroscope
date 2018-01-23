@@ -40,30 +40,37 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Dictionary<string, string> PdfDocs;
+    private Dictionary<string, byte[]> PdfDocsData;
+    private Dictionary<string, string> PdfDocsTitle;
+    private Dictionary<string, string> PdfDocsDescription;
 
     /**************************************************************************/
 
-    public TestMacroscopePdfTools()
+    public TestMacroscopePdfTools ()
     {
 
-      StreamReader Reader;
-      List<string> DocKeys = new List<string>(16);
+      Dictionary<string, string> TestDocuments = new Dictionary<string, string>( 16 );
+      this.PdfDocsData = new Dictionary<string, byte[]>( 16 );
+      this.PdfDocsTitle = new Dictionary<string, string>( 16 );
 
-      DocKeys.Add("SEOMacroscope.src.MacroscopeTools.MacroscopePdfTools.t.PdfDocs.MacroscopePdfToolsExample001.pdf");
+      TestDocuments.Add(
+        "SEOMacroscope.src.MacroscopeTools.MacroscopePdfTools.t.PdfDocs.MacroscopePdfToolsExample001.pdf",
+        "New Rich Text Document.rtf"
+      );
 
-      this.PdfDocs = new Dictionary<string, string>(16);
-
-      foreach (string Filename in DocKeys)
+      foreach ( string Filename in TestDocuments.Keys )
       {
 
-    
+        Stream Reader = Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename );
+        byte[] PdfData = new byte[ Reader.Length ];
 
-        Reader = new StreamReader(
-          stream: Assembly.GetExecutingAssembly().GetManifestResourceStream(Filename)
-        );
+        for ( int i = 0 ; i < Reader.Length ; i++ )
+        {
+          PdfData[ i ] = (byte) Reader.ReadByte();
+        }
 
-        this.PdfDocs.Add(Filename, Reader.ReadToEnd());
+        this.PdfDocsData.Add( Filename, PdfData );
+        this.PdfDocsTitle.Add( Filename, TestDocuments[ Filename ] );
 
         Reader.Close();
 
@@ -76,23 +83,59 @@ namespace SEOMacroscope
     [Test]
     public void TestLoadPdf ()
     {
-
-      foreach (string Filename in this.PdfDocs.Keys)
+      foreach ( string Filename in this.PdfDocsData.Keys )
       {
-
-        /*
-        MacroscopePdfTools PdfTools = new MacroscopePdfTools(PdfData: this.PdfDocs[Filename]);
-
-        Assert.IsFalse(PdfTools.GetHasError());
-        */
-
-
-
+        MacroscopePdfTools PdfTools = new MacroscopePdfTools( PdfData: this.PdfDocsData[ Filename ] );
+        Assert.IsFalse( PdfTools.GetHasError() );
       }
+    }
 
+    /**************************************************************************/
 
+    [Test]
+    public void TestPdfTitle ()
+    {
+      foreach ( string Filename in this.PdfDocsData.Keys )
+      {
+        MacroscopePdfTools PdfTools = new MacroscopePdfTools( PdfData: this.PdfDocsData[ Filename ] );
+        Assert.AreEqual( this.PdfDocsTitle[ Filename ], PdfTools.GetTitle() );
+      }
+    }
 
+    /**************************************************************************/
 
+    [Test]
+    public void TestPdfDescription ()
+    {
+      foreach ( string Filename in this.PdfDocsData.Keys )
+      {
+        MacroscopePdfTools PdfTools = new MacroscopePdfTools( PdfData: this.PdfDocsData[ Filename ] );
+        //Assert.AreEqual( this.PdfDocsDescription[ Filename ], PdfTools.GetDescription() );
+      }
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestPdfTextAsList ()
+    {
+      foreach ( string Filename in this.PdfDocsData.Keys )
+      {
+        MacroscopePdfTools PdfTools = new MacroscopePdfTools( PdfData: this.PdfDocsData[ Filename ] );
+        Assert.Greater( PdfTools.GetTextAsList().Count, 0 );
+      }
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestPdfTextAsString ()
+    {
+      foreach ( string Filename in this.PdfDocsData.Keys )
+      {
+        MacroscopePdfTools PdfTools = new MacroscopePdfTools( PdfData: this.PdfDocsData[ Filename ] );
+        Assert.Greater( PdfTools.GetTextAsString().Length, 0 );
+      }
     }
 
     /**************************************************************************/

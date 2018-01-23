@@ -1693,6 +1693,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetTitle ()
     {
       string TitleValue;
@@ -1707,15 +1709,21 @@ namespace SEOMacroscope
       return ( TitleValue );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public int GetTitleLength ()
     {
       return ( this.Title.Length );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void SetTitlePixelWidth ( int Width )
     {
       this.TitlePixelWidth = Width;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int GetTitlePixelWidth ()
     {
@@ -1732,12 +1740,47 @@ namespace SEOMacroscope
       }
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetTitleLanguage ()
     {
       return ( this.TitleLanguage );
     }
 
     /** Description ***********************************************************/
+
+    public void SetDescription (
+      string DescriptionText,
+      MacroscopeConstants.TextProcessingMode ProcessingMode
+    )
+    {
+
+      string Value = DescriptionText;
+
+      if ( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
+      {
+
+        try
+        {
+          Value = HtmlEntity.DeEntitize( DescriptionText );
+        }
+        catch ( Exception ex )
+        {
+          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", DescriptionText ) );
+          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
+        }
+
+      }
+
+      Value = Regex.Replace( Value, @"[\s]+", " ", RegexOptions.Singleline );
+      Value = Value.Trim();
+
+      this.Description = Value;
+
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetDescription ()
     {
@@ -1752,6 +1795,8 @@ namespace SEOMacroscope
       }
       return ( DescriptionValue );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int GetDescriptionLength ()
     {
