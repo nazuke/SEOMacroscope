@@ -133,7 +133,7 @@ namespace SEOMacroscope
         try
         {
 
-          DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
+          this.DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
 
           /*
           Encoding UseEncoding = Encoding.UTF8;
@@ -158,7 +158,7 @@ namespace SEOMacroscope
         catch ( Exception ex )
         {
 
-          DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
 
           this.SetStatusCode( HttpStatusCode.Ambiguous );
 
@@ -267,7 +267,7 @@ namespace SEOMacroscope
             }
             catch ( Exception ex )
             {
-              DebugMsg( string.Format( ex.Message ) );
+              this.DebugMsg( string.Format( ex.Message ) );
               this.SetCharacterSet( "" );
             }
           }
@@ -279,11 +279,11 @@ namespace SEOMacroscope
             if ( TitleNode != null )
             {
               this.SetTitle( TitleNode.InnerText, MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES );
-              DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
+              this.DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
             }
             else
             {
-              DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
+              this.DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
             }
 
           }
@@ -293,12 +293,12 @@ namespace SEOMacroscope
             if ( nNode != null )
             {
               this.Description = nNode.GetAttributeValue( "content", null );
-              DebugMsg( string.Format( "DESCRIPTION: {0}", this.Description ) );
+              this.DebugMsg( string.Format( "DESCRIPTION: {0}", this.Description ) );
             }
             else
             {
               this.Description = null;
-              DebugMsg( string.Format( "DESCRIPTION: {0}", "MISSING" ) );
+              this.DebugMsg( string.Format( "DESCRIPTION: {0}", "MISSING" ) );
             }
           }
 
@@ -307,12 +307,12 @@ namespace SEOMacroscope
             if ( nNode != null )
             {
               this.Keywords = nNode.GetAttributeValue( "content", null );
-              DebugMsg( string.Format( "KEYWORDS: {0}", this.Keywords ) );
+              this.DebugMsg( string.Format( "KEYWORDS: {0}", this.Keywords ) );
             }
             else
             {
               this.Keywords = null;
-              DebugMsg( string.Format( "KEYWORDS: {0}", "MISSING" ) );
+              this.DebugMsg( string.Format( "KEYWORDS: {0}", "MISSING" ) );
             }
           }
 
@@ -364,7 +364,7 @@ namespace SEOMacroscope
                 if ( ( !string.IsNullOrEmpty( MetaName ) ) && ( !string.IsNullOrEmpty( MetaContent ) ) )
                 {
 
-                  DebugMsg( string.Format( "META: {0} :: {1}", MetaName, MetaContent ) );
+                  this.DebugMsg( string.Format( "META: {0} :: {1}", MetaName, MetaContent ) );
 
                   lock ( this.MetaHeaders )
                   {
@@ -395,7 +395,7 @@ namespace SEOMacroscope
 
               string Text = this.ProcessHtmlDocumentText( HtmlDoc: HtmlDocDocumentText );
 
-              if ( Text != null )
+              if ( !string.IsNullOrEmpty( Text ) )
               {
                 this.SetDocumentText( Text: Text );
               }
@@ -487,7 +487,7 @@ namespace SEOMacroscope
 
         this.SetBaseHref( Url: BaseHrefNode.GetAttributeValue( "href", "" ) );
 
-        DebugMsg( string.Format( "BASE HREF: {0}", this.BaseHref ) );
+        this.DebugMsg( string.Format( "BASE HREF: {0}", this.BaseHref ) );
 
       }
       else
@@ -495,7 +495,7 @@ namespace SEOMacroscope
 
         this.UnsetBaseHref();
 
-        DebugMsg( string.Format( "BASE HREF: {0}", "MISSING" ) );
+        this.DebugMsg( string.Format( "BASE HREF: {0}", "MISSING" ) );
 
       }
 
@@ -513,7 +513,7 @@ namespace SEOMacroscope
 
         this.Canonical = CanonicalNode.GetAttributeValue( "href", "" );
 
-        DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
+        this.DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
 
         if ( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
         {
@@ -545,7 +545,7 @@ namespace SEOMacroscope
       {
 
         this.Canonical = "";
-        DebugMsg( string.Format( "CANONICAL: {0}", "MISSING" ) );
+        this.DebugMsg( string.Format( "CANONICAL: {0}", "MISSING" ) );
 
       }
 
@@ -569,7 +569,7 @@ namespace SEOMacroscope
           string LinkUrlAbsolute = null;
           string LinkTitle = LinkNode.GetAttributeValue( "title", "" );
 
-          DebugMsg( string.Format( "ProcessHtmlHyperlinksOut: {0}", this.GetUrl() ) );
+          this.DebugMsg( string.Format( "ProcessHtmlHyperlinksOut: {0}", this.GetUrl() ) );
 
           if ( LinkUrl != null )
           {
@@ -601,9 +601,9 @@ namespace SEOMacroscope
                 }
                 catch ( Exception ex )
                 {
-                  DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
-                  DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkTitle ) );
-                  DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
+                  this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+                  this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkTitle ) );
+                  this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                 }
 
                 if ( !string.IsNullOrEmpty( LinkTitle ) )
@@ -647,9 +647,9 @@ namespace SEOMacroscope
                   }
                   catch ( Exception ex )
                   {
-                    DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
-                    DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkText ) );
-                    DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
+                    this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+                    this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkText ) );
+                    this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                   }
 
                   if ( !string.IsNullOrEmpty( LinkText ) )
@@ -666,14 +666,14 @@ namespace SEOMacroscope
                 if ( ImageNode != null )
                 {
 
-                  DebugMsg( string.Format( "ImageNode: {0}", this.GetUrl() ) );
-                  DebugMsg( string.Format( "ImageNode: SRC: {0}", ImageNode.GetAttributeValue( "src", "UNKNOWN" ) ) );
-                  DebugMsg( string.Format( "ImageNode: {0}", ImageNode ) );
+                  this.DebugMsg( string.Format( "ImageNode: {0}", this.GetUrl() ) );
+                  this.DebugMsg( string.Format( "ImageNode: SRC: {0}", ImageNode.GetAttributeValue( "src", "UNKNOWN" ) ) );
+                  this.DebugMsg( string.Format( "ImageNode: {0}", ImageNode ) );
 
                   HyperlinkOut.SetHyperlinkType( MacroscopeConstants.HyperlinkType.IMAGE );
                   string LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
 
-                  DebugMsg( string.Format( "ImageNode: LinkAltText: {0}", LinkAltText ) );
+                  this.DebugMsg( string.Format( "ImageNode: LinkAltText: {0}", LinkAltText ) );
 
                   if ( !string.IsNullOrEmpty( LinkAltText ) )
                   {
@@ -684,9 +684,9 @@ namespace SEOMacroscope
                     }
                     catch ( Exception ex )
                     {
-                      DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
-                      DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkAltText ) );
-                      DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
+                      this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+                      this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkAltText ) );
+                      this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                     }
 
                     if ( !string.IsNullOrEmpty( LinkAltText ) )
@@ -748,8 +748,8 @@ namespace SEOMacroscope
 
             LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
 
-            DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF :    LinkUrl : {0}", LinkUrl ) );
-            DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF : LinkUrlAbs : {0}", LinkUrlAbs ) );
+            this.DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF :    LinkUrl : {0}", LinkUrl ) );
+            this.DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF : LinkUrlAbs : {0}", LinkUrlAbs ) );
 
             if ( LinkUrlAbs != null )
             {
@@ -1276,7 +1276,7 @@ namespace SEOMacroscope
         if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", NodeCollection.Count ) );
+          this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", NodeCollection.Count ) );
 
           foreach ( HtmlNode Node in NodeCollection )
           {
@@ -1286,12 +1286,22 @@ namespace SEOMacroscope
             if ( !string.IsNullOrEmpty( CssText ) )
             {
 
-              DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", CssText ) );
+              ExCSS.Parser ExCssParser = null;
+              ExCSS.StyleSheet ExCssStylesheet = null;
 
-              ExCSS.Parser ExCssParser = new ExCSS.Parser();
-              ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssText );
+              this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", CssText ) );
 
-              this.ProcessCssOutlinks( ExCssStylesheet );
+              try
+              {
+                ExCssParser = new ExCSS.Parser();
+                ExCssStylesheet = ExCssParser.Parse( CssText );
+                this.ProcessCssOutlinks( ExCssStylesheet );
+              }
+              catch ( Exception ex )
+              {
+                this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", ex.Message ) );
+                this.AddRemark( ex.Message );
+              }
 
             }
 
@@ -1300,6 +1310,8 @@ namespace SEOMacroscope
         }
 
       }
+
+      return;
 
     }
 
@@ -1316,7 +1328,7 @@ namespace SEOMacroscope
         if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", NodeCollection.Count ) );
+          this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", NodeCollection.Count ) );
 
           foreach ( HtmlNode Node in NodeCollection )
           {
@@ -1326,12 +1338,22 @@ namespace SEOMacroscope
             if ( !string.IsNullOrEmpty( CssText ) )
             {
 
-              DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", CssText ) );
+              ExCSS.Parser ExCssParser = null;
+              ExCSS.StyleSheet ExCssStylesheet = null;
 
-              ExCSS.Parser ExCssParser = new ExCSS.Parser();
-              ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssText );
+              this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", CssText ) );
 
-              this.ProcessCssOutlinks( ExCssStylesheet );
+              try
+              {
+                ExCssParser = new ExCSS.Parser();
+                ExCssStylesheet = ExCssParser.Parse( CssText );
+                this.ProcessCssOutlinks( ExCssStylesheet );
+              }
+              catch ( Exception ex )
+              {
+                this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", ex.Message ) );
+                this.AddRemark( ex.Message );
+              }
 
             }
 
@@ -1340,6 +1362,8 @@ namespace SEOMacroscope
         }
 
       }
+
+      return;
 
     }
 
@@ -1485,7 +1509,7 @@ namespace SEOMacroscope
               HrefLangLocale = this.Locale;
             }
 
-            DebugMsg( string.Format( "HREFLANG: {0}, {1}", HrefLangLocale, Href ) );
+            this.DebugMsg( string.Format( "HREFLANG: {0}, {1}", HrefLangLocale, Href ) );
 
             if ( MacroscopePreferencesManager.GetCheckHreflangs() )
             {
@@ -1553,7 +1577,7 @@ namespace SEOMacroscope
           else
           {
 
-            DebugMsg( string.Format( "AnalyzeHrefLangAlternates: {0}, {1}", DocumentLocale, HrefLangLocale ) );
+            this.DebugMsg( string.Format( "AnalyzeHrefLangAlternates: {0}, {1}", DocumentLocale, HrefLangLocale ) );
 
             if ( HrefLangLocale == DocumentLocale )
             {
@@ -2043,13 +2067,13 @@ namespace SEOMacroscope
       }
       catch ( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
-        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", HtmlUri.ToString() ) );
+        this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", HtmlUri.ToString() ) );
       }
       catch ( Exception ex )
       {
-        DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-        DebugMsg( string.Format( "Exception: {0}", HtmlUri.ToString() ) );
+        this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "Exception: {0}", HtmlUri.ToString() ) );
       }
 
       if ( ( Proceed ) && ( Response != null ) )
@@ -2061,7 +2085,7 @@ namespace SEOMacroscope
         }
         catch ( Exception ex )
         {
-          DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           RawData = "";
         }
 

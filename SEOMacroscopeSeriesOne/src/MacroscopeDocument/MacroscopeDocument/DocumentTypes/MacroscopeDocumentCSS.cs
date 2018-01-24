@@ -154,10 +154,17 @@ namespace SEOMacroscope
         if ( !string.IsNullOrEmpty( RawData ) )
         {
 
-          ExCSS.Parser ExCssParser = new ExCSS.Parser();
-          ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( RawData );
-
-          this.ProcessCssOutlinks( ExCssStylesheet );
+          try
+          {
+            ExCSS.Parser ExCssParser = new ExCSS.Parser();
+            ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( RawData );
+            this.ProcessCssOutlinks( ExCssStylesheet );
+          }
+          catch ( Exception ex )
+          {
+            this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", ex.Message ) );
+            this.AddRemark( ex.Message );
+          }
 
         }
         else

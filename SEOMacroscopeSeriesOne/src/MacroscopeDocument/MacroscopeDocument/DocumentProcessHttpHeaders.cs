@@ -241,9 +241,10 @@ namespace SEOMacroscope
           }
         }
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "MediaType Exception: {0}", ex.Message ) );
+        this.MimeType = MacroscopeConstants.DefaultMimeType;
       }
 
       this.DebugMsg( string.Format( "this.MimeType: {0}", this.MimeType ) );
@@ -251,13 +252,21 @@ namespace SEOMacroscope
       /** Content-Length HTTP Header --------------------------------------- **/
       try
       {
-        long? HeaderValue = ContentHeaders.ContentLength;
-        if( HeaderValue != null )
+        long? HeaderValue = null;
+        if ( ContentHeaders.Contains( "ContentLength" ) )
+        {
+          HeaderValue = ContentHeaders.ContentLength;
+        }
+        if ( HeaderValue != null )
         {
           this.ContentLength = HeaderValue;
         }
+        else
+        {
+          this.ContentLength = 0;
+        }
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
         this.SetContentLength( Length: 0 );
@@ -266,7 +275,7 @@ namespace SEOMacroscope
           this.SetContentLength( Length: long.Parse( HeaderValues.FirstOrDefault() ) );
           return ( true );
         };
-        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback ) )
+        if ( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback ) )
         {
           this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "content-length", Callback: Callback );
         }

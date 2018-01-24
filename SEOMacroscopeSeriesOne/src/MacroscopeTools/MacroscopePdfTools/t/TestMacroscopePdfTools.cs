@@ -42,7 +42,8 @@ namespace SEOMacroscope
 
     private Dictionary<string, byte[]> PdfDocsData;
     private Dictionary<string, string> PdfDocsTitle;
-    private Dictionary<string, string> PdfDocsDescription;
+    // TODO: Add description testing
+    //private Dictionary<string, string> PdfDocsDescription;
 
     /**************************************************************************/
 

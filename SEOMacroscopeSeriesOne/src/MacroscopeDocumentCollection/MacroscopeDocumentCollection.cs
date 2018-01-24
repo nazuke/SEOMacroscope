@@ -1206,24 +1206,20 @@ namespace SEOMacroscope
     private void RecalculateStatsDescriptions ( MacroscopeDocument msDoc )
     {
 
-      bool Process;
+      bool Proceed = false;
       int Value = -1;
 
       if ( msDoc.GetIsHtml() )
       {
-        Process = true;
+        Proceed = true;
       }
       else
       if ( msDoc.GetIsPdf() )
       {
-        Process = true;
-      }
-      else
-      {
-        Process = false;
+        Proceed = true;
       }
 
-      if ( Process )
+      if ( Proceed )
       {
 
         string Text = msDoc.GetDescription();
@@ -1321,6 +1317,11 @@ namespace SEOMacroscope
       }
 
       if ( msDoc.GetIsHtml() )
+      {
+        Proceed = true;
+      }
+      else
+      if ( msDoc.GetIsPdf() )
       {
         Proceed = true;
       }
@@ -2035,7 +2036,12 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( msDoc.GetIsHtml() || msDoc.GetIsPdf() )
+      if ( msDoc.GetIsHtml() )
+      {
+        Proceed = true;
+      }
+      else
+      if ( msDoc.GetIsPdf() )
       {
         Proceed = true;
       }
@@ -2082,7 +2088,12 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( msDoc.GetIsHtml() || msDoc.GetIsPdf() )
+      if ( msDoc.GetIsHtml() )
+      {
+        Proceed = true;
+      }
+      else
+      if ( msDoc.GetIsPdf() )
       {
         Proceed = true;
       }

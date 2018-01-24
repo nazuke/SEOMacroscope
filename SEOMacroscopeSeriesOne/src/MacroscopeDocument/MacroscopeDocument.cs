@@ -2082,10 +2082,14 @@ namespace SEOMacroscope
 
     public void DetectDocumentTextLanguage ()
     {
+
       if ( this.GetIsHtml() || this.GetIsPdf() )
       {
         this.DocumentTextLanguage = this.ProbeTextLanguage( Text: this.DocumentTextCleaned );
       }
+
+      return;
+
     }
 
     /** -------------------------------------------------------------------- **/
