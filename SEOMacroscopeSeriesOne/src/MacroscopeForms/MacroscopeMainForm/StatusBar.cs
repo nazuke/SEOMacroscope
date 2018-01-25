@@ -46,16 +46,16 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-        
+
     private void StopStatusBarTimer ()
     {
-      if( this.TimerStatusBar != null )
+      if ( this.TimerStatusBar != null )
       {
         try
         {
           this.TimerStatusBar.Stop();
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "StopStatusBarTimer: {0}", ex.Message ) );
         }
@@ -63,20 +63,25 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-        
+
     private void CallbackStatusBarTimer ( Object self, ElapsedEventArgs e )
     {
 
-      if( Monitor.TryEnter( LockerTimerStatusBar, 1000 ) )
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
+      if ( Monitor.TryEnter( LockerTimerStatusBar, 1000 ) )
       {
 
         try
         {
 
-          if( this.InvokeRequired )
+          if ( this.InvokeRequired )
           {
             this.Invoke(
-              new MethodInvoker (
+              new MethodInvoker(
                 delegate
                 {
                   this.UpdateStatusBar();
@@ -88,9 +93,9 @@ namespace SEOMacroscope
           {
             this.UpdateStatusBar();
           }
-                         
+
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "CallbackStatusBarTimer: {0}", ex.Message ) );
         }
@@ -100,27 +105,27 @@ namespace SEOMacroscope
         }
 
       }
-      
+
     }
 
     /**************************************************************************/
-        
+
     private void UpdateStatusBar ()
     {
 
-      if( this.JobMaster != null )
+      if ( this.JobMaster != null )
       {
-        
+
         this.TimerStatusBar.Stop();
-                  
+
         this.toolStripThreads.Text = string.Format( "Threads: {0}", this.JobMaster.CountRunningThreads() );
         this.toolStripUrlCount.Text = string.Format( "URLs in Queue: {0}", this.JobMaster.CountUrlQueueItems() );
         this.toolStripFound.Text = string.Format( "URLs Crawled: {0}", this.JobMaster.GetDocCollection().CountDocuments() );
-        
+
         this.TimerStatusBar.Start();
-                  
+
       }
-      
+
     }
 
     /**************************************************************************/

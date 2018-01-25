@@ -1990,6 +1990,8 @@ namespace SEOMacroscope
 
     /** Sniff Charset *********************************************************/
 
+#if DEBUG
+
     private async Task<Encoding> HtmlSniffCharset ()
     {
 
@@ -1999,7 +2001,6 @@ namespace SEOMacroscope
 
       Encoding EncSniffed = Encoding.UTF8;
 
-#if DEBUG
 
       string HtmlData = await this.FetchHtmlFile( HtmlUri: this.GetUri() );
       byte[] HtmlBytes = Encoding.ASCII.GetBytes( HtmlData );
@@ -2032,11 +2033,12 @@ namespace SEOMacroscope
 
       }
 
-#endif
 
       return ( EncSniffed );
 
     }
+
+#endif
 
     /** Fetch HTML File *******************************************************/
 
