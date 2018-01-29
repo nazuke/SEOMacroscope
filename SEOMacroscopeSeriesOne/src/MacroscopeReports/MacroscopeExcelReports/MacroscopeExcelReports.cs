@@ -27,6 +27,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Net;
 using ClosedXML.Excel;
+using ClosedXML.Attributes;
+using ClosedXML.Utils;
 
 namespace SEOMacroscope
 {
@@ -261,7 +263,7 @@ namespace SEOMacroscope
         ws.Cell( Row, Col ).Style.Font.SetFontColor( XLColor.Red );
       }
 
-      this.SetContentCellType( ws, Row, Col, XLCellValues.Text );
+      this.SetContentCellType( ws, Row, Col, XLDataType.Text );
 
     }
 
@@ -277,7 +279,7 @@ namespace SEOMacroscope
 
       ws.Cell( Row, Col ).Value = Value;
 
-      this.SetContentCellType( ws, Row, Col, XLCellValues.Number );
+      this.SetContentCellType( ws, Row, Col, XLDataType.Number );
 
     }
 
@@ -293,7 +295,7 @@ namespace SEOMacroscope
 
       ws.Cell( Row, Col ).Value = Value;
 
-      this.SetContentCellType( ws, Row, Col, XLCellValues.Number );
+      this.SetContentCellType( ws, Row, Col, XLDataType.Number );
 
     }
 
@@ -309,7 +311,7 @@ namespace SEOMacroscope
 
       ws.Cell( Row, Col ).Value = Value;
 
-      this.SetContentCellType( ws, Row, Col, XLCellValues.DateTime );
+      this.SetContentCellType( ws, Row, Col, XLDataType.DateTime );
 
     }
 
@@ -319,7 +321,7 @@ namespace SEOMacroscope
       IXLWorksheet ws,
       int Row,
       int Col,
-      XLCellValues CellType
+      XLDataType CellType
     )
     {
 

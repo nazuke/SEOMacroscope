@@ -46,13 +46,34 @@ namespace SEOMacroscope
 
 #if DEBUG
       this.toolStripButtonRecalculateClickPaths.Visible = true;
-      #else
+#else
       this.toolStripButtonRecalculateClickPaths.Visible = false;
-      #endif
+#endif
     }
-    
+
     /** -------------------------------------------------------------------- **/
-        
+
+    private void ScanningControlsButtonText ()
+    {
+
+      if ( this.IsDisposed )
+      {
+        return;
+      }
+
+      if ( this.GetJobMaster().PeekUrlQueue() )
+      {
+        this.ButtonStart.Text = "Continue";
+      }
+      else
+      {
+        this.ButtonStart.Text = "Start";
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     private void ScanningControlsEnable ()
     {
 
@@ -76,7 +97,7 @@ namespace SEOMacroscope
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
-      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
+      if ( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = true;
       }
@@ -84,18 +105,20 @@ namespace SEOMacroscope
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = false;
       }
-      
+
       this.ReconfigureReportsMenu();
+
+      this.ScanningControlsButtonText();
 
       this.ReconfigureStructureOverviewControls();
       this.SetStructureOverviewControlsToEnabled();
 
       this.ReconfigureSearchCollectionControls();
-      
+
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     private void ScanningControlsStart ()
     {
       if ( this.IsDisposed )
@@ -114,22 +137,24 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = false;
 
       this.ProgressBarScan.Visible = true;
-      
+
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
       this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
       this.ReconfigureReportsMenu();
-      
+
+      this.ScanningControlsButtonText();
+
       this.ReconfigureStructureOverviewControls();
       this.SetStructureOverviewControlsToScanning();
 
       this.ReconfigureSearchCollectionControls();
-      
+
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     private void ScanningControlsStopping ()
     {
 
@@ -149,22 +174,24 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = false;
 
       this.ProgressBarScan.Visible = true;
-      
+
       this.toolStripButtonRetryBrokenLinks.Enabled = false;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
       this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
       this.ReconfigureReportsMenu();
-      
+
+      this.ScanningControlsButtonText();
+
       this.ReconfigureStructureOverviewControls();
       this.SetStructureOverviewControlsToEnabled();
 
       this.ReconfigureSearchCollectionControls();
-            
+
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     private void ScanningControlsStopped ()
     {
 
@@ -184,11 +211,11 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = true;
 
       this.ProgressBarScan.Visible = false;
-      
+
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
 
-      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
+      if ( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = true;
       }
@@ -198,9 +225,11 @@ namespace SEOMacroscope
       }
 
       this.UpdateProgressBarScan( 0 );
-      
+
       this.ReconfigureReportsMenu();
-      
+
+      this.ScanningControlsButtonText();
+
       this.ReconfigureStructureOverviewControls();
       this.SetStructureOverviewControlsToEnabled();
 
@@ -209,7 +238,7 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-        
+
     private void ScanningControlsReset ()
     {
 
@@ -227,13 +256,13 @@ namespace SEOMacroscope
       this.ButtonStart.Enabled = true;
       this.ButtonStop.Enabled = false;
       this.ButtonReset.Enabled = false;
-      
+
       this.ProgressBarScan.Visible = false;
 
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
-      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
+      if ( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = true;
       }
@@ -243,14 +272,16 @@ namespace SEOMacroscope
       }
 
       this.UpdateProgressBarScan( 0 );
-      
+
       this.ReconfigureReportsMenu();
-      
+
+      this.ScanningControlsButtonText();
+
       this.ReconfigureStructureOverviewControls();
       this.SetStructureOverviewControlsToEnabled();
 
       this.ReconfigureSearchCollectionControls();
-      
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -274,11 +305,11 @@ namespace SEOMacroscope
       this.ButtonReset.Enabled = true;
 
       this.ProgressBarScan.Visible = false;
-      
+
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
-      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
+      if ( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = true;
       }
@@ -288,7 +319,9 @@ namespace SEOMacroscope
       }
 
       this.ReconfigureReportsMenu();
-      
+
+      this.ScanningControlsButtonText();
+
       this.ReconfigureStructureOverviewControls();
       this.SetStructureOverviewControlsToEnabled();
 

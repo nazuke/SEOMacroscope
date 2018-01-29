@@ -39,7 +39,8 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Dictionary<string, string> CssDocs;
+    private Dictionary<string, string> CssGoodDocs;
+    private Dictionary<string, string> CssBadDocs;
 
     /**************************************************************************/
 
@@ -47,18 +48,31 @@ namespace SEOMacroscope
     {
 
       StreamReader Reader;
-      List<string> CssDocKeys = new List<string>( 16 );
+      List<string> CssGoodDocKeys = new List<string>( 16 );
+      List<string> CssBadDocKeys = new List<string>( 16 );
 
-      this.CssDocs = new Dictionary<string, string>();
+      this.CssGoodDocs = new Dictionary<string, string>();
+      this.CssBadDocs = new Dictionary<string, string>();
 
-      CssDocKeys.Add( "SEOMacroscope.src.MacroscopeDocument.MacroscopeDocument.DocumentTypes.t.CssDocs.TestCssDocument001.css" );
+      CssGoodDocKeys.Add( "SEOMacroscope.src.MacroscopeDocument.MacroscopeDocument.DocumentTypes.t.CssDocs.TestCssDocumentGood001.css" );
 
-      foreach ( string Filename in CssDocKeys )
+      CssBadDocKeys.Add( "SEOMacroscope.src.MacroscopeDocument.MacroscopeDocument.DocumentTypes.t.CssDocs.TestCssDocumentBad001.css" );
+
+      foreach ( string Filename in CssGoodDocKeys )
       {
         Reader = new StreamReader(
          stream: Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
        );
-        this.CssDocs.Add( Filename, Reader.ReadToEnd() );
+        this.CssGoodDocs.Add( Filename, Reader.ReadToEnd() );
+        Reader.Close();
+      }
+
+      foreach ( string Filename in CssBadDocKeys )
+      {
+        Reader = new StreamReader(
+         stream: Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
+       );
+        this.CssBadDocs.Add( Filename, Reader.ReadToEnd() );
         Reader.Close();
       }
 
@@ -70,9 +84,23 @@ namespace SEOMacroscope
     public void TestSimpleCssParsing ()
     {
       ExCSS.Parser ExCssParser = new ExCSS.Parser();
-      foreach ( string Filename in CssDocs.Keys )
+      foreach ( string Filename in CssGoodDocs.Keys )
       {
-        string CssData = CssDocs[ Filename ];
+        string CssData = CssGoodDocs[ Filename ];
+        ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssData );
+        Assert.IsNotNull( ExCssStylesheet, string.Format( "FAIL: {0}", Filename ) );
+      }
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestBadCss ()
+    {
+      ExCSS.Parser ExCssParser = new ExCSS.Parser();
+      foreach ( string Filename in CssBadDocs.Keys )
+      {
+        string CssData = CssBadDocs[ Filename ];
         ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssData );
         Assert.IsNotNull( ExCssStylesheet, string.Format( "FAIL: {0}", Filename ) );
       }
