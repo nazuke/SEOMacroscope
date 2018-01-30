@@ -94,7 +94,7 @@ namespace SEOMacroscope
 			this.Controls.Add(this.richTextBoxLicence);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
+			this.Icon = global::SEOMacroscope.Resources.SEO_Macroscope_Icon_32x32;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MacroscopeLicenceForm";

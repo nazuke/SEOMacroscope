@@ -57,7 +57,7 @@
     <StartupObject>SEOMacroscope.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>MacroscopeIcon-64x64.ico</ApplicationIcon>
+    <ApplicationIcon>SEO_Macroscope_App_Icon_64x64.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
@@ -161,13 +161,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Icons.Designer.cs">
-      <DependentUpon>Icons.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Images.Designer.cs">
-      <DependentUpon>Images.resx</DependentUpon>
+    <Compile Include="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -720,14 +715,9 @@
     <Compile Include="src\MacroscopeUserControls\MacroscopeUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <EmbeddedResource Include="Icons.resx">
+    <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -892,6 +882,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MacroscopeIcon-64x64.ico" />
+    <None Include="Resources\SEO_Macroscope_Icon_16x16.ico" />
+    <None Include="Resources\SEO_Macroscope_Icon_24x24.ico" />
+    <None Include="Resources\SEO_Macroscope_Icon_32x32.ico" />
+    <None Include="Resources\SEO_Macroscope_Icon_48x48.ico" />
+    <None Include="Resources\SEO_Macroscope_Icon_64x64.ico" />
+    <Content Include="SEO_Macroscope_App_Icon_64x64.ico" />
+    <None Include="Resources\seo-macroscope-splash.bmp" />
+    <None Include="Resources\seo-macroscope-banner-welcome.bmp" />
+    <None Include="Resources\seo-macroscope-banner-progress.bmp" />
+    <None Include="Resources\seo-macroscope-banner-licence.bmp" />
+    <None Include="Resources\seo-macroscope-banner-installation.bmp" />
+    <None Include="Resources\seo-macroscope-banner-finished.bmp" />
+    <None Include="Resources\seo-macroscope-banner-confirm.bmp" />
+    <None Include="Resources\SEO_Macroscope_About_Screen.bmp" />
+    <None Include="Resources\SEO_Macroscope_Installer_Banner_0001.bmp" />
+    <None Include="Resources\SEO-Macroscope-Installer-Banner0001.bmp" />
+    <None Include="Resources\SEO-Macroscope-About-Screen.bmp" />
+    <None Include="Resources\SEO-Macroscope-About-Screen.bmp.bmp" />
     <EmbeddedResource Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\t\CssDocs\TestCssDocumentBad001.css" />
     <EmbeddedResource Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\t\CssDocs\TestCssDocumentGood001.css" />
     <EmbeddedResource Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\t\HtmlDocs\TestHtmlDocument001.html" />

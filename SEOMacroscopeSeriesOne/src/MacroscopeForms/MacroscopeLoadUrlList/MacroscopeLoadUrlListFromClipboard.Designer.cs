@@ -152,7 +152,7 @@ namespace SEOMacroscope
       this.ControlBox = false;
       this.Controls.Add(this.tableLayoutPanel1);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-      this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
+      this.Icon = global::SEOMacroscope.Resources.SEO_Macroscope_Icon_32x32;
       this.KeyPreview = true;
       this.MaximizeBox = false;
       this.MinimizeBox = false;

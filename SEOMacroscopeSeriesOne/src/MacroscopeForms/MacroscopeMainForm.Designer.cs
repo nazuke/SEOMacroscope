@@ -1502,7 +1502,7 @@ namespace SEOMacroscope
       this.Controls.Add(this.tableLayoutPanelMainContainer);
       this.Controls.Add(this.menuStripMain);
       this.DoubleBuffered = true;
-      this.Icon = global::SEOMacroscope.Icons.MacroscopeIcon_32x32;
+      this.Icon = global::SEOMacroscope.Resources.SEO_Macroscope_Icon_32x32;
       this.MainMenuStrip = this.menuStripMain;
       this.MinimumSize = new System.Drawing.Size(1024, 758);
       this.Name = "MacroscopeMainForm";
