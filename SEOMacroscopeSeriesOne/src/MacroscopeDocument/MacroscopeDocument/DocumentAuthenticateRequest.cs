@@ -98,7 +98,6 @@ namespace SEOMacroscope
         this.VerifyOrPurgeCredential();
       }
 
-
       return;
 
     }

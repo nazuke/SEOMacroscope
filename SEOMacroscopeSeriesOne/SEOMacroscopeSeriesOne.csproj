@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="src\Macroscope.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeOrphans\MacroscopeAnalyzeOrphanedPages.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeSitemaps\MacroscopeAnalyzeSitemapUrls.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeInsecureLinks\t\TestMacroscopeInsecureLinks.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\MacroscopeLevenshteinFingerprint.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesPresets.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapsAudit.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapErrors.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayOrphanedPages.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\MacroscopeCsvSitemapErrorsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\WorksheetSitemapErrors.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\MacroscopeCsvRobotsReport.cs" />

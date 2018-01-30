@@ -89,6 +89,8 @@ namespace SEOMacroscope
     private Dictionary<string, Dictionary<string, Dictionary<string, string>>> StatsSitemapErrors;
     private List<MacroscopeDocumentList> DocumentsInSitemaps;
 
+    private MacroscopeDocumentList OrphanedDocumentList;
+
     private static object LockerDocCollection = new object();
     private static object LockerRecalc = new object();
 
@@ -751,6 +753,8 @@ namespace SEOMacroscope
             }
 
             this.RecalculateAnalyzeInSitemaps();
+
+            this.RecalculateOrphanedDocumentList();
 
           }
           finally
@@ -2388,13 +2392,9 @@ namespace SEOMacroscope
 
     private void RecalculateAnalyzeInSitemaps ()
     {
-
       MacroscopeAnalyzeSitemapUrls Analyzer = new MacroscopeAnalyzeSitemapUrls();
-
       this.DocumentsInSitemaps = Analyzer.AnalyzeInSitemaps( DocCollection: this );
-
       return;
-
     }
 
     /** -------------------------------------------------------------------- **/
@@ -2412,6 +2412,33 @@ namespace SEOMacroscope
       MacroscopeDocumentList DocumentList = this.DocumentsInSitemaps[ 1 ];
       return ( DocumentList );
     }
+
+    /** Analyze Orphaned Documents in Collection ******************************/
+
+    private void RecalculateOrphanedDocumentList ()
+    {
+      MacroscopeAnalyzeOrphanedPages Analyzer = new MacroscopeAnalyzeOrphanedPages();
+      this.OrphanedDocumentList = Analyzer.AnalyzeOrphanedDocumentsInCollection( DocCollection: this );
+      return;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public MacroscopeDocumentList GetOrphanedDocumentList ()
+    {
+      return ( this.OrphanedDocumentList );
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /** Search Index **********************************************************/
 

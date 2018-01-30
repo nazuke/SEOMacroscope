@@ -83,6 +83,7 @@ namespace SEOMacroscope
     public const string NamedQueueDisplayLinks = "DisplayLinks";
     public const string NamedQueueDisplayHyperlinks = "DisplayHyperlinks";
     public const string NamedQueueDisplayUriAnalysis = "DisplayUriAnalysis";
+    public const string NamedQueueDisplayOrphanedPages = "DisplayOrphanedPages";
     public const string NamedQueueDisplayPageTitles = "DisplayPageTitles";
     public const string NamedQueueDisplayPageDescriptions = "DisplayPageDescriptions";
     public const string NamedQueueDisplayPageKeywords = "DisplayPageKeywords";
@@ -134,6 +135,7 @@ namespace SEOMacroscope
     public const string tabPageLinks = "tabPageLinks";
     public const string tabPageHyperlinks = "tabPageHyperlinks";
     public const string tabPageUriAnalysis = "tabPageUriAnalysis";
+    public const string tabPageOrphanedPages = "tabPageOrphanedPages";
     public const string tabPagePageTitles = "tabPagePageTitles";
     public const string tabPagePageDescriptions = "tabPagePageDescriptions";
     public const string tabPagePageKeywords = "tabPagePageKeywords";

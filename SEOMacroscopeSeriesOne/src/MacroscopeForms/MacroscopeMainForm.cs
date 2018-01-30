@@ -70,6 +70,7 @@ namespace SEOMacroscope
     MacroscopeDisplayLinks msDisplayLinks;
     MacroscopeDisplayHyperlinks msDisplayHyperlinks;
     MacroscopeDisplayUriAnalysis msDisplayUriAnalysis;
+    MacroscopeDisplayOrphanedPages msDisplayOrphanedPages;
 
     MacroscopeDisplayTitles msDisplayTitles;
     MacroscopeDisplayDescriptions msDisplayDescriptions;
@@ -337,6 +338,7 @@ namespace SEOMacroscope
       this.msDisplayLinks = new MacroscopeDisplayLinks ( this, this.macroscopeOverviewTabPanelInstance.listViewLinks );
       this.msDisplayHyperlinks = new MacroscopeDisplayHyperlinks ( this, this.macroscopeOverviewTabPanelInstance.listViewHyperlinks );
       this.msDisplayUriAnalysis = new MacroscopeDisplayUriAnalysis ( this, this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis );
+      this.msDisplayOrphanedPages = new MacroscopeDisplayOrphanedPages( this, this.macroscopeOverviewTabPanelInstance.listViewOrphanedPages );
 
       this.msDisplayTitles = new MacroscopeDisplayTitles ( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
       this.msDisplayDescriptions = new MacroscopeDisplayDescriptions ( this, this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions );
@@ -412,6 +414,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewErrors.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewOrphanedPages.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageTitles.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -1209,6 +1212,10 @@ namespace SEOMacroscope
             DocCollection: this.JobMaster.GetDocCollection(),
             UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayUriAnalysis )
           );
+          break;
+
+        case MacroscopeConstants.tabPageOrphanedPages:
+          this.msDisplayOrphanedPages.RefreshData( DocCollection: this.JobMaster.GetDocCollection() );
           break;
 
         case MacroscopeConstants.tabPagePageTitles:

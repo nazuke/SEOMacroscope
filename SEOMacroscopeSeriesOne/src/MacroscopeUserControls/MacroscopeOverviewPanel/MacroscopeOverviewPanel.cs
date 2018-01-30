@@ -84,8 +84,10 @@ namespace SEOMacroscope
       
       this.tableLayoutPanelHyperlinks.Dock = DockStyle.Fill;
       this.listViewHyperlinks.Dock = DockStyle.Fill;
-      
+
       this.listViewUriAnalysis.Dock = DockStyle.Fill;
+      this.listViewOrphanedPages.Dock = DockStyle.Fill;
+
       this.listViewPageTitles.Dock = DockStyle.Fill;
       this.listViewPageDescriptions.Dock = DockStyle.Fill;
       this.listViewPageKeywords.Dock = DockStyle.Fill;
@@ -138,6 +140,7 @@ namespace SEOMacroscope
       this.listViewLinks.ColumnClick += this.CallbackColumnClick;
       this.listViewHyperlinks.ColumnClick += this.CallbackColumnClick;
       this.listViewUriAnalysis.ColumnClick += this.CallbackColumnClick;
+      this.listViewOrphanedPages.ColumnClick += this.CallbackColumnClick;
       this.listViewPageTitles.ColumnClick += this.CallbackColumnClick;
       this.listViewPageDescriptions.ColumnClick += this.CallbackColumnClick;
       this.listViewPageKeywords.ColumnClick += this.CallbackColumnClick;
