@@ -113,14 +113,14 @@ namespace SEOMacroscope
         this.DebugMsg( string.Format( "_ProcessCssPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ProcessCssPage", ex.Message );
       }
       catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "_ProcessCssPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ProcessCssPage", ex.Message );
       }
 
       if ( Response != null )
@@ -163,15 +163,13 @@ namespace SEOMacroscope
           catch ( Exception ex )
           {
             this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", ex.Message ) );
-            this.AddRemark( ex.Message );
+            this.AddRemark( "ProcessHtmlAttributeCssLinks", ex.Message );
           }
 
         }
         else
         {
-
           DebugMsg( string.Format( "ProcessCssPage: ERROR: {0}", this.GetUrl() ) );
-
         }
 
         /** Custom Filters ------------------------------------------------- **/

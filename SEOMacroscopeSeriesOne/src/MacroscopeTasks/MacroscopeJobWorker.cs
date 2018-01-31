@@ -277,8 +277,19 @@ namespace SEOMacroscope
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
       MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
       bool BlockedByRobotsRule;
+      
+      if ( MacroscopePreferencesManager.GetPageLimit() > -1 )
+      {
+        int PagesFound = this.JobMaster.GetPagesFound();
+        int PageLimit = MacroscopePreferencesManager.GetPageLimit();
+        if ( PagesFound >= PageLimit )
+        {
+          this.DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", PageLimit, PagesFound ) );
+          return ( FetchStatus );
+        }
+      }
 
-      if( msDoc != null )
+      if ( msDoc != null )
       {
 
         if( msDoc.GetAuthenticationRealm() != null )
@@ -352,8 +363,6 @@ namespace SEOMacroscope
         this.JobMaster.RemoveFromBlockedByRobots( Url );
       }
 
-//      this.JobMaster.GetJobHistory().AddHistoryItem( Url: Url );
-
       if( this.AllowedHosts.IsExternalUrl( Url: Url ) )
       {
         DebugMsg( string.Format( "IsExternalUrl: {0}", Url ) );
@@ -373,10 +382,10 @@ namespace SEOMacroscope
         ; // NO-OP
       }
 
-      if( this.JobMaster.GetDepth() > 0 )
+      if( MacroscopePreferencesManager.GetDepth() > 0 )
       {
         int Depth = MacroscopeHttpUrlUtils.FindUrlDepth( Url );
-        if( Depth > this.JobMaster.GetDepth() )
+        if( Depth > MacroscopePreferencesManager.GetDepth() )
         {
           DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
           FetchStatus = MacroscopeConstants.FetchStatus.SKIPPED;
@@ -411,7 +420,8 @@ namespace SEOMacroscope
 
         this.JobMaster.GetJobHistory().VisitedHistoryItem( Url: msDoc.GetUrl() );
 
-        this.JobMaster.IncPageLimitCount();
+        // DEPRECATED:
+        //this.JobMaster.IncPageLimitCount();
 
         if( msDoc.GetIsRedirect() )
         {
@@ -500,62 +510,42 @@ namespace SEOMacroscope
     private void ProcessOutlinks ( MacroscopeDocument msDoc )
     {
 
-      if(
+      if (
         ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
         || ( this.JobMaster.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
       {
 
-        if( !MacroscopePreferencesManager.GetScanSitesInList() )
+        if ( !MacroscopePreferencesManager.GetScanSitesInList() )
         {
           return;
         }
 
       }
 
-      foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
+      foreach ( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
       {
 
         bool Proceed = true;
 
-        if( !Outlink.GetDoFollow() )
+        if ( !Outlink.GetDoFollow() )
         {
-          continue;
+          Proceed = false;
         }
 
-        if( Outlink.GetTargetUrl() == null )
+        if ( Outlink.GetTargetUrl() == null )
         {
-          continue;
+          Proceed = false;
         }
 
-        if( this.JobMaster.GetJobHistory().SeenHistoryItem( Url: Outlink.GetTargetUrl() ) )
+        if ( this.JobMaster.GetJobHistory().SeenHistoryItem( Url: Outlink.GetTargetUrl() ) )
         {
-          continue;
+          Proceed = false;
         }
 
-        if( this.JobMaster.GetPageLimit() > -1 )
+        if ( Proceed )
         {
-          if( this.JobMaster.GetPageLimitCount() >= this.JobMaster.GetPageLimit() )
-          {
-            this.DebugMsg(
-              string.Format(
-                "PAGE LIMIT REACHED: {0} :: {1}",
-                this.JobMaster.GetPageLimit(),
-                this.JobMaster.GetPageLimitCount()
-              )
-            );
-            Proceed = false;
-          }
-        }
-
-        if( Proceed )
-        {
-
-          this.JobMaster.AddUrlQueueItem(
-            Url: Outlink.GetTargetUrl(),
-            Check: true
-          );
-
+          this.JobMaster.AddUrlQueueItem( Url: Outlink.GetTargetUrl(), Check: true );
         }
 
       }

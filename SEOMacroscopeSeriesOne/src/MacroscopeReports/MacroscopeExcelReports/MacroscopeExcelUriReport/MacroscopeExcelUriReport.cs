@@ -48,7 +48,8 @@ namespace SEOMacroscope
 
       this.BuildWorksheetPageLinks( JobMaster, wb, "Links" );
       this.BuildWorksheetPageHyperlinks( JobMaster, wb, "Hyperlinks" );
-      this.BuildWorksheetPageUriAnalysis( JobMaster, wb, "URI Analysis" );     
+      this.BuildWorksheetPageUriAnalysis( JobMaster, wb, "URI Analysis" );
+      this.BuildWorksheetPageOrphanedPages( JobMaster, wb, "Orphaned Pages" );
 
       try
       {

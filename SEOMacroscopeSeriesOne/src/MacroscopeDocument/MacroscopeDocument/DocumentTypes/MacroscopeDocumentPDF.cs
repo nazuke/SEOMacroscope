@@ -106,13 +106,13 @@ namespace SEOMacroscope
       {
         this.DebugMsg( string.Format( "_ProcessPdfPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ProcessPdfPage", ex.Message );
       }
       catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "_ProcessPdfPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ProcessPdfPage", ex.Message );
       }
 
       if ( ClientResponse != null )
@@ -145,7 +145,7 @@ namespace SEOMacroscope
 
           if ( pdfTools.GetHasError() )
           {
-            this.AddRemark( Observation: pdfTools.GetErrorMessage() );
+            this.AddRemark( "CORRUPT_PDF", Observation: pdfTools.GetErrorMessage() );
           }
 
           this.SetWasDownloaded( true );
@@ -209,7 +209,7 @@ namespace SEOMacroscope
 
           if ( pdfTools.GetHasError() )
           {
-            this.AddRemark( Observation: pdfTools.GetErrorMessage() );
+            this.AddRemark( "PDF_ERROR", Observation: pdfTools.GetErrorMessage() );
           }
           else
           {

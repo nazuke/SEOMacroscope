@@ -255,10 +255,12 @@ namespace SEOMacroscope
                   break;
                 case DecodeResponseContentAs.STRING:
                   // TODO: There appears to be an encoding bug here:
+                  // BUG: This chokes on malformed Content-Type headers:
                   ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
                   break;
                 default:
                   // TODO: There appears to be an encoding bug here:
+                  // BUG: This chokes on malformed Content-Type headers:
                   ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
                   break;
               }
@@ -307,6 +309,10 @@ namespace SEOMacroscope
         }
 
       }
+
+
+      // TODO: Make exceptions from here log a Remark instead.
+
 
       return ( ClientResponse );
 

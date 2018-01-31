@@ -111,14 +111,14 @@ namespace SEOMacroscope
         this.DebugMsg( string.Format( "_ProcessHtmlPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ProcessHtmlPage", ex.Message );
       }
       catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "_ProcessHtmlPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ProcessHtmlPage", ex.Message );
       }
 
       if ( ClientResponse != null )
@@ -445,7 +445,7 @@ namespace SEOMacroscope
       }
       else
       {
-        this.AddRemark( "Failed to download HTML." );
+        this.AddRemark( "DOWNLOAD_FAILED_HTML", "Failed to download HTML." );
       }
 
       if ( ResponseErrorCondition != null )
@@ -863,18 +863,19 @@ namespace SEOMacroscope
 
             }
 
-            if (
-              ( LinkNode.GetAttributeValue( "rel", null ) != null )
-              && ( LinkNode.GetAttributeValue( "rel", "" ).ToLower() == "stylesheet" ) )
+            switch ( LinkNode.GetAttributeValue( "rel", "" ).ToLower() )
             {
-              LinkType = MacroscopeConstants.InOutLinkType.STYLESHEET;
-            }
-            else
-            if (
-              ( LinkNode.GetAttributeValue( "rel", null ) != null )
-              && ( LinkNode.GetAttributeValue( "rel", "" ).ToLower() == "alternate" ) )
-            {
-              LinkType = MacroscopeConstants.InOutLinkType.ALTERNATE;
+              case "stylesheet":
+                LinkType = MacroscopeConstants.InOutLinkType.STYLESHEET;
+                break;
+              case "alternate":
+                LinkType = MacroscopeConstants.InOutLinkType.ALTERNATE;
+                break;
+              case "author":
+                LinkType = MacroscopeConstants.InOutLinkType.AUTHOR;
+                break;
+              default:
+                break;
             }
 
             if ( LinkUrlAbs != null )
@@ -1300,7 +1301,7 @@ namespace SEOMacroscope
               catch ( Exception ex )
               {
                 this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", ex.Message ) );
-                this.AddRemark( ex.Message );
+                this.AddRemark( "ProcessHtmlInlineCssLinks", ex.Message );
               }
 
             }
@@ -1352,7 +1353,7 @@ namespace SEOMacroscope
               catch ( Exception ex )
               {
                 this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", ex.Message ) );
-                this.AddRemark( ex.Message );
+                this.AddRemark( "ProcessHtmlAttributeCssLinks", ex.Message );
               }
 
             }
@@ -1593,7 +1594,7 @@ namespace SEOMacroscope
 
       if ( !SelfReferentialLocalePresent )
       {
-        this.AddRemark( @"A self-referential HrefLang element appears to be missing from this page." );
+        this.AddRemark( "MISSING_HREFLANG", @"A self-referential HrefLang element appears to be missing from this page." );
       }
 
     }

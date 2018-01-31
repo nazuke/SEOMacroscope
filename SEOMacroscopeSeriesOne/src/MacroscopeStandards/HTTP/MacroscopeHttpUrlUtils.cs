@@ -375,7 +375,6 @@ namespace SEOMacroscope
       else
       {
 
-
         DebugMsg( string.Format( "RELATIVE URL 1: {0}", Url ), true );
 
         string BasePath = Regex.Replace( BaseUri.AbsolutePath, "/[^/]+$", "/" );
@@ -383,7 +382,6 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "RELATIVE URL 2: {0}", BasePath ), true );
         DebugMsg( string.Format( "RELATIVE URL 3: {0}", NewPath ), true );
-
 
         try
         {
@@ -491,6 +489,101 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public static bool CompareUrls (
+      string UrlLeft,
+      string UrlRight,
+      bool CheckScheme = true,
+      bool CheckHost = true,
+      bool CheckPort = false,
+      bool CheckPath = true,
+      bool CheckQuery = false
+      )
+    {
+
+      bool AreMatch = false;
+      bool Proceed = true;
+      Uri UriLeft = null;
+      Uri UriRight = null;
+
+      if ( UrlLeft == UrlRight )
+      {
+        return ( true );
+      }
+
+      try
+      {
+        UriLeft = new Uri( UrlLeft, UriKind.Absolute );
+        UriRight = new Uri( UrlRight, UriKind.Absolute );
+      }
+      catch ( InvalidOperationException ex )
+      {
+        DebugMsg( ex.Message, true );
+      }
+      catch ( UriFormatException ex )
+      {
+        DebugMsg( ex.Message, true );
+      }
+      catch ( Exception ex )
+      {
+        DebugMsg( ex.Message, true );
+      }
+
+      if ( ( UriLeft != null ) && ( UriRight != null ) )
+      {
+
+        if ( CheckScheme )
+        {
+          if ( UriLeft.Scheme != UriRight.Scheme )
+          {
+            Proceed = false;
+          }
+        }
+
+        if ( CheckHost )
+        {
+          if ( UriLeft.Host != UriRight.Host )
+          {
+            Proceed = false;
+          }
+        }
+
+        if ( CheckPort )
+        {
+          if ( UriLeft.Port != UriRight.Port )
+          {
+            Proceed = false;
+          }
+        }
+
+        if ( CheckPath )
+        {
+          if ( UriLeft.AbsolutePath != UriRight.AbsolutePath )
+          {
+            Proceed = false;
+          }
+        }
+
+        if ( CheckQuery )
+        {
+          if ( UriLeft.Query != UriRight.Query )
+          {
+            Proceed = false;
+          }
+        }
+
+      }
+
+      if ( Proceed )
+      {
+        AreMatch = true;
+      }
+
+      return ( AreMatch );
+
+    }
+
+    /**************************************************************************/
+
     public static int FindUrlDepth ( string Url )
     {
 
@@ -522,21 +615,21 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static string CleanUrlCss ( string sProperty )
+    public static string CleanUrlCss ( string CssProperty )
     {
 
-      string sCleaned = null;
+      string CleanedUrl = null;
 
 
-      DebugMsg( string.Format( "CleanUrlCss: sProperty: {0}", sProperty ), true );
+      DebugMsg( string.Format( "CleanUrlCss: sProperty: {0}", CssProperty ), true );
 
-      if ( Regex.IsMatch( sProperty, @"url\([^()]+\)" ) )
+      if ( Regex.IsMatch( CssProperty, @"url\([^()]+\)" ) )
       {
 
-        DebugMsg( string.Format( "CleanUrlCss: HAS URL: {0}", sProperty ), true );
+        DebugMsg( string.Format( "CleanUrlCss: HAS URL: {0}", CssProperty ), true );
 
         MatchCollection reMatches = Regex.Matches(
-                                      sProperty,
+                                      CssProperty,
                                       "url\\(\\s*[\"']?(.+?)[\"']?\\s*\\)",
                                       RegexOptions.IgnoreCase
                                     );
@@ -548,28 +641,28 @@ namespace SEOMacroscope
 
           if ( match.Groups[ 1 ].Value.Length > 0 )
           {
-            sCleaned = match.Groups[ 1 ].Value;
+            CleanedUrl = match.Groups[ 1 ].Value;
             break;
           }
 
         }
 
-        if ( sCleaned.ToLower() == "none" )
+        if ( CleanedUrl.ToLower() == "none" )
         {
-          sCleaned = null;
+          CleanedUrl = null;
         }
 
       }
       else
       {
 
-        sCleaned = null;
+        CleanedUrl = null;
 
       }
 
-      DebugMsg( string.Format( "CleanUrlCss: sCleaned: {0}", sCleaned ), true );
+      DebugMsg( string.Format( "CleanUrlCss: CleanedUrl: {0}", CleanedUrl ), true );
 
-      return ( sCleaned );
+      return ( CleanedUrl );
 
     }
 

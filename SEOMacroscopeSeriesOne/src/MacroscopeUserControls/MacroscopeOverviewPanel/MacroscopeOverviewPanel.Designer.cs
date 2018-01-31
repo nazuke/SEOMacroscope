@@ -483,6 +483,11 @@ namespace SEOMacroscope
       this.UriAnalysisStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.UriAnalysisCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.UriAnalysisChecksum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.tabPageOrphanedPages = new System.Windows.Forms.TabPage();
+      this.listViewOrphanedPages = new System.Windows.Forms.ListView();
+      this.orphanedPagesUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.orphanedPagesStatusCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.orphanedPagesStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPagePageTitles = new System.Windows.Forms.TabPage();
       this.listViewPageTitles = new System.Windows.Forms.ListView();
       this.PageTitlesUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -611,11 +616,6 @@ namespace SEOMacroscope
       this.listViewHistory = new System.Windows.Forms.ListView();
       this.HistoryUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.HistoryVisited = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.tabPageOrphanedPages = new System.Windows.Forms.TabPage();
-      this.listViewOrphanedPages = new System.Windows.Forms.ListView();
-      this.orphanedPagesUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.orphanedPagesStatusCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.orphanedPagesStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabControlMain.SuspendLayout();
       this.tabPageStructureOverview.SuspendLayout();
       this.tableLayoutPanelStructure.SuspendLayout();
@@ -647,6 +647,7 @@ namespace SEOMacroscope
       this.tableLayoutPanelHyperlinks.SuspendLayout();
       this.toolStripHyperlinks.SuspendLayout();
       this.tabPageUriAnalysis.SuspendLayout();
+      this.tabPageOrphanedPages.SuspendLayout();
       this.tabPagePageTitles.SuspendLayout();
       this.tabPagePageDescriptions.SuspendLayout();
       this.tabPagePageKeywords.SuspendLayout();
@@ -682,7 +683,6 @@ namespace SEOMacroscope
       this.tabPageHistory.SuspendLayout();
       this.tableLayoutPanelHistory.SuspendLayout();
       this.toolStrip4.SuspendLayout();
-      this.tabPageOrphanedPages.SuspendLayout();
       this.SuspendLayout();
       // 
       // tabControlMain
@@ -1034,9 +1034,9 @@ namespace SEOMacroscope
       // 
       this.tabPageHierarchy.BackColor = System.Drawing.Color.LightGray;
       this.tabPageHierarchy.Controls.Add(this.treeViewHierarchy);
-      this.tabPageHierarchy.Location = new System.Drawing.Point(4, 22);
+      this.tabPageHierarchy.Location = new System.Drawing.Point(4, 58);
       this.tabPageHierarchy.Name = "tabPageHierarchy";
-      this.tabPageHierarchy.Size = new System.Drawing.Size(792, 474);
+      this.tabPageHierarchy.Size = new System.Drawing.Size(792, 438);
       this.tabPageHierarchy.TabIndex = 8;
       this.tabPageHierarchy.Text = "Hierarchy";
       // 
@@ -1054,9 +1054,9 @@ namespace SEOMacroscope
       // 
       this.tabPageSearch.BackColor = System.Drawing.Color.LightGray;
       this.tabPageSearch.Controls.Add(this.tableLayoutPanelSearchCollection);
-      this.tabPageSearch.Location = new System.Drawing.Point(4, 22);
+      this.tabPageSearch.Location = new System.Drawing.Point(4, 58);
       this.tabPageSearch.Name = "tabPageSearch";
-      this.tabPageSearch.Size = new System.Drawing.Size(792, 474);
+      this.tabPageSearch.Size = new System.Drawing.Size(792, 438);
       this.tabPageSearch.TabIndex = 24;
       this.tabPageSearch.Text = "Search";
       // 
@@ -1182,9 +1182,9 @@ namespace SEOMacroscope
       // 
       this.tabPageRobots.BackColor = System.Drawing.Color.LightGray;
       this.tabPageRobots.Controls.Add(this.listViewRobots);
-      this.tabPageRobots.Location = new System.Drawing.Point(4, 22);
+      this.tabPageRobots.Location = new System.Drawing.Point(4, 58);
       this.tabPageRobots.Name = "tabPageRobots";
-      this.tabPageRobots.Size = new System.Drawing.Size(792, 474);
+      this.tabPageRobots.Size = new System.Drawing.Size(792, 438);
       this.tabPageRobots.TabIndex = 17;
       this.tabPageRobots.Text = "Robots";
       // 
@@ -1217,9 +1217,9 @@ namespace SEOMacroscope
       // 
       this.tabPageSitemaps.BackColor = System.Drawing.Color.LightGray;
       this.tabPageSitemaps.Controls.Add(this.listViewSitemaps);
-      this.tabPageSitemaps.Location = new System.Drawing.Point(4, 22);
+      this.tabPageSitemaps.Location = new System.Drawing.Point(4, 58);
       this.tabPageSitemaps.Name = "tabPageSitemaps";
-      this.tabPageSitemaps.Size = new System.Drawing.Size(792, 474);
+      this.tabPageSitemaps.Size = new System.Drawing.Size(792, 438);
       this.tabPageSitemaps.TabIndex = 18;
       this.tabPageSitemaps.Text = "Sitemaps";
       // 
@@ -1253,9 +1253,9 @@ namespace SEOMacroscope
       // 
       this.tabPageSitemapErrors.BackColor = System.Drawing.Color.LightGray;
       this.tabPageSitemapErrors.Controls.Add(this.listViewSitemapErrors);
-      this.tabPageSitemapErrors.Location = new System.Drawing.Point(4, 22);
+      this.tabPageSitemapErrors.Location = new System.Drawing.Point(4, 58);
       this.tabPageSitemapErrors.Name = "tabPageSitemapErrors";
-      this.tabPageSitemapErrors.Size = new System.Drawing.Size(792, 474);
+      this.tabPageSitemapErrors.Size = new System.Drawing.Size(792, 438);
       this.tabPageSitemapErrors.TabIndex = 32;
       this.tabPageSitemapErrors.Text = "Sitemap Errors";
       // 
@@ -1301,9 +1301,9 @@ namespace SEOMacroscope
       // 
       this.tabPageSitemapsAudit.BackColor = System.Drawing.Color.LightGray;
       this.tabPageSitemapsAudit.Controls.Add(this.listViewSitemapsAudit);
-      this.tabPageSitemapsAudit.Location = new System.Drawing.Point(4, 22);
+      this.tabPageSitemapsAudit.Location = new System.Drawing.Point(4, 58);
       this.tabPageSitemapsAudit.Name = "tabPageSitemapsAudit";
-      this.tabPageSitemapsAudit.Size = new System.Drawing.Size(792, 474);
+      this.tabPageSitemapsAudit.Size = new System.Drawing.Size(792, 438);
       this.tabPageSitemapsAudit.TabIndex = 33;
       this.tabPageSitemapsAudit.Text = "Sitemaps Audit";
       // 
@@ -1360,9 +1360,9 @@ namespace SEOMacroscope
       // 
       this.tabPageCanonicalAnalysis.BackColor = System.Drawing.Color.LightGray;
       this.tabPageCanonicalAnalysis.Controls.Add(this.listViewCanonicalAnalysis);
-      this.tabPageCanonicalAnalysis.Location = new System.Drawing.Point(4, 22);
+      this.tabPageCanonicalAnalysis.Location = new System.Drawing.Point(4, 58);
       this.tabPageCanonicalAnalysis.Name = "tabPageCanonicalAnalysis";
-      this.tabPageCanonicalAnalysis.Size = new System.Drawing.Size(792, 474);
+      this.tabPageCanonicalAnalysis.Size = new System.Drawing.Size(792, 438);
       this.tabPageCanonicalAnalysis.TabIndex = 7;
       this.tabPageCanonicalAnalysis.Text = "Canonical Analysis";
       // 
@@ -1401,9 +1401,9 @@ namespace SEOMacroscope
       // 
       this.tabPageHrefLangAnalysis.BackColor = System.Drawing.Color.LightGray;
       this.tabPageHrefLangAnalysis.Controls.Add(this.listViewHrefLang);
-      this.tabPageHrefLangAnalysis.Location = new System.Drawing.Point(4, 22);
+      this.tabPageHrefLangAnalysis.Location = new System.Drawing.Point(4, 58);
       this.tabPageHrefLangAnalysis.Name = "tabPageHrefLangAnalysis";
-      this.tabPageHrefLangAnalysis.Size = new System.Drawing.Size(792, 474);
+      this.tabPageHrefLangAnalysis.Size = new System.Drawing.Size(792, 438);
       this.tabPageHrefLangAnalysis.TabIndex = 1;
       this.tabPageHrefLangAnalysis.Text = "HrefLang Matrix";
       // 
@@ -1423,9 +1423,9 @@ namespace SEOMacroscope
       // 
       this.tabPageRedirectsAudit.BackColor = System.Drawing.Color.LightGray;
       this.tabPageRedirectsAudit.Controls.Add(this.tableLayoutPanelRedirects);
-      this.tabPageRedirectsAudit.Location = new System.Drawing.Point(4, 22);
+      this.tabPageRedirectsAudit.Location = new System.Drawing.Point(4, 58);
       this.tabPageRedirectsAudit.Name = "tabPageRedirectsAudit";
-      this.tabPageRedirectsAudit.Size = new System.Drawing.Size(792, 474);
+      this.tabPageRedirectsAudit.Size = new System.Drawing.Size(792, 438);
       this.tabPageRedirectsAudit.TabIndex = 2;
       this.tabPageRedirectsAudit.Text = "Redirects Audit";
       // 
@@ -1513,9 +1513,9 @@ namespace SEOMacroscope
       // 
       this.tabPageErrors.BackColor = System.Drawing.Color.LightGray;
       this.tabPageErrors.Controls.Add(this.tableLayoutPanelErrors);
-      this.tabPageErrors.Location = new System.Drawing.Point(4, 22);
+      this.tabPageErrors.Location = new System.Drawing.Point(4, 58);
       this.tabPageErrors.Name = "tabPageErrors";
-      this.tabPageErrors.Size = new System.Drawing.Size(792, 474);
+      this.tabPageErrors.Size = new System.Drawing.Size(792, 438);
       this.tabPageErrors.TabIndex = 16;
       this.tabPageErrors.Text = "Errors";
       // 
@@ -1596,9 +1596,9 @@ namespace SEOMacroscope
       // 
       this.tabPageHostnames.BackColor = System.Drawing.Color.LightGray;
       this.tabPageHostnames.Controls.Add(this.tableLayoutPanelHostnames);
-      this.tabPageHostnames.Location = new System.Drawing.Point(4, 40);
+      this.tabPageHostnames.Location = new System.Drawing.Point(4, 58);
       this.tabPageHostnames.Name = "tabPageHostnames";
-      this.tabPageHostnames.Size = new System.Drawing.Size(792, 456);
+      this.tabPageHostnames.Size = new System.Drawing.Size(792, 438);
       this.tabPageHostnames.TabIndex = 15;
       this.tabPageHostnames.Text = "Hostnames";
       // 
@@ -2045,13 +2045,57 @@ namespace SEOMacroscope
       this.UriAnalysisChecksum.Text = "Checksum";
       this.UriAnalysisChecksum.Width = 250;
       // 
+      // tabPageOrphanedPages
+      // 
+      this.tabPageOrphanedPages.BackColor = System.Drawing.Color.LightGray;
+      this.tabPageOrphanedPages.Controls.Add(this.listViewOrphanedPages);
+      this.tabPageOrphanedPages.Location = new System.Drawing.Point(4, 58);
+      this.tabPageOrphanedPages.Name = "tabPageOrphanedPages";
+      this.tabPageOrphanedPages.Size = new System.Drawing.Size(792, 438);
+      this.tabPageOrphanedPages.TabIndex = 34;
+      this.tabPageOrphanedPages.Text = "Orphaned Pages";
+      // 
+      // listViewOrphanedPages
+      // 
+      this.listViewOrphanedPages.CausesValidation = false;
+      this.listViewOrphanedPages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.orphanedPagesUrl,
+            this.orphanedPagesStatusCode,
+            this.orphanedPagesStatus});
+      this.listViewOrphanedPages.ContextMenuStrip = this.contextMenuStripStructure;
+      this.listViewOrphanedPages.FullRowSelect = true;
+      this.listViewOrphanedPages.GridLines = true;
+      this.listViewOrphanedPages.LabelWrap = false;
+      this.listViewOrphanedPages.Location = new System.Drawing.Point(20, 20);
+      this.listViewOrphanedPages.Name = "listViewOrphanedPages";
+      this.listViewOrphanedPages.Size = new System.Drawing.Size(700, 200);
+      this.listViewOrphanedPages.TabIndex = 1;
+      this.listViewOrphanedPages.UseCompatibleStateImageBehavior = false;
+      this.listViewOrphanedPages.View = System.Windows.Forms.View.Details;
+      // 
+      // orphanedPagesUrl
+      // 
+      this.orphanedPagesUrl.Text = "URL";
+      this.orphanedPagesUrl.Width = 400;
+      // 
+      // orphanedPagesStatusCode
+      // 
+      this.orphanedPagesStatusCode.Text = "Status Code";
+      this.orphanedPagesStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+      this.orphanedPagesStatusCode.Width = 100;
+      // 
+      // orphanedPagesStatus
+      // 
+      this.orphanedPagesStatus.Text = "Status";
+      this.orphanedPagesStatus.Width = 150;
+      // 
       // tabPagePageTitles
       // 
       this.tabPagePageTitles.BackColor = System.Drawing.Color.LightGray;
       this.tabPagePageTitles.Controls.Add(this.listViewPageTitles);
-      this.tabPagePageTitles.Location = new System.Drawing.Point(4, 40);
+      this.tabPagePageTitles.Location = new System.Drawing.Point(4, 58);
       this.tabPagePageTitles.Name = "tabPagePageTitles";
-      this.tabPagePageTitles.Size = new System.Drawing.Size(792, 456);
+      this.tabPagePageTitles.Size = new System.Drawing.Size(792, 438);
       this.tabPagePageTitles.TabIndex = 10;
       this.tabPagePageTitles.Text = "Page Titles";
       // 
@@ -2118,9 +2162,9 @@ namespace SEOMacroscope
       // 
       this.tabPagePageDescriptions.BackColor = System.Drawing.Color.LightGray;
       this.tabPagePageDescriptions.Controls.Add(this.listViewPageDescriptions);
-      this.tabPagePageDescriptions.Location = new System.Drawing.Point(4, 40);
+      this.tabPagePageDescriptions.Location = new System.Drawing.Point(4, 58);
       this.tabPagePageDescriptions.Name = "tabPagePageDescriptions";
-      this.tabPagePageDescriptions.Size = new System.Drawing.Size(792, 456);
+      this.tabPagePageDescriptions.Size = new System.Drawing.Size(792, 438);
       this.tabPagePageDescriptions.TabIndex = 11;
       this.tabPagePageDescriptions.Text = "Meta Descriptions";
       // 
@@ -2179,9 +2223,9 @@ namespace SEOMacroscope
       // 
       this.tabPagePageKeywords.BackColor = System.Drawing.Color.LightGray;
       this.tabPagePageKeywords.Controls.Add(this.listViewPageKeywords);
-      this.tabPagePageKeywords.Location = new System.Drawing.Point(4, 40);
+      this.tabPagePageKeywords.Location = new System.Drawing.Point(4, 58);
       this.tabPagePageKeywords.Name = "tabPagePageKeywords";
-      this.tabPagePageKeywords.Size = new System.Drawing.Size(792, 456);
+      this.tabPagePageKeywords.Size = new System.Drawing.Size(792, 438);
       this.tabPagePageKeywords.TabIndex = 12;
       this.tabPagePageKeywords.Text = "Meta Keywords";
       // 
@@ -2235,9 +2279,9 @@ namespace SEOMacroscope
       // 
       this.tabPagePageHeadings.BackColor = System.Drawing.Color.LightGray;
       this.tabPagePageHeadings.Controls.Add(this.listViewPageHeadings);
-      this.tabPagePageHeadings.Location = new System.Drawing.Point(4, 40);
+      this.tabPagePageHeadings.Location = new System.Drawing.Point(4, 58);
       this.tabPagePageHeadings.Name = "tabPagePageHeadings";
-      this.tabPagePageHeadings.Size = new System.Drawing.Size(792, 456);
+      this.tabPagePageHeadings.Size = new System.Drawing.Size(792, 438);
       this.tabPagePageHeadings.TabIndex = 13;
       this.tabPagePageHeadings.Text = "Page Headings";
       // 
@@ -2314,9 +2358,9 @@ namespace SEOMacroscope
       // 
       this.tabPagePageText.BackColor = System.Drawing.Color.LightGray;
       this.tabPagePageText.Controls.Add(this.listViewPageText);
-      this.tabPagePageText.Location = new System.Drawing.Point(4, 40);
+      this.tabPagePageText.Location = new System.Drawing.Point(4, 58);
       this.tabPagePageText.Name = "tabPagePageText";
-      this.tabPagePageText.Size = new System.Drawing.Size(792, 456);
+      this.tabPagePageText.Size = new System.Drawing.Size(792, 438);
       this.tabPagePageText.TabIndex = 27;
       this.tabPagePageText.Text = "Page Text";
       // 
@@ -2387,9 +2431,9 @@ namespace SEOMacroscope
       // 
       this.tabPageStylesheets.BackColor = System.Drawing.Color.LightGray;
       this.tabPageStylesheets.Controls.Add(this.listViewStylesheets);
-      this.tabPageStylesheets.Location = new System.Drawing.Point(4, 40);
+      this.tabPageStylesheets.Location = new System.Drawing.Point(4, 58);
       this.tabPageStylesheets.Name = "tabPageStylesheets";
-      this.tabPageStylesheets.Size = new System.Drawing.Size(792, 456);
+      this.tabPageStylesheets.Size = new System.Drawing.Size(792, 438);
       this.tabPageStylesheets.TabIndex = 20;
       this.tabPageStylesheets.Text = "Stylesheets";
       // 
@@ -3240,51 +3284,6 @@ namespace SEOMacroscope
       this.HistoryVisited.Text = "Visited";
       this.HistoryVisited.Width = 100;
       // 
-      // tabPageOrphanedPages
-      // 
-      this.tabPageOrphanedPages.BackColor = System.Drawing.Color.LightGray;
-      this.tabPageOrphanedPages.Controls.Add(this.listViewOrphanedPages);
-      this.tabPageOrphanedPages.Location = new System.Drawing.Point(4, 58);
-      this.tabPageOrphanedPages.Name = "tabPageOrphanedPages";
-      this.tabPageOrphanedPages.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageOrphanedPages.Size = new System.Drawing.Size(792, 438);
-      this.tabPageOrphanedPages.TabIndex = 34;
-      this.tabPageOrphanedPages.Text = "Orphaned Pages";
-      // 
-      // listViewOrphanedPages
-      // 
-      this.listViewOrphanedPages.CausesValidation = false;
-      this.listViewOrphanedPages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.orphanedPagesUrl,
-            this.orphanedPagesStatusCode,
-            this.orphanedPagesStatus});
-      this.listViewOrphanedPages.ContextMenuStrip = this.contextMenuStripStructure;
-      this.listViewOrphanedPages.FullRowSelect = true;
-      this.listViewOrphanedPages.GridLines = true;
-      this.listViewOrphanedPages.LabelWrap = false;
-      this.listViewOrphanedPages.Location = new System.Drawing.Point(46, 119);
-      this.listViewOrphanedPages.Name = "listViewOrphanedPages";
-      this.listViewOrphanedPages.Size = new System.Drawing.Size(700, 200);
-      this.listViewOrphanedPages.TabIndex = 1;
-      this.listViewOrphanedPages.UseCompatibleStateImageBehavior = false;
-      this.listViewOrphanedPages.View = System.Windows.Forms.View.Details;
-      // 
-      // orphanedPagesUrl
-      // 
-      this.orphanedPagesUrl.Text = "URL";
-      this.orphanedPagesUrl.Width = 400;
-      // 
-      // orphanedPagesStatusCode
-      // 
-      this.orphanedPagesStatusCode.Text = "Status Code";
-      this.orphanedPagesStatusCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-      this.orphanedPagesStatusCode.Width = 100;
-      // 
-      // orphanedPagesStatus
-      // 
-      this.orphanedPagesStatus.Text = "Status";
-      this.orphanedPagesStatus.Width = 150;
-      // 
       // MacroscopeOverviewPanel
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3336,6 +3335,7 @@ namespace SEOMacroscope
       this.toolStripHyperlinks.ResumeLayout(false);
       this.toolStripHyperlinks.PerformLayout();
       this.tabPageUriAnalysis.ResumeLayout(false);
+      this.tabPageOrphanedPages.ResumeLayout(false);
       this.tabPagePageTitles.ResumeLayout(false);
       this.tabPagePageDescriptions.ResumeLayout(false);
       this.tabPagePageKeywords.ResumeLayout(false);
@@ -3385,7 +3385,6 @@ namespace SEOMacroscope
       this.tableLayoutPanelHistory.PerformLayout();
       this.toolStrip4.ResumeLayout(false);
       this.toolStrip4.PerformLayout();
-      this.tabPageOrphanedPages.ResumeLayout(false);
       this.ResumeLayout(false);
 
 		}

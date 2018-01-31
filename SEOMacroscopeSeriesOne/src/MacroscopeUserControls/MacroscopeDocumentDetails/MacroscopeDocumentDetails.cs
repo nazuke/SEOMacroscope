@@ -43,11 +43,6 @@ namespace SEOMacroscope
 
     private Object RenderListViewLock;
 
-    //private Object RenderDocumentDetailsLock;
-    //private Object RenderListViewMetaTagsLock;
-    //private Object RenderDocumentHrefLangLock;
-
-
     /**************************************************************************/
 
     public MacroscopeDocumentDetails ()
@@ -137,11 +132,6 @@ namespace SEOMacroscope
       /** Lock Objects ----------------------------------------------------- **/
       
       this.RenderListViewLock = new Object();
-
-
-      //this.RenderDocumentDetailsLock = new Object();
-      //this.RenderListViewMetaTagsLock = new Object();
-      //this.RenderDocumentHrefLangLock = new Object();
 
       return;
 
@@ -2029,7 +2019,7 @@ namespace SEOMacroscope
 
         TargetListView.Items.Clear();
 
-        foreach ( string Remark in msDoc.IterateRemarks() )
+        foreach ( KeyValuePair<string, string> RemarkPair in msDoc.IterateRemarks() )
         {
 
           Application.DoEvents();
@@ -2049,7 +2039,7 @@ namespace SEOMacroscope
               lvItem = TargetListView.Items[ KeyPair ];
               lvItem.SubItems[ 0 ].Text = Count.ToString();
               lvItem.SubItems[ 1 ].Text = Url;
-              lvItem.SubItems[ 2 ].Text = Remark;
+              lvItem.SubItems[ 2 ].Text = RemarkPair.Value;
 
             }
             catch ( Exception ex )
@@ -2070,7 +2060,7 @@ namespace SEOMacroscope
 
               lvItem.SubItems[ 0 ].Text = Count.ToString();
               lvItem.SubItems.Add( Url );
-              lvItem.SubItems.Add( Remark );
+              lvItem.SubItems.Add( RemarkPair.Value );
 
               ListViewItems.Add( lvItem );
 

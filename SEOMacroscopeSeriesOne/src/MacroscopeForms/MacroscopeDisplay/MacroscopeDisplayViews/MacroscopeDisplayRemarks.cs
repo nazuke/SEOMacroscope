@@ -91,11 +91,11 @@ namespace SEOMacroscope
     )
     {
 
-      foreach( string Observation in msDoc.IterateRemarks() )
+      foreach( KeyValuePair<string,string> RemarkPair in msDoc.IterateRemarks() )
       {
 
         ListViewItem lvItem = null;
-        string PairKey = string.Join( @"::::", Url, Observation );
+        string PairKey = string.Join( @"::::", Url, RemarkPair.Value );
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
       
@@ -109,7 +109,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems[ ColStatusCode ].Text = StatusCode;
             lvItem.SubItems[ ColStatus ].Text = Status;       
-            lvItem.SubItems[ ColObservation ].Text = Observation;
+            lvItem.SubItems[ ColObservation ].Text = RemarkPair.Value;
 
           }
           catch( Exception ex )
@@ -131,7 +131,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems.Add( StatusCode );         
             lvItem.SubItems.Add( Status );       
-            lvItem.SubItems.Add( Observation );
+            lvItem.SubItems.Add( RemarkPair.Value );
 
             ListViewItems.Add( lvItem );
 

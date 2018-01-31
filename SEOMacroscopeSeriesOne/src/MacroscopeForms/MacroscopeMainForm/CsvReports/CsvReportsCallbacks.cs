@@ -608,6 +608,16 @@ namespace SEOMacroscope
       );
     }
 
+    private void CallbackSaveUriAnalysisCsvReportOrphanedPages ( object sender, EventArgs e )
+    {
+      this.CallbackSaveUriAnalysisCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvUriReport.OutputWorksheet.ORPHANS,
+        OutputFilename: "Macroscope-URI-Analysis-Orphaned-Pages.csv"
+      );
+    }
+
     private void CallbackSaveUriAnalysisCsvReport (
       object sender,
       EventArgs e,

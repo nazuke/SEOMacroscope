@@ -24,23 +24,23 @@
 */
 
 using System;
-using System.Collections.Generic;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
 {
 
-  public partial class MaroscopeExcelRemarksReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelUriReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageObservations (
+    private void BuildWorksheetPageOrphanedPages (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string WorksheetLabel
     )
     {
+
       var ws = wb.Worksheets.Add( WorksheetLabel );
 
       int iRow = 1;
@@ -49,7 +49,8 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      
+      MacroscopeDocumentList OrphanedDocumentList = DocCollection.GetOrphanedDocumentList();
+
       {
 
         ws.Cell( iRow, iCol ).Value = "URL";
@@ -59,9 +60,6 @@ namespace SEOMacroscope
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Status";
-        iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Observation";
 
       }
 
@@ -69,22 +67,21 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      if ( OrphanedDocumentList != null )
       {
 
-        string Url = msDoc.GetUrl();
-                    
-        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-        string Status = msDoc.GetStatusCode().ToString();
-
-        foreach( KeyValuePair<string, string> RemarkPair in msDoc.IterateRemarks() )
+        foreach ( MacroscopeDocument msDoc in OrphanedDocumentList.IterateDocuments() )
         {
+
+          string Url = msDoc.GetUrl();
+          string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
+          string Status = msDoc.GetStatusCode().ToString();
 
           iCol = 1;
 
           this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
-          if( AllowedHosts.IsInternalUrl( Url: Url ) )
+          if ( AllowedHosts.IsInternalUrl( Url: Url ) )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }
@@ -96,24 +93,20 @@ namespace SEOMacroscope
           iCol++;
 
           this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode );
-          
-          iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
-          
+
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, RemarkPair.Value );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
 
           iRow++;
 
         }
 
-      }
-        
-      {
-        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
-        var excelTable = rangeData.CreateTable();
+        {
+          var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
+          var excelTable = rangeData.CreateTable();
+        }
+
       }
 
     }

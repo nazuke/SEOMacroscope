@@ -123,14 +123,14 @@ namespace SEOMacroscope
         this.DebugMsg( string.Format( "_ExecuteHeadRequest :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ExecuteHeadRequest", ex.Message );
       }
       catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "_ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ExecuteHeadRequest", ex.Message );
       }
 
       if ( ClientResponse != null )

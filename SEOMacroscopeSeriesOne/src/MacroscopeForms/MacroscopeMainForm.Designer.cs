@@ -318,6 +318,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
       this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
       this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
+      this.orphanedPagesCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStripMain.SuspendLayout();
       this.tableLayoutPanelMainContainer.SuspendLayout();
       this.statusStripMain.SuspendLayout();
@@ -672,7 +673,8 @@ namespace SEOMacroscope
             this.toolStripSeparator29,
             this.linksCSVReportToolStripMenuItem,
             this.hyperlinksCSVReportToolStripMenuItem,
-            this.uRIsCSVReportToolStripMenuItem});
+            this.uRIsCSVReportToolStripMenuItem,
+            this.orphanedPagesCSVReportToolStripMenuItem});
       this.saveURIAnalysisExcelReportToolStripMenuItem.Name = "saveURIAnalysisExcelReportToolStripMenuItem";
       this.saveURIAnalysisExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
       this.saveURIAnalysisExcelReportToolStripMenuItem.Text = "URI Analysis Report";
@@ -680,33 +682,33 @@ namespace SEOMacroscope
       // combinedExcelReportToolStripMenuItem3
       // 
       this.combinedExcelReportToolStripMenuItem3.Name = "combinedExcelReportToolStripMenuItem3";
-      this.combinedExcelReportToolStripMenuItem3.Size = new System.Drawing.Size(200, 22);
+      this.combinedExcelReportToolStripMenuItem3.Size = new System.Drawing.Size(223, 22);
       this.combinedExcelReportToolStripMenuItem3.Text = "Combined Excel Report";
       this.combinedExcelReportToolStripMenuItem3.Click += new System.EventHandler(this.CallbackSaveUriAnalysisExcelReport);
       // 
       // toolStripSeparator29
       // 
       this.toolStripSeparator29.Name = "toolStripSeparator29";
-      this.toolStripSeparator29.Size = new System.Drawing.Size(197, 6);
+      this.toolStripSeparator29.Size = new System.Drawing.Size(220, 6);
       // 
       // linksCSVReportToolStripMenuItem
       // 
       this.linksCSVReportToolStripMenuItem.Name = "linksCSVReportToolStripMenuItem";
-      this.linksCSVReportToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+      this.linksCSVReportToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
       this.linksCSVReportToolStripMenuItem.Text = "Links CSV Report";
       this.linksCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveUriAnalysisCsvReportLinks);
       // 
       // hyperlinksCSVReportToolStripMenuItem
       // 
       this.hyperlinksCSVReportToolStripMenuItem.Name = "hyperlinksCSVReportToolStripMenuItem";
-      this.hyperlinksCSVReportToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+      this.hyperlinksCSVReportToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
       this.hyperlinksCSVReportToolStripMenuItem.Text = "Hyperlinks CSV Report";
       this.hyperlinksCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveUriAnalysisCsvReportHyperlinks);
       // 
       // uRIsCSVReportToolStripMenuItem
       // 
       this.uRIsCSVReportToolStripMenuItem.Name = "uRIsCSVReportToolStripMenuItem";
-      this.uRIsCSVReportToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+      this.uRIsCSVReportToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
       this.uRIsCSVReportToolStripMenuItem.Text = "URI Analysis CSV Report";
       this.uRIsCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveUriAnalysisCsvReportUris);
       // 
@@ -884,19 +886,19 @@ namespace SEOMacroscope
       // excelReportToolStripMenuItem2
       // 
       this.excelReportToolStripMenuItem2.Name = "excelReportToolStripMenuItem2";
-      this.excelReportToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+      this.excelReportToolStripMenuItem2.Size = new System.Drawing.Size(138, 22);
       this.excelReportToolStripMenuItem2.Text = "Excel Report";
       this.excelReportToolStripMenuItem2.Click += new System.EventHandler(this.CallbackSaveRemarksExcelReport);
       // 
       // toolStripSeparator24
       // 
       this.toolStripSeparator24.Name = "toolStripSeparator24";
-      this.toolStripSeparator24.Size = new System.Drawing.Size(149, 6);
+      this.toolStripSeparator24.Size = new System.Drawing.Size(135, 6);
       // 
       // cSVReportToolStripMenuItem3
       // 
       this.cSVReportToolStripMenuItem3.Name = "cSVReportToolStripMenuItem3";
-      this.cSVReportToolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+      this.cSVReportToolStripMenuItem3.Size = new System.Drawing.Size(138, 22);
       this.cSVReportToolStripMenuItem3.Text = "CSV Report";
       this.cSVReportToolStripMenuItem3.Click += new System.EventHandler(this.CallbackSaveRemarksCsvReport);
       // 
@@ -1494,6 +1496,13 @@ namespace SEOMacroscope
       this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
       this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
       // 
+      // orphanedPagesCSVReportToolStripMenuItem
+      // 
+      this.orphanedPagesCSVReportToolStripMenuItem.Name = "orphanedPagesCSVReportToolStripMenuItem";
+      this.orphanedPagesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+      this.orphanedPagesCSVReportToolStripMenuItem.Text = "Orphaned Pages CSV Report";
+      this.orphanedPagesCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveUriAnalysisCsvReportOrphanedPages);
+      // 
       // MacroscopeMainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1540,5 +1549,6 @@ namespace SEOMacroscope
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
     private System.Windows.Forms.ToolStripMenuItem cSVReportToolStripMenuItem5;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
+    private System.Windows.Forms.ToolStripMenuItem orphanedPagesCSVReportToolStripMenuItem;
   }
 }

@@ -264,7 +264,8 @@ namespace SEOMacroscope
       OBJECT = 18,
       ALTERNATE = 19,
       RELATED = 20,
-      PDF = 21
+      PDF = 21,
+      AUTHOR = 22
     }
 
     /** END: Outlink Types ****************************************************/

@@ -177,7 +177,7 @@ namespace SEOMacroscope
 
     private int Depth;
 
-    private List<string> Remarks;
+    private Dictionary<string, string> Remarks;
 
     private Dictionary<string, MacroscopeConstants.TextPresence> CustomFiltered;
 
@@ -365,7 +365,7 @@ namespace SEOMacroscope
 
       this.Depth = MacroscopeHttpUrlUtils.FindUrlDepth( Url );
 
-      this.Remarks = new List<string>();
+      this.Remarks = new Dictionary<string, string>();
 
       this.CustomFiltered = new Dictionary<string, MacroscopeConstants.TextPresence>( 5 );
 
@@ -2385,23 +2385,44 @@ namespace SEOMacroscope
 
     /** Remarks ***************************************************************/
 
-    public void AddRemark ( string Observation )
+    public void AddRemark ( string RemarkName, string Observation )
     {
       lock ( this.Remarks )
       {
-        this.Remarks.Add( Observation );
+        if ( this.Remarks.ContainsKey( RemarkName ) )
+        {
+          this.Remarks[ RemarkName ] = Observation;
+        }
+        else
+        {
+          this.Remarks.Add( RemarkName, Observation );
+        }
       }
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public IEnumerable<string> IterateRemarks ()
+    public void RemoveRemark ( string RemarkName )
     {
       lock ( this.Remarks )
       {
-        foreach ( string Observation in this.Remarks )
+        if ( this.Remarks.ContainsKey( RemarkName ) )
         {
-          yield return Observation;
+          this.Remarks.Remove( RemarkName );
+        }
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<KeyValuePair<string, string>> IterateRemarks ()
+    {
+      lock ( this.Remarks )
+      {
+        foreach ( string RemarkName in this.Remarks.Keys )
+        {
+          KeyValuePair<string, string> RemarkPair = new KeyValuePair<string, string>();
+          yield return RemarkPair;
         }
       }
     }
@@ -2923,7 +2944,7 @@ namespace SEOMacroscope
       }
       else
       {
-        this.AddRemark( "Malformed URL" );
+        this.AddRemark( "MALFORMED_URL", "Malformed URL" );
       }
 
     }

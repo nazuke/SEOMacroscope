@@ -39,9 +39,10 @@ namespace SEOMacroscope
     {
       LINKS = 0,
       HYPERLINKS = 1,
-      URIS= 2
+      URIS = 2,
+      ORPHANS = 3
     }
-        
+
     /**************************************************************************/
 
     public MacroscopeCsvUriReport ()
@@ -59,13 +60,13 @@ namespace SEOMacroscope
 
       try
       {
-              
-        using( StreamWriter writer = File.CreateText( OutputFilename ) )
+
+        using ( StreamWriter writer = File.CreateText( OutputFilename ) )
         {
-        
-          CsvWriter ws = new CsvWriter ( writer );
-        
-          switch( SelectedOutputWorksheet )
+
+          CsvWriter ws = new CsvWriter( writer );
+
+          switch ( SelectedOutputWorksheet )
           {
             case MacroscopeCsvUriReport.OutputWorksheet.LINKS:
               this.BuildWorksheetPageLinks( JobMaster, ws );
@@ -76,6 +77,9 @@ namespace SEOMacroscope
             case MacroscopeCsvUriReport.OutputWorksheet.URIS:
               this.BuildWorksheetPageUriAnalysis( JobMaster, ws );
               break;
+            case MacroscopeCsvUriReport.OutputWorksheet.ORPHANS:
+              this.BuildWorksheetPageOrphanedPages( JobMaster, ws );
+              break;
             default:
               break;
           }
@@ -83,18 +87,18 @@ namespace SEOMacroscope
         }
 
       }
-      catch( CsvHelperException )
+      catch ( CsvHelperException )
       {
         MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (
+        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
           string.Format( "Cannot write to CSV file at {0}", OutputFilename )
         );
         throw CannotSaveCsvFileException;
       }
-      catch( IOException )
+      catch ( IOException )
       {
         MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (
+        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
           string.Format( "Cannot write to CSV file at {0}", OutputFilename )
         );
         throw CannotSaveCsvFileException;

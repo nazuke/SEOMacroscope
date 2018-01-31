@@ -79,10 +79,8 @@ namespace SEOMacroscope
     private Semaphore SemaphoreWorkers;
 
     private string StartUrl;
-    private int Depth;
-    private int PageLimit;
-    private int PageLimitCount;
 
+    private Object PagesFoundLock;
     private int PagesFound;
 
     private string ParentStartingDirectory;
@@ -240,11 +238,8 @@ namespace SEOMacroscope
       this.SemaphoreWorkers = new Semaphore( 0, this.ThreadsMax );
       this.SemaphoreWorkers.Release( this.ThreadsMax );
 
-      this.Depth = MacroscopePreferencesManager.GetDepth();
-      this.PageLimit = MacroscopePreferencesManager.GetPageLimit();
-      this.PageLimitCount = 0;
-
-      this.PagesFound = 0;
+      this.PagesFoundLock = new Object();
+      this.SetPagesFound( Value: 0 );
 
       {
         this.ParentStartingDirectory = "";
@@ -415,6 +410,14 @@ namespace SEOMacroscope
           }
         }
 
+        { // Add humans.txt URL to queue
+          string HumansUrl = MacroscopeHumans.GenerateHumansUrl( Url: this.StartUrl );
+          if ( !string.IsNullOrEmpty( HumansUrl ) )
+          {
+            this.AddUrlQueueItem( Url: HumansUrl );
+          }
+        }
+
         this.IncludeExcludeUrls.AddExplicitIncludeUrl( Url: this.StartUrl );
 
         this.AddUrlQueueItem( Url: this.StartUrl );
@@ -571,7 +574,7 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "NotifyWorkersFetched: {0}", Url ) );
 
-      this.PagesFound++;
+      this.IncPagesFound();
 
       this.AddUpdateDisplayQueue( Url: Url );
 
@@ -1090,45 +1093,31 @@ namespace SEOMacroscope
       return ( this.StartUrl );
     }
 
-    /** Page Depth ************************************************************/
+    /** Pages Found Counter ***************************************************/
 
-    public int GetDepth ()
+    public void SetPagesFound ( int Value )
     {
-      return ( this.Depth );
+      lock ( this.PagesFoundLock )
+      {
+        this.PagesFound = Value;
+      }
     }
 
-    public void SetGetDepth ( int Value )
-    {
-      this.Depth = Value;
-    }
-
-    /** Page Limit ************************************************************/
-
-    public int GetPageLimit ()
-    {
-      return ( this.PageLimit );
-    }
-
-    /** Page Limit Count ******************************************************/
-
-    public void SetPageLimitCount ( int Value )
-    {
-      this.PageLimitCount = Value;
-    }
-
-    public int GetPageLimitCount ()
-    {
-      return ( this.PageLimitCount );
-    }
-
-    public void IncPageLimitCount ()
-    {
-      this.PageLimitCount++;
-    }
+    /** -------------------------------------------------------------------- **/
 
     public int GetPagesFound ()
     {
       return ( this.PagesFound );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void IncPagesFound ()
+    {
+      lock ( this.PagesFoundLock )
+      {
+        this.PagesFound += 1;
+      }
     }
 
     /** Crawl Parent / Child Directories **************************************/

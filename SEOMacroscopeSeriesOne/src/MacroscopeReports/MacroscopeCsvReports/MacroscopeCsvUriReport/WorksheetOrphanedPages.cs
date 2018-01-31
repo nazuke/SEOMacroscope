@@ -30,55 +30,54 @@ using CsvHelper;
 namespace SEOMacroscope
 {
 
-  public partial class MaroscopeCsvRemarksReport : MacroscopeCsvReports
+  public partial class MacroscopeCsvUriReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetPageObservations (
+    private void BuildWorksheetPageOrphanedPages (
       MacroscopeJobMaster JobMaster,
       CsvWriter ws
     )
     {
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
-      MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      
+      MacroscopeDocumentList OrphanedDocumentList = DocCollection.GetOrphanedDocumentList();
+
       {
 
         ws.WriteField( "URL" );
         ws.WriteField( "Status Code" );
         ws.WriteField( "Status" );
-        ws.WriteField( "Observation" );
-        
+
         ws.NextRecord();
 
       }
 
-      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      if ( OrphanedDocumentList != null )
       {
 
-        string Url = msDoc.GetUrl();
-        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
-        string Status = msDoc.GetStatusCode().ToString();
-
-        foreach ( KeyValuePair<string, string> RemarkPair in msDoc.IterateRemarks() )
+        foreach ( MacroscopeDocument msDoc in OrphanedDocumentList.IterateDocuments() )
         {
+
+          string Url = msDoc.GetUrl();
+          string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
+          string Status = msDoc.GetStatusCode().ToString();
+          string Checksum = msDoc.GetChecksum();
+          int Count = DocCollection.GetStatsChecksumCount( Checksum: Checksum );
 
           this.InsertAndFormatUrlCell( ws, msDoc );
 
           this.InsertAndFormatContentCell( ws, StatusCode );
-          
-          this.InsertAndFormatContentCell( ws, Status );
 
-          this.InsertAndFormatContentCell( ws, RemarkPair.Value );
+          this.InsertAndFormatContentCell( ws, Status );
 
           ws.NextRecord();
 
         }
 
       }
-      
+
     }
 
     /**************************************************************************/

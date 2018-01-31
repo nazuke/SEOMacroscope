@@ -109,14 +109,14 @@ namespace SEOMacroscope
         this.DebugMsg( string.Format( "_ProcessTextPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ProcessTextPage", ex.Message );
       }
       catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "_ProcessTextPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
-        this.AddRemark( ex.Message );
+        this.AddRemark( "_ProcessTextPage", ex.Message );
       }
 
       if ( Response == null )
@@ -234,7 +234,7 @@ namespace SEOMacroscope
 
             if ( TextSize > RobotsMaxTextSize )
             {
-              this.AddRemark( "Robots.txt is larger than 512KB" );
+              this.AddRemark( "ROBOTS_TOO_BIG", "Robots.txt is larger than 512KB" );
             }
 
           }

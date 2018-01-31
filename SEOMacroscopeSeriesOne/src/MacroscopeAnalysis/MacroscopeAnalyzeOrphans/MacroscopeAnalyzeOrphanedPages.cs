@@ -40,7 +40,6 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    // TODO: Check that this is complete
     public MacroscopeDocumentList AnalyzeOrphanedDocumentsInCollection ( MacroscopeDocumentCollection DocCollection )
     {
 
@@ -60,7 +59,7 @@ namespace SEOMacroscope
         foreach ( MacroscopeDocument msDocRight in DocCollection.IterateDocuments() )
         {
 
-          if ( msDocLeft.GetUrl().Equals( msDocRight.GetUrl() ) )
+          if ( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: msDocRight.GetUrl() ) )
           {
             continue;
           }
@@ -72,22 +71,25 @@ namespace SEOMacroscope
 
           foreach ( MacroscopeHyperlinkOut HyperlinkOut in msDocRight.IterateHyperlinksOut() )
           {
-            if ( UrlLeft.Equals( HyperlinkOut.GetTargetUrl() ) )
+
+            if ( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: HyperlinkOut.GetTargetUrl() ) )
             {
               IsOrphan = false;
             }
             else
-            if ( UrlLeft.Equals( HyperlinkOut.GetRawTargetUrl() ) )
+            if ( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: HyperlinkOut.GetRawTargetUrl() ) )
             {
               IsOrphan = false;
             }
-            if ( IsOrphan )
+
+            if ( !IsOrphan )
             {
               break;
             }
+
           }
 
-          if ( IsOrphan )
+          if ( !IsOrphan )
           {
             break;
           }
@@ -97,12 +99,13 @@ namespace SEOMacroscope
         if ( IsOrphan )
         {
           OrphanedDocumentList.AddDocument( msDoc: msDocLeft );
-          //msDocLeft.AddRemark( "This appears to be an orphaned page, not linked to from any other HTML page in this collection." );
-          //msDocLeft.AddRemark( "This page appears to only be referenced from one or more sitemaps." );
+          msDocLeft.AddRemark( "ORPHAN1", "This appears to be an orphaned page, not linked to from any other HTML page in this collection." );
+          msDocLeft.AddRemark( "ORPHAN2", "This page appears to only be referenced from one or more sitemaps." );
         }
         else
         {
-          // NO-OP
+          msDocLeft.RemoveRemark( "ORPHAN1" );
+          msDocLeft.RemoveRemark( "ORPHAN2" );
         }
 
       }
@@ -117,6 +120,7 @@ namespace SEOMacroscope
     {
 
       bool IsValid = true;
+
       if ( msDoc.GetIsExternal() )
       {
         IsValid = false;

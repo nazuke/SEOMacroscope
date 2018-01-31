@@ -168,7 +168,9 @@ namespace SEOMacroscope
       this.StatsSitemapErrors = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
       this.DocumentsInSitemaps = new List<MacroscopeDocumentList>( 2 );
 
-      this.StartRecalcTimer();
+      this.OrphanedDocumentList = new MacroscopeDocumentList();
+
+      this.StartRecalcTimer ();
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZED." );
 
@@ -2428,17 +2430,6 @@ namespace SEOMacroscope
     {
       return ( this.OrphanedDocumentList );
     }
-
-
-
-
-
-
-
-
-
-
-
 
     /** Search Index **********************************************************/
 

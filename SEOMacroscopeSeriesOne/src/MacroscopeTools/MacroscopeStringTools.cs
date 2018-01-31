@@ -96,13 +96,13 @@ namespace SEOMacroscope
         }
         catch( System.Collections.Generic.KeyNotFoundException ex )
         {
-          DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
-          msDoc.AddRemark( "Possibly contains invalid HTML Entities." );
+          DebugMsg( string.Format( "CleanDocumentText: {0}", ex.Message ), true );
+          msDoc.AddRemark( "CleanDocumentText", "Possibly contains invalid HTML Entities." );
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
-          msDoc.AddRemark( "Possibly contains invalid HTML Entities." );
+          DebugMsg( string.Format( "CleanDocumentText: {0}", ex.Message ), true );
+          msDoc.AddRemark( "CleanDocumentText", "Possibly contains invalid HTML Entities." );
         }
 
         CleanedText = CleanText( Text: CleanedText );

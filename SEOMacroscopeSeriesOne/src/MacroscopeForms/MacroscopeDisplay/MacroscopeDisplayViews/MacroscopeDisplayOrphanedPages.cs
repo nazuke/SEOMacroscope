@@ -124,17 +124,22 @@ namespace SEOMacroscope
       List<ListViewItem> ListViewItems = new List<ListViewItem>( 1 );
       MacroscopeDocumentList OrphanedDocumentList = DocCollection.GetOrphanedDocumentList();
 
-      this.DisplayListView.Clear();
+      this.ClearData();
 
-      foreach ( MacroscopeDocument msDoc in OrphanedDocumentList.IterateDocuments() )
+      if ( OrphanedDocumentList != null )
       {
 
-        this.RenderListView(
-          ListViewItems: ListViewItems,
-          DocCollection: DocCollection,
-          msDoc: msDoc,
-          Url: msDoc.GetUrl()
-        );
+        foreach ( MacroscopeDocument msDoc in OrphanedDocumentList.IterateDocuments() )
+        {
+
+          this.RenderListView(
+            ListViewItems: ListViewItems,
+            DocCollection: DocCollection,
+            msDoc: msDoc,
+            Url: msDoc.GetUrl()
+          );
+        }
+
       }
 
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
