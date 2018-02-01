@@ -10,5 +10,5 @@ env:
 
 branches:
   only:
-    - v1.7
     - master
+    - v1.7

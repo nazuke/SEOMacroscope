@@ -21,9 +21,9 @@ description: "The SEO Macroscope user manual."
 To run a link scan of a website, simply enter a valid URL into the **Start URL** field, and click **Start**.
 {:.lead}
 
-The running scan may be stopped at any time by clicking **Stop**. It may be resumed again by clicking **Start**.
+The running scan may be stopped at any time by clicking **Stop**. It may be resumed again by clicking **Continue**.
 
-To clear the results of a full or partial scan, click **Reset**.
+To clear the results of a full or partial scan, click **Reset**. Also, editing the **Start URL** will clear and reset the current scanned collection.
 
 {% include go-to-top.html %}
 
@@ -73,11 +73,11 @@ These settings control how SEO Macroscope crawls the links on your site.
 
 SEO Macroscope will honour the robots.txt directives, if present. Currently, this includes only those directives for the wildcard user agent.
 
-Currently, on-page robot directives are not implemented.
+As of this time, on-page robot directives are not implemented yet.
 
-If present, the *crawl delay* directive will be followed. Please note however that this delay is set per-thread. Which means that if crawling with 4 threads with a delay of 1 second, then your site may receive 4 requests per-second. Set the thread count low to begin with.
+If present, the **crawl delay** directive in the robots.txt will be followed. Please note however that this delay is set per-thread. Which means that if crawling with 4 threads with a delay of 1 second, then your site may receive 4 requests per-second. Set the thread count low to begin with.
 
-Also see *Crawl Delay* in the *Spidering Limits* section.
+Also see **Crawl Delay** in the **Spidering Limits** section.
 
 ##### Follow Sitemap Links (Partially implemented)
 
@@ -295,7 +295,7 @@ Enabling this option will cause PDF files to be downloaded, and if possible, pro
 
 If this option is enabled, PDF texts will be processed in the same manner as HTML text, including having their keyword terms analyzed, and Levenshtein processing applied.
 
-This option is off by default. Please note that enabling this option may consume a lot more bandwidth.
+This option is off by default. Please note that enabling this option may consume a more bandwidth.
 
 ##### Audio files
 
@@ -719,6 +719,22 @@ Reports may be exported to CSV format for most types of lists.
 Each worksheet must be exported to a separate CSV file.
 
 {% include go-to-top.html %}
+
+<!-- *********************************************************************** -->
+
+## URL Probing
+
+Some URLs may be automatically probed for, even if they are not referenced from anywhere else on the site.
+
+For example:
+
+> /robots.txt
+
+> /humans.txt
+
+> /favicon.ico
+
+> /sitemap.xml
 
 <!-- *********************************************************************** -->
 
