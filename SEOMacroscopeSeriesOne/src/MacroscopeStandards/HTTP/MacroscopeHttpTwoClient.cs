@@ -248,20 +248,22 @@ namespace SEOMacroscope
             using ( HttpContent ResponseContent = Response.Content )
             {
 
+              byte[] ContentAsBytes;
+
               switch ( DecodeResponseContent )
               {
                 case DecodeResponseContentAs.BYTES:
                   ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
                   break;
                 case DecodeResponseContentAs.STRING:
-                  // TODO: There appears to be an encoding bug here:
-                  // BUG: This chokes on malformed Content-Type headers:
-                  ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+                  ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
+                  ContentAsBytes = ClientResponse.GetContentAsBytes();
+                  ClientResponse.SetContentAsString( System.Text.Encoding.UTF8.GetString( ContentAsBytes ) );
                   break;
                 default:
-                  // TODO: There appears to be an encoding bug here:
-                  // BUG: This chokes on malformed Content-Type headers:
-                  ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+                  ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
+                  ContentAsBytes = ClientResponse.GetContentAsBytes();
+                  ClientResponse.SetContentAsString( System.Text.Encoding.UTF8.GetString( ContentAsBytes ) );
                   break;
               }
 
@@ -320,16 +322,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    // TODO: Implement this:
     /*
     public async Task<MacroscopeHttpTwoClientResponse> Post ()
     {
-
-      // TODO: Implement this
-
       MacroscopeHttpTwoClientResponse ClientResponse = null;
-
       return ( ClientResponse );
-
     }
     */
 

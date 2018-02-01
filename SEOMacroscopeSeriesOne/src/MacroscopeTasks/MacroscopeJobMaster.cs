@@ -391,21 +391,27 @@ namespace SEOMacroscope
       {
 
         { // Add robots.txt URL to queue
-          string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.StartUrl );
-          if ( !string.IsNullOrEmpty( RobotsUrl ) )
+          if ( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
           {
-            this.AddUrlQueueItem( Url: RobotsUrl );
+            string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.StartUrl );
+            if ( !string.IsNullOrEmpty( RobotsUrl ) )
+            {
+              this.AddUrlQueueItem( Url: RobotsUrl );
+            }
           }
         }
 
         { // Add sitemap.xml URLs to queue
-          MacroscopeSitemapPaths SitemapPaths = new MacroscopeSitemapPaths();
-          foreach ( string SitemapPath in SitemapPaths.IterateSitemapPaths() )
+          if ( MacroscopePreferencesManager.GetFollowSitemapLinks() )
           {
-            string SitemapUrl = MacroscopeSitemapPaths.GenerateSitemapUrl( Url: this.StartUrl, SitemapPath: SitemapPath );
-            if ( !string.IsNullOrEmpty( SitemapUrl ) )
+            MacroscopeSitemapPaths SitemapPaths = new MacroscopeSitemapPaths();
+            foreach ( string SitemapPath in SitemapPaths.IterateSitemapPaths() )
             {
-              this.AddUrlQueueItem( Url: SitemapUrl );
+              string SitemapUrl = MacroscopeSitemapPaths.GenerateSitemapUrl( Url: this.StartUrl, SitemapPath: SitemapPath );
+              if ( !string.IsNullOrEmpty( SitemapUrl ) )
+              {
+                this.AddUrlQueueItem( Url: SitemapUrl );
+              }
             }
           }
         }
@@ -414,7 +420,7 @@ namespace SEOMacroscope
           string HumansUrl = MacroscopeHumans.GenerateHumansUrl( Url: this.StartUrl );
           if ( !string.IsNullOrEmpty( HumansUrl ) )
           {
-            this.AddUrlQueueItem( Url: HumansUrl );
+            this.AddUrlQueueItem( Url: HumansUrl  );
           }
         }
 

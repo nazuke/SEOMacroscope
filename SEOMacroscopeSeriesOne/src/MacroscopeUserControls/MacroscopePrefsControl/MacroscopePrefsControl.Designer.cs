@@ -268,6 +268,10 @@ namespace SEOMacroscope
       this.groupBox27 = new System.Windows.Forms.GroupBox();
       this.checkBoxCaseSensitiveTextIndexing = new System.Windows.Forms.CheckBox();
       this.checkBoxEnableTextIndexing = new System.Windows.Forms.CheckBox();
+      this.groupBox30 = new System.Windows.Forms.GroupBox();
+      this.checkBoxDisregardHtml5ElementFooter = new System.Windows.Forms.CheckBox();
+      this.checkBoxDisregardHtml5ElementHeader = new System.Windows.Forms.CheckBox();
+      this.checkBoxDisregardHtml5ElementNav = new System.Windows.Forms.CheckBox();
       this.groupBox13 = new System.Windows.Forms.GroupBox();
       this.checkBoxWarnAboutInsecureLinks = new System.Windows.Forms.CheckBox();
       this.tabPageSeo = new System.Windows.Forms.TabPage();
@@ -365,10 +369,6 @@ namespace SEOMacroscope
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-      this.groupBox30 = new System.Windows.Forms.GroupBox();
-      this.checkBoxDisregardHtml5ElementHeader = new System.Windows.Forms.CheckBox();
-      this.checkBoxDisregardHtml5ElementNav = new System.Windows.Forms.CheckBox();
-      this.checkBoxDisregardHtml5ElementFooter = new System.Windows.Forms.CheckBox();
       label9 = new System.Windows.Forms.Label();
       label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
@@ -392,6 +392,7 @@ namespace SEOMacroscope
       this.groupBox16.SuspendLayout();
       this.groupBox11.SuspendLayout();
       this.groupBox27.SuspendLayout();
+      this.groupBox30.SuspendLayout();
       this.groupBox13.SuspendLayout();
       this.tabPageSeo.SuspendLayout();
       this.flowLayoutPanel2.SuspendLayout();
@@ -443,7 +444,6 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.SuspendLayout();
       this.flowLayoutPanel7.SuspendLayout();
       this.groupBox19.SuspendLayout();
-      this.groupBox30.SuspendLayout();
       this.SuspendLayout();
       // 
       // label9
@@ -527,9 +527,9 @@ namespace SEOMacroscope
       // 
       this.checkBoxFollowRobotsProtocol.Location = new System.Drawing.Point(20, 20);
       this.checkBoxFollowRobotsProtocol.Name = "checkBoxFollowRobotsProtocol";
-      this.checkBoxFollowRobotsProtocol.Size = new System.Drawing.Size(160, 24);
+      this.checkBoxFollowRobotsProtocol.Size = new System.Drawing.Size(150, 24);
       this.checkBoxFollowRobotsProtocol.TabIndex = 1;
-      this.checkBoxFollowRobotsProtocol.Text = "Follow robots protocol";
+      this.checkBoxFollowRobotsProtocol.Text = "Follow robot rules";
       this.checkBoxFollowRobotsProtocol.UseVisualStyleBackColor = true;
       // 
       // checkBoxFollowSitemapLinks
@@ -1192,6 +1192,47 @@ namespace SEOMacroscope
       this.checkBoxEnableTextIndexing.TabIndex = 1;
       this.checkBoxEnableTextIndexing.Text = "Enable text indexing";
       this.checkBoxEnableTextIndexing.UseVisualStyleBackColor = true;
+      // 
+      // groupBox30
+      // 
+      this.groupBox30.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementFooter);
+      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementHeader);
+      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementNav);
+      this.groupBox30.Location = new System.Drawing.Point(10, 420);
+      this.groupBox30.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox30.Name = "groupBox30";
+      this.groupBox30.Size = new System.Drawing.Size(500, 60);
+      this.groupBox30.TabIndex = 6;
+      this.groupBox30.TabStop = false;
+      this.groupBox30.Text = "Disregard Text in HTML5 Elements";
+      // 
+      // checkBoxDisregardHtml5ElementFooter
+      // 
+      this.checkBoxDisregardHtml5ElementFooter.Location = new System.Drawing.Point(340, 20);
+      this.checkBoxDisregardHtml5ElementFooter.Name = "checkBoxDisregardHtml5ElementFooter";
+      this.checkBoxDisregardHtml5ElementFooter.Size = new System.Drawing.Size(100, 24);
+      this.checkBoxDisregardHtml5ElementFooter.TabIndex = 3;
+      this.checkBoxDisregardHtml5ElementFooter.Text = "<FOOTER>";
+      this.checkBoxDisregardHtml5ElementFooter.UseVisualStyleBackColor = true;
+      // 
+      // checkBoxDisregardHtml5ElementHeader
+      // 
+      this.checkBoxDisregardHtml5ElementHeader.Location = new System.Drawing.Point(180, 20);
+      this.checkBoxDisregardHtml5ElementHeader.Name = "checkBoxDisregardHtml5ElementHeader";
+      this.checkBoxDisregardHtml5ElementHeader.Size = new System.Drawing.Size(100, 24);
+      this.checkBoxDisregardHtml5ElementHeader.TabIndex = 2;
+      this.checkBoxDisregardHtml5ElementHeader.Text = "<HEADER>";
+      this.checkBoxDisregardHtml5ElementHeader.UseVisualStyleBackColor = true;
+      // 
+      // checkBoxDisregardHtml5ElementNav
+      // 
+      this.checkBoxDisregardHtml5ElementNav.Location = new System.Drawing.Point(20, 20);
+      this.checkBoxDisregardHtml5ElementNav.Name = "checkBoxDisregardHtml5ElementNav";
+      this.checkBoxDisregardHtml5ElementNav.Size = new System.Drawing.Size(100, 24);
+      this.checkBoxDisregardHtml5ElementNav.TabIndex = 1;
+      this.checkBoxDisregardHtml5ElementNav.Text = "<NAV>";
+      this.checkBoxDisregardHtml5ElementNav.UseVisualStyleBackColor = true;
       // 
       // groupBox13
       // 
@@ -2381,47 +2422,6 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
       // 
-      // groupBox30
-      // 
-      this.groupBox30.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementFooter);
-      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementHeader);
-      this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementNav);
-      this.groupBox30.Location = new System.Drawing.Point(10, 420);
-      this.groupBox30.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-      this.groupBox30.Name = "groupBox30";
-      this.groupBox30.Size = new System.Drawing.Size(500, 60);
-      this.groupBox30.TabIndex = 6;
-      this.groupBox30.TabStop = false;
-      this.groupBox30.Text = "Disregard Text in HTML5 Elements";
-      // 
-      // checkBoxDisregardHtml5ElementHeader
-      // 
-      this.checkBoxDisregardHtml5ElementHeader.Location = new System.Drawing.Point(180, 20);
-      this.checkBoxDisregardHtml5ElementHeader.Name = "checkBoxDisregardHtml5ElementHeader";
-      this.checkBoxDisregardHtml5ElementHeader.Size = new System.Drawing.Size(100, 24);
-      this.checkBoxDisregardHtml5ElementHeader.TabIndex = 2;
-      this.checkBoxDisregardHtml5ElementHeader.Text = "<HEADER>";
-      this.checkBoxDisregardHtml5ElementHeader.UseVisualStyleBackColor = true;
-      // 
-      // checkBoxDisregardHtml5ElementNav
-      // 
-      this.checkBoxDisregardHtml5ElementNav.Location = new System.Drawing.Point(20, 20);
-      this.checkBoxDisregardHtml5ElementNav.Name = "checkBoxDisregardHtml5ElementNav";
-      this.checkBoxDisregardHtml5ElementNav.Size = new System.Drawing.Size(100, 24);
-      this.checkBoxDisregardHtml5ElementNav.TabIndex = 1;
-      this.checkBoxDisregardHtml5ElementNav.Text = "<NAV>";
-      this.checkBoxDisregardHtml5ElementNav.UseVisualStyleBackColor = true;
-      // 
-      // checkBoxDisregardHtml5ElementFooter
-      // 
-      this.checkBoxDisregardHtml5ElementFooter.Location = new System.Drawing.Point(340, 20);
-      this.checkBoxDisregardHtml5ElementFooter.Name = "checkBoxDisregardHtml5ElementFooter";
-      this.checkBoxDisregardHtml5ElementFooter.Size = new System.Drawing.Size(100, 24);
-      this.checkBoxDisregardHtml5ElementFooter.TabIndex = 3;
-      this.checkBoxDisregardHtml5ElementFooter.Text = "<FOOTER>";
-      this.checkBoxDisregardHtml5ElementFooter.UseVisualStyleBackColor = true;
-      // 
       // MacroscopePrefsControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2452,6 +2452,7 @@ namespace SEOMacroscope
       this.groupBox16.ResumeLayout(false);
       this.groupBox11.ResumeLayout(false);
       this.groupBox27.ResumeLayout(false);
+      this.groupBox30.ResumeLayout(false);
       this.groupBox13.ResumeLayout(false);
       this.tabPageSeo.ResumeLayout(false);
       this.flowLayoutPanel2.ResumeLayout(false);
@@ -2505,7 +2506,6 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.ResumeLayout(false);
       this.flowLayoutPanel7.ResumeLayout(false);
       this.groupBox19.ResumeLayout(false);
-      this.groupBox30.ResumeLayout(false);
       this.ResumeLayout(false);
 
 		}
