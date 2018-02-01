@@ -69,19 +69,25 @@ These settings control how SEO Macroscope crawls the links on your site.
 
 #### Standards
 
-##### Follow Robots Protocol (Partially implemented)
+##### Follow Robot Rules (Partially implemented)
 
 SEO Macroscope will honour the robots.txt directives, if present. Currently, this includes only those directives for the wildcard user agent.
 
 Currently, on-page robot directives are not implemented.
 
-If present, the *crawl delay* directive will be followed. Please note however that this delay is set per-thread. Which means that if crawling with 4 threads with a delay of 1 second, then your site may receive 4 requests every second. Set the thread count low to begin with.
+If present, the *crawl delay* directive will be followed. Please note however that this delay is set per-thread. Which means that if crawling with 4 threads with a delay of 1 second, then your site may receive 4 requests per-second. Set the thread count low to begin with.
 
 Also see *Crawl Delay* in the *Spidering Limits* section.
 
 ##### Follow Sitemap Links (Partially implemented)
 
 SEO Macroscope will attempt to discover Google Sitemap XML files specified by your website, and follow the links in them.
+
+The application will also use this setting to probe for well-known sitemap URLs.
+
+For example:
+
+    https://www.company.com/sitemap.xml
 
 #### Links
 
