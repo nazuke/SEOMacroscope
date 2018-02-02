@@ -2072,11 +2072,13 @@ namespace SEOMacroscope
       {
         this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
         this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", HtmlUri.ToString() ) );
+        this.AddRemark( "FETCHHTMLFILE", string.Format( "There was an error downloading the HTML content: {0}", ex.Message ) );
       }
       catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
         this.DebugMsg( string.Format( "Exception: {0}", HtmlUri.ToString() ) );
+        this.AddRemark( "FETCHHTMLFILE", string.Format( "There was an error downloading the HTML content: {0}", ex.Message ) );
       }
 
       if ( ( Proceed ) && ( Response != null ) )

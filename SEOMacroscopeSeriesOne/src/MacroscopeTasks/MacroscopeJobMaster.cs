@@ -402,7 +402,7 @@ namespace SEOMacroscope
         }
 
         { // Add sitemap.xml URLs to queue
-          if ( MacroscopePreferencesManager.GetFollowSitemapLinks() )
+          if ( MacroscopePreferencesManager.GetFetchXml() && MacroscopePreferencesManager.GetFollowSitemapLinks() )
           {
             MacroscopeSitemapPaths SitemapPaths = new MacroscopeSitemapPaths();
             foreach ( string SitemapPath in SitemapPaths.IterateSitemapPaths() )

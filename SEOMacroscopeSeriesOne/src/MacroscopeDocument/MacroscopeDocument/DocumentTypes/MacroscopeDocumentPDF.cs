@@ -225,6 +225,17 @@ namespace SEOMacroscope
 
         }
 
+        /** Out Links Text ------------------------------------------------- **/
+
+        if ( this.GetDocumentTextRawLength() > 0 )
+        {
+          if ( this.GetIsInternal() )
+          {
+            string Text = this.GetDocumentTextRaw();
+            this.ProcessPdfOutlinks( TextDoc: Text );
+          }
+        }
+
         /** ---------------------------------------------------------------- **/
 
       }
@@ -233,6 +244,126 @@ namespace SEOMacroscope
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
+
+    }
+
+    /** PDF Out Links *********************************************************/
+
+    private void ProcessPdfOutlinks ( string TextDoc )
+    {
+
+      // BUG: Trailing punctuation in the detected URL can cause problems:
+      Regex UrlRegex = new Regex(
+        @"(https?://[^/]+/[^\s]*)",
+        RegexOptions.IgnoreCase
+        );
+
+      Match UrlMatch = UrlRegex.Match( TextDoc );
+
+      while ( UrlMatch.Success )
+      {
+
+        for ( int i = 0 ; i <= UrlMatch.Groups.Count ; i++ )
+        {
+
+          Group CaptureGroups = UrlMatch.Groups[ i ];
+          CaptureCollection Captures = CaptureGroups.Captures;
+          Capture Captured = null;
+          string UrlProcessing = null;
+          string UrlCleaned = null;
+
+          if ( Captures.Count <= 0 )
+          {
+            continue;
+          }
+
+          Captured = Captures[ 0 ];
+          UrlProcessing = Captured.Value;
+          UrlProcessing = UrlProcessing.Trim();
+
+          if ( !string.IsNullOrEmpty( UrlProcessing ) )
+          {
+
+            try
+            {
+              Uri PdfUri = new Uri( UrlProcessing );
+              if ( PdfUri != null )
+              {
+                UrlCleaned = UrlProcessing;
+              }
+            }
+            catch ( UriFormatException ex )
+            {
+              this.DebugMsg( string.Format( "ProcessPdfOutlinks: {0}", ex.Message ) );
+              UrlCleaned = null;
+            }
+            catch ( Exception ex )
+            {
+              this.DebugMsg( string.Format( "ProcessPdfOutlinks: {0}", ex.Message ) );
+              UrlCleaned = null;
+            }
+
+            if ( UrlCleaned != null )
+            {
+
+              MacroscopeLink Outlink;
+
+              Outlink = this.AddPdfOutlink(
+                AbsoluteUrl: UrlCleaned,
+                LinkType: MacroscopeConstants.InOutLinkType.PDF,
+                Follow: true
+              );
+
+              if ( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( TargetUrl: UrlCleaned );
+              }
+
+            }
+
+          }
+
+        }
+
+        UrlMatch = UrlMatch.NextMatch();
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    private MacroscopeLink AddPdfOutlink (
+      string AbsoluteUrl,
+      MacroscopeConstants.InOutLinkType LinkType,
+      bool Follow
+    )
+    {
+
+      MacroscopeLink OutLink = null;
+
+      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      {
+        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
+        if ( AllowedHosts != null )
+        {
+          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+          {
+            return ( OutLink );
+          }
+        }
+      }
+
+      OutLink = new MacroscopeLink(
+        SourceUrl: this.GetUrl(),
+        TargetUrl: AbsoluteUrl,
+        LinkType: LinkType,
+        Follow: Follow
+      );
+
+      this.Outlinks.Add( OutLink );
+
+      return ( OutLink );
 
     }
 

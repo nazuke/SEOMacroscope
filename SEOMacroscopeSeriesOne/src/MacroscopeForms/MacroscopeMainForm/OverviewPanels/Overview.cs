@@ -37,7 +37,7 @@ namespace SEOMacroscope
     public void ReconfigureStructureOverviewControls ()
     {
 
-      if( MacroscopePreferencesManager.GetEnableTextIndexing() )
+      if ( MacroscopePreferencesManager.GetEnableTextIndexing() )
       {
         this.macroscopeOverviewTabPanelInstance.toolStripStructureSearchTextBoxSearch.Enabled = true;
       }
@@ -70,6 +70,7 @@ namespace SEOMacroscope
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageLinks );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageHyperlinks );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageUriAnalysis );
+      this.DisableTabPage( TabName: MacroscopeConstants.tabPageOrphanedPages );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPagePageTitles );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPagePageDescriptions );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPagePageKeywords );
@@ -118,6 +119,7 @@ namespace SEOMacroscope
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageLinks );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageHyperlinks );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageUriAnalysis );
+      this.EnableTabPage( TabName: MacroscopeConstants.tabPageOrphanedPages );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPagePageTitles );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPagePageDescriptions );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPagePageKeywords );
