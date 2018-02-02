@@ -1,4 +1,4 @@
-# SEO MACROSCOPE
+# SEO MACROSCOPE [![Build Status](https://travis-ci.org/nazuke/SEOMacroscope.svg?branch=v1.7)](https://travis-ci.org/nazuke/SEOMacroscope)
 
 ![SEO Macroscope application window](docs/media/screenshots/seo-macroscope-main-window-v1.5.png "SEO Macroscope application window")
 
