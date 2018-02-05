@@ -229,7 +229,7 @@ namespace SEOMacroscope
             {
               DebugMsg( string.Format( "ProcessTextPage: {0} :: {1}", "SITEMAP DETECTED", this.GetUrl() ) );
               this.SetIsSitemapText();
-              this.ProcessSitemapTextOutlinks( TextDoc );
+              this.ProcessSitemapTextOutlinks( TextDoc: TextDoc );
             }
 
             if ( TextSize > RobotsMaxTextSize )
@@ -237,6 +237,13 @@ namespace SEOMacroscope
               this.AddRemark( "ROBOTS_TOO_BIG", "Robots.txt is larger than 512KB" );
             }
 
+          }
+          else
+          {
+            if ( this.GetIsInternal() )
+            {
+              this.ProcessPureTextOutlinks( TextDoc: TextDoc, LinkType: MacroscopeConstants.InOutLinkType.PURETEXT );
+            }
           }
 
         }

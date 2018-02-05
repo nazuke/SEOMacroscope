@@ -182,6 +182,7 @@
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentExecuteHeadRequest.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentProcessHttpHeaders.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\t\TestMacroscopeDocumentCSS.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\MacroscopePureTextOutLinks.cs" />
     <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesPresets.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapsAudit.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapErrors.cs" />

@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Timers;
@@ -65,6 +66,9 @@ namespace SEOMacroscope
     private Dictionary<string, int> StatsErrors;
     private Dictionary<string, int> StatsChecksums;
 
+    private Dictionary<string, int> StatsDocumentTypesInternal;
+    private Dictionary<string, int> StatsDocumentTypesExternal;
+    
     private Dictionary<string, int> StatsLanguagesPages;
     private Dictionary<string, int> StatsLanguagesTitles;
     private Dictionary<string, int> StatsLanguagesDescriptions;
@@ -137,6 +141,9 @@ namespace SEOMacroscope
       this.StatsWarnings = new Dictionary<string, int>( 32 );
       this.StatsErrors = new Dictionary<string, int>( 32 );
       this.StatsChecksums = new Dictionary<string, int>( 1024 );
+
+      this.StatsDocumentTypesInternal = new Dictionary<string, int>( 8 );
+      this.StatsDocumentTypesExternal = new Dictionary<string, int>( 8 );
 
       this.StatsLanguagesPages = new Dictionary<string, int>( 8 );
       this.StatsLanguagesTitles = new Dictionary<string, int>( 8 );
@@ -708,6 +715,8 @@ namespace SEOMacroscope
                 this.RecalculateStatsErrors( msDoc: msDoc );
 
                 this.RecalculateStatsChecksums( msDoc: msDoc );
+
+                this.RecalculateStatsDocumentTypes( msDoc: msDoc );
 
                 this.RecalculateStatsLanguages( msDoc: msDoc );
 
@@ -1556,6 +1565,132 @@ namespace SEOMacroscope
 
     }
 
+    /** Document Types Stats **************************************************/
+
+    private void ClearDocumentTypes ()
+    {
+      lock ( this.StatsDocumentTypesInternal )
+      {
+        this.StatsDocumentTypesInternal.Clear();
+      }
+      lock ( this.StatsDocumentTypesExternal )
+      {
+        this.StatsDocumentTypesExternal.Clear();
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public Dictionary<string, int> GetStatsDocumentTypesInternalCount ()
+    {
+      Dictionary<string, int> Copy = new Dictionary<string, int>( this.StatsDocumentTypesInternal.Count );
+      lock ( this.StatsDocumentTypesInternal )
+      {
+        foreach ( string Key in this.StatsDocumentTypesInternal.Keys )
+        {
+          Copy.Add( Key, this.StatsDocumentTypesInternal[ Key ] );
+        }
+      }
+      return ( Copy );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public Dictionary<string, int> GetStatsDocumentTypesExternalCount ()
+    {
+      Dictionary<string, int> Copy = new Dictionary<string, int>( this.StatsDocumentTypesExternal.Count );
+      lock ( this.StatsDocumentTypesExternal )
+      {
+        foreach ( string Key in this.StatsDocumentTypesExternal.Keys )
+        {
+          Copy.Add( Key, this.StatsDocumentTypesExternal[ Key ] );
+        }
+      }
+      return ( Copy );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void RecalculateStatsDocumentTypes ( MacroscopeDocument msDoc )
+    {
+      if ( msDoc.GetIsInternal() )
+      {
+        lock ( this.StatsDocumentTypesInternal )
+        {
+          this.RecalculateStatsDocumentTypes( DocumentTypes: this.StatsDocumentTypesInternal, msDoc: msDoc );
+        }
+      }
+      else
+      {
+        lock ( this.StatsDocumentTypesExternal )
+        {
+          this.RecalculateStatsDocumentTypes( DocumentTypes: this.StatsDocumentTypesExternal, msDoc: msDoc );
+        }
+      }
+      return;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void RecalculateStatsDocumentTypes ( Dictionary<string, int> DocumentTypes, MacroscopeDocument msDoc )
+    {
+
+      string Type = "Other";
+
+      if ( msDoc.GetIsHtml() )
+      {
+        Type = "HTML";
+      }
+      else if ( msDoc.GetIsImage() )
+      {
+        Type = "Image";
+      }
+      else if ( msDoc.GetIsCss() )
+      {
+        Type = "CSS";
+      }
+      else if ( msDoc.GetIsJavascript() )
+      {
+        Type = "JavaScript";
+      }
+      else if ( msDoc.GetIsPdf() )
+      {
+        Type = "PDF";
+      }
+      else if ( msDoc.GetIsText() )
+      {
+        Type = "Text";
+      }
+      else if ( msDoc.GetIsAudio() )
+      {
+        Type = "Audio";
+      }
+      else if ( msDoc.GetIsVideo() )
+      {
+        Type = "Video";
+      }
+      else if ( msDoc.GetIsXml() )
+      {
+        Type = "XML";
+      }
+      else
+      {
+        Type = "Other";
+      }
+
+      if ( DocumentTypes.ContainsKey( Type ) )
+      {
+        DocumentTypes[ Type ] += 1;
+      }
+      else
+      {
+        DocumentTypes.Add( Type, 1 );
+      }
+
+      return;
+
+    }
+
     /** Languages Stats *******************************************************/
 
     private void ClearStatsLanguages ()
@@ -1597,6 +1732,8 @@ namespace SEOMacroscope
       return ( dicStats );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public Dictionary<string, int> GetStatsLanguagesTitlesCount ()
     {
       Dictionary<string, int> dicStats = new Dictionary<string, int>( this.StatsLanguagesTitles.Count );
@@ -1610,6 +1747,8 @@ namespace SEOMacroscope
       return ( dicStats );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public Dictionary<string, int> GetStatsLanguagesDescriptionsCount ()
     {
       Dictionary<string, int> dicStats = new Dictionary<string, int>( this.StatsLanguagesDescriptions.Count );
@@ -1622,6 +1761,8 @@ namespace SEOMacroscope
       }
       return ( dicStats );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public Dictionary<string, int> GetStatsLanguagesBodyTextsCount ()
     {

@@ -118,7 +118,7 @@ namespace SEOMacroscope
       if ( ClientResponse != null )
       {
 
-        MacroscopePdfTools pdfTools;
+        MacroscopePdfTools PdfTools;
 
         this.ProcessResponseHttpHeaders( Response: ClientResponse );
 
@@ -141,11 +141,11 @@ namespace SEOMacroscope
           byte[] RawData = ClientResponse.GetContentAsBytes();
           this.SetContentLength( Length: RawData.Length );
 
-          pdfTools = new MacroscopePdfTools( PdfData: RawData );
+          PdfTools = new MacroscopePdfTools( PdfData: RawData );
 
-          if ( pdfTools.GetHasError() )
+          if ( PdfTools.GetHasError() )
           {
-            this.AddRemark( "CORRUPT_PDF", Observation: pdfTools.GetErrorMessage() );
+            this.AddRemark( "CORRUPT_PDF", Observation: PdfTools.GetErrorMessage() );
           }
 
           this.SetWasDownloaded( true );
@@ -156,17 +156,17 @@ namespace SEOMacroscope
 
           this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           this.SetStatusCode( HttpStatusCode.BadRequest );
-          pdfTools = null;
+          PdfTools = null;
           this.SetContentLength( Length: 0 );
 
         }
 
         /** Title ---------------------------------------------------------- **/
 
-        if ( pdfTools != null )
+        if ( PdfTools != null )
         {
 
-          string Text = pdfTools.GetTitle();
+          string Text = PdfTools.GetTitle();
 
           if ( !string.IsNullOrEmpty( Text ) )
           {
@@ -183,10 +183,10 @@ namespace SEOMacroscope
 
         /** Description ---------------------------------------------------- **/
 
-        if ( pdfTools != null )
+        if ( PdfTools != null )
         {
 
-          string Text = pdfTools.GetDescription();
+          string Text = PdfTools.GetDescription();
 
           if ( !string.IsNullOrEmpty( Text ) )
           {
@@ -202,18 +202,18 @@ namespace SEOMacroscope
 
         /** Body Text ------------------------------------------------------ **/
 
-        if ( pdfTools != null )
+        if ( PdfTools != null )
         {
 
           this.SetBodyText( Text: "" );
 
-          if ( pdfTools.GetHasError() )
+          if ( PdfTools.GetHasError() )
           {
-            this.AddRemark( "PDF_ERROR", Observation: pdfTools.GetErrorMessage() );
+            this.AddRemark( "PDF_ERROR", Observation: PdfTools.GetErrorMessage() );
           }
           else
           {
-            string Text = pdfTools.GetTextAsString();
+            string Text = PdfTools.GetTextAsString();
             if ( !string.IsNullOrEmpty( Text ) )
             {
               this.SetDocumentText( Text: Text );
@@ -232,11 +232,37 @@ namespace SEOMacroscope
           if ( this.GetIsInternal() )
           {
             string Text = this.GetDocumentTextRaw();
-            this.ProcessPdfOutlinks( TextDoc: Text );
+            this.ProcessPureTextOutlinks( TextDoc: Text, LinkType: MacroscopeConstants.InOutLinkType.PDF );
+          }
+        }
+
+        /** Out Links in Annotations --------------------------------------- **/
+
+        if ( this.GetDocumentTextRawLength() > 0 )
+        {
+          if ( this.GetIsInternal() )
+          {
+            List<string> AnnotationOutLinks = PdfTools.GetOutLinks();
+            /*
+            foreach ( string AnnotationOutLinkUrl in AnnotationOutLinks )
+            {
+              this.AddPureTextOutlink( AbsoluteUrl: AnnotationOutLinkUrl, LinkType: MacroscopeConstants.InOutLinkType.PDF, Follow: true );
+            }
+            */
           }
         }
 
         /** ---------------------------------------------------------------- **/
+
+
+        
+
+
+
+
+
+
+
 
       }
 
@@ -246,127 +272,7 @@ namespace SEOMacroscope
       }
 
     }
-
-    /** PDF Out Links *********************************************************/
-
-    private void ProcessPdfOutlinks ( string TextDoc )
-    {
-
-      // BUG: Trailing punctuation in the detected URL can cause problems:
-      Regex UrlRegex = new Regex(
-        @"(https?://[^/]+/[^\s]*)",
-        RegexOptions.IgnoreCase
-        );
-
-      Match UrlMatch = UrlRegex.Match( TextDoc );
-
-      while ( UrlMatch.Success )
-      {
-
-        for ( int i = 0 ; i <= UrlMatch.Groups.Count ; i++ )
-        {
-
-          Group CaptureGroups = UrlMatch.Groups[ i ];
-          CaptureCollection Captures = CaptureGroups.Captures;
-          Capture Captured = null;
-          string UrlProcessing = null;
-          string UrlCleaned = null;
-
-          if ( Captures.Count <= 0 )
-          {
-            continue;
-          }
-
-          Captured = Captures[ 0 ];
-          UrlProcessing = Captured.Value;
-          UrlProcessing = UrlProcessing.Trim();
-
-          if ( !string.IsNullOrEmpty( UrlProcessing ) )
-          {
-
-            try
-            {
-              Uri PdfUri = new Uri( UrlProcessing );
-              if ( PdfUri != null )
-              {
-                UrlCleaned = UrlProcessing;
-              }
-            }
-            catch ( UriFormatException ex )
-            {
-              this.DebugMsg( string.Format( "ProcessPdfOutlinks: {0}", ex.Message ) );
-              UrlCleaned = null;
-            }
-            catch ( Exception ex )
-            {
-              this.DebugMsg( string.Format( "ProcessPdfOutlinks: {0}", ex.Message ) );
-              UrlCleaned = null;
-            }
-
-            if ( UrlCleaned != null )
-            {
-
-              MacroscopeLink Outlink;
-
-              Outlink = this.AddPdfOutlink(
-                AbsoluteUrl: UrlCleaned,
-                LinkType: MacroscopeConstants.InOutLinkType.PDF,
-                Follow: true
-              );
-
-              if ( Outlink != null )
-              {
-                Outlink.SetRawTargetUrl( TargetUrl: UrlCleaned );
-              }
-
-            }
-
-          }
-
-        }
-
-        UrlMatch = UrlMatch.NextMatch();
-
-      }
-
-    }
-
-    /**************************************************************************/
-
-    private MacroscopeLink AddPdfOutlink (
-      string AbsoluteUrl,
-      MacroscopeConstants.InOutLinkType LinkType,
-      bool Follow
-    )
-    {
-
-      MacroscopeLink OutLink = null;
-
-      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
-      {
-        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if ( AllowedHosts != null )
-        {
-          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
-          {
-            return ( OutLink );
-          }
-        }
-      }
-
-      OutLink = new MacroscopeLink(
-        SourceUrl: this.GetUrl(),
-        TargetUrl: AbsoluteUrl,
-        LinkType: LinkType,
-        Follow: Follow
-      );
-
-      this.Outlinks.Add( OutLink );
-
-      return ( OutLink );
-
-    }
-
+    
     /**************************************************************************/
 
   }

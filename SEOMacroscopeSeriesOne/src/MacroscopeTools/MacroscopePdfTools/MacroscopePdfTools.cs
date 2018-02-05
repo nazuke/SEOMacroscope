@@ -27,6 +27,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Annot;
+using iText.Kernel.Pdf.Annot.DA;
+using iText.Layout.Element;
 using iText.Kernel.Pdf.Canvas.Parser;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -161,6 +164,47 @@ namespace SEOMacroscope
       }
 
       return ( Texts );
+
+    }
+
+    /**************************************************************************/
+
+    public List<string> GetOutLinks ()
+    {
+      
+      // TDOO: Test this with PDF with embedded links, and complete.
+
+      List<string> OutLinks = new List<string>( this.Pdf.GetNumberOfPages() );
+
+      /*
+      for ( int i = 1 ; i <= this.Pdf.GetNumberOfPages() ; i++ )
+      {
+
+        PdfPage Page = this.Pdf.GetPage( i );
+
+        if ( Page.GetAnnotations().Count > 0 )
+        {
+
+          IList<PdfAnnotation> Annotations = Page.GetAnnotations();
+
+          foreach ( PdfAnnotation Annotation in Annotations )
+          {
+
+            if ( Annotation.GetType().Equals( PdfName.Link ) )
+            {
+              string Url = Annotation.ToString();
+              OutLinks.Add( Url );
+            }
+
+
+          }
+
+        }
+
+      }
+      */
+
+      return ( OutLinks );
 
     }
 

@@ -206,7 +206,7 @@ namespace SEOMacroscope
 
     /** END: MIME Types *******************************************************/
 
-    /** BEGIN: Document Types *************************************************/
+    /** BEGIN: Filter Document Types ******************************************/
 
     public enum DocumentType
     {
@@ -265,7 +265,8 @@ namespace SEOMacroscope
       ALTERNATE = 19,
       RELATED = 20,
       PDF = 21,
-      AUTHOR = 22
+      AUTHOR = 22,
+      PURETEXT = 23
     }
 
     /** END: Outlink Types ****************************************************/

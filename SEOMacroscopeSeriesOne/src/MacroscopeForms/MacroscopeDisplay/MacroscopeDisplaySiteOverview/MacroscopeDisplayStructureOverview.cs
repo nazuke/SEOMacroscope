@@ -42,7 +42,7 @@ namespace SEOMacroscope
     private MacroscopeMainForm MainForm;
 
     private TreeView tvTreeView;
-   
+
     private bool TreeViewConfigured = false;
 
     private MacroscopeSiteStructurePanelCharts SiteStructurePanelCharts;
@@ -51,30 +51,30 @@ namespace SEOMacroscope
 
     public MacroscopeDisplayStructureOverview ( MacroscopeMainForm MainForm, TreeView tvTreeView )
     {
-      
+
       this.SuppressDebugMsg = true;
-      
+
       this.MainForm = MainForm;
-      
+
       this.tvTreeView = tvTreeView;
-      
+
       this.SiteStructurePanelCharts = this.MainForm.macroscopeSiteStructurePanelInstance.siteStructurePanelCharts;
 
       this.ConfigureTreeView();
-    
+
     }
 
     /**************************************************************************/
 
     private void ConfigureTreeView ()
     {
-      if( !this.TreeViewConfigured )
+      if ( !this.TreeViewConfigured )
       {
         this.tvTreeView.PathSeparator = "/";
-        if( this.MainForm.InvokeRequired )
+        if ( this.MainForm.InvokeRequired )
         {
           this.MainForm.Invoke(
-            new MethodInvoker (
+            new MethodInvoker(
               delegate
               {
                 this.ResetTreeView();
@@ -97,15 +97,15 @@ namespace SEOMacroscope
     protected void TreeViewSiteOverviewClick ( object sender, TreeNodeMouseClickEventArgs e )
     {
 
-      if( e.Node.Tag != null )
+      if ( e.Node.Tag != null )
       {
 
         this.tvTreeView.BeginUpdate();
-              
-        switch( e.Node.Tag.ToString() )
+
+        switch ( e.Node.Tag.ToString() )
         {
 
-        /** SUMMARY ***********************************************************/
+          /** SUMMARY ***********************************************************/
 
           case "SUMMARY":
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsSiteSummary" );
@@ -122,9 +122,9 @@ namespace SEOMacroscope
           case "UrlsExternal":
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsSiteSummary" );
             break;
-            
-        /** RESPONSE TIMES ****************************************************/
-                    
+
+          /** RESPONSE TIMES ****************************************************/
+
           case "RESPONSETIMES":
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsResponseTimes" );
             break;
@@ -138,8 +138,8 @@ namespace SEOMacroscope
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsResponseTimes" );
             break;
 
-        /** LANGUAGES SPECIFIED ***********************************************/
-            
+          /** LANGUAGES SPECIFIED ***********************************************/
+
           case "LANGUAGES_SPECIFIED":
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsLanguagesSpecified" );
             break;
@@ -150,7 +150,7 @@ namespace SEOMacroscope
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsLanguagesSpecified" );
             break;
 
-        /** READABILITY *******************************************************/
+          /** READABILITY *******************************************************/
 
           case "TEXT_READABILITY":
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsReadability" );
@@ -159,7 +159,7 @@ namespace SEOMacroscope
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsReadability" );
             break;
 
-        /** DEFAULT ***********************************************************/
+          /** DEFAULT ***********************************************************/
 
           default:
             this.SiteStructurePanelCharts.SelectTabPage( TabName: "tabPageChartsSiteSummary" );
@@ -172,7 +172,7 @@ namespace SEOMacroscope
       }
 
       return;
-      
+
     }
 
     /**************************************************************************/
@@ -180,10 +180,10 @@ namespace SEOMacroscope
     public void ClearData ()
     {
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ResetTreeView();
@@ -201,7 +201,7 @@ namespace SEOMacroscope
 
     private void ResetTreeView ()
     {
-      
+
       this.tvTreeView.BeginUpdate();
 
       this.tvTreeView.Nodes.Clear();
@@ -212,7 +212,7 @@ namespace SEOMacroscope
         {
 
           TreeNode Leaf = this.tvTreeView.Nodes.Add( "SUMMARY" );
-        
+
           Leaf.Name = "SUMMARY";
           Leaf.Tag = "SUMMARY";
           Leaf.Text = "Site Summary";
@@ -221,7 +221,7 @@ namespace SEOMacroscope
           Leaf.Nodes.Add( "Total URLs Crawled: 0" ).Tag = "UrlsCrawled";
           Leaf.Nodes.Add( "Total Internal URLs: 0" ).Tag = "UrlsInternal";
           Leaf.Nodes.Add( "Total External URLs: 0" ).Tag = "UrlsExternal";
-          
+
           this.CopyLeafNodeTagToName( Leaf: Leaf );
 
         }
@@ -236,11 +236,11 @@ namespace SEOMacroscope
           Leaf.Nodes.Add( "Fastest Page Response: 0.0 secs" ).Tag = "FastestPageResponse";
           Leaf.Nodes.Add( "Slowest Page Response: 0.0 secs" ).Tag = "SlowestPageResponse";
           Leaf.Nodes.Add( "Average Page Duration: 0.0 secs" ).Tag = "AveragePageDuration";
-        
+
           this.CopyLeafNodeTagToName( Leaf: Leaf );
-                    
+
         }
-      
+
         {
 
           TreeNode Leaf = this.tvTreeView.Nodes.Add( "ROBOTS" );
@@ -249,9 +249,9 @@ namespace SEOMacroscope
           Leaf.Text = "Robots.txt";
 
           Leaf.Nodes.Add( "URLs Blocked by Robots.txt: 0" ).Tag = "UrlsRobotsBlocked";
-        
+
           this.CopyLeafNodeTagToName( Leaf: Leaf );
-                    
+
         }
 
         {
@@ -262,9 +262,9 @@ namespace SEOMacroscope
           Leaf.Text = "Sitemaps";
 
           Leaf.Nodes.Add( "Sitemaps Found: 0" ).Tag = "SitemapsFound";
-        
+
           this.CopyLeafNodeTagToName( Leaf: Leaf );
-                    
+
         }
 
         {
@@ -287,7 +287,7 @@ namespace SEOMacroscope
           LeafErrors.Text = "Fetch Errors";
 
           this.CopyLeafNodeTagToName( Leaf: Leaf );
-                    
+
         }
 
         {
@@ -310,8 +310,53 @@ namespace SEOMacroscope
           LeafNotSpecified.Text = "Not Specified: 0";
 
           this.CopyLeafNodeTagToName( Leaf: Leaf );
-                    
+
         }
+
+
+
+
+
+
+        {
+
+          TreeNode Leaf = this.tvTreeView.Nodes.Add( "DOCUMENT_TYPES_FOUND" );
+
+          Leaf.Tag = "DOCUMENT_TYPES_FOUND";
+          Leaf.Text = "Document Types Found";
+
+          TreeNode LeafInternal = Leaf.Nodes.Add( "DOCUMENT_TYPES_FOUND_INTERNAL" );
+
+          LeafInternal.Tag = "DOCUMENT_TYPES_FOUND_INTERNAL";
+          LeafInternal.Name = "DOCUMENT_TYPES_FOUND_INTERNAL";
+          LeafInternal.Text = "Internal";
+
+          this.CopyLeafNodeTagToName( Leaf: LeafInternal );
+
+          TreeNode LeafExternal = Leaf.Nodes.Add( "DOCUMENT_TYPES_FOUND_EXTERNAL" );
+
+          LeafExternal.Tag = "DOCUMENT_TYPES_FOUND_EXTERNAL";
+          LeafExternal.Name = "DOCUMENT_TYPES_FOUND_EXTERNAL";
+          LeafExternal.Text = "External";
+
+          this.CopyLeafNodeTagToName( Leaf: LeafExternal );
+
+          this.CopyLeafNodeTagToName( Leaf: Leaf );
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         {
 
@@ -327,9 +372,9 @@ namespace SEOMacroscope
           LeafTitles.Text = "Pages";
 
           this.CopyLeafNodeTagToName( Leaf: Leaf );
-                    
+
         }
-      
+
         {
 
           TreeNode Leaf = this.tvTreeView.Nodes.Add( "LANGUAGES_DETECTED" );
@@ -356,7 +401,7 @@ namespace SEOMacroscope
           LeafBodyTexts.Text = "Contents";
 
           this.CopyLeafNodeTagToName( Leaf: Leaf );
-                    
+
         }
 
         {
@@ -366,13 +411,13 @@ namespace SEOMacroscope
           Leaf.Tag = "TEXT_READABILITY";
           Leaf.Name = "TEXT_READABILITY";
           Leaf.Text = "Text Readability";
-        
+
           this.CopyLeafNodeTagToName( Leaf: Leaf );
-                    
+
         }
 
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
       }
@@ -382,19 +427,19 @@ namespace SEOMacroscope
       this.tvTreeView.EndUpdate();
 
       this.SiteStructurePanelCharts.ClearAll();
-      
+
       return;
-      
+
     }
 
     /**************************************************************************/
 
     public void RefreshData ( MacroscopeDocumentCollection DocCollection )
     {
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.RenderTreeView( DocCollection );
@@ -431,52 +476,52 @@ namespace SEOMacroscope
       MacroscopeJobMaster JobMaster = this.MainForm.GetJobMaster();
 
       this.tvTreeView.BeginUpdate();
-      
+
       try
       {
-      
+
         {
-      
-          SortedDictionary<string,double> DataPoints = new SortedDictionary<string,double> ();
-      
+
+          SortedDictionary<string, double> DataPoints = new SortedDictionary<string, double>();
+
           {
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "UrlsFound", true );
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "UrlsFound", true );
             int Count = JobMaster.GetPagesFound();
-            if( Leaf.Length > 0 )
+            if ( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Total URLs Found: {0}", Count );
             }
-            DataPoints.Add( "URLs Found", ( double )Count );
+            DataPoints.Add( "URLs Found", (double) Count );
           }
 
           {
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "UrlsCrawled", true );
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "UrlsCrawled", true );
             int Count = DocCollection.CountDocuments();
-            if( Leaf.Length > 0 )
+            if ( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Total URLs Crawled: {0}", Count );
             }
-            DataPoints.Add( "URLs Crawled", ( double )Count );
+            DataPoints.Add( "URLs Crawled", (double) Count );
           }
 
           {
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "UrlsInternal", true );
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "UrlsInternal", true );
             int Count = DocCollection.CountUrlsInternal();
-            if( Leaf.Length > 0 )
+            if ( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Total Internal URLs: {0}", Count );
             }
-            DataPoints.Add( "Internal URLs", ( double )Count );
+            DataPoints.Add( "Internal URLs", (double) Count );
           }
 
           {
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "UrlsExternal", true );
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "UrlsExternal", true );
             int Count = DocCollection.CountUrlsExternal();
-            if( Leaf.Length > 0 )
+            if ( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Total External URLs: {0}", Count );
             }
-            DataPoints.Add( "External URLs", ( double )Count );
+            DataPoints.Add( "External URLs", (double) Count );
           }
 
           this.SiteStructurePanelCharts.UpdateSiteSummary( DataPoints: DataPoints );
@@ -485,17 +530,17 @@ namespace SEOMacroscope
 
         {
 
-          SortedDictionary<string,double> DataPoints = new SortedDictionary<string,double> ();
+          SortedDictionary<string, double> DataPoints = new SortedDictionary<string, double>();
           decimal Fastest = DocCollection.GetStatsDurationsFastest();
           decimal Slowest = DocCollection.GetStatsDurationsSlowest();
           decimal Average = DocCollection.GetStatsDurationAverage();
 
           {
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "FastestPageResponse", true );
-            if( Leaf.Length > 0 )
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "FastestPageResponse", true );
+            if ( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Fastest Page Response: {0:0.00} secs", Fastest );
-              DataPoints.Add( "Fastest Page Response", ( double )Fastest );
+              DataPoints.Add( "Fastest Page Response", (double) Fastest );
             }
             else
             {
@@ -504,11 +549,11 @@ namespace SEOMacroscope
           }
 
           {
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "SlowestPageResponse", true );
-            if( Leaf.Length > 0 )
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "SlowestPageResponse", true );
+            if ( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Slowest Page Response: {0:0.00} secs", Slowest );
-              DataPoints.Add( "Slowest Page Response", ( double )Slowest );
+              DataPoints.Add( "Slowest Page Response", (double) Slowest );
             }
             else
             {
@@ -517,11 +562,11 @@ namespace SEOMacroscope
           }
 
           {
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "AveragePageDuration", true );
-            if( Leaf.Length > 0 )
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "AveragePageDuration", true );
+            if ( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Average Page Duration: {0:0.00} secs", Average );
-              DataPoints.Add( "Average Page Duration", ( double )Average );
+              DataPoints.Add( "Average Page Duration", (double) Average );
             }
             else
             {
@@ -530,96 +575,66 @@ namespace SEOMacroscope
           }
 
           this.SiteStructurePanelCharts.UpdateResponseTimes( DataPoints: DataPoints );
-                    
+
         }
 
         {
-
-          TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "UrlsRobotsBlocked", true );
+          TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "UrlsRobotsBlocked", true );
           int Count = JobMaster.GetBlockedByRobotsList().Count;
-
-          if( Leaf.Length > 0 )
+          if ( Leaf.Length > 0 )
           {
             Leaf[ 0 ].Text = string.Format( "URLs Blocked by Robots.txt: {0}", Count );
           }
-          
         }
 
         {
-
-          TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "SitemapsFound", true );
+          TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "SitemapsFound", true );
           int Count = DocCollection.CountUrlsSitemaps();
-
-          if( Leaf.Length > 0 )
+          if ( Leaf.Length > 0 )
           {
             Leaf[ 0 ].Text = string.Format( "Sitemaps Found: {0}", Count );
           }
-        
         }
 
         {
-
-          TreeNode [] Leaves = this.tvTreeView.Nodes.Find( "FETCH_WARNINGS", true );
-
-          if( Leaves.Length > 0 )
+          TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "FETCH_WARNINGS", true );
+          if ( Leaves.Length > 0 )
           {
-
             TreeNode Leaf = Leaves[ 0 ];
-
-            if( Leaf != null )
+            if ( Leaf != null )
             {
-
-              Dictionary<string,int> dicMessages = DocCollection.GetStatsWarningsCount();
-
+              Dictionary<string, int> dicMessages = DocCollection.GetStatsWarningsCount();
               Leaf.Nodes.Clear();
-
-              foreach( string MessagesKey in dicMessages.Keys )
+              foreach ( string MessagesKey in dicMessages.Keys )
               {
                 Leaf.Nodes.Add( string.Format( "{0}: {1}", MessagesKey, dicMessages[ MessagesKey ] ) );
               }
-
             }
-        
           }
-
         }
 
         {
-
-          TreeNode [] Leaves = this.tvTreeView.Nodes.Find( "FETCH_ERRORS", true );
-
-          if( Leaves.Length > 0 )
+          TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "FETCH_ERRORS", true );
+          if ( Leaves.Length > 0 )
           {
-
             TreeNode Leaf = Leaves[ 0 ];
-
-            if( Leaf != null )
+            if ( Leaf != null )
             {
-
-              Dictionary<string,int> dicMessages = DocCollection.GetStatsErrorsCount();
-
+              Dictionary<string, int> dicMessages = DocCollection.GetStatsErrorsCount();
               Leaf.Nodes.Clear();
-
-              foreach( string MessagesKey in dicMessages.Keys )
+              foreach ( string MessagesKey in dicMessages.Keys )
               {
                 Leaf.Nodes.Add( string.Format( "{0}: {1}", MessagesKey, dicMessages[ MessagesKey ] ) );
               }
-
             }
-          
           }
-
         }
 
         {
-
-          Dictionary<bool,int> Canonicals = DocCollection.GetStatsCanonicalsCount();
-
+          Dictionary<bool, int> Canonicals = DocCollection.GetStatsCanonicalsCount();
           {
-            
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "CANONICALS_SPECIFIED_SPECIFIED", true );
-            
-            if( ( Leaf.Length > 0 ) && ( Canonicals.ContainsKey( true ) ) )
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "CANONICALS_SPECIFIED_SPECIFIED", true );
+            if ( ( Leaf.Length > 0 ) && ( Canonicals.ContainsKey( true ) ) )
             {
               Leaf[ 0 ].Text = string.Format( "Specified: {0}", Canonicals[ true ] );
             }
@@ -627,14 +642,10 @@ namespace SEOMacroscope
             {
               Leaf[ 0 ].Text = string.Format( "Specified: {0}", 0 );
             }
-          
           }
-
           {
-          
-            TreeNode [] Leaf = this.tvTreeView.Nodes.Find( "CANONICALS_SPECIFIED_NOT_SPECIFIED", true );
-          
-            if( ( Leaf.Length > 0 ) && ( Canonicals.ContainsKey( false ) ) )
+            TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "CANONICALS_SPECIFIED_NOT_SPECIFIED", true );
+            if ( ( Leaf.Length > 0 ) && ( Canonicals.ContainsKey( false ) ) )
             {
               Leaf[ 0 ].Text = string.Format( "Not Specified: {0}", Canonicals[ false ] );
             }
@@ -642,90 +653,84 @@ namespace SEOMacroscope
             {
               Leaf[ 0 ].Text = string.Format( "Not Specified: {0}", 0 );
             }
-          
           }
-
         }
 
         {
-
-          SortedDictionary<string,double> DataPoints = new SortedDictionary<string,double> ();
-          TreeNode [] Leaves = this.tvTreeView.Nodes.Find( "LANGUAGES_SPECIFIED_PAGES", true );
-
-          if( Leaves.Length > 0 )
           {
-
-            TreeNode Leaf = Leaves[ 0 ];
-
-            if( Leaf != null )
+            TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "DOCUMENT_TYPES_FOUND_INTERNAL", true );
+            if ( Leaves.Length > 0 )
             {
-
-              Dictionary<string,int> dicContents = DocCollection.GetStatsLanguagesPagesCount();
-
-              Leaf.Nodes.Clear();
-
-              foreach( string ContentKey in dicContents.Keys )
+              TreeNode Leaf = Leaves[ 0 ];
+              if ( Leaf != null )
               {
+                Dictionary<string, int> Stats = DocCollection.GetStatsDocumentTypesInternalCount();
+                Leaf.Nodes.Clear();
+                foreach ( string ContentKey in Stats.Keys )
+                {
+                  TreeNode LeafNode = Leaf.Nodes.Add( string.Format( "{0}: {1}", ContentKey, Stats[ ContentKey ] ) );
+                  LeafNode.Tag = "DOCUMENT_TYPES_FOUND_INTERNAL_TYPE"; // For graph selection click
+                }
+              }
+            }
+          }
+          {
+            TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "DOCUMENT_TYPES_FOUND_EXTERNAL", true );
+            if ( Leaves.Length > 0 )
+            {
+              TreeNode Leaf = Leaves[ 0 ];
+              if ( Leaf != null )
+              {
+                Dictionary<string, int> Stats = DocCollection.GetStatsDocumentTypesExternalCount();
+                Leaf.Nodes.Clear();
+                foreach ( string ContentKey in Stats.Keys )
+                {
+                  TreeNode LeafNode = Leaf.Nodes.Add( string.Format( "{0}: {1}", ContentKey, Stats[ ContentKey ] ) );
+                  LeafNode.Tag = "DOCUMENT_TYPES_FOUND_EXTERNAL_TYPE"; // For graph selection click
+                }
+              }
+            }
+          }
+        }
 
+        {
+          SortedDictionary<string, double> DataPoints = new SortedDictionary<string, double>();
+          TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "LANGUAGES_SPECIFIED_PAGES", true );
+          if ( Leaves.Length > 0 )
+          {
+            TreeNode Leaf = Leaves[ 0 ];
+            if ( Leaf != null )
+            {
+              Dictionary<string, int> dicContents = DocCollection.GetStatsLanguagesPagesCount();
+              Leaf.Nodes.Clear();
+              foreach ( string ContentKey in dicContents.Keys )
+              {
                 TreeNode LeafNode = Leaf.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
                 LeafNode.Tag = "LANGUAGES_SPECIFIED_PAGES_LANG";
-               
-                DataPoints.Add( ContentKey, ( double )dicContents[ ContentKey ] );
-                            
+                DataPoints.Add( ContentKey, (double) dicContents[ ContentKey ] );
               }
-              
             }
-    
             this.SiteStructurePanelCharts.UpdateLanguagesSpecified( DataPoints: DataPoints );
-            
           }
-
         }
 
         {
 
-          TreeNode [] Leaves = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_TITLES", true );
+          TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_TITLES", true );
 
-          if( Leaves.Length > 0 )
+          if ( Leaves.Length > 0 )
           {
 
             TreeNode Leaf = Leaves[ 0 ];
 
-            if( Leaf != null )
+            if ( Leaf != null )
             {
 
-              Dictionary<string,int> dicContents = DocCollection.GetStatsLanguagesTitlesCount();
+              Dictionary<string, int> dicContents = DocCollection.GetStatsLanguagesTitlesCount();
 
               Leaf.Nodes.Clear();
 
-              foreach( string ContentKey in dicContents.Keys )
-              {
-                Leaf.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
-              }
-
-            }
-        
-          }
-
-        }
-
-        {
-
-          TreeNode [] Leaves = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_DESCRIPTIONS", true );
-
-          if( Leaves.Length > 0 )
-          {
-
-            TreeNode Leaf = Leaves[ 0 ];
-
-            if( Leaf != null )
-            {
-
-              Dictionary<string,int> dicContents = DocCollection.GetStatsLanguagesDescriptionsCount();
-
-              Leaf.Nodes.Clear();
-
-              foreach( string ContentKey in dicContents.Keys )
+              foreach ( string ContentKey in dicContents.Keys )
               {
                 Leaf.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
               }
@@ -738,57 +743,84 @@ namespace SEOMacroscope
 
         {
 
-          TreeNode [] Leaves = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_BODYTEXTS", true );
+          TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_DESCRIPTIONS", true );
 
-          if( Leaves.Length > 0 )
+          if ( Leaves.Length > 0 )
           {
 
             TreeNode Leaf = Leaves[ 0 ];
 
-            if( Leaf != null )
+            if ( Leaf != null )
             {
 
-              Dictionary<string,int> dicContents = DocCollection.GetStatsLanguagesBodyTextsCount();
+              Dictionary<string, int> dicContents = DocCollection.GetStatsLanguagesDescriptionsCount();
 
               Leaf.Nodes.Clear();
 
-              foreach( string ContentKey in dicContents.Keys )
+              foreach ( string ContentKey in dicContents.Keys )
               {
                 Leaf.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
               }
 
             }
-        
+
           }
 
         }
-      
+
         {
 
-          SortedDictionary<string,double> DataPoints = new SortedDictionary<string,double> ();
+          TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "LANGUAGES_DETECTED_BODYTEXTS", true );
 
-          TreeNode [] Leaves = this.tvTreeView.Nodes.Find( "TEXT_READABILITY", true );
-
-          if( Leaves.Length > 0 )
+          if ( Leaves.Length > 0 )
           {
 
             TreeNode Leaf = Leaves[ 0 ];
 
-            if( Leaf != null )
+            if ( Leaf != null )
             {
 
-              SortedDictionary<string,int> dicContents = DocCollection.GetStatsReadabilityGradeStringsCount();
+              Dictionary<string, int> dicContents = DocCollection.GetStatsLanguagesBodyTextsCount();
 
               Leaf.Nodes.Clear();
 
-              foreach( string ContentKey in dicContents.Keys )
+              foreach ( string ContentKey in dicContents.Keys )
+              {
+                Leaf.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
+              }
+
+            }
+
+          }
+
+        }
+
+        {
+
+          SortedDictionary<string, double> DataPoints = new SortedDictionary<string, double>();
+
+          TreeNode[] Leaves = this.tvTreeView.Nodes.Find( "TEXT_READABILITY", true );
+
+          if ( Leaves.Length > 0 )
+          {
+
+            TreeNode Leaf = Leaves[ 0 ];
+
+            if ( Leaf != null )
+            {
+
+              SortedDictionary<string, int> dicContents = DocCollection.GetStatsReadabilityGradeStringsCount();
+
+              Leaf.Nodes.Clear();
+
+              foreach ( string ContentKey in dicContents.Keys )
               {
 
                 TreeNode LeafLeaf = Leaf.Nodes.Add( string.Format( "{0}: {1}", ContentKey, dicContents[ ContentKey ] ) );
 
                 LeafLeaf.Tag = "TEXT_READABILITY_NODE";
 
-                DataPoints.Add( ContentKey, ( double )dicContents[ ContentKey ] );
+                DataPoints.Add( ContentKey, (double) dicContents[ ContentKey ] );
 
               }
 
@@ -797,34 +829,34 @@ namespace SEOMacroscope
             this.SiteStructurePanelCharts.UpdateReadability( DataPoints: DataPoints );
 
           }
-          
+
         }
 
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( ex.Message );
         this.DebugMsg( ex.Source );
       }
 
       this.tvTreeView.EndUpdate();
-            
+
     }
 
     /**************************************************************************/
 
     private void CopyLeafNodeTagToName ( TreeNode Leaf )
     {
-    
-      foreach( TreeNode LeafNode in Leaf.Nodes )
+
+      foreach ( TreeNode LeafNode in Leaf.Nodes )
       {
         LeafNode.Name = LeafNode.Tag.ToString();
       }
-                        
+
     }
-    
+
     /**************************************************************************/
-  
+
   }
 
 }
