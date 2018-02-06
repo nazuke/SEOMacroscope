@@ -345,6 +345,8 @@ namespace SEOMacroscope
       MacroscopeLink OutLink = null;
       bool Proceed = true;
 
+      // DEPRECATED:
+      /*
       if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
         MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
@@ -366,6 +368,7 @@ namespace SEOMacroscope
           }
           break;
       }
+      */
 
       if ( Proceed )
       {

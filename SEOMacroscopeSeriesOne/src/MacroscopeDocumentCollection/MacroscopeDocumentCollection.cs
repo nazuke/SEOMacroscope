@@ -204,21 +204,39 @@ namespace SEOMacroscope
 
     /** Start URL *************************************************************/
 
-
     public void SetStartUrl ( string Url )
     {
-
       this.StartUrl = Url;
-
     }
 
     /** -------------------------------------------------------------------- **/
 
     public string GetStartUrl ()
     {
-
       return ( this.StartUrl );
+    }
 
+    /** Gather List from all OutLinks in DocCollection ************************/
+
+    public List<string> FetchUrlsFromOutLinks ()
+    {
+      List<string> UrlsFromOutLinks = new List<string>( this.DocCollection.Count * 10 );
+      lock ( this.DocCollection )
+      {
+        foreach ( string Url in this.DocCollection.Keys )
+        {
+          MacroscopeDocument msDoc = this.DocCollection[ Url ];
+          foreach ( MacroscopeLink OutLink in msDoc.IterateOutlinks() )
+          {
+            string OutLinkUrl = OutLink.GetTargetUrl();
+            if ( !UrlsFromOutLinks.Contains( OutLinkUrl ) )
+            {
+              UrlsFromOutLinks.Add( OutLinkUrl );
+            }
+          }
+        }
+      }
+      return ( UrlsFromOutLinks );
     }
 
     /** Allowed Hosts Methods *************************************************/

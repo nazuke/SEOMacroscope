@@ -428,6 +428,11 @@ namespace SEOMacroscope
 
         this.AddUrlQueueItem( Url: this.StartUrl );
 
+        foreach ( MacroscopeDocument msDoc in this.GetDocCollection().IterateDocuments() )
+        {
+          this.ProcessOutlinks( msDoc: msDoc );
+        }
+
       }
 
       this.ProbeRobotsFile( Url: this.StartUrl );
@@ -1589,23 +1594,159 @@ namespace SEOMacroscope
     public Dictionary<string, bool> GetBlockedByRobotsList ()
     {
 
-      Dictionary<string, bool> DicCopy = new Dictionary<string, bool>();
+      Dictionary<string, bool> Copy = new Dictionary<string, bool>();
 
       lock ( this.BlockedByRobots )
       {
 
         foreach ( string Url in this.BlockedByRobots.Keys )
         {
-          DicCopy.Add( Url, this.BlockedByRobots[ Url ] );
+          Copy.Add( Url, this.BlockedByRobots[ Url ] );
         }
 
       }
 
-      return ( DicCopy );
+      return ( Copy );
+
+    }
+    
+    /** Process OutLinks ******************************************************/
+
+    public void ProcessOutlinks ( MacroscopeDocument msDoc )
+    {
+
+      if (
+        ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
+        || ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
+        || ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
+      {
+
+        if ( !MacroscopePreferencesManager.GetScanSitesInList() )
+        {
+          return;
+        }
+
+      }
+
+      foreach ( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
+      {
+
+        MacroscopeConstants.InOutLinkType LinkType = Outlink.GetLinkType();
+        bool Proceed = true;
+
+        if ( !Outlink.GetDoFollow() )
+        {
+          Proceed = false;
+        }
+
+        if ( Outlink.GetTargetUrl() == null )
+        {
+          Proceed = false;
+        }
+
+        if ( this.GetJobHistory().SeenHistoryItem( Url: Outlink.GetTargetUrl() ) )
+        {
+          Proceed = false;
+        }
+
+        switch ( LinkType )
+        {
+          case MacroscopeConstants.InOutLinkType.CANONICAL:
+            if ( !MacroscopePreferencesManager.GetFollowCanonicalLinks() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.ALTERNATE:
+            if ( !MacroscopePreferencesManager.GetFollowAlternateLinks() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.STYLESHEET:
+            if ( !MacroscopePreferencesManager.GetFetchStylesheets() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.SCRIPT:
+            if ( !MacroscopePreferencesManager.GetFetchJavascripts() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.IMAGE:
+            if ( !MacroscopePreferencesManager.GetFetchImages() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.AUDIO:
+            if ( !MacroscopePreferencesManager.GetFetchAudio() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.VIDEO:
+            if ( !MacroscopePreferencesManager.GetFetchVideo() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.EMBED:
+            if ( !MacroscopePreferencesManager.GetFetchBinaries() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.OBJECT:
+            if ( !MacroscopePreferencesManager.GetFetchBinaries() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.SITEMAPTEXT:
+            if ( !MacroscopePreferencesManager.GetFetchXml() )
+            {
+              Proceed = false;
+            }
+            break;
+          case MacroscopeConstants.InOutLinkType.SITEMAPXML:
+            if ( !MacroscopePreferencesManager.GetFetchXml() )
+            {
+              Proceed = false;
+            }
+            break;
+          default:
+            this.DebugMsg( string.Format( "Unhandled MacroscopeConstants.InOutLinkType: {0}", LinkType ) );
+            break;
+        }
+
+        if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+        {
+          if ( this.DocCollection != null )
+          {
+            MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
+            if ( AllowedHosts != null )
+            {
+              if ( !AllowedHosts.IsAllowedFromUrl( Url: Outlink.GetTargetUrl() ) )
+              {
+                Proceed = false;
+              }
+            }
+          }
+        }
+
+        if ( Proceed )
+        {
+          this.AddUrlQueueItem( Url: Outlink.GetTargetUrl(), Check: true );
+        }
+
+      }
 
     }
 
-    /**************************************************************************/
+    /**************************************************************************/    /**************************************************************************/
 
   }
 

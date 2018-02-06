@@ -1380,28 +1380,26 @@ namespace SEOMacroscope
       MacroscopeLink OutLink = null;
       bool Proceed = true;
 
+      // DEPRECATED:
+      /*
       if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
-
         if ( this.DocCollection != null )
         {
-
           MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-
           if ( AllowedHosts != null )
           {
-
             if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
             {
               Proceed = false;
             }
-
           }
-
         }
-
       }
+      */
 
+      // DEPRECATED:
+      /*
       switch ( LinkType )
       {
         case MacroscopeConstants.InOutLinkType.CANONICAL:
@@ -1459,6 +1457,7 @@ namespace SEOMacroscope
           }
           break;
       }
+      */
 
       if ( Proceed )
       {
