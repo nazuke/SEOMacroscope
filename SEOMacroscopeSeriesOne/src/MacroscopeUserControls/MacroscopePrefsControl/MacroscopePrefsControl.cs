@@ -143,6 +143,8 @@ namespace SEOMacroscope
         this.checkBoxDisregardHtml5ElementHeader.Checked = MacroscopePreferencesManager.GetDisregardHtml5ElementHeader();
         this.checkBoxDisregardHtml5ElementFooter.Checked = MacroscopePreferencesManager.GetDisregardHtml5ElementFooter();
 
+        this.checkBoxDetectQrCodeInImage.Checked = MacroscopePreferencesManager.GetDetectQrCodeInImage();
+
         /** SEO Options ---------------------------------------------------- **/
 
         this.numericUpDownTitleMinLen.Value = MacroscopePreferencesManager.GetTitleMinLen();
@@ -299,6 +301,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetDisregardHtml5ElementNav( this.checkBoxDisregardHtml5ElementNav.Checked );
       MacroscopePreferencesManager.SetDisregardHtml5ElementHeader( this.checkBoxDisregardHtml5ElementHeader.Checked );
       MacroscopePreferencesManager.SetDisregardHtml5ElementFooter( this.checkBoxDisregardHtml5ElementFooter.Checked );
+
+      MacroscopePreferencesManager.SetDetectQrCodeInImage( this.checkBoxDetectQrCodeInImage.Checked );
 
       /** SEO Options ------------------------------------------------------ **/
 

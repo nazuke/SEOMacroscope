@@ -49,6 +49,7 @@ namespace SEOMacroscope
 
     public MacroscopeHttpImageLoader ()
     {
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/
@@ -117,6 +118,72 @@ namespace SEOMacroscope
 
     }
 
+    /**************************************************************************/
+
+    public async Task<string> DownloadImageFromUriToFile ( MacroscopeJobMaster JobMaster, Uri TargetUri )
+    {
+
+      MacroscopeHttpTwoClient Client = JobMaster.GetHttpClient();
+      MacroscopeHttpTwoClientResponse Response = null;
+      string ImageFilename = null;
+
+      try
+      {
+
+        Response = await Client.Get(
+          TargetUri,
+          this.ConfigureHeadRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback,
+          MacroscopeHttpTwoClient.DecodeResponseContentAs.BYTES
+        );
+
+      }
+      catch ( MacroscopeDocumentException ex )
+      {
+        this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", TargetUri.ToString() ) );
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "Exception: {0}", TargetUri.ToString() ) );
+      }
+
+      if ( Response != null )
+      {
+
+        try
+        {
+
+          ImageFilename = Path.GetTempFileName();
+          byte[] ByteData = Response.GetContentAsBytes();
+
+          using ( FileStream ImageStream = File.Create( ImageFilename ) )
+          {
+            foreach ( byte b in ByteData )
+            {
+              ImageStream.WriteByte( b );
+            }
+            ImageStream.Close();
+          }
+
+          if ( ! File.Exists( ImageFilename ) )
+          {
+            ImageFilename = null;
+          }
+
+        }
+        catch ( Exception ex )
+        {
+          this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        }
+
+      }
+
+      return ( ImageFilename );
+
+    }
+    
     /**************************************************************************/
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )

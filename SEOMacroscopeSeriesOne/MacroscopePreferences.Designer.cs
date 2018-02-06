@@ -1174,5 +1174,17 @@ namespace SEOMacroscope {
                 this["DisregardHtml5ElementHeader"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DetectQrCodeInImage {
+            get {
+                return ((bool)(this["DetectQrCodeInImage"]));
+            }
+            set {
+                this["DetectQrCodeInImage"] = value;
+            }
+        }
     }
 }

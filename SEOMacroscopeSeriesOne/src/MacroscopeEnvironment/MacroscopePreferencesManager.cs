@@ -120,12 +120,14 @@ namespace SEOMacroscope
     static bool ProcessStylesheets;
     static bool ProcessVideo;
     static bool ProcessXml;
-
+    
     static bool ScanSitesInList;
     static bool WarnAboutInsecureLinks;
 
     static bool EnableTextIndexing;
     static bool CaseSensitiveTextIndexing;
+
+    static bool DetectQrCodeInImage;
 
     /** SEO Options -------------------------------------------------------- **/
 
@@ -260,6 +262,8 @@ namespace SEOMacroscope
 
           EnableTextIndexing = Preferences.EnableTextIndexing;
           CaseSensitiveTextIndexing = Preferences.CaseSensitiveTextIndexing;
+
+          DetectQrCodeInImage = Preferences.DetectQrCodeInImage;
 
           EnableLevenshteinDeduplication = Preferences.EnableLevenshteinDeduplication;
           LevenshteinAnalysisLevel = Preferences.LevenshteinAnalysisLevel;
@@ -463,6 +467,8 @@ namespace SEOMacroscope
 
       EnableTextIndexing = true;
       CaseSensitiveTextIndexing = false;
+
+      DetectQrCodeInImage = false;
 
       EnableLevenshteinDeduplication = true;
       LevenshteinAnalysisLevel = 1; // 1 | 2
@@ -682,7 +688,9 @@ namespace SEOMacroscope
 
         Preferences.EnableTextIndexing = EnableTextIndexing;
         Preferences.CaseSensitiveTextIndexing = CaseSensitiveTextIndexing;
-
+        
+        Preferences.DetectQrCodeInImage = DetectQrCodeInImage;
+        
         Preferences.EnableLevenshteinDeduplication = EnableLevenshteinDeduplication;
         Preferences.LevenshteinAnalysisLevel = LevenshteinAnalysisLevel;
         Preferences.MaxLevenshteinSizeDifference = MaxLevenshteinSizeDifference;
@@ -1161,6 +1169,18 @@ namespace SEOMacroscope
     public static void SetCaseSensitiveTextIndexing ( bool State )
     {
       CaseSensitiveTextIndexing = State;
+    }
+
+    /** QR Codes **************************************************************/
+
+    public static bool GetDetectQrCodeInImage ()
+    {
+      return ( DetectQrCodeInImage );
+    }
+
+    public static void SetDetectQrCodeInImage ( bool State )
+    {
+      DetectQrCodeInImage = State;
     }
 
     /** Levenshtein Deduplication *********************************************/

@@ -40,8 +40,8 @@
     <StartupObject>SEOMacroscopeSeriesTwo.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClosedXML, Version=0.90.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
-      <HintPath>..\packages\ClosedXML.0.91.0-beta3\lib\net452\ClosedXML.dll</HintPath>
+    <Reference Include="ClosedXML, Version=0.91.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.91.0\lib\net452\ClosedXML.dll</HintPath>
     </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.8.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.8.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
@@ -52,11 +52,11 @@
     <Reference Include="ExCSS, Version=2.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ExCSS.2.0.6\lib\net451\ExCSS.dll</HintPath>
     </Reference>
-    <Reference Include="FastMember.Signed, Version=1.0.0.9, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
-      <HintPath>..\packages\FastMember.Signed.1.1.0\lib\net40\FastMember.Signed.dll</HintPath>
+    <Reference Include="FastMember.Signed, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.Signed.1.2.0\lib\net45\FastMember.Signed.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.6.15.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.6.15\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.6.16.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.16\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -88,6 +88,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="zxing, Version=0.16.2.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.2\lib\net47\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.2.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.2\lib\net47\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

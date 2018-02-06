@@ -266,7 +266,8 @@ namespace SEOMacroscope
       RELATED = 20,
       PDF = 21,
       AUTHOR = 22,
-      PURETEXT = 23
+      PURETEXT = 23,
+      QRCODE = 24
     }
 
     /** END: Outlink Types ****************************************************/

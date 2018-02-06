@@ -369,6 +369,8 @@ namespace SEOMacroscope
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
+      this.groupBox31 = new System.Windows.Forms.GroupBox();
+      this.checkBoxDetectQrCodeInImage = new System.Windows.Forms.CheckBox();
       label9 = new System.Windows.Forms.Label();
       label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
@@ -444,6 +446,7 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.SuspendLayout();
       this.flowLayoutPanel7.SuspendLayout();
       this.groupBox19.SuspendLayout();
+      this.groupBox31.SuspendLayout();
       this.SuspendLayout();
       // 
       // label9
@@ -991,6 +994,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel3.Controls.Add(this.groupBox27);
       this.flowLayoutPanel3.Controls.Add(this.groupBox30);
       this.flowLayoutPanel3.Controls.Add(this.groupBox13);
+      this.flowLayoutPanel3.Controls.Add(this.groupBox31);
       this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
       this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
@@ -2422,6 +2426,27 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
       // 
+      // groupBox31
+      // 
+      this.groupBox31.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox31.Controls.Add(this.checkBoxDetectQrCodeInImage);
+      this.groupBox31.Location = new System.Drawing.Point(10, 560);
+      this.groupBox31.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox31.Name = "groupBox31";
+      this.groupBox31.Size = new System.Drawing.Size(500, 60);
+      this.groupBox31.TabIndex = 8;
+      this.groupBox31.TabStop = false;
+      this.groupBox31.Text = "Image Analysis";
+      // 
+      // checkBoxDetectQrCodeInImage
+      // 
+      this.checkBoxDetectQrCodeInImage.Location = new System.Drawing.Point(20, 20);
+      this.checkBoxDetectQrCodeInImage.Name = "checkBoxDetectQrCodeInImage";
+      this.checkBoxDetectQrCodeInImage.Size = new System.Drawing.Size(180, 24);
+      this.checkBoxDetectQrCodeInImage.TabIndex = 1;
+      this.checkBoxDetectQrCodeInImage.Text = "Detect QR Codes in images";
+      this.checkBoxDetectQrCodeInImage.UseVisualStyleBackColor = true;
+      // 
       // MacroscopePrefsControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2506,6 +2531,7 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.ResumeLayout(false);
       this.flowLayoutPanel7.ResumeLayout(false);
       this.groupBox19.ResumeLayout(false);
+      this.groupBox31.ResumeLayout(false);
       this.ResumeLayout(false);
 
 		}
@@ -2521,5 +2547,7 @@ namespace SEOMacroscope
     public System.Windows.Forms.CheckBox checkBoxDisregardHtml5ElementHeader;
     public System.Windows.Forms.CheckBox checkBoxDisregardHtml5ElementNav;
     public System.Windows.Forms.CheckBox checkBoxDisregardHtml5ElementFooter;
+    private System.Windows.Forms.GroupBox groupBox31;
+    public System.Windows.Forms.CheckBox checkBoxDetectQrCodeInImage;
   }
 }

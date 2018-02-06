@@ -122,11 +122,10 @@ namespace SEOMacroscope
 
         this.ProcessResponseHttpHeaders( Response: Response );
 
-        { // Title
-
+        /** Title ---------------------------------------------------------- **/
+        {
           MatchCollection reMatches = Regex.Matches( this.DocUrl, "/([^/]+)$" );
           string DocumentTitle = null;
-
           foreach ( Match match in reMatches )
           {
             if ( match.Groups[ 1 ].Value.Length > 0 )
@@ -135,18 +134,55 @@ namespace SEOMacroscope
               break;
             }
           }
-
           if ( DocumentTitle != null )
           {
             this.SetTitle( DocumentTitle, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
-            DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
+            this.DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
           }
           else
           {
-            DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
+            this.DebugMsg( string.Format( "TITLE: {0}", "MISSING" ) );
           }
-
         }
+
+        /** QR Codes ------------------------------------------------------- **/
+        if ( MacroscopePreferencesManager.GetDetectQrCodeInImage() )
+        {
+          MacroscopeHttpImageLoader ImageLoader = new MacroscopeHttpImageLoader();
+          Uri QrCodeImageUri = null;
+          string QrCodeImageFilename = await ImageLoader.DownloadImageFromUriToFile( JobMaster: this.DocCollection.GetJobMaster(), TargetUri: this.GetUri() );
+          if ( ( !string.IsNullOrEmpty( QrCodeImageFilename ) ) && File.Exists( QrCodeImageFilename ) )
+          {
+            MacroscopeQrCodeAnalysis QrCodeAnalysis = new MacroscopeQrCodeAnalysis();
+            string ResultText = QrCodeAnalysis.Decode( ImageFilename: QrCodeImageFilename );
+            if ( !string.IsNullOrEmpty( ResultText ) )
+            {
+              try
+              {
+                QrCodeImageUri = new Uri( ResultText );
+              }
+              catch ( UriFormatException ex )
+              {
+                this.DebugMsg( string.Format( "UriFormatException: {0}", ResultText ) );
+              }
+              if ( QrCodeImageUri != null )
+              {
+                MacroscopeLink Outlink = null;
+                Outlink = this.AddImageOutlink(
+                  AbsoluteUrl: QrCodeImageUri.AbsoluteUri,
+                  LinkType: MacroscopeConstants.InOutLinkType.QRCODE,
+                  Follow: true
+                          );
+                if ( Outlink != null )
+                {
+                  Outlink.SetRawTargetUrl( TargetUrl: QrCodeImageUri.AbsoluteUri );
+                  this.AddRemark( "QRCODEIMAGE", "This image appears to be a QR Code." );
+                }
+              }
+            }
+          }
+        }
+        /** ---------------------------------------------------------------- **/
 
       }
 
@@ -154,6 +190,38 @@ namespace SEOMacroscope
       {
         this.ErrorCondition = ResponseErrorCondition;
       }
+
+    }
+
+    /**************************************************************************/
+
+    private MacroscopeLink AddImageOutlink ( string AbsoluteUrl, MacroscopeConstants.InOutLinkType LinkType, bool Follow )
+    {
+
+      MacroscopeLink OutLink = null;
+
+      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      {
+        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
+        if ( AllowedHosts != null )
+        {
+          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
+          {
+            return ( OutLink );
+          }
+        }
+      }
+
+      OutLink = new MacroscopeLink(
+        SourceUrl: this.GetUrl(),
+        TargetUrl: AbsoluteUrl,
+        LinkType: LinkType,
+        Follow: Follow
+      );
+
+      this.Outlinks.Add( OutLink );
+
+      return ( OutLink );
 
     }
 
