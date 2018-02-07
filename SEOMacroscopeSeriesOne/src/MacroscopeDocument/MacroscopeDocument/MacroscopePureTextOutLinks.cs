@@ -104,7 +104,7 @@ namespace SEOMacroscope
 
               MacroscopeLink Outlink;
 
-              Outlink = this.AddPureTextOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: UrlCleaned,
                 LinkType: LinkType,
                 Follow: true
@@ -124,41 +124,6 @@ namespace SEOMacroscope
         UrlMatch = UrlMatch.NextMatch();
 
       }
-
-    }
-
-    /**************************************************************************/
-
-    private MacroscopeLink AddPureTextOutlink ( string AbsoluteUrl, MacroscopeConstants.InOutLinkType LinkType, bool Follow )
-    {
-
-      MacroscopeLink OutLink = null;
-
-      // DEPRECATED:
-      /*
-      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
-      {
-        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if ( AllowedHosts != null )
-        {
-          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
-          {
-            return ( OutLink );
-          }
-        }
-      }
-      */
-
-      OutLink = new MacroscopeLink(
-        SourceUrl: this.GetUrl(),
-        TargetUrl: AbsoluteUrl,
-        LinkType: LinkType,
-        Follow: Follow
-      );
-
-      this.Outlinks.Add( OutLink );
-
-      return ( OutLink );
 
     }
 

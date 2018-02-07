@@ -1681,6 +1681,12 @@ namespace SEOMacroscope
               Proceed = false;
             }
             break;
+          case MacroscopeConstants.InOutLinkType.FAVICON:
+            if ( !MacroscopePreferencesManager.GetFetchImages() )
+            {
+              Proceed = false;
+            }
+            break;
           case MacroscopeConstants.InOutLinkType.AUDIO:
             if ( !MacroscopePreferencesManager.GetFetchAudio() )
             {
@@ -1746,7 +1752,7 @@ namespace SEOMacroscope
 
     }
 
-    /**************************************************************************/    /**************************************************************************/
+    /**************************************************************************/
 
   }
 

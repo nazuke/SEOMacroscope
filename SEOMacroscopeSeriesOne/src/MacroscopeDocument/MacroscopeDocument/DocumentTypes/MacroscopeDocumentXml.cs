@@ -314,7 +314,7 @@ namespace SEOMacroscope
           {
             MacroscopeLink Outlink;
 
-            Outlink = this.AddSitemapXmlOutlink(
+            Outlink = this.AddDocumentOutlink(
               AbsoluteUrl: LinkUrl,
               LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
               Follow: true
@@ -330,61 +330,6 @@ namespace SEOMacroscope
         }
 
       }
-
-    }
-
-    /**************************************************************************/
-
-    private MacroscopeLink AddSitemapXmlOutlink (
-      string AbsoluteUrl,
-      MacroscopeConstants.InOutLinkType LinkType,
-      bool Follow
-    )
-    {
-
-      MacroscopeLink OutLink = null;
-      bool Proceed = true;
-
-      // DEPRECATED:
-      /*
-      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
-      {
-        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if ( AllowedHosts != null )
-        {
-          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
-          {
-            Proceed = false;
-          }
-        }
-      }
-
-      switch ( LinkType )
-      {
-        case MacroscopeConstants.InOutLinkType.SITEMAPXML:
-          if ( !MacroscopePreferencesManager.GetFetchXml() )
-          {
-            Proceed = false;
-          }
-          break;
-      }
-      */
-
-      if ( Proceed )
-      {
-
-        OutLink = new MacroscopeLink(
-          SourceUrl: this.GetUrl(),
-          TargetUrl: AbsoluteUrl,
-          LinkType: LinkType,
-          Follow: Follow
-        );
-
-        this.Outlinks.Add( OutLink );
-
-      }
-
-      return ( OutLink );
 
     }
 

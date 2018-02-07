@@ -527,7 +527,7 @@ namespace SEOMacroscope
 
           MacroscopeLink Outlink;
 
-          Outlink = this.AddHtmlOutlink(
+          Outlink = this.AddDocumentOutlink(
             AbsoluteUrl: LinkUrlAbs,
             LinkType: MacroscopeConstants.InOutLinkType.CANONICAL,
             Follow: true
@@ -754,7 +754,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.AHREF,
                 Follow: true
@@ -809,7 +809,7 @@ namespace SEOMacroscope
               if ( LinkUrlAbs != null )
               {
 
-                Outlink = this.AddHtmlOutlink(
+                Outlink = this.AddDocumentOutlink(
                   AbsoluteUrl: LinkUrlAbs,
                   LinkType: MacroscopeConstants.InOutLinkType.META,
                   Follow: true
@@ -874,6 +874,9 @@ namespace SEOMacroscope
               case "author":
                 LinkType = MacroscopeConstants.InOutLinkType.AUTHOR;
                 break;
+              case "icon":
+                LinkType = MacroscopeConstants.InOutLinkType.FAVICON;
+                break;
               default:
                 break;
             }
@@ -881,7 +884,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: LinkType,
                 Follow: Follow
@@ -925,7 +928,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.FRAME,
                 Follow: true
@@ -969,7 +972,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.IFRAME,
                 Follow: true
@@ -1012,7 +1015,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.MAP,
                 Follow: true
@@ -1055,7 +1058,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                 Follow: true
@@ -1093,7 +1096,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
                 Follow: true
@@ -1131,7 +1134,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.AUDIO,
                 Follow: true
@@ -1169,7 +1172,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.VIDEO,
                 Follow: true
@@ -1206,7 +1209,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.EMBED,
                 Follow: true
@@ -1243,7 +1246,7 @@ namespace SEOMacroscope
             if ( LinkUrlAbs != null )
             {
 
-              Outlink = this.AddHtmlOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
                 LinkType: MacroscopeConstants.InOutLinkType.OBJECT,
                 Follow: true
@@ -1365,115 +1368,6 @@ namespace SEOMacroscope
       }
 
       return;
-
-    }
-
-    /**************************************************************************/
-
-    private MacroscopeLink AddHtmlOutlink (
-      string AbsoluteUrl,
-      MacroscopeConstants.InOutLinkType LinkType,
-      bool Follow
-    )
-    {
-
-      MacroscopeLink OutLink = null;
-      bool Proceed = true;
-
-      // DEPRECATED:
-      /*
-      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
-      {
-        if ( this.DocCollection != null )
-        {
-          MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-          if ( AllowedHosts != null )
-          {
-            if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
-            {
-              Proceed = false;
-            }
-          }
-        }
-      }
-      */
-
-      // DEPRECATED:
-      /*
-      switch ( LinkType )
-      {
-        case MacroscopeConstants.InOutLinkType.CANONICAL:
-          if ( !MacroscopePreferencesManager.GetFollowCanonicalLinks() )
-          {
-            Proceed = false;
-          }
-          break;
-        case MacroscopeConstants.InOutLinkType.ALTERNATE:
-          if ( !MacroscopePreferencesManager.GetFollowAlternateLinks() )
-          {
-            Proceed = false;
-          }
-          break;
-        case MacroscopeConstants.InOutLinkType.STYLESHEET:
-          if ( !MacroscopePreferencesManager.GetFetchStylesheets() )
-          {
-            Proceed = false;
-          }
-          break;
-        case MacroscopeConstants.InOutLinkType.SCRIPT:
-          if ( !MacroscopePreferencesManager.GetFetchJavascripts() )
-          {
-            Proceed = false;
-          }
-          break;
-        case MacroscopeConstants.InOutLinkType.IMAGE:
-          if ( !MacroscopePreferencesManager.GetFetchImages() )
-          {
-            Proceed = false;
-          }
-          break;
-        case MacroscopeConstants.InOutLinkType.AUDIO:
-          if ( !MacroscopePreferencesManager.GetFetchAudio() )
-          {
-            Proceed = false;
-          }
-          break;
-        case MacroscopeConstants.InOutLinkType.VIDEO:
-          if ( !MacroscopePreferencesManager.GetFetchVideo() )
-          {
-            Proceed = false;
-          }
-          break;
-        case MacroscopeConstants.InOutLinkType.EMBED:
-          if ( !MacroscopePreferencesManager.GetFetchBinaries() )
-          {
-            Proceed = false;
-          }
-          break;
-        case MacroscopeConstants.InOutLinkType.OBJECT:
-          if ( !MacroscopePreferencesManager.GetFetchBinaries() )
-          {
-            Proceed = false;
-          }
-          break;
-      }
-      */
-
-      if ( Proceed )
-      {
-
-        OutLink = new MacroscopeLink(
-          SourceUrl: this.GetUrl(),
-          TargetUrl: AbsoluteUrl,
-          LinkType: LinkType,
-          Follow: Follow
-        );
-
-        this.Outlinks.Add( OutLink );
-
-      }
-
-      return ( OutLink );
 
     }
 

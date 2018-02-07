@@ -1490,7 +1490,7 @@ namespace SEOMacroscope
     )
     {
 
-      MacroscopeLink OutLink;
+      MacroscopeLink OutLink = null;
 
       OutLink = new MacroscopeLink(
         SourceUrl: this.GetUrl(),

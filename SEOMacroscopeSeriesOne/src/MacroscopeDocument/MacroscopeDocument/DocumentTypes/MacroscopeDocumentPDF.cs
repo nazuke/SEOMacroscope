@@ -254,16 +254,6 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-
-        
-
-
-
-
-
-
-
-
       }
 
       if ( ResponseErrorCondition != null )

@@ -365,7 +365,7 @@ namespace SEOMacroscope
 
             MacroscopeLink Outlink;
 
-            Outlink = this.AddSitemapTextOutlink(
+            Outlink = this.AddDocumentOutlink(
               AbsoluteUrl: UrlCleaned,
               LinkType: MacroscopeConstants.InOutLinkType.SITEMAPTEXT,
               Follow: true
@@ -432,7 +432,7 @@ namespace SEOMacroscope
 
               MacroscopeLink Outlink;
 
-              Outlink = this.AddSitemapTextOutlink(
+              Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: UrlCleaned,
                 LinkType: MacroscopeConstants.InOutLinkType.ROBOTSTEXT,
                 Follow: true
@@ -450,45 +450,6 @@ namespace SEOMacroscope
         }
 
       }
-
-    }
-
-    /**************************************************************************/
-
-    private MacroscopeLink AddSitemapTextOutlink (
-      string AbsoluteUrl,
-      MacroscopeConstants.InOutLinkType LinkType,
-      bool Follow
-    )
-    {
-
-      MacroscopeLink OutLink = null;
-
-      // DEPRECATED:
-      /*
-      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
-      {
-        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if ( AllowedHosts != null )
-        {
-          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
-          {
-            return ( OutLink );
-          }
-        }
-      }
-      */
-
-      OutLink = new MacroscopeLink(
-        SourceUrl: this.GetUrl(),
-        TargetUrl: AbsoluteUrl,
-        LinkType: LinkType,
-        Follow: Follow
-      );
-
-      this.Outlinks.Add( OutLink );
-
-      return ( OutLink );
 
     }
 

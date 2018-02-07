@@ -267,7 +267,8 @@ namespace SEOMacroscope
       PDF = 21,
       AUTHOR = 22,
       PURETEXT = 23,
-      QRCODE = 24
+      QRCODE = 24,
+      FAVICON = 25
     }
 
     /** END: Outlink Types ****************************************************/

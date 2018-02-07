@@ -289,7 +289,7 @@ namespace SEOMacroscope
                     UrlTarget: LinkUrlAbs
                   );
 
-                  Outlink = this.AddCssOutlink(
+                  Outlink = this.AddDocumentOutlink(
                     AbsoluteUrl: LinkUrlAbs,
                     LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                     Follow: true
@@ -328,7 +328,7 @@ namespace SEOMacroscope
                     UrlTarget: LinkUrlAbs
                   );
 
-                  Outlink = this.AddCssOutlink(
+                  Outlink = this.AddDocumentOutlink(
                     AbsoluteUrl: LinkUrlAbs,
                     LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                     Follow: true
@@ -386,61 +386,6 @@ namespace SEOMacroscope
       }
 
       return ( LinkUrlAbs );
-
-    }
-
-    /**************************************************************************/
-
-    private MacroscopeLink AddCssOutlink (
-      string AbsoluteUrl,
-      MacroscopeConstants.InOutLinkType LinkType,
-      bool Follow
-    )
-    {
-
-      MacroscopeLink OutLink = null;
-      bool Proceed = true;
-
-      // DEPRECATED:
-      /*
-      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
-      {
-        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if ( AllowedHosts != null )
-        {
-          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
-          {
-            Proceed = false;
-          }
-        }
-      }
-
-      switch ( LinkType )
-      {
-        case MacroscopeConstants.InOutLinkType.STYLESHEET:
-          if ( !MacroscopePreferencesManager.GetFetchStylesheets() )
-          {
-            Proceed = false;
-          }
-          break;
-      }
-      */
-
-      if ( Proceed )
-      {
-
-        OutLink = new MacroscopeLink(
-          SourceUrl: this.GetUrl(),
-          TargetUrl: AbsoluteUrl,
-          LinkType: LinkType,
-          Follow: Follow
-        );
-
-        this.Outlinks.Add( OutLink );
-
-      }
-
-      return ( OutLink );
 
     }
 

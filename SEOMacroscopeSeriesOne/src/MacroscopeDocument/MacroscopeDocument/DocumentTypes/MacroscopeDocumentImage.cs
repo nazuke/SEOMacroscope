@@ -168,11 +168,11 @@ namespace SEOMacroscope
               if ( QrCodeImageUri != null )
               {
                 MacroscopeLink Outlink = null;
-                Outlink = this.AddImageOutlink(
+                Outlink = this.AddDocumentOutlink(
                   AbsoluteUrl: QrCodeImageUri.AbsoluteUri,
                   LinkType: MacroscopeConstants.InOutLinkType.QRCODE,
                   Follow: true
-                          );
+                );
                 if ( Outlink != null )
                 {
                   Outlink.SetRawTargetUrl( TargetUrl: QrCodeImageUri.AbsoluteUri );
@@ -190,41 +190,6 @@ namespace SEOMacroscope
       {
         this.ErrorCondition = ResponseErrorCondition;
       }
-
-    }
-
-    /**************************************************************************/
-
-    private MacroscopeLink AddImageOutlink ( string AbsoluteUrl, MacroscopeConstants.InOutLinkType LinkType, bool Follow )
-    {
-
-      MacroscopeLink OutLink = null;
-
-      // DEPRECATED:
-      /*
-      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
-      {
-        MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-        if ( AllowedHosts != null )
-        {
-          if ( !AllowedHosts.IsAllowedFromUrl( Url: AbsoluteUrl ) )
-          {
-            return ( OutLink );
-          }
-        }
-      }
-      */
-
-      OutLink = new MacroscopeLink(
-        SourceUrl: this.GetUrl(),
-        TargetUrl: AbsoluteUrl,
-        LinkType: LinkType,
-        Follow: Follow
-      );
-
-      this.Outlinks.Add( OutLink );
-
-      return ( OutLink );
 
     }
 
