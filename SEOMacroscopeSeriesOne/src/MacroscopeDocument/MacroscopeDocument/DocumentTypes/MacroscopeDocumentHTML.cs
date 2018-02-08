@@ -832,6 +832,8 @@ namespace SEOMacroscope
 
       { // LINK element links
 
+        // https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types
+
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//link[@href]" );
 
         if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
@@ -865,17 +867,23 @@ namespace SEOMacroscope
 
             switch ( LinkNode.GetAttributeValue( "rel", "" ).ToLower() )
             {
-              case "stylesheet":
-                LinkType = MacroscopeConstants.InOutLinkType.STYLESHEET;
-                break;
               case "alternate":
                 LinkType = MacroscopeConstants.InOutLinkType.ALTERNATE;
+                break;
+              case "archives":
+                LinkType = MacroscopeConstants.InOutLinkType.ARCHIVES;
                 break;
               case "author":
                 LinkType = MacroscopeConstants.InOutLinkType.AUTHOR;
                 break;
               case "icon":
                 LinkType = MacroscopeConstants.InOutLinkType.FAVICON;
+                break;
+              case "shortlink":
+                LinkType = MacroscopeConstants.InOutLinkType.SHORTLINK;
+                break;
+              case "stylesheet":
+                LinkType = MacroscopeConstants.InOutLinkType.STYLESHEET;
                 break;
               default:
                 break;
@@ -1034,6 +1042,42 @@ namespace SEOMacroscope
 
       } // -------------------------------------------------------------------//
 
+      { // SCRIPT element links ----------------------------------------------//
+
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//script[@src]" );
+
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        {
+
+          foreach ( HtmlNode LinkNode in NodeCollection )
+          {
+
+            string LinkUrl = LinkNode.GetAttributeValue( "src", null );
+            string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
+            MacroscopeLink Outlink = null;
+
+            if ( LinkUrlAbs != null )
+            {
+
+              Outlink = this.AddDocumentOutlink(
+                AbsoluteUrl: LinkUrlAbs,
+                LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
+                Follow: true
+              );
+
+              if ( Outlink != null )
+              {
+                Outlink.SetRawTargetUrl( LinkUrl );
+              }
+
+            }
+
+          }
+
+        }
+
+      } // -------------------------------------------------------------------//
+
       { // IMG element links -------------------------------------------------// 
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//img[@src]" );
@@ -1079,9 +1123,13 @@ namespace SEOMacroscope
 
       } // -------------------------------------------------------------------//
 
-      { // SCRIPT element links ----------------------------------------------//
+      { // PICTURE element links ---------------------------------------------//
 
-        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//script[@src]" );
+        // TODO: Finished implementing this:
+        // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture
+
+        /*
+        HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//picture/source[@srcset]" );
 
         if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
@@ -1089,7 +1137,7 @@ namespace SEOMacroscope
           foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
-            string LinkUrl = LinkNode.GetAttributeValue( "src", null );
+            string LinkUrl = LinkNode.GetAttributeValue( "srcset", null );
             string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
 
@@ -1098,7 +1146,7 @@ namespace SEOMacroscope
 
               Outlink = this.AddDocumentOutlink(
                 AbsoluteUrl: LinkUrlAbs,
-                LinkType: MacroscopeConstants.InOutLinkType.SCRIPT,
+                LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
                 Follow: true
               );
 
@@ -1112,6 +1160,7 @@ namespace SEOMacroscope
           }
 
         }
+        */
 
       } // -------------------------------------------------------------------//
 
@@ -1269,7 +1318,7 @@ namespace SEOMacroscope
 
     /** Process Inline CSS Links **********************************************/
 
-    private void ProcessHtmlInlineCssLinks ( HtmlDocument HtmlDoc )
+        private void ProcessHtmlInlineCssLinks ( HtmlDocument HtmlDoc )
     {
 
       if ( HtmlDoc != null )

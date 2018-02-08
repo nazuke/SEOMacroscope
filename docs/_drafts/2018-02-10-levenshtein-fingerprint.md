@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Generating a fingerprint of a web page, to speed up duplicate content identification"
-date: "2017-10-xx 21:00:00 -09:00"
+date: "2018-02-10 21:00:00 -09:00"
 published: false
 description: ""
 excerpt: ""

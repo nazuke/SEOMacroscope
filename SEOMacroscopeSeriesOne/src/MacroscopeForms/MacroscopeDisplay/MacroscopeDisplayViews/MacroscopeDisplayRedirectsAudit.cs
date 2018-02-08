@@ -104,8 +104,11 @@ namespace SEOMacroscope
       string DestinationURL = msDoc.GetUrlRedirectTo();
 
       string PairKey = string.Join( "", Url );
-       
-      if(
+
+
+      // BUG: The OriginURL logic here is wrong:
+
+      if (
         ( !string.IsNullOrEmpty( OriginURL ) )
         && ( !string.IsNullOrEmpty( Status ) )
         && ( !string.IsNullOrEmpty( DestinationURL ) ) )
@@ -129,7 +132,7 @@ namespace SEOMacroscope
           }
           catch( Exception ex )
           {
-            DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 1: {0}", ex.Message ) );
+            this.DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 1: {0}", ex.Message ) );
           }
 
         }
@@ -154,7 +157,7 @@ namespace SEOMacroscope
           }
           catch( Exception ex )
           {
-            DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 2: {0}", ex.Message ) );
+            this.DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 2: {0}", ex.Message ) );
           }
 
         }

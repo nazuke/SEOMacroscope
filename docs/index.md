@@ -6,7 +6,7 @@ description: "SEO Macroscope is a free and open source website broken link check
 
 # SEO Macroscope: The Webmaster's Toolbox
 
-**SEO Macroscope** for Microsoft Windows is a free and open source website broken link checking and scanning tool, with some technical SEO functionality.
+**SEO Macroscope** for Microsoft Windows is a free and open source website broken link checking and scanning tool, with some technical SEO functionality for common website problems.
 {: .lead }
 
 ![The SEO Macroscope application window.]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
@@ -23,7 +23,7 @@ The SEO Macroscope website crawler will help you to:
 * Export text and XML sitemaps.
 * Use custom filters to verify the presence/absence of tracking tags.
 * Use CSS Selectors, XPath Queries, and Regular Expressions to scrape website data.
-* And more...
+* And more besides...
 
 Check out the source code repository at [https://github.com/nazuke/SEOMacroscope](https://github.com/nazuke/SEOMacroscope).
 

@@ -38,38 +38,42 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private string ItemUrl;
-   
+    private string ItemRedirectedFromUrl;
+
     /**************************************************************************/
 
-    public MacroscopeJobItem ( string Url  )
+    public MacroscopeJobItem ( string Url, string RedirectedFromUrl = null )
     {
       this.ItemUrl = Url;
+      this.ItemRedirectedFromUrl = RedirectedFromUrl;
     }
 
     /**************************************************************************/
 
     public override string ToString ()
     {
-
       string Url = this.ItemUrl;
-
       return ( Url );
-
     }
 
     /**************************************************************************/
 
     public string GetItemUrl ()
     {
-
       string Url = this.ItemUrl;
-
       return ( Url );
-
     }
 
     /**************************************************************************/
-    
+
+    public string GetItemRedirectedFromUrl ()
+    {
+      string Url = this.ItemRedirectedFromUrl;
+      return ( Url );
+    }
+
+    /**************************************************************************/
+
   }
 
 }

@@ -8,10 +8,10 @@ description: "Download the current and previous releases of SEO Macroscope."
 
 ## PLATFORMS
 
-**SEO Macroscope** is developed on Windows. Currently, tested on Windows 7 and 10 with the .NET 4.5.2 framework.
+**SEO Macroscope** is developed on Windows. Currently, tested on Windows 7 and 10. HTTP/2 support is currently only fully supported on Windows 10 or later.
 {: .lead }
 
-Macintosh users, with the Mono framework and Xamarin IDE installed, *may* be able to compile and run the project. I do not currently plan on making a native port to Macintosh.
+Macintosh and Linux users, with the Mono framework and Xamarin IDE installed, *may* be able to compile and run the project. I do not currently plan on making a native port to Macintosh or Linux.
 
 ## INSTALLER
 

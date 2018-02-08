@@ -785,11 +785,12 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public void AddUrlQueueItem ( string Url )
+    // TODO: Implement RedirectedFromUrl handling here:
+    public void AddUrlQueueItem ( string Url, string RedirectedFromUrl = null )
     {
 
       string NewUrl = Url;
-      MacroscopeJobItem JobItem;
+      MacroscopeJobItem JobItem = null;
 
       if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
@@ -819,7 +820,14 @@ namespace SEOMacroscope
         try
         {
 
-          JobItem = new MacroscopeJobItem( Url: NewUrl );
+          if ( !string.IsNullOrEmpty( RedirectedFromUrl ) )
+          {
+            JobItem = new MacroscopeJobItem( Url: NewUrl, RedirectedFromUrl: RedirectedFromUrl );
+          }
+          else
+          {
+            JobItem = new MacroscopeJobItem( Url: NewUrl );
+          }
 
           this.NamedQueueJobItems.AddToNamedQueue(
             Name: MacroscopeConstants.NamedQueueUrlList,
@@ -842,7 +850,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public void AddUrlQueueItem ( string Url, bool Check )
+    public void AddUrlQueueItem ( string Url, bool Check, bool Force = false )
     {
 
       bool Proceed = true;
@@ -1614,6 +1622,13 @@ namespace SEOMacroscope
 
     public void ProcessOutlinks ( MacroscopeDocument msDoc )
     {
+
+      bool Force = false;
+
+      if ( msDoc.GetIsInternal() )
+      {
+        Force = true;
+      }
 
       if (
         ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )

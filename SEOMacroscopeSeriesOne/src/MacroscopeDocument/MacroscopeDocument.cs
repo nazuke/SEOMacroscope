@@ -64,6 +64,7 @@ namespace SEOMacroscope
     private bool AllowedByRobots;
 
     private bool IsExternal;
+    private bool Forced;
 
     private bool IsRedirect;
     private string UrlRedirectFrom;
@@ -253,6 +254,7 @@ namespace SEOMacroscope
       this.AllowedByRobots = true;
 
       this.IsExternal = false;
+      this.Forced = false;
 
       this.IsRedirect = false;
       this.UrlRedirectFrom = "";
@@ -795,6 +797,27 @@ namespace SEOMacroscope
     public bool GetIsExternal ()
     {
       return ( this.IsExternal );
+    }
+
+    /** Forced Flag ***********************************************************/
+
+    public void SetForced ()
+    {
+      this.Forced = true;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void ClearForced ()
+    {
+      this.Forced = false;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public bool GetForced ()
+    {
+      return ( this.Forced );
     }
 
     /** Is Redirect Flag ******************************************************/

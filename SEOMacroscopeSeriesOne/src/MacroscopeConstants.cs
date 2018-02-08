@@ -265,10 +265,12 @@ namespace SEOMacroscope
       ALTERNATE = 19,
       RELATED = 20,
       PDF = 21,
-      AUTHOR = 22,
-      PURETEXT = 23,
-      QRCODE = 24,
-      FAVICON = 25
+      PURETEXT = 22,
+      QRCODE = 23,
+      FAVICON = 24,
+      AUTHOR = 25,
+      ARCHIVES = 26,
+      SHORTLINK = 27
     }
 
     /** END: Outlink Types ****************************************************/

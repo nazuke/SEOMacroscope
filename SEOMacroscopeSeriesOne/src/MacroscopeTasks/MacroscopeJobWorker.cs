@@ -101,13 +101,15 @@ namespace SEOMacroscope
 
           MacroscopeJobItem JobItem = this.JobMaster.GetUrlQueueItem();
           string Url = null;
+          string RedirectedFromUrl = null;
 
-          if( JobItem != null )
+          if ( JobItem != null )
           {
             Url = JobItem.GetItemUrl();
+            RedirectedFromUrl = JobItem.GetItemRedirectedFromUrl();
           }
 
-          if( !string.IsNullOrEmpty( Url ) )
+          if ( !string.IsNullOrEmpty( Url ) )
           {
             if( !this.CheckIncludeExcludeUrl( Url ) )
             {
@@ -176,7 +178,14 @@ namespace SEOMacroscope
 
               try
               {
-                FetchStatus = await this.Fetch( Url );
+                if ( !string.IsNullOrEmpty( RedirectedFromUrl ) )
+                {
+                  FetchStatus = await this.Fetch( Url, RedirectedFromUrl );
+                }
+                else
+                {
+                  FetchStatus = await this.Fetch( Url );
+                }
               }
               catch( Exception ex )
               {
@@ -271,7 +280,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private async Task<MacroscopeConstants.FetchStatus> Fetch ( string Url )
+    private async Task<MacroscopeConstants.FetchStatus> Fetch ( string Url, string RedirectedFromUrl = null )
     {
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
@@ -322,9 +331,14 @@ namespace SEOMacroscope
         msDoc = this.DocCollection.CreateDocument( Url );
       }
 
+      if ( !string.IsNullOrEmpty( RedirectedFromUrl ) )
+      {
+        msDoc.SetUrlRedirectFrom( Url: RedirectedFromUrl );
+      }
+
       msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.OK );
 
-      if( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) )
+      if ( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) )
       {
 
         this.DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
