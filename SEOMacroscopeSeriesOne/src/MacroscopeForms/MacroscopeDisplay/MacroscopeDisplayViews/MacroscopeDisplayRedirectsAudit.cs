@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -42,9 +41,14 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private ToolStripLabel DocumentCount;
-        
+
+    private const int COLURL = 0;
+    private const int COLSTATUSCODE = 1;
+    private const int COLSTATUS = 2;
+    private const int COLDESTINATIONURL = 3;
+
     /**************************************************************************/
-        
+
     public MacroscopeDisplayRedirectsAudit ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
@@ -53,10 +57,10 @@ namespace SEOMacroscope
       this.DisplayListView = TargetListView;
       this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelRedirectsItems;
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -75,7 +79,7 @@ namespace SEOMacroscope
 
     protected override void ConfigureListView ()
     {
-      if( !this.ListViewConfigured )
+      if ( !this.ListViewConfigured )
       {
         this.ListViewConfigured = true;
       }
@@ -91,46 +95,38 @@ namespace SEOMacroscope
     )
     {
 
-      if( !msDoc.GetIsRedirect() )
+      if ( !msDoc.GetIsRedirect() )
       {
         return;
       }
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      
-      string OriginURL = msDoc.GetUrlRedirectFrom();
-      int StatusCode = ( int )msDoc.GetStatusCode();
+      int StatusCode = (int) msDoc.GetStatusCode();
       string Status = msDoc.GetStatusCode().ToString();
       string DestinationURL = msDoc.GetUrlRedirectTo();
-
       string PairKey = string.Join( "", Url );
 
-
-      // BUG: The OriginURL logic here is wrong:
-
       if (
-        ( !string.IsNullOrEmpty( OriginURL ) )
-        && ( !string.IsNullOrEmpty( Status ) )
-        && ( !string.IsNullOrEmpty( DestinationURL ) ) )
+       ( !string.IsNullOrEmpty( Status ) )
+      && ( !string.IsNullOrEmpty( DestinationURL ) ) )
       {
 
         ListViewItem lvItem = null;
 
-        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
+        if ( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
             lvItem = this.DisplayListView.Items[ PairKey ];
-            lvItem.SubItems[ 0 ].Text = Url;
-            lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
-            lvItem.SubItems[ 2 ].Text = Status;
-            lvItem.SubItems[ 3 ].Text = OriginURL;
-            lvItem.SubItems[ 4 ].Text = DestinationURL;
+            lvItem.SubItems[ COLURL ].Text = Url;
+            lvItem.SubItems[ COLSTATUSCODE ].Text = StatusCode.ToString();
+            lvItem.SubItems[ COLSTATUS ].Text = Status;
+            lvItem.SubItems[ COLDESTINATIONURL ].Text = DestinationURL;
 
           }
-          catch( Exception ex )
+          catch ( Exception ex )
           {
             this.DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 1: {0}", ex.Message ) );
           }
@@ -142,52 +138,51 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( PairKey );
+            lvItem = new ListViewItem( PairKey );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
-            lvItem.SubItems[ 0 ].Text = Url;
+            lvItem.SubItems[ COLURL ].Text = Url;
             lvItem.SubItems.Add( StatusCode.ToString() );
             lvItem.SubItems.Add( Status );
-            lvItem.SubItems.Add( OriginURL );
             lvItem.SubItems.Add( DestinationURL );
 
             ListViewItems.Add( lvItem );
 
           }
-          catch( Exception ex )
+          catch ( Exception ex )
           {
             this.DebugMsg( string.Format( "MacroscopeDisplayRedirectsAudit 2: {0}", ex.Message ) );
           }
 
         }
 
-        if( lvItem != null )
+        if ( lvItem != null )
         {
 
-          if( msDoc.GetIsInternal() )
+          if ( msDoc.GetIsInternal() )
           {
 
-            for( int i = 0 ; i <= 4 ; i++ )
+            for ( int i = 0 ; i <= 3 ; i++ )
             {
               lvItem.SubItems[ i ].ForeColor = Color.Blue;
             }
 
-            if( ( StatusCode >= 200 ) && ( StatusCode <= 299 ) )
+            if ( ( StatusCode >= 200 ) && ( StatusCode <= 299 ) )
             {
-              for( int i = 0 ; i <= 4 ; i++ )
+              for ( int i = 0 ; i <= 3 ; i++ )
                 lvItem.SubItems[ i ].ForeColor = Color.Green;
             }
             else
-            if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
+            if ( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
             {
-              for( int i = 0 ; i <= 4 ; i++ )
+              for ( int i = 0 ; i <= 3 ; i++ )
                 lvItem.SubItems[ i ].ForeColor = Color.Goldenrod;
             }
             else
-            if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
+            if ( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
             {
-              for( int i = 0 ; i <= 4 ; i++ )
+              for ( int i = 0 ; i <= 3 ; i++ )
               {
                 lvItem.SubItems[ i ].ForeColor = Color.Red;
               }
@@ -196,28 +191,19 @@ namespace SEOMacroscope
           }
           else
           {
-            for( int i = 0 ; i <= 4 ; i++ )
+            for ( int i = 0 ; i <= 3 ; i++ )
             {
               lvItem.SubItems[ i ].ForeColor = Color.Gray;
             }
           }
 
-          if( AllowedHosts.IsInternalUrl( OriginURL ) )
+          if ( AllowedHosts.IsInternalUrl( DestinationURL ) )
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+            lvItem.SubItems[ COLDESTINATIONURL ].ForeColor = Color.Green;
           }
           else
           {
-            lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
-          }
-            
-          if( AllowedHosts.IsInternalUrl( DestinationURL ) )
-          {
-            lvItem.SubItems[ 4 ].ForeColor = Color.Green;
-          }
-          else
-          {
-            lvItem.SubItems[ 4 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ COLDESTINATIONURL ].ForeColor = Color.Gray;
           }
 
         }

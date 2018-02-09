@@ -48,7 +48,6 @@ namespace SEOMacroscope
 		public System.Windows.Forms.ListView listViewHrefLang;
 		public System.Windows.Forms.TabPage tabPageRedirectsAudit;
 		public System.Windows.Forms.ListView listViewRedirectsAudit;
-		private System.Windows.Forms.ColumnHeader RedirectsAuditSourceUrl;
 		private System.Windows.Forms.ColumnHeader RedirectsAuditStatusCode;
 		private System.Windows.Forms.ColumnHeader RedirectsAuditTargetUrl;
 		public System.Windows.Forms.TabPage tabPageUriAnalysis;
@@ -416,7 +415,6 @@ namespace SEOMacroscope
       this.RedirectsAuditUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.RedirectsAuditStatusCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.RedirectsAuditStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.RedirectsAuditSourceUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.RedirectsAuditTargetUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPageErrors = new System.Windows.Forms.TabPage();
       this.tableLayoutPanelErrors = new System.Windows.Forms.TableLayoutPanel();
@@ -1470,7 +1468,6 @@ namespace SEOMacroscope
             this.RedirectsAuditUrl,
             this.RedirectsAuditStatusCode,
             this.RedirectsAuditStatus,
-            this.RedirectsAuditSourceUrl,
             this.RedirectsAuditTargetUrl});
       this.listViewRedirectsAudit.ContextMenuStrip = this.contextMenuStripStructure;
       this.listViewRedirectsAudit.FullRowSelect = true;
@@ -1498,11 +1495,6 @@ namespace SEOMacroscope
       // 
       this.RedirectsAuditStatus.Text = "Status";
       this.RedirectsAuditStatus.Width = 150;
-      // 
-      // RedirectsAuditSourceUrl
-      // 
-      this.RedirectsAuditSourceUrl.Text = "Source URL";
-      this.RedirectsAuditSourceUrl.Width = 300;
       // 
       // RedirectsAuditTargetUrl
       // 
