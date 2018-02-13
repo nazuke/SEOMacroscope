@@ -417,10 +417,13 @@ namespace SEOMacroscope
         }
 
         { // Add humans.txt URL to queue
-          string HumansUrl = MacroscopeHumans.GenerateHumansUrl( Url: this.StartUrl );
-          if ( !string.IsNullOrEmpty( HumansUrl ) )
+          if ( MacroscopePreferencesManager.GetProbeHumansText() )
           {
-            this.AddUrlQueueItem( Url: HumansUrl  );
+            string HumansUrl = MacroscopeHumans.GenerateHumansUrl( Url: this.StartUrl );
+            if ( !string.IsNullOrEmpty( HumansUrl ) )
+            {
+              this.AddUrlQueueItem( Url: HumansUrl );
+            }
           }
         }
 

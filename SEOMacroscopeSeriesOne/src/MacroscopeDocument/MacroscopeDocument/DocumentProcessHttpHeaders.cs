@@ -193,8 +193,6 @@ namespace SEOMacroscope
         this.ServerName = ResponseHeaders.Server.First().ToString();
       }*/
 
-      this.DebugMsg( "###########################################################################################################" );
-
       /** PROBE HTTP HEADERS ----------------------------------------------- **/
 
       /** Server HTTP Header ----------------------------------------------- **/
@@ -489,181 +487,48 @@ namespace SEOMacroscope
 
       this.DebugMsg( string.Format( "this.Etag: {0}", this.Etag ) );
 
-      
-      
-      
-      
-      
       /** WWW-AUTHENTICATE HTTP Header ------------------------------------- **/
-      /*
+      // Reference: http://httpbin.org/basic-auth/user/passwd
       try
       {
         HttpHeaderValueCollection<AuthenticationHeaderValue> HeaderValue = ResponseHeaders.WwwAuthenticate;
-        if( HeaderValue != null )
+        if ( HeaderValue != null )
         {
-          string ETagValue = HeaderValue.Tag;
-          if( !string.IsNullOrEmpty( ETagValue ) )
+          string Scheme = null;
+          string Realm = null;
+          foreach ( AuthenticationHeaderValue AuthenticationValue in HeaderValue )
           {
-            this.SetEtag( HeaderValue.Tag );
+            Scheme = AuthenticationValue.Scheme;
+            string Parameter = AuthenticationValue.Parameter;
+            Match Matched = Regex.Match( Parameter, "^[^\"]+\"([^\"]+)\"" );
+            if ( Matched.Success )
+            {
+              Realm = Matched.Groups[ 1 ].Value;
+            }
+          }
+          if ( !string.IsNullOrEmpty( Scheme ) && !string.IsNullOrEmpty( Realm ) )
+          {
+            if ( Scheme.ToLower() == "basic" )
+            {
+              this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.BASIC );
+              this.SetAuthenticationRealm( Realm );
+            }
+            else
+            {
+              this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.UNSUPPORTED );
+            }
           }
         }
       }
       catch( Exception ex )
       {
-        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
-        {
-          string HeaderValue = HeaderValues.FirstOrDefault();
-          if( HeaderValue != null )
-          {
-            if( !string.IsNullOrEmpty( HeaderValue ) )
-            {
-              this.SetEtag( HeaderValue );
-            }
-          }
-          return ( true );
-        };
-        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "etag", Callback: Callback ) )
-        {
-          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "etag", Callback: Callback );
-        }
+        this.DebugMsg( ex.Message );
       }
-
-      this.DebugMsg( string.Format( "this.Etag: {0}", this.Etag ) );
-      */
-
-
-
-
-
-
-      /*
-      if( ResponseHeader.Key.ToLower().Equals( "www-authenticate" ) )
-      {
-
-        // EXAMPLE: WWW-Authenticate: Basic realm="Access to the staging site"
-
-        string NewAuthenticationType = "";
-        string NewAuthenticationRealm = "";
-        string NewAuthenticationValue = ResponseHeader.Value.First();
-
-        MatchCollection matches = Regex.Matches( NewAuthenticationValue, "^\\s*(Basic)\\s+realm=\"([^\"]+)\"", RegexOptions.IgnoreCase );
-
-        this.DebugMsg( string.Format( "www-authenticate: \"{0}\"", NewAuthenticationValue ) );
-
-        foreach( Match match in matches )
-        {
-          NewAuthenticationType = match.Groups[ 1 ].Value;
-          NewAuthenticationRealm = match.Groups[ 2 ].Value;
-        }
-
-        this.DebugMsg( string.Format( "www-authenticate: \"{0}\" :: \"{1}\"", NewAuthenticationType, NewAuthenticationRealm ) );
-
-        if( NewAuthenticationType.ToLower() == "basic" )
-        {
-          this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.BASIC );
-        }
-        else
-        {
-          this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.UNSUPPORTED );
-        }
-
-        this.SetAuthenticationRealm( NewAuthenticationRealm );
-
-      }
-      */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      /*
-      foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
-      {
-
-        if( ResponseHeader.Key.ToLower().Equals( "www-authenticate" ) )
-        {
-
-          // EXAMPLE: WWW-Authenticate: Basic realm="Access to the staging site"
-
-          string NewAuthenticationType = "";
-          string NewAuthenticationRealm = "";
-          string NewAuthenticationValue = ResponseHeader.Value.First();
-
-          MatchCollection matches = Regex.Matches( NewAuthenticationValue, "^\\s*(Basic)\\s+realm=\"([^\"]+)\"", RegexOptions.IgnoreCase );
-
-          this.DebugMsg( string.Format( "www-authenticate: \"{0}\"", NewAuthenticationValue ) );
-
-          foreach( Match match in matches )
-          {
-            NewAuthenticationType = match.Groups[ 1 ].Value;
-            NewAuthenticationRealm = match.Groups[ 2 ].Value;
-          }
-
-          this.DebugMsg( string.Format( "www-authenticate: \"{0}\" :: \"{1}\"", NewAuthenticationType, NewAuthenticationRealm ) );
-
-          if( NewAuthenticationType.ToLower() == "basic" )
-          {
-            this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.BASIC );
-          }
-          else
-          {
-            this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.UNSUPPORTED );
-          }
-
-          this.SetAuthenticationRealm( NewAuthenticationRealm );
-
-        }
-
-
-
-
-
-
-
-      }
-
-      */
-
-      this.DebugMsg( "###########################################################################################################" );
+      this.DebugMsg( string.Format( "WwwAuthenticate: \"{0}\", Realm: \"{1}\"", this.GetAuthenticationType(), this.GetAuthenticationRealm() ) );
 
       /** Process Dates ---------------------------------------------------- **/
       {
-        if( this.DateServer.Date == new DateTime().Date )
+        if ( this.DateServer.Date == new DateTime().Date )
         {
           this.DateServer = DateTime.UtcNow;
         }

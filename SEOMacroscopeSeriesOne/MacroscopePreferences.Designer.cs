@@ -1186,5 +1186,17 @@ namespace SEOMacroscope {
                 this["DetectQrCodeInImage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ProbeHumansText {
+            get {
+                return ((bool)(this["ProbeHumansText"]));
+            }
+            set {
+                this["ProbeHumansText"] = value;
+            }
+        }
     }
 }

@@ -84,6 +84,7 @@ namespace SEOMacroscope
 
     static bool FollowRobotsProtocol;
     static bool FollowSitemapLinks;
+    static bool ProbeHumansText;
 
     static bool CheckRedirects;
     static bool FollowRedirects;
@@ -120,7 +121,7 @@ namespace SEOMacroscope
     static bool ProcessStylesheets;
     static bool ProcessVideo;
     static bool ProcessXml;
-    
+
     static bool ScanSitesInList;
     static bool WarnAboutInsecureLinks;
 
@@ -272,6 +273,7 @@ namespace SEOMacroscope
 
           FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
           FollowSitemapLinks = Preferences.FollowSitemapLinks;
+          ProbeHumansText = Preferences.ProbeHumansText;
 
           CheckRedirects = Preferences.CheckRedirects;
           FollowRedirects = Preferences.FollowRedirects;
@@ -427,6 +429,7 @@ namespace SEOMacroscope
 
       FollowRobotsProtocol = true;
       FollowSitemapLinks = true;
+      ProbeHumansText = true;
 
       CheckRedirects = true;
       FollowRedirects = false;
@@ -688,9 +691,9 @@ namespace SEOMacroscope
 
         Preferences.EnableTextIndexing = EnableTextIndexing;
         Preferences.CaseSensitiveTextIndexing = CaseSensitiveTextIndexing;
-        
+
         Preferences.DetectQrCodeInImage = DetectQrCodeInImage;
-        
+
         Preferences.EnableLevenshteinDeduplication = EnableLevenshteinDeduplication;
         Preferences.LevenshteinAnalysisLevel = LevenshteinAnalysisLevel;
         Preferences.MaxLevenshteinSizeDifference = MaxLevenshteinSizeDifference;
@@ -698,6 +701,7 @@ namespace SEOMacroscope
 
         Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
         Preferences.FollowSitemapLinks = FollowSitemapLinks;
+        Preferences.ProbeHumansText = ProbeHumansText;
 
         Preferences.CheckRedirects = CheckRedirects;
         Preferences.FollowRedirects = FollowRedirects;
@@ -1231,7 +1235,7 @@ namespace SEOMacroscope
       MaxLevenshteinDistance = Max;
     }
 
-    /**************************************************************************/
+    /** Robots ****************************************************************/
 
     public static bool GetFollowRobotsProtocol ()
     {
@@ -1243,7 +1247,7 @@ namespace SEOMacroscope
       FollowRobotsProtocol = State;
     }
 
-    /**************************************************************************/
+    /** Sitemap Links *********************************************************/
 
     public static bool GetFollowSitemapLinks ()
     {
@@ -1253,6 +1257,18 @@ namespace SEOMacroscope
     public static void SetFollowSitemapLinks ( bool State )
     {
       FollowSitemapLinks = State;
+    }
+
+    /** Humans ****************************************************************/
+
+    public static bool GetProbeHumansText ()
+    {
+      return ( ProbeHumansText );
+    }
+
+    public static void SetProbeHumansText ( bool State )
+    {
+      ProbeHumansText = State;
     }
 
     /**************************************************************************/

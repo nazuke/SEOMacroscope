@@ -43,7 +43,7 @@ namespace SEOMacroscope
   public partial class MacroscopeDocument : Macroscope
   {
 
-    // TODO: Finish implementing authentication
+    // TODO: Verify that authetication works
 
     /** Authenticate Request **************************************************/
 
@@ -71,27 +71,11 @@ namespace SEOMacroscope
 
         if( Request != null )
         {
-
-          // TODO: Implement this:
-
-
-          
-
-        /*
-          Request.PreAuthenticate = true;
-
-          Request.Headers.Add(
-            HttpRequestHeader.Authorization,
-            string.Join( " ", "Basic", UsernamePasswordB64Encoded )
-          );
-
+          Request.Headers.Add( HttpRequestHeader.Authorization.ToString(), string.Join( " ", "Basic", UsernamePasswordB64Encoded ) );
           IsAuthenticating = true;
-          */
-
         }
 
       }
-
 
       if ( IsAuthenticating )
       {
@@ -101,53 +85,6 @@ namespace SEOMacroscope
       return;
 
     }
-
-
-
-    /*
-    private bool AuthenticateRequest ( HttpWebRequest req )
-    {
-
-      // Reference: https://en.wikipedia.org/wiki/Basic_access_authentication#Protocol
-
-      bool IsAuthenticating = false;
-      byte[] UsernamePassword;
-      string UsernamePasswordB64Encoded;
-
-      if( this.GetAuthenticationCredential() != null )
-      {
-
-        UsernamePassword = Encoding.UTF8.GetBytes(
-          string.Join(
-            ":",
-            this.GetAuthenticationCredential().GetUsername(),
-            this.GetAuthenticationCredential().GetPassword()
-          )
-        );
-
-        UsernamePasswordB64Encoded = System.Convert.ToBase64String( UsernamePassword );
-
-        if( req != null )
-        {
-
-          req.PreAuthenticate = true;
-
-          req.Headers.Add(
-            HttpRequestHeader.Authorization,
-            string.Join( " ", "Basic", UsernamePasswordB64Encoded )
-          );
-
-          IsAuthenticating = true;
-
-        }
-
-      }
-
-      return ( IsAuthenticating );
-
-    }
-      */
-
 
     /** -------------------------------------------------------------------- **/
 

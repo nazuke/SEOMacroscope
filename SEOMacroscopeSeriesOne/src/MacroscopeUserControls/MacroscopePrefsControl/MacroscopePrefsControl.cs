@@ -98,6 +98,7 @@ namespace SEOMacroscope
 
         this.checkBoxFollowRobotsProtocol.Checked = MacroscopePreferencesManager.GetFollowRobotsProtocol();
         this.checkBoxFollowSitemapLinks.Checked = MacroscopePreferencesManager.GetFollowSitemapLinks();
+        this.checkBoxProbeHumansText.Checked = MacroscopePreferencesManager.GetProbeHumansText();
 
         this.checkBoxCheckRedirects.Checked = MacroscopePreferencesManager.GetCheckRedirects();
         this.checkBoxFollowRedirects.Checked = MacroscopePreferencesManager.GetFollowRedirects();
@@ -255,6 +256,7 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetFollowRobotsProtocol( this.checkBoxFollowRobotsProtocol.Checked );
       MacroscopePreferencesManager.SetFollowSitemapLinks( this.checkBoxFollowSitemapLinks.Checked );
+      MacroscopePreferencesManager.SetProbeHumansText( this.checkBoxProbeHumansText.Checked );
 
       MacroscopePreferencesManager.SetCheckRedirects( this.checkBoxCheckRedirects.Checked );
       MacroscopePreferencesManager.SetFollowRedirects( this.checkBoxFollowRedirects.Checked );
