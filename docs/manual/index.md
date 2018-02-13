@@ -89,6 +89,14 @@ For example:
 
     https://www.company.com/sitemap.xml
 
+##### Probe for humans.txt
+
+If enabled, SEO Macroscope will attempt to fetch and process the humans.txt file on each crawled site.
+
+For more information about humans.txt, please refer to:
+
+> http://humanstxt.org/
+
 #### Links
 
 ##### Check redirects
