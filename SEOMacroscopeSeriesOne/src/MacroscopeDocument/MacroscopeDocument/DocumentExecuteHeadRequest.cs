@@ -45,8 +45,6 @@ namespace SEOMacroscope
   public partial class MacroscopeDocument : Macroscope
   {
 
-    // TODO: Finish implementing authentication
-
     /** Execute Head Request **************************************************/
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
@@ -151,7 +149,6 @@ namespace SEOMacroscope
           }
 
           this.ProcessResponseHttpHeaders( Response: ClientResponse );
-
 
           if ( this.GetIsRedirect() )
           {

@@ -25,14 +25,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SEOMacroscope
@@ -50,18 +46,20 @@ namespace SEOMacroscope
     MacroscopeJobMaster MsJobMaster;
     string Locale;
     string Url;
-    DateTime DateModified;
     DateTime DateServer;
+    DateTime DateModified;
     bool Available;
 
     /**************************************************************************/
 
-    public MacroscopeHrefLang ( MacroscopeJobMaster JobMaster, string Locale, string Url ) : base ()
+    public MacroscopeHrefLang ( MacroscopeJobMaster JobMaster, string Locale, string Url ) : base()
     {
 
       this.MsJobMaster = JobMaster;
       this.Locale = Locale;
       this.Url = Url;
+      this.DateServer = new DateTime();
+      this.DateModified = new DateTime();
 
       if ( MacroscopePreferencesManager.GetCheckHreflangs() )
       {
@@ -90,16 +88,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public DateTime GetDateModified ()
+    public DateTime GetDateServer ()
     {
-      return ( this.DateModified );
+      return ( this.DateServer );
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public DateTime GetDateServer ()
+    public DateTime GetDateModified ()
     {
-      return ( this.DateServer );
+      return ( this.DateModified );
     }
 
     /**************************************************************************/
@@ -111,42 +109,113 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessResponseHttpHeaders ( HttpWebRequest req, HttpWebResponse res )
+    delegate bool FindHttpResponseHeaderCallback ( IEnumerable<string> HeaderValues );
+
+    private bool FindHttpResponseHeader ( HttpResponseHeaders ResponseHeaders, string HeaderName, FindHttpResponseHeaderCallback Callback )
+    {
+      bool Success = false;
+      foreach ( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
+      {
+        this.DebugMsg( string.Format( "ResponseHeader.key: {0} :: {1}", HeaderName.ToLower(), ResponseHeader.Key.ToLower() ) );
+        if ( ResponseHeader.Key.ToLower().Equals( HeaderName.ToLower() ) )
+        {
+          IEnumerable<string> HeaderValues = ResponseHeader.Value;
+          this.DebugMsg( string.Format( "FindHttpRequestHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
+          Success = Callback( HeaderValues );
+          break;
+        }
+      }
+      return ( Success );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private bool FindHttpContentHeader ( HttpContentHeaders ContentHeaders, string HeaderName, FindHttpResponseHeaderCallback Callback )
+    {
+      bool Success = false;
+      foreach ( KeyValuePair<string, IEnumerable<string>> ContentHeader in ContentHeaders )
+      {
+        this.DebugMsg( string.Format( "ContentHeader.key: {0} :: {1}", HeaderName.ToLower(), ContentHeader.Key.ToLower() ) );
+        if ( ContentHeader.Key.ToLower().Equals( HeaderName.ToLower() ) )
+        {
+          IEnumerable<string> HeaderValues = ContentHeader.Value;
+          this.DebugMsg( string.Format( "FindHttpContentHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
+          Success = Callback( HeaderValues );
+          break;
+        }
+      }
+      return ( Success );
+    }
+
+    /**************************************************************************/
+
+    private void ProcessResponseHttpHeaders ( MacroscopeHttpTwoClientResponse Response )
     {
 
-      foreach ( string HttpHeaderName in res.Headers )
-      {
+      HttpResponseMessage ResponseMessage = Response.GetResponse();
+      HttpResponseHeaders ResponseHeaders = ResponseMessage.Headers;
+      HttpContentHeaders ContentHeaders = ResponseMessage.Content.Headers;
 
-        if ( HttpHeaderName.ToLower().Equals( "date" ) )
+      /** Date HTTP Header ------------------------------------------------- **/
+      try
+      {
+        DateTimeOffset? HeaderValue = ResponseHeaders.Date;
+        if ( HeaderValue != null )
         {
-          string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateServer = MacroscopeDateTools.ParseHttpDate( DateString: DateString );
+          this.DateServer = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValue.ToString() );
         }
-
-        if ( HttpHeaderName.ToLower().Equals( "last-modified" ) )
+      }
+      catch ( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        this.DateServer = new DateTime();
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
         {
-          string DateString = res.GetResponseHeader( HttpHeaderName );
-          this.DateModified = MacroscopeDateTools.ParseHttpDate( DateString: DateString );
+          this.DateServer = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValues.First().ToString() );
+          return ( true );
+        };
+        if ( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "date", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "date", Callback: Callback );
         }
-
       }
 
-      if ( this.DateServer.Date == new DateTime().Date )
+      this.DebugMsg( string.Format( "this.DateServer: {0}", this.DateServer ) );
+
+      /** Last-Modified HTTP Header ---------------------------------------- **/
+      try
       {
-        this.DateServer = DateTime.UtcNow;
+        DateTimeOffset? HeaderValue = ContentHeaders.LastModified;
+        if ( HeaderValue != null )
+        {
+          this.DateModified = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValue.ToString() );
+        }
       }
-
-      if ( this.DateModified.Date == new DateTime().Date )
+      catch ( Exception ex )
       {
-        this.DateModified = this.DateServer;
+        this.DebugMsg( ex.Message );
+        this.DateModified = new DateTime();
+        FindHttpResponseHeaderCallback Callback = delegate ( IEnumerable<string> HeaderValues )
+        {
+          this.DateModified = MacroscopeDateTools.ParseHttpDate( DateString: HeaderValues.First().ToString() );
+          return ( true );
+        };
+        if ( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "last-modified", Callback: Callback ) )
+        {
+          this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "last-modified", Callback: Callback );
+        }
       }
 
+      this.DebugMsg( string.Format( "this.DateModified: {0}", this.DateModified ) );
+
+      return;
     }
-    
+
     /** Execute Head Request **************************************************/
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
     {
+      // TODO: Implement authentication here:
       //this.AuthenticateRequest( Request: Request );
     }
 
@@ -162,6 +231,8 @@ namespace SEOMacroscope
     {
       this.Available = await this._Check();
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private async Task<bool> _Check ()
     {
@@ -235,10 +306,8 @@ namespace SEOMacroscope
           this.DebugMsg( string.Format( "_ExecuteHeadCheck :: Exception: {0}", ex.Message ) );
         }
 
-      }
-      else
-      {
-        // NO-OP
+        this.ProcessResponseHttpHeaders( Response: ClientResponse );
+
       }
 
       return ( IsAvailableCheck );

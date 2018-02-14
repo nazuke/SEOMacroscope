@@ -164,6 +164,7 @@ namespace SEOMacroscope
               catch ( UriFormatException ex )
               {
                 this.DebugMsg( string.Format( "UriFormatException: {0}", ResultText ) );
+                this.DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
               }
               if ( QrCodeImageUri != null )
               {

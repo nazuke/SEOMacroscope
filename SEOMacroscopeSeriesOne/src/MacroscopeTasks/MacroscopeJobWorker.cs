@@ -434,9 +434,6 @@ namespace SEOMacroscope
 
         this.JobMaster.GetJobHistory().VisitedHistoryItem( Url: msDoc.GetUrl() );
 
-        // DEPRECATED:
-        //this.JobMaster.IncPageLimitCount();
-
         if( msDoc.GetIsRedirect() )
         {
 

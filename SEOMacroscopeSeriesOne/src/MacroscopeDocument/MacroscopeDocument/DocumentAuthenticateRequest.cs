@@ -43,7 +43,7 @@ namespace SEOMacroscope
   public partial class MacroscopeDocument : Macroscope
   {
 
-    // TODO: Verify that authetication works
+    // TODO: Verify that authentication works
 
     /** Authenticate Request **************************************************/
 

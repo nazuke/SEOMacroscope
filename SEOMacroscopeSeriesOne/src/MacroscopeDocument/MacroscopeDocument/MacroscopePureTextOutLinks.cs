@@ -45,7 +45,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void ProcessPureTextOutlinks ( string TextDoc, MacroscopeConstants.InOutLinkType LinkType )
+    public void ProcessPureTextOutlinks ( string TextDoc, MacroscopeConstants.InOutLinkType LinkType )
     {
 
       // BUG: Trailing punctuation in the detected URL can cause problems:
@@ -59,62 +59,63 @@ namespace SEOMacroscope
       while ( UrlMatch.Success )
       {
 
-        for ( int i = 0 ; i <= UrlMatch.Groups.Count ; i++ )
+        Group CaptureGroups = UrlMatch.Groups[ 0 ];
+        CaptureCollection Captures = CaptureGroups.Captures;
+        Capture Captured = null;
+        string UrlProcessing = null;
+        string UrlCleaned = null;
+
+        if ( Captures.Count <= 0 )
+        {
+          continue;
+        }
+
+        Captured = Captures[ 0 ];
+        UrlProcessing = Captured.Value;
+        UrlProcessing = UrlProcessing.Trim();
+        UrlProcessing = UrlProcessing.Trim( ',' );
+        UrlProcessing = UrlProcessing.Trim( '.' );
+        UrlProcessing = UrlProcessing.Trim( '(' );
+        UrlProcessing = UrlProcessing.Trim( ')' );
+        UrlProcessing = UrlProcessing.Trim( '"' );
+        UrlProcessing = UrlProcessing.Trim( '\'' );
+
+        if ( !string.IsNullOrEmpty( UrlProcessing ) )
         {
 
-          Group CaptureGroups = UrlMatch.Groups[ i ];
-          CaptureCollection Captures = CaptureGroups.Captures;
-          Capture Captured = null;
-          string UrlProcessing = null;
-          string UrlCleaned = null;
-
-          if ( Captures.Count <= 0 )
+          try
           {
-            continue;
+            Uri PureTextUri = new Uri( UrlProcessing );
+            if ( PureTextUri != null )
+            {
+              UrlCleaned = UrlProcessing;
+            }
+          }
+          catch ( UriFormatException ex )
+          {
+            this.DebugMsg( string.Format( "ProcessPureTextOutlinks: {0}", ex.Message ) );
+            UrlCleaned = null;
+          }
+          catch ( Exception ex )
+          {
+            this.DebugMsg( string.Format( "ProcessPureTextOutlinks: {0}", ex.Message ) );
+            UrlCleaned = null;
           }
 
-          Captured = Captures[ 0 ];
-          UrlProcessing = Captured.Value;
-          UrlProcessing = UrlProcessing.Trim();
-
-          if ( !string.IsNullOrEmpty( UrlProcessing ) )
+          if ( UrlCleaned != null )
           {
 
-            try
+            MacroscopeLink Outlink;
+
+            Outlink = this.AddDocumentOutlink(
+              AbsoluteUrl: UrlCleaned,
+              LinkType: LinkType,
+              Follow: true
+            );
+
+            if ( Outlink != null )
             {
-              Uri PureTextUri = new Uri( UrlProcessing );
-              if ( PureTextUri != null )
-              {
-                UrlCleaned = UrlProcessing;
-              }
-            }
-            catch ( UriFormatException ex )
-            {
-              this.DebugMsg( string.Format( "ProcessPureTextOutlinks: {0}", ex.Message ) );
-              UrlCleaned = null;
-            }
-            catch ( Exception ex )
-            {
-              this.DebugMsg( string.Format( "ProcessPureTextOutlinks: {0}", ex.Message ) );
-              UrlCleaned = null;
-            }
-
-            if ( UrlCleaned != null )
-            {
-
-              MacroscopeLink Outlink;
-
-              Outlink = this.AddDocumentOutlink(
-                AbsoluteUrl: UrlCleaned,
-                LinkType: LinkType,
-                Follow: true
-              );
-
-              if ( Outlink != null )
-              {
-                Outlink.SetRawTargetUrl( TargetUrl: UrlCleaned );
-              }
-
+              Outlink.SetRawTargetUrl( TargetUrl: UrlCleaned );
             }
 
           }

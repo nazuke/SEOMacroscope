@@ -1418,20 +1418,28 @@ namespace SEOMacroscope
       return ( this.CrawledDate.ToUniversalTime().ToString( "r" ) );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetDateServer ()
     {
       return ( this.DateServer.ToUniversalTime().ToString( "r" ) );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetDateModified ()
     {
       return ( this.DateModified.ToUniversalTime().ToString( "r" ) );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetDateModifiedForSitemapXml ()
     {
       return ( this.DateModified.ToUniversalTime().ToString( "yyyy-MM-dd" ) );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetDateExpires ()
     {
@@ -1445,21 +1453,29 @@ namespace SEOMacroscope
       this.ProcessInlinks = true;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void UnsetProcessInlinks ()
     {
       this.ProcessInlinks = false;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public bool GetProcessInlinks ()
     {
       return ( this.ProcessInlinks );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeLinkList GetLinksIn ()
     {
       MacroscopeLinkList DocumentLinksIn = this.DocCollection.GetDocumentInlinks( this.GetUrl() );
       return ( DocumentLinksIn );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int CountInlinks ()
     {
@@ -1500,8 +1516,8 @@ namespace SEOMacroscope
 
     public int CountOutlinks ()
     {
-      int iCount = this.Outlinks.Count();
-      return ( iCount );
+      int Count = this.Outlinks.Count();
+      return ( Count );
     }
 
     /** -------------------------------------------------------------------- **/

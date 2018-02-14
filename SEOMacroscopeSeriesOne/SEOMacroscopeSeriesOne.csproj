@@ -194,6 +194,7 @@
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentProcessHttpHeaders.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\t\TestMacroscopeDocumentCSS.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\MacroscopePureTextOutLinks.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\t\TestMacroscopePureTextOutLinks.cs" />
     <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesPresets.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapsAudit.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapErrors.cs" />
@@ -899,6 +900,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MacroscopeIcon-64x64.ico" />
+    <EmbeddedResource Include="src\MacroscopeDocument\MacroscopeDocument\t\TextDocs\TestPureTextOutLinks001.txt" />
     <None Include="Resources\SEO_Macroscope_Icon_16x16.ico" />
     <None Include="Resources\SEO_Macroscope_Icon_24x24.ico" />
     <None Include="Resources\SEO_Macroscope_Icon_32x32.ico" />

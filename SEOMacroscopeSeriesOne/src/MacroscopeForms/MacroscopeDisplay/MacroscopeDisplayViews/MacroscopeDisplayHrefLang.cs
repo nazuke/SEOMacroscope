@@ -392,9 +392,7 @@ namespace SEOMacroscope
           }
 
         }
-
-
-
+        
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
           

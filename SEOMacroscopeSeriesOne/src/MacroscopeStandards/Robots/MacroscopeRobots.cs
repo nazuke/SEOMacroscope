@@ -267,14 +267,6 @@ namespace SEOMacroscope
       Uri RobotsUri = null;
       string RobotsTxtUrl = null;
 
-      /*
-      if( !MacroscopePreferencesManager.GetFollowRobotsProtocol() )
-      {
-        DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ) );
-        return ( robot );
-      }
-      */
-
       try
       {
 
