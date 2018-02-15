@@ -71,7 +71,7 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "msDocDifferent: {0}", msDocDifferent.GetStatusCode() ) );
 
-      for( int i = 1 ; i <= 100 ; i++ )
+      for ( int i = 1 ; i <= 100 ; i++ )
       {
 
         MacroscopeLevenshteinAnalysis LevenshteinAnalysis;
@@ -88,7 +88,7 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
 
-        foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
+        foreach ( MacroscopeDocument msDocAnalyzed in DocList.Keys )
         {
 
           DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
@@ -146,7 +146,7 @@ namespace SEOMacroscope
       TargetUrls.Add( "https://nazuke.github.io/SEOMacroscope/downloads/" );
       TargetUrls.Add( "https://nazuke.github.io/SEOMacroscope/manual/" );
 
-      foreach( string TargetUrl in TargetUrls )
+      foreach ( string TargetUrl in TargetUrls )
       {
         MacroscopeDocument msDocTarget = DocCollection.CreateDocument( TargetUrl );
         await msDocTarget.Execute();
@@ -154,7 +154,7 @@ namespace SEOMacroscope
         DebugMsg( string.Format( "msDocTarget: {0}", msDocTarget.GetStatusCode() ) );
       }
 
-      for( int i = 1 ; i <= 10 ; i++ )
+      for ( int i = 1 ; i <= 10 ; i++ )
       {
 
         Dictionary<MacroscopeDocument, int> DocList;
@@ -165,7 +165,7 @@ namespace SEOMacroscope
 
         DebugMsg( string.Format( "DocList: {0}", DocList.Count ) );
 
-        foreach( MacroscopeDocument msDocAnalyzed in DocList.Keys )
+        foreach ( MacroscopeDocument msDocAnalyzed in DocList.Keys )
         {
 
           DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
