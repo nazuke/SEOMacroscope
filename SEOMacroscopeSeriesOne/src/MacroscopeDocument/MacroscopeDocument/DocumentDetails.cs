@@ -71,10 +71,10 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Expires", this.GetDateExpires() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Locale", this.GetLocale() ) );
-      DetailsList.Add( new KeyValuePair<string,string> ( "Language", this.GetIsoLanguageCode() ) );
+      DetailsList.Add( new KeyValuePair<string, string>( "Language", this.GetIsoLanguageCode() ) );
 
       {
-       
+
         Encoding TextEncoding = this.GetCharacterEncoding();
         string TextEncodingValue = "";
        
@@ -121,6 +121,8 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string,string> ( "Keywords Count", this.GetKeywordsCount().ToString() ) );
 
       DetailsList.Add( new KeyValuePair<string,string> ( "Probable Document Text Language", this.GetDocumentTextLanguage() ) );
+
+      DetailsList.Add( new KeyValuePair<string, string>( "Levenshtein Fingerpring", this.GetLevenshteinFingerprint() ) );
 
       {
 
