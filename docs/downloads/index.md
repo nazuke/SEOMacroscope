@@ -19,16 +19,13 @@ Releases of SEO Macroscope may be found on GitHub at:
 
 * [https://github.com/nazuke/SEOMacroscope/releases](https://github.com/nazuke/SEOMacroscope/releases)
 
-The most recent release is at:
-
-* [{{ releases[0].name }}](https://github.com/nazuke/SEOMacroscope/releases/tag/{{ releases[0].tag }}){: .link-release }
-    * Windows {{ releases[0].arch }} bit installer: [{{ releases[0].installer }}](https://github.com/nazuke/SEOMacroscope/releases/download/{{ releases[0].tag }}/{{ releases[0].installer }}){: .link-installer }
-
-Previous releases:
+Installer downloads and sources:
 
 {% for release in releases %}
+{% if release.published == true %}
 * [{{ release.name }}](https://github.com/nazuke/SEOMacroscope/releases/tag/{{ release.tag }}){: .link-release }
     * Windows {{ release.arch }} bit installer: [{{ release.installer }}](https://github.com/nazuke/SEOMacroscope/releases/download/{{ release.tag }}/{{ release.installer }}){: .link-installer }
+{% endif %}
 {% endfor %}
 
 ## SOURCE CODE
