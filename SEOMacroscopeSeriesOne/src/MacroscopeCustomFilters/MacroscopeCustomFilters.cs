@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.RegularExpressions;
+
 
 namespace SEOMacroscope
 {
@@ -63,7 +65,7 @@ namespace SEOMacroscope
 
         Pair = new KeyValuePair<string, MacroscopeConstants.Contains> (
           Slot.ToString(),
-          MacroscopeConstants.Contains.MUSTHAVE
+          MacroscopeConstants.Contains.MUST_HAVE_STRING
         );
 
         this.Contains.Add( Pair );
@@ -153,36 +155,55 @@ namespace SEOMacroscope
             continue;
           }
 
-          if( this.Contains[ Slot ].Value == MacroscopeConstants.Contains.MUSTHAVE )
+          switch ( this.Contains[ Slot ].Value )
           {
 
-            if( Text.Contains( PatternText ) )
-            {
-              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.CONTAINS );
-            }
-            else
-            {
-              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.MUSTCONTAIN );
-            }
+            case MacroscopeConstants.Contains.MUST_HAVE_STRING:
+              if ( Text.Contains( PatternText ) )
+              {
+                Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.CONTAINS_STRING );
+              }
+              else
+              {
+                Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.MUST_CONTAIN_STRING );
+              }
+              break;
 
-          }
-          else
-          if( this.Contains[ Slot ].Value == MacroscopeConstants.Contains.MUSTNOTHAVE )
-          {
-            
-            if( Text.Contains( PatternText ) )
-            {
-              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN );
-            }
-            else
-            {
-              Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.NOTCONTAINS );
-            }
+            case MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING:
+              if ( Text.Contains( PatternText ) )
+              {
+                Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.SHOULD_NOT_CONTAIN_STRING );
+              }
+              else
+              {
+                Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.NOT_CONTAINS_STRING );
+              }
+              break;
 
-          }
-          else
-          {
-            throw new Exception ( "Undefined MacroscopeConstants.Contains" );
+            case MacroscopeConstants.Contains.MUST_HAVE_REGEX:
+              if ( Regex.IsMatch( Text, PatternText ) )
+              {
+                Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.CONTAINS_REGEX );
+              }
+              else
+              {
+                Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.MUST_CONTAIN_REGEX );
+              }
+              break;
+
+            case MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX:
+              if ( Regex.IsMatch( Text, PatternText ) )
+              {
+                Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.SHOULD_NOT_CONTAIN_REGEX );
+              }
+              else
+              {
+                Analyzed.Add( PatternText, MacroscopeConstants.TextPresence.NOT_CONTAINS_REGEX );
+              }
+              break;
+
+            default:
+              throw new Exception( "Undefined MacroscopeConstants.Contains" );
           }
 
         }

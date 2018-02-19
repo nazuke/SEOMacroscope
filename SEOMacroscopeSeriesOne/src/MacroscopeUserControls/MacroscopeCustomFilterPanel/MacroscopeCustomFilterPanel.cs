@@ -141,8 +141,10 @@ namespace SEOMacroscope
 
         StateComboBoxFilter.Name = string.Format( "ComboBoxFilter{0}", Slot + 1 );
         StateComboBoxFilter.Items.Add( "No action" );
-        StateComboBoxFilter.Items.Add( "Must have" );  
-        StateComboBoxFilter.Items.Add( "Must not have" );
+        StateComboBoxFilter.Items.Add( "Must have text" );
+        StateComboBoxFilter.Items.Add( "Must not have text" );
+        StateComboBoxFilter.Items.Add( "Must have regex" );
+        StateComboBoxFilter.Items.Add( "Must not have regex" );
         StateComboBoxFilter.DropDownStyle = ComboBoxStyle.DropDownList;
         StateComboBoxFilter.SelectedIndex = 0;
         StateComboBoxFilter.Margin = new Padding ( 5, 5, 5, 5 );
@@ -206,12 +208,21 @@ namespace SEOMacroscope
           switch( Pair.Value )
           {
 
-            case MacroscopeConstants.Contains.MUSTHAVE:
+            case MacroscopeConstants.Contains.MUST_HAVE_STRING:
               ComboBoxFilter.SelectedIndex = 1;
               break;
 
-            case MacroscopeConstants.Contains.MUSTNOTHAVE:
+            case MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING:
               ComboBoxFilter.SelectedIndex = 2;
+              break;
+
+
+            case MacroscopeConstants.Contains.MUST_HAVE_REGEX:
+              ComboBoxFilter.SelectedIndex = 3;
+              break;
+
+            case MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX:
+              ComboBoxFilter.SelectedIndex = 4;
               break;
 
             default:
@@ -263,17 +274,33 @@ namespace SEOMacroscope
 
           case 1:
             this.CustomFilter.SetPattern(
-              Slot: Slot, 
-              Text: TextBoxFilter.Text, 
-              ContainsSetting: MacroscopeConstants.Contains.MUSTHAVE
+              Slot: Slot,
+              Text: TextBoxFilter.Text,
+              ContainsSetting: MacroscopeConstants.Contains.MUST_HAVE_STRING
             );
             break;
 
           case 2:
             this.CustomFilter.SetPattern(
-              Slot: Slot, 
-              Text: TextBoxFilter.Text, 
-              ContainsSetting: MacroscopeConstants.Contains.MUSTNOTHAVE
+              Slot: Slot,
+              Text: TextBoxFilter.Text,
+              ContainsSetting: MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING
+            );
+            break;
+
+          case 3:
+            this.CustomFilter.SetPattern(
+              Slot: Slot,
+              Text: TextBoxFilter.Text,
+              ContainsSetting: MacroscopeConstants.Contains.MUST_HAVE_REGEX
+            );
+            break;
+
+          case 4:
+            this.CustomFilter.SetPattern(
+              Slot: Slot,
+              Text: TextBoxFilter.Text,
+              ContainsSetting: MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX
             );
             break;
 

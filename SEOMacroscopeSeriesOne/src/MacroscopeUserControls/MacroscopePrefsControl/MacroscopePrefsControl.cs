@@ -172,6 +172,7 @@ namespace SEOMacroscope
 
         this.checkBoxAnalyzeClickPaths.Checked = MacroscopePreferencesManager.GetAnalyzeClickPaths();
 
+        // TODO: Finish implementing click path analysis:
 #if DEBUG
         this.groupBoxPageNavigationAnalysis.Visible = true;
 #else

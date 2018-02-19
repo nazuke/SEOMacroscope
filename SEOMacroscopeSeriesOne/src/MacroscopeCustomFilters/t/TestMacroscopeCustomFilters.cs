@@ -46,11 +46,11 @@ namespace SEOMacroscope
 
       Texts.Add( "The quick brown fox jumps over the lazy dog." );
 
-      CustomFilter.SetPattern( 0, "The", MacroscopeConstants.Contains.MUSTHAVE );
-      CustomFilter.SetPattern( 1, "over", MacroscopeConstants.Contains.MUSTHAVE );
-      CustomFilter.SetPattern( 2, "fox", MacroscopeConstants.Contains.MUSTHAVE );
-      CustomFilter.SetPattern( 3, "dog", MacroscopeConstants.Contains.MUSTHAVE );
-      CustomFilter.SetPattern( 4, "brown", MacroscopeConstants.Contains.MUSTHAVE );
+      CustomFilter.SetPattern( 0, "The", MacroscopeConstants.Contains.MUST_HAVE_STRING );
+      CustomFilter.SetPattern( 1, "over", MacroscopeConstants.Contains.MUST_HAVE_STRING );
+      CustomFilter.SetPattern( 2, "fox", MacroscopeConstants.Contains.MUST_HAVE_STRING );
+      CustomFilter.SetPattern( 3, "dog", MacroscopeConstants.Contains.MUST_HAVE_STRING );
+      CustomFilter.SetPattern( 4, "brown", MacroscopeConstants.Contains.MUST_HAVE_STRING );
 
       foreach( string ContainsText in Texts )
       {
@@ -63,7 +63,7 @@ namespace SEOMacroscope
         {
 
           Assert.AreEqual( 
-            MacroscopeConstants.TextPresence.CONTAINS,
+            MacroscopeConstants.TextPresence.CONTAINS_STRING,
             Analyzed[ AnalyzedKey ],
             string.Format(
               "Wrong TextPresence for: {0} :: {1}",
@@ -90,11 +90,11 @@ namespace SEOMacroscope
 
       Texts.Add( "The quick brown fox jumps over the lazy dog." );
 
-      CustomFilter.SetPattern( 0, "Mad", MacroscopeConstants.Contains.MUSTNOTHAVE );
-      CustomFilter.SetPattern( 1, "car", MacroscopeConstants.Contains.MUSTNOTHAVE );
-      CustomFilter.SetPattern( 2, "nugget", MacroscopeConstants.Contains.MUSTNOTHAVE );
-      CustomFilter.SetPattern( 3, "quickly", MacroscopeConstants.Contains.MUSTNOTHAVE );
-      CustomFilter.SetPattern( 4, "doggy", MacroscopeConstants.Contains.MUSTNOTHAVE );
+      CustomFilter.SetPattern( 0, "Mad", MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING );
+      CustomFilter.SetPattern( 1, "car", MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING );
+      CustomFilter.SetPattern( 2, "nugget", MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING );
+      CustomFilter.SetPattern( 3, "quickly", MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING );
+      CustomFilter.SetPattern( 4, "doggy", MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING );
 
       foreach( string ContainsText in Texts )
       {
@@ -107,7 +107,7 @@ namespace SEOMacroscope
         {
 
           Assert.AreEqual( 
-            MacroscopeConstants.TextPresence.NOTCONTAINS,
+            MacroscopeConstants.TextPresence.NOT_CONTAINS_STRING,
             Analyzed[ AnalyzedKey ],
             string.Format(
               "Wrong TextPresence for: {0} :: {1}",
@@ -118,6 +118,94 @@ namespace SEOMacroscope
         
         }
         
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestContainsRegex ()
+    {
+
+      MacroscopeCustomFilters CustomFilter = new MacroscopeCustomFilters( Size: 5 );
+
+      List<string> Texts = new List<string>();
+
+      Texts.Add( "The quick brown fox jumps over the lazy dog." );
+
+      CustomFilter.SetPattern( 0, "Th[e]", MacroscopeConstants.Contains.MUST_HAVE_REGEX );
+      CustomFilter.SetPattern( 1, "[Oo]ver", MacroscopeConstants.Contains.MUST_HAVE_REGEX );
+      CustomFilter.SetPattern( 2, "[a-z]{2}x", MacroscopeConstants.Contains.MUST_HAVE_REGEX );
+      CustomFilter.SetPattern( 3, "(dog|DOG)", MacroscopeConstants.Contains.MUST_HAVE_REGEX );
+      CustomFilter.SetPattern( 4, "^.+brown.+$", MacroscopeConstants.Contains.MUST_HAVE_REGEX );
+
+      foreach ( string ContainsText in Texts )
+      {
+
+        Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = CustomFilter.AnalyzeText( Text: ContainsText );
+
+        Assert.IsNotNull( Analyzed );
+
+        foreach ( string AnalyzedKey in Analyzed.Keys )
+        {
+
+          Assert.AreEqual(
+            MacroscopeConstants.TextPresence.CONTAINS_REGEX,
+            Analyzed[ AnalyzedKey ],
+            string.Format(
+              "Wrong TextPresence for: {0} :: {1}",
+              AnalyzedKey,
+              Analyzed[ AnalyzedKey ]
+            )
+          );
+
+        }
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestDoesNotContainRegex ()
+    {
+
+      MacroscopeCustomFilters CustomFilter = new MacroscopeCustomFilters( Size: 5 );
+
+      List<string> Texts = new List<string>();
+
+      Texts.Add( "The quick brown fox jumps over the lazy dog." );
+
+      CustomFilter.SetPattern( 0, "Mad", MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX );
+      CustomFilter.SetPattern( 1, "car", MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX );
+      CustomFilter.SetPattern( 2, "nugget", MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX );
+      CustomFilter.SetPattern( 3, "quickly", MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX );
+      CustomFilter.SetPattern( 4, "doggy", MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX );
+
+      foreach ( string ContainsText in Texts )
+      {
+
+        Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = CustomFilter.AnalyzeText( Text: ContainsText );
+
+        Assert.IsNotNull( Analyzed );
+
+        foreach ( string AnalyzedKey in Analyzed.Keys )
+        {
+
+          Assert.AreEqual(
+            MacroscopeConstants.TextPresence.NOT_CONTAINS_REGEX,
+            Analyzed[ AnalyzedKey ],
+            string.Format(
+              "Wrong TextPresence for: {0} :: {1}",
+              AnalyzedKey,
+              Analyzed[ AnalyzedKey ]
+            )
+          );
+
+        }
+
       }
 
     }

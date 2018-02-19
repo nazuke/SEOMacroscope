@@ -340,8 +340,10 @@ namespace SEOMacroscope
     public enum Contains
     {
       UNDEFINED = 0,
-      MUSTHAVE = 1,
-      MUSTNOTHAVE = 2
+      MUST_HAVE_STRING = 1,
+      MUST_NOT_HAVE_STRING = 2,
+      MUST_HAVE_REGEX = 3,
+      MUST_NOT_HAVE_REGEX = 4
     }
 
     public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () {
@@ -350,22 +352,36 @@ namespace SEOMacroscope
         "UNDEFINED"
       },
       {
-        MacroscopeConstants.Contains.MUSTHAVE,
+        MacroscopeConstants.Contains.MUST_HAVE_STRING,
         "MUST HAVE STRING"
       },
       {
-        MacroscopeConstants.Contains.MUSTNOTHAVE,
+        MacroscopeConstants.Contains.MUST_NOT_HAVE_STRING,
         "MUST NOT HAVE STRING"
+      },
+      {
+        MacroscopeConstants.Contains.MUST_HAVE_REGEX,
+        "MUST HAVE REGEX"
+      },
+      {
+        MacroscopeConstants.Contains.MUST_NOT_HAVE_REGEX,
+        "MUST NOT HAVE REGEX"
       }
     };
 
     public enum TextPresence
     {
       UNDEFINED = 0,
-      CONTAINS = 1,
-      MUSTCONTAIN = 2,
-      NOTCONTAINS = 3,
-      SHOULDNOTCONTAIN = 4
+      CONTAINS_STRING = 1,
+      MUST_CONTAIN_STRING = 2,
+      NOT_CONTAINS_STRING = 3,
+      SHOULD_NOT_CONTAIN_STRING = 4,
+
+      CONTAINS_REGEX = 5,
+      MUST_CONTAIN_REGEX = 6,
+      NOT_CONTAINS_REGEX = 7,
+      SHOULD_NOT_CONTAIN_REGEX = 8
+
     }
 
     public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () {
@@ -374,20 +390,36 @@ namespace SEOMacroscope
         @"UNDEFINED"
       },
       {
-        MacroscopeConstants.TextPresence.CONTAINS,
+        MacroscopeConstants.TextPresence.CONTAINS_STRING,
         @"CONTAINS STRING"
       },
       {
-        MacroscopeConstants.TextPresence.MUSTCONTAIN,
+        MacroscopeConstants.TextPresence.MUST_CONTAIN_STRING,
         @"MUST CONTAIN STRING"
       },
       {
-        MacroscopeConstants.TextPresence.NOTCONTAINS,
+        MacroscopeConstants.TextPresence.NOT_CONTAINS_STRING,
         @"DOES NOT CONTAIN STRING"
       },
       {
-        MacroscopeConstants.TextPresence.SHOULDNOTCONTAIN,
+        MacroscopeConstants.TextPresence.SHOULD_NOT_CONTAIN_STRING,
         @"SHOULD NOT CONTAIN STRING"
+      },
+      {
+        MacroscopeConstants.TextPresence.CONTAINS_REGEX,
+        @"CONTAINS REGEX"
+      },
+      {
+        MacroscopeConstants.TextPresence.MUST_CONTAIN_REGEX,
+        @"MUST CONTAIN REGEX"
+      },
+      {
+        MacroscopeConstants.TextPresence.NOT_CONTAINS_REGEX,
+        @"DOES NOT CONTAIN REGEX"
+      },
+      {
+        MacroscopeConstants.TextPresence.SHOULD_NOT_CONTAIN_REGEX,
+        @"SHOULD NOT CONTAIN REGEX"
       }
     };
 
