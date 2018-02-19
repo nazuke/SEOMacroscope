@@ -1,6 +1,6 @@
-# SEO MACROSCOPE [![Build Status](https://travis-ci.org/nazuke/SEOMacroscope.svg?branch=v1.7)](https://travis-ci.org/nazuke/SEOMacroscope)
+# SEO MACROSCOPE [![Build Status](https://travis-ci.org/nazuke/SEOMacroscope.svg?branch=master)](https://travis-ci.org/nazuke/SEOMacroscope)
 
-![SEO Macroscope application window](docs/media/screenshots/seo-macroscope-main-window-v1.5.png "SEO Macroscope application window")
+![SEO Macroscope application window](docs/media/screenshots/seo-macroscope-main-window-v1.6.png "SEO Macroscope application window")
 
 **This project is under continuous development, expect bugs and unimplemented features.**
 
@@ -75,6 +75,6 @@ This project was made a lot easier by the following excellent libraries:
 * https://github.com/ClosedXML/ClosedXML
 * https://github.com/DanHarltey/Fastenshtein
 
-For testing, the httpbin suite was very useful:
+For HTTP testing, the httpbin suite was very useful:
 
 * https://github.com/Runscope/httpbin
