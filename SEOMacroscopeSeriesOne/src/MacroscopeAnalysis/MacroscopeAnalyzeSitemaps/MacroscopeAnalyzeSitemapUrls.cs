@@ -64,11 +64,11 @@ namespace SEOMacroscope
           continue;
         }
 
-        if ( !msDoc.GetIsHtml() )
+        if ( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
         {
           continue;
         }
-        
+
         foreach ( string SitemapUrl in UrlMap.Keys )
         {
           if ( UrlMap[ SitemapUrl ].ContainsKey( Url ) )
@@ -132,7 +132,9 @@ namespace SEOMacroscope
 
       foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-        if ( msDoc.GetIsSitemapText() || msDoc.GetIsSitemapXml() )
+        if (
+          msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPTEXT )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML ) )
         {
           SitemapDocumentList.AddDocument( msDoc: msDoc );
         }

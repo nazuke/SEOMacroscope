@@ -98,7 +98,7 @@ namespace SEOMacroscope
         return;
       }
 
-      if( !msDoc.GetIsImage() )
+      if( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.IMAGE ) )
       {
         return;
       }

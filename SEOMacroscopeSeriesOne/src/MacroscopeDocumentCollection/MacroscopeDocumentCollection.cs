@@ -190,6 +190,8 @@ namespace SEOMacroscope
       Dispose( true );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     protected virtual void Dispose ( bool disposing )
     {
       this.TimerRecalc.Dispose();
@@ -300,15 +302,21 @@ namespace SEOMacroscope
       return ( this.DocCollection.Count );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public int CountUrlsInternal ()
     {
       return ( this.StatsUrlsInternal );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public int CountUrlsExternal ()
     {
       return ( this.StatsUrlsExternal );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int CountUrlsSitemaps ()
     {
@@ -524,6 +532,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public IEnumerable<string> IterateInlinks ()
     {
 
@@ -560,6 +570,8 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public IEnumerable<string> IterateHyperlinksIn ()
     {
 
@@ -588,6 +600,8 @@ namespace SEOMacroscope
       this.DebugMsg( string.Format( "StartRecalcTimer: {0}", "STARTED." ) );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     private void StopRecalcTimer ()
     {
       try
@@ -600,6 +614,8 @@ namespace SEOMacroscope
         this.DebugMsg( string.Format( "StopRecalcTimer: {0}", ex.Message ) );
       }
     }
+
+    /** -------------------------------------------------------------------- **/
 
     private void WorkerRecalculateDocCollection ( Object self, ElapsedEventArgs e )
     {
@@ -772,7 +788,7 @@ namespace SEOMacroscope
                 this.StatsUrlsExternal++;
               }
 
-              if ( msDoc.GetIsSitemapXml() )
+              if ( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML ) )
               {
                 this.StatsUrlsSitemaps++;
               }
@@ -1140,14 +1156,16 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
-      }
-      else
-      if ( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( Proceed )
@@ -1242,14 +1260,16 @@ namespace SEOMacroscope
       bool Proceed = false;
       int Value = -1;
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
-      }
-      else
-      if ( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( Proceed )
@@ -1349,14 +1369,16 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
-      }
-      else
-      if ( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( Proceed )
@@ -1655,45 +1677,49 @@ namespace SEOMacroscope
 
       string Type = "Other";
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Type = "HTML";
-      }
-      else if ( msDoc.GetIsImage() )
-      {
-        Type = "Image";
-      }
-      else if ( msDoc.GetIsCss() )
-      {
-        Type = "CSS";
-      }
-      else if ( msDoc.GetIsJavascript() )
-      {
-        Type = "JavaScript";
-      }
-      else if ( msDoc.GetIsPdf() )
-      {
-        Type = "PDF";
-      }
-      else if ( msDoc.GetIsText() )
-      {
-        Type = "Text";
-      }
-      else if ( msDoc.GetIsAudio() )
-      {
-        Type = "Audio";
-      }
-      else if ( msDoc.GetIsVideo() )
-      {
-        Type = "Video";
-      }
-      else if ( msDoc.GetIsXml() )
-      {
-        Type = "XML";
-      }
-      else
-      {
-        Type = "Other";
+        case MacroscopeConstants.DocumentType.HTML:
+          Type = "HTML";
+          break;
+        case MacroscopeConstants.DocumentType.IMAGE:
+          Type = "Image";
+          break;
+        case MacroscopeConstants.DocumentType.CSS:
+          Type = "CSS";
+          break;
+        case MacroscopeConstants.DocumentType.JAVASCRIPT:
+          Type = "JavaScript";
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Type = "PDF";
+          break;
+        case MacroscopeConstants.DocumentType.TEXT:
+          Type = "Text";
+          break;
+        case MacroscopeConstants.DocumentType.AUDIO:
+          Type = "Audio";
+          break;
+        case MacroscopeConstants.DocumentType.VIDEO:
+          Type = "Video";
+          break;
+        case MacroscopeConstants.DocumentType.XML:
+          Type = "XML";
+          break;
+        case MacroscopeConstants.DocumentType.SITEMAPXML:
+          Type = "Sitemap XML";
+          break;
+        case MacroscopeConstants.DocumentType.SITEMAPTEXT:
+          Type = "Sitemap Text";
+          break;
+        case MacroscopeConstants.DocumentType.BINARY:
+          Type = "Binary File";
+          break;
+        case MacroscopeConstants.DocumentType.SKIPPED:
+          Type = "Skipped";
+          break;
+        default:
+          break;
       }
 
       if ( DocumentTypes.ContainsKey( Type ) )
@@ -2059,14 +2085,16 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
-      }
-      else
-      if ( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( Proceed )
@@ -2201,14 +2229,16 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
-      }
-      else
-      if ( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( Proceed )
@@ -2253,14 +2283,16 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
-      }
-      else
-      if ( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( Proceed )
@@ -2342,9 +2374,13 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( Proceed )
@@ -2397,7 +2433,7 @@ namespace SEOMacroscope
         if ( msDoc != null )
         {
 
-          if ( msDoc.GetIsInternal() && msDoc.GetIsHtml() )
+          if ( msDoc.GetIsInternal() && msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
           {
 #if DEBUG
             this.ClickPathAnalysis.Analyze( RootDoc: msDoc );
@@ -2417,10 +2453,17 @@ namespace SEOMacroscope
 
       bool Proceed = false;
       string Url = msDoc.GetUrl();
-
-      if ( msDoc.GetIsSitemapXml() || msDoc.GetIsSitemapText() )
+      
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.SITEMAPXML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.SITEMAPTEXT:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( msDoc.GetIsExternal() )
@@ -2562,7 +2605,11 @@ namespace SEOMacroscope
 
     public MacroscopeDocumentList GetDocumentsNotInSitemaps ()
     {
-      MacroscopeDocumentList DocumentList = this.DocumentsInSitemaps[ 0 ];
+      MacroscopeDocumentList DocumentList = new MacroscopeDocumentList();
+      if ( this.DocumentsInSitemaps.Count == 2 )
+      {
+         DocumentList = this.DocumentsInSitemaps[ 0 ];
+      }
       return ( DocumentList );
     }
 
@@ -2570,7 +2617,11 @@ namespace SEOMacroscope
 
     public MacroscopeDocumentList GetDocumentsInSitemaps ()
     {
-      MacroscopeDocumentList DocumentList = this.DocumentsInSitemaps[ 1 ];
+      MacroscopeDocumentList DocumentList = new MacroscopeDocumentList();
+      if ( this.DocumentsInSitemaps.Count == 2 )
+      {
+        DocumentList = this.DocumentsInSitemaps[ 1 ];
+      }
       return ( DocumentList );
     }
 
@@ -2606,20 +2657,20 @@ namespace SEOMacroscope
       {
 
         bool Proceed = false;
-
-        if ( msDoc.GetIsHtml() )
+        
+        switch ( msDoc.GetDocumentType() )
         {
-          Proceed = true;
-        }
-        else
-        if ( msDoc.GetIsText() )
-        {
-          Proceed = true;
-        }
-        else
-        if ( msDoc.GetIsPdf() )
-        {
-          Proceed = true;
+          case MacroscopeConstants.DocumentType.HTML:
+            Proceed = true;
+            break;
+          case MacroscopeConstants.DocumentType.TEXT:
+            Proceed = true;
+            break;
+          case MacroscopeConstants.DocumentType.PDF:
+            Proceed = true;
+            break;
+          default:
+            break;
         }
 
         if ( Proceed )

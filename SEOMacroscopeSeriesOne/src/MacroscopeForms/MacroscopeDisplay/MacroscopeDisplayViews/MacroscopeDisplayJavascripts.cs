@@ -91,7 +91,7 @@ namespace SEOMacroscope
         return;
       }
 
-      if( !msDoc.GetIsJavascript() )
+      if ( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.JAVASCRIPT ) )
       {
         return;
       }

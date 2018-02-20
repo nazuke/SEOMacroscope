@@ -44,18 +44,18 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      XLWorkbook wb = new XLWorkbook();
+      XLWorkbook Workbook = new XLWorkbook();
       MacroscopeDocumentList DocumentsNotInSitemaps = JobMaster.GetDocCollection().GetDocumentsNotInSitemaps();
       MacroscopeDocumentList DocumentsInSitemaps = JobMaster.GetDocCollection().GetDocumentsInSitemaps();
 
-      this.BuildWorksheetSitemapXmlErrors( JobMaster, wb, "Sitemap XML Errors" );
+      this.BuildWorksheetSitemapXmlErrors( JobMaster, Workbook, "Sitemap XML Errors" );
 
-      this.BuildWorksheetSitemapsAudit( JobMaster, wb, "Sitemaps Audit - Missing", DocumentsNotInSitemaps, false );
-      this.BuildWorksheetSitemapsAudit( JobMaster, wb, "Sitemaps Audit - Present", DocumentsInSitemaps, true );
+      this.BuildWorksheetSitemapsAudit( JobMaster, Workbook, "Sitemaps Audit - Missing", DocumentsNotInSitemaps, false );
+      this.BuildWorksheetSitemapsAudit( JobMaster, Workbook, "Sitemaps Audit - Present", DocumentsInSitemaps, true );
 
       try
       {
-        wb.SaveAs( OutputFilename );
+        Workbook.SaveAs( OutputFilename );
       }
       catch ( IOException )
       {

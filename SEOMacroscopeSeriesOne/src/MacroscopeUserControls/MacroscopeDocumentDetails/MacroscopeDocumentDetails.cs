@@ -476,7 +476,7 @@ namespace SEOMacroscope
 
         string KeyUrl = msDoc.GetUrl();
 
-        if ( msDoc.GetIsHtml() )
+        if ( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
         {
 
           Dictionary<string, MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
@@ -2313,7 +2313,7 @@ namespace SEOMacroscope
     private void RenderDocumentPreview ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
 
-      if ( msDoc.GetIsImage() )
+      if ( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.IMAGE ) )
       {
         this.splitContainerDocumentDetails.Panel2Collapsed = false;
         this.RenderImagePreview( JobMaster: JobMaster, msDoc: msDoc );
@@ -2339,7 +2339,7 @@ namespace SEOMacroscope
 
     private async void RenderImagePreview ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
     {
-      if ( msDoc.GetIsImage() )
+      if ( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.IMAGE ) )
       {
         Image LoadedImage = await this.HttpImageLoader.LoadImageFromUri( JobMaster: JobMaster, TargetUri: msDoc.GetUri() );
         if ( LoadedImage != null )

@@ -40,24 +40,24 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    protected  bool Enabled;
+    protected bool Enabled;
 
     protected int Max;
-        
+
     protected List<MacroscopeConstants.ActiveInactive> ExtractActiveInactive;
-        
+
     /**************************************************************************/
-    
+
     public MacroscopeDataExtractor ( int Size )
     {
 
       this.SuppressDebugMsg = true;
-            
+
       this.Disable();
 
       this.SetSize( NewSize: Size );
-            
-      this.ExtractActiveInactive = new List<MacroscopeConstants.ActiveInactive> ( this.GetSize() );
+
+      this.ExtractActiveInactive = new List<MacroscopeConstants.ActiveInactive>( this.GetSize() );
 
     }
 
@@ -67,15 +67,15 @@ namespace SEOMacroscope
     {
       this.Enabled = false;
     }
-    
+
     public void SetEnabled ()
     {
       this.Enabled = true;
     }
-    
+
     public bool IsEnabled ()
     {
-      return( this.Enabled );
+      return ( this.Enabled );
     }
 
     /**************************************************************************/
@@ -87,7 +87,7 @@ namespace SEOMacroscope
 
     public int GetSize ()
     {
-      return( this.Max );
+      return ( this.Max );
     }
 
     /**************************************************************************/
@@ -96,29 +96,29 @@ namespace SEOMacroscope
     {
       this.ExtractActiveInactive[ Slot ] = State;
     }
-    
+
     public MacroscopeConstants.ActiveInactive GetActiveInactive ( int Slot )
     {
-      return( this.ExtractActiveInactive[ Slot ] );
+      return ( this.ExtractActiveInactive[ Slot ] );
     }
 
     /**************************************************************************/
-        
+
     protected string CleanWhiteSpace ( string Text )
     {
 
       string CleanedText = Text;
 
-      if( !string.IsNullOrEmpty( Text ) )
+      if ( !string.IsNullOrEmpty( Text ) )
       {
 
         CleanedText = Regex.Replace( CleanedText, @"[\s]+", " ", RegexOptions.Singleline );
 
         CleanedText = CleanedText.Trim();
-      
+
       }
-      
-      return( CleanedText );
+
+      return ( CleanedText );
 
     }
 
@@ -128,8 +128,8 @@ namespace SEOMacroscope
     {
 
       bool CanApply = true;
-      
-      if(
+
+      if (
         ( msDoc == null )
         || ( msDoc.GetIsRedirect() )
         || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
@@ -140,58 +140,59 @@ namespace SEOMacroscope
       else
       {
 
-        if(
-          !( msDoc.GetIsHtml()
-          || msDoc.GetIsCss()
-          || msDoc.GetIsJavascript()
-          || msDoc.GetIsText()
-          || msDoc.GetIsXml() ) )
+        if (
+          !( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.CSS )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.JAVASCRIPT )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.TEXT )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.XML ) ) )
         {
           CanApply = false;
         }
         else
         {
 
-          if(
-            msDoc.GetIsHtml()
-            && ( !MacroscopePreferencesManager.GetDataExtractorsApplyToHtml() ) )
+          switch ( msDoc.GetDocumentType() )
           {
-            CanApply = false;
-          }
-          else
-          if(
-            msDoc.GetIsCss()
-            && ( !MacroscopePreferencesManager.GetDataExtractorsApplyToCss() ) )
-          {
-            CanApply = false;
-          }
-          else
-          if(
-            msDoc.GetIsJavascript()
-            && ( !MacroscopePreferencesManager.GetDataExtractorsApplyToJavascripts() ) )
-          {
-            CanApply = false;
-          }
-          else
-          if(
-            msDoc.GetIsText()
-            && ( !MacroscopePreferencesManager.GetDataExtractorsApplyToText() ) )
-          {
-            CanApply = false;
-          }
-          else
-          if(
-            msDoc.GetIsXml()
-            && ( !MacroscopePreferencesManager.GetDataExtractorsApplyToXml() ) )
-          {
-            CanApply = false;
+            case MacroscopeConstants.DocumentType.HTML:
+              if ( !MacroscopePreferencesManager.GetDataExtractorsApplyToHtml() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.CSS:
+              if ( !MacroscopePreferencesManager.GetDataExtractorsApplyToCss() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.JAVASCRIPT:
+              if ( !MacroscopePreferencesManager.GetDataExtractorsApplyToJavascripts() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.TEXT:
+              if ( !MacroscopePreferencesManager.GetDataExtractorsApplyToText() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.XML:
+              if ( !MacroscopePreferencesManager.GetDataExtractorsApplyToXml() )
+              {
+                CanApply = false;
+              }
+              break;
+            default:
+              break;
           }
 
         }
-        
+
       }
-      
-      return( CanApply );
+
+      return ( CanApply );
 
     }
 

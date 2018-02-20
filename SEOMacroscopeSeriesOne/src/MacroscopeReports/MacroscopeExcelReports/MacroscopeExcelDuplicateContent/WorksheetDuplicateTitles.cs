@@ -94,19 +94,20 @@ namespace SEOMacroscope
         
         if( AllowedHosts.IsInternalUrl( Url: Url ) )
         {
-          if( msDoc.GetIsHtml() )
+
+          switch ( msDoc.GetDocumentType() )
           {
-            Proceed = true;
+            case MacroscopeConstants.DocumentType.HTML:
+              Proceed = true;
+              break;
+            case MacroscopeConstants.DocumentType.PDF:
+              Proceed = true;
+              break;
+            default:
+              Proceed = false;
+              break;
           }
-          else
-          if( msDoc.GetIsPdf() )
-          {
-            Proceed = true;
-          }
-          else
-          {
-            Proceed = false;
-          }
+
         }
           
         if( Proceed )

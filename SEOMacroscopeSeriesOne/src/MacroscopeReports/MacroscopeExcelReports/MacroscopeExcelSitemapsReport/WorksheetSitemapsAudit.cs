@@ -84,7 +84,7 @@ namespace SEOMacroscope
         string SitemapUrl = null;
         int StatusCode;
 
-        if ( !msDoc.GetIsHtml() )
+        if ( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
         {
           continue;
         }

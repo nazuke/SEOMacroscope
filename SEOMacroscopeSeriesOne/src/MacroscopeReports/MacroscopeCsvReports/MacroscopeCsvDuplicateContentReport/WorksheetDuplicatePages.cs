@@ -98,7 +98,7 @@ namespace SEOMacroscope
           continue;
         }
 
-        if( !msDocLeft.GetIsHtml() )
+        if( !msDocLeft.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
         {
           continue;
         }

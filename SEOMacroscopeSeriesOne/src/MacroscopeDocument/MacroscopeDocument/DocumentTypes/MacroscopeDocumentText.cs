@@ -228,7 +228,7 @@ namespace SEOMacroscope
             if ( this.DetectSitemapTextDocument( TextDoc: TextDoc ) )
             {
               DebugMsg( string.Format( "ProcessTextPage: {0} :: {1}", "SITEMAP DETECTED", this.GetUrl() ) );
-              this.SetIsSitemapText();
+              this.SetDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPTEXT );
               this.ProcessSitemapTextOutlinks( TextDoc: TextDoc );
             }
 

@@ -126,7 +126,7 @@ namespace SEOMacroscope
         IsValid = false;
       }
 
-      if ( !msDoc.GetIsHtml() )
+      if ( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
       {
         IsValid = false;
       }

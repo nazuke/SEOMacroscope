@@ -251,7 +251,7 @@ namespace SEOMacroscope
       try
       {
         long? HeaderValue = null;
-        if ( ContentHeaders.Contains( "ContentLength" ) )
+        if ( ContentHeaders.Contains( "Content-Length" ) )
         {
           HeaderValue = ContentHeaders.ContentLength;
         }
@@ -553,51 +553,51 @@ namespace SEOMacroscope
 
         if( reIsHtml.IsMatch( this.MimeType ) )
         {
-          this.SetIsHtml();
+          this.SetDocumentType(Type: MacroscopeConstants.DocumentType.HTML );
         }
         else
         if( reIsCss.IsMatch( this.MimeType ) )
         {
-          this.SetIsCss();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.CSS );
         }
         else
         if( reIsJavascript.IsMatch( this.MimeType ) )
         {
-          this.SetIsJavascript();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.JAVASCRIPT );
         }
         else
         if( reIsImage.IsMatch( this.MimeType ) )
         {
-          this.SetIsImage();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.IMAGE );
         }
         else
         if( reIsPdf.IsMatch( this.MimeType ) )
         {
-          this.SetIsPdf();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.PDF );
         }
         else
         if( reIsAudio.IsMatch( this.MimeType ) )
         {
-          this.SetIsAudio();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.AUDIO );
         }
         else
         if( reIsVideo.IsMatch( this.MimeType ) )
         {
-          this.SetIsVideo();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.VIDEO );
         }
         else
         if( reIsXml.IsMatch( this.MimeType ) )
         {
-          this.SetIsXml();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.XML );
         }
         else
         if( reIsText.IsMatch( this.MimeType ) )
         {
-          this.SetIsText();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.TEXT );
         }
         else
         {
-          this.SetIsBinary();
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.BINARY );
         }
 
       }

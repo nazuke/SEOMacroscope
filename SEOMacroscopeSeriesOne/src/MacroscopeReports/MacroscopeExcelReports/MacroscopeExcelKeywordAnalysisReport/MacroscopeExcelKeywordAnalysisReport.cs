@@ -40,6 +40,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public MacroscopeExcelKeywordAnalysisReport ()
+    {
+      this.ProgressForm = null;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeExcelKeywordAnalysisReport ( IMacroscopeProgressForm ProgressFormDialogue )
     {
       this.ProgressForm = ProgressFormDialogue;
@@ -50,37 +57,72 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      XLWorkbook wb = new XLWorkbook ();
-      const decimal MajorPercentageDivider = 4;
+      XLWorkbook Workbook = new XLWorkbook();
+      Dictionary<string, int> DicTerms = null;
 
-      for( int i = 0 ; i <= 3 ; i++ )
+      if ( this.ProgressForm != null )
       {
 
-        this.ProgressForm.UpdatePercentages(
-          Title: "Processing Keywords",
-          Message: "Processing keyword terms collection:",
-          MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )i + 1,
-          ProgressLabelMajor: "",
-          MinorPercentage: 0,
-          ProgressLabelMinor: "",
-          SubMinorPercentage: 0,
-          ProgressLabelSubMinor: ""
-        );
+        const decimal MajorPercentageDivider = 4;
 
-        Dictionary<string,int> DicTerms = JobMaster.GetDocCollection().GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
+        for ( int i = 0 ; i <= 3 ; i++ )
+        {
 
-        this.BuildWorksheetKeywordTerms( JobMaster, wb, string.Format( "{0} Word Term", i + 1 ), DicTerms );
+          if ( !this.ProgressForm.Cancelled() )
+          {
+
+            this.ProgressForm.UpdatePercentages(
+            Title: "Processing Keywords",
+            Message: "Processing keyword terms collection:",
+            MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) i + 1,
+            ProgressLabelMajor: "",
+            MinorPercentage: 0,
+            ProgressLabelMinor: "",
+            SubMinorPercentage: 0,
+            ProgressLabelSubMinor: ""
+          );
+
+            DicTerms = JobMaster.GetDocCollection().GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
+            this.BuildWorksheetKeywordTerms( JobMaster, Workbook, string.Format( "{0} Word Term", i + 1 ), DicTerms );
+
+          }
+
+        }
+
+        if ( !this.ProgressForm.Cancelled() )
+        {
+          this.SaveOutputFile( Workbook: Workbook, OutputFilename: OutputFilename );
+        }
 
       }
-            
+      else
+      {
+
+        for ( int i = 0 ; i <= 3 ; i++ )
+        {
+          DicTerms = JobMaster.GetDocCollection().GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
+          this.BuildWorksheetKeywordTerms( JobMaster, Workbook, string.Format( "{0} Word Term", i + 1 ), DicTerms );
+        }
+
+        this.SaveOutputFile( Workbook: Workbook, OutputFilename: OutputFilename );
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    private void SaveOutputFile ( XLWorkbook Workbook, string OutputFilename )
+    {
+
       try
       {
-        wb.SaveAs( OutputFilename );
+        Workbook.SaveAs( OutputFilename );
       }
-      catch( IOException )
+      catch ( IOException )
       {
         MacroscopeSaveExcelFileException CannotSaveExcelFileException;
-        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
+        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException(
           string.Format( "Cannot write to Excel file at {0}", OutputFilename )
         );
         throw CannotSaveExcelFileException;

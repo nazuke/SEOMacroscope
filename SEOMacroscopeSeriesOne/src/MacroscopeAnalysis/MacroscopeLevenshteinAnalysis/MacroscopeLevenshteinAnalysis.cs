@@ -331,14 +331,16 @@ namespace SEOMacroscope
 
       bool Allowed = false;
 
-      if ( msDoc.GetIsHtml() )
+      switch ( msDoc.GetDocumentType( ) )
       {
-        Allowed = true;
-      }
-      else
-      if ( msDoc.GetIsPdf() )
-      {
-        Allowed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Allowed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Allowed = true;
+          break;
+        default:
+          break;
       }
 
       return ( Allowed );

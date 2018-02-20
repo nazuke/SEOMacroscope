@@ -44,26 +44,26 @@ namespace SEOMacroscope
     private bool Enabled;
 
     private int Max;
-    
-    private List<KeyValuePair<string, MacroscopeConstants.Contains>> Contains;
+
+    private List<KeyValuePair<string, MacroscopeConstants.Contains>> Contains;
 
     /**************************************************************************/
-    
+
     public MacroscopeCustomFilters ( int Size )
     {
 
       this.Disable();
-      
-      this.Max = Size;
-      
-      this.Contains = new List<KeyValuePair<string, MacroscopeConstants.Contains>> ( Size );
 
-      for( int Slot = 0 ; Slot < this.Max ; Slot++ )
+      this.Max = Size;
+
+      this.Contains = new List<KeyValuePair<string, MacroscopeConstants.Contains>>( Size );
+
+      for ( int Slot = 0 ; Slot < this.Max ; Slot++ )
       {
 
-        KeyValuePair<string, MacroscopeConstants.Contains> Pair;
+        KeyValuePair<string, MacroscopeConstants.Contains> Pair;
 
-        Pair = new KeyValuePair<string, MacroscopeConstants.Contains> (
+        Pair = new KeyValuePair<string, MacroscopeConstants.Contains>(
           Slot.ToString(),
           MacroscopeConstants.Contains.MUST_HAVE_STRING
         );
@@ -75,27 +75,27 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
     public void Disable ()
     {
       this.Enabled = false;
     }
-    
+
     public void SetEnabled ()
     {
       this.Enabled = true;
     }
-    
+
     public bool IsEnabled ()
     {
-      return( this.Enabled );
+      return ( this.Enabled );
     }
-    
+
     /**************************************************************************/
 
     public int GetSize ()
     {
-      return( this.Max );
+      return ( this.Max );
     }
 
     /**************************************************************************/
@@ -106,51 +106,51 @@ namespace SEOMacroscope
       MacroscopeConstants.Contains ContainsSetting
     )
     {
-      
-      KeyValuePair<string, MacroscopeConstants.Contains> Pair;
 
-      Pair = new KeyValuePair<string, MacroscopeConstants.Contains> ( Text, ContainsSetting );
+      KeyValuePair<string, MacroscopeConstants.Contains> Pair;
+
+      Pair = new KeyValuePair<string, MacroscopeConstants.Contains>( Text, ContainsSetting );
 
       this.Contains[ Slot ] = Pair;
 
       this.SetEnabled();
-      
+
     }
 
     /**************************************************************************/
 
-    public KeyValuePair<string, MacroscopeConstants.Contains> GetPattern (
+    public KeyValuePair<string, MacroscopeConstants.Contains> GetPattern (
       int Slot
     )
     {
 
-      return( this.Contains[ Slot ] );
+      return ( this.Contains[ Slot ] );
 
     }
 
     /**************************************************************************/
 
-    public Dictionary<string, MacroscopeConstants.TextPresence> AnalyzeText ( string Text )
+    public Dictionary<string, MacroscopeConstants.TextPresence> AnalyzeText ( string Text )
     {
 
-      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = null;
-      
-      if( !this.IsEnabled() )
+      Dictionary<string, MacroscopeConstants.TextPresence> Analyzed = null;
+
+      if ( !this.IsEnabled() )
       {
-        return( Analyzed );
+        return ( Analyzed );
       }
 
-      lock( this.Contains )
+      lock ( this.Contains )
       {
 
-        Analyzed = new Dictionary<string, MacroscopeConstants.TextPresence> ( this.Max );
-              
-        for( int Slot = 0 ; Slot < this.Max ; Slot++ )
+        Analyzed = new Dictionary<string, MacroscopeConstants.TextPresence>( this.Max );
+
+        for ( int Slot = 0 ; Slot < this.Max ; Slot++ )
         {
 
           string PatternText = this.Contains[ Slot ].Key;
 
-          if( string.IsNullOrEmpty( PatternText ) )
+          if ( string.IsNullOrEmpty( PatternText ) )
           {
             continue;
           }
@@ -210,8 +210,8 @@ namespace SEOMacroscope
 
       }
 
-      return( Analyzed );
-      
+      return ( Analyzed );
+
     }
 
     /**************************************************************************/
@@ -220,8 +220,8 @@ namespace SEOMacroscope
     {
 
       bool CanApply = true;
-      
-      if(
+
+      if (
         ( msDoc == null )
         || ( msDoc.GetIsRedirect() )
         || ( msDoc.GetStatusCode() != HttpStatusCode.OK )
@@ -232,58 +232,60 @@ namespace SEOMacroscope
       else
       {
 
-        if(
-          !( msDoc.GetIsHtml()
-          || msDoc.GetIsCss()
-          || msDoc.GetIsJavascript()
-          || msDoc.GetIsText()
-          || msDoc.GetIsXml() ) )
+        if (
+          !( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.CSS )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.JAVASCRIPT )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.TEXT )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.XML ) )
+          )
         {
           CanApply = false;
         }
         else
         {
 
-          if(
-            msDoc.GetIsHtml()
-            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToHtml() ) )
+          switch ( msDoc.GetDocumentType() )
           {
-            CanApply = false;
-          }
-          else
-          if(
-            msDoc.GetIsCss()
-            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToCss() ) )
-          {
-            CanApply = false;
-          }
-          else
-          if(
-            msDoc.GetIsJavascript()
-            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToJavascripts() ) )
-          {
-            CanApply = false;
-          }
-          else
-          if(
-            msDoc.GetIsText()
-            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToText() ) )
-          {
-            CanApply = false;
-          }
-          else
-          if(
-            msDoc.GetIsXml()
-            && ( !MacroscopePreferencesManager.GetCustomFiltersApplyToXml() ) )
-          {
-            CanApply = false;
+            case MacroscopeConstants.DocumentType.HTML:
+              if ( !MacroscopePreferencesManager.GetCustomFiltersApplyToHtml() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.CSS:
+              if ( !MacroscopePreferencesManager.GetCustomFiltersApplyToCss() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.JAVASCRIPT:
+              if ( !MacroscopePreferencesManager.GetCustomFiltersApplyToJavascripts() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.TEXT:
+              if ( !MacroscopePreferencesManager.GetCustomFiltersApplyToText() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.XML:
+              if ( !MacroscopePreferencesManager.GetCustomFiltersApplyToXml() )
+              {
+                CanApply = false;
+              }
+              break;
+            default:
+              break;
           }
 
         }
-        
+
       }
-      
-      return( CanApply );
+
+      return ( CanApply );
 
     }
 

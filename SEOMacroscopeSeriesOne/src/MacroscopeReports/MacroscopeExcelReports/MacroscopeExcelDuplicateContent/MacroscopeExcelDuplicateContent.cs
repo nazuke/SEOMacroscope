@@ -36,8 +36,15 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     IMacroscopeProgressForm ProgressForm;
-      
+
     /**************************************************************************/
+
+    public MacroscopeExcelDuplicateContent ()
+    {
+      this.ProgressForm = null;
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     public MacroscopeExcelDuplicateContent ( IMacroscopeProgressForm ProgressFormDialogue )
     {
@@ -49,107 +56,132 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      XLWorkbook wb = new XLWorkbook ();
-      decimal MajorPercentageDivider = 3;
-      
-      if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
-      {
-        MajorPercentageDivider = 4;
-      }
+      XLWorkbook Workbook = new XLWorkbook();
 
-      if( !this.ProgressForm.Cancelled() )
+      if ( this.ProgressForm != null )
       {
 
-        this.ProgressForm.UpdatePercentages(
-          Title: "Processing Titles",
-          Message: "Identifying duplicate titles in collection:",
-          MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )1,
-          ProgressLabelMajor: "Documents Processed",
-          MinorPercentage: 0,
-          ProgressLabelMinor: "",
-          SubMinorPercentage: 0,
-          ProgressLabelSubMinor: ""
-        );
+        decimal MajorPercentageDivider = 3;
 
-        this.BuildWorksheetPageDuplicateTitles( JobMaster, wb, "Duplicate Titles" );
+        if ( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
+        {
+          MajorPercentageDivider = 4;
+        }
 
-      }
-      
-      if( !this.ProgressForm.Cancelled() )
-      {   
-
-        this.ProgressForm.UpdatePercentages(
-          Title: "Processing Checksums",
-          Message: "Identifying duplicate checksums in collection:",
-          MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )2,
-          ProgressLabelMajor: "Documents Processed",
-          MinorPercentage: 0,
-          ProgressLabelMinor: "",
-          SubMinorPercentage: 0,
-          ProgressLabelSubMinor: ""
-        );
-      
-        this.BuildWorksheetPageDuplicateChecksums( JobMaster, wb, "Duplicate Checksums" );
-
-      }
-      
-      if( !this.ProgressForm.Cancelled() )
-      {   
-        this.ProgressForm.UpdatePercentages(
-          Title: "Processing ETags",
-          Message: "Identifying duplicate ETags in collection:",
-          MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )3,
-          ProgressLabelMajor: "Documents Processed",
-          MinorPercentage: 0,
-          ProgressLabelMinor: "",
-          SubMinorPercentage: 0,
-          ProgressLabelSubMinor: ""
-        );
-      
-        this.BuildWorksheetPageDuplicateEtags( JobMaster, wb, "Duplicate ETags" );
-      }
-      
-      if( !this.ProgressForm.Cancelled() )
-      {   
-        
-        if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
+        if ( ( this.ProgressForm != null ) && ( !this.ProgressForm.Cancelled() ) )
         {
 
           this.ProgressForm.UpdatePercentages(
-            Title: "Applying Levenshtein Distance",
-            Message: "Identifying duplicate documents via Levenshtein Distance in collection:",
-            MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )4,
-            ProgressLabelMajor: "Documents Processed: 0",
+            Title: "Processing Titles",
+            Message: "Identifying duplicate titles in collection:",
+            MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) 1,
+            ProgressLabelMajor: "Documents Processed",
             MinorPercentage: 0,
             ProgressLabelMinor: "",
             SubMinorPercentage: 0,
             ProgressLabelSubMinor: ""
           );
 
-          this.BuildWorksheetPageDuplicatePages( JobMaster, wb, "Duplicate Content" );
+          this.BuildWorksheetPageDuplicateTitles( JobMaster, Workbook, "Duplicate Titles" );
 
         }
-      
+
+        if ( !this.ProgressForm.Cancelled() )
+        {
+
+          this.ProgressForm.UpdatePercentages(
+            Title: "Processing Checksums",
+            Message: "Identifying duplicate checksums in collection:",
+            MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) 2,
+            ProgressLabelMajor: "Documents Processed",
+            MinorPercentage: 0,
+            ProgressLabelMinor: "",
+            SubMinorPercentage: 0,
+            ProgressLabelSubMinor: ""
+          );
+
+          this.BuildWorksheetPageDuplicateChecksums( JobMaster, Workbook, "Duplicate Checksums" );
+
+        }
+
+        if ( !this.ProgressForm.Cancelled() )
+        {
+
+          this.ProgressForm.UpdatePercentages(
+            Title: "Processing ETags",
+            Message: "Identifying duplicate ETags in collection:",
+            MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) 3,
+            ProgressLabelMajor: "Documents Processed",
+            MinorPercentage: 0,
+            ProgressLabelMinor: "",
+            SubMinorPercentage: 0,
+            ProgressLabelSubMinor: ""
+          );
+
+          this.BuildWorksheetPageDuplicateEtags( JobMaster, Workbook, "Duplicate ETags" );
+
+        }
+
+        if ( !this.ProgressForm.Cancelled() )
+        {
+
+          if ( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
+          {
+
+            this.ProgressForm.UpdatePercentages(
+              Title: "Applying Levenshtein Distance",
+              Message: "Identifying duplicate documents via Levenshtein Distance in collection:",
+              MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) 4,
+              ProgressLabelMajor: "Documents Processed: 0",
+              MinorPercentage: 0,
+              ProgressLabelMinor: "",
+              SubMinorPercentage: 0,
+              ProgressLabelSubMinor: ""
+            );
+
+            this.BuildWorksheetPageDuplicatePages( JobMaster, Workbook, "Duplicate Content" );
+
+          }
+
+        }
+        if ( !this.ProgressForm.Cancelled() )
+        {
+          this.SaveOutputFile( Workbook: Workbook, OutputFilename: OutputFilename );
+        }
+
       }
-      
-      if( !this.ProgressForm.Cancelled() )
+      else
       {
 
-        try
-        {
-          wb.SaveAs( OutputFilename );
-        }
-        catch( IOException )
-        {
-          MacroscopeSaveExcelFileException CannotSaveExcelFileException;
-          CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
-            string.Format( "Cannot write to Excel file at {0}", OutputFilename )
-          );
-          throw CannotSaveExcelFileException;
-        }
+        this.BuildWorksheetPageDuplicateTitles( JobMaster, Workbook, "Duplicate Titles" );
+        this.BuildWorksheetPageDuplicateChecksums( JobMaster, Workbook, "Duplicate Checksums" );
+        this.BuildWorksheetPageDuplicateEtags( JobMaster, Workbook, "Duplicate ETags" );
+        this.BuildWorksheetPageDuplicatePages( JobMaster, Workbook, "Duplicate Content" );
+
+        this.SaveOutputFile( Workbook: Workbook, OutputFilename: OutputFilename );
 
       }
-      
+
+    }
+
+    /**************************************************************************/
+    
+    private void SaveOutputFile ( XLWorkbook Workbook, string OutputFilename )
+    {
+
+      try
+      {
+        Workbook.SaveAs( OutputFilename );
+      }
+      catch ( IOException )
+      {
+        MacroscopeSaveExcelFileException CannotSaveExcelFileException;
+        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException(
+          string.Format( "Cannot write to Excel file at {0}", OutputFilename )
+        );
+        throw CannotSaveExcelFileException;
+      }
+
     }
     
     /**************************************************************************/

@@ -36,8 +36,8 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private MacroscopeDataExtractorCssSelectors DataExtractorCssSelectors;
-    private  MacroscopeDataExtractorRegexes DataExtractorRegexes;
-    private  MacroscopeDataExtractorXpaths DataExtractorXpaths;
+    private MacroscopeDataExtractorRegexes DataExtractorRegexes;
+    private MacroscopeDataExtractorXpaths DataExtractorXpaths;
 
     /**************************************************************************/
 
@@ -62,20 +62,20 @@ namespace SEOMacroscope
     )
     {
 
-      XLWorkbook wb = new XLWorkbook ();
+      XLWorkbook Workbook = new XLWorkbook();
 
-      this.BuildWorksheetCssSelectors( JobMaster, wb, "CSS Selectors" );     
-      this.BuildWorksheetRegularExpressions( JobMaster, wb, "Regular Expressions" );
-      this.BuildWorksheetXpaths( JobMaster, wb, "XPaths" );
+      this.BuildWorksheetCssSelectors( JobMaster, Workbook, "CSS Selectors" );
+      this.BuildWorksheetRegularExpressions( JobMaster, Workbook, "Regular Expressions" );
+      this.BuildWorksheetXpaths( JobMaster, Workbook, "XPaths" );
 
       try
       {
-        wb.SaveAs( OutputFilename );
+        Workbook.SaveAs( OutputFilename );
       }
-      catch( IOException )
+      catch ( IOException )
       {
         MacroscopeSaveExcelFileException CannotSaveExcelFileException;
-        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
+        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException(
           string.Format( "Cannot write to Excel file at {0}", OutputFilename )
         );
         throw CannotSaveExcelFileException;

@@ -1000,6 +1000,13 @@ namespace SEOMacroscope
 
     /** Document Type Methods *************************************************/
 
+    public void SetDocumentType ( MacroscopeConstants.DocumentType Type )
+    {
+      this.DocumentType = Type;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeConstants.DocumentType GetDocumentType ()
     {
       return ( this.DocumentType );
@@ -1007,255 +1014,20 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
+    public bool IsDocumentType ( MacroscopeConstants.DocumentType Type )
+    {
+      if ( this.DocumentType == Type )
+      {
+        return ( true );
+      }
+      return ( false );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public void SetIsSkipped ()
     {
-      this.DocumentType = MacroscopeConstants.DocumentType.SKIPPED;
-    }
-
-    public bool GetIsSkipped ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.SKIPPED )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsBinary ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.BINARY;
-    }
-
-    public bool GetIsBinary ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.BINARY )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsHtml ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.HTML;
-    }
-
-    public bool GetIsHtml ()
-    {
-
-      bool IsHtml = false;
-
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.HTML )
-      {
-        IsHtml = true;
-      }
-      else
-      {
-        IsHtml = false;
-      }
-
-      return ( IsHtml );
-
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsCss ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.CSS;
-    }
-
-    public bool GetIsCss ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.CSS )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsJavascript ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.JAVASCRIPT;
-    }
-
-    public bool GetIsJavascript ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.JAVASCRIPT )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsImage ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.IMAGE;
-    }
-
-    public bool GetIsImage ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.IMAGE )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsPdf ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.PDF;
-    }
-
-    public bool GetIsPdf ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.PDF )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsAudio ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.AUDIO;
-    }
-
-    public bool GetIsAudio ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.AUDIO )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsVideo ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.VIDEO;
-    }
-
-    public bool GetIsVideo ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.VIDEO )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsXml ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.XML;
-    }
-
-    public bool GetIsXml ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.XML )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsSitemapXml ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.SITEMAPXML;
-    }
-
-    public bool GetIsSitemapXml ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPXML )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsText ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.TEXT;
-    }
-
-    public bool GetIsText ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.TEXT )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public void SetIsSitemapText ()
-    {
-      this.DocumentType = MacroscopeConstants.DocumentType.SITEMAPTEXT;
-    }
-
-    public bool GetIsSitemapText ()
-    {
-      if ( this.DocumentType == MacroscopeConstants.DocumentType.SITEMAPTEXT )
-      {
-        return ( true );
-      }
-      else
-      {
-        return ( false );
-      }
+      this.SetDocumentType( Type: MacroscopeConstants.DocumentType.SKIPPED );
     }
 
     /** Compression ***********************************************************/
@@ -1773,7 +1545,22 @@ namespace SEOMacroscope
 
     public void DetectTitleLanguage ()
     {
-      if ( this.GetIsHtml() || this.GetIsPdf() )
+
+      bool Proceed = false;
+
+      switch ( this.GetDocumentType() )
+      {
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
+      }
+
+      if ( Proceed )
       {
         this.TitleLanguage = this.ProbeTextLanguage( Text: this.Title );
       }
@@ -1846,10 +1633,26 @@ namespace SEOMacroscope
 
     public void DetectDescriptionLanguage ()
     {
-      if ( this.GetIsHtml() || this.GetIsPdf() )
+
+      bool Proceed = false;
+
+      switch ( this.GetDocumentType() )
+      {
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
+      }
+
+      if ( Proceed )
       {
         this.DescriptionLanguage = this.ProbeTextLanguage( Text: this.Description );
       }
+
     }
 
     public string GetDescriptionLanguage ()
@@ -2058,7 +1861,7 @@ namespace SEOMacroscope
       if ( !string.IsNullOrEmpty( Text ) )
       {
 
-        if ( this.GetIsHtml() || this.GetIsPdf() )
+        if ( this.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) || this.IsDocumentType( Type: MacroscopeConstants.DocumentType.PDF ) )
         {
 
           this.DocumentTextRaw = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
@@ -2073,7 +1876,11 @@ namespace SEOMacroscope
 
         }
 
-        if ( this.GetIsText() || this.GetIsSitemapText() || this.GetIsXml() || this.GetIsSitemapXml() )
+        if ( this.IsDocumentType( Type: MacroscopeConstants.DocumentType.TEXT )
+          || this.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPTEXT )
+          || this.IsDocumentType( Type: MacroscopeConstants.DocumentType.XML )
+          || this.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML )
+          )
         {
           this.DocumentTextRaw = Text;
           this.DocumentTextCleaned = Text;
@@ -2122,12 +1929,24 @@ namespace SEOMacroscope
     public void DetectDocumentTextLanguage ()
     {
 
-      if ( this.GetIsHtml() || this.GetIsPdf() )
+      bool Proceed = false;
+
+      switch ( this.GetDocumentType() )
+      {
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
+      }
+
+      if ( Proceed )
       {
         this.DocumentTextLanguage = this.ProbeTextLanguage( Text: this.DocumentTextCleaned );
       }
-
-      return;
 
     }
 
@@ -2271,14 +2090,16 @@ namespace SEOMacroscope
 
       bool Proceed = false;
 
-      if ( this.GetIsHtml() )
+      switch ( this.GetDocumentType() )
       {
-        Proceed = true;
-      }
-      else
-      if ( this.GetIsPdf() )
-      {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
 
       if ( Proceed )
@@ -2327,6 +2148,7 @@ namespace SEOMacroscope
     public void CalculateReadabilityGrade ()
     {
 
+      bool Proceed = false;
       double Grade = 0;
       string GradeDescription = "";
       MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod GradeMethod = MacroscopeAnalyzeReadability.AnalyzeReadabilityMethod.UNKNOWN;
@@ -2337,7 +2159,19 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( this.GetIsHtml() || this.GetIsPdf() )
+      switch ( this.GetDocumentType() )
+      {
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
+      }
+
+      if ( Proceed )
       {
         switch ( this.GetIsoLanguageCode() )
         {
@@ -2743,120 +2577,86 @@ namespace SEOMacroscope
 
         this.CrawledDate = DateTime.UtcNow;
 
-        if ( this.GetIsHtml() )
+        switch ( this.GetDocumentType() )
         {
-
-          this.DebugMsg( string.Format( "IS HTML PAGE: {0}", this.DocUrl ) );
-
-          await this.ProcessHtmlPage();
-
-        }
-        else
-        if ( this.GetIsCss() )
-        {
-
-          this.DebugMsg( string.Format( "IS CSS PAGE: {0}", this.DocUrl ) );
-
-          if ( MacroscopePreferencesManager.GetProcessStylesheets() )
-          {
-            await this.ProcessCssPage();
-          }
-
-        }
-        else
-        if ( this.GetIsImage() )
-        {
-
-          this.DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.DocUrl ) );
-
-          if ( MacroscopePreferencesManager.GetProcessImages() )
-          {
-            await this.ProcessImagePage();
-          }
-
-        }
-        else
-        if ( this.GetIsJavascript() )
-        {
-
-          this.DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.DocUrl ) );
-
-          if ( MacroscopePreferencesManager.GetProcessJavascripts() )
-          {
-            await this.ProcessJavascriptPage();
-          }
-
-        }
-        else
-        if ( this.GetIsPdf() )
-        {
-
-          this.DebugMsg( string.Format( "IS PDF PAGE: {0}", this.DocUrl ) );
-
-          if ( MacroscopePreferencesManager.GetProcessPdfs() )
-          {
-            await this.ProcessPdfPage();
-          }
-
-        }
-        else
-        if ( this.GetIsXml() )
-        {
-
-          this.DebugMsg( string.Format( "IS XML PAGE: {0}", this.DocUrl ) );
-
-          if ( MacroscopePreferencesManager.GetProcessXml() )
-          {
-            await this.ProcessXmlPage();
-          }
-
-        }
-        else
-        if ( this.GetIsText() )
-        {
-
-          this.DebugMsg( string.Format( "IS TEXT PAGE: {0}", this.DocUrl ) );
-
-          await this.ProcessTextPage();
-
-        }
-        else
-        if ( this.GetIsAudio() )
-        {
-
-          this.DebugMsg( string.Format( "IS AUDIO PAGE: {0}", this.DocUrl ) );
-
-          if ( MacroscopePreferencesManager.GetProcessAudio() )
-          {
-            await this.ProcessAudioPage();
-          }
-
-        }
-        else
-        if ( this.GetIsVideo() )
-        {
-
-          this.DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.DocUrl ) );
-
-          if ( MacroscopePreferencesManager.GetProcessVideo() )
-          {
-            await this.ProcessVideoPage();
-          }
-
-        }
-        else
-        if ( this.GetIsBinary() )
-        {
-          this.DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.DocUrl ) );
-          if ( MacroscopePreferencesManager.GetProcessBinaries() )
-          {
-            await this.ProcessBinaryPage();
-          }
-
-        }
-        else
-        {
-          this.DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.DocUrl ) );
+          case MacroscopeConstants.DocumentType.HTML:
+            this.DebugMsg( string.Format( "IS HTML PAGE: {0}", this.DocUrl ) );
+            await this.ProcessHtmlPage();
+            break;
+          case MacroscopeConstants.DocumentType.CSS:
+            this.DebugMsg( string.Format( "IS CSS PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessStylesheets() )
+            {
+              await this.ProcessCssPage();
+            }
+            break;
+          case MacroscopeConstants.DocumentType.IMAGE:
+            this.DebugMsg( string.Format( "IS IMAGE PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessImages() )
+            {
+              await this.ProcessImagePage();
+            }
+            break;
+          case MacroscopeConstants.DocumentType.JAVASCRIPT:
+            this.DebugMsg( string.Format( "IS JAVASCRIPT PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessJavascripts() )
+            {
+              await this.ProcessJavascriptPage();
+            }
+            break;
+          case MacroscopeConstants.DocumentType.PDF:
+            this.DebugMsg( string.Format( "IS PDF PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessPdfs() )
+            {
+              await this.ProcessPdfPage();
+            }
+            break;
+          case MacroscopeConstants.DocumentType.XML:
+            this.DebugMsg( string.Format( "IS XML PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessXml() )
+            {
+              await this.ProcessXmlPage();
+            }
+            break;
+          case MacroscopeConstants.DocumentType.SITEMAPXML:
+            this.DebugMsg( string.Format( "IS SITEMAP XML PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessXml() )
+            {
+              await this.ProcessXmlPage();
+            }
+            break;
+          case MacroscopeConstants.DocumentType.SITEMAPTEXT:
+            this.DebugMsg( string.Format( "IS SITEMAP TEXT PAGE: {0}", this.DocUrl ) );
+            await this.ProcessTextPage();
+            break;
+          case MacroscopeConstants.DocumentType.TEXT:
+            this.DebugMsg( string.Format( "IS TEXT PAGE: {0}", this.DocUrl ) );
+            await this.ProcessTextPage();
+            break;
+          case MacroscopeConstants.DocumentType.AUDIO:
+            this.DebugMsg( string.Format( "IS AUDIO PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessAudio() )
+            {
+              await this.ProcessAudioPage();
+            }
+            break;
+          case MacroscopeConstants.DocumentType.VIDEO:
+            this.DebugMsg( string.Format( "IS VIDEO PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessVideo() )
+            {
+              await this.ProcessVideoPage();
+            }
+            break;
+          case MacroscopeConstants.DocumentType.BINARY:
+            this.DebugMsg( string.Format( "IS BINARY PAGE: {0}", this.DocUrl ) );
+            if ( MacroscopePreferencesManager.GetProcessBinaries() )
+            {
+              await this.ProcessBinaryPage();
+            }
+            break;
+          default:
+            this.DebugMsg( string.Format( "UNKNOWN PAGE TYPE: {0}", this.DocUrl ) );
+            break;
         }
 
       }

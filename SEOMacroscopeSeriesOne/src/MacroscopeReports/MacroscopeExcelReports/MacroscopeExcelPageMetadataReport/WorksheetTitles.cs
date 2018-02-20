@@ -91,18 +91,20 @@ namespace SEOMacroscope
         {
           continue;
         }
-            
-        if( msDoc.GetIsHtml() )
+
+        switch ( msDoc.GetDocumentType() )
         {
-          Proceed = true;
+          case MacroscopeConstants.DocumentType.HTML:
+            Proceed = true;
+            break;
+          case MacroscopeConstants.DocumentType.PDF:
+            Proceed = true;
+            break;
+          default:
+            break;
         }
-        else
-        if( msDoc.GetIsPdf() )
-        {
-          Proceed = true;
-        }
-      
-        if( Proceed )
+
+        if ( Proceed )
         {
 
           iCol = 1;

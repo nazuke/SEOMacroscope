@@ -103,18 +103,20 @@ namespace SEOMacroscope
       {
         return;
       }
-            
-      if( msDoc.GetIsHtml() )
-      {
-        Proceed = true;
-      }
-      else
-      if( msDoc.GetIsPdf() )
-      {
-        Proceed = true;
-      }
 
-      if( Proceed )
+      switch ( msDoc.GetDocumentType() )
+      {
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.PDF:
+          Proceed = true;
+          break;
+        default:
+          break;
+      }
+      
+      if ( Proceed )
       {
 
         string PageLocale = msDoc.GetLocale();

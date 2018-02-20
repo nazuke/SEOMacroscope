@@ -111,7 +111,7 @@ namespace SEOMacroscope
         return;
       }
 
-      if( msDoc.GetIsHtml() )
+      if( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
       {
         Proceed = true;
       }

@@ -211,15 +211,20 @@ namespace SEOMacroscope
         {
           continue;
         }
-        
-        if( 
-          msDoc.GetIsHtml()
-          || msDoc.GetIsPdf() )
+
+        switch ( msDoc.GetDocumentType() )
         {
-          Proceed = true;
+          case MacroscopeConstants.DocumentType.HTML:
+            Proceed = true;
+            break;
+          case MacroscopeConstants.DocumentType.PDF:
+            Proceed = true;
+            break;
+          default:
+            break;
         }
 
-        if( !string.IsNullOrEmpty( Host ) )
+        if ( !string.IsNullOrEmpty( Host ) )
         {
           if( msDoc.GetHostAndPort().Equals( Host ) )
           {
@@ -268,7 +273,7 @@ namespace SEOMacroscope
 
           if(
             MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs()
-            && msDoc.GetIsHtml() )
+            && msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
           {
             
             this.GenerateXmlSitemapPdfEntries(
@@ -382,14 +387,19 @@ namespace SEOMacroscope
           continue;
         }
 
-        if(
-          msDoc.GetIsHtml()
-          || msDoc.GetIsPdf() )
+        switch ( msDoc.GetDocumentType() )
         {
-          Proceed = true;
+          case MacroscopeConstants.DocumentType.HTML:
+            Proceed = true;
+            break;
+          case MacroscopeConstants.DocumentType.PDF:
+            Proceed = true;
+            break;
+          default:
+            break;
         }
 
-        if( !string.IsNullOrEmpty( Host ) )
+        if ( !string.IsNullOrEmpty( Host ) )
         {
           if( msDoc.GetHostAndPort().Equals( Host ) )
           {
@@ -408,7 +418,7 @@ namespace SEOMacroscope
 
           if(
             MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs()
-            && msDoc.GetIsHtml() )
+            && msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
           {
             
             this.GenerateTextSitemapPdfEntries(

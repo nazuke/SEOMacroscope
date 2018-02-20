@@ -163,7 +163,7 @@ namespace SEOMacroscope
         ListViewItem lvItem = null;
         int StatusCode;
 
-        if ( !msDoc.GetIsHtml() )
+        if ( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
         {
           continue;
         }

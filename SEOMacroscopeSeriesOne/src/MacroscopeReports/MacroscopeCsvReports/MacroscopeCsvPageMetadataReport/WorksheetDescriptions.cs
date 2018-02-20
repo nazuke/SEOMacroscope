@@ -70,18 +70,20 @@ namespace SEOMacroscope
         {
           continue;
         }
-            
-        if( msDoc.GetIsHtml() )
+
+        switch ( msDoc.GetDocumentType() )
         {
-          Proceed = true;
-        }
-        else
-        if( msDoc.GetIsPdf() )
-        {
-          Proceed = true;
+          case MacroscopeConstants.DocumentType.HTML:
+            Proceed = true;
+            break;
+          case MacroscopeConstants.DocumentType.PDF:
+            Proceed = true;
+            break;
+          default:
+            break;
         }
 
-        if( Proceed )
+        if ( Proceed )
         {
           
           string Description = msDoc.GetDescription();

@@ -98,7 +98,7 @@ namespace SEOMacroscope
         return;
       }
 
-      if ( !msDoc.GetIsVideo() )
+      if ( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.VIDEO ) )
       {
         return;
       }

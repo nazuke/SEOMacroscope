@@ -86,7 +86,7 @@ namespace SEOMacroscope
     )
     {
 
-      if( !msDoc.GetIsCss() )
+      if( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.CSS ) )
       {
         return;
       }

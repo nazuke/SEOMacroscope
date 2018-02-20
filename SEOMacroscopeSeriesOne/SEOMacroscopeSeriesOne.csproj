@@ -87,8 +87,8 @@
     <Reference Include="Fastenshtein, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Fastenshtein.1.0.0.4\lib\net40-client\Fastenshtein.dll</HintPath>
     </Reference>
-    <Reference Include="FastMember.Signed, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
-      <HintPath>..\packages\FastMember.Signed.1.2.0\lib\net45\FastMember.Signed.dll</HintPath>
+    <Reference Include="FastMember.Signed, Version=1.0.0.9, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.Signed.1.1.0\lib\net40\FastMember.Signed.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.7.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.7.0\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -199,19 +199,37 @@
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapsAudit.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapErrors.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayOrphanedPages.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvOverviewReport\t\TestMacroscopeCsvOverviewReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\MacroscopeCsvSitemapErrorsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\WorksheetSitemapErrors.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\MacroscopeCsvRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\WorksheetBlockedByRobotsExternal.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\WorksheetBlockedByRobotsInternal.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport\WorksheetOrphanedPages.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelBrokenLinksReport\t\TestMacroscopeExcelBrokenLinksReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelContactDetailsReport\t\TestMacroscopeExcelContactDetailsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelCustomFilterReport\t\TestMacroscopeExcelCustomFilterReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDataExtractorReport\t\TestMacroscopeExcelDataExtractorReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelDuplicateContent\t\TestMacroscopeExcelDuplicateContent.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelErrorsReport\t\TestMacroscopeExcelErrorsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\t\TestMacroscopeExcelExportListViewReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelKeywordAnalysisReport\t\TestMacroscopeExcelKeywordAnalysisReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelLanguagesReport\t\TestMacroscopeExcelLanguagesReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelOverviewReport\t\TestMacroscopeExcelOverviewReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageContentsReport\t\TestMacroscopeExcelPageContentsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageMetadataReport\t\TestMacroscopeExcelPageMetadataReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRedirectsReport\t\TestMacroscopeExcelRedirectsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\t\TestMacroscopeExcelRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\MacroscopeExcelSitemapsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\t\TestMacroscopeExcelSitemapsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\WorksheetSitemapsAudit.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\WorksheetSitemapXmlErrors.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\MacroscopeExcelRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\WorksheetBlockedByRobotsExternal.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\WorksheetBlockedByRobotsInternal.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport\t\TestMacroscopeExcelUriReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport\WorksheetOrphanedPages.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MaroscopeExcelRemarksReport\t\TestMaroscopeExcelRemarksReport.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClientResponse.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClient.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpImageLoader.cs" />

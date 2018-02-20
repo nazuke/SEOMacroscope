@@ -56,7 +56,7 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        if( msDoc.GetIsHtml() )
+        if( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
         {
 
           Dictionary<string,string> EmailAddresses = msDoc.GetEmailAddresses();

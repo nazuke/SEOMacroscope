@@ -104,7 +104,7 @@ namespace SEOMacroscope
 
         Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
 
-        Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
+        Assert.IsTrue( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ), string.Format( "FAIL: {0}", Url ) );
 
       }
 
@@ -143,7 +143,7 @@ namespace SEOMacroscope
 
         Assert.AreEqual( Url, msDoc.GetUrl(), string.Format( "FAIL: {0}", Url ) );
 
-        Assert.IsTrue( msDoc.GetIsText(), string.Format( "FAIL: {0}", Url ) );
+        Assert.IsTrue( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.TEXT ), string.Format( "FAIL: {0}", Url ) );
 
         /** Content Property Assertions ------------------------------------ **/
 
@@ -193,7 +193,7 @@ namespace SEOMacroscope
 
           Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
 
-          Assert.IsTrue( msDoc.GetIsHtml(), string.Format( "FAIL: {0}", Url ) );
+          Assert.IsTrue( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ), string.Format( "FAIL: {0}", Url ) );
 
           Assert.IsNotNull( msDoc.GetTitle(), string.Format( "FAIL: {0}", msDoc.GetTitle() ) );
 

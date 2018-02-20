@@ -221,7 +221,7 @@ namespace SEOMacroscope
           if ( this.DetectSitemapXmlDocument( XmlDoc ) )
           {
             DebugMsg( string.Format( "ProcessXmlPage: {0} :: {1}", "SITEMAP DETECTED", this.GetUrl() ) );
-            this.SetIsSitemapXml();
+            this.SetDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML );
             this.ProcessSitemapXmlOutlinks( XmlDoc );
           }
         }

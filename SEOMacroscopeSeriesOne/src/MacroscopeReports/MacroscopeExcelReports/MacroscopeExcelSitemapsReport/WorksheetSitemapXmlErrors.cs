@@ -73,7 +73,7 @@ namespace SEOMacroscope
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: SitemapUrl );
 
-        if ( msDoc.GetIsInternal() && msDoc.GetIsSitemapXml() )
+        if ( msDoc.GetIsInternal() && msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML ) )
         {
 
           foreach ( MacroscopeLink Outlink in msDoc.IterateOutlinks() )

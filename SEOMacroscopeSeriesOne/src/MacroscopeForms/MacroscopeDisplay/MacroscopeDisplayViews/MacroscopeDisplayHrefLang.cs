@@ -207,7 +207,7 @@ namespace SEOMacroscope
             Proceed = false;
           }
 
-          if( !msDoc.GetIsHtml() )
+          if( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
           {
             Proceed = false;
           }

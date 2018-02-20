@@ -87,7 +87,7 @@ namespace SEOMacroscope
         return;
       }
 
-      if( msDoc.GetIsHtml() )
+      if ( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
       {
 
         MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();

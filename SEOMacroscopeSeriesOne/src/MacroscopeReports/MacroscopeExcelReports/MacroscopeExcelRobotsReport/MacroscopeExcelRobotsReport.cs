@@ -44,14 +44,14 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      XLWorkbook wb = new XLWorkbook();
+      XLWorkbook Workbook = new XLWorkbook();
 
-      this.BuildWorksheetBlockedByRobotsInternal( JobMaster, wb, "Internal URLs Blocked by Robots" );
-      this.BuildWorksheetBlockedByRobotsExternal( JobMaster, wb, "External URLs Blocked by Robots" );
+      this.BuildWorksheetBlockedByRobotsInternal( JobMaster, Workbook, "Internal URLs Blocked by Robots" );
+      this.BuildWorksheetBlockedByRobotsExternal( JobMaster, Workbook, "External URLs Blocked by Robots" );
 
       try
       {
-        wb.SaveAs( OutputFilename );
+        Workbook.SaveAs( OutputFilename );
       }
       catch ( IOException )
       {

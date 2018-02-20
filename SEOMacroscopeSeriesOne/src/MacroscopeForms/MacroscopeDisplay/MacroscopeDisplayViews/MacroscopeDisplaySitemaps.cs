@@ -83,17 +83,19 @@ namespace SEOMacroscope
 
       bool Proceed = false;
 
-      if( msDoc.GetIsSitemapXml() )
+      switch ( msDoc.GetDocumentType() )
       {
-        Proceed = true;
+        case MacroscopeConstants.DocumentType.SITEMAPXML:
+          Proceed = true;
+          break;
+        case MacroscopeConstants.DocumentType.SITEMAPTEXT:
+          Proceed = true;
+          break;
+        default:
+          break;
       }
-      else
-      if( msDoc.GetIsSitemapText() )
-      {
-        Proceed = true;
-      }
-      
-      if( !Proceed )
+
+      if ( !Proceed )
       {
         return;
       }
