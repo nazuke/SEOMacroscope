@@ -16,6 +16,8 @@ The most recent installer may be found under the project releases area on GitHub
 
 > [https://github.com/nazuke/SEOMacroscope/releases](https://github.com/nazuke/SEOMacroscope/releases)
 
+It is highly recommended to uninstall the previous version of SEO Macroscope before installing a newer version.
+
 The C# solution is now being developed with Visual Studio 2017.
 
 Open the solution in Visual Studio 2017 or later, ensure that the references are satisfied, set build to **Debug**, compile and run.
@@ -68,12 +70,14 @@ More functionality will be added in the future.
 
 This project was made a lot easier by the following excellent libraries:
 
-* https://bitbucket.org/cagdas/robotstxt
 * http://htmlagilitypack.codeplex.com/
+* https://bitbucket.org/cagdas/robotstxt
 * https://github.com/SR2IT/ExCSS
-* http://www.pdfsharp.net/
 * https://github.com/ClosedXML/ClosedXML
+* https://github.com/JoshClose/CsvHelper
+* https://github.com/pdonald/language-detection
 * https://github.com/DanHarltey/Fastenshtein
+* https://itextpdf.com/
 
 For HTTP testing, the httpbin suite was very useful:
 

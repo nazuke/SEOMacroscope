@@ -180,7 +180,6 @@ namespace SEOMacroscope
 
         }
 
-
         /** Description ---------------------------------------------------- **/
 
         if ( PdfTools != null )
@@ -243,6 +242,7 @@ namespace SEOMacroscope
           if ( this.GetIsInternal() )
           {
             List<string> AnnotationOutLinks = PdfTools.GetOutLinks();
+            // TODO: Implement this:
             /*
             foreach ( string AnnotationOutLinkUrl in AnnotationOutLinks )
             {

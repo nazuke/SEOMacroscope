@@ -44,8 +44,15 @@ namespace SEOMacroscope
     }
 
     IMacroscopeProgressForm ProgressForm;
-      
+
     /**************************************************************************/
+
+    public MacroscopeCsvDuplicateContentReport ()
+    {
+      this.ProgressForm = null;
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     public MacroscopeCsvDuplicateContentReport ( IMacroscopeProgressForm ProgressFormDialogue )
     {
@@ -61,113 +68,165 @@ namespace SEOMacroscope
     )
     {
 
-      decimal MajorPercentageDivider = 1;
-
-      try
+      if ( this.ProgressForm != null )
       {
-              
-        using( StreamWriter writer = File.CreateText( OutputFilename ) )
+
+        decimal MajorPercentageDivider = 1;
+
+        try
         {
-        
-          CsvWriter ws = new CsvWriter ( writer );
-        
-          switch( SelectedOutputWorksheet )
+
+          using ( StreamWriter writer = File.CreateText( OutputFilename ) )
           {
 
-            case MacroscopeCsvDuplicateContentReport.OutputWorksheet.TITLES:
+            CsvWriter ws = new CsvWriter( writer );
 
-              this.ProgressForm.UpdatePercentages(
-                Title: "Processing Titles",
-                Message: "Identifying duplicate titles in collection:",
-                MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )1,
-                ProgressLabelMajor: "Documents Processed",
-                MinorPercentage: 0,
-                ProgressLabelMinor: "",
-                SubMinorPercentage: 0,
-                ProgressLabelSubMinor: ""
-              );
+            switch ( SelectedOutputWorksheet )
+            {
 
-              this.BuildWorksheetPageDuplicateTitles( JobMaster, ws );
+              case MacroscopeCsvDuplicateContentReport.OutputWorksheet.TITLES:
 
-              break;
-            
-            case MacroscopeCsvDuplicateContentReport.OutputWorksheet.CHECKSUMS:
+                this.ProgressForm.UpdatePercentages(
+                  Title: "Processing Titles",
+                  Message: "Identifying duplicate titles in collection:",
+                  MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) 1,
+                  ProgressLabelMajor: "Documents Processed",
+                  MinorPercentage: 0,
+                  ProgressLabelMinor: "",
+                  SubMinorPercentage: 0,
+                  ProgressLabelSubMinor: ""
+                );
 
-              this.ProgressForm.UpdatePercentages(
-                Title: "Processing Checksums",
-                Message: "Identifying duplicate checksums in collection:",
-                MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )2,
-                ProgressLabelMajor: "Documents Processed",
-                MinorPercentage: 0,
-                ProgressLabelMinor: "",
-                SubMinorPercentage: 0,
-                ProgressLabelSubMinor: ""
-              );
-      
-              this.BuildWorksheetPageDuplicateChecksums( JobMaster, ws );
+                this.BuildWorksheetPageDuplicateTitles( JobMaster, ws );
 
-              break;
+                break;
 
-            case MacroscopeCsvDuplicateContentReport.OutputWorksheet.ETAGS:
+              case MacroscopeCsvDuplicateContentReport.OutputWorksheet.CHECKSUMS:
 
-              this.ProgressForm.UpdatePercentages(
-                Title: "Processing ETags",
-                Message: "Identifying duplicate ETags in collection:",
-                MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )3,
-                ProgressLabelMajor: "Documents Processed",
-                MinorPercentage: 0,
-                ProgressLabelMinor: "",
-                SubMinorPercentage: 0,
-                ProgressLabelSubMinor: ""
-              );
-      
-              this.BuildWorksheetPageDuplicateEtags( JobMaster, ws );
+                this.ProgressForm.UpdatePercentages(
+                  Title: "Processing Checksums",
+                  Message: "Identifying duplicate checksums in collection:",
+                  MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) 2,
+                  ProgressLabelMajor: "Documents Processed",
+                  MinorPercentage: 0,
+                  ProgressLabelMinor: "",
+                  SubMinorPercentage: 0,
+                  ProgressLabelSubMinor: ""
+                );
 
-              break;
+                this.BuildWorksheetPageDuplicateChecksums( JobMaster, ws );
 
-            case MacroscopeCsvDuplicateContentReport.OutputWorksheet.PAGES:
+                break;
 
-              this.ProgressForm.UpdatePercentages(
-                Title: "Applying Levenshtein Distance",
-                Message: "Identifying duplicate documents via Levenshtein Distance in collection:",
-                MajorPercentage: ( ( decimal )100 / MajorPercentageDivider ) * ( decimal )4,
-                ProgressLabelMajor: "Documents Processed: 0",
-                MinorPercentage: 0,
-                ProgressLabelMinor: "",
-                SubMinorPercentage: 0,
-                ProgressLabelSubMinor: ""
-              );
+              case MacroscopeCsvDuplicateContentReport.OutputWorksheet.ETAGS:
 
-              this.BuildWorksheetPageDuplicatePages( JobMaster, ws );
+                this.ProgressForm.UpdatePercentages(
+                  Title: "Processing ETags",
+                  Message: "Identifying duplicate ETags in collection:",
+                  MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) 3,
+                  ProgressLabelMajor: "Documents Processed",
+                  MinorPercentage: 0,
+                  ProgressLabelMinor: "",
+                  SubMinorPercentage: 0,
+                  ProgressLabelSubMinor: ""
+                );
 
-              break;
+                this.BuildWorksheetPageDuplicateEtags( JobMaster, ws );
 
-            default:
-              break;
+                break;
+
+              case MacroscopeCsvDuplicateContentReport.OutputWorksheet.PAGES:
+
+                this.ProgressForm.UpdatePercentages(
+                  Title: "Applying Levenshtein Distance",
+                  Message: "Identifying duplicate documents via Levenshtein Distance in collection:",
+                  MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) 4,
+                  ProgressLabelMajor: "Documents Processed: 0",
+                  MinorPercentage: 0,
+                  ProgressLabelMinor: "",
+                  SubMinorPercentage: 0,
+                  ProgressLabelSubMinor: ""
+                );
+
+                this.BuildWorksheetPageDuplicatePages( JobMaster, ws );
+
+                break;
+
+              default:
+                break;
+            }
+
           }
 
         }
+        catch ( CsvHelperException )
+        {
+          MacroscopeSaveCsvFileException CannotSaveCsvFileException;
+          CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
+            string.Format( "Cannot write to CSV file at {0}", OutputFilename )
+          );
+          throw CannotSaveCsvFileException;
+        }
+        catch ( IOException )
+        {
+          MacroscopeSaveCsvFileException CannotSaveCsvFileException;
+          CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
+            string.Format( "Cannot write to CSV file at {0}", OutputFilename )
+          );
+          throw CannotSaveCsvFileException;
+        }
 
       }
-      catch( CsvHelperException )
+      else
       {
-        MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (
-          string.Format( "Cannot write to CSV file at {0}", OutputFilename )
-        );
-        throw CannotSaveCsvFileException;
-      }
-      catch( IOException )
-      {
-        MacroscopeSaveCsvFileException CannotSaveCsvFileException;
-        CannotSaveCsvFileException = new MacroscopeSaveCsvFileException (
-          string.Format( "Cannot write to CSV file at {0}", OutputFilename )
-        );
-        throw CannotSaveCsvFileException;
+
+        try
+        {
+
+          using ( StreamWriter writer = File.CreateText( OutputFilename ) )
+          {
+            CsvWriter ws = new CsvWriter( writer );
+            switch ( SelectedOutputWorksheet )
+            {
+              case MacroscopeCsvDuplicateContentReport.OutputWorksheet.TITLES:
+                this.BuildWorksheetPageDuplicateTitles( JobMaster, ws );
+                break;
+              case MacroscopeCsvDuplicateContentReport.OutputWorksheet.CHECKSUMS:
+                this.BuildWorksheetPageDuplicateChecksums( JobMaster, ws );
+                break;
+              case MacroscopeCsvDuplicateContentReport.OutputWorksheet.ETAGS:
+                this.BuildWorksheetPageDuplicateEtags( JobMaster, ws );
+                break;
+              case MacroscopeCsvDuplicateContentReport.OutputWorksheet.PAGES:
+                this.BuildWorksheetPageDuplicatePages( JobMaster, ws );
+                break;
+              default:
+                break;
+            }
+          }
+
+        }
+        catch ( CsvHelperException )
+        {
+          MacroscopeSaveCsvFileException CannotSaveCsvFileException;
+          CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
+            string.Format( "Cannot write to CSV file at {0}", OutputFilename )
+          );
+          throw CannotSaveCsvFileException;
+        }
+        catch ( IOException )
+        {
+          MacroscopeSaveCsvFileException CannotSaveCsvFileException;
+          CannotSaveCsvFileException = new MacroscopeSaveCsvFileException(
+            string.Format( "Cannot write to CSV file at {0}", OutputFilename )
+          );
+          throw CannotSaveCsvFileException;
+        }
+
       }
 
     }
-    
+
     /**************************************************************************/
 
     public void PercentageDone ( decimal Percent )

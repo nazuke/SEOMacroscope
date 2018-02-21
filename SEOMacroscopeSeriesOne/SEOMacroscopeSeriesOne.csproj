@@ -72,8 +72,8 @@
     <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
-    <Reference Include="CsvHelper, Version=6.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsvHelper.6.1.1\lib\net45\CsvHelper.dll</HintPath>
+    <Reference Include="CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.7.0.0\lib\net45\CsvHelper.dll</HintPath>
     </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.8.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.8.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
@@ -199,13 +199,26 @@
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapsAudit.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapErrors.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayOrphanedPages.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\t\TestMacroscopeCsvBrokenLinksReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvContactDetailsReport\t\TestMacroscopeCsvContactDetailsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvCustomFilterReport\t\TestMacroscopeCsvCustomFilterReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDataExtractorReport\t\TestMacroscopeCsvDataExtractorReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvDuplicateContentReport\t\TestMacroscopeCsvDuplicateContentReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvErrorsReport\t\TestMacroscopeCsvErrorsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvOverviewReport\t\TestMacroscopeCsvOverviewReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport\t\TestMacroscopeCsvPageContentsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageMetadataReport\t\TestMacroscopeCsvPageMetadataReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRedirectsReport\t\TestMacroscopeCsvRedirectsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\t\TestMacroscopeCsvRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\MacroscopeCsvSitemapErrorsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\t\TestMacroscopeCsvSitemapErrorsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\WorksheetSitemapErrors.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\MacroscopeCsvRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\WorksheetBlockedByRobotsExternal.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\WorksheetBlockedByRobotsInternal.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport\t\TestMacroscopeCsvUriReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvUriReport\WorksheetOrphanedPages.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MaroscopeCsvRemarksReport\t\TestMaroscopeCsvRemarksReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelBrokenLinksReport\t\TestMacroscopeExcelBrokenLinksReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelContactDetailsReport\t\TestMacroscopeExcelContactDetailsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelCustomFilterReport\t\TestMacroscopeExcelCustomFilterReport.cs" />
