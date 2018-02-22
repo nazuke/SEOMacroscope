@@ -630,7 +630,10 @@ namespace SEOMacroscope
         IsStopped = true;
       }
 
+
+      // TODO: This call should probably not be here:
       this.GetDocCollection().RecalculateDocCollection();
+
 
       return ( IsStopped );
 

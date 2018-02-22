@@ -95,6 +95,8 @@ namespace SEOMacroscope
 
     private MacroscopeDocumentList OrphanedDocumentList;
 
+    private List<List<MacroscopeDocument>> AnalyzedRedirectChains;
+
     private static object LockerDocCollection = new object();
     private static object LockerRecalc = new object();
 
@@ -176,6 +178,8 @@ namespace SEOMacroscope
       this.DocumentsInSitemaps = new List<MacroscopeDocumentList>( 2 );
 
       this.OrphanedDocumentList = new MacroscopeDocumentList();
+
+      this.AnalyzedRedirectChains = new List<List<MacroscopeDocument>>();
 
       this.StartRecalcTimer ();
 
@@ -797,9 +801,13 @@ namespace SEOMacroscope
 
             }
 
+            /*
             this.RecalculateAnalyzeInSitemaps();
 
             this.RecalculateOrphanedDocumentList();
+
+            this.RecalculateMacroscopeRedirectChains();
+            */
 
           }
           finally
@@ -815,6 +823,42 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    public void RecalculateDocCollectionFinal ()
+    {
+
+      lock ( LockerRecalc )
+      {
+
+        if ( Monitor.TryEnter( LockerDocCollection ) )
+        {
+
+          try
+          {
+
+            MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
+
+            this.RecalculateAnalyzeInSitemaps();
+
+            this.RecalculateOrphanedDocumentList();
+
+            this.RecalculateMacroscopeRedirectChains();
+
+          }
+          finally
+          {
+            Monitor.Exit( LockerDocCollection );
+          }
+
+          GC.Collect();
+
+        }
+
+      }
+
+    }
+    
     /** Inlinks ***************************************************************/
 
     private void RecalculateInlinks ( MacroscopeDocument msDoc )
@@ -2640,7 +2684,23 @@ namespace SEOMacroscope
     {
       return ( this.OrphanedDocumentList );
     }
+    
+    /** Analyze Redirect Chains in Collection *********************************/
 
+    private void RecalculateMacroscopeRedirectChains ()
+    {
+      MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis();
+      this.AnalyzedRedirectChains = Analyzer.AnalyzeRedirectChains( DocCollection: this );
+      return;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public List<List<MacroscopeDocument>> GetMacroscopeRedirectChains ()
+    {
+      return ( this.AnalyzedRedirectChains );
+    }
+    
     /** Search Index **********************************************************/
 
     public MacroscopeSearchIndex GetSearchIndex ()
