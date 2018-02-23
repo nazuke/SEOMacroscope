@@ -144,7 +144,7 @@ namespace SEOMacroscope
         }
       }
 
-      GC.Collect();
+      //GC.Collect();
 
     }
 

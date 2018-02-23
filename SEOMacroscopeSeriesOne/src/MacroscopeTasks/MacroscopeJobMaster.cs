@@ -149,7 +149,7 @@ namespace SEOMacroscope
     private void InitializeJobMaster ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
     {
 
-      GC.Collect();
+      //GC.Collect();
 
       /*
       {
@@ -544,28 +544,18 @@ namespace SEOMacroscope
       if ( !this.GetThreadsStop() )
       {
 
-
-
         MacroscopeJobWorker JobWorker = new MacroscopeJobWorker( JobMaster: this );
-
-
-
         this.IncRunningThreads();
 
         try
         {
-
           JobWorker.Execute();
-
         }
         catch ( OutOfMemoryException ex )
         {
-
           DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.Message ) );
           DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.StackTrace.ToString() ) );
-
           this.TaskController.ICallbackOutOfMemory();
-
         }
 
       }
@@ -606,8 +596,12 @@ namespace SEOMacroscope
       this.DecRunningThreads();
 
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
+      
+//      this.GetDocCollection().RecalculateDocCollection();
 
-      GC.Collect();
+      this.GetDocCollection().RecalculateDocCollectionFinal();
+
+      //GC.Collect();
 
     }
 
@@ -632,7 +626,7 @@ namespace SEOMacroscope
 
 
       // TODO: This call should probably not be here:
-      this.GetDocCollection().RecalculateDocCollection();
+      //this.GetDocCollection().RecalculateDocCollection();
 
 
       return ( IsStopped );

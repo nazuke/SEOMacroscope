@@ -725,9 +725,7 @@ namespace SEOMacroscope
 
               if ( this.StatsHistory.ContainsKey( UrlTarget ) )
               {
-
                 this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", UrlTarget ) );
-
               }
               else
               {
@@ -778,7 +776,6 @@ namespace SEOMacroscope
                   this.DnsLookup( msDoc: msDoc );
                 }
 
-
               }
 
               this.RecalculateSitemapErrors( msDoc: msDoc );
@@ -815,7 +812,7 @@ namespace SEOMacroscope
             Monitor.Exit( LockerDocCollection );
           }
 
-          GC.Collect();
+          //GC.Collect();
 
         }
 
@@ -851,7 +848,7 @@ namespace SEOMacroscope
             Monitor.Exit( LockerDocCollection );
           }
 
-          GC.Collect();
+          //GC.Collect();
 
         }
 
