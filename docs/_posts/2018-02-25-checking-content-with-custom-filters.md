@@ -4,7 +4,7 @@ title: "Checking content with custom filters"
 date: "2018-02-25 18:00:00 -09:00"
 published: true
 description: "Use the SEO Macroscope Custom Filters feature to verify the presence or absence of content on your pages."
-excerpt: ""
+excerpt: "Use the SEO Macroscope Custom Filters feature to verify the presence or absence of content on your pages."
 ---
 
 SEO Macroscope's **Custom Filters** feature may be used to verify the presence, or absence of snippets of text, or regular expressions in your HTML, CSS, Javascript, text, and XML pages.
