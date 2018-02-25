@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Checking content with custom filters"
-date: "2018-02-19 21:00:00 -09:00"
-published: false
-description: "Use the SEO Macroscope Custom Filter feature to verify the presence or absence of content on your pages."
+date: "2018-02-25 18:00:00 -09:00"
+published: true
+description: "Use the SEO Macroscope Custom Filters feature to verify the presence or absence of content on your pages."
 excerpt: ""
 ---
 
