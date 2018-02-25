@@ -14,7 +14,7 @@ For example, you can use Custom Filters to verify the presence of:
 
 * Specific CSS classes being used in web pages.
 * The presence of tracking tags on web pages, such as Google Analytics tags.
-* The proper removel of old code from CSS or Javascript files.
+* The proper removal of old code from CSS or Javascript files.
 * The removal of old domain names in web pages, when moving to a new domain.
 * And many more...
 
@@ -35,9 +35,17 @@ For example, to identify pages that use, or do not use Bootstrap's "lead" CSS cl
 1. Start the scan...
 1. Once the scan is complete, the results can be found in the **View -> Custom Filters** display. There are also Excel and CSV reports available under **Reports -> Custom Filters Report**.
 
+![Enter the Start URL]({{ "/media/screenshots/2018-02-25-checking-content-with-custom-filters/main-window.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }
 
-TODO: Add screenshots...
+![Configure the Custom Filters preferences]({{ "/media/screenshots/2018-02-25-checking-content-with-custom-filters/custom-filters-prefererences.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }
 
+![Configure the Custom Filters patterns]({{ "/media/screenshots/2018-02-25-checking-content-with-custom-filters/custom-filters-dialogue.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }
 
+![Configure the Custom Filters patterns]({{ "/media/screenshots/2018-02-25-checking-content-with-custom-filters/custom-filters-listview.png" | relative_url }}){: .img-responsive .box-shadow}
+{: .screenshot }
 
-TODO: Finish this article...
+To conclude, this can be a simple method to verify that your pages contain data that you expect them to.
+

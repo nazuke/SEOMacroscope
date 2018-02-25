@@ -1623,13 +1623,6 @@ namespace SEOMacroscope
     public void ProcessOutlinks ( MacroscopeDocument msDoc )
     {
 
-      bool Force = false;
-
-      if ( msDoc.GetIsInternal() )
-      {
-        Force = true;
-      }
-
       if (
         ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
         || ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )

@@ -840,7 +840,9 @@ namespace SEOMacroscope
 
             this.RecalculateOrphanedDocumentList();
 
+#if DEBUG
             this.RecalculateMacroscopeRedirectChains();
+#endif
 
           }
           finally
