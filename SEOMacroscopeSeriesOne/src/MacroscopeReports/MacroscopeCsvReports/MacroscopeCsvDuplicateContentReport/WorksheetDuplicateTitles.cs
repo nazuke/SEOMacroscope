@@ -58,10 +58,9 @@ namespace SEOMacroscope
                 
       }
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         bool Proceed = false;
 
         if( DocCount > 0 )
@@ -73,13 +72,13 @@ namespace SEOMacroscope
             MajorPercentage: -1,
             ProgressLabelMajor: string.Format( "Documents Processed: {0}", Count ),
             MinorPercentage: ( ( decimal )100 / DocCount ) * Count,
-            ProgressLabelMinor: Url,
+            ProgressLabelMinor: msDoc.GetUrl(),
             SubMinorPercentage: -1,
             ProgressLabelSubMinor: null
           );
         }
         
-        if( AllowedHosts.IsInternalUrl( Url: Url ) )
+        if( AllowedHosts.IsInternalUrl( Url: msDoc.GetUrl() ) )
         {
 
           switch ( msDoc.GetDocumentType() )

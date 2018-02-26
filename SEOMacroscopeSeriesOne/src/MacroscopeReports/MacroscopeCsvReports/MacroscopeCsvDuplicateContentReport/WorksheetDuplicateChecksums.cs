@@ -54,18 +54,17 @@ namespace SEOMacroscope
 
       DocCount = ( decimal )DocCollection.CountDocuments();
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         string Checksum = msDoc.GetChecksum();
 
         if( ( Checksum != null ) && ( Checksum.Length > 0 ) )
         {
           
-          if( !DuplicatesDocList.ContainsKey( Url ) )
+          if( !DuplicatesDocList.ContainsKey( msDoc.GetUrl() ) )
           {
-            DuplicatesDocList.Add( Url, msDoc );
+            DuplicatesDocList.Add( msDoc.GetUrl(), msDoc );
           }
 
           if( DuplicatesList.ContainsKey( Checksum ) )

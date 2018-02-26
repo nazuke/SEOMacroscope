@@ -53,19 +53,18 @@ namespace SEOMacroscope
       Dictionary<string,MacroscopeDocument> DuplicatesDocList = new Dictionary<string, MacroscopeDocument> ( DocCollection.CountDocuments() );
 
       DocCount = ( decimal )DocCollection.CountDocuments();
-            
-      foreach( string Url in DocCollection.DocumentKeys() )
+
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         string Etag = msDoc.GetEtag();
 
         if( ( Etag != null ) && ( Etag.Length > 0 ) )
         {
           
-          if( !DuplicatesDocList.ContainsKey( Url ) )
+          if( !DuplicatesDocList.ContainsKey( msDoc.GetUrl() ) )
           {
-            DuplicatesDocList.Add( Url, msDoc );
+            DuplicatesDocList.Add( msDoc.GetUrl(), msDoc );
           }
 
           if( DuplicatesList.ContainsKey( Etag ) )

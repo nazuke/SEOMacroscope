@@ -47,6 +47,7 @@ namespace SEOMacroscope
       XLWorkbook wb = new XLWorkbook ();
 
       this.BuildWorksheetPageRedirectsAudit( JobMaster, wb, "Redirects Audit" );
+      this.BuildWorksheetPageRedirectChains( JobMaster, wb, "Redirect Chains" );
 
       try
       {

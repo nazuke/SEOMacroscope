@@ -149,8 +149,6 @@ namespace SEOMacroscope
     private void InitializeJobMaster ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
     {
 
-      //GC.Collect();
-
       /*
       {
         this.JobMasterLog = new EventLog ();
@@ -597,11 +595,9 @@ namespace SEOMacroscope
 
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
       
-//      this.GetDocCollection().RecalculateDocCollection();
+      this.GetDocCollection().RecalculateDocCollection();
 
       this.GetDocCollection().RecalculateDocCollectionFinal();
-
-      //GC.Collect();
 
     }
 

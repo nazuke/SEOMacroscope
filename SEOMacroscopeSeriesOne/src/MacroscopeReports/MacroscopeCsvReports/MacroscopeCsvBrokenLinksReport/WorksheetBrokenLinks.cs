@@ -54,11 +54,10 @@ namespace SEOMacroscope
                 
       }
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( Url );
+        MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( msDoc.GetUrl() );
         int StatusCode = ( int )msDoc.GetStatusCode();
         string Status = msDoc.GetStatusCode().ToString();
           

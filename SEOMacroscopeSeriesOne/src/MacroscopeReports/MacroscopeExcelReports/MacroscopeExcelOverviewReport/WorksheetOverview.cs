@@ -132,12 +132,10 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string sKey in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         iCol = 1;
-
-        MacroscopeDocument msDoc = DocCollection.GetDocument( sKey );
 
         this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
         iCol++;

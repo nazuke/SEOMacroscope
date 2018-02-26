@@ -68,10 +68,8 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach ( string SitemapUrl in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: SitemapUrl );
 
         if ( msDoc.GetIsInternal() && msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML ) )
         {
@@ -101,9 +99,9 @@ namespace SEOMacroscope
 
               iCol = 1;
 
-              this.InsertAndFormatUrlCell( ws, iRow, iCol, SitemapUrl );
+              this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
-              if ( AllowedHosts.IsInternalUrl( Url: SitemapUrl ) )
+              if ( AllowedHosts.IsInternalUrl( Url: msDoc.GetUrl() ) )
               {
                 ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
               }

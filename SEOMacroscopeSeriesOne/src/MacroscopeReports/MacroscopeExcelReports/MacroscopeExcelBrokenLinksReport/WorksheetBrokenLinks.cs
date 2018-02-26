@@ -68,11 +68,10 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
-        MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( Url );
+        MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( msDoc.GetUrl() );
         int StatusCode = ( int )msDoc.GetStatusCode();
         string Status = msDoc.GetStatusCode().ToString();
           
@@ -135,7 +134,7 @@ namespace SEOMacroscope
 
               this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
 
-              if( AllowedHosts.IsInternalUrl( Url: Url ) )
+              if( AllowedHosts.IsInternalUrl( Url: msDoc.GetUrl() ) )
               {
                 ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
               }

@@ -45,7 +45,7 @@ namespace SEOMacroscope
       
       {
 
-        ws.WriteField( "Origin URL" );
+        ws.WriteField( "URL" );
         ws.WriteField( "Status Code" );
         ws.WriteField( "Status" );
         ws.WriteField( "Destination URL" );
@@ -54,22 +54,20 @@ namespace SEOMacroscope
                 
       }
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
 
         if( !msDoc.GetIsRedirect() )
         {
           continue;
         }
 
-        string OriginURL = msDoc.GetUrlRedirectFrom();
+        string Url = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
         string DestinationURL = msDoc.GetUrlRedirectTo();
 
-        if( string.IsNullOrEmpty( OriginURL ) )
+        if( string.IsNullOrEmpty( Url ) )
         {
           continue;
         }
@@ -79,7 +77,7 @@ namespace SEOMacroscope
           continue;
         }
 
-        this.InsertAndFormatUrlCell( ws, OriginURL );
+        this.InsertAndFormatUrlCell( ws, Url );
 
         this.InsertAndFormatContentCell( ws, StatusCode );
           

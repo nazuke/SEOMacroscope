@@ -59,7 +59,9 @@ namespace SEOMacroscope
         }
 
         RedirectChain.Add( msDocStart );
+
         Circular.Add( msDocStart.GetUrl() );
+
         msDocNext = DocCollection.GetDocument( msDocStart.GetUrlRedirectTo() );
 
         while ( msDocNext != null )

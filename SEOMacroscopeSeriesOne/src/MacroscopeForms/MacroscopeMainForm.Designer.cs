@@ -131,7 +131,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.ToolStripMenuItem hyperlinksCSVReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem uRIsCSVReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem combinedExcelReportToolStripMenuItem4;
-		private System.Windows.Forms.ToolStripMenuItem redirectsAuditCSVReportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem combinedExcelReportToolStripMenuItem5;
 		private System.Windows.Forms.ToolStripMenuItem titlesCSVReportToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem checksumsCSVReportToolStripMenuItem;
@@ -225,7 +224,6 @@ namespace SEOMacroscope
       this.redirectsExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.combinedExcelReportToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
-      this.redirectsAuditCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.brokenLinksExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.combinedExcelReportToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
@@ -319,6 +317,8 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
       this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
       this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
+      this.redirectsAuditCSVReportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+      this.redirectChainsCSVReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStripMain.SuspendLayout();
       this.tableLayoutPanelMainContainer.SuspendLayout();
       this.statusStripMain.SuspendLayout();
@@ -502,7 +502,7 @@ namespace SEOMacroscope
             this.toolStripSeparator6,
             this.clearHTTPAuthenticationToolStripMenuItem});
       this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-      this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
+      this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
       this.taskParametersToolStripMenuItem.Text = "Task Parameters";
       // 
       // includeURLPatternsToolStripMenuItem
@@ -724,7 +724,8 @@ namespace SEOMacroscope
       this.redirectsExcelReportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.combinedExcelReportToolStripMenuItem4,
             this.toolStripSeparator21,
-            this.redirectsAuditCSVReportToolStripMenuItem});
+            this.redirectsAuditCSVReportToolStripMenuItem1,
+            this.redirectChainsCSVReportToolStripMenuItem});
       this.redirectsExcelReportToolStripMenuItem.Name = "redirectsExcelReportToolStripMenuItem";
       this.redirectsExcelReportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
       this.redirectsExcelReportToolStripMenuItem.Text = "Redirects Report";
@@ -732,21 +733,14 @@ namespace SEOMacroscope
       // combinedExcelReportToolStripMenuItem4
       // 
       this.combinedExcelReportToolStripMenuItem4.Name = "combinedExcelReportToolStripMenuItem4";
-      this.combinedExcelReportToolStripMenuItem4.Size = new System.Drawing.Size(138, 22);
+      this.combinedExcelReportToolStripMenuItem4.Size = new System.Drawing.Size(218, 22);
       this.combinedExcelReportToolStripMenuItem4.Text = "Excel Report";
       this.combinedExcelReportToolStripMenuItem4.Click += new System.EventHandler(this.CallbackSaveRedirectsExcelReport);
       // 
       // toolStripSeparator21
       // 
       this.toolStripSeparator21.Name = "toolStripSeparator21";
-      this.toolStripSeparator21.Size = new System.Drawing.Size(135, 6);
-      // 
-      // redirectsAuditCSVReportToolStripMenuItem
-      // 
-      this.redirectsAuditCSVReportToolStripMenuItem.Name = "redirectsAuditCSVReportToolStripMenuItem";
-      this.redirectsAuditCSVReportToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-      this.redirectsAuditCSVReportToolStripMenuItem.Text = "CSV Report";
-      this.redirectsAuditCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveRedirectsCsvReport);
+      this.toolStripSeparator21.Size = new System.Drawing.Size(215, 6);
       // 
       // brokenLinksExcelReportToolStripMenuItem
       // 
@@ -1085,26 +1079,26 @@ namespace SEOMacroscope
       // combinedExcelReportToolStripMenuItem8
       // 
       this.combinedExcelReportToolStripMenuItem8.Name = "combinedExcelReportToolStripMenuItem8";
-      this.combinedExcelReportToolStripMenuItem8.Size = new System.Drawing.Size(243, 22);
+      this.combinedExcelReportToolStripMenuItem8.Size = new System.Drawing.Size(244, 22);
       this.combinedExcelReportToolStripMenuItem8.Text = "Combined Excel Report";
       this.combinedExcelReportToolStripMenuItem8.Click += new System.EventHandler(this.CallbackSaveContactDetailsExcelReport);
       // 
       // toolStripSeparator23
       // 
       this.toolStripSeparator23.Name = "toolStripSeparator23";
-      this.toolStripSeparator23.Size = new System.Drawing.Size(240, 6);
+      this.toolStripSeparator23.Size = new System.Drawing.Size(241, 6);
       // 
       // emailAddressesCSVReportToolStripMenuItem
       // 
       this.emailAddressesCSVReportToolStripMenuItem.Name = "emailAddressesCSVReportToolStripMenuItem";
-      this.emailAddressesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+      this.emailAddressesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
       this.emailAddressesCSVReportToolStripMenuItem.Text = "Email Addresses CSV Report";
       this.emailAddressesCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsCsvReportEmail);
       // 
       // telephoneNumbersCSVReportToolStripMenuItem
       // 
       this.telephoneNumbersCSVReportToolStripMenuItem.Name = "telephoneNumbersCSVReportToolStripMenuItem";
-      this.telephoneNumbersCSVReportToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+      this.telephoneNumbersCSVReportToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
       this.telephoneNumbersCSVReportToolStripMenuItem.Text = "Telephone Numbers CSV Report";
       this.telephoneNumbersCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsCsvReportTelephone);
       // 
@@ -1503,6 +1497,20 @@ namespace SEOMacroscope
       this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
       this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
       // 
+      // redirectsAuditCSVReportToolStripMenuItem1
+      // 
+      this.redirectsAuditCSVReportToolStripMenuItem1.Name = "redirectsAuditCSVReportToolStripMenuItem1";
+      this.redirectsAuditCSVReportToolStripMenuItem1.Size = new System.Drawing.Size(218, 22);
+      this.redirectsAuditCSVReportToolStripMenuItem1.Text = "Redirects Audit CSV Report";
+      this.redirectsAuditCSVReportToolStripMenuItem1.Click += new System.EventHandler(this.CallbackSaveRedirectsCsvReportRedirectsAudit);
+      // 
+      // redirectChainsCSVReportToolStripMenuItem
+      // 
+      this.redirectChainsCSVReportToolStripMenuItem.Name = "redirectChainsCSVReportToolStripMenuItem";
+      this.redirectChainsCSVReportToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+      this.redirectChainsCSVReportToolStripMenuItem.Text = "Redirect Chains CSV Report";
+      this.redirectChainsCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveRedirectsCsvReportRedirectChains);
+      // 
       // MacroscopeMainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1550,5 +1558,7 @@ namespace SEOMacroscope
     private System.Windows.Forms.ToolStripMenuItem cSVReportToolStripMenuItem5;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
     private System.Windows.Forms.ToolStripMenuItem orphanedPagesCSVReportToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem redirectsAuditCSVReportToolStripMenuItem1;
+    private System.Windows.Forms.ToolStripMenuItem redirectChainsCSVReportToolStripMenuItem;
   }
 }

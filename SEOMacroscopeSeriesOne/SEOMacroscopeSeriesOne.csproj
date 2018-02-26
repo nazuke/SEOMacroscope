@@ -210,6 +210,7 @@
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageContentsReport\t\TestMacroscopeCsvPageContentsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvPageMetadataReport\t\TestMacroscopeCsvPageMetadataReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRedirectsReport\t\TestMacroscopeCsvRedirectsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRedirectsReport\WorksheetRedirectChains.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvRobotsReport\t\TestMacroscopeCsvRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\MacroscopeCsvSitemapErrorsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvSitemapErrorsReport\t\TestMacroscopeCsvSitemapErrorsReport.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageContentsReport\t\TestMacroscopeExcelPageContentsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageMetadataReport\t\TestMacroscopeExcelPageMetadataReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRedirectsReport\t\TestMacroscopeExcelRedirectsReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRedirectsReport\WorksheetRedirectChains.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\t\TestMacroscopeExcelRobotsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\MacroscopeExcelSitemapsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelSitemapsReport\t\TestMacroscopeExcelSitemapsReport.cs" />

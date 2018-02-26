@@ -98,10 +98,9 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string Key in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Key );
         Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
 
         string SiteLocale = this.FormatIfMissing( msDoc.GetLocale() );

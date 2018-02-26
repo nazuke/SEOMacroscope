@@ -30,12 +30,12 @@ using ClosedXML.Excel;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeExcelLanguagesReport : MacroscopeExcelReports
+  public partial class MacroscopeExcelRedirectsReport : MacroscopeExcelReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetMissingLanguageSpecifier (
+    private void BuildWorksheetPageRedirectChains (
       MacroscopeJobMaster JobMaster,
       XLWorkbook wb,
       string WorksheetLabel
@@ -49,71 +49,62 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      
+      List<List<MacroscopeDocument>> RedirectChains = DocCollection.GetMacroscopeRedirectChains();
+
       {
-
-        ws.Cell( iRow, iCol ).Value = "URL";
+        ws.Cell( iRow, iCol ).Value = "Hop";
         iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Site Locale";
-        iCol++;
-
-        ws.Cell( iRow, iCol ).Value = "Title";
-        
-        for( int i = 1 ; i <= iCol ; i++ )
-        {
-          ws.Cell( iRow, i ).Style.Font.SetBold();
-        }
-
+        ws.Cell( iRow, iCol ).Value = "Status";
       }
-
-      iColMax = iCol;
 
       iRow++;
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach ( List<MacroscopeDocument> DocList in RedirectChains )
       {
 
-        string SiteLocale = msDoc.GetLocale();
-          
-        if(
-          AllowedHosts.IsAllowedFromUrl( msDoc.GetUrl() )
-          && string.IsNullOrEmpty( SiteLocale ) )
+        int iHop = 1;
+
+        iCol = 1;
+
+        foreach ( MacroscopeDocument msDoc in DocList )
         {
 
-          string SiteLocaleFormatted = this.FormatIfMissing( SiteLocale );
-          string Title = this.FormatIfMissing( msDoc.GetTitle() );
-        
-          iCol = 1;
+          string Url = msDoc.GetUrl();
+          string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
 
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc );
-
+          ws.Cell( 1, iCol ).Value = string.Format( "Hop {0} URL", iHop );
+          this.InsertAndFormatUrlCell( ws, iRow, iCol, Url );
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, SiteLocaleFormatted );
-
-          if( SiteLocaleFormatted == "MISSING" )
+          if ( AllowedHosts.IsInternalUrl( Url: Url ) )
           {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+          else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Gray );
           }
 
+          ws.Cell( 1, iCol ).Value = string.Format( "Hop {0} Status", iHop );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode );
           iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Title );
 
-          if( Title == "MISSING" )
-          {
-            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-          }
+          iHop++;
 
-          iRow++;
-        
         }
-        
+
+        if ( iCol > iColMax )
+        {
+          iColMax = iCol;
+        }
+
+        iRow++;
+
       }
 
+      if ( ( iRow > 1 ) && ( iColMax > 2 ) )
       {
-        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax );
+        var rangeData = ws.Range( 1, 1, iRow - 1, iColMax - 1 );
         var excelTable = rangeData.CreateTable();
       }
 

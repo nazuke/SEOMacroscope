@@ -687,8 +687,33 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
+    
+    private void CallbackSaveRedirectsCsvReportRedirectsAudit ( object sender, EventArgs e )
+    {
+      this.CallbackSaveRedirectsCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvRedirectsReport.OutputWorksheet.REDIRECTS_AUDIT,
+        OutputFilename: "Macroscope-Redirects-Audit.csv"
+      );
+    }
 
-    private void CallbackSaveRedirectsCsvReport ( object sender, EventArgs e )
+    private void CallbackSaveRedirectsCsvReportRedirectChains ( object sender, EventArgs e )
+    {
+      this.CallbackSaveRedirectsCsvReport(
+        sender: sender,
+        e: e,
+        SelectedOutputWorksheet: MacroscopeCsvRedirectsReport.OutputWorksheet.REDIRECT_CHAINS,
+        OutputFilename: "Macroscope-Redirect-Chains.csv"
+      );
+    }
+
+    private void CallbackSaveRedirectsCsvReport (
+      object sender,
+      EventArgs e,
+      MacroscopeCsvRedirectsReport.OutputWorksheet SelectedOutputWorksheet,
+      string OutputFilename
+    )
     {
 
       SaveFileDialog Dialog = new SaveFileDialog();
@@ -698,7 +723,7 @@ namespace SEOMacroscope
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "csv";
       Dialog.AddExtension = true;
-      Dialog.FileName = "Macroscope-Redirects.csv";
+      Dialog.FileName = OutputFilename;
 
       this.Enabled = false;
 
@@ -713,7 +738,7 @@ namespace SEOMacroscope
           if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
           {
             Cursor.Current = Cursors.WaitCursor;
-            CsvReport.WriteCsv( this.JobMaster, Path );
+            CsvReport.WriteCsv( this.JobMaster, SelectedOutputWorksheet, Path );
             Cursor.Current = Cursors.Default;
           }
         }

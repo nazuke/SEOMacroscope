@@ -51,7 +51,7 @@ namespace SEOMacroscope
       
       {
 
-        ws.Cell( iRow, iCol ).Value = "Origin URL";
+        ws.Cell( iRow, iCol ).Value = "URL";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Status Code";
@@ -68,25 +68,18 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
 
         if( !msDoc.GetIsRedirect() )
         {
           continue;
         }
 
-        string OriginURL = msDoc.GetUrlRedirectFrom();
+        string Url = msDoc.GetUrl();
         string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
         string DestinationURL = msDoc.GetUrlRedirectTo();
-
-        if( OriginURL == null )
-        {
-          continue;
-        }
 
         if( DestinationURL == null )
         {
@@ -95,9 +88,9 @@ namespace SEOMacroscope
 
         iCol = 1;
 
-        this.InsertAndFormatUrlCell( ws, iRow, iCol, OriginURL );
+        this.InsertAndFormatUrlCell( ws, iRow, iCol, Url );
 
-        if( AllowedHosts.IsInternalUrl( Url: OriginURL ) )
+        if( AllowedHosts.IsInternalUrl( Url: Url ) )
         {
           ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
         }

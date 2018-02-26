@@ -52,15 +52,13 @@ namespace SEOMacroscope
 
       }
 
-      foreach ( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
 
         if ( msDoc.GetIsExternal() && ( !msDoc.GetAllowedByRobots() ) )
         {
 
-          this.InsertAndFormatUrlCell( ws, Url );
+          this.InsertAndFormatUrlCell( ws, msDoc );
 
           this.InsertAndFormatRobotsCell( ws, msDoc );
 

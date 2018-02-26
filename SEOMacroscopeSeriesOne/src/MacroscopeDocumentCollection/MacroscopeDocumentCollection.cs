@@ -812,8 +812,6 @@ namespace SEOMacroscope
             Monitor.Exit( LockerDocCollection );
           }
 
-          //GC.Collect();
-
         }
 
       }
@@ -840,17 +838,13 @@ namespace SEOMacroscope
 
             this.RecalculateOrphanedDocumentList();
 
-#if DEBUG
             this.RecalculateMacroscopeRedirectChains();
-#endif
 
           }
           finally
           {
             Monitor.Exit( LockerDocCollection );
           }
-
-          //GC.Collect();
 
         }
 

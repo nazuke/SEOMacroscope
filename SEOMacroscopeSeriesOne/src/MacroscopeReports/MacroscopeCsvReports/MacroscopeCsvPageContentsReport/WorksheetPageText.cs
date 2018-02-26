@@ -57,18 +57,17 @@ namespace SEOMacroscope
 
       }
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         bool Proceed = false;
 
-        if( msDoc.GetIsExternal() )
+        if ( msDoc.GetIsExternal() )
         {
           continue;
         }
-        
-        if( msDoc.GetIsRedirect() )
+
+        if ( msDoc.GetIsRedirect() )
         {
           continue;
         }
@@ -92,23 +91,21 @@ namespace SEOMacroscope
           string PageLanguage = msDoc.GetIsoLanguageCode();
           string DetectedLanguage = msDoc.GetDocumentTextLanguage();
           int WordCount = msDoc.GetWordCount();
-          string ReadabilityGradeType = MacroscopeAnalyzeReadability.FormatAnalyzeReadabilityMethod(
-                                          ReadabilityMethod: msDoc.GetReadabilityGradeMethod()
-                                        );
+          string ReadabilityGradeType = MacroscopeAnalyzeReadability.FormatAnalyzeReadabilityMethod( ReadabilityMethod: msDoc.GetReadabilityGradeMethod() );
           string ReadabilityGrade = msDoc.GetReadabilityGrade().ToString( "00.00" );
           string ReadabilityGradeDescription = msDoc.GetReadabilityGradeDescription();
-          
-          if( string.IsNullOrEmpty( PageLocale ) )
+
+          if ( string.IsNullOrEmpty( PageLocale ) )
           {
             PageLocale = "";
           }
-        
-          if( string.IsNullOrEmpty( PageLanguage ) )
+
+          if ( string.IsNullOrEmpty( PageLanguage ) )
           {
             PageLanguage = "";
           }
-        
-          if( string.IsNullOrEmpty( DetectedLanguage ) )
+
+          if ( string.IsNullOrEmpty( DetectedLanguage ) )
           {
             DetectedLanguage = "";
           }
@@ -125,7 +122,7 @@ namespace SEOMacroscope
 
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ReadabilityGradeType ) );
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ReadabilityGrade ) );
-          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ReadabilityGradeDescription ) );          
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( ReadabilityGradeDescription ) );
 
           ws.NextRecord();
 

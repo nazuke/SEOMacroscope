@@ -53,10 +53,9 @@ namespace SEOMacroscope
         ws.NextRecord();
       }
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
         bool Proceed = false;
 
         if( msDoc.GetIsExternal() )

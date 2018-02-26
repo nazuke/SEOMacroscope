@@ -69,25 +69,20 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
-          //GC.Collect();
         }
         catch( XmlException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
-          //GC.Collect();
         }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
-          //GC.Collect();
         }
         
       }
       
       Dialog.Dispose();
 
-      //GC.Collect();
-            
     }
 
     /** -------------------------------------------------------------------- **/
@@ -126,22 +121,17 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
-          //GC.Collect();
         }
         catch( XmlException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
-          //GC.Collect();
         }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
-          //GC.Collect();
         }
         
       }
-
-      //GC.Collect();
 
       Dialog.Dispose();
 
@@ -183,12 +173,10 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
-          //GC.Collect();
         }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
-          //GC.Collect();
         }
         
       }
@@ -233,12 +221,10 @@ namespace SEOMacroscope
         catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
-          //GC.Collect();
         }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
-          //GC.Collect();
         }
         
       }

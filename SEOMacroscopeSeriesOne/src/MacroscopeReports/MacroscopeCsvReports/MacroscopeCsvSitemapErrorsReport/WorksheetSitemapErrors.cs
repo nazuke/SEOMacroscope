@@ -55,10 +55,8 @@ namespace SEOMacroscope
 
       }
 
-      foreach ( string SitemapUrl in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
-
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: SitemapUrl );
 
         if ( msDoc.GetIsInternal() && msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML ) )
         {
@@ -86,7 +84,7 @@ namespace SEOMacroscope
             if ( InsertRow )
             {
 
-              this.InsertAndFormatUrlCell( ws, SitemapUrl );
+              this.InsertAndFormatUrlCell( ws, msDoc );
 
               this.InsertAndFormatStatusCodeCell( ws, msDoc );
 

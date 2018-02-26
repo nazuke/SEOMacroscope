@@ -42,10 +42,16 @@ namespace SEOMacroscope
     {
       MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
       MacroscopeCsvRedirectsReport ReportFile = new MacroscopeCsvRedirectsReport();
-      string Filename = string.Join( ".", Path.GetTempFileName(), ".csv" );
-      ReportFile.WriteCsv( JobMaster: JobMaster, OutputFilename: Filename );
-      Assert.IsTrue( File.Exists( Filename ) );
-      File.Delete( Filename );
+      List<MacroscopeCsvRedirectsReport.OutputWorksheet> SelectedOutputWorksheets = new List<MacroscopeCsvRedirectsReport.OutputWorksheet>();
+      SelectedOutputWorksheets.Add( MacroscopeCsvRedirectsReport.OutputWorksheet.REDIRECTS_AUDIT );
+      SelectedOutputWorksheets.Add( MacroscopeCsvRedirectsReport.OutputWorksheet.REDIRECT_CHAINS );
+      foreach ( MacroscopeCsvRedirectsReport.OutputWorksheet SelectedOutputWorksheet in SelectedOutputWorksheets )
+      {
+        string Filename = string.Join( ".", Path.GetTempFileName(), ".csv" );
+        ReportFile.WriteCsv( JobMaster: JobMaster, SelectedOutputWorksheet: SelectedOutputWorksheet, OutputFilename: Filename );
+        Assert.IsTrue( File.Exists( Filename ) );
+        File.Delete( Filename );
+      }
     }
 
     /**************************************************************************/

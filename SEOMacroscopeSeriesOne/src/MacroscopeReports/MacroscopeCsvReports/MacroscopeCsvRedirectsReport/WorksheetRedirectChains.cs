@@ -30,12 +30,12 @@ using CsvHelper;
 namespace SEOMacroscope
 {
 
-  public partial class MacroscopeCsvErrorsReport : MacroscopeCsvReports
+  public partial class MacroscopeCsvRedirectsReport : MacroscopeCsvReports
   {
 
     /**************************************************************************/
 
-    private void BuildWorksheetErrors (
+    private void BuildWorksheetPageRedirectChains (
       MacroscopeJobMaster JobMaster,
       CsvWriter ws
     )
@@ -43,39 +43,40 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      
-      {
+      List<List<MacroscopeDocument>> RedirectChains = DocCollection.GetMacroscopeRedirectChains();
+      int MaxHops = 1;
 
-        ws.WriteField( "Status Code" );
-        ws.WriteField( "Status" );
-        ws.WriteField( "URL" );
-        
-        ws.NextRecord();
-        
+      foreach ( List<MacroscopeDocument> DocList in RedirectChains )
+      {
+        int iHop = 1;
+        foreach ( MacroscopeDocument msDoc in DocList )
+        {
+          iHop++;
+        }
+        if ( iHop > MaxHops )
+        {
+          MaxHops = iHop;
+        }
       }
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      for ( int iHop = 1 ; iHop < MaxHops ; iHop++ )
       {
+        ws.WriteField( string.Format( "Hop {0} URL", iHop ) );
+        ws.WriteField( string.Format( "Hop {0} Status", iHop ) );
+      }
 
-        MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( msDoc.GetUrl() );
-        int StatusCode = ( int )msDoc.GetStatusCode();
-        string Status = msDoc.GetStatusCode().ToString();
-          
-        if(
-          ( StatusCode >= 400 )
-          && ( StatusCode <= 599 ) )
+      ws.NextRecord();
+
+      foreach ( List<MacroscopeDocument> DocList in RedirectChains )
+      {
+        foreach ( MacroscopeDocument msDoc in DocList )
         {
-
-          this.InsertAndFormatContentCell( ws, StatusCode.ToString() );
-
-          this.InsertAndFormatContentCell( ws, Status );
-
-          this.InsertAndFormatUrlCell( ws, msDoc.GetUrl() );
-      
-          ws.NextRecord();
-
+          string Url = msDoc.GetUrl();
+          string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
+          this.InsertAndFormatUrlCell( ws, Url );
+          this.InsertAndFormatContentCell( ws, StatusCode );
         }
-
+        ws.NextRecord();
       }
 
     }

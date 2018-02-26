@@ -158,7 +158,6 @@ namespace SEOMacroscope
       catch ( MacroscopeInsufficientMemoryException ex )
       {
         this.DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
-        //GC.Collect();
         Thread.Yield();
       }
 

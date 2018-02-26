@@ -58,10 +58,9 @@ namespace SEOMacroscope
 
       }
 
-      foreach( string Url in DocCollection.DocumentKeys() )
+      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
         MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
 
         foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
