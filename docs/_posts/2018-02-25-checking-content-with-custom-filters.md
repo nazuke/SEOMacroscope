@@ -46,7 +46,7 @@ For example, to identify pages that use, or do not use Bootstrap's "lead" CSS cl
 
 > For the **Custom Filter 1**, set it's **Filter Action** to **Must have regex**.
 
-> Type <code>class="[^"]\*lead[^"]\*"</code> into the **Search String** field.
+> Type <code>class="[^"]*lead[^"]*"</code> into the **Search String** field.
 
 > ![Configure the Custom Filters patterns]({{ "/media/screenshots/2018-02-25-checking-content-with-custom-filters/custom-filters-dialogue.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
