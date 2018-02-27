@@ -78,7 +78,10 @@ namespace SEOMacroscope
 
       this.tableLayoutPanelRedirects.Dock = DockStyle.Fill;
       this.listViewRedirectsAudit.Dock = DockStyle.Fill;
-      
+
+      this.tableLayoutPanelRedirectChains.Dock = DockStyle.Fill;
+      this.listViewRedirectChains.Dock = DockStyle.Fill;
+
       this.tableLayoutPanelLinks.Dock = DockStyle.Fill;
       this.listViewLinks.Dock = DockStyle.Fill;
       
@@ -137,6 +140,7 @@ namespace SEOMacroscope
       this.listViewErrors.ColumnClick += this.CallbackColumnClick;
       this.listViewHostnames.ColumnClick += this.CallbackColumnClick;
       this.listViewRedirectsAudit.ColumnClick += this.CallbackColumnClick;
+      this.listViewRedirectChains.ColumnClick += this.CallbackColumnClick;
       this.listViewLinks.ColumnClick += this.CallbackColumnClick;
       this.listViewHyperlinks.ColumnClick += this.CallbackColumnClick;
       this.listViewUriAnalysis.ColumnClick += this.CallbackColumnClick;

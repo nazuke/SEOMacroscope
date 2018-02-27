@@ -67,6 +67,7 @@ namespace SEOMacroscope
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageErrors );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageHostnames );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageRedirectsAudit );
+      this.DisableTabPage( TabName: MacroscopeConstants.tabPageRedirectChains );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageLinks );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageHyperlinks );
       this.DisableTabPage( TabName: MacroscopeConstants.tabPageUriAnalysis );
@@ -116,6 +117,7 @@ namespace SEOMacroscope
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageErrors );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageHostnames );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageRedirectsAudit );
+      this.EnableTabPage( TabName: MacroscopeConstants.tabPageRedirectChains );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageLinks );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageHyperlinks );
       this.EnableTabPage( TabName: MacroscopeConstants.tabPageUriAnalysis );

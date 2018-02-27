@@ -42,7 +42,6 @@ namespace SEOMacroscope
     {
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
-      MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
       List<List<MacroscopeDocument>> RedirectChains = DocCollection.GetMacroscopeRedirectChains();
       int MaxHops = 1;
 

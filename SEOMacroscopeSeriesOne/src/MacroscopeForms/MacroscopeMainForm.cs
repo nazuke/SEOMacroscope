@@ -66,6 +66,7 @@ namespace SEOMacroscope
     MacroscopeDisplayHrefLang msDisplayHrefLang;
     MacroscopeDisplayErrors msDisplayErrors;
     MacroscopeDisplayRedirectsAudit msDisplayRedirectsAudit;
+    MacroscopeDisplayRedirectChains msDisplayRedirectChains;
 
     MacroscopeDisplayLinks msDisplayLinks;
     MacroscopeDisplayHyperlinks msDisplayHyperlinks;
@@ -334,6 +335,7 @@ namespace SEOMacroscope
       this.msDisplayErrors = new MacroscopeDisplayErrors( this, this.macroscopeOverviewTabPanelInstance.listViewErrors );
       this.msDisplayHostnames = new MacroscopeDisplayHostnames( this, this.macroscopeOverviewTabPanelInstance.listViewHostnames );
       this.msDisplayRedirectsAudit = new MacroscopeDisplayRedirectsAudit( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit );
+      this.msDisplayRedirectChains = new MacroscopeDisplayRedirectChains( this, this.macroscopeOverviewTabPanelInstance.listViewRedirectChains );
 
       this.msDisplayLinks = new MacroscopeDisplayLinks( this, this.macroscopeOverviewTabPanelInstance.listViewLinks );
       this.msDisplayHyperlinks = new MacroscopeDisplayHyperlinks( this, this.macroscopeOverviewTabPanelInstance.listViewHyperlinks );
@@ -413,6 +415,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewHrefLang.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewErrors.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewRedirectChains.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewUriAnalysis.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewOrphanedPages.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageTitles.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -1193,6 +1196,12 @@ namespace SEOMacroscope
           );
           break;
 
+        case MacroscopeConstants.tabPageRedirectChains:
+          this.msDisplayRedirectChains.RefreshDataRedirectChains(
+            DocCollection: this.JobMaster.GetDocCollection()
+          );
+          break;
+
         case MacroscopeConstants.tabPageLinks:
           this.msDisplayLinks.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
@@ -1420,6 +1429,10 @@ namespace SEOMacroscope
 
         case MacroscopeConstants.tabPageRedirectsAudit:
           CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewRedirectsAudit;
+          break;
+
+        case MacroscopeConstants.tabPageRedirectChains:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewRedirectChains;
           break;
 
         case MacroscopeConstants.tabPageLinks:
@@ -2113,6 +2126,7 @@ namespace SEOMacroscope
 
       this.msDisplayErrors.ClearData();
       this.msDisplayRedirectsAudit.ClearData();
+      this.msDisplayRedirectChains.ClearData();
 
       this.msDisplayLinks.ClearData();
       this.msDisplayHyperlinks.ClearData();
