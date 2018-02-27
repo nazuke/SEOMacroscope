@@ -122,6 +122,8 @@ namespace SEOMacroscope
     static bool ProcessVideo;
     static bool ProcessXml;
 
+    static int RedirectChainsMaxHops;
+
     static bool ScanSitesInList;
     static bool WarnAboutInsecureLinks;
 
@@ -205,7 +207,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    static MacroscopePreferencesManager ()
+    static MacroscopePreferencesManager()
     {
 
       Preferences = new MacroscopePreferences();
@@ -214,10 +216,10 @@ namespace SEOMacroscope
 
       SetDefaultValues();
 
-      if ( Preferences != null )
+      if (Preferences != null)
       {
 
-        if ( Preferences.FirstRun == true )
+        if (Preferences.FirstRun == true)
         {
 
           SetDefaultValues();
@@ -258,6 +260,7 @@ namespace SEOMacroscope
           ResolveAddresses = Preferences.ResolveAddresses;
 
           CheckHreflangs = Preferences.CheckHreflangs;
+          RedirectChainsMaxHops = Preferences.RedirectChainsMaxHops;
           ScanSitesInList = Preferences.ScanSitesInList;
           WarnAboutInsecureLinks = Preferences.WarnAboutInsecureLinks;
 
@@ -362,26 +365,26 @@ namespace SEOMacroscope
 
       ConfigureServerCertificateValidation();
 
-      DebugMsg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
-      DebugMsg( string.Format( "MacroscopePreferencesManager Depth: {0}", Depth ) );
-      DebugMsg( string.Format( "MacroscopePreferencesManager PageLimit: {0}", PageLimit ) );
+      DebugMsg(string.Format("MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl));
+      DebugMsg(string.Format("MacroscopePreferencesManager Depth: {0}", Depth));
+      DebugMsg(string.Format("MacroscopePreferencesManager PageLimit: {0}", PageLimit));
 
     }
 
     /**************************************************************************/
 
-    private static void CheckAppVersion ()
+    private static void CheckAppVersion()
     {
 
       string SavedAppVersion = Preferences.AppVersion;
       bool DoReset = false;
 
-      if ( string.IsNullOrEmpty( SavedAppVersion ) )
+      if (string.IsNullOrEmpty(SavedAppVersion))
       {
         DoReset = true;
       }
 
-      if ( DoReset )
+      if (DoReset)
       {
         SetDefaultValues();
         SavePreferences();
@@ -391,7 +394,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static void SetDefaultValues ()
+    public static void SetDefaultValues()
     {
 
       /** Display Options -------------------------------------------------- **/
@@ -406,7 +409,7 @@ namespace SEOMacroscope
 
       /** Global Server Certificate Validation ----------------------------- **/
 
-      SetServerCertificateValidation( true );
+      SetServerCertificateValidation(true);
 
       /** Spidering Control ------------------------------------------------ **/
 
@@ -465,6 +468,7 @@ namespace SEOMacroscope
 
       ResolveAddresses = false;
       CheckHreflangs = false;
+      RedirectChainsMaxHops = 10;
       ScanSitesInList = false;
       WarnAboutInsecureLinks = true;
 
@@ -551,95 +555,95 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    static void SanitizeValues ()
+    static void SanitizeValues()
     {
 
-      if ( StartUrl.Length > 0 )
+      if (StartUrl.Length > 0)
       {
-        StartUrl = Regex.Replace( StartUrl, @"^\s+", "" );
-        StartUrl = Regex.Replace( StartUrl, @"\s+$", "" );
+        StartUrl = Regex.Replace(StartUrl, @"^\s+", "");
+        StartUrl = Regex.Replace(StartUrl, @"\s+$", "");
       }
 
-      if ( Depth <= 0 )
+      if (Depth <= 0)
       {
         Depth = -1;
       }
 
-      if ( PageLimit <= 0 )
+      if (PageLimit <= 0)
       {
         PageLimit = -1;
       }
 
-      if ( RequestTimeout <= 10 )
+      if (RequestTimeout <= 10)
       {
         RequestTimeout = 10;
       }
 
-      if ( RequestTimeout >= 50 )
+      if (RequestTimeout >= 50)
       {
         RequestTimeout = 50;
       }
 
-      if ( MaxRetries <= 0 )
+      if (MaxRetries <= 0)
       {
         MaxRetries = 0;
       }
 
-      if ( MaxRetries > 10 )
+      if (MaxRetries > 10)
       {
         MaxRetries = 10;
       }
 
-      if ( CrawlDelay < 0 )
+      if (CrawlDelay < 0)
       {
         CrawlDelay = 0;
       }
 
-      if ( CrawlDelay > 60 )
+      if (CrawlDelay > 60)
       {
         CrawlDelay = 60;
       }
 
       /** Custom Filter Options -------------------------------------------- **/
 
-      if ( CustomFiltersMaxItems < 1 )
+      if (CustomFiltersMaxItems < 1)
       {
         CustomFiltersMaxItems = 1;
       }
 
-      if ( CustomFiltersMaxItems > 100 )
+      if (CustomFiltersMaxItems > 100)
       {
         CustomFiltersMaxItems = 100;
       }
 
       /** Data Extractor Options ------------------------------------------- **/
 
-      if ( DataExtractorsMaxItemsCssSelectors < 1 )
+      if (DataExtractorsMaxItemsCssSelectors < 1)
       {
         DataExtractorsMaxItemsCssSelectors = 1;
       }
 
-      if ( DataExtractorsMaxItemsCssSelectors > 100 )
+      if (DataExtractorsMaxItemsCssSelectors > 100)
       {
         DataExtractorsMaxItemsCssSelectors = 100;
       }
 
-      if ( DataExtractorsMaxItemsRegexes < 1 )
+      if (DataExtractorsMaxItemsRegexes < 1)
       {
         DataExtractorsMaxItemsRegexes = 1;
       }
 
-      if ( DataExtractorsMaxItemsRegexes > 100 )
+      if (DataExtractorsMaxItemsRegexes > 100)
       {
         DataExtractorsMaxItemsRegexes = 100;
       }
 
-      if ( DataExtractorsMaxItemsXpaths < 1 )
+      if (DataExtractorsMaxItemsXpaths < 1)
       {
         DataExtractorsMaxItemsXpaths = 1;
       }
 
-      if ( DataExtractorsMaxItemsXpaths > 100 )
+      if (DataExtractorsMaxItemsXpaths > 100)
       {
         DataExtractorsMaxItemsXpaths = 100;
       }
@@ -652,10 +656,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static void SavePreferences ()
+    public static void SavePreferences()
     {
 
-      if ( Preferences != null )
+      if (Preferences != null)
       {
 
         Preferences.PauseDisplayDuringScan = PauseDisplayDuringScan;
@@ -686,6 +690,7 @@ namespace SEOMacroscope
         Preferences.ResolveAddresses = ResolveAddresses;
 
         Preferences.CheckHreflangs = CheckHreflangs;
+        Preferences.RedirectChainsMaxHops = RedirectChainsMaxHops;
         Preferences.ScanSitesInList = ScanSitesInList;
         Preferences.WarnAboutInsecureLinks = WarnAboutInsecureLinks;
 
@@ -790,68 +795,68 @@ namespace SEOMacroscope
 
     /** Display Options *******************************************************/
 
-    public static bool GetPauseDisplayDuringScan ()
+    public static bool GetPauseDisplayDuringScan()
     {
-      return ( PauseDisplayDuringScan );
+      return (PauseDisplayDuringScan);
     }
 
-    public static void SetPauseDisplayDuringScan ( bool State )
+    public static void SetPauseDisplayDuringScan(bool State)
     {
       PauseDisplayDuringScan = State;
     }
 
-    public static bool GetShowProgressDialogues ()
+    public static bool GetShowProgressDialogues()
     {
-      return ( ShowProgressDialogues );
+      return (ShowProgressDialogues);
     }
 
-    public static void SetShowProgressDialogues ( bool State )
+    public static void SetShowProgressDialogues(bool State)
     {
       ShowProgressDialogues = State;
     }
 
     /** HTTP Proxy ************************************************************/
 
-    public static string GetHttpProxyHost ()
+    public static string GetHttpProxyHost()
     {
-      return ( HttpProxyHost );
+      return (HttpProxyHost);
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static void SetHttpProxyHost ( string Value )
+    public static void SetHttpProxyHost(string Value)
     {
       HttpProxyHost = Value;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static int GetHttpProxyPort ()
+    public static int GetHttpProxyPort()
     {
-      return ( HttpProxyPort );
+      return (HttpProxyPort);
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static void SetHttpProxyPort ( int Value )
+    public static void SetHttpProxyPort(int Value)
     {
       HttpProxyPort = Value;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static void ConfigureHttpProxy ()
+    public static void ConfigureHttpProxy()
     {
 
       string NewHttpProxyHost;
       int NewHttpProxyPort;
 
-      if ( HttpProxyHost.Length > 0 )
+      if (HttpProxyHost.Length > 0)
       {
 
         NewHttpProxyHost = HttpProxyHost;
 
-        if ( HttpProxyPort >= 0 )
+        if (HttpProxyPort >= 0)
         {
           NewHttpProxyPort = HttpProxyPort;
         }
@@ -860,15 +865,15 @@ namespace SEOMacroscope
           NewHttpProxyPort = 80;
         }
 
-        DebugMsg( string.Format( "ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort ) );
+        DebugMsg(string.Format("ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort));
 
-        wpProxy = new WebProxy( NewHttpProxyHost, NewHttpProxyPort );
+        wpProxy = new WebProxy(NewHttpProxyHost, NewHttpProxyPort);
 
       }
       else
       {
 
-        DebugMsg( string.Format( "ConfigureHttpProxy: NOT USED" ) );
+        DebugMsg(string.Format("ConfigureHttpProxy: NOT USED"));
 
         wpProxy = null;
 
@@ -878,16 +883,16 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public static WebProxy GetHttpProxy ()
+    public static WebProxy GetHttpProxy()
     {
-      return ( wpProxy );
+      return (wpProxy);
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static void EnableHttpProxy ( WinHttpHandler HttpHandler )
+    public static void EnableHttpProxy(WinHttpHandler HttpHandler)
     {
-      if ( wpProxy != null )
+      if (wpProxy != null)
       {
         HttpHandler.Proxy = wpProxy;
       }
@@ -899,14 +904,14 @@ namespace SEOMacroscope
 
     /** Global Server Certificate Validation ******************************************************/
 
-    public static bool GetServerCertificateValidation ()
+    public static bool GetServerCertificateValidation()
     {
-      return ( ServerCertificateValidation );
+      return (ServerCertificateValidation);
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static void SetServerCertificateValidation ( bool Value )
+    public static void SetServerCertificateValidation(bool Value)
     {
 
       ServerCertificateValidation = Value;
@@ -917,15 +922,15 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private static void ConfigureServerCertificateValidation ()
+    private static void ConfigureServerCertificateValidation()
     {
-      if ( ServerCertificateValidation )
+      if (ServerCertificateValidation)
       {
         ServicePointManager.ServerCertificateValidationCallback += ServerCertificateValidationCallback;
       }
       else
       {
-        if ( ServicePointManager.ServerCertificateValidationCallback != null )
+        if (ServicePointManager.ServerCertificateValidationCallback != null)
         {
           ServicePointManager.ServerCertificateValidationCallback -= ServerCertificateValidationCallback;
         }
@@ -935,984 +940,996 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private static bool ServerCertificateValidationCallback (
+    private static bool ServerCertificateValidationCallback(
       object sender,
       System.Security.Cryptography.X509Certificates.X509Certificate certificate,
       System.Security.Cryptography.X509Certificates.X509Chain chain,
       System.Net.Security.SslPolicyErrors sslPolicyErrors
     )
     {
-      return ( true );
+      return (true);
     }
 
     /** Set Starting URL ******************************************************/
 
-    public static void SetStartUrl ( string Url )
+    public static void SetStartUrl(string Url)
     {
       StartUrl = Url;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static string GetStartUrl ()
+    public static string GetStartUrl()
     {
-      return ( StartUrl );
+      return (StartUrl);
     }
 
     /**************************************************************************/
 
-    public static int GetMaxThreads ()
+    public static int GetMaxThreads()
     {
-      return ( MaxThreads );
+      return (MaxThreads);
     }
 
-    public static void SetMaxThreads ( int Max )
+    public static void SetMaxThreads(int Max)
     {
       MaxThreads = Max;
     }
 
     /**************************************************************************/
 
-    public static int GetMaxFetchesPerWorker ()
+    public static int GetMaxFetchesPerWorker()
     {
-      return ( MaxFetchesPerWorker );
+      return (MaxFetchesPerWorker);
     }
 
-    public static void SetMaxFetchesPerWorker ( int Max )
+    public static void SetMaxFetchesPerWorker(int Max)
     {
       MaxFetchesPerWorker = Max;
     }
 
     /**************************************************************************/
 
-    public static int GetDepth ()
+    public static int GetDepth()
     {
-      return ( Depth );
+      return (Depth);
     }
 
-    public static void SetDepth ( int Max )
+    public static void SetDepth(int Max)
     {
       Depth = Max;
     }
 
     /**************************************************************************/
 
-    public static int GetPageLimit ()
+    public static int GetPageLimit()
     {
-      return ( PageLimit );
+      return (PageLimit);
     }
 
-    public static void SetPageLimit ( int Max )
+    public static void SetPageLimit(int Max)
     {
       PageLimit = Max;
     }
 
     /** Request Timeout *******************************************************/
 
-    public static int GetRequestTimeout ()
+    public static int GetRequestTimeout()
     {
-      return ( RequestTimeout );
+      return (RequestTimeout);
     }
 
-    public static void SetRequestTimeout ( int Seconds )
+    public static void SetRequestTimeout(int Seconds)
     {
       RequestTimeout = Seconds;
     }
 
     /** Maximum Retries *******************************************************/
 
-    public static int GetMaxRetries ()
+    public static int GetMaxRetries()
     {
-      return ( MaxRetries );
+      return (MaxRetries);
     }
 
-    public static void SetMaxRetries ( int Retries )
+    public static void SetMaxRetries(int Retries)
     {
       MaxRetries = Retries;
     }
 
     /** Crawl Delay ***********************************************************/
 
-    public static int GetCrawlDelay ()
+    public static int GetCrawlDelay()
     {
-      return ( CrawlDelay );
+      return (CrawlDelay);
     }
 
-    public static void SetCrawlDelay ( int Seconds )
+    public static void SetCrawlDelay(int Seconds)
     {
       CrawlDelay = Seconds;
     }
 
     /** Strict URL Check ******************************************************/
 
-    public static bool GetCrawlStrictUrlCheck ()
+    public static bool GetCrawlStrictUrlCheck()
     {
-      return ( CrawlStrictUrlCheck );
+      return (CrawlStrictUrlCheck);
     }
 
-    public static void SetCrawlStrictUrlCheck ( bool State )
+    public static void SetCrawlStrictUrlCheck(bool State)
     {
       CrawlStrictUrlCheck = State;
     }
 
     /** Ignore Queries ********************************************************/
 
-    public static bool GetIgnoreQueries ()
+    public static bool GetIgnoreQueries()
     {
-      return ( IgnoreQueries );
+      return (IgnoreQueries);
     }
 
-    public static void SetIgnoreQueries ( bool State )
+    public static void SetIgnoreQueries(bool State)
     {
       IgnoreQueries = State;
     }
 
     /** Ignore Hash Fragments *************************************************/
 
-    public static bool GetIgnoreHashFragments ()
+    public static bool GetIgnoreHashFragments()
     {
-      return ( IgnoreHashFragments );
+      return (IgnoreHashFragments);
     }
 
-    public static void SetIgnoreHashFragments ( bool State )
+    public static void SetIgnoreHashFragments(bool State)
     {
       IgnoreHashFragments = State;
     }
 
     /** Domain Spidering Controls *********************************************/
 
-    public static bool GetCheckExternalLinks ()
+    public static bool GetCheckExternalLinks()
     {
-      return ( CheckExternalLinks );
+      return (CheckExternalLinks);
     }
 
-    public static void SetCheckExternalLinks ( bool State )
+    public static void SetCheckExternalLinks(bool State)
     {
       CheckExternalLinks = State;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static bool GetFetchExternalLinks ()
+    public static bool GetFetchExternalLinks()
     {
-      return ( FetchExternalLinks );
+      return (FetchExternalLinks);
     }
 
-    public static void SetFetchExternalLinks ( bool State )
+    public static void SetFetchExternalLinks(bool State)
     {
       FetchExternalLinks = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetResolveAddresses ()
+    public static bool GetResolveAddresses()
     {
-      return ( ResolveAddresses );
+      return (ResolveAddresses);
     }
 
-    public static void SetResolveAddresses ( bool State )
+    public static void SetResolveAddresses(bool State)
     {
       ResolveAddresses = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetCheckHreflangs ()
+    public static bool GetCheckHreflangs()
     {
-      return ( CheckHreflangs );
+      return (CheckHreflangs);
     }
 
-    public static void SetCheckHreflangs ( bool State )
+    public static void SetCheckHreflangs(bool State)
     {
       CheckHreflangs = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetScanSitesInList ()
+    public static int GetRedirectChainsMaxHops()
     {
-      return ( ScanSitesInList );
+      return (RedirectChainsMaxHops);
     }
 
-    public static void SetScanSitesInList ( bool State )
+    public static void SetRedirectChainsMaxHops(int Max)
+    {
+      RedirectChainsMaxHops = Max;
+    }
+
+    /**************************************************************************/
+
+    public static bool GetScanSitesInList()
+    {
+      return (ScanSitesInList);
+    }
+
+    public static void SetScanSitesInList(bool State)
     {
       ScanSitesInList = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetWarnAboutInsecureLinks ()
+    public static bool GetWarnAboutInsecureLinks()
     {
-      return ( WarnAboutInsecureLinks );
+      return (WarnAboutInsecureLinks);
     }
 
-    public static void SetWarnAboutInsecureLinks ( bool State )
+    public static void SetWarnAboutInsecureLinks(bool State)
     {
       WarnAboutInsecureLinks = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetEnableTextIndexing ()
+    public static bool GetEnableTextIndexing()
     {
-      return ( EnableTextIndexing );
+      return (EnableTextIndexing);
     }
 
-    public static void SetEnableTextIndexing ( bool State )
+    public static void SetEnableTextIndexing(bool State)
     {
       EnableTextIndexing = State;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static bool GetCaseSensitiveTextIndexing ()
+    public static bool GetCaseSensitiveTextIndexing()
     {
-      return ( CaseSensitiveTextIndexing );
+      return (CaseSensitiveTextIndexing);
     }
 
-    public static void SetCaseSensitiveTextIndexing ( bool State )
+    public static void SetCaseSensitiveTextIndexing(bool State)
     {
       CaseSensitiveTextIndexing = State;
     }
 
     /** QR Codes **************************************************************/
 
-    public static bool GetDetectQrCodeInImage ()
+    public static bool GetDetectQrCodeInImage()
     {
-      return ( DetectQrCodeInImage );
+      return (DetectQrCodeInImage);
     }
 
-    public static void SetDetectQrCodeInImage ( bool State )
+    public static void SetDetectQrCodeInImage(bool State)
     {
       DetectQrCodeInImage = State;
     }
 
     /** Levenshtein Deduplication *********************************************/
 
-    public static bool GetEnableLevenshteinDeduplication ()
+    public static bool GetEnableLevenshteinDeduplication()
     {
-      return ( EnableLevenshteinDeduplication );
+      return (EnableLevenshteinDeduplication);
     }
 
-    public static void SetEnableLevenshteinDeduplication ( bool State )
+    public static void SetEnableLevenshteinDeduplication(bool State)
     {
       EnableLevenshteinDeduplication = State;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static int GetLevenshteinAnalysisLevel ()
+    public static int GetLevenshteinAnalysisLevel()
     {
-      return ( LevenshteinAnalysisLevel );
+      return (LevenshteinAnalysisLevel);
     }
 
-    public static void SetLevenshteinAnalysisLevel ( int Level )
+    public static void SetLevenshteinAnalysisLevel(int Level)
     {
       LevenshteinAnalysisLevel = Level;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static int GetMaxLevenshteinSizeDifference ()
+    public static int GetMaxLevenshteinSizeDifference()
     {
-      return ( MaxLevenshteinSizeDifference );
+      return (MaxLevenshteinSizeDifference);
     }
 
-    public static void SetMaxLevenshteinSizeDifference ( int Max )
+    public static void SetMaxLevenshteinSizeDifference(int Max)
     {
       MaxLevenshteinSizeDifference = Max;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static int GetMaxLevenshteinDistance ()
+    public static int GetMaxLevenshteinDistance()
     {
-      return ( MaxLevenshteinDistance );
+      return (MaxLevenshteinDistance);
     }
 
-    public static void SetMaxLevenshteinDistance ( int Max )
+    public static void SetMaxLevenshteinDistance(int Max)
     {
       MaxLevenshteinDistance = Max;
     }
 
     /** Robots ****************************************************************/
 
-    public static bool GetFollowRobotsProtocol ()
+    public static bool GetFollowRobotsProtocol()
     {
-      return ( FollowRobotsProtocol );
+      return (FollowRobotsProtocol);
     }
 
-    public static void SetFollowRobotsProtocol ( bool State )
+    public static void SetFollowRobotsProtocol(bool State)
     {
       FollowRobotsProtocol = State;
     }
 
     /** Sitemap Links *********************************************************/
 
-    public static bool GetFollowSitemapLinks ()
+    public static bool GetFollowSitemapLinks()
     {
-      return ( FollowSitemapLinks );
+      return (FollowSitemapLinks);
     }
 
-    public static void SetFollowSitemapLinks ( bool State )
+    public static void SetFollowSitemapLinks(bool State)
     {
       FollowSitemapLinks = State;
     }
 
     /** Humans ****************************************************************/
 
-    public static bool GetProbeHumansText ()
+    public static bool GetProbeHumansText()
     {
-      return ( ProbeHumansText );
+      return (ProbeHumansText);
     }
 
-    public static void SetProbeHumansText ( bool State )
+    public static void SetProbeHumansText(bool State)
     {
       ProbeHumansText = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetCheckRedirects ()
+    public static bool GetCheckRedirects()
     {
-      return ( CheckRedirects );
+      return (CheckRedirects);
     }
 
-    public static void SetCheckRedirects ( bool State )
+    public static void SetCheckRedirects(bool State)
     {
       CheckRedirects = State;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static bool GetFollowRedirects ()
+    public static bool GetFollowRedirects()
     {
-      return ( FollowRedirects );
+      return (FollowRedirects);
     }
 
-    public static void SetFollowRedirects ( bool State )
+    public static void SetFollowRedirects(bool State)
     {
       FollowRedirects = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetFollowNoFollow ()
+    public static bool GetFollowNoFollow()
     {
-      return ( FollowNoFollow );
+      return (FollowNoFollow);
     }
 
-    public static void SetFollowNoFollow ( bool State )
+    public static void SetFollowNoFollow(bool State)
     {
       FollowNoFollow = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetFollowCanonicalLinks ()
+    public static bool GetFollowCanonicalLinks()
     {
-      return ( FollowCanonicalLinks );
+      return (FollowCanonicalLinks);
     }
 
-    public static void SetFollowCanonicalLinks ( bool State )
+    public static void SetFollowCanonicalLinks(bool State)
     {
       FollowCanonicalLinks = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetFollowAlternateLinks ()
+    public static bool GetFollowAlternateLinks()
     {
-      return ( FollowAlternateLinks );
+      return (FollowAlternateLinks);
     }
 
-    public static void SetFollowAlternateLinks ( bool State )
+    public static void SetFollowAlternateLinks(bool State)
     {
       FollowAlternateLinks = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetFollowHrefLangLinks ()
+    public static bool GetFollowHrefLangLinks()
     {
-      return ( FollowHrefLangLinks );
+      return (FollowHrefLangLinks);
     }
 
-    public static void SetFollowHrefLangLinks ( bool State )
+    public static void SetFollowHrefLangLinks(bool State)
     {
       FollowHrefLangLinks = State;
     }
 
     /**************************************************************************/
 
-    public static bool GetFollowListLinks ()
+    public static bool GetFollowListLinks()
     {
-      return ( FollowListLinks );
+      return (FollowListLinks);
     }
 
-    public static void SetFollowListLinks ( bool State )
+    public static void SetFollowListLinks(bool State)
     {
       FollowListLinks = State;
     }
 
     /** CRAWL DOCUMENT TYPES **************************************************/
 
-    public static bool GetFetchStylesheets ()
+    public static bool GetFetchStylesheets()
     {
-      return ( FetchStylesheets );
+      return (FetchStylesheets);
     }
 
-    public static void SetFetchStylesheets ( bool State )
+    public static void SetFetchStylesheets(bool State)
     {
       FetchStylesheets = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetFetchJavascripts ()
+    public static bool GetFetchJavascripts()
     {
-      return ( FetchJavascripts );
+      return (FetchJavascripts);
     }
 
-    public static void SetFetchJavascripts ( bool State )
+    public static void SetFetchJavascripts(bool State)
     {
       FetchJavascripts = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetFetchImages ()
+    public static bool GetFetchImages()
     {
-      return ( FetchImages );
+      return (FetchImages);
     }
 
-    public static void SetFetchImages ( bool State )
+    public static void SetFetchImages(bool State)
     {
       FetchImages = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetFetchAudio ()
+    public static bool GetFetchAudio()
     {
-      return ( FetchAudio );
+      return (FetchAudio);
     }
 
-    public static void SetFetchAudio ( bool State )
+    public static void SetFetchAudio(bool State)
     {
       FetchAudio = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetFetchVideo ()
+    public static bool GetFetchVideo()
     {
-      return ( FetchVideo );
+      return (FetchVideo);
     }
 
-    public static void SetFetchVideo ( bool State )
+    public static void SetFetchVideo(bool State)
     {
       FetchVideo = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetFetchXml ()
+    public static bool GetFetchXml()
     {
-      return ( FetchXml );
+      return (FetchXml);
     }
 
-    public static void SetFetchXml ( bool State )
+    public static void SetFetchXml(bool State)
     {
       FetchXml = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetFetchBinaries ()
+    public static bool GetFetchBinaries()
     {
-      return ( FetchBinaries );
+      return (FetchBinaries);
     }
 
-    public static void SetFetchBinaries ( bool State )
+    public static void SetFetchBinaries(bool State)
     {
       FetchBinaries = State;
     }
 
     /** PROCESS DOCUMENT TYPES ************************************************/
 
-    public static bool GetProcessAudio ()
+    public static bool GetProcessAudio()
     {
-      return ( ProcessAudio );
+      return (ProcessAudio);
     }
 
-    public static void SetProcessAudio ( bool State )
+    public static void SetProcessAudio(bool State)
     {
       ProcessAudio = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetProcessBinaries ()
+    public static bool GetProcessBinaries()
     {
-      return ( ProcessBinaries );
+      return (ProcessBinaries);
     }
 
-    public static void SetProcessBinaries ( bool State )
+    public static void SetProcessBinaries(bool State)
     {
       ProcessBinaries = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetProcessImages ()
+    public static bool GetProcessImages()
     {
-      return ( ProcessImages );
+      return (ProcessImages);
     }
 
-    public static void SetProcessImages ( bool State )
+    public static void SetProcessImages(bool State)
     {
       ProcessImages = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetProcessJavascripts ()
+    public static bool GetProcessJavascripts()
     {
-      return ( ProcessJavascripts );
+      return (ProcessJavascripts);
     }
 
-    public static void SetProcessJavascripts ( bool State )
+    public static void SetProcessJavascripts(bool State)
     {
       ProcessJavascripts = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetProcessPdfs ()
+    public static bool GetProcessPdfs()
     {
-      return ( ProcessPdfs );
+      return (ProcessPdfs);
     }
 
-    public static void SetProcessPdfs ( bool State )
+    public static void SetProcessPdfs(bool State)
     {
       ProcessPdfs = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetProcessStylesheets ()
+    public static bool GetProcessStylesheets()
     {
-      return ( ProcessStylesheets );
+      return (ProcessStylesheets);
     }
 
-    public static void SetProcessStylesheets ( bool State )
+    public static void SetProcessStylesheets(bool State)
     {
       ProcessStylesheets = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetProcessVideo ()
+    public static bool GetProcessVideo()
     {
-      return ( ProcessVideo );
+      return (ProcessVideo);
     }
 
-    public static void SetProcessVideo ( bool State )
+    public static void SetProcessVideo(bool State)
     {
       ProcessVideo = State;
     }
 
     /** -------------------------------------------------------------------  **/
 
-    public static bool GetProcessXml ()
+    public static bool GetProcessXml()
     {
-      return ( ProcessXml );
+      return (ProcessXml);
     }
 
-    public static void SetProcessXml ( bool State )
+    public static void SetProcessXml(bool State)
     {
       ProcessXml = State;
     }
 
     /** Per-Job Spidering Options *********************************************/
 
-    public static bool GetCrawlParentDirectories ()
+    public static bool GetCrawlParentDirectories()
     {
-      return ( CrawlParentDirectories );
+      return (CrawlParentDirectories);
     }
 
-    public static void SetCrawlParentDirectories ( bool State )
+    public static void SetCrawlParentDirectories(bool State)
     {
       CrawlParentDirectories = State;
     }
 
-    public static bool GetCrawlChildDirectories ()
+    public static bool GetCrawlChildDirectories()
     {
-      return ( CrawlChildDirectories );
+      return (CrawlChildDirectories);
     }
 
-    public static void SetCrawlChildDirectories ( bool State )
+    public static void SetCrawlChildDirectories(bool State)
     {
       CrawlChildDirectories = State;
     }
 
     /** SEO Options ***********************************************************/
 
-    public static int GetTitleMinLen ()
+    public static int GetTitleMinLen()
     {
-      return ( TitleMinLen );
+      return (TitleMinLen);
     }
 
-    public static void SetTitleMinLen ( int Length )
+    public static void SetTitleMinLen(int Length)
     {
       TitleMinLen = Length;
     }
 
-    public static int GetTitleMaxLen ()
+    public static int GetTitleMaxLen()
     {
-      return ( TitleMaxLen );
+      return (TitleMaxLen);
     }
 
-    public static void SetTitleMaxLen ( int Length )
+    public static void SetTitleMaxLen(int Length)
     {
       TitleMaxLen = Length;
     }
 
-    public static int GetTitleMinWords ()
+    public static int GetTitleMinWords()
     {
-      return ( TitleMinWords );
+      return (TitleMinWords);
     }
 
-    public static void SetTitleMinWords ( int Min )
+    public static void SetTitleMinWords(int Min)
     {
       TitleMinWords = Min;
     }
 
-    public static int GetTitleMaxWords ()
+    public static int GetTitleMaxWords()
     {
-      return ( TitleMaxWords );
+      return (TitleMaxWords);
     }
 
-    public static void SetTitleMaxWords ( int Max )
+    public static void SetTitleMaxWords(int Max)
     {
       TitleMaxWords = Max;
     }
 
-    public static int GetTitleMaxPixelWidth ()
+    public static int GetTitleMaxPixelWidth()
     {
-      return ( TitleMaxPixelWidth );
+      return (TitleMaxPixelWidth);
     }
 
-    public static void SetTitleMaxPixelWidth ( int Max )
+    public static void SetTitleMaxPixelWidth(int Max)
     {
       TitleMaxPixelWidth = Max;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static int GetDescriptionMinLen ()
+    public static int GetDescriptionMinLen()
     {
-      return ( DescriptionMinLen );
+      return (DescriptionMinLen);
     }
 
-    public static void SetDescriptionMinLen ( int Length )
+    public static void SetDescriptionMinLen(int Length)
     {
       DescriptionMinLen = Length;
     }
 
-    public static int GetDescriptionMaxLen ()
+    public static int GetDescriptionMaxLen()
     {
-      return ( DescriptionMaxLen );
+      return (DescriptionMaxLen);
     }
 
-    public static void SetDescriptionMaxLen ( int Length )
+    public static void SetDescriptionMaxLen(int Length)
     {
       DescriptionMaxLen = Length;
     }
 
-    public static int GetDescriptionMinWords ()
+    public static int GetDescriptionMinWords()
     {
-      return ( DescriptionMinWords );
+      return (DescriptionMinWords);
     }
 
-    public static void SetDescriptionMinWords ( int Min )
+    public static void SetDescriptionMinWords(int Min)
     {
       DescriptionMinWords = Min;
     }
 
-    public static int GetDescriptionMaxWords ()
+    public static int GetDescriptionMaxWords()
     {
-      return ( DescriptionMaxWords );
+      return (DescriptionMaxWords);
     }
 
-    public static void SetDescriptionMaxWords ( int Max )
+    public static void SetDescriptionMaxWords(int Max)
     {
       DescriptionMaxWords = Max;
     }
 
-    public static ushort GetMaxHeadingDepth ()
+    public static ushort GetMaxHeadingDepth()
     {
-      return ( MaxHeadingDepth );
+      return (MaxHeadingDepth);
     }
 
-    public static void SetMaxHeadingDepth ( ushort Depth )
+    public static void SetMaxHeadingDepth(ushort Depth)
     {
       MaxHeadingDepth = Depth;
     }
 
-    public static bool GetAnalyzeKeywordsInText ()
+    public static bool GetAnalyzeKeywordsInText()
     {
-      return ( AnalyzeKeywordsInText );
+      return (AnalyzeKeywordsInText);
     }
 
-    public static void SetAnalyzeKeywordsInText ( bool State )
+    public static void SetAnalyzeKeywordsInText(bool State)
     {
       AnalyzeKeywordsInText = State;
     }
 
     /* Readability Options -------------------------------------------------- */
 
-    public static bool GetAnalyzeTextReadability ()
+    public static bool GetAnalyzeTextReadability()
     {
-      return ( AnalyzeTextReadability );
+      return (AnalyzeTextReadability);
     }
 
-    public static void SetAnalyzeTextReadability ( bool State )
+    public static void SetAnalyzeTextReadability(bool State)
     {
       AnalyzeTextReadability = State;
     }
 
-    public static MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm GetAnalyzeTextReadabilityEnglishAlgorithm ()
+    public static MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm GetAnalyzeTextReadabilityEnglishAlgorithm()
     {
-      return ( (MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm) AnalyzeTextReadabilityEnglishAlgorithm );
+      return ((MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm)AnalyzeTextReadabilityEnglishAlgorithm);
     }
 
-    public static void SetAnalyzeTextReadabilityEnglishAlgorithm ( MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm Selected )
+    public static void SetAnalyzeTextReadabilityEnglishAlgorithm(MacroscopeAnalyzeReadability.AnalyzeReadabilityEnglishAlgorithm Selected)
     {
-      AnalyzeTextReadabilityEnglishAlgorithm = (int) Selected;
+      AnalyzeTextReadabilityEnglishAlgorithm = (int)Selected;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static bool GetDetectLanguage ()
+    public static bool GetDetectLanguage()
     {
-      return ( DetectLanguage );
+      return (DetectLanguage);
     }
 
-    public static void SetDetectLanguage ( bool Enabled )
+    public static void SetDetectLanguage(bool Enabled)
     {
       DetectLanguage = Enabled;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static bool GetAnalyzeClickPaths ()
+    public static bool GetAnalyzeClickPaths()
     {
-      return ( AnalyzeClickPaths );
+      return (AnalyzeClickPaths);
     }
 
-    public static void SetAnalyzeClickPaths ( bool Enabled )
+    public static void SetAnalyzeClickPaths(bool Enabled)
     {
       AnalyzeClickPaths = Enabled;
     }
 
     /** Custom Filter Options *************************************************/
 
-    public static bool GetCustomFiltersEnable ()
+    public static bool GetCustomFiltersEnable()
     {
-      return ( CustomFiltersEnable );
+      return (CustomFiltersEnable);
     }
 
-    public static void SetCustomFiltersEnable ( bool State )
+    public static void SetCustomFiltersEnable(bool State)
     {
       CustomFiltersEnable = State;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static int GetCustomFiltersMaxItems ()
+    public static int GetCustomFiltersMaxItems()
     {
-      return ( CustomFiltersMaxItems );
+      return (CustomFiltersMaxItems);
     }
 
-    public static void SetCustomFiltersMaxItems ( int Max )
+    public static void SetCustomFiltersMaxItems(int Max)
     {
       CustomFiltersMaxItems = Max;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static bool GetCustomFiltersApplyToHtml ()
+    public static bool GetCustomFiltersApplyToHtml()
     {
-      return ( CustomFiltersApplyToHtml );
+      return (CustomFiltersApplyToHtml);
     }
 
-    public static void SetCustomFiltersApplyToHtml ( bool State )
+    public static void SetCustomFiltersApplyToHtml(bool State)
     {
       CustomFiltersApplyToHtml = State;
     }
 
-    public static bool GetCustomFiltersApplyToCss ()
+    public static bool GetCustomFiltersApplyToCss()
     {
-      return ( CustomFiltersApplyToCss );
+      return (CustomFiltersApplyToCss);
     }
 
-    public static void SetCustomFiltersApplyToCss ( bool State )
+    public static void SetCustomFiltersApplyToCss(bool State)
     {
       CustomFiltersApplyToCss = State;
     }
 
-    public static bool GetCustomFiltersApplyToJavascripts ()
+    public static bool GetCustomFiltersApplyToJavascripts()
     {
-      return ( CustomFiltersApplyToJavascripts );
+      return (CustomFiltersApplyToJavascripts);
     }
 
-    public static void SetCustomFiltersApplyToJavascripts ( bool State )
+    public static void SetCustomFiltersApplyToJavascripts(bool State)
     {
       CustomFiltersApplyToJavascripts = State;
     }
 
-    public static bool GetCustomFiltersApplyToText ()
+    public static bool GetCustomFiltersApplyToText()
     {
-      return ( CustomFiltersApplyToText );
+      return (CustomFiltersApplyToText);
     }
 
-    public static void SetCustomFiltersApplyToText ( bool State )
+    public static void SetCustomFiltersApplyToText(bool State)
     {
       CustomFiltersApplyToText = State;
     }
 
-    public static bool GetCustomFiltersApplyToXml ()
+    public static bool GetCustomFiltersApplyToXml()
     {
-      return ( CustomFiltersApplyToXml );
+      return (CustomFiltersApplyToXml);
     }
 
-    public static void SetCustomFiltersApplyToXml ( bool State )
+    public static void SetCustomFiltersApplyToXml(bool State)
     {
       CustomFiltersApplyToXml = State;
     }
 
     /** Data Extractor Options ************************************************/
 
-    public static bool GetDataExtractorsEnable ()
+    public static bool GetDataExtractorsEnable()
     {
-      return ( DataExtractorsEnable );
+      return (DataExtractorsEnable);
     }
 
-    public static void SetDataExtractorsEnable ( bool State )
+    public static void SetDataExtractorsEnable(bool State)
     {
       DataExtractorsEnable = State;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static bool GetDataExtractorsCleanWhiteSpace ()
+    public static bool GetDataExtractorsCleanWhiteSpace()
     {
-      return ( DataExtractorsCleanWhiteSpace );
+      return (DataExtractorsCleanWhiteSpace);
     }
 
-    public static void SetDataExtractorsCleanWhiteSpace ( bool State )
+    public static void SetDataExtractorsCleanWhiteSpace(bool State)
     {
       DataExtractorsCleanWhiteSpace = State;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static int GetDataExtractorsMaxItemsCssSelectors ()
+    public static int GetDataExtractorsMaxItemsCssSelectors()
     {
-      return ( DataExtractorsMaxItemsCssSelectors );
+      return (DataExtractorsMaxItemsCssSelectors);
     }
 
-    public static void SetDataExtractorsMaxItemsCssSelectors ( int Max )
+    public static void SetDataExtractorsMaxItemsCssSelectors(int Max)
     {
       DataExtractorsMaxItemsCssSelectors = Max;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static int GetDataExtractorsMaxItemsRegexes ()
+    public static int GetDataExtractorsMaxItemsRegexes()
     {
-      return ( DataExtractorsMaxItemsRegexes );
+      return (DataExtractorsMaxItemsRegexes);
     }
 
-    public static void SetDataExtractorsMaxItemsRegexes ( int Max )
+    public static void SetDataExtractorsMaxItemsRegexes(int Max)
     {
       DataExtractorsMaxItemsRegexes = Max;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static int GetDataExtractorsMaxItemsXpaths ()
+    public static int GetDataExtractorsMaxItemsXpaths()
     {
-      return ( DataExtractorsMaxItemsXpaths );
+      return (DataExtractorsMaxItemsXpaths);
     }
 
-    public static void SetDataExtractorsMaxItemsXpaths ( int Max )
+    public static void SetDataExtractorsMaxItemsXpaths(int Max)
     {
       DataExtractorsMaxItemsXpaths = Max;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    public static bool GetDataExtractorsApplyToHtml ()
+    public static bool GetDataExtractorsApplyToHtml()
     {
-      return ( DataExtractorsApplyToHtml );
+      return (DataExtractorsApplyToHtml);
     }
 
-    public static void SetDataExtractorsApplyToHtml ( bool State )
+    public static void SetDataExtractorsApplyToHtml(bool State)
     {
       DataExtractorsApplyToHtml = State;
     }
 
-    public static bool GetDataExtractorsApplyToCss ()
+    public static bool GetDataExtractorsApplyToCss()
     {
-      return ( DataExtractorsApplyToCss );
+      return (DataExtractorsApplyToCss);
     }
 
-    public static void SetDataExtractorsApplyToCss ( bool State )
+    public static void SetDataExtractorsApplyToCss(bool State)
     {
       DataExtractorsApplyToCss = State;
     }
 
-    public static bool GetDataExtractorsApplyToJavascripts ()
+    public static bool GetDataExtractorsApplyToJavascripts()
     {
-      return ( DataExtractorsApplyToJavascripts );
+      return (DataExtractorsApplyToJavascripts);
     }
 
-    public static void SetDataExtractorsApplyToJavascripts ( bool State )
+    public static void SetDataExtractorsApplyToJavascripts(bool State)
     {
       DataExtractorsApplyToJavascripts = State;
     }
 
-    public static bool GetDataExtractorsApplyToText ()
+    public static bool GetDataExtractorsApplyToText()
     {
-      return ( DataExtractorsApplyToText );
+      return (DataExtractorsApplyToText);
     }
 
-    public static void SetDataExtractorsApplyToText ( bool State )
+    public static void SetDataExtractorsApplyToText(bool State)
     {
       DataExtractorsApplyToText = State;
     }
 
-    public static bool GetDataExtractorsApplyToXml ()
+    public static bool GetDataExtractorsApplyToXml()
     {
-      return ( DataExtractorsApplyToXml );
+      return (DataExtractorsApplyToXml);
     }
 
-    public static void SetDataExtractorsApplyToXml ( bool State )
+    public static void SetDataExtractorsApplyToXml(bool State)
     {
       DataExtractorsApplyToXml = State;
     }
 
     /** Export Options ********************************************************/
 
-    public static bool GetSitemapIncludeLinkedPdfs ()
+    public static bool GetSitemapIncludeLinkedPdfs()
     {
-      return ( SitemapIncludeLinkedPdfs );
+      return (SitemapIncludeLinkedPdfs);
     }
 
-    public static void SetSitemapIncludeLinkedPdfs ( bool State )
+    public static void SetSitemapIncludeLinkedPdfs(bool State)
     {
       SitemapIncludeLinkedPdfs = State;
     }
@@ -1920,82 +1937,82 @@ namespace SEOMacroscope
     /** Disregard Html5 Elements Settings *************************************/
 
 
-    public static bool GetDisregardHtml5ElementNav ()
+    public static bool GetDisregardHtml5ElementNav()
     {
-      return ( DisregardHtml5ElementNav );
+      return (DisregardHtml5ElementNav);
     }
 
-    public static void SetDisregardHtml5ElementNav ( bool State )
+    public static void SetDisregardHtml5ElementNav(bool State)
     {
       DisregardHtml5ElementNav = State;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static bool GetDisregardHtml5ElementHeader ()
+    public static bool GetDisregardHtml5ElementHeader()
     {
-      return ( DisregardHtml5ElementHeader );
+      return (DisregardHtml5ElementHeader);
     }
 
-    public static void SetDisregardHtml5ElementHeader ( bool State )
+    public static void SetDisregardHtml5ElementHeader(bool State)
     {
       DisregardHtml5ElementHeader = State;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static bool GetDisregardHtml5ElementFooter ()
+    public static bool GetDisregardHtml5ElementFooter()
     {
-      return ( DisregardHtml5ElementFooter );
+      return (DisregardHtml5ElementFooter);
     }
 
-    public static void SetDisregardHtml5ElementFooter ( bool State )
+    public static void SetDisregardHtml5ElementFooter(bool State)
     {
       DisregardHtml5ElementFooter = State;
     }
 
     /** Ignore Errors Settings ************************************************/
 
-    public static bool GetIgnoreErrors410 ()
+    public static bool GetIgnoreErrors410()
     {
-      return ( IgnoreErrors410 );
+      return (IgnoreErrors410);
     }
 
-    public static void SetIgnoreErrors410 ( bool State )
+    public static void SetIgnoreErrors410(bool State)
     {
       IgnoreErrors410 = State;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public static bool GetIgnoreErrors451 ()
+    public static bool GetIgnoreErrors451()
     {
-      return ( IgnoreErrors451 );
+      return (IgnoreErrors451);
     }
 
-    public static void SetIgnoreErrors451 ( bool State )
+    public static void SetIgnoreErrors451(bool State)
     {
       IgnoreErrors451 = State;
     }
 
     /** Advanced Settings *****************************************************/
 
-    public static bool GetEnableMemoryGuard ()
+    public static bool GetEnableMemoryGuard()
     {
-      return ( EnableMemoryGuard );
+      return (EnableMemoryGuard);
     }
 
-    public static void SetEnableMemoryGuard ( bool State )
+    public static void SetEnableMemoryGuard(bool State)
     {
       EnableMemoryGuard = State;
     }
 
     /**************************************************************************/
 
-    [Conditional( "DEVMODE" )]
-    static void DebugMsg ( String Msg )
+    [Conditional("DEVMODE")]
+    static void DebugMsg(String Msg)
     {
-      System.Diagnostics.Debug.WriteLine( Msg );
+      System.Diagnostics.Debug.WriteLine(Msg);
     }
 
     /**************************************************************************/

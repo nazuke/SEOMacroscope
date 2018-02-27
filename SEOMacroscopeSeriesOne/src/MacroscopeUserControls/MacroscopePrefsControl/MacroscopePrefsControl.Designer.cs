@@ -211,6 +211,7 @@ namespace SEOMacroscope
       this.tabPageSpideringControl = new System.Windows.Forms.TabPage();
       this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox5 = new System.Windows.Forms.GroupBox();
+      this.checkBoxProbeHumansText = new System.Windows.Forms.CheckBox();
       this.checkBoxFollowRobotsProtocol = new System.Windows.Forms.CheckBox();
       this.checkBoxFollowSitemapLinks = new System.Windows.Forms.CheckBox();
       this.groupBox10 = new System.Windows.Forms.GroupBox();
@@ -371,7 +372,9 @@ namespace SEOMacroscope
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-      this.checkBoxProbeHumansText = new System.Windows.Forms.CheckBox();
+      this.groupBox32 = new System.Windows.Forms.GroupBox();
+      this.label26 = new System.Windows.Forms.Label();
+      this.numericUpDownRedirectChainsMaxHops = new System.Windows.Forms.NumericUpDown();
       label9 = new System.Windows.Forms.Label();
       label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
@@ -448,6 +451,8 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.SuspendLayout();
       this.flowLayoutPanel7.SuspendLayout();
       this.groupBox19.SuspendLayout();
+      this.groupBox32.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRedirectChainsMaxHops)).BeginInit();
       this.SuspendLayout();
       // 
       // label9
@@ -527,6 +532,15 @@ namespace SEOMacroscope
       this.groupBox5.TabIndex = 1;
       this.groupBox5.TabStop = false;
       this.groupBox5.Text = "Standards";
+      // 
+      // checkBoxProbeHumansText
+      // 
+      this.checkBoxProbeHumansText.Location = new System.Drawing.Point(340, 20);
+      this.checkBoxProbeHumansText.Name = "checkBoxProbeHumansText";
+      this.checkBoxProbeHumansText.Size = new System.Drawing.Size(150, 24);
+      this.checkBoxProbeHumansText.TabIndex = 3;
+      this.checkBoxProbeHumansText.Text = "Probe for humans.txt";
+      this.checkBoxProbeHumansText.UseVisualStyleBackColor = true;
       // 
       // checkBoxFollowRobotsProtocol
       // 
@@ -992,6 +1006,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel3.Controls.Add(this.groupBox18);
       this.flowLayoutPanel3.Controls.Add(this.groupBox6);
       this.flowLayoutPanel3.Controls.Add(this.groupBox16);
+      this.flowLayoutPanel3.Controls.Add(this.groupBox32);
       this.flowLayoutPanel3.Controls.Add(this.groupBox11);
       this.flowLayoutPanel3.Controls.Add(this.groupBox27);
       this.flowLayoutPanel3.Controls.Add(this.groupBox30);
@@ -1151,11 +1166,11 @@ namespace SEOMacroscope
       // 
       this.groupBox11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox11.Controls.Add(this.checkBoxScanSitesInList);
-      this.groupBox11.Location = new System.Drawing.Point(10, 280);
+      this.groupBox11.Location = new System.Drawing.Point(10, 350);
       this.groupBox11.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox11.Name = "groupBox11";
       this.groupBox11.Size = new System.Drawing.Size(500, 60);
-      this.groupBox11.TabIndex = 4;
+      this.groupBox11.TabIndex = 5;
       this.groupBox11.TabStop = false;
       this.groupBox11.Text = "List File Processing";
       // 
@@ -1173,11 +1188,11 @@ namespace SEOMacroscope
       this.groupBox27.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox27.Controls.Add(this.checkBoxCaseSensitiveTextIndexing);
       this.groupBox27.Controls.Add(this.checkBoxEnableTextIndexing);
-      this.groupBox27.Location = new System.Drawing.Point(10, 350);
+      this.groupBox27.Location = new System.Drawing.Point(10, 420);
       this.groupBox27.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox27.Name = "groupBox27";
       this.groupBox27.Size = new System.Drawing.Size(500, 60);
-      this.groupBox27.TabIndex = 5;
+      this.groupBox27.TabIndex = 6;
       this.groupBox27.TabStop = false;
       this.groupBox27.Text = "Search Index";
       // 
@@ -1205,11 +1220,11 @@ namespace SEOMacroscope
       this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementFooter);
       this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementHeader);
       this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementNav);
-      this.groupBox30.Location = new System.Drawing.Point(10, 420);
+      this.groupBox30.Location = new System.Drawing.Point(10, 490);
       this.groupBox30.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox30.Name = "groupBox30";
       this.groupBox30.Size = new System.Drawing.Size(500, 60);
-      this.groupBox30.TabIndex = 6;
+      this.groupBox30.TabIndex = 7;
       this.groupBox30.TabStop = false;
       this.groupBox30.Text = "Disregard Text in HTML5 Elements";
       // 
@@ -1244,11 +1259,11 @@ namespace SEOMacroscope
       // 
       this.groupBox13.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox13.Controls.Add(this.checkBoxWarnAboutInsecureLinks);
-      this.groupBox13.Location = new System.Drawing.Point(10, 490);
+      this.groupBox13.Location = new System.Drawing.Point(10, 560);
       this.groupBox13.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox13.Name = "groupBox13";
       this.groupBox13.Size = new System.Drawing.Size(500, 60);
-      this.groupBox13.TabIndex = 7;
+      this.groupBox13.TabIndex = 8;
       this.groupBox13.TabStop = false;
       this.groupBox13.Text = "Page Fault Analysis";
       // 
@@ -1265,11 +1280,11 @@ namespace SEOMacroscope
       // 
       this.groupBox31.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox31.Controls.Add(this.checkBoxDetectQrCodeInImage);
-      this.groupBox31.Location = new System.Drawing.Point(10, 560);
+      this.groupBox31.Location = new System.Drawing.Point(10, 630);
       this.groupBox31.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox31.Name = "groupBox31";
       this.groupBox31.Size = new System.Drawing.Size(500, 60);
-      this.groupBox31.TabIndex = 8;
+      this.groupBox31.TabIndex = 9;
       this.groupBox31.TabStop = false;
       this.groupBox31.Text = "Image Analysis";
       // 
@@ -2449,14 +2464,51 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
       // 
-      // checkBoxProbeHumansText
+      // groupBox32
       // 
-      this.checkBoxProbeHumansText.Location = new System.Drawing.Point(340, 20);
-      this.checkBoxProbeHumansText.Name = "checkBoxProbeHumansText";
-      this.checkBoxProbeHumansText.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxProbeHumansText.TabIndex = 3;
-      this.checkBoxProbeHumansText.Text = "Probe for humans.txt";
-      this.checkBoxProbeHumansText.UseVisualStyleBackColor = true;
+      this.groupBox32.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox32.Controls.Add(this.label26);
+      this.groupBox32.Controls.Add(this.numericUpDownRedirectChainsMaxHops);
+      this.groupBox32.Location = new System.Drawing.Point(10, 280);
+      this.groupBox32.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox32.Name = "groupBox32";
+      this.groupBox32.Size = new System.Drawing.Size(500, 60);
+      this.groupBox32.TabIndex = 4;
+      this.groupBox32.TabStop = false;
+      this.groupBox32.Text = "Redirect Analysis";
+      // 
+      // label26
+      // 
+      this.label26.Location = new System.Drawing.Point(90, 20);
+      this.label26.Margin = new System.Windows.Forms.Padding(0);
+      this.label26.Name = "label26";
+      this.label26.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+      this.label26.Size = new System.Drawing.Size(150, 20);
+      this.label26.TabIndex = 11;
+      this.label26.Text = "Redirect Chains Max Hops";
+      // 
+      // numericUpDownRedirectChainsMaxHops
+      // 
+      this.numericUpDownRedirectChainsMaxHops.Location = new System.Drawing.Point(20, 20);
+      this.numericUpDownRedirectChainsMaxHops.Margin = new System.Windows.Forms.Padding(0);
+      this.numericUpDownRedirectChainsMaxHops.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+      this.numericUpDownRedirectChainsMaxHops.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+      this.numericUpDownRedirectChainsMaxHops.Name = "numericUpDownRedirectChainsMaxHops";
+      this.numericUpDownRedirectChainsMaxHops.Size = new System.Drawing.Size(70, 20);
+      this.numericUpDownRedirectChainsMaxHops.TabIndex = 1;
+      this.numericUpDownRedirectChainsMaxHops.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
       // 
       // MacroscopePrefsControl
       // 
@@ -2543,6 +2595,8 @@ namespace SEOMacroscope
       this.tabPageAdvancedSettings.ResumeLayout(false);
       this.flowLayoutPanel7.ResumeLayout(false);
       this.groupBox19.ResumeLayout(false);
+      this.groupBox32.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRedirectChainsMaxHops)).EndInit();
       this.ResumeLayout(false);
 
 		}
@@ -2561,5 +2615,8 @@ namespace SEOMacroscope
     private System.Windows.Forms.GroupBox groupBox31;
     public System.Windows.Forms.CheckBox checkBoxDetectQrCodeInImage;
     public System.Windows.Forms.CheckBox checkBoxProbeHumansText;
+    private System.Windows.Forms.GroupBox groupBox32;
+    private System.Windows.Forms.Label label26;
+    public System.Windows.Forms.NumericUpDown numericUpDownRedirectChainsMaxHops;
   }
 }

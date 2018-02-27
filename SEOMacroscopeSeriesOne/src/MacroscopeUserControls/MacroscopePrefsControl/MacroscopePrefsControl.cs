@@ -134,6 +134,8 @@ namespace SEOMacroscope
         this.checkBoxProcessXml.Checked = MacroscopePreferencesManager.GetProcessXml();
         this.checkBoxProcessBinaries.Checked = MacroscopePreferencesManager.GetProcessBinaries();
 
+        this.numericUpDownRedirectChainsMaxHops.Value = MacroscopePreferencesManager.GetRedirectChainsMaxHops();
+
         this.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
         this.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
 
@@ -294,6 +296,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetProcessVideo( this.checkBoxProcessVideo.Checked );
       MacroscopePreferencesManager.SetProcessXml( this.checkBoxProcessXml.Checked );
       MacroscopePreferencesManager.SetProcessBinaries( this.checkBoxProcessBinaries.Checked );
+
+      MacroscopePreferencesManager.SetRedirectChainsMaxHops((int)this.numericUpDownRedirectChainsMaxHops.Value);
 
       MacroscopePreferencesManager.SetScanSitesInList( this.checkBoxScanSitesInList.Checked );
       MacroscopePreferencesManager.SetWarnAboutInsecureLinks( this.checkBoxWarnAboutInsecureLinks.Checked );

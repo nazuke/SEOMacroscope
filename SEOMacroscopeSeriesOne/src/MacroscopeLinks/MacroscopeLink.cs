@@ -34,6 +34,8 @@ namespace SEOMacroscope
 
   public class MacroscopeLink : Macroscope
   {
+    
+    // TODO: Write unit tests
 
     /**************************************************************************/
     

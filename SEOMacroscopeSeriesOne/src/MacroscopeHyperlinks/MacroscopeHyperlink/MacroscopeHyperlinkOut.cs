@@ -35,6 +35,8 @@ namespace SEOMacroscope
   public class MacroscopeHyperlinkOut : Macroscope
   {
 
+    // TODO: Write unit tests
+
     /**************************************************************************/
 
     private Guid LinkGuid;

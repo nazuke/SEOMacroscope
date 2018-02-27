@@ -36,6 +36,8 @@ namespace SEOMacroscope
   public class MacroscopeLinkList : Macroscope
   {
 
+    // TODO: Write unit tests
+
     /**************************************************************************/
 
     private List<MacroscopeLink> Links;

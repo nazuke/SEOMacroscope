@@ -53,13 +53,13 @@ namespace SEOMacroscope
 
     public void Add ( string Hostname )
     {
-      if ( !this.Hostnames.ContainsKey( Hostname ) )
+      if( !this.Hostnames.ContainsKey( Hostname ) )
       {
         this.Hostnames.Add( Hostname, true );
       }
       else
       {
-        this.Hostnames[ Hostname ] = true;
+        this.Hostnames[Hostname] = true;
       }
     }
 
@@ -74,16 +74,16 @@ namespace SEOMacroscope
       {
         FromUrl = new Uri( Url, UriKind.Absolute );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( string.Format( "AddFromUrl: {0}", ex.Message ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "AddFromUrl: {0}", ex.Message ) );
       }
 
-      if ( FromUrl != null )
+      if( FromUrl != null )
       {
         this.Add( FromUrl.Host );
       }
@@ -94,9 +94,9 @@ namespace SEOMacroscope
 
     public void Remove ( string Hostname )
     {
-      if ( this.Hostnames.ContainsKey( Hostname ) )
+      if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        lock ( this.Hostnames )
+        lock( this.Hostnames )
         {
           this.Hostnames.Remove( key: Hostname );
         }
@@ -114,16 +114,16 @@ namespace SEOMacroscope
       {
         FromUrl = new Uri( Url, UriKind.Absolute );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( string.Format( "RemoveFromUrl: {0}", ex.Message ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "RemoveFromUrl: {0}", ex.Message ) );
       }
 
-      if ( FromUrl != null )
+      if( FromUrl != null )
       {
         this.Remove( Hostname: FromUrl.Host );
       }
@@ -144,12 +144,12 @@ namespace SEOMacroscope
 
       Dictionary<string, bool> HostnamesCopy = new Dictionary<string, bool>( this.Hostnames.Count );
 
-      lock ( this.Hostnames )
+      lock( this.Hostnames )
       {
 
-        foreach ( string Url in this.Hostnames.Keys )
+        foreach( string Url in this.Hostnames.Keys )
         {
-          HostnamesCopy.Add( Url, this.Hostnames[ Url ] );
+          HostnamesCopy.Add( Url, this.Hostnames[Url] );
         }
 
       }
@@ -162,28 +162,22 @@ namespace SEOMacroscope
 
     public IEnumerable<KeyValuePair<string, bool>> IterateHostnames ()
     {
-
-      lock ( this.Hostnames )
+      lock( this.Hostnames )
       {
-
-        foreach ( string Url in this.Hostnames.Keys )
+        foreach( string Url in this.Hostnames.Keys )
         {
-
-          yield return new KeyValuePair<string, bool>( Url, this.Hostnames[ Url ] );
-
+          yield return new KeyValuePair<string, bool>( Url, this.Hostnames[Url] );
         }
-
       }
-
     }
 
     /**************************************************************************/
 
     public void Allow ( string Hostname )
     {
-      if ( this.Hostnames.ContainsKey( Hostname ) )
+      if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        this.Hostnames[ Hostname ] = true;
+        this.Hostnames[Hostname] = true;
       }
       else
       {
@@ -195,9 +189,9 @@ namespace SEOMacroscope
 
     public void Disallow ( string Hostname )
     {
-      if ( this.Hostnames.ContainsKey( Hostname ) )
+      if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        this.Hostnames[ Hostname ] = false;
+        this.Hostnames[Hostname] = false;
       }
       else
       {
@@ -212,9 +206,9 @@ namespace SEOMacroscope
 
       bool HostIsAllowed = false;
 
-      if ( this.Hostnames.ContainsKey( Hostname ) )
+      if( this.Hostnames.ContainsKey( Hostname ) )
       {
-        HostIsAllowed = this.Hostnames[ Hostname ];
+        HostIsAllowed = this.Hostnames[Hostname];
       }
 
       return ( HostIsAllowed );
@@ -233,16 +227,16 @@ namespace SEOMacroscope
       {
         FromUri = new Uri( Url, UriKind.Absolute );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( string.Format( "IsAllowedFromUrl 1: {0}", ex.Message ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "IsAllowedFromUrl 2: {0}", ex.Message ) );
       }
 
-      if ( FromUri != null )
+      if( FromUri != null )
       {
         Allowed = this.IsAllowed( FromUri.Host );
       }
@@ -257,7 +251,7 @@ namespace SEOMacroscope
 
       bool IsInternal = false;
 
-      if ( Url != null )
+      if( Url != null )
       {
 
         Uri DocumentUrl = null;
@@ -266,18 +260,18 @@ namespace SEOMacroscope
         {
           DocumentUrl = new Uri( Url, UriKind.Absolute );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( string.Format( "IsInternalUrl: {0}", ex.Message ) );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           DebugMsg( string.Format( "IsInternalUrl: {0}", ex.Message ) );
         }
 
-        if ( DocumentUrl != null )
+        if( DocumentUrl != null )
         {
-          if ( this.IsAllowed( DocumentUrl.Host ) )
+          if( this.IsAllowed( DocumentUrl.Host ) )
           {
             IsInternal = true;
           }
@@ -296,7 +290,7 @@ namespace SEOMacroscope
 
       bool IsExternal = false;
 
-      if ( Url != null )
+      if( Url != null )
       {
 
         Uri DocumentUrl = null;
@@ -305,18 +299,18 @@ namespace SEOMacroscope
         {
           DocumentUrl = new Uri( Url, UriKind.Absolute );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( string.Format( "IsExternalUrl: {0}", ex.Message ) );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           DebugMsg( string.Format( "IsExternalUrl: {0}", ex.Message ) );
         }
 
-        if ( DocumentUrl != null )
+        if( DocumentUrl != null )
         {
-          if ( !this.IsAllowed( Hostname: DocumentUrl.Host ) )
+          if( !this.IsAllowed( Hostname: DocumentUrl.Host ) )
           {
             IsExternal = true;
           }
@@ -336,23 +330,23 @@ namespace SEOMacroscope
       string Hostname = null;
       Uri DocumentUrl = null;
 
-      if ( !string.IsNullOrEmpty( Url ) )
+      if( !string.IsNullOrEmpty( Url ) )
       {
 
         try
         {
           DocumentUrl = new Uri( Url, UriKind.Absolute );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
         }
 
-        if ( DocumentUrl != null )
+        if( DocumentUrl != null )
         {
           Hostname = DocumentUrl.Host;
         }
@@ -368,9 +362,9 @@ namespace SEOMacroscope
     [Conditional( "DEVMODE" )]
     public void DumpAllowedHosts ()
     {
-      lock ( this.Hostnames )
+      lock( this.Hostnames )
       {
-        foreach ( string Url in this.Hostnames.Keys )
+        foreach( string Url in this.Hostnames.Keys )
         {
           DebugMsg( string.Format( "ALLOWED_HOST: {0}", Url ) );
         }
