@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "New v1.7 release of SEO Macroscope: Forensic Evidence"
-date: "2018-02-01 21:00:00 -09:00"
-published: true
+date: "2018-02-28 21:00:00 -09:00"
+published: false
 description: "This release of SEO Macroscope includes support for HTTP/2 on Windows 10, and accelerates near-duplicate content detection."
 excerpt: "This release of SEO Macroscope includes support for HTTP/2 on Windows 10, and accelerates near-duplicate content detection."
 ---
@@ -12,7 +12,7 @@ This release of SEO Macroscope includes support for HTTP/2 on Windows 10, and ac
 
 As well as numerous bugs being fixed, the Levenshtein analysis of near-duplicate content has also been accelerated, by generating a *"Levenshtein Fingerprint"* of the document text of each web page as it is crawled. There are two analysis level options, with the second being slower but may help to eliminate false positives.
 
-Where possible, the full text of PDF documents may be extracted, and analyzed for readability, and the presence of URLs. Currently, URLs found in the text will be added as additional outlinks from the PDF.
+Where possible, the full text of PDF documents may be extracted, analyzed for readability, and URLs extracted. Currently, URLs found in the text will be added as additional outlinks from the PDF.
 
 In some cases, QR Codes in linked image files on the site may be detected as containing a link. These can be further crawled.
 
@@ -38,6 +38,7 @@ I've also fixed many minor bugs and other issues.
 * Where possible, some URLs may be found in the text of PDFs, and further crawled.
 * For text analysis, certain HTML5 navigational elements may now be disregarded.
 * Some HTTP Status Codes, such as 410, may be ignored as errors.
+* Redirect chains analysis
 * Additional Excel and CSV reporting.
 
 ## Bug fixes
