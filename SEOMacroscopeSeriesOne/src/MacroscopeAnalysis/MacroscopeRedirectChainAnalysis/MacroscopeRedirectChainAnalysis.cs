@@ -44,44 +44,44 @@ namespace SEOMacroscope
     {
 
       List<List<MacroscopeDocument>> RedirectChains = new List<List<MacroscopeDocument>>();
+      int MaxHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops() - 1;
 
       foreach ( MacroscopeDocument msDocStart in DocCollection.IterateDocuments() )
       {
 
-        string UrlStart = msDocStart.GetUrl();
+        int IHOP = 1;
         List<MacroscopeDocument> RedirectChain = new List<MacroscopeDocument>();
-        List<string> Circular = new List<string>();
         MacroscopeDocument msDocNext;
 
-        if ( !IsValidDocument( msDoc: msDocStart ) )
+        if ( !msDocStart.GetIsRedirect() )
         {
           continue;
         }
 
         RedirectChain.Add( msDocStart );
 
-        Circular.Add( msDocStart.GetUrl() );
-
         msDocNext = DocCollection.GetDocument( msDocStart.GetUrlRedirectTo() );
 
         while ( msDocNext != null )
         {
 
-          if ( Circular.Contains( msDocNext.GetUrl() ) )
+          if ( IHOP > MaxHops )
           {
             break;
-          }
-          else
-          {
-            Circular.Add( msDocNext.GetUrl() );
           }
 
           RedirectChain.Add( msDocNext );
 
-          if ( !IsValidDocument( msDoc: msDocNext ) )
+          if ( msDocNext.GetIsRedirect() )
+          {
+            msDocNext = DocCollection.GetDocument( msDocNext.GetUrlRedirectTo() );
+          }
+          else
           {
             break;
           }
+
+          IHOP++;
 
         }
 
@@ -93,27 +93,6 @@ namespace SEOMacroscope
 
     }
     
-    /**************************************************************************/
-
-    private bool IsValidDocument ( MacroscopeDocument msDoc )
-    {
-
-      bool IsValid = true;
-
-      if ( msDoc.GetIsExternal() )
-      {
-        IsValid = false;
-      }
-
-      if ( !msDoc.GetIsRedirect() )
-      {
-        IsValid = false;
-      }
-
-      return ( IsValid );
-
-    }
-
     /**************************************************************************/
 
   }

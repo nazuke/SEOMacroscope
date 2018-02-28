@@ -55,7 +55,7 @@ namespace SEOMacroscope
 
       this.MaximumHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops();
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -77,7 +77,7 @@ namespace SEOMacroscope
 
     protected override void ConfigureListView ()
     {
-      if( !this.ListViewConfigured )
+      if ( !this.ListViewConfigured )
       {
         this.ConfigureListViewColumns();
         this.ListViewConfigured = true;
@@ -88,7 +88,7 @@ namespace SEOMacroscope
 
     public new void ClearData ()
     {
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -119,7 +119,7 @@ namespace SEOMacroscope
     {
       this.MaximumHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops();
       this.DisplayListView.Columns.Clear();
-      for( int iHop = 1 ; iHop <= this.MaximumHops ; iHop++ )
+      for ( int iHop = 1 ; iHop <= this.MaximumHops ; iHop++ )
       {
         this.DisplayListView.Columns.Add( string.Format( "HOP_{0}_URL", iHop ), string.Format( "Hop {0} URL", iHop ) );
         this.DisplayListView.Columns.Add( string.Format( "HOP_{0}_STATUS", iHop ), string.Format( "Hop {0} Status", iHop ) );
@@ -132,12 +132,12 @@ namespace SEOMacroscope
     public void RefreshDataRedirectChains ( MacroscopeDocumentCollection DocCollection )
     {
 
-      if( DocCollection.CountDocuments() <= 0 )
+      if ( DocCollection.CountDocuments() <= 0 )
       {
         return;
       }
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -178,7 +178,7 @@ namespace SEOMacroscope
       decimal TotalDocs = (decimal) DocCollection.CountDocuments();
       decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
 
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
 
         ProgressForm.ControlBox = false;
@@ -192,21 +192,30 @@ namespace SEOMacroscope
 
       }
 
-      foreach( List<MacroscopeDocument> DocList in RedirectChains )
+      foreach ( List<MacroscopeDocument> DocList in RedirectChains )
       {
 
         Application.DoEvents();
 
-        if( DocList.Count > 0 )
+        if ( DocList.Count > 0 )
         {
-          this.RenderListViewRedirectChains(
-            ListViewItems: ListViewItems,
-            DocCollection: DocCollection,
-            DocList: DocList
-          );
+
+          try
+          {
+            this.RenderListViewRedirectChains(
+              ListViewItems: ListViewItems,
+              DocCollection: DocCollection,
+              DocList: DocList
+            );
+          }
+          catch ( Exception ex )
+          {
+            this.DebugMsg( string.Format( "RenderListViewRedirectChains 1: {0}", ex.Message ) );
+          }
+
         }
 
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
 
           Count++;
@@ -227,7 +236,7 @@ namespace SEOMacroscope
       this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
       this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
 
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
@@ -246,16 +255,21 @@ namespace SEOMacroscope
     {
 
       ListViewItem lvItem = null;
-      string PairKey = string.Join( "", DocList[0].GetUrl() );
+      string PairKey = string.Join( "", DocList[ 0 ].GetUrl() );
       int IHOP = 0;
 
-      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
+      if ( DocList[ 0 ].GetIsExternal() )
+      {
+        return;
+      }
+
+      if ( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
         try
         {
-          lvItem = this.DisplayListView.Items[PairKey];
+          lvItem = this.DisplayListView.Items[ PairKey ];
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           this.DebugMsg( string.Format( "MacroscopeDisplayRedirectChains 1: {0}", ex.Message ) );
         }
@@ -267,38 +281,58 @@ namespace SEOMacroscope
           lvItem = new ListViewItem( PairKey );
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = PairKey;
-          lvItem.SubItems[0].Text = "";
-          for( int i = 1 ; i < this.MaximumHops ; i++ )
+          lvItem.SubItems[ 0 ].Text = "";
+          for ( int i = 1 ; i < ( this.MaximumHops * 2 ) ; i++ )
           {
             lvItem.SubItems.Add( "" );
           }
           ListViewItems.Add( lvItem );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           this.DebugMsg( string.Format( "MacroscopeDisplayRedirectChains 2: {0}", ex.Message ) );
         }
       }
 
-      foreach( MacroscopeDocument msDoc in DocList )
+      foreach ( MacroscopeDocument msDoc in DocList )
       {
 
         string Url = msDoc.GetUrl();
         string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
+        bool IsInternal = msDoc.GetIsInternal();
 
-        if( IHOP > ( this.MaximumHops * 2 ) )
+        if ( IHOP > ( this.MaximumHops * 2 ) )
         {
           break;
         }
 
         try
         {
-          lvItem.SubItems[IHOP].Text = Url;
+
+          lvItem.SubItems[ IHOP ].Text = Url;
+          if ( IsInternal )
+          {
+            lvItem.SubItems[ IHOP ].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ IHOP ].ForeColor = Color.Gray;
+          }
           IHOP++;
-          lvItem.SubItems[IHOP].Text = StatusCode.ToString();
+
+          lvItem.SubItems[ IHOP ].Text = StatusCode.ToString();
+          if ( IsInternal )
+          {
+            lvItem.SubItems[ IHOP ].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ IHOP ].ForeColor = Color.Gray;
+          }
           IHOP++;
+
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           this.DebugMsg( string.Format( "MacroscopeDisplayRedirectChains 1: {0}", ex.Message ) );
         }
