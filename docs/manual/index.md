@@ -2,6 +2,7 @@
 layout: page
 title: SEO Macroscope User Manual
 description: "The SEO Macroscope user manual."
+date: "2018-02-28 21:00:00 -09:00"
 ---
 
 ![The SEO Macroscope application window.](images/application-001.png){: .img-responsive .box-shadow .screenshot}
@@ -328,6 +329,12 @@ This also includes Google Sitemap XML files. Disabling this option will cause th
 Binary files are any other file type for which no specific handling occurs.
 
 For example, a linked .EXE file will have a HEAD request issued against it, to check that it is not a broken link, but disabling this option will not download the file itself.
+
+#### Redirects
+
+##### Redirect Chains Maximum Hops
+
+Set this value to the maximum acceptable number of redirects to be displayed in a chain in the **Redirect Chains** list.
 
 #### List File Processing
 
