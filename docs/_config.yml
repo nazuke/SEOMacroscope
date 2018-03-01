@@ -53,6 +53,7 @@ theme: minima
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-redirect-from
 exclude:
   - Gemfile
   - Gemfile.lock
