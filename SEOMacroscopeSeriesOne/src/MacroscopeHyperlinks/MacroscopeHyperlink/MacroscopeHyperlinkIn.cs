@@ -70,10 +70,7 @@ namespace SEOMacroscope
       Guid ExtantGuid
     )
     {
-
       this.LinkGuid = ExtantGuid;
-      //this.LinkGuid = Guid.NewGuid();
-
       this.HyperlinkType = LinkType;
       this.Method = Method;
       this.SourceUrl = SourceUrl;
@@ -81,12 +78,9 @@ namespace SEOMacroscope
       this.LinkText = LinkText;
       this.LinkTitle = LinkTitle;
       this.AltText = AltText;
-
       this.DoFollow = true;
-
       this.RawSourceUrl = "";
       this.RawTargetUrl = "";
-    
     }
 
     /**************************************************************************/

@@ -188,7 +188,7 @@ namespace SEOMacroscope
         lock ( this.NamedQueuesHistory[ Name ] )
         {
 
-          // TODO: This does not work with reference values
+          // TODO: This does not work with reference values:
           if ( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
           {
             Proceed = false;
@@ -204,13 +204,10 @@ namespace SEOMacroscope
 
       if ( Proceed )
       {
-
         lock ( this.NamedQueues[ Name ] )
         {
-
           if ( !NamedQueue.Contains( Item ) )
           {
-
             lock ( this.NamedQueuesIndex[ Name ] )
             {
               if ( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
@@ -219,11 +216,8 @@ namespace SEOMacroscope
                 NamedQueue.Enqueue( Item );
               }
             }
-
           }
-
         }
-
       }
 
       return ( NamedQueue );

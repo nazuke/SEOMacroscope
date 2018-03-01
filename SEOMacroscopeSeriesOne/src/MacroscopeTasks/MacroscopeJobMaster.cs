@@ -613,21 +613,12 @@ namespace SEOMacroscope
 
     public bool AreWorkersStopped ()
     {
-
       bool IsStopped = false;
-
       if ( this.CountRunningThreads() == 0 )
       {
         IsStopped = true;
       }
-
-
-      // TODO: This call should probably not be here:
-      //this.GetDocCollection().RecalculateDocCollection();
-
-
       return ( IsStopped );
-
     }
 
     /** Track Thread Count ****************************************************/
@@ -1100,9 +1091,10 @@ namespace SEOMacroscope
 
     /** Start URL *************************************************************/
 
-    public void SetStartUrl ( string Url )
+    public string SetStartUrl ( string Url )
     {
       this.StartUrl = Url;
+      return ( this.StartUrl );
     }
 
     public string GetStartUrl ()

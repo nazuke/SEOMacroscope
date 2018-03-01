@@ -47,9 +47,7 @@ namespace SEOMacroscope
     public MacroscopeHyperlinksOut ()
     {
       this.SuppressDebugMsg = true;
-            
       this.Links = new List<MacroscopeHyperlinkOut> ( 256 );
-      
     }
 
     /**************************************************************************/
@@ -69,19 +67,14 @@ namespace SEOMacroscope
       string UrlTarget
     )
     {
-
       MacroscopeHyperlinkOut HyperlinkOut = new MacroscopeHyperlinkOut ();
-
       HyperlinkOut.SetHyperlinkType( LinkType );
       HyperlinkOut.SetTargetUrl( UrlTarget );
-
       lock( this.Links )
       {
         this.Links.Add( HyperlinkOut );
       }
-
       return( HyperlinkOut );
-
     }
 
     /**************************************************************************/
@@ -104,47 +97,33 @@ namespace SEOMacroscope
 
     public bool ContainsLink ( MacroscopeHyperlinkOut  Link )
     {
-
       bool LinkPresent = false;
-
       lock( this.Links )
       {
-
         if( this.Links.Contains( Link ) )
         {
           LinkPresent = true;
         }
-
       }
-
       return( LinkPresent );
-
     }
 
     /**************************************************************************/
 
     public bool ContainsHyperlinkOut ( string Url )
     {
-
       bool LinkPresent = false;
-
       lock( this.Links )
       {
-
         foreach( MacroscopeHyperlinkOut HyperlinkOut in this.Links )
         {
-
           if( HyperlinkOut.GetTargetUrl() == Url )
           {
             LinkPresent = true;
           }
-
         }
-
       }
-
       return( LinkPresent );
-
     }
 
     /**************************************************************************/

@@ -329,15 +329,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void AddDocument ( MacroscopeDocument msDoc )
+    public MacroscopeDocument AddDocument ( MacroscopeDocument msDoc )
     {
       this.AddDocument( msDoc.GetUrl(), msDoc );
+      return ( msDoc );
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public void AddDocument ( string Url, MacroscopeDocument msDoc )
+    public MacroscopeDocument AddDocument ( string Url, MacroscopeDocument msDoc )
     {
+
+      MacroscopeDocument msDocAdded = null;
 
       if ( Monitor.TryEnter( LockerDocCollection ) )
       {
@@ -349,12 +352,14 @@ namespace SEOMacroscope
           {
             this.DocCollection.Remove( Url );
             this.DocCollection.Add( Url, msDoc );
+            msDocAdded = msDoc;
           }
           else
           {
             try
             {
               this.DocCollection.Add( Url, msDoc );
+              msDocAdded = msDoc;
             }
             catch ( ArgumentException ex )
             {
@@ -374,6 +379,8 @@ namespace SEOMacroscope
         }
 
       }
+
+      return ( msDocAdded );
 
     }
 

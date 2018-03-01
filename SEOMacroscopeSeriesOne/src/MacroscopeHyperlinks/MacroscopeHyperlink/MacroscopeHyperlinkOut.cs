@@ -60,19 +60,13 @@ namespace SEOMacroscope
 
     public MacroscopeHyperlinkOut ()
     {
-
       this.LinkGuid = Guid.NewGuid();
-
       this.HyperlinkType = MacroscopeConstants.HyperlinkType.TEXT;
-
       this.DoFollow = true;
-
       this.LinkTarget = "";
-
       this.LinkText = "";
       this.LinkTitle = "";
       this.AltText = "";
-
     }
 
     /**************************************************************************/
@@ -89,6 +83,8 @@ namespace SEOMacroscope
       this.HyperlinkType = LinkType;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public MacroscopeConstants.HyperlinkType GetHyperlinkType ()
     {
       return( this.HyperlinkType );
@@ -100,6 +96,8 @@ namespace SEOMacroscope
     {
       this.Method = Method;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetMethod ()
     {
@@ -113,6 +111,8 @@ namespace SEOMacroscope
       this.TargetUrl = Url;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetTargetUrl ()
     {
       return( this.TargetUrl );
@@ -124,11 +124,15 @@ namespace SEOMacroscope
     {
       this.DoFollow = true;
     }
-    
+
+    /** -------------------------------------------------------------------- **/
+
     public void UnsetDoFollow ()
     {
       this.DoFollow = false;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public bool GetDoFollow ()
     {
@@ -142,18 +146,16 @@ namespace SEOMacroscope
       this.LinkTarget = Text;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetLinkTarget ()
     {
-
       string Target = this.LinkTarget;
-
       if( string.IsNullOrEmpty( Target ) )
       {
         Target = "";
       }
-
       return( Target );
-
     }
 
     /** Raw Target URL ********************************************************/
@@ -162,6 +164,8 @@ namespace SEOMacroscope
     {
       this.RawTargetUrl = TargetUrl;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetRawTargetUrl ()
     {
@@ -175,6 +179,8 @@ namespace SEOMacroscope
       this.LinkText = Text;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetLinkText ()
     {
       return( this.LinkText );
@@ -187,6 +193,8 @@ namespace SEOMacroscope
       this.LinkTitle = Text;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetLinkTitle ()
     {
       return( this.LinkTitle );
@@ -198,6 +206,8 @@ namespace SEOMacroscope
     {
       this.AltText = Text;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetAltText ()
     {

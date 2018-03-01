@@ -37,8 +37,6 @@ namespace SEOMacroscope
   public static class MacroscopePreferencesManager
   {
 
-    // TODO: Many getters/setters can probably be simplified here.
-
     /**************************************************************************/
 
     static MacroscopePreferences Preferences;

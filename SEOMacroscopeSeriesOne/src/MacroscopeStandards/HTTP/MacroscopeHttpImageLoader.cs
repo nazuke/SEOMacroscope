@@ -43,9 +43,49 @@ namespace SEOMacroscope
   public class MacroscopeHttpImageLoader : Macroscope
   {
 
-    // TODO: Add some sort of cleanup for temp files.
+    /**************************************************************************/
+
+    private static List<string> TemporaryFiles;
 
     /**************************************************************************/
+
+    static MacroscopeHttpImageLoader ()
+    {
+      SuppressStaticDebugMsg = true;
+      TemporaryFiles = new List<string>( 16 );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    ~MacroscopeHttpImageLoader ()
+    {
+      try
+      {
+        lock ( TemporaryFiles )
+        {
+          foreach ( string Filename in TemporaryFiles )
+          {
+            if ( File.Exists( Filename ) )
+            {
+              try
+              {
+                File.Delete( Filename );
+              }
+              catch ( Exception ex )
+              {
+                DebugMsg( ex.Message );
+              }
+            }
+          }
+        }
+      }
+      catch ( Exception ex )
+      {
+        DebugMsg( ex.Message );
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     public MacroscopeHttpImageLoader ()
     {
@@ -103,6 +143,7 @@ namespace SEOMacroscope
 
           if ( File.Exists( ImageFilename ) )
           {
+            TemporaryFiles.Add( ImageFilename );
             LoadedImage = Image.FromFile( ImageFilename );
           }
 
@@ -167,7 +208,7 @@ namespace SEOMacroscope
             ImageStream.Close();
           }
 
-          if ( ! File.Exists( ImageFilename ) )
+          if ( !File.Exists( ImageFilename ) )
           {
             ImageFilename = null;
           }
@@ -183,7 +224,7 @@ namespace SEOMacroscope
       return ( ImageFilename );
 
     }
-    
+
     /**************************************************************************/
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )

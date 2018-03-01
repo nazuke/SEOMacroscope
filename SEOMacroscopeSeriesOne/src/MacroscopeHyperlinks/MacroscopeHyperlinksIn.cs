@@ -46,11 +46,8 @@ namespace SEOMacroscope
 
     public MacroscopeHyperlinksIn ()
     {
-      
       this.SuppressDebugMsg = true;
-      
       this.Links = new List<MacroscopeHyperlinkIn> ( 256 );
-      
     }
 
     /**************************************************************************/
@@ -81,9 +78,7 @@ namespace SEOMacroscope
 
       if( this.ContainsGuid( ExtantGuid: ExtantGuid ) )
       {
-
         HyperlinkIn = this.GetLinkByGuid( ExtantGuid: ExtantGuid );
-
       }
       else
       {
@@ -114,95 +109,67 @@ namespace SEOMacroscope
 
     public void Remove ( MacroscopeHyperlinkIn HyperlinkIn )
     {
-
       lock( this.Links )
       {
-
         foreach( MacroscopeHyperlinkIn HyperlinkInOld in this.Links )
         {
-
           if( HyperlinkInOld.Equals( HyperlinkIn ) )
           {
             this.Links.Remove( HyperlinkInOld );
           }
-
         }
-
       }
-
     }
 
     /**************************************************************************/
 
     private bool ContainsGuid ( Guid ExtantGuid )
     {
-
       bool LinkPresent = false;
-
       lock( this.Links )
       {
-
         foreach( MacroscopeHyperlinkIn HyperlinkIn in this.Links )
         {
-
           if( HyperlinkIn.GetLinkGuid() == ExtantGuid )
           {
             LinkPresent = true;
           }
-
         }
-
       }
-
       return( LinkPresent );
-
     }
     
     /**************************************************************************/
 
     public bool ContainsLink ( MacroscopeHyperlinkIn Link )
     {
-
       bool LinkPresent = false;
-
       lock( this.Links )
       {
-
         if( this.Links.Contains( Link ) )
         {
           LinkPresent = true;
         }
-
       }
-
       return( LinkPresent );
-
     }
 
     /**************************************************************************/
 
     public bool ContainsHyperlinkIn ( string Url )
     {
-
       bool LinkPresent = false;
-
       lock( this.Links )
       {
-
         foreach( MacroscopeHyperlinkIn HyperlinkIn in this.Links )
         {
-
           if( HyperlinkIn.GetTargetUrl() == Url )
           {
             LinkPresent = true;
           }
-
         }
-
       }
-
       return( LinkPresent );
-
     }
 
     /**************************************************************************/
@@ -222,27 +189,19 @@ namespace SEOMacroscope
 
     private MacroscopeHyperlinkIn GetLinkByGuid ( Guid ExtantGuid )
     {
-
       MacroscopeHyperlinkIn Link = null;
-
       lock( this.Links )
       {
-
         foreach( MacroscopeHyperlinkIn HyperlinkIn in this.Links )
         {
-
           if( HyperlinkIn.GetLinkGuid() == ExtantGuid )
           {
             Link = HyperlinkIn;
             break;
           }
-
         }
-
       }
-
       return( Link );
-
     }
 
     /**************************************************************************/
