@@ -40,7 +40,6 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    // TODO: Finish this
     public List<MacroscopeDocumentList> AnalyzeInSitemaps ( MacroscopeDocumentCollection DocCollection )
     {
 

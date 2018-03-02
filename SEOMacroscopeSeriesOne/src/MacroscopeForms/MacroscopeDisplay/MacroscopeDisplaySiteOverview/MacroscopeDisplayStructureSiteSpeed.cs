@@ -174,7 +174,7 @@ namespace SEOMacroscope
           this.UpdateAverageLabel( Average );
           Cursor.Current = Cursors.Default;
         }
-      
+
       }
       
     }
@@ -255,7 +255,10 @@ namespace SEOMacroscope
         }
 
       }
-      
+
+      TargetListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
+      TargetListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
+
       TargetListView.EndUpdate();
 
     }

@@ -50,8 +50,8 @@ namespace SEOMacroscope
       MacroscopeDocument msDocDifferent;
 
       JobMaster = new MacroscopeJobMaster(
-      JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
-      TaskController: this
+        JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE,
+        TaskController: this
       );
 
       DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
@@ -78,10 +78,10 @@ namespace SEOMacroscope
         Dictionary<MacroscopeDocument, int> DocList;
 
         LevenshteinAnalysis = new MacroscopeLevenshteinAnalysis(
-        msDoc: msDoc,
-        SizeDifference: 64,
-        Threshold: 16,
-        CrossCheckList: CrossCheckList
+          msDoc: msDoc,
+          SizeDifference: 64,
+          Threshold: 16,
+          CrossCheckList: CrossCheckList
         );
 
         DocList = LevenshteinAnalysis.AnalyzeDocCollection( DocCollection: DocCollection );
@@ -94,9 +94,9 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
 
           Assert.AreEqual(
-          DocList[ msDocAnalyzed ],
-          0,
-          string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() )
+            DocList[ msDocAnalyzed ],
+            0,
+            string.Format( "FAIL: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() )
           );
 
         }
@@ -171,13 +171,13 @@ namespace SEOMacroscope
           DebugMsg( string.Format( "msDocAnalyzed: {0} => {1}", DocList[ msDocAnalyzed ], msDocAnalyzed.GetUrl() ) );
 
           Assert.AreNotEqual(
-          DocList[ msDocAnalyzed ],
-          0,
-          string.Format(
-          "FAIL: {0} => {1}",
-          DocList[ msDocAnalyzed ],
-          msDocAnalyzed.GetUrl()
-          )
+            DocList[ msDocAnalyzed ],
+            0,
+            string.Format(
+              "FAIL: {0} => {1}",
+              DocList[ msDocAnalyzed ],
+              msDocAnalyzed.GetUrl()
+            )
           );
 
         }

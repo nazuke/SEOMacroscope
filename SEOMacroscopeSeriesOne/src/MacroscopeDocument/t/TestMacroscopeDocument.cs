@@ -162,12 +162,8 @@ namespace SEOMacroscope
 
       MacroscopeJobMaster JobMaster;
       MacroscopeDocumentCollection DocCollection;
-
       List<string> UrlList = new List<string>();
-
       UrlList.Add( "https://nazuke.github.io/SEOMacroscope/" );
-
-
       MacroscopePreferencesManager.SetDefaultValues();
       MacroscopePreferencesManager.SetDetectLanguage( Enabled: true );
       MacroscopePreferencesManager.SetRequestTimeout( Seconds: 10 );
@@ -220,24 +216,15 @@ namespace SEOMacroscope
     [Test]
     public void TestGetNodeText ()
     {
-
       foreach( string HtmlDocKey in this.HtmlDocs.Keys )
       {
-
         MacroscopeDocument msDoc = new MacroscopeDocument( Url: "https://nazuke.github.io/" );
-
         string Html = this.HtmlDocs[ HtmlDocKey ];
-
         HtmlDocument HtmlDoc = new HtmlDocument();
-
         HtmlDoc.LoadHtml( html: Html );
-
         List<string> CleanedText = msDoc.GetNodeText( Node: HtmlDoc.DocumentNode );
-
         Assert.IsNotEmpty( CleanedText, "CleanedText is empty" );
-
       }
-
     }
 
     /**************************************************************************/
