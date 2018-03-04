@@ -50,6 +50,7 @@ bing_site_verification:
 # Crypto Donations
 cryptodonate:
   bitcoin: 3K6jYKbr7fGLtZADqFJSUZ7JFjo5ZbvWc2
+  litecoin: M94Ct3VWJz5DsUtZrRSAFzdBMAGD8yR5dJ
 
 # Build settings
 markdown: kramdown
