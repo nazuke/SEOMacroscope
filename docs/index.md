@@ -20,10 +20,11 @@ The SEO Macroscope website crawler will help you to:
 * Perform simple, configurable Technical SEO checks on titles and descriptions.
 * Report fastest/slowest pages.
 * Export reports to Excel and CSV formats.
-* Export text and XML sitemaps.
+* Generate and export text and XML sitemaps from the crawled pages.
+* Analyze redirect chains.
 * Use custom filters to verify the presence/absence of tracking tags.
 * Use CSS Selectors, XPath Queries, and Regular Expressions to scrape website data.
-* And more besides...
+* And much more besides...
 
 Check out the source code repository at [https://github.com/nazuke/SEOMacroscope](https://github.com/nazuke/SEOMacroscope).
 

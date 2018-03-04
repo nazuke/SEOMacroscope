@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "New v1.7 release of SEO Macroscope: Forensic Evidence"
-date: "2018-02-28 21:00:00 -09:00"
-published: false
+title: "New v1.7 release of SEO Macroscope: HTTP Too"
+date: "2018-03-04 18:00:00 -09:00"
+published: true
 description: "This release of SEO Macroscope includes support for HTTP/2 on Windows 10, and accelerates near-duplicate content detection."
 excerpt: "This release of SEO Macroscope includes support for HTTP/2 on Windows 10, and accelerates near-duplicate content detection."
 ---
+
 
 This release of SEO Macroscope includes support for HTTP/2 on Windows 10, and accelerates near-duplicate content detection. HTTP/2 support enables the application to work with websites that do not also support HTTP/1.1 as a fallback option.
 {: .lead }

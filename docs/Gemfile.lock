@@ -8,7 +8,9 @@ GEM
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
+    eventmachine (1.2.5)
     eventmachine (1.2.5-x64-mingw32)
+    ffi (1.9.23)
     ffi (1.9.23-x64-mingw32)
     forwardable-extended (2.6.0)
     http_parser.rb (0.6.0)
@@ -71,7 +73,9 @@ GEM
       tzinfo (>= 1.0.0)
 
 PLATFORMS
+  ruby
   x64-mingw32
+  x86_64-darwin-16
 
 DEPENDENCIES
   jekyll (= 3.7.2)
@@ -82,7 +86,7 @@ DEPENDENCIES
   tzinfo-data
 
 RUBY VERSION
-   ruby 2.4.3p205
+   ruby 2.5.0p0
 
 BUNDLED WITH
    1.16.1

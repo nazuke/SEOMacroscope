@@ -16,7 +16,7 @@
 title: SEO Macroscope
 email: seo.macroscope@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  SEO Macroscope is a free and open source website broken link checker and SEO tool for Windows.
+  SEO Macroscope is a free and open source website broken link checker and Technical SEO toolbox for Windows.
 
 baseurl: "/SEOMacroscope" # the subpath of your site, e.g. /blog
 
@@ -46,6 +46,10 @@ yandex_metrika:
 bing_site_verification:
   development: 359738600A5C3D292F19866E1F240410
   production: 359738600A5C3D292F19866E1F240410
+
+# Crypto Donations
+cryptodonate:
+  bitcoin: 3K6jYKbr7fGLtZADqFJSUZ7JFjo5ZbvWc2
 
 # Build settings
 markdown: kramdown
