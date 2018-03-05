@@ -224,6 +224,11 @@ namespace SEOMacroscope
     )
     {
 
+      if( TargetListView.IsDisposed )
+      {
+        return;
+      }
+
       decimal Count = 0;
       decimal TotalTerms = ( decimal )DicTerms.Count;
       decimal MinorPercentage = 0;

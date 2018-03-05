@@ -62,7 +62,12 @@ namespace SEOMacroscope
 
         msDocNext = DocCollection.GetDocument( msDocStart.GetUrlRedirectTo() );
 
-        while ( msDocNext != null )
+        if( msDocNext == null )
+        {
+          this.DebugMsg( string.Format( "AnalyzeRedirectChains: {0}", msDocStart.GetUrlRedirectTo() ) );
+        }
+
+        while( msDocNext != null )
         {
 
           if ( IHOP > MaxHops )
@@ -74,7 +79,17 @@ namespace SEOMacroscope
 
           if ( msDocNext.GetIsRedirect() )
           {
-            msDocNext = DocCollection.GetDocument( msDocNext.GetUrlRedirectTo() );
+
+            string RedirectedFromUrl = msDocNext.GetUrl();
+            string RedirectedToUrl = msDocNext.GetUrlRedirectTo();
+
+            msDocNext = DocCollection.GetDocument( RedirectedToUrl );
+
+            if( msDocNext == null )
+            {
+              this.DebugMsg( string.Format( "AnalyzeRedirectChains: {0}", RedirectedToUrl ) );
+            }
+
           }
           else
           {

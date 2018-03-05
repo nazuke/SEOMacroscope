@@ -183,7 +183,7 @@ namespace SEOMacroscope
 
       this.toolStripButtonRetryBrokenLinks.Click += this.CallbackRetryBrokenLinksClick;
       this.toolStripButtonRetryTimedOutLinks.Click += this.CallbackRetryTimedOutLinksClick;
-      this.toolStripButtonRecalculateLinkCount.Click += this.CallbackRecalculateLinkCountsClick;
+      this.toolStripButtonRecalculateStatistics.Click += this.CallbackRecalculateDocCollectionStatsClick;
       this.toolStripButtonRecalculateClickPaths.Click += this.CallbackRecalculateClickPathsClick;
 
       /** ------------------------------------------------------------------ **/
@@ -2014,39 +2014,34 @@ namespace SEOMacroscope
 
     private void UpdateSiteOverview ()
     {
-
       lock ( this.LockerSiteStructureDisplay )
       {
-
-        this.msSiteStructureOverview.RefreshData( DocCollection: this.JobMaster.GetDocCollection() );
-
-        this.msSiteStructureSiteSpeed.RefreshSiteSpeedData( DocCollection: this.JobMaster.GetDocCollection() );
-
+        try
+        {
+          this.msSiteStructureOverview.RefreshData( DocCollection: this.JobMaster.GetDocCollection() );
+          this.msSiteStructureSiteSpeed.RefreshSiteSpeedData( DocCollection: this.JobMaster.GetDocCollection() );
+        }
+        catch( Exception ex )
+        {
+          DebugMsg( string.Format( "UpdateSiteOverview: {0}", ex.Message ) );
+        }
       }
-
     }
 
     /** -------------------------------------------------------------------- **/
 
     private void UpdateSiteOverviewKeywordAnalysis ()
     {
-
       if ( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
       {
-
         MacroscopeDocumentCollection DocCollection = this.JobMaster.GetDocCollection();
-
         lock ( DocCollection )
         {
-
           this.msSiteStructureKeywordAnalysis.RefreshKeywordAnalysisData(
             DocCollection: DocCollection
           );
-
         }
-
       }
-
     }
 
     /** SITE OVERVIEW PANEL CALLBACKS *****************************************/
@@ -2112,64 +2107,73 @@ namespace SEOMacroscope
     public void ClearDisplay ()
     {
 
-      this.msDisplayStructure.ClearData();
-      this.msDisplayHierarchy.ClearData();
-      this.msDisplaySearchCollection.ClearData();
+      try
+      {
 
-      this.msDisplayRobots.ClearData();
-      this.msDisplaySitemaps.ClearData();
-      this.msDisplaySitemapErrors.ClearData();
-      this.msDisplaySitemapsAudit.ClearData();
+        this.msDisplayStructure.ClearData();
+        this.msDisplayHierarchy.ClearData();
+        this.msDisplaySearchCollection.ClearData();
 
-      this.msDisplayCanonical.ClearData();
-      this.msDisplayHrefLang.ClearData();
+        this.msDisplayRobots.ClearData();
+        this.msDisplaySitemaps.ClearData();
+        this.msDisplaySitemapErrors.ClearData();
+        this.msDisplaySitemapsAudit.ClearData();
 
-      this.msDisplayErrors.ClearData();
-      this.msDisplayRedirectsAudit.ClearData();
-      this.msDisplayRedirectChains.ClearData();
+        this.msDisplayCanonical.ClearData();
+        this.msDisplayHrefLang.ClearData();
 
-      this.msDisplayLinks.ClearData();
-      this.msDisplayHyperlinks.ClearData();
-      this.msDisplayUriAnalysis.ClearData();
-      this.msDisplayOrphanedPages.ClearData();
+        this.msDisplayErrors.ClearData();
+        this.msDisplayRedirectsAudit.ClearData();
+        this.msDisplayRedirectChains.ClearData();
 
-      this.msDisplayTitles.ClearData();
-      this.msDisplayDescriptions.ClearData();
-      this.msDisplayKeywords.ClearData();
-      this.msDisplayHeadings.ClearData();
-      this.msDisplayPageText.ClearData();
+        this.msDisplayLinks.ClearData();
+        this.msDisplayHyperlinks.ClearData();
+        this.msDisplayUriAnalysis.ClearData();
+        this.msDisplayOrphanedPages.ClearData();
 
-      this.msDisplayStylesheets.ClearData();
-      this.msDisplayJavascripts.ClearData();
-      this.msDisplayImages.ClearData();
-      this.msDisplayAudios.ClearData();
-      this.msDisplayVideos.ClearData();
+        this.msDisplayTitles.ClearData();
+        this.msDisplayDescriptions.ClearData();
+        this.msDisplayKeywords.ClearData();
+        this.msDisplayHeadings.ClearData();
+        this.msDisplayPageText.ClearData();
 
-      this.msDisplayEmailAddresses.ClearData();
-      this.msDisplayTelephoneNumbers.ClearData();
+        this.msDisplayStylesheets.ClearData();
+        this.msDisplayJavascripts.ClearData();
+        this.msDisplayImages.ClearData();
+        this.msDisplayAudios.ClearData();
+        this.msDisplayVideos.ClearData();
 
-      this.msDisplayHostnames.ClearData();
+        this.msDisplayEmailAddresses.ClearData();
+        this.msDisplayTelephoneNumbers.ClearData();
 
-      this.msDisplayCustomFilters.ClearData();
-      this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
+        this.msDisplayHostnames.ClearData();
 
-      this.msDisplayDisplayDataExtractorCssSelectors.ClearData();
-      this.msDisplayDisplayDataExtractorCssSelectors.ResetColumns();
-      this.msDisplayDisplayDataExtractorRegexes.ClearData();
-      this.msDisplayDisplayDataExtractorRegexes.ResetColumns();
-      this.msDisplayDisplayDataExtractorXpaths.ClearData();
-      this.msDisplayDisplayDataExtractorXpaths.ResetColumns();
+        this.msDisplayCustomFilters.ClearData();
+        this.msDisplayCustomFilters.ResetColumns( CustomFilter: this.CustomFilter );
 
-      this.msDisplayRemarks.ClearData();
+        this.msDisplayDisplayDataExtractorCssSelectors.ClearData();
+        this.msDisplayDisplayDataExtractorCssSelectors.ResetColumns();
+        this.msDisplayDisplayDataExtractorRegexes.ClearData();
+        this.msDisplayDisplayDataExtractorRegexes.ResetColumns();
+        this.msDisplayDisplayDataExtractorXpaths.ClearData();
+        this.msDisplayDisplayDataExtractorXpaths.ResetColumns();
 
-      this.msDisplayUriQueue.ClearData();
-      this.msDisplayHistory.ClearData();
+        this.msDisplayRemarks.ClearData();
 
-      this.macroscopeDocumentDetailsInstance.ClearData();
+        this.msDisplayUriQueue.ClearData();
+        this.msDisplayHistory.ClearData();
 
-      this.msSiteStructureOverview.ClearData();
-      this.msSiteStructureSiteSpeed.ClearData();
-      this.msSiteStructureKeywordAnalysis.ClearData();
+        this.macroscopeDocumentDetailsInstance.ClearData();
+
+        this.msSiteStructureOverview.ClearData();
+        this.msSiteStructureSiteSpeed.ClearData();
+        this.msSiteStructureKeywordAnalysis.ClearData();
+
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "ClearDisplay: {0}", ex.Message ) );
+      }
 
     }
 
@@ -2422,9 +2426,9 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void CallbackRecalculateLinkCountsClick ( object sender, EventArgs e )
+    private void CallbackRecalculateDocCollectionStatsClick ( object sender, EventArgs e )
     {
-      this.RecalculateLinkCounts();
+      this.RecalculateDocCollectionStats();
     }
 
     /** -------------------------------------------------------------------- **/
@@ -2434,19 +2438,20 @@ namespace SEOMacroscope
       this.RecalculateClickPathAnalysis();
     }
 
-    /** Recalculate Link Counts  **********************************************/
+    /** Recalculate Document Collection Stats *********************************/
 
-    public void RecalculateLinkCounts ()
+    public void RecalculateDocCollectionStats ()
     {
 
       MacroscopeDocumentCollection DocCollection = this.JobMaster.GetDocCollection();
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
         this.JobMaster.AddUpdateDisplayQueue( Url: msDoc.GetUrl() );
       }
 
       DocCollection.RecalculateDocCollection();
+      DocCollection.RecalculateDocCollectionFinal();
 
       this.UpdateTabPage( MacroscopeConstants.tabPageStructureLinkCounts );
 

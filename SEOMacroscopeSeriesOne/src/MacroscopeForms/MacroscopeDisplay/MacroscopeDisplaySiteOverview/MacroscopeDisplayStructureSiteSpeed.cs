@@ -99,6 +99,11 @@ namespace SEOMacroscope
     public void RefreshSiteSpeedData ( MacroscopeDocumentCollection DocCollection )
     {
 
+      if( this.lvListViewFastest.IsDisposed || this.lvListViewSlowest.IsDisposed)
+      {
+        return;
+      }
+
       if( DocCollection.CountDocuments() > 0 )
       {
 

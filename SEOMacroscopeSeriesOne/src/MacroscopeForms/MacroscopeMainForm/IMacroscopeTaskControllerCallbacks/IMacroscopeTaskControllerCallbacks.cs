@@ -43,7 +43,7 @@ namespace SEOMacroscope
             delegate
             {
               this.ScanningControlsComplete();
-              this.RecalculateLinkCounts();
+              this.RecalculateDocCollectionStats();
               this.RecalculateClickPathAnalysis();
               this.UpdateSiteOverview();
               this.UpdateFocusedTabPage();
@@ -54,7 +54,7 @@ namespace SEOMacroscope
       else
       {
         this.ScanningControlsComplete();
-        this.RecalculateLinkCounts();
+        this.RecalculateDocCollectionStats();
         this.RecalculateClickPathAnalysis();
         this.UpdateSiteOverview();
         this.UpdateFocusedTabPage();

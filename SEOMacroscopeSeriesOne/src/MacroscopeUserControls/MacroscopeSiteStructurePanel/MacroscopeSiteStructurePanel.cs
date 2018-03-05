@@ -41,17 +41,17 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private MacroscopeColumnSorter lvColumnSorter;
-    
+
     /**************************************************************************/
-		    
+
     public MacroscopeSiteStructurePanel ()
     {
-      
+
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
       /** Column Sorters ******************************************************/
-            
-      this.lvColumnSorter = new MacroscopeColumnSorter ();
+
+      this.lvColumnSorter = new MacroscopeColumnSorter();
 
       /** Site Overview *******************************************************/
 
@@ -62,12 +62,12 @@ namespace SEOMacroscope
       /** Keyword Analysis ****************************************************/
 
       this.tabControlKeywordAnalysisPhrases.Dock = DockStyle.Fill;
-        
+
       this.listViewKeywordAnalysis1.Dock = DockStyle.Fill;
       this.listViewKeywordAnalysis2.Dock = DockStyle.Fill;
       this.listViewKeywordAnalysis3.Dock = DockStyle.Fill;
       this.listViewKeywordAnalysis4.Dock = DockStyle.Fill;
-   
+
       this.listViewKeywordAnalysis1.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis2.ColumnClick += this.CallbackColumnClick;
       this.listViewKeywordAnalysis3.ColumnClick += this.CallbackColumnClick;
@@ -88,11 +88,11 @@ namespace SEOMacroscope
 
       this.toolStripLabelSiteSpeedAverage.Text = string.Format( "Average Response Time: {0:0.00}s", 0 );
 
-      
+
       /** Charts **************************************************************/
 
       this.splitContainerSiteOverview.Panel2Collapsed = false;
-      
+
       this.siteStructurePanelCharts.Dock = DockStyle.Fill;
 
     }
@@ -102,35 +102,44 @@ namespace SEOMacroscope
     private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
     {
 
-      ListView TargetListView = sender as ListView;
-
-      TargetListView.ListViewItemSorter = this.lvColumnSorter;
-            
-      if( e.Column == lvColumnSorter.SortColumn )
+      try
       {
-        if( lvColumnSorter.Order == SortOrder.Ascending )
+
+        ListView TargetListView = sender as ListView;
+
+        TargetListView.ListViewItemSorter = this.lvColumnSorter;
+
+        if( e.Column == lvColumnSorter.SortColumn )
         {
-          lvColumnSorter.Order = SortOrder.Descending;
+          if( lvColumnSorter.Order == SortOrder.Ascending )
+          {
+            lvColumnSorter.Order = SortOrder.Descending;
+          }
+          else
+          {
+            lvColumnSorter.Order = SortOrder.Ascending;
+          }
         }
         else
         {
+          lvColumnSorter.SortColumn = e.Column;
           lvColumnSorter.Order = SortOrder.Ascending;
         }
-      }
-      else
-      {
-        lvColumnSorter.SortColumn = e.Column;
-        lvColumnSorter.Order = SortOrder.Ascending;
-      }
 
-      TargetListView.Sort();
-      
-      TargetListView.ListViewItemSorter = null;
+        TargetListView.Sort();
+
+        TargetListView.ListViewItemSorter = null;
+
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( "CallbackColumnClick: {0}", ex.Message ) );
+      }
 
     }
 
     /**************************************************************************/
-    
+
   }
 
 }

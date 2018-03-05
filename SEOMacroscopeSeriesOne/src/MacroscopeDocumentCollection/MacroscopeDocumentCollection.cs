@@ -410,19 +410,50 @@ namespace SEOMacroscope
       try
       {
 
-        if ( !string.IsNullOrEmpty( Url ) )
+        if( !string.IsNullOrEmpty( Url ) )
         {
-          if ( this.DocCollection.ContainsKey( Url ) )
+          if( this.DocCollection.ContainsKey( Url ) )
           {
             msDoc = this.DocCollection[ Url ];
           }
         }
 
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( ex.Message );
       }
+
+      return ( msDoc );
+
+    }
+
+    /**************************************************************************/
+
+    // TODO: Implement this:
+    public MacroscopeDocument GetDocumentByETag ( string ETag )
+    {
+
+      MacroscopeDocument msDoc = null;
+
+      /*
+      try
+      {
+
+        if( !string.IsNullOrEmpty( Url ) )
+        {
+          if( this.DocCollection.ContainsKey( Url ) )
+          {
+            msDoc = this.DocCollection[ Url ];
+          }
+        }
+
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+      }
+      */
 
       return ( msDoc );
 

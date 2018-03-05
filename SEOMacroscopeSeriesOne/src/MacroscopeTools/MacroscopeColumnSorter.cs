@@ -48,15 +48,10 @@ namespace SEOMacroscope
 
     public MacroscopeColumnSorter ()
     {
-
       this.SuppressDebugMsg = true;
-
       this.ColumnToSort = 0;
-
       this.OrderOfSort = SortOrder.None;
-
       this.ObjectCompare = new CaseInsensitiveComparer ();
-
     }
 
     /**************************************************************************/
@@ -65,6 +60,7 @@ namespace SEOMacroscope
     {
 
       int compareResult;
+      int returncompareResult = 0;
       ListViewItem listviewX, listviewY;
       object [] ObjectPair;
       string ColumnName;
@@ -75,45 +71,43 @@ namespace SEOMacroscope
         ( this.ColumnToSort > listviewX.SubItems.Count )
         || ( this.ColumnToSort > listviewY.SubItems.Count ) )
       {
-        return 0;
+        return( returncompareResult);
       }
 
       ColumnName = listviewX.ListView.Columns[ this.ColumnToSort ].Text;
 
       if( Regex.IsMatch( ColumnName, @"\s+Date" ) )
       {
-      
         ObjectPair = DetermineValueTypeDate(
           listviewX.SubItems[ this.ColumnToSort ].Text,
           listviewY.SubItems[ this.ColumnToSort ].Text
         );
-      
       }
       else
       {
-      
         ObjectPair = DetermineValueType(
           listviewX.SubItems[ this.ColumnToSort ].Text,
           listviewY.SubItems[ this.ColumnToSort ].Text
         );
-
       }
       
       compareResult = ObjectCompare.Compare( ObjectPair[ 0 ], ObjectPair[ 1 ] );
 
       if( this.OrderOfSort == SortOrder.Ascending )
       {
-        return compareResult;
+        returncompareResult = compareResult;
       }
       else
       if( this.OrderOfSort == SortOrder.Descending )
       {
-        return ( -compareResult );
+        returncompareResult = -compareResult;
       }
       else
       {
-        return 0;
+        returncompareResult = 0;
       }
+
+      return ( returncompareResult );
 
     }
 

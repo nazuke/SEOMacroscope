@@ -444,11 +444,8 @@ namespace SEOMacroscope
           {
 
             string Hostname = msDoc.GetHostAndPort();
-
             string HostnameFrom = MacroscopeAllowedHosts.ParseHostnameFromUrl( msDoc.GetUrlRedirectFrom() );
-
             string UrlRedirectTo = msDoc.GetUrlRedirectTo();
-
             string HostnameTo = MacroscopeAllowedHosts.ParseHostnameFromUrl( UrlRedirectTo );
 
             this.DebugMsg( string.Format( "REDIRECTION DETECTED UrlRedirectTo: {0}", UrlRedirectTo ) );

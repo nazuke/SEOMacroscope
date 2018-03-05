@@ -52,7 +52,7 @@ namespace SEOMacroscope
       InitializeComponent();
 
       // TabPanel Properties
-      this.tabControlMain.Multiline = false;
+      this.tabControlMain.Multiline = true;
 
       this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true );
 
@@ -84,7 +84,7 @@ namespace SEOMacroscope
 
       this.tableLayoutPanelLinks.Dock = DockStyle.Fill;
       this.listViewLinks.Dock = DockStyle.Fill;
-      
+
       this.tableLayoutPanelHyperlinks.Dock = DockStyle.Fill;
       this.listViewHyperlinks.Dock = DockStyle.Fill;
 
@@ -117,7 +117,7 @@ namespace SEOMacroscope
 
       this.tableLayoutPanelRemarks.Dock = DockStyle.Fill;
       this.listViewRemarks.Dock = DockStyle.Fill;
-      
+
       this.tableLayoutPanelUriQueue.Dock = DockStyle.Fill;
       this.listViewUriQueue.Dock = DockStyle.Fill;
 
@@ -128,7 +128,7 @@ namespace SEOMacroscope
       this.listViewSearchCollection.Dock = DockStyle.Fill;
 
       // ListView Sorters
-      this.lvColumnSorter = new MacroscopeColumnSorter ();
+      this.lvColumnSorter = new MacroscopeColumnSorter();
 
       this.listViewStructure.ColumnClick += this.CallbackColumnClick;
       this.listViewRobots.ColumnClick += this.CallbackColumnClick;
@@ -175,30 +175,40 @@ namespace SEOMacroscope
     private void CallbackColumnClick ( object sender, ColumnClickEventArgs e )
     {
 
-      ListView TargetListView = sender as ListView;
-      
-      TargetListView.ListViewItemSorter = this.lvColumnSorter;
-
-      if( e.Column == this.lvColumnSorter.SortColumn )
+      try
       {
-        if( this.lvColumnSorter.Order == SortOrder.Ascending )
+
+        ListView TargetListView = sender as ListView;
+
+        TargetListView.ListViewItemSorter = this.lvColumnSorter;
+
+        if( e.Column == this.lvColumnSorter.SortColumn )
         {
-          this.lvColumnSorter.Order = SortOrder.Descending;
+          if( this.lvColumnSorter.Order == SortOrder.Ascending )
+          {
+            this.lvColumnSorter.Order = SortOrder.Descending;
+          }
+          else
+          {
+            this.lvColumnSorter.Order = SortOrder.Ascending;
+          }
         }
         else
         {
+          this.lvColumnSorter.SortColumn = e.Column;
           this.lvColumnSorter.Order = SortOrder.Ascending;
         }
+
+        TargetListView.Sort();
+
+        TargetListView.ListViewItemSorter = null;
+
       }
-      else
+      catch( Exception ex )
       {
-        this.lvColumnSorter.SortColumn = e.Column;
-        this.lvColumnSorter.Order = SortOrder.Ascending;
+        this.DebugMsg( string.Format( "CallbackColumnClick: {0}", ex.Message ) );
       }
 
-      TargetListView.Sort();
-
-      TargetListView.ListViewItemSorter = null;
     }
 
     /**************************************************************************/
