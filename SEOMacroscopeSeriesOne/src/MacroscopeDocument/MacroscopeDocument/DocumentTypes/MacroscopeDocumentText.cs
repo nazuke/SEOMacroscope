@@ -119,13 +119,7 @@ namespace SEOMacroscope
         this.AddRemark( "_ProcessTextPage", ex.Message );
       }
 
-      if ( Response == null )
-      {
-
-        DebugMsg( string.Format( "ProcessTextPage :: Response: {0}", Response.ToString() ) );
-
-      }
-      else if ( Response != null )
+      if ( Response != null )
       {
 
         string RawData = "";

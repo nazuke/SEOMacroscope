@@ -42,13 +42,13 @@ namespace SEOMacroscope
     {
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
-      List<List<MacroscopeDocument>> RedirectChains = DocCollection.GetMacroscopeRedirectChains();
+      List<List<MacroscopeRedirectChainDocStruct>> RedirectChains = DocCollection.GetMacroscopeRedirectChains();
       int MaxHops = 1;
 
-      foreach ( List<MacroscopeDocument> DocList in RedirectChains )
+      foreach ( List<MacroscopeRedirectChainDocStruct> DocList in RedirectChains )
       {
         int iHop = 1;
-        foreach ( MacroscopeDocument msDoc in DocList )
+        foreach ( MacroscopeRedirectChainDocStruct RedirectChainDocStruct in DocList )
         {
           iHop++;
         }
@@ -66,12 +66,12 @@ namespace SEOMacroscope
 
       ws.NextRecord();
 
-      foreach ( List<MacroscopeDocument> DocList in RedirectChains )
+      foreach ( List<MacroscopeRedirectChainDocStruct> DocList in RedirectChains )
       {
-        foreach ( MacroscopeDocument msDoc in DocList )
+        foreach ( MacroscopeRedirectChainDocStruct RedirectChainDocStruct in DocList )
         {
-          string Url = msDoc.GetUrl();
-          string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
+          string Url = RedirectChainDocStruct.Url;
+          string StatusCode = RedirectChainDocStruct.StatusCode.ToString();
           this.InsertAndFormatUrlCell( ws, Url );
           this.InsertAndFormatContentCell( ws, StatusCode );
         }

@@ -95,7 +95,7 @@ namespace SEOMacroscope
 
     private MacroscopeDocumentList OrphanedDocumentList;
 
-    private List<List<MacroscopeDocument>> AnalyzedRedirectChains;
+    private List<List<MacroscopeRedirectChainDocStruct>> AnalyzedRedirectChains;
 
     private static object LockerDocCollection = new object();
     private static object LockerRecalc = new object();
@@ -179,7 +179,7 @@ namespace SEOMacroscope
 
       this.OrphanedDocumentList = new MacroscopeDocumentList();
 
-      this.AnalyzedRedirectChains = new List<List<MacroscopeDocument>>();
+      this.AnalyzedRedirectChains = new List<List<MacroscopeRedirectChainDocStruct>>();
 
       this.StartRecalcTimer ();
 
@@ -814,6 +814,8 @@ namespace SEOMacroscope
                   this.DnsLookup( msDoc: msDoc );
                 }
 
+                this.RecalculateMacroscopeRedirectChains( msDoc: msDoc );
+
               }
 
               this.RecalculateSitemapErrors( msDoc: msDoc );
@@ -876,7 +878,7 @@ namespace SEOMacroscope
 
             this.RecalculateOrphanedDocumentList();
 
-            this.RecalculateMacroscopeRedirectChains();
+//            this.RecalculateMacroscopeRedirectChains();
 
           }
           finally
@@ -2715,19 +2717,26 @@ namespace SEOMacroscope
     {
       return ( this.OrphanedDocumentList );
     }
-    
+
     /** Analyze Redirect Chains in Collection *********************************/
 
-    private void RecalculateMacroscopeRedirectChains ()
+    private async void RecalculateMacroscopeRedirectChains ( MacroscopeDocument msDoc )
     {
-      MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis();
-      this.AnalyzedRedirectChains = Analyzer.AnalyzeRedirectChains( DocCollection: this );
+      if( msDoc.GetIsRedirect() )
+      {
+        MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis( DocCollection: this );
+        List<MacroscopeRedirectChainDocStruct> AnalyzedRedirectChain = await Analyzer.AnalyzeRedirectChains( msDocStart: msDoc );
+        if( AnalyzedRedirectChain.Count > 0 )
+        {
+          this.AnalyzedRedirectChains.Add( AnalyzedRedirectChain );
+        }
+      }
       return;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public List<List<MacroscopeDocument>> GetMacroscopeRedirectChains ()
+    public List<List<MacroscopeRedirectChainDocStruct>> GetMacroscopeRedirectChains ()
     {
       return ( this.AnalyzedRedirectChains );
     }

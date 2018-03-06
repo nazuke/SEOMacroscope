@@ -171,7 +171,7 @@ namespace SEOMacroscope
     {
 
       List<ListViewItem> ListViewItems = new List<ListViewItem>( DocCollection.CountDocuments() );
-      List<List<MacroscopeDocument>> RedirectChains = DocCollection.GetMacroscopeRedirectChains();
+      List<List<MacroscopeRedirectChainDocStruct>> RedirectChains = DocCollection.GetMacroscopeRedirectChains();
 
       MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
@@ -192,7 +192,7 @@ namespace SEOMacroscope
 
       }
 
-      foreach ( List<MacroscopeDocument> DocList in RedirectChains )
+      foreach ( List<MacroscopeRedirectChainDocStruct> DocList in RedirectChains )
       {
 
         Application.DoEvents();
@@ -250,18 +250,21 @@ namespace SEOMacroscope
     private void RenderListViewRedirectChains (
       List<ListViewItem> ListViewItems,
       MacroscopeDocumentCollection DocCollection,
-      List<MacroscopeDocument> DocList
+      List<MacroscopeRedirectChainDocStruct> DocList
     )
     {
 
       ListViewItem lvItem = null;
-      string PairKey = string.Join( "", DocList[ 0 ].GetUrl() );
+      string PairKey = string.Join( "", DocList[ 0 ].Url );
       int IHOP = 0;
 
+      // TODO: Fix this:
+      /*
       if ( DocList[ 0 ].GetIsExternal() )
       {
         return;
       }
+      */
 
       if ( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
@@ -294,14 +297,17 @@ namespace SEOMacroscope
         }
       }
 
-      foreach ( MacroscopeDocument msDoc in DocList )
+      foreach ( MacroscopeRedirectChainDocStruct RedirectChainDocStruct in DocList )
       {
 
-        string Url = msDoc.GetUrl();
-        string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
-        bool IsInternal = msDoc.GetIsInternal();
+        string Url = RedirectChainDocStruct.Url;
+        string StatusCode = RedirectChainDocStruct.StatusCode.ToString();
 
-        if ( IHOP > ( this.MaximumHops * 2 ) )
+        // TODO: Fix this:
+        //        bool IsInternal = msDoc.GetIsInternal();
+                bool IsInternal = true;
+
+        if( IHOP > ( this.MaximumHops * 2 ) )
         {
           break;
         }

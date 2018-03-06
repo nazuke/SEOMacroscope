@@ -183,6 +183,7 @@
     <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\MacroscopeLevenshteinFingerprint.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeQrCodeAnalysis\MacroscopeQrCodeAnalysis.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeQrCodeAnalysis\t\TestMacroscopeQrCodeAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeRedirectChainAnalysis\MacroscopeRedirectChainDocStruct.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeRedirectChainAnalysis\MacroscopeRedirectChainAnalysis.cs" />
     <Compile Include="src\MacroscopeConstants.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
