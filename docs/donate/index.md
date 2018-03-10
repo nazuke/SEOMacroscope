@@ -14,3 +14,5 @@ If you have any suggestions for improvements or new features, then please add a 
 {% include donation-bitcoin.html %}
 
 {% include donation-litecoin.html %}
+
+{% include donation-dash.html %}

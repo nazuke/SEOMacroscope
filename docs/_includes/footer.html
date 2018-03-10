@@ -12,7 +12,7 @@
 
 			<div class="contact-list">
 				{% if site.email %}
-					<p>e-mail: <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+					<p><span class="glyphicon glyphicon glyphicon-envelope" aria-hidden="true"></span> <a href="mailto:{{ site.email }}" alt="SEO Macroscope email address link">{{ site.email }}</a></p>
 				{% endif %}
 			</div>
 
@@ -22,6 +22,12 @@
 						{% include icon-twitter.html username=site.twitter_username %}
 					</p>
 				{% endif %}
+			</div>
+			
+			<div class="social-media-list">
+				<p>
+					<span class="glyphicon glyphicon glyphicon-bitcoin" aria-hidden="true"></span> <a href="{{ "/donate/" | relative_url }}">SEO Macroscope welcomes Bitcoin donations towards further development</a>
+				</p>
 			</div>
 
 		</div>

@@ -178,6 +178,18 @@ blockquote
 	margin-bottom:50px;
 }
 
+/** Buttons *******************************************************************/
+
+a.btn-success
+{
+	color:$color-white;
+	background-color:$color-green;
+	&:hover
+	{
+		color:$color-dark-grey;
+	}
+}
+
 /** Footer ********************************************************************/
 
 footer
