@@ -1,9 +1,8 @@
 <head>
 
   <meta charset="utf-8">
-
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+  <meta name="environment" content="{{ jekyll.environment | escape }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- BEGIN: Webmaster Tools Services -->
@@ -30,11 +29,22 @@
   {% endif %}
   <!-- END: Webmaster Tools Services -->
 
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
+  <link rel="alternate" href="{{ page.url | replace:'index.html','' | absolute_url }}" hreflang="en" />
+  <link rel="alternate" href="{{ page.url | replace:'index.html','' | absolute_url }}" hreflang="x-default" />
   <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon">
 
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
-
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+  {% if jekyll.environment == 'production' %}
+    {% include google-optimize.html optimize=site.google_optimize.production %}
+    {% include google-analytics.html tracker=site.google_analytics.production optimize=site.google_optimize.production %}
+  {% elsif jekyll.environment == 'development' %}
+    {% include google-optimize.html optimize=site.google_optimize.development %}
+    {% include google-analytics.html tracker=site.google_analytics.development optimize=site.google_optimize.development %}
+  {% endif %}
 
   <!-- BEGIN: Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -43,21 +53,6 @@
   <!-- END: Bootstrap CSS -->
 
   <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
-
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
-
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
-
-  <link rel="alternate" href="{{ page.url | replace:'index.html','' | absolute_url }}" hreflang="en" />
-  <link rel="alternate" href="{{ page.url | replace:'index.html','' | absolute_url }}" hreflang="x-default" />
-
-  <meta name="environment" content="{{ jekyll.environment | escape }}">
-
-  {% if jekyll.environment == 'production' and site.google_analytics.production %}
-    {% include google-analytics.html tracker=site.google_analytics.production optimize=site.google_optimize.production %}
-  {% elsif jekyll.environment == 'development' and site.google_analytics.development %}
-    {% include google-analytics.html tracker=site.google_analytics.development optimize=site.google_optimize.development %}
-  {% endif %}
 
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
