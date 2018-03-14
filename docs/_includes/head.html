@@ -54,9 +54,9 @@
   <meta name="environment" content="{{ jekyll.environment | escape }}">
 
   {% if jekyll.environment == 'production' and site.google_analytics.production %}
-    {% include google-analytics.html tracker=site.google_analytics.production %}
+    {% include google-analytics.html tracker=site.google_analytics.production optimize=site.google_optimize.production %}
   {% elsif jekyll.environment == 'development' and site.google_analytics.development %}
-    {% include google-analytics.html tracker=site.google_analytics.development %}
+    {% include google-analytics.html tracker=site.google_analytics.development optimize=site.google_optimize.development %}
   {% endif %}
 
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>

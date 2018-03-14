@@ -33,6 +33,9 @@ google_site_verification:
 google_analytics:
   development: UA-53226030-10
   production: UA-53226030-9
+google_optimize:
+  development: ""
+  production: GTM-NDZ47KV
 
 # Yandex Services
 yandex_site_verification:
