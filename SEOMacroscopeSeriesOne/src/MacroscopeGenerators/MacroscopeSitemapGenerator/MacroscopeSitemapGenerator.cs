@@ -57,27 +57,35 @@ namespace SEOMacroscope
     public void WriteSitemapXml ( string NewPath )
     {
 
-      string StartHost;
-      string XmlSitemapSerialized;
+      string StartHost = null;
+      string XmlSitemapSerialized = null;
       XmlDocument SitemapXml;
       StringWriter SitemapXmlStringWriter;
       XmlTextWriter SitemapXmlTextWriter;
+      MacroscopeDocument StartHostDocument = null;
 
-      StartHost = this.DocCollection.GetDocument(
-        Url: this.DocCollection.GetJobMaster().GetStartUrl()
-      ).GetHostAndPort();
+      try
+      {
 
-      XmlSitemapSerialized = null;
+        StartHostDocument = this.DocCollection.GetDocument( Url: this.DocCollection.GetJobMaster().GetStartUrl() );
 
-      SitemapXml = this.GenerateXmlSitemap( Host: StartHost );
-      SitemapXmlStringWriter = new StringWriter();
-      SitemapXmlTextWriter = new XmlTextWriter( SitemapXmlStringWriter );
+        if( StartHostDocument != null )
+        {
+          StartHost = StartHostDocument.GetHostAndPort();
+          SitemapXml = this.GenerateXmlSitemap( Host: StartHost );
+          SitemapXmlStringWriter = new StringWriter();
+          SitemapXmlTextWriter = new XmlTextWriter( SitemapXmlStringWriter );
+          SitemapXml.WriteTo( SitemapXmlTextWriter );
+          XmlSitemapSerialized = SitemapXmlStringWriter.ToString();
+          File.WriteAllText( NewPath, XmlSitemapSerialized, new System.Text.UTF8Encoding( false ) );
+        }
 
-      SitemapXml.WriteTo( SitemapXmlTextWriter );
-
-      XmlSitemapSerialized = SitemapXmlStringWriter.ToString();
-
-      File.WriteAllText( NewPath, XmlSitemapSerialized, new System.Text.UTF8Encoding( false ) );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( "WriteSitemapXml: {0}", ex.Message ) );
+        throw new MacroscopeSitemapException( "An error occurred whilst attempting to save the Sitemap XML file." );
+      }
 
     }
 
@@ -88,7 +96,7 @@ namespace SEOMacroscope
 
       Dictionary<string, int> HostsList = this.DocCollection.GetStatsHostnamesWithCount();
 
-      foreach ( string Host in HostsList.Keys )
+      foreach( string Host in HostsList.Keys )
       {
 
         string Pathname;
@@ -131,16 +139,28 @@ namespace SEOMacroscope
     public void WriteSitemapText ( string NewPath )
     {
 
-      string StartHost;
+      string StartHost = null;
       List<string> SitemapText;
+      MacroscopeDocument StartHostDocument = null;
 
-      StartHost = this.DocCollection.GetDocument(
-        Url: this.DocCollection.GetJobMaster().GetStartUrl()
-      ).GetHostAndPort();
+      try
+      {
 
-      SitemapText = this.GenerateTextSitemap( Host: StartHost );
+        StartHostDocument = this.DocCollection.GetDocument( Url: this.DocCollection.GetJobMaster().GetStartUrl() );
 
-      File.WriteAllLines( NewPath, SitemapText, new System.Text.UTF8Encoding( false ) );
+        if( StartHostDocument != null )
+        {
+          StartHost = StartHostDocument.GetHostAndPort();
+          SitemapText = this.GenerateTextSitemap( Host: StartHost );
+          File.WriteAllLines( NewPath, SitemapText, new System.Text.UTF8Encoding( false ) );
+        }
+
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( "WriteSitemapText: {0}", ex.Message ) );
+        throw new MacroscopeSitemapException( "An error occurred whilst attempting to save the Text Sitemap file." );
+      }
 
     }
 
@@ -151,7 +171,7 @@ namespace SEOMacroscope
 
       Dictionary<string, int> HostsList = this.DocCollection.GetStatsHostnamesWithCount();
 
-      foreach ( string Host in HostsList.Keys )
+      foreach( string Host in HostsList.Keys )
       {
 
         List<string> SitemapText;
@@ -194,24 +214,24 @@ namespace SEOMacroscope
       SitemapXml.InsertBefore( SitemapXmlDeclaration, RootNode );
       SitemapXml.AppendChild( UrlSetNode );
 
-      foreach ( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
         bool Proceed = false;
 
-        if ( !msDoc.GetStatusCode().Equals( HttpStatusCode.OK ) )
+        if( !msDoc.GetStatusCode().Equals( HttpStatusCode.OK ) )
         {
           continue;
         }
 
-        if (
+        if(
           ( !msDoc.GetIsInternal() )
           || ( msDoc.GetIsRedirect() ) )
         {
           continue;
         }
 
-        switch ( msDoc.GetDocumentType() )
+        switch( msDoc.GetDocumentType() )
         {
           case MacroscopeConstants.DocumentType.HTML:
             Proceed = true;
@@ -223,9 +243,9 @@ namespace SEOMacroscope
             break;
         }
 
-        if ( !string.IsNullOrEmpty( Host ) )
+        if( !string.IsNullOrEmpty( Host ) )
         {
-          if ( msDoc.GetHostAndPort().Equals( Host ) )
+          if( msDoc.GetHostAndPort().Equals( Host ) )
           {
             Proceed = true;
           }
@@ -235,7 +255,7 @@ namespace SEOMacroscope
           }
         }
 
-        if ( Proceed )
+        if( Proceed )
         {
 
           XmlElement UrlNode = SitemapXml.CreateElement( string.Empty, "url", MacroscopeSitemapGenerator.XmlNamespace );
@@ -270,7 +290,7 @@ namespace SEOMacroscope
             EntryNode.AppendChild( TextNode );
           }
 
-          if (
+          if(
             MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs()
             && msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
           {
@@ -302,13 +322,13 @@ namespace SEOMacroscope
     )
     {
 
-      foreach ( MacroscopeHyperlinkOut HyperlinkOut in msDoc.IterateHyperlinksOut() )
+      foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.IterateHyperlinksOut() )
       {
 
         string Url = HyperlinkOut.GetTargetUrl();
         Uri UrlParsed = new Uri( uriString: Url );
 
-        if ( Dedupe.ContainsKey( Url ) )
+        if( Dedupe.ContainsKey( Url ) )
         {
           continue;
         }
@@ -317,17 +337,17 @@ namespace SEOMacroscope
           Dedupe.Add( Url, true );
         }
 
-        if ( !UrlParsed.AbsolutePath.ToLower().EndsWith( ".pdf", StringComparison.InvariantCultureIgnoreCase ) )
+        if( !UrlParsed.AbsolutePath.ToLower().EndsWith( ".pdf", StringComparison.InvariantCultureIgnoreCase ) )
         {
           continue;
         }
 
-        if ( !this.DocCollection.GetAllowedHosts().IsAllowedFromUrl( Url: Url ) )
+        if( !this.DocCollection.GetAllowedHosts().IsAllowedFromUrl( Url: Url ) )
         {
           continue;
         }
 
-        if ( !MacroscopeHttpUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
+        if( !MacroscopeHttpUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
         {
           continue;
         }
@@ -368,24 +388,24 @@ namespace SEOMacroscope
       Dictionary<string, bool> Dedupe = new Dictionary<string, bool>( DocCollection.CountDocuments() );
       List<string> SitemapText = new List<string>( this.DocCollection.CountDocuments() );
 
-      foreach ( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
         bool Proceed = false;
 
-        if ( !msDoc.GetStatusCode().Equals( HttpStatusCode.OK ) )
+        if( !msDoc.GetStatusCode().Equals( HttpStatusCode.OK ) )
         {
           continue;
         }
 
-        if (
+        if(
           ( !msDoc.GetIsInternal() )
           || ( msDoc.GetIsRedirect() ) )
         {
           continue;
         }
 
-        switch ( msDoc.GetDocumentType() )
+        switch( msDoc.GetDocumentType() )
         {
           case MacroscopeConstants.DocumentType.HTML:
             Proceed = true;
@@ -397,9 +417,9 @@ namespace SEOMacroscope
             break;
         }
 
-        if ( !string.IsNullOrEmpty( Host ) )
+        if( !string.IsNullOrEmpty( Host ) )
         {
-          if ( msDoc.GetHostAndPort().Equals( Host ) )
+          if( msDoc.GetHostAndPort().Equals( Host ) )
           {
             Proceed = true;
           }
@@ -409,12 +429,12 @@ namespace SEOMacroscope
           }
         }
 
-        if ( Proceed )
+        if( Proceed )
         {
 
           SitemapText.Add( msDoc.GetUrl() );
 
-          if (
+          if(
             MacroscopePreferencesManager.GetSitemapIncludeLinkedPdfs()
             && msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
           {
@@ -444,13 +464,13 @@ namespace SEOMacroscope
     )
     {
 
-      foreach ( MacroscopeHyperlinkOut HyperlinkOut in msDoc.IterateHyperlinksOut() )
+      foreach( MacroscopeHyperlinkOut HyperlinkOut in msDoc.IterateHyperlinksOut() )
       {
 
         string Url = HyperlinkOut.GetTargetUrl();
         Uri UrlParsed = new Uri( uriString: Url );
 
-        if ( Dedupe.ContainsKey( Url ) )
+        if( Dedupe.ContainsKey( Url ) )
         {
           continue;
         }
@@ -459,17 +479,17 @@ namespace SEOMacroscope
           Dedupe.Add( Url, true );
         }
 
-        if ( !UrlParsed.AbsolutePath.ToLower().EndsWith( ".pdf", StringComparison.InvariantCultureIgnoreCase ) )
+        if( !UrlParsed.AbsolutePath.ToLower().EndsWith( ".pdf", StringComparison.InvariantCultureIgnoreCase ) )
         {
           continue;
         }
 
-        if ( !this.DocCollection.GetAllowedHosts().IsAllowedFromUrl( Url: Url ) )
+        if( !this.DocCollection.GetAllowedHosts().IsAllowedFromUrl( Url: Url ) )
         {
           continue;
         }
 
-        if ( !MacroscopeHttpUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
+        if( !MacroscopeHttpUrlUtils.VerifySameHost( BaseUrl: msDoc.GetUrl(), Url: Url ) )
         {
           continue;
         }

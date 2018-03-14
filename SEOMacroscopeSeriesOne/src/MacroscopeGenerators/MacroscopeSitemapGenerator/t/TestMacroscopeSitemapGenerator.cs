@@ -48,7 +48,26 @@ namespace SEOMacroscope
       string Filename = string.Join( ".", Path.GetTempFileName(), ".xml" );
       SitemapGenerator.WriteSitemapXml( NewPath: Filename );
       Assert.IsTrue( File.Exists( Filename ) );
-      if ( File.Exists( Filename ) )
+      if( File.Exists( Filename ) )
+      {
+        File.Delete( Filename );
+      }
+    }
+
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestWriteSitemapXmlWithEmptyDocCollection ()
+    {
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
+      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
+      MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
+      JobMaster.SetStartUrl( "https://nazuke.github.io/" );
+      string Filename = string.Join( ".", Path.GetTempFileName(), ".xml" );
+      SitemapGenerator.WriteSitemapXml( NewPath: Filename );
+      Assert.IsFalse( File.Exists( Filename ) );
+      if( File.Exists( Filename ) )
       {
         File.Delete( Filename );
       }
@@ -86,12 +105,30 @@ namespace SEOMacroscope
       string Filename = string.Join( ".", Path.GetTempFileName(), ".txt" );
       SitemapGenerator.WriteSitemapText( NewPath: Filename );
       Assert.IsTrue( File.Exists( Filename ) );
-      if ( File.Exists( Filename ) )
+      if( File.Exists( Filename ) )
       {
         File.Delete( Filename );
       }
     }
 
+    /**************************************************************************/
+
+    [Test]
+    public void TestWriteSitemapTextWithEmptyDocCollection ()
+    {
+      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
+      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
+      MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
+      JobMaster.SetStartUrl( "https://nazuke.github.io/" );
+      string Filename = string.Join( ".", Path.GetTempFileName(), ".txt" );
+      SitemapGenerator.WriteSitemapText( NewPath: Filename );
+      Assert.IsFalse( File.Exists( Filename ) );
+      if( File.Exists( Filename ) )
+      {
+        File.Delete( Filename );
+      }
+    }
+    
     /**************************************************************************/
 
     /*

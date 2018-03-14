@@ -37,8 +37,8 @@ namespace SEOMacroscope
 
     private void CallbackSaveGeneratorSitemapXml ( object sender, EventArgs e )
     {
-      
-      SaveFileDialog Dialog = new SaveFileDialog ();
+
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Sitemap XML files (*.xml)|*.xml|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -47,13 +47,13 @@ namespace SEOMacroscope
       Dialog.FileName = "Macroscope-Sitemap.xml";
 
       MacroscopeSitemapGenerator SitemapGenerator;
-      
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Pathname = Dialog.FileName;
-        
-        SitemapGenerator = new MacroscopeSitemapGenerator (
+
+        SitemapGenerator = new MacroscopeSitemapGenerator(
           NewDocCollection: this.JobMaster.GetDocCollection()
         );
 
@@ -74,13 +74,17 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
         }
+        catch( MacroscopeSitemapException ex )
+        {
+          this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
+        }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
         }
-        
+
       }
-      
+
       Dialog.Dispose();
 
     }
@@ -89,8 +93,8 @@ namespace SEOMacroscope
 
     private void CallbackSaveGeneratorSitemapXmlPerHost ( object sender, EventArgs e )
     {
-      
-      SaveFileDialog Dialog = new SaveFileDialog ();
+
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Sitemap XML files (*.xml)|*.xml|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -99,13 +103,13 @@ namespace SEOMacroscope
       Dialog.FileName = "Macroscope-Sitemap.xml";
 
       MacroscopeSitemapGenerator SitemapGenerator;
-      
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Pathname = Dialog.FileName;
-        
-        SitemapGenerator = new MacroscopeSitemapGenerator (
+
+        SitemapGenerator = new MacroscopeSitemapGenerator(
           NewDocCollection: this.JobMaster.GetDocCollection()
         );
 
@@ -120,17 +124,17 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
+          this.DialogueBoxError( "Error saving Sitemap XML for one or more hosts", ex.Message );
         }
         catch( XmlException ex )
         {
-          this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
+          this.DialogueBoxError( "Error saving Sitemap XML for one or more hosts", ex.Message );
         }
         catch( Exception ex )
         {
-          this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
+          this.DialogueBoxError( "Error saving Sitemap XML for one or more hosts", ex.Message );
         }
-        
+
       }
 
       Dialog.Dispose();
@@ -141,8 +145,8 @@ namespace SEOMacroscope
 
     private void CallbackSaveGeneratorSitemapText ( object sender, EventArgs e )
     {
-      
-      SaveFileDialog Dialog = new SaveFileDialog ();
+
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Sitemap Text files (*.txt)|*.txt|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -151,13 +155,13 @@ namespace SEOMacroscope
       Dialog.FileName = "Macroscope-Sitemap.txt";
 
       MacroscopeSitemapGenerator SitemapGenerator;
-      
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Pathname = Dialog.FileName;
-        
-        SitemapGenerator = new MacroscopeSitemapGenerator (
+
+        SitemapGenerator = new MacroscopeSitemapGenerator(
           NewDocCollection: this.JobMaster.GetDocCollection()
         );
 
@@ -174,11 +178,15 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
         }
+        catch( MacroscopeSitemapException ex )
+        {
+          this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
+        }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
         }
-        
+
       }
 
       Dialog.Dispose();
@@ -189,8 +197,8 @@ namespace SEOMacroscope
 
     private void CallbackSaveGeneratorSitemapTextPerHost ( object sender, EventArgs e )
     {
-      
-      SaveFileDialog Dialog = new SaveFileDialog ();
+
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Sitemap Text files (*.txt)|*.txt|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -199,13 +207,13 @@ namespace SEOMacroscope
       Dialog.FileName = "Macroscope-Sitemap.txt";
 
       MacroscopeSitemapGenerator SitemapGenerator;
-      
+
       if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Pathname = Dialog.FileName;
-        
-        SitemapGenerator = new MacroscopeSitemapGenerator (
+
+        SitemapGenerator = new MacroscopeSitemapGenerator(
           NewDocCollection: this.JobMaster.GetDocCollection()
         );
 
@@ -226,7 +234,7 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
         }
-        
+
       }
 
       Dialog.Dispose();
