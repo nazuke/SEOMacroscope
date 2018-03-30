@@ -378,12 +378,10 @@ namespace SEOMacroscope
       MUST_CONTAIN_STRING = 2,
       NOT_CONTAINS_STRING = 3,
       SHOULD_NOT_CONTAIN_STRING = 4,
-
       CONTAINS_REGEX = 5,
       MUST_CONTAIN_REGEX = 6,
       NOT_CONTAINS_REGEX = 7,
       SHOULD_NOT_CONTAIN_REGEX = 8
-
     }
 
     public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () {
