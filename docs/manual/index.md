@@ -2,12 +2,10 @@
 layout: page
 title: SEO Macroscope User Manual
 description: "The SEO Macroscope user manual."
-date: "2018-02-28 21:00:00 -09:00"
+date: "2018-04-01 21:00:00 -09:00"
 redirect_from:
   - /manual/preferences/spidering-control/
 ---
-
-![The SEO Macroscope application window.](images/application-001.png){: .img-responsive .box-shadow .screenshot}
 
 <!-- *********************************************************************** -->
 

@@ -9,6 +9,8 @@ description: "SEO Macroscope is a free and open source website broken link check
 **SEO Macroscope** for Microsoft Windows is a free and open source website broken link checking and scanning tool, with some technical SEO functionality for common website problems.
 {: .lead }
 
+{% include download-button.html %}{: .lead }
+
 ![The SEO Macroscope application window.]({{ "/manual/images/application-001.png" | relative_url }}){: .img-responsive .box-shadow}
 {: .screenshot }
 

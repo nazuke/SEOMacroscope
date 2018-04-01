@@ -190,6 +190,16 @@ a.btn-success
 	}
 }
 
+a.btn-warning
+{
+	color:$color-white;
+	background-color:$color-orange;
+	&:hover
+	{
+		color:$color-dark-grey;
+	}
+}
+
 /** Footer ********************************************************************/
 
 footer

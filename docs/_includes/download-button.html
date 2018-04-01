@@ -1,0 +1,11 @@
+{% assign releases = site.collection_releases | reverse %}
+<div>
+  <a
+    class="btn btn-warning btn-lg"
+    role="button"
+    href="https://github.com/nazuke/SEOMacroscope/releases/download/{{ release.tag }}/{{ releases[0].installer }}"
+  >
+    <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+    Download SEO Macroscope {{ releases[0].tag }}
+  </a>
+</div>
