@@ -156,8 +156,10 @@ namespace SEOMacroscope
 
           try
           {
-            ExCSS.Parser ExCssParser = new ExCSS.Parser();
-            ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( RawData );
+
+
+            ExCSS.StylesheetParser ExCssParser = new ExCSS.StylesheetParser();
+            ExCSS.Stylesheet ExCssStylesheet = ExCssParser.Parse( RawData );
             this.ProcessCssOutlinks( ExCssStylesheet );
           }
           catch ( Exception ex )
@@ -245,7 +247,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessCssOutlinks ( ExCSS.StyleSheet ExCssStylesheet )
+    private void ProcessCssOutlinks ( ExCSS.Stylesheet ExCssStylesheet )
     {
 
       if ( this.GetIsExternal() )
@@ -253,15 +255,15 @@ namespace SEOMacroscope
         return;
       }
 
-      foreach ( var CssRule in ExCssStylesheet.StyleRules )
+      foreach ( var CssRule in ExCssStylesheet.PageRules )
       {
 
-        int iRule = ExCssStylesheet.StyleRules.IndexOf( CssRule );
+          int iRule = ExCssStylesheet.PageRules.IndexOf( CssRule );
 
-        foreach ( Property pProp in ExCssStylesheet.StyleRules[ iRule ].Declarations.Properties )
-        {
+        foreach( Property pProp in ExCssStylesheet.PageRules[iRule].Declarations.Properties )
+          {
 
-          string BackgroundImageUrl;
+            string BackgroundImageUrl;
           string LinkUrlAbs;
 
           switch ( pProp.Name.ToLower() )

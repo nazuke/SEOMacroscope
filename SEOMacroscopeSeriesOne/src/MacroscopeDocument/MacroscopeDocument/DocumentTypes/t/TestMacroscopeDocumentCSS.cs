@@ -83,11 +83,11 @@ namespace SEOMacroscope
     [Test]
     public void TestSimpleCssParsing ()
     {
-      ExCSS.Parser ExCssParser = new ExCSS.Parser();
+      ExCSS.StylesheetParser ExCssParser = new ExCSS.StylesheetParser();
       foreach ( string Filename in CssGoodDocs.Keys )
       {
         string CssData = CssGoodDocs[ Filename ];
-        ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssData );
+        ExCSS.Stylesheet ExCssStylesheet = ExCssParser.Parse( CssData );
         Assert.IsNotNull( ExCssStylesheet, string.Format( "FAIL: {0}", Filename ) );
       }
     }
@@ -97,11 +97,11 @@ namespace SEOMacroscope
     [Test]
     public void TestBadCss ()
     {
-      ExCSS.Parser ExCssParser = new ExCSS.Parser();
+      ExCSS.StylesheetParser ExCssParser = new ExCSS.StylesheetParser();
       foreach ( string Filename in CssBadDocs.Keys )
       {
         string CssData = CssBadDocs[ Filename ];
-        ExCSS.StyleSheet ExCssStylesheet = ExCssParser.Parse( CssData );
+        ExCSS.Stylesheet ExCssStylesheet = ExCssParser.Parse( CssData );
         Assert.IsNotNull( ExCssStylesheet, string.Format( "FAIL: {0}", Filename ) );
       }
     }

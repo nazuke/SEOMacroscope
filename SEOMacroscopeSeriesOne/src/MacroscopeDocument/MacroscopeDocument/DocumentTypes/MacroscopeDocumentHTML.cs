@@ -1339,14 +1339,14 @@ namespace SEOMacroscope
             if ( !string.IsNullOrEmpty( CssText ) )
             {
 
-              ExCSS.Parser ExCssParser = null;
-              ExCSS.StyleSheet ExCssStylesheet = null;
+              ExCSS.StylesheetParser ExCssParser = null;
+              ExCSS.Stylesheet ExCssStylesheet = null;
 
               this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", CssText ) );
 
               try
               {
-                ExCssParser = new ExCSS.Parser();
+                ExCssParser = new ExCSS.StylesheetParser();
                 ExCssStylesheet = ExCssParser.Parse( CssText );
                 this.ProcessCssOutlinks( ExCssStylesheet );
               }
@@ -1391,14 +1391,14 @@ namespace SEOMacroscope
             if ( !string.IsNullOrEmpty( CssText ) )
             {
 
-              ExCSS.Parser ExCssParser = null;
-              ExCSS.StyleSheet ExCssStylesheet = null;
+              ExCSS.StylesheetParser ExCssParser = null;
+              ExCSS.Stylesheet ExCssStylesheet = null;
 
               this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", CssText ) );
 
               try
               {
-                ExCssParser = new ExCSS.Parser();
+                ExCssParser = new ExCSS.StylesheetParser();
                 ExCssStylesheet = ExCssParser.Parse( CssText );
                 this.ProcessCssOutlinks( ExCssStylesheet );
               }
