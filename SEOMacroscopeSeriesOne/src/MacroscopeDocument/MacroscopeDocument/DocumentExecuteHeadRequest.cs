@@ -73,7 +73,7 @@ namespace SEOMacroscope
       {
         await this._ExecuteHeadRequest();
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( string.Format( "ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
       }
@@ -81,7 +81,7 @@ namespace SEOMacroscope
       TimeDuration.Stop();
       FinalDuration = TimeDuration.ElapsedMilliseconds;
 
-      if ( FinalDuration > 0 )
+      if( FinalDuration > 0 )
       {
         this.Duration = FinalDuration;
       }
@@ -116,14 +116,14 @@ namespace SEOMacroscope
         this.CrawledDate = DateTime.UtcNow;
 
       }
-      catch ( MacroscopeDocumentException ex )
+      catch( MacroscopeDocumentException ex )
       {
         this.DebugMsg( string.Format( "_ExecuteHeadRequest :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
         this.AddRemark( "_ExecuteHeadRequest", ex.Message );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( string.Format( "_ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
@@ -131,7 +131,7 @@ namespace SEOMacroscope
         this.AddRemark( "_ExecuteHeadRequest", ex.Message );
       }
 
-      if ( ClientResponse != null )
+      if( ClientResponse != null )
       {
 
         try
@@ -139,7 +139,7 @@ namespace SEOMacroscope
 
           this.DebugMsg( string.Format( "StatusCode: {0}", ClientResponse.GetResponse().StatusCode ) );
 
-          if ( ClientResponse.GetResponse() != null )
+          if( ClientResponse.GetResponse() != null )
           {
             this.SetErrorCondition( ClientResponse.GetResponse().ReasonPhrase );
           }
@@ -150,12 +150,12 @@ namespace SEOMacroscope
 
           this.ProcessResponseHttpHeaders( Response: ClientResponse );
 
-          if ( this.GetIsRedirect() )
+          if( this.GetIsRedirect() )
           {
 
             string Location = this.GetUrlRedirectTo();
 
-            if ( !string.IsNullOrEmpty( Location ) )
+            if( !string.IsNullOrEmpty( Location ) )
             {
 
               MacroscopeLink OutLink = null;
@@ -175,19 +175,15 @@ namespace SEOMacroscope
           }
 
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           this.DebugMsg( string.Format( "_ExecuteHeadRequest :: Exception: {0}", ex.Message ) );
           ResponseErrorCondition = ex.Message;
         }
 
       }
-      else
-      {
-        // NO-OP
-      }
 
-      if ( ResponseErrorCondition != null )
+      if( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }

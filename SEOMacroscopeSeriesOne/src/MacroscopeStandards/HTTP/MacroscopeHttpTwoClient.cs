@@ -344,7 +344,7 @@ namespace SEOMacroscope
       }
       catch ( Exception ex )
       {
-        DebugMsg( string.Format( "Get: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "Get: {0}", ex.Message ) );
       }
 
       try

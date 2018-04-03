@@ -49,31 +49,32 @@ namespace SEOMacroscope
 
     private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request )
     {
-
-      string Headers = "";
-
-      if( Request != null )
+      List<string> Lines = new List<string>();
+      lock( Request )
       {
-
-        foreach( var HeaderItem in Request.Headers )
+        if( Request != null )
         {
-
-          foreach( var HeaderValue in HeaderItem.Value )
+          foreach( var HeaderItem in Request.Headers )
           {
-
-            if( !string.IsNullOrEmpty( HeaderValue ) )
+            foreach( var HeaderValue in HeaderItem.Value )
             {
-              Headers = string.Concat( Headers, HeaderItem.Key, ": ", HeaderValue, Environment.NewLine );
+              if( !string.IsNullOrEmpty( HeaderValue ) )
+              {
+                Lines.Add( string.Concat( HeaderItem.Key, ": ", HeaderValue ) );
+              }
             }
-
           }
-
         }
-
       }
-
-      this.RawHttpRequestHeaders = Headers.ToString();
-
+      lock( this.RawHttpRequestHeaders )
+      {
+        Lines.Sort();
+        this.RawHttpRequestHeaders = string.Join(
+          Environment.NewLine,
+          string.Join( " ", Request.Method.ToString(), Request.RequestUri.ToString() ),
+          string.Join( Environment.NewLine, Lines )
+        );
+      }
     }
 
     /**************************************************************************/
@@ -199,9 +200,9 @@ namespace SEOMacroscope
       try
       {
         HttpHeaderValueCollection<ProductInfoHeaderValue> HeaderValue = ResponseHeaders.Server;
-        if ( HeaderValue != null )
+        if( HeaderValue != null )
         {
-          if ( HeaderValue.FirstOrDefault() != null )
+          if( HeaderValue.FirstOrDefault() != null )
           {
             this.SetServerName( HeaderValue.FirstOrDefault().ToString() );
           }
@@ -227,11 +228,11 @@ namespace SEOMacroscope
       try
       {
         MediaTypeHeaderValue HeaderValue = ContentHeaders.ContentType;
-        if ( HeaderValue != null )
+        if( HeaderValue != null )
         {
           this.DebugMsg( string.Format( "HeaderValue: {0}", HeaderValue ) );
           this.MimeType = HeaderValue.MediaType;
-          if ( HeaderValue.CharSet != null )
+          if( HeaderValue.CharSet != null )
           {
             this.SetCharacterSet( HeaderValue.CharSet );
             // TODO: Implement character set probing
@@ -239,7 +240,7 @@ namespace SEOMacroscope
           }
         }
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( string.Format( "MediaType Exception: {0}", ex.Message ) );
         this.MimeType = MacroscopeConstants.DefaultMimeType;
@@ -251,11 +252,11 @@ namespace SEOMacroscope
       try
       {
         long? HeaderValue = null;
-        if ( ContentHeaders.Contains( "Content-Length" ) )
+        if( ContentHeaders.Contains( "Content-Length" ) )
         {
           HeaderValue = ContentHeaders.ContentLength;
         }
-        if ( HeaderValue != null )
+        if( HeaderValue != null )
         {
           this.ContentLength = HeaderValue;
         }
@@ -264,7 +265,7 @@ namespace SEOMacroscope
           this.ContentLength = 0;
         }
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( ex.Message );
         this.SetContentLength( Length: 0 );
@@ -273,7 +274,7 @@ namespace SEOMacroscope
           this.SetContentLength( Length: long.Parse( HeaderValues.FirstOrDefault() ) );
           return ( true );
         };
-        if ( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback ) )
+        if( !this.FindHttpResponseHeader( ResponseHeaders: ResponseHeaders, HeaderName: "content-length", Callback: Callback ) )
         {
           this.FindHttpContentHeader( ContentHeaders: ContentHeaders, HeaderName: "content-length", Callback: Callback );
         }
@@ -492,23 +493,23 @@ namespace SEOMacroscope
       try
       {
         HttpHeaderValueCollection<AuthenticationHeaderValue> HeaderValue = ResponseHeaders.WwwAuthenticate;
-        if ( HeaderValue != null )
+        if( HeaderValue != null )
         {
           string Scheme = null;
           string Realm = null;
-          foreach ( AuthenticationHeaderValue AuthenticationValue in HeaderValue )
+          foreach( AuthenticationHeaderValue AuthenticationValue in HeaderValue )
           {
             Scheme = AuthenticationValue.Scheme;
             string Parameter = AuthenticationValue.Parameter;
             Match Matched = Regex.Match( Parameter, "^[^\"]+\"([^\"]+)\"" );
-            if ( Matched.Success )
+            if( Matched.Success )
             {
               Realm = Matched.Groups[ 1 ].Value;
             }
           }
-          if ( !string.IsNullOrEmpty( Scheme ) && !string.IsNullOrEmpty( Realm ) )
+          if( !string.IsNullOrEmpty( Scheme ) && !string.IsNullOrEmpty( Realm ) )
           {
-            if ( Scheme.ToLower() == "basic" )
+            if( Scheme.ToLower() == "basic" )
             {
               this.SetAuthenticationType( MacroscopeConstants.AuthenticationType.BASIC );
               this.SetAuthenticationRealm( Realm );
@@ -528,7 +529,7 @@ namespace SEOMacroscope
 
       /** Process Dates ---------------------------------------------------- **/
       {
-        if ( this.DateServer.Date == new DateTime().Date )
+        if( this.DateServer.Date == new DateTime().Date )
         {
           this.DateServer = DateTime.UtcNow;
         }
@@ -553,7 +554,7 @@ namespace SEOMacroscope
 
         if( reIsHtml.IsMatch( this.MimeType ) )
         {
-          this.SetDocumentType(Type: MacroscopeConstants.DocumentType.HTML );
+          this.SetDocumentType( Type: MacroscopeConstants.DocumentType.HTML );
         }
         else
         if( reIsCss.IsMatch( this.MimeType ) )
@@ -638,11 +639,11 @@ namespace SEOMacroscope
         {
           IEnumerable<string> HeaderValues = ResponseHeader.Value;
           this.DebugMsg( string.Format( "FindHttpRequestHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
-          Success = Callback ( HeaderValues );
+          Success = Callback( HeaderValues );
           break;
         }
       }
-      return( Success );
+      return ( Success );
     }
 
     /** -------------------------------------------------------------------- **/

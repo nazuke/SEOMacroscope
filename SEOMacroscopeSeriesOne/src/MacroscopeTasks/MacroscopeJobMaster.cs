@@ -374,6 +374,9 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
 
+      // TODO: BROKEN:
+      //MacroscopePreferencesManager.ConfigureHttpProxy();
+
       //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
 
       this.StartUrl = MacroscopeHttpUrlUtils.SanitizeUrl( Url: this.StartUrl );
