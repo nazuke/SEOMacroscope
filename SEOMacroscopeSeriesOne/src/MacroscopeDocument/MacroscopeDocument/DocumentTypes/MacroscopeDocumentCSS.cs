@@ -156,11 +156,9 @@ namespace SEOMacroscope
 
           try
           {
-
-
-            ExCSS.StylesheetParser ExCssParser = new ExCSS.StylesheetParser();
-            ExCSS.Stylesheet ExCssStylesheet = ExCssParser.Parse( RawData );
-            this.ProcessCssOutlinks( ExCssStylesheet );
+            StylesheetParser CssParser = new StylesheetParser();
+            Stylesheet CssStylesheet = CssParser.Parse( RawData );
+            this.ProcessCssOutlinks( CssStylesheet: CssStylesheet );
           }
           catch ( Exception ex )
           {
@@ -247,7 +245,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessCssOutlinks ( ExCSS.Stylesheet ExCssStylesheet )
+    private void ProcessCssOutlinks ( Stylesheet CssStylesheet )
     {
 
       if ( this.GetIsExternal() )
@@ -255,8 +253,38 @@ namespace SEOMacroscope
         return;
       }
 
+      if( this.DocumentType == MacroscopeConstants.DocumentType.CSS )
+      {
+        this.DebugMsg( "" );
+      }
+
+
+      /*
+      foreach( var Rule in CssStylesheet.PageRules )
+      {
+        this.DebugMsg( "" );
+
+        Rule.Children.
+
+        foreach( var RuleProp in Rule.Children )
+        {
+          this.DebugMsg( string.Format("RULE: {0} => PROP: {1}", RuleProp ) );
+
+        }
+
+      }
+      */
+
+      //CssStylesheet.PageRules
+
+
+
+      /*
       foreach ( var CssRule in ExCssStylesheet.PageRules )
       {
+
+
+        
 
           int iRule = ExCssStylesheet.PageRules.IndexOf( CssRule );
 
@@ -354,7 +382,10 @@ namespace SEOMacroscope
 
         }
 
+
+
       }
+        */
 
     }
 

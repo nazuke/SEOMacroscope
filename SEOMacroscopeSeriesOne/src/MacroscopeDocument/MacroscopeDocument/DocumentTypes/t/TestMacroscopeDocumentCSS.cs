@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Linq;
+using System.Linq.Expressions;
 using ExCSS;
 using NUnit.Framework;
 
@@ -58,7 +60,7 @@ namespace SEOMacroscope
 
       CssBadDocKeys.Add( "SEOMacroscope.src.MacroscopeDocument.MacroscopeDocument.DocumentTypes.t.CssDocs.TestCssDocumentBad001.css" );
 
-      foreach ( string Filename in CssGoodDocKeys )
+      foreach( string Filename in CssGoodDocKeys )
       {
         Reader = new StreamReader(
          stream: Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
@@ -67,7 +69,7 @@ namespace SEOMacroscope
         Reader.Close();
       }
 
-      foreach ( string Filename in CssBadDocKeys )
+      foreach( string Filename in CssBadDocKeys )
       {
         Reader = new StreamReader(
          stream: Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
@@ -83,26 +85,94 @@ namespace SEOMacroscope
     [Test]
     public void TestSimpleCssParsing ()
     {
-      ExCSS.StylesheetParser ExCssParser = new ExCSS.StylesheetParser();
-      foreach ( string Filename in CssGoodDocs.Keys )
+      StylesheetParser ExCssParser = new StylesheetParser();
+      foreach( string Filename in CssGoodDocs.Keys )
       {
         string CssData = CssGoodDocs[ Filename ];
-        ExCSS.Stylesheet ExCssStylesheet = ExCssParser.Parse( CssData );
-        Assert.IsNotNull( ExCssStylesheet, string.Format( "FAIL: {0}", Filename ) );
+        Stylesheet CssStylesheet = ExCssParser.Parse( CssData );
+        Assert.IsNotNull( CssStylesheet, string.Format( "FAIL: {0}", Filename ) );
       }
     }
 
     /**************************************************************************/
 
     [Test]
+    public void TestCssRules ()
+    {
+
+      this.SuppressDebugMsg = false;
+
+      StylesheetParser CssParser = new StylesheetParser();
+
+      foreach( string Filename in CssGoodDocs.Keys )
+      {
+
+        string CssData = CssGoodDocs[ Filename ];
+        Stylesheet CssStylesheet = CssParser.Parse( CssData );
+
+
+
+
+        this.RecurseNodeTypes( Node: CssStylesheet );
+
+
+
+
+        //Assert.IsNotNull( CssStylesheet, string.Format( "FAIL: {0}", Filename ) );
+
+      }
+
+      return;
+
+    }
+
+
+
+
+    private void RecurseNodeTypes ( IStylesheetNode Node )
+    {
+
+      if( Node != null )
+      {
+        try
+        {
+          this.DebugMsg( string.Format( "NODE GetType: {0}", Node.GetType() ) );
+          this.DebugMsg( string.Format( "NODE TOCSS: {0}", Node.ToCss() ) );
+        }
+        catch( Exception ex )
+        {
+        }
+      }
+      else
+      {
+        this.DebugMsg( string.Format( "NODE: {0}", "UNKNOWN" ) );
+      }
+
+      foreach( var SubNode in Node.Children )
+      {
+        this.RecurseNodeTypes( Node: SubNode );
+      }
+
+      return;
+
+    }
+
+
+
+
+
+
+    /**************************************************************************/
+
+    [Test]
     public void TestBadCss ()
     {
-      ExCSS.StylesheetParser ExCssParser = new ExCSS.StylesheetParser();
-      foreach ( string Filename in CssBadDocs.Keys )
+      StylesheetParser ExCssParser = new StylesheetParser();
+      foreach( string Filename in CssBadDocs.Keys )
       {
         string CssData = CssBadDocs[ Filename ];
-        ExCSS.Stylesheet ExCssStylesheet = ExCssParser.Parse( CssData );
-        Assert.IsNotNull( ExCssStylesheet, string.Format( "FAIL: {0}", Filename ) );
+        Stylesheet CssStylesheet = ExCssParser.Parse( CssData );
+        Assert.IsNotNull( CssStylesheet, string.Format( "FAIL: {0}", Filename ) );
       }
     }
 

@@ -4,8 +4,10 @@
 
 div.content {
   background-image: url("https://nazuke.github.io/SEOMacroscope/media/images/jumbotron-background.png");
+  background-color: yellow;
 }
 
 p {
   font-family: 'Times New Roman';
+  background-color: blue;
 }

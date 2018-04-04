@@ -37,6 +37,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using HtmlAgilityPack;
+using ExCSS;
 
 namespace SEOMacroscope
 {
@@ -1339,16 +1340,16 @@ namespace SEOMacroscope
             if ( !string.IsNullOrEmpty( CssText ) )
             {
 
-              ExCSS.StylesheetParser ExCssParser = null;
-              ExCSS.Stylesheet ExCssStylesheet = null;
+              StylesheetParser CssParser = null;
+              Stylesheet CssStylesheet = null;
 
               this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", CssText ) );
 
               try
               {
-                ExCssParser = new ExCSS.StylesheetParser();
-                ExCssStylesheet = ExCssParser.Parse( CssText );
-                this.ProcessCssOutlinks( ExCssStylesheet );
+                CssParser = new StylesheetParser();
+                CssStylesheet = CssParser.Parse( CssText );
+                this.ProcessCssOutlinks( CssStylesheet );
               }
               catch ( Exception ex )
               {
@@ -1391,16 +1392,16 @@ namespace SEOMacroscope
             if ( !string.IsNullOrEmpty( CssText ) )
             {
 
-              ExCSS.StylesheetParser ExCssParser = null;
-              ExCSS.Stylesheet ExCssStylesheet = null;
+              StylesheetParser CssParser = null;
+              Stylesheet CssStylesheet = null;
 
               this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", CssText ) );
 
               try
               {
-                ExCssParser = new ExCSS.StylesheetParser();
-                ExCssStylesheet = ExCssParser.Parse( CssText );
-                this.ProcessCssOutlinks( ExCssStylesheet );
+                CssParser = new StylesheetParser();
+                CssStylesheet = CssParser.Parse( CssText );
+                this.ProcessCssOutlinks( CssStylesheet );
               }
               catch ( Exception ex )
               {
