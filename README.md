@@ -72,7 +72,7 @@ This project was made a lot easier by the following excellent libraries:
 
 * http://htmlagilitypack.codeplex.com/
 * https://bitbucket.org/cagdas/robotstxt
-* https://github.com/SR2IT/ExCSS
+* https://github.com/TylerBrinks/ExCSS
 * https://github.com/ClosedXML/ClosedXML
 * https://github.com/JoshClose/CsvHelper
 * https://github.com/pdonald/language-detection
