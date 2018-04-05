@@ -37,6 +37,8 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using ExCSS;
+using StylesheetParser = ExCSS.Parser; // Alias class name, remove when upgrading to ExCSS 3.0
+using Stylesheet = ExCSS.StyleSheet; // Alias class name, remove when upgrading to ExCSS 3.0
 
 namespace SEOMacroscope
 {
@@ -248,58 +250,28 @@ namespace SEOMacroscope
     private void ProcessCssOutlinks ( Stylesheet CssStylesheet )
     {
 
-      if ( this.GetIsExternal() )
+      if( this.GetIsExternal() )
       {
         return;
       }
 
-      if( this.DocumentType == MacroscopeConstants.DocumentType.CSS )
+      foreach( var CssRule in CssStylesheet.StyleRules )
       {
-        this.DebugMsg( "" );
-      }
 
+        int iRule = CssStylesheet.StyleRules.IndexOf( CssRule );
 
-      /*
-      foreach( var Rule in CssStylesheet.PageRules )
-      {
-        this.DebugMsg( "" );
-
-        Rule.Children.
-
-        foreach( var RuleProp in Rule.Children )
+        foreach( Property pProp in CssStylesheet.StyleRules[ iRule ].Declarations.Properties )
         {
-          this.DebugMsg( string.Format("RULE: {0} => PROP: {1}", RuleProp ) );
 
-        }
-
-      }
-      */
-
-      //CssStylesheet.PageRules
-
-
-
-      /*
-      foreach ( var CssRule in ExCssStylesheet.PageRules )
-      {
-
-
-        
-
-          int iRule = ExCssStylesheet.PageRules.IndexOf( CssRule );
-
-        foreach( Property pProp in ExCssStylesheet.PageRules[iRule].Declarations.Properties )
-          {
-
-            string BackgroundImageUrl;
+          string BackgroundImageUrl;
           string LinkUrlAbs;
 
-          switch ( pProp.Name.ToLower() )
+          switch( pProp.Name.ToLower() )
           {
 
             case "background-image":
 
-              if ( pProp.Term != null )
+              if( pProp.Term != null )
               {
 
                 BackgroundImageUrl = pProp.Term.ToString();
@@ -308,7 +280,7 @@ namespace SEOMacroscope
                 DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", BackgroundImageUrl ) );
                 DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", LinkUrlAbs ) );
 
-                if ( LinkUrlAbs != null )
+                if( LinkUrlAbs != null )
                 {
 
                   MacroscopeHyperlinkOut HyperlinkOut = null;
@@ -325,7 +297,7 @@ namespace SEOMacroscope
                     Follow: true
                   );
 
-                  if ( Outlink != null )
+                  if( Outlink != null )
                   {
                     Outlink.SetRawTargetUrl( BackgroundImageUrl );
                   }
@@ -338,7 +310,7 @@ namespace SEOMacroscope
 
             case "background":
 
-              if ( pProp.Term != null )
+              if( pProp.Term != null )
               {
 
                 BackgroundImageUrl = pProp.Term.ToString();
@@ -347,7 +319,7 @@ namespace SEOMacroscope
                 DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", BackgroundImageUrl ) );
                 DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", LinkUrlAbs ) );
 
-                if ( LinkUrlAbs != null )
+                if( LinkUrlAbs != null )
                 {
 
                   MacroscopeHyperlinkOut HyperlinkOut = null;
@@ -364,7 +336,7 @@ namespace SEOMacroscope
                     Follow: true
                   );
 
-                  if ( Outlink != null )
+                  if( Outlink != null )
                   {
                     Outlink.SetRawTargetUrl( BackgroundImageUrl );
                   }
@@ -382,10 +354,7 @@ namespace SEOMacroscope
 
         }
 
-
-
       }
-        */
 
     }
 

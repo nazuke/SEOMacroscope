@@ -135,7 +135,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request )
+    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request, HttpRequestHeaders DefaultRequestHeaders )
     {
     }
 

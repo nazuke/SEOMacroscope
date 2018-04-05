@@ -47,25 +47,43 @@ namespace SEOMacroscope
 
     /** HTTP Headers **********************************************************/
 
-    private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request )
+    private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request, HttpRequestHeaders DefaultRequestHeaders )
     {
+
+      bool suppressor = this.SuppressDebugMsg;
+      this.SuppressDebugMsg = false;
+
       List<string> Lines = new List<string>();
-      lock( Request )
+
+      
+      /*
+      foreach( KeyValuePair<string, IEnumerable<string>> Item in DefaultRequestHeaders )
       {
-        if( Request != null )
+        foreach( string Value in Item.Value )
         {
-          foreach( var HeaderItem in Request.Headers )
-          {
-            foreach( var HeaderValue in HeaderItem.Value )
-            {
-              if( !string.IsNullOrEmpty( HeaderValue ) )
-              {
-                Lines.Add( string.Concat( HeaderItem.Key, ": ", HeaderValue ) );
-              }
-            }
-          }
+          this.DebugMsg( string.Format( "DEFAULT REQUEST HEADER: {0} => {1}", Item.Key, Value ) );
+          Lines.Add( string.Concat( Item.Key, ": ", Value ) );
         }
       }
+
+      this.DebugMsg( "OK" );
+      */
+
+
+
+      foreach( KeyValuePair<string, IEnumerable<string>> Item in Request.Headers )
+      {
+        foreach( string Value in Item.Value )
+        {
+          this.DebugMsg( string.Format( "REQUEST HEADER: {0} => {1}", Item.Key, Value ) );
+          Lines.Add( string.Concat( Item.Key, ": ", Value ) );
+        }
+      }
+
+      this.DebugMsg( "OK" );
+
+
+
       lock( this.RawHttpRequestHeaders )
       {
         Lines.Sort();
@@ -75,6 +93,11 @@ namespace SEOMacroscope
           string.Join( Environment.NewLine, Lines )
         );
       }
+
+      this.SuppressDebugMsg = suppressor;
+
+      return;
+
     }
 
     /**************************************************************************/

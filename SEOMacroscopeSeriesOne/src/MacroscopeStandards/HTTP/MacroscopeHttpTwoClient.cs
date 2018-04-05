@@ -96,7 +96,7 @@ namespace SEOMacroscope
     public async Task<MacroscopeHttpTwoClientResponse> Head (
       Uri Url,
       Action<HttpRequestMessage> PreProcessCustomRequestHeadersCallback,
-      Action<HttpRequestMessage> PostProcessRequestHttpHeadersCallback
+      Action<HttpRequestMessage,HttpRequestHeaders> PostProcessRequestHttpHeadersCallback
     )
     {
 
@@ -113,7 +113,7 @@ namespace SEOMacroscope
         }
         catch ( Exception ex )
         {
-          DebugMsg( string.Format( "Head: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "Head: {0}", ex.Message ) );
         }
 
         try
@@ -122,7 +122,16 @@ namespace SEOMacroscope
         }
         catch ( Exception ex )
         {
-          DebugMsg( string.Format( "Head: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "Head: {0}", ex.Message ) );
+        }
+
+        try
+        {
+          PostProcessRequestHttpHeadersCallback( Request, Client.DefaultRequestHeaders );
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "Head: {0}", ex.Message ) );
         }
 
         try
@@ -178,14 +187,6 @@ namespace SEOMacroscope
           throw new MacroscopeDocumentException( ex.Message );
         }
 
-        try
-        {
-          PostProcessRequestHttpHeadersCallback( Request );
-        }
-        catch ( Exception ex )
-        {
-          DebugMsg( string.Format( "Head: {0}", ex.Message ) );
-        }
 
       }
 
@@ -198,7 +199,7 @@ namespace SEOMacroscope
     public async Task<MacroscopeHttpTwoClientResponse> Get (
       Uri Url,
       Action<HttpRequestMessage> ConfigureCustomRequestHeadersCallback,
-      Action<HttpRequestMessage> PostProcessRequestHttpHeadersCallback,
+      Action<HttpRequestMessage, HttpRequestHeaders> PostProcessRequestHttpHeadersCallback,
       DecodeResponseContentAs DecodeResponseContent
     )
     {
@@ -216,17 +217,29 @@ namespace SEOMacroscope
         }
         catch ( Exception ex )
         {
-          DebugMsg( string.Format( "Get: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "Get: {0}", ex.Message ) );
         }
 
         try
         {
-          ConfigureCustomRequestHeadersCallback( Request );
+        ConfigureCustomRequestHeadersCallback( Request );
         }
         catch ( Exception ex )
         {
-          DebugMsg( string.Format( "Get: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "Get: {0}", ex.Message ) );
         }
+
+
+        try
+        {
+          PostProcessRequestHttpHeadersCallback( Request, Client.DefaultRequestHeaders );
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "Get: {0}", ex.Message ) );
+        }
+
+
 
         try
         {
@@ -299,15 +312,6 @@ namespace SEOMacroscope
         {
           this.DebugMsg( ex.Message );
           throw new MacroscopeDocumentException( ex.Message );
-        }
-
-        try
-        {
-          PostProcessRequestHttpHeadersCallback( Request );
-        }
-        catch ( Exception ex )
-        {
-          DebugMsg( string.Format( "Get: {0}", ex.Message ) );
         }
 
       }

@@ -54,9 +54,9 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request )
+    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request, HttpRequestHeaders DefaultRequestHeaders )
     {
-      this.PostProcessRequestHttpHeaders( Request: Request );
+      this.PostProcessRequestHttpHeaders( Request: Request, DefaultRequestHeaders: DefaultRequestHeaders );
     }
 
     /** -------------------------------------------------------------------- **/

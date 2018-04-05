@@ -26,6 +26,7 @@
 using System;
 using NUnit.Framework;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -137,7 +138,7 @@ namespace SEOMacroscope
       this.DebugMsg( "PreProcessHeadRequestHeadersCallback Called" );
     }
 
-    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request )
+    private void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request, HttpRequestHeaders DefaultRequestHeaders )
     {
       this.DebugMsg( "PreProcessHeadRequestHeadersCallback Called" );
     }

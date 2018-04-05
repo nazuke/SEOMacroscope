@@ -30,6 +30,8 @@ using System.Reflection;
 using System.Linq;
 using System.Linq.Expressions;
 using ExCSS;
+using StylesheetParser = ExCSS.Parser; // Alias class name, remove when upgrading to ExCSS 3.0
+using Stylesheet = ExCSS.StyleSheet; // Alias class name, remove when upgrading to ExCSS 3.0
 using NUnit.Framework;
 
 namespace SEOMacroscope
@@ -97,74 +99,6 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public void TestCssRules ()
-    {
-
-      this.SuppressDebugMsg = false;
-
-      StylesheetParser CssParser = new StylesheetParser();
-
-      foreach( string Filename in CssGoodDocs.Keys )
-      {
-
-        string CssData = CssGoodDocs[ Filename ];
-        Stylesheet CssStylesheet = CssParser.Parse( CssData );
-
-
-
-
-        this.RecurseNodeTypes( Node: CssStylesheet );
-
-
-
-
-        //Assert.IsNotNull( CssStylesheet, string.Format( "FAIL: {0}", Filename ) );
-
-      }
-
-      return;
-
-    }
-
-
-
-
-    private void RecurseNodeTypes ( IStylesheetNode Node )
-    {
-
-      if( Node != null )
-      {
-        try
-        {
-          this.DebugMsg( string.Format( "NODE GetType: {0}", Node.GetType() ) );
-          this.DebugMsg( string.Format( "NODE TOCSS: {0}", Node.ToCss() ) );
-        }
-        catch( Exception ex )
-        {
-        }
-      }
-      else
-      {
-        this.DebugMsg( string.Format( "NODE: {0}", "UNKNOWN" ) );
-      }
-
-      foreach( var SubNode in Node.Children )
-      {
-        this.RecurseNodeTypes( Node: SubNode );
-      }
-
-      return;
-
-    }
-
-
-
-
-
-
-    /**************************************************************************/
-
-    [Test]
     public void TestBadCss ()
     {
       StylesheetParser ExCssParser = new StylesheetParser();
@@ -175,6 +109,21 @@ namespace SEOMacroscope
         Assert.IsNotNull( CssStylesheet, string.Format( "FAIL: {0}", Filename ) );
       }
     }
+
+    /**************************************************************************/
+
+    /*
+    [Test]
+    public void TestExCssExample ()
+    {
+      var parser = new StylesheetParser();
+      var stylesheet = parser.Parse( ".someClass{color: red; background-image: url('/images/logo.png')" );
+      var rule = stylesheet.Rules.First();
+      var selector = rule.SelectorText; // Yields .someClass
+      var color = rule.Style.Color;
+      var image = rule.Style.BackgroundImage; // url('/images/logo.png')
+    }
+    */
 
     /**************************************************************************/
 

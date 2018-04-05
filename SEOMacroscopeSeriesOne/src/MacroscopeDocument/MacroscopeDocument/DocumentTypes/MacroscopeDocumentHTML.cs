@@ -38,6 +38,8 @@ using System.Threading.Tasks;
 
 using HtmlAgilityPack;
 using ExCSS;
+using StylesheetParser = ExCSS.Parser; // Alias class name, remove when upgrading to ExCSS 3.0
+using Stylesheet = ExCSS.StyleSheet; // Alias class name, remove when upgrading to ExCSS 3.0
 
 namespace SEOMacroscope
 {
@@ -49,7 +51,7 @@ namespace SEOMacroscope
 
     private void ConfigureHtmlPageRequestHeadersCallback ( HttpRequestMessage Request )
     {
-      this.AuthenticateRequest( Request: Request );
+      //this.AuthenticateRequest( Request: Request );
     }
 
     /** -------------------------------------------------------------------- **/
