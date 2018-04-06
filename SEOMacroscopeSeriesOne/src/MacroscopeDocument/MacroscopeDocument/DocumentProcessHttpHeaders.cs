@@ -55,7 +55,11 @@ namespace SEOMacroscope
 
       List<string> Lines = new List<string>();
 
-      
+      for( int i = 0 ; i < 10 ; i++ )
+      {
+        Lines.Add( string.Concat( "SOME_KEY", ": ", "SOME_VALUE" ) );
+      }
+
       /*
       foreach( KeyValuePair<string, IEnumerable<string>> Item in DefaultRequestHeaders )
       {
@@ -93,6 +97,10 @@ namespace SEOMacroscope
           string.Join( Environment.NewLine, Lines )
         );
       }
+
+
+
+
 
       this.SuppressDebugMsg = suppressor;
 

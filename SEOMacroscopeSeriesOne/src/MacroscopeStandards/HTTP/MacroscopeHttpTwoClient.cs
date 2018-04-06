@@ -102,8 +102,10 @@ namespace SEOMacroscope
 
       MacroscopeHttpTwoClientResponse ClientResponse = new MacroscopeHttpTwoClientResponse();
 
-      using ( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Head, Url ) )
-      {
+      HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Head, Url );
+
+//      using( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Head, Url ) )
+//      {
 
         Request.Version = new Version( 2, 0 );
 
@@ -136,10 +138,14 @@ namespace SEOMacroscope
 
         try
         {
-          using ( HttpResponseMessage Response = await Client.SendAsync( Request ) )
-          {
 
-            ClientResponse.SetResponse( RequestResponse: Response );
+
+
+        HttpResponseMessage Response = await Client.SendAsync( Request );
+        //using( HttpResponseMessage Response = await Client.SendAsync( Request ) )
+        //{
+
+          ClientResponse.SetResponse( RequestResponse: Response );
 
             foreach ( KeyValuePair<string, IEnumerable<string>> Item in Response.Headers )
             {
@@ -150,10 +156,11 @@ namespace SEOMacroscope
               }
             }
 
-            using ( HttpContent ResponseContent = Response.Content )
-            {
-              // TODO: add options to get string and/or bytes[] here:
-              ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+        HttpContent ResponseContent = Response.Content;
+//        using( HttpContent ResponseContent = Response.Content )
+        //{
+          // TODO: add options to get string and/or bytes[] here:
+          ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
               foreach ( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
               {
                 foreach ( string Value in Item.Value )
@@ -162,9 +169,10 @@ namespace SEOMacroscope
                   ClientResponse.AddConsolidatedHttpHeader( Name: Item.Key, Value: Value );
                 }
               }
-            }
+            //}
 
-          }
+          //}
+
         }
         catch ( UriFormatException ex )
         {
@@ -188,7 +196,7 @@ namespace SEOMacroscope
         }
 
 
-      }
+      //}
 
       return ( ClientResponse );
 
@@ -206,8 +214,10 @@ namespace SEOMacroscope
 
       MacroscopeHttpTwoClientResponse ClientResponse = new MacroscopeHttpTwoClientResponse();
 
-      using ( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Get, Url ) )
-      {
+      HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Get, Url );
+
+      //using( HttpRequestMessage Request = new HttpRequestMessage( HttpMethod.Get, Url ) )
+      //{
 
         Request.Version = new Version( 2, 0 );
 
@@ -244,10 +254,11 @@ namespace SEOMacroscope
         try
         {
 
-          using ( HttpResponseMessage Response = await Client.SendAsync( Request ) )
-          {
+        HttpResponseMessage Response = await Client.SendAsync( Request );
+        //using( HttpResponseMessage Response = await Client.SendAsync( Request ) )
+        //{
 
-            ClientResponse.SetResponse( RequestResponse: Response );
+          ClientResponse.SetResponse( RequestResponse: Response );
 
             foreach ( KeyValuePair<string, IEnumerable<string>> Item in Response.Headers )
             {
@@ -258,10 +269,11 @@ namespace SEOMacroscope
               }
             }
 
-            using ( HttpContent ResponseContent = Response.Content )
-            {
+          HttpContent ResponseContent = Response.Content;
+//          using( HttpContent ResponseContent = Response.Content )
+          //{
 
-              byte[] ContentAsBytes;
+            byte[] ContentAsBytes;
 
               switch ( DecodeResponseContent )
               {
@@ -289,9 +301,10 @@ namespace SEOMacroscope
                 }
               }
 
-            }
+            //}
 
-          }
+          //}
+
         }
         catch ( UriFormatException ex )
         {
@@ -314,7 +327,7 @@ namespace SEOMacroscope
           throw new MacroscopeDocumentException( ex.Message );
         }
 
-      }
+      //}
 
 
       // TODO: Make exceptions from here log a Remark instead.
