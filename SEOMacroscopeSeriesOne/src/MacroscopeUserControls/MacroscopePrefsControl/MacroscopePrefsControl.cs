@@ -75,8 +75,7 @@ namespace SEOMacroscope
 
         /** WebProxy Options ----------------------------------------------- **/
 
-        this.textBoxHttpProxyHost.Text = MacroscopePreferencesManager.GetHttpProxyHost();
-        this.numericUpDownHttpProxyPort.Value = MacroscopePreferencesManager.GetHttpProxyPort();
+        this.comboBoxProxyType.SelectedIndex = (int) MacroscopePreferencesManager.GetProxyType();
 
         /** Server Certificate Options --------------------------------------- **/
 
@@ -236,9 +235,8 @@ namespace SEOMacroscope
 
       /** WebProxy Options ------------------------------------------------- **/
 
-      MacroscopePreferencesManager.SetHttpProxyHost( this.textBoxHttpProxyHost.Text );
-      MacroscopePreferencesManager.SetHttpProxyPort( (int) this.numericUpDownHttpProxyPort.Value );
-
+      MacroscopePreferencesManager.SetProxyType( this.comboBoxProxyType.SelectedIndex );
+      
       /** Server Certificate Options --------------------------------------- **/
 
       MacroscopePreferencesManager.SetServerCertificateValidation( this.checkBoxServerCertificateValidation.Checked );
@@ -381,7 +379,6 @@ namespace SEOMacroscope
       /** Tidy Up ---------------------------------------------------------- **/
 
       MacroscopePreferencesManager.SavePreferences();
-      MacroscopePreferencesManager.ConfigureHttpProxy();
 
     }
 

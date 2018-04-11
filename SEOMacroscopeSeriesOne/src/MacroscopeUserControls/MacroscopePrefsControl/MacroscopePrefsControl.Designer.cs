@@ -72,9 +72,6 @@ namespace SEOMacroscope
 		private System.Windows.Forms.GroupBox groupBox6;
 		public System.Windows.Forms.CheckBox checkBoxCheckHreflangs;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
-		private System.Windows.Forms.GroupBox groupBox8;
-		public System.Windows.Forms.NumericUpDown numericUpDownHttpProxyPort;
-		public System.Windows.Forms.TextBox textBoxHttpProxyHost;
 		private System.Windows.Forms.Label label13;
 		public System.Windows.Forms.NumericUpDown numericUpDownMaxThreads;
 		public System.Windows.Forms.CheckBox checkBoxFollowNoFollow;
@@ -205,8 +202,6 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
-      System.Windows.Forms.Label label9;
-      System.Windows.Forms.Label label10;
       this.tabControlPreferences = new System.Windows.Forms.TabControl();
       this.tabPageSpideringControl = new System.Windows.Forms.TabPage();
       this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -264,6 +259,9 @@ namespace SEOMacroscope
       this.checkBoxProcessImages = new System.Windows.Forms.CheckBox();
       this.checkBoxProcessJavascripts = new System.Windows.Forms.CheckBox();
       this.checkBoxProcessStylesheets = new System.Windows.Forms.CheckBox();
+      this.groupBox32 = new System.Windows.Forms.GroupBox();
+      this.label26 = new System.Windows.Forms.Label();
+      this.numericUpDownRedirectChainsMaxHops = new System.Windows.Forms.NumericUpDown();
       this.groupBox11 = new System.Windows.Forms.GroupBox();
       this.checkBoxScanSitesInList = new System.Windows.Forms.CheckBox();
       this.groupBox27 = new System.Windows.Forms.GroupBox();
@@ -363,20 +361,16 @@ namespace SEOMacroscope
       this.checkBoxIgnoreErrors410 = new System.Windows.Forms.CheckBox();
       this.tabPageNetworkSettings = new System.Windows.Forms.TabPage();
       this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
-      this.groupBox8 = new System.Windows.Forms.GroupBox();
-      this.textBoxHttpProxyHost = new System.Windows.Forms.TextBox();
-      this.numericUpDownHttpProxyPort = new System.Windows.Forms.NumericUpDown();
+      this.groupBox33 = new System.Windows.Forms.GroupBox();
+      this.comboBoxProxyType = new System.Windows.Forms.ComboBox();
+      this.label9 = new System.Windows.Forms.Label();
       this.groupBox28 = new System.Windows.Forms.GroupBox();
       this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
       this.tabPageAdvancedSettings = new System.Windows.Forms.TabPage();
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-      this.groupBox32 = new System.Windows.Forms.GroupBox();
-      this.label26 = new System.Windows.Forms.Label();
-      this.numericUpDownRedirectChainsMaxHops = new System.Windows.Forms.NumericUpDown();
-      label9 = new System.Windows.Forms.Label();
-      label10 = new System.Windows.Forms.Label();
+      this.label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
       this.tabPageSpideringControl.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
@@ -396,6 +390,8 @@ namespace SEOMacroscope
       this.groupBox18.SuspendLayout();
       this.groupBox6.SuspendLayout();
       this.groupBox16.SuspendLayout();
+      this.groupBox32.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRedirectChainsMaxHops)).BeginInit();
       this.groupBox11.SuspendLayout();
       this.groupBox27.SuspendLayout();
       this.groupBox30.SuspendLayout();
@@ -445,31 +441,12 @@ namespace SEOMacroscope
       this.groupBox29.SuspendLayout();
       this.tabPageNetworkSettings.SuspendLayout();
       this.flowLayoutPanel4.SuspendLayout();
-      this.groupBox8.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).BeginInit();
+      this.groupBox33.SuspendLayout();
       this.groupBox28.SuspendLayout();
       this.tabPageAdvancedSettings.SuspendLayout();
       this.flowLayoutPanel7.SuspendLayout();
       this.groupBox19.SuspendLayout();
-      this.groupBox32.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRedirectChainsMaxHops)).BeginInit();
       this.SuspendLayout();
-      // 
-      // label9
-      // 
-      label9.Location = new System.Drawing.Point(223, 23);
-      label9.Name = "label9";
-      label9.Size = new System.Drawing.Size(210, 23);
-      label9.TabIndex = 0;
-      label9.Text = "HTTP Proxy Hostname";
-      // 
-      // label10
-      // 
-      label10.Location = new System.Drawing.Point(223, 52);
-      label10.Name = "label10";
-      label10.Size = new System.Drawing.Size(200, 23);
-      label10.TabIndex = 1;
-      label10.Text = "HTTP Proxy Port";
       // 
       // tabControlPreferences
       // 
@@ -1161,6 +1138,52 @@ namespace SEOMacroscope
       this.checkBoxProcessStylesheets.TabIndex = 1;
       this.checkBoxProcessStylesheets.Text = "CSS stylesheets";
       this.checkBoxProcessStylesheets.UseVisualStyleBackColor = true;
+      // 
+      // groupBox32
+      // 
+      this.groupBox32.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox32.Controls.Add(this.label26);
+      this.groupBox32.Controls.Add(this.numericUpDownRedirectChainsMaxHops);
+      this.groupBox32.Location = new System.Drawing.Point(10, 280);
+      this.groupBox32.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox32.Name = "groupBox32";
+      this.groupBox32.Size = new System.Drawing.Size(500, 60);
+      this.groupBox32.TabIndex = 4;
+      this.groupBox32.TabStop = false;
+      this.groupBox32.Text = "Redirect Analysis";
+      // 
+      // label26
+      // 
+      this.label26.Location = new System.Drawing.Point(90, 20);
+      this.label26.Margin = new System.Windows.Forms.Padding(0);
+      this.label26.Name = "label26";
+      this.label26.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+      this.label26.Size = new System.Drawing.Size(150, 20);
+      this.label26.TabIndex = 11;
+      this.label26.Text = "Redirect Chains Max Hops";
+      // 
+      // numericUpDownRedirectChainsMaxHops
+      // 
+      this.numericUpDownRedirectChainsMaxHops.Location = new System.Drawing.Point(20, 20);
+      this.numericUpDownRedirectChainsMaxHops.Margin = new System.Windows.Forms.Padding(0);
+      this.numericUpDownRedirectChainsMaxHops.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+      this.numericUpDownRedirectChainsMaxHops.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+      this.numericUpDownRedirectChainsMaxHops.Name = "numericUpDownRedirectChainsMaxHops";
+      this.numericUpDownRedirectChainsMaxHops.Size = new System.Drawing.Size(70, 20);
+      this.numericUpDownRedirectChainsMaxHops.TabIndex = 1;
+      this.numericUpDownRedirectChainsMaxHops.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
       // 
       // groupBox11
       // 
@@ -2351,7 +2374,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel4.AutoScroll = true;
       this.flowLayoutPanel4.AutoSize = true;
       this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.flowLayoutPanel4.Controls.Add(this.groupBox8);
+      this.flowLayoutPanel4.Controls.Add(this.groupBox33);
       this.flowLayoutPanel4.Controls.Add(this.groupBox28);
       this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 3);
@@ -2360,53 +2383,47 @@ namespace SEOMacroscope
       this.flowLayoutPanel4.Size = new System.Drawing.Size(586, 737);
       this.flowLayoutPanel4.TabIndex = 7;
       // 
-      // groupBox8
+      // groupBox33
       // 
-      this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.groupBox8.Controls.Add(label9);
-      this.groupBox8.Controls.Add(this.textBoxHttpProxyHost);
-      this.groupBox8.Controls.Add(label10);
-      this.groupBox8.Controls.Add(this.numericUpDownHttpProxyPort);
-      this.groupBox8.Location = new System.Drawing.Point(10, 10);
-      this.groupBox8.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
-      this.groupBox8.Name = "groupBox8";
-      this.groupBox8.Size = new System.Drawing.Size(500, 120);
-      this.groupBox8.TabIndex = 1;
-      this.groupBox8.TabStop = false;
-      this.groupBox8.Text = "HTTP Proxy";
+      this.groupBox33.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox33.Controls.Add(this.label10);
+      this.groupBox33.Controls.Add(this.comboBoxProxyType);
+      this.groupBox33.Controls.Add(this.label9);
+      this.groupBox33.Location = new System.Drawing.Point(10, 10);
+      this.groupBox33.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox33.Name = "groupBox33";
+      this.groupBox33.Size = new System.Drawing.Size(500, 90);
+      this.groupBox33.TabIndex = 5;
+      this.groupBox33.TabStop = false;
+      this.groupBox33.Text = "HTTP Proxy";
       // 
-      // textBoxHttpProxyHost
+      // comboBoxProxyType
       // 
-      this.textBoxHttpProxyHost.Location = new System.Drawing.Point(17, 20);
-      this.textBoxHttpProxyHost.MaxLength = 256;
-      this.textBoxHttpProxyHost.Name = "textBoxHttpProxyHost";
-      this.textBoxHttpProxyHost.Size = new System.Drawing.Size(200, 20);
-      this.textBoxHttpProxyHost.TabIndex = 1;
-      this.textBoxHttpProxyHost.WordWrap = false;
+      this.comboBoxProxyType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.comboBoxProxyType.FormattingEnabled = true;
+      this.comboBoxProxyType.Items.AddRange(new object[] {
+            "No proxy",
+            "WinInetProxy",
+            "WinHttpProxy"});
+      this.comboBoxProxyType.Location = new System.Drawing.Point(20, 25);
+      this.comboBoxProxyType.Name = "comboBoxProxyType";
+      this.comboBoxProxyType.Size = new System.Drawing.Size(150, 21);
+      this.comboBoxProxyType.TabIndex = 12;
       // 
-      // numericUpDownHttpProxyPort
+      // label9
       // 
-      this.numericUpDownHttpProxyPort.Location = new System.Drawing.Point(147, 50);
-      this.numericUpDownHttpProxyPort.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-      this.numericUpDownHttpProxyPort.Name = "numericUpDownHttpProxyPort";
-      this.numericUpDownHttpProxyPort.Size = new System.Drawing.Size(70, 20);
-      this.numericUpDownHttpProxyPort.TabIndex = 2;
-      this.numericUpDownHttpProxyPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-      this.numericUpDownHttpProxyPort.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+      this.label9.Location = new System.Drawing.Point(176, 25);
+      this.label9.Name = "label9";
+      this.label9.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+      this.label9.Size = new System.Drawing.Size(250, 20);
+      this.label9.TabIndex = 13;
+      this.label9.Text = "Select configured system proxy";
       // 
       // groupBox28
       // 
       this.groupBox28.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox28.Controls.Add(this.checkBoxServerCertificateValidation);
-      this.groupBox28.Location = new System.Drawing.Point(10, 140);
+      this.groupBox28.Location = new System.Drawing.Point(10, 110);
       this.groupBox28.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox28.Name = "groupBox28";
       this.groupBox28.Size = new System.Drawing.Size(500, 90);
@@ -2464,51 +2481,14 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
       // 
-      // groupBox32
+      // label10
       // 
-      this.groupBox32.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.groupBox32.Controls.Add(this.label26);
-      this.groupBox32.Controls.Add(this.numericUpDownRedirectChainsMaxHops);
-      this.groupBox32.Location = new System.Drawing.Point(10, 280);
-      this.groupBox32.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-      this.groupBox32.Name = "groupBox32";
-      this.groupBox32.Size = new System.Drawing.Size(500, 60);
-      this.groupBox32.TabIndex = 4;
-      this.groupBox32.TabStop = false;
-      this.groupBox32.Text = "Redirect Analysis";
-      // 
-      // label26
-      // 
-      this.label26.Location = new System.Drawing.Point(90, 20);
-      this.label26.Margin = new System.Windows.Forms.Padding(0);
-      this.label26.Name = "label26";
-      this.label26.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-      this.label26.Size = new System.Drawing.Size(150, 20);
-      this.label26.TabIndex = 11;
-      this.label26.Text = "Redirect Chains Max Hops";
-      // 
-      // numericUpDownRedirectChainsMaxHops
-      // 
-      this.numericUpDownRedirectChainsMaxHops.Location = new System.Drawing.Point(20, 20);
-      this.numericUpDownRedirectChainsMaxHops.Margin = new System.Windows.Forms.Padding(0);
-      this.numericUpDownRedirectChainsMaxHops.Maximum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-      this.numericUpDownRedirectChainsMaxHops.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-      this.numericUpDownRedirectChainsMaxHops.Name = "numericUpDownRedirectChainsMaxHops";
-      this.numericUpDownRedirectChainsMaxHops.Size = new System.Drawing.Size(70, 20);
-      this.numericUpDownRedirectChainsMaxHops.TabIndex = 1;
-      this.numericUpDownRedirectChainsMaxHops.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+      this.label10.Location = new System.Drawing.Point(20, 60);
+      this.label10.Name = "label10";
+      this.label10.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
+      this.label10.Size = new System.Drawing.Size(460, 20);
+      this.label10.TabIndex = 14;
+      this.label10.Text = "Proxy setting changes take effect the next time that SEO Macroscope is run.";
       // 
       // MacroscopePrefsControl
       // 
@@ -2538,6 +2518,8 @@ namespace SEOMacroscope
       this.groupBox18.ResumeLayout(false);
       this.groupBox6.ResumeLayout(false);
       this.groupBox16.ResumeLayout(false);
+      this.groupBox32.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRedirectChainsMaxHops)).EndInit();
       this.groupBox11.ResumeLayout(false);
       this.groupBox27.ResumeLayout(false);
       this.groupBox30.ResumeLayout(false);
@@ -2588,15 +2570,11 @@ namespace SEOMacroscope
       this.tabPageNetworkSettings.ResumeLayout(false);
       this.tabPageNetworkSettings.PerformLayout();
       this.flowLayoutPanel4.ResumeLayout(false);
-      this.groupBox8.ResumeLayout(false);
-      this.groupBox8.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHttpProxyPort)).EndInit();
+      this.groupBox33.ResumeLayout(false);
       this.groupBox28.ResumeLayout(false);
       this.tabPageAdvancedSettings.ResumeLayout(false);
       this.flowLayoutPanel7.ResumeLayout(false);
       this.groupBox19.ResumeLayout(false);
-      this.groupBox32.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRedirectChainsMaxHops)).EndInit();
       this.ResumeLayout(false);
 
 		}
@@ -2618,5 +2596,9 @@ namespace SEOMacroscope
     private System.Windows.Forms.GroupBox groupBox32;
     private System.Windows.Forms.Label label26;
     public System.Windows.Forms.NumericUpDown numericUpDownRedirectChainsMaxHops;
+    private System.Windows.Forms.GroupBox groupBox33;
+    private System.Windows.Forms.ComboBox comboBoxProxyType;
+    private System.Windows.Forms.Label label9;
+    private System.Windows.Forms.Label label10;
   }
 }

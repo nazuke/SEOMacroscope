@@ -50,61 +50,33 @@ namespace SEOMacroscope
     private void PostProcessRequestHttpHeaders ( HttpRequestMessage Request, HttpRequestHeaders DefaultRequestHeaders )
     {
 
-      bool suppressor = this.SuppressDebugMsg;
-      this.SuppressDebugMsg = false;
-
       List<string> Lines = new List<string>();
 
-      for( int i = 0 ; i < 10 ; i++ )
-      {
-        Lines.Add( string.Concat( "SOME_KEY", ": ", "SOME_VALUE" ) );
-      }
-
-      /*
       foreach( KeyValuePair<string, IEnumerable<string>> Item in DefaultRequestHeaders )
       {
         foreach( string Value in Item.Value )
         {
-          this.DebugMsg( string.Format( "DEFAULT REQUEST HEADER: {0} => {1}", Item.Key, Value ) );
           Lines.Add( string.Concat( Item.Key, ": ", Value ) );
         }
       }
-
-      this.DebugMsg( "OK" );
-      */
-
-
 
       foreach( KeyValuePair<string, IEnumerable<string>> Item in Request.Headers )
       {
         foreach( string Value in Item.Value )
         {
-          this.DebugMsg( string.Format( "REQUEST HEADER: {0} => {1}", Item.Key, Value ) );
           Lines.Add( string.Concat( Item.Key, ": ", Value ) );
         }
       }
-
-      this.DebugMsg( "OK" );
-
-
 
       lock( this.RawHttpRequestHeaders )
       {
         Lines.Sort();
         this.RawHttpRequestHeaders = string.Join(
           Environment.NewLine,
-          string.Join( " ", Request.Method.ToString(), Request.RequestUri.ToString() ),
+          string.Join( " ", Request.Method.ToString(), Request.RequestUri.AbsolutePath.ToString(), Request.Version ),
           string.Join( Environment.NewLine, Lines )
         );
       }
-
-
-
-
-
-      this.SuppressDebugMsg = suppressor;
-
-      return;
 
     }
 

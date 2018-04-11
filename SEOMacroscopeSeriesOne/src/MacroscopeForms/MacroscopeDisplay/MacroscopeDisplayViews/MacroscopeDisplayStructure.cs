@@ -46,15 +46,15 @@ namespace SEOMacroscope
     {
 
       this.SuppressDebugMsg = true;
-      
+
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
       this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelStructureItems;
-      
+
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -78,7 +78,7 @@ namespace SEOMacroscope
       {
 
         this.DisplayListView.SuspendLayout();
-        
+
         // BEGIN: Columns
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
@@ -94,20 +94,35 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.DateServer, MacroscopeConstants.DateServer );
         this.DisplayListView.Columns.Add( MacroscopeConstants.DateModified, MacroscopeConstants.DateModified );
         this.DisplayListView.Columns.Add( MacroscopeConstants.DateExpires, MacroscopeConstants.DateExpires );
-       
+
         this.DisplayListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Locale, MacroscopeConstants.Locale );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Language, MacroscopeConstants.Language );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
-        
+
         this.DisplayListView.Columns.Add( MacroscopeConstants.PageDepth, MacroscopeConstants.PageDepth );
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.Inlinks, MacroscopeConstants.Inlinks );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Outlinks, MacroscopeConstants.Outlinks );
-        
-        this.DisplayListView.Columns.Add( MacroscopeConstants.Inhyperlinks, MacroscopeConstants.Inhyperlinks );
-        this.DisplayListView.Columns.Add( MacroscopeConstants.Outhyperlinks, MacroscopeConstants.Outhyperlinks );
-        
+
+        this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksIn, MacroscopeConstants.HyperlinksIn );
+        this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksOut, MacroscopeConstants.HyperlinksOut );
+
+
+
+        this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksInRatio, MacroscopeConstants.HyperlinksInRatio );
+        this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksOutRatio, MacroscopeConstants.HyperlinksOutRatio );
+
+
+
+
+
+
+
+
+
+
+
         this.DisplayListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
         this.DisplayListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
         this.DisplayListView.Columns.Add( MacroscopeConstants.TitleLang, MacroscopeConstants.TitleLang );
@@ -121,7 +136,7 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.KeywordsCount, MacroscopeConstants.KeywordsCount );
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.BodyTextLang, MacroscopeConstants.BodyTextLang );
-        
+
         for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
         {
           string HeadingLevelText = string.Format( MacroscopeConstants.Hn, HeadingLevel );
@@ -135,7 +150,7 @@ namespace SEOMacroscope
         this.ListViewResizeColumnsInitial();
 
         this.DisplayListView.ResumeLayout();
-        
+
         this.ListViewConfigured = true;
 
       }
@@ -149,7 +164,7 @@ namespace SEOMacroscope
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               base.ClearData();
@@ -179,30 +194,30 @@ namespace SEOMacroscope
       lock( this.DisplayListViewLock )
       {
 
-        Dictionary <string,string> StructureItems = new Dictionary <string,string> ();
-        
+        Dictionary<string, string> StructureItems = new Dictionary<string, string>();
+
         ListViewItem lvItem = null;
 
         string TitleLanguage = msDoc.GetTitleLanguage();
         string DescriptionLanguage = msDoc.GetDescriptionLanguage();
         string BodyTextLanguage = msDoc.GetDocumentTextLanguage();
-        int StatusCode = ( int )msDoc.GetStatusCode();
-        
+        int StatusCode = (int) msDoc.GetStatusCode();
+
         if( string.IsNullOrEmpty( TitleLanguage ) )
         {
           TitleLanguage = "";
         }
-        
+
         if( string.IsNullOrEmpty( DescriptionLanguage ) )
         {
           DescriptionLanguage = "";
         }
-        
+
         if( string.IsNullOrEmpty( BodyTextLanguage ) )
         {
           BodyTextLanguage = "";
         }
-                
+
         // BEGIN: Columns ----------------------------------------------------//
 
         StructureItems.Add( MacroscopeConstants.Url, msDoc.GetUrl() );
@@ -225,7 +240,7 @@ namespace SEOMacroscope
           }
           StructureItems.Add( MacroscopeConstants.Locale, LocaleCode );
         }
-        
+
         {
           string LanguageCode = msDoc.GetIsoLanguageCode();
           if( string.IsNullOrEmpty( LanguageCode ) )
@@ -236,20 +251,26 @@ namespace SEOMacroscope
         }
 
         StructureItems.Add( MacroscopeConstants.DateCrawled, msDoc.GetCrawledDate() );
-        
+
         StructureItems.Add( MacroscopeConstants.DateServer, msDoc.GetDateServer() );
         StructureItems.Add( MacroscopeConstants.DateModified, msDoc.GetDateModified() );
         StructureItems.Add( MacroscopeConstants.DateExpires, msDoc.GetDateExpires() );
 
         StructureItems.Add( MacroscopeConstants.Canonical, msDoc.GetCanonical() );
-        
+
         StructureItems.Add( MacroscopeConstants.PageDepth, msDoc.GetDepth().ToString() );
 
         StructureItems.Add( MacroscopeConstants.Inlinks, msDoc.CountInlinks().ToString() );
         StructureItems.Add( MacroscopeConstants.Outlinks, msDoc.CountOutlinks().ToString() );
-        
-        StructureItems.Add( MacroscopeConstants.Inhyperlinks, msDoc.CountHyperlinksIn().ToString() );
-        StructureItems.Add( MacroscopeConstants.Outhyperlinks, msDoc.CountHyperlinksOut().ToString() );
+
+        StructureItems.Add( MacroscopeConstants.HyperlinksIn, msDoc.CountHyperlinksIn().ToString() );
+        StructureItems.Add( MacroscopeConstants.HyperlinksOut, msDoc.CountHyperlinksOut().ToString() );
+
+        {
+          List<decimal> HyperlinkRatio = DocCollection.GetDocumentHyperlinksRatio( Url: Url );
+          StructureItems.Add( MacroscopeConstants.HyperlinksInRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 0 ] ) );
+          StructureItems.Add( MacroscopeConstants.HyperlinksOutRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) );
+        }
 
         StructureItems.Add( MacroscopeConstants.Title, msDoc.GetTitle() );
         StructureItems.Add( MacroscopeConstants.TitleLen, msDoc.GetTitleLength().ToString() );
@@ -262,7 +283,7 @@ namespace SEOMacroscope
         StructureItems.Add( MacroscopeConstants.Keywords, msDoc.GetKeywords() );
         StructureItems.Add( MacroscopeConstants.KeywordsLen, msDoc.GetKeywordsLength().ToString() );
         StructureItems.Add( MacroscopeConstants.KeywordsCount, msDoc.GetKeywordsCount().ToString() );
-        
+
         StructureItems.Add( MacroscopeConstants.BodyTextLang, BodyTextLanguage );
 
         for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
@@ -289,7 +310,7 @@ namespace SEOMacroscope
         else
         {
 
-          lvItem = new ListViewItem ( Url );
+          lvItem = new ListViewItem( Url );
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = Url;
 
@@ -309,7 +330,7 @@ namespace SEOMacroscope
 
           int StatusCodeColIndex = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.StatusCode );
           int StatusColIndex = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.Status );
-                        
+
           foreach( string ItemsKey in StructureItems.Keys )
           {
 
@@ -364,7 +385,7 @@ namespace SEOMacroscope
                 lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Blue;
               }
 
-              if ( StatusCode == 410 )
+              if( StatusCode == 410 )
               {
                 lvItem.SubItems[ ColIndex ].ForeColor = Color.Purple;
                 lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Purple;
@@ -373,7 +394,7 @@ namespace SEOMacroscope
 
             }
 
-            if ( ItemsKey == MacroscopeConstants.RobotsRule )
+            if( ItemsKey == MacroscopeConstants.RobotsRule )
             {
               if( Text.ToLower() == "disallowed" )
               {
@@ -414,7 +435,7 @@ namespace SEOMacroscope
     private void ListViewResizeColumnsInitial ()
     {
 
-      Dictionary<string,int> ColExplicitWidth = new Dictionary<string,int> ( 2 );
+      Dictionary<string, int> ColExplicitWidth = new Dictionary<string, int>( 2 );
 
       ColExplicitWidth.Add( MacroscopeConstants.Url, 300 );
       ColExplicitWidth.Add( MacroscopeConstants.Title, 300 );
@@ -436,9 +457,9 @@ namespace SEOMacroscope
     private void ListViewResizeColumns ()
     {
 
-      List<string> ColDataWidth = new List<string> ( 4 );
-      List<string> ColHeaderWidth = new List<string> ( 3 );
-      
+      List<string> ColDataWidth = new List<string>( 4 );
+      List<string> ColHeaderWidth = new List<string>( 3 );
+
       ColDataWidth.Add( MacroscopeConstants.Url );
       ColDataWidth.Add( MacroscopeConstants.DateServer );
       ColDataWidth.Add( MacroscopeConstants.DateModified );
@@ -459,7 +480,7 @@ namespace SEOMacroscope
       foreach( string ColName in ColHeaderWidth )
       {
         this.DisplayListView.AutoResizeColumn(
-          this.DisplayListView.Columns[ ColName ].Index, 
+          this.DisplayListView.Columns[ ColName ].Index,
           ColumnHeaderAutoResizeStyle.HeaderSize
         );
       }
@@ -474,7 +495,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-  
+
   }
 
 }

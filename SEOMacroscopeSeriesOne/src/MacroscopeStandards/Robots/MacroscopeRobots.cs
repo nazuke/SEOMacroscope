@@ -176,7 +176,7 @@ namespace SEOMacroscope
       if ( robot != null )
       {
 
-        long CrawlDelayTime = robot.CrawlDelay( userAgent: this.UserAgent() );
+        long CrawlDelayTime = robot.CrawlDelay( userAgent: this.UserAgentName() );
 
         if ( CrawlDelayTime == 0 )
         {

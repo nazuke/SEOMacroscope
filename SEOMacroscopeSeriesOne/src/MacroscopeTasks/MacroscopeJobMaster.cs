@@ -135,7 +135,7 @@ namespace SEOMacroscope
     protected virtual void Dispose ( bool disposing )
     {
 
-      if ( this.SemaphoreWorkers != null )
+      if( this.SemaphoreWorkers != null )
       {
         this.SemaphoreWorkers.Dispose();
       }
@@ -162,7 +162,7 @@ namespace SEOMacroscope
 
       this.Client = new MacroscopeHttpTwoClient();
 
-      if ( this.TaskController != null )
+      if( this.TaskController != null )
       {
         this.CredentialsHttp = this.TaskController.IGetCredentialsHttp();
       }
@@ -212,7 +212,7 @@ namespace SEOMacroscope
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplaySitemaps );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplaySitemapErrors );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplaySitemapsAudit );
-        
+
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayEmailAddresses );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayTelephoneNumbers );
         this.NamedQueue.CreateNamedQueue( Name: MacroscopeConstants.NamedQueueDisplayCustomFilters );
@@ -372,10 +372,7 @@ namespace SEOMacroscope
     public bool Execute ()
     {
 
-      DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
-
-      // TODO: BROKEN:
-      //MacroscopePreferencesManager.ConfigureHttpProxy();
+      this.DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
 
       //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
 
@@ -389,14 +386,14 @@ namespace SEOMacroscope
 
       this.AllowedHosts.AddFromUrl( Url: this.StartUrl );
 
-      if ( !this.PeekUrlQueue() )
+      if( !this.PeekUrlQueue() )
       {
 
         { // Add robots.txt URL to queue
-          if ( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
+          if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
           {
             string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.StartUrl );
-            if ( !string.IsNullOrEmpty( RobotsUrl ) )
+            if( !string.IsNullOrEmpty( RobotsUrl ) )
             {
               this.AddUrlQueueItem( Url: RobotsUrl );
             }
@@ -404,13 +401,13 @@ namespace SEOMacroscope
         }
 
         { // Add sitemap.xml URLs to queue
-          if ( MacroscopePreferencesManager.GetFetchXml() && MacroscopePreferencesManager.GetFollowSitemapLinks() )
+          if( MacroscopePreferencesManager.GetFetchXml() && MacroscopePreferencesManager.GetFollowSitemapLinks() )
           {
             MacroscopeSitemapPaths SitemapPaths = new MacroscopeSitemapPaths();
-            foreach ( string SitemapPath in SitemapPaths.IterateSitemapPaths() )
+            foreach( string SitemapPath in SitemapPaths.IterateSitemapPaths() )
             {
               string SitemapUrl = MacroscopeSitemapPaths.GenerateSitemapUrl( Url: this.StartUrl, SitemapPath: SitemapPath );
-              if ( !string.IsNullOrEmpty( SitemapUrl ) )
+              if( !string.IsNullOrEmpty( SitemapUrl ) )
               {
                 this.AddUrlQueueItem( Url: SitemapUrl );
               }
@@ -419,10 +416,10 @@ namespace SEOMacroscope
         }
 
         { // Add humans.txt URL to queue
-          if ( MacroscopePreferencesManager.GetProbeHumansText() )
+          if( MacroscopePreferencesManager.GetProbeHumansText() )
           {
             string HumansUrl = MacroscopeHumans.GenerateHumansUrl( Url: this.StartUrl );
-            if ( !string.IsNullOrEmpty( HumansUrl ) )
+            if( !string.IsNullOrEmpty( HumansUrl ) )
             {
               this.AddUrlQueueItem( Url: HumansUrl );
             }
@@ -433,7 +430,7 @@ namespace SEOMacroscope
 
         this.AddUrlQueueItem( Url: this.StartUrl );
 
-        foreach ( MacroscopeDocument msDoc in this.GetDocCollection().IterateDocuments() )
+        foreach( MacroscopeDocument msDoc in this.GetDocCollection().IterateDocuments() )
         {
           this.ProcessOutlinks( msDoc: msDoc );
         }
@@ -446,9 +443,9 @@ namespace SEOMacroscope
 
       this.SpawnWorkers();
 
-      DebugMsg( string.Format( "Pages Found: {0}", this.GetPagesFound() ) );
+      this.DebugMsg( string.Format( "Pages Found: {0}", this.GetPagesFound() ) );
 
-      if ( this.TaskController != null )
+      if( this.TaskController != null )
       {
         this.TaskController.ICallbackScanComplete();
       }
@@ -466,13 +463,13 @@ namespace SEOMacroscope
 
       bool DoRun = true;
 
-      while ( DoRun == true )
+      while( DoRun == true )
       {
 
-        if ( this.GetThreadsStop() )
+        if( this.GetThreadsStop() )
         {
 
-          DebugMsg( string.Format( "SpawnWorkers: {0}", "STOPPING" ) );
+          this.DebugMsg( string.Format( "SpawnWorkers: {0}", "STOPPING" ) );
 
           DoRun = false;
           break;
@@ -481,27 +478,27 @@ namespace SEOMacroscope
         else
         {
 
-          if ( this.CountRunningThreads() < this.ThreadsMax )
+          if( this.CountRunningThreads() < this.ThreadsMax )
           {
 
             try
             {
 
-              if ( this.MemoryGate( RequiredMegabytes: 32 ) )
+              if( this.MemoryGate( RequiredMegabytes: 32 ) )
               {
 
                 try
                 {
                   this.SemaphoreWorkers.WaitOne();
                 }
-                catch ( Exception ex )
+                catch( Exception ex )
                 {
-                  DebugMsg( string.Format( "SpawnWorkers: {0}", ex.Message ) );
+                  this.DebugMsg( string.Format( "SpawnWorkers: {0}", ex.Message ) );
                 }
 
                 bool NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
 
-                if ( NewThreadStarted )
+                if( NewThreadStarted )
                 {
                   Thread.Sleep( 2000 );
                 }
@@ -511,9 +508,9 @@ namespace SEOMacroscope
               }
 
             }
-            catch ( MacroscopeInsufficientMemoryException ex )
+            catch( MacroscopeInsufficientMemoryException ex )
             {
-              DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
+              this.DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
               GC.Collect();
               Thread.Yield();
               Thread.Sleep( 100 );
@@ -521,7 +518,7 @@ namespace SEOMacroscope
 
           }
 
-          if (
+          if(
             ( this.CountRunningThreads() == 0 )
             && ( !this.PeekUrlQueue() ) )
           {
@@ -534,7 +531,7 @@ namespace SEOMacroscope
 
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 
-      DebugMsg( string.Format( "SpawnWorkers: STOPPED" ) );
+      this.DebugMsg( string.Format( "SpawnWorkers: STOPPED" ) );
 
     }
 
@@ -543,7 +540,7 @@ namespace SEOMacroscope
     private void StartWorker ( object thContext )
     {
 
-      if ( !this.GetThreadsStop() )
+      if( !this.GetThreadsStop() )
       {
 
         MacroscopeJobWorker JobWorker = new MacroscopeJobWorker( JobMaster: this );
@@ -553,10 +550,10 @@ namespace SEOMacroscope
         {
           JobWorker.Execute();
         }
-        catch ( OutOfMemoryException ex )
+        catch( OutOfMemoryException ex )
         {
-          DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.Message ) );
-          DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.StackTrace.ToString() ) );
+          this.DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.StackTrace.ToString() ) );
           this.TaskController.ICallbackOutOfMemory();
         }
 
@@ -566,9 +563,9 @@ namespace SEOMacroscope
       {
         this.SemaphoreWorkers.Release( 1 );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
-        DebugMsg( string.Format( "StartWorker: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "StartWorker: {0}", ex.Message ) );
       }
 
     }
@@ -578,7 +575,7 @@ namespace SEOMacroscope
     public void NotifyWorkersFetched ( string Url )
     {
 
-      DebugMsg( string.Format( "NotifyWorkersFetched: {0}", Url ) );
+      this.DebugMsg( string.Format( "NotifyWorkersFetched: {0}", Url ) );
 
       this.IncPagesFound();
 
@@ -598,7 +595,7 @@ namespace SEOMacroscope
       this.DecRunningThreads();
 
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
-      
+
       this.GetDocCollection().RecalculateDocCollection();
 
       this.GetDocCollection().RecalculateDocCollectionFinal();
@@ -617,7 +614,7 @@ namespace SEOMacroscope
     public bool AreWorkersStopped ()
     {
       bool IsStopped = false;
-      if ( this.CountRunningThreads() == 0 )
+      if( this.CountRunningThreads() == 0 )
       {
         IsStopped = true;
       }
@@ -658,12 +655,12 @@ namespace SEOMacroscope
 
     private void DecRunningThreads ()
     {
-      if ( this.ThreadsRunning > 0 )
+      if( this.ThreadsRunning > 0 )
       {
         int iThreadId = Thread.CurrentThread.ManagedThreadId;
-        if ( this.ThreadsDict.ContainsKey( iThreadId ) )
+        if( this.ThreadsDict.ContainsKey( iThreadId ) )
         {
-          lock ( this.ThreadsDict )
+          lock( this.ThreadsDict )
           {
             this.ThreadsDict.Remove( iThreadId );
           }
@@ -732,7 +729,7 @@ namespace SEOMacroscope
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemaps, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemapErrors, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplaySitemapsAudit, Url );
-      
+
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayEmailAddresses, Url );
       NamedQueue.AddToNamedQueue( MacroscopeConstants.NamedQueueDisplayTelephoneNumbers, Url );
 
@@ -766,9 +763,9 @@ namespace SEOMacroscope
           MacroscopeConstants.NamedQueueUrlList
         );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
-        DebugMsg( string.Format( "GetUrlQueueAsArray: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "GetUrlQueueAsArray: {0}", ex.Message ) );
       }
 
       return ( ItemsArray );
@@ -784,25 +781,25 @@ namespace SEOMacroscope
       string NewUrl = Url;
       MacroscopeJobItem JobItem = null;
 
-      if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+      if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
       {
-        if ( this.AllowedHosts.IsExternalUrl( Url: Url ) )
+        if( this.AllowedHosts.IsExternalUrl( Url: Url ) )
         {
           return;
         }
       }
 
-      if ( MacroscopePreferencesManager.GetIgnoreQueries() )
+      if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
         NewUrl = MacroscopeHttpUrlUtils.StripQueryString( Url: NewUrl );
       }
 
-      if ( MacroscopePreferencesManager.GetIgnoreHashFragments() )
+      if( MacroscopePreferencesManager.GetIgnoreHashFragments() )
       {
         NewUrl = MacroscopeHttpUrlUtils.StripHashFragment( Url: NewUrl );
       }
 
-      if ( this.JobHistory.SeenHistoryItem( Url: NewUrl ) )
+      if( this.JobHistory.SeenHistoryItem( Url: NewUrl ) )
       {
         this.DebugMsg( string.Format( "Already seen: {0}", Url ) );
       }
@@ -812,7 +809,7 @@ namespace SEOMacroscope
         try
         {
 
-          if ( !string.IsNullOrEmpty( RedirectedFromUrl ) )
+          if( !string.IsNullOrEmpty( RedirectedFromUrl ) )
           {
             JobItem = new MacroscopeJobItem( Url: NewUrl, RedirectedFromUrl: RedirectedFromUrl );
           }
@@ -829,7 +826,7 @@ namespace SEOMacroscope
           this.AddToProgress( Url: NewUrl );
 
         }
-        catch ( MacroscopeNamedQueueException ex )
+        catch( MacroscopeNamedQueueException ex )
         {
           this.DebugMsg( string.Format( "AddUrlQueueItem: {0}", ex.Message ) );
         }
@@ -847,22 +844,22 @@ namespace SEOMacroscope
 
       bool Proceed = true;
 
-      if ( Check && MacroscopePreferencesManager.GetCrawlStrictUrlCheck() )
+      if( Check && MacroscopePreferencesManager.GetCrawlStrictUrlCheck() )
       {
 
-        if ( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url: Url ) )
+        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url: Url ) )
         {
           Proceed = false;
         }
 
-        if ( !this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url: Url ) )
+        if( !this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url: Url ) )
         {
           Proceed = false;
         }
 
       }
 
-      if ( Proceed )
+      if( Proceed )
       {
         this.AddUrlQueueItem( Url: Url );
       }
@@ -891,12 +888,12 @@ namespace SEOMacroscope
       string NewUrl = Url;
       bool Forgotten = false;
 
-      if ( MacroscopePreferencesManager.GetIgnoreQueries() )
+      if( MacroscopePreferencesManager.GetIgnoreQueries() )
       {
         NewUrl = MacroscopeHttpUrlUtils.StripQueryString( Url: NewUrl );
       }
 
-      if ( MacroscopePreferencesManager.GetIgnoreHashFragments() )
+      if( MacroscopePreferencesManager.GetIgnoreHashFragments() )
       {
         NewUrl = MacroscopeHttpUrlUtils.StripHashFragment( Url: NewUrl );
       }
@@ -949,10 +946,10 @@ namespace SEOMacroscope
     public void RetryBrokenLinks ()
     {
 
-      foreach ( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
-        switch ( msDoc.GetStatusCode() )
+        switch( msDoc.GetStatusCode() )
         {
 
           // Bogus Range
@@ -1024,10 +1021,10 @@ namespace SEOMacroscope
     public void RetryTimedOutLinks ()
     {
 
-      foreach ( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in this.DocCollection.IterateDocuments() )
       {
 
-        switch ( msDoc.GetStatusCode() )
+        switch( msDoc.GetStatusCode() )
         {
 
           case HttpStatusCode.RequestTimeout:
@@ -1069,7 +1066,7 @@ namespace SEOMacroscope
     private void ResetLink ( MacroscopeDocument msDoc )
     {
 
-      if ( msDoc != null )
+      if( msDoc != null )
       {
 
         string Url = msDoc.GetUrl();
@@ -1109,7 +1106,7 @@ namespace SEOMacroscope
 
     public void SetPagesFound ( int Value )
     {
-      lock ( this.PagesFoundLock )
+      lock( this.PagesFoundLock )
       {
         this.PagesFound = Value;
       }
@@ -1126,7 +1123,7 @@ namespace SEOMacroscope
 
     private void IncPagesFound ()
     {
-      lock ( this.PagesFoundLock )
+      lock( this.PagesFoundLock )
       {
         this.PagesFound += 1;
       }
@@ -1146,7 +1143,7 @@ namespace SEOMacroscope
 
         StartUri = new Uri( this.GetStartUrl() );
 
-        if ( StartUri.Port > 0 )
+        if( StartUri.Port > 0 )
         {
           StartUriPort = string.Format( ":{0}", StartUri.Port );
         }
@@ -1154,23 +1151,27 @@ namespace SEOMacroscope
         Path = StartUri.AbsolutePath;
 
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
-        DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
-      }
-
-      Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
-
-      if ( Path.Length == 0 )
-      {
-        Path = "/";
+        this.DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
       }
 
-      this.ParentStartingDirectory = string.Join(
+
+      if( StartUri != null )
+      {
+
+        Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+
+        if( Path.Length == 0 )
+        {
+          Path = "/";
+        }
+
+        this.ParentStartingDirectory = string.Join(
         "",
         StartUri.Scheme,
         "://",
@@ -1179,15 +1180,16 @@ namespace SEOMacroscope
         Path
       );
 
+        this.ChildStartingDirectory = string.Join(
+          "",
+          StartUri.Scheme,
+          "://",
+          StartUri.Host,
+          StartUriPort,
+          Path
+        );
 
-      this.ChildStartingDirectory = string.Join(
-        "",
-        StartUri.Scheme,
-        "://",
-        StartUri.Host,
-        StartUriPort,
-        Path
-      );
+      }
 
     }
 
@@ -1205,25 +1207,25 @@ namespace SEOMacroscope
 
         CurrentUri = new Uri( Url );
 
-        if ( CurrentUri.Port > 0 )
+        if( CurrentUri.Port > 0 )
         {
           CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
         }
 
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
-        DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
       }
 
-      if ( CurrentUri != null )
+      if( CurrentUri != null )
       {
 
-        if (
+        if(
           ( CurrentUri.Scheme.ToLower() == "http" )
           || ( CurrentUri.Scheme.ToLower() == "https" ) )
         {
@@ -1235,7 +1237,7 @@ namespace SEOMacroscope
 
           Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
 
-          if ( Path.Length == 0 )
+          if( Path.Length == 0 )
           {
             Path = "/";
           }
@@ -1252,9 +1254,9 @@ namespace SEOMacroscope
           ParentStartingDirectoryLength = this.ParentStartingDirectory.Length;
           CurrentUriStringLength = CurrentUriString.Length;
 
-          if ( ParentStartingDirectoryLength >= CurrentUriStringLength )
+          if( ParentStartingDirectoryLength >= CurrentUriStringLength )
           {
-            if ( this.ParentStartingDirectory.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
+            if( this.ParentStartingDirectory.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
             {
               IsWithin = true;
             }
@@ -1283,25 +1285,25 @@ namespace SEOMacroscope
 
         CurrentUri = new Uri( Url );
 
-        if ( CurrentUri.Port > 0 )
+        if( CurrentUri.Port > 0 )
         {
           CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
         }
 
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
-        DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
       }
 
-      if ( CurrentUri != null )
+      if( CurrentUri != null )
       {
 
-        if (
+        if(
           ( CurrentUri.Scheme.ToLower() == "http" )
           || ( CurrentUri.Scheme.ToLower() == "https" ) )
         {
@@ -1313,7 +1315,7 @@ namespace SEOMacroscope
 
           Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
 
-          if ( Path.Length == 0 )
+          if( Path.Length == 0 )
           {
             Path = "/";
           }
@@ -1330,10 +1332,10 @@ namespace SEOMacroscope
           ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
           CurrentUriStringLength = CurrentUriString.Length;
 
-          if ( CurrentUriStringLength >= ChildStartingDirectoryLength )
+          if( CurrentUriStringLength >= ChildStartingDirectoryLength )
           {
 
-            if ( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
+            if( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
             {
               IsWithin = true;
             }
@@ -1370,19 +1372,19 @@ namespace SEOMacroscope
     public void AddToProgress ( string Url )
     {
 
-      if ( this.AllowedHosts.IsAllowedFromUrl( Url ) )
+      if( this.AllowedHosts.IsAllowedFromUrl( Url ) )
       {
-        DebugMsg( string.Format( "AddToProgress: INTERNAL: {0}", Url ) );
+        this.DebugMsg( string.Format( "AddToProgress: INTERNAL: {0}", Url ) );
 
-        lock ( this.Progress )
+        lock( this.Progress )
         {
 
-          if ( !this.Progress[ "list" ].ContainsKey( Url ) )
+          if( !this.Progress[ "list" ].ContainsKey( Url ) )
           {
 
             this.Progress[ "list" ].Add( Url, false );
 
-            if ( !this.Progress[ "wait" ].ContainsKey( Url ) )
+            if( !this.Progress[ "wait" ].ContainsKey( Url ) )
             {
               this.Progress[ "wait" ].Add( Url, true );
             }
@@ -1394,7 +1396,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "AddToProgress: EXTERNAL: {0}", Url ) );
+        this.DebugMsg( string.Format( "AddToProgress: EXTERNAL: {0}", Url ) );
       }
 
     }
@@ -1404,25 +1406,25 @@ namespace SEOMacroscope
     public void UpdateProgress ( string Url, bool State )
     {
 
-      if ( State && this.AllowedHosts.IsAllowedFromUrl( Url ) )
+      if( State && this.AllowedHosts.IsAllowedFromUrl( Url ) )
       {
 
-        DebugMsg( string.Format( "UpdateProgress: INTERNAL: {0}", Url ) );
+        this.DebugMsg( string.Format( "UpdateProgress: INTERNAL: {0}", Url ) );
 
-        lock ( this.Progress )
+        lock( this.Progress )
         {
 
-          if ( this.Progress[ "list" ].ContainsKey( Url ) )
+          if( this.Progress[ "list" ].ContainsKey( Url ) )
           {
 
             this.Progress[ "list" ][ Url ] = true;
 
-            if ( this.Progress[ "wait" ].ContainsKey( Url ) )
+            if( this.Progress[ "wait" ].ContainsKey( Url ) )
             {
               this.Progress[ "wait" ].Remove( Url );
             }
 
-            if ( this.Progress[ "done" ].ContainsKey( Url ) )
+            if( this.Progress[ "done" ].ContainsKey( Url ) )
             {
               this.Progress[ "done" ][ Url ] = true;
             }
@@ -1435,7 +1437,7 @@ namespace SEOMacroscope
           else
           {
 
-            DebugMsg( string.Format( "UpdateProgress: NOT IN LIST: {0}", Url ) );
+            this.DebugMsg( string.Format( "UpdateProgress: NOT IN LIST: {0}", Url ) );
 
           }
 
@@ -1444,7 +1446,7 @@ namespace SEOMacroscope
       }
       else
       {
-        DebugMsg( string.Format( "UpdateProgress: EXTERNAL: {0} :: {1}", State, Url ) );
+        this.DebugMsg( string.Format( "UpdateProgress: EXTERNAL: {0} :: {1}", State, Url ) );
       }
 
     }
@@ -1456,7 +1458,7 @@ namespace SEOMacroscope
 
       List<decimal> Counts = new List<decimal>( 3 );
 
-      lock ( this.Progress )
+      lock( this.Progress )
       {
         Counts.Add( this.Progress[ "list" ].Count );
         Counts.Add( this.Progress[ "done" ].Count );
@@ -1492,9 +1494,9 @@ namespace SEOMacroscope
 
     public void AddLocales ( string Locale )
     {
-      lock ( this.Locales )
+      lock( this.Locales )
       {
-        if ( !this.Locales.ContainsKey( Locale ) )
+        if( !this.Locales.ContainsKey( Locale ) )
         {
           this.Locales[ Locale ] = Locale;
         }
@@ -1519,21 +1521,15 @@ namespace SEOMacroscope
 
     private async void SetCrawlDelay ( string Url )
     {
-      // try
-      //{
-
-
-      this.CrawlDelay = await this.Robots.GetCrawlDelay( Url );
-      /*
+      try
+      {
+        this.CrawlDelay = await this.Robots.GetCrawlDelay( Url );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "SetCrawlDelay: {0}", ex.Message ) );
-        DebugMsg( string.Format( "SetCrawlDelay: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "SetCrawlDelay: {0}", ex.Message ) );
       }
-      */
       return;
-
     }
 
     /** -------------------------------------------------------------------- **/
@@ -1547,12 +1543,12 @@ namespace SEOMacroscope
 
     public async void ProbeRobotsFile ( string Url )
     {
-      if ( MacroscopePreferencesManager.GetFollowSitemapLinks() )
+      if( MacroscopePreferencesManager.GetFollowSitemapLinks() )
       {
         List<string> SitemapList = await Robots.GetSitemapsAsList( Url );
-        if ( SitemapList.Count > 0 )
+        if( SitemapList.Count > 0 )
         {
-          for ( int i = 0 ; i < SitemapList.Count ; i++ )
+          for( int i = 0 ; i < SitemapList.Count ; i++ )
           {
             this.AddUrlQueueItem( Url: SitemapList[ i ] );
           }
@@ -1564,9 +1560,9 @@ namespace SEOMacroscope
 
     public void AddToBlockedByRobots ( string Url )
     {
-      lock ( this.BlockedByRobots )
+      lock( this.BlockedByRobots )
       {
-        if ( !this.BlockedByRobots.ContainsKey( Url ) )
+        if( !this.BlockedByRobots.ContainsKey( Url ) )
         {
           this.BlockedByRobots[ Url ] = true;
         }
@@ -1578,10 +1574,10 @@ namespace SEOMacroscope
     public void RemoveFromBlockedByRobots ( string Url )
     {
 
-      lock ( this.BlockedByRobots )
+      lock( this.BlockedByRobots )
       {
 
-        if ( this.BlockedByRobots.ContainsKey( Url ) )
+        if( this.BlockedByRobots.ContainsKey( Url ) )
         {
           this.BlockedByRobots.Remove( Url );
         }
@@ -1597,10 +1593,10 @@ namespace SEOMacroscope
 
       Dictionary<string, bool> Copy = new Dictionary<string, bool>();
 
-      lock ( this.BlockedByRobots )
+      lock( this.BlockedByRobots )
       {
 
-        foreach ( string Url in this.BlockedByRobots.Keys )
+        foreach( string Url in this.BlockedByRobots.Keys )
         {
           Copy.Add( Url, this.BlockedByRobots[ Url ] );
         }
@@ -1610,116 +1606,116 @@ namespace SEOMacroscope
       return ( Copy );
 
     }
-    
+
     /** Process OutLinks ******************************************************/
 
     public void ProcessOutlinks ( MacroscopeDocument msDoc )
     {
 
-      if (
+      if(
         ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTFILE )
         || ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.LISTTEXT )
         || ( this.GetRunTimeMode() == MacroscopeConstants.RunTimeMode.SITEMAP ) )
       {
 
-        if ( !MacroscopePreferencesManager.GetScanSitesInList() )
+        if( !MacroscopePreferencesManager.GetScanSitesInList() )
         {
           return;
         }
 
       }
 
-      foreach ( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
+      foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
       {
 
         MacroscopeConstants.InOutLinkType LinkType = Outlink.GetLinkType();
         bool Proceed = true;
 
-        if ( !Outlink.GetDoFollow() )
+        if( !Outlink.GetDoFollow() )
         {
           Proceed = false;
         }
 
-        if ( Outlink.GetTargetUrl() == null )
+        if( Outlink.GetTargetUrl() == null )
         {
           Proceed = false;
         }
 
-        if ( this.GetJobHistory().SeenHistoryItem( Url: Outlink.GetTargetUrl() ) )
+        if( this.GetJobHistory().SeenHistoryItem( Url: Outlink.GetTargetUrl() ) )
         {
           Proceed = false;
         }
 
-        switch ( LinkType )
+        switch( LinkType )
         {
           case MacroscopeConstants.InOutLinkType.CANONICAL:
-            if ( !MacroscopePreferencesManager.GetFollowCanonicalLinks() )
+            if( !MacroscopePreferencesManager.GetFollowCanonicalLinks() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.ALTERNATE:
-            if ( !MacroscopePreferencesManager.GetFollowAlternateLinks() )
+            if( !MacroscopePreferencesManager.GetFollowAlternateLinks() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.STYLESHEET:
-            if ( !MacroscopePreferencesManager.GetFetchStylesheets() )
+            if( !MacroscopePreferencesManager.GetFetchStylesheets() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.SCRIPT:
-            if ( !MacroscopePreferencesManager.GetFetchJavascripts() )
+            if( !MacroscopePreferencesManager.GetFetchJavascripts() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.IMAGE:
-            if ( !MacroscopePreferencesManager.GetFetchImages() )
+            if( !MacroscopePreferencesManager.GetFetchImages() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.FAVICON:
-            if ( !MacroscopePreferencesManager.GetFetchImages() )
+            if( !MacroscopePreferencesManager.GetFetchImages() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.AUDIO:
-            if ( !MacroscopePreferencesManager.GetFetchAudio() )
+            if( !MacroscopePreferencesManager.GetFetchAudio() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.VIDEO:
-            if ( !MacroscopePreferencesManager.GetFetchVideo() )
+            if( !MacroscopePreferencesManager.GetFetchVideo() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.EMBED:
-            if ( !MacroscopePreferencesManager.GetFetchBinaries() )
+            if( !MacroscopePreferencesManager.GetFetchBinaries() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.OBJECT:
-            if ( !MacroscopePreferencesManager.GetFetchBinaries() )
+            if( !MacroscopePreferencesManager.GetFetchBinaries() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.SITEMAPTEXT:
-            if ( !MacroscopePreferencesManager.GetFetchXml() )
+            if( !MacroscopePreferencesManager.GetFetchXml() )
             {
               Proceed = false;
             }
             break;
           case MacroscopeConstants.InOutLinkType.SITEMAPXML:
-            if ( !MacroscopePreferencesManager.GetFetchXml() )
+            if( !MacroscopePreferencesManager.GetFetchXml() )
             {
               Proceed = false;
             }
@@ -1729,14 +1725,14 @@ namespace SEOMacroscope
             break;
         }
 
-        if ( !MacroscopePreferencesManager.GetCheckExternalLinks() )
+        if( !MacroscopePreferencesManager.GetCheckExternalLinks() )
         {
-          if ( this.DocCollection != null )
+          if( this.DocCollection != null )
           {
             MacroscopeAllowedHosts AllowedHosts = this.DocCollection.GetAllowedHosts();
-            if ( AllowedHosts != null )
+            if( AllowedHosts != null )
             {
-              if ( !AllowedHosts.IsAllowedFromUrl( Url: Outlink.GetTargetUrl() ) )
+              if( !AllowedHosts.IsAllowedFromUrl( Url: Outlink.GetTargetUrl() ) )
               {
                 Proceed = false;
               }
@@ -1744,7 +1740,7 @@ namespace SEOMacroscope
           }
         }
 
-        if ( Proceed )
+        if( Proceed )
         {
           this.AddUrlQueueItem( Url: Outlink.GetTargetUrl(), Check: true );
         }

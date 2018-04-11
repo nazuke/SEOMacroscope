@@ -50,9 +50,7 @@ namespace SEOMacroscope
     // Set SuppressDebugMsg to enable/disable debugging output in object.
     public bool SuppressDebugMsg;
 
-    private string UserAgentString;
-
-    protected static Dictionary<string,string> Memoize = new Dictionary<string,string> ( 1024 );
+    protected static Dictionary<string, string> Memoize = new Dictionary<string, string>( 1024 );
 
     protected static bool ThrowInsufficientMemoryException;
 
@@ -60,51 +58,44 @@ namespace SEOMacroscope
 
     static Macroscope ()
     {
-
       SuppressStaticDebugMsg = true;
-
       ThrowInsufficientMemoryException = false;
-
     }
 
     public Macroscope ()
     {
-      
       this.SuppressDebugMsg = true;
-      
-      this.UserAgentString = this._UserAgent();
-      
     }
 
     /**************************************************************************/
-    
+
     private static string GetVersion ()
     {
       string Location = Assembly.GetExecutingAssembly().Location;
       string Version = FileVersionInfo.GetVersionInfo( Location ).ProductVersion;
-      return( Version );
+      return ( Version );
     }
 
     /** HTTP User Agent *******************************************************/
-    
-    public string UserAgent ()
-    {
-      return( this.UserAgentString );
-    }
-    
-    /** -------------------------------------------------------------------- **/
-        
-    private string _UserAgent ()
+
+    public string UserAgentName ()
     {
 #if DEBUG
-      const string MyUserAgent = "SEO-Macroscope-DEVELOPER-MODE";
+      return( "SEO-Macroscope-DEVELOPER-MODE" );
 #else
-      string Location = Assembly.GetExecutingAssembly().Location;
-      string Name = FileVersionInfo.GetVersionInfo( Location ).ProductName;
-      string Version = FileVersionInfo.GetVersionInfo( Location ).ProductVersion;
-      string MyUserAgent = string.Format( "{0}/{1}", Name, Version );
+      return ( "SEO-Macroscope" );
 #endif
-      return( MyUserAgent );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public string UserAgentVersion ()
+    {
+#if DEBUG
+      return( "DEBUG" );
+#else
+      return( FileVersionInfo.GetVersionInfo( Assembly.GetExecutingAssembly().Location ).ProductVersion );
+#endif
     }
 
     /** Text Digest ***********************************************************/
@@ -122,9 +113,9 @@ namespace SEOMacroscope
       {
 
         HashAlgorithm Digest = HashAlgorithm.Create( "MD5" );
-        byte [] BytesIn = Encoding.UTF8.GetBytes( Text );
-        byte [] Hashed = Digest.ComputeHash( BytesIn );
-        StringBuilder Buf = new StringBuilder ();
+        byte[] BytesIn = Encoding.UTF8.GetBytes( Text );
+        byte[] Hashed = Digest.ComputeHash( BytesIn );
+        StringBuilder Buf = new StringBuilder();
 
         for( int i = 0 ; i < Hashed.Length ; i++ )
         {
@@ -137,13 +128,13 @@ namespace SEOMacroscope
 
       }
 
-      return( Digested );
+      return ( Digested );
     }
 
     /** Memory Gate ***********************************************************/
 
     // https://msdn.microsoft.com/en-us/library/system.runtime.gcsettings.largeobjectheapcompactionmode%28v=vs.110%29.aspx
-       
+
     /** EXAMPLE:
 
       try
@@ -179,7 +170,7 @@ namespace SEOMacroscope
     {
 
       GC.Collect();
-              
+
       if( MacroscopePreferencesManager.GetEnableMemoryGuard() )
       {
 
@@ -190,7 +181,7 @@ namespace SEOMacroscope
 
           DebugMsg( string.Format( "RequiredMegabytes: {0}", RequiredMegabytes ) );
 
-          MemGate = new MemoryFailPoint ( RequiredMegabytes );
+          MemGate = new MemoryFailPoint( RequiredMegabytes );
 
         }
         catch( InsufficientMemoryException ex )
@@ -198,38 +189,38 @@ namespace SEOMacroscope
 
           if( ThrowInsufficientMemoryException )
           {
-        
-            throw new MacroscopeInsufficientMemoryException (
+
+            throw new MacroscopeInsufficientMemoryException(
               message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
               innerException: ex
             );
-          
+
           }
-        
+
         }
-      
+
         GC.Collect();
 
         if( MemGate != null )
         {
-          return( true );
+          return ( true );
         }
-      
-        return( false );
-      
+
+        return ( false );
+
       }
 
-      return( true );
-      
+      return ( true );
+
     }
-    
+
     /** -------------------------------------------------------------------- **/
-    
+
     public static bool MemoryGuard ( int RequiredMegabytes )
     {
 
       GC.Collect();
-              
+
       if( MacroscopePreferencesManager.GetEnableMemoryGuard() )
       {
 
@@ -240,7 +231,7 @@ namespace SEOMacroscope
 
           DebugMsg( string.Format( "RequiredMegabytes: {0}", RequiredMegabytes ), true );
 
-          MemGate = new MemoryFailPoint ( RequiredMegabytes );
+          MemGate = new MemoryFailPoint( RequiredMegabytes );
 
         }
         catch( InsufficientMemoryException ex )
@@ -249,32 +240,32 @@ namespace SEOMacroscope
           if( ThrowInsufficientMemoryException )
           {
 
-            throw new MacroscopeInsufficientMemoryException (
+            throw new MacroscopeInsufficientMemoryException(
               message: string.Format( "Insufficient memory available: {0}MB is required", RequiredMegabytes ),
               innerException: ex
             );
-                  
+
           }
-        
+
         }
-      
+
         GC.Collect();
 
         if( MemGate != null )
         {
-          return( true );
+          return ( true );
         }
-            
-        return( false );
-      
+
+        return ( false );
+
       }
-      
-      return( true );
+
+      return ( true );
 
     }
 
     /**************************************************************************/
-		
+
     [Conditional( "DEVMODE" )]
     public static void DebugMsg ( string Msg, bool Flag )
     {
@@ -299,7 +290,7 @@ namespace SEOMacroscope
         );
       }
     }
-    
+
     [Conditional( "DEVMODE" )]
     public void DebugMsgForced ( string Msg )
     {

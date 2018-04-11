@@ -79,8 +79,8 @@ namespace SEOMacroscope
         ParentDoc: RootDoc
       );
 
+#if DEBUG
       this.DebugMsg( "######################################################" );
-
       // TODO: Remove this after debugging:
       foreach( string Url in this.PageChains.Keys )
       {
@@ -96,9 +96,7 @@ namespace SEOMacroscope
           Count++;
         }
       }
-
       this.DebugMsg( "######################################################" );
-
       /*
       // TODO: Remove this after debugging:
       foreach( string Url in this.PageChains.Keys )
@@ -112,8 +110,8 @@ namespace SEOMacroscope
         }
       }
       */
-     
       this.DebugMsg( "######################################################" );
+#endif
 
       return;
 

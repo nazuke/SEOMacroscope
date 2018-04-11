@@ -40,7 +40,6 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     static MacroscopePreferences Preferences;
-    static WebProxy wpProxy = null;
 
     // Application Version
     //static string AppVersion;
@@ -52,10 +51,7 @@ namespace SEOMacroscope
 
     /** WebProxy Options --------------------------------------------------- **/
 
-    static string HttpProxyHost;
-    static int HttpProxyPort;
-    //static string HttpProxyUsername;
-    //static string HttpProxyPassword;
+    static int ProxyType = 0;
 
     /** Global Server Certificate Validation ------------------------------- **/
 
@@ -231,8 +227,7 @@ namespace SEOMacroscope
           PauseDisplayDuringScan = Preferences.PauseDisplayDuringScan;
           ShowProgressDialogues = Preferences.ShowProgressDialogues;
 
-          HttpProxyHost = Preferences.HttpProxyHost;
-          HttpProxyPort = Preferences.HttpProxyPort;
+          ProxyType = Preferences.ProxyType;
 
           ServerCertificateValidation = Preferences.ServerCertificateValidation;
 
@@ -359,8 +354,6 @@ namespace SEOMacroscope
 
       SanitizeValues();
 
-      ConfigureHttpProxy();
-
       ConfigureServerCertificateValidation();
 
       DebugMsg( string.Format( "MacroscopePreferencesManager StartUrl: \"{0}\"", StartUrl ) );
@@ -402,8 +395,7 @@ namespace SEOMacroscope
 
       /** WebProxy Options ------------------------------------------------- **/
 
-      HttpProxyHost = "";
-      HttpProxyPort = 0;
+      ProxyType = 0;
 
       /** Global Server Certificate Validation ----------------------------- **/
 
@@ -534,13 +526,13 @@ namespace SEOMacroscope
 
       SitemapIncludeLinkedPdfs = false;
 
-      /** Ignore Errors Settings --------------------------------------------- **/
+      /** Ignore Errors Settings ------------------------------------------- **/
 
       DisregardHtml5ElementNav = true;
       DisregardHtml5ElementHeader = true;
       DisregardHtml5ElementFooter = true;
 
-      /** Ignore Errors Settings --------------------------------------------- **/
+      /** Ignore Errors Settings ------------------------------------------- **/
 
       IgnoreErrors410 = true;
       IgnoreErrors451 = true;
@@ -663,8 +655,7 @@ namespace SEOMacroscope
         Preferences.PauseDisplayDuringScan = PauseDisplayDuringScan;
         Preferences.ShowProgressDialogues = ShowProgressDialogues;
 
-        Preferences.HttpProxyHost = HttpProxyHost;
-        Preferences.HttpProxyPort = HttpProxyPort;
+        Preferences.ProxyType = ProxyType;
 
         Preferences.StartUrl = StartUrl;
 
@@ -815,92 +806,17 @@ namespace SEOMacroscope
 
     /** HTTP Proxy ************************************************************/
 
-    public static string GetHttpProxyHost ()
+    public static void SetProxyType ( int Value )
     {
-      return ( HttpProxyHost );
+      ProxyType = Value;
     }
 
-    /** -------------------------------------------------------------------- **/
-
-    public static void SetHttpProxyHost ( string Value )
+    public static int GetProxyType ()
     {
-      HttpProxyHost = Value;
+      return ( ProxyType );
     }
 
-    /** -------------------------------------------------------------------- **/
-
-    public static int GetHttpProxyPort ()
-    {
-      return ( HttpProxyPort );
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public static void SetHttpProxyPort ( int Value )
-    {
-      HttpProxyPort = Value;
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public static void ConfigureHttpProxy ()
-    {
-
-      string NewHttpProxyHost;
-      int NewHttpProxyPort;
-
-      if( HttpProxyHost.Length > 0 )
-      {
-
-        NewHttpProxyHost = HttpProxyHost;
-
-        if( HttpProxyPort >= 0 )
-        {
-          NewHttpProxyPort = HttpProxyPort;
-        }
-        else
-        {
-          NewHttpProxyPort = 80;
-        }
-
-        DebugMsg( string.Format( "ConfigureHttpProxy: {0}:{1}", HttpProxyHost, HttpProxyPort ) );
-
-        wpProxy = new WebProxy( NewHttpProxyHost, NewHttpProxyPort );
-
-      }
-      else
-      {
-
-        DebugMsg( string.Format( "ConfigureHttpProxy: NOT USED" ) );
-
-        wpProxy = null;
-
-      }
-
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public static WebProxy GetHttpProxy ()
-    {
-      return ( wpProxy );
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public static void EnableHttpProxy ( WinHttpHandler HttpHandler )
-    {
-      if( wpProxy != null )
-      {
-        HttpHandler.Proxy = wpProxy;
-      }
-      else
-      {
-        HttpHandler.Proxy = null;
-      }
-    }
-
-    /** Global Server Certificate Validation ******************************************************/
+    /** Global Server Certificate Validation **********************************/
 
     public static bool GetServerCertificateValidation ()
     {

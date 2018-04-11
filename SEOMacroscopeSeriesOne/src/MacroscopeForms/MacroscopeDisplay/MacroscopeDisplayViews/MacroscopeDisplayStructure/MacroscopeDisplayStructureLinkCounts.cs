@@ -106,8 +106,8 @@ namespace SEOMacroscope
 
           int ColIndexInlinks = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.Inlinks );
           int ColIndexOutlinks = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.Outlinks );     
-          int ColIndexInhyperlinks = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.Inhyperlinks );      
-          int ColIndexOuthyperlinks = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.Outhyperlinks );
+          int ColIndexInhyperlinks = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.HyperlinksIn );      
+          int ColIndexOuthyperlinks = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.HyperlinksOut );
 
           lvItem.SubItems[ ColIndexInlinks ].Text = msDoc.CountInlinks().ToString();
           lvItem.SubItems[ ColIndexOutlinks ].Text = msDoc.CountOutlinks().ToString();        

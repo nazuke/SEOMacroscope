@@ -306,8 +306,11 @@ namespace SEOMacroscope
     public const string Inlinks = "Links In";
     public const string Outlinks = "Links Out";
 
-    public const string Inhyperlinks = "Hyperlinks In";
-    public const string Outhyperlinks = "Hyperlinks Out";
+    public const string HyperlinksIn = "Hyperlinks In";
+    public const string HyperlinksOut = "Hyperlinks Out";
+
+    public const string HyperlinksInRatio = "Ratio In";
+    public const string HyperlinksOutRatio = "Ratio Out";
 
     public const string Title = "Title";
     public const string TitleLen = "Title Length";

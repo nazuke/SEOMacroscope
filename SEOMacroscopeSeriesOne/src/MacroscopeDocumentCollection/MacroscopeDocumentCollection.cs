@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Timers;
@@ -52,7 +51,8 @@ namespace SEOMacroscope
 
     private Dictionary<string, MacroscopeLinkList> StructInlinks;
     private Dictionary<string, MacroscopeHyperlinksIn> StructHyperlinksIn;
-
+    private Dictionary<string, List<decimal>> StructHyperlinksRatio;
+  
     private Dictionary<string, bool> StatsHistory;
     private Dictionary<string, int> StatsHostnames;
 
@@ -124,6 +124,7 @@ namespace SEOMacroscope
 
       this.StructInlinks = new Dictionary<string, MacroscopeLinkList>( 1024 );
       this.StructHyperlinksIn = new Dictionary<string, MacroscopeHyperlinksIn>( 1024 );
+      this.StructHyperlinksRatio = new Dictionary<string,List<decimal>> ( 1024 );
 
       this.StatsHistory = new Dictionary<string, bool>( 1024 );
       this.StatsHostnames = new Dictionary<string, int>( 16 );
@@ -629,6 +630,41 @@ namespace SEOMacroscope
 
     }
 
+    /** Hyperlinks Ratio ******************************************************/
+
+    public List<decimal> GetDocumentHyperlinksRatio ( string Url )
+    {
+      List<decimal> Ratio = new List<decimal>( 2 );
+      Ratio.Add( 0 );
+      Ratio.Add( 0 );
+      lock( this.StructHyperlinksRatio )
+      {
+        if( this.StructHyperlinksRatio.ContainsKey( Url ) )
+        {
+          Ratio[ 0 ] = this.StructHyperlinksRatio[ Url ][ 0 ];
+          Ratio[ 1 ] = this.StructHyperlinksRatio[ Url ][ 1 ];
+        }
+      }
+      return ( Ratio );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<List<decimal>> IterateHyperlinksRatio ()
+    {
+
+      lock( this.StructHyperlinksRatio )
+      {
+
+        foreach( string Url in this.StructHyperlinksRatio.Keys )
+        {
+          yield return this.StructHyperlinksRatio[ Url ];
+        }
+
+      }
+
+    }
+    
     /** Recalculate Stats Across DocCollection ********************************/
 
     private void StartRecalcTimer ()
@@ -759,6 +795,15 @@ namespace SEOMacroscope
               catch ( Exception ex )
               {
                 this.DebugMsg( string.Format( "RecalculateHyperlinksIn: {0}", ex.Message ) );
+              }
+
+              try
+              {
+                this.RecalculateHyperlinksRatio( msDoc: msDoc );
+              }
+              catch( Exception ex )
+              {
+                this.DebugMsg( string.Format( "RecalculateHyperlinksRatio: {0}", ex.Message ) );
               }
 
               if ( this.StatsHistory.ContainsKey( UrlTarget ) )
@@ -1023,6 +1068,49 @@ namespace SEOMacroscope
       {
 
         this.DebugMsg( string.Format( "RecalculateHyperlinksIn: ALREADY PROCESSED: {0}", DocumentUrl ) );
+
+      }
+
+    }
+
+    /** Hyperlinks Ratio ******************************************************/
+
+    private void RecalculateHyperlinksRatio ( MacroscopeDocument msDoc )
+    {
+
+      string Url = msDoc.GetUrl();
+      decimal TotalLinksIn = ( decimal)msDoc.CountHyperlinksIn();
+      decimal TotalLinksOut = ( decimal)msDoc.CountHyperlinksOut();
+      decimal RatioLinksIn = 0;
+      decimal RatioLinksOut = 0;
+
+      lock( this.StructHyperlinksRatio )
+      {
+
+        if( !this.StructHyperlinksRatio.ContainsKey( Url ) )
+        {
+          this.StructHyperlinksRatio[ Url ] = new List<decimal>( 2 );
+          this.StructHyperlinksRatio[ Url ].Add( 0 );
+          this.StructHyperlinksRatio[ Url ].Add( 0 );
+        }
+
+        //if( msDoc.IsDocumentType( MacroscopeConstants.DocumentType.HTML ) || msDoc.IsDocumentType( MacroscopeConstants.DocumentType.PDF ) )
+        //{
+
+          if( TotalLinksIn > 0 )
+          {
+            RatioLinksIn = ( ( decimal)100 / ( TotalLinksIn + TotalLinksOut ) ) * TotalLinksIn;
+          }
+
+          if( TotalLinksOut > 0 )
+          {
+            RatioLinksOut = ( ( decimal)100 / ( TotalLinksIn + TotalLinksOut ) ) * TotalLinksOut;
+          }
+
+          this.StructHyperlinksRatio[ Url ][ 0 ] = RatioLinksIn;
+          this.StructHyperlinksRatio[ Url ][ 1 ] = RatioLinksOut;
+
+        //}
 
       }
 
