@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using ClosedXML.Excel;
 
 namespace SEOMacroscope
@@ -106,7 +107,13 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Hyperlinks Out";
         iCol++;
+        
+        ws.Cell( iRow, iCol ).Value = "Ratio In";
+        iCol++;
 
+        ws.Cell( iRow, iCol ).Value = "Ratio Out";
+        iCol++;
+        
         ws.Cell( iRow, iCol ).Value = "Title";
         iCol++;
 
@@ -134,6 +141,8 @@ namespace SEOMacroscope
 
       foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
+
+        List<decimal> HyperlinkRatio = DocCollection.GetDocumentHyperlinksRatio( Url: msDoc.GetUrl() );
 
         iCol = 1;
 
@@ -192,6 +201,12 @@ namespace SEOMacroscope
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.CountHyperlinksOut() );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, string.Format( "{0:0.00}%", HyperlinkRatio[ 0 ] ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitle() ) );

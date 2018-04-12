@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using CsvHelper;
 
 namespace SEOMacroscope
@@ -63,6 +64,8 @@ namespace SEOMacroscope
         ws.WriteField( "Links Out" );
         ws.WriteField( "Hyperlinks In" );
         ws.WriteField( "Hyperlinks Out" );
+        ws.WriteField( "Ration In" );
+        ws.WriteField( "Ratio Out" );
         ws.WriteField( "Title" );
         ws.WriteField( "Title Length" );
         ws.WriteField( "Description" );
@@ -75,6 +78,8 @@ namespace SEOMacroscope
 
       foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
+
+        List<decimal> HyperlinkRatio = DocCollection.GetDocumentHyperlinksRatio( Url: msDoc.GetUrl() );
 
         this.InsertAndFormatUrlCell( ws, msDoc );
 
@@ -107,12 +112,13 @@ namespace SEOMacroscope
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetDepth().ToString() ) );
         
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountInlinks().ToString() ) );
-
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountOutlinks().ToString() ) );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountHyperlinksIn().ToString() ) );
-
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountHyperlinksOut().ToString() ) );
+
+        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( string.Format( "{0:0.00}%", HyperlinkRatio[ 0 ] ) ) );
+        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) ) );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetTitle() ) );
 

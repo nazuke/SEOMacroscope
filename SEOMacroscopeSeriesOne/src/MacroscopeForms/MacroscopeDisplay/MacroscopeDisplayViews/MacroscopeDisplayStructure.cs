@@ -108,20 +108,8 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksIn, MacroscopeConstants.HyperlinksIn );
         this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksOut, MacroscopeConstants.HyperlinksOut );
 
-
-
         this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksInRatio, MacroscopeConstants.HyperlinksInRatio );
         this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksOutRatio, MacroscopeConstants.HyperlinksOutRatio );
-
-
-
-
-
-
-
-
-
-
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
         this.DisplayListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
