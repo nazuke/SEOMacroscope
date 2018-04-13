@@ -30,7 +30,7 @@ using System.Diagnostics;
 
 namespace SEOMacroscope
 {
-  
+
   /// <summary>
   /// Description of MacroscopeSinglePercentageProgressForm.
   /// </summary>
@@ -47,12 +47,12 @@ namespace SEOMacroscope
 
     private Stopwatch OperationDuration;
     private static long OperationDurationLimit = 5000;
-      
+
     /**************************************************************************/
 
     public MacroscopeSinglePercentageProgressForm ( MacroscopeMainForm MainForm )
     {
-      
+
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
 
       this.MainForm = MainForm;
@@ -61,14 +61,14 @@ namespace SEOMacroscope
 
       this.Shown += this.CallbackFormShown;
       this.FormClosing += this.CallbackFormClosing;
-      
-      this.OperationDuration = new Stopwatch ();
+
+      this.OperationDuration = new Stopwatch();
       this.OperationDuration.Start();
 
     }
 
     /**************************************************************************/
-  
+
     private void CallbackFormShown ( object sender, EventArgs e )
     {
       this.MainForm.Enabled = false;
@@ -104,9 +104,9 @@ namespace SEOMacroscope
       if( ( !this.FormShown ) && ( this.OperationDuration.ElapsedMilliseconds >= OperationDurationLimit ) )
       {
         this.FormShown = true;
-        this.Show();
+        this.ShowDialog();
       }
-      
+
       try
       {
 
@@ -114,17 +114,17 @@ namespace SEOMacroscope
         {
           this.Text = Title;
         }
-      
+
         if( Message != null )
         {
           this.labelMessage.Text = Message;
         }
-      
+
         if( MajorPercentage < 0 )
         {
           this.progressBarMajor.Value = 0;
         }
-        
+
         if( MajorPercentage > 100 )
         {
           this.progressBarMajor.Value = 100;
@@ -132,9 +132,9 @@ namespace SEOMacroscope
 
         if( MajorPercentage >= 0 )
         {
-          this.progressBarMajor.Value = ( int )MajorPercentage;
+          this.progressBarMajor.Value = (int) MajorPercentage;
         }
-      
+
         if( ProgressLabelMajor != null )
         {
           this.labelProgressLabelMajor.Text = ProgressLabelMajor;
@@ -147,13 +147,13 @@ namespace SEOMacroscope
       }
 
       this.Refresh();
-      
+
       Application.DoEvents();
 
     }
 
     /**************************************************************************/
-    
+
     public void UpdatePercentages (
       string Title,
       string Message,
@@ -179,7 +179,7 @@ namespace SEOMacroscope
     )
     {
     }
-    
+
     /**************************************************************************/
 
     public void Reset ()
@@ -202,9 +202,9 @@ namespace SEOMacroscope
 
     public bool Cancelled ()
     {
-      return( this.IsCancelled );
+      return ( this.IsCancelled );
     }
-    
+
     /**************************************************************************/
 
     [Conditional( "DEVMODE" )]

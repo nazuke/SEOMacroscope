@@ -144,9 +144,9 @@ namespace SEOMacroscope
       this.Icon = global::SEOMacroscope.Resources.SEO_Macroscope_Icon_32x32;
       this.MaximizeBox = false;
       this.Name = "MacroscopeTriplePercentageProgressForm";
+      this.ShowInTaskbar = false;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Processing";
-      this.TopMost = true;
       this.ResumeLayout(false);
 
     }

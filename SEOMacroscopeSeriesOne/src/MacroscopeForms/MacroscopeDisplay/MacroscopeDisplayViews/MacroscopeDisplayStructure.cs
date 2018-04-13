@@ -108,8 +108,9 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksIn, MacroscopeConstants.HyperlinksIn );
         this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksOut, MacroscopeConstants.HyperlinksOut );
 
-        this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksInRatio, MacroscopeConstants.HyperlinksInRatio );
-        this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksOutRatio, MacroscopeConstants.HyperlinksOutRatio );
+        // TODO: This is too slow:
+        //this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksInRatio, MacroscopeConstants.HyperlinksInRatio );
+        //this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksOutRatio, MacroscopeConstants.HyperlinksOutRatio );
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
         this.DisplayListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
@@ -254,11 +255,14 @@ namespace SEOMacroscope
         StructureItems.Add( MacroscopeConstants.HyperlinksIn, msDoc.CountHyperlinksIn().ToString() );
         StructureItems.Add( MacroscopeConstants.HyperlinksOut, msDoc.CountHyperlinksOut().ToString() );
 
+        // TODO: This is too slow:
+        /*
         {
           List<decimal> HyperlinkRatio = DocCollection.GetDocumentHyperlinksRatio( Url: Url );
           StructureItems.Add( MacroscopeConstants.HyperlinksInRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 0 ] ) );
           StructureItems.Add( MacroscopeConstants.HyperlinksOutRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) );
         }
+        */
 
         StructureItems.Add( MacroscopeConstants.Title, msDoc.GetTitle() );
         StructureItems.Add( MacroscopeConstants.TitleLen, msDoc.GetTitleLength().ToString() );

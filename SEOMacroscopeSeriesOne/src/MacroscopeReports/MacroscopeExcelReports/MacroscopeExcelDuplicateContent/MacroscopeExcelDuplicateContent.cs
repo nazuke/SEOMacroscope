@@ -58,17 +58,17 @@ namespace SEOMacroscope
 
       XLWorkbook Workbook = new XLWorkbook();
 
-      if ( this.ProgressForm != null )
+      if( this.ProgressForm != null )
       {
 
         decimal MajorPercentageDivider = 3;
 
-        if ( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
+        if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
         {
           MajorPercentageDivider = 4;
         }
 
-        if ( ( this.ProgressForm != null ) && ( !this.ProgressForm.Cancelled() ) )
+        if( ( this.ProgressForm != null ) && ( !this.ProgressForm.Cancelled() ) )
         {
 
           this.ProgressForm.UpdatePercentages(
@@ -86,7 +86,7 @@ namespace SEOMacroscope
 
         }
 
-        if ( !this.ProgressForm.Cancelled() )
+        if( !this.ProgressForm.Cancelled() )
         {
 
           this.ProgressForm.UpdatePercentages(
@@ -104,7 +104,7 @@ namespace SEOMacroscope
 
         }
 
-        if ( !this.ProgressForm.Cancelled() )
+        if( !this.ProgressForm.Cancelled() )
         {
 
           this.ProgressForm.UpdatePercentages(
@@ -122,10 +122,10 @@ namespace SEOMacroscope
 
         }
 
-        if ( !this.ProgressForm.Cancelled() )
+        if( !this.ProgressForm.Cancelled() )
         {
 
-          if ( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
+          if( MacroscopePreferencesManager.GetEnableLevenshteinDeduplication() )
           {
 
             this.ProgressForm.UpdatePercentages(
@@ -144,7 +144,7 @@ namespace SEOMacroscope
           }
 
         }
-        if ( !this.ProgressForm.Cancelled() )
+        if( !this.ProgressForm.Cancelled() )
         {
           this.SaveOutputFile( Workbook: Workbook, OutputFilename: OutputFilename );
         }
@@ -165,7 +165,7 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
     private void SaveOutputFile ( XLWorkbook Workbook, string OutputFilename )
     {
 
@@ -173,7 +173,7 @@ namespace SEOMacroscope
       {
         Workbook.SaveAs( OutputFilename );
       }
-      catch ( IOException )
+      catch( IOException )
       {
         MacroscopeSaveExcelFileException CannotSaveExcelFileException;
         CannotSaveExcelFileException = new MacroscopeSaveExcelFileException(
@@ -183,7 +183,7 @@ namespace SEOMacroscope
       }
 
     }
-    
+
     /**************************************************************************/
 
     public void PercentageDone ( decimal Percent )

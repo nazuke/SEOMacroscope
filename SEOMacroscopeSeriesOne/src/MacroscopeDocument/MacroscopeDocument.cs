@@ -90,6 +90,7 @@ namespace SEOMacroscope
     private MacroscopeCredential AuthenticationCredential;
 
     private string RawHttpRequestHeaders;
+    private object RawHttpRequestHeadersLocker = new object();
     private string RawHttpResponseStatusLine;
     private string RawHttpResponseHeaders;
 
@@ -936,6 +937,14 @@ namespace SEOMacroscope
     }
 
     /** HTTP Headers **********************************************************/
+
+    public void SetHttpRequestHeaders ( string Text )
+    {
+      lock( this.RawHttpRequestHeadersLocker )
+      {
+        this.RawHttpRequestHeaders = Text;
+      }
+    }
 
     public string GetHttpRequestHeadersAsText ()
     {

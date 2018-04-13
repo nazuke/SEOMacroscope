@@ -68,15 +68,20 @@ namespace SEOMacroscope
         }
       }
 
-      lock( this.RawHttpRequestHeaders )
-      {
-        Lines.Sort();
-        this.RawHttpRequestHeaders = string.Join(
+      Lines.Sort();
+
+      this.SetHttpRequestHeaders(
+        Text: string.Join(
           Environment.NewLine,
-          string.Join( " ", Request.Method.ToString(), Request.RequestUri.AbsolutePath.ToString(), Request.Version ),
+          string.Join(
+            " ",
+            Request.Method.ToString(),
+            Request.RequestUri.AbsolutePath.ToString(),
+            string.Join( "/", "HTTP", Request.Version )
+          ),
           string.Join( Environment.NewLine, Lines )
-        );
-      }
+        )
+      );
 
     }
 

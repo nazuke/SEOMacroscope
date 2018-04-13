@@ -41,10 +41,10 @@ namespace SEOMacroscope
 
     private void CallbackExportListViewToExcelReport ( object sender, EventArgs e )
     {
-      
-      KeyValuePair<string,ListView> SelectedListView = this.GetTabPageListView();
-      
-      SaveFileDialog Dialog = new SaveFileDialog ();
+
+      KeyValuePair<string, ListView> SelectedListView = this.GetTabPageListView();
+
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -59,8 +59,8 @@ namespace SEOMacroscope
 
         string Path = Dialog.FileName;
         MacroscopeExcelExportListViewReport msExcelReport;
-       
-        msExcelReport = new MacroscopeExcelExportListViewReport (
+
+        msExcelReport = new MacroscopeExcelExportListViewReport(
           SelectedWorksheetName: SelectedListView.Key,
           SelectedListView: SelectedListView.Value
         );
@@ -74,7 +74,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -84,7 +84,7 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Excel Report", ex.Message );
         }
-        
+
       }
 
       Dialog.Dispose();
@@ -97,8 +97,8 @@ namespace SEOMacroscope
 
     private void CallbackSaveOverviewExcelReport ( object sender, EventArgs e )
     {
-      
-      SaveFileDialog Dialog = new SaveFileDialog ();
+
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -112,7 +112,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelOverviewReport msExcelReport = new MacroscopeExcelOverviewReport ();
+        MacroscopeExcelOverviewReport msExcelReport = new MacroscopeExcelOverviewReport();
 
         try
         {
@@ -123,7 +123,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -133,7 +133,7 @@ namespace SEOMacroscope
         {
           this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
         }
-        
+
       }
 
       Dialog.Dispose();
@@ -147,7 +147,7 @@ namespace SEOMacroscope
     private void CallbackSaveErrorsExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -161,7 +161,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelErrorsReport msExcelReport = new MacroscopeExcelErrorsReport ();
+        MacroscopeExcelErrorsReport msExcelReport = new MacroscopeExcelErrorsReport();
 
         try
         {
@@ -172,7 +172,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Errors Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Errors Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -196,7 +196,7 @@ namespace SEOMacroscope
     private void CallbackSaveBrokenLinksExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -210,7 +210,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelBrokenLinksReport msExcelReport = new MacroscopeExcelBrokenLinksReport ();
+        MacroscopeExcelBrokenLinksReport msExcelReport = new MacroscopeExcelBrokenLinksReport();
 
         try
         {
@@ -221,7 +221,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -241,7 +241,7 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-    
+
     private void CallbackSaveRobotsExcelReport ( object sender, EventArgs e )
     {
 
@@ -288,7 +288,7 @@ namespace SEOMacroscope
       this.Enabled = true;
 
     }
-    
+
     /** -------------------------------------------------------------------- **/
 
     private void CallbackSaveSitemapErrorsExcelReport ( object sender, EventArgs e )
@@ -304,7 +304,7 @@ namespace SEOMacroscope
 
       this.Enabled = false;
 
-      if ( Dialog.ShowDialog() == DialogResult.OK )
+      if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Path = Dialog.FileName;
@@ -312,20 +312,20 @@ namespace SEOMacroscope
 
         try
         {
-          if ( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
+          if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
           {
             msExcelReport.WriteXslx( this.JobMaster, Path );
           }
         }
-        catch ( MacroscopeInsufficientMemoryException ex )
+        catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Errors Excel Report", ex.Message );
         }
-        catch ( MacroscopeSaveExcelFileException ex )
+        catch( MacroscopeSaveExcelFileException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Errors Excel Report", ex.Message );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Errors Excel Report", ex.Message );
         }
@@ -343,7 +343,7 @@ namespace SEOMacroscope
     private void CallbackSaveLanguagesExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -357,7 +357,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelLanguagesReport msExcelReport = new MacroscopeExcelLanguagesReport ();
+        MacroscopeExcelLanguagesReport msExcelReport = new MacroscopeExcelLanguagesReport();
 
         try
         {
@@ -370,7 +370,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving HrefLang Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -398,7 +398,7 @@ namespace SEOMacroscope
     private void CallbackSavePageMetadataExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -412,7 +412,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelPageMetadataReport msExcelReport = new MacroscopeExcelPageMetadataReport ();
+        MacroscopeExcelPageMetadataReport msExcelReport = new MacroscopeExcelPageMetadataReport();
 
         try
         {
@@ -425,7 +425,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Page Metadata Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Page Metadata Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -453,7 +453,7 @@ namespace SEOMacroscope
     private void CallbackSavePageContentsExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -467,7 +467,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelPageContentsReport msExcelReport = new MacroscopeExcelPageContentsReport ();
+        MacroscopeExcelPageContentsReport msExcelReport = new MacroscopeExcelPageContentsReport();
 
         try
         {
@@ -480,7 +480,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Page Contents Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -508,7 +508,7 @@ namespace SEOMacroscope
     private void CallbackSaveUriAnalysisExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -522,7 +522,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelUriReport msExcelReport = new MacroscopeExcelUriReport ();
+        MacroscopeExcelUriReport msExcelReport = new MacroscopeExcelUriReport();
 
         try
         {
@@ -535,7 +535,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving URI Analysis Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -563,8 +563,8 @@ namespace SEOMacroscope
     private void CallbackSaveRedirectsExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -578,7 +578,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelRedirectsReport msExcelReport = new MacroscopeExcelRedirectsReport ();
+        MacroscopeExcelRedirectsReport msExcelReport = new MacroscopeExcelRedirectsReport();
 
         try
         {
@@ -591,7 +591,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Redirects Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Redirects Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -619,7 +619,7 @@ namespace SEOMacroscope
     private void CallbackSaveKeywordAnalysisExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
+      SaveFileDialog Dialog = new SaveFileDialog();
 
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
@@ -634,13 +634,12 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
+        MacroscopeTriplePercentageProgressForm ProgressForm;
+        MacroscopeExcelKeywordAnalysisReport msExcelReport;
 
-        MacroscopeTriplePercentageProgressForm ProgressForm = new MacroscopeTriplePercentageProgressForm ( MainForm: this );
+        ProgressForm = new MacroscopeTriplePercentageProgressForm( MainForm: this );
+        msExcelReport = new MacroscopeExcelKeywordAnalysisReport( ProgressFormDialogue: ProgressForm );
 
-        MacroscopeExcelKeywordAnalysisReport msExcelReport = new MacroscopeExcelKeywordAnalysisReport (
-                                                               ProgressFormDialogue: ProgressForm
-                                                             );
-        
         try
         {
           if( Macroscope.MemoryGuard( RequiredMegabytes: ExcelReportMegabytesRamRequired ) )
@@ -652,7 +651,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Keyword Analysis Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Keyword Analysis Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -666,9 +665,9 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.Default;
         }
-    
+
       }
-      
+
       Dialog.Dispose();
 
       this.Enabled = true;
@@ -680,8 +679,8 @@ namespace SEOMacroscope
     private void CallbackSaveDuplicateContentExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -715,7 +714,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Duplicate Content Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -730,9 +729,9 @@ namespace SEOMacroscope
           ProgressForm.DoClose();
           Cursor.Current = Cursors.Default;
         }
-      
+
       }
-      
+
       Dialog.Dispose();
 
       this.Enabled = true;
@@ -743,9 +742,9 @@ namespace SEOMacroscope
 
     private void CallbackSaveContactDetailsExcelReport ( object sender, EventArgs e )
     {
-    
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -759,7 +758,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelContactDetailsReport msExcelReport = new MacroscopeExcelContactDetailsReport ();
+        MacroscopeExcelContactDetailsReport msExcelReport = new MacroscopeExcelContactDetailsReport();
 
         try
         {
@@ -772,7 +771,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Contact Details Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -800,8 +799,8 @@ namespace SEOMacroscope
     private void CallbackSaveRemarksExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -815,7 +814,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MaroscopeExcelRemarksReport msExcelReport = new MaroscopeExcelRemarksReport ();
+        MaroscopeExcelRemarksReport msExcelReport = new MaroscopeExcelRemarksReport();
 
         try
         {
@@ -828,7 +827,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Remarks Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Remarks Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -856,8 +855,8 @@ namespace SEOMacroscope
     private void CallbackSaveCustomFilterExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -871,7 +870,7 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeExcelCustomFilterReport msExcelReport = new MacroscopeExcelCustomFilterReport ( NewCustomFilter: this.CustomFilter );
+        MacroscopeExcelCustomFilterReport msExcelReport = new MacroscopeExcelCustomFilterReport( NewCustomFilter: this.CustomFilter );
 
         try
         {
@@ -884,7 +883,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Custom Filters Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Custom Filters Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -912,8 +911,8 @@ namespace SEOMacroscope
     private void CallbackSaveDataExtractorsExcelReport ( object sender, EventArgs e )
     {
 
-      SaveFileDialog Dialog = new SaveFileDialog ();
-      
+      SaveFileDialog Dialog = new SaveFileDialog();
+
       Dialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
@@ -928,8 +927,8 @@ namespace SEOMacroscope
 
         string Path = Dialog.FileName;
         MacroscopeExcelDataExtractorReport msExcelReport;
-        
-        msExcelReport = new MacroscopeExcelDataExtractorReport (
+
+        msExcelReport = new MacroscopeExcelDataExtractorReport(
           NewDataExtractorCssSelectors: this.DataExtractorCssSelectors,
           NewDataExtractorRegexes: this.DataExtractorRegexes,
           NewDataExtractorXpaths: this.DataExtractorXpaths
@@ -946,7 +945,7 @@ namespace SEOMacroscope
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
-          this.DialogueBoxError( "Error saving Data Extractors Excel Report", ex.Message );       
+          this.DialogueBoxError( "Error saving Data Extractors Excel Report", ex.Message );
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
