@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "" )]
 [assembly: AssemblyProduct( "SEO Macroscope" )]
-[assembly: AssemblyCopyright( "Copyright ©  2018 Jason Holland" )]
+[assembly: AssemblyCopyright( "Copyright © 2018 Jason Holland" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 

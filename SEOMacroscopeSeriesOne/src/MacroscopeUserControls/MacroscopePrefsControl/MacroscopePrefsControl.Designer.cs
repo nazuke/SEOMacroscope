@@ -362,6 +362,7 @@ namespace SEOMacroscope
       this.tabPageNetworkSettings = new System.Windows.Forms.TabPage();
       this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox33 = new System.Windows.Forms.GroupBox();
+      this.label10 = new System.Windows.Forms.Label();
       this.comboBoxProxyType = new System.Windows.Forms.ComboBox();
       this.label9 = new System.Windows.Forms.Label();
       this.groupBox28 = new System.Windows.Forms.GroupBox();
@@ -370,7 +371,6 @@ namespace SEOMacroscope
       this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
       this.groupBox19 = new System.Windows.Forms.GroupBox();
       this.checkBoxEnableMemoryGuard = new System.Windows.Forms.CheckBox();
-      this.label10 = new System.Windows.Forms.Label();
       this.tabControlPreferences.SuspendLayout();
       this.tabPageSpideringControl.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
@@ -2397,6 +2397,15 @@ namespace SEOMacroscope
       this.groupBox33.TabStop = false;
       this.groupBox33.Text = "HTTP Proxy";
       // 
+      // label10
+      // 
+      this.label10.Location = new System.Drawing.Point(20, 60);
+      this.label10.Margin = new System.Windows.Forms.Padding(0);
+      this.label10.Name = "label10";
+      this.label10.Size = new System.Drawing.Size(460, 20);
+      this.label10.TabIndex = 14;
+      this.label10.Text = "Proxy setting changes take effect the next time that SEO Macroscope is run.";
+      // 
       // comboBoxProxyType
       // 
       this.comboBoxProxyType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -2480,15 +2489,6 @@ namespace SEOMacroscope
       this.checkBoxEnableMemoryGuard.TabIndex = 1;
       this.checkBoxEnableMemoryGuard.Text = "Enable memory guard";
       this.checkBoxEnableMemoryGuard.UseVisualStyleBackColor = true;
-      // 
-      // label10
-      // 
-      this.label10.Location = new System.Drawing.Point(20, 60);
-      this.label10.Name = "label10";
-      this.label10.Padding = new System.Windows.Forms.Padding(4, 2, 0, 0);
-      this.label10.Size = new System.Drawing.Size(460, 20);
-      this.label10.TabIndex = 14;
-      this.label10.Text = "Proxy setting changes take effect the next time that SEO Macroscope is run.";
       // 
       // MacroscopePrefsControl
       // 

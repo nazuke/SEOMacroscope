@@ -2,7 +2,7 @@
 layout: page
 title: SEO Macroscope User Manual
 description: "The SEO Macroscope user manual."
-date: "2018-04-01 21:00:00 -09:00"
+date: "2018-04-15 21:00:00 -09:00"
 redirect_from:
   - /manual/preferences/spidering-control/
 ---
@@ -593,17 +593,11 @@ Configure your network settings here.
 
 Configure your web proxy settings here. Please consult your network administrator, if necessary.
 
-##### HTTP Proxy Hostname
+##### Select configured system proxy
 
-Enter the IP address or hostname of your network's web proxy.
-
-Leave this blank if no web proxy is required.
-
-##### HTTP Proxy Port
-
-Enter the port that your web proxy requires.
-
-Set this to 0 if no web proxy is required.
+* Select **No proxy** to disable the use of a web proxy.
+* Select **WinInetProxy** to use the web proxy configured in your Internet Explorer or Edge preferences. In many cases, this is the most commonly required option.
+* Select **WinHttpProxy** to use the system-wide web proxy configured for your system.
 
 #### Server Certificates
 

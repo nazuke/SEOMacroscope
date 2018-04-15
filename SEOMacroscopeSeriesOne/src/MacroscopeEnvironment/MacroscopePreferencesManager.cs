@@ -492,7 +492,7 @@ namespace SEOMacroscope
       MaxHeadingDepth = 2;
 
       AnalyzeKeywordsInText = false;
-      AnalyzeTextReadability = true;
+      AnalyzeTextReadability = false;
       AnalyzeTextReadabilityEnglishAlgorithm = 0;
 
       /** Custom Filter Options -------------------------------------------- **/
