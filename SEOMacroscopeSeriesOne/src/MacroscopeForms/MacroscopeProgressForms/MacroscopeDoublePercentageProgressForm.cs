@@ -133,7 +133,10 @@ namespace SEOMacroscope
       if( ( !this.FormShown ) && ( this.OperationDuration.ElapsedMilliseconds >= OperationDurationLimit ) )
       {
         this.FormShown = true;
-        this.ShowDialog();
+        this.TopLevel = true;
+        this.ShowInTaskbar = true;
+        this.Show();
+        this.Activate();
       }
 
       try
