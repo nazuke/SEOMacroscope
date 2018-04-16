@@ -59,16 +59,9 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
-          {
-            Cursor.Current = Cursors.WaitCursor;
-            SitemapGenerator.WriteSitemapXml( NewPath: Pathname );
-            Cursor.Current = Cursors.Default;
-          }
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
+          Cursor.Current = Cursors.WaitCursor;
+          SitemapGenerator.WriteSitemapXml( NewPath: Pathname );
+          Cursor.Current = Cursors.Default;
         }
         catch( XmlException ex )
         {
@@ -83,6 +76,10 @@ namespace SEOMacroscope
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
         }
 
+      }
+      else
+      {
+        this.DialogueBoxError( "Error saving Sitemap XML", "Could not open file." );
       }
 
       Dialog.Dispose();
@@ -115,26 +112,27 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
-          {
-            Cursor.Current = Cursors.WaitCursor;
-            SitemapGenerator.WriteSitemapXmlPerHost( NewPath: Pathname );
-            Cursor.Current = Cursors.Default;
-          }
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Sitemap XML for one or more hosts", ex.Message );
+          Cursor.Current = Cursors.WaitCursor;
+          SitemapGenerator.WriteSitemapXmlPerHost( NewPath: Pathname );
+          Cursor.Current = Cursors.Default;
         }
         catch( XmlException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML for one or more hosts", ex.Message );
+        }
+        catch( MacroscopeSitemapException ex )
+        {
+          this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
         }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML for one or more hosts", ex.Message );
         }
 
+      }
+      else
+      {
+        this.DialogueBoxError( "Error saving Sitemap XML", "Could not open file." );
       }
 
       Dialog.Dispose();
@@ -167,16 +165,9 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
-          {
-            Cursor.Current = Cursors.WaitCursor;
-            SitemapGenerator.WriteSitemapText( NewPath: Pathname );
-            Cursor.Current = Cursors.Default;
-          }
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
+          Cursor.Current = Cursors.WaitCursor;
+          SitemapGenerator.WriteSitemapText( NewPath: Pathname );
+          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSitemapException ex )
         {
@@ -219,16 +210,9 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: 256 ) )
-          {
-            Cursor.Current = Cursors.WaitCursor;
-            SitemapGenerator.WriteSitemapTextPerHost( NewPath: Pathname );
-            Cursor.Current = Cursors.Default;
-          }
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
+          Cursor.Current = Cursors.WaitCursor;
+          SitemapGenerator.WriteSitemapTextPerHost( NewPath: Pathname );
+          Cursor.Current = Cursors.Default;
         }
         catch( Exception ex )
         {

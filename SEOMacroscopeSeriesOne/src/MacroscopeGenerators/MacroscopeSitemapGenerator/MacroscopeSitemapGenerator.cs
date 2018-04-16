@@ -43,7 +43,7 @@ namespace SEOMacroscope
 
     private const string XmlNamespace = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
-    MacroscopeDocumentCollection DocCollection;
+    private MacroscopeDocumentCollection DocCollection;
 
     /**************************************************************************/
 

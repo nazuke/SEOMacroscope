@@ -462,7 +462,7 @@ namespace SEOMacroscope
       ScanSitesInList = false;
       WarnAboutInsecureLinks = true;
 
-      EnableTextIndexing = true;
+      EnableTextIndexing = false;
       CaseSensitiveTextIndexing = false;
 
       DetectQrCodeInImage = false;
