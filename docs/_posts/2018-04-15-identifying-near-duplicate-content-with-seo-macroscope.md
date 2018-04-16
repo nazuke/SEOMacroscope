@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Identifying Duplicate Content with SEO Macroscope"
-date: 2017-03-23 10:28:00 -09:00
-excerpt: The second beta of SEO Macroscope has been released.
+title: "Identifying Near-Duplicate Content with SEO Macroscope"
+date: "2018-04-15 09:00:00 -09:00"
+description: "How to use SEO Macroscope to identify near-duplicate content across your website."
+excerpt: "Several different methods to try and identify near-duplicate content within the set of pages crawled."
 ---
 
-I've been implementing several different methods to try and identify potentially duplicate content within the set of pages crawled.
+I have been implementing several different methods to try and identify near-duplicate content within the set of pages crawled.
 {: .lead }
 
 ## Simple ETag and Checksum Logging
@@ -20,6 +21,14 @@ Another technique that I've used is [Levenshtein Edit Distance](https://en.wikip
 
 Briefly, what that means is that if you have multiple pages on your site that are very closely similar, but perhaps with a few minor differences, then these may be detected and reported upon. For example, if two pages are very closely similar, but perhaps they were rendered with very slightly different text in them somewhere, then they will not have matching checksums, but they may be similar enough to fall within the Levenshtein Edit Distance threshold that you specify.
 
+A typical example may be an ecommerce site, that presents much the same content under different URL variations.
+
 The only drawback is that this is quite an intensive process if there are a lot of pages on your site; so it may be necessary to restrict spidering to a subset.
 
 The SEO Macroscope preferences includes options to specify the initial similarity of the documents to apply the Levenshtein algorithm to. If documents that fall within the parameters are found, they will be reported.
+
+## Export Excel Reports
+
+In all cases, the ETags, checksums, and Levenshtein Edit Distance values can be found by exporting a **Duplicate Content Report** from the Reports menu, after completing a crawl of your website.
+
+Please note that if you have enabled Levenshtein Edit Distance in the preferences, it may take quite some time for the report to be generated.
