@@ -481,40 +481,24 @@ namespace SEOMacroscope
           if( this.CountRunningThreads() < this.ThreadsMax )
           {
 
+            bool NewThreadStarted = false;
+
             try
             {
-
-              if( this.MemoryGate( RequiredMegabytes: 32 ) )
-              {
-
-                try
-                {
-                  this.SemaphoreWorkers.WaitOne();
-                }
-                catch( Exception ex )
-                {
-                  this.DebugMsg( string.Format( "SpawnWorkers: {0}", ex.Message ) );
-                }
-
-                bool NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
-
-                if( NewThreadStarted )
-                {
-                  Thread.Sleep( 2000 );
-                }
-
-                this.AdjustThreadsMax();
-
-              }
-
+              this.SemaphoreWorkers.WaitOne();
+              NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
             }
-            catch( MacroscopeInsufficientMemoryException ex )
+            catch( Exception ex )
             {
-              this.DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
-              GC.Collect();
-              Thread.Yield();
-              Thread.Sleep( 100 );
+              this.DebugMsg( string.Format( "SpawnWorkers: {0}", ex.Message ) );
             }
+
+            if( NewThreadStarted )
+            {
+              Thread.Sleep( 2000 );
+            }
+
+            this.AdjustThreadsMax();
 
           }
 
@@ -1097,9 +1081,31 @@ namespace SEOMacroscope
       return ( this.StartUrl );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetStartUrl ()
     {
       return ( this.StartUrl );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public string GetStartUriHostAndPort ()
+    {
+      Uri StartUri = new Uri( this.StartUrl );
+      string StartUriHostAndPort = null;
+      if( StartUri != null )
+      {
+        if( StartUri.Port == 80 )
+        {
+          StartUriHostAndPort = StartUri.Host;
+        }
+        else
+        {
+          StartUriHostAndPort = string.Format( "{0}:{1}", StartUri.Host, StartUri.Port );
+        }
+      }
+      return ( StartUriHostAndPort );
     }
 
     /** Pages Found Counter ***************************************************/

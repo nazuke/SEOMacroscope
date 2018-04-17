@@ -215,10 +215,6 @@ namespace SEOMacroscope
         this.checkBoxIgnoreErrors410.Checked = MacroscopePreferencesManager.GetIgnoreErrors410();
         this.checkBoxIgnoreErrors451.Checked = MacroscopePreferencesManager.GetIgnoreErrors451();
 
-        /** Advanced Settings ---------------------------------------------- **/
-
-        this.checkBoxEnableMemoryGuard.Checked = MacroscopePreferencesManager.GetEnableMemoryGuard();
-
       }
 
     }
@@ -371,10 +367,6 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetIgnoreErrors410( this.checkBoxIgnoreErrors410.Checked );
       MacroscopePreferencesManager.SetIgnoreErrors451( this.checkBoxIgnoreErrors451.Checked );
-
-      /** Advanced Settings ---------------------------------------------- **/
-
-      MacroscopePreferencesManager.SetEnableMemoryGuard( this.checkBoxEnableMemoryGuard.Checked );
 
       /** Tidy Up ---------------------------------------------------------- **/
 

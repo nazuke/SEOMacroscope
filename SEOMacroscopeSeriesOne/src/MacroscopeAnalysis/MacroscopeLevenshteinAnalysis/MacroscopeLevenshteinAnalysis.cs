@@ -115,7 +115,6 @@ namespace SEOMacroscope
       Dictionary<MacroscopeDocument, int> DocList;
       decimal DocListCount;
       decimal Count;
-      bool Proceed;
 
       if ( this.AnalyzerFingerprint.GetType() != typeof( Levenshtein ) )
       {
@@ -125,46 +124,6 @@ namespace SEOMacroscope
       DocList = new Dictionary<MacroscopeDocument, int>( DocCollection.CountDocuments() );
       DocListCount = (decimal) DocCollection.CountDocuments();
       Count = 0;
-      Proceed = false;
-
-      try
-      {
-
-        long MemoryEstimateBytes = 0;
-        int RequiredMegabytes = 0;
-        long DocumentCount = 0;
-
-        foreach ( MacroscopeDocument msDocCheck in DocCollection.IterateDocuments() )
-        {
-          if ( ( !msDocCheck.GetIsExternal() ) && ( !msDocCheck.GetIsRedirect() ) )
-          {
-            DocumentCount++;
-          }
-        }
-
-        MemoryEstimateBytes = 512 * DocumentCount;
-        RequiredMegabytes = (int) ( MemoryEstimateBytes / (long) 1024 );
-
-        if ( this.MemoryGate( RequiredMegabytes: RequiredMegabytes ) )
-        {
-          Proceed = true;
-        }
-        else
-        {
-          Proceed = false;
-        }
-
-      }
-      catch ( MacroscopeInsufficientMemoryException ex )
-      {
-        this.DebugMsg( string.Format( "MacroscopeInsufficientMemoryException: {0}", ex.Message ) );
-        Thread.Yield();
-      }
-
-      if ( !Proceed )
-      {
-        return ( DocList );
-      }
 
       foreach ( MacroscopeDocument msDocCompare in DocCollection.IterateDocuments() )
       {

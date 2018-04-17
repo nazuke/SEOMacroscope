@@ -2,7 +2,7 @@
 layout: page
 title: SEO Macroscope User Manual
 description: "The SEO Macroscope user manual."
-date: "2018-04-15 21:00:00 -09:00"
+date: "2018-04-17 18:00:00 -09:00"
 redirect_from:
   - /manual/preferences/spidering-control/
 ---
@@ -608,26 +608,6 @@ Disabled this option to skip server certificate validation checks.
 **WARNING:** Do not disable this unless you are sure that you know what you are doing.
 
 This option is most useful for working with development sites that use self-signed certificates.
-
-{% include go-to-top.html %}
-
-<!-- ======================================================================= -->
-
-### Advanced Settings
-
-These settings control some internal aspects of  SEO Macroscope's behaviour.
-
-![SEO Macroscope advanced settings](images/preferences-advanced-options.png){: .img-responsive .box-shadow .screenshot }
-
-#### RAM
-
-##### Enable memory guard (deprecated)
-
-This option will likely be removed in future.
-
-If enabled, this option will set a limit on whether some operations will be attempted or not, depending on available RAM.
-
-On 64 bit systems, this option should be turned off.
 
 {% include go-to-top.html %}
 

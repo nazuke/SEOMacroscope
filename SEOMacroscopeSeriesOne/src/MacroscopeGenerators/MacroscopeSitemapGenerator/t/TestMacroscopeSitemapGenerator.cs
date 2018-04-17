@@ -38,22 +38,39 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private List<string> Urls;
+
+    /**************************************************************************/
+
+    public TestMacroscopeSitemapGenerator ()
+    {
+      this.Urls = new List<string>();
+      this.Urls.Add( "https://nazuke.github.io" );
+      this.Urls.Add( "https://nazuke.github.io/" );
+      this.Urls.Add( "https://nazuke.github.io/SEOMacroscope/" );
+      this.Urls.Add( "https://nazuke.github.io/SEOMacroscope" );
+    }
+
+    /**************************************************************************/
+
     [Test]
     public void TestWriteSitemapXml ()
     {
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
-      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
-      MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
-      DocCollection.AddDocument( new MacroscopeDocument( JobMaster.SetStartUrl( "https://nazuke.github.io/" ) ) );
-      string Filename = string.Join( ".", Path.GetTempFileName(), ".xml" );
-      SitemapGenerator.WriteSitemapXml( NewPath: Filename );
-      Assert.IsTrue( File.Exists( Filename ) );
-      if( File.Exists( Filename ) )
+      foreach( string Url in this.Urls )
       {
-        File.Delete( Filename );
+        MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
+        MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
+        MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
+        DocCollection.AddDocument( new MacroscopeDocument( JobMaster.SetStartUrl( Url: Url ) ) );
+        string Filename = string.Join( ".", Path.GetTempFileName(), ".xml" );
+        SitemapGenerator.WriteSitemapXml( NewPath: Filename );
+        Assert.IsTrue( File.Exists( Filename ) );
+        if( File.Exists( Filename ) )
+        {
+          File.Delete( Filename );
+        }
       }
     }
-
 
     /**************************************************************************/
 
@@ -63,9 +80,15 @@ namespace SEOMacroscope
       MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
       MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
       MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
-      JobMaster.SetStartUrl( "https://nazuke.github.io/" );
       string Filename = string.Join( ".", Path.GetTempFileName(), ".xml" );
-      SitemapGenerator.WriteSitemapXml( NewPath: Filename );
+      try
+      {
+        SitemapGenerator.WriteSitemapXml( NewPath: Filename );
+      }
+      catch( Exception ex )
+      {
+        Assert.AreEqual( ex.GetType(), new MacroscopeSitemapException().GetType() );
+      }
       Assert.IsFalse( File.Exists( Filename ) );
       if( File.Exists( Filename ) )
       {
@@ -98,16 +121,19 @@ namespace SEOMacroscope
     [Test]
     public void TestWriteSitemapText ()
     {
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
-      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
-      MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
-      DocCollection.AddDocument( new MacroscopeDocument( JobMaster.SetStartUrl( "https://nazuke.github.io/" ) ) );
-      string Filename = string.Join( ".", Path.GetTempFileName(), ".txt" );
-      SitemapGenerator.WriteSitemapText( NewPath: Filename );
-      Assert.IsTrue( File.Exists( Filename ) );
-      if( File.Exists( Filename ) )
+      foreach( string Url in this.Urls )
       {
-        File.Delete( Filename );
+        MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
+        MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
+        MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
+        DocCollection.AddDocument( new MacroscopeDocument( JobMaster.SetStartUrl( Url: Url ) ) );
+        string Filename = string.Join( ".", Path.GetTempFileName(), ".txt" );
+        SitemapGenerator.WriteSitemapText( NewPath: Filename );
+        Assert.IsTrue( File.Exists( Filename ) );
+        if( File.Exists( Filename ) )
+        {
+          File.Delete( Filename );
+        }
       }
     }
 
@@ -119,16 +145,22 @@ namespace SEOMacroscope
       MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
       MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
       MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
-      JobMaster.SetStartUrl( "https://nazuke.github.io/" );
       string Filename = string.Join( ".", Path.GetTempFileName(), ".txt" );
-      SitemapGenerator.WriteSitemapText( NewPath: Filename );
+      try
+      {
+        SitemapGenerator.WriteSitemapText( NewPath: Filename );
+      }
+      catch( Exception ex )
+      {
+        Assert.AreEqual( ex.GetType(), new MacroscopeSitemapException().GetType() );
+      }
       Assert.IsFalse( File.Exists( Filename ) );
       if( File.Exists( Filename ) )
       {
         File.Delete( Filename );
       }
     }
-    
+
     /**************************************************************************/
 
     /*
@@ -154,12 +186,15 @@ namespace SEOMacroscope
     [Test]
     public void TestGenerateXmlSitemap ()
     {
-      MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
-      MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
-      MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
-      DocCollection.AddDocument( new MacroscopeDocument( JobMaster.SetStartUrl( "https://nazuke.github.io/" ) ) );
-      XmlDocument SitemapXML = SitemapGenerator.GenerateXmlSitemap( Host: "nazuke.github.io" );
-      Assert.AreEqual( "urlset", SitemapXML.DocumentElement.LocalName );
+      foreach( string Url in this.Urls )
+      {
+        MacroscopeJobMaster JobMaster = new MacroscopeJobMaster( MacroscopeConstants.RunTimeMode.LIVE );
+        MacroscopeDocumentCollection DocCollection = new MacroscopeDocumentCollection( JobMaster: JobMaster );
+        MacroscopeSitemapGenerator SitemapGenerator = new MacroscopeSitemapGenerator( NewDocCollection: DocCollection );
+        DocCollection.AddDocument( new MacroscopeDocument( JobMaster.SetStartUrl( Url: Url ) ) );
+        XmlDocument SitemapXML = SitemapGenerator.GenerateXmlSitemap( Host: new Uri( Url ).Host );
+        Assert.AreEqual( "urlset", SitemapXML.DocumentElement.LocalName );
+      }
     }
 
     /**************************************************************************/

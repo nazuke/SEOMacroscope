@@ -42,7 +42,7 @@ namespace SEOMacroscope
     private void CallbackExportListViewToCsvReport ( object sender, EventArgs e )
     {
 
-      KeyValuePair<string, ListView> SelectedListView = this.GetTabPageListView();
+      KeyValuePair<string, ListView> SelectedListView;
 
       SaveFileDialog Dialog = new SaveFileDialog();
       Dialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
@@ -54,34 +54,42 @@ namespace SEOMacroscope
 
       this.Enabled = false;
 
-      if( Dialog.ShowDialog() == DialogResult.OK )
+      SelectedListView = this.GetTabPageListView();
+
+      if( SelectedListView.Value != null )
       {
 
-        string Path = Dialog.FileName;
-        MacroscopeCsvExportListViewReport CsvReport;
-
-        CsvReport = new MacroscopeCsvExportListViewReport( SelectedListView: SelectedListView.Value );
-
-        try
+        if( Dialog.ShowDialog() == DialogResult.OK )
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
+
+          string Path = Dialog.FileName;
+          MacroscopeCsvExportListViewReport CsvReport;
+
+          CsvReport = new MacroscopeCsvExportListViewReport( SelectedListView: SelectedListView.Value );
+
+          try
           {
             CsvReport.WriteCsv( this.JobMaster, Path );
           }
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving CSV Report", ex.Message );
-        }
-        catch( MacroscopeSaveCsvFileException ex )
-        {
-          this.DialogueBoxError( "Error saving CSV Report", ex.Message );
-        }
-        catch( Exception ex )
-        {
-          this.DialogueBoxError( "Error saving CSV Report", ex.Message );
+          catch( MacroscopeInsufficientMemoryException ex )
+          {
+            this.DialogueBoxError( "Error saving CSV Report", ex.Message );
+          }
+          catch( MacroscopeSaveCsvFileException ex )
+          {
+            this.DialogueBoxError( "Error saving CSV Report", ex.Message );
+          }
+          catch( Exception ex )
+          {
+            this.DialogueBoxError( "Error saving CSV Report", ex.Message );
+          }
+
         }
 
+      }
+      else
+      {
+        this.DialogueBoxError( "Error saving CSV Report", "Cannot export this view type" );
       }
 
       Dialog.Dispose();
@@ -113,10 +121,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
-            CsvReport.WriteCsv( this.JobMaster, Path );
-          }
+          CsvReport.WriteCsv( this.JobMaster, Path );
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -162,10 +167,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
-            CsvReport.WriteCsv( this.JobMaster, Path );
-          }
+          CsvReport.WriteCsv( this.JobMaster, Path );
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -211,10 +213,7 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
-            CsvReport.WriteCsv( this.JobMaster, Path );
-          }
+          CsvReport.WriteCsv( this.JobMaster, Path );
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -252,7 +251,7 @@ namespace SEOMacroscope
 
       this.Enabled = false;
 
-      if ( Dialog.ShowDialog() == DialogResult.OK )
+      if( Dialog.ShowDialog() == DialogResult.OK )
       {
 
         string Path = Dialog.FileName;
@@ -260,20 +259,17 @@ namespace SEOMacroscope
 
         try
         {
-          if ( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
-            CsvReport.WriteCsv( this.JobMaster, Path );
-          }
+          CsvReport.WriteCsv( this.JobMaster, Path );
         }
-        catch ( MacroscopeInsufficientMemoryException ex )
+        catch( MacroscopeInsufficientMemoryException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Errors CSV Report", ex.Message );
         }
-        catch ( MacroscopeSaveCsvFileException ex )
+        catch( MacroscopeSaveCsvFileException ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Errors CSV Report", ex.Message );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Errors CSV Report", ex.Message );
         }
@@ -345,20 +341,15 @@ namespace SEOMacroscope
         try
         {
 
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
+          Cursor.Current = Cursors.WaitCursor;
 
-            Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv(
+            JobMaster: this.JobMaster,
+            SelectedOutputWorksheet: SelectedOutputWorksheet,
+            OutputFilename: Path
+          );
 
-            CsvReport.WriteCsv(
-              JobMaster: this.JobMaster,
-              SelectedOutputWorksheet: SelectedOutputWorksheet,
-              OutputFilename: Path
-            );
-
-            Cursor.Current = Cursors.Default;
-
-          }
+          Cursor.Current = Cursors.Default;
 
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -445,20 +436,15 @@ namespace SEOMacroscope
         try
         {
 
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
+          Cursor.Current = Cursors.WaitCursor;
 
-            Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv(
+            JobMaster: this.JobMaster,
+            SelectedOutputWorksheet: SelectedOutputWorksheet,
+            OutputFilename: Path
+          );
 
-            CsvReport.WriteCsv(
-              JobMaster: this.JobMaster,
-              SelectedOutputWorksheet: SelectedOutputWorksheet,
-              OutputFilename: Path
-            );
-
-            Cursor.Current = Cursors.Default;
-
-          }
+          Cursor.Current = Cursors.Default;
 
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -535,20 +521,15 @@ namespace SEOMacroscope
         try
         {
 
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
+          Cursor.Current = Cursors.WaitCursor;
 
-            Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv(
+            JobMaster: this.JobMaster,
+            SelectedOutputWorksheet: SelectedOutputWorksheet,
+            OutputFilename: Path
+          );
 
-            CsvReport.WriteCsv(
-              JobMaster: this.JobMaster,
-              SelectedOutputWorksheet: SelectedOutputWorksheet,
-              OutputFilename: Path
-            );
-
-            Cursor.Current = Cursors.Default;
-
-          }
+          Cursor.Current = Cursors.Default;
 
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -645,20 +626,15 @@ namespace SEOMacroscope
         try
         {
 
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
+          Cursor.Current = Cursors.WaitCursor;
 
-            Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv(
+            JobMaster: this.JobMaster,
+            SelectedOutputWorksheet: SelectedOutputWorksheet,
+            OutputFilename: Path
+          );
 
-            CsvReport.WriteCsv(
-              JobMaster: this.JobMaster,
-              SelectedOutputWorksheet: SelectedOutputWorksheet,
-              OutputFilename: Path
-            );
-
-            Cursor.Current = Cursors.Default;
-
-          }
+          Cursor.Current = Cursors.Default;
 
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -687,7 +663,7 @@ namespace SEOMacroscope
     }
 
     /** -------------------------------------------------------------------- **/
-    
+
     private void CallbackSaveRedirectsCsvReportRedirectsAudit ( object sender, EventArgs e )
     {
       this.CallbackSaveRedirectsCsvReport(
@@ -735,12 +711,9 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
-            Cursor.Current = Cursors.WaitCursor;
-            CsvReport.WriteCsv( this.JobMaster, SelectedOutputWorksheet, Path );
-            Cursor.Current = Cursors.Default;
-          }
+          Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv( this.JobMaster, SelectedOutputWorksheet, Path );
+          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -843,20 +816,15 @@ namespace SEOMacroscope
         try
         {
 
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
+          Cursor.Current = Cursors.WaitCursor;
 
-            Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv(
+            JobMaster: this.JobMaster,
+            SelectedOutputWorksheet: SelectedOutputWorksheet,
+            OutputFilename: Path
+          );
 
-            CsvReport.WriteCsv(
-              JobMaster: this.JobMaster,
-              SelectedOutputWorksheet: SelectedOutputWorksheet,
-              OutputFilename: Path
-            );
-
-            Cursor.Current = Cursors.Default;
-
-          }
+          Cursor.Current = Cursors.Default;
 
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -933,20 +901,15 @@ namespace SEOMacroscope
         try
         {
 
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
+          Cursor.Current = Cursors.WaitCursor;
 
-            Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv(
+            JobMaster: this.JobMaster,
+            SelectedOutputWorksheet: SelectedOutputWorksheet,
+            OutputFilename: Path
+          );
 
-            CsvReport.WriteCsv(
-              JobMaster: this.JobMaster,
-              SelectedOutputWorksheet: SelectedOutputWorksheet,
-              OutputFilename: Path
-            );
-
-            Cursor.Current = Cursors.Default;
-
-          }
+          Cursor.Current = Cursors.Default;
 
         }
         catch( MacroscopeInsufficientMemoryException ex )
@@ -998,12 +961,9 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
-            Cursor.Current = Cursors.WaitCursor;
-            CsvReport.WriteCsv( this.JobMaster, Path );
-            Cursor.Current = Cursors.Default;
-          }
+          Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv( this.JobMaster, Path );
+          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -1054,12 +1014,9 @@ namespace SEOMacroscope
 
         try
         {
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
-            Cursor.Current = Cursors.WaitCursor;
-            CsvReport.WriteCsv( this.JobMaster, Path );
-            Cursor.Current = Cursors.Default;
-          }
+          Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv( this.JobMaster, Path );
+          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeInsufficientMemoryException ex )
         {
@@ -1151,20 +1108,15 @@ namespace SEOMacroscope
         try
         {
 
-          if( Macroscope.MemoryGuard( RequiredMegabytes: CsvReportMegabytesRamRequired ) )
-          {
+          Cursor.Current = Cursors.WaitCursor;
 
-            Cursor.Current = Cursors.WaitCursor;
+          CsvReport.WriteCsv(
+            JobMaster: this.JobMaster,
+            SelectedOutputWorksheet: SelectedOutputWorksheet,
+            OutputFilename: Path
+          );
 
-            CsvReport.WriteCsv(
-              JobMaster: this.JobMaster,
-              SelectedOutputWorksheet: SelectedOutputWorksheet,
-              OutputFilename: Path
-            );
-
-            Cursor.Current = Cursors.Default;
-
-          }
+          Cursor.Current = Cursors.Default;
 
         }
         catch( MacroscopeInsufficientMemoryException ex )

@@ -49,6 +49,7 @@ namespace SEOMacroscope
 
     public MacroscopeSitemapGenerator ( MacroscopeDocumentCollection NewDocCollection )
     {
+      this.SuppressDebugMsg = true;
       this.DocCollection = NewDocCollection;
     }
 
@@ -57,22 +58,19 @@ namespace SEOMacroscope
     public void WriteSitemapXml ( string NewPath )
     {
 
-      string StartHost = null;
+      string StartUriHostAndPort = null;
       string XmlSitemapSerialized = null;
       XmlDocument SitemapXml;
       StringWriter SitemapXmlStringWriter;
       XmlTextWriter SitemapXmlTextWriter;
-      MacroscopeDocument StartHostDocument = null;
-
       try
       {
 
-        StartHostDocument = this.DocCollection.GetDocument( Url: this.DocCollection.GetJobMaster().GetStartUrl() );
+        StartUriHostAndPort = this.DocCollection.GetJobMaster().GetStartUriHostAndPort();
 
-        if( StartHostDocument != null )
+        if( StartUriHostAndPort != null )
         {
-          StartHost = StartHostDocument.GetHostAndPort();
-          SitemapXml = this.GenerateXmlSitemap( Host: StartHost );
+          SitemapXml = this.GenerateXmlSitemap( Host: StartUriHostAndPort );
           SitemapXmlStringWriter = new StringWriter();
           SitemapXmlTextWriter = new XmlTextWriter( SitemapXmlStringWriter );
           SitemapXml.WriteTo( SitemapXmlTextWriter );
@@ -84,6 +82,10 @@ namespace SEOMacroscope
       catch( Exception ex )
       {
         this.DebugMsg( string.Format( "WriteSitemapXml: {0}", ex.Message ) );
+        if( File.Exists( NewPath ) )
+        {
+          File.Delete( NewPath );
+        }
         throw new MacroscopeSitemapException( "An error occurred whilst attempting to save the Sitemap XML file." );
       }
 
@@ -139,19 +141,17 @@ namespace SEOMacroscope
     public void WriteSitemapText ( string NewPath )
     {
 
-      string StartHost = null;
+      string StartUriHostAndPort = null;
       List<string> SitemapText;
-      MacroscopeDocument StartHostDocument = null;
 
       try
       {
 
-        StartHostDocument = this.DocCollection.GetDocument( Url: this.DocCollection.GetJobMaster().GetStartUrl() );
+        StartUriHostAndPort = this.DocCollection.GetJobMaster().GetStartUriHostAndPort();
 
-        if( StartHostDocument != null )
+        if( StartUriHostAndPort != null )
         {
-          StartHost = StartHostDocument.GetHostAndPort();
-          SitemapText = this.GenerateTextSitemap( Host: StartHost );
+          SitemapText = this.GenerateTextSitemap( Host: StartUriHostAndPort );
           File.WriteAllLines( NewPath, SitemapText, new System.Text.UTF8Encoding( false ) );
         }
 
@@ -159,6 +159,10 @@ namespace SEOMacroscope
       catch( Exception ex )
       {
         this.DebugMsg( string.Format( "WriteSitemapText: {0}", ex.Message ) );
+        if( File.Exists( NewPath ) )
+        {
+          File.Delete( NewPath );
+        }
         throw new MacroscopeSitemapException( "An error occurred whilst attempting to save the Text Sitemap file." );
       }
 

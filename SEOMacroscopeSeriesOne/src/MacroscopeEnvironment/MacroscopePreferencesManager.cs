@@ -195,10 +195,6 @@ namespace SEOMacroscope
     static bool IgnoreErrors410; // Page GONE
     static bool IgnoreErrors451; // Unavailable for legal reason
 
-    /** Advanced Settings -------------------------------------------------- **/
-
-    static bool EnableMemoryGuard;
-
     /**************************************************************************/
 
     static MacroscopePreferencesManager ()
@@ -345,8 +341,6 @@ namespace SEOMacroscope
 
           IgnoreErrors410 = Preferences.IgnoreErrors410;
           IgnoreErrors451 = Preferences.IgnoreErrors451;
-
-          EnableMemoryGuard = Preferences.EnableMemoryGuard;
 
         }
 
@@ -537,9 +531,7 @@ namespace SEOMacroscope
       IgnoreErrors410 = true;
       IgnoreErrors451 = true;
 
-      /** Advanced Settings ------------------------------------------------ **/
-
-      EnableMemoryGuard = false;
+      /** ------------------------------------------------------------------ **/
 
     }
 
@@ -773,8 +765,6 @@ namespace SEOMacroscope
 
         Preferences.IgnoreErrors410 = IgnoreErrors410;
         Preferences.IgnoreErrors451 = IgnoreErrors451;
-
-        Preferences.EnableMemoryGuard = EnableMemoryGuard;
 
         Preferences.Save();
 
@@ -1907,18 +1897,6 @@ namespace SEOMacroscope
     public static void SetIgnoreErrors451 ( bool State )
     {
       IgnoreErrors451 = State;
-    }
-
-    /** Advanced Settings *****************************************************/
-
-    public static bool GetEnableMemoryGuard ()
-    {
-      return ( EnableMemoryGuard );
-    }
-
-    public static void SetEnableMemoryGuard ( bool State )
-    {
-      EnableMemoryGuard = State;
     }
 
     /**************************************************************************/
