@@ -2810,16 +2810,29 @@ namespace SEOMacroscope
 
     private async void RecalculateMacroscopeRedirectChains ( MacroscopeDocument msDoc )
     {
+
       if( msDoc.GetIsRedirect() )
       {
+
         MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis( DocCollection: this );
         List<MacroscopeRedirectChainDocStruct> AnalyzedRedirectChain = await Analyzer.AnalyzeRedirectChains( msDocStart: msDoc );
-        if( AnalyzedRedirectChain.Count > 0 )
+
+        try
         {
-          this.AnalyzedRedirectChains.Add( AnalyzedRedirectChain );
+          if( AnalyzedRedirectChain.Count > 0 )
+          {
+            this.AnalyzedRedirectChains.Add( AnalyzedRedirectChain );
+          }
         }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "RecalculateMacroscopeRedirectChains: {0}", ex.Message ) );
+        }
+
       }
+
       return;
+
     }
 
     /** -------------------------------------------------------------------- **/
