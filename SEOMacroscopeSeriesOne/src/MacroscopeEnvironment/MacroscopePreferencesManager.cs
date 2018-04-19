@@ -96,6 +96,8 @@ namespace SEOMacroscope
     static bool FetchXml;
     static bool FetchBinaries;
 
+    static bool ScanSitesInList;
+
     /** Per-Job Spidering Options ------------------------------------------ **/
 
     static bool CrawlParentDirectories;
@@ -118,7 +120,6 @@ namespace SEOMacroscope
 
     static int RedirectChainsMaxHops;
 
-    static bool ScanSitesInList;
     static bool WarnAboutInsecureLinks;
 
     static bool EnableTextIndexing;
@@ -1014,6 +1015,18 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public static bool GetScanSitesInList ()
+    {
+      return ( ScanSitesInList );
+    }
+
+    public static void SetScanSitesInList ( bool State )
+    {
+      ScanSitesInList = State;
+    }
+
+    /**************************************************************************/
+
     public static bool GetResolveAddresses ()
     {
       return ( ResolveAddresses );
@@ -1046,18 +1059,6 @@ namespace SEOMacroscope
     public static void SetRedirectChainsMaxHops ( int Max )
     {
       RedirectChainsMaxHops = Max;
-    }
-
-    /**************************************************************************/
-
-    public static bool GetScanSitesInList ()
-    {
-      return ( ScanSitesInList );
-    }
-
-    public static void SetScanSitesInList ( bool State )
-    {
-      ScanSitesInList = State;
     }
 
     /**************************************************************************/

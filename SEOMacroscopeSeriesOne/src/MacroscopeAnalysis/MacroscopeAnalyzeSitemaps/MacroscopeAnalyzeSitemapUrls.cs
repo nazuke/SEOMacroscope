@@ -36,6 +36,7 @@ namespace SEOMacroscope
 
     public MacroscopeAnalyzeSitemapUrls () : base()
     {
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/
@@ -98,29 +99,46 @@ namespace SEOMacroscope
     private Dictionary<string, Dictionary<string, bool>> BuildSitemapUrlList ( MacroscopeDocumentCollection DocCollection )
     {
 
-      MacroscopeDocumentList SitemapDocumentList = this.FindSitemaps( DocCollection: DocCollection );
       Dictionary<string, Dictionary<string, bool>> UrlMap = new Dictionary<string, Dictionary<string, bool>>();
 
-      foreach ( MacroscopeDocument msDoc in SitemapDocumentList.IterateDocuments() )
+      try
       {
-        string SitemapUrl = msDoc.GetUrl();
-        if ( !UrlMap.ContainsKey( SitemapUrl ) )
+
+        MacroscopeDocumentList SitemapDocumentList = this.FindSitemaps( DocCollection: DocCollection );
+
+        foreach( MacroscopeDocument msDoc in SitemapDocumentList.IterateDocuments() )
         {
-          UrlMap.Add( SitemapUrl, new Dictionary<string, bool>() );
-        }
-        foreach ( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
-        {
-          string TargetUrl = Outlink.GetTargetUrl();
-          if ( !UrlMap.ContainsKey( TargetUrl ) )
+
+          string SitemapUrl = msDoc.GetUrl();
+
+          if( !UrlMap.ContainsKey( SitemapUrl ) )
           {
-            UrlMap[ SitemapUrl ].Add( TargetUrl, false );
+            UrlMap.Add( SitemapUrl, new Dictionary<string, bool>() );
           }
+
+          foreach( MacroscopeLink Outlink in msDoc.IterateOutlinks() )
+          {
+
+            string TargetUrl = Outlink.GetTargetUrl();
+
+            if( !UrlMap[ SitemapUrl ].ContainsKey( TargetUrl ) )
+            {
+              UrlMap[ SitemapUrl ].Add( TargetUrl, false );
+            }
+
+          }
+
         }
+
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( "BuildSitemapUrlList: {0}", ex.Message ) );
       }
 
       return ( UrlMap );
 
-    }
+      }
 
     /**************************************************************************/
 

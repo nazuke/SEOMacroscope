@@ -117,6 +117,8 @@ namespace SEOMacroscope
         this.checkBoxFetchXml.Checked = MacroscopePreferencesManager.GetFetchXml();
         this.checkBoxFetchBinaries.Checked = MacroscopePreferencesManager.GetFetchBinaries();
 
+        this.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
+
         /** Analysis Options ----------------------------------------------- **/
 
         this.checkBoxResolveAddresses.Checked = MacroscopePreferencesManager.GetResolveAddresses();
@@ -135,7 +137,6 @@ namespace SEOMacroscope
 
         this.numericUpDownRedirectChainsMaxHops.Value = MacroscopePreferencesManager.GetRedirectChainsMaxHops();
 
-        this.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
         this.checkBoxWarnAboutInsecureLinks.Checked = MacroscopePreferencesManager.GetWarnAboutInsecureLinks();
 
         this.checkBoxEnableTextIndexing.Checked = MacroscopePreferencesManager.GetEnableTextIndexing();
@@ -275,6 +276,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetFetchXml( this.checkBoxFetchXml.Checked );
       MacroscopePreferencesManager.SetFetchBinaries( this.checkBoxFetchBinaries.Checked );
 
+      MacroscopePreferencesManager.SetScanSitesInList( this.checkBoxScanSitesInList.Checked );
+
       /** Analysis Options ------------------------------------------------- **/
 
       MacroscopePreferencesManager.SetResolveAddresses( this.checkBoxResolveAddresses.Checked );
@@ -293,7 +296,6 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetRedirectChainsMaxHops((int)this.numericUpDownRedirectChainsMaxHops.Value);
 
-      MacroscopePreferencesManager.SetScanSitesInList( this.checkBoxScanSitesInList.Checked );
       MacroscopePreferencesManager.SetWarnAboutInsecureLinks( this.checkBoxWarnAboutInsecureLinks.Checked );
 
       MacroscopePreferencesManager.SetEnableTextIndexing( this.checkBoxEnableTextIndexing.Checked );

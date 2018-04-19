@@ -153,7 +153,7 @@ namespace SEOMacroscope
 
           RawData = ClientResponse.GetContentAsString();
           this.SetContentLength( Length: RawData.Length ); // May need to find bytes length
-          this.SetChecksum( RawData );
+          this.SetChecksum( ChecksumValue: RawData );
 
           this.SetWasDownloaded( true );
 

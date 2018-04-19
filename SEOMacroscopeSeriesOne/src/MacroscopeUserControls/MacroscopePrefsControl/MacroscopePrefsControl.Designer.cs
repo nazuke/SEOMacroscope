@@ -92,8 +92,6 @@ namespace SEOMacroscope
 		public System.Windows.Forms.CheckBox checkBoxFetchXml;
 		public System.Windows.Forms.CheckBox checkBoxFetchVideo;
 		private System.Windows.Forms.GroupBox groupBox10;
-		private System.Windows.Forms.GroupBox groupBox11;
-		public System.Windows.Forms.CheckBox checkBoxScanSitesInList;
 		private System.Windows.Forms.GroupBox groupBox12;
 		public System.Windows.Forms.CheckBox checkBoxAnalyzeKeywordsInText;
 		private System.Windows.Forms.GroupBox groupBox13;
@@ -258,8 +256,6 @@ namespace SEOMacroscope
       this.groupBox32 = new System.Windows.Forms.GroupBox();
       this.label26 = new System.Windows.Forms.Label();
       this.numericUpDownRedirectChainsMaxHops = new System.Windows.Forms.NumericUpDown();
-      this.groupBox11 = new System.Windows.Forms.GroupBox();
-      this.checkBoxScanSitesInList = new System.Windows.Forms.CheckBox();
       this.groupBox27 = new System.Windows.Forms.GroupBox();
       this.checkBoxCaseSensitiveTextIndexing = new System.Windows.Forms.CheckBox();
       this.checkBoxEnableTextIndexing = new System.Windows.Forms.CheckBox();
@@ -363,6 +359,8 @@ namespace SEOMacroscope
       this.label9 = new System.Windows.Forms.Label();
       this.groupBox28 = new System.Windows.Forms.GroupBox();
       this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
+      this.groupBox8 = new System.Windows.Forms.GroupBox();
+      this.checkBoxScanSitesInList = new System.Windows.Forms.CheckBox();
       this.tabControlPreferences.SuspendLayout();
       this.tabPageSpideringControl.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
@@ -384,7 +382,6 @@ namespace SEOMacroscope
       this.groupBox16.SuspendLayout();
       this.groupBox32.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRedirectChainsMaxHops)).BeginInit();
-      this.groupBox11.SuspendLayout();
       this.groupBox27.SuspendLayout();
       this.groupBox30.SuspendLayout();
       this.groupBox13.SuspendLayout();
@@ -435,6 +432,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel4.SuspendLayout();
       this.groupBox33.SuspendLayout();
       this.groupBox28.SuspendLayout();
+      this.groupBox8.SuspendLayout();
       this.SuspendLayout();
       // 
       // tabControlPreferences
@@ -477,6 +475,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel1.Controls.Add(this.groupBox7);
       this.flowLayoutPanel1.Controls.Add(this.groupBox4);
       this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+      this.flowLayoutPanel1.Controls.Add(this.groupBox8);
       this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
       this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -955,10 +954,10 @@ namespace SEOMacroscope
       // tabPageAnalysisOptions
       // 
       this.tabPageAnalysisOptions.Controls.Add(this.flowLayoutPanel3);
-      this.tabPageAnalysisOptions.Location = new System.Drawing.Point(4, 22);
+      this.tabPageAnalysisOptions.Location = new System.Drawing.Point(4, 40);
       this.tabPageAnalysisOptions.Name = "tabPageAnalysisOptions";
       this.tabPageAnalysisOptions.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageAnalysisOptions.Size = new System.Drawing.Size(592, 761);
+      this.tabPageAnalysisOptions.Size = new System.Drawing.Size(592, 743);
       this.tabPageAnalysisOptions.TabIndex = 2;
       this.tabPageAnalysisOptions.Text = "Analysis Options";
       this.tabPageAnalysisOptions.UseVisualStyleBackColor = true;
@@ -972,7 +971,6 @@ namespace SEOMacroscope
       this.flowLayoutPanel3.Controls.Add(this.groupBox6);
       this.flowLayoutPanel3.Controls.Add(this.groupBox16);
       this.flowLayoutPanel3.Controls.Add(this.groupBox32);
-      this.flowLayoutPanel3.Controls.Add(this.groupBox11);
       this.flowLayoutPanel3.Controls.Add(this.groupBox27);
       this.flowLayoutPanel3.Controls.Add(this.groupBox30);
       this.flowLayoutPanel3.Controls.Add(this.groupBox13);
@@ -981,7 +979,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
       this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
       this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-      this.flowLayoutPanel3.Size = new System.Drawing.Size(586, 755);
+      this.flowLayoutPanel3.Size = new System.Drawing.Size(586, 737);
       this.flowLayoutPanel3.TabIndex = 7;
       // 
       // groupBox18
@@ -1173,33 +1171,12 @@ namespace SEOMacroscope
             0,
             0});
       // 
-      // groupBox11
-      // 
-      this.groupBox11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-      this.groupBox11.Controls.Add(this.checkBoxScanSitesInList);
-      this.groupBox11.Location = new System.Drawing.Point(10, 350);
-      this.groupBox11.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
-      this.groupBox11.Name = "groupBox11";
-      this.groupBox11.Size = new System.Drawing.Size(500, 60);
-      this.groupBox11.TabIndex = 5;
-      this.groupBox11.TabStop = false;
-      this.groupBox11.Text = "List File Processing";
-      // 
-      // checkBoxScanSitesInList
-      // 
-      this.checkBoxScanSitesInList.Location = new System.Drawing.Point(20, 20);
-      this.checkBoxScanSitesInList.Name = "checkBoxScanSitesInList";
-      this.checkBoxScanSitesInList.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxScanSitesInList.TabIndex = 1;
-      this.checkBoxScanSitesInList.Text = "Scan sites in list";
-      this.checkBoxScanSitesInList.UseVisualStyleBackColor = true;
-      // 
       // groupBox27
       // 
       this.groupBox27.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox27.Controls.Add(this.checkBoxCaseSensitiveTextIndexing);
       this.groupBox27.Controls.Add(this.checkBoxEnableTextIndexing);
-      this.groupBox27.Location = new System.Drawing.Point(10, 420);
+      this.groupBox27.Location = new System.Drawing.Point(10, 350);
       this.groupBox27.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox27.Name = "groupBox27";
       this.groupBox27.Size = new System.Drawing.Size(500, 60);
@@ -1231,7 +1208,7 @@ namespace SEOMacroscope
       this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementFooter);
       this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementHeader);
       this.groupBox30.Controls.Add(this.checkBoxDisregardHtml5ElementNav);
-      this.groupBox30.Location = new System.Drawing.Point(10, 490);
+      this.groupBox30.Location = new System.Drawing.Point(10, 420);
       this.groupBox30.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox30.Name = "groupBox30";
       this.groupBox30.Size = new System.Drawing.Size(500, 60);
@@ -1270,7 +1247,7 @@ namespace SEOMacroscope
       // 
       this.groupBox13.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox13.Controls.Add(this.checkBoxWarnAboutInsecureLinks);
-      this.groupBox13.Location = new System.Drawing.Point(10, 560);
+      this.groupBox13.Location = new System.Drawing.Point(10, 490);
       this.groupBox13.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox13.Name = "groupBox13";
       this.groupBox13.Size = new System.Drawing.Size(500, 60);
@@ -1291,7 +1268,7 @@ namespace SEOMacroscope
       // 
       this.groupBox31.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox31.Controls.Add(this.checkBoxDetectQrCodeInImage);
-      this.groupBox31.Location = new System.Drawing.Point(10, 630);
+      this.groupBox31.Location = new System.Drawing.Point(10, 560);
       this.groupBox31.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox31.Name = "groupBox31";
       this.groupBox31.Size = new System.Drawing.Size(500, 60);
@@ -1312,10 +1289,10 @@ namespace SEOMacroscope
       // 
       this.tabPageSeo.AutoScroll = true;
       this.tabPageSeo.Controls.Add(this.flowLayoutPanel2);
-      this.tabPageSeo.Location = new System.Drawing.Point(4, 22);
+      this.tabPageSeo.Location = new System.Drawing.Point(4, 40);
       this.tabPageSeo.Name = "tabPageSeo";
       this.tabPageSeo.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageSeo.Size = new System.Drawing.Size(592, 761);
+      this.tabPageSeo.Size = new System.Drawing.Size(592, 743);
       this.tabPageSeo.TabIndex = 3;
       this.tabPageSeo.Text = "SEO Options";
       this.tabPageSeo.UseVisualStyleBackColor = true;
@@ -1333,7 +1310,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
       this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
       this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-      this.flowLayoutPanel2.Size = new System.Drawing.Size(586, 755);
+      this.flowLayoutPanel2.Size = new System.Drawing.Size(586, 737);
       this.flowLayoutPanel2.TabIndex = 2;
       // 
       // groupBox2
@@ -1855,9 +1832,9 @@ namespace SEOMacroscope
       // tabPageCustomFilterOptions
       // 
       this.tabPageCustomFilterOptions.Controls.Add(this.flowLayoutPanel9);
-      this.tabPageCustomFilterOptions.Location = new System.Drawing.Point(4, 22);
+      this.tabPageCustomFilterOptions.Location = new System.Drawing.Point(4, 40);
       this.tabPageCustomFilterOptions.Name = "tabPageCustomFilterOptions";
-      this.tabPageCustomFilterOptions.Size = new System.Drawing.Size(592, 761);
+      this.tabPageCustomFilterOptions.Size = new System.Drawing.Size(592, 743);
       this.tabPageCustomFilterOptions.TabIndex = 8;
       this.tabPageCustomFilterOptions.Text = "Custom Filter Options";
       this.tabPageCustomFilterOptions.UseVisualStyleBackColor = true;
@@ -1870,7 +1847,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel9.Location = new System.Drawing.Point(0, 0);
       this.flowLayoutPanel9.Name = "flowLayoutPanel9";
-      this.flowLayoutPanel9.Size = new System.Drawing.Size(592, 761);
+      this.flowLayoutPanel9.Size = new System.Drawing.Size(592, 743);
       this.flowLayoutPanel9.TabIndex = 0;
       // 
       // groupBox23
@@ -1999,9 +1976,9 @@ namespace SEOMacroscope
       // tabPageExtractorOptions
       // 
       this.tabPageExtractorOptions.Controls.Add(this.flowLayoutPanel8);
-      this.tabPageExtractorOptions.Location = new System.Drawing.Point(4, 22);
+      this.tabPageExtractorOptions.Location = new System.Drawing.Point(4, 40);
       this.tabPageExtractorOptions.Name = "tabPageExtractorOptions";
-      this.tabPageExtractorOptions.Size = new System.Drawing.Size(592, 761);
+      this.tabPageExtractorOptions.Size = new System.Drawing.Size(592, 743);
       this.tabPageExtractorOptions.TabIndex = 7;
       this.tabPageExtractorOptions.Text = "Data Extractor Options";
       this.tabPageExtractorOptions.UseVisualStyleBackColor = true;
@@ -2015,7 +1992,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel8.Location = new System.Drawing.Point(0, 0);
       this.flowLayoutPanel8.Name = "flowLayoutPanel8";
-      this.flowLayoutPanel8.Size = new System.Drawing.Size(592, 761);
+      this.flowLayoutPanel8.Size = new System.Drawing.Size(592, 743);
       this.flowLayoutPanel8.TabIndex = 0;
       // 
       // groupBox24
@@ -2225,10 +2202,10 @@ namespace SEOMacroscope
       // tabPageExportOptions
       // 
       this.tabPageExportOptions.Controls.Add(this.flowLayoutPanel6);
-      this.tabPageExportOptions.Location = new System.Drawing.Point(4, 22);
+      this.tabPageExportOptions.Location = new System.Drawing.Point(4, 40);
       this.tabPageExportOptions.Name = "tabPageExportOptions";
       this.tabPageExportOptions.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageExportOptions.Size = new System.Drawing.Size(592, 761);
+      this.tabPageExportOptions.Size = new System.Drawing.Size(592, 743);
       this.tabPageExportOptions.TabIndex = 5;
       this.tabPageExportOptions.Text = "Export Options";
       this.tabPageExportOptions.UseVisualStyleBackColor = true;
@@ -2239,7 +2216,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 3);
       this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-      this.flowLayoutPanel6.Size = new System.Drawing.Size(586, 755);
+      this.flowLayoutPanel6.Size = new System.Drawing.Size(586, 737);
       this.flowLayoutPanel6.TabIndex = 3;
       // 
       // groupBox17
@@ -2437,6 +2414,27 @@ namespace SEOMacroscope
       this.checkBoxServerCertificateValidation.Text = "Enable certificate validation";
       this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
       // 
+      // groupBox8
+      // 
+      this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox8.Controls.Add(this.checkBoxScanSitesInList);
+      this.groupBox8.Location = new System.Drawing.Point(10, 540);
+      this.groupBox8.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox8.Name = "groupBox8";
+      this.groupBox8.Size = new System.Drawing.Size(500, 60);
+      this.groupBox8.TabIndex = 6;
+      this.groupBox8.TabStop = false;
+      this.groupBox8.Text = "URL List Processing";
+      // 
+      // checkBoxScanSitesInList
+      // 
+      this.checkBoxScanSitesInList.Location = new System.Drawing.Point(20, 20);
+      this.checkBoxScanSitesInList.Name = "checkBoxScanSitesInList";
+      this.checkBoxScanSitesInList.Size = new System.Drawing.Size(160, 24);
+      this.checkBoxScanSitesInList.TabIndex = 1;
+      this.checkBoxScanSitesInList.Text = "Scan sites in URL list";
+      this.checkBoxScanSitesInList.UseVisualStyleBackColor = true;
+      // 
       // MacroscopePrefsControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2467,7 +2465,6 @@ namespace SEOMacroscope
       this.groupBox16.ResumeLayout(false);
       this.groupBox32.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRedirectChainsMaxHops)).EndInit();
-      this.groupBox11.ResumeLayout(false);
       this.groupBox27.ResumeLayout(false);
       this.groupBox30.ResumeLayout(false);
       this.groupBox13.ResumeLayout(false);
@@ -2519,6 +2516,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel4.ResumeLayout(false);
       this.groupBox33.ResumeLayout(false);
       this.groupBox28.ResumeLayout(false);
+      this.groupBox8.ResumeLayout(false);
       this.ResumeLayout(false);
 
 		}
@@ -2544,5 +2542,7 @@ namespace SEOMacroscope
     private System.Windows.Forms.ComboBox comboBoxProxyType;
     private System.Windows.Forms.Label label9;
     private System.Windows.Forms.Label label10;
+    private System.Windows.Forms.GroupBox groupBox8;
+    public System.Windows.Forms.CheckBox checkBoxScanSitesInList;
   }
 }
