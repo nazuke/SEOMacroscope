@@ -24,6 +24,7 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
+using System.Text;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
@@ -40,17 +41,13 @@ namespace SEOMacroscope
     private HttpContent ResponseContent;
     private SortedDictionary<string, List<string>> ConsolidatedHttpHeaders;
     private byte[] ContentAsBytes;
-    private string ContentAsString;
 
     /**************************************************************************/
 
     public MacroscopeHttpTwoClientResponse ()
     {
-
       this.SuppressDebugMsg = true;
-
       this.ConsolidatedHttpHeaders = new SortedDictionary<string, List<string>>();
-
     }
 
     /**************************************************************************/
@@ -60,17 +57,17 @@ namespace SEOMacroscope
 
       this.Response = RequestResponse;
 
-      foreach ( KeyValuePair<string, IEnumerable<string>> Item in this.Response.Headers )
+      foreach( KeyValuePair<string, IEnumerable<string>> Item in this.Response.Headers )
       {
-        foreach ( string Value in Item.Value )
+        foreach( string Value in Item.Value )
         {
           this.DebugMsg( string.Format( "SETRESPONSE: {0} => {1}", Item.Key, Value ) );
         }
       }
 
-      return;
-
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public HttpResponseMessage GetResponse ()
     {
@@ -92,9 +89,9 @@ namespace SEOMacroscope
 
     public void AddConsolidatedHttpHeader ( string Name, string Value )
     {
-      lock ( this.ConsolidatedHttpHeaders )
+      lock( this.ConsolidatedHttpHeaders )
       {
-        if ( this.ConsolidatedHttpHeaders.ContainsKey( Name ) )
+        if( this.ConsolidatedHttpHeaders.ContainsKey( Name ) )
         {
           this.ConsolidatedHttpHeaders[ Name ].Add( Value );
         }
@@ -109,9 +106,9 @@ namespace SEOMacroscope
 
     public IEnumerable<string> IterateConsolidatedHttpHeaders ()
     {
-      lock ( this.ConsolidatedHttpHeaders )
+      lock( this.ConsolidatedHttpHeaders )
       {
-        foreach ( string Name in this.ConsolidatedHttpHeaders.Keys )
+        foreach( string Name in this.ConsolidatedHttpHeaders.Keys )
         {
           yield return ( Name );
         }
@@ -122,9 +119,9 @@ namespace SEOMacroscope
 
     public IEnumerable<string> IterateConsolidatedHttpHeaderValues ( string Name )
     {
-      lock ( this.ConsolidatedHttpHeaders[ Name ] )
+      lock( this.ConsolidatedHttpHeaders[ Name ] )
       {
-        foreach ( string Value in this.ConsolidatedHttpHeaders[ Name ] )
+        foreach( string Value in this.ConsolidatedHttpHeaders[ Name ] )
         {
           yield return ( Value );
         }
@@ -138,9 +135,9 @@ namespace SEOMacroscope
 
       this.ResponseContent = RequestResponseContent;
 
-      foreach ( KeyValuePair<string, IEnumerable<string>> Item in this.ResponseContent.Headers )
+      foreach( KeyValuePair<string, IEnumerable<string>> Item in this.ResponseContent.Headers )
       {
-        foreach ( string Value in Item.Value )
+        foreach( string Value in Item.Value )
         {
           this.DebugMsg( string.Format( "SETRESPONSECONTENT: {0} => {1}", Item.Key, Value ) );
         }
@@ -150,9 +147,18 @@ namespace SEOMacroscope
 
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public HttpContent GetResponseContent ()
     {
       return ( this.ResponseContent );
+    }
+
+    /**************************************************************************/
+
+    public long GetContentLength ()
+    {
+      return ( this.ContentAsBytes.LongLength );
     }
 
     /**************************************************************************/
@@ -162,6 +168,8 @@ namespace SEOMacroscope
       this.ContentAsBytes = RequestContentAsBytes;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public byte[] GetContentAsBytes ()
     {
       return ( this.ContentAsBytes );
@@ -169,14 +177,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void SetContentAsString ( string RequestContentAsString )
-    {
-      this.ContentAsString = RequestContentAsString;
-    }
-
     public string GetContentAsString ()
     {
-      return ( this.ContentAsString );
+      return ( Encoding.UTF8.GetString( this.ContentAsBytes ) );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public string GetContentAsString ( Encoding WithEncoding )
+    {
+      return ( WithEncoding.GetString( this.ContentAsBytes ) );
     }
 
     /**************************************************************************/

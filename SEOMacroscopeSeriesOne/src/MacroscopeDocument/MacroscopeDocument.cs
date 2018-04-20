@@ -1077,15 +1077,21 @@ namespace SEOMacroscope
       this.Locale = NewLocale;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public string GetLocale ()
     {
       return ( this.Locale );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void SetIsoLanguageCode ( string LanguageCode )
     {
       this.IsoLanguageCode = LanguageCode;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public string GetIsoLanguageCode ()
     {
@@ -1099,6 +1105,8 @@ namespace SEOMacroscope
       return ( this.CharacterEncoding );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void SetCharacterEncoding ( Encoding NewEncoding )
     {
       this.CharacterEncoding = NewEncoding;
@@ -1110,6 +1118,8 @@ namespace SEOMacroscope
     {
       return ( this.CharacterSet );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public void SetCharacterSet ( string NewCharSet )
     {

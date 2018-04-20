@@ -107,8 +107,7 @@ namespace SEOMacroscope
         Response = await Client.Get(
           TargetUri,
           this.ConfigureHeadRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback,
-          MacroscopeHttpTwoClient.DecodeResponseContentAs.BYTES
+          this.PostProcessRequestHttpHeadersCallback
         );
 
       }
@@ -174,8 +173,7 @@ namespace SEOMacroscope
         Response = await Client.Get(
           TargetUri,
           this.ConfigureHeadRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback,
-          MacroscopeHttpTwoClient.DecodeResponseContentAs.BYTES
+          this.PostProcessRequestHttpHeadersCallback
         );
 
       }

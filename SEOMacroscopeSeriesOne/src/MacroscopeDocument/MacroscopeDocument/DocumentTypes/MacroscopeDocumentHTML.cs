@@ -97,6 +97,7 @@ namespace SEOMacroscope
       MacroscopeHttpTwoClient Client = this.DocCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse ClientResponse = null;
       string ResponseErrorCondition = null;
+      string ContentText = "";
 
       try
       {
@@ -104,8 +105,7 @@ namespace SEOMacroscope
         ClientResponse = await Client.Get(
           this.GetUri(),
           this.ConfigureHtmlPageRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback,
-          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+          this.PostProcessRequestHttpHeadersCallback
         );
 
       }
@@ -127,7 +127,6 @@ namespace SEOMacroscope
       if ( ClientResponse != null )
       {
 
-        string RawData = "";
 
         this.ProcessResponseHttpHeaders( Response: ClientResponse );
 
@@ -136,52 +135,48 @@ namespace SEOMacroscope
         try
         {
 
-          this.DebugMsg( string.Format( "MIME TYPE: {0}", this.MimeType ) );
+          Encoding UseEncoding = null;
+          ContentText = ClientResponse.GetContentAsString();
 
-          /*
-          Encoding UseEncoding = Encoding.UTF8;
-
-          if( this.GetCharacterEncoding() != null )
+          try
           {
-            UseEncoding = this.GetCharacterEncoding();
+            UseEncoding = this.HtmlSniffCharset( HtmlBytes: ClientResponse.GetContentAsBytes() );
+            if( UseEncoding != null )
+            {
+              ContentText = ClientResponse.GetContentAsString( WithEncoding: UseEncoding );
+            }
           }
-          else
+          catch( Exception ex )
           {
-            UseEncoding = this.HtmlSniffCharset();
+            this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           }
-          */
 
-          RawData = ClientResponse.GetContentAsString();
-          this.SetContentLength( Length: RawData.Length ); // May need to find bytes length
-          this.SetChecksum( ChecksumValue: RawData );
+          this.SetContentLength( Length: ClientResponse.GetContentLength() );
+          this.SetChecksum( ChecksumValue: ContentText );
 
           this.SetWasDownloaded( true );
 
         }
         catch ( Exception ex )
         {
-
           this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-
           this.SetStatusCode( HttpStatusCode.Ambiguous );
-
-          RawData = "";
+          ContentText = "";
           this.SetContentLength( Length: 0 );
-
         }
 
         /** ---------------------------------------------------------------- **/
 
-        if ( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( ContentText ) )
         {
 
-          HtmlDoc = this.ParseRawDataIntoHtmlDocument( RawData: RawData );
+          HtmlDoc = this.ParseRawDataIntoHtmlDocument( ContentText: ContentText );
 
         }
 
         /** ---------------------------------------------------------------- **/
 
-        if ( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( ContentText ) )
         {
 
           if (
@@ -193,7 +188,7 @@ namespace SEOMacroscope
 
             if ( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
             {
-              this.ProcessHtmlCustomFiltered( CustomFilter: CustomFilter, HtmlText: RawData );
+              this.ProcessHtmlCustomFiltered( CustomFilter: CustomFilter, HtmlText: ContentText );
             }
 
           }
@@ -202,7 +197,7 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-        if ( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( ContentText ) )
         {
 
           if (
@@ -210,7 +205,7 @@ namespace SEOMacroscope
             && MacroscopePreferencesManager.GetDataExtractorsApplyToHtml() )
           {
 
-            this.ProcessHtmlDataExtractors( HtmlText: RawData );
+            this.ProcessHtmlDataExtractors( HtmlText: ContentText );
 
           }
 
@@ -391,7 +386,7 @@ namespace SEOMacroscope
 
           { // Process Document Text
 
-            HtmlDocument HtmlDocDocumentText = this.ParseRawDataIntoHtmlDocument( RawData: RawData );
+            HtmlDocument HtmlDocDocumentText = this.ParseRawDataIntoHtmlDocument( ContentText: ContentText );
 
             if ( HtmlDocDocumentText != null )
             {
@@ -417,7 +412,7 @@ namespace SEOMacroscope
 
           { // Process Body Text
 
-            HtmlDocument HtmlDocBodyText = this.ParseRawDataIntoHtmlDocument( RawData: RawData );
+            HtmlDocument HtmlDocBodyText = this.ParseRawDataIntoHtmlDocument( ContentText: ContentText );
 
             if ( HtmlDocBodyText != null )
             {
@@ -460,17 +455,17 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private HtmlDocument ParseRawDataIntoHtmlDocument ( string RawData )
+    private HtmlDocument ParseRawDataIntoHtmlDocument ( string ContentText = null )
     {
 
       HtmlDocument HtmlDoc = null;
 
-      if ( !string.IsNullOrEmpty( RawData ) )
+      if ( !string.IsNullOrEmpty( ContentText ) )
       {
 
         HtmlDoc = new HtmlDocument();
 
-        HtmlDoc.LoadHtml( RawData );
+        HtmlDoc.LoadHtml( ContentText );
 
       }
 
@@ -1936,20 +1931,15 @@ namespace SEOMacroscope
 
     /** Sniff Charset *********************************************************/
 
-#if DEBUG
-
-    private async Task<Encoding> HtmlSniffCharset ()
+    private Encoding HtmlSniffCharset ( byte[] HtmlBytes )
     {
 
       // TODO: Make this optional in preferences
-
       // TODO: Implement add more encodings detectors
 
-      Encoding EncSniffed = Encoding.UTF8;
+      Encoding EncSniffed = null;
 
-
-      string HtmlData = await this.FetchHtmlFile( HtmlUri: this.GetUri() );
-      byte[] HtmlBytes = Encoding.ASCII.GetBytes( HtmlData );
+      string HtmlText = Encoding.ASCII.GetString( HtmlBytes );
 
       if ( ( HtmlBytes.Length > 2 ) && HtmlBytes[ 0 ].Equals( 0xFE ) && HtmlBytes[ 1 ].Equals( 0xFF ) ) // UTF-8 BOM: Big Endian: FE FF
       {
@@ -1963,14 +1953,41 @@ namespace SEOMacroscope
       else
       {
 
-        if ( Regex.IsMatch( HtmlData.ToLower(), @"<meta[^<>]+charset=""[^""]*utf-8[^""]*""[^<>]*>" ) )
+        Regex PatternHtml4 = new Regex( @"<meta[^<>]+content=""[^""]*text/html;\s*charset=(utf-8|shift.jis|iso-8859-1)[^""]*""[^<>]*>" );
+        Regex PatternHtml5 = new Regex( @"<meta[^<>]+charset=""[^""]*(utf-8|shift.jis|iso-8859-1)[^""]*""[^<>]*>" );
+        Match MatchHtml5 = PatternHtml5.Match( HtmlText.ToLower() );
+        string Sniffed = null;
+
+        if( MatchHtml5.Success )
         {
-          EncSniffed = Encoding.UTF8;
+          Sniffed = MatchHtml5.Groups[ 1 ].Value;
         }
         else
-        if ( Regex.IsMatch( HtmlData.ToLower(), @"<meta[^<>]+content=""[^""]*text/html;\s*charset=utf-8[^""]*""[^<>]*>" ) )
         {
-          EncSniffed = Encoding.UTF8;
+          Match MatchHtml4 = PatternHtml4.Match( HtmlText.ToLower() );
+          if( MatchHtml4.Success )
+          {
+            Sniffed = MatchHtml4.Groups[ 1 ].Value;
+          }
+        }
+
+        if( Sniffed != null )
+        {
+          switch( Sniffed )
+          {
+            case "utf-8":
+              EncSniffed = Encoding.UTF8;
+              break;
+            case "shift_jis":
+              EncSniffed = Encoding.GetEncoding( "shift-jis" );
+              break;
+            case "iso-8859-1":
+              EncSniffed = Encoding.GetEncoding( "iso-8859-1" );
+              break;
+            default:
+              EncSniffed = Encoding.UTF8;
+              break;
+          }
         }
         else
         {
@@ -1979,12 +1996,9 @@ namespace SEOMacroscope
 
       }
 
-
       return ( EncSniffed );
 
     }
-
-#endif
 
     /** Fetch HTML File *******************************************************/
 
@@ -2003,8 +2017,7 @@ namespace SEOMacroscope
         Response = await Client.Get(
           HtmlUri,
           this.ConfigureHeadRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback,
-          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+          this.PostProcessRequestHttpHeadersCallback
         );
 
         if ( Response != null )

@@ -62,7 +62,7 @@ namespace SEOMacroscope
         HttpResponseMessage Response = ClientResponse.GetResponse();
 
         this.DebugMsg( string.Format( "Response.Version: {0}", Response.Version ) );
-        
+
         Assert.AreEqual( 200, (int) Response.StatusCode );
 
       }
@@ -87,8 +87,7 @@ namespace SEOMacroscope
         MacroscopeHttpTwoClientResponse ClientResponse = await Client.Get(
           Url,
           this.PreProcessHeadRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback,
-          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+          this.PostProcessRequestHttpHeadersCallback
         );
 
         HttpResponseMessage Response = ClientResponse.GetResponse();

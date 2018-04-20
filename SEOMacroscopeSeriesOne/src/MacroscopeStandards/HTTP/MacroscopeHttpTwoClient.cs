@@ -46,12 +46,6 @@ namespace SEOMacroscope
     private static HttpClient Client;
     private static WinHttpHandler HttpHandler;
 
-    public enum DecodeResponseContentAs
-    {
-      STRING = 0,
-      BYTES = 1
-    }
-
     /**************************************************************************/
 
     static MacroscopeHttpTwoClient ()
@@ -170,8 +164,7 @@ namespace SEOMacroscope
         }
 
         HttpContent ResponseContent = Response.Content;
-        // TODO: add options to get string and/or bytes[] here:
-        ClientResponse.SetContentAsString( ResponseContent.ReadAsStringAsync().Result );
+        ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
         foreach( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
         {
           foreach( string Value in Item.Value )
@@ -212,8 +205,7 @@ namespace SEOMacroscope
     public async Task<MacroscopeHttpTwoClientResponse> Get (
       Uri Url,
       Action<HttpRequestMessage> ConfigureCustomRequestHeadersCallback,
-      Action<HttpRequestMessage, HttpRequestHeaders> PostProcessRequestHttpHeadersCallback,
-      DecodeResponseContentAs DecodeResponseContent
+      Action<HttpRequestMessage, HttpRequestHeaders> PostProcessRequestHttpHeadersCallback
     )
     {
 
@@ -269,24 +261,8 @@ namespace SEOMacroscope
 
         ResponseContent = Response.Content;
 
-        byte[] ContentAsBytes;
+        ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
 
-        switch( DecodeResponseContent )
-        {
-          case DecodeResponseContentAs.BYTES:
-            ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
-            break;
-          case DecodeResponseContentAs.STRING:
-            ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
-            ContentAsBytes = ClientResponse.GetContentAsBytes();
-            ClientResponse.SetContentAsString( System.Text.Encoding.UTF8.GetString( ContentAsBytes ) );
-            break;
-          default:
-            ClientResponse.SetContentAsBytes( ResponseContent.ReadAsByteArrayAsync().Result );
-            ContentAsBytes = ClientResponse.GetContentAsBytes();
-            ClientResponse.SetContentAsString( System.Text.Encoding.UTF8.GetString( ContentAsBytes ) );
-            break;
-        }
 
         foreach( KeyValuePair<string, IEnumerable<string>> Item in ResponseContent.Headers )
         {

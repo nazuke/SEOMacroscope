@@ -100,8 +100,7 @@ namespace SEOMacroscope
         Response = await Client.Get(
           this.GetUri(),
           this.ConfigureXmlPageRequestHeadersCallback,
-          this.PostProcessRequestHttpHeadersCallback,
-          MacroscopeHttpTwoClient.DecodeResponseContentAs.STRING
+          this.PostProcessRequestHttpHeadersCallback
         );
 
       }
