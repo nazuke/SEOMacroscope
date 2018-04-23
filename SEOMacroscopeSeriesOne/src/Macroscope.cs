@@ -81,7 +81,7 @@ namespace SEOMacroscope
     public string UserAgentName ()
     {
 #if DEBUG
-      return( "SEO-Macroscope-DEVELOPER-MODE" );
+      return ( "SEO-Macroscope-DEVELOPER-MODE" );
 #else
       return ( "SEO-Macroscope" );
 #endif

@@ -1953,8 +1953,8 @@ namespace SEOMacroscope
       else
       {
 
-        Regex PatternHtml4 = new Regex( @"<meta[^<>]+content=""[^""]*text/html;\s*charset=(utf-8|shift.jis|iso-8859-1)[^""]*""[^<>]*>" );
-        Regex PatternHtml5 = new Regex( @"<meta[^<>]+charset=""[^""]*(utf-8|shift.jis|iso-8859-1)[^""]*""[^<>]*>" );
+        Regex PatternHtml4 = new Regex( @"<meta[^<>]+content=""[^""]*text/html;\s*charset=(utf-8|us-ascii|shift.jis|iso-8859-1)[^""]*""[^<>]*>" );
+        Regex PatternHtml5 = new Regex( @"<meta[^<>]+charset=""[^""]*(utf-8|us-ascii|shift.jis|iso-8859-1)[^""]*""[^<>]*>" );
         Match MatchHtml5 = PatternHtml5.Match( HtmlText.ToLower() );
         string Sniffed = null;
 
@@ -1977,6 +1977,9 @@ namespace SEOMacroscope
           {
             case "utf-8":
               EncSniffed = Encoding.UTF8;
+              break;
+            case "us-ascii":
+              EncSniffed = Encoding.ASCII;
               break;
             case "shift_jis":
               EncSniffed = Encoding.GetEncoding( "shift-jis" );

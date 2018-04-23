@@ -1647,7 +1647,7 @@ namespace SEOMacroscope
           Proceed = false;
         }
 
-        if( this.GetJobHistory().SeenHistoryItem( Url: Outlink.GetTargetUrl() ) )
+        if( this.JobHistory.SeenHistoryItem( Url: Outlink.GetTargetUrl() ) )
         {
           Proceed = false;
         }

@@ -96,6 +96,8 @@ namespace SEOMacroscope
         this.DisplayListView.Columns.Add( MacroscopeConstants.DateExpires, MacroscopeConstants.DateExpires );
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
+
+        this.DisplayListView.Columns.Add( MacroscopeConstants.Charset, MacroscopeConstants.Charset);
         this.DisplayListView.Columns.Add( MacroscopeConstants.Locale, MacroscopeConstants.Locale );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Language, MacroscopeConstants.Language );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
@@ -220,6 +222,15 @@ namespace SEOMacroscope
         StructureItems.Add( MacroscopeConstants.Duration, msDoc.GetDurationInSecondsFormatted() );
 
         StructureItems.Add( MacroscopeConstants.ContentType, msDoc.GetMimeType() );
+
+        {
+          string Charset = msDoc.GetCharacterSet();
+          if( string.IsNullOrEmpty( Charset ) )
+          {
+            Charset = "";
+          }
+          StructureItems.Add( MacroscopeConstants.Charset, Charset );
+        }
 
         {
           string LocaleCode = msDoc.GetLocale();

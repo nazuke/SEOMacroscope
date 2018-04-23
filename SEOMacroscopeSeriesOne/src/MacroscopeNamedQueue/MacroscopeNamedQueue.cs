@@ -170,57 +170,53 @@ namespace SEOMacroscope
     public Queue<T> AddToNamedQueue ( string Name, T Item )
     {
 
-      Queue<T> NamedQueue;
       bool Proceed = true;
 
-      if ( this.NamedQueues.ContainsKey( Name ) )
-      {
-        NamedQueue = this.NamedQueues[ Name ];
-      }
-      else
-      {
-        throw ( new MacroscopeNamedQueueException( string.Format( "Named queue \"{0}\" does not exist", Name ) ) );
-      }
-
-      if ( this.NamedQueuesMode[ Name ] == MacroscopeNamedQueue<T>.MODE.USE_HISTORY )
+      lock( this.NamedQueues )
       {
 
-        lock ( this.NamedQueuesHistory[ Name ] )
+        if( !this.NamedQueues.ContainsKey( Name ) )
         {
-
-          // TODO: This does not work with reference values:
-          if ( this.NamedQueuesHistory[ Name ].ContainsKey( Item.ToString() ) )
-          {
-            Proceed = false;
-          }
-          else
-          {
-            this.NamedQueuesHistory[ Name ].Add( Item.ToString(), true );
-          }
-
+          throw ( new MacroscopeNamedQueueException( string.Format( "Named queue \"{0}\" does not exist", Name ) ) );
         }
 
-      }
-
-      if ( Proceed )
-      {
-        lock ( this.NamedQueues[ Name ] )
+        if( this.NamedQueuesMode[ Name ] == MacroscopeNamedQueue<T>.MODE.USE_HISTORY )
         {
-          if ( !NamedQueue.Contains( Item ) )
+          lock( this.NamedQueuesHistory[ Name ] )
           {
-            lock ( this.NamedQueuesIndex[ Name ] )
+            string ItemSerialized = Item.ToString();
+            if( this.NamedQueuesHistory[ Name ].ContainsKey( ItemSerialized ) )
             {
-              if ( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
+              Proceed = false;
+            }
+            else
+            {
+              this.NamedQueuesHistory[ Name ].Add( ItemSerialized, true );
+            }
+          }
+        }
+
+        if( Proceed )
+        {
+          lock( this.NamedQueues[ Name ] )
+          {
+            if( !this.NamedQueues[ Name ].Contains( Item ) )
+            {
+              lock( this.NamedQueuesIndex[ Name ] )
               {
-                this.NamedQueuesIndex[ Name ].Add( Item, true );
-                NamedQueue.Enqueue( Item );
+                if( !this.NamedQueuesIndex[ Name ].ContainsKey( Item ) )
+                {
+                  this.NamedQueuesIndex[ Name ].Add( Item, true );
+                  this.NamedQueues[ Name ].Enqueue( Item );
+                }
               }
             }
           }
         }
+
       }
 
-      return ( NamedQueue );
+      return ( this.NamedQueues[ Name ] );
 
     }
 

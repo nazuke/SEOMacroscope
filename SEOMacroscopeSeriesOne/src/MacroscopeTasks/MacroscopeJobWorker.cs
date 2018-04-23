@@ -285,6 +285,7 @@ namespace SEOMacroscope
 
       MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url );
       MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
+      MacroscopeJobHistory JobHistory = this.JobMaster.GetJobHistory();
       bool BlockedByRobotsRule;
       
       if ( MacroscopePreferencesManager.GetPageLimit() > -1 )
@@ -351,7 +352,7 @@ namespace SEOMacroscope
 
       }
 
-      this.JobMaster.GetJobHistory().AddHistoryItem( Url: Url );
+      JobHistory.AddHistoryItem( Url: Url );
 
       if( await this.JobMaster.GetRobots().CheckRobotRule( Url: Url ) )
       {
@@ -370,7 +371,7 @@ namespace SEOMacroscope
         this.JobMaster.AddToBlockedByRobots( Url );
         FetchStatus = MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED;
         msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.ROBOTS_DISALLOWED );
-        this.JobMaster.GetJobHistory().VisitedHistoryItem( Url: msDoc.GetUrl() );
+        JobHistory.VisitedHistoryItem( Url: msDoc.GetUrl() );
       }
       else
       {
@@ -410,7 +411,7 @@ namespace SEOMacroscope
       if( await msDoc.Execute() )
       {
 
-        this.DocCollection.AddDocument( Url, msDoc );
+        this.DocCollection.AddDocument( msDoc: msDoc );
 
         if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized )
         {
@@ -432,7 +433,7 @@ namespace SEOMacroscope
 
         }
 
-        this.JobMaster.GetJobHistory().VisitedHistoryItem( Url: msDoc.GetUrl() );
+        JobHistory.VisitedHistoryItem( Url: msDoc.GetUrl() );
 
         if( msDoc.GetIsRedirect() )
         {

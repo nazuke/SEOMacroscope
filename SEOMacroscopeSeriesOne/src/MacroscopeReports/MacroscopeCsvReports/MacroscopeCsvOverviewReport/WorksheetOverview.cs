@@ -56,6 +56,7 @@ namespace SEOMacroscope
         ws.WriteField( "Modified Date" );
         ws.WriteField( "Expires Date" );
         ws.WriteField( "Content-Type" );
+        ws.WriteField( "Charset" );
         ws.WriteField( "Locale" );
         ws.WriteField( "Language" );
         ws.WriteField( "Canonical" );
@@ -102,6 +103,8 @@ namespace SEOMacroscope
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetDateExpires() ) );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetMimeType() ) );
+
+        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetCharacterSet() ) );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetLocale() ) );
 

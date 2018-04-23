@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace SEOMacroscope
 {
@@ -37,14 +38,14 @@ namespace SEOMacroscope
   {
 
     /**************************************************************************/
-        
-    private Dictionary<string,bool> History;
-    
+
+    private ConcurrentDictionary<string, bool> History;
+
     /**************************************************************************/
 
     public MacroscopeJobHistory ()
     {
-      this.History = new Dictionary<string, bool> ( 4096 );
+      this.History = new ConcurrentDictionary<string, bool>();
     }
 
     /**************************************************************************/
@@ -55,7 +56,7 @@ namespace SEOMacroscope
       {
         if( !this.History.ContainsKey( Url ) )
         {
-          this.History.Add( Url, false );
+          this.History.TryAdd( Url, false );
         }
       }
     }
@@ -72,7 +73,7 @@ namespace SEOMacroscope
         }
         else
         {
-          this.History.Add( Url, true);
+          this.History.TryAdd( Url, true );
         }
       }
     }
@@ -85,7 +86,8 @@ namespace SEOMacroscope
       {
         if( this.History.ContainsKey( Url ) )
         {
-          this.History.Remove( Url );
+          bool result = false;
+          this.History.TryRemove( Url, out result );
         }
       }
     }
@@ -102,8 +104,7 @@ namespace SEOMacroscope
 
         if( this.History.ContainsKey( Url ) )
         {
-          //Seen = this.History[ Url ]; // OLD METHOD
-          Seen = true;
+          this.History.TryGetValue( Url, out Seen );
         }
 
       }
@@ -114,9 +115,11 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Dictionary<string,bool> GetHistory ()
+    public Dictionary<string, bool> GetHistory ()
     {
-      Dictionary<string,bool> HistoryCopy = new Dictionary<string,bool> ( this.History.Count );
+
+      Dictionary<string, bool> HistoryCopy = new Dictionary<string, bool>( this.History.Count );
+
       lock( this.History )
       {
         foreach( string Key in this.History.Keys )
@@ -124,7 +127,9 @@ namespace SEOMacroscope
           HistoryCopy.Add( Key, this.History[ Key ] );
         }
       }
-      return( HistoryCopy );
+
+      return ( HistoryCopy );
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -141,12 +146,16 @@ namespace SEOMacroscope
 
     public int CountHistory ()
     {
+
       int Total = 0;
+
       lock( this.History )
       {
         Total = this.History.Count;
       }
+
       return ( Total );
+
     }
 
     /**************************************************************************/

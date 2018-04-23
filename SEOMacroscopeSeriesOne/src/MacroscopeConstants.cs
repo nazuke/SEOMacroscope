@@ -297,6 +297,7 @@ namespace SEOMacroscope
 
     public const string ContentType = "Content Type";
     public const string Locale = "Locale";
+    public const string Charset = "Charset";
     public const string Language = "Language";
 
     public const string Canonical = "Canonical";

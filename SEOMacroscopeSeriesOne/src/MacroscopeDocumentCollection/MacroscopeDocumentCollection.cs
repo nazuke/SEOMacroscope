@@ -330,49 +330,50 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocument AddDocument ( MacroscopeDocument msDoc )
-    {
-      this.AddDocument( msDoc.GetUrl(), msDoc );
-      return ( msDoc );
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public MacroscopeDocument AddDocument ( string Url, MacroscopeDocument msDoc )
+    public bool AddDocument ( MacroscopeDocument msDoc )
     {
 
-      MacroscopeDocument msDocAdded = null;
+      bool DocumentAdded = false;
+      string Url = msDoc.GetUrl();
 
-      if ( Monitor.TryEnter( LockerDocCollection ) )
+      if( Monitor.TryEnter( LockerDocCollection ) )
       {
 
         try
         {
 
-          if ( this.DocCollection.ContainsKey( Url ) )
+          if( this.DocCollection.ContainsKey( Url ) )
           {
-            this.DocCollection.Remove( Url );
-            this.DocCollection.Add( Url, msDoc );
-            msDocAdded = msDoc;
+            lock( this.DocCollection )
+            {
+              this.DocCollection[ Url ] = msDoc;
+              DocumentAdded = true;
+            }
           }
           else
           {
             try
             {
-              this.DocCollection.Add( Url, msDoc );
-              msDocAdded = msDoc;
+              lock( this.DocCollection )
+              {
+                this.DocCollection.Add( Url, msDoc );
+                DocumentAdded = true;
+              }
             }
-            catch ( ArgumentException ex )
+            catch( ArgumentException ex )
             {
               this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
             }
-            catch ( Exception ex )
+            catch( Exception ex )
             {
               this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
             }
-
           }
 
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
         }
         finally
         {
@@ -381,7 +382,7 @@ namespace SEOMacroscope
 
       }
 
-      return ( msDocAdded );
+      return ( DocumentAdded );
 
     }
 

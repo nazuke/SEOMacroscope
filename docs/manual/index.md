@@ -244,6 +244,16 @@ For example, a linked .EXE file will have a HEAD request issued against it, to c
 
 {% include go-to-top.html %}
 
+#### List File Processing
+
+##### Scan sites in list
+
+Enabling this option will cause SEO Macroscope to recurse into the websites for each URL in the URL list.
+
+Please note that this may take a long time to complete if there are many websites included in the URL list.
+
+Uncheck this option, if you only need to check the exact URLs in the URL list.
+
 <!-- ======================================================================= -->
 
 ### Analysis Options
@@ -335,16 +345,6 @@ For example, a linked .EXE file will have a HEAD request issued against it, to c
 ##### Redirect Chains Maximum Hops
 
 Set this value to the maximum acceptable number of redirects to be displayed in a chain in the **Redirect Chains** list.
-
-#### List File Processing
-
-##### Scan sites in list
-
-Enabling this option will cause SEO Macroscope to recurse into the websites for each URL in the URL list.
-
-Please note that this may take a long time to complete if there are many websites included in the URL list.
-
-Uncheck this option, if you only need to check the exact URLs in the URL list.
 
 #### Search Index
 

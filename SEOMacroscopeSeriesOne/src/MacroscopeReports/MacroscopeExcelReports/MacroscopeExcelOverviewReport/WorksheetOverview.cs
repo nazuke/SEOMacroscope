@@ -84,6 +84,9 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Content-Type";
         iCol++;
 
+        ws.Cell( iRow, iCol ).Value = "Charset";
+        iCol++;
+
         ws.Cell( iRow, iCol ).Value = "Locale";
         iCol++;
 
@@ -177,6 +180,9 @@ namespace SEOMacroscope
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetMimeType() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetCharacterSet() ) );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetLocale() ) );
