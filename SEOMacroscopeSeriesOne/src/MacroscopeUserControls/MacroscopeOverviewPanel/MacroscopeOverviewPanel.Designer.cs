@@ -619,6 +619,7 @@ namespace SEOMacroscope
       this.listViewHistory = new System.Windows.Forms.ListView();
       this.HistoryUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.HistoryVisited = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.HistoryInDocCollection = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabControlMain.SuspendLayout();
       this.tabPageStructureOverview.SuspendLayout();
       this.tableLayoutPanelStructure.SuspendLayout();
@@ -3322,7 +3323,8 @@ namespace SEOMacroscope
       // 
       this.listViewHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.HistoryUrl,
-            this.HistoryVisited});
+            this.HistoryVisited,
+            this.HistoryInDocCollection});
       this.listViewHistory.ContextMenuStrip = this.contextMenuStripStructure;
       this.listViewHistory.FullRowSelect = true;
       this.listViewHistory.GridLines = true;
@@ -3342,6 +3344,11 @@ namespace SEOMacroscope
       // 
       this.HistoryVisited.Text = "Visited";
       this.HistoryVisited.Width = 100;
+      // 
+      // HistoryInDocCollection
+      // 
+      this.HistoryInDocCollection.Text = "In Document Collection";
+      this.HistoryInDocCollection.Width = 120;
       // 
       // MacroscopeOverviewPanel
       // 
@@ -3476,5 +3483,6 @@ namespace SEOMacroscope
     public System.Windows.Forms.ToolStrip toolStrip11;
     public System.Windows.Forms.ToolStripLabel toolStripLabelRedirectChainsItems;
     public System.Windows.Forms.ListView listViewRedirectChains;
+    private System.Windows.Forms.ColumnHeader HistoryInDocCollection;
   }
 }

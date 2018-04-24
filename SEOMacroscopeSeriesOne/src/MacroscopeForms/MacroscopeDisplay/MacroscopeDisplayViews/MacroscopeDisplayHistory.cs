@@ -44,7 +44,11 @@ namespace SEOMacroscope
     private bool ListViewConfigured = false;
     
     private ToolStripLabel DocumentCount;
-    
+
+    private const int ColUrl = 0;
+    private const int ColVisited = 1;
+    private const int ColInDocCollection = 2;
+
     /**************************************************************************/
 
     public MacroscopeDisplayHistory ( MacroscopeMainForm MainForm, ListView TargetListView )
@@ -108,7 +112,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RefreshData ( Dictionary<string,bool> History )
+    public void RefreshData ( Dictionary<string,bool> History, MacroscopeDocumentCollection DocCollection )
     {
       if( this.MainForm.InvokeRequired )
       {
@@ -120,7 +124,7 @@ namespace SEOMacroscope
               {
                 Cursor.Current = Cursors.WaitCursor;
                 this.DisplayListView.BeginUpdate();
-                this.RenderListView( History: History );
+                this.RenderListView( History: History, DocCollection: DocCollection );
                 this.RenderUrlCount();
                 this.DisplayListView.EndUpdate();
                 Cursor.Current = Cursors.Default;
@@ -136,7 +140,7 @@ namespace SEOMacroscope
         {
           Cursor.Current = Cursors.WaitCursor;
           this.DisplayListView.BeginUpdate();
-          this.RenderListView( History: History );
+          this.RenderListView( History: History, DocCollection: DocCollection );
           this.RenderUrlCount();
           this.DisplayListView.EndUpdate();
           Cursor.Current = Cursors.Default;
@@ -146,7 +150,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderListView ( Dictionary<string,bool> History )
+    private void RenderListView ( Dictionary<string,bool> History, MacroscopeDocumentCollection DocCollection )
     {
 
       if( History.Count == 0 )
@@ -179,10 +183,16 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
         string Visited = "No";
+        string InDocCollection = "No";
 
-        if( History[ Url ] )
+        if( History.ContainsKey( Url ) && History[Url] )
         {
           Visited = "Yes";
+        }
+
+        if( DocCollection.ContainsDocument( Url: Url ) )
+        {
+          InDocCollection = "Yes";
         }
 
         if( this.DisplayListView.Items.ContainsKey( Url ) )
@@ -191,7 +201,8 @@ namespace SEOMacroscope
           try
           {
             lvItem = this.DisplayListView.Items[ Url ];
-            lvItem.SubItems[ 1 ].Text = Visited;
+            lvItem.SubItems[ ColVisited ].Text = Visited;
+            lvItem.SubItems[ ColInDocCollection ].Text = InDocCollection;
           }
           catch( Exception ex )
           {
@@ -209,6 +220,7 @@ namespace SEOMacroscope
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = Url;
             lvItem.SubItems.Add( Visited );
+            lvItem.SubItems.Add( InDocCollection );
 
             ListViewItems.Add( lvItem );
 
@@ -227,20 +239,22 @@ namespace SEOMacroscope
 
           if( AllowedHosts.IsInternalUrl( Url ) )
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Green;
-            if( History[ Url ] )
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
+            if( History.ContainsKey( Url ) && History[ Url ] )
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColVisited ].ForeColor = Color.Green;
             }
             else
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColVisited ].ForeColor = Color.Red;
             }
+            lvItem.SubItems[ ColInDocCollection ].ForeColor = Color.Blue;
           }
           else
           {
-            lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
-            lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColVisited ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColInDocCollection ].ForeColor = Color.Gray;
           }
 
         }

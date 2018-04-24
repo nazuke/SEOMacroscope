@@ -230,11 +230,11 @@ namespace SEOMacroscope
 
       bool Peek = false;
 
-      if ( this.NamedQueues.ContainsKey( Name ) )
+      if( this.NamedQueues.ContainsKey( Name ) )
       {
-        lock ( this.NamedQueues[ Name ] )
+        lock( this.NamedQueues[ Name ] )
         {
-          if ( this.NamedQueues[ Name ].Count > 0 )
+          if( this.NamedQueues[ Name ].Count > 0 )
           {
             Peek = true;
           }
@@ -243,6 +243,27 @@ namespace SEOMacroscope
 
       return ( Peek );
 
+    }
+
+    /**************************************************************************/
+
+    /*
+     * Check to see if queue has a specific item waiting in it.
+    */
+    public bool PeekNamedQueueItem ( string Name, T Item )
+    {
+      bool Peek = false;
+      if( this.NamedQueues.ContainsKey( Name ) )
+      {
+        lock( this.NamedQueues[ Name ] )
+        {
+          if( this.NamedQueues[ Name ].Contains( Item ) )
+          {
+            Peek = true;
+          }
+        }
+      }
+      return ( Peek );
     }
 
     /**************************************************************************/

@@ -857,7 +857,7 @@ namespace SEOMacroscope
     public MacroscopeJobItem GetUrlQueueItem ()
     {
 
-      MacroscopeJobItem JobItem = this.NamedQueueJobItems.GetNamedQueueItem( MacroscopeConstants.NamedQueueUrlList );
+      MacroscopeJobItem JobItem = this.NamedQueueJobItems.GetNamedQueueItem( Name: MacroscopeConstants.NamedQueueUrlList );
 
       return ( JobItem );
 
@@ -914,15 +914,26 @@ namespace SEOMacroscope
     */
     public bool PeekUrlQueue ()
     {
-      bool Peek = this.NamedQueueJobItems.PeekNamedQueue( MacroscopeConstants.NamedQueueUrlList );
+      bool Peek = this.NamedQueueJobItems.PeekNamedQueue( Name: MacroscopeConstants.NamedQueueUrlList );
       return ( Peek );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    /*
+     * Check to see if queue has a specific item waiting in it.
+    */
+    public bool PeekUrlQueueItem ( string Url )
+    {
+      MacroscopeJobItem JobItem = new MacroscopeJobItem( Url: Url );
+      return ( this.NamedQueueJobItems.PeekNamedQueueItem( Name: MacroscopeConstants.NamedQueueUrlList, Item: JobItem ) );
     }
 
     /** -------------------------------------------------------------------- **/
 
     public int CountUrlQueueItems ()
     {
-      return ( this.NamedQueueJobItems.CountNamedQueueItems( MacroscopeConstants.NamedQueueUrlList ) );
+      return ( this.NamedQueueJobItems.CountNamedQueueItems( Name: MacroscopeConstants.NamedQueueUrlList ) );
     }
 
     /** Retry Broken Links ****************************************************/

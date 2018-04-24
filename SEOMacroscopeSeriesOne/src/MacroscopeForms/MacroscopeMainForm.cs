@@ -1362,7 +1362,8 @@ namespace SEOMacroscope
 
         case MacroscopeConstants.tabPageHistory:
           this.msDisplayHistory.RefreshData(
-            History: this.JobMaster.GetJobHistory().GetHistory()
+            History: this.JobMaster.GetJobHistory().GetHistory(),
+            DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
 

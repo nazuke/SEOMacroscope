@@ -52,7 +52,7 @@ namespace SEOMacroscope
 
       /** Control Properties ----------------------------------------------- **/
 
-      this.tabControlDocument.Multiline = false;
+      this.tabControlDocument.Multiline = true;
       this.listViewDocumentInfo.Dock = DockStyle.Fill;
       this.tableLayoutPanelHttpHeaders.Dock = DockStyle.Fill;
       this.textBoxHttpRequestHeaders.Dock = DockStyle.Fill;
@@ -565,7 +565,7 @@ namespace SEOMacroscope
 
                     DocHrefLangUrl = HrefLangAlternate.GetUrl();
 
-                    if( DocCollection.DocumentExists( DocHrefLangUrl ) )
+                    if( DocCollection.ContainsDocument( Url: DocHrefLangUrl ) )
                     {
                       Title = DocCollection.GetDocument( DocHrefLangUrl ).GetTitle();
                     }

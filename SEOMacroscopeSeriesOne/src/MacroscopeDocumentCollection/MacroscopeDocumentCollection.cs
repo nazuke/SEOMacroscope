@@ -255,12 +255,19 @@ namespace SEOMacroscope
 
     /** Document Collection Methods *******************************************/
 
+    public bool ContainsDocument ( MacroscopeDocument msDoc )
+    {
+      return ( this.ContainsDocument( Url: msDoc.GetUrl() ) );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public bool ContainsDocument ( string Url )
     {
 
       bool DocumentPresent = false;
 
-      if ( this.DocCollection.ContainsKey( Url ) )
+      if( this.DocCollection.ContainsKey( Url ) )
       {
         DocumentPresent = true;
       }
@@ -342,7 +349,7 @@ namespace SEOMacroscope
         try
         {
 
-          if( this.DocCollection.ContainsKey( Url ) )
+          if( this.ContainsDocument( msDoc: msDoc ) )
           {
             lock( this.DocCollection )
             {
@@ -383,22 +390,6 @@ namespace SEOMacroscope
       }
 
       return ( DocumentAdded );
-
-    }
-
-    /**************************************************************************/
-
-    public bool DocumentExists ( string Url )
-    {
-
-      bool DocumentPresent = false;
-
-      if ( this.DocCollection.ContainsKey( Url ) )
-      {
-        DocumentPresent = true;
-      }
-
-      return ( DocumentPresent );
 
     }
 
