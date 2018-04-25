@@ -234,6 +234,8 @@
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\t\TestMacroscopeDocumentCSS.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\MacroscopePureTextOutLinks.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\t\TestMacroscopePureTextOutLinks.cs" />
+    <Compile Include="src\MacroscopeDocument\t\TestExecuteRequest.cs" />
+    <Compile Include="src\MacroscopeDocument\t\TestExecuteHeadRequest.cs" />
     <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesPresets.cs" />
     <Compile Include="src\MacroscopeExceptions\MacroscopeSitemapException.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayRedirectChains.cs" />

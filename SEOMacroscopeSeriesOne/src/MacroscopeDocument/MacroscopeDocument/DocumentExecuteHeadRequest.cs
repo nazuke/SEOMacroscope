@@ -61,13 +61,15 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private async Task ExecuteHeadRequest ()
+    public async Task ExecuteHeadRequest ()
     {
 
       Stopwatch TimeDuration = new Stopwatch();
       long FinalDuration;
 
       TimeDuration.Start();
+
+      this.DocCollection.AddDocument( msDoc: this );
 
       try
       {

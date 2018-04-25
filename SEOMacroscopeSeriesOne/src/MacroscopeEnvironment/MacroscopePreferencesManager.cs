@@ -399,7 +399,7 @@ namespace SEOMacroscope
       /** Spidering Control ------------------------------------------------ **/
 
       StartUrl = "";
-      MaxThreads = 2;
+      MaxThreads = 1;
       MaxFetchesPerWorker = 16;
       Depth = -1;
       PageLimit = -1;

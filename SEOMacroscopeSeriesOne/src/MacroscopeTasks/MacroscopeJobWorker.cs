@@ -43,6 +43,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private MacroscopeJobMaster JobMaster;
+    private MacroscopeJobHistory JobHistory;
     private MacroscopeDocumentCollection DocCollection;
     private MacroscopeAllowedHosts AllowedHosts;
     private MacroscopeIncludeExcludeUrls IncludeExcludeUrls;
@@ -57,11 +58,9 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = true;
 
       this.JobMaster = JobMaster;
-
+      this.JobHistory = this.JobMaster.GetJobHistory();
       this.DocCollection = this.JobMaster.GetDocCollection();
-
       this.AllowedHosts = this.JobMaster.GetAllowedHosts();
-
       this.IncludeExcludeUrls = this.JobMaster.GetIncludeExcludeUrls();
 
       if( MacroscopePreferencesManager.GetCrawlDelay() > 0 )
@@ -169,6 +168,8 @@ namespace SEOMacroscope
 
             int Tries = MacroscopePreferencesManager.GetMaxRetries();
 
+            JobHistory.AddHistoryItem( Url: Url );
+
             do
             {
 
@@ -200,14 +201,14 @@ namespace SEOMacroscope
                   this.DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
                   Thread.Sleep( 100 );
 
-                  //this.JobMaster.AddUrlQueueItem( Url: Url );
+                  this.JobMaster.AddUrlQueueItem( Url: Url );
 
                   break;
                 case MacroscopeConstants.FetchStatus.NETWORK_ERROR:
                   this.DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
                   Thread.Sleep( 100 );
 
-                  //this.JobMaster.AddUrlQueueItem( Url: Url );
+                  this.JobMaster.AddUrlQueueItem( Url: Url );
 
                   break;
                 default:
@@ -284,7 +285,6 @@ namespace SEOMacroscope
 
       MacroscopeDocument msDoc = null;
       MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
-      MacroscopeJobHistory JobHistory = this.JobMaster.GetJobHistory();
       bool BlockedByRobotsRule;
       
       if ( MacroscopePreferencesManager.GetPageLimit() > -1 )
@@ -348,7 +348,7 @@ namespace SEOMacroscope
         msDoc.SetFetchStatus( FetchStatus );
       }
 
-      JobHistory.AddHistoryItem( Url: Url );
+      //JobHistory.AddHistoryItem( Url: Url );
 
       if( await this.JobMaster.GetRobots().CheckRobotRule( Url: Url ) )
       {
@@ -386,6 +386,7 @@ namespace SEOMacroscope
         msDoc.SetIsExternal( State: true );
       }
 
+      /*
       if ( this.DocCollection.ContainsDocument( Url: Url ) )
       {
         if ( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
@@ -398,6 +399,7 @@ namespace SEOMacroscope
       {
         ; // NO-OP
       }
+      */
 
       if( MacroscopePreferencesManager.GetDepth() > 0 )
       {
@@ -410,10 +412,17 @@ namespace SEOMacroscope
         }
       }
 
-      if( await msDoc.Execute() )
-      {
+      /** ------------------------------------------------------------------ **/
 
-        this.DocCollection.AddDocument( msDoc: msDoc );
+      if( ! await msDoc.Execute() )
+      {
+        this.DebugMsg( string.Format( "EXECUTE FAILED: {0}", Url ) );
+        FetchStatus = MacroscopeConstants.FetchStatus.ERROR;
+      }
+
+      /** ------------------------------------------------------------------ **/
+
+      {
 
         if( msDoc.GetStatusCode() == HttpStatusCode.Unauthorized )
         {
@@ -484,11 +493,8 @@ namespace SEOMacroscope
         FetchStatus = MacroscopeConstants.FetchStatus.SUCCESS;
 
       }
-      else
-      {
-        this.DebugMsg( string.Format( "EXECUTE FAILED: {0}", Url ) );
-        FetchStatus = MacroscopeConstants.FetchStatus.ERROR;
-      }
+
+      /** ------------------------------------------------------------------ **/
 
       if( DocCollection.ContainsDocument( msDoc: msDoc ) )
       {
@@ -496,22 +502,12 @@ namespace SEOMacroscope
       }
       else
       {
-
+        //DocCollection.AddDocument( msDoc: msDoc );
+        //JobHistory.VisitedHistoryItem( Url: Url );
         this.DebugMsg( string.Format( "OOPS: {0}", Url ) );
-        FetchStatus = MacroscopeConstants.FetchStatus.ERROR;
-
-        //JobHistory.ResetHistoryItem( Url: Url );
-        //Thread.Sleep( 100 );
-        //this.JobMaster.AddUrlQueueItem( Url: Url );
-
-        //if( !this.JobMaster.PeekUrlQueueItem( Url: Url ) )
-        //{
-        //this.JobMaster.ForgetUrlQueueItem( Url: Url );
-        //Thread.Sleep( 100 );
-        //this.JobMaster.AddUrlQueueItem( Url: Url );
-        //}
-
       }
+
+      /** ------------------------------------------------------------------ **/
 
       return ( FetchStatus );
 
