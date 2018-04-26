@@ -69,8 +69,6 @@ namespace SEOMacroscope
 
       TimeDuration.Start();
 
-      this.DocCollection.AddDocument( msDoc: this );
-
       try
       {
         await this._ExecuteHeadRequest();

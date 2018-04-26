@@ -1143,6 +1143,12 @@ namespace SEOMacroscope
           );
           break;
 
+        case MacroscopeConstants.tabPageErrors:
+          this.msDisplayErrors.RefreshData(
+            DocCollection: this.JobMaster.GetDocCollection()
+          );
+          break;
+
         case MacroscopeConstants.tabPageRobots:
           this.msDisplayRobots.RefreshData(
             this.JobMaster
@@ -1175,12 +1181,6 @@ namespace SEOMacroscope
           this.msDisplayHrefLang.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
             LocalesList: JobMaster.GetLocales()
-          );
-          break;
-
-        case MacroscopeConstants.tabPageErrors:
-          this.msDisplayErrors.RefreshData(
-            DocCollection: this.JobMaster.GetDocCollection()
           );
           break;
 
@@ -1396,6 +1396,10 @@ namespace SEOMacroscope
           CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewStructure;
           break;
 
+        case MacroscopeConstants.tabPageErrors:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewErrors;
+          break;
+
         case MacroscopeConstants.tabPageRobots:
           CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewRobots;
           break;
@@ -1418,10 +1422,6 @@ namespace SEOMacroscope
 
         case MacroscopeConstants.tabPageHrefLangAnalysis:
           CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewHrefLang;
-          break;
-
-        case MacroscopeConstants.tabPageErrors:
-          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewErrors;
           break;
 
         case MacroscopeConstants.tabPageHostnames:

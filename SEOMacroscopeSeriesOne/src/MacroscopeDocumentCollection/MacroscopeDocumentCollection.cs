@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Timers;
@@ -36,11 +37,11 @@ namespace SEOMacroscope
   public class MacroscopeDocumentCollection : Macroscope, IDisposable
   {
 
-    // Implement scheduled Levenshtein analysis in this class
+    // TODO: Implement scheduled Levenshtein analysis in this class
 
     /**************************************************************************/
 
-    private Dictionary<string, MacroscopeDocument> DocCollection;
+    private ConcurrentDictionary<string, MacroscopeDocument> DocCollection;
 
     private MacroscopeJobMaster JobMaster;
     private MacroscopeNamedQueue<bool> NamedQueue;
@@ -97,7 +98,6 @@ namespace SEOMacroscope
 
     private List<List<MacroscopeRedirectChainDocStruct>> AnalyzedRedirectChains;
 
-    private static object LockerDocCollection = new object();
     private static object LockerRecalc = new object();
 
     private System.Timers.Timer TimerRecalc;
@@ -111,7 +111,7 @@ namespace SEOMacroscope
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
 
-      this.DocCollection = new Dictionary<string, MacroscopeDocument>( 4096 );
+      this.DocCollection = new ConcurrentDictionary<string, MacroscopeDocument>();
 
       this.JobMaster = JobMaster;
 
@@ -288,9 +288,13 @@ namespace SEOMacroscope
         Url: Url
       );
 
+      this.AddDocument( msDoc: msDoc );
+
       return ( msDoc );
 
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public MacroscopeDocument CreateDocument ( MacroscopeCredential Credential, string Url )
     {
@@ -302,6 +306,8 @@ namespace SEOMacroscope
         Url: Url,
         Credential: Credential
       );
+
+      this.AddDocument( msDoc: msDoc );
 
       return ( msDoc );
 
@@ -343,7 +349,7 @@ namespace SEOMacroscope
       bool DocumentAdded = false;
       string Url = msDoc.GetUrl();
 
-      if( Monitor.TryEnter( LockerDocCollection ) )
+      lock( this.DocCollection )
       {
 
         try
@@ -351,21 +357,14 @@ namespace SEOMacroscope
 
           if( this.ContainsDocument( msDoc: msDoc ) )
           {
-            lock( this.DocCollection )
-            {
-              this.DocCollection[ Url ] = msDoc;
-              DocumentAdded = true;
-            }
+            this.RemoveDocument( msDoc.GetUrl() );
+            DocumentAdded = this.DocCollection.TryAdd( Url, msDoc );
           }
           else
           {
             try
             {
-              lock( this.DocCollection )
-              {
-                this.DocCollection.Add( Url, msDoc );
-                DocumentAdded = true;
-              }
+              DocumentAdded = this.DocCollection.TryAdd( Url, msDoc );
             }
             catch( ArgumentException ex )
             {
@@ -381,10 +380,6 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DebugMsg( string.Format( "AddDocument: {0}", ex.Message ) );
-        }
-        finally
-        {
-          Monitor.Exit( LockerDocCollection );
         }
 
       }
@@ -454,27 +449,21 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RemoveDocument ( string Url )
+    public bool RemoveDocument ( string Url )
     {
 
-      if ( Monitor.TryEnter( LockerDocCollection ) )
+      bool DocumentRemoved = false;
+
+      lock( this.DocCollection )
       {
-
-        try
+        if( this.DocCollection.ContainsKey( Url ) )
         {
-
-          if ( this.DocCollection.ContainsKey( Url ) )
-          {
-            this.DocCollection.Remove( Url );
-          }
-
+          MacroscopeDocument Discard;
+          DocumentRemoved = this.DocCollection.TryRemove( Url, out Discard );
         }
-        finally
-        {
-          Monitor.Exit( LockerDocCollection );
-        }
-
       }
+
+      return ( DocumentRemoved );
 
     }
 
@@ -483,28 +472,21 @@ namespace SEOMacroscope
     public IEnumerable<MacroscopeDocument> IterateDocuments ()
     {
 
-      if ( Monitor.TryEnter( LockerDocCollection ) )
+      lock( this.DocCollection )
       {
 
-        try
+        if( this.DocCollection.Count > 0 )
         {
-          if ( this.DocCollection.Count > 0 )
+
+          foreach( string Url in this.DocCollection.Keys )
           {
-
-            foreach ( string Url in this.DocCollection.Keys )
+            MacroscopeDocument msDoc = this.DocCollection[ Url ];
+            if( msDoc != null )
             {
-              MacroscopeDocument msDoc = this.DocCollection[ Url ];
-              if ( msDoc != null )
-              {
-                yield return this.DocCollection[ Url ];
-              }
+              yield return this.DocCollection[ Url ];
             }
-
           }
-        }
-        finally
-        {
-          Monitor.Exit( LockerDocCollection );
+
         }
 
       }
@@ -518,26 +500,17 @@ namespace SEOMacroscope
 
       List<string> lKeys = new List<string>();
 
-      if ( Monitor.TryEnter( LockerDocCollection ) )
+      lock( this.DocCollection )
       {
 
-        try
+        if( this.DocCollection.Count > 0 )
         {
 
-          if ( this.DocCollection.Count > 0 )
+          foreach( string Url in this.DocCollection.Keys )
           {
-
-            foreach ( string Url in this.DocCollection.Keys )
-            {
-              lKeys.Add( Url );
-            }
-
+            lKeys.Add( Url );
           }
 
-        }
-        finally
-        {
-          Monitor.Exit( LockerDocCollection );
         }
 
       }
@@ -751,142 +724,125 @@ namespace SEOMacroscope
     public void RecalculateDocCollection ()
     {
 
-      lock ( LockerRecalc )
+      lock( LockerRecalc )
       {
 
-        if ( Monitor.TryEnter( LockerDocCollection ) )
+        lock( this.DocCollection )
         {
 
-          try
+          MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
+
+          this.StatsUrlsInternal = 0;
+          this.StatsUrlsExternal = 0;
+          this.StatsUrlsSitemaps = 0;
+
+          foreach( string UrlTarget in this.DocCollection.Keys )
           {
 
-            MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
+            MacroscopeDocument msDoc = this.GetDocument( Url: UrlTarget );
 
-            this.StatsUrlsInternal = 0;
-            this.StatsUrlsExternal = 0;
-            this.StatsUrlsSitemaps = 0;
+            try
+            {
+              this.RecalculateInlinks( msDoc: msDoc );
+            }
+            catch( Exception ex )
+            {
+              this.DebugMsg( string.Format( "RecalculateInlinks: {0}", ex.Message ) );
+            }
 
-            foreach ( string UrlTarget in this.DocCollection.Keys )
+            try
+            {
+              this.RecalculateHyperlinksIn( msDoc: msDoc );
+            }
+            catch( Exception ex )
+            {
+              this.DebugMsg( string.Format( "RecalculateHyperlinksIn: {0}", ex.Message ) );
+            }
+
+            try
+            {
+              this.RecalculateHyperlinksRatio( msDoc: msDoc );
+            }
+            catch( Exception ex )
+            {
+              this.DebugMsg( string.Format( "RecalculateHyperlinksRatio: {0}", ex.Message ) );
+            }
+
+            if( this.StatsHistory.ContainsKey( UrlTarget ) )
+            {
+              this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", UrlTarget ) );
+            }
+            else
             {
 
-              MacroscopeDocument msDoc = this.GetDocument( Url: UrlTarget );
+              this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", UrlTarget ) );
 
-              try
+              this.StatsHistory.Add( UrlTarget, true );
+
+              this.RecalculateStatsCanonicals( msDoc: msDoc );
+
+              this.RecalculateStatsHostnames( msDoc: msDoc );
+
+              this.RecalculateStatsTitles( msDoc: msDoc );
+
+              this.RecalculateStatsDescriptions( msDoc: msDoc );
+
+              this.RecalculateStatsKeywords( msDoc: msDoc );
+
+              this.RecalculateStatsHeadings( msDoc: msDoc );
+
+              this.RecalculateStatsWarnings( msDoc: msDoc );
+
+              this.RecalculateStatsErrors( msDoc: msDoc );
+
+              this.RecalculateStatsChecksums( msDoc: msDoc );
+
+              this.RecalculateStatsDocumentTypes( msDoc: msDoc );
+
+              this.RecalculateStatsLanguages( msDoc: msDoc );
+
+              this.RecalculateStatsDurations( msDoc: msDoc );
+
+              if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
               {
-                this.RecalculateInlinks( msDoc: msDoc );
-              }
-              catch ( Exception ex )
-              {
-                this.DebugMsg( string.Format( "RecalculateInlinks: {0}", ex.Message ) );
-              }
-
-              try
-              {
-                this.RecalculateHyperlinksIn( msDoc: msDoc );
-              }
-              catch ( Exception ex )
-              {
-                this.DebugMsg( string.Format( "RecalculateHyperlinksIn: {0}", ex.Message ) );
-              }
-
-              try
-              {
-                this.RecalculateHyperlinksRatio( msDoc: msDoc );
-              }
-              catch( Exception ex )
-              {
-                this.DebugMsg( string.Format( "RecalculateHyperlinksRatio: {0}", ex.Message ) );
-              }
-
-              if ( this.StatsHistory.ContainsKey( UrlTarget ) )
-              {
-                this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", UrlTarget ) );
-              }
-              else
-              {
-
-                this.DebugMsg( string.Format( "RecalculateDocCollection Adding: {0}", UrlTarget ) );
-
-                this.StatsHistory.Add( UrlTarget, true );
-
-                this.RecalculateStatsCanonicals( msDoc: msDoc );
-
-                this.RecalculateStatsHostnames( msDoc: msDoc );
-
-                this.RecalculateStatsTitles( msDoc: msDoc );
-
-                this.RecalculateStatsDescriptions( msDoc: msDoc );
-
-                this.RecalculateStatsKeywords( msDoc: msDoc );
-
-                this.RecalculateStatsHeadings( msDoc: msDoc );
-
-                this.RecalculateStatsWarnings( msDoc: msDoc );
-
-                this.RecalculateStatsErrors( msDoc: msDoc );
-
-                this.RecalculateStatsChecksums( msDoc: msDoc );
-
-                this.RecalculateStatsDocumentTypes( msDoc: msDoc );
-
-                this.RecalculateStatsLanguages( msDoc: msDoc );
-
-                this.RecalculateStatsDurations( msDoc: msDoc );
-
-                if ( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
-                {
-                  this.RecalculateStatsDeepKeywordAnalysis( msDoc: msDoc );
-                }
-
-                if ( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
-                {
-                  this.RecalculateStatsReadabilityGrades( msDoc: msDoc );
-                  this.RecalculateStatsReadabilityGradeDescriptions( msDoc: msDoc );
-                }
-
-                this.AddDocumentToSearchIndex( msDoc: msDoc );
-
-                if ( MacroscopePreferencesManager.GetResolveAddresses() )
-                {
-                  this.DnsLookup( msDoc: msDoc );
-                }
-
-                this.RecalculateMacroscopeRedirectChains( msDoc: msDoc );
-
+                this.RecalculateStatsDeepKeywordAnalysis( msDoc: msDoc );
               }
 
-              this.RecalculateSitemapErrors( msDoc: msDoc );
-
-              if ( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
+              if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
               {
-                this.StatsUrlsInternal++;
-              }
-              else
-              {
-                this.StatsUrlsExternal++;
+                this.RecalculateStatsReadabilityGrades( msDoc: msDoc );
+                this.RecalculateStatsReadabilityGradeDescriptions( msDoc: msDoc );
               }
 
-              if ( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML ) )
+              this.AddDocumentToSearchIndex( msDoc: msDoc );
+
+              if( MacroscopePreferencesManager.GetResolveAddresses() )
               {
-                this.StatsUrlsSitemaps++;
+                this.DnsLookup( msDoc: msDoc );
               }
 
-              Thread.Yield();
+              this.RecalculateMacroscopeRedirectChains( msDoc: msDoc );
 
             }
 
-            /*
-            this.RecalculateAnalyzeInSitemaps();
+            this.RecalculateSitemapErrors( msDoc: msDoc );
 
-            this.RecalculateOrphanedDocumentList();
+            if( AllowedHosts.IsAllowed( msDoc.GetHostname() ) )
+            {
+              this.StatsUrlsInternal++;
+            }
+            else
+            {
+              this.StatsUrlsExternal++;
+            }
 
-            this.RecalculateMacroscopeRedirectChains();
-            */
+            if( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.SITEMAPXML ) )
+            {
+              this.StatsUrlsSitemaps++;
+            }
 
-          }
-          finally
-          {
-            Monitor.Exit( LockerDocCollection );
+            Thread.Yield();
+
           }
 
         }
@@ -900,35 +856,26 @@ namespace SEOMacroscope
     public void RecalculateDocCollectionFinal ()
     {
 
-      lock ( LockerRecalc )
+      lock( LockerRecalc )
       {
 
-        if ( Monitor.TryEnter( LockerDocCollection ) )
+        lock( this.DocCollection )
         {
 
-          try
-          {
+          MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
 
-            MacroscopeAllowedHosts AllowedHosts = this.JobMaster.GetAllowedHosts();
+          this.RecalculateAnalyzeInSitemaps();
 
-            this.RecalculateAnalyzeInSitemaps();
+          this.RecalculateOrphanedDocumentList();
 
-            this.RecalculateOrphanedDocumentList();
-
-//            this.RecalculateMacroscopeRedirectChains();
-
-          }
-          finally
-          {
-            Monitor.Exit( LockerDocCollection );
-          }
+          //this.RecalculateMacroscopeRedirectChains();
 
         }
 
       }
 
     }
-    
+
     /** Inlinks ***************************************************************/
 
     private void RecalculateInlinks ( MacroscopeDocument msDoc )

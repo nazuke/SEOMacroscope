@@ -116,11 +116,11 @@ namespace SEOMacroscopeEngine
     public const string tabPageStructureOverview = "tabPageStructureOverview";
     public const string tabPageStructureLinkCounts = "tabPageStructureLinkCounts";
     public const string tabPageHierarchy = "tabPageHierarchy";
+    public const string tabPageErrors = "tabPageErrors";
     public const string tabPageRobots = "tabPageRobots";
     public const string tabPageSitemaps = "tabPageSitemaps";
     public const string tabPageCanonicalAnalysis = "tabPageCanonicalAnalysis";
     public const string tabPageHrefLangAnalysis = "tabPageHrefLangAnalysis";
-    public const string tabPageErrors = "tabPageErrors";
     public const string tabPageHostnames = "tabPageHostnames";
     public const string tabPageRedirectsAudit = "tabPageRedirectsAudit";
     public const string tabPageLinks = "tabPageLinks";

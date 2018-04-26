@@ -64,9 +64,6 @@ namespace SEOMacroscope
       await msDoc.Execute();
       await msDocDifferent.Execute();
 
-      DocCollection.AddDocument( msDoc );
-      DocCollection.AddDocument( msDocDifferent );
-
       DebugMsg( string.Format( "msDoc: {0}", msDoc.GetStatusCode() ) );
 
       DebugMsg( string.Format( "msDocDifferent: {0}", msDocDifferent.GetStatusCode() ) );
@@ -130,7 +127,6 @@ namespace SEOMacroscope
 
       msDoc = DocCollection.CreateDocument( StartUrl );
       await msDoc.Execute();
-      DocCollection.AddDocument( msDoc );
 
       DebugMsg( string.Format( "msDoc: {0}", msDoc.GetStatusCode() ) );
 
@@ -150,7 +146,6 @@ namespace SEOMacroscope
       {
         MacroscopeDocument msDocTarget = DocCollection.CreateDocument( TargetUrl );
         await msDocTarget.Execute();
-        DocCollection.AddDocument( msDocTarget );
         DebugMsg( string.Format( "msDocTarget: {0}", msDocTarget.GetStatusCode() ) );
       }
 

@@ -241,43 +241,6 @@ namespace SEOMacroscope
 
     }
 
-    /** Check Include/Exclude URL *********************************************/
-
-    private bool CheckIncludeExcludeUrl ( string Url )
-    {
-
-      bool Success = true;
-
-      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseIncludeUrlPatterns() ) )
-      {
-        if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url ) )
-        {
-          this.DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES INCLUDE URL: {0}", Url ) );
-        }
-        else
-        {
-          this.DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", Url ) );
-          Success = false;
-        }
-      }
-
-      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseExcludeUrlPatterns() ) )
-      {
-        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) )
-        {
-          this.DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", Url ) );
-          Success = false;
-        }
-        else
-        {
-          this.DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH EXCLUDE URL: {0}", Url ) );
-        }
-      }
-
-      return ( Success );
-
-    }
-
     /**************************************************************************/
 
     private async Task<MacroscopeConstants.FetchStatus> Fetch ( string Url, string RedirectedFromUrl = null )
@@ -348,8 +311,6 @@ namespace SEOMacroscope
         msDoc.SetFetchStatus( FetchStatus );
       }
 
-      //JobHistory.AddHistoryItem( Url: Url );
-
       if( await this.JobMaster.GetRobots().CheckRobotRule( Url: Url ) )
       {
         msDoc.SetAllowedByRobots( true );
@@ -386,7 +347,6 @@ namespace SEOMacroscope
         msDoc.SetIsExternal( State: true );
       }
 
-      /*
       if ( this.DocCollection.ContainsDocument( Url: Url ) )
       {
         if ( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
@@ -399,7 +359,6 @@ namespace SEOMacroscope
       {
         ; // NO-OP
       }
-      */
 
       if( MacroscopePreferencesManager.GetDepth() > 0 )
       {
@@ -502,14 +461,49 @@ namespace SEOMacroscope
       }
       else
       {
-        //DocCollection.AddDocument( msDoc: msDoc );
-        //JobHistory.VisitedHistoryItem( Url: Url );
         this.DebugMsg( string.Format( "OOPS: {0}", Url ) );
       }
 
       /** ------------------------------------------------------------------ **/
 
       return ( FetchStatus );
+
+    }
+    
+    /** Check Include/Exclude URL *********************************************/
+
+    private bool CheckIncludeExcludeUrl ( string Url )
+    {
+
+      bool Success = true;
+
+      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseIncludeUrlPatterns() ) )
+      {
+        if( this.IncludeExcludeUrls.MatchesIncludeUrlPattern( Url ) )
+        {
+          this.DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES INCLUDE URL: {0}", Url ) );
+        }
+        else
+        {
+          this.DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH INCLUDE URL: {0}", Url ) );
+          Success = false;
+        }
+      }
+
+      if( ( this.IncludeExcludeUrls != null ) && ( this.IncludeExcludeUrls.UseExcludeUrlPatterns() ) )
+      {
+        if( this.IncludeExcludeUrls.MatchesExcludeUrlPattern( Url ) )
+        {
+          this.DebugMsg( string.Format( "CheckIncludeExcludeUrl: MATCHES EXCLUDE URL: {0}", Url ) );
+          Success = false;
+        }
+        else
+        {
+          this.DebugMsg( string.Format( "CheckIncludeExcludeUrl: DOES NOT MATCH EXCLUDE URL: {0}", Url ) );
+        }
+      }
+
+      return ( Success );
 
     }
 

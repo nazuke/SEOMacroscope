@@ -1953,8 +1953,8 @@ namespace SEOMacroscope
       else
       {
 
-        Regex PatternHtml4 = new Regex( @"<meta[^<>]+content=""[^""]*text/html;\s*charset=(utf-8|us-ascii|shift.jis|iso-8859-1)[^""]*""[^<>]*>" );
-        Regex PatternHtml5 = new Regex( @"<meta[^<>]+charset=""[^""]*(utf-8|us-ascii|shift.jis|iso-8859-1)[^""]*""[^<>]*>" );
+        Regex PatternHtml4 = new Regex( @"<meta[^<>]+content=""[^""]*text/html;\s*charset=(utf-8|us-ascii|iso-8859-1|shift.jis|euc.jp)[^""]*""[^<>]*>" );
+        Regex PatternHtml5 = new Regex( @"<meta[^<>]+charset=""[^""]*(utf-8|us-ascii|iso-8859-1|shift.jis|euc.jp)[^""]*""[^<>]*>" );
         Match MatchHtml5 = PatternHtml5.Match( HtmlText.ToLower() );
         string Sniffed = null;
 
@@ -1981,11 +1981,14 @@ namespace SEOMacroscope
             case "us-ascii":
               EncSniffed = Encoding.ASCII;
               break;
+            case "iso-8859-1":
+              EncSniffed = Encoding.GetEncoding( "iso-8859-1" );
+              break;
             case "shift_jis":
               EncSniffed = Encoding.GetEncoding( "shift-jis" );
               break;
-            case "iso-8859-1":
-              EncSniffed = Encoding.GetEncoding( "iso-8859-1" );
+            case "euc-jp":
+              EncSniffed = Encoding.GetEncoding( "euc-jp" );
               break;
             default:
               EncSniffed = Encoding.UTF8;
