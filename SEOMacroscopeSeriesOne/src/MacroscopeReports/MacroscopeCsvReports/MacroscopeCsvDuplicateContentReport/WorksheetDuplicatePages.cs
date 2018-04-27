@@ -167,7 +167,7 @@ namespace SEOMacroscope
           break;
         }
 
-        Thread.Yield();
+        //Thread.Yield();
 
       }
 

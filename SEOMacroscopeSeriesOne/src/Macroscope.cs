@@ -92,7 +92,7 @@ namespace SEOMacroscope
     public string UserAgentVersion ()
     {
 #if DEBUG
-      return( "DEBUG" );
+      return ( "DEBUG" );
 #else
       return( FileVersionInfo.GetVersionInfo( Assembly.GetExecutingAssembly().Location ).ProductVersion );
 #endif

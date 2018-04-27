@@ -102,13 +102,13 @@ namespace SEOMacroscope
           string Url = null;
           string RedirectedFromUrl = null;
 
-          if ( JobItem != null )
+          if( JobItem != null )
           {
             Url = JobItem.GetItemUrl();
             RedirectedFromUrl = JobItem.GetItemRedirectedFromUrl();
           }
 
-          if ( !string.IsNullOrEmpty( Url ) )
+          if( !string.IsNullOrEmpty( Url ) )
           {
             if( !this.CheckIncludeExcludeUrl( Url ) )
             {
@@ -179,7 +179,7 @@ namespace SEOMacroscope
 
               try
               {
-                if ( !string.IsNullOrEmpty( RedirectedFromUrl ) )
+                if( !string.IsNullOrEmpty( RedirectedFromUrl ) )
                 {
                   FetchStatus = await this.Fetch( Url, RedirectedFromUrl );
                 }
@@ -199,23 +199,17 @@ namespace SEOMacroscope
               {
                 case MacroscopeConstants.FetchStatus.ERROR:
                   this.DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
-                  Thread.Sleep( 100 );
-
-                  this.JobMaster.AddUrlQueueItem( Url: Url );
-
+                  Thread.Sleep( 25 );
                   break;
                 case MacroscopeConstants.FetchStatus.NETWORK_ERROR:
                   this.DebugMsg( string.Format( "Fetch Failed: {0} :: {1}", Tries, Url ) );
-                  Thread.Sleep( 100 );
-
-                  this.JobMaster.AddUrlQueueItem( Url: Url );
-
+                  Thread.Sleep( 25 );
                   break;
                 default:
                   this.JobMaster.NotifyWorkersFetched( Url: Url );
                   Tries = 0;
                   break;
-             }
+              }
 
               Tries--;
 
@@ -233,7 +227,7 @@ namespace SEOMacroscope
 
         MaxFetches--;
 
-        Thread.Yield();
+        //Thread.Yield();
 
       }
 
@@ -249,12 +243,12 @@ namespace SEOMacroscope
       MacroscopeDocument msDoc = null;
       MacroscopeConstants.FetchStatus FetchStatus = MacroscopeConstants.FetchStatus.VOID;
       bool BlockedByRobotsRule;
-      
-      if ( MacroscopePreferencesManager.GetPageLimit() > -1 )
+
+      if( MacroscopePreferencesManager.GetPageLimit() > -1 )
       {
         int PagesFound = this.JobMaster.GetPagesFound();
         int PageLimit = MacroscopePreferencesManager.GetPageLimit();
-        if ( PagesFound >= PageLimit )
+        if( PagesFound >= PageLimit )
         {
           this.DebugMsg( string.Format( "PAGE LIMIT REACHED: {0} :: {1}", PageLimit, PagesFound ) );
           return ( FetchStatus );
@@ -296,14 +290,14 @@ namespace SEOMacroscope
         msDoc = this.DocCollection.CreateDocument( Url: Url );
       }
 
-      if ( !string.IsNullOrEmpty( RedirectedFromUrl ) )
+      if( !string.IsNullOrEmpty( RedirectedFromUrl ) )
       {
         msDoc.SetUrlRedirectFrom( Url: RedirectedFromUrl );
       }
 
       msDoc.SetFetchStatus( MacroscopeConstants.FetchStatus.OK );
 
-      if ( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) )
+      if( !MacroscopeDnsTools.CheckValidHostname( Url: Url ) )
       {
         this.DebugMsg( string.Format( "Fetch :: CheckValidHostname: {0}", "NOT OK" ) );
         msDoc.SetStatusCode( HttpStatusCode.BadGateway );
@@ -347,9 +341,9 @@ namespace SEOMacroscope
         msDoc.SetIsExternal( State: true );
       }
 
-      if ( this.DocCollection.ContainsDocument( Url: Url ) )
+      if( this.DocCollection.ContainsDocument( Url: Url ) )
       {
-        if ( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
+        if( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
         {
           FetchStatus = MacroscopeConstants.FetchStatus.ALREADY_SEEN;
           return ( FetchStatus );
@@ -373,7 +367,7 @@ namespace SEOMacroscope
 
       /** ------------------------------------------------------------------ **/
 
-      if( ! await msDoc.Execute() )
+      if( !await msDoc.Execute() )
       {
         this.DebugMsg( string.Format( "EXECUTE FAILED: {0}", Url ) );
         FetchStatus = MacroscopeConstants.FetchStatus.ERROR;
@@ -469,7 +463,7 @@ namespace SEOMacroscope
       return ( FetchStatus );
 
     }
-    
+
     /** Check Include/Exclude URL *********************************************/
 
     private bool CheckIncludeExcludeUrl ( string Url )

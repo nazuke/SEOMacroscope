@@ -841,7 +841,7 @@ namespace SEOMacroscope
               this.StatsUrlsSitemaps++;
             }
 
-            Thread.Yield();
+            //Thread.Yield();
 
           }
 
