@@ -71,10 +71,6 @@ namespace SEOMacroscope
           {
             CsvReport.WriteCsv( this.JobMaster, Path );
           }
-          catch( MacroscopeInsufficientMemoryException ex )
-          {
-            this.DialogueBoxError( "Error saving CSV Report", ex.Message );
-          }
           catch( MacroscopeSaveCsvFileException ex )
           {
             this.DialogueBoxError( "Error saving CSV Report", ex.Message );
@@ -123,10 +119,6 @@ namespace SEOMacroscope
         {
           CsvReport.WriteCsv( this.JobMaster, Path );
         }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Overview CSV Report", ex.Message );
-        }
         catch( MacroscopeSaveCsvFileException ex )
         {
           this.DialogueBoxError( "Error saving Overview CSV Report", ex.Message );
@@ -168,10 +160,6 @@ namespace SEOMacroscope
         try
         {
           CsvReport.WriteCsv( this.JobMaster, Path );
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Errors CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -215,10 +203,6 @@ namespace SEOMacroscope
         {
           CsvReport.WriteCsv( this.JobMaster, Path );
         }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Robots CSV Report", ex.Message );
-        }
         catch( MacroscopeSaveCsvFileException ex )
         {
           this.DialogueBoxError( "Error saving Robots CSV Report", ex.Message );
@@ -260,10 +244,6 @@ namespace SEOMacroscope
         try
         {
           CsvReport.WriteCsv( this.JobMaster, Path );
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Sitemap Errors CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -351,10 +331,6 @@ namespace SEOMacroscope
 
           Cursor.Current = Cursors.Default;
 
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Broken Links CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -447,10 +423,6 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.Default;
 
         }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );
-        }
         catch( MacroscopeSaveCsvFileException ex )
         {
           this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );
@@ -531,10 +503,6 @@ namespace SEOMacroscope
 
           Cursor.Current = Cursors.Default;
 
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Page Contents CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -637,10 +605,6 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.Default;
 
         }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving URI Analysis CSV Report", ex.Message );
-        }
         catch( MacroscopeSaveCsvFileException ex )
         {
           this.DialogueBoxError( "Error saving URI Analysis CSV Report", ex.Message );
@@ -714,10 +678,6 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.WaitCursor;
           CsvReport.WriteCsv( this.JobMaster, SelectedOutputWorksheet, Path );
           Cursor.Current = Cursors.Default;
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Redirects CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -827,10 +787,6 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.Default;
 
         }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Duplicate Content CSV Report", ex.Message );
-        }
         catch( MacroscopeSaveCsvFileException ex )
         {
           this.DialogueBoxError( "Error saving Duplicate Content CSV Report", ex.Message );
@@ -912,10 +868,6 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.Default;
 
         }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Contact Details CSV Report", ex.Message );
-        }
         catch( MacroscopeSaveCsvFileException ex )
         {
           this.DialogueBoxError( "Error saving Contact Details CSV Report", ex.Message );
@@ -965,10 +917,6 @@ namespace SEOMacroscope
           CsvReport.WriteCsv( this.JobMaster, Path );
           Cursor.Current = Cursors.Default;
         }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Remarks CSV Report", ex.Message );
-        }
         catch( MacroscopeSaveCsvFileException ex )
         {
           this.DialogueBoxError( "Error saving Remarks CSV Report", ex.Message );
@@ -1017,10 +965,6 @@ namespace SEOMacroscope
           Cursor.Current = Cursors.WaitCursor;
           CsvReport.WriteCsv( this.JobMaster, Path );
           Cursor.Current = Cursors.Default;
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Custom Filters CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
@@ -1118,10 +1062,6 @@ namespace SEOMacroscope
 
           Cursor.Current = Cursors.Default;
 
-        }
-        catch( MacroscopeInsufficientMemoryException ex )
-        {
-          this.DialogueBoxError( "Error saving Page Metadata CSV Report", ex.Message );
         }
         catch( MacroscopeSaveCsvFileException ex )
         {
