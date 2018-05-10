@@ -134,43 +134,19 @@ namespace SEOMacroscope
 
       if( Url != null )
       {
-        Success = true;
-        this.OpenUrlInBrowser( Url );
-      }
-      
-      return( Success );
-      
-    }
-
-    /** EXTERNAL BROWSER ******************************************************/
-
-    private void OpenUrlInBrowser ( string Url )
-    {
-
-      Uri OpenUrl = null;
-
-      try
-      {
-        OpenUrl = new Uri ( Url );
-      }
-      catch( UriFormatException ex )
-      {
-        MessageBox.Show( ex.Message );
-      }
-
-      if( OpenUrl != null )
-      {
         try
         {
-          // TODO: bug here when opening URL with query string
-          Process.Start( OpenUrl.ToString() );
+          Success = true;
+          Macroscope.OpenUrlInBrowser( Url );
         }
         catch( Exception ex )
         {
           MessageBox.Show( ex.Message );
         }
       }
-
+      
+      return( Success );
+      
     }
 
     /** COPY ROWS AND VALUES **************************************************/

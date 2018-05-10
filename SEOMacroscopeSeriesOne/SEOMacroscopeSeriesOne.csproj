@@ -228,6 +228,7 @@
     <Compile Include="src\MacroscopeAnalysis\MacroscopeQrCodeAnalysis\t\TestMacroscopeQrCodeAnalysis.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeRedirectChainAnalysis\MacroscopeRedirectChainDocStruct.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeRedirectChainAnalysis\MacroscopeRedirectChainAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeRedirectChainAnalysis\t\TestMacroscopeRedirectChainAnalysis.cs" />
     <Compile Include="src\MacroscopeConstants.cs" />
     <Compile Include="MacroscopePreferences.Designer.cs">
       <DependentUpon>MacroscopePreferences.settings</DependentUpon>
@@ -242,6 +243,7 @@
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\t\TestMacroscopePureTextOutLinks.cs" />
     <Compile Include="src\MacroscopeDocument\t\TestExecuteRequest.cs" />
     <Compile Include="src\MacroscopeDocument\t\TestExecuteHeadRequest.cs" />
+    <Compile Include="src\MacroscopeEnvironment\MacroscopeCheckForUpdate.cs" />
     <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesPresets.cs" />
     <Compile Include="src\MacroscopeExceptions\MacroscopeSitemapException.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayRedirectChains.cs" />
@@ -978,6 +980,7 @@
     <None Include="Resources\SEO_Macroscope_Icon_32x32.ico" />
     <None Include="Resources\SEO_Macroscope_Icon_48x48.ico" />
     <None Include="Resources\SEO_Macroscope_Icon_64x64.ico" />
+    <Content Include="CheckForUpdate.txt" />
     <Content Include="SEO_Macroscope_App_Icon_64x64.ico" />
     <None Include="Resources\seo-macroscope-splash.bmp" />
     <None Include="Resources\seo-macroscope-banner-welcome.bmp" />

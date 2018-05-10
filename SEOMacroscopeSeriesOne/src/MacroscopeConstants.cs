@@ -36,6 +36,13 @@ namespace SEOMacroscope
   public static class MacroscopeConstants
   {
 
+    /** BEGIN: Update URLs ****************************************************/
+
+    public const string CheckForUpdateUrl = "https://raw.githubusercontent.com/nazuke/SEOMacroscope/master/SEOMacroscopeSeriesOne/CheckForUpdate.txt";
+    public const string CheckForUpdateDownloadsUrl = "https://nazuke.github.io/SEOMacroscope/downloads/";
+
+    /** END: Update URLs ******************************************************/
+
     /** BEGIN: Event Logs *****************************************************/
 
     public const string MainEventLogSourceName = "SEO Macroscope";
@@ -71,16 +78,16 @@ namespace SEOMacroscope
     public const string NamedQueueUrlList = "UrlQueue";
 
     public const string NamedQueueDisplayQueue = "DisplayQueue";
-    
+
     public const string NamedQueueDisplayStructure = "DisplayStructure";
     public const string NamedQueueDisplayStructureLinkCounts = "DisplayStructureLinkCounts";
-    
+
     public const string NamedQueueDisplayHierarchy = "DisplayHierarchy";
     public const string NamedQueueDisplayCanonicalAnalysis = "DisplayCanonicalAnalysis";
     public const string NamedQueueDisplayHrefLang = "DisplayHrefLang";
     public const string NamedQueueDisplayErrors = "DisplayErrors";
     public const string NamedQueueDisplayRedirectsAudit = "DisplayRedirectsAudit";
-    public const string NamedQueueDisplayRedirectChains= "DisplayRedirectChains";
+    public const string NamedQueueDisplayRedirectChains = "DisplayRedirectChains";
     public const string NamedQueueDisplayLinks = "DisplayLinks";
     public const string NamedQueueDisplayHyperlinks = "DisplayHyperlinks";
     public const string NamedQueueDisplayUriAnalysis = "DisplayUriAnalysis";
@@ -106,13 +113,13 @@ namespace SEOMacroscope
     public const string NamedQueueDisplayHostnames = "DisplayHostnames";
 
     public const string NamedQueueDisplayCustomFilters = "DisplayCustomFilters";
-    
+
     public const string NamedQueueDisplayDataExtractorsCssSelectors = "DisplayDataExtractorsCssSelectors";
     public const string NamedQueueDisplayDataExtractorsRegexes = "DisplayDataExtractorsRegexes";
     public const string NamedQueueDisplayDataExtractorsXpaths = "DisplayDataExtractorsXpaths";
 
     public const string NamedQueueDisplayRemarks = "DisplayRemarks";
-        
+
     public const string RecalculateDocCollection = "RecalculateDocCollection";
 
     /** END: Named Queues *****************************************************/
@@ -126,7 +133,7 @@ namespace SEOMacroscope
 
     public const string tabPageSitemaps = "tabPageSitemaps";
     public const string tabPageSitemapErrors = "tabPageSitemapErrors";
-    public const string tabPageSitemapsAudit= "tabPageSitemapsAudit";
+    public const string tabPageSitemapsAudit = "tabPageSitemapsAudit";
 
     public const string tabPageCanonicalAnalysis = "tabPageCanonicalAnalysis";
     public const string tabPageHrefLangAnalysis = "tabPageHrefLangAnalysis";
@@ -283,7 +290,7 @@ namespace SEOMacroscope
 
     public const string StatusCode = "Status Code";
     public const string Status = "Status";
-    
+
     public const string IsRedirect = "Redirect";
 
     public const string RobotsRule = "Robots";
@@ -303,7 +310,7 @@ namespace SEOMacroscope
     public const string Canonical = "Canonical";
 
     public const string PageDepth = "Page Depth";
-    
+
     public const string Inlinks = "Links In";
     public const string Outlinks = "Links Out";
 
@@ -324,7 +331,7 @@ namespace SEOMacroscope
     public const string Keywords = "Keywords";
     public const string KeywordsLen = "Keywords Length";
     public const string KeywordsCount = "Keywords Count";
-    
+
     public const string BodyTextLang = "Body Text Language";
 
     public const string Hn = "First H{0}";
@@ -352,7 +359,7 @@ namespace SEOMacroscope
       MUST_NOT_HAVE_REGEX = 4
     }
 
-    public static Dictionary<MacroscopeConstants.Contains,string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains,string> () {
+    public static Dictionary<MacroscopeConstants.Contains, string> ContainsLabels = new Dictionary<MacroscopeConstants.Contains, string>() {
       {
         MacroscopeConstants.Contains.UNDEFINED,
         "UNDEFINED"
@@ -388,7 +395,7 @@ namespace SEOMacroscope
       SHOULD_NOT_CONTAIN_REGEX = 8
     }
 
-    public static Dictionary<MacroscopeConstants.TextPresence,string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence,string> () {
+    public static Dictionary<MacroscopeConstants.TextPresence, string> TextPresenceLabels = new Dictionary<MacroscopeConstants.TextPresence, string>() {
       {
         MacroscopeConstants.TextPresence.UNDEFINED,
         @"UNDEFINED"

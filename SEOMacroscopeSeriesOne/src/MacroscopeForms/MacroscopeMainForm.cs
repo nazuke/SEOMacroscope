@@ -208,6 +208,49 @@ namespace SEOMacroscope
 
       this.ScanningControlsEnable();
 
+      if( MacroscopePreferencesManager.GetAutomaticallyCheckForUpdates() )
+      {
+        this.CheckForUpdate();
+      }
+
+    }
+
+    /** Check For Update ******************************************************/
+
+    private async void CheckForUpdate ()
+    {
+
+      MacroscopeCheckForUpdate Checker = new MacroscopeCheckForUpdate();
+      DialogResult Result;
+      bool PhoneHome = false;
+
+      try
+      {
+        PhoneHome = await Checker.PhoneHome();
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "CheckForUpdate: {0}", ex.Message ) );
+      }
+
+      if( PhoneHome )
+      {
+
+        Result = MessageBox.Show(
+          "A new version of SEO Macroscope is available, go to the downloads website?",
+          "New SEO Macroscope version available",
+          MessageBoxButtons.YesNo,
+          MessageBoxIcon.Information,
+          MessageBoxDefaultButton.Button2
+        );
+
+        if( Result == DialogResult.Yes )
+        {
+          Macroscope.OpenUrlInBrowser( MacroscopeConstants.CheckForUpdateDownloadsUrl );
+        }
+
+      }
+
     }
 
     /** Self Destruct Sequence ************************************************/

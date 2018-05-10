@@ -44,6 +44,10 @@ namespace SEOMacroscope
     // Application Version
     //static string AppVersion;
 
+    /** Application Settings ----------------------------------------------- **/
+
+    static bool AutomaticallyCheckForUpdates;
+
     /** Display Options ---------------------------------------------------- **/
 
     static bool PauseDisplayDuringScan;
@@ -221,6 +225,8 @@ namespace SEOMacroscope
         else
         {
 
+          AutomaticallyCheckForUpdates = Preferences.AutomaticallyCheckForUpdates;
+
           PauseDisplayDuringScan = Preferences.PauseDisplayDuringScan;
           ShowProgressDialogues = Preferences.ShowProgressDialogues;
 
@@ -382,6 +388,10 @@ namespace SEOMacroscope
 
     public static void SetDefaultValues ()
     {
+
+      /** Application Settings --------------------------------------------- **/
+
+      AutomaticallyCheckForUpdates = true;
 
       /** Display Options -------------------------------------------------- **/
 
@@ -645,6 +655,8 @@ namespace SEOMacroscope
       if( Preferences != null )
       {
 
+        Preferences.AutomaticallyCheckForUpdates = AutomaticallyCheckForUpdates;
+
         Preferences.PauseDisplayDuringScan = PauseDisplayDuringScan;
         Preferences.ShowProgressDialogues = ShowProgressDialogues;
 
@@ -771,6 +783,18 @@ namespace SEOMacroscope
 
       }
 
+    }
+
+    /** Application Settings **************************************************/
+
+    public static bool GetAutomaticallyCheckForUpdates ()
+    {
+      return ( AutomaticallyCheckForUpdates );
+    }
+
+    public static void SetAutomaticallyCheckForUpdates ( bool State )
+    {
+      AutomaticallyCheckForUpdates = State;
     }
 
     /** Display Options *******************************************************/

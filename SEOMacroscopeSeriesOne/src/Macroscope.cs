@@ -69,7 +69,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private static string GetVersion ()
+    public static string GetVersion ()
     {
       string Location = Assembly.GetExecutingAssembly().Location;
       string Version = FileVersionInfo.GetVersionInfo( Location ).ProductVersion;
@@ -107,7 +107,7 @@ namespace SEOMacroscope
 
       if( Macroscope.Memoize.ContainsKey( Text ) )
       {
-        Digested = Macroscope.Memoize[ Text ];
+        Digested = Macroscope.Memoize[Text];
       }
       else
       {
@@ -119,16 +119,47 @@ namespace SEOMacroscope
 
         for( int i = 0 ; i < Hashed.Length ; i++ )
         {
-          Buf.Append( Hashed[ i ].ToString( "X2" ) );
+          Buf.Append( Hashed[i].ToString( "X2" ) );
         }
 
         Digested = Buf.ToString();
 
-        Macroscope.Memoize[ Text ] = Digested;
+        Macroscope.Memoize[Text] = Digested;
 
       }
 
       return ( Digested );
+    }
+
+    /** EXTERNAL BROWSER ******************************************************/
+
+    public static void OpenUrlInBrowser ( string Url )
+    {
+
+      Uri OpenUrl = null;
+
+      try
+      {
+        OpenUrl = new Uri( Url );
+      }
+      catch( UriFormatException ex )
+      {
+        throw ( ex );
+      }
+
+      if( OpenUrl != null )
+      {
+        try
+        {
+          // FIXME: bug here when opening URL with query string
+          Process.Start( OpenUrl.ToString() );
+        }
+        catch( Exception ex )
+        {
+          throw ( ex );
+        }
+      }
+
     }
 
     /**************************************************************************/
