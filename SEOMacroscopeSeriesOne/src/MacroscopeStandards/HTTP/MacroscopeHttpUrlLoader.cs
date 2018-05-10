@@ -66,12 +66,9 @@ namespace SEOMacroscope
     public async Task<MemoryStream> LoadMemoryStreamFromUrl ( MacroscopeJobMaster JobMaster, Uri TargetUri )
     {
       MemoryStream MemStream = null;
-     byte[] ByteData = await this._LoadMemoryStreamFromUrl( JobMaster: JobMaster, TargetUri: TargetUri );
-
+      byte[] ByteData = await this._LoadMemoryStreamFromUrl( JobMaster: JobMaster, TargetUri: TargetUri );
       MemStream = new MemoryStream( ByteData );
-
       return ( MemStream );
-
     }
 
     /** -------------------------------------------------------------------- **/
@@ -93,25 +90,25 @@ namespace SEOMacroscope
         );
 
       }
-      catch ( MacroscopeDocumentException ex )
+      catch( MacroscopeDocumentException ex )
       {
         this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
         this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", TargetUri.ToString() ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
         this.DebugMsg( string.Format( "Exception: {0}", TargetUri.ToString() ) );
       }
 
-      if ( Response != null )
+      if( Response != null )
       {
 
         try
         {
           ByteData = Response.GetContentAsBytes();
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
         }
@@ -126,6 +123,57 @@ namespace SEOMacroscope
 
     }
 
+    /** Load Data Immediately *************************************************/
+
+    public async Task<byte[]> LoadImmediateDataFromUrl ( MacroscopeHttpTwoClient Client, Uri TargetUri )
+    {
+
+      MacroscopeHttpTwoClientResponse Response = null;
+      byte[] ByteData = null;
+
+      try
+      {
+
+        Response = await Client.Get(
+          TargetUri,
+          this.ConfigureHeadRequestHeadersCallback,
+          this.PostProcessRequestHttpHeadersCallback
+        );
+
+      }
+      catch( MacroscopeDocumentException ex )
+      {
+        this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", TargetUri.ToString() ) );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        this.DebugMsg( string.Format( "Exception: {0}", TargetUri.ToString() ) );
+      }
+
+      if( Response != null )
+      {
+
+        try
+        {
+          ByteData = Response.GetContentAsBytes();
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
+        }
+
+      }
+      else
+      {
+        this.DebugMsg( "NULL" );
+      }
+
+      return ( ByteData );
+
+    }
+    
     /**************************************************************************/
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )

@@ -2753,8 +2753,14 @@ namespace SEOMacroscope
       if( msDoc.GetIsRedirect() )
       {
 
-        MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis( DocCollection: this );
-        List<MacroscopeRedirectChainDocStruct> AnalyzedRedirectChain = await Analyzer.AnalyzeRedirectChains( msDocStart: msDoc );
+        MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis( Client: this.GetJobMaster().GetHttpClient() );
+        List<MacroscopeRedirectChainDocStruct> AnalyzedRedirectChain;
+
+        AnalyzedRedirectChain = await Analyzer.AnalyzeRedirectChains(
+          StatusCode: msDoc.GetStatusCode(),
+          StartUrl: msDoc.GetUrl(),
+          RedirectUrl: msDoc.GetUrlRedirectTo()
+        );
 
         try
         {

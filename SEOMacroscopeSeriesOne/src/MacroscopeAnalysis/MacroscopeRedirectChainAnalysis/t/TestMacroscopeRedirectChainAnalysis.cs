@@ -24,31 +24,39 @@
 */
 
 using System;
+using NUnit.Framework;
 using System.Net;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
 
-  public struct MacroscopeRedirectChainDocStruct
+  [TestFixture]
+  public class TestMacroscopeRedirectChainAnalysis : Macroscope
   {
 
     /**************************************************************************/
 
-    public HttpStatusCode StatusCode;
-    public string Url;
-    public string RedirectUrl;
-
-    /**************************************************************************/
-
-    public MacroscopeRedirectChainDocStruct (
-      HttpStatusCode NewStatusCode,
-      string NewUrl,
-      string NewRedirectUrl
-    )
+    [Test]
+    public async Task TestAnalyzeRedirectChains ()
     {
-      StatusCode = NewStatusCode;
-      Url = NewUrl;
-      RedirectUrl = NewRedirectUrl;
+
+      MacroscopeHttpTwoClient HttpClient = new MacroscopeHttpTwoClient();
+
+      MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis( Client: HttpClient );
+      List<MacroscopeRedirectChainDocStruct> AnalyzedRedirectChain;
+
+      AnalyzedRedirectChain = await Analyzer.AnalyzeRedirectChains(
+        StatusCode: HttpStatusCode.Redirect,
+        StartUrl: "https://httpbin.org/redirect/10",
+        RedirectUrl: "https://httpbin.org/redirect/9"
+      );
+
+      this.DebugMsg( string.Format( "AnalyzedRedirectChain: {0}", AnalyzedRedirectChain.GetHashCode() ) );
+
+      Assert.AreEqual( 11, AnalyzedRedirectChain.Count );
+
     }
 
     /**************************************************************************/

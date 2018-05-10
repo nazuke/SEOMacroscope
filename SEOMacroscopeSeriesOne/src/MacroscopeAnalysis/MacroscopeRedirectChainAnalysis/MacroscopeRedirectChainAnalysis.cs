@@ -39,78 +39,84 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    MacroscopeDocumentCollection DocumentCollection;
+    MacroscopeHttpTwoClient HttpClient;
 
     /**************************************************************************/
 
-    public MacroscopeRedirectChainAnalysis ( MacroscopeDocumentCollection DocCollection ) : base()
+    public MacroscopeRedirectChainAnalysis ( MacroscopeHttpTwoClient Client ) : base()
     {
-      this.DocumentCollection = DocCollection;
+      this.HttpClient = Client;
     }
 
     /**************************************************************************/
 
-    public async Task<List<MacroscopeRedirectChainDocStruct>> AnalyzeRedirectChains ( MacroscopeDocument msDocStart )
+    public async Task<List<MacroscopeRedirectChainDocStruct>> AnalyzeRedirectChains (
+      HttpStatusCode StatusCode,
+      string StartUrl,
+      string RedirectUrl
+    )
     {
 
       List<MacroscopeRedirectChainDocStruct> RedirectChain = new List<MacroscopeRedirectChainDocStruct>();
       int MaxHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops() - 1;
+      MacroscopeRedirectChainDocStruct StructStart;
+      string PrevUrl = null;
+      string NextUrl = null;
+      int IHOP = 0;
 
-      if( msDocStart.GetIsRedirect() )
+      StructStart = new MacroscopeRedirectChainDocStruct(
+        NewStatusCode: StatusCode,
+        NewUrl: StartUrl,
+        NewRedirectUrl: RedirectUrl
+      );
+
+      RedirectChain.Add( StructStart );
+
+      PrevUrl = StructStart.Url;
+      NextUrl = StructStart.RedirectUrl;
+
+      do
       {
 
-        MacroscopeRedirectChainDocStruct StructStart;
-        HttpStatusCode StatusCode = msDocStart.GetStatusCode();
-        string Url = msDocStart.GetUrl();
-        string RedirectUrl = msDocStart.GetUrlRedirectTo();
-        int IHOP = 1;
+        this.DebugMsg( string.Format( "PrevUrl: {0}", PrevUrl ) );
+        this.DebugMsg( string.Format( "NextUrl: {0}", NextUrl ) );
 
-        StructStart = new MacroscopeRedirectChainDocStruct(
-          NewStatusCode: StatusCode,
-          NewUrl: Url,
-          NewRedirectUrl: RedirectUrl
-        );
-
-        RedirectChain.Add( StructStart );
-
-        do
+        if( !string.IsNullOrEmpty( PrevUrl ) )
         {
-
-          MacroscopeRedirectChainDocStruct StructNext = await this.Probe( Url: RedirectUrl );
-
-          RedirectChain.Add( StructNext );
-
-          switch( StructNext.StatusCode )
-          {
-            case HttpStatusCode.Moved:
-              Url = RedirectUrl;
-              RedirectUrl = StructNext.RedirectUrl;
-              break;
-            case HttpStatusCode.Redirect:
-              Url = RedirectUrl;
-              RedirectUrl = StructNext.RedirectUrl;
-              break;
-            case HttpStatusCode.SeeOther:
-              Url = RedirectUrl;
-              RedirectUrl = StructNext.RedirectUrl;
-              break;
-            case HttpStatusCode.TemporaryRedirect:
-              Url = RedirectUrl;
-              RedirectUrl = StructNext.RedirectUrl;
-              break;
-            default:
-              IHOP = MaxHops;
-              break;
-          }
-
-          this.DebugMsg( string.Format( "AnalyzeRedirectChains: {0}", RedirectUrl ) );
-
-          IHOP++;
-
+          NextUrl = MacroscopeHttpUrlUtils.MakeUrlAbsolute( PrevUrl, NextUrl );
         }
-        while( IHOP < MaxHops );
+
+        this.DebugMsg( string.Format( "PrevUrl: {0}", PrevUrl ) );
+        this.DebugMsg( string.Format( "NextUrl: {0}", NextUrl ) );
+
+        MacroscopeRedirectChainDocStruct StructNext = await this.Probe( Url: NextUrl );
+
+        RedirectChain.Add( StructNext );
+
+        PrevUrl = StructNext.Url;
+        NextUrl = StructNext.RedirectUrl;
+
+        switch( StructNext.StatusCode )
+        {
+          case HttpStatusCode.Found:
+            break;
+          case HttpStatusCode.Moved:
+            break;
+          case HttpStatusCode.SeeOther:
+            break;
+          case HttpStatusCode.TemporaryRedirect:
+            break;
+          default:
+            IHOP = MaxHops;
+            break;
+        }
+
+        this.DebugMsg( string.Format( "IHOP: {0}", IHOP ) );
+
+        IHOP++;
 
       }
+      while( IHOP <= MaxHops );
 
       return ( RedirectChain );
 
@@ -120,7 +126,9 @@ namespace SEOMacroscope
 
     private async Task<MacroscopeRedirectChainDocStruct> Probe ( string Url )
     {
+
       MacroscopeRedirectChainDocStruct RedirectChainDocStruct = new MacroscopeRedirectChainDocStruct();
+
       try
       {
         RedirectChainDocStruct = await this._ExecuteHeadCheck( Url: Url );
@@ -129,7 +137,9 @@ namespace SEOMacroscope
       {
         this.DebugMsg( string.Format( "_Probe :: Exception: {0}", ex.Message ) );
       }
+
       return ( RedirectChainDocStruct );
+
     }
 
     /** Execute Head Request **************************************************/
@@ -137,7 +147,6 @@ namespace SEOMacroscope
     private async Task<MacroscopeRedirectChainDocStruct> _ExecuteHeadCheck ( string Url )
     {
 
-      MacroscopeHttpTwoClient Client = this.DocumentCollection.GetJobMaster().GetHttpClient();
       MacroscopeHttpTwoClientResponse ClientResponse = null;
       Uri DocUri = null;
       MacroscopeRedirectChainDocStruct RedirectChainDocStruct = new MacroscopeRedirectChainDocStruct();
@@ -147,7 +156,7 @@ namespace SEOMacroscope
 
         DocUri = new Uri( Url );
 
-        ClientResponse = await Client.Head(
+        ClientResponse = await this.HttpClient.Head(
           DocUri,
           this.ConfigureHeadRequestHeadersCallback,
           this.PostProcessRequestHttpHeadersCallback
@@ -197,6 +206,10 @@ namespace SEOMacroscope
       /** HTTP Status Code ------------------------------------------------- **/
 
       RedirectChainDocStruct.StatusCode = Response.GetResponse().StatusCode;
+
+      /** URL ------------------------------------------------- **/
+
+      RedirectChainDocStruct.Url = Url;
 
       /** Location HTTP Header --------------------------------------------- **/
 
