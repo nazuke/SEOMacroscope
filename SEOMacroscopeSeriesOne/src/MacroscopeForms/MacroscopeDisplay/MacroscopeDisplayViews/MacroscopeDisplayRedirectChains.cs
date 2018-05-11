@@ -55,7 +55,7 @@ namespace SEOMacroscope
 
       this.MaximumHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops();
 
-      if ( this.MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -77,7 +77,7 @@ namespace SEOMacroscope
 
     protected override void ConfigureListView ()
     {
-      if ( !this.ListViewConfigured )
+      if( !this.ListViewConfigured )
       {
         this.ConfigureListViewColumns();
         this.ListViewConfigured = true;
@@ -88,7 +88,7 @@ namespace SEOMacroscope
 
     public new void ClearData ()
     {
-      if ( this.MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -119,7 +119,7 @@ namespace SEOMacroscope
     {
       this.MaximumHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops();
       this.DisplayListView.Columns.Clear();
-      for ( int iHop = 1 ; iHop <= this.MaximumHops ; iHop++ )
+      for( int iHop = 1 ; iHop <= this.MaximumHops ; iHop++ )
       {
         this.DisplayListView.Columns.Add( string.Format( "HOP_{0}_URL", iHop ), string.Format( "Hop {0} URL", iHop ) );
         this.DisplayListView.Columns.Add( string.Format( "HOP_{0}_STATUS", iHop ), string.Format( "Hop {0} Status", iHop ) );
@@ -132,12 +132,12 @@ namespace SEOMacroscope
     public void RefreshDataRedirectChains ( MacroscopeDocumentCollection DocCollection )
     {
 
-      if ( DocCollection.CountDocuments() <= 0 )
+      if( DocCollection.CountDocuments() <= 0 )
       {
         return;
       }
 
-      if ( this.MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -178,7 +178,7 @@ namespace SEOMacroscope
       decimal TotalDocs = (decimal) DocCollection.CountDocuments();
       decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
 
-      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
 
         ProgressForm.ControlBox = false;
@@ -192,12 +192,12 @@ namespace SEOMacroscope
 
       }
 
-      foreach ( List<MacroscopeRedirectChainDocStruct> DocList in RedirectChains )
+      foreach( List<MacroscopeRedirectChainDocStruct> DocList in RedirectChains )
       {
 
         Application.DoEvents();
 
-        if ( DocList.Count > 0 )
+        if( DocList.Count > 0 )
         {
 
           try
@@ -208,14 +208,14 @@ namespace SEOMacroscope
               DocList: DocList
             );
           }
-          catch ( Exception ex )
+          catch( Exception ex )
           {
             this.DebugMsg( string.Format( "RenderListViewRedirectChains 1: {0}", ex.Message ) );
           }
 
         }
 
-        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
 
           Count++;
@@ -236,7 +236,7 @@ namespace SEOMacroscope
       this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
       this.DisplayListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
 
-      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
@@ -258,21 +258,13 @@ namespace SEOMacroscope
       string PairKey = string.Join( "", DocList[ 0 ].Url );
       int IHOP = 0;
 
-      // TODO: Fix this:
-      /*
-      if ( DocList[ 0 ].GetIsExternal() )
-      {
-        return;
-      }
-      */
-
-      if ( this.DisplayListView.Items.ContainsKey( PairKey ) )
+      if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
         try
         {
           lvItem = this.DisplayListView.Items[ PairKey ];
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           this.DebugMsg( string.Format( "MacroscopeDisplayRedirectChains 1: {0}", ex.Message ) );
         }
@@ -285,27 +277,23 @@ namespace SEOMacroscope
           lvItem.UseItemStyleForSubItems = false;
           lvItem.Name = PairKey;
           lvItem.SubItems[ 0 ].Text = "";
-          for ( int i = 1 ; i < ( this.MaximumHops * 2 ) ; i++ )
+          for( int i = 1 ; i < ( this.MaximumHops * 2 ) ; i++ )
           {
             lvItem.SubItems.Add( "" );
           }
           ListViewItems.Add( lvItem );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           this.DebugMsg( string.Format( "MacroscopeDisplayRedirectChains 2: {0}", ex.Message ) );
         }
       }
 
-      foreach ( MacroscopeRedirectChainDocStruct RedirectChainDocStruct in DocList )
+      foreach( MacroscopeRedirectChainDocStruct RedirectChainDocStruct in DocList )
       {
 
         string Url = RedirectChainDocStruct.Url;
         string StatusCode = RedirectChainDocStruct.StatusCode.ToString();
-
-        // TODO: Fix this:
-        //        bool IsInternal = msDoc.GetIsInternal();
-                bool IsInternal = true;
 
         if( IHOP > ( this.MaximumHops * 2 ) )
         {
@@ -316,29 +304,15 @@ namespace SEOMacroscope
         {
 
           lvItem.SubItems[ IHOP ].Text = Url;
-          if ( IsInternal )
-          {
-            lvItem.SubItems[ IHOP ].ForeColor = Color.Green;
-          }
-          else
-          {
-            lvItem.SubItems[ IHOP ].ForeColor = Color.Gray;
-          }
+          lvItem.SubItems[ IHOP ].ForeColor = Color.Blue;
           IHOP++;
 
           lvItem.SubItems[ IHOP ].Text = StatusCode.ToString();
-          if ( IsInternal )
-          {
-            lvItem.SubItems[ IHOP ].ForeColor = Color.Green;
-          }
-          else
-          {
-            lvItem.SubItems[ IHOP ].ForeColor = Color.Gray;
-          }
+          lvItem.SubItems[ IHOP ].ForeColor = Color.Blue;
           IHOP++;
 
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           this.DebugMsg( string.Format( "MacroscopeDisplayRedirectChains 1: {0}", ex.Message ) );
         }
