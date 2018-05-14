@@ -39,30 +39,32 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    MacroscopeHttpTwoClient HttpClient;
+    private MacroscopeHttpTwoClient HttpClient;
+    private Dictionary<string, MacroscopeRedirectChainDocStruct> RedirectChainDocCache;
 
     /**************************************************************************/
 
     public MacroscopeRedirectChainAnalysis ( MacroscopeHttpTwoClient Client ) : base()
     {
       this.HttpClient = Client;
+      this.RedirectChainDocCache = new Dictionary<string, MacroscopeRedirectChainDocStruct>();
     }
 
     /**************************************************************************/
 
     public async Task<List<MacroscopeRedirectChainDocStruct>> AnalyzeRedirectChains (
-      HttpStatusCode StatusCode,
-      string StartUrl,
-      string RedirectUrl
-    )
+        HttpStatusCode StatusCode,
+        string StartUrl,
+        string RedirectUrl
+      )
     {
 
       List<MacroscopeRedirectChainDocStruct> RedirectChain = new List<MacroscopeRedirectChainDocStruct>();
       int MaxHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops() - 1;
       MacroscopeRedirectChainDocStruct StructStart;
+      int IHOP = 0;
       string PrevUrl = null;
       string NextUrl = null;
-      int IHOP = 0;
 
       StructStart = new MacroscopeRedirectChainDocStruct(
         NewStatusCode: StatusCode,
@@ -116,7 +118,7 @@ namespace SEOMacroscope
         IHOP++;
 
       }
-      while( IHOP <= MaxHops );
+      while( IHOP < MaxHops );
 
       return ( RedirectChain );
 
@@ -127,15 +129,35 @@ namespace SEOMacroscope
     private async Task<MacroscopeRedirectChainDocStruct> Probe ( string Url )
     {
 
-      MacroscopeRedirectChainDocStruct RedirectChainDocStruct = new MacroscopeRedirectChainDocStruct();
+      MacroscopeRedirectChainDocStruct RedirectChainDocStruct;
 
-      try
+      if( this.RedirectChainDocCache.ContainsKey( Url ) )
       {
-        RedirectChainDocStruct = await this._ExecuteHeadCheck( Url: Url );
+        lock( this.RedirectChainDocCache )
+        {
+        RedirectChainDocStruct = this.RedirectChainDocCache[ Url ];
+        }
       }
-      catch( Exception ex )
+      else
       {
-        this.DebugMsg( string.Format( "_Probe :: Exception: {0}", ex.Message ) );
+        RedirectChainDocStruct = new MacroscopeRedirectChainDocStruct();
+        try
+        {
+          RedirectChainDocStruct = await this._ExecuteHeadCheck( Url: Url );
+          lock( this.RedirectChainDocCache )
+          {
+            if( this.RedirectChainDocCache.ContainsKey( Url ) )
+            {
+              this.RedirectChainDocCache.Remove( Url );
+            }
+            this.RedirectChainDocCache.Add( Url, RedirectChainDocStruct );
+          }
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "_Probe :: Exception: {0}", ex.Message ) );
+        }
+
       }
 
       return ( RedirectChainDocStruct );
@@ -162,10 +184,6 @@ namespace SEOMacroscope
           this.PostProcessRequestHttpHeadersCallback
          );
 
-      }
-      catch( MacroscopeDocumentException ex )
-      {
-        this.DebugMsg( string.Format( "_ExecuteHeadCheck :: MacroscopeDocumentException: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {

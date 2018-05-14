@@ -55,7 +55,7 @@ namespace SEOMacroscope
 
       this.DebugMsg( string.Format( "AnalyzedRedirectChain: {0}", AnalyzedRedirectChain.GetHashCode() ) );
 
-      Assert.AreEqual( 11, AnalyzedRedirectChain.Count );
+      Assert.AreEqual( 10, AnalyzedRedirectChain.Count );
 
     }
 

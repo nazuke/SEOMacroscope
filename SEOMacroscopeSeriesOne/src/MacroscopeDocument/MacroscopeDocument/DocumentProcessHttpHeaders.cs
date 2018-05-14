@@ -126,7 +126,7 @@ namespace SEOMacroscope
             IsRedirectUrl = true;
             break;
 
-          case HttpStatusCode.Redirect:
+          case HttpStatusCode.Found:
             this.SetErrorCondition( HttpStatusCode.Redirect.ToString() );
             IsRedirectUrl = true;
             break;

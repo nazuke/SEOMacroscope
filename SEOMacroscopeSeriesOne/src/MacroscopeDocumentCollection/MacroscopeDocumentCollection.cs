@@ -2775,6 +2775,10 @@ namespace SEOMacroscope
         }
 
       }
+      else
+      {
+        this.DebugMsg( string.Format( "DOC: {0}", msDoc.GetUrl() ) );
+      }
 
       return;
 
