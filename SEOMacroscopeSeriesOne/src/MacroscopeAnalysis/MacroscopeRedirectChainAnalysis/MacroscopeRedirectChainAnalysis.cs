@@ -60,7 +60,7 @@ namespace SEOMacroscope
     {
 
       List<MacroscopeRedirectChainDocStruct> RedirectChain = new List<MacroscopeRedirectChainDocStruct>();
-      int MaxHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops() - 1;
+      int MaxHops = MacroscopePreferencesManager.GetRedirectChainsMaxHops();
       MacroscopeRedirectChainDocStruct StructStart;
       int IHOP = 0;
       string PrevUrl = null;
@@ -80,18 +80,14 @@ namespace SEOMacroscope
       do
       {
 
-        this.DebugMsg( string.Format( "PrevUrl: {0}", PrevUrl ) );
-        this.DebugMsg( string.Format( "NextUrl: {0}", NextUrl ) );
+        MacroscopeRedirectChainDocStruct StructNext;
 
         if( !string.IsNullOrEmpty( PrevUrl ) )
         {
           NextUrl = MacroscopeHttpUrlUtils.MakeUrlAbsolute( PrevUrl, NextUrl );
         }
 
-        this.DebugMsg( string.Format( "PrevUrl: {0}", PrevUrl ) );
-        this.DebugMsg( string.Format( "NextUrl: {0}", NextUrl ) );
-
-        MacroscopeRedirectChainDocStruct StructNext = await this.Probe( Url: NextUrl );
+        StructNext = await this.Probe( Url: NextUrl );
 
         RedirectChain.Add( StructNext );
 
@@ -113,8 +109,6 @@ namespace SEOMacroscope
             break;
         }
 
-        this.DebugMsg( string.Format( "IHOP: {0}", IHOP ) );
-
         IHOP++;
 
       }
@@ -135,7 +129,7 @@ namespace SEOMacroscope
       {
         lock( this.RedirectChainDocCache )
         {
-        RedirectChainDocStruct = this.RedirectChainDocCache[ Url ];
+          RedirectChainDocStruct = this.RedirectChainDocCache[ Url ];
         }
       }
       else
@@ -253,8 +247,6 @@ namespace SEOMacroscope
         }
       }
 
-      this.DebugMsg( string.Format( "RedirectChainDocStruct.TargetUrl: {0}", RedirectChainDocStruct.RedirectUrl ) );
-
       /** ------------------------------------------------------------------ **/
 
       return ( RedirectChainDocStruct );
@@ -270,11 +262,9 @@ namespace SEOMacroscope
       bool Success = false;
       foreach( KeyValuePair<string, IEnumerable<string>> ResponseHeader in ResponseHeaders )
       {
-        this.DebugMsg( string.Format( "ResponseHeader.key: {0} :: {1}", HeaderName.ToLower(), ResponseHeader.Key.ToLower() ) );
         if( ResponseHeader.Key.ToLower().Equals( HeaderName.ToLower() ) )
         {
           IEnumerable<string> HeaderValues = ResponseHeader.Value;
-          this.DebugMsg( string.Format( "FindHttpRequestHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
           Success = Callback( HeaderValues );
           break;
         }
@@ -289,11 +279,9 @@ namespace SEOMacroscope
       bool Success = false;
       foreach( KeyValuePair<string, IEnumerable<string>> ContentHeader in ContentHeaders )
       {
-        this.DebugMsg( string.Format( "ContentHeader.key: {0} :: {1}", HeaderName.ToLower(), ContentHeader.Key.ToLower() ) );
         if( ContentHeader.Key.ToLower().Equals( HeaderName.ToLower() ) )
         {
           IEnumerable<string> HeaderValues = ContentHeader.Value;
-          this.DebugMsg( string.Format( "FindHttpContentHeader: {0} :: {1}", HeaderName, HeaderValues.First() ) );
           Success = Callback( HeaderValues );
           break;
         }

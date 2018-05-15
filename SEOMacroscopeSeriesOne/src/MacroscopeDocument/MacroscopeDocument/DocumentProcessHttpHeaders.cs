@@ -90,8 +90,6 @@ namespace SEOMacroscope
     private void ProcessResponseHttpHeaders ( MacroscopeHttpTwoClientResponse Response )
     {
 
-      bool IsRedirectUrl = false;
-
       HttpResponseMessage ResponseMessage = Response.GetResponse();
       HttpResponseHeaders ResponseHeaders = ResponseMessage.Headers;
       HttpContentHeaders ContentHeaders = ResponseMessage.Content.Headers;
@@ -111,66 +109,66 @@ namespace SEOMacroscope
           // 200 Range
 
           case HttpStatusCode.OK:
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           // 300 Range
 
           case HttpStatusCode.Moved:
             this.SetErrorCondition( HttpStatusCode.Moved.ToString() );
-            IsRedirectUrl = true;
+            this.SetIsRedirect();
             break;
 
           case HttpStatusCode.SeeOther:
             this.SetErrorCondition( HttpStatusCode.SeeOther.ToString() );
-            IsRedirectUrl = true;
+            this.SetIsRedirect();
             break;
 
           case HttpStatusCode.Found:
             this.SetErrorCondition( HttpStatusCode.Redirect.ToString() );
-            IsRedirectUrl = true;
+            this.SetIsRedirect();
             break;
 
           // 400 Range
 
           case HttpStatusCode.BadRequest:
             this.SetErrorCondition( HttpStatusCode.BadRequest.ToString() );
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           case HttpStatusCode.Unauthorized:
             this.SetErrorCondition( HttpStatusCode.Unauthorized.ToString() );
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           case HttpStatusCode.PaymentRequired:
             this.SetErrorCondition( HttpStatusCode.PaymentRequired.ToString() );
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           case HttpStatusCode.Forbidden:
             this.SetErrorCondition( HttpStatusCode.Forbidden.ToString() );
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           case HttpStatusCode.NotFound:
             this.SetErrorCondition( HttpStatusCode.NotFound.ToString() );
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           case HttpStatusCode.MethodNotAllowed:
             this.SetErrorCondition( HttpStatusCode.MethodNotAllowed.ToString() );
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           case HttpStatusCode.Gone:
             this.SetErrorCondition( HttpStatusCode.Gone.ToString() );
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           case HttpStatusCode.RequestUriTooLong:
             this.SetErrorCondition( HttpStatusCode.RequestUriTooLong.ToString() );
-            IsRedirectUrl = false;
+            this.SetIsNotRedirect();
             break;
 
           // Unhandled
@@ -184,11 +182,6 @@ namespace SEOMacroscope
       catch( MacroscopeDocumentException ex )
       {
         this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
-      }
-
-      if( IsRedirectUrl )
-      {
-        this.SetIsRedirect();
       }
 
       /** Raw HTTP Headers ------------------------------------------------- **/

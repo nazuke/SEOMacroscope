@@ -38,24 +38,29 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    const int MaxHops = 10;
+
+    /**************************************************************************/
+
     [Test]
     public async Task TestAnalyzeRedirectChains ()
     {
 
       MacroscopeHttpTwoClient HttpClient = new MacroscopeHttpTwoClient();
-
       MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis( Client: HttpClient );
       List<MacroscopeRedirectChainDocStruct> AnalyzedRedirectChain;
 
+      MacroscopePreferencesManager.SetRedirectChainsMaxHops( Max: 100 );
+
       AnalyzedRedirectChain = await Analyzer.AnalyzeRedirectChains(
         StatusCode: HttpStatusCode.Redirect,
-        StartUrl: "https://httpbin.org/redirect/10",
-        RedirectUrl: "https://httpbin.org/redirect/9"
+        StartUrl: string.Format( "https://httpbin.org/redirect/{0}", MaxHops ),
+        RedirectUrl: string.Format( "https://httpbin.org/redirect/{0}", MaxHops - 1 )
       );
 
       this.DebugMsg( string.Format( "AnalyzedRedirectChain: {0}", AnalyzedRedirectChain.GetHashCode() ) );
 
-      Assert.AreEqual( 10, AnalyzedRedirectChain.Count );
+      Assert.AreEqual( MaxHops + 1, AnalyzedRedirectChain.Count );
 
     }
 

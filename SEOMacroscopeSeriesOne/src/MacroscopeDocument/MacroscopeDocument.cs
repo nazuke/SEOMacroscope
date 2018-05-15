@@ -421,10 +421,14 @@ namespace SEOMacroscope
       this.FetchStatus = Status;
     }
 
+    /** -------------------------------------------------------------------- **/
+
     public void ClearFetchStatus ()
     {
       this.FetchStatus = MacroscopeConstants.FetchStatus.VOID;
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public MacroscopeConstants.FetchStatus GetFetchStatus ()
     {
@@ -826,6 +830,13 @@ namespace SEOMacroscope
     public void SetIsRedirect ()
     {
       this.IsRedirect = true;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void SetIsNotRedirect ()
+    {
+      this.IsRedirect = false;
     }
 
     /** -------------------------------------------------------------------- **/
