@@ -283,6 +283,7 @@
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelOverviewReport\t\TestMacroscopeExcelOverviewReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageContentsReport\t\TestMacroscopeExcelPageContentsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageMetadataReport\t\TestMacroscopeExcelPageMetadataReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageMetadataReport\WorksheetCombinedTextMetadata.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRedirectsReport\t\TestMacroscopeExcelRedirectsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRedirectsReport\WorksheetRedirectChains.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelRobotsReport\t\TestMacroscopeExcelRobotsReport.cs" />

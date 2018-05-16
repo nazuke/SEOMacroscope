@@ -108,9 +108,9 @@ namespace SEOMacroscope
 
           iCol = 1;
 
-          string Title = msDoc.GetTitle();
           string PageLanguage = msDoc.GetIsoLanguageCode();
           string DetectedLanguage = msDoc.GetTitleLanguage();
+          string Title = msDoc.GetTitle();
           int Occurrences = 0;
           int TitleLength = msDoc.GetTitleLength();
           int TitlePixelWidth = msDoc.GetTitlePixelWidth();
