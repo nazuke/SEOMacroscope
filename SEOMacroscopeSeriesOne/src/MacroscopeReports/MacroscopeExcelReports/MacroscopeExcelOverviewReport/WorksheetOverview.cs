@@ -116,7 +116,10 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Ratio Out";
         iCol++;
-        
+
+        ws.Cell( iRow, iCol ).Value = "Author";
+        iCol++;
+
         ws.Cell( iRow, iCol ).Value = "Title";
         iCol++;
 
@@ -213,6 +216,9 @@ namespace SEOMacroscope
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetAuthor() );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetTitle() ) );

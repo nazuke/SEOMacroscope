@@ -67,6 +67,7 @@ namespace SEOMacroscope
         ws.WriteField( "Hyperlinks Out" );
         ws.WriteField( "Ration In" );
         ws.WriteField( "Ratio Out" );
+        ws.WriteField( "Author" );
         ws.WriteField( "Title" );
         ws.WriteField( "Title Length" );
         ws.WriteField( "Description" );
@@ -122,6 +123,8 @@ namespace SEOMacroscope
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( string.Format( "{0:0.00}%", HyperlinkRatio[ 0 ] ) ) );
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) ) );
+
+        this.InsertAndFormatContentCell( ws, msDoc.GetAuthor() );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetTitle() ) );
 

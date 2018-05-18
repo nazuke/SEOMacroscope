@@ -58,7 +58,7 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Keywords";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Keywords Length";
         iCol++;
 
@@ -70,7 +70,7 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         bool Proceed = false;
@@ -79,13 +79,13 @@ namespace SEOMacroscope
         {
           continue;
         }
-        
+
         if( msDoc.GetIsRedirect() )
         {
           continue;
         }
 
-        switch ( msDoc.GetDocumentType() )
+        switch( msDoc.GetDocumentType() )
         {
           case MacroscopeConstants.DocumentType.HTML:
             Proceed = true;
@@ -97,7 +97,7 @@ namespace SEOMacroscope
             break;
         }
 
-        if ( Proceed )
+        if( Proceed )
         {
 
           iCol = 1;
@@ -132,15 +132,15 @@ namespace SEOMacroscope
           this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Keywords ) );
 
           iCol++;
-          
+
           this.InsertAndFormatContentCell( ws, iRow, iCol, KeywordsLength );
 
           iCol++;
-          
+
           this.InsertAndFormatContentCell( ws, iRow, iCol, KeywordsNumber );
 
           iRow++;
-          
+
         }
 
       }

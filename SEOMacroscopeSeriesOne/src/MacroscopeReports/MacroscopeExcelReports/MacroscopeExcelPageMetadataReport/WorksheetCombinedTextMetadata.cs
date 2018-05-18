@@ -59,6 +59,9 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Detected Language";
         iCol++;
 
+        ws.Cell( iRow, iCol ).Value = "Author";
+        iCol++;
+
         ws.Cell( iRow, iCol ).Value = "Title";
         iCol++;
 
@@ -107,6 +110,7 @@ namespace SEOMacroscope
 
           string PageLanguage = msDoc.GetIsoLanguageCode();
           string DetectedLanguage = msDoc.GetTitleLanguage();
+          string Author = msDoc.GetAuthor();
           string Title = msDoc.GetTitle();
           string Description = msDoc.GetDescription();
           string Keywords = msDoc.GetKeywords();
@@ -124,7 +128,17 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( PageLanguage ) );
+          switch( msDoc.GetDocumentType() )
+          {
+            case MacroscopeConstants.DocumentType.HTML:
+              this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( PageLanguage ) );
+              break;
+            case MacroscopeConstants.DocumentType.PDF:
+              this.InsertAndFormatContentCell( ws, iRow, iCol, PageLanguage );
+              break;
+            default:
+              break;
+          }
 
           if( PageLanguage != DetectedLanguage )
           {
@@ -144,6 +158,15 @@ namespace SEOMacroscope
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
           }
           else
+          {
+            ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+          }
+
+          iCol++;
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Author ) );
+
+          if( Author.Length > 0 )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
           }

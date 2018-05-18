@@ -55,16 +55,16 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Page Language";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Detected Language";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Occurrences";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Title";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Title Length";
         iCol++;
 
@@ -76,7 +76,7 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         bool Proceed = false;
@@ -85,13 +85,13 @@ namespace SEOMacroscope
         {
           continue;
         }
-        
+
         if( msDoc.GetIsRedirect() )
         {
           continue;
         }
 
-        switch ( msDoc.GetDocumentType() )
+        switch( msDoc.GetDocumentType() )
         {
           case MacroscopeConstants.DocumentType.HTML:
             Proceed = true;
@@ -103,7 +103,7 @@ namespace SEOMacroscope
             break;
         }
 
-        if ( Proceed )
+        if( Proceed )
         {
 
           iCol = 1;
@@ -133,7 +133,17 @@ namespace SEOMacroscope
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( PageLanguage ) );
+          switch( msDoc.GetDocumentType() )
+          {
+            case MacroscopeConstants.DocumentType.HTML:
+              this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( PageLanguage ) );
+              break;
+            case MacroscopeConstants.DocumentType.PDF:
+              this.InsertAndFormatContentCell( ws, iRow, iCol, PageLanguage );
+              break;
+            default:
+              break;
+          }
 
           if( PageLanguage != DetectedLanguage )
           {
@@ -185,7 +195,7 @@ namespace SEOMacroscope
           }
 
           iCol++;
-          
+
           this.InsertAndFormatContentCell( ws, iRow, iCol, TitleLength );
 
           if( TitleLength < MacroscopePreferencesManager.GetTitleMinLen() )
@@ -203,9 +213,9 @@ namespace SEOMacroscope
           }
 
           iCol++;
-          
+
           this.InsertAndFormatContentCell( ws, iRow, iCol, TitlePixelWidth );
-          
+
           if( TitlePixelWidth > MacroscopePreferencesManager.GetTitleMaxPixelWidth() )
           {
             ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
@@ -226,7 +236,7 @@ namespace SEOMacroscope
           }
 
           iRow++;
-          
+
         }
 
       }

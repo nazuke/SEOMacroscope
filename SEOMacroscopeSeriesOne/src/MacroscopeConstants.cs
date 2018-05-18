@@ -320,6 +320,8 @@ namespace SEOMacroscope
     public const string HyperlinksInRatio = "Ratio In";
     public const string HyperlinksOutRatio = "Ratio Out";
 
+    public const string Author = "Author";
+
     public const string Title = "Title";
     public const string TitleLen = "Title Length";
     public const string TitleLang = "Title Language";

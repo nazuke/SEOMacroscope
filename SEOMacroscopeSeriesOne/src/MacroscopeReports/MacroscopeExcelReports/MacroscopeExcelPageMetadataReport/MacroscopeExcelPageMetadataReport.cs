@@ -44,12 +44,13 @@ namespace SEOMacroscope
     public void WriteXslx ( MacroscopeJobMaster JobMaster, string OutputFilename )
     {
 
-      XLWorkbook wb = new XLWorkbook ();
+      XLWorkbook wb = new XLWorkbook();
 
       this.BuildWorksheetPageCombinedTextMetadata( JobMaster, wb, "Combined Text Metadata" );
       this.BuildWorksheetPageTitles( JobMaster, wb, "Page Titles" );
       this.BuildWorksheetPageDescriptions( JobMaster, wb, "Page Descriptions" );
       this.BuildWorksheetPageKeywords( JobMaster, wb, "Page Keywords" );
+      this.BuildWorksheetPageAuthors( JobMaster, wb, "Authors" );
 
       try
       {
@@ -58,7 +59,7 @@ namespace SEOMacroscope
       catch( IOException )
       {
         MacroscopeSaveExcelFileException CannotSaveExcelFileException;
-        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException (
+        CannotSaveExcelFileException = new MacroscopeSaveExcelFileException(
           string.Format( "Cannot write to Excel file at {0}", OutputFilename )
         );
         throw CannotSaveExcelFileException;

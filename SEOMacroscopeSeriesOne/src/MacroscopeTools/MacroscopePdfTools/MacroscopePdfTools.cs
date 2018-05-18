@@ -44,6 +44,7 @@ namespace SEOMacroscope
     private PdfDocument Pdf = null;
     private bool HasError = false;
     private string ErrorMessage = null;
+    private Dictionary<string, string> Metadata = null;
 
     /**************************************************************************/
 
@@ -52,15 +53,17 @@ namespace SEOMacroscope
 
       this.HasError = false;
       this.ErrorMessage = null;
+      this.Metadata = new Dictionary<string, string>( 4 );
 
       try
       {
-        using ( MemoryStream MemStream = new MemoryStream( PdfData ) )
+        using( MemoryStream MemStream = new MemoryStream( PdfData ) )
         {
           this.Pdf = new PdfDocument( new PdfReader( MemStream ) );
+          this.LoadMetadata();
         }
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
         this.HasError = true;
@@ -76,11 +79,13 @@ namespace SEOMacroscope
       Dispose( true );
     }
 
+    /** -------------------------------------------------------------------- **/
+
     protected virtual void Dispose ( bool disposing )
     {
-      if ( this.Pdf != null )
+      if( this.Pdf != null )
       {
-        if ( !this.Pdf.IsClosed() )
+        if( !this.Pdf.IsClosed() )
         {
           this.Pdf.Close();
         }
@@ -89,19 +94,27 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public Dictionary<string, string> GetMetadata ()
+    private void LoadMetadata ()
     {
 
-      Dictionary<string, string> Metadata = new Dictionary<string, string>( 32 );
+      this.Metadata.Add( "title", "" );
+      this.Metadata.Add( "author", "" );
+      this.Metadata.Add( "description", "" );
+      this.Metadata.Add( "keywords", "" );
 
-      if ( this.Pdf != null )
+      if( this.Pdf != null )
       {
+
         PdfDocumentInfo pdfInfo = this.Pdf.GetDocumentInfo();
-        Metadata.Add( "title", pdfInfo.GetTitle() );
-        Metadata.Add( "description", pdfInfo.GetSubject() );
+
+        this.Metadata[ "title" ] = pdfInfo.GetTitle();
+        this.Metadata[ "author" ] = pdfInfo.GetAuthor();
+        this.Metadata[ "description" ] = pdfInfo.GetSubject();
+        this.Metadata[ "keywords" ] = pdfInfo.GetKeywords();
+
       }
 
-      return ( Metadata );
+      return;
 
     }
 
@@ -109,36 +122,49 @@ namespace SEOMacroscope
 
     public string GetTitle ()
     {
-
-      Dictionary<string, string> Metadata = this.GetMetadata();
       string Text = null;
-
-      if ( Metadata.ContainsKey( "title" ) )
+      if( this.Metadata.ContainsKey( "title" ) )
       {
-        Text = Metadata[ "title" ];
+        Text = this.Metadata[ "title" ];
       }
-
       return ( Text );
+    }
 
+    /**************************************************************************/
+
+    public string GetAuthor ()
+    {
+      string Text = null;
+      if( this.Metadata.ContainsKey( "author" ) )
+      {
+        Text = this.Metadata[ "author" ];
+      }
+      return ( Text );
     }
 
     /**************************************************************************/
 
     public string GetDescription ()
     {
-
-      Dictionary<string, string> Metadata = this.GetMetadata();
       string Text = null;
-
-      if ( Metadata.ContainsKey( "description" ) )
+      if( this.Metadata.ContainsKey( "description" ) )
       {
-        Text = Metadata[ "description" ];
+        Text = this.Metadata[ "description" ];
       }
-
       return ( Text );
-
     }
 
+    /**************************************************************************/
+
+    public string GetKeywords ()
+    {
+      string Text = null;
+      if( this.Metadata.ContainsKey( "keywords" ) )
+      {
+        Text = this.Metadata[ "keywords" ];
+      }
+      return ( Text );
+    }
 
     /**************************************************************************/
 
@@ -156,7 +182,7 @@ namespace SEOMacroscope
 
       List<string> Texts = new List<string>( this.Pdf.GetNumberOfPages() );
 
-      for ( int i = 1 ; i <= this.Pdf.GetNumberOfPages() ; i++ )
+      for( int i = 1 ; i <= this.Pdf.GetNumberOfPages() ; i++ )
       {
         PdfPage Page = this.Pdf.GetPage( i );
         string PageText = PdfTextExtractor.GetTextFromPage( Page );
@@ -171,7 +197,7 @@ namespace SEOMacroscope
 
     public List<string> GetOutLinks ()
     {
-      
+
       // TDOO: Test this with PDF with embedded links, and complete.
 
       List<string> OutLinks = new List<string>( this.Pdf.GetNumberOfPages() );
@@ -231,9 +257,9 @@ namespace SEOMacroscope
       Uri TargetUri = new Uri( Url );
       string MimeType = await MacroscopeHttpUrlUtils.GetMimeTypeOfUrl( JobMaster: JobMaster, TargetUri: TargetUri );
 
-      if ( !string.IsNullOrEmpty( MimeType ) )
+      if( !string.IsNullOrEmpty( MimeType ) )
       {
-        if ( Regex.IsMatch( MimeType, "^application/pdf$", RegexOptions.IgnoreCase ) )
+        if( Regex.IsMatch( MimeType, "^application/pdf$", RegexOptions.IgnoreCase ) )
         {
           Result = true;
         }

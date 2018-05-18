@@ -118,6 +118,8 @@ namespace SEOMacroscope
       DetailsList.Add( new KeyValuePair<string, string>( "Title Pixel Width", this.GetTitlePixelWidth().ToString() ) );
       DetailsList.Add( new KeyValuePair<string, string>( "Probable Title Language", this.GetTitleLanguage() ) );
 
+      DetailsList.Add( new KeyValuePair<string, string>( "Author", this.GetAuthor() ) );
+
       DetailsList.Add( new KeyValuePair<string, string>( "Description", this.GetDescription() ) );
       DetailsList.Add( new KeyValuePair<string, string>( "Description Length", this.GetDescriptionLength().ToString() ) );
       DetailsList.Add( new KeyValuePair<string, string>( "Probable Description Language", this.GetDescriptionLanguage() ) );

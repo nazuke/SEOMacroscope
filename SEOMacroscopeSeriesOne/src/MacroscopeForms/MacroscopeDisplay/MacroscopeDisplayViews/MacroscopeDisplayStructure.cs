@@ -114,6 +114,8 @@ namespace SEOMacroscope
         //this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksInRatio, MacroscopeConstants.HyperlinksInRatio );
         //this.DisplayListView.Columns.Add( MacroscopeConstants.HyperlinksOutRatio, MacroscopeConstants.HyperlinksOutRatio );
 
+        this.DisplayListView.Columns.Add( MacroscopeConstants.Author, MacroscopeConstants.Author );
+
         this.DisplayListView.Columns.Add( MacroscopeConstants.Title, MacroscopeConstants.Title );
         this.DisplayListView.Columns.Add( MacroscopeConstants.TitleLen, MacroscopeConstants.TitleLen );
         this.DisplayListView.Columns.Add( MacroscopeConstants.TitleLang, MacroscopeConstants.TitleLang );
@@ -274,6 +276,8 @@ namespace SEOMacroscope
           StructureItems.Add( MacroscopeConstants.HyperlinksOutRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) );
         }
         */
+
+        StructureItems.Add( MacroscopeConstants.Author, msDoc.GetAuthor() );
 
         StructureItems.Add( MacroscopeConstants.Title, msDoc.GetTitle() );
         StructureItems.Add( MacroscopeConstants.TitleLen, msDoc.GetTitleLength().ToString() );

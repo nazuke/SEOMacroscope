@@ -63,7 +63,7 @@ namespace SEOMacroscope
       {
         await this._ProcessPdfPage();
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( string.Format( "ProcessPdfPage: {0}", ex.Message ) );
       }
@@ -71,7 +71,7 @@ namespace SEOMacroscope
       TimeDuration.Stop();
       FinalDuration = TimeDuration.ElapsedMilliseconds;
 
-      if ( FinalDuration > 0 )
+      if( FinalDuration > 0 )
       {
         this.Duration = FinalDuration;
       }
@@ -101,20 +101,20 @@ namespace SEOMacroscope
         );
 
       }
-      catch ( MacroscopeDocumentException ex )
+      catch( MacroscopeDocumentException ex )
       {
         this.DebugMsg( string.Format( "_ProcessPdfPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.AddRemark( "_ProcessPdfPage", ex.Message );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         this.DebugMsg( string.Format( "_ProcessPdfPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.AddRemark( "_ProcessPdfPage", ex.Message );
       }
 
-      if ( ClientResponse != null )
+      if( ClientResponse != null )
       {
 
         MacroscopePdfTools PdfTools;
@@ -142,7 +142,7 @@ namespace SEOMacroscope
 
           PdfTools = new MacroscopePdfTools( PdfData: RawData );
 
-          if ( PdfTools.GetHasError() )
+          if( PdfTools.GetHasError() )
           {
             this.AddRemark( "CORRUPT_PDF", Observation: PdfTools.GetErrorMessage() );
           }
@@ -150,7 +150,7 @@ namespace SEOMacroscope
           this.SetWasDownloaded( true );
 
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
 
           this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
@@ -162,12 +162,12 @@ namespace SEOMacroscope
 
         /** Title ---------------------------------------------------------- **/
 
-        if ( PdfTools != null )
+        if( PdfTools != null )
         {
 
           string Text = PdfTools.GetTitle();
 
-          if ( !string.IsNullOrEmpty( Text ) )
+          if( !string.IsNullOrEmpty( Text ) )
           {
             this.SetTitle( Text, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
             this.DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
@@ -179,14 +179,33 @@ namespace SEOMacroscope
 
         }
 
+        /** Author --------------------------------------------------------- **/
+
+        if( PdfTools != null )
+        {
+
+          string Text = PdfTools.GetAuthor();
+
+          if( !string.IsNullOrEmpty( Text ) )
+          {
+            this.SetAuthor( AuthorText: Text, ProcessingMode: MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
+            this.DebugMsg( string.Format( "AUTHOR: {0}", this.GetAuthor() ) );
+          }
+          else
+          {
+            this.DebugMsg( string.Format( "AUTHOR: {0}", "MISSING" ) );
+          }
+
+        }
+
         /** Description ---------------------------------------------------- **/
 
-        if ( PdfTools != null )
+        if( PdfTools != null )
         {
 
           string Text = PdfTools.GetDescription();
 
-          if ( !string.IsNullOrEmpty( Text ) )
+          if( !string.IsNullOrEmpty( Text ) )
           {
             this.SetDescription( Text, MacroscopeConstants.TextProcessingMode.NO_PROCESSING );
             this.DebugMsg( string.Format( "TITLE: {0}", this.GetDescription() ) );
@@ -198,21 +217,40 @@ namespace SEOMacroscope
 
         }
 
+        /** Metadata Keywords ---------------------------------------------- **/
+
+        if( PdfTools != null )
+        {
+
+          string Text = PdfTools.GetKeywords();
+
+          if( !string.IsNullOrEmpty( Text ) )
+          {
+            this.SetKeywords( KeywordsText: Text );
+            this.DebugMsg( string.Format( "KEYWORDS: {0}", this.GetKeywords() ) );
+          }
+          else
+          {
+            this.DebugMsg( string.Format( "KEYWORDS: {0}", "MISSING" ) );
+          }
+
+        }
+
         /** Body Text ------------------------------------------------------ **/
 
-        if ( PdfTools != null )
+        if( PdfTools != null )
         {
 
           this.SetBodyText( Text: "" );
 
-          if ( PdfTools.GetHasError() )
+          if( PdfTools.GetHasError() )
           {
             this.AddRemark( "PDF_ERROR", Observation: PdfTools.GetErrorMessage() );
           }
           else
           {
             string Text = PdfTools.GetTextAsString();
-            if ( !string.IsNullOrEmpty( Text ) )
+            if( !string.IsNullOrEmpty( Text ) )
             {
               this.SetDocumentText( Text: Text );
               this.SetBodyText( Text: Text );
@@ -225,9 +263,9 @@ namespace SEOMacroscope
 
         /** Out Links Text ------------------------------------------------- **/
 
-        if ( this.GetDocumentTextRawLength() > 0 )
+        if( this.GetDocumentTextRawLength() > 0 )
         {
-          if ( this.GetIsInternal() )
+          if( this.GetIsInternal() )
           {
             string Text = this.GetDocumentTextRaw();
             this.ProcessPureTextOutlinks( TextDoc: Text, LinkType: MacroscopeConstants.InOutLinkType.PDF );
@@ -236,9 +274,9 @@ namespace SEOMacroscope
 
         /** Out Links in Annotations --------------------------------------- **/
 
-        if ( this.GetDocumentTextRawLength() > 0 )
+        if( this.GetDocumentTextRawLength() > 0 )
         {
-          if ( this.GetIsInternal() )
+          if( this.GetIsInternal() )
           {
             List<string> AnnotationOutLinks = PdfTools.GetOutLinks();
             // TODO: Implement this:
@@ -255,13 +293,13 @@ namespace SEOMacroscope
 
       }
 
-      if ( ResponseErrorCondition != null )
+      if( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
 
     }
-    
+
     /**************************************************************************/
 
   }

@@ -153,6 +153,7 @@ namespace SEOMacroscope
     private string Title;
     private string TitleLanguage;
     private int TitlePixelWidth;
+    private string Author;
     private string Description;
     private string DescriptionLanguage;
     private string Keywords;
@@ -333,6 +334,7 @@ namespace SEOMacroscope
       this.Title = "";
       this.TitleLanguage = "";
       this.TitlePixelWidth = 0;
+      this.Author = "";
       this.Description = "";
       this.DescriptionLanguage = "";
       this.Keywords = "";
@@ -1520,9 +1522,9 @@ namespace SEOMacroscope
         }
         catch ( Exception ex )
         {
-          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
-          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", TitleText ) );
-          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", TitleText ) );
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
         }
 
       }
@@ -1603,6 +1605,55 @@ namespace SEOMacroscope
       return ( this.TitleLanguage );
     }
 
+    /** Author ***********************************************************/
+
+    public void SetAuthor (
+      string AuthorText,
+      MacroscopeConstants.TextProcessingMode ProcessingMode
+    )
+    {
+
+      string Value = AuthorText;
+
+      if( ProcessingMode == MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES )
+      {
+
+        try
+        {
+          Value = HtmlEntity.DeEntitize( AuthorText );
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", AuthorText ) );
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
+        }
+
+      }
+
+      Value = Regex.Replace( Value, @"[\s]+", " ", RegexOptions.Singleline );
+      Value = Value.Trim();
+
+      this.Author = Value;
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public string GetAuthor ()
+    {
+      string AuthorValue;
+      if( this.Author != null )
+      {
+        AuthorValue = this.Author;
+      }
+      else
+      {
+        AuthorValue = "";
+      }
+      return ( AuthorValue );
+    }
+
     /** Description ***********************************************************/
 
     public void SetDescription (
@@ -1622,9 +1673,9 @@ namespace SEOMacroscope
         }
         catch ( Exception ex )
         {
-          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
-          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", DescriptionText ) );
-          DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", DescriptionText ) );
+          this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
         }
 
       }
@@ -1691,6 +1742,22 @@ namespace SEOMacroscope
     }
 
     /** Keywords **************************************************************/
+
+    public void SetKeywords ( string KeywordsText )
+    {
+
+      if( ( !string.IsNullOrEmpty( KeywordsText ) ) && ( !string.IsNullOrWhiteSpace( KeywordsText ) ) )
+      {
+        this.Keywords = KeywordsText;
+      }
+      else
+      {
+        this.Keywords = "";
+      }
+
+    }
+    
+    /** -------------------------------------------------------------------- **/
 
     public string GetKeywords ()
     {
