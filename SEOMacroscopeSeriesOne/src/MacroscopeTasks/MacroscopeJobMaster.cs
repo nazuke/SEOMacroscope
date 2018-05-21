@@ -1188,22 +1188,26 @@ namespace SEOMacroscope
           Path = "/";
         }
 
-        this.ParentStartingDirectory = string.Join(
-        "",
-        StartUri.Scheme,
-        "://",
-        StartUri.Host,
-        StartUriPort,
-        Path
-      );
+        this.SetParentStartingDirectory(
+          Url: string.Join(
+            "",
+            StartUri.Scheme,
+            "://",
+            StartUri.Host,
+            StartUriPort,
+            Path
+          )
+        );
 
-        this.ChildStartingDirectory = string.Join(
-          "",
-          StartUri.Scheme,
-          "://",
-          StartUri.Host,
-          StartUriPort,
-          Path
+        this.SetChildStartingDirectory(
+          Url: string.Join(
+            "",
+            StartUri.Scheme,
+            "://",
+            StartUri.Host,
+            StartUriPort,
+            Path
+          )
         );
 
       }
@@ -1212,159 +1216,30 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public bool IsWithinParentDirectory ( string Url )
+    private void SetParentStartingDirectory ( string Url )
     {
-
-      bool IsWithin = false;
-      Uri CurrentUri = null;
-      string CurrentUriPort = "";
-
-      try
-      {
-
-        CurrentUri = new Uri( Url );
-
-        if( CurrentUri.Port > 0 )
-        {
-          CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
-        }
-
-      }
-      catch( UriFormatException ex )
-      {
-        this.DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
-      }
-      catch( Exception ex )
-      {
-        this.DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
-      }
-
-      if( CurrentUri != null )
-      {
-
-        if(
-          ( CurrentUri.Scheme.ToLower() == "http" )
-          || ( CurrentUri.Scheme.ToLower() == "https" ) )
-        {
-
-          string Path = CurrentUri.AbsolutePath;
-          string CurrentUriString;
-          int ParentStartingDirectoryLength;
-          int CurrentUriStringLength;
-
-          Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
-
-          if( Path.Length == 0 )
-          {
-            Path = "/";
-          }
-
-          CurrentUriString = string.Join(
-            "",
-            CurrentUri.Scheme,
-            "://",
-            CurrentUri.Host,
-            CurrentUriPort,
-            Path
-          );
-
-          ParentStartingDirectoryLength = this.ParentStartingDirectory.Length;
-          CurrentUriStringLength = CurrentUriString.Length;
-
-          if( ParentStartingDirectoryLength >= CurrentUriStringLength )
-          {
-            if( this.ParentStartingDirectory.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
-            {
-              IsWithin = true;
-            }
-
-          }
-
-        }
-
-      }
-
-      return ( IsWithin );
-
+      this.ParentStartingDirectory = Url;
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public bool IsWithinChildDirectory ( string Url )
+    public string GetParentStartingDirectory ( )
     {
+      return( this.ParentStartingDirectory );
+    }
 
-      bool IsWithin = false;
-      Uri CurrentUri = null;
-      string CurrentUriPort = "";
+    /** -------------------------------------------------------------------- **/
 
-      try
-      {
+    private void SetChildStartingDirectory ( string Url )
+    {
+      this.ChildStartingDirectory = Url;
+    }
 
-        CurrentUri = new Uri( Url );
+    /** -------------------------------------------------------------------- **/
 
-        if( CurrentUri.Port > 0 )
-        {
-          CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
-        }
-
-      }
-      catch( UriFormatException ex )
-      {
-        this.DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ) );
-      }
-      catch( Exception ex )
-      {
-        this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
-      }
-
-      if( CurrentUri != null )
-      {
-
-        if(
-          ( CurrentUri.Scheme.ToLower() == "http" )
-          || ( CurrentUri.Scheme.ToLower() == "https" ) )
-        {
-
-          string Path = CurrentUri.AbsolutePath;
-          string CurrentUriString;
-          int ChildStartingDirectoryLength;
-          int CurrentUriStringLength;
-
-          Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
-
-          if( Path.Length == 0 )
-          {
-            Path = "/";
-          }
-
-          CurrentUriString = string.Join(
-            "",
-            CurrentUri.Scheme,
-            "://",
-            CurrentUri.Host,
-            CurrentUriPort,
-            Path
-          );
-
-          ChildStartingDirectoryLength = this.ChildStartingDirectory.Length;
-          CurrentUriStringLength = CurrentUriString.Length;
-
-          if( CurrentUriStringLength >= ChildStartingDirectoryLength )
-          {
-
-            if( CurrentUriString.StartsWith( this.ChildStartingDirectory, StringComparison.Ordinal ) )
-            {
-              IsWithin = true;
-            }
-
-          }
-
-        }
-
-      }
-
-      return ( IsWithin );
-
+    public string GetChildStartingDirectory ()
+    {
+      return ( this.ChildStartingDirectory );
     }
 
     /** History ***************************************************************/

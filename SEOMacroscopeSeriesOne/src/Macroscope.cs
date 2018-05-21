@@ -135,31 +135,14 @@ namespace SEOMacroscope
 
     public static void OpenUrlInBrowser ( string Url )
     {
-
+      // The caller must catch any exceptions:
       Uri OpenUrl = null;
-
-      try
-      {
-        OpenUrl = new Uri( Url );
-      }
-      catch( UriFormatException ex )
-      {
-        throw ( ex );
-      }
-
+      OpenUrl = new Uri( Url );
       if( OpenUrl != null )
       {
-        try
-        {
-          // FIXME: bug here when opening URL with query string
-          Process.Start( OpenUrl.ToString() );
-        }
-        catch( Exception ex )
-        {
-          throw ( ex );
-        }
+        // FIXME: bug here when opening URL with query string
+        Process.Start( OpenUrl.ToString() );
       }
-
     }
 
     /**************************************************************************/

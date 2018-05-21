@@ -56,7 +56,7 @@ namespace SEOMacroscope
 
       bool IsValid = false;
 
-      if ( Url.StartsWith( "http", StringComparison.Ordinal ) )
+      if( Url.StartsWith( "http", StringComparison.Ordinal ) )
       {
 
         try
@@ -64,13 +64,13 @@ namespace SEOMacroscope
 
           Uri CheckUri = new Uri( Url, UriKind.Absolute );
 
-          if ( CheckUri != null )
+          if( CheckUri != null )
           {
             IsValid = true;
           }
 
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
 
           DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
@@ -120,7 +120,7 @@ namespace SEOMacroscope
       string AbsoluteBaseHref;
       string UrlFixed;
 
-      if ( !string.IsNullOrEmpty( value: BaseHref ) )
+      if( !string.IsNullOrEmpty( value: BaseHref ) )
       {
 
         AbsoluteBaseHref = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
@@ -185,55 +185,55 @@ namespace SEOMacroscope
 
         BaseUri = new Uri( BaseUrl, UriKind.Absolute );
 
-        if ( BaseUri.Port > 0 )
+        if( BaseUri.Port > 0 )
         {
           BaseUriPort = string.Format( ":{0}", BaseUri.Port );
         }
 
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( string.Format( "MakeUrlAbsolute: {0}", ex.Message ), true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "MakeUrlAbsolute: {0}", ex.Message ), true );
       }
 
-      if ( BaseUri == null )
+      if( BaseUri == null )
       {
         throw new MacroscopeUriFormatException( "Malformed Base URI" );
       }
 
-      if ( !Regex.IsMatch( Url, "^(https?:|/|#)" ) )
+      if( !Regex.IsMatch( Url, "^(https?:|/|#)" ) )
       {
         DebugMsg( string.Format( "STRANGE URL: 1: {0}", BaseUrl ), true );
         DebugMsg( string.Format( "STRANGE URL: 2: {0}", Url ), true );
 
       }
 
-      if ( !reHTTP.IsMatch( Url ) )
+      if( !reHTTP.IsMatch( Url ) )
       {
         bool IsSuspect = false;
-        if (
+        if(
           ( !reDoubleSlash.IsMatch( Url ) )
           && ( !reSlash.IsMatch( Url ) )
           && ( !reQuery.IsMatch( Url ) )
           && ( !reHash.IsMatch( Url ) ) )
         {
-          if ( reUnsupportedScheme.IsMatch( Url ) )
+          if( reUnsupportedScheme.IsMatch( Url ) )
           {
             IsSuspect = true;
           }
         }
-        if ( IsSuspect )
+        if( IsSuspect )
         {
           DebugMsg( string.Format( "STRANGE URL: IS SUSPECT: {0}", Url ), true );
           return ( null );
         }
       }
 
-      if ( reDoubleSlash.IsMatch( Url ) )
+      if( reDoubleSlash.IsMatch( Url ) )
       {
 
         try
@@ -248,18 +248,18 @@ namespace SEOMacroscope
           );
 
         }
-        catch ( InvalidOperationException ex )
+        catch( InvalidOperationException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( ex.Message, true );
         }
 
       }
       else
-      if ( reSlash.IsMatch( Url ) )
+      if( reSlash.IsMatch( Url ) )
       {
 
         try
@@ -276,18 +276,18 @@ namespace SEOMacroscope
           );
 
         }
-        catch ( InvalidOperationException ex )
+        catch( InvalidOperationException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( ex.Message, true );
         }
 
       }
       else
-      if ( reQuery.IsMatch( Url ) )
+      if( reQuery.IsMatch( Url ) )
       {
 
         try
@@ -305,18 +305,18 @@ namespace SEOMacroscope
           );
 
         }
-        catch ( InvalidOperationException ex )
+        catch( InvalidOperationException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( ex.Message, true );
         }
 
       }
       else
-      if ( reHash.IsMatch( Url ) )
+      if( reHash.IsMatch( Url ) )
       {
 
         string NewUrl = Url;
@@ -337,36 +337,36 @@ namespace SEOMacroscope
           );
 
         }
-        catch ( InvalidOperationException ex )
+        catch( InvalidOperationException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( ex.Message, true );
         }
 
       }
       else
-      if ( reHTTP.IsMatch( Url ) )
+      if( reHTTP.IsMatch( Url ) )
       {
 
         try
         {
           NewUri = new Uri( Url, UriKind.Absolute );
         }
-        catch ( InvalidOperationException ex )
+        catch( InvalidOperationException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( ex.Message, true );
         }
 
       }
       else
-      if ( reUnsupportedScheme.IsMatch( Url ) )
+      if( reUnsupportedScheme.IsMatch( Url ) )
       {
 
         ; // NO-OP, for now.
@@ -397,18 +397,18 @@ namespace SEOMacroscope
           );
 
         }
-        catch ( InvalidOperationException ex )
+        catch( InvalidOperationException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( ex.Message, true );
         }
 
       }
 
-      if ( NewUri != null )
+      if( NewUri != null )
       {
         UrlFixed = NewUri.ToString();
       }
@@ -435,17 +435,17 @@ namespace SEOMacroscope
       {
         BaseUri = new Uri( BaseUrl, UriKind.Absolute );
       }
-      catch ( InvalidOperationException ex )
+      catch( InvalidOperationException ex )
       {
         DebugMsg( ex.Message, true );
         DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( ex.Message, true );
         DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( ex.Message, true );
         DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
@@ -455,17 +455,17 @@ namespace SEOMacroscope
       {
         NewUri = new Uri( Url, UriKind.Absolute );
       }
-      catch ( InvalidOperationException ex )
+      catch( InvalidOperationException ex )
       {
         DebugMsg( ex.Message, true );
         DebugMsg( string.Format( "FAILED TO VERIFY: {0}", Url ), true );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( ex.Message, true );
         DebugMsg( string.Format( "FAILED TO VERIFY: {0}", Url ), true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( ex.Message, true );
         DebugMsg( string.Format( "FAILED TO VERIFY: {0}", Url ), true );
@@ -473,12 +473,12 @@ namespace SEOMacroscope
 
       try
       {
-        if ( ( BaseUri != null ) && ( NewUri != null ) && ( BaseUri.Host.ToString() == NewUri.Host.ToString() ) )
+        if( ( BaseUri != null ) && ( NewUri != null ) && ( BaseUri.Host.ToString() == NewUri.Host.ToString() ) )
         {
           Success = true;
         }
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( ex.Message, true );
         DebugMsg( string.Format( "FAILED TO VERIFY: {0}", Url ), true );
@@ -505,7 +505,7 @@ namespace SEOMacroscope
       Uri UriLeft = null;
       Uri UriRight = null;
 
-      if ( UrlLeft == UrlRight )
+      if( UrlLeft == UrlRight )
       {
         return ( true );
       }
@@ -515,57 +515,57 @@ namespace SEOMacroscope
         UriLeft = new Uri( UrlLeft, UriKind.Absolute );
         UriRight = new Uri( UrlRight, UriKind.Absolute );
       }
-      catch ( InvalidOperationException ex )
+      catch( InvalidOperationException ex )
       {
         DebugMsg( ex.Message, true );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( ex.Message, true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( ex.Message, true );
       }
 
-      if ( ( UriLeft != null ) && ( UriRight != null ) )
+      if( ( UriLeft != null ) && ( UriRight != null ) )
       {
 
-        if ( CheckScheme )
+        if( CheckScheme )
         {
-          if ( UriLeft.Scheme != UriRight.Scheme )
+          if( UriLeft.Scheme != UriRight.Scheme )
           {
             Proceed = false;
           }
         }
 
-        if ( CheckHost )
+        if( CheckHost )
         {
-          if ( UriLeft.Host != UriRight.Host )
+          if( UriLeft.Host != UriRight.Host )
           {
             Proceed = false;
           }
         }
 
-        if ( CheckPort )
+        if( CheckPort )
         {
-          if ( UriLeft.Port != UriRight.Port )
+          if( UriLeft.Port != UriRight.Port )
           {
             Proceed = false;
           }
         }
 
-        if ( CheckPath )
+        if( CheckPath )
         {
-          if ( UriLeft.AbsolutePath != UriRight.AbsolutePath )
+          if( UriLeft.AbsolutePath != UriRight.AbsolutePath )
           {
             Proceed = false;
           }
         }
 
-        if ( CheckQuery )
+        if( CheckQuery )
         {
-          if ( UriLeft.Query != UriRight.Query )
+          if( UriLeft.Query != UriRight.Query )
           {
             Proceed = false;
           }
@@ -573,7 +573,7 @@ namespace SEOMacroscope
 
       }
 
-      if ( Proceed )
+      if( Proceed )
       {
         AreMatch = true;
       }
@@ -587,31 +587,241 @@ namespace SEOMacroscope
     public static int FindUrlDepth ( string Url )
     {
 
-      int Depth = 0;
+      int Depth = -1;
       Uri DocumentURI = null;
 
       try
       {
         DocumentURI = new Uri( Url, UriKind.Absolute );
       }
-      catch ( InvalidOperationException ex )
+      catch( InvalidOperationException ex )
       {
         DebugMsg( ex.Message, true );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( ex.Message, true );
       }
 
-      if ( DocumentURI != null )
+      if( DocumentURI != null )
       {
-        string sPath = DocumentURI.AbsolutePath;
-        Depth = sPath.Split( '/' ).Length - 1;
+
+        string Path = DocumentURI.AbsolutePath;
+        string[] PathElements = Path.Split( '/' );
+
+        for( int i = 0 ; i < PathElements.Length ; i++ )
+        {
+          if( !string.IsNullOrEmpty( PathElements[ i ] ) )
+          {
+            Depth++;
+          }
+        }
+
+        if( Depth < 0 )
+        {
+          Depth = 0;
+        }
+
       }
 
       return ( Depth );
 
     }
+
+
+
+
+
+
+
+
+
+    /**************************************************************************/
+
+    public static bool IsWithinParentDirectory ( string StartUrl, string Url )
+    {
+
+      bool IsWithin = false;
+      Uri CurrentUri = null;
+      string CurrentUriPort = "";
+
+      try
+      {
+
+        CurrentUri = new Uri( Url );
+
+        if( CurrentUri.Port > 0 )
+        {
+          CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
+        }
+
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ), true );
+      }
+
+      if( CurrentUri != null )
+      {
+
+        if(
+          ( CurrentUri.Scheme.ToLower() == "http" )
+          || ( CurrentUri.Scheme.ToLower() == "https" ) )
+        {
+
+          string Path = CurrentUri.AbsolutePath;
+          string CurrentUriString;
+          int ParentStartingDirectoryLength;
+          int CurrentUriStringLength;
+
+          Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+
+          if( Path.Length == 0 )
+          {
+            Path = "/";
+          }
+
+          CurrentUriString = string.Join(
+            "",
+            CurrentUri.Scheme,
+            "://",
+            CurrentUri.Host,
+            CurrentUriPort,
+            Path
+          );
+
+          ParentStartingDirectoryLength = StartUrl.Length;
+          CurrentUriStringLength = CurrentUriString.Length;
+
+          if( ParentStartingDirectoryLength >= CurrentUriStringLength )
+          {
+            if( StartUrl.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
+            {
+              IsWithin = true;
+            }
+
+          }
+
+        }
+
+      }
+
+      return ( IsWithin );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public static bool IsWithinChildDirectory ( string StartUrl, string Url )
+    {
+
+      bool IsWithin = false;
+      Uri CurrentUri = null;
+      string CurrentUriPort = "";
+
+      try
+      {
+
+        CurrentUri = new Uri( Url );
+
+        if( CurrentUri.Port > 0 )
+        {
+          CurrentUriPort = string.Format( ":{0}", CurrentUri.Port );
+        }
+
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "Exception: {0}", ex.Message ), true );
+      }
+
+      if( CurrentUri != null )
+      {
+
+        if(
+          ( CurrentUri.Scheme.ToLower() == "http" )
+          || ( CurrentUri.Scheme.ToLower() == "https" ) )
+        {
+
+          string Path = CurrentUri.AbsolutePath;
+          string CurrentUriString;
+          int ChildStartingDirectoryLength;
+          int CurrentUriStringLength;
+
+          Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
+
+          if( Path.Length == 0 )
+          {
+            Path = "/";
+          }
+
+          CurrentUriString = string.Join(
+            "",
+            CurrentUri.Scheme,
+            "://",
+            CurrentUri.Host,
+            CurrentUriPort,
+            Path
+          );
+
+          ChildStartingDirectoryLength = StartUrl.Length;
+          CurrentUriStringLength = CurrentUriString.Length;
+
+          if( CurrentUriStringLength >= ChildStartingDirectoryLength )
+          {
+
+            if( CurrentUriString.StartsWith( StartUrl, StringComparison.Ordinal ) )
+            {
+              IsWithin = true;
+            }
+
+          }
+
+        }
+
+      }
+
+      return ( IsWithin );
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**************************************************************************/
 
@@ -623,23 +833,20 @@ namespace SEOMacroscope
 
       DebugMsg( string.Format( "CleanUrlCss: sProperty: {0}", CssProperty ), true );
 
-      if ( Regex.IsMatch( CssProperty, @"url\([^()]+\)" ) )
+      if( Regex.IsMatch( CssProperty, @"url\([^()]+\)" ) )
       {
+        MatchCollection reMatches;
 
         DebugMsg( string.Format( "CleanUrlCss: HAS URL: {0}", CssProperty ), true );
 
-        MatchCollection reMatches = Regex.Matches(
-                                      CssProperty,
-                                      "url\\(\\s*[\"']?(.+?)[\"']?\\s*\\)",
-                                      RegexOptions.IgnoreCase
-                                    );
+        reMatches = Regex.Matches( CssProperty, "url\\(\\s*[\"']?(.+?)[\"']?\\s*\\)", RegexOptions.IgnoreCase );
 
         DebugMsg( string.Format( "CleanUrlCss: reMatches: {0}", reMatches.Count ), true );
 
-        foreach ( Match match in reMatches )
+        foreach( Match match in reMatches )
         {
 
-          if ( match.Groups[ 1 ].Value.Length > 0 )
+          if( match.Groups[ 1 ].Value.Length > 0 )
           {
             CleanedUrl = match.Groups[ 1 ].Value;
             break;
@@ -647,7 +854,7 @@ namespace SEOMacroscope
 
         }
 
-        if ( CleanedUrl.ToLower() == "none" )
+        if( CleanedUrl.ToLower() == "none" )
         {
           CleanedUrl = null;
         }
@@ -678,16 +885,16 @@ namespace SEOMacroscope
       {
         DocumentUri = new Uri( Url, UriKind.Absolute );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( string.Format( "GetHostnameFromUrl: {0}", ex.Message ), true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "GetHostnameFromUrl: {0}", ex.Message ), true );
       }
 
-      if ( DocumentUri != null )
+      if( DocumentUri != null )
       {
         Hostname = DocumentUri.Host;
       }
@@ -695,6 +902,8 @@ namespace SEOMacroscope
       return ( Hostname );
 
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public static string GetHostnameAndPortFromUrl ( string Url )
     {
@@ -706,18 +915,18 @@ namespace SEOMacroscope
       {
         DocumentUri = new Uri( Url, UriKind.Absolute );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( string.Format( "GetHostnameAndPortFromUrl: {0}", ex.Message ), true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "GetHostnameAndPortFromUrl: {0}", ex.Message ), true );
       }
 
-      if ( DocumentUri != null )
+      if( DocumentUri != null )
       {
-        if ( DocumentUri.Port > 0 )
+        if( DocumentUri.Port > 0 )
         {
           HostnameAndPort = string.Join( ":", DocumentUri.Host, DocumentUri.Port );
         }
@@ -744,21 +953,21 @@ namespace SEOMacroscope
       {
         UriBase = new Uri( Url, UriKind.Absolute );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( string.Format( "StripQueryString: {0}", ex.Message ), true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "StripQueryString: {0}", ex.Message ), true );
       }
 
-      if ( UriBase != null )
+      if( UriBase != null )
       {
 
         string UriBasePort = "";
 
-        if ( UriBase.Port > 0 )
+        if( UriBase.Port > 0 )
         {
           UriBasePort = string.Format( ":{0}", UriBase.Port );
         }
@@ -778,20 +987,20 @@ namespace SEOMacroscope
           );
 
         }
-        catch ( InvalidOperationException ex )
+        catch( InvalidOperationException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           DebugMsg( ex.Message, true );
         }
 
-        if ( UriBase != null )
+        if( UriBase != null )
         {
           NewUrl = UriNew.ToString();
         }
@@ -825,21 +1034,21 @@ namespace SEOMacroscope
       {
         UriBase = new Uri( Url, UriKind.Absolute );
       }
-      catch ( UriFormatException ex )
+      catch( UriFormatException ex )
       {
         DebugMsg( string.Format( "StripHashFragment: {0}", ex.Message ), true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "StripHashFragment: {0}", ex.Message ), true );
       }
 
-      if ( UriBase != null )
+      if( UriBase != null )
       {
 
         string UriBasePort = "";
 
-        if ( UriBase.Port > 0 )
+        if( UriBase.Port > 0 )
         {
           UriBasePort = string.Format( ":{0}", UriBase.Port );
         }
@@ -859,20 +1068,20 @@ namespace SEOMacroscope
           );
 
         }
-        catch ( InvalidOperationException ex )
+        catch( InvalidOperationException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( UriFormatException ex )
+        catch( UriFormatException ex )
         {
           DebugMsg( ex.Message, true );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           DebugMsg( ex.Message, true );
         }
 
-        if ( UriBase != null )
+        if( UriBase != null )
         {
           NewUrl = UriNew.ToString();
         }
@@ -907,18 +1116,18 @@ namespace SEOMacroscope
 
         Response = await Client.Head( TargetUri, ConfigureHeadRequestHeadersCallback, PostProcessRequestHttpHeadersCallback );
 
-        if ( Response != null )
+        if( Response != null )
         {
           MimeType = Response.GetMimeType().ToString();
         }
 
       }
-      catch ( MacroscopeDocumentException ex )
+      catch( MacroscopeDocumentException ex )
       {
         DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ), true );
         DebugMsg( string.Format( "MacroscopeDocumentException: {0}", TargetUri.ToString() ), true );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         DebugMsg( string.Format( "Exception: {0}", ex.Message ), true );
         DebugMsg( string.Format( "Exception: {0}", TargetUri.ToString() ), true );

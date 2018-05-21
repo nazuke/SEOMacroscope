@@ -246,7 +246,16 @@ namespace SEOMacroscope
 
         if( Result == DialogResult.Yes )
         {
-          Macroscope.OpenUrlInBrowser( MacroscopeConstants.CheckForUpdateDownloadsUrl );
+
+          try
+          {
+            Macroscope.OpenUrlInBrowser( MacroscopeConstants.CheckForUpdateDownloadsUrl );
+          }
+          catch( Exception ex )
+          {
+            MessageBox.Show( ex.Message );
+          }
+
         }
 
       }

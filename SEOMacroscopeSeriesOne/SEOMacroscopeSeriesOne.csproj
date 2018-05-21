@@ -40,7 +40,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;DEVMODE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
@@ -304,6 +304,7 @@
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClientResponse.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClient.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpImageLoader.cs" />
+    <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpUrlUtils.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\t\TestMacroscopeHttpTwoClient.cs" />
     <Compile Include="src\MacroscopeStandards\Humans\MacroscopeHumans.cs" />
     <Compile Include="src\MacroscopeStandards\Sitemaps\MacroscopeSitemapPaths.cs" />

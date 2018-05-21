@@ -137,7 +137,7 @@ namespace SEOMacroscope
                 MacroscopePreferencesManager.GetCrawlParentDirectories()
                 && ( !string.IsNullOrEmpty( Url ) ) )
               {
-                if( !this.JobMaster.IsWithinParentDirectory( Url ) )
+                if( !MacroscopeHttpUrlUtils.IsWithinParentDirectory( StartUrl: this.JobMaster.GetParentStartingDirectory(), Url: Url ) )
                 {
                   Url = null;
                 }
@@ -147,7 +147,7 @@ namespace SEOMacroscope
                 MacroscopePreferencesManager.GetCrawlChildDirectories()
                 && ( !string.IsNullOrEmpty( Url ) ) )
               {
-                if( !this.JobMaster.IsWithinChildDirectory( Url ) )
+                if( !MacroscopeHttpUrlUtils.IsWithinChildDirectory( StartUrl: this.JobMaster.GetChildStartingDirectory(), Url: Url ) )
                 {
                   Url = null;
                 }
@@ -159,6 +159,18 @@ namespace SEOMacroscope
               this.DebugMsg( string.Format( "Skipping Parent/Child Check: {0}", Url ) );
             }
 
+          }
+
+          if( !string.IsNullOrEmpty( Url ) )
+          {
+            if( MacroscopePreferencesManager.GetDepth() >= 0 )
+            {
+              if( MacroscopeHttpUrlUtils.FindUrlDepth( Url: Url ) > MacroscopePreferencesManager.GetDepth() )
+              {
+                this.DebugMsg( string.Format( "URL Too Deep: {0}", Url ) );
+                Url = null;
+              }
+            }
           }
 
           if( !string.IsNullOrEmpty( Url ) )
@@ -349,17 +361,13 @@ namespace SEOMacroscope
           return ( FetchStatus );
         }
       }
-      else
-      {
-        ; // NO-OP
-      }
 
-      if( MacroscopePreferencesManager.GetDepth() > 0 )
+      if( MacroscopePreferencesManager.GetDepth() >= 0 )
       {
-        int Depth = MacroscopeHttpUrlUtils.FindUrlDepth( Url );
+        int Depth = MacroscopeHttpUrlUtils.FindUrlDepth( Url: Url );
         if( Depth > MacroscopePreferencesManager.GetDepth() )
         {
-          this.DebugMsg( string.Format( "TOO DEEP: {0}", Depth ) );
+          this.DebugMsg( string.Format( "URL Too Deep: {0}", Depth ) );
           FetchStatus = MacroscopeConstants.FetchStatus.SKIPPED;
           return ( FetchStatus );
         }

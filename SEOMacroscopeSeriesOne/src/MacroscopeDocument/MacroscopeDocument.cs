@@ -368,7 +368,7 @@ namespace SEOMacroscope
 
       this.WordCount = 0;
 
-      this.Depth = MacroscopeHttpUrlUtils.FindUrlDepth( Url );
+      this.Depth = MacroscopeHttpUrlUtils.FindUrlDepth( Url: Url );
 
       this.Remarks = new Dictionary<string, string>();
 

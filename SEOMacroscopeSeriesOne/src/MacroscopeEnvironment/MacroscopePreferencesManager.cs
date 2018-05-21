@@ -557,12 +557,12 @@ namespace SEOMacroscope
         StartUrl = Regex.Replace( StartUrl, @"\s+$", "" );
       }
 
-      if( Depth <= 0 )
+      if( Depth < 0 )
       {
         Depth = -1;
       }
 
-      if( PageLimit <= 0 )
+      if( PageLimit < 0 )
       {
         PageLimit = -1;
       }
@@ -577,7 +577,7 @@ namespace SEOMacroscope
         RequestTimeout = 50;
       }
 
-      if( MaxRetries <= 0 )
+      if( MaxRetries < 0 )
       {
         MaxRetries = 0;
       }
@@ -1488,15 +1488,21 @@ namespace SEOMacroscope
       return ( CrawlParentDirectories );
     }
 
+    /** -------------------------------------------------------------------  **/
+
     public static void SetCrawlParentDirectories ( bool State )
     {
       CrawlParentDirectories = State;
     }
 
+    /** -------------------------------------------------------------------  **/
+
     public static bool GetCrawlChildDirectories ()
     {
       return ( CrawlChildDirectories );
     }
+
+    /** -------------------------------------------------------------------  **/
 
     public static void SetCrawlChildDirectories ( bool State )
     {

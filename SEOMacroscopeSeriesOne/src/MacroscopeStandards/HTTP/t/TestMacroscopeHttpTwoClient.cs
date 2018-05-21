@@ -42,6 +42,7 @@ namespace SEOMacroscope
     [Test]
     public async Task TestHttpTwoClientHead ()
     {
+
       MacroscopeHttpTwoClient Client = new MacroscopeHttpTwoClient();
       List<Uri> UrlList = new List<Uri>();
 
@@ -74,6 +75,7 @@ namespace SEOMacroscope
     [Test]
     public async Task TestHttpTwoClientGet ()
     {
+
       MacroscopeHttpTwoClient Client = new MacroscopeHttpTwoClient();
       List<Uri> UrlList = new List<Uri>();
 
