@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "New v1.7.3 release of SEO Macroscope: Chainlinks"
-date: "2018-05-20 09:00:00 -09:00"
-published: false
+date: "2018-05-22 23:00:00 -09:00"
+published: true
 description: "This release of SEO Macroscope primarily fixes a number of minor bugs."
 excerpt: "This release of SEO Macroscope primarily fixes a number of minor bugs."
 ---
