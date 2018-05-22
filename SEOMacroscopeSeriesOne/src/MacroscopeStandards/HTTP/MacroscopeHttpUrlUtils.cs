@@ -628,13 +628,63 @@ namespace SEOMacroscope
 
     }
 
+    /**************************************************************************/
+
+    public static string DetermineStartingDirectory ( string Url )
+    {
+
+      Uri StartUri = null;
+      string Path = "/";
+      string StartUriPort = "";
+      string StartingUrl = null;
+
+      try
+      {
+
+        StartUri = new Uri( Url );
+
+        if( StartUri.Port > 0 )
+        {
+          StartUriPort = string.Format( ":{0}", StartUri.Port );
+        }
+
+        Path = StartUri.AbsolutePath;
+
+      }
+      catch( UriFormatException ex )
+      {
+        DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ), true );
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ), true );
+      }
 
 
+      if( StartUri != null )
+      {
 
+        Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
 
+        if( Path.Length == 0 )
+        {
+          Path = "/";
+        }
 
+        StartingUrl = string.Join(
+            "",
+            StartUri.Scheme,
+            "://",
+            StartUri.Host,
+            StartUriPort,
+            Path
+        );
 
+      }
 
+      return ( StartingUrl );
+
+    }
 
     /**************************************************************************/
 
@@ -673,6 +723,7 @@ namespace SEOMacroscope
           || ( CurrentUri.Scheme.ToLower() == "https" ) )
         {
 
+          string StartingUrl = MacroscopeHttpUrlUtils.DetermineStartingDirectory( Url: StartUrl );
           string Path = CurrentUri.AbsolutePath;
           string CurrentUriString;
           int ParentStartingDirectoryLength;
@@ -694,12 +745,12 @@ namespace SEOMacroscope
             Path
           );
 
-          ParentStartingDirectoryLength = StartUrl.Length;
+          ParentStartingDirectoryLength = StartingUrl.Length;
           CurrentUriStringLength = CurrentUriString.Length;
 
           if( ParentStartingDirectoryLength >= CurrentUriStringLength )
           {
-            if( StartUrl.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
+            if( StartingUrl.StartsWith( CurrentUriString, StringComparison.Ordinal ) )
             {
               IsWithin = true;
             }
@@ -751,6 +802,7 @@ namespace SEOMacroscope
           || ( CurrentUri.Scheme.ToLower() == "https" ) )
         {
 
+          string StartingUrl = MacroscopeHttpUrlUtils.DetermineStartingDirectory( Url: StartUrl );
           string Path = CurrentUri.AbsolutePath;
           string CurrentUriString;
           int ChildStartingDirectoryLength;
@@ -772,13 +824,13 @@ namespace SEOMacroscope
             Path
           );
 
-          ChildStartingDirectoryLength = StartUrl.Length;
+          ChildStartingDirectoryLength = StartingUrl.Length;
           CurrentUriStringLength = CurrentUriString.Length;
 
           if( CurrentUriStringLength >= ChildStartingDirectoryLength )
           {
 
-            if( CurrentUriString.StartsWith( StartUrl, StringComparison.Ordinal ) )
+            if( CurrentUriString.StartsWith( StartingUrl, StringComparison.Ordinal ) )
             {
               IsWithin = true;
             }
@@ -792,37 +844,7 @@ namespace SEOMacroscope
       return ( IsWithin );
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     /**************************************************************************/
 
     public static string CleanUrlCss ( string CssProperty )

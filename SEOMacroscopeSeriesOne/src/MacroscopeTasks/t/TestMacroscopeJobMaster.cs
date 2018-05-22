@@ -51,8 +51,6 @@ namespace SEOMacroscope
 
       JobMaster.SetStartUrl( Url: StartUrl );
 
-      JobMaster.DetermineStartingDirectory();
-
       Assert.AreEqual( StartUrl, JobMaster.GetStartUrl(), string.Format( "FAIL: {0}", StartUrl ) );
 
     }

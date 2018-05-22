@@ -372,19 +372,17 @@ namespace SEOMacroscope
     public bool Execute ()
     {
 
-      this.DebugMsg( string.Format( "Start URL: {0}", this.StartUrl ) );
+      this.DebugMsg( string.Format( "Start URL: {0}", this.GetStartUrl() ) );
 
       //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
 
-      this.StartUrl = MacroscopeHttpUrlUtils.SanitizeUrl( Url: this.StartUrl );
+      this.SetStartUrl( Url: MacroscopeHttpUrlUtils.SanitizeUrl( Url: this.GetStartUrl() ) );
 
-      this.DocCollection.SetStartUrl( Url: this.StartUrl );
-
-      this.DetermineStartingDirectory();
+      this.DocCollection.SetStartUrl( Url: this.GetStartUrl() );
 
       this.SetThreadsStop( Stopped: false );
 
-      this.AllowedHosts.AddFromUrl( Url: this.StartUrl );
+      this.AllowedHosts.AddFromUrl( Url: this.GetStartUrl() );
 
       if( !this.PeekUrlQueue() )
       {
@@ -392,7 +390,7 @@ namespace SEOMacroscope
         { // Add robots.txt URL to queue
           if( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
           {
-            string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.StartUrl );
+            string RobotsUrl = MacroscopeRobots.GenerateRobotUrl( Url: this.GetStartUrl() );
             if( !string.IsNullOrEmpty( RobotsUrl ) )
             {
               this.AddUrlQueueItem( Url: RobotsUrl );
@@ -406,7 +404,7 @@ namespace SEOMacroscope
             MacroscopeSitemapPaths SitemapPaths = new MacroscopeSitemapPaths();
             foreach( string SitemapPath in SitemapPaths.IterateSitemapPaths() )
             {
-              string SitemapUrl = MacroscopeSitemapPaths.GenerateSitemapUrl( Url: this.StartUrl, SitemapPath: SitemapPath );
+              string SitemapUrl = MacroscopeSitemapPaths.GenerateSitemapUrl( Url: this.GetStartUrl(), SitemapPath: SitemapPath );
               if( !string.IsNullOrEmpty( SitemapUrl ) )
               {
                 this.AddUrlQueueItem( Url: SitemapUrl );
@@ -418,7 +416,7 @@ namespace SEOMacroscope
         { // Add humans.txt URL to queue
           if( MacroscopePreferencesManager.GetProbeHumansText() )
           {
-            string HumansUrl = MacroscopeHumans.GenerateHumansUrl( Url: this.StartUrl );
+            string HumansUrl = MacroscopeHumans.GenerateHumansUrl( Url: this.GetStartUrl() );
             if( !string.IsNullOrEmpty( HumansUrl ) )
             {
               this.AddUrlQueueItem( Url: HumansUrl );
@@ -426,9 +424,9 @@ namespace SEOMacroscope
           }
         }
 
-        this.IncludeExcludeUrls.AddExplicitIncludeUrl( Url: this.StartUrl );
+        this.IncludeExcludeUrls.AddExplicitIncludeUrl( Url: this.GetStartUrl() );
 
-        this.AddUrlQueueItem( Url: this.StartUrl );
+        this.AddUrlQueueItem( Url: this.GetStartUrl() );
 
         foreach( MacroscopeDocument msDoc in this.GetDocCollection().IterateDocuments() )
         {
@@ -437,9 +435,9 @@ namespace SEOMacroscope
 
       }
 
-      this.ProbeRobotsFile( Url: this.StartUrl );
+      this.ProbeRobotsFile( Url: this.GetStartUrl() );
 
-      this.SetCrawlDelay( Url: this.StartUrl );
+      this.SetCrawlDelay( Url: this.GetStartUrl() );
 
       this.SpawnWorkers();
 
@@ -450,7 +448,7 @@ namespace SEOMacroscope
         this.TaskController.ICallbackScanComplete();
       }
 
-      this.AddUpdateDisplayQueue( Url: this.StartUrl );
+      this.AddUpdateDisplayQueue( Url: this.GetStartUrl() );
 
       return ( true );
 
@@ -1089,6 +1087,7 @@ namespace SEOMacroscope
     public string SetStartUrl ( string Url )
     {
       this.StartUrl = Url;
+      this.DetermineStartingDirectory();
       return ( this.StartUrl );
     }
 
@@ -1103,7 +1102,7 @@ namespace SEOMacroscope
 
     public string GetStartUriHostAndPort ()
     {
-      Uri StartUri = new Uri( this.StartUrl );
+      Uri StartUri = new Uri( this.GetStartUrl() );
       string StartUriHostAndPort = null;
       if( StartUri != null )
       {
@@ -1148,70 +1147,11 @@ namespace SEOMacroscope
 
     /** Crawl Parent / Child Directories **************************************/
 
-    public void DetermineStartingDirectory ()
+    private void DetermineStartingDirectory ()
     {
-
-      Uri StartUri = null;
-      string Path = "/";
-      string StartUriPort = "";
-
-      try
-      {
-
-        StartUri = new Uri( this.GetStartUrl() );
-
-        if( StartUri.Port > 0 )
-        {
-          StartUriPort = string.Format( ":{0}", StartUri.Port );
-        }
-
-        Path = StartUri.AbsolutePath;
-
-      }
-      catch( UriFormatException ex )
-      {
-        this.DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
-      }
-      catch( Exception ex )
-      {
-        this.DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
-      }
-
-
-      if( StartUri != null )
-      {
-
-        Path = Regex.Replace( Path, "/[^/]*$", "/", RegexOptions.IgnoreCase );
-
-        if( Path.Length == 0 )
-        {
-          Path = "/";
-        }
-
-        this.SetParentStartingDirectory(
-          Url: string.Join(
-            "",
-            StartUri.Scheme,
-            "://",
-            StartUri.Host,
-            StartUriPort,
-            Path
-          )
-        );
-
-        this.SetChildStartingDirectory(
-          Url: string.Join(
-            "",
-            StartUri.Scheme,
-            "://",
-            StartUri.Host,
-            StartUriPort,
-            Path
-          )
-        );
-
-      }
-
+      string StartingUrl = MacroscopeHttpUrlUtils.DetermineStartingDirectory( Url: this.GetStartUrl() );
+      this.SetParentStartingDirectory( Url: StartingUrl );
+      this.SetChildStartingDirectory( Url: StartingUrl );
     }
 
     /** -------------------------------------------------------------------- **/
