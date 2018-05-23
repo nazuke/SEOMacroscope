@@ -2054,24 +2054,14 @@ namespace SEOMacroscope
       return ( this.DocumentTextLanguage );
     }
 
-    /** -------------------------------------------------------------------- **/
+    /** Word Count ************************************************************/
 
     private void SetWordCount ()
     {
-
-      this.WordCount = 0;
-
-      try
-      {
-        string[] Words = Regex.Split( this.DocumentTextCleaned, @"\s+", RegexOptions.Singleline );
-        this.WordCount = Words.Length;
-      }
-      catch ( Exception ex )
-      {
-        this.DebugMsg( string.Format( "SetWordCount: {0}", ex.Message ) );
-      }
-
+      this.WordCount = MacroscopeAnalyzeWordCount.CountWords( Text: this.DocumentTextCleaned );
     }
+
+    /** -------------------------------------------------------------------- **/
 
     public int GetWordCount ()
     {

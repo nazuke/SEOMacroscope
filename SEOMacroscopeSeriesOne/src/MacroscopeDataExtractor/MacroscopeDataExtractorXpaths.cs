@@ -271,7 +271,7 @@ namespace SEOMacroscope
       catch( XPathException ex )
       {
 
-        DebugMsg( ex.Message, true );
+        DebugMsgStatic( ex.Message );
 
         IsValid = false;
         
@@ -279,7 +279,7 @@ namespace SEOMacroscope
       catch( Exception ex )
       {
 
-        DebugMsg( ex.Message, true );
+        DebugMsgStatic( ex.Message );
 
         IsValid = false;
         

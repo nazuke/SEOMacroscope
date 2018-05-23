@@ -339,11 +339,11 @@ namespace SEOMacroscope
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ) );
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "ParseHostnameFromUrl: {0}", ex.Message ) );
         }
 
         if( DocumentUrl != null )

@@ -118,11 +118,11 @@ namespace SEOMacroscope
       }
       catch( InvalidOperationException ex )
       {
-        DebugMsg( string.Format( "GenerateSitemapUrl: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "GenerateSitemapUrl: {0}", ex.Message ) );
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "GenerateSitemapUrl: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "GenerateSitemapUrl: {0}", ex.Message ) );
       }
 
       if( !string.IsNullOrEmpty( NewSitemapUrl ) )

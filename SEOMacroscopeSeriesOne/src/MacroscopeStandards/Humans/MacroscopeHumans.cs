@@ -49,7 +49,7 @@ namespace SEOMacroscope
       Uri HumansUri = null;
       string HumansTxtUrl = null;
 
-      DebugMsg( string.Format( "HUMANS Disabled: {0}", Url ), true );
+      DebugMsgStatic( string.Format( "HUMANS Disabled: {0}", Url ) );
 
       try
       {
@@ -77,11 +77,11 @@ namespace SEOMacroscope
       }
       catch ( InvalidOperationException ex )
       {
-        DebugMsg( string.Format( "GenerateHumansUrl: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "GenerateHumansUrl: {0}", ex.Message ) );
       }
       catch ( UriFormatException ex )
       {
-        DebugMsg( string.Format( "GenerateHumansUrl: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "GenerateHumansUrl: {0}", ex.Message ) );
       }
 
       if ( !string.IsNullOrEmpty( HumansTxtUrl ) )

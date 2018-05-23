@@ -73,7 +73,7 @@ namespace SEOMacroscope
         catch( UriFormatException ex )
         {
 
-          DebugMsg( string.Format( "ValidateUrl: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "ValidateUrl: {0}", ex.Message ) );
 
         }
 
@@ -91,12 +91,12 @@ namespace SEOMacroscope
       string Unsanitary;
       string Sanitized;
 
-      DebugMsg( string.Format( "SanitizeUrl 1: {0}", Url ), true );
+      DebugMsgStatic( string.Format( "SanitizeUrl 1: {0}", Url ) );
 
       Unsanitary = Uri.UnescapeDataString( Url );
       Sanitized = Uri.EscapeUriString( Unsanitary );
 
-      DebugMsg( string.Format( "SanitizeUrl 2: {0}", Sanitized ), true );
+      DebugMsgStatic( string.Format( "SanitizeUrl 2: {0}", Sanitized ) );
 
       return ( Sanitized );
 
@@ -128,16 +128,16 @@ namespace SEOMacroscope
           Url: BaseHref
         );
 
-        DebugMsg( string.Format( "BASEHREF: {0}", BaseHref ), true );
-        DebugMsg( string.Format( "ABSOLUTEBASEHREF: {0}", AbsoluteBaseHref ), true );
+        DebugMsgStatic( string.Format( "BASEHREF: {0}", BaseHref ) );
+        DebugMsgStatic( string.Format( "ABSOLUTEBASEHREF: {0}", AbsoluteBaseHref ) );
 
         UrlFixed = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
           BaseUrl: AbsoluteBaseHref,
           Url: Url
         );
 
-        DebugMsg( string.Format( "URL: {0}", Url ), true );
-        DebugMsg( string.Format( "URLFIXED: {0}", UrlFixed ), true );
+        DebugMsgStatic( string.Format( "URL: {0}", Url ) );
+        DebugMsgStatic( string.Format( "URLFIXED: {0}", UrlFixed ) );
 
       }
       else
@@ -193,11 +193,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "MakeUrlAbsolute: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "MakeUrlAbsolute: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "MakeUrlAbsolute: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "MakeUrlAbsolute: {0}", ex.Message ) );
       }
 
       if( BaseUri == null )
@@ -207,8 +207,8 @@ namespace SEOMacroscope
 
       if( !Regex.IsMatch( Url, "^(https?:|/|#)" ) )
       {
-        DebugMsg( string.Format( "STRANGE URL: 1: {0}", BaseUrl ), true );
-        DebugMsg( string.Format( "STRANGE URL: 2: {0}", Url ), true );
+        DebugMsgStatic( string.Format( "STRANGE URL: 1: {0}", BaseUrl ) );
+        DebugMsgStatic( string.Format( "STRANGE URL: 2: {0}", Url ) );
 
       }
 
@@ -228,7 +228,7 @@ namespace SEOMacroscope
         }
         if( IsSuspect )
         {
-          DebugMsg( string.Format( "STRANGE URL: IS SUSPECT: {0}", Url ), true );
+          DebugMsgStatic( string.Format( "STRANGE URL: IS SUSPECT: {0}", Url ) );
           return ( null );
         }
       }
@@ -250,11 +250,11 @@ namespace SEOMacroscope
         }
         catch( InvalidOperationException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
 
       }
@@ -278,11 +278,11 @@ namespace SEOMacroscope
         }
         catch( InvalidOperationException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
 
       }
@@ -307,11 +307,11 @@ namespace SEOMacroscope
         }
         catch( InvalidOperationException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
 
       }
@@ -339,11 +339,11 @@ namespace SEOMacroscope
         }
         catch( InvalidOperationException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
 
       }
@@ -357,11 +357,11 @@ namespace SEOMacroscope
         }
         catch( InvalidOperationException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
 
       }
@@ -375,13 +375,13 @@ namespace SEOMacroscope
       else
       {
 
-        DebugMsg( string.Format( "RELATIVE URL 1: {0}", Url ), true );
+        DebugMsgStatic( string.Format( "RELATIVE URL 1: {0}", Url ) );
 
         string BasePath = Regex.Replace( BaseUri.AbsolutePath, "/[^/]+$", "/" );
         string NewPath = string.Join( "", BasePath, Url );
 
-        DebugMsg( string.Format( "RELATIVE URL 2: {0}", BasePath ), true );
-        DebugMsg( string.Format( "RELATIVE URL 3: {0}", NewPath ), true );
+        DebugMsgStatic( string.Format( "RELATIVE URL 2: {0}", BasePath ) );
+        DebugMsgStatic( string.Format( "RELATIVE URL 3: {0}", NewPath ) );
 
         try
         {
@@ -399,11 +399,11 @@ namespace SEOMacroscope
         }
         catch( InvalidOperationException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
 
       }
@@ -437,18 +437,18 @@ namespace SEOMacroscope
       }
       catch( InvalidOperationException ex )
       {
-        DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
+        DebugMsgStatic( ex.Message );
+        DebugMsgStatic( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ) );
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
+        DebugMsgStatic( ex.Message );
+        DebugMsgStatic( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ), true );
+        DebugMsgStatic( ex.Message );
+        DebugMsgStatic( string.Format( "FAILED TO VERIFY: {0}", BaseUrl ) );
       }
 
       try
@@ -457,18 +457,18 @@ namespace SEOMacroscope
       }
       catch( InvalidOperationException ex )
       {
-        DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", Url ), true );
+        DebugMsgStatic( ex.Message );
+        DebugMsgStatic( string.Format( "FAILED TO VERIFY: {0}", Url ) );
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", Url ), true );
+        DebugMsgStatic( ex.Message );
+        DebugMsgStatic( string.Format( "FAILED TO VERIFY: {0}", Url ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", Url ), true );
+        DebugMsgStatic( ex.Message );
+        DebugMsgStatic( string.Format( "FAILED TO VERIFY: {0}", Url ) );
       }
 
       try
@@ -480,8 +480,8 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( ex.Message, true );
-        DebugMsg( string.Format( "FAILED TO VERIFY: {0}", Url ), true );
+        DebugMsgStatic( ex.Message );
+        DebugMsgStatic( string.Format( "FAILED TO VERIFY: {0}", Url ) );
       }
 
       return ( Success );
@@ -517,15 +517,15 @@ namespace SEOMacroscope
       }
       catch( InvalidOperationException ex )
       {
-        DebugMsg( ex.Message, true );
+        DebugMsgStatic( ex.Message );
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( ex.Message, true );
+        DebugMsgStatic( ex.Message );
       }
       catch( Exception ex )
       {
-        DebugMsg( ex.Message, true );
+        DebugMsgStatic( ex.Message );
       }
 
       if( ( UriLeft != null ) && ( UriRight != null ) )
@@ -596,11 +596,11 @@ namespace SEOMacroscope
       }
       catch( InvalidOperationException ex )
       {
-        DebugMsg( ex.Message, true );
+        DebugMsgStatic( ex.Message );
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( ex.Message, true );
+        DebugMsgStatic( ex.Message );
       }
 
       if( DocumentURI != null )
@@ -653,11 +653,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "DetermineStartingDirectory: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "DetermineStartingDirectory: {0}", ex.Message ) );
       }
 
 
@@ -708,11 +708,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "IsWithinParentDirectory: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "IsWithinParentDirectory: {0}", ex.Message ) );
       }
 
       if( CurrentUri != null )
@@ -787,11 +787,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "UriFormatException: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "UriFormatException: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "Exception: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "Exception: {0}", ex.Message ) );
       }
 
       if( CurrentUri != null )
@@ -844,7 +844,7 @@ namespace SEOMacroscope
       return ( IsWithin );
 
     }
-    
+
     /**************************************************************************/
 
     public static string CleanUrlCss ( string CssProperty )
@@ -853,17 +853,17 @@ namespace SEOMacroscope
       string CleanedUrl = null;
 
 
-      DebugMsg( string.Format( "CleanUrlCss: sProperty: {0}", CssProperty ), true );
+      DebugMsgStatic( string.Format( "CleanUrlCss: sProperty: {0}", CssProperty ) );
 
       if( Regex.IsMatch( CssProperty, @"url\([^()]+\)" ) )
       {
         MatchCollection reMatches;
 
-        DebugMsg( string.Format( "CleanUrlCss: HAS URL: {0}", CssProperty ), true );
+        DebugMsgStatic( string.Format( "CleanUrlCss: HAS URL: {0}", CssProperty ) );
 
         reMatches = Regex.Matches( CssProperty, "url\\(\\s*[\"']?(.+?)[\"']?\\s*\\)", RegexOptions.IgnoreCase );
 
-        DebugMsg( string.Format( "CleanUrlCss: reMatches: {0}", reMatches.Count ), true );
+        DebugMsgStatic( string.Format( "CleanUrlCss: reMatches: {0}", reMatches.Count ) );
 
         foreach( Match match in reMatches )
         {
@@ -889,7 +889,7 @@ namespace SEOMacroscope
 
       }
 
-      DebugMsg( string.Format( "CleanUrlCss: CleanedUrl: {0}", CleanedUrl ), true );
+      DebugMsgStatic( string.Format( "CleanUrlCss: CleanedUrl: {0}", CleanedUrl ) );
 
       return ( CleanedUrl );
 
@@ -909,11 +909,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "GetHostnameFromUrl: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "GetHostnameFromUrl: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "GetHostnameFromUrl: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "GetHostnameFromUrl: {0}", ex.Message ) );
       }
 
       if( DocumentUri != null )
@@ -939,11 +939,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "GetHostnameAndPortFromUrl: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "GetHostnameAndPortFromUrl: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "GetHostnameAndPortFromUrl: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "GetHostnameAndPortFromUrl: {0}", ex.Message ) );
       }
 
       if( DocumentUri != null )
@@ -977,11 +977,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "StripQueryString: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "StripQueryString: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "StripQueryString: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "StripQueryString: {0}", ex.Message ) );
       }
 
       if( UriBase != null )
@@ -1011,15 +1011,15 @@ namespace SEOMacroscope
         }
         catch( InvalidOperationException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( Exception ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
 
         if( UriBase != null )
@@ -1058,11 +1058,11 @@ namespace SEOMacroscope
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "StripHashFragment: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "StripHashFragment: {0}", ex.Message ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "StripHashFragment: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "StripHashFragment: {0}", ex.Message ) );
       }
 
       if( UriBase != null )
@@ -1092,15 +1092,15 @@ namespace SEOMacroscope
         }
         catch( InvalidOperationException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( UriFormatException ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
         catch( Exception ex )
         {
-          DebugMsg( ex.Message, true );
+          DebugMsgStatic( ex.Message );
         }
 
         if( UriBase != null )
@@ -1146,13 +1146,13 @@ namespace SEOMacroscope
       }
       catch( MacroscopeDocumentException ex )
       {
-        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ), true );
-        DebugMsg( string.Format( "MacroscopeDocumentException: {0}", TargetUri.ToString() ), true );
+        DebugMsgStatic( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
+        DebugMsgStatic( string.Format( "MacroscopeDocumentException: {0}", TargetUri.ToString() ) );
       }
       catch( Exception ex )
       {
-        DebugMsg( string.Format( "Exception: {0}", ex.Message ), true );
-        DebugMsg( string.Format( "Exception: {0}", TargetUri.ToString() ), true );
+        DebugMsgStatic( string.Format( "Exception: {0}", ex.Message ) );
+        DebugMsgStatic( string.Format( "Exception: {0}", TargetUri.ToString() ) );
       }
 
       return ( MimeType );

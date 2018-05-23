@@ -59,11 +59,11 @@ namespace SEOMacroscope
       }
       catch( InvalidOperationException ex )
       {
-        DebugMsg( string.Format( "CheckValidHostname: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "CheckValidHostname: {0}", ex.Message ) );
       }
       catch( UriFormatException ex )
       {
-        DebugMsg( string.Format( "CheckValidHostname: {0}", ex.Message ), true );
+        DebugMsgStatic( string.Format( "CheckValidHostname: {0}", ex.Message ) );
       }
 
       if( Hostname != null )
@@ -75,11 +75,11 @@ namespace SEOMacroscope
         }
         catch( System.Net.Sockets.SocketException ex )
         {
-          DebugMsg( string.Format( "CheckValidHostname SocketException: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "CheckValidHostname SocketException: {0}", ex.Message ) );
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "CheckValidHostname Exception: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "CheckValidHostname Exception: {0}", ex.Message ) );
         }
         if( ip != null )
         {

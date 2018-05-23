@@ -96,12 +96,12 @@ namespace SEOMacroscope
         }
         catch( System.Collections.Generic.KeyNotFoundException ex )
         {
-          DebugMsg( string.Format( "CleanDocumentText: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "CleanDocumentText: {0}", ex.Message ) );
           msDoc.AddRemark( "CleanDocumentText", "Possibly contains invalid HTML Entities." );
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "CleanDocumentText: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "CleanDocumentText: {0}", ex.Message ) );
           msDoc.AddRemark( "CleanDocumentText", "Possibly contains invalid HTML Entities." );
         }
 
@@ -129,7 +129,7 @@ namespace SEOMacroscope
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "CleanBodyText: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "CleanBodyText: {0}", ex.Message ) );
         }
 
         CleanedText = CleanText( Text: CleanedText );
@@ -239,7 +239,7 @@ namespace SEOMacroscope
         }
         catch( Exception ex )
         {
-          DebugMsg( string.Format( "CompactWhiteSpace: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "CompactWhiteSpace: {0}", ex.Message ) );
         }
 
         NewText = Regex.Replace( NewText, @"[\s]+", " ", RegexOptions.Singleline );

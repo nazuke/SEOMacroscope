@@ -274,7 +274,7 @@ namespace SEOMacroscope
       catch( Exception ex )
       {
 
-        DebugMsg( ex.Message, true );
+        DebugMsgStatic( ex.Message );
 
         IsValid = false;
         

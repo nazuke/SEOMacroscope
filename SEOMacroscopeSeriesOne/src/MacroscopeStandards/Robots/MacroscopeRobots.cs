@@ -207,7 +207,7 @@ namespace SEOMacroscope
       if ( MacroscopePreferencesManager.GetFollowRobotsProtocol() )
       {
 
-        DebugMsg( string.Format( "ROBOTS Disabled: {0}", Url ), true );
+        DebugMsgStatic( string.Format( "ROBOTS Disabled: {0}", Url ) );
 
         Uri BaseUri = null;
         string BaseUriPort = "";
@@ -240,11 +240,11 @@ namespace SEOMacroscope
         }
         catch ( InvalidOperationException ex )
         {
-          DebugMsg( string.Format( "GenerateRobotUrl: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "GenerateRobotUrl: {0}", ex.Message ) );
         }
         catch ( UriFormatException ex )
         {
-          DebugMsg( string.Format( "GenerateRobotUrl: {0}", ex.Message ), true );
+          DebugMsgStatic( string.Format( "GenerateRobotUrl: {0}", ex.Message ) );
         }
 
         if ( !string.IsNullOrEmpty( RobotsTxtUrl ) )

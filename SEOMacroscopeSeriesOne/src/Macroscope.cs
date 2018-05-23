@@ -148,7 +148,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Conditional( "DEVMODE" )]
-    public static void DebugMsg ( string Msg, bool Flag )
+    public static void DebugMsgStatic ( string Msg )
     {
       if( !SuppressStaticDebugMsg )
       {

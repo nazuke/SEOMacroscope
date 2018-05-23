@@ -24,53 +24,52 @@
 */
 
 using System;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
 
-  /// <summary>
-  /// Description of MacroscopeDateTools.
-  /// </summary>
-
-  public class MacroscopeDateTools : Macroscope
+  public class MacroscopeAnalyzeWordCount : MacroscopeAnalysis
   {
 
     /**************************************************************************/
 
-    static MacroscopeDateTools ()
+    public MacroscopeAnalyzeWordCount () : base()
     {
-
-      SuppressStaticDebugMsg = true;
-
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public MacroscopeDateTools ()
-    {
-
-      this.SuppressDebugMsg = true;
-
     }
 
     /**************************************************************************/
 
-    public static DateTime ParseHttpDate (string DateString )
+    public static int CountWords ( string Text )
     {
 
-      DateTime ParsedDate = DateTime.UtcNow;
+      int total = 0;
 
-      try
+      if( ( !string.IsNullOrEmpty( Text ) ) && ( !string.IsNullOrWhiteSpace( Text ) ) )
       {
-        ParsedDate = DateTime.Parse( DateString );
-      }
-      catch( FormatException ex )
-      {
-        DebugMsgStatic( string.Format( "ParseHttpDate: {0}", ex.Message ) );
-        ParsedDate = DateTime.UtcNow;
+
+        try
+        {
+
+          string[] Words = Regex.Split( Text, @"\s+", RegexOptions.Singleline );
+
+          foreach( string Word in Words )
+          {
+            if( ( !string.IsNullOrEmpty( Word ) ) && ( !string.IsNullOrWhiteSpace( Word ) ) )
+            {
+              total++;
+            }
+          }
+
+        }
+        catch( Exception ex )
+        {
+          DebugMsgStatic( string.Format( "CountWords: {0}", ex.Message ) );
+        }
+
       }
 
-      return ( ParsedDate );
+      return ( total );
 
     }
 
