@@ -135,6 +135,31 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    [Test]
+    public void TestParentFolderUrls ()
+    {
+
+      Dictionary<string, int> UrlList = new Dictionary<string, int>();
+
+      UrlList.Add( "https://nazuke.github.io/", 0 );
+      UrlList.Add( "https://nazuke.github.io/0.html", 0 );
+      UrlList.Add( "https://nazuke.github.io/0/1.html", 1 );
+      UrlList.Add( "https://nazuke.github.io/0/1/2.html", 2 );
+      UrlList.Add( "https://nazuke.github.io/0/1/2/", 3 );
+      UrlList.Add( "https://nazuke.github.io/0/1/2/3.html", 3 );
+      UrlList.Add( "https://nazuke.github.io/0/1/2/3.html/", 4 );
+      UrlList.Add( "https://nazuke.github.io/0/1/2/3/4.html?key=value", 4 );
+
+      foreach( KeyValuePair<string, int> UrlPair in UrlList )
+      {
+        List<string> ParentFolderUrls = MacroscopeHttpUrlUtils.GetParentFolderUrls( Url: UrlPair.Key  );
+        Assert.AreEqual( UrlPair.Value, ParentFolderUrls.Count );
+      }
+
+    }
+
+    /**************************************************************************/
+
   }
 
 }

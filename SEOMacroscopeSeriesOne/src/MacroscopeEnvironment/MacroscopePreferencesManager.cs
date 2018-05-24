@@ -83,7 +83,8 @@ namespace SEOMacroscope
     static bool FollowRobotsProtocol;
     static bool FollowSitemapLinks;
     static bool ProbeHumansText;
-
+    static bool ProbeParentFolderUrls;
+    
     static bool CheckRedirects;
     static bool FollowRedirects;
     static bool FollowNoFollow;
@@ -273,6 +274,7 @@ namespace SEOMacroscope
           FollowRobotsProtocol = Preferences.FollowRobotsProtocol;
           FollowSitemapLinks = Preferences.FollowSitemapLinks;
           ProbeHumansText = Preferences.ProbeHumansText;
+          ProbeParentFolderUrls = Preferences.ProbeParentFolderUrls;
 
           CheckRedirects = Preferences.CheckRedirects;
           FollowRedirects = Preferences.FollowRedirects;
@@ -428,6 +430,7 @@ namespace SEOMacroscope
       FollowRobotsProtocol = true;
       FollowSitemapLinks = true;
       ProbeHumansText = true;
+      ProbeParentFolderUrls = true;
 
       CheckRedirects = true;
       FollowRedirects = false;
@@ -701,6 +704,7 @@ namespace SEOMacroscope
         Preferences.FollowRobotsProtocol = FollowRobotsProtocol;
         Preferences.FollowSitemapLinks = FollowSitemapLinks;
         Preferences.ProbeHumansText = ProbeHumansText;
+        Preferences.ProbeParentFolderUrls = ProbeParentFolderUrls;
 
         Preferences.CheckRedirects = CheckRedirects;
         Preferences.FollowRedirects = FollowRedirects;
@@ -1215,6 +1219,18 @@ namespace SEOMacroscope
     public static void SetProbeHumansText ( bool State )
     {
       ProbeHumansText = State;
+    }
+
+    /** Probe Parent Folder URLs **********************************************/
+
+    public static bool GetProbeParentFolderUrls ()
+    {
+      return ( ProbeParentFolderUrls );
+    }
+
+    public static void SetProbeParentFolderUrls ( bool State )
+    {
+      ProbeParentFolderUrls = State;
     }
 
     /**************************************************************************/

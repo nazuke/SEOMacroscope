@@ -807,6 +807,24 @@ namespace SEOMacroscope
 
           this.AddToProgress( Url: NewUrl );
 
+
+          
+          
+          // TDOO: Debug this:
+          if( MacroscopePreferencesManager.GetProbeParentFolderUrls() )
+          {
+            List<string> ParentFolderUrls = MacroscopeHttpUrlUtils.GetParentFolderUrls( Url: NewUrl );
+            foreach( string ParentFolderUrl in ParentFolderUrls )
+            {
+              MacroscopeJobItem ParentJobItem = new MacroscopeJobItem( Url: ParentFolderUrl );
+              this.NamedQueueJobItems.AddToNamedQueue( Name: MacroscopeConstants.NamedQueueUrlList, Item: ParentJobItem );
+              this.AddToProgress( Url: ParentFolderUrl );
+            }
+          }
+
+
+
+
         }
         catch( MacroscopeNamedQueueException ex )
         {

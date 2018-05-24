@@ -1222,5 +1222,17 @@ namespace SEOMacroscope {
                 this["AutomaticallyCheckForUpdates"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ProbeParentFolderUrls {
+            get {
+                return ((bool)(this["ProbeParentFolderUrls"]));
+            }
+            set {
+                this["ProbeParentFolderUrls"] = value;
+            }
+        }
     }
 }

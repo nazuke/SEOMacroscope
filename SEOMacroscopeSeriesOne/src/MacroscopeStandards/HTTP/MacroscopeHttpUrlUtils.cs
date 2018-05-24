@@ -24,6 +24,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.Net.Http;
@@ -1124,6 +1125,43 @@ namespace SEOMacroscope
 
     }
 
+    /** URL Parent Folders ****************************************************/
+
+    public static List<string> GetParentFolderUrls ( string Url )
+    {
+
+      Uri DocumentURI = null;
+      List<string> UrlList = new List<string>();
+
+      try
+      {
+        DocumentURI = new Uri( Url, UriKind.Absolute );
+      }
+      catch( Exception ex )
+      {
+        DebugMsgStatic( ex.Message );
+      }
+
+      if( DocumentURI != null )
+      {
+
+        string UrlStripped = Regex.Replace( Url.ToString(), "[^/]+$", "" );
+
+        while( Regex.IsMatch( UrlStripped, "^https?://[^/]+/([^/]+/)+$" ) )
+        {
+
+          UrlList.Add( UrlStripped );
+
+           UrlStripped = Regex.Replace( UrlStripped, "/[^/]+/$", "/" );
+
+        }
+
+      }
+
+      return ( UrlList );
+
+    }
+    
     /**************************************************************************/
 
     public static async Task<string> GetMimeTypeOfUrl ( MacroscopeJobMaster JobMaster, Uri TargetUri )

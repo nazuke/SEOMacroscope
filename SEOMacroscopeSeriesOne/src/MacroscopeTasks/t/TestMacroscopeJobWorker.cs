@@ -39,20 +39,19 @@ namespace SEOMacroscope
     //[Test] // Not implemented
     public void TestWorker ()
     {
-      List<string> alUrls = new List<string> () {
-        {
-          "http://localhost/"
-        }
-      };
+
+      List<string> alUrls = new List<string>();
+
+      alUrls.Add( "http://localhost/" );
 
       for( int i = 0 ; i < alUrls.Count ; i++ )
       {
 
-        MacroscopeJobMaster JobMaster = new MacroscopeJobMaster (
-                                       JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE
-                                     );
-        
-        MacroscopeJobWorker Worker = new MacroscopeJobWorker ( JobMaster );
+        MacroscopeJobMaster JobMaster;
+
+        JobMaster = new MacroscopeJobMaster( JobRunTimeMode: MacroscopeConstants.RunTimeMode.LIVE );
+
+        MacroscopeJobWorker Worker = new MacroscopeJobWorker( JobMaster );
 
         JobMaster.AddUrlQueueItem( alUrls[ i ] );
 
