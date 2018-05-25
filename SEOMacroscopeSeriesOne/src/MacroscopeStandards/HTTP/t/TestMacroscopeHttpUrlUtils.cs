@@ -136,7 +136,7 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     [Test]
-    public void TestParentFolderUrls ()
+    public void TestParentFolderUrlsDepth ()
     {
 
       Dictionary<string, int> UrlList = new Dictionary<string, int>();
@@ -152,7 +152,7 @@ namespace SEOMacroscope
 
       foreach( KeyValuePair<string, int> UrlPair in UrlList )
       {
-        List<string> ParentFolderUrls = MacroscopeHttpUrlUtils.GetParentFolderUrls( Url: UrlPair.Key  );
+        List<string> ParentFolderUrls = MacroscopeHttpUrlUtils.GetParentFolderUrls( Url: UrlPair.Key );
         Assert.AreEqual( UrlPair.Value, ParentFolderUrls.Count );
       }
 

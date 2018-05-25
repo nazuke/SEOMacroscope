@@ -1152,7 +1152,7 @@ namespace SEOMacroscope
 
           UrlList.Add( UrlStripped );
 
-           UrlStripped = Regex.Replace( UrlStripped, "/[^/]+/$", "/" );
+          UrlStripped = Regex.Replace( UrlStripped, "/[^/]+/$", "/" );
 
         }
 
@@ -1161,7 +1161,7 @@ namespace SEOMacroscope
       return ( UrlList );
 
     }
-    
+
     /**************************************************************************/
 
     public static async Task<string> GetMimeTypeOfUrl ( MacroscopeJobMaster JobMaster, Uri TargetUri )

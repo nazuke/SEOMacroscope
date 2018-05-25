@@ -361,6 +361,8 @@ namespace SEOMacroscope
       this.label9 = new System.Windows.Forms.Label();
       this.groupBox28 = new System.Windows.Forms.GroupBox();
       this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
+      this.groupBox11 = new System.Windows.Forms.GroupBox();
+      this.checkBoxProbeParentFolderUrls = new System.Windows.Forms.CheckBox();
       this.tabControlPreferences.SuspendLayout();
       this.tabPageSpideringControl.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
@@ -433,6 +435,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel4.SuspendLayout();
       this.groupBox33.SuspendLayout();
       this.groupBox28.SuspendLayout();
+      this.groupBox11.SuspendLayout();
       this.SuspendLayout();
       // 
       // tabControlPreferences
@@ -476,6 +479,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel1.Controls.Add(this.groupBox4);
       this.flowLayoutPanel1.Controls.Add(this.groupBox1);
       this.flowLayoutPanel1.Controls.Add(this.groupBox8);
+      this.flowLayoutPanel1.Controls.Add(this.groupBox11);
       this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
       this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -2435,6 +2439,27 @@ namespace SEOMacroscope
       this.checkBoxServerCertificateValidation.Text = "Enable certificate validation";
       this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
       // 
+      // groupBox11
+      // 
+      this.groupBox11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox11.Controls.Add(this.checkBoxProbeParentFolderUrls);
+      this.groupBox11.Location = new System.Drawing.Point(10, 610);
+      this.groupBox11.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
+      this.groupBox11.Name = "groupBox11";
+      this.groupBox11.Size = new System.Drawing.Size(500, 60);
+      this.groupBox11.TabIndex = 7;
+      this.groupBox11.TabStop = false;
+      this.groupBox11.Text = "URL Probes";
+      // 
+      // checkBoxProbeParentFolderUrls
+      // 
+      this.checkBoxProbeParentFolderUrls.Location = new System.Drawing.Point(20, 20);
+      this.checkBoxProbeParentFolderUrls.Name = "checkBoxProbeParentFolderUrls";
+      this.checkBoxProbeParentFolderUrls.Size = new System.Drawing.Size(160, 24);
+      this.checkBoxProbeParentFolderUrls.TabIndex = 1;
+      this.checkBoxProbeParentFolderUrls.Text = "Probe Parent Folders";
+      this.checkBoxProbeParentFolderUrls.UseVisualStyleBackColor = true;
+      // 
       // MacroscopePrefsControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2517,6 +2542,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel4.ResumeLayout(false);
       this.groupBox33.ResumeLayout(false);
       this.groupBox28.ResumeLayout(false);
+      this.groupBox11.ResumeLayout(false);
       this.ResumeLayout(false);
 
 		}
@@ -2544,5 +2570,7 @@ namespace SEOMacroscope
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.GroupBox groupBox8;
     public System.Windows.Forms.CheckBox checkBoxScanSitesInList;
+    private System.Windows.Forms.GroupBox groupBox11;
+    public System.Windows.Forms.CheckBox checkBoxProbeParentFolderUrls;
   }
 }

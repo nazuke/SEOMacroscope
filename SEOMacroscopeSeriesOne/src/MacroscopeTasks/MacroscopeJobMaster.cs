@@ -807,23 +807,7 @@ namespace SEOMacroscope
 
           this.AddToProgress( Url: NewUrl );
 
-
-          
-          
-          // TDOO: Debug this:
-          if( MacroscopePreferencesManager.GetProbeParentFolderUrls() )
-          {
-            List<string> ParentFolderUrls = MacroscopeHttpUrlUtils.GetParentFolderUrls( Url: NewUrl );
-            foreach( string ParentFolderUrl in ParentFolderUrls )
-            {
-              MacroscopeJobItem ParentJobItem = new MacroscopeJobItem( Url: ParentFolderUrl );
-              this.NamedQueueJobItems.AddToNamedQueue( Name: MacroscopeConstants.NamedQueueUrlList, Item: ParentJobItem );
-              this.AddToProgress( Url: ParentFolderUrl );
-            }
-          }
-
-
-
+          this.AddProbedParentFolderUrlsToUrlQueue( Url: NewUrl );
 
         }
         catch( MacroscopeNamedQueueException ex )
@@ -861,7 +845,11 @@ namespace SEOMacroscope
 
       if( Proceed )
       {
+
         this.AddUrlQueueItem( Url: Url );
+
+        this.AddProbedParentFolderUrlsToUrlQueue( Url: Url );
+
       }
 
       return;
@@ -950,6 +938,32 @@ namespace SEOMacroscope
     public int CountUrlQueueItems ()
     {
       return ( this.NamedQueueJobItems.CountNamedQueueItems( Name: MacroscopeConstants.NamedQueueUrlList ) );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void AddProbedParentFolderUrlsToUrlQueue ( string Url )
+    {
+
+      if( MacroscopePreferencesManager.GetProbeParentFolderUrls() )
+      {
+
+        if( this.AllowedHosts.IsInternalUrl( Url: Url ) )
+        {
+
+          List<string> ParentFolderUrls = MacroscopeHttpUrlUtils.GetParentFolderUrls( Url: Url );
+
+          foreach( string ParentFolderUrl in ParentFolderUrls )
+          {
+            MacroscopeJobItem ParentJobItem = new MacroscopeJobItem( Url: ParentFolderUrl );
+            this.NamedQueueJobItems.AddToNamedQueue( Name: MacroscopeConstants.NamedQueueUrlList, Item: ParentJobItem );
+            this.AddToProgress( Url: ParentFolderUrl );
+          }
+
+        }
+
+      }
+
     }
 
     /** Retry Broken Links ****************************************************/
@@ -1181,9 +1195,9 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public string GetParentStartingDirectory ( )
+    public string GetParentStartingDirectory ()
     {
-      return( this.ParentStartingDirectory );
+      return ( this.ParentStartingDirectory );
     }
 
     /** -------------------------------------------------------------------- **/

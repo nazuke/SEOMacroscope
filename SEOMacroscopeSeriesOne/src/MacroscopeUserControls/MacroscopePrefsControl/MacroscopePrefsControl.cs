@@ -119,6 +119,8 @@ namespace SEOMacroscope
 
         this.checkBoxScanSitesInList.Checked = MacroscopePreferencesManager.GetScanSitesInList();
 
+        this.checkBoxProbeParentFolderUrls.Checked = MacroscopePreferencesManager.GetProbeParentFolderUrls();
+
         /** Analysis Options ----------------------------------------------- **/
 
         this.checkBoxResolveAddresses.Checked = MacroscopePreferencesManager.GetResolveAddresses();
@@ -233,7 +235,7 @@ namespace SEOMacroscope
       /** WebProxy Options ------------------------------------------------- **/
 
       MacroscopePreferencesManager.SetProxyType( this.comboBoxProxyType.SelectedIndex );
-      
+
       /** Server Certificate Options --------------------------------------- **/
 
       MacroscopePreferencesManager.SetServerCertificateValidation( this.checkBoxServerCertificateValidation.Checked );
@@ -278,6 +280,8 @@ namespace SEOMacroscope
 
       MacroscopePreferencesManager.SetScanSitesInList( this.checkBoxScanSitesInList.Checked );
 
+      MacroscopePreferencesManager.SetProbeParentFolderUrls( this.checkBoxProbeParentFolderUrls.Checked );
+
       /** Analysis Options ------------------------------------------------- **/
 
       MacroscopePreferencesManager.SetResolveAddresses( this.checkBoxResolveAddresses.Checked );
@@ -294,7 +298,7 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetProcessXml( this.checkBoxProcessXml.Checked );
       MacroscopePreferencesManager.SetProcessBinaries( this.checkBoxProcessBinaries.Checked );
 
-      MacroscopePreferencesManager.SetRedirectChainsMaxHops((int)this.numericUpDownRedirectChainsMaxHops.Value);
+      MacroscopePreferencesManager.SetRedirectChainsMaxHops( (int) this.numericUpDownRedirectChainsMaxHops.Value );
 
       MacroscopePreferencesManager.SetWarnAboutInsecureLinks( this.checkBoxWarnAboutInsecureLinks.Checked );
 

@@ -430,7 +430,7 @@ namespace SEOMacroscope
       FollowRobotsProtocol = true;
       FollowSitemapLinks = true;
       ProbeHumansText = true;
-      ProbeParentFolderUrls = true;
+      ProbeParentFolderUrls = false;
 
       CheckRedirects = true;
       FollowRedirects = false;
