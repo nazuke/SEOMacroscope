@@ -30,10 +30,10 @@ namespace SEOMacroscope
 
   public class MacroscopeAnalyzePageBodyText : MacroscopeAnalysis
   {
-       
+
     /**************************************************************************/
 
-    public MacroscopeAnalyzePageBodyText () : base ()
+    public MacroscopeAnalyzePageBodyText () : base()
     {
     }
 

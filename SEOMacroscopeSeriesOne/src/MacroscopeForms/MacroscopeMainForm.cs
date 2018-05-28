@@ -237,7 +237,7 @@ namespace SEOMacroscope
       {
 
         Result = MessageBox.Show(
-          "A new version of SEO Macroscope is available, go to the downloads website?",
+          "A new version of SEO Macroscope is available. Go to the downloads page of the website?",
           "New SEO Macroscope version available",
           MessageBoxButtons.YesNo,
           MessageBoxIcon.Information,

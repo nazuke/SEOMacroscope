@@ -25,6 +25,7 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -36,6 +37,7 @@ namespace SEOMacroscope
 
     public MacroscopeCheckForUpdate ()
     {
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/
@@ -43,24 +45,100 @@ namespace SEOMacroscope
     public async Task<bool> PhoneHome ()
     {
 
-      bool NewVersionAvailable = true;
+      bool NewVersionAvailable = false;
       MacroscopeHttpUrlLoader UrlLoader = new MacroscopeHttpUrlLoader();
       MacroscopeHttpTwoClient Client = new MacroscopeHttpTwoClient();
       Uri TargetUri = new Uri( MacroscopeConstants.CheckForUpdateUrl );
       byte[] Data = await UrlLoader.LoadImmediateDataFromUrl( Client: Client, TargetUri: TargetUri );
       string PublishedVersion = System.Text.Encoding.UTF8.GetString( Data );
       string CurrentVersion = Macroscope.GetVersion();
+      bool CheckResult = this.IsVersionNewer( CurrentVersion: CurrentVersion, CompareVersion: PublishedVersion );
 
-      if( PublishedVersion == CurrentVersion )
-      {
-        NewVersionAvailable = false;
-      }
-      else
+      if( CheckResult )
       {
         NewVersionAvailable = true;
       }
 
       return ( NewVersionAvailable );
+
+    }
+
+    /**************************************************************************/
+
+    public bool IsVersionNewer ( string CurrentVersion, string CompareVersion )
+    {
+
+      bool IsNewer = false;
+
+      try
+      {
+
+        int[] ParsedCurrentVersion = this.ParseVersionNumber( VersionString: CurrentVersion );
+        int[] ParsedCompareVersion = this.ParseVersionNumber( VersionString: CompareVersion );
+
+        if( ParsedCompareVersion[ 0 ] > ParsedCurrentVersion[ 0 ] )
+        {
+          IsNewer = true;
+        }
+        else if( ParsedCompareVersion[ 0 ] == ParsedCurrentVersion[ 0 ] )
+        {
+
+          if( ParsedCompareVersion[ 1 ] > ParsedCurrentVersion[ 1 ] )
+          {
+            IsNewer = true;
+          }
+          else if( ParsedCompareVersion[ 1 ] == ParsedCurrentVersion[ 1 ] )
+          {
+            if( ParsedCompareVersion[ 2 ] > ParsedCurrentVersion[ 2 ] )
+            {
+              IsNewer = true;
+            }
+            else if( ParsedCompareVersion[ 2 ] == ParsedCurrentVersion[ 2 ] )
+            {
+              if( ParsedCompareVersion[ 3 ] > ParsedCurrentVersion[ 3 ] )
+              {
+                IsNewer = true;
+              }
+            }
+          }
+
+        }
+
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( string.Format( "IsVersionNewer: {0}", ex.Message ) );
+      }
+
+      return ( IsNewer );
+
+    }
+
+    /**************************************************************************/
+
+    public int[] ParseVersionNumber ( string VersionString )
+    {
+
+      int[] VersionElements = new int[ 4 ];
+      MatchCollection matches;
+
+      matches = Regex.Matches( VersionString, @"^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$" );
+
+      foreach( Match MatchedElement in matches )
+      {
+
+        for( int i = 0 ; i < 4 ; i++ )
+        {
+
+          if( !Int32.TryParse( MatchedElement.Groups[ i + 1 ].Value, out VersionElements[ i ] ) )
+          {
+            throw new Exception( "Invalid version string." );
+          }
+        }
+
+      }
+
+      return ( VersionElements );
 
     }
 
