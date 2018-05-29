@@ -96,7 +96,7 @@ If enabled, SEO Macroscope will attempt to fetch and process the humans.txt file
 
 For more information about humans.txt, please refer to:
 
-> http://humanstxt.org/
+    http://humanstxt.org/
 
 #### Links
 
@@ -244,7 +244,7 @@ For example, a linked .EXE file will have a HEAD request issued against it, to c
 
 {% include go-to-top.html %}
 
-#### List File Processing
+#### URL List Processing
 
 ##### Scan sites in list
 
@@ -253,6 +253,30 @@ Enabling this option will cause SEO Macroscope to recurse into the websites for 
 Please note that this may take a long time to complete if there are many websites included in the URL list.
 
 Uncheck this option, if you only need to check the exact URLs in the URL list.
+
+#### URL Probes
+
+##### Probe parent folders
+
+Enabling this option will probe parent directories for each URL found on an internal site.
+
+This builds a new set of URLs to crawl, by taking the current URL, and progressively stripping off each rightmost element until it reaches the root.
+
+Each stripped URL is then added to the list of URLs to crawl.
+
+For example:
+
+    https://nazuke.github.io/SEOMacroscope/folder1/folder2/folder3/index.html
+
+... will yield the following set of URLs to probe:
+
+    https://nazuke.github.io/SEOMacroscope/folder1/folder2/folder3/
+    https://nazuke.github.io/SEOMacroscope/folder1/folder2/
+    https://nazuke.github.io/SEOMacroscope/folder1/
+    https://nazuke.github.io/SEOMacroscope/
+    https://nazuke.github.io/
+
+This may be used to probe for URLs on the site that are not otherwise linked to from elsewhere.
 
 <!-- ======================================================================= -->
 
@@ -717,13 +741,219 @@ Some URLs may be automatically probed for, even if they are not referenced from 
 
 For example:
 
-> /robots.txt
+    /robots.txt
 
-> /humans.txt
+    /humans.txt
 
-> /favicon.ico
+    /favicon.ico
 
-> /sitemap.xml
+    /sitemap.xml
+
+<!-- *********************************************************************** -->
+
+## Crawled Results Lists
+
+The crawled results lists are the upper tabbed panels on the left hand side of the SEO Macroscope window.
+
+These lists reveal various aspects about the pages and documents found during a crawl.
+
+### Structure Overview
+
+TBD
+
+### Hierarchy
+
+TBD
+
+### Errors
+
+TBD
+
+### Search
+
+TBD
+
+### Robots
+
+TBD
+
+### Sitemaps
+
+TBD
+
+### Sitemap Errors
+
+TBD
+
+### Sitemaps Audit
+
+TBD
+
+### Canonical Analysis
+
+TBD
+
+### HrefLang Matrix
+
+TBD
+
+### Redirects Audit
+
+TBD
+
+### Redirect Chains
+
+TBD
+
+### Hostnames
+
+TBD
+
+### Links
+
+TBD
+
+### Hyperlinks
+
+TBD
+
+### URI Analysis
+
+TBD
+
+### Orphaned Pages
+
+TBD
+
+### Page Titles
+
+TBD
+
+### Descriptions
+
+TBD
+
+### Keywords
+
+TBD
+
+### Page Headings
+
+TBD
+
+### Page Text
+
+TBD
+
+### Stylesheets
+
+TBD
+
+### Javascripts
+
+TBD
+
+### Images
+
+TBD
+
+### Audio
+
+TBD
+
+### Videos
+
+TBD
+
+### Email Addresses
+
+TBD
+
+### Telephone Numbers
+
+TBD
+
+### Custom Filters
+
+TBD
+
+### Data Extractors
+
+This lists scraped data as specified under **Task Parameters -> Data Extractors*.
+
+#### CSS Selectors
+
+TBD
+
+#### Regular Expressions
+
+TBD
+
+#### XPaths
+
+TBD
+
+### Remarks
+
+TBD
+
+### URL Queue
+
+TBD
+
+### History
+
+TBD
+
+
+
+
+
+
+
+
+<!-- *********************************************************************** -->
+
+## Document Detail Lists
+
+The document detail lists are the lower tabbed panels on the left hand side of the SEO Macroscope window.
+
+These lists reveal various aspects about specific the specific document selected in one of the crawled results list panels. Only those crawled results list panels that have a **URL** column will activate the document detail panel.
+
+TBD
+
+
+
+
+<!-- *********************************************************************** -->
+
+## Crawl Overview Panels
+
+These are the panels on the upper right hand side. These display various aspects and statistics about the entire crawled collection.
+
+### Site Overview
+
+TBD
+
+### Site Speed
+
+TBD
+
+### Keyword Analysis
+
+TBD
+
+
+
+
+<!-- *********************************************************************** -->
+
+## Excel and CSV Reports
+
+TBD
+
+
+
 
 <!-- *********************************************************************** -->
 
@@ -735,13 +965,26 @@ Explanations of how SEO Macroscope deals with a few details under the hood.
 
 Briefly, SEO Macroscope maintains the notion of a URL as belonging to either an "internal", or an "external" host.
 
-Internal hosts will generally be crawled, dependent on other preference settings; whereas external hosts will not. In many places, URLs are highlighted as green when they are considered internal.
-
-An "internal" host is one that is explicitly specified either via the **Start URL** field, or is present in a loaded or pasted URL list. There is also the option of using the context menu in some of the overview panels, to mark a particular URL as belonging to an internal host.
-
-An "external" host is generally one that is linked to from HTML pages or stylesheets, but is different to the **Start URL** or URL list host(s).
+* Internal hosts will generally be crawled, dependent on other preference settings; whereas external hosts will not. In many places, URLs are highlighted as green when they are considered internal.
+* An "internal" host is one that is explicitly specified either via the **Start URL** field, or is present in a loaded or pasted URL list. There is also the option of using the context menu in some of the overview panels, to mark a particular URL as belonging to an internal host.
+* An "external" host is generally one that is linked to from HTML pages or stylesheets, but is different to the **Start URL** or URL list host(s).
 
 Generally, external hosts will be issued a HEAD request, but will not be crawled.
+
+### Links vs Hyperlinks
+
+SEO Macroscope differentiates "Links" and "Hyperlinks" like so:
+
+* **Links** in a crawled document include all HTML element types, and some other document type links, that form a link to/from the current document, and some external crawlable resource. The list of links are what SEO Macroscope extracts from a document, and considers for crawling. For example, an HTML document would include links to the following external resources:
+  * CSS files
+  * Javascripts
+  * Images
+  * Other web pages
+  * PDFs
+  * Etc...
+* **Hyperlinks** in a crawled document are all of the links that could be clicked on by a user in a web browser, including Hyperlinks from other pages in the crawled collection.
+
+Generally, webmasters will be interested in looking at problems with Links; where SEO people will likely want to be examining the Hyperlinks.
 
 {% include go-to-top.html %}
 
