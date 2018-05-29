@@ -36,6 +36,7 @@ namespace SEOMacroscope
 
     public MacroscopeAnalyzeOrphanedPages () : base()
     {
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/
@@ -45,58 +46,61 @@ namespace SEOMacroscope
 
       MacroscopeDocumentList OrphanedDocumentList = new MacroscopeDocumentList();
 
-      foreach ( MacroscopeDocument msDocLeft in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDocLeft in DocCollection.IterateDocuments() )
       {
 
         bool IsOrphan = true;
         string UrlLeft = msDocLeft.GetUrl();
 
-        if ( !IsValidDocument( msDoc: msDocLeft ) )
+        if( !IsValidDocument( msDoc: msDocLeft ) )
         {
           continue;
         }
 
-        foreach ( MacroscopeDocument msDocRight in DocCollection.IterateDocuments() )
+        foreach( MacroscopeDocument msDocRight in DocCollection.IterateDocuments() )
         {
 
-          if ( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: msDocRight.GetUrl() ) )
+          if( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: msDocRight.GetUrl() ) )
           {
             continue;
           }
 
-          if ( !this.IsValidDocument( msDoc: msDocRight ) )
+          if( !this.IsValidDocument( msDoc: msDocRight ) )
           {
             continue;
           }
 
-          foreach ( MacroscopeHyperlinkOut HyperlinkOut in msDocRight.IterateHyperlinksOut() )
+          foreach( MacroscopeHyperlinkOut HyperlinkOut in msDocRight.IterateHyperlinksOut() )
           {
 
-            if ( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: HyperlinkOut.GetTargetUrl() ) )
+            string UrlRight = HyperlinkOut.GetTargetUrl();
+            string UrlRightRaw = HyperlinkOut.GetRawTargetUrl();
+
+            if( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: UrlRight ) )
             {
               IsOrphan = false;
             }
             else
-            if ( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: HyperlinkOut.GetRawTargetUrl() ) )
+            if( MacroscopeHttpUrlUtils.CompareUrls( UrlLeft: UrlLeft, UrlRight: UrlRightRaw ) )
             {
               IsOrphan = false;
             }
 
-            if ( !IsOrphan )
+            if( !IsOrphan )
             {
               break;
             }
 
           }
 
-          if ( !IsOrphan )
+          if( !IsOrphan )
           {
             break;
           }
 
         }
 
-        if ( IsOrphan )
+        if( IsOrphan )
         {
           OrphanedDocumentList.AddDocument( msDoc: msDocLeft );
           msDocLeft.AddRemark( "ORPHAN1", "This appears to be an orphaned page, not linked to from any other HTML page in this collection." );
@@ -121,12 +125,12 @@ namespace SEOMacroscope
 
       bool IsValid = true;
 
-      if ( msDoc.GetIsExternal() )
+      if( msDoc.GetIsExternal() )
       {
         IsValid = false;
       }
 
-      if ( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
+      if( !msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML ) )
       {
         IsValid = false;
       }

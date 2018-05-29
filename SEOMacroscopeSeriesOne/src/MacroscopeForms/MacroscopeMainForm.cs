@@ -487,6 +487,8 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewDataExtractorRegexes.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewDataExtractorXpaths.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
+      this.macroscopeOverviewTabPanelInstance.listViewRemarks.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+
       this.macroscopeOverviewTabPanelInstance.listViewHistory.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
 
       /** listViewSearchCollection ----------------------------------------- **/
@@ -1139,7 +1141,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void SelectTabPage ( string TabName )
+    public void SelectTabPage ( string TabName )
     {
 
       TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;

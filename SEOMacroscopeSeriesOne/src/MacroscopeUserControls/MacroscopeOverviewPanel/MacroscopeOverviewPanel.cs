@@ -62,7 +62,10 @@ namespace SEOMacroscope
       this.listViewStructure.Dock = DockStyle.Fill;
 
       this.treeViewHierarchy.Dock = DockStyle.Fill;
+
+      this.tableLayoutPanelRobots.Dock = DockStyle.Fill;
       this.listViewRobots.Dock = DockStyle.Fill;
+
       this.listViewSitemaps.Dock = DockStyle.Fill;
       this.listViewSitemapErrors.Dock = DockStyle.Fill;
       this.listViewSitemapsAudit.Dock = DockStyle.Fill;

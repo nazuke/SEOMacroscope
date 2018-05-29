@@ -63,6 +63,8 @@ namespace SEOMacroscope
     ) : base()
     {
 
+      this.SuppressDebugMsg = true;
+
       this.msDocOriginal = msDoc;
       this.Fingerprint = msDoc.GetLevenshteinFingerprint();
       this.AnalyzerFingerprint = new Levenshtein( Fingerprint );
@@ -82,6 +84,8 @@ namespace SEOMacroscope
       Dictionary<string, bool> CrossCheckList
     ) : base()
     {
+
+      this.SuppressDebugMsg = true;
 
       this.msDocOriginal = msDoc;
       this.Fingerprint = msDoc.GetLevenshteinFingerprint();

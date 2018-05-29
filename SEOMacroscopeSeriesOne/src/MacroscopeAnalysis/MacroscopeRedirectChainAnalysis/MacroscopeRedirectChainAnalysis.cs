@@ -46,6 +46,7 @@ namespace SEOMacroscope
 
     public MacroscopeRedirectChainAnalysis ( MacroscopeHttpTwoClient Client ) : base()
     {
+      this.SuppressDebugMsg = true;
       this.HttpClient = Client;
       this.RedirectChainDocCache = new Dictionary<string, MacroscopeRedirectChainDocStruct>();
     }

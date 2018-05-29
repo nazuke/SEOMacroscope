@@ -44,7 +44,7 @@ namespace SEOMacroscope
 
     public MacroscopeQrCodeAnalysis ()
     {
-      this.SuppressDebugMsg = false;
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/

@@ -55,6 +55,8 @@ namespace SEOMacroscope
     public MacroscopeHrefLang ( MacroscopeJobMaster JobMaster, string Locale, string Url ) : base()
     {
 
+      this.SuppressDebugMsg = true;
+
       this.MsJobMaster = JobMaster;
       this.Locale = Locale;
       this.Url = Url;

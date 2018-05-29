@@ -36,6 +36,7 @@ namespace SEOMacroscope
 
     public MacroscopeAnalyzeWordCount () : base()
     {
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/

@@ -27,18 +27,22 @@ using System;
 
 namespace SEOMacroscope
 {
-  
+
   /// <summary>
   /// Description of IMacroscopeAnalysisPercentageDone.
   /// </summary>
-	
+
+  /****************************************************************************/
+
   public interface IMacroscopeAnalysisPercentageDone
   {
 
     void PercentageDone ( decimal Percent );
-    
+
     void PercentageDone ( decimal Percent, string Message );
 
   }
-	
+
+  /****************************************************************************/
+
 }

@@ -40,6 +40,7 @@ namespace SEOMacroscope
 
     public MacroscopeInsecureLinks () : base()
     {
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/

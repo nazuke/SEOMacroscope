@@ -35,6 +35,7 @@ namespace SEOMacroscope
 
     public MacroscopeAnalyzePageBodyText () : base()
     {
+      this.SuppressDebugMsg = true;
     }
 
     /**************************************************************************/

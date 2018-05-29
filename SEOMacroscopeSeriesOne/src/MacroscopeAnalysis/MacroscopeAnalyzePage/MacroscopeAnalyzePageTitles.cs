@@ -50,6 +50,7 @@ namespace SEOMacroscope
 
     public MacroscopeAnalyzePageTitles () : base ()
     {
+      this.SuppressDebugMsg = true;
       this.TitleFontName = "Arial";
       this.TitleFontSizeInPixels = 18;
       this.TitleFontFamily = new FontFamily( this.TitleFontName );
@@ -59,6 +60,7 @@ namespace SEOMacroscope
 
     public MacroscopeAnalyzePageTitles ( string FontName ) : base()
     {
+      this.SuppressDebugMsg = true;
       this.TitleFontName = FontName;
       this.TitleFontSizeInPixels = 18;
       this.TitleFontFamily = new FontFamily( this.TitleFontName );
@@ -68,6 +70,7 @@ namespace SEOMacroscope
 
     public MacroscopeAnalyzePageTitles ( string FontName, int FontSize ) : base()
     {
+      this.SuppressDebugMsg = true;
       this.TitleFontName = FontName;
       this.TitleFontSizeInPixels = FontSize;
       this.TitleFontFamily = new FontFamily( this.TitleFontName );

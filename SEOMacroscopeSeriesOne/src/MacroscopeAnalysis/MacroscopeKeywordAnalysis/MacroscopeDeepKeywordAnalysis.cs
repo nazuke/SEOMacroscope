@@ -45,11 +45,13 @@ namespace SEOMacroscope
 
     public MacroscopeDeepKeywordAnalysis () : base ()
     {
+      this.SuppressDebugMsg = true;
       this.DocList = null;
     }
     
     public MacroscopeDeepKeywordAnalysis ( Dictionary<string,MacroscopeDocumentList> DocList ) : base()
     {
+      this.SuppressDebugMsg = true;
       this.DocList = DocList;
     }
 

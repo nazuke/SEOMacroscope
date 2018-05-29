@@ -50,7 +50,9 @@ namespace SEOMacroscope
 
     public MacroscopeClickPathAnalysis ( MacroscopeDocumentCollection DocumentCollection )
     {
-      
+
+      this.SuppressDebugMsg = true;
+
       this.DocCollection = DocumentCollection;
       
       this.RootDoc = null;

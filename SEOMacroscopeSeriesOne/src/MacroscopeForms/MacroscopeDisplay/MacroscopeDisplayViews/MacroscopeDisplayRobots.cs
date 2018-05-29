@@ -39,6 +39,8 @@ namespace SEOMacroscope
     private const int COL_URL = 0;
     private const int COL_BLOCKED = 1;
 
+    private ToolStripLabel DocumentCount;
+
     /**************************************************************************/
 
     public MacroscopeDisplayRobots ( MacroscopeMainForm MainForm, ListView TargetListView )
@@ -47,8 +49,9 @@ namespace SEOMacroscope
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
+      this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelRobotsItems;
 
-      if ( this.MainForm.InvokeRequired )
+      if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -72,6 +75,7 @@ namespace SEOMacroscope
     {
       if ( !this.ListViewConfigured )
       {
+        this.RenderUrlCount();
         this.ListViewConfigured = true;
       }
     }
@@ -90,6 +94,7 @@ namespace SEOMacroscope
               this.DisplayListView.BeginUpdate();
               this.RenderListView( JobMaster );
               this.DisplayListView.EndUpdate();
+              this.RenderUrlCount();
               Cursor.Current = Cursors.Default;
             }
           )
@@ -101,6 +106,7 @@ namespace SEOMacroscope
         this.DisplayListView.BeginUpdate();
         this.RenderListView( JobMaster );
         this.DisplayListView.EndUpdate();
+        this.RenderUrlCount();
         Cursor.Current = Cursors.Default;
       }
     }
@@ -271,6 +277,7 @@ namespace SEOMacroscope
 
     protected override void RenderUrlCount ()
     {
+      this.DocumentCount.Text = string.Format( "Blocked by robot rules: {0}", this.DisplayListView.Items.Count );
     }
 
     /**************************************************************************/

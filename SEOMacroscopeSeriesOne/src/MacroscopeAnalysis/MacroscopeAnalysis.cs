@@ -44,7 +44,7 @@ namespace SEOMacroscope
       this.SuppressDebugMsg = true;
 
     }
-    
+
     /**************************************************************************/
 
   }

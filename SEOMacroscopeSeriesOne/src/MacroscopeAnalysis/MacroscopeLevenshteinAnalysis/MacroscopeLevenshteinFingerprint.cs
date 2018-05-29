@@ -47,6 +47,8 @@ namespace SEOMacroscope
     public MacroscopeLevenshteinFingerprint ( MacroscopeDocument msDoc )
     {
 
+      this.SuppressDebugMsg = true;
+
       this.Document = msDoc;
       this.Fingerprint = "";
       this.FingerprintLocker = new Object();
