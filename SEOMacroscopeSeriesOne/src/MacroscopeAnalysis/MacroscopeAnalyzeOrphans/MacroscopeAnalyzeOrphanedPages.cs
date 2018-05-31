@@ -125,6 +125,12 @@ namespace SEOMacroscope
 
       bool IsValid = true;
 
+      if( msDoc.GetStatusCode() == System.Net.HttpStatusCode.NotFound)
+      {
+
+      }
+
+
       if( msDoc.GetIsExternal() )
       {
         IsValid = false;
