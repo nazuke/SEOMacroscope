@@ -1234,5 +1234,17 @@ namespace SEOMacroscope {
                 this["ProbeParentFolderUrls"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DataExtractorsApplyToPdf {
+            get {
+                return ((bool)(this["DataExtractorsApplyToPdf"]));
+            }
+            set {
+                this["DataExtractorsApplyToPdf"] = value;
+            }
+        }
     }
 }

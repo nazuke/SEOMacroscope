@@ -207,6 +207,7 @@ namespace SEOMacroscope
         this.checkBoxDataExtractorsApplyToCss.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToCss();
         this.checkBoxDataExtractorsApplyToJavascripts.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToJavascripts();
         this.checkBoxDataExtractorsApplyToText.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToText();
+        this.checkBoxDataExtractorsApplyToPdf.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToPdf();
         this.checkBoxDataExtractorsApplyToXml.Checked = MacroscopePreferencesManager.GetDataExtractorsApplyToXml();
 
         /** Export Options ------------------------------------------------- **/
@@ -363,6 +364,7 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetDataExtractorsApplyToCss( this.checkBoxDataExtractorsApplyToCss.Checked );
       MacroscopePreferencesManager.SetDataExtractorsApplyToJavascripts( this.checkBoxDataExtractorsApplyToJavascripts.Checked );
       MacroscopePreferencesManager.SetDataExtractorsApplyToText( this.checkBoxDataExtractorsApplyToText.Checked );
+      MacroscopePreferencesManager.SetDataExtractorsApplyToPdf( this.checkBoxDataExtractorsApplyToPdf.Checked );
       MacroscopePreferencesManager.SetDataExtractorsApplyToXml( this.checkBoxDataExtractorsApplyToXml.Checked );
 
       /** Export Options --------------------------------------------------- **/

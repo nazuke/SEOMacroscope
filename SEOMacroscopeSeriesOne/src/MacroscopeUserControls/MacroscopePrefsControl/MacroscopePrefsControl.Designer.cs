@@ -363,6 +363,7 @@ namespace SEOMacroscope
       this.label9 = new System.Windows.Forms.Label();
       this.groupBox28 = new System.Windows.Forms.GroupBox();
       this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
+      this.checkBoxDataExtractorsApplyToPdf = new System.Windows.Forms.CheckBox();
       this.tabControlPreferences.SuspendLayout();
       this.tabPageSpideringControl.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
@@ -2166,6 +2167,7 @@ namespace SEOMacroscope
       // groupBox26
       // 
       this.groupBox26.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToPdf);
       this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToXml);
       this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToJavascripts);
       this.groupBox26.Controls.Add(this.checkBoxDataExtractorsApplyToText);
@@ -2181,7 +2183,7 @@ namespace SEOMacroscope
       // 
       // checkBoxDataExtractorsApplyToXml
       // 
-      this.checkBoxDataExtractorsApplyToXml.Location = new System.Drawing.Point(176, 50);
+      this.checkBoxDataExtractorsApplyToXml.Location = new System.Drawing.Point(176, 80);
       this.checkBoxDataExtractorsApplyToXml.Name = "checkBoxDataExtractorsApplyToXml";
       this.checkBoxDataExtractorsApplyToXml.Size = new System.Drawing.Size(150, 24);
       this.checkBoxDataExtractorsApplyToXml.TabIndex = 5;
@@ -2460,6 +2462,15 @@ namespace SEOMacroscope
       this.checkBoxServerCertificateValidation.Text = "Enable certificate validation";
       this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
       // 
+      // checkBoxDataExtractorsApplyToPdf
+      // 
+      this.checkBoxDataExtractorsApplyToPdf.Location = new System.Drawing.Point(176, 50);
+      this.checkBoxDataExtractorsApplyToPdf.Name = "checkBoxDataExtractorsApplyToPdf";
+      this.checkBoxDataExtractorsApplyToPdf.Size = new System.Drawing.Size(150, 24);
+      this.checkBoxDataExtractorsApplyToPdf.TabIndex = 6;
+      this.checkBoxDataExtractorsApplyToPdf.Text = "PDFs";
+      this.checkBoxDataExtractorsApplyToPdf.UseVisualStyleBackColor = true;
+      // 
       // MacroscopePrefsControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2572,5 +2583,6 @@ namespace SEOMacroscope
     public System.Windows.Forms.CheckBox checkBoxScanSitesInList;
     private System.Windows.Forms.GroupBox groupBox11;
     public System.Windows.Forms.CheckBox checkBoxProbeParentFolderUrls;
+    public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToPdf;
   }
 }

@@ -84,7 +84,7 @@ namespace SEOMacroscope
     static bool FollowSitemapLinks;
     static bool ProbeHumansText;
     static bool ProbeParentFolderUrls;
-    
+
     static bool CheckRedirects;
     static bool FollowRedirects;
     static bool FollowNoFollow;
@@ -185,6 +185,7 @@ namespace SEOMacroscope
     static bool DataExtractorsApplyToJavascripts;
     static bool DataExtractorsApplyToText;
     static bool DataExtractorsApplyToXml;
+    static bool DataExtractorsApplyToPdf;
 
     /** Export Options ----------------------------------------------------- **/
 
@@ -340,6 +341,7 @@ namespace SEOMacroscope
           DataExtractorsApplyToCss = Preferences.DataExtractorsApplyToCss;
           DataExtractorsApplyToJavascripts = Preferences.DataExtractorsApplyToJavascripts;
           DataExtractorsApplyToText = Preferences.DataExtractorsApplyToText;
+          DataExtractorsApplyToPdf = Preferences.DataExtractorsApplyToPdf;
           DataExtractorsApplyToXml = Preferences.DataExtractorsApplyToXml;
 
           SitemapIncludeLinkedPdfs = Preferences.SitemapIncludeLinkedPdfs;
@@ -528,6 +530,7 @@ namespace SEOMacroscope
       DataExtractorsApplyToCss = true;
       DataExtractorsApplyToJavascripts = true;
       DataExtractorsApplyToText = true;
+      DataExtractorsApplyToPdf = false;
       DataExtractorsApplyToXml = true;
 
       /** Export Options --------------------------------------------------- **/
@@ -772,6 +775,7 @@ namespace SEOMacroscope
         Preferences.DataExtractorsApplyToCss = DataExtractorsApplyToCss;
         Preferences.DataExtractorsApplyToJavascripts = DataExtractorsApplyToJavascripts;
         Preferences.DataExtractorsApplyToText = DataExtractorsApplyToText;
+        Preferences.DataExtractorsApplyToPdf = DataExtractorsApplyToPdf;
         Preferences.DataExtractorsApplyToXml = DataExtractorsApplyToXml;
 
         Preferences.SitemapIncludeLinkedPdfs = SitemapIncludeLinkedPdfs;
@@ -1861,6 +1865,16 @@ namespace SEOMacroscope
     public static void SetDataExtractorsApplyToText ( bool State )
     {
       DataExtractorsApplyToText = State;
+    }
+
+    public static bool GetDataExtractorsApplyToPdf ()
+    {
+      return ( DataExtractorsApplyToPdf );
+    }
+
+    public static void SetDataExtractorsApplyToPdf ( bool State )
+    {
+      DataExtractorsApplyToPdf = State;
     }
 
     public static bool GetDataExtractorsApplyToXml ()

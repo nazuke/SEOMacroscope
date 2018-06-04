@@ -261,6 +261,20 @@ namespace SEOMacroscope
 
         }
 
+        /** Data Extractors ------------------------------------------------ **/
+
+        if( !string.IsNullOrEmpty( this.GetBodyTextRaw() ) )
+        {
+
+          if(
+            MacroscopePreferencesManager.GetDataExtractorsEnable()
+            && MacroscopePreferencesManager.GetDataExtractorsApplyToPdf() )
+          {
+            this.ProcessGenericDataExtractors( GenericText: this.GetBodyTextRaw() );
+          }
+
+        }
+
         /** Out Links Text ------------------------------------------------- **/
 
         if( this.GetDocumentTextRawLength() > 0 )
