@@ -28,5 +28,5 @@ The extraction process described above only operates on link elements; if you re
 
 For example, data extractors can be configured using regular expressions to extract telephone number from the page body text, even if they do not appear in link elements. Likewise, the same is true for email addresses.
 
-![Extract telephone numbers with regular expressions]({{ "/media/screenshots/2018-06-04-finding-contact-details-with-seo-macroscope/data-extractors.png" | relative_url }}){: .img-responsive .box-shadow }
+![Extract telephone numbers with regular expressions]({{ "/media/screenshots/2018-06-04-finding-contact-details-with-seo-macroscope/data-extractors-regex.png" | relative_url }}){: .img-responsive .box-shadow }
 {: .screenshot }

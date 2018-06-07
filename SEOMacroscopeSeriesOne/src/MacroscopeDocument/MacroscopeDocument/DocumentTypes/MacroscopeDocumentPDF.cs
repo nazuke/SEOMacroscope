@@ -265,14 +265,14 @@ namespace SEOMacroscope
 
         if( !string.IsNullOrEmpty( this.GetBodyTextRaw() ) )
         {
-
-          if(
-            MacroscopePreferencesManager.GetDataExtractorsEnable()
-            && MacroscopePreferencesManager.GetDataExtractorsApplyToPdf() )
+          if( MacroscopePreferencesManager.GetDataExtractorsEnable() )
           {
-            this.ProcessGenericDataExtractors( GenericText: this.GetBodyTextRaw() );
+            if( MacroscopePreferencesManager.GetDataExtractorsApplyToPdf() )
+            {
+              string Text = this.GetBodyTextRaw();
+              this.ProcessGenericDataExtractors( GenericText: Text );
+            }
           }
-
         }
 
         /** Out Links Text ------------------------------------------------- **/
