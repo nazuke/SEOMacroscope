@@ -144,6 +144,7 @@ namespace SEOMacroscope
           !( msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.HTML )
           || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.CSS )
           || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.JAVASCRIPT )
+          || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.PDF )
           || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.TEXT )
           || msDoc.IsDocumentType( Type: MacroscopeConstants.DocumentType.XML ) ) )
         {
@@ -167,7 +168,13 @@ namespace SEOMacroscope
               }
               break;
             case MacroscopeConstants.DocumentType.JAVASCRIPT:
-              if ( !MacroscopePreferencesManager.GetDataExtractorsApplyToJavascripts() )
+              if( !MacroscopePreferencesManager.GetDataExtractorsApplyToJavascripts() )
+              {
+                CanApply = false;
+              }
+              break;
+            case MacroscopeConstants.DocumentType.PDF:
+              if( !MacroscopePreferencesManager.GetDataExtractorsApplyToPdf() )
               {
                 CanApply = false;
               }

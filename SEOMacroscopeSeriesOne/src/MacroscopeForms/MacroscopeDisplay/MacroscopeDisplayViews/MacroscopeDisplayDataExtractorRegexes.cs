@@ -66,7 +66,7 @@ namespace SEOMacroscope
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -97,26 +97,26 @@ namespace SEOMacroscope
     public void ResetColumns ()
     {
 
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ();
+      List<ListViewItem> ListViewItems = new List<ListViewItem>();
 
       this.DisplayListView.Items.Clear();
       this.DisplayListView.Columns.Clear();
 
       this.DisplayListView.Columns.Add( MacroscopeConstants.Url, MacroscopeConstants.Url );
-      this.DisplayListView.Columns.Add( MacroscopeConstants.StatusCode, MacroscopeConstants.StatusCode );      
+      this.DisplayListView.Columns.Add( MacroscopeConstants.StatusCode, MacroscopeConstants.StatusCode );
       this.DisplayListView.Columns.Add( MacroscopeConstants.Status, MacroscopeConstants.Status );
       this.DisplayListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
-      
+
       this.DisplayListView.Columns.Add( key: "Regex_Label", text: "Regex Label" );
       this.DisplayListView.Columns.Add( key: "Regex_Extracted", text: "Extracted Value" );
-			
+
       for( int ColIndex = 0 ; ColIndex < this.DisplayListView.Columns.Count ; ColIndex++ )
       {
         this.DisplayListView.AutoResizeColumn( ColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
       }
 
     }
-		
+
     /**************************************************************************/
 
     public void RefreshData (
@@ -130,7 +130,7 @@ namespace SEOMacroscope
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -160,9 +160,9 @@ namespace SEOMacroscope
         this.DisplayListView.EndUpdate();
         Cursor.Current = Cursors.Default;
       }
-      
+
     }
-   
+
     /**************************************************************************/
 
     private void RenderListView (
@@ -173,19 +173,19 @@ namespace SEOMacroscope
     {
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      
+
       if( DocCollection.CountDocuments() == 0 )
       {
         return;
       }
-            
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ();
 
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      List<ListViewItem> ListViewItems = new List<ListViewItem>();
+
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )DocCollection.CountDocuments();
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
+      decimal TotalDocs = (decimal) DocCollection.CountDocuments();
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
 
@@ -194,7 +194,7 @@ namespace SEOMacroscope
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );  
+        );
 
       }
 
@@ -203,16 +203,16 @@ namespace SEOMacroscope
 
         MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
         string DocUrl = msDoc.GetUrl();
-        string StatusCode = ( ( int )msDoc.GetStatusCode() ).ToString();
+        string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();
         string MimeType = msDoc.GetMimeType();
 
         if( !DataExtractor.CanApplyDataExtractorsToDocument( msDoc: msDoc ) )
         {
           continue;
-        }        
+        }
 
-        foreach( KeyValuePair<string,string> DataExtractedPair in msDoc.IterateDataExtractedRegexes() )
+        foreach( KeyValuePair<string, string> DataExtractedPair in msDoc.IterateDataExtractedRegexes() )
         {
 
           ListViewItem lvItem = null;
@@ -220,7 +220,7 @@ namespace SEOMacroscope
           string ExtractedValue = DataExtractedPair.Value;
           string PairKey = null;
 
-          if( 
+          if(
             string.IsNullOrEmpty( RegexLabel )
             || string.IsNullOrEmpty( ExtractedValue ) )
           {
@@ -243,7 +243,7 @@ namespace SEOMacroscope
           else
           {
 
-            lvItem = new ListViewItem ( PairKey );
+            lvItem = new ListViewItem( PairKey );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
@@ -289,7 +289,7 @@ namespace SEOMacroscope
           else
           {
             lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
-          }          
+          }
 
           if( Regex.IsMatch( StatusCode, "^[2]" ) )
           {
@@ -318,20 +318,20 @@ namespace SEOMacroscope
 
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
-          
+
           Count++;
 
-          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+          MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
           ProgressForm.UpdatePercentages(
             Title: null,
             Message: null,
             MajorPercentage: MajorPercentage,
             ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
           );
-        
+
         }
-        
+
       }
 
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
@@ -344,14 +344,14 @@ namespace SEOMacroscope
       this.DisplayListView.Columns[ ColStatusCode ].Width = 100;
       this.DisplayListView.Columns[ ColStatus ].Width = 100;
       this.DisplayListView.Columns[ ColMimeType ].Width = 100;
-      
+
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-      
+
       ProgressForm.Dispose();
-      
+
     }
 
     /**************************************************************************/
@@ -363,6 +363,7 @@ namespace SEOMacroscope
       string Url
     )
     {
+      // NO-OP
     }
 
     /**************************************************************************/
