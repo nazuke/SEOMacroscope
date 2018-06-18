@@ -272,6 +272,14 @@ namespace SEOMacroscope
               string Text = this.GetBodyTextRaw();
               this.ProcessGenericDataExtractors( GenericText: Text );
             }
+            else
+            {
+              this.DebugMsg( "No Enabled" );
+            }
+          }
+          else
+          {
+            this.DebugMsg( "No Enabled" );
           }
         }
 
