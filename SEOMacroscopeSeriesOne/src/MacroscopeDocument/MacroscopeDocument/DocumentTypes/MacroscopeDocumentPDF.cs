@@ -288,19 +288,37 @@ namespace SEOMacroscope
 
         /** Out Links in Annotations --------------------------------------- **/
 
-        if( this.GetDocumentTextRawLength() > 0 )
+        if( this.GetIsInternal() && ( this.GetDocumentTextRawLength() > 0 ) )
         {
-          if( this.GetIsInternal() )
+
+          List<KeyValuePair<string, string>> AnnotationOutLinks = PdfTools.GetOutLinks();
+
+          // TODO: Implement extraction of text that underlies the link annotation
+
+          foreach( KeyValuePair<string, string> AnnotationOutLinkPair in AnnotationOutLinks )
           {
-            List<string> AnnotationOutLinks = PdfTools.GetOutLinks();
-            // TODO: Implement this:
-            /*
-            foreach ( string AnnotationOutLinkUrl in AnnotationOutLinks )
-            {
-              this.AddPureTextOutlink( AbsoluteUrl: AnnotationOutLinkUrl, LinkType: MacroscopeConstants.InOutLinkType.PDF, Follow: true );
-            }
-            */
+
+            MacroscopeHyperlinkOut HyperlinkOut = null;
+            string AnnotationOutLinkUrlAbs;
+
+            AnnotationOutLinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
+              BaseHref: this.BaseHref,
+              BaseUrl: this.DocUrl,
+              Url: AnnotationOutLinkPair.Key
+            );
+
+            HyperlinkOut = this.HyperlinksOut.Add( LinkType: MacroscopeConstants.HyperlinkType.PDF, UrlTarget: AnnotationOutLinkUrlAbs );
+            HyperlinkOut.SetRawTargetUrl( TargetUrl: AnnotationOutLinkUrlAbs );
+            HyperlinkOut.SetAltText( AnnotationOutLinkPair.Value );
+            HyperlinkOut.SetLinkText( AnnotationOutLinkPair.Value );
+            HyperlinkOut.SetLinkTitle( AnnotationOutLinkPair.Value );
+            HyperlinkOut.SetDoFollow();
+            HyperlinkOut.SetMethod( Method: "GET" );
+
+            this.AddDocumentOutlink( AbsoluteUrl: AnnotationOutLinkUrlAbs, LinkType: MacroscopeConstants.InOutLinkType.PDF, Follow: true );
+
           }
+
         }
 
         /** ---------------------------------------------------------------- **/

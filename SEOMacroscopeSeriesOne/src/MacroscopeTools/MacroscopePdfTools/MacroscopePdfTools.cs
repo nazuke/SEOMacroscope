@@ -195,40 +195,65 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public List<string> GetOutLinks ()
+    public List<KeyValuePair<string, string>> GetOutLinks ()
     {
 
-      // TDOO: Test this with PDF with embedded links, and complete.
+      int TotalPages = this.Pdf.GetNumberOfPages();
+      List<KeyValuePair<string, string>> OutLinks = new List<KeyValuePair<string, string>>( TotalPages );
 
-      List<string> OutLinks = new List<string>( this.Pdf.GetNumberOfPages() );
-
-      /*
-      for ( int i = 1 ; i <= this.Pdf.GetNumberOfPages() ; i++ )
+      for( int i = 1 ; i <= TotalPages ; i++ )
       {
 
         PdfPage Page = this.Pdf.GetPage( i );
+        int AnnotationsCount = Page.GetAnnotations().Count;
 
-        if ( Page.GetAnnotations().Count > 0 )
+        if( AnnotationsCount > 0 )
         {
 
           IList<PdfAnnotation> Annotations = Page.GetAnnotations();
 
-          foreach ( PdfAnnotation Annotation in Annotations )
+          foreach( PdfAnnotation Annotation in Annotations )
           {
 
-            if ( Annotation.GetType().Equals( PdfName.Link ) )
+            if( Annotation.GetSubtype().Equals( PdfName.Link ) )
             {
-              string Url = Annotation.ToString();
-              OutLinks.Add( Url );
-            }
 
+              PdfLinkAnnotation LinkAnnotation = (PdfLinkAnnotation) Annotation;
+
+              if( LinkAnnotation.GetAction().Get( PdfName.URI ) != null )
+              {
+
+                string Url = LinkAnnotation.GetAction().Get( PdfName.URI ).ToString();
+
+                if( ( !string.IsNullOrEmpty( Url ) ) && ( !string.IsNullOrWhiteSpace( Url ) ) )
+                {
+                  try
+                  {
+                    Uri ParsedUri = new Uri( Url );
+                    if( ParsedUri.Scheme.ToLower().Equals( "http" ) || ParsedUri.Scheme.ToLower().Equals( "https" ) )
+                    {
+                      KeyValuePair<string, string> LinkPair = new KeyValuePair<string, string>(
+                        LinkAnnotation.GetAction().Get( PdfName.URI ).ToString(),
+                        "PDF Annotation Link"
+                      );
+                      OutLinks.Add( LinkPair );
+                    }
+                  }
+                  catch( Exception ex )
+                  {
+                    this.DebugMsg( ex.Message );
+                  }
+                }
+
+              }
+
+            }
 
           }
 
         }
 
       }
-      */
 
       return ( OutLinks );
 

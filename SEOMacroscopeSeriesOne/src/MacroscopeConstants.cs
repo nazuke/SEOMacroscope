@@ -245,7 +245,8 @@ namespace SEOMacroscope
     {
       TEXT = 0,
       IMAGE = 1,
-      CSS = 2
+      CSS = 2,
+      PDF = 3
     }
 
     /** BEGIN: Outlink Types **************************************************/
