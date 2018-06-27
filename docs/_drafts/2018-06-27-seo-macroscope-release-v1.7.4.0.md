@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "New v1.7.4 release of SEO Macroscope: Divine Predecessors"
-date: "2018-05-29 09:00:00 -09:00"
+date: "2018-06-27 09:00:00 -09:00"
 published: false
 description: "This release of SEO Macroscope adds parent directory probing."
 excerpt: "This release of SEO Macroscope adds parent directory probing."
@@ -20,6 +20,8 @@ Please check the [downloads page]({{ "/downloads/" | relative_url }}) for more r
 
 * There is a new option to probe parent directories for each URL found on an internal site. This builds a new set of URLs to crawl, by taking the current URL, and progressively stripping off each rightmost element until it reaches the root. Each stripped URL is then added to the list of URLs to crawl.
 * The body text word counter has been improved, and unit tests written.
+* Regular expression data extraction now works on PDF documents.
+* PDF embedded link extraction and following has been improved.
 
 ## Bug fixes
 
