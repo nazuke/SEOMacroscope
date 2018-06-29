@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "New v1.7.4 release of SEO Macroscope: Divine Predecessors"
-date: "2018-06-27 09:00:00 -09:00"
+date: "2018-06-29 09:00:00 -09:00"
 published: false
 description: "This release of SEO Macroscope adds parent directory probing."
 excerpt: "This release of SEO Macroscope adds parent directory probing."

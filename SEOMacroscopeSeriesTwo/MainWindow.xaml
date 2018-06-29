@@ -24,8 +24,7 @@
           </MenuItem>
         </MenuItem>
       </Menu>
-      <DockPanel>
-
+      <DockPanel Name="ScreensTabsSlot" Background="Red">
       </DockPanel>
     </DockPanel>
 
