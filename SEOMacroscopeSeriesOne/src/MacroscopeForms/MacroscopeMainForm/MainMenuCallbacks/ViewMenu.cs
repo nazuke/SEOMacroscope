@@ -25,6 +25,9 @@
 
 using System;
 using System.Windows.Forms;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
@@ -34,24 +37,27 @@ namespace SEOMacroscope
 
     /** Initialize View Menu **************************************************/
 
-
     private void InitializeViewMenu ()
     {
 
       TabControl OverviewTabControl = this.macroscopeOverviewTabPanelInstance.tabControlMain;
-            
+      List<string> TabPagesSorted = new List<string>( OverviewTabControl.TabPages.Count );
+
       foreach( TabPage OverviewTabPage in OverviewTabControl.TabPages )
       {
-          
-        string TabName;
-        string TabLabel;
+        TabPagesSorted.Add( OverviewTabPage.Name );
+      }
 
+      TabPagesSorted.Sort();
+
+      foreach( string TabName in TabPagesSorted )
+      {
+
+        TabPage OverviewTabPage = OverviewTabControl.TabPages[ TabName ];
         ToolStripMenuItem NewToolStripMenuItem;
+        string TabLabel = OverviewTabPage.Text;
 
-        TabName = OverviewTabPage.Name;
-        TabLabel = OverviewTabPage.Text;
-
-        NewToolStripMenuItem = new ToolStripMenuItem ( text: TabLabel );
+        NewToolStripMenuItem = new ToolStripMenuItem( text: TabLabel );
         NewToolStripMenuItem.Tag = TabName;
         NewToolStripMenuItem.Click += CallbackViewMenuItemClick;
 
@@ -66,7 +72,7 @@ namespace SEOMacroscope
     private void CallbackViewMenuItemClick ( object sender, EventArgs e )
     {
 
-      ToolStripMenuItem ClickedToolStripMenuItem = ( ToolStripMenuItem )sender;
+      ToolStripMenuItem ClickedToolStripMenuItem = (ToolStripMenuItem) sender;
 
       string TabName = ClickedToolStripMenuItem.Tag.ToString();
 
