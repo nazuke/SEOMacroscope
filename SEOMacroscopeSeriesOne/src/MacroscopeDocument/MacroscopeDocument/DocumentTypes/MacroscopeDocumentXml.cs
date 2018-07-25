@@ -311,10 +311,12 @@ namespace SEOMacroscope
 
           if ( LinkUrl != null )
           {
+
             MacroscopeLink Outlink;
+            string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseUrl: this.GetUrl(), Url: LinkUrl );
 
             Outlink = this.AddDocumentOutlink(
-              AbsoluteUrl: LinkUrl,
+              AbsoluteUrl: LinkUrlAbs,
               LinkType: MacroscopeConstants.InOutLinkType.SITEMAPXML,
               Follow: true
             );

@@ -138,7 +138,9 @@ namespace SEOMacroscope
             {
 
               string SitemapUrl = SitemapEntry.Url.ToString();
-              SitemapsList.Add( SitemapUrl );
+              string SitemapUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseUrl: Url, Url: SitemapUrl );
+
+              SitemapsList.Add( SitemapUrlAbs );
 
               this.DebugMsg( string.Format( "ROBOTS SitemapUrl: {0}", SitemapUrl ) );
 
