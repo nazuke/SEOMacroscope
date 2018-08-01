@@ -55,6 +55,7 @@ cryptodonate:
   bitcoin: 3K6jYKbr7fGLtZADqFJSUZ7JFjo5ZbvWc2
   litecoin: M94Ct3VWJz5DsUtZrRSAFzdBMAGD8yR5dJ
   dash: XqPRYrb3GkrBk6cq5zi4TVMxr6wLWpCDcU
+  dogecoin: DBznV2Y4mJS4iegRAnmXAqnENhFRQybn9N
 
 # Build settings
 markdown: kramdown
