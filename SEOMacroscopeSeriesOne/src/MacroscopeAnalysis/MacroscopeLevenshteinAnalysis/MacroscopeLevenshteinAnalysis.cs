@@ -205,7 +205,7 @@ namespace SEOMacroscope
         if ( DoCheck )
         {
 
-          int DistanceFingerprint = this.AnalyzerFingerprint.Distance( CompareFingerprint );
+          int DistanceFingerprint = this.AnalyzerFingerprint.DistanceFrom( value: CompareFingerprint );
 
           if ( DistanceFingerprint <= this.ComparisonThreshold )
           {
@@ -219,7 +219,7 @@ namespace SEOMacroscope
                 string DocumentText = this.msDocOriginal.GetDocumentTextRaw().ToLower();
                 string CompareDocumentText = msDocCompare.GetDocumentTextRaw().ToLower();
                 Levenshtein AnalyzerText = new Levenshtein( value: DocumentText );
-                int DistanceDocumentText = AnalyzerText.Distance( value: CompareDocumentText );
+                int DistanceDocumentText = AnalyzerText.DistanceFrom( value: CompareDocumentText );
                 if ( DistanceDocumentText <= this.ComparisonThreshold )
                 {
                   DocList.Add( msDocCompare, DistanceDocumentText );
