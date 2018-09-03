@@ -1,7 +1,8 @@
 /******************************************************************************/
 
 $("window").ready(
-  function () {
+  function ()
+  {
 
     configureGaBlogPostLinks();
 
@@ -9,22 +10,27 @@ $("window").ready(
     
     configureGaInstallerLinks();
 
+    configureDonationButtonEvents();
+    configureDonationLinkEvents();
+
   }
 );
 
 /******************************************************************************/
 
-function configureGaBlogPostLinks() {
+function configureGaBlogPostLinks ()
+{
 
   $(".post-link").click(
 
-    function ( event ) {
+    function ( event )
+    {
 
       event.preventDefault();
 
       let LinkClicked = this;
-      let TagHref = $(LinkClicked).attr("href");
-      let Tag = TagHref.split('/').pop().split('#')[0].split('?')[0];
+      let TagHref     = $(LinkClicked).attr("href");
+      let Tag         = TagHref.split('/').pop().split('#')[0].split('?')[0];
 
       ga(
         'send',
@@ -35,7 +41,8 @@ function configureGaBlogPostLinks() {
           eventLabel: Tag,
           eventValue: 0,
           transport: 'beacon',
-          hitCallback: function() {
+          hitCallback: function ()
+          {
             window.location = TagHref;
           }
         }
@@ -49,17 +56,19 @@ function configureGaBlogPostLinks() {
 
 /******************************************************************************/
 
-function configureGaReleaseLinks() {
+function configureGaReleaseLinks ()
+{
 
   $(".link-release").click(
 
-    function ( event ) {
+    function ( event )
+    {
 
       event.preventDefault();
 
       let LinkClicked = this;
-      let TagHref = $(LinkClicked).attr("href");
-      let Tag = TagHref.split('/').pop().split('#')[0].split('?')[0];
+      let TagHref     = $(LinkClicked).attr("href");
+      let Tag         = TagHref.split('/').pop().split('#')[0].split('?')[0];
 
       ga(
         'send',
@@ -70,7 +79,8 @@ function configureGaReleaseLinks() {
           eventLabel: Tag,
           eventValue: 0,
           transport: 'beacon',
-          hitCallback: function() {
+          hitCallback: function ()
+          {
             window.location = TagHref;
           }
         }
@@ -84,17 +94,19 @@ function configureGaReleaseLinks() {
 
 /******************************************************************************/
 
-function configureGaInstallerLinks() {
+function configureGaInstallerLinks ()
+{
  
   $(".link-installer").click(
 
-    function ( event ) {
+    function ( event )
+    {
 
       event.preventDefault();
 
       let LinkClicked = this;
-      let TagHref = $(LinkClicked).attr("href");
-      let Tag = TagHref.split('/').pop().split('#')[0].split('?')[0];
+      let TagHref     = $(LinkClicked).attr("href");
+      let Tag         = TagHref.split('/').pop().split('#')[0].split('?')[0];
 
       ga(
         'send',
@@ -105,7 +117,144 @@ function configureGaInstallerLinks() {
           eventLabel: Tag,
           eventValue: 0,
           transport: 'beacon',
-          hitCallback: function() {
+          hitCallback: function ()
+          {
+            window.location = TagHref;
+          }
+        }
+      );
+
+    }
+
+  );
+
+}
+
+/******************************************************************************/
+
+function configureDonationButtonEvents ()
+{
+ 
+  $(".donation-button").mouseover(
+
+    function ( event )
+    {
+
+      event.preventDefault();
+
+      let LinkHovered = this;
+      let TagHref     = $(LinkHovered).attr("href");
+      let Tag         = TagHref.split('/').pop().split('#')[0].split('?')[0];
+
+      ga(
+        'send',
+        {
+          hitType: 'event',
+          eventCategory: 'donations',
+          eventAction: 'donation-button-mouseover',
+          eventLabel: Tag,
+          eventValue: 0,
+          transport: 'beacon',
+          hitCallback: function ()
+          {
+          }
+        }
+      );
+
+    }
+
+  );
+
+  $(".donation-button").click(
+
+    function ( event )
+    {
+
+      event.preventDefault();
+
+      let LinkClicked = this;
+      let TagHref     = $(LinkClicked).attr("href");
+      let Tag         = TagHref.split('/').pop().split('#')[0].split('?')[0];
+
+      ga(
+        'send',
+        {
+          hitType: 'event',
+          eventCategory: 'donations',
+          eventAction: 'donation-button-click',
+          eventLabel: Tag,
+          eventValue: 0,
+          transport: 'beacon',
+          hitCallback: function ()
+          {
+            window.location = TagHref;
+          }
+        }
+      );
+
+    }
+
+  );
+
+}
+
+/******************************************************************************/
+
+function configureDonationLinkEvents ()
+{
+ 
+  $(".donation-link").mouseover(
+
+    function ( event )
+    {
+
+      event.preventDefault();
+
+      let LinkHovered = this;
+      let TagHref     = $(LinkHovered).attr("href");
+      let Tag         = TagHref.split('/').pop().split('#')[0].split('?')[0];
+
+      ga(
+        'send',
+        {
+          hitType: 'event',
+          eventCategory: 'donations',
+          eventAction: 'donation-link-mouseover',
+          eventLabel: Tag,
+          eventValue: 0,
+          transport: 'beacon',
+          hitCallback: function ()
+          {
+          }
+        }
+      );
+
+    }
+
+  );
+
+  $(".donation-link").click(
+
+    function ( event )
+    {
+
+      event.preventDefault();
+
+      let LinkClicked = this;
+      let TagHref     = $(LinkClicked).attr("href");
+      let Tag         = TagHref.split('/').pop().split('#')[0].split('?')[0];
+
+      ga(
+        'send',
+        {
+          hitType: 'event',
+          eventCategory: 'donations',
+          eventAction: 'donation-link-click',
+          eventLabel: Tag,
+          eventValue: 0,
+          transport: 'beacon',
+          hitCallback: function ()
+          {
             window.location = TagHref;
           }
         }

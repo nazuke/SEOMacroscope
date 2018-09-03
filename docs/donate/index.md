@@ -25,3 +25,4 @@ If you have any suggestions for improvements or new features, then please open a
     {% include donation-dash.html %}
   </div>
 </div>
+

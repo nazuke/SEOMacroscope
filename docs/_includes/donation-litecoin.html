@@ -1,15 +1,30 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title"><img class="responsive" style="width:16px;height:16px;vertical-align:middle;" src="{{ "/media/logos/cryptocurrencies/ltc-64px.png" | relative_url }}"/> Litecoin Donation for SEO Macroscope</h3>
+    <h3 class="panel-title"><img
+      class="responsive"
+      style="width:16px;height:16px;vertical-align:middle;"
+      src="{{ '/media/logos/cryptocurrencies/ltc-64px.png' | relative_url }}"
+    /> Litecoin Donation for SEO Macroscope</h3>
   </div>
   <div class="panel-body">
 
     <p>This is the primary Litecoin address for SEO Macroscope:</p>
 
-    <p><a href="litecoin:{{ site.cryptodonate.litecoin }}?label=SEO-Macroscope-Donation"><img src="{{ "/donate/qr-codes/M94Ct3VWJz5DsUtZrRSAFzdBMAGD8yR5dJ.png" | relative_url }}"/></a></p>
+    <p>
+      <a
+        class="donation-link"
+        href="litecoin:{{ site.cryptodonate.litecoin }}?label=SEO-Macroscope-Donation"
+      ><img src="{{ '/donate/qr-codes/M94Ct3VWJz5DsUtZrRSAFzdBMAGD8yR5dJ.png' | relative_url }}"/></a>
+    </p>
 
     <p>Litecoin address:</p>
-    <p><a href="litecoin:{{ site.cryptodonate.litecoin }}?label=SEO-Macroscope-Donation">{{ site.cryptodonate.litecoin }}</a></p>
+    
+    <p>
+      <a
+        class="donation-link"
+        href="litecoin:{{ site.cryptodonate.litecoin }}?label=SEO-Macroscope-Donation"
+      >{{ site.cryptodonate.litecoin }}</a>
+    </p>
 
   </div>
 </div>
