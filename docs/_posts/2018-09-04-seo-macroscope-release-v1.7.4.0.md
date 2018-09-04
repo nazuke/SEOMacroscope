@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "New v1.7.4 release of SEO Macroscope: Divine Predecessors"
-date: "2018-09-05 09:00:00 -09:00"
-published: false
+date: "2018-09-04 09:00:00 -09:00"
+published: true
 description: "This release of SEO Macroscope adds parent directory probing."
 excerpt: "This release of SEO Macroscope adds parent directory probing."
 ---
 
-This release of SEO Macroscope adds parent directory probing, and fixes a few bugs.
+This release of SEO Macroscope adds parent directory probing, and fixes bugs.
 {: .lead }
 
 Source code and an installer can be found on GitHub at:
@@ -26,6 +26,8 @@ Please check the [downloads page]({{ "/downloads/" | relative_url }}) for more r
 ## Bug fixes
 
 * Not a bug as such, but the *check for update* phone home function now more precisely checks the current and updated version numbers, instead of doing a simple equals comparison.
+* Keyword analysis is now skipped when humans.txt, and some other page types 404.
+* Absolute URL handling in robots.txt has been improved.
 
 Please report issues at [https://github.com/nazuke/SEOMacroscope/issues](https://github.com/nazuke/SEOMacroscope/issues).
 
