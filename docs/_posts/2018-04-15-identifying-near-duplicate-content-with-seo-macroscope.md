@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Identifying Near-Duplicate Content with SEO Macroscope"
+title: "Identifying Duplicate and Near-Duplicate Content with SEO Macroscope"
 date: "2018-04-15 09:00:00 -09:00"
 description: "How to use SEO Macroscope to identify near-duplicate content across your website."
 excerpt: "Several different methods to try and identify near-duplicate content within the set of pages crawled."
 ---
 
-I have been implementing several different methods to try and identify near-duplicate content within the set of pages crawled.
+I have been implementing several different methods to try and identify duplicate and near-duplicate content within the set of pages crawled.
 {: .lead }
 
 ## Simple ETag and Checksum Logging

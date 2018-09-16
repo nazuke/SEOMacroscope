@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Finding contact details with SEO Macroscope"
+title: "Finding email addresses and telephone numbers with SEO Macroscope"
 date: "2018-06-04 09:00:00 -09:00"
 published: true
 description: "SEO Macroscope provides some simple features to find email and telephone links used throughout your website."
