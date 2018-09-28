@@ -235,7 +235,7 @@ namespace SEOMacroscope
     {
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
-      MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+      MacroscopeDocument msDoc = DocCollection.GetDocumentByUrl( Url: Url );
 
       if( msDoc != null )
       {
@@ -567,7 +567,7 @@ namespace SEOMacroscope
 
                     if( DocCollection.ContainsDocument( Url: DocHrefLangUrl ) )
                     {
-                      Title = DocCollection.GetDocument( DocHrefLangUrl ).GetTitle();
+                      Title = DocCollection.GetDocumentByUrl( Url: DocHrefLangUrl ).GetTitle();
                     }
 
                   }

@@ -67,53 +67,79 @@ namespace SEOMacroscope
       string PrevUrl = null;
       string NextUrl = null;
 
-      StructStart = new MacroscopeRedirectChainDocStruct(
-        NewStatusCode: StatusCode,
-        NewUrl: StartUrl,
-        NewRedirectUrl: RedirectUrl
-      );
-
-      RedirectChain.Add( StructStart );
-
-      PrevUrl = StructStart.Url;
-      NextUrl = StructStart.RedirectUrl;
-
-      do
+      try
       {
 
-        MacroscopeRedirectChainDocStruct StructNext;
-
-        if( !string.IsNullOrEmpty( PrevUrl ) )
+        try
         {
-          NextUrl = MacroscopeHttpUrlUtils.MakeUrlAbsolute( PrevUrl, NextUrl );
+          StructStart = new MacroscopeRedirectChainDocStruct(
+          NewStatusCode: StatusCode,
+          NewUrl: StartUrl,
+          NewRedirectUrl: RedirectUrl
+        );
+
+          RedirectChain.Add( StructStart );
+
+          PrevUrl = StructStart.Url;
+          NextUrl = StructStart.RedirectUrl;
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
         }
 
-        StructNext = await this.Probe( Url: NextUrl );
-
-        RedirectChain.Add( StructNext );
-
-        PrevUrl = StructNext.Url;
-        NextUrl = StructNext.RedirectUrl;
-
-        switch( StructNext.StatusCode )
+        do
         {
-          case HttpStatusCode.Found:
-            break;
-          case HttpStatusCode.Moved:
-            break;
-          case HttpStatusCode.SeeOther:
-            break;
-          case HttpStatusCode.TemporaryRedirect:
-            break;
-          default:
-            IHOP = MaxHops;
-            break;
-        }
 
-        IHOP++;
+          MacroscopeRedirectChainDocStruct StructNext;
+
+          try
+          {
+
+            if( !string.IsNullOrEmpty( PrevUrl ) )
+            {
+              NextUrl = MacroscopeHttpUrlUtils.MakeUrlAbsolute( PrevUrl, NextUrl );
+            }
+
+              StructNext = await this.Probe( Url: NextUrl );
+
+            RedirectChain.Add( StructNext );
+
+            PrevUrl = StructNext.Url;
+            NextUrl = StructNext.RedirectUrl;
+
+
+            switch( StructNext.StatusCode )
+            {
+              case HttpStatusCode.Found:
+                break;
+              case HttpStatusCode.Moved:
+                break;
+              case HttpStatusCode.SeeOther:
+                break;
+              case HttpStatusCode.TemporaryRedirect:
+                break;
+              default:
+                IHOP = MaxHops;
+                break;
+            }
+
+          }
+          catch( Exception ex )
+          {
+            this.DebugMsg( ex.Message );
+          }
+
+          IHOP++;
+
+        }
+        while( IHOP < MaxHops );
 
       }
-      while( IHOP < MaxHops );
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+      }
 
       return ( RedirectChain );
 
@@ -125,6 +151,9 @@ namespace SEOMacroscope
     {
 
       MacroscopeRedirectChainDocStruct RedirectChainDocStruct;
+
+      try
+      {
 
       if( this.RedirectChainDocCache.ContainsKey( Url ) )
       {
@@ -154,6 +183,16 @@ namespace SEOMacroscope
         }
 
       }
+
+    }
+      catch(Exception ex )
+      {
+        RedirectChainDocStruct = new MacroscopeRedirectChainDocStruct();
+
+
+
+        this.DebugMsg ( ex.Message );
+  }
 
       return ( RedirectChainDocStruct );
 

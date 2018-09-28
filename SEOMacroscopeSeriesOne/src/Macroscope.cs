@@ -98,6 +98,14 @@ namespace SEOMacroscope
 #endif
     }
 
+    /** Global URL to Digest Routines *****************************************/
+
+    public static int UrlToDigest ( string Url )
+    {
+      int hashed = Url.GetHashCode();
+      return ( hashed );
+    }
+
     /** Text Digest ***********************************************************/
 
     public static string GetStringDigest ( string Text )

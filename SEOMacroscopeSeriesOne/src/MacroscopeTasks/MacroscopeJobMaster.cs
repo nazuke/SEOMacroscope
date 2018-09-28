@@ -1073,7 +1073,7 @@ namespace SEOMacroscope
 
     public void RetryLink ( string Url )
     {
-      MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
+      MacroscopeDocument msDoc = this.DocCollection.GetDocumentByUrl( Url: Url );
       this.ResetLink( msDoc: msDoc );
       return;
     }

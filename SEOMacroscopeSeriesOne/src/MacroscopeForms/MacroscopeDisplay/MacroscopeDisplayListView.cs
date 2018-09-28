@@ -582,7 +582,7 @@ namespace SEOMacroscope
 
         Application.DoEvents();
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocumentByUrl( Url: Url );
 
         if( msDoc != null )
         {

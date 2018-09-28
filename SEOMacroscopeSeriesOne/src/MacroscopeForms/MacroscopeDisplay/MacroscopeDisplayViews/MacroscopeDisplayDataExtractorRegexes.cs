@@ -201,7 +201,7 @@ namespace SEOMacroscope
       foreach( string Url in UrlList )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocumentByUrl( Url: Url );
         string DocUrl = msDoc.GetUrl();
         string StatusCode = ( (int) msDoc.GetStatusCode() ).ToString();
         string Status = msDoc.GetStatusCode().ToString();

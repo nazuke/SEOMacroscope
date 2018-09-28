@@ -234,7 +234,7 @@ namespace SEOMacroscope
       foreach ( string Url in UrlList )
       {
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocumentByUrl( Url: Url );
         ListViewItem lvItem = null;
         string DocUrl;
         string PairKey;

@@ -158,7 +158,7 @@ namespace SEOMacroscope
       foreach( string Url in UrlList )
       {
         
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url );
+        MacroscopeDocument msDoc = DocCollection.GetDocumentByUrl( Url: Url );
         
         if( msDoc != null )
         {

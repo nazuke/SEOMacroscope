@@ -1444,7 +1444,7 @@ namespace SEOMacroscope
       if( this.DocCollection != null )
       {
 
-        MacroscopeDocument msDoc = this.DocCollection.GetDocument( Url: Url );
+        MacroscopeDocument msDoc = this.DocCollection.GetDocumentByUrl( Url: Url );
 
         if( msDoc != null )
         {

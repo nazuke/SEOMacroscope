@@ -270,7 +270,7 @@ namespace SEOMacroscope
       if( this.DocCollection.ContainsDocument( Url: Url ) )
       {
 
-        msDoc = this.DocCollection.GetDocument( Url: Url );
+        msDoc = this.DocCollection.GetDocumentByUrl( Url: Url );
 
         if( msDoc.GetAuthenticationRealm() != null )
         {
@@ -355,7 +355,7 @@ namespace SEOMacroscope
 
       if( this.DocCollection.ContainsDocument( Url: Url ) )
       {
-        if( !this.DocCollection.GetDocument( Url ).GetIsDirty() )
+        if( !this.DocCollection.GetDocumentByUrl( Url: Url ).GetIsDirty() )
         {
           FetchStatus = MacroscopeConstants.FetchStatus.ALREADY_SEEN;
           return ( FetchStatus );

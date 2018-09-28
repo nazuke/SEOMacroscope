@@ -41,7 +41,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private ConcurrentDictionary<string, MacroscopeDocument> DocCollection;
+    private ConcurrentDictionary<int, MacroscopeDocument> DocCollection;
 
     private MacroscopeJobMaster JobMaster;
     private MacroscopeNamedQueue<bool> NamedQueue;
@@ -54,7 +54,7 @@ namespace SEOMacroscope
     private Dictionary<string, MacroscopeHyperlinksIn> StructHyperlinksIn;
     private Dictionary<string, List<decimal>> StructHyperlinksRatio;
 
-    private Dictionary<string, bool> StatsHistory;
+    private Dictionary<int, bool> StatsHistory;
     private Dictionary<string, int> StatsHostnames;
 
     private Dictionary<string, bool> StatsCanonicals;
@@ -111,7 +111,7 @@ namespace SEOMacroscope
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
 
-      this.DocCollection = new ConcurrentDictionary<string, MacroscopeDocument>();
+      this.DocCollection = new ConcurrentDictionary<int, MacroscopeDocument>();
 
       this.JobMaster = JobMaster;
 
@@ -126,7 +126,7 @@ namespace SEOMacroscope
       this.StructHyperlinksIn = new Dictionary<string, MacroscopeHyperlinksIn>( 1024 );
       this.StructHyperlinksRatio = new Dictionary<string, List<decimal>>( 1024 );
 
-      this.StatsHistory = new Dictionary<string, bool>( 1024 );
+      this.StatsHistory = new Dictionary<int, bool>( 1024 );
       this.StatsHostnames = new Dictionary<string, int>( 16 );
 
       this.StatsCanonicals = new Dictionary<string, bool>( 1024 );
@@ -230,9 +230,9 @@ namespace SEOMacroscope
       List<string> UrlsFromOutLinks = new List<string>( this.DocCollection.Count * 10 );
       lock( this.DocCollection )
       {
-        foreach( string Url in this.DocCollection.Keys )
+        foreach( int DocKey in this.DocCollection.Keys )
         {
-          MacroscopeDocument msDoc = this.DocCollection[ Url ];
+          MacroscopeDocument msDoc = this.DocCollection[ DocKey ];
           foreach( MacroscopeLink OutLink in msDoc.IterateOutlinks() )
           {
             string OutLinkUrl = OutLink.GetTargetUrl();
@@ -266,8 +266,9 @@ namespace SEOMacroscope
     {
 
       bool DocumentPresent = false;
+      int DocKey = UrlToDigest( Url: Url );
 
-      if( this.DocCollection.ContainsKey( Url ) )
+      if( this.DocCollection.ContainsKey( DocKey ) )
       {
         DocumentPresent = true;
       }
@@ -347,7 +348,7 @@ namespace SEOMacroscope
     {
 
       bool DocumentAdded = false;
-      string Url = msDoc.GetUrl();
+      int DocKey = UrlToDigest( Url: msDoc.GetUrl() );
 
       lock( this.DocCollection )
       {
@@ -358,13 +359,13 @@ namespace SEOMacroscope
           if( this.ContainsDocument( msDoc: msDoc ) )
           {
             this.RemoveDocument( msDoc.GetUrl() );
-            DocumentAdded = this.DocCollection.TryAdd( Url, msDoc );
+            DocumentAdded = this.DocCollection.TryAdd( DocKey, msDoc );
           }
           else
           {
             try
             {
-              DocumentAdded = this.DocCollection.TryAdd( Url, msDoc );
+              DocumentAdded = this.DocCollection.TryAdd( DocKey, msDoc );
             }
             catch( ArgumentException ex )
             {
@@ -390,7 +391,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocument GetDocument ( string Url )
+    public MacroscopeDocument GetDocumentByDocKey ( int DocKey )
     {
 
       MacroscopeDocument msDoc = null;
@@ -398,12 +399,35 @@ namespace SEOMacroscope
       try
       {
 
-        if( !string.IsNullOrEmpty( Url ) )
+        if( this.DocCollection.ContainsKey( DocKey ) )
         {
-          if( this.DocCollection.ContainsKey( Url ) )
-          {
-            msDoc = this.DocCollection[ Url ];
-          }
+          msDoc = this.DocCollection[ DocKey ];
+        }
+
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+      }
+
+      return ( msDoc );
+
+    }
+
+    /**************************************************************************/
+
+    public MacroscopeDocument GetDocumentByUrl ( string Url )
+    {
+
+      MacroscopeDocument msDoc = null;
+      int DocKey = UrlToDigest( Url: Url );
+
+      try
+      {
+
+        if( this.DocCollection.ContainsKey( DocKey ) )
+        {
+          msDoc = this.DocCollection[ DocKey ];
         }
 
       }
@@ -453,13 +477,14 @@ namespace SEOMacroscope
     {
 
       bool DocumentRemoved = false;
+      int DocKey = UrlToDigest( Url: Url );
 
       lock( this.DocCollection )
       {
-        if( this.DocCollection.ContainsKey( Url ) )
+        if( this.DocCollection.ContainsKey( DocKey ) )
         {
           MacroscopeDocument Discard;
-          DocumentRemoved = this.DocCollection.TryRemove( Url, out Discard );
+          DocumentRemoved = this.DocCollection.TryRemove( DocKey, out Discard );
         }
       }
 
@@ -478,12 +503,12 @@ namespace SEOMacroscope
         if( this.DocCollection.Count > 0 )
         {
 
-          foreach( string Url in this.DocCollection.Keys )
+          foreach( int DocKey in this.DocCollection.Keys )
           {
-            MacroscopeDocument msDoc = this.DocCollection[ Url ];
+            MacroscopeDocument msDoc = this.DocCollection[ DocKey ];
             if( msDoc != null )
             {
-              yield return this.DocCollection[ Url ];
+              yield return this.DocCollection[ DocKey ];
             }
           }
 
@@ -495,7 +520,33 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public List<string> DocumentKeys ()
+    public List<int> DocumentKeys ()
+    {
+
+      List<int> lKeys = new List<int>();
+
+      lock( this.DocCollection )
+      {
+
+        if( this.DocCollection.Count > 0 )
+        {
+
+          foreach( int DocKey in this.DocCollection.Keys )
+          {
+            lKeys.Add( DocKey );
+          }
+
+        }
+
+      }
+
+      return ( lKeys );
+
+    }
+
+    /**************************************************************************/
+
+    public List<string> DocumentUrls ()
     {
 
       List<string> lKeys = new List<string>();
@@ -506,9 +557,16 @@ namespace SEOMacroscope
         if( this.DocCollection.Count > 0 )
         {
 
-          foreach( string Url in this.DocCollection.Keys )
+          foreach( int DocKey in this.DocCollection.Keys )
           {
-            lKeys.Add( Url );
+            try
+            {
+              lKeys.Add( this.GetDocumentByDocKey( DocKey: DocKey ).GetUrl() );
+            }
+            catch( Exception ex )
+            {
+              // NO-OP
+            }
           }
 
         }
@@ -766,7 +824,7 @@ namespace SEOMacroscope
               this.DebugMsg( string.Format( "RecalculateHyperlinksRatio: {0}", ex.Message ) );
             }
 
-            if( this.StatsHistory.ContainsKey( msDoc.GetUrl() ) )
+            if( this.StatsHistory.ContainsKey( UrlToDigest( Url: msDoc.GetUrl() ) ) )
             {
               this.DebugMsg( string.Format( "RecalculateDocCollection Already Seen: {0}", msDoc.GetUrl() ) );
             }
@@ -777,7 +835,7 @@ namespace SEOMacroscope
 
               if( msDoc.GetStatusCode() != 0 )
               {
-                this.StatsHistory.Add( msDoc.GetUrl(), true );
+                this.StatsHistory.Add( UrlToDigest( Url: msDoc.GetUrl() ), true );
               }
 
               this.RecalculateStatsCanonicals( msDoc: msDoc );
@@ -2529,7 +2587,7 @@ namespace SEOMacroscope
 
         // TODO: Implement this:
 
-        MacroscopeDocument msDoc = this.GetDocument( Url: this.GetStartUrl() );
+        MacroscopeDocument msDoc = this.GetDocumentByUrl( Url: this.GetStartUrl() );
 
         if( msDoc != null )
         {
@@ -2581,7 +2639,7 @@ namespace SEOMacroscope
       {
 
         string TargetUrl = Outlink.GetTargetUrl();
-        MacroscopeDocument msDocLinked = this.GetDocument( Url: TargetUrl );
+        MacroscopeDocument msDocLinked = this.GetDocumentByUrl( Url: TargetUrl );
         bool InsertDoc = false;
 
         if( ( msDocLinked != null ) && msDocLinked.GetIsInternal() )
@@ -2761,13 +2819,26 @@ namespace SEOMacroscope
       {
 
         MacroscopeRedirectChainAnalysis Analyzer = new MacroscopeRedirectChainAnalysis( Client: this.GetJobMaster().GetHttpClient() );
-        List<MacroscopeRedirectChainDocStruct> AnalyzedRedirectChain;
+        List<MacroscopeRedirectChainDocStruct> AnalyzedRedirectChain = new List<MacroscopeRedirectChainDocStruct>();
 
-        AnalyzedRedirectChain = await Analyzer.AnalyzeRedirectChains(
-          StatusCode: msDoc.GetStatusCode(),
-          StartUrl: msDoc.GetUrl(),
-          RedirectUrl: msDoc.GetUrlRedirectTo()
-        );
+        try
+        {
+
+          var CheckStatusCode = msDoc.GetStatusCode();
+          var CheckStartUrl = msDoc.GetUrl();
+          var CheckRedirectUrl = msDoc.GetUrlRedirectTo();
+
+          AnalyzedRedirectChain = await Analyzer.AnalyzeRedirectChains(
+            StatusCode: CheckStatusCode,
+            StartUrl: CheckStartUrl,
+            RedirectUrl: CheckRedirectUrl
+          );
+
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
+        }
 
         try
         {

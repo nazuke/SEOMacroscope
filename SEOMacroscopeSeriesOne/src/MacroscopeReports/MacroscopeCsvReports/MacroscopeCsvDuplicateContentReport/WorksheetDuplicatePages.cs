@@ -70,10 +70,10 @@ namespace SEOMacroscope
                 
       }
 
-      foreach( string UrlLeft in DocCollection.DocumentKeys() )
+      foreach( string UrlLeft in DocCollection.DocumentUrls() )
       {
 
-        MacroscopeDocument msDocLeft = DocCollection.GetDocument( UrlLeft );
+        MacroscopeDocument msDocLeft = DocCollection.GetDocumentByUrl( Url: UrlLeft );
         MacroscopeLevenshteinAnalysis LevenshteinAnalysis = null;
 
         CountOuter++;

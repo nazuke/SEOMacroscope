@@ -127,8 +127,8 @@ namespace SEOMacroscope
 
         string PairKey = string.Join( "::::::::", SitemapUrl, TargetUrl );
 
-        MacroscopeDocument msDoc = DocCollection.GetDocument( Url: SitemapUrl );
-        MacroscopeDocument msDocLinked = DocCollection.GetDocument( Url: TargetUrl );
+        MacroscopeDocument msDoc = DocCollection.GetDocumentByUrl( Url: SitemapUrl );
+        MacroscopeDocument msDocLinked = DocCollection.GetDocumentByUrl( Url: TargetUrl );
 
         ListViewItem lvItem = null;
 

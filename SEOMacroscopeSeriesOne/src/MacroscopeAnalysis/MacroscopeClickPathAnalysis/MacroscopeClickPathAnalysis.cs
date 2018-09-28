@@ -148,7 +148,7 @@ namespace SEOMacroscope
         else
         {
 
-          MacroscopeDocument CurrentDoc = this.DocCollection.GetDocument( Url: HyperlinkOut.GetTargetUrl() );
+          MacroscopeDocument CurrentDoc = this.DocCollection.GetDocumentByUrl( Url: HyperlinkOut.GetTargetUrl() );
 
           if( CurrentDoc != null )
           {
