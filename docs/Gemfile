@@ -31,3 +31,5 @@ gem 'jekyll-sitemap'
 
 # https://github.com/jekyll/jekyll-redirect-from
 gem 'jekyll-redirect-from'
+
+gem 'ffi', '~> 1.9', '>= 1.9.25'
