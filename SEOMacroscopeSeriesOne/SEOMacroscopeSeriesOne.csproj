@@ -229,6 +229,8 @@
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeWordCount\MacroscopeAnalyzeWordCount.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeAnalyzeWordCount\t\TestMacroscopeAnalyzeWordCount.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeInsecureLinks\t\TestMacroscopeInsecureLinks.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeKeywordAnalysis\MacroscopeIntenseKeywordAnalysis.cs" />
+    <Compile Include="src\MacroscopeAnalysis\MacroscopeKeywordAnalysis\t\TestMacroscopeIntenseKeywordAnalysis.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeLevenshteinAnalysis\MacroscopeLevenshteinFingerprint.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeQrCodeAnalysis\MacroscopeQrCodeAnalysis.cs" />
     <Compile Include="src\MacroscopeAnalysis\MacroscopeQrCodeAnalysis\t\TestMacroscopeQrCodeAnalysis.cs" />
@@ -983,6 +985,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="src\MacroscopeAnalysis\MacroscopeKeywordAnalysis\t\HtmlDocs\TestBadKeywords.html" />
+    <EmbeddedResource Include="src\MacroscopeAnalysis\MacroscopeKeywordAnalysis\t\HtmlDocs\TestGoodKeywords.html" />
     <EmbeddedResource Include="src\MacroscopeDocument\t\ListDocs\1000-urls.txt" />
     <EmbeddedResource Include="src\MacroscopeDocument\MacroscopeDocument\t\TextDocs\TestPureTextOutLinks001.txt" />
     <None Include="Resources\SEO_Macroscope_Icon_16x16.ico" />

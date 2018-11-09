@@ -46,7 +46,8 @@ namespace SEOMacroscope
     private MacroscopeJobMaster JobMaster;
     private MacroscopeNamedQueue<bool> NamedQueue;
     private MacroscopeSearchIndex SearchIndex;
-    private MacroscopeDeepKeywordAnalysis AnalyzeKeywords;
+    private MacroscopeDeepKeywordAnalysis DeepAnalyzeKeywords;
+    private MacroscopeIntenseKeywordAnalysis IntenseAnalyzeKeywords;
 
     private string StartUrl;
 
@@ -79,6 +80,9 @@ namespace SEOMacroscope
 
     private Dictionary<string, MacroscopeDocumentList> StatsDeepKeywordAnalysisDocs;
     private List<Dictionary<string, int>> StatsDeepKeywordAnalysis;
+
+    private Dictionary<string, MacroscopeDocumentList> StatsIntenseKeywordAnalysisDocs;
+    private List<Dictionary<string, int>> StatsIntenseKeywordAnalysis;
 
     private Dictionary<string, int> StatsReadabilityGrades;
     private Dictionary<string, int> StatsReadabilityGradeDescriptions;
@@ -162,7 +166,8 @@ namespace SEOMacroscope
         this.StatsDeepKeywordAnalysis.Add( new Dictionary<string, int>( 1024 ) );
       }
 
-      this.AnalyzeKeywords = new MacroscopeDeepKeywordAnalysis( DocList: this.StatsDeepKeywordAnalysisDocs );
+      this.DeepAnalyzeKeywords = new MacroscopeDeepKeywordAnalysis( DocList: this.StatsDeepKeywordAnalysisDocs );
+      this.IntenseAnalyzeKeywords = new MacroscopeIntenseKeywordAnalysis( DocList: this.StatsDeepKeywordAnalysisDocs );
 
       this.StatsReadabilityGrades = new Dictionary<string, int>( 16 );
       this.StatsReadabilityGradeDescriptions = new Dictionary<string, int>( 16 );
@@ -2269,7 +2274,7 @@ namespace SEOMacroscope
             {
               for( int i = 0 ; i < 4 ; i++ )
               {
-                this.AnalyzeKeywords.Analyze(
+                this.DeepAnalyzeKeywords.Analyze(
                   msDoc: msDoc,
                   Text: msDoc.GetDocumentTextCleaned(),
                   Terms: this.StatsDeepKeywordAnalysis[ i ],

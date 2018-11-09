@@ -261,11 +261,8 @@ namespace SEOMacroscope
 
       if( !string.IsNullOrEmpty( Text ) )
       {
-
         NewText = NewText.Replace( "\r", "" );
-
         NewText = NewText.Replace( "\n", "" );
-
       }
 
       return ( NewText );
