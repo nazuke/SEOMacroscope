@@ -255,6 +255,7 @@
     <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesPresets.cs" />
     <Compile Include="src\MacroscopeEnvironment\t\TestMacroscopeCheckForUpdate.cs" />
     <Compile Include="src\MacroscopeExceptions\MacroscopeSitemapException.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayKeywordsPresence.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayRedirectChains.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapsAudit.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapErrors.cs" />
@@ -288,6 +289,7 @@
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelErrorsReport\t\TestMacroscopeExcelErrorsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelExportListViewReport\t\TestMacroscopeExcelExportListViewReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelKeywordAnalysisReport\t\TestMacroscopeExcelKeywordAnalysisReport.cs" />
+    <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelKeywordAnalysisReport\WorksheetKeywordsPresence.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelLanguagesReport\t\TestMacroscopeExcelLanguagesReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelOverviewReport\t\TestMacroscopeExcelOverviewReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelPageContentsReport\t\TestMacroscopeExcelPageContentsReport.cs" />

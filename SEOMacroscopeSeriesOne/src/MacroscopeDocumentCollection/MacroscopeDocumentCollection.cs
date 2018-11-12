@@ -81,8 +81,7 @@ namespace SEOMacroscope
     private Dictionary<string, MacroscopeDocumentList> StatsDeepKeywordAnalysisDocs;
     private List<Dictionary<string, int>> StatsDeepKeywordAnalysis;
 
-    private Dictionary<string, MacroscopeDocumentList> StatsIntenseKeywordAnalysisDocs;
-    private List<Dictionary<string, int>> StatsIntenseKeywordAnalysis;
+    private Dictionary<int, List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>>> StatsIntenseKeywordAnalysis;
 
     private Dictionary<string, int> StatsReadabilityGrades;
     private Dictionary<string, int> StatsReadabilityGradeDescriptions;
@@ -167,7 +166,9 @@ namespace SEOMacroscope
       }
 
       this.DeepAnalyzeKeywords = new MacroscopeDeepKeywordAnalysis( DocList: this.StatsDeepKeywordAnalysisDocs );
-      this.IntenseAnalyzeKeywords = new MacroscopeIntenseKeywordAnalysis( DocList: this.StatsDeepKeywordAnalysisDocs );
+
+      this.IntenseAnalyzeKeywords = new MacroscopeIntenseKeywordAnalysis();
+      this.StatsIntenseKeywordAnalysis = new Dictionary<int, List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>>>();
 
       this.StatsReadabilityGrades = new Dictionary<string, int>( 16 );
       this.StatsReadabilityGradeDescriptions = new Dictionary<string, int>( 16 );
@@ -872,6 +873,11 @@ namespace SEOMacroscope
                 this.RecalculateStatsDeepKeywordAnalysis( msDoc: msDoc );
               }
 
+              if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+              {
+                this.RecalculateStatsIntenseKeywordAnalysis( msDoc: msDoc );
+              }
+
               if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
               {
                 this.RecalculateStatsReadabilityGrades( msDoc: msDoc );
@@ -929,6 +935,14 @@ namespace SEOMacroscope
           this.RecalculateAnalyzeInSitemaps();
 
           this.RecalculateOrphanedDocumentList();
+
+          if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+          {
+            foreach( MacroscopeDocument msDoc in this.IterateDocuments() )
+            {
+              this.RecalculateStatsIntenseKeywordAnalysis( msDoc: msDoc );
+            }
+          }
 
         }
 
@@ -2322,6 +2336,93 @@ namespace SEOMacroscope
       }
 
       return ( DocumentList );
+
+    }
+
+    /** Intense Keyword Analysis **********************************************/
+
+    private void ClearStatsIntenseKeywordAnalysis ()
+    {
+      lock( this.StatsIntenseKeywordAnalysis )
+      {
+        this.StatsIntenseKeywordAnalysis.Clear();
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void RecalculateStatsIntenseKeywordAnalysis ( MacroscopeDocument msDoc )
+    {
+
+      bool Proceed = false;
+      List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>> KeywordPresence;
+
+      if( msDoc.GetIsRedirect() )
+      {
+        return;
+      }
+
+      switch( msDoc.GetDocumentType() )
+      {
+        case MacroscopeConstants.DocumentType.HTML:
+          Proceed = true;
+          break;
+        default:
+          break;
+      }
+
+      if( Proceed )
+      {
+
+        int DocKey = UrlToDigest( Url: msDoc.GetUrl() );
+
+        KeywordPresence = this.IntenseAnalyzeKeywords.AnalyzeKeywordPresence( msDoc: msDoc );
+
+        if( KeywordPresence.Count > 0 )
+        {
+
+          if( this.StatsIntenseKeywordAnalysis.ContainsKey( DocKey ) )
+          {
+            this.StatsIntenseKeywordAnalysis[ DocKey ] = KeywordPresence;
+          }
+          else
+          {
+            this.StatsIntenseKeywordAnalysis.Add( DocKey, KeywordPresence );
+          }
+
+        }
+        else
+        {
+
+          if( this.StatsIntenseKeywordAnalysis.ContainsKey( DocKey ) )
+          {
+            this.StatsIntenseKeywordAnalysis[ DocKey ] = null;
+          }
+          else
+          {
+            this.StatsIntenseKeywordAnalysis.Add( DocKey, null );
+          }
+
+        }
+
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>> GetIntenseKeywordAnalysis ( MacroscopeDocument msDoc )
+    {
+
+      int DocKey = UrlToDigest( Url: msDoc.GetUrl() );
+      List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>> KeywordPresence = null;
+
+      if( this.StatsIntenseKeywordAnalysis.ContainsKey( DocKey ) )
+      {
+        KeywordPresence = this.StatsIntenseKeywordAnalysis[ DocKey ];
+      }
+
+      return ( KeywordPresence );
 
     }
 

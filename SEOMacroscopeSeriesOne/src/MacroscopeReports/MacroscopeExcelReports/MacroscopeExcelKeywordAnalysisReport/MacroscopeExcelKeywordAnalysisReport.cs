@@ -89,7 +89,9 @@ namespace SEOMacroscope
 
         }
 
-        if ( !this.ProgressForm.Cancelled() )
+        this.BuildWorksheetKeywordsPresence( JobMaster, Workbook, "Keywords Presence", JobMaster.GetDocCollection() );
+
+        if( !this.ProgressForm.Cancelled() )
         {
           this.SaveOutputFile( Workbook: Workbook, OutputFilename: OutputFilename );
         }

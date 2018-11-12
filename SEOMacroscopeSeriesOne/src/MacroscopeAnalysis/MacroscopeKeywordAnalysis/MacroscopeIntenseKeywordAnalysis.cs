@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SEOMacroscope
 {
@@ -38,48 +39,68 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    // Keyword Term / MacroscopeDocumentList
-    Dictionary<string, MacroscopeDocumentList> DocList;
+    public enum KEYWORD_STATUS
+    {
+      KEYWORDS_METATAG_EMPTY = 0,
+      PRESENT_IN_BODY_TEXT = 1,
+      MISSING_IN_BODY_TEXT = 2
+    }
 
     /**************************************************************************/
 
     public MacroscopeIntenseKeywordAnalysis () : base()
     {
       this.SuppressDebugMsg = false;
-      this.DocList = null;
-    }
-
-    public MacroscopeIntenseKeywordAnalysis ( Dictionary<string, MacroscopeDocumentList> DocList ) : base()
-    {
-      this.SuppressDebugMsg = false;
-      this.DocList = DocList;
     }
 
     /**************************************************************************/
 
-    public void Analyze ( MacroscopeDocument msDoc )
+    public List<KeyValuePair<string, KEYWORD_STATUS>> AnalyzeKeywordPresence ( MacroscopeDocument msDoc )
     {
 
-      string Keywords = msDoc.GetKeywords();
-      string BodyText = msDoc.GetDocumentTextCleaned();
+      string Keywords = msDoc.GetKeywords().ToLower();
+      string BodyText = msDoc.GetDocumentTextCleaned().ToLower();
       List<string> KeywordsList = new List<string>();
+      List<KeyValuePair<string, KEYWORD_STATUS>> KeywordPresence = new List<KeyValuePair<string, KEYWORD_STATUS>>();
+      bool KeywordsMetatagEmpty = false;
 
       foreach( string Keyword in Keywords.Split( ',' ) )
       {
-        KeywordsList.Add( Keyword );
+        string KeywordCleaned = MacroscopeStringTools.CleanWhiteSpace( Keyword );
+        KeywordsList.Add( KeywordCleaned );
+        KeywordsMetatagEmpty = true;
       }
 
-      this.DebugMsg( Keywords );
-      this.DebugMsg( BodyText );
+      if( KeywordsMetatagEmpty )
+      {
 
+        foreach( string Keyword in KeywordsList )
+        {
 
+          string kw = "\\s" + Keyword + "\\s";
 
+          if( Regex.IsMatch( BodyText, kw ) )
+          {
+            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.PRESENT_IN_BODY_TEXT ) );
+          }
+          else
+          {
+            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MISSING_IN_BODY_TEXT ) );
+          }
 
-      return;
+        }
+
+      }
+      else
+      {
+
+        KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( "", KEYWORD_STATUS.KEYWORDS_METATAG_EMPTY ) );
+
+      }
+
+      return ( KeywordPresence );
 
     }
-
-
 
     /**************************************************************************/
 

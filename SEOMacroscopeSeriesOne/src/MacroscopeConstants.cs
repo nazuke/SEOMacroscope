@@ -54,10 +54,10 @@ namespace SEOMacroscope
 
     public enum RunTimeMode
     {
-      LIVE = 1,
-      LISTFILE = 2,
-      LISTTEXT = 3,
-      SITEMAP = 4
+      LIVE = 0,
+      LISTFILE = 1,
+      LISTTEXT = 2,
+      SITEMAP = 3
     }
 
     /** END: Runtime Modes ****************************************************/
@@ -148,6 +148,7 @@ namespace SEOMacroscope
     public const string tabPagePageTitles = "tabPagePageTitles";
     public const string tabPagePageDescriptions = "tabPagePageDescriptions";
     public const string tabPagePageKeywords = "tabPagePageKeywords";
+    public const string tabPagePageKeywordsPresence = "tabPagePageKeywordsPresence";
     public const string tabPagePageHeadings = "tabPagePageHeadings";
     public const string tabPagePageText = "tabPagePageText";
     public const string tabPageStylesheets = "tabPageStylesheets";

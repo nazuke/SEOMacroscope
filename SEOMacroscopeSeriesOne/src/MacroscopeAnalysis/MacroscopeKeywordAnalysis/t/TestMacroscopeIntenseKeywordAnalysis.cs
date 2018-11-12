@@ -85,8 +85,10 @@ namespace SEOMacroscope
     [Test]
     public void TestGoodKeywords ()
     {
+
       foreach( string HtmlDocKey in this.GoodHtmlDocs.Keys )
       {
+
         MacroscopeDocument msDoc = new MacroscopeDocument( Url: "https://nazuke.github.io/" );
         string Html = this.GoodHtmlDocs[ HtmlDocKey ];
         HtmlDocument HtmlDoc = new HtmlDocument();
@@ -107,29 +109,57 @@ namespace SEOMacroscope
 
         MacroscopeIntenseKeywordAnalysis Analyzer = new MacroscopeIntenseKeywordAnalysis();
 
-        Analyzer.Analyze( msDoc: msDoc );
+        List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>> KeywordPresence = Analyzer.AnalyzeKeywordPresence( msDoc: msDoc );
 
-        //Assert.IsNotEmpty( CleanedText, "CleanedText is empty" );
+        foreach( KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
+        {
+          Assert.AreEqual( MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.PRESENT_IN_BODY_TEXT, Pair.Value );
+        }
 
       }
+
     }
 
     /**************************************************************************/
-    /*
+
     [Test]
     public void TestBadKeywords ()
     {
+
       foreach( string HtmlDocKey in this.BadHtmlDocs.Keys )
       {
+
         MacroscopeDocument msDoc = new MacroscopeDocument( Url: "https://nazuke.github.io/" );
         string Html = this.BadHtmlDocs[ HtmlDocKey ];
         HtmlDocument HtmlDoc = new HtmlDocument();
+
+        msDoc.SetDocumentType( Type: MacroscopeConstants.DocumentType.HTML );
+
         HtmlDoc.LoadHtml( html: Html );
         List<string> CleanedText = msDoc.GetNodeText( Node: HtmlDoc.DocumentNode );
-        Assert.IsNotEmpty( CleanedText, "CleanedText is empty" );
+
+        string Keywords = HtmlDoc.DocumentNode.SelectSingleNode( "//meta[@name='keywords']" ).GetAttributeValue( name: "content", def: "" );
+        string BodyText = string.Join( " ", CleanedText.ToArray() );
+
+        Assert.IsNotEmpty( Keywords, "Keywords is empty" );
+
+        msDoc.SetKeywords( Keywords );
+
+        msDoc.SetDocumentText( Text: BodyText );
+
+        MacroscopeIntenseKeywordAnalysis Analyzer = new MacroscopeIntenseKeywordAnalysis();
+
+        List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>> KeywordPresence = Analyzer.AnalyzeKeywordPresence( msDoc: msDoc );
+
+        foreach( KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
+        {
+          Assert.AreEqual( MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.MISSING_IN_BODY_TEXT, Pair.Value );
+        }
+
       }
+
     }
-    */
+
     /**************************************************************************/
 
     public void ICallbackScanComplete ()

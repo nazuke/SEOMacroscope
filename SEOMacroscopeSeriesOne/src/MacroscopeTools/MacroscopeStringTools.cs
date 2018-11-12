@@ -254,6 +254,36 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public static string CleanWhiteSpace ( string Text )
+    {
+
+      string NewText = Text;
+
+      if( !string.IsNullOrEmpty( NewText ) )
+      {
+
+        try
+        {
+          NewText = HtmlEntity.DeEntitize( NewText );
+        }
+        catch( Exception ex )
+        {
+          DebugMsgStatic( string.Format( "CompactWhiteSpace: {0}", ex.Message ) );
+        }
+
+        NewText = Regex.Replace( NewText, @"[\r\n]+", " ", RegexOptions.Singleline );
+        NewText = Regex.Replace( NewText, @"[\s]+", " ", RegexOptions.Singleline );
+        NewText = Regex.Replace( NewText, @"^[\s]+", "", RegexOptions.Singleline );
+        NewText = Regex.Replace( NewText, @"[\s]+$", "", RegexOptions.Singleline );
+
+      }
+
+      return ( NewText );
+
+    }
+
+    /**************************************************************************/
+
     public static string StripNewLines ( string Text )
     {
 

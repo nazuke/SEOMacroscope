@@ -76,6 +76,7 @@ namespace SEOMacroscope
     MacroscopeDisplayTitles msDisplayTitles;
     MacroscopeDisplayDescriptions msDisplayDescriptions;
     MacroscopeDisplayKeywords msDisplayKeywords;
+    MacroscopeDisplayKeywordsPresence msDisplayKeywordsPresence;
     MacroscopeDisplayHeadings msDisplayHeadings;
     MacroscopeDisplayPageText msDisplayPageText;
     MacroscopeDisplayStylesheets msDisplayStylesheets;
@@ -397,6 +398,8 @@ namespace SEOMacroscope
       this.msDisplayTitles = new MacroscopeDisplayTitles( this, this.macroscopeOverviewTabPanelInstance.listViewPageTitles );
       this.msDisplayDescriptions = new MacroscopeDisplayDescriptions( this, this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions );
       this.msDisplayKeywords = new MacroscopeDisplayKeywords( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywords );
+      this.msDisplayKeywordsPresence = new MacroscopeDisplayKeywordsPresence( this, this.macroscopeOverviewTabPanelInstance.listViewPageKeywordsPresence );
+
       this.msDisplayHeadings = new MacroscopeDisplayHeadings( this, this.macroscopeOverviewTabPanelInstance.listViewPageHeadings );
       this.msDisplayPageText = new MacroscopeDisplayPageText( this, this.macroscopeOverviewTabPanelInstance.listViewPageText );
       this.msDisplayStylesheets = new MacroscopeDisplayStylesheets( this, this.macroscopeOverviewTabPanelInstance.listViewStylesheets );
@@ -472,6 +475,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance.listViewOrphanedPages.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageTitles.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageDescriptions.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
+      this.macroscopeOverviewTabPanelInstance.listViewPageKeywordsPresence.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageHeadings.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewPageText.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
       this.macroscopeOverviewTabPanelInstance.listViewStylesheets.ItemSelectionChanged += this.CallbackListViewShowDocumentDetailsOnUrlClick;
@@ -1302,6 +1306,13 @@ namespace SEOMacroscope
           );
           break;
 
+        case MacroscopeConstants.tabPagePageKeywordsPresence:
+          this.msDisplayKeywordsPresence.RefreshData(
+            this.JobMaster.GetDocCollection(),
+            UrlList: this.JobMaster.DrainDisplayQueueAsList( MacroscopeConstants.NamedQueueDisplayPageKeywords )
+          );
+          break;
+
         case MacroscopeConstants.tabPagePageHeadings:
           this.msDisplayHeadings.RefreshData(
             DocCollection: this.JobMaster.GetDocCollection(),
@@ -1512,6 +1523,10 @@ namespace SEOMacroscope
 
         case MacroscopeConstants.tabPagePageKeywords:
           CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewPageKeywords;
+          break;
+
+        case MacroscopeConstants.tabPagePageKeywordsPresence:
+          CurrentListView = this.macroscopeOverviewTabPanelInstance.listViewPageKeywordsPresence;
           break;
 
         case MacroscopeConstants.tabPagePageHeadings:
@@ -2189,6 +2204,7 @@ namespace SEOMacroscope
         this.msDisplayTitles.ClearData();
         this.msDisplayDescriptions.ClearData();
         this.msDisplayKeywords.ClearData();
+        this.msDisplayKeywordsPresence.ClearData();
         this.msDisplayHeadings.ClearData();
         this.msDisplayPageText.ClearData();
 

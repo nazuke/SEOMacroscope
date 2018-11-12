@@ -97,6 +97,7 @@ namespace SEOMacroscope
       this.listViewPageTitles.Dock = DockStyle.Fill;
       this.listViewPageDescriptions.Dock = DockStyle.Fill;
       this.listViewPageKeywords.Dock = DockStyle.Fill;
+      this.listViewPageKeywordsPresence.Dock = DockStyle.Fill;
       this.listViewPageHeadings.Dock = DockStyle.Fill;
       this.listViewPageText.Dock = DockStyle.Fill;
       this.listViewStylesheets.Dock = DockStyle.Fill;
@@ -151,6 +152,7 @@ namespace SEOMacroscope
       this.listViewPageTitles.ColumnClick += this.CallbackColumnClick;
       this.listViewPageDescriptions.ColumnClick += this.CallbackColumnClick;
       this.listViewPageKeywords.ColumnClick += this.CallbackColumnClick;
+      this.listViewPageKeywordsPresence.ColumnClick += this.CallbackColumnClick;
       this.listViewPageHeadings.ColumnClick += this.CallbackColumnClick;
       this.listViewPageText.ColumnClick += this.CallbackColumnClick;
       this.listViewStylesheets.ColumnClick += this.CallbackColumnClick;
