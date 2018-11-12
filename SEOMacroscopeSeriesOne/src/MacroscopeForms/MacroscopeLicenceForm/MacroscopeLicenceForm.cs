@@ -31,43 +31,36 @@ using System.Windows.Forms;
 
 namespace SEOMacroscope
 {
-  
+
   /// <summary>
   /// Displayes the licence file in a dialogue.
   /// </summary>
-	
+
   public partial class MacroscopeLicenceForm : Form
   {
-		
+
     /**************************************************************************/
-	      
+
     public MacroscopeLicenceForm ()
     {
-
       InitializeComponent(); // The InitializeComponent() call is required for Windows Forms designer support.
-      
       this.Shown += this.CallbackLicenceFormShown;
-      
     }
-    
+
     /**************************************************************************/
 
     private void CallbackLicenceFormShown ( object sender, EventArgs e )
     {
-
       string LicenceText;
-      StreamReader Reader = new StreamReader ( Assembly.GetExecutingAssembly().GetManifestResourceStream( "LICENCE" ) );
-
+      Stream LicenceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream( "SEOMacroscope.Resources.LICENSE" );
+      StreamReader Reader = new StreamReader( LicenceStream );
       LicenceText = Reader.ReadToEnd();
-
       Reader.Close();
-
       this.richTextBoxLicence.Text = LicenceText;
-
     }
-	      
+
     /**************************************************************************/
-	          
+
   }
-	
+
 }

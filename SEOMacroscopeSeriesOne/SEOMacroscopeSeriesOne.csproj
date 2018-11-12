@@ -946,6 +946,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\LICENSE" />
     <None Include="src\MacroscopeCustomFilters\t\Custom Filter Test Patterns.txt" />
   </ItemGroup>
   <ItemGroup>
