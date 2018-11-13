@@ -41,6 +41,7 @@ namespace SEOMacroscope
       string WorksheetLabel
     )
     {
+
       var ws = wb.Worksheets.Add( WorksheetLabel );
 
       int iRow = 1;
@@ -56,7 +57,7 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Status Code";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Status";
         iCol++;
 
@@ -68,16 +69,16 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Duration";
         iCol++;
-       
+
         ws.Cell( iRow, iCol ).Value = "Crawled Date";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Server Date";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Modified Date";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Expires Date";
         iCol++;
 
@@ -97,7 +98,7 @@ namespace SEOMacroscope
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Page Depth";
-        iCol++;     
+        iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Links In";
         iCol++;
@@ -110,7 +111,7 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Hyperlinks Out";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Ratio In";
         iCol++;
 
@@ -125,11 +126,20 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Title Length";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Description";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Description Length";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Keywords";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Keywords Length";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Keywords Count";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Error Condition";
@@ -145,7 +155,7 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         List<decimal> HyperlinkRatio = DocCollection.GetDocumentHyperlinksRatio( Url: msDoc.GetUrl() );
@@ -172,10 +182,10 @@ namespace SEOMacroscope
 
         this.InsertAndFormatDateCell( ws, iRow, iCol, msDoc.GetCrawledDate() );
         iCol++;
-        
+
         this.InsertAndFormatDateCell( ws, iRow, iCol, msDoc.GetDateServer() );
         iCol++;
-          
+
         this.InsertAndFormatDateCell( ws, iRow, iCol, msDoc.GetDateModified() );
         iCol++;
 
@@ -198,7 +208,7 @@ namespace SEOMacroscope
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetDepth().ToString() );
-        iCol++;  
+        iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.CountInlinks() );
         iCol++;
@@ -231,6 +241,15 @@ namespace SEOMacroscope
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetDescriptionLength() );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetKeywords() ) );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetKeywordsLength().ToString() );
+        iCol++;
+
+        this.InsertAndFormatContentCell( ws, iRow, iCol, msDoc.GetKeywordsCount().ToString() );
         iCol++;
 
         this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( msDoc.GetErrorCondition() ) );

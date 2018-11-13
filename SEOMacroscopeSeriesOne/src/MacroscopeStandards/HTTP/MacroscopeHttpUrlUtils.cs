@@ -513,8 +513,14 @@ namespace SEOMacroscope
 
       try
       {
-        UriLeft = new Uri( UrlLeft, UriKind.Absolute );
-        UriRight = new Uri( UrlRight, UriKind.Absolute );
+        if( UrlLeft.ToLower().StartsWith( "http" ) )
+        {
+          UriLeft = new Uri( UrlLeft, UriKind.Absolute );
+        }
+        if( UrlRight.ToLower().StartsWith( "http" ) )
+        {
+          UriRight = new Uri( UrlRight, UriKind.Absolute );
+        }
       }
       catch( InvalidOperationException ex )
       {

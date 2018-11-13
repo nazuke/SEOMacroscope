@@ -60,27 +60,25 @@ namespace SEOMacroscope
       XLWorkbook Workbook = new XLWorkbook();
       Dictionary<string, int> DicTerms = null;
 
-      if ( this.ProgressForm != null )
+      if( this.ProgressForm != null )
       {
 
         const decimal MajorPercentageDivider = 4;
 
-        for ( int i = 0 ; i <= 3 ; i++ )
+        for( int i = 0 ; i <= 3 ; i++ )
         {
 
-          if ( !this.ProgressForm.Cancelled() )
+          if( !this.ProgressForm.Cancelled() )
           {
 
             this.ProgressForm.UpdatePercentages(
-            Title: "Processing Keywords",
-            Message: "Processing keyword terms collection:",
-            MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) i + 1,
-            ProgressLabelMajor: "",
-            MinorPercentage: 0,
-            ProgressLabelMinor: "",
-            SubMinorPercentage: 0,
-            ProgressLabelSubMinor: ""
-          );
+              Title: "Processing Keywords",
+              Message: "Processing keyword terms collection:",
+              MajorPercentage: ( (decimal) 100 / MajorPercentageDivider ) * (decimal) i + 1,
+              ProgressLabelMajor: "",
+              MinorPercentage: 0,
+              ProgressLabelMinor: ""
+            );
 
             DicTerms = JobMaster.GetDocCollection().GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
             this.BuildWorksheetKeywordTerms( JobMaster, Workbook, string.Format( "{0} Word Term", i + 1 ), DicTerms );
@@ -100,7 +98,7 @@ namespace SEOMacroscope
       else
       {
 
-        for ( int i = 0 ; i <= 3 ; i++ )
+        for( int i = 0 ; i <= 3 ; i++ )
         {
           DicTerms = JobMaster.GetDocCollection().GetDeepKeywordAnalysisAsDictonary( Words: i + 1 );
           this.BuildWorksheetKeywordTerms( JobMaster, Workbook, string.Format( "{0} Word Term", i + 1 ), DicTerms );
@@ -121,7 +119,7 @@ namespace SEOMacroscope
       {
         Workbook.SaveAs( OutputFilename );
       }
-      catch ( IOException )
+      catch( IOException )
       {
         MacroscopeSaveExcelFileException CannotSaveExcelFileException;
         CannotSaveExcelFileException = new MacroscopeSaveExcelFileException(
@@ -147,9 +145,7 @@ namespace SEOMacroscope
         MajorPercentage: -1,
         ProgressLabelMajor: null,
         MinorPercentage: -1,
-        ProgressLabelMinor: null,
-        SubMinorPercentage: Percent,
-        ProgressLabelSubMinor: Message
+        ProgressLabelMinor: null
       );
 
     }

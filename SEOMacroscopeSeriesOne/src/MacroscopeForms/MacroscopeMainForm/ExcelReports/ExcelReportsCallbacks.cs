@@ -568,10 +568,10 @@ namespace SEOMacroscope
       {
 
         string Path = Dialog.FileName;
-        MacroscopeTriplePercentageProgressForm ProgressForm;
+        MacroscopeDoublePercentageProgressForm ProgressForm;
         MacroscopeExcelKeywordAnalysisReport msExcelReport;
 
-        ProgressForm = new MacroscopeTriplePercentageProgressForm( MainForm: this );
+        ProgressForm = new MacroscopeDoublePercentageProgressForm( MainForm: this );
         msExcelReport = new MacroscopeExcelKeywordAnalysisReport( ProgressFormDialogue: ProgressForm );
 
         try
@@ -590,6 +590,7 @@ namespace SEOMacroscope
         }
         finally
         {
+          ProgressForm.DoClose();
           Cursor.Current = Cursors.Default;
         }
 

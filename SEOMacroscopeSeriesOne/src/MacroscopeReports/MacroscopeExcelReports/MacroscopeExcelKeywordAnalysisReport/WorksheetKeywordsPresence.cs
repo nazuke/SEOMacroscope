@@ -47,6 +47,8 @@ namespace SEOMacroscope
       int iRow = 1;
       int iCol = 1;
       int iColMax = 1;
+      decimal DocCount = 0;
+      decimal DocTotal = (decimal) DocCollection.CountDocuments();
 
       {
 
@@ -71,42 +73,61 @@ namespace SEOMacroscope
 
         KeywordPresence = DocCollection.GetIntenseKeywordAnalysis( msDoc: msDoc );
 
-        foreach( KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
+        if( DocCount > 0 )
+        {
+          this.ProgressForm.UpdatePercentages(
+            Title: null,
+            Message: null,
+            MajorPercentage: -1,
+            ProgressLabelMajor: null,
+            MinorPercentage: ( (decimal) 100 / DocTotal ) * (decimal) DocCount,
+            ProgressLabelMinor: "Documents Processed"
+          );
+        }
+
+        if( KeywordPresence != null )
         {
 
-          MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS Present = Pair.Value;
-          string Keyword = Pair.Key;
-
-          iCol = 1;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Pair.Value.ToString() );
-
-          switch( Pair.Value )
+          foreach( KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
           {
-            case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.KEYWORDS_METATAG_EMPTY:
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-              break;
-            case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.MISSING_IN_BODY_TEXT:
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-              break;
-            case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.PRESENT_IN_BODY_TEXT:
-              ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
-              break;
-            default:
-              break;
+
+            MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS Present = Pair.Value;
+            string Keyword = Pair.Key;
+
+            iCol = 1;
+
+            this.InsertAndFormatContentCell( ws, iRow, iCol, Pair.Value.ToString() );
+
+            switch( Pair.Value )
+            {
+              case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.KEYWORDS_METATAG_EMPTY:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+                break;
+              case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.MISSING_IN_BODY_TEXT:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+                break;
+              case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.PRESENT_IN_BODY_TEXT:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+                break;
+              default:
+                break;
+            }
+
+            iCol++;
+
+            this.InsertAndFormatContentCell( ws, iRow, iCol, Keyword );
+
+            iCol++;
+
+            this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc.GetUrl() );
+
+            iRow++;
+
           }
 
-          iCol++;
-
-          this.InsertAndFormatContentCell( ws, iRow, iCol, Keyword );
-
-          iCol++;
-
-          this.InsertAndFormatUrlCell( ws, iRow, iCol, msDoc.GetUrl() );
-
-          iRow++;
-
         }
+
+        DocCount++;
 
       }
 

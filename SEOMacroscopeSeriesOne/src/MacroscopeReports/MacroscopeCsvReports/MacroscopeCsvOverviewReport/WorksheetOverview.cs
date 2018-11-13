@@ -44,7 +44,7 @@ namespace SEOMacroscope
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
 
       {
-        
+
         ws.WriteField( "URL" );
         ws.WriteField( "Status Code" );
         ws.WriteField( "Status" );
@@ -72,13 +72,16 @@ namespace SEOMacroscope
         ws.WriteField( "Title Length" );
         ws.WriteField( "Description" );
         ws.WriteField( "Description Length" );
+        ws.WriteField( "Keywords" );
+        ws.WriteField( "Keywords Length" );
+        ws.WriteField( "Keywords Count" );
         ws.WriteField( "Error Condition" );
-        
+
         ws.NextRecord();
-      
+
       }
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         List<decimal> HyperlinkRatio = DocCollection.GetDocumentHyperlinksRatio( Url: msDoc.GetUrl() );
@@ -87,13 +90,13 @@ namespace SEOMacroscope
 
         this.InsertAndFormatStatusCodeCell( ws, msDoc );
 
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetStatusCode().ToString() ) );
+        this.InsertAndFormatContentCell( ws, msDoc.GetStatusCode().ToString() );
 
         this.InsertAndFormatRedirectCell( ws, msDoc );
 
         this.InsertAndFormatRobotsCell( ws, msDoc );
 
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetDurationInSecondsFormatted() ) );
+        this.InsertAndFormatContentCell( ws, msDoc.GetDurationInSecondsFormatted() );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetCrawledDate() ) );
 
@@ -113,13 +116,13 @@ namespace SEOMacroscope
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetCanonical() ) );
 
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetDepth().ToString() ) );
-        
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountInlinks().ToString() ) );
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountOutlinks().ToString() ) );
+        this.InsertAndFormatContentCell( ws, msDoc.GetDepth().ToString() );
 
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountHyperlinksIn().ToString() ) );
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.CountHyperlinksOut().ToString() ) );
+        this.InsertAndFormatContentCell( ws, msDoc.CountInlinks().ToString() );
+        this.InsertAndFormatContentCell( ws, msDoc.CountOutlinks().ToString() );
+
+        this.InsertAndFormatContentCell( ws, msDoc.CountHyperlinksIn().ToString() );
+        this.InsertAndFormatContentCell( ws, msDoc.CountHyperlinksOut().ToString() );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( string.Format( "{0:0.00}%", HyperlinkRatio[ 0 ] ) ) );
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) ) );
@@ -128,11 +131,14 @@ namespace SEOMacroscope
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetTitle() ) );
 
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetTitleLength().ToString() ) );
+        this.InsertAndFormatContentCell( ws, msDoc.GetTitleLength().ToString() );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetDescription() ) );
+        this.InsertAndFormatContentCell( ws, msDoc.GetDescriptionLength().ToString() );
 
-        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetDescriptionLength().ToString() ) );
+        this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetKeywords() ) );
+        this.InsertAndFormatContentCell( ws, msDoc.GetKeywordsLength().ToString() );
+        this.InsertAndFormatContentCell( ws, msDoc.GetKeywordsCount().ToString() );
 
         this.InsertAndFormatContentCell( ws, this.FormatIfMissing( msDoc.GetErrorCondition() ) );
 

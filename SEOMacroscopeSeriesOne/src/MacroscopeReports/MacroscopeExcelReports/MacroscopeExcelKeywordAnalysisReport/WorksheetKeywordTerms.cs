@@ -76,6 +76,7 @@ namespace SEOMacroscope
 
         decimal DocTotal = ( decimal )DocumentList.CountDocuments();
         decimal DocCount = 0;
+
         TermCount++;
         
         if( TermTotal > 0 )
@@ -86,9 +87,7 @@ namespace SEOMacroscope
             MajorPercentage: -1,
             ProgressLabelMajor: null,
             MinorPercentage: ( ( decimal )100 / TermTotal ) * TermCount,
-            ProgressLabelMinor: "Keywords Processed",
-            SubMinorPercentage: -1,
-            ProgressLabelSubMinor: null
+            ProgressLabelMinor: "Keywords Processed"
           );
         }
 
@@ -96,20 +95,6 @@ namespace SEOMacroscope
         {
 
           DocCount++;
-        
-          if( DocTotal > 0 )
-          {
-            this.ProgressForm.UpdatePercentages(
-              Title: null,
-              Message: null,
-              MajorPercentage: -1,
-              ProgressLabelMajor: null,
-              MinorPercentage: -1,
-              ProgressLabelMinor: null,
-              SubMinorPercentage: ( ( decimal )100 / DocTotal ) * DocCount,
-              ProgressLabelSubMinor: "Documents Processed"
-            );
-          }
 
           iCol = 1;
 
