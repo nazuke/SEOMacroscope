@@ -228,10 +228,10 @@ namespace SEOMacroscope
           }
 
           PairKey = string.Join(
-            "::",
-            DocUrl,
-            Macroscope.GetStringDigest( Text: RegexLabel ),
-            Macroscope.GetStringDigest( Text: ExtractedValue )
+            ":",
+            UrlToDigest( DocUrl ),
+            UrlToDigest( Macroscope.GetStringDigest( Text: RegexLabel ) ),
+            UrlToDigest( Macroscope.GetStringDigest( Text: ExtractedValue ) )
           );
 
           if( this.DisplayListView.Items.ContainsKey( PairKey ) )

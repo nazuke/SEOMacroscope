@@ -95,19 +95,20 @@ namespace SEOMacroscope
         HttpStatusCode StatusCode = msDoc.GetStatusCode();
         string CanonicalLabel = Canonical;
         ListViewItem lvItem = null;
+        string PairKey = UrlToDigest( Url: Url ).ToString();
 
         if( Canonical.Length == 0 )
         {
           CanonicalLabel = "MISSING";
         }
 
-        if( DisplayListView.Items.ContainsKey( Url ) )
+        if( DisplayListView.Items.ContainsKey( PairKey ) )
         {
 
           try
           {
 
-            lvItem = DisplayListView.Items[ Url ];
+            lvItem = DisplayListView.Items[ PairKey ];
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems[ 1 ].Text = StatusCode.ToString();
             lvItem.SubItems[ 2 ].Text = CanonicalLabel;
@@ -125,9 +126,9 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( Url );
+            lvItem = new ListViewItem ( PairKey );
             lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = Url;
+            lvItem.Name = PairKey;
 
             lvItem.SubItems[ 0 ].Text = Url;
             lvItem.SubItems.Add( StatusCode.ToString() );

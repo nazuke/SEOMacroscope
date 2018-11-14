@@ -501,6 +501,7 @@ namespace SEOMacroscope
       )
     {
 
+      Regex reGoodUrl = new Regex( "^(https?|mailto):", RegexOptions.IgnoreCase );
       bool AreMatch = false;
       bool Proceed = true;
       Uri UriLeft = null;
@@ -513,11 +514,11 @@ namespace SEOMacroscope
 
       try
       {
-        if( UrlLeft.ToLower().StartsWith( "http" ) )
+        if( reGoodUrl.IsMatch( UrlLeft ) )
         {
           UriLeft = new Uri( UrlLeft, UriKind.Absolute );
         }
-        if( UrlRight.ToLower().StartsWith( "http" ) )
+        if( reGoodUrl.IsMatch( UrlRight ) )
         {
           UriRight = new Uri( UrlRight, UriKind.Absolute );
         }

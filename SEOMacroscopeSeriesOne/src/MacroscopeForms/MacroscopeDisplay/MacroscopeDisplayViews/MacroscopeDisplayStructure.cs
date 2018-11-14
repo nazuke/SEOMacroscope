@@ -195,6 +195,7 @@ namespace SEOMacroscope
         string DescriptionLanguage = msDoc.GetDescriptionLanguage();
         string BodyTextLanguage = msDoc.GetDocumentTextLanguage();
         int StatusCode = (int) msDoc.GetStatusCode();
+        string PairKey = UrlToDigest( Url ).ToString();
 
         if( string.IsNullOrEmpty( TitleLanguage ) )
         {
@@ -308,18 +309,18 @@ namespace SEOMacroscope
 
         // END: Columns ------------------------------------------------------//
 
-        if( this.DisplayListView.Items.ContainsKey( Url ) )
+        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
         {
 
-          lvItem = this.DisplayListView.Items[ Url ];
+          lvItem = this.DisplayListView.Items[ PairKey ];
 
         }
         else
         {
 
-          lvItem = new ListViewItem( Url );
+          lvItem = new ListViewItem( PairKey );
           lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = Url;
+          lvItem.Name = PairKey;
 
           for( int i = 0 ; i < this.DisplayListView.Columns.Count ; i++ )
           {

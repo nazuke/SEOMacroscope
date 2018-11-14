@@ -83,7 +83,7 @@ namespace SEOMacroscope
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 362);
+      this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 361);
       this.tableLayoutPanel1.TabIndex = 1;
       // 
       // flowLayoutPanel1
@@ -93,7 +93,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel1.Controls.Add(this.buttonClear);
       this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-      this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 305);
+      this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 304);
       this.flowLayoutPanel1.Name = "flowLayoutPanel1";
       this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
       this.flowLayoutPanel1.Size = new System.Drawing.Size(638, 54);
@@ -136,7 +136,7 @@ namespace SEOMacroscope
       this.customFilterPanelInstance.Dock = System.Windows.Forms.DockStyle.Fill;
       this.customFilterPanelInstance.Location = new System.Drawing.Point(3, 3);
       this.customFilterPanelInstance.Name = "customFilterPanelInstance";
-      this.customFilterPanelInstance.Size = new System.Drawing.Size(638, 296);
+      this.customFilterPanelInstance.Size = new System.Drawing.Size(638, 295);
       this.customFilterPanelInstance.TabIndex = 3;
       // 
       // MacroscopeCustomFilterForm
@@ -146,7 +146,7 @@ namespace SEOMacroscope
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.BackColor = System.Drawing.SystemColors.ControlLightLight;
       this.CancelButton = this.buttonCancel;
-      this.ClientSize = new System.Drawing.Size(644, 362);
+      this.ClientSize = new System.Drawing.Size(644, 361);
       this.ControlBox = false;
       this.Controls.Add(this.tableLayoutPanel1);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

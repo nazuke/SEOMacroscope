@@ -412,7 +412,7 @@ namespace SEOMacroscope
           ListViewItem lvItem = null;
           string MetaName = KP.Key;
           string MetaContent = KP.Value;
-          string PairKey = string.Join( "::", MetaName, MetaContent );
+          string PairKey = string.Join( ":", Macroscope.UrlToDigest( MetaName ), Macroscope.UrlToDigest( MetaContent ) ).ToString();
 
           if( TargetListView.Items.ContainsKey( PairKey ) )
           {
@@ -2080,9 +2080,7 @@ namespace SEOMacroscope
 
           ListViewItem lvItem = null;
           string Url = msDoc.GetUrl();
-          string KeyPair = string.Join( "::", Count, Url );
-
-
+          string KeyPair = string.Join( ":", Macroscope.UrlToDigest( Count.ToString() ), Macroscope.UrlToDigest( Url ) ).ToString();
 
           if( TargetListView.Items.ContainsKey( KeyPair ) )
           {
@@ -2274,7 +2272,7 @@ namespace SEOMacroscope
 
           ListViewItem lvItem = null;
           string Url = msDoc.GetUrl();
-          string KeyPair = string.Join( "::", Count, Url );
+          string KeyPair = string.Join( ":", Macroscope.UrlToDigest( Count.ToString() ), Macroscope.UrlToDigest( Url ) ).ToString();
 
           string CustomFilterText = CustomFilterPair.Key;
 

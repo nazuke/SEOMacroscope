@@ -873,10 +873,7 @@ namespace SEOMacroscope
                 this.RecalculateStatsDeepKeywordAnalysis( msDoc: msDoc );
               }
 
-              if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
-              {
-                this.RecalculateStatsIntenseKeywordAnalysis( msDoc: msDoc );
-              }
+              this.RecalculateStatsIntenseKeywordAnalysis( msDoc: msDoc );
 
               if( MacroscopePreferencesManager.GetAnalyzeTextReadability() )
               {
@@ -936,12 +933,9 @@ namespace SEOMacroscope
 
           this.RecalculateOrphanedDocumentList();
 
-          if( MacroscopePreferencesManager.GetAnalyzeKeywordsInText() )
+          foreach( MacroscopeDocument msDoc in this.IterateDocuments() )
           {
-            foreach( MacroscopeDocument msDoc in this.IterateDocuments() )
-            {
-              this.RecalculateStatsIntenseKeywordAnalysis( msDoc: msDoc );
-            }
+            this.RecalculateStatsIntenseKeywordAnalysis( msDoc: msDoc );
           }
 
         }

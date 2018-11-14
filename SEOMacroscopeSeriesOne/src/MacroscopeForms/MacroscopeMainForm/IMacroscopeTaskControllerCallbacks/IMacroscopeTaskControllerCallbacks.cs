@@ -36,28 +36,35 @@ namespace SEOMacroscope
 
     public void ICallbackScanComplete ()
     {
-      if( this.InvokeRequired )
+      try
       {
-        this.Invoke(
-          new MethodInvoker (
-            delegate
-            {
-              this.ScanningControlsComplete();
-              this.RecalculateDocCollectionStats();
-              this.RecalculateClickPathAnalysis();
-              this.UpdateSiteOverview();
-              this.UpdateFocusedTabPage();
-            }
-          )
-        );
+        if( this.InvokeRequired )
+        {
+          this.Invoke(
+            new MethodInvoker(
+              delegate
+              {
+                this.ScanningControlsComplete();
+                this.RecalculateDocCollectionStats();
+                this.RecalculateClickPathAnalysis();
+                this.UpdateSiteOverview();
+                this.UpdateFocusedTabPage();
+              }
+            )
+          );
+        }
+        else
+        {
+          this.ScanningControlsComplete();
+          this.RecalculateDocCollectionStats();
+          this.RecalculateClickPathAnalysis();
+          this.UpdateSiteOverview();
+          this.UpdateFocusedTabPage();
+        }
       }
-      else
+      catch( Exception ex )
       {
-        this.ScanningControlsComplete();
-        this.RecalculateDocCollectionStats();
-        this.RecalculateClickPathAnalysis();
-        this.UpdateSiteOverview();
-        this.UpdateFocusedTabPage();
+        DebugMsg( "Error in ICallbackScanComplete" );
       }
     }
 

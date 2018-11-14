@@ -128,7 +128,7 @@ namespace SEOMacroscope
           {
 
             ListViewItem lvItem = null;
-            string PairKey = string.Join( "::", Url, HeadingLevel, Order );
+            string PairKey = string.Join( ":", UrlToDigest( Url ), UrlToDigest( HeadingLevel.ToString() ), UrlToDigest( Order.ToString() ) ).ToString();
             int HeadingColIndex = HeadingLevel + ColH1Offset;
             string TextLabel = HeadingsList[ Order ];
             int Occurences = DocCollection.GetStatsHeadingsCount( HeadingLevel: HeadingLevel, Text: TextLabel );

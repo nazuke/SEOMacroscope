@@ -55,54 +55,54 @@ namespace SEOMacroscope
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label1 = new System.Windows.Forms.Label();
-			this.richTextBoxLicence = new System.Windows.Forms.RichTextBox();
-			this.SuspendLayout();
-			// 
-			// label1
-			// 
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(12, 9);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(560, 23);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "SEO Macroscope Licence";
-			// 
-			// richTextBoxLicence
-			// 
-			this.richTextBoxLicence.BackColor = System.Drawing.Color.White;
-			this.richTextBoxLicence.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.richTextBoxLicence.CausesValidation = false;
-			this.richTextBoxLicence.Cursor = System.Windows.Forms.Cursors.Arrow;
-			this.richTextBoxLicence.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.richTextBoxLicence.Location = new System.Drawing.Point(12, 35);
-			this.richTextBoxLicence.Name = "richTextBoxLicence";
-			this.richTextBoxLicence.ReadOnly = true;
-			this.richTextBoxLicence.ShortcutsEnabled = false;
-			this.richTextBoxLicence.Size = new System.Drawing.Size(560, 415);
-			this.richTextBoxLicence.TabIndex = 1;
-			this.richTextBoxLicence.Text = "";
-			this.richTextBoxLicence.WordWrap = false;
-			// 
-			// MacroscopeLicenceForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.White;
-			this.CausesValidation = false;
-			this.ClientSize = new System.Drawing.Size(584, 462);
-			this.Controls.Add(this.richTextBoxLicence);
-			this.Controls.Add(this.label1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Icon = global::SEOMacroscope.Resources.SEO_Macroscope_Icon_32x32;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "MacroscopeLicenceForm";
-			this.ShowInTaskbar = false;
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "MacroscopeLicenceForm";
-			this.ResumeLayout(false);
+      this.label1 = new System.Windows.Forms.Label();
+      this.richTextBoxLicence = new System.Windows.Forms.RichTextBox();
+      this.SuspendLayout();
+      // 
+      // label1
+      // 
+      this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label1.Location = new System.Drawing.Point(12, 9);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(560, 23);
+      this.label1.TabIndex = 0;
+      this.label1.Text = "SEO Macroscope Licence";
+      // 
+      // richTextBoxLicence
+      // 
+      this.richTextBoxLicence.BackColor = System.Drawing.Color.White;
+      this.richTextBoxLicence.BorderStyle = System.Windows.Forms.BorderStyle.None;
+      this.richTextBoxLicence.CausesValidation = false;
+      this.richTextBoxLicence.Cursor = System.Windows.Forms.Cursors.Arrow;
+      this.richTextBoxLicence.Font = new System.Drawing.Font("MS Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.richTextBoxLicence.Location = new System.Drawing.Point(12, 35);
+      this.richTextBoxLicence.Name = "richTextBoxLicence";
+      this.richTextBoxLicence.ReadOnly = true;
+      this.richTextBoxLicence.ShortcutsEnabled = false;
+      this.richTextBoxLicence.Size = new System.Drawing.Size(560, 415);
+      this.richTextBoxLicence.TabIndex = 1;
+      this.richTextBoxLicence.Text = "";
+      this.richTextBoxLicence.WordWrap = false;
+      // 
+      // MacroscopeLicenceForm
+      // 
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.BackColor = System.Drawing.Color.White;
+      this.CausesValidation = false;
+      this.ClientSize = new System.Drawing.Size(584, 561);
+      this.Controls.Add(this.richTextBoxLicence);
+      this.Controls.Add(this.label1);
+      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+      this.Icon = global::SEOMacroscope.Resources.SEO_Macroscope_Icon_32x32;
+      this.MaximizeBox = false;
+      this.MinimizeBox = false;
+      this.Name = "MacroscopeLicenceForm";
+      this.ShowInTaskbar = false;
+      this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+      this.Text = "MacroscopeLicenceForm";
+      this.ResumeLayout(false);
 
 		}
 	}

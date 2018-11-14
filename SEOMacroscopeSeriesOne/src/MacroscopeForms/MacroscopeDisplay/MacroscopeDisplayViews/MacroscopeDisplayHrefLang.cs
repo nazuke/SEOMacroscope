@@ -219,7 +219,7 @@ namespace SEOMacroscope
 
           Dictionary<string,MacroscopeHrefLang> HrefLangsTable = msDoc.GetHrefLangs();
           string DocUrl = msDoc.GetUrl();
-          string PairKey = DocUrl;
+          string PairKey = UrlToDigest( DocUrl ).ToString();
           HttpStatusCode StatusCode = msDoc.GetStatusCode();
           int StatusCodeNum = ( int )StatusCode;
           MacroscopeConstants.Specifiers HrefLangPresent = MacroscopeConstants.Specifiers.UNSPECIFIED;

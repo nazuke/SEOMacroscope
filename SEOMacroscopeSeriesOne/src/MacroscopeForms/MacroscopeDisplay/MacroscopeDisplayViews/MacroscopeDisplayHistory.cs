@@ -42,7 +42,7 @@ namespace SEOMacroscope
     private Object DisplayListViewLocker;
 
     private bool ListViewConfigured = false;
-    
+
     private ToolStripLabel DocumentCount;
 
     private const int ColUrl = 0;
@@ -57,11 +57,11 @@ namespace SEOMacroscope
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
       this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelHistoryItems;
-      
+
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -83,7 +83,7 @@ namespace SEOMacroscope
 
       this.DisplayListViewLocker = new object();
 
-      if ( !this.ListViewConfigured )
+      if( !this.ListViewConfigured )
       {
         this.ListViewConfigured = true;
       }
@@ -96,7 +96,7 @@ namespace SEOMacroscope
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.DisplayListView.Items.Clear();
@@ -112,12 +112,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RefreshData ( Dictionary<string,bool> History, MacroscopeDocumentCollection DocCollection )
+    public void RefreshData ( Dictionary<int, bool> History, MacroscopeDocumentCollection DocCollection )
     {
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               lock( this.DisplayListViewLocker )
@@ -150,22 +150,22 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderListView ( Dictionary<string,bool> History, MacroscopeDocumentCollection DocCollection )
+    private void RenderListView ( Dictionary<int, bool> History, MacroscopeDocumentCollection DocCollection )
     {
 
       if( History.Count == 0 )
       {
         return;
       }
-      
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( 1 );
-            
+
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( 1 );
+
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
-      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm ( this.MainForm );
+      MacroscopeSinglePercentageProgressForm ProgressForm = new MacroscopeSinglePercentageProgressForm( this.MainForm );
       decimal Count = 0;
-      decimal TotalDocs = ( decimal )History.Count;
-      decimal MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-      
+      decimal TotalDocs = (decimal) History.Count;
+      decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
 
@@ -174,118 +174,131 @@ namespace SEOMacroscope
           Message: "Processing document collection for display:",
           MajorPercentage: MajorPercentage,
           ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
-        );  
+        );
 
       }
-      
-      foreach( string Url in History.Keys )
+
+      foreach( int DocKey in History.Keys )
       {
 
         ListViewItem lvItem = null;
-        string Visited = "No";
-        string InDocCollection = "No";
+        MacroscopeDocument msDoc = DocCollection.GetDocumentByDocKey( DocKey: DocKey );
+        string PairKey = DocKey.ToString();
 
-        if( History.ContainsKey( Url ) && History[Url] )
-        {
-          Visited = "Yes";
-        }
-
-        if( DocCollection.ContainsDocument( Url: Url ) )
-        {
-          InDocCollection = "Yes";
-        }
-
-        if( this.DisplayListView.Items.ContainsKey( Url ) )
+        if( msDoc != null )
         {
 
-          try
+          string Url = msDoc.GetUrl();
+          string Visited = "No";
+          string InDocCollection = "No";
+
+          if( History.ContainsKey( DocKey ) && History[ DocKey ] )
           {
-            lvItem = this.DisplayListView.Items[ Url ];
-            lvItem.SubItems[ ColVisited ].Text = Visited;
-            lvItem.SubItems[ ColInDocCollection ].Text = InDocCollection;
-          }
-          catch( Exception ex )
-          {
-            DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
+            Visited = "Yes";
           }
 
-        }
-        else
-        {
-
-          try
+          if( DocCollection.ContainsDocument( Url: Url ) )
           {
-
-            lvItem = new ListViewItem ( Url );
-            lvItem.UseItemStyleForSubItems = false;
-            lvItem.Name = Url;
-            lvItem.SubItems.Add( Visited );
-            lvItem.SubItems.Add( InDocCollection );
-
-            ListViewItems.Add( lvItem );
-
-          }
-          catch( Exception ex )
-          {
-            DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
+            InDocCollection = "Yes";
           }
 
-        }
-
-        if( lvItem != null )
-        {
-
-          lvItem.ForeColor = Color.Blue;
-
-          if( AllowedHosts.IsInternalUrl( Url ) )
+          if( this.DisplayListView.Items.ContainsKey( PairKey ) )
           {
-            lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
-            if( History.ContainsKey( Url ) && History[ Url ] )
+
+            try
             {
-              lvItem.SubItems[ ColVisited ].ForeColor = Color.Green;
+              lvItem = this.DisplayListView.Items[ PairKey ];
+              lvItem.SubItems[ ColUrl ].Text = Url;
+              lvItem.SubItems[ ColVisited ].Text = Visited;
+              lvItem.SubItems[ ColInDocCollection ].Text = InDocCollection;
             }
-            else
+            catch( Exception ex )
             {
-              lvItem.SubItems[ ColVisited ].ForeColor = Color.Red;
+              DebugMsg( string.Format( "RenderListView 1: {0}", ex.Message ) );
             }
-            lvItem.SubItems[ ColInDocCollection ].ForeColor = Color.Blue;
+
           }
           else
           {
-            lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
-            lvItem.SubItems[ ColVisited ].ForeColor = Color.Gray;
-            lvItem.SubItems[ ColInDocCollection ].ForeColor = Color.Gray;
+
+            try
+            {
+
+              lvItem = new ListViewItem( PairKey );
+              lvItem.UseItemStyleForSubItems = false;
+
+              lvItem.Name = PairKey;
+
+              lvItem.SubItems[ 0 ].Text = Url;
+              lvItem.SubItems.Add( Visited );
+              lvItem.SubItems.Add( InDocCollection );
+
+              ListViewItems.Add( lvItem );
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListView 2: {0}", ex.Message ) );
+            }
+
+          }
+
+          if( lvItem != null )
+          {
+
+            lvItem.ForeColor = Color.Blue;
+
+            if( AllowedHosts.IsInternalUrl( Url ) )
+            {
+              lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
+              if( History.ContainsKey( DocKey ) && History[ DocKey ] )
+              {
+                lvItem.SubItems[ ColVisited ].ForeColor = Color.Green;
+              }
+              else
+              {
+                lvItem.SubItems[ ColVisited ].ForeColor = Color.Red;
+              }
+              lvItem.SubItems[ ColInDocCollection ].ForeColor = Color.Blue;
+            }
+            else
+            {
+              lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColVisited ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColInDocCollection ].ForeColor = Color.Gray;
+            }
+
           }
 
         }
 
         if( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
-          
+
           Count++;
-          TotalDocs = ( decimal )History.Count;
-          MajorPercentage = ( ( decimal )100 / TotalDocs ) * Count;
-        
+          TotalDocs = (decimal) History.Count;
+          MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
+
           ProgressForm.UpdatePercentages(
             Title: null,
             Message: null,
             MajorPercentage: MajorPercentage,
             ProgressLabelMajor: string.Format( "Document {0} / {1}", Count, TotalDocs )
           );
-          
+
         }
-      
+
       }
-            
+
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-            
+
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
         ProgressForm.DoClose();
       }
-      
+
       ProgressForm.Dispose();
-      
+
     }
 
     /**************************************************************************/

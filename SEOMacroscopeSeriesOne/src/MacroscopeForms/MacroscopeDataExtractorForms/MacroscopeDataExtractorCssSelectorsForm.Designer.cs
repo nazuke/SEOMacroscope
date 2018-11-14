@@ -65,7 +65,7 @@ namespace SEOMacroscope
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.Size = new System.Drawing.Size(884, 562);
+      this.tableLayoutPanel1.Size = new System.Drawing.Size(884, 561);
       this.tableLayoutPanel1.TabIndex = 2;
       // 
       // flowLayoutPanel1
@@ -75,7 +75,7 @@ namespace SEOMacroscope
       this.flowLayoutPanel1.Controls.Add(this.buttonClear);
       this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-      this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 505);
+      this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 504);
       this.flowLayoutPanel1.Name = "flowLayoutPanel1";
       this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
       this.flowLayoutPanel1.Size = new System.Drawing.Size(878, 54);
@@ -119,14 +119,14 @@ namespace SEOMacroscope
       this.dataExtractorInstance.Location = new System.Drawing.Point(0, 0);
       this.dataExtractorInstance.Margin = new System.Windows.Forms.Padding(0);
       this.dataExtractorInstance.Name = "dataExtractorInstance";
-      this.dataExtractorInstance.Size = new System.Drawing.Size(884, 502);
+      this.dataExtractorInstance.Size = new System.Drawing.Size(884, 501);
       this.dataExtractorInstance.TabIndex = 2;
       // 
       // MacroscopeDataExtractorCssSelectorsForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(884, 562);
+      this.ClientSize = new System.Drawing.Size(884, 561);
       this.ControlBox = false;
       this.Controls.Add(this.tableLayoutPanel1);
       this.Icon = global::SEOMacroscope.Resources.SEO_Macroscope_Icon_32x32;

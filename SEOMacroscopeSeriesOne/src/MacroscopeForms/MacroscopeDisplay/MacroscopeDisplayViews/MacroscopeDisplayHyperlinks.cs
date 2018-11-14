@@ -282,7 +282,7 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
         string UrlTarget = HyperlinkOut.GetTargetUrl();
-        string PairKey = string.Join( "::", Url, UrlTarget );
+        string PairKey = string.Join( ":", UrlToDigest( Url ), UrlToDigest( UrlTarget ) );
         string LinkTarget = HyperlinkOut.GetLinkTarget();
         string LinkText = HyperlinkOut.GetLinkText();
         string LinkTitle = HyperlinkOut.GetLinkTitle();
@@ -460,7 +460,7 @@ namespace SEOMacroscope
       {
 
         string UrlTarget = HyperlinkOut.GetTargetUrl();
-        string PairKey = string.Join( "::", Url, UrlTarget );
+        string PairKey = string.Join( ":", UrlToDigest( Url: Url ), UrlToDigest( Url: UrlTarget ) ).ToString();
         string LinkTarget = HyperlinkOut.GetLinkTarget();
         string LinkText = HyperlinkOut.GetLinkText();
         string LinkTitle = HyperlinkOut.GetLinkTitle();

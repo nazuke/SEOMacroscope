@@ -142,7 +142,7 @@ namespace SEOMacroscope
 
       ListViewItem lvItem = null;
       bool IsInternal = MainForm.GetJobMaster().GetAllowedHosts().IsAllowed( Hostname );
-      string PairKey = string.Join( "::", "HOST", Hostname );
+      string PairKey = UrlToDigest( Hostname.ToLower() ).ToString();
 
       if( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {

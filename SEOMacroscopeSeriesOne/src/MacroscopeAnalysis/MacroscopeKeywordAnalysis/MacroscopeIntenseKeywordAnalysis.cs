@@ -77,7 +77,7 @@ namespace SEOMacroscope
         foreach( string Keyword in KeywordsList )
         {
 
-          string kw = "\\s" + Keyword + "\\s";
+          string kw = this.GetPatternForLanguage( msDoc: msDoc, Keyword: Keyword );
 
           if( Regex.IsMatch( BodyText, kw ) )
           {
@@ -99,6 +99,31 @@ namespace SEOMacroscope
       }
 
       return ( KeywordPresence );
+
+    }
+
+    /**************************************************************************/
+
+    private string GetPatternForLanguage ( MacroscopeDocument msDoc, string Keyword )
+    {
+
+      string Pattern = "\\s" + Keyword + "\\s";
+      string LangCode = msDoc.GetIsoLanguageCode();
+
+      if( LangCode != null )
+      {
+
+        if( LangCode.ToLower().StartsWith( "ja" ) )
+        {
+          Pattern = Keyword;
+        }
+        else if( LangCode.ToLower().StartsWith( "zh" ) )
+        {
+          Pattern = Keyword;
+        }
+
+      }
+      return ( Pattern );
 
     }
 

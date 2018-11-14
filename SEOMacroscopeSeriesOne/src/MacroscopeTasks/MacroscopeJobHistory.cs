@@ -39,57 +39,69 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private ConcurrentDictionary<string, bool> History;
+    private ConcurrentDictionary<int, bool> History;
 
     /**************************************************************************/
 
     public MacroscopeJobHistory ()
     {
-      this.History = new ConcurrentDictionary<string, bool>();
+      this.History = new ConcurrentDictionary<int, bool>();
     }
 
     /**************************************************************************/
 
     public void AddHistoryItem ( string Url )
     {
+
+      int Key = UrlToDigest( Url: Url );
+
       lock( this.History )
       {
-        if( !this.History.ContainsKey( Url ) )
+        if( !this.History.ContainsKey( Key ) )
         {
-          this.History.TryAdd( Url, false );
+          this.History.TryAdd( Key, false );
         }
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     public void VisitedHistoryItem ( string Url )
     {
+
+      int Key = UrlToDigest( Url: Url );
+
       lock( this.History )
       {
-        if( this.History.ContainsKey( Url ) )
+        if( this.History.ContainsKey( Key ) )
         {
-          this.History[ Url ] = true;
+          this.History[ Key ] = true;
         }
         else
         {
-          this.History.TryAdd( Url, true );
+          this.History.TryAdd( Key, true );
         }
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
 
     public void ResetHistoryItem ( string Url )
     {
+
+      int Key = UrlToDigest( Url: Url );
+
       lock( this.History )
       {
-        if( this.History.ContainsKey( Url ) )
+        if( this.History.ContainsKey( Key ) )
         {
           bool result = false;
-          this.History.TryRemove( Url, out result );
+          this.History.TryRemove( Key, out result );
         }
       }
+
     }
 
     /** -------------------------------------------------------------------- **/
@@ -97,14 +109,15 @@ namespace SEOMacroscope
     public bool SeenHistoryItem ( string Url )
     {
 
+      int Key = UrlToDigest( Url: Url );
       bool Seen = false;
 
       lock( this.History )
       {
 
-        if( this.History.ContainsKey( Url ) )
+        if( this.History.ContainsKey( Key ) )
         {
-          this.History.TryGetValue( Url, out Seen );
+          this.History.TryGetValue( Key, out Seen );
         }
 
       }
@@ -115,14 +128,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Dictionary<string, bool> GetHistory ()
+    public Dictionary<int, bool> GetHistory ()
     {
 
-      Dictionary<string, bool> HistoryCopy = new Dictionary<string, bool>( this.History.Count );
+      Dictionary<int, bool> HistoryCopy = new Dictionary<int, bool>( this.History.Count );
 
       lock( this.History )
       {
-        foreach( string Key in this.History.Keys )
+        foreach( int Key in this.History.Keys )
         {
           HistoryCopy.Add( Key, this.History[ Key ] );
         }

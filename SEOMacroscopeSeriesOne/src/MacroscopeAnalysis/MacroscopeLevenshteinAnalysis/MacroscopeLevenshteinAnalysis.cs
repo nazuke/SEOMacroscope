@@ -248,8 +248,8 @@ namespace SEOMacroscope
 
       bool CrossChecked = false;
 
-      string Key1 = string.Join( "::", this.msDocOriginal.GetChecksum(), msDocCompare.GetChecksum() );
-      string Key2 = string.Join( "::", msDocCompare.GetChecksum(), this.msDocOriginal.GetChecksum() );
+      string Key1 = string.Join( ":", this.msDocOriginal.GetChecksum(), msDocCompare.GetChecksum() );
+      string Key2 = string.Join( ":", msDocCompare.GetChecksum(), this.msDocOriginal.GetChecksum() );
 
       lock ( this.CrossCheck )
       {
