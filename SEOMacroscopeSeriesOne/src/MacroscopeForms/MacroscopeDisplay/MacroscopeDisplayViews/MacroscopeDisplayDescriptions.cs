@@ -46,7 +46,7 @@ namespace SEOMacroscope
     private const int ColOccurences = 3;
     private const int ColDescriptionText = 4;
     private const int ColLength = 5;
-    
+
     /**************************************************************************/
 
     public MacroscopeDisplayDescriptions ( MacroscopeMainForm MainForm, ListView TargetListView )
@@ -59,7 +59,7 @@ namespace SEOMacroscope
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -106,7 +106,7 @@ namespace SEOMacroscope
         return;
       }
 
-      switch ( msDoc.GetDocumentType() )
+      switch( msDoc.GetDocumentType() )
       {
         case MacroscopeConstants.DocumentType.HTML:
           Proceed = true;
@@ -118,7 +118,7 @@ namespace SEOMacroscope
           break;
       }
 
-      if ( Proceed )
+      if( Proceed )
       {
 
         ListViewItem lvItem = null;
@@ -128,18 +128,18 @@ namespace SEOMacroscope
         string Description = msDoc.GetDescription();
         int DescriptionLength = msDoc.GetDescriptionLength();
 
-        string PairKey = string.Join( "", Url, Description );
+        string PairKey = string.Join( ":", UrlToDigest( Url ), UrlToDigest( Description ) );
 
         if( string.IsNullOrEmpty( PageLanguage ) )
         {
           PageLanguage = "";
         }
-        
+
         if( string.IsNullOrEmpty( DetectedLanguage ) )
         {
           DetectedLanguage = "";
         }
-        
+
         if( DescriptionLength > 0 )
         {
           Occurrences = DocCollection.GetStatsDescriptionCount( msDoc: msDoc );
@@ -157,8 +157,8 @@ namespace SEOMacroscope
 
             lvItem = this.DisplayListView.Items[ PairKey ];
             lvItem.SubItems[ ColUrl ].Text = Url;
-            lvItem.SubItems[ ColPageLanguage ].Text = PageLanguage;        
-            lvItem.SubItems[ ColDetectedLanguage ].Text = DetectedLanguage;        
+            lvItem.SubItems[ ColPageLanguage ].Text = PageLanguage;
+            lvItem.SubItems[ ColDetectedLanguage ].Text = DetectedLanguage;
             lvItem.SubItems[ ColOccurences ].Text = Occurrences.ToString();
             lvItem.SubItems[ ColDescriptionText ].Text = Description;
             lvItem.SubItems[ ColLength ].Text = DescriptionLength.ToString();
@@ -176,7 +176,7 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( PairKey );
+            lvItem = new ListViewItem( PairKey );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
@@ -203,7 +203,7 @@ namespace SEOMacroscope
           lvItem.ForeColor = Color.Blue;
 
           // URL -------------------------------------------------------------//
-          
+
           if( msDoc.GetIsInternal() )
           {
             lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
@@ -212,7 +212,7 @@ namespace SEOMacroscope
           {
             lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
           }
-          
+
           // Description Language --------------------------------------------//
 
           if( msDoc.GetIsInternal() )
@@ -220,7 +220,7 @@ namespace SEOMacroscope
 
             lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Green;
             lvItem.SubItems[ ColDetectedLanguage ].ForeColor = Color.Green;
-            
+
             if( DetectedLanguage != PageLanguage )
             {
               lvItem.SubItems[ ColPageLanguage ].ForeColor = Color.Red;
@@ -235,7 +235,7 @@ namespace SEOMacroscope
           }
 
           // Check Description Length ----------------------------------------//
-          
+
           if( msDoc.GetIsInternal() )
           {
             if( DescriptionLength < MacroscopePreferencesManager.GetDescriptionMinLen() )
