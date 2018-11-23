@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "New v1.7.5 release of SEO Macroscope: Bearer of the word"
+title: "New v1.7.5 release of SEO Macroscope: Bearer of The Word"
 date: "2018-11-23 00:00:00 -00:00"
 published: true
 description: "This release of SEO Macroscope adds keyword meta tag analysis."
