@@ -40,6 +40,12 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private const int COL_URL = 0;
+    private const int COL_KEYWORD = 1;
+    private const int COL_PRESENCE = 2;
+
+    /**************************************************************************/
+
     public MacroscopeDisplayKeywordsPresence ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
@@ -85,7 +91,7 @@ namespace SEOMacroscope
     )
     {
 
-      List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>> KeywordPresence;
+      List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>> KeywordPresence;
       bool Proceed = false;
 
       if( msDoc.GetIsExternal() )
@@ -112,12 +118,12 @@ namespace SEOMacroscope
 
         ListViewItem lvItem = null;
 
-        KeywordPresence = DocCollection.GetIntenseKeywordAnalysis( msDoc: msDoc );
+        KeywordPresence = DocCollection.GetKeywordPresenceAnalysis( msDoc: msDoc );
 
-        foreach( KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
+        foreach( KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
         {
 
-          MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS Present = Pair.Value;
+          MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS Present = Pair.Value;
           string Keyword = Pair.Key;
           string PairKey = string.Join( "", UrlToDigest( Url: Url ).ToString(), Keyword );
 
@@ -128,9 +134,9 @@ namespace SEOMacroscope
             {
 
               lvItem = this.DisplayListView.Items[ PairKey ];
-              lvItem.SubItems[ 0 ].Text = Url;
-              lvItem.SubItems[ 1 ].Text = Present.ToString();
-              lvItem.SubItems[ 2 ].Text = Keyword;
+              lvItem.SubItems[ COL_URL ].Text = Url;
+              lvItem.SubItems[ COL_KEYWORD ].Text = Keyword;
+              lvItem.SubItems[ COL_PRESENCE ].Text = Present.ToString();
 
             }
             catch( Exception ex )
@@ -149,9 +155,9 @@ namespace SEOMacroscope
               lvItem.UseItemStyleForSubItems = false;
               lvItem.Name = PairKey;
 
-              lvItem.SubItems[ 0 ].Text = Url;
-              lvItem.SubItems.Add( Present.ToString() );
+              lvItem.SubItems[ COL_URL ].Text = Url;
               lvItem.SubItems.Add( Keyword );
+              lvItem.SubItems.Add( Present.ToString() );
 
               ListViewItems.Add( lvItem );
 
@@ -172,11 +178,11 @@ namespace SEOMacroscope
 
             if( msDoc.GetIsInternal() )
             {
-              lvItem.SubItems[ 0 ].ForeColor = Color.Green;
+              lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
             }
             else
             {
-              lvItem.SubItems[ 0 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ COL_URL ].ForeColor = Color.Gray;
             }
 
             // Check Missing Text ----------------------------------------------//
@@ -186,20 +192,40 @@ namespace SEOMacroscope
 
               switch( Present )
               {
-                case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.KEYWORDS_METATAG_EMPTY:
-                  lvItem.SubItems[ 0 ].ForeColor = Color.Red;
-                  lvItem.SubItems[ 1 ].ForeColor = Color.Red;
-                  lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+                case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.KEYWORDS_METATAG_EMPTY:
+                  lvItem.SubItems[ COL_URL ].ForeColor = Color.Red;
+                  lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Red;
+                  lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Red;
                   break;
-                case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.MISSING_IN_BODY_TEXT:
-                  lvItem.SubItems[ 0 ].ForeColor = Color.Red;
-                  lvItem.SubItems[ 1 ].ForeColor = Color.Red;
-                  lvItem.SubItems[ 2 ].ForeColor = Color.Red;
+                case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.PRESENT_IN_TITLE:
+                  lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
+                  lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Green;
+                  lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Green;
                   break;
-                case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.PRESENT_IN_BODY_TEXT:
-                  lvItem.SubItems[ 0 ].ForeColor = Color.Green;
-                  lvItem.SubItems[ 1 ].ForeColor = Color.Green;
-                  lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+                case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MISSING_IN_TITLE:
+                  lvItem.SubItems[ COL_URL ].ForeColor = Color.Red;
+                  lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Red;
+                  lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Red;
+                  break;
+                case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.PRESENT_IN_DESCRIPTION:
+                  lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
+                  lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Green;
+                  lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Green;
+                  break;
+                case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MISSING_IN_DESCRIPTION:
+                  lvItem.SubItems[ COL_URL ].ForeColor = Color.Orange;
+                  lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Orange;
+                  lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Orange;
+                  break;
+                case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.PRESENT_IN_BODY:
+                  lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
+                  lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Green;
+                  lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Green;
+                  break;
+                case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MISSING_IN_BODY:
+                  lvItem.SubItems[ COL_URL ].ForeColor = Color.Red;
+                  lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Red;
+                  lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Red;
                   break;
                 default:
                   break;
@@ -208,8 +234,8 @@ namespace SEOMacroscope
             }
             else
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
-              lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Gray;
+              lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Gray;
             }
 
           }

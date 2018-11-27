@@ -69,9 +69,9 @@ namespace SEOMacroscope
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
-        List<KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS>> KeywordPresence;
+        List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>> KeywordPresence;
 
-        KeywordPresence = DocCollection.GetIntenseKeywordAnalysis( msDoc: msDoc );
+        KeywordPresence = DocCollection.GetKeywordPresenceAnalysis( msDoc: msDoc );
 
         if( DocCount > 0 )
         {
@@ -88,10 +88,10 @@ namespace SEOMacroscope
         if( KeywordPresence != null )
         {
 
-          foreach( KeyValuePair<string, MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
+          foreach( KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
           {
 
-            MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS Present = Pair.Value;
+            MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS Present = Pair.Value;
             string Keyword = Pair.Key;
 
             iCol = 1;
@@ -100,14 +100,26 @@ namespace SEOMacroscope
 
             switch( Pair.Value )
             {
-              case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.KEYWORDS_METATAG_EMPTY:
+              case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.KEYWORDS_METATAG_EMPTY:
                 ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
                 break;
-              case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.MISSING_IN_BODY_TEXT:
-                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
-                break;
-              case MacroscopeIntenseKeywordAnalysis.KEYWORD_STATUS.PRESENT_IN_BODY_TEXT:
+              case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.PRESENT_IN_TITLE:
                 ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+                break;
+              case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MISSING_IN_TITLE:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+                break;
+              case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.PRESENT_IN_DESCRIPTION:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+                break;
+              case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MISSING_IN_DESCRIPTION:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Orange );
+                break;
+              case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.PRESENT_IN_BODY:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
+                break;
+              case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MISSING_IN_BODY:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
                 break;
               default:
                 break;
