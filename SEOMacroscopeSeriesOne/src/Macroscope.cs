@@ -31,6 +31,9 @@ using System.Runtime;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Text;
+using System.Data.HashFunction;
+using System.Data.HashFunction.Blake2;
+using System.Data.HashFunction.Core;
 
 namespace SEOMacroscope
 {
@@ -54,12 +57,17 @@ namespace SEOMacroscope
 
     protected static bool ThrowInsufficientMemoryException;
 
+    protected static IBlake2B BlakeHasher;
+    protected static HashAlgorithm ShaHasher;
+
     /**************************************************************************/
 
     static Macroscope ()
     {
       SuppressStaticDebugMsg = true;
       ThrowInsufficientMemoryException = false;
+      BlakeHasher = Blake2BFactory.Instance.Create();
+      ShaHasher = HashAlgorithm.Create( "SHA256" );
     }
 
     public Macroscope ()
@@ -100,10 +108,19 @@ namespace SEOMacroscope
 
     /** Global URL to Digest Routines *****************************************/
 
-    public static int UrlToDigest ( string Url )
+    public static ulong UrlToDigest ( string Url )
     {
-      int hashed = Url.GetHashCode();
+      ulong hashed = StringToDigest( Text: Url );
       return ( hashed );
+    }
+
+    /** Text Numeeric Digest **************************************************/
+
+    public static ulong StringToDigest ( string Text )
+    {
+      string Digested = BlakeHasher.ComputeHash( Text, 64 ).AsHexString();
+      ulong HashedValue = ulong.Parse( Digested, System.Globalization.NumberStyles.HexNumber );
+      return ( HashedValue );
     }
 
     /** Text Digest ***********************************************************/
@@ -113,16 +130,16 @@ namespace SEOMacroscope
 
       string Digested = null;
 
+      /*
       if( Macroscope.Memoize.ContainsKey( Text ) )
       {
         Digested = Macroscope.Memoize[Text];
       }
       else
       {
-
-        HashAlgorithm Digest = HashAlgorithm.Create( "MD5" );
+       */
         byte[] BytesIn = Encoding.UTF8.GetBytes( Text );
-        byte[] Hashed = Digest.ComputeHash( BytesIn );
+        byte[] Hashed = ShaHasher.ComputeHash( BytesIn );
         StringBuilder Buf = new StringBuilder();
 
         for( int i = 0 ; i < Hashed.Length ; i++ )
@@ -132,9 +149,9 @@ namespace SEOMacroscope
 
         Digested = Buf.ToString();
 
-        Macroscope.Memoize[Text] = Digested;
+        //Macroscope.Memoize[Text] = Digested;
 
-      }
+      //}
 
       return ( Digested );
     }

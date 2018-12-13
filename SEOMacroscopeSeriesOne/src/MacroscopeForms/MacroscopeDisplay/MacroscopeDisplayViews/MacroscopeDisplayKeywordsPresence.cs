@@ -197,6 +197,11 @@ namespace SEOMacroscope
                   lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Red;
                   lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Red;
                   break;
+                case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MALFORMED_KEYWORDS_METATAG:
+                  lvItem.SubItems[ COL_URL ].ForeColor = Color.Red;
+                  lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Red;
+                  lvItem.SubItems[ COL_PRESENCE ].ForeColor = Color.Red;
+                  break;
                 case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.PRESENT_IN_TITLE:
                   lvItem.SubItems[ COL_URL ].ForeColor = Color.Green;
                   lvItem.SubItems[ COL_KEYWORD ].ForeColor = Color.Green;

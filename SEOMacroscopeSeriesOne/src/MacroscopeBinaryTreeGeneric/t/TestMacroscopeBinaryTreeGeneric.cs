@@ -38,8 +38,8 @@ namespace SEOMacroscope
     [Test]
     public void TestCreateTree ()
     {
-      
-      MacroscopeBinaryTreeGeneric<int> Tree = new MacroscopeBinaryTreeGeneric<int> ();
+
+      MacroscopeBinaryTreeGeneric<ulong> Tree = new MacroscopeBinaryTreeGeneric<ulong>();
 
       Assert.IsNotNull( Tree, "Tree is null" );
 
@@ -50,44 +50,44 @@ namespace SEOMacroscope
     [Test]
     public void TestInsertNode ()
     {
-      
-      MacroscopeBinaryTreeGeneric<int> Tree = new MacroscopeBinaryTreeGeneric<int> ();
+
+      MacroscopeBinaryTreeGeneric<ulong> Tree = new MacroscopeBinaryTreeGeneric<ulong>();
 
       const string Name = "root";
-      int Value = new Random ().Next( 1, 666 );
-      
+      ulong Value = (ulong) new Random().Next( 1, 666 );
+
       Assert.IsNotNull( Tree, "Tree is null" );
 
-      MacroscopeBinaryTreeGenericNode<int> Node = Tree.SetRootNode( Name, Value );
-      
+      MacroscopeBinaryTreeGenericNode<ulong> Node = Tree.SetRootNode( Name, Value );
+
       Assert.IsNotNull( Node, "Root node is null" );
 
       Assert.AreEqual( Name, Node.GetNodeName(), "Node name does not match" );
-      
+
       Assert.AreEqual( Value, Node.GetNodeValue(), "Node value does not match" );
-      
+
     }
-    
+
     /**************************************************************************/
 
     [Test]
     public void TestInsertManyNodes ()
     {
-      
-      MacroscopeBinaryTreeGeneric<int> Tree = new MacroscopeBinaryTreeGeneric<int> ();
 
-      MacroscopeBinaryTreeGenericNode<int> RootNode;
+      MacroscopeBinaryTreeGeneric<ulong> Tree = new MacroscopeBinaryTreeGeneric<ulong>();
+
+      MacroscopeBinaryTreeGenericNode<ulong> RootNode;
       const string Name = "root";
-      int Value = new Random ().Next( 1, 666 );
-      
+      ulong Value = (ulong) new Random().Next( 1, 666 );
+
       RootNode = Tree.SetRootNode( Name, Value );
 
-      for( int i = 1 ; i <= 100 ; i++ )
+      for( ulong i = 1 ; i <= 100 ; i++ )
       {
 
-        MacroscopeBinaryTreeGenericNode<int> ChildNode;
+        MacroscopeBinaryTreeGenericNode<ulong> ChildNode;
         string ChildName = i.ToString();
-        int ChildValue = new Random ().Next( 1, 666 );
+        ulong ChildValue = (ulong) new Random().Next( 1, 666 );
 
         ChildNode = Tree.CreateNode( Name: ChildName, Value: Value );
 

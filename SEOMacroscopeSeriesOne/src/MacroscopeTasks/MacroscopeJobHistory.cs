@@ -39,13 +39,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private ConcurrentDictionary<int, bool> History;
+    private ConcurrentDictionary<ulong, bool> History;
 
     /**************************************************************************/
 
     public MacroscopeJobHistory ()
     {
-      this.History = new ConcurrentDictionary<int, bool>();
+      this.History = new ConcurrentDictionary<ulong, bool>();
     }
 
     /**************************************************************************/
@@ -53,7 +53,7 @@ namespace SEOMacroscope
     public void AddHistoryItem ( string Url )
     {
 
-      int Key = UrlToDigest( Url: Url );
+      ulong Key = UrlToDigest( Url: Url );
 
       lock( this.History )
       {
@@ -70,7 +70,7 @@ namespace SEOMacroscope
     public void VisitedHistoryItem ( string Url )
     {
 
-      int Key = UrlToDigest( Url: Url );
+      ulong Key = UrlToDigest( Url: Url );
 
       lock( this.History )
       {
@@ -91,7 +91,7 @@ namespace SEOMacroscope
     public void ResetHistoryItem ( string Url )
     {
 
-      int Key = UrlToDigest( Url: Url );
+      ulong Key = UrlToDigest( Url: Url );
 
       lock( this.History )
       {
@@ -109,7 +109,7 @@ namespace SEOMacroscope
     public bool SeenHistoryItem ( string Url )
     {
 
-      int Key = UrlToDigest( Url: Url );
+      ulong Key = UrlToDigest( Url: Url );
       bool Seen = false;
 
       lock( this.History )
@@ -128,14 +128,14 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public Dictionary<int, bool> GetHistory ()
+    public Dictionary<ulong, bool> GetHistory ()
     {
 
-      Dictionary<int, bool> HistoryCopy = new Dictionary<int, bool>( this.History.Count );
+      Dictionary<ulong, bool> HistoryCopy = new Dictionary<ulong, bool>( this.History.Count );
 
       lock( this.History )
       {
-        foreach( int Key in this.History.Keys )
+        foreach( ulong Key in this.History.Keys )
         {
           HistoryCopy.Add( Key, this.History[ Key ] );
         }

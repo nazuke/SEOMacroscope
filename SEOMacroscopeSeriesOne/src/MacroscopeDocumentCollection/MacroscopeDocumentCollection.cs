@@ -41,7 +41,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private ConcurrentDictionary<int, MacroscopeDocument> DocCollection;
+    private ConcurrentDictionary<ulong, MacroscopeDocument> DocCollection;
 
     private MacroscopeJobMaster JobMaster;
     private MacroscopeNamedQueue<bool> NamedQueue;
@@ -55,15 +55,17 @@ namespace SEOMacroscope
     private Dictionary<string, MacroscopeHyperlinksIn> StructHyperlinksIn;
     private Dictionary<string, List<decimal>> StructHyperlinksRatio;
 
-    private Dictionary<int, bool> StatsHistory;
+    private Dictionary<ulong, bool> StatsHistory;
     private Dictionary<string, int> StatsHostnames;
 
     private Dictionary<string, bool> StatsCanonicals;
 
-    private Dictionary<string, int> StatsTitles;
-    private Dictionary<string, int> StatsDescriptions;
-    private Dictionary<string, int> StatsKeywords;
-    private List<Dictionary<string, int>> StatsHeadings;
+    private Dictionary<ulong, int> StatsTitles;
+    private Dictionary<ulong, int> StatsDescriptions;
+    private Dictionary<ulong, int> StatsKeywords;
+
+    private List<Dictionary<ulong, int>> StatsHeadings;
+
     private Dictionary<string, int> StatsWarnings;
     private Dictionary<string, int> StatsErrors;
     private Dictionary<string, int> StatsChecksums;
@@ -81,14 +83,14 @@ namespace SEOMacroscope
     private Dictionary<string, MacroscopeDocumentList> StatsDeepKeywordAnalysisDocs;
     private List<Dictionary<string, int>> StatsDeepKeywordAnalysis;
 
-    private Dictionary<int, List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>>> StatsKeywordPresenceAnalysis;
+    private Dictionary<ulong, List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>>> StatsKeywordPresenceAnalysis;
 
     private Dictionary<string, int> StatsReadabilityGrades;
     private Dictionary<string, int> StatsReadabilityGradeDescriptions;
 
-    private int StatsUrlsInternal;
-    private int StatsUrlsExternal;
-    private int StatsUrlsSitemaps;
+    private ulong StatsUrlsInternal;
+    private ulong StatsUrlsExternal;
+    private ulong StatsUrlsSitemaps;
 
     private Dictionary<string, IPHostEntry> DnsCache;
 
@@ -114,7 +116,7 @@ namespace SEOMacroscope
 
       this.DebugMsg( "MacroscopeDocumentCollection: INITIALIZING..." );
 
-      this.DocCollection = new ConcurrentDictionary<int, MacroscopeDocument>();
+      this.DocCollection = new ConcurrentDictionary<ulong, MacroscopeDocument>();
 
       this.JobMaster = JobMaster;
 
@@ -129,19 +131,19 @@ namespace SEOMacroscope
       this.StructHyperlinksIn = new Dictionary<string, MacroscopeHyperlinksIn>( 1024 );
       this.StructHyperlinksRatio = new Dictionary<string, List<decimal>>( 1024 );
 
-      this.StatsHistory = new Dictionary<int, bool>( 1024 );
+      this.StatsHistory = new Dictionary<ulong, bool>( 1024 );
       this.StatsHostnames = new Dictionary<string, int>( 16 );
 
       this.StatsCanonicals = new Dictionary<string, bool>( 1024 );
 
-      this.StatsTitles = new Dictionary<string, int>( 256 );
-      this.StatsDescriptions = new Dictionary<string, int>( 256 );
-      this.StatsKeywords = new Dictionary<string, int>( 256 );
+      this.StatsTitles = new Dictionary<ulong, int>( 256 );
+      this.StatsDescriptions = new Dictionary<ulong, int>( 256 );
+      this.StatsKeywords = new Dictionary<ulong, int>( 256 );
 
-      this.StatsHeadings = new List<Dictionary<string, int>>( 7 );
+      this.StatsHeadings = new List<Dictionary<ulong, int>>( 7 );
       for( ushort i = 1 ; i <= 6 ; i++ )
       {
-        this.StatsHeadings.Add( new Dictionary<string, int>( 256 ) );
+        this.StatsHeadings.Add( new Dictionary<ulong, int>( 256 ) );
       }
 
       this.StatsWarnings = new Dictionary<string, int>( 32 );
@@ -168,7 +170,7 @@ namespace SEOMacroscope
       this.DeepAnalyzeKeywords = new MacroscopeDeepKeywordAnalysis( DocList: this.StatsDeepKeywordAnalysisDocs );
 
       this.AnalyzeKeywordsPresence = new MacroscopeKeywordPresenceAnalysis();
-      this.StatsKeywordPresenceAnalysis = new Dictionary<int, List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>>>();
+      this.StatsKeywordPresenceAnalysis = new Dictionary<ulong, List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>>>();
 
       this.StatsReadabilityGrades = new Dictionary<string, int>( 16 );
       this.StatsReadabilityGradeDescriptions = new Dictionary<string, int>( 16 );
@@ -236,7 +238,7 @@ namespace SEOMacroscope
       List<string> UrlsFromOutLinks = new List<string>( this.DocCollection.Count * 10 );
       lock( this.DocCollection )
       {
-        foreach( int DocKey in this.DocCollection.Keys )
+        foreach( ulong DocKey in this.DocCollection.Keys )
         {
           MacroscopeDocument msDoc = this.DocCollection[ DocKey ];
           foreach( MacroscopeLink OutLink in msDoc.IterateOutlinks() )
@@ -272,7 +274,7 @@ namespace SEOMacroscope
     {
 
       bool DocumentPresent = false;
-      int DocKey = UrlToDigest( Url: Url );
+      ulong DocKey = UrlToDigest( Url: Url );
 
       if( this.DocCollection.ContainsKey( DocKey ) )
       {
@@ -329,21 +331,21 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public int CountUrlsInternal ()
+    public ulong CountUrlsInternal ()
     {
       return ( this.StatsUrlsInternal );
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public int CountUrlsExternal ()
+    public ulong CountUrlsExternal ()
     {
       return ( this.StatsUrlsExternal );
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public int CountUrlsSitemaps ()
+    public ulong CountUrlsSitemaps ()
     {
       return ( this.StatsUrlsSitemaps );
     }
@@ -354,7 +356,7 @@ namespace SEOMacroscope
     {
 
       bool DocumentAdded = false;
-      int DocKey = UrlToDigest( Url: msDoc.GetUrl() );
+      ulong DocKey = UrlToDigest( Url: msDoc.GetUrl() );
 
       lock( this.DocCollection )
       {
@@ -397,7 +399,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocument GetDocumentByDocKey ( int DocKey )
+    public MacroscopeDocument GetDocumentByDocKey ( ulong DocKey )
     {
 
       MacroscopeDocument msDoc = null;
@@ -426,7 +428,7 @@ namespace SEOMacroscope
     {
 
       MacroscopeDocument msDoc = null;
-      int DocKey = UrlToDigest( Url: Url );
+      ulong DocKey = UrlToDigest( Url: Url );
 
       try
       {
@@ -483,7 +485,7 @@ namespace SEOMacroscope
     {
 
       bool DocumentRemoved = false;
-      int DocKey = UrlToDigest( Url: Url );
+      ulong DocKey = UrlToDigest( Url: Url );
 
       lock( this.DocCollection )
       {
@@ -509,7 +511,7 @@ namespace SEOMacroscope
         if( this.DocCollection.Count > 0 )
         {
 
-          foreach( int DocKey in this.DocCollection.Keys )
+          foreach( ulong DocKey in this.DocCollection.Keys )
           {
             MacroscopeDocument msDoc = this.DocCollection[ DocKey ];
             if( msDoc != null )
@@ -526,10 +528,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public List<int> DocumentKeys ()
+    public List<ulong> DocumentKeys ()
     {
 
-      List<int> lKeys = new List<int>();
+      List<ulong> lKeys = new List<ulong>();
 
       lock( this.DocCollection )
       {
@@ -537,7 +539,7 @@ namespace SEOMacroscope
         if( this.DocCollection.Count > 0 )
         {
 
-          foreach( int DocKey in this.DocCollection.Keys )
+          foreach( ulong DocKey in this.DocCollection.Keys )
           {
             lKeys.Add( DocKey );
           }
@@ -563,7 +565,7 @@ namespace SEOMacroscope
         if( this.DocCollection.Count > 0 )
         {
 
-          foreach( int DocKey in this.DocCollection.Keys )
+          foreach( ulong DocKey in this.DocCollection.Keys )
           {
             try
             {
@@ -1287,7 +1289,7 @@ namespace SEOMacroscope
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+        ulong Hashed = Macroscope.StringToDigest( Text: Text.ToLower() );
 
         if( this.StatsTitles.ContainsKey( Hashed ) )
         {
@@ -1348,7 +1350,7 @@ namespace SEOMacroscope
         if( !string.IsNullOrEmpty( Text ) )
         {
 
-          string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+          ulong Hashed = Macroscope.StringToDigest( Text: Text.ToLower() );
 
           lock( this.StatsTitles )
           {
@@ -1396,7 +1398,7 @@ namespace SEOMacroscope
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+        ulong Hashed = Macroscope.StringToDigest( Text: Text.ToLower() );
 
         if( this.StatsDescriptions.ContainsKey( Hashed ) )
         {
@@ -1452,7 +1454,7 @@ namespace SEOMacroscope
         if( !string.IsNullOrEmpty( Text ) )
         {
 
-          string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+          ulong Hashed = Macroscope.StringToDigest( Text: Text.ToLower() );
 
           lock( this.StatsDescriptions )
           {
@@ -1500,7 +1502,7 @@ namespace SEOMacroscope
       if( !string.IsNullOrEmpty( Text ) )
       {
 
-        string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+        ulong Hashed = Macroscope.StringToDigest( Text: Text.ToLower() );
 
         if( this.StatsKeywords.ContainsKey( Hashed ) )
         {
@@ -1561,7 +1563,7 @@ namespace SEOMacroscope
         if( !string.IsNullOrEmpty( Text ) )
         {
 
-          string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+          ulong Hashed = Macroscope.StringToDigest( Text: Text.ToLower() );
 
           lock( this.StatsKeywords )
           {
@@ -2368,7 +2370,7 @@ namespace SEOMacroscope
       if( Proceed )
       {
 
-        int DocKey = UrlToDigest( Url: msDoc.GetUrl() );
+        ulong DocKey = UrlToDigest( Url: msDoc.GetUrl() );
 
         KeywordPresence = this.AnalyzeKeywordsPresence.AnalyzeKeywordPresence( msDoc: msDoc );
 
@@ -2408,7 +2410,7 @@ namespace SEOMacroscope
     public List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>> GetKeywordPresenceAnalysis ( MacroscopeDocument msDoc )
     {
 
-      int DocKey = UrlToDigest( Url: msDoc.GetUrl() );
+      ulong DocKey = UrlToDigest( Url: msDoc.GetUrl() );
       List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>> KeywordPresence = null;
 
       if( this.StatsKeywordPresenceAnalysis.ContainsKey( DocKey ) )
@@ -2610,7 +2612,7 @@ namespace SEOMacroscope
     {
 
       int Count = 0;
-      string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+      ulong Hashed = Macroscope.StringToDigest( Text: Text.ToLower() );
 
       if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) )
       {
@@ -2656,7 +2658,7 @@ namespace SEOMacroscope
             foreach( string Text in Headings )
             {
 
-              string Hashed = Macroscope.GetStringDigest( Text: Text.ToLower() );
+              ulong Hashed = Macroscope.StringToDigest( Text: Text.ToLower() );
 
               if( this.StatsHeadings[ HeadingLevel ].ContainsKey( Hashed ) )
               {

@@ -103,6 +103,9 @@ namespace SEOMacroscope
               case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.KEYWORDS_METATAG_EMPTY:
                 ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
                 break;
+              case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MALFORMED_KEYWORDS_METATAG:
+                ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
+                break;
               case MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.PRESENT_IN_TITLE:
                 ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Green );
                 break;

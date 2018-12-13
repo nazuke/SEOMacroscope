@@ -1748,7 +1748,7 @@ namespace SEOMacroscope
 
       if( ( !string.IsNullOrEmpty( KeywordsText ) ) && ( !string.IsNullOrWhiteSpace( KeywordsText ) ) )
       {
-        this.Keywords = KeywordsText;
+        this.Keywords = HtmlEntity.DeEntitize( KeywordsText );
       }
       else
       {

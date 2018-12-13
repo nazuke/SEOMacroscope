@@ -112,7 +112,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void RefreshData ( Dictionary<int, bool> History, MacroscopeDocumentCollection DocCollection )
+    public void RefreshData ( Dictionary<ulong, bool> History, MacroscopeDocumentCollection DocCollection )
     {
       if( this.MainForm.InvokeRequired )
       {
@@ -150,7 +150,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void RenderListView ( Dictionary<int, bool> History, MacroscopeDocumentCollection DocCollection )
+    private void RenderListView ( Dictionary<ulong, bool> History, MacroscopeDocumentCollection DocCollection )
     {
 
       if( History.Count == 0 )
@@ -178,7 +178,7 @@ namespace SEOMacroscope
 
       }
 
-      foreach( int DocKey in History.Keys )
+      foreach( ulong DocKey in History.Keys )
       {
 
         ListViewItem lvItem = null;

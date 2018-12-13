@@ -538,7 +538,7 @@ namespace SEOMacroscope
 
           {
             TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "UrlsInternal", true );
-            int Count = DocCollection.CountUrlsInternal();
+            ulong Count = DocCollection.CountUrlsInternal();
             if( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Total Internal URLs: {0}", Count );
@@ -548,7 +548,7 @@ namespace SEOMacroscope
 
           {
             TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "UrlsExternal", true );
-            int Count = DocCollection.CountUrlsExternal();
+            ulong Count = DocCollection.CountUrlsExternal();
             if( Leaf.Length > 0 )
             {
               Leaf[ 0 ].Text = string.Format( "Total External URLs: {0}", Count );
@@ -621,7 +621,7 @@ namespace SEOMacroscope
 
         {
           TreeNode[] Leaf = this.tvTreeView.Nodes.Find( "SitemapsFound", true );
-          int Count = DocCollection.CountUrlsSitemaps();
+          ulong Count = DocCollection.CountUrlsSitemaps();
           if( Leaf.Length > 0 )
           {
             Leaf[ 0 ].Text = string.Format( "Sitemaps Found: {0}", Count );

@@ -42,12 +42,13 @@ namespace SEOMacroscope
     public enum KEYWORD_STATUS
     {
       KEYWORDS_METATAG_EMPTY = 0,
-      PRESENT_IN_TITLE = 1,
-      MISSING_IN_TITLE = 2,
-      PRESENT_IN_DESCRIPTION = 3,
-      MISSING_IN_DESCRIPTION = 4,
-      PRESENT_IN_BODY = 5,
-      MISSING_IN_BODY = 6
+      MALFORMED_KEYWORDS_METATAG = 1,
+      PRESENT_IN_TITLE = 2,
+      MISSING_IN_TITLE = 3,
+      PRESENT_IN_DESCRIPTION = 4,
+      MISSING_IN_DESCRIPTION = 5,
+      PRESENT_IN_BODY = 6,
+      MISSING_IN_BODY = 7
     }
 
     /**************************************************************************/
@@ -68,48 +69,57 @@ namespace SEOMacroscope
       string BodyText = msDoc.GetDocumentTextCleaned().ToLower();
       List<string> KeywordsList = new List<string>();
       List<KeyValuePair<string, KEYWORD_STATUS>> KeywordPresence = new List<KeyValuePair<string, KEYWORD_STATUS>>();
-      bool KeywordsMetatagEmpty = false;
+      bool KeywordsMetatagFilled = false;
 
       foreach( string Keyword in Keywords.Split( ',' ) )
       {
         string KeywordCleaned = MacroscopeStringTools.CleanWhiteSpace( Keyword );
         KeywordsList.Add( KeywordCleaned );
-        KeywordsMetatagEmpty = true;
+        KeywordsMetatagFilled = true;
       }
 
-      if( KeywordsMetatagEmpty )
+      if( KeywordsMetatagFilled )
       {
 
         foreach( string Keyword in KeywordsList )
         {
 
-          string kw = this.GetPatternForLanguage( msDoc: msDoc, Keyword: Keyword );
+          try
+          {
 
-          if( Regex.IsMatch( TitleText, kw ) )
-          {
-            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.PRESENT_IN_TITLE ) );
-          }
-          else
-          {
-            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MISSING_IN_TITLE ) );
-          }
+            string kw = this.GetPatternForLanguage( msDoc: msDoc, Keyword: Keyword );
 
-          if( Regex.IsMatch( DescriptionText, kw ) )
-          {
-            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.PRESENT_IN_DESCRIPTION ) );
-          }
-          else
-          {
-            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MISSING_IN_DESCRIPTION ) );
-          }
+            if( Regex.IsMatch( TitleText, kw ) )
+            {
+              KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.PRESENT_IN_TITLE ) );
+            }
+            else
+            {
+              KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MISSING_IN_TITLE ) );
+            }
 
-          if( Regex.IsMatch( BodyText, kw ) )
-          {
-            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.PRESENT_IN_BODY ) );
+            if( Regex.IsMatch( DescriptionText, kw ) )
+            {
+              KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.PRESENT_IN_DESCRIPTION ) );
+            }
+            else
+            {
+              KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MISSING_IN_DESCRIPTION ) );
+            }
+
+            if( Regex.IsMatch( BodyText, kw ) )
+            {
+              KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.PRESENT_IN_BODY ) );
+            }
+            else
+            {
+              KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MISSING_IN_BODY ) );
+            }
+
           }
-          else
+          catch( Exception ex )
           {
-            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MISSING_IN_BODY ) );
+            KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MALFORMED_KEYWORDS_METATAG ) );
           }
 
         }

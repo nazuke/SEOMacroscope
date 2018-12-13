@@ -42,25 +42,29 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    private Dictionary<string, string> HtmlDocsMalformedKeywords;
     private Dictionary<string, string> HtmlDocsGoodTitle;
     private Dictionary<string, string> HtmlDocsBadTitle;
     private Dictionary<string, string> HtmlDocsGoodDescription;
     private Dictionary<string, string> HtmlDocsBadDescription;
     private Dictionary<string, string> HtmlDocsGoodBody;
     private Dictionary<string, string> HtmlDocsBadBody;
-
+    
     /**************************************************************************/
 
     public TestMacroscopeKeywordPresenceAnalysis ()
     {
 
       StreamReader Reader;
+      List<string> DocKeysMalformedKeywords = new List<string>( 2 );
       List<string> DocKeysGoodTitle = new List<string>( 2 );
       List<string> DocKeysBadTitle = new List<string>( 2 );
       List<string> DocKeysGoodDescription = new List<string>( 2 );
       List<string> DocKeysBadDescription = new List<string>( 2 );
       List<string> DocKeysGoodBody = new List<string>( 2 );
       List<string> DocKeysBadBody = new List<string>( 2 );
+
+      DocKeysMalformedKeywords.Add( "SEOMacroscope.src.MacroscopeAnalysis.MacroscopeKeywordAnalysis.t.HtmlDocs.TestMalformedKeywords.html" );
 
       DocKeysGoodTitle.Add( "SEOMacroscope.src.MacroscopeAnalysis.MacroscopeKeywordAnalysis.t.HtmlDocs.TestGoodTitleKeywords.html" );
       DocKeysBadTitle.Add( "SEOMacroscope.src.MacroscopeAnalysis.MacroscopeKeywordAnalysis.t.HtmlDocs.TestBadTitleKeywords.html" );
@@ -71,12 +75,22 @@ namespace SEOMacroscope
       DocKeysGoodBody.Add( "SEOMacroscope.src.MacroscopeAnalysis.MacroscopeKeywordAnalysis.t.HtmlDocs.TestGoodBodyKeywords.html" );
       DocKeysBadBody.Add( "SEOMacroscope.src.MacroscopeAnalysis.MacroscopeKeywordAnalysis.t.HtmlDocs.TestBadBodyKeywords.html" );
 
+      this.HtmlDocsMalformedKeywords = new Dictionary<string, string>();
       this.HtmlDocsGoodTitle = new Dictionary<string, string>();
       this.HtmlDocsBadTitle = new Dictionary<string, string>();
       this.HtmlDocsGoodDescription = new Dictionary<string, string>();
       this.HtmlDocsBadDescription = new Dictionary<string, string>();
       this.HtmlDocsGoodBody = new Dictionary<string, string>();
       this.HtmlDocsBadBody = new Dictionary<string, string>();
+
+      foreach( string Filename in DocKeysMalformedKeywords )
+      {
+        Reader = new StreamReader(
+          Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
+        );
+        this.HtmlDocsMalformedKeywords.Add( Filename, Reader.ReadToEnd() );
+        Reader.Close();
+      }
 
       foreach( string Filename in DocKeysGoodTitle )
       {
@@ -130,6 +144,53 @@ namespace SEOMacroscope
         );
         this.HtmlDocsBadBody.Add( Filename, Reader.ReadToEnd() );
         Reader.Close();
+      }
+
+    }
+
+    /** MALFORMED KEYWORDS ****************************************************/
+
+    [Test]
+    public void TestMalformedKeywords ()
+    {
+
+      foreach( string HtmlDocKey in this.HtmlDocsMalformedKeywords.Keys )
+      {
+
+        bool Passes = false;
+        MacroscopeDocument msDoc = new MacroscopeDocument( Url: "https://nazuke.github.io/" );
+        string Html = this.HtmlDocsMalformedKeywords[ HtmlDocKey ];
+        HtmlDocument HtmlDoc = new HtmlDocument();
+
+        msDoc.SetDocumentType( Type: MacroscopeConstants.DocumentType.HTML );
+
+        HtmlDoc.LoadHtml( html: Html );
+        List<string> CleanedText = msDoc.GetNodeText( Node: HtmlDoc.DocumentNode );
+
+        string Keywords = HtmlDoc.DocumentNode.SelectSingleNode( "//meta[@name='keywords']" ).GetAttributeValue( name: "content", def: "" );
+        string TitleText = HtmlDoc.DocumentNode.SelectSingleNode( "//title" ).InnerText;
+        string BodyText = string.Join( " ", CleanedText.ToArray() );
+
+        Assert.IsNotEmpty( Keywords, "Keywords is empty" );
+
+        msDoc.SetKeywords( Keywords );
+        msDoc.SetTitle( TitleText: TitleText, ProcessingMode: MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES );
+        msDoc.SetDocumentText( Text: BodyText );
+
+        MacroscopeKeywordPresenceAnalysis Analyzer = new MacroscopeKeywordPresenceAnalysis();
+
+        List<KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS>> KeywordPresence = Analyzer.AnalyzeKeywordPresence( msDoc: msDoc );
+
+        foreach( KeyValuePair<string, MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS> Pair in KeywordPresence )
+        {
+          if( Pair.Value == MacroscopeKeywordPresenceAnalysis.KEYWORD_STATUS.MALFORMED_KEYWORDS_METATAG )
+          {
+            Passes = true;
+          }
+        }
+
+        Assert.IsTrue( Passes );
+
       }
 
     }
