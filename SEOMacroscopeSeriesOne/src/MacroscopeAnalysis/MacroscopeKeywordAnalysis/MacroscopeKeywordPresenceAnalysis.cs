@@ -73,9 +73,15 @@ namespace SEOMacroscope
 
       foreach( string Keyword in Keywords.Split( ',' ) )
       {
+
         string KeywordCleaned = MacroscopeStringTools.CleanWhiteSpace( Keyword );
-        KeywordsList.Add( KeywordCleaned );
-        KeywordsMetatagFilled = true;
+
+        if( KeywordCleaned.Length > 0 )
+        {
+          KeywordsList.Add( KeywordCleaned );
+          KeywordsMetatagFilled = true;
+        }
+
       }
 
       if( KeywordsMetatagFilled )

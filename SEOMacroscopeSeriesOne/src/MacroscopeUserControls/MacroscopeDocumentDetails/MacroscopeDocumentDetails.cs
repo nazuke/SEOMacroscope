@@ -52,7 +52,7 @@ namespace SEOMacroscope
 
       /** Control Properties ----------------------------------------------- **/
 
-      this.tabControlDocument.Multiline = true;
+      this.tabControlDocument.Multiline = false;
       this.listViewDocumentInfo.Dock = DockStyle.Fill;
       this.tableLayoutPanelHttpHeaders.Dock = DockStyle.Fill;
       this.textBoxHttpRequestHeaders.Dock = DockStyle.Fill;

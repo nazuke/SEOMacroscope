@@ -52,7 +52,7 @@ namespace SEOMacroscope
       InitializeComponent();
 
       // TabPanel Properties
-      this.tabControlMain.Multiline = true;
+      this.tabControlMain.Multiline = false;
 
       this.SetStyle( ControlStyles.OptimizedDoubleBuffer, true );
 
