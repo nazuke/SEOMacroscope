@@ -17,3 +17,11 @@ https://developers.google.com/webmaster-tools/
 http://10.0.1.8:4000/manual/
 
 --------------------------------------------------------------------------------
+
+
+
+
+
+Take a look at The Public Suffix:
+
+https://publicsuffix.org/learn/
