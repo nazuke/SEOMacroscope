@@ -571,6 +571,13 @@ namespace SEOMacroscope
       return ( this.JobMaster );
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    public void SetJobMaster ( MacroscopeJobMaster NewJobMaster )
+    {
+      this.JobMaster = NewJobMaster;
+    }
+
     /** Credentials ***********************************************************/
 
     public MacroscopeCredentialsHttp IGetCredentialsHttp ()
@@ -640,6 +647,17 @@ namespace SEOMacroscope
 
     /** DIALOGUE BOXES ********************************************************/
 
+    private void DialogueBoxFeedback ( string Title, string Message )
+    {
+      MessageBox.Show(
+        Message,
+        Title,
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Information,
+        MessageBoxDefaultButton.Button1
+      );
+    }
+    
     private void DialogueBoxWarning ( string Title, string Message )
     {
       MessageBox.Show(

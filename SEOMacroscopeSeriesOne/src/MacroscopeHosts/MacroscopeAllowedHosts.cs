@@ -34,6 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeAllowedHosts.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeAllowedHosts : Macroscope
   {
 

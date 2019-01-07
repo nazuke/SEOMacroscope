@@ -34,6 +34,7 @@ using System.Threading.Tasks;
 namespace SEOMacroscope
 {
 
+  [Serializable()]
   public class MacroscopeRedirectChainAnalysis : MacroscopeAnalysis
   {
 

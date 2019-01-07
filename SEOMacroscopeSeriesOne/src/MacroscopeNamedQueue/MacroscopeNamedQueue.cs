@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Create and manage named queues.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeNamedQueue<T> : Macroscope
   {
 

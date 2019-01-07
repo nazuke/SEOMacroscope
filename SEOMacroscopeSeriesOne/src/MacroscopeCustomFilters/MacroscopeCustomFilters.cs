@@ -36,6 +36,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeCustomFilters.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeCustomFilters : Macroscope
   {
 

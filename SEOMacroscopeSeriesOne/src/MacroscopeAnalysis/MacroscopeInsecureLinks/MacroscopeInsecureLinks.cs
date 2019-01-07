@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Analyze possibly insecure links within a document.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeInsecureLinks : MacroscopeAnalysis
   {
 

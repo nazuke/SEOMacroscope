@@ -38,6 +38,7 @@ namespace SEOMacroscope
   /// Analyze the HrefLang attributes of an HTML document.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeHrefLang : MacroscopeAnalysis
   {
 

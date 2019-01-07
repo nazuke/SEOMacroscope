@@ -29,6 +29,7 @@ using System.Net;
 namespace SEOMacroscope
 {
 
+  [Serializable()]
   public struct MacroscopeRedirectChainDocStruct
   {
 

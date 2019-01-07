@@ -53,15 +53,15 @@ namespace SEOMacroscope
 
         string Pathname = Dialog.FileName;
 
+        Cursor.Current = Cursors.WaitCursor;
+
         SitemapGenerator = new MacroscopeSitemapGenerator(
           NewDocCollection: this.JobMaster.GetDocCollection()
         );
 
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           SitemapGenerator.WriteSitemapXml( NewPath: Pathname );
-          Cursor.Current = Cursors.Default;
         }
         catch( XmlException ex )
         {
@@ -74,6 +74,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
@@ -106,15 +110,15 @@ namespace SEOMacroscope
 
         string Pathname = Dialog.FileName;
 
+        Cursor.Current = Cursors.WaitCursor;
+
         SitemapGenerator = new MacroscopeSitemapGenerator(
           NewDocCollection: this.JobMaster.GetDocCollection()
         );
 
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           SitemapGenerator.WriteSitemapXmlPerHost( NewPath: Pathname );
-          Cursor.Current = Cursors.Default;
         }
         catch( XmlException ex )
         {
@@ -127,6 +131,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap XML for one or more hosts", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
@@ -159,15 +167,15 @@ namespace SEOMacroscope
 
         string Pathname = Dialog.FileName;
 
+        Cursor.Current = Cursors.WaitCursor;
+
         SitemapGenerator = new MacroscopeSitemapGenerator(
           NewDocCollection: this.JobMaster.GetDocCollection()
         );
 
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           SitemapGenerator.WriteSitemapText( NewPath: Pathname );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSitemapException ex )
         {
@@ -176,6 +184,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
@@ -204,19 +216,23 @@ namespace SEOMacroscope
 
         string Pathname = Dialog.FileName;
 
+        Cursor.Current = Cursors.WaitCursor;
+
         SitemapGenerator = new MacroscopeSitemapGenerator(
           NewDocCollection: this.JobMaster.GetDocCollection()
         );
 
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           SitemapGenerator.WriteSitemapTextPerHost( NewPath: Pathname );
-          Cursor.Current = Cursors.Default;
         }
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Text", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }

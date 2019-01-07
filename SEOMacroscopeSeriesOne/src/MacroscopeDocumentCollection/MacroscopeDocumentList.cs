@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDocumentList.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeDocumentList : Macroscope
   {
     /**************************************************************************/

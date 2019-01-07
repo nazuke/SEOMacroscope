@@ -34,6 +34,7 @@ using System.Collections.Generic;
 namespace SEOMacroscope
 {
 
+  [Serializable()]
   public class MacroscopeHttpTwoClient : Macroscope
   {
 

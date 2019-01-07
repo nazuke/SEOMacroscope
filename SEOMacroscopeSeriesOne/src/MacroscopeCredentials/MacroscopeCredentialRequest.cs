@@ -27,11 +27,12 @@ using System;
 
 namespace SEOMacroscope
 {
-  
+
   /// <summary>
   /// Description of MacroscopeCredentialRequest.
   /// </summary>
-  
+
+  [Serializable()]
   public class MacroscopeCredentialRequest : Macroscope
   {
   

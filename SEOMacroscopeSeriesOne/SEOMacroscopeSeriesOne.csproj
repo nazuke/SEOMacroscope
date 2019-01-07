@@ -77,7 +77,7 @@
       <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
     <Reference Include="CsvHelper, Version=12.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsvHelper.12.1.0\lib\net45\CsvHelper.dll</HintPath>
+      <HintPath>..\packages\CsvHelper.12.1.1\lib\net45\CsvHelper.dll</HintPath>
     </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.8.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.8.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
@@ -275,6 +275,9 @@
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapsAudit.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplaySitemapErrors.cs" />
     <Compile Include="src\MacroscopeForms\MacroscopeDisplay\MacroscopeDisplayViews\MacroscopeDisplayOrphanedPages.cs" />
+    <Compile Include="src\MacroscopeForms\MacroscopeMainForm\Sessions\SessionsCallbacks.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvBrokenLinksReport\t\TestMacroscopeCsvBrokenLinksReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvContactDetailsReport\t\TestMacroscopeCsvContactDetailsReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeCsvReports\MacroscopeCsvCustomFilterReport\t\TestMacroscopeCsvCustomFilterReport.cs" />
@@ -324,6 +327,8 @@
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport\t\TestMacroscopeExcelUriReport.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MacroscopeExcelUriReport\WorksheetOrphanedPages.cs" />
     <Compile Include="src\MacroscopeReports\MacroscopeExcelReports\MaroscopeExcelRemarksReport\t\TestMaroscopeExcelRemarksReport.cs" />
+    <Compile Include="src\MacroscopeSessions\MacroscopeSessionLoader.cs" />
+    <Compile Include="src\MacroscopeSessions\MacroscopeSessionSaver.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClientResponse.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpTwoClient.cs" />
     <Compile Include="src\MacroscopeStandards\HTTP\MacroscopeHttpImageLoader.cs" />

@@ -21,22 +21,43 @@
   You should have received a copy of the GNU General Public License
   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SEOMacroscope
 {
 
-  [Serializable()]
-  public class MacroscopeAnalyzePageBodyText : MacroscopeAnalysis
+  public class MacroscopeSessionSaver : Macroscope
   {
 
     /**************************************************************************/
 
-    public MacroscopeAnalyzePageBodyText () : base()
+    public MacroscopeSessionSaver ()
     {
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
+    }
+
+    /**************************************************************************/
+
+    public void SaveDocumentCollection ( MacroscopeDocumentCollection DocCollection, string Pathname )
+    {
+      Stream SaveFileStream = File.Create( Pathname );
+      BinaryFormatter serializer = new BinaryFormatter();
+      serializer.Serialize( SaveFileStream, DocCollection );
+      SaveFileStream.Close();
+    }
+
+    /**************************************************************************/
+
+    public void SaveJobMaster ( MacroscopeJobMaster JobMaster, string Pathname )
+    {
+      Stream SaveFileStream = File.Create( Pathname );
+      BinaryFormatter serializer = new BinaryFormatter();
+      serializer.Serialize( SaveFileStream, JobMaster );
+      SaveFileStream.Close();
     }
 
     /**************************************************************************/

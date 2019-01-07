@@ -34,6 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeIncludeExcludeUrls.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeIncludeExcludeUrls : Macroscope
   {
 

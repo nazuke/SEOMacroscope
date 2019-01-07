@@ -21,56 +21,57 @@
   You should have received a copy of the GNU General Public License
   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SEOMacroscope
 {
 
-  /// <summary>
-  /// Description of MacroscopeJobItem.
-  /// </summary>
-
-  [Serializable()]
-  public class MacroscopeJobItem : Macroscope
+  public class MacroscopeSessionLoader : Macroscope
   {
 
     /**************************************************************************/
 
-    private string ItemUrl;
-    private string ItemRedirectedFromUrl;
-
-    /**************************************************************************/
-
-    public MacroscopeJobItem ( string Url, string RedirectedFromUrl = null )
+    public MacroscopeSessionLoader ()
     {
-      this.ItemUrl = Url;
-      this.ItemRedirectedFromUrl = RedirectedFromUrl;
+      this.SuppressDebugMsg = false;
     }
 
     /**************************************************************************/
 
-    public override string ToString ()
+    public MacroscopeDocumentCollection LoadDocumentCollection ( string Pathname )
     {
-      string Url = this.ItemUrl;
-      return ( Url );
+      MacroscopeDocumentCollection DocCollection = null;
+
+      if( File.Exists( Pathname ) )
+      {
+        Stream openFileStream = File.OpenRead( Pathname );
+        BinaryFormatter deserializer = new BinaryFormatter();
+        DocCollection = (MacroscopeDocumentCollection) deserializer.Deserialize( openFileStream );
+        openFileStream.Close();
+      }
+
+      return ( DocCollection );
     }
 
     /**************************************************************************/
 
-    public string GetItemUrl ()
+    public MacroscopeJobMaster LoadJobMaster ( string Pathname )
     {
-      string Url = this.ItemUrl;
-      return ( Url );
-    }
+      MacroscopeJobMaster JobMaster = null;
 
-    /**************************************************************************/
+      if( File.Exists( Pathname ) )
+      {
+        Stream openFileStream = File.OpenRead( Pathname );
+        BinaryFormatter deserializer = new BinaryFormatter();
+        JobMaster = (MacroscopeJobMaster) deserializer.Deserialize( openFileStream );
+        openFileStream.Close();
+      }
 
-    public string GetItemRedirectedFromUrl ()
-    {
-      string Url = this.ItemRedirectedFromUrl;
-      return ( Url );
+      return ( JobMaster );
     }
 
     /**************************************************************************/

@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeAnalysis.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeAnalysis : Macroscope
   {
 

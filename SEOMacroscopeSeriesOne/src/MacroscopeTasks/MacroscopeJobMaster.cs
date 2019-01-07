@@ -36,6 +36,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeJobMaster.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeJobMaster : Macroscope, IDisposable
   {
 
@@ -47,9 +48,11 @@ namespace SEOMacroscope
 
     private MacroscopeConstants.RunTimeMode RunTimeMode;
 
+    [field: NonSerialized()]
     private IMacroscopeTaskController TaskController;
-    MacroscopeCredentialsHttp CredentialsHttp;
+    private MacroscopeCredentialsHttp CredentialsHttp;
 
+    [field: NonSerialized()]
     private MacroscopeHttpTwoClient Client;
 
     private MacroscopeDocumentCollection DocCollection;
@@ -76,6 +79,7 @@ namespace SEOMacroscope
     private object ThreadsLock = new object();
     private Dictionary<int, bool> ThreadsDict;
 
+    [field: NonSerialized()]
     private Semaphore SemaphoreWorkers;
 
     private string StartUrl;
@@ -234,8 +238,9 @@ namespace SEOMacroscope
       this.ThreadsStop = false;
       this.ThreadsDict = new Dictionary<int, bool>();
 
-      this.SemaphoreWorkers = new Semaphore( 0, this.ThreadsMax );
-      this.SemaphoreWorkers.Release( this.ThreadsMax );
+      this.InitializeSemaphores();
+      //this.SemaphoreWorkers = new Semaphore( 0, this.ThreadsMax );
+      //this.SemaphoreWorkers.Release( this.ThreadsMax );
 
       this.PagesFoundLock = new Object();
       this.SetPagesFound( Value: 0 );
@@ -256,6 +261,22 @@ namespace SEOMacroscope
       this.Robots = new MacroscopeRobots();
       this.BlockedByRobots = new Dictionary<string, bool>();
 
+    }
+
+    /** Semaphores ************************************************************/
+
+    public void InitializeSemaphores ()
+    {
+      this.SemaphoreWorkers = new Semaphore( 0, this.ThreadsMax );
+      this.SemaphoreWorkers.Release( this.ThreadsMax );
+    }
+
+    /** Deserialization *******************************************************/
+
+    public void InitializeAfterDeserialization ()
+    {
+      this.InitializeSemaphores();
+      this.Robots.InitializeAfterDeserialization();
     }
 
     /** Event Log *************************************************************/
@@ -1337,7 +1358,14 @@ namespace SEOMacroscope
 
     public MacroscopeDocumentCollection GetDocCollection ()
     {
-      return ( this.DocCollection );
+      return( this.DocCollection );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public void SetDocCollection ( MacroscopeDocumentCollection NewDocCollection )
+    {
+      this.DocCollection = NewDocCollection;
     }
 
     /** Allowed Hosts *********************************************************/

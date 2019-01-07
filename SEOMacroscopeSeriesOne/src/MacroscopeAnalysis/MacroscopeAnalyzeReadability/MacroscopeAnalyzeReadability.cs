@@ -32,6 +32,7 @@ namespace SEOMacroscope
   /// Analyze the readability of the text in a document.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeAnalyzeReadability : Macroscope
   {
 

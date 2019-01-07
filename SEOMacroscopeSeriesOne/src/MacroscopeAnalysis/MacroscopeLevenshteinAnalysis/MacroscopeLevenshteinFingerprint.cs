@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeLevenshteinFingerprint.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeLevenshteinFingerprint : MacroscopeAnalysis
   {
 

@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeConstants.
   /// </summary>
 
+  [Serializable()]
   public static class MacroscopeConstants
   {
 

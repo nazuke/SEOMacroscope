@@ -34,6 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeKeywordPresenceAnalysis.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeKeywordPresenceAnalysis : MacroscopeAnalysis
   {
 
@@ -125,6 +126,7 @@ namespace SEOMacroscope
           }
           catch( Exception ex )
           {
+            this.DebugMsg( ex.Message );
             KeywordPresence.Add( new KeyValuePair<string, KEYWORD_STATUS>( Keyword, KEYWORD_STATUS.MALFORMED_KEYWORDS_METATAG ) );
           }
 

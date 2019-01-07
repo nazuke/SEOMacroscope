@@ -35,6 +35,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDataExtractorRegexes.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeDataExtractorRegexes : MacroscopeDataExtractor
   {
 

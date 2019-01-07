@@ -30,11 +30,12 @@ using System.Text;
 
 namespace SEOMacroscope
 {
-  
+
   /// <summary>
   /// MacroscopeCredentialsHttp manages the credential requests queue, and the collection of credentials entered for this crawl session.
   /// </summary>
-	
+
+  [Serializable()]
   public class MacroscopeCredentialsHttp : Macroscope
   {
 	

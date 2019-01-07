@@ -37,8 +37,13 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    [field: NonSerialized()]
     private MacroscopeHttpImageLoader HttpImageLoader;
+
+    [field: NonSerialized()]
     private MacroscopeColumnSorter lvColumnSorter;
+
+    [field: NonSerialized()]
     private MacroscopeContextMenus ContextMenusCallbacks;
 
     private Object RenderListViewLock;

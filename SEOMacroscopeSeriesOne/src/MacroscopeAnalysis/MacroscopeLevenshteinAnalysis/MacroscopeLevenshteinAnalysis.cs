@@ -37,6 +37,7 @@ namespace SEOMacroscope
 
   // TODO: Perform deeper analysis on similarly detected documents.
 
+  [Serializable()]
   public class MacroscopeLevenshteinAnalysis : MacroscopeAnalysis
   {
 
@@ -47,6 +48,8 @@ namespace SEOMacroscope
 
     private readonly MacroscopeDocument msDocOriginal;
     private string Fingerprint;
+
+    [field: NonSerialized()]
     private Levenshtein AnalyzerFingerprint;
     private int ComparisonSizeDifference;
     private int ComparisonThreshold;

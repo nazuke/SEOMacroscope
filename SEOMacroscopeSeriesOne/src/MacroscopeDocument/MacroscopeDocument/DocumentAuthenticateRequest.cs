@@ -40,6 +40,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDocument.
   /// </summary>
 
+  [Serializable()]
   public partial class MacroscopeDocument : Macroscope
   {
 

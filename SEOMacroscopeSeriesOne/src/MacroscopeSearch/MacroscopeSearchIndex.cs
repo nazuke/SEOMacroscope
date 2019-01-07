@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeSearchIndex.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeSearchIndex : Macroscope
   {
 

@@ -34,6 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDataExtractorCssSelectors.cs.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeDataExtractorCssSelectors : MacroscopeDataExtractor
   {
 

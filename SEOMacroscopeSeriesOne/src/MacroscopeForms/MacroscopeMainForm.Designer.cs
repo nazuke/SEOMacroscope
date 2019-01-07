@@ -180,6 +180,9 @@ namespace SEOMacroscope
       this.loadFromTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.pasteFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+      this.loadSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.saveSessionAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator30 = new System.Windows.Forms.ToolStripSeparator();
       this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.sitemapXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.sitemapXMLOnePerHostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -354,6 +357,9 @@ namespace SEOMacroscope
       this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadUrlListToolStripMenuItem,
             this.toolStripSeparator8,
+            this.loadSessionToolStripMenuItem,
+            this.saveSessionAsToolStripMenuItem,
+            this.toolStripSeparator30,
             this.exportToolStripMenuItem,
             this.toolStripSeparator9,
             this.exitToolStripMenuItem});
@@ -367,7 +373,7 @@ namespace SEOMacroscope
             this.loadFromTextFileToolStripMenuItem,
             this.pasteFromClipboardToolStripMenuItem});
       this.loadUrlListToolStripMenuItem.Name = "loadUrlListToolStripMenuItem";
-      this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+      this.loadUrlListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.loadUrlListToolStripMenuItem.Text = "Load URL List";
       // 
       // loadFromTextFileToolStripMenuItem
@@ -387,7 +393,29 @@ namespace SEOMacroscope
       // toolStripSeparator8
       // 
       this.toolStripSeparator8.Name = "toolStripSeparator8";
-      this.toolStripSeparator8.Size = new System.Drawing.Size(142, 6);
+      this.toolStripSeparator8.Size = new System.Drawing.Size(177, 6);
+      // 
+      // loadSessionToolStripMenuItem
+      // 
+      this.loadSessionToolStripMenuItem.Name = "loadSessionToolStripMenuItem";
+      this.loadSessionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.loadSessionToolStripMenuItem.Text = "Load Session";
+      this.loadSessionToolStripMenuItem.Visible = false;
+      this.loadSessionToolStripMenuItem.Click += new System.EventHandler(this.CallbackLoadSessionFromFile);
+      // 
+      // saveSessionAsToolStripMenuItem
+      // 
+      this.saveSessionAsToolStripMenuItem.Name = "saveSessionAsToolStripMenuItem";
+      this.saveSessionAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.saveSessionAsToolStripMenuItem.Text = "Save Session As...";
+      this.saveSessionAsToolStripMenuItem.Visible = false;
+      this.saveSessionAsToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveSessionToFile);
+      // 
+      // toolStripSeparator30
+      // 
+      this.toolStripSeparator30.Name = "toolStripSeparator30";
+      this.toolStripSeparator30.Size = new System.Drawing.Size(177, 6);
+      this.toolStripSeparator30.Visible = false;
       // 
       // exportToolStripMenuItem
       // 
@@ -401,7 +429,7 @@ namespace SEOMacroscope
             this.exportCurrentListToCSVToolStripMenuItem,
             this.exportCurrentListToExcelToolStripMenuItem});
       this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-      this.exportToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+      this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.exportToolStripMenuItem.Text = "Export";
       // 
       // sitemapXMLToolStripMenuItem
@@ -459,14 +487,14 @@ namespace SEOMacroscope
       // toolStripSeparator9
       // 
       this.toolStripSeparator9.Name = "toolStripSeparator9";
-      this.toolStripSeparator9.Size = new System.Drawing.Size(142, 6);
+      this.toolStripSeparator9.Size = new System.Drawing.Size(177, 6);
       // 
       // exitToolStripMenuItem
       // 
       this.exitToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
       this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
       this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-      this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+      this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.exitToolStripMenuItem.Text = "Exit";
       this.exitToolStripMenuItem.Click += new System.EventHandler(this.CallbackFileExit);
       // 
@@ -502,7 +530,7 @@ namespace SEOMacroscope
             this.toolStripSeparator6,
             this.clearHTTPAuthenticationToolStripMenuItem});
       this.taskParametersToolStripMenuItem.Name = "taskParametersToolStripMenuItem";
-      this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
+      this.taskParametersToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
       this.taskParametersToolStripMenuItem.Text = "Task Parameters";
       // 
       // includeURLPatternsToolStripMenuItem
@@ -1093,26 +1121,26 @@ namespace SEOMacroscope
       // combinedExcelReportToolStripMenuItem8
       // 
       this.combinedExcelReportToolStripMenuItem8.Name = "combinedExcelReportToolStripMenuItem8";
-      this.combinedExcelReportToolStripMenuItem8.Size = new System.Drawing.Size(244, 22);
+      this.combinedExcelReportToolStripMenuItem8.Size = new System.Drawing.Size(243, 22);
       this.combinedExcelReportToolStripMenuItem8.Text = "Combined Excel Report";
       this.combinedExcelReportToolStripMenuItem8.Click += new System.EventHandler(this.CallbackSaveContactDetailsExcelReport);
       // 
       // toolStripSeparator23
       // 
       this.toolStripSeparator23.Name = "toolStripSeparator23";
-      this.toolStripSeparator23.Size = new System.Drawing.Size(241, 6);
+      this.toolStripSeparator23.Size = new System.Drawing.Size(240, 6);
       // 
       // emailAddressesCSVReportToolStripMenuItem
       // 
       this.emailAddressesCSVReportToolStripMenuItem.Name = "emailAddressesCSVReportToolStripMenuItem";
-      this.emailAddressesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
+      this.emailAddressesCSVReportToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
       this.emailAddressesCSVReportToolStripMenuItem.Text = "Email Addresses CSV Report";
       this.emailAddressesCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsCsvReportEmail);
       // 
       // telephoneNumbersCSVReportToolStripMenuItem
       // 
       this.telephoneNumbersCSVReportToolStripMenuItem.Name = "telephoneNumbersCSVReportToolStripMenuItem";
-      this.telephoneNumbersCSVReportToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
+      this.telephoneNumbersCSVReportToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
       this.telephoneNumbersCSVReportToolStripMenuItem.Text = "Telephone Numbers CSV Report";
       this.telephoneNumbersCSVReportToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveContactDetailsCsvReportTelephone);
       // 
@@ -1560,5 +1588,8 @@ namespace SEOMacroscope
     private System.Windows.Forms.ToolStripMenuItem orphanedPagesCSVReportToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem redirectsAuditCSVReportToolStripMenuItem1;
     private System.Windows.Forms.ToolStripMenuItem redirectChainsCSVReportToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem loadSessionToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem saveSessionAsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
   }
 }

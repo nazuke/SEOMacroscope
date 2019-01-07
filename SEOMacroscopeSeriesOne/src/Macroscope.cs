@@ -35,6 +35,9 @@ using System.Data.HashFunction;
 using System.Data.HashFunction.Blake2;
 using System.Data.HashFunction.Core;
 
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace SEOMacroscope
 {
 
@@ -42,6 +45,7 @@ namespace SEOMacroscope
   /// Description of Macroscope.
   /// </summary>
 
+  [Serializable()]
   public class Macroscope
   {
 

@@ -34,6 +34,7 @@ namespace SEOMacroscope
   /// Analyze the readability of the English text in a document with the Flesch-Kincaid method.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeAnalyzeReadabilityFleschKincaid : Macroscope, IMacroscopeAnalyzeReadability
   {
 

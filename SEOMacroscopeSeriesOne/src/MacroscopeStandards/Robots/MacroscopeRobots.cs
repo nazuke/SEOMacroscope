@@ -34,11 +34,13 @@ using RobotsTxt;
 namespace SEOMacroscope
 {
 
+  [Serializable()]
   public class MacroscopeRobots : Macroscope
   {
 
     /**************************************************************************/
 
+    [field: NonSerialized()]
     private Dictionary<string, Robots> RobotSquad;
 
     private Dictionary<Uri, bool> BadRobots;
@@ -52,12 +54,26 @@ namespace SEOMacroscope
 
       this.SuppressDebugMsg = true;
 
-      this.RobotSquad = new Dictionary<string, Robots>( 8 );
-
+      this.InitializeRobots(); //this.RobotSquad = new Dictionary<string, Robots>( 8 );
+      
       this.BadRobots = new Dictionary<Uri, bool>( 8 );
 
       this.Client = new MacroscopeHttpTwoClient();
 
+    }
+
+    /**************************************************************************/
+
+    private void InitializeRobots ()
+    {
+      this.RobotSquad = new Dictionary<string, Robots>( 8 );
+    }
+
+    /**************************************************************************/
+
+    public void InitializeAfterDeserialization ()
+    {
+      this.InitializeRobots();
     }
 
     /** ROBOT RULES ***********************************************************/

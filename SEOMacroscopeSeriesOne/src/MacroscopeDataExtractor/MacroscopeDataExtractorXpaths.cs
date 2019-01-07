@@ -35,6 +35,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDataExtractorXpaths.cs.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeDataExtractorXpaths : MacroscopeDataExtractor
   {
 

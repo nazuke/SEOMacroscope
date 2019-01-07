@@ -32,6 +32,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeDataExtractorExpression.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeDataExtractorExpression : Macroscope
   {
 

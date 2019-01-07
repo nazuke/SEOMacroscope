@@ -29,6 +29,7 @@ using System.Text.RegularExpressions;
 namespace SEOMacroscope
 {
 
+  [Serializable()]
   public class MacroscopeAnalyzeWordCount : MacroscopeAnalysis
   {
 

@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Calculate the width of a title string in pixels.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeAnalyzePageTitles : MacroscopeAnalysis, IDisposable
   {
 
@@ -40,10 +41,12 @@ namespace SEOMacroscope
 
     private string TitleFontName;
 
+    [field: NonSerialized()]
     private FontFamily TitleFontFamily;
 
     private int TitleFontSizeInPixels;
 
+    [field: NonSerialized()]
     private Graphics GraphicsHandle;
 
     /**************************************************************************/

@@ -33,6 +33,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeClickPathAnalysis.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeClickPathAnalysis : Macroscope
   {
 

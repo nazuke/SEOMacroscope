@@ -34,6 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeAnalyzeTextLanguage.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeAnalyzeTextLanguage : Macroscope
   {
 
@@ -42,9 +43,10 @@ namespace SEOMacroscope
       http://unicode.org/iso15924/iso15924-codes.html
 
     */
-    
+
     /**************************************************************************/
 
+    [field: NonSerialized()]
     LanguageDetector DetectLanguage;
 
     /**************************************************************************/

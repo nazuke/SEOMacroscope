@@ -34,6 +34,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeJobHistory.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeJobHistory : Macroscope
   {
 

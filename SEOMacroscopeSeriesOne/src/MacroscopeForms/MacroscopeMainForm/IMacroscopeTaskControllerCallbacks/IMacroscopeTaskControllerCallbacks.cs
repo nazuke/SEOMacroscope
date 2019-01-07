@@ -64,6 +64,7 @@ namespace SEOMacroscope
       }
       catch( Exception ex )
       {
+        DebugMsg( ex.Message );
         DebugMsg( "Error in ICallbackScanComplete" );
       }
     }

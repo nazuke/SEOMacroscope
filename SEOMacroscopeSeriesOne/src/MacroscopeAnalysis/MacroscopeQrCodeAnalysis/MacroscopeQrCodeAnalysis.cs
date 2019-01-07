@@ -37,6 +37,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeQrCodeAnalysis.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeQrCodeAnalysis : MacroscopeAnalysis
   {
 

@@ -34,6 +34,7 @@ using System.Threading;
 namespace SEOMacroscope
 {
 
+  [Serializable()]
   public class MacroscopeDocumentCollection : Macroscope, IDisposable
   {
 
@@ -105,6 +106,7 @@ namespace SEOMacroscope
 
     private static object LockerRecalc = new object();
 
+    [field: NonSerialized()]
     private System.Timers.Timer TimerRecalc;
 
     /**************************************************************************/
@@ -573,7 +575,7 @@ namespace SEOMacroscope
             }
             catch( Exception ex )
             {
-              // NO-OP
+              this.DebugMsg( ex.Message );
             }
           }
 

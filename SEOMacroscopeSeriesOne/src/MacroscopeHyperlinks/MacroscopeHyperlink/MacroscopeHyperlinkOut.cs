@@ -32,6 +32,7 @@ namespace SEOMacroscope
   /// Description of MacroscopeHyperlinkOut.
   /// </summary>
 
+  [Serializable()]
   public class MacroscopeHyperlinkOut : Macroscope
   {
 
