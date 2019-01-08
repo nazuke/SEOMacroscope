@@ -63,7 +63,7 @@ namespace SEOMacroscope
 
           MacroscopeSessionSaver SessionSaver = new MacroscopeSessionSaver();
           MacroscopeJobMaster JobMaster = this.GetJobMaster();
-          SessionSaver.SaveJobMaster( JobMaster: JobMaster, Pathname: Pathname );
+          SessionSaver.Save( JobMaster: JobMaster, Pathname: Pathname );
 
           this.DialogueBoxFeedback( "SEO Macroscope session", "The SEO Macroscope session file was saved successfully." );
 
@@ -116,7 +116,7 @@ namespace SEOMacroscope
           {
 
             MacroscopeSessionLoader SessionLoader = new MacroscopeSessionLoader();
-            MacroscopeJobMaster JobMaster = SessionLoader.LoadJobMaster( Pathname: Pathname );
+            MacroscopeJobMaster JobMaster = SessionLoader.Load( Pathname: Pathname );
 
             if( JobMaster != null )
             {
@@ -125,6 +125,9 @@ namespace SEOMacroscope
 
               JobMaster.InitializeAfterDeserialization( NewTaskController: this );
               this.SetJobMaster( NewJobMaster: JobMaster );
+
+              this.StartUrlString = JobMaster.GetStartUrl();
+              this.textBoxStartUrl.Text = this.StartUrlString;
 
               this.StartUrlDirty = false;
 

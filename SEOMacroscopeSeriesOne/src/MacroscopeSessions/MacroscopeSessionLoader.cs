@@ -42,26 +42,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeDocumentCollection LoadDocumentCollection ( string Pathname )
-    {
-
-      MacroscopeDocumentCollection DocCollection = null;
-
-      if( File.Exists( Pathname ) )
-      {
-        Stream openFileStream = File.OpenRead( Pathname );
-        BinaryFormatter deserializer = new BinaryFormatter();
-        DocCollection = (MacroscopeDocumentCollection) deserializer.Deserialize( openFileStream );
-        openFileStream.Close();
-      }
-
-      return ( DocCollection );
-
-    }
-
-    /**************************************************************************/
-
-    public MacroscopeJobMaster LoadJobMaster ( string Pathname )
+    public MacroscopeJobMaster Load ( string Pathname )
     {
 
       MacroscopeJobMaster JobMaster = null;

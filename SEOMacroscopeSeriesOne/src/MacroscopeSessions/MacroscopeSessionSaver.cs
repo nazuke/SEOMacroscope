@@ -42,22 +42,17 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void SaveDocumentCollection ( MacroscopeDocumentCollection DocCollection, string Pathname )
+    public void Save ( MacroscopeJobMaster JobMaster, string Pathname )
     {
+
       Stream SaveFileStream = File.Create( Pathname );
       BinaryFormatter serializer = new BinaryFormatter();
-      serializer.Serialize( SaveFileStream, DocCollection );
-      SaveFileStream.Close();
-    }
 
-    /**************************************************************************/
-
-    public void SaveJobMaster ( MacroscopeJobMaster JobMaster, string Pathname )
-    {
-      Stream SaveFileStream = File.Create( Pathname );
-      BinaryFormatter serializer = new BinaryFormatter();
       serializer.Serialize( SaveFileStream, JobMaster );
       SaveFileStream.Close();
+
+      return;
+
     }
 
     /**************************************************************************/

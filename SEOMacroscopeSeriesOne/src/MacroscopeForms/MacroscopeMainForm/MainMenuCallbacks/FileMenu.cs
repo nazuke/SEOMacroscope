@@ -34,7 +34,7 @@ namespace SEOMacroscope
 
     /** FILE MENU *************************************************************/
 
-   public void ReconfigureFileMenu ()
+    public void ReconfigureFileMenu ()
     {
 
 #if DEBUG
@@ -42,9 +42,9 @@ namespace SEOMacroscope
       this.saveSessionAsToolStripMenuItem.Visible = true;
       this.toolStripSeparator30.Visible = true;
 #else
-      this.loadSessionToolStripMenuItem.Visible = false;
-      this.saveSessionAsToolStripMenuItem.Visible = false;
-      this.toolStripSeparator30.Visible = false;
+      this.loadSessionToolStripMenuItem.Visible = true;
+      this.saveSessionAsToolStripMenuItem.Visible = true;
+      this.toolStripSeparator30.Visible = true;
 #endif
 
     }
