@@ -2,7 +2,7 @@
 
 	This file is part of SEOMacroscope.
 
-	Copyright 2018 Jason Holland.
+	Copyright 2019 Jason Holland.
 
 	The GitHub repository may be found at:
 
@@ -267,6 +267,7 @@ namespace SEOMacroscope
 
     protected override void Dispose ( bool disposing )
     {
+
       if( disposing )
       {
         if( components != null )
@@ -274,8 +275,14 @@ namespace SEOMacroscope
           components.Dispose();
         }
       }
-      this.JobMaster.Dispose();
+
+      if( this.JobMaster != null )
+      {
+        this.JobMaster.Dispose();
+      }
+
       base.Dispose( disposing );
+
     }
 
     /** Initialize Custom Filters *********************************************/
@@ -782,7 +789,6 @@ namespace SEOMacroscope
         }
 
         this.StartUrlString = NewStartUrl;
-
 
         MacroscopePreferencesManager.SetStartUrl( Url: NewStartUrl );
 
@@ -2478,7 +2484,10 @@ namespace SEOMacroscope
 
               }
 
-              CredentialsForm.Dispose();
+              if( CredentialsForm != null )
+              {
+                CredentialsForm.Dispose();
+              }
 
             }
 
@@ -2599,7 +2608,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
     }
 
@@ -2620,7 +2632,10 @@ namespace SEOMacroscope
 
       }
 
-      LoadUrlListDialogue.Dispose();
+      if( LoadUrlListDialogue != null )
+      {
+        LoadUrlListDialogue.Dispose();
+      }
 
     }
 
@@ -2640,7 +2655,10 @@ namespace SEOMacroscope
         this.IncludeExcludeUrls.LoadIncludeUrlPatterns( IncludeUrlPatternsText: NewIncludeUrlPatternsText );
       }
 
-      IncludeUrlPatternsForm.Dispose();
+      if( IncludeUrlPatternsForm != null )
+      {
+        IncludeUrlPatternsForm.Dispose();
+      }
 
     }
 
@@ -2660,7 +2678,10 @@ namespace SEOMacroscope
         this.IncludeExcludeUrls.LoadExcludeUrlPatterns( ExcludeUrlPatternsText: NewExcludeUrlPatternsResult );
       }
 
-      ExcludeUrlPatternsForm.Dispose();
+      if( ExcludeUrlPatternsForm != null )
+      {
+        ExcludeUrlPatternsForm.Dispose();
+      }
 
     }
 
@@ -2728,7 +2749,10 @@ namespace SEOMacroscope
 
       }
 
-      CustomFilterForm.Dispose();
+      if( CustomFilterForm != null )
+      {
+        CustomFilterForm.Dispose();
+      }
 
     }
 
@@ -2759,7 +2783,10 @@ namespace SEOMacroscope
 
       }
 
-      DataExtractorsForm.Dispose();
+      if( DataExtractorsForm != null )
+      {
+        DataExtractorsForm.Dispose();
+      }
 
     }
 
@@ -2790,7 +2817,10 @@ namespace SEOMacroscope
 
       }
 
-      DataExtractorsForm.Dispose();
+      if( DataExtractorsForm != null )
+      {
+        DataExtractorsForm.Dispose();
+      }
 
     }
 
@@ -2823,7 +2853,10 @@ namespace SEOMacroscope
 
       }
 
-      DataExtractorsForm.Dispose();
+      if( DataExtractorsForm != null )
+      {
+        DataExtractorsForm.Dispose();
+      }
 
     }
 

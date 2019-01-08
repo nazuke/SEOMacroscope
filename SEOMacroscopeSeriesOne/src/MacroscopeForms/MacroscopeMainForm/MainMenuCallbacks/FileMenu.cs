@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2018 Jason Holland.
+  Copyright 2019 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -33,6 +33,23 @@ namespace SEOMacroscope
   {
 
     /** FILE MENU *************************************************************/
+
+   public void ReconfigureFileMenu ()
+    {
+
+#if DEBUG
+      this.loadSessionToolStripMenuItem.Visible = true;
+      this.saveSessionAsToolStripMenuItem.Visible = true;
+      this.toolStripSeparator30.Visible = true;
+#else
+      this.loadSessionToolStripMenuItem.Visible = false;
+      this.saveSessionAsToolStripMenuItem.Visible = false;
+      this.toolStripSeparator30.Visible = false;
+#endif
+
+    }
+
+    /**************************************************************************/
 
     private void CallbackFileExit ( object sender, EventArgs e )
     {

@@ -2,7 +2,7 @@
 
 	This file is part of SEOMacroscope.
 
-	Copyright 2018 Jason Holland.
+	Copyright 2019 Jason Holland.
 
 	The GitHub repository may be found at:
 
@@ -144,7 +144,10 @@ namespace SEOMacroscope
         this.SemaphoreWorkers.Dispose();
       }
 
-      this.DocCollection.Dispose();
+      if( this.DocCollection != null )
+      {
+        this.DocCollection.Dispose();
+      }
 
     }
 
@@ -273,10 +276,17 @@ namespace SEOMacroscope
 
     /** Deserialization *******************************************************/
 
-    public void InitializeAfterDeserialization ()
+    public void InitializeAfterDeserialization ( IMacroscopeTaskController NewTaskController )
     {
+
+      this.TaskController = NewTaskController;
+      this.Client = new MacroscopeHttpTwoClient();
+
       this.InitializeSemaphores();
       this.Robots.InitializeAfterDeserialization();
+
+      return;
+
     }
 
     /** Event Log *************************************************************/

@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2018 Jason Holland.
+  Copyright 2019 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -83,6 +83,8 @@ namespace SEOMacroscope
       }
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
+      this.loadSessionToolStripMenuItem.Enabled = true;
+      this.saveSessionAsToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
@@ -106,6 +108,7 @@ namespace SEOMacroscope
         this.toolStripButtonRecalculateClickPaths.Enabled = false;
       }
 
+      this.ReconfigureFileMenu();
       this.ReconfigureReportsMenu();
 
       this.ScanningControlsButtonText();
@@ -127,6 +130,8 @@ namespace SEOMacroscope
       }
 
       this.loadUrlListToolStripMenuItem.Enabled = false;
+      this.loadSessionToolStripMenuItem.Enabled = false;
+      this.saveSessionAsToolStripMenuItem.Enabled = false;
       this.exportToolStripMenuItem.Enabled = false;
       this.taskParametersToolStripMenuItem.Enabled = false;
       this.reportsToolStripMenuItem.Enabled = false;
@@ -142,6 +147,7 @@ namespace SEOMacroscope
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
       this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
+      this.ReconfigureFileMenu();
       this.ReconfigureReportsMenu();
 
       this.ScanningControlsButtonText();
@@ -164,6 +170,8 @@ namespace SEOMacroscope
       }
 
       this.loadUrlListToolStripMenuItem.Enabled = false;
+      this.loadSessionToolStripMenuItem.Enabled = false;
+      this.saveSessionAsToolStripMenuItem.Enabled = false;
       this.exportToolStripMenuItem.Enabled = false;
       this.taskParametersToolStripMenuItem.Enabled = false;
       this.reportsToolStripMenuItem.Enabled = false;
@@ -179,6 +187,7 @@ namespace SEOMacroscope
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
       this.toolStripButtonRecalculateClickPaths.Enabled = false;
 
+      this.ReconfigureFileMenu();
       this.ReconfigureReportsMenu();
 
       this.ScanningControlsButtonText();
@@ -201,6 +210,8 @@ namespace SEOMacroscope
       }
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
+      this.loadSessionToolStripMenuItem.Enabled = true;
+      this.saveSessionAsToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
@@ -226,6 +237,7 @@ namespace SEOMacroscope
 
       this.UpdateProgressBarScan( 0 );
 
+      this.ReconfigureFileMenu();
       this.ReconfigureReportsMenu();
 
       this.ScanningControlsButtonText();
@@ -248,6 +260,8 @@ namespace SEOMacroscope
       }
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
+      this.loadSessionToolStripMenuItem.Enabled = true;
+      this.saveSessionAsToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
@@ -273,6 +287,7 @@ namespace SEOMacroscope
 
       this.UpdateProgressBarScan( 0 );
 
+      this.ReconfigureFileMenu();
       this.ReconfigureReportsMenu();
 
       this.ScanningControlsButtonText();
@@ -295,6 +310,8 @@ namespace SEOMacroscope
       }
 
       this.loadUrlListToolStripMenuItem.Enabled = true;
+      this.loadSessionToolStripMenuItem.Enabled = true;
+      this.saveSessionAsToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
@@ -318,6 +335,7 @@ namespace SEOMacroscope
         this.toolStripButtonRecalculateClickPaths.Enabled = false;
       }
 
+      this.ReconfigureFileMenu();
       this.ReconfigureReportsMenu();
 
       this.ScanningControlsButtonText();

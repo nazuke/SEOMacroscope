@@ -2,7 +2,7 @@
 
 	This file is part of SEOMacroscope.
 
-	Copyright 2018 Jason Holland.
+	Copyright 2019 Jason Holland.
 
 	The GitHub repository may be found at:
 
@@ -460,7 +460,10 @@ namespace SEOMacroscope
         ProgressForm.DoClose();
       }
 
-      ProgressForm.Dispose();
+      if( ProgressForm != null )
+      {
+        ProgressForm.Dispose();
+      }
 
     }
 
@@ -534,7 +537,10 @@ namespace SEOMacroscope
         ProgressForm.DoClose();
       }
 
-      ProgressForm.Dispose();
+      if( ProgressForm != null )
+      {
+        ProgressForm.Dispose();
+      }
 
     }
 
@@ -620,7 +626,10 @@ namespace SEOMacroscope
         ProgressForm.DoClose();
       }
 
-      ProgressForm.Dispose();
+      if( ProgressForm != null )
+      {
+        ProgressForm.Dispose();
+      }
 
     }
 
@@ -696,7 +705,10 @@ namespace SEOMacroscope
         ProgressForm.DoClose();
       }
 
-      ProgressForm.Dispose();
+      if( ProgressForm != null )
+      {
+        ProgressForm.Dispose();
+      }
 
     }
 
@@ -811,7 +823,11 @@ namespace SEOMacroscope
         ProgressForm.DoClose();
       }
 
-      ProgressForm.Dispose();
+      if( ProgressForm != null )
+      {
+        ProgressForm.Dispose();
+      }
+
     }
 
     /** Render DocCollection Filtered by URL Fragment *************************/
@@ -891,7 +907,10 @@ namespace SEOMacroscope
         ProgressForm.DoClose();
       }
 
-      ProgressForm.Dispose();
+      if( ProgressForm != null )
+      {
+        ProgressForm.Dispose();
+      }
 
     }
 

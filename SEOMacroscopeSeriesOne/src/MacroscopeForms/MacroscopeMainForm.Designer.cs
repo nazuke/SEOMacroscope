@@ -2,7 +2,7 @@
 
 	This file is part of SEOMacroscope.
 
-	Copyright 2018 Jason Holland.
+	Copyright 2019 Jason Holland.
 
 	The GitHub repository may be found at:
 
@@ -400,7 +400,6 @@ namespace SEOMacroscope
       this.loadSessionToolStripMenuItem.Name = "loadSessionToolStripMenuItem";
       this.loadSessionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.loadSessionToolStripMenuItem.Text = "Load Session";
-      this.loadSessionToolStripMenuItem.Visible = false;
       this.loadSessionToolStripMenuItem.Click += new System.EventHandler(this.CallbackLoadSessionFromFile);
       // 
       // saveSessionAsToolStripMenuItem
@@ -408,14 +407,12 @@ namespace SEOMacroscope
       this.saveSessionAsToolStripMenuItem.Name = "saveSessionAsToolStripMenuItem";
       this.saveSessionAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.saveSessionAsToolStripMenuItem.Text = "Save Session As...";
-      this.saveSessionAsToolStripMenuItem.Visible = false;
       this.saveSessionAsToolStripMenuItem.Click += new System.EventHandler(this.CallbackSaveSessionToFile);
       // 
       // toolStripSeparator30
       // 
       this.toolStripSeparator30.Name = "toolStripSeparator30";
       this.toolStripSeparator30.Size = new System.Drawing.Size(177, 6);
-      this.toolStripSeparator30.Visible = false;
       // 
       // exportToolStripMenuItem
       // 

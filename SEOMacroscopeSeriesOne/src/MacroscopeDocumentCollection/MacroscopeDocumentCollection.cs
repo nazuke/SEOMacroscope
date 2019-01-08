@@ -2,7 +2,7 @@
 
 	This file is part of SEOMacroscope.
 
-	Copyright 2018 Jason Holland.
+	Copyright 2019 Jason Holland.
 
 	The GitHub repository may be found at:
 
@@ -209,7 +209,10 @@ namespace SEOMacroscope
 
     protected virtual void Dispose ( bool disposing )
     {
-      this.TimerRecalc.Dispose();
+      if( this.TimerRecalc != null )
+      {
+        this.TimerRecalc.Dispose();
+      }
     }
 
     /** Job Master Methods ****************************************************/
@@ -718,7 +721,10 @@ namespace SEOMacroscope
       try
       {
         this.TimerRecalc.Stop();
-        this.TimerRecalc.Dispose();
+        if( this.TimerRecalc != null )
+        {
+          this.TimerRecalc.Dispose();
+        }
       }
       catch( Exception ex )
       {

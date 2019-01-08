@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2018 Jason Holland.
+  Copyright 2019 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -40,11 +40,11 @@ namespace SEOMacroscope
 
     /** Sessions Save Dialogue Boxes ******************************************/
 
-  private void CallbackSaveSessionToFile ( object sender, EventArgs e )
+    private void CallbackSaveSessionToFile ( object sender, EventArgs e )
     {
 
       SaveFileDialog Dialog = new SaveFileDialog();
-      Dialog.Filter = "SEO Macroscope session files (*.seomacroscope)|*.seomacroscope|All files (*.*)|*.*";
+      Dialog.Filter = "SEO Macroscope session files (*.seomacroscope)|*.seomacroscope";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "seomacroscope";
@@ -56,37 +56,37 @@ namespace SEOMacroscope
 
         string Pathname = Dialog.FileName;
 
-        //Cursor.Current = Cursors.WaitCursor;
+        Cursor.Current = Cursors.WaitCursor;
 
-        /*
         try
         {
-        */
 
-        MacroscopeSessionSaver SessionSaver = new MacroscopeSessionSaver();
-        MacroscopeJobMaster JobMaster = this.GetJobMaster();
-        SessionSaver.SaveJobMaster( JobMaster: JobMaster, Pathname: Pathname );
+          MacroscopeSessionSaver SessionSaver = new MacroscopeSessionSaver();
+          MacroscopeJobMaster JobMaster = this.GetJobMaster();
+          SessionSaver.SaveJobMaster( JobMaster: JobMaster, Pathname: Pathname );
 
-        this.DialogueBoxFeedback( "SEO Macroscope session", "The session file was saved." );
+          this.DialogueBoxFeedback( "SEO Macroscope session", "The SEO Macroscope session file was saved successfully." );
 
-        /*
         }
         catch( Exception ex )
         {
-          this.DialogueBoxError( "Error saving SEO Macroscope session file", ex.Message );
+          this.DialogueBoxError( "Error", ex.Message );
         }
         finally
         {
           Cursor.Current = Cursors.Default;
         }
-        */
+
       }
       else
       {
-        this.DialogueBoxError( "Error saving SEO Macroscope session file", "Could not open file." );
+        this.DialogueBoxError( "Error", "Could not open SEO Macroscope session file." );
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
     }
 
@@ -97,7 +97,7 @@ namespace SEOMacroscope
 
       OpenFileDialog Dialog = new OpenFileDialog();
 
-      Dialog.Filter = "SEO Macroscope session files (*.seomacroscope)|*.seomacroscope|All files (*.*)|*.*";
+      Dialog.Filter = "SEO Macroscope session files (*.seomacroscope)|*.seomacroscope";
       Dialog.FilterIndex = 2;
       Dialog.RestoreDirectory = true;
       Dialog.DefaultExt = "seomacroscope";
@@ -117,19 +117,34 @@ namespace SEOMacroscope
 
             MacroscopeSessionLoader SessionLoader = new MacroscopeSessionLoader();
             MacroscopeJobMaster JobMaster = SessionLoader.LoadJobMaster( Pathname: Pathname );
-            this.SetJobMaster( NewJobMaster: JobMaster );
-            JobMaster.InitializeAfterDeserialization();
-            this.msDisplayStructure.RefreshData(  DocCollection: this.JobMaster.GetDocCollection()  );
 
-            this.ScanningControlsStopped();
+            if( JobMaster != null )
+            {
 
+              this.ScanReset( JobRunTimeMode: JobMaster.GetRunTimeMode() );
 
-            this.DialogueBoxFeedback( "SEO Macroscope session", "The session file was loaded." );
+              JobMaster.InitializeAfterDeserialization( NewTaskController: this );
+              this.SetJobMaster( NewJobMaster: JobMaster );
+
+              this.StartUrlDirty = false;
+
+              this.SelectTabPage( TabName: MacroscopeConstants.tabPageStructureOverview );
+              this.msDisplayStructure.RefreshData( DocCollection: this.JobMaster.GetDocCollection() );
+
+              this.ScanningControlsStopped();
+
+              this.DialogueBoxFeedback( "SEO Macroscope session", "The SEO Macroscope session file was loaded successfully." );
+
+            }
+            else
+            {
+              this.DialogueBoxError( "Error", "There was an error loading the SEO Macroscope session file." );
+            }
 
           }
           catch( Exception ex )
           {
-            this.DialogueBoxError( "Error loading SEO Macroscope session file", ex.Message );
+            this.DialogueBoxError( "Error", ex.Message );
           }
           finally
           {
@@ -139,12 +154,15 @@ namespace SEOMacroscope
         }
         else
         {
-          this.DialogueBoxError( "Error loading SEO Macroscope session file", "The file specified could not be found" );
+          this.DialogueBoxError( "Error", "The SEO Macroscope session file specified could not be found" );
         }
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
     }
 

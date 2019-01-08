@@ -2,7 +2,7 @@
 
 	This file is part of SEOMacroscope.
 
-	Copyright 2018 Jason Holland.
+	Copyright 2019 Jason Holland.
 
 	The GitHub repository may be found at:
 
@@ -51,7 +51,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeAnalyzePageTitles () : base ()
+    public MacroscopeAnalyzePageTitles () : base()
     {
       this.SuppressDebugMsg = true;
       this.TitleFontName = "Arial";
@@ -90,8 +90,14 @@ namespace SEOMacroscope
 
     protected virtual void Dispose ( bool disposing )
     {
-      this.TitleFontFamily.Dispose();
-      this.GraphicsHandle.Dispose();
+      if( this.TitleFontFamily != null )
+      {
+        this.TitleFontFamily.Dispose();
+      }
+      if( this.GraphicsHandle != null )
+      {
+        this.GraphicsHandle.Dispose();
+      }
     }
 
     /**************************************************************************/

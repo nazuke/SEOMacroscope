@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2018 Jason Holland.
+  Copyright 2019 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -52,9 +52,16 @@ namespace SEOMacroscope
     
     private void CallbackHelpLicenceClick ( object sender, EventArgs e )
     {
+
       MacroscopeLicenceForm LicenceForm = new MacroscopeLicenceForm ();
+
       LicenceForm.ShowDialog();
-      LicenceForm.Dispose();
+
+      if( LicenceForm != null )
+      {
+        LicenceForm.Dispose();
+      }
+
     }
 
     private void CallbackHelpReportBugClick ( object sender, EventArgs e )
@@ -64,9 +71,16 @@ namespace SEOMacroscope
 
     private void CallbackHelpAboutClick ( object sender, EventArgs e )
     {
+
       MacroscopeAboutForm AboutForm = new MacroscopeAboutForm ();
+
       AboutForm.ShowDialog();
-      AboutForm.Dispose();
+
+      if( AboutForm != null )
+      {
+        AboutForm.Dispose();
+      }
+
     }
 
     /**************************************************************************/

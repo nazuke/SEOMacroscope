@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2018 Jason Holland.
+  Copyright 2019 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -86,7 +86,10 @@ namespace SEOMacroscope
         this.DialogueBoxError( "Error saving Sitemap XML", "Could not open file." );
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
     }
 
@@ -143,7 +146,10 @@ namespace SEOMacroscope
         this.DialogueBoxError( "Error saving Sitemap XML", "Could not open file." );
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
     }
 
@@ -192,7 +198,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
     }
 
@@ -237,7 +246,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
     }
 

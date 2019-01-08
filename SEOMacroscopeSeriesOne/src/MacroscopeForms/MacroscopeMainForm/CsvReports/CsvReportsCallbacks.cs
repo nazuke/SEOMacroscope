@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2018 Jason Holland.
+  Copyright 2019 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -88,7 +88,10 @@ namespace SEOMacroscope
         this.DialogueBoxError( "Error saving CSV Report", "Cannot export this view type" );
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -130,7 +133,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -172,7 +178,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -214,7 +223,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -256,7 +268,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -347,7 +362,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -438,7 +456,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -519,7 +540,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -620,7 +644,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -694,7 +721,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -802,7 +832,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -883,7 +916,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -932,7 +968,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -981,7 +1020,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 
@@ -1078,7 +1120,10 @@ namespace SEOMacroscope
 
       }
 
-      Dialog.Dispose();
+      if( Dialog != null )
+      {
+        Dialog.Dispose();
+      }
 
       this.Enabled = true;
 

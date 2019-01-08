@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2018 Jason Holland.
+  Copyright 2019 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -44,6 +44,7 @@ namespace SEOMacroscope
 
     public MacroscopeDocumentCollection LoadDocumentCollection ( string Pathname )
     {
+
       MacroscopeDocumentCollection DocCollection = null;
 
       if( File.Exists( Pathname ) )
@@ -55,12 +56,14 @@ namespace SEOMacroscope
       }
 
       return ( DocCollection );
+
     }
 
     /**************************************************************************/
 
     public MacroscopeJobMaster LoadJobMaster ( string Pathname )
     {
+
       MacroscopeJobMaster JobMaster = null;
 
       if( File.Exists( Pathname ) )
@@ -72,6 +75,7 @@ namespace SEOMacroscope
       }
 
       return ( JobMaster );
+
     }
 
     /**************************************************************************/
