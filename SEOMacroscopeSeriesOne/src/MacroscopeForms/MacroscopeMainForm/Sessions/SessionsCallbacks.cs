@@ -126,9 +126,12 @@ namespace SEOMacroscope
               JobMaster.InitializeAfterDeserialization( NewTaskController: this );
               this.SetJobMaster( NewJobMaster: JobMaster );
 
+              this.SetIncludeExcludeUrls( NewIncludeExcludeUrls: JobMaster.GetIncludeExcludeUrls() );
+              this.SetCustomFilters( NewCustomFilter: JobMaster.GetCustomFilter() );
+              this.SetDataExtractors( NewDataExtractorCssSelectors: JobMaster.GetDataExtractorCssSelectors(), NewDataExtractorRegexes: JobMaster.GetDataExtractorRegexes(), NewDataExtractorXpaths: JobMaster.GetDataExtractorXpaths() );
+
               this.StartUrlString = JobMaster.GetStartUrl();
               this.textBoxStartUrl.Text = this.StartUrlString;
-
               this.StartUrlDirty = false;
 
               this.SelectTabPage( TabName: MacroscopeConstants.tabPageStructureOverview );

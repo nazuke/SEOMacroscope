@@ -145,7 +145,7 @@ namespace SEOMacroscope
 
       this.CredentialsHttp = new MacroscopeCredentialsHttp();
 
-      this.IncludeExcludeUrls = new MacroscopeIncludeExcludeUrls();
+      this.SetIncludeExcludeUrls( NewIncludeExcludeUrls: new MacroscopeIncludeExcludeUrls() );
       this.JobMaster.SetIncludeExcludeUrls( NewIncludeExcludeUrls: this.IncludeExcludeUrls );
 
       this.XpathRestrictions = new MacroscopeXpathRestrictions();
@@ -285,7 +285,21 @@ namespace SEOMacroscope
 
     }
 
+    /** Include/Exclude URLs **************************************************/
+
+    public void SetIncludeExcludeUrls ( MacroscopeIncludeExcludeUrls NewIncludeExcludeUrls )
+    {
+      this.IncludeExcludeUrls = NewIncludeExcludeUrls;
+    }
+
     /** Initialize Custom Filters *********************************************/
+
+    public void SetCustomFilters ( MacroscopeCustomFilters NewCustomFilter )
+    {
+      this.CustomFilter = NewCustomFilter;
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     private void InitializeCustomFilters ()
     {
@@ -310,6 +324,19 @@ namespace SEOMacroscope
     }
 
     /** Initialize Data Extractors ********************************************/
+
+    public void SetDataExtractors (
+      MacroscopeDataExtractorCssSelectors NewDataExtractorCssSelectors,
+      MacroscopeDataExtractorRegexes NewDataExtractorRegexes,
+      MacroscopeDataExtractorXpaths NewDataExtractorXpaths
+    )
+    {
+      this.DataExtractorCssSelectors = NewDataExtractorCssSelectors;
+      this.DataExtractorRegexes = NewDataExtractorRegexes;
+      this.DataExtractorXpaths = NewDataExtractorXpaths;
+    }
+
+    /** -------------------------------------------------------------------- **/
 
     private void InitializeDataExtractors (
       bool InitializeCssSelectors,
