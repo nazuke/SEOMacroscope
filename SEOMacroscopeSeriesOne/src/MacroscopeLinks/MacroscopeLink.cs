@@ -69,8 +69,10 @@ namespace SEOMacroscope
             
       this.LinkType = LinkType;
 
-      this.SourceUrl = SourceUrl;
-      this.TargetUrl = TargetUrl;      
+      //this.SourceUrl = SourceUrl;
+      //this.TargetUrl = TargetUrl;      
+      this.SetSourceUrl( SourceUrl: SourceUrl );
+      this.SetTargetUrl( TargetUrl: TargetUrl );
 
       this.DoFollow = Follow;
 
@@ -97,19 +99,34 @@ namespace SEOMacroscope
     {
       return( this.SourceUrl );
     }
-    
+
     /** Target URL ************************************************************/
 
     public void SetTargetUrl ( string TargetUrl )
     {
-      this.TargetUrl = TargetUrl;
+      if( MacroscopePreferencesManager.GetDowncaseLinks() )
+      {
+        string DowncasedUrl = MacroscopeHttpUrlUtils.DowncaseUrl( Url: TargetUrl );
+        if( DowncasedUrl != null )
+        {
+          this.TargetUrl = DowncasedUrl;
+        }
+        else
+        {
+          this.TargetUrl = TargetUrl;
+        }
+      }
+      else
+      {
+        this.TargetUrl = TargetUrl;
+      }
     }
 
     public string GetTargetUrl ()
     {
-      return( this.TargetUrl );
+      return ( this.TargetUrl );
     }
-    
+
     /** Link Type *************************************************************/
 
     public void SetLinkType ( MacroscopeConstants.InOutLinkType LinkType )

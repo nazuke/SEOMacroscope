@@ -48,7 +48,7 @@ namespace SEOMacroscope
     public MacroscopeHyperlinksOut ()
     {
       this.SuppressDebugMsg = true;
-      this.Links = new List<MacroscopeHyperlinkOut> ( 256 );
+      this.Links = new List<MacroscopeHyperlinkOut> ( 16 );
     }
 
     /**************************************************************************/

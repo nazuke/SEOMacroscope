@@ -92,6 +92,7 @@ namespace SEOMacroscope
     static bool FollowAlternateLinks;
     static bool FollowHrefLangLinks;
     static bool FollowListLinks;
+    static bool DowncaseLinks;
 
     static bool FetchStylesheets;
     static bool FetchJavascripts;
@@ -284,6 +285,7 @@ namespace SEOMacroscope
           FollowAlternateLinks = Preferences.FollowAlternateLinks;
           FollowHrefLangLinks = Preferences.FollowHrefLangLinks;
           FollowListLinks = Preferences.FollowListLinks;
+          DowncaseLinks = Preferences.DowncaseLinks;
 
           FetchStylesheets = Preferences.FetchStylesheets;
           FetchJavascripts = Preferences.FetchJavascripts;
@@ -431,7 +433,7 @@ namespace SEOMacroscope
 
       FollowRobotsProtocol = true;
       FollowSitemapLinks = true;
-      ProbeHumansText = true;
+      ProbeHumansText = false;
       ProbeParentFolderUrls = false;
 
       CheckRedirects = true;
@@ -441,6 +443,7 @@ namespace SEOMacroscope
       FollowAlternateLinks = true;
       FollowHrefLangLinks = false;
       FollowListLinks = false;
+      DowncaseLinks = false;
 
       FetchStylesheets = true;
       FetchJavascripts = true;
@@ -716,6 +719,7 @@ namespace SEOMacroscope
         Preferences.FollowCanonicalLinks = FollowCanonicalLinks;
         Preferences.FollowHrefLangLinks = FollowHrefLangLinks;
         Preferences.FollowListLinks = FollowListLinks;
+        Preferences.DowncaseLinks = DowncaseLinks;
 
         Preferences.FetchStylesheets = FetchStylesheets;
         Preferences.FetchJavascripts = FetchJavascripts;
@@ -1319,6 +1323,18 @@ namespace SEOMacroscope
     public static void SetFollowListLinks ( bool State )
     {
       FollowListLinks = State;
+    }
+
+    /**************************************************************************/
+
+    public static bool GetDowncaseLinks ()
+    {
+      return ( DowncaseLinks );
+    }
+
+    public static void SetDowncaseLinks ( bool State )
+    {
+      DowncaseLinks = State;
     }
 
     /** CRAWL DOCUMENT TYPES **************************************************/

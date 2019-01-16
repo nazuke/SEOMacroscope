@@ -1246,5 +1246,17 @@ namespace SEOMacroscope {
                 this["DataExtractorsApplyToPdf"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DowncaseLinks {
+            get {
+                return ((bool)(this["DowncaseLinks"]));
+            }
+            set {
+                this["DowncaseLinks"] = value;
+            }
+        }
     }
 }

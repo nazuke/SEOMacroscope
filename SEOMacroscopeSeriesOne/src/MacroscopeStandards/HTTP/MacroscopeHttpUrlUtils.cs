@@ -1096,7 +1096,6 @@ namespace SEOMacroscope
             ),
             UriKind.Absolute
           );
-
         }
         catch( InvalidOperationException ex )
         {
@@ -1214,6 +1213,39 @@ namespace SEOMacroscope
 
     private static void PostProcessRequestHttpHeadersCallback ( HttpRequestMessage Request, HttpRequestHeaders DefaultRequestHeaders )
     {
+    }
+
+    /**************************************************************************/
+
+    public static string DowncaseUrl ( string Url )
+    {
+
+      Uri OriginalUri = new Uri( Url, UriKind.Absolute );
+      string UriBasePort = "";
+      Uri DowncasedUri = null;
+      string DowncasedUriString = null;
+
+      if( OriginalUri.Port > 0 )
+      {
+        UriBasePort = string.Format( ":{0}", OriginalUri.Port );
+      }
+
+      DowncasedUri = new Uri(
+        string.Format(
+          "{0}://{1}{2}{3}{4}",
+          OriginalUri.Scheme,
+          OriginalUri.Host,
+          UriBasePort,
+          OriginalUri.AbsolutePath.ToLower(),
+          OriginalUri.Query
+        ),
+        UriKind.Absolute
+      );
+
+      DowncasedUriString = DowncasedUri.ToString();
+
+      return ( DowncasedUriString );
+
     }
 
     /**************************************************************************/

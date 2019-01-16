@@ -336,6 +336,7 @@ namespace SEOMacroscope
       this.numericUpDownDataExtractorsMaxItemsXpaths = new System.Windows.Forms.NumericUpDown();
       this.numericUpDownDataExtractorsMaxItemsRegexes = new System.Windows.Forms.NumericUpDown();
       this.groupBox26 = new System.Windows.Forms.GroupBox();
+      this.checkBoxDataExtractorsApplyToPdf = new System.Windows.Forms.CheckBox();
       this.checkBoxDataExtractorsApplyToXml = new System.Windows.Forms.CheckBox();
       this.checkBoxDataExtractorsApplyToJavascripts = new System.Windows.Forms.CheckBox();
       this.checkBoxDataExtractorsApplyToText = new System.Windows.Forms.CheckBox();
@@ -363,7 +364,7 @@ namespace SEOMacroscope
       this.label9 = new System.Windows.Forms.Label();
       this.groupBox28 = new System.Windows.Forms.GroupBox();
       this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
-      this.checkBoxDataExtractorsApplyToPdf = new System.Windows.Forms.CheckBox();
+      this.checkBoxDowncaseLinks = new System.Windows.Forms.CheckBox();
       this.tabControlPreferences.SuspendLayout();
       this.tabPageSpideringControl.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
@@ -532,6 +533,7 @@ namespace SEOMacroscope
       // groupBox10
       // 
       this.groupBox10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox10.Controls.Add(this.checkBoxDowncaseLinks);
       this.groupBox10.Controls.Add(this.checkBoxFollowAlternateLinks);
       this.groupBox10.Controls.Add(this.checkBoxCheckRedirects);
       this.groupBox10.Controls.Add(this.checkBoxCrawlStrictUrlCheck);
@@ -544,7 +546,7 @@ namespace SEOMacroscope
       this.groupBox10.Location = new System.Drawing.Point(10, 80);
       this.groupBox10.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox10.Name = "groupBox10";
-      this.groupBox10.Size = new System.Drawing.Size(500, 120);
+      this.groupBox10.Size = new System.Drawing.Size(500, 140);
       this.groupBox10.TabIndex = 2;
       this.groupBox10.TabStop = false;
       this.groupBox10.Text = "Links";
@@ -569,7 +571,7 @@ namespace SEOMacroscope
       // 
       // checkBoxCrawlStrictUrlCheck
       // 
-      this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(340, 80);
+      this.checkBoxCrawlStrictUrlCheck.Location = new System.Drawing.Point(340, 20);
       this.checkBoxCrawlStrictUrlCheck.Name = "checkBoxCrawlStrictUrlCheck";
       this.checkBoxCrawlStrictUrlCheck.Size = new System.Drawing.Size(150, 24);
       this.checkBoxCrawlStrictUrlCheck.TabIndex = 9;
@@ -578,7 +580,7 @@ namespace SEOMacroscope
       // 
       // checkBoxIgnoreHashFragments
       // 
-      this.checkBoxIgnoreHashFragments.Location = new System.Drawing.Point(340, 50);
+      this.checkBoxIgnoreHashFragments.Location = new System.Drawing.Point(180, 110);
       this.checkBoxIgnoreHashFragments.Name = "checkBoxIgnoreHashFragments";
       this.checkBoxIgnoreHashFragments.Size = new System.Drawing.Size(150, 24);
       this.checkBoxIgnoreHashFragments.TabIndex = 8;
@@ -587,7 +589,7 @@ namespace SEOMacroscope
       // 
       // checkBoxIgnoreQueries
       // 
-      this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(340, 20);
+      this.checkBoxIgnoreQueries.Location = new System.Drawing.Point(180, 80);
       this.checkBoxIgnoreQueries.Name = "checkBoxIgnoreQueries";
       this.checkBoxIgnoreQueries.Size = new System.Drawing.Size(150, 24);
       this.checkBoxIgnoreQueries.TabIndex = 7;
@@ -605,7 +607,7 @@ namespace SEOMacroscope
       // 
       // checkBoxFollowHrefLangLinks
       // 
-      this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(180, 80);
+      this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(20, 110);
       this.checkBoxFollowHrefLangLinks.Name = "checkBoxFollowHrefLangLinks";
       this.checkBoxFollowHrefLangLinks.Size = new System.Drawing.Size(150, 24);
       this.checkBoxFollowHrefLangLinks.TabIndex = 6;
@@ -635,7 +637,7 @@ namespace SEOMacroscope
       this.groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox7.Controls.Add(this.checkBoxFetchExternalLinks);
       this.groupBox7.Controls.Add(this.checkBoxCheckExternalLinks);
-      this.groupBox7.Location = new System.Drawing.Point(10, 210);
+      this.groupBox7.Location = new System.Drawing.Point(10, 230);
       this.groupBox7.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
       this.groupBox7.Name = "groupBox7";
       this.groupBox7.Size = new System.Drawing.Size(500, 60);
@@ -676,7 +678,7 @@ namespace SEOMacroscope
       this.groupBox4.Controls.Add(this.label12);
       this.groupBox4.Controls.Add(this.numericUpDownPageLimit);
       this.groupBox4.Controls.Add(this.numericUpDownDepth);
-      this.groupBox4.Location = new System.Drawing.Point(10, 280);
+      this.groupBox4.Location = new System.Drawing.Point(10, 300);
       this.groupBox4.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
       this.groupBox4.Name = "groupBox4";
       this.groupBox4.Size = new System.Drawing.Size(500, 120);
@@ -885,7 +887,7 @@ namespace SEOMacroscope
       this.groupBox1.Controls.Add(this.checkBoxFetchImages);
       this.groupBox1.Controls.Add(this.checkBoxFetchJavascripts);
       this.groupBox1.Controls.Add(this.checkBoxFetchStylesheets);
-      this.groupBox1.Location = new System.Drawing.Point(10, 410);
+      this.groupBox1.Location = new System.Drawing.Point(10, 430);
       this.groupBox1.Margin = new System.Windows.Forms.Padding(10, 10, 10, 0);
       this.groupBox1.Name = "groupBox1";
       this.groupBox1.Size = new System.Drawing.Size(500, 120);
@@ -960,7 +962,7 @@ namespace SEOMacroscope
       // 
       this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox8.Controls.Add(this.checkBoxScanSitesInList);
-      this.groupBox8.Location = new System.Drawing.Point(10, 540);
+      this.groupBox8.Location = new System.Drawing.Point(10, 560);
       this.groupBox8.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox8.Name = "groupBox8";
       this.groupBox8.Size = new System.Drawing.Size(500, 60);
@@ -981,7 +983,7 @@ namespace SEOMacroscope
       // 
       this.groupBox11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.groupBox11.Controls.Add(this.checkBoxProbeParentFolderUrls);
-      this.groupBox11.Location = new System.Drawing.Point(10, 610);
+      this.groupBox11.Location = new System.Drawing.Point(10, 630);
       this.groupBox11.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
       this.groupBox11.Name = "groupBox11";
       this.groupBox11.Size = new System.Drawing.Size(500, 60);
@@ -2181,6 +2183,15 @@ namespace SEOMacroscope
       this.groupBox26.TabStop = false;
       this.groupBox26.Text = "Apply Data Extractors to Document Types";
       // 
+      // checkBoxDataExtractorsApplyToPdf
+      // 
+      this.checkBoxDataExtractorsApplyToPdf.Location = new System.Drawing.Point(176, 50);
+      this.checkBoxDataExtractorsApplyToPdf.Name = "checkBoxDataExtractorsApplyToPdf";
+      this.checkBoxDataExtractorsApplyToPdf.Size = new System.Drawing.Size(150, 24);
+      this.checkBoxDataExtractorsApplyToPdf.TabIndex = 6;
+      this.checkBoxDataExtractorsApplyToPdf.Text = "PDFs";
+      this.checkBoxDataExtractorsApplyToPdf.UseVisualStyleBackColor = true;
+      // 
       // checkBoxDataExtractorsApplyToXml
       // 
       this.checkBoxDataExtractorsApplyToXml.Location = new System.Drawing.Point(176, 80);
@@ -2462,14 +2473,14 @@ namespace SEOMacroscope
       this.checkBoxServerCertificateValidation.Text = "Enable certificate validation";
       this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
       // 
-      // checkBoxDataExtractorsApplyToPdf
+      // checkBoxDowncaseLinks
       // 
-      this.checkBoxDataExtractorsApplyToPdf.Location = new System.Drawing.Point(176, 50);
-      this.checkBoxDataExtractorsApplyToPdf.Name = "checkBoxDataExtractorsApplyToPdf";
-      this.checkBoxDataExtractorsApplyToPdf.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxDataExtractorsApplyToPdf.TabIndex = 6;
-      this.checkBoxDataExtractorsApplyToPdf.Text = "PDFs";
-      this.checkBoxDataExtractorsApplyToPdf.UseVisualStyleBackColor = true;
+      this.checkBoxDowncaseLinks.Location = new System.Drawing.Point(340, 50);
+      this.checkBoxDowncaseLinks.Name = "checkBoxDowncaseLinks";
+      this.checkBoxDowncaseLinks.Size = new System.Drawing.Size(150, 24);
+      this.checkBoxDowncaseLinks.TabIndex = 10;
+      this.checkBoxDowncaseLinks.Text = "Downcase Links";
+      this.checkBoxDowncaseLinks.UseVisualStyleBackColor = true;
       // 
       // MacroscopePrefsControl
       // 
@@ -2584,5 +2595,6 @@ namespace SEOMacroscope
     private System.Windows.Forms.GroupBox groupBox11;
     public System.Windows.Forms.CheckBox checkBoxProbeParentFolderUrls;
     public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToPdf;
+    public System.Windows.Forms.CheckBox checkBoxDowncaseLinks;
   }
 }

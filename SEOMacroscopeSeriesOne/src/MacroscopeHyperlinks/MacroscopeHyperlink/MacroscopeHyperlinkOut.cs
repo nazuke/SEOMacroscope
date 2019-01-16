@@ -109,7 +109,22 @@ namespace SEOMacroscope
 
     public void SetTargetUrl ( string Url )
     {
-      this.TargetUrl = Url;
+      if( MacroscopePreferencesManager.GetDowncaseLinks() )
+      {
+        string DowncasedUrl = MacroscopeHttpUrlUtils.DowncaseUrl( Url: Url );
+        if( DowncasedUrl != null )
+        {
+          this.TargetUrl = DowncasedUrl;
+        }
+        else
+        {
+          this.TargetUrl = Url;
+        }
+      }
+      else
+      {
+        this.TargetUrl = Url;
+      }
     }
 
     /** -------------------------------------------------------------------- **/

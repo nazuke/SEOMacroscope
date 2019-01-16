@@ -160,6 +160,30 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    [Test]
+    public void TestDowncaseUrl ()
+    {
+
+      Dictionary<string, string> UrlList = new Dictionary<string, string>();
+
+      UrlList.Add( "https://nazuke.github.io/", "https://nazuke.github.io/" );
+      UrlList.Add( "https://nazuke.github.io/ABC.html", "https://nazuke.github.io/abc.html" );
+      UrlList.Add( "https://nazuke.github.io/ABC/ABC.html", "https://nazuke.github.io/abc/abc.html" );
+      UrlList.Add( "https://nazuke.github.io/ABC/ABC/ABC.HTML", "https://nazuke.github.io/abc/abc/abc.html" );
+      UrlList.Add( "https://nazuke.github.io/ABC/ABC/ABC/ABC/ABC.html?key=value", "https://nazuke.github.io/abc/abc/abc/abc/abc.html?key=value" );
+      UrlList.Add( "https://nazuke.github.io/ABC/ABC/ABC/ABC/ABC.html?key=value&name=bongo", "https://nazuke.github.io/abc/abc/abc/abc/abc.html?key=value&name=bongo" );
+      UrlList.Add( "https://nazuke.github.io/ABC/ABC/ABC/ABC/ABC.html?KEY=value&Name=Bongo", "https://nazuke.github.io/abc/abc/abc/abc/abc.html?KEY=value&Name=Bongo" );
+
+      foreach( KeyValuePair<string, string> UrlPair in UrlList )
+      {
+        string DowncasedUrl = MacroscopeHttpUrlUtils.DowncaseUrl( Url: UrlPair.Key );
+        Assert.AreEqual( UrlPair.Value, DowncasedUrl );
+      }
+
+    }
+
+    /**************************************************************************/
+
   }
 
 }
