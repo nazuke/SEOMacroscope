@@ -204,6 +204,7 @@ namespace SEOMacroscope
       this.checkBoxFollowRobotsProtocol = new System.Windows.Forms.CheckBox();
       this.checkBoxFollowSitemapLinks = new System.Windows.Forms.CheckBox();
       this.groupBox10 = new System.Windows.Forms.GroupBox();
+      this.checkBoxDowncaseLinks = new System.Windows.Forms.CheckBox();
       this.checkBoxFollowAlternateLinks = new System.Windows.Forms.CheckBox();
       this.checkBoxCheckRedirects = new System.Windows.Forms.CheckBox();
       this.checkBoxCrawlStrictUrlCheck = new System.Windows.Forms.CheckBox();
@@ -364,7 +365,6 @@ namespace SEOMacroscope
       this.label9 = new System.Windows.Forms.Label();
       this.groupBox28 = new System.Windows.Forms.GroupBox();
       this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
-      this.checkBoxDowncaseLinks = new System.Windows.Forms.CheckBox();
       this.tabControlPreferences.SuspendLayout();
       this.tabPageSpideringControl.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
@@ -550,6 +550,15 @@ namespace SEOMacroscope
       this.groupBox10.TabIndex = 2;
       this.groupBox10.TabStop = false;
       this.groupBox10.Text = "Links";
+      // 
+      // checkBoxDowncaseLinks
+      // 
+      this.checkBoxDowncaseLinks.Location = new System.Drawing.Point(340, 50);
+      this.checkBoxDowncaseLinks.Name = "checkBoxDowncaseLinks";
+      this.checkBoxDowncaseLinks.Size = new System.Drawing.Size(150, 24);
+      this.checkBoxDowncaseLinks.TabIndex = 10;
+      this.checkBoxDowncaseLinks.Text = "Downcase links";
+      this.checkBoxDowncaseLinks.UseVisualStyleBackColor = true;
       // 
       // checkBoxFollowAlternateLinks
       // 
@@ -2472,15 +2481,6 @@ namespace SEOMacroscope
       this.checkBoxServerCertificateValidation.TabIndex = 1;
       this.checkBoxServerCertificateValidation.Text = "Enable certificate validation";
       this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
-      // 
-      // checkBoxDowncaseLinks
-      // 
-      this.checkBoxDowncaseLinks.Location = new System.Drawing.Point(340, 50);
-      this.checkBoxDowncaseLinks.Name = "checkBoxDowncaseLinks";
-      this.checkBoxDowncaseLinks.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxDowncaseLinks.TabIndex = 10;
-      this.checkBoxDowncaseLinks.Text = "Downcase Links";
-      this.checkBoxDowncaseLinks.UseVisualStyleBackColor = true;
       // 
       // MacroscopePrefsControl
       // 

@@ -38,6 +38,14 @@ Export sitemaps in text and XML formats, and list views to CSV and Excel files.
 
 A list of URLs to be scanned may be either loaded from a text file, or pasted from the clipboard. The scanning process is the same for either method.
 
+### Load and Save Sessions (Experimental)
+
+> This is an experimental feature, saved sessions may not be compatible with subsequent versions of SEO Macroscope.
+
+The current session may be saved to a file, and then reloaded later. A crawl may be stopped, saved, reloaded, and then resumed.
+
+This feature may be useful for saving the progress of very long crawls, or when it may be useful to examine a particular crawl at a later date.
+
 ### Export Sitemaps
 
 The crawled results may be exported to XML or Text format sitemap files.
@@ -140,7 +148,7 @@ Please note that this will also mark localized hosts as being "internal" hosts.
 
 ##### Ignore URL queries
 
-If this option is enabled, then the query string will be stripped from the URL, and the resultant URL crawled.
+If this option is enabled, then the query string will be stripped from the URL, and the resultant bare URL crawled.
 
 ##### Ignore hash fragment
 
@@ -152,7 +160,11 @@ In many cases, this may help to speed up crawling, as it will help to prevent du
 
 If this option is enabled, then strict include/exclude URL checking is applied before each URL is added to the crawl queue.
 
-This may help to speed up the crawling process.
+This may help to speed up the crawling process by eliminating some superfluous URLs from the crawl queue.
+
+##### Downcase links
+
+If this option is enabled, then the path component of all URLs added to the crawl queue will be downcased. Use this sparingly, as it may otherwise mask certain types of problems on the website.
 
 #### Domain Restrictions
 
@@ -757,17 +769,19 @@ The crawled results lists are the upper tabbed panels on the left hand side of t
 
 These lists reveal various aspects about the pages and documents found during a crawl.
 
+In many of these list views, clicking the row will show the details of the URL selected in the lower panel.
+
 ### Structure Overview
 
-TBD
+This tab shows a general overview of all URLs found during the crawl.
 
 ### Hierarchy
 
-TBD
+This tab shows a tree view of the crawled URLs, it displays an outline of the crawled sites.
 
 ### Errors
 
-TBD
+This tab displays the critical errors found during the crawl.
 
 ### Search
 
@@ -775,19 +789,19 @@ TBD
 
 ### Robots
 
-TBD
+This tab displays URLs that were blocked according to the rules found in the site's `robots.txt` file.
 
 ### Sitemaps
 
-TBD
+This tab displays the XML sitemaps discovered during the crawl.
 
 ### Sitemap Errors
 
-TBD
+This tab displays the errors found in the XML sitemaps during the crawl.
 
 ### Sitemaps Audit
 
-TBD
+This tab shows how the robot rules were applied to URLs in the XML sitemaps during the crawl.
 
 ### Canonical Analysis
 
@@ -834,6 +848,10 @@ TBD
 TBD
 
 ### Keywords
+
+TBD
+
+### Keywords Presence
 
 TBD
 
