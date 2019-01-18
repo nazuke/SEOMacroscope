@@ -70,6 +70,8 @@ namespace SEOMacroscope
             SelectedListView: SelectedListView.Value
           );
 
+          Cursor.Current = Cursors.WaitCursor;
+
           try
           {
             msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -81,6 +83,10 @@ namespace SEOMacroscope
           catch( Exception ex )
           {
             this.DialogueBoxError( "Error saving Excel Report", ex.Message );
+          }
+          finally
+          {
+            Cursor.Current = Cursors.Default;
           }
 
         }
@@ -121,6 +127,8 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelOverviewReport msExcelReport = new MacroscopeExcelOverviewReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
           msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -132,6 +140,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Overview Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
@@ -166,6 +178,8 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelErrorsReport msExcelReport = new MacroscopeExcelErrorsReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
           msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -177,6 +191,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Errors Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
@@ -211,6 +229,8 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelBrokenLinksReport msExcelReport = new MacroscopeExcelBrokenLinksReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
           msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -222,6 +242,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Broken Links Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
@@ -256,6 +280,8 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelRobotsReport msExcelReport = new MacroscopeExcelRobotsReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
           msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -267,6 +293,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Robots Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
@@ -301,6 +331,8 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelSitemapsReport msExcelReport = new MacroscopeExcelSitemapsReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
           msExcelReport.WriteXslx( this.JobMaster, Path );
@@ -312,6 +344,10 @@ namespace SEOMacroscope
         catch( Exception ex )
         {
           this.DialogueBoxError( "Error saving Sitemap Errors Excel Report", ex.Message );
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
         }
 
       }
@@ -346,11 +382,11 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelLanguagesReport msExcelReport = new MacroscopeExcelLanguagesReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -397,11 +433,11 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelPageMetadataReport msExcelReport = new MacroscopeExcelPageMetadataReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -448,11 +484,11 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelPageContentsReport msExcelReport = new MacroscopeExcelPageContentsReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -499,11 +535,11 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelUriReport msExcelReport = new MacroscopeExcelUriReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -551,11 +587,11 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelRedirectsReport msExcelReport = new MacroscopeExcelRedirectsReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -607,11 +643,11 @@ namespace SEOMacroscope
         ProgressForm = new MacroscopeDoublePercentageProgressForm( MainForm: this );
         msExcelReport = new MacroscopeExcelKeywordAnalysisReport( ProgressFormDialogue: ProgressForm );
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -667,11 +703,11 @@ namespace SEOMacroscope
         ProgressForm = new MacroscopeTriplePercentageProgressForm( MainForm: this );
         msExcelReport = new MacroscopeExcelDuplicateContent( ProgressFormDialogue: ProgressForm );
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( JobMaster: this.JobMaster, OutputFilename: Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -720,11 +756,11 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelContactDetailsReport msExcelReport = new MacroscopeExcelContactDetailsReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -772,11 +808,11 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MaroscopeExcelRemarksReport msExcelReport = new MaroscopeExcelRemarksReport();
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -824,11 +860,11 @@ namespace SEOMacroscope
         string Path = Dialog.FileName;
         MacroscopeExcelCustomFilterReport msExcelReport = new MacroscopeExcelCustomFilterReport( NewCustomFilter: this.CustomFilter );
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {
@@ -882,11 +918,11 @@ namespace SEOMacroscope
           NewDataExtractorXpaths: this.DataExtractorXpaths
         );
 
+        Cursor.Current = Cursors.WaitCursor;
+
         try
         {
-          Cursor.Current = Cursors.WaitCursor;
           msExcelReport.WriteXslx( this.JobMaster, Path );
-          Cursor.Current = Cursors.Default;
         }
         catch( MacroscopeSaveExcelFileException ex )
         {

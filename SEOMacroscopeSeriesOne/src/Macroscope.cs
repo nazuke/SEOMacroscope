@@ -59,8 +59,6 @@ namespace SEOMacroscope
 
     protected static Dictionary<string, string> Memoize = new Dictionary<string, string>( 1024 );
 
-    protected static bool ThrowInsufficientMemoryException;
-
     protected static IBlake2B BlakeHasher;
     protected static HashAlgorithm ShaHasher;
 
@@ -69,7 +67,6 @@ namespace SEOMacroscope
     static Macroscope ()
     {
       SuppressStaticDebugMsg = true;
-      ThrowInsufficientMemoryException = false;
       BlakeHasher = Blake2BFactory.Instance.Create();
       ShaHasher = HashAlgorithm.Create( "SHA256" );
     }
@@ -114,17 +111,16 @@ namespace SEOMacroscope
 
     public static ulong UrlToDigest ( string Url )
     {
-      ulong hashed = StringToDigest( Text: Url );
-      return ( hashed );
+      ulong value = MacroscopeUrlLookup.Lookup( Url: Url );
+      return ( value );
     }
 
     /** Text Numeeric Digest **************************************************/
 
     public static ulong StringToDigest ( string Text )
     {
-      string Digested = BlakeHasher.ComputeHash( Text, 64 ).AsHexString();
-      ulong HashedValue = ulong.Parse( Digested, System.Globalization.NumberStyles.HexNumber );
-      return ( HashedValue );
+      ulong value = MacroscopeStringLookup.Lookup( Text: Text );
+      return ( value );
     }
 
     /** Text Digest ***********************************************************/
@@ -133,31 +129,19 @@ namespace SEOMacroscope
     {
 
       string Digested = null;
+      byte[] BytesIn = Encoding.UTF8.GetBytes( Text );
+      byte[] Hashed = ShaHasher.ComputeHash( BytesIn );
+      StringBuilder Buf = new StringBuilder();
 
-      /*
-      if( Macroscope.Memoize.ContainsKey( Text ) )
+      for( int i = 0 ; i < Hashed.Length ; i++ )
       {
-        Digested = Macroscope.Memoize[Text];
+        Buf.Append( Hashed[ i ].ToString( "X2" ) );
       }
-      else
-      {
-       */
-        byte[] BytesIn = Encoding.UTF8.GetBytes( Text );
-        byte[] Hashed = ShaHasher.ComputeHash( BytesIn );
-        StringBuilder Buf = new StringBuilder();
 
-        for( int i = 0 ; i < Hashed.Length ; i++ )
-        {
-          Buf.Append( Hashed[i].ToString( "X2" ) );
-        }
-
-        Digested = Buf.ToString();
-
-        //Macroscope.Memoize[Text] = Digested;
-
-      //}
+      Digested = Buf.ToString();
 
       return ( Digested );
+
     }
 
     /** EXTERNAL BROWSER ******************************************************/

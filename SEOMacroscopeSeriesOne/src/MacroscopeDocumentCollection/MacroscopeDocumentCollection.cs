@@ -1111,9 +1111,6 @@ namespace SEOMacroscope
           this.StructHyperlinksRatio[ Url ].Add( 0 );
         }
 
-        //if( msDoc.IsDocumentType( MacroscopeConstants.DocumentType.HTML ) || msDoc.IsDocumentType( MacroscopeConstants.DocumentType.PDF ) )
-        //{
-
         if( TotalLinksIn > 0 )
         {
           RatioLinksIn = ( (decimal) 100 / ( TotalLinksIn + TotalLinksOut ) ) * TotalLinksIn;
@@ -1126,8 +1123,6 @@ namespace SEOMacroscope
 
         this.StructHyperlinksRatio[ Url ][ 0 ] = RatioLinksIn;
         this.StructHyperlinksRatio[ Url ][ 1 ] = RatioLinksOut;
-
-        //}
 
       }
 
