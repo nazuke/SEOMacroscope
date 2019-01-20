@@ -70,12 +70,9 @@ namespace SEOMacroscope
         }
         else
         {
-          lock( Mappings )
-          {
-            Counter++;
-            stored = Counter;
-            Mappings.Add( key: Url, value: stored );
-          }
+          Counter++;
+          stored = Counter;
+          Mappings.Add( key: Url, value: stored );
         }
 
       }

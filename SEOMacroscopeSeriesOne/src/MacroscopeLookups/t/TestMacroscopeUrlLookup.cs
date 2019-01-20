@@ -49,46 +49,50 @@ namespace SEOMacroscope
     public void TestUrlLookup ()
     {
 
-      Faker fake = new Faker();
-      int max = 10000;
-      List<string> Urls = new List<string>( max );
-      List<string> DistinctUrls = new List<string>( max );
-      Dictionary<string, bool> RandomizedUrls = new Dictionary<string, bool>( max );
-
-      for( int i = 0 ; i < max ; i++ )
-      {
-        Urls.Add( fake.Internet.UrlWithPath() );
-      }
-
-      DistinctUrls = Urls.Distinct().ToList();
-
-      foreach( string Url in DistinctUrls )
-      {
-        RandomizedUrls.Add( Url, true );
-      }
-
-      for( int i = 0 ; i < DistinctUrls.Count() ; i++ )
-      {
-        string Url = DistinctUrls[ i ];
-        ulong value = MacroscopeUrlLookup.Lookup( Url: Url );
-      }
-
-      foreach( string Url in RandomizedUrls.Keys )
+      for( int repeat = 0 ; repeat < 100 ; repeat++ )
       {
 
-        ulong value = MacroscopeUrlLookup.Lookup( Url: Url );
-        ulong found = 0;
+        Faker fake = new Faker();
+        int max = 10000;
+        List<string> Urls = new List<string>();
+        List<string> DistinctUrls;
+        Dictionary<string, bool> RandomizedUrls = new Dictionary<string, bool>();
 
-        for( int i = 0 ; i < DistinctUrls.Count() ; i++ )
+        for( int i = 0 ; i < max ; i++ )
         {
-          if( DistinctUrls[ i ] == Url )
-          {
-            found = (ulong) i + 1;
-            break;
-          }
+          Urls.Add( fake.Internet.UrlWithPath() );
         }
 
-        Assert.AreEqual( value, found );
+        DistinctUrls = Urls.Distinct().ToList();
+
+        foreach( string Url in DistinctUrls )
+        {
+          RandomizedUrls.Add( Url, true );
+        }
+
+        foreach( string Url in DistinctUrls )
+        {
+          MacroscopeUrlLookup.Lookup( Url: Url );
+        }
+
+        foreach( string Url in RandomizedUrls.Keys )
+        {
+
+          ulong value = MacroscopeUrlLookup.Lookup( Url: Url );
+          ulong found = 0;
+
+          for( int k = 0 ; k < DistinctUrls.Count() ; k++ )
+          {
+            if( DistinctUrls[ k ] == Url )
+            {
+              found = (ulong) k + 1;
+              break;
+            }
+          }
+
+          Assert.AreEqual( value, found );
+
+        }
 
       }
 
