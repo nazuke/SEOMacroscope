@@ -565,7 +565,7 @@ namespace SEOMacroscope
       this.checkBoxFollowAlternateLinks.Location = new System.Drawing.Point(180, 20);
       this.checkBoxFollowAlternateLinks.Name = "checkBoxFollowAlternateLinks";
       this.checkBoxFollowAlternateLinks.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxFollowAlternateLinks.TabIndex = 4;
+      this.checkBoxFollowAlternateLinks.TabIndex = 5;
       this.checkBoxFollowAlternateLinks.Text = "Follow alternate links";
       this.checkBoxFollowAlternateLinks.UseVisualStyleBackColor = true;
       // 
@@ -610,7 +610,7 @@ namespace SEOMacroscope
       this.checkBoxFollowNoFollow.Location = new System.Drawing.Point(180, 50);
       this.checkBoxFollowNoFollow.Name = "checkBoxFollowNoFollow";
       this.checkBoxFollowNoFollow.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxFollowNoFollow.TabIndex = 5;
+      this.checkBoxFollowNoFollow.TabIndex = 6;
       this.checkBoxFollowNoFollow.Text = "Follow rel=\"nofollow\" links";
       this.checkBoxFollowNoFollow.UseVisualStyleBackColor = true;
       // 
@@ -619,7 +619,7 @@ namespace SEOMacroscope
       this.checkBoxFollowHrefLangLinks.Location = new System.Drawing.Point(20, 110);
       this.checkBoxFollowHrefLangLinks.Name = "checkBoxFollowHrefLangLinks";
       this.checkBoxFollowHrefLangLinks.Size = new System.Drawing.Size(150, 24);
-      this.checkBoxFollowHrefLangLinks.TabIndex = 6;
+      this.checkBoxFollowHrefLangLinks.TabIndex = 4;
       this.checkBoxFollowHrefLangLinks.Text = "Follow HrefLang links";
       this.checkBoxFollowHrefLangLinks.UseVisualStyleBackColor = true;
       // 

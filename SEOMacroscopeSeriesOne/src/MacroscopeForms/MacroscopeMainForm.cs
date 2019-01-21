@@ -467,6 +467,8 @@ namespace SEOMacroscope
 
       this.macroscopeOverviewTabPanelInstance.Dock = DockStyle.Fill;
 
+      this.macroscopeOverviewTabPanelInstance.tabControlMain.Multiline = false;
+
       /** Events ----------------------------------------------------------- **/
 
       this.macroscopeOverviewTabPanelInstance.tabControlMain.Click += this.CallbackTabControlDisplaySelectedIndexChanged;
