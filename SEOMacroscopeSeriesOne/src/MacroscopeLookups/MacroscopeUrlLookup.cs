@@ -42,8 +42,8 @@ namespace SEOMacroscope
     /**************************************************************************/
 
     private static object Locker;
-    private static ulong Counter;
-    private static Dictionary<string, ulong> Mappings;
+    public static ulong Counter;
+    public static Dictionary<string, ulong> Mappings;
 
     /**************************************************************************/
 
@@ -52,6 +52,14 @@ namespace SEOMacroscope
       Locker = new object();
       Counter = 0;
       Mappings = new Dictionary<string, ulong>( 4096 );
+    }
+
+    /**************************************************************************/
+
+    public static void Clear ()
+    {
+      Counter = 0;
+      Mappings.Clear();
     }
 
     /**************************************************************************/
@@ -70,9 +78,9 @@ namespace SEOMacroscope
         }
         else
         {
-          Counter++;
           stored = Counter;
           Mappings.Add( key: Url, value: stored );
+          Counter++;
         }
 
       }

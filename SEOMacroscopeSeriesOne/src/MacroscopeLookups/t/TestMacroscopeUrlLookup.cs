@@ -39,8 +39,35 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    int MaxUrls = 1000;
+    int MaxLoops = 100;
+    private List<string> Urls;
+    List<string> DistinctUrls;
+    Dictionary<string, bool> RandomizedUrls;
+
+    /**************************************************************************/
+
     public TestMacroscopeUrlLookup ()
     {
+
+      MacroscopeUrlLookup.Clear();
+
+      Faker fake = new Faker();
+      this.Urls = new List<string>();
+      this.RandomizedUrls = new Dictionary<string, bool>();
+
+      for( int i = 0 ; i < this.MaxUrls ; i++ )
+      {
+        Urls.Add( fake.Internet.UrlWithPath() );
+      }
+
+      this.DistinctUrls = Urls.Distinct().ToList();
+
+      foreach( string Url in this.DistinctUrls )
+      {
+        this.RandomizedUrls.Add( Url, true );
+      }
+
     }
 
     /**************************************************************************/
@@ -49,47 +76,121 @@ namespace SEOMacroscope
     public void TestUrlLookup ()
     {
 
-      for( int repeat = 0 ; repeat < 100 ; repeat++ )
+      foreach( string Url in this.DistinctUrls )
+      {
+        MacroscopeUrlLookup.Lookup( Url: Url );
+      }
+
+      foreach( string Url in this.RandomizedUrls.Keys )
       {
 
-        Faker fake = new Faker();
-        int max = 10000;
-        List<string> Urls = new List<string>();
-        List<string> DistinctUrls;
-        Dictionary<string, bool> RandomizedUrls = new Dictionary<string, bool>();
+        ulong value = MacroscopeUrlLookup.Lookup( Url: Url );
+        ulong found = 0;
+        bool not_found = true;
 
-        for( int i = 0 ; i < max ; i++ )
+        for( int k = 0 ; k < this.DistinctUrls.Count() ; k++ )
         {
-          Urls.Add( fake.Internet.UrlWithPath() );
+          if( this.DistinctUrls[ k ] == Url )
+          {
+            found = (ulong) k;
+            not_found = false;
+            break;
+          }
+          else
+          {
+            not_found = true;
+          }
         }
 
-        DistinctUrls = Urls.Distinct().ToList();
+        Assert.IsFalse( not_found );
+        Assert.AreEqual( value, found );
 
-        foreach( string Url in DistinctUrls )
-        {
-          RandomizedUrls.Add( Url, true );
-        }
+      }
 
-        foreach( string Url in DistinctUrls )
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestUrlLookupMultiple ()
+    {
+
+      for( int repeat = 0 ; repeat < this.MaxLoops ; repeat++ )
+      {
+
+        foreach( string Url in this.DistinctUrls )
         {
           MacroscopeUrlLookup.Lookup( Url: Url );
         }
 
-        foreach( string Url in RandomizedUrls.Keys )
+        foreach( string Url in this.RandomizedUrls.Keys )
         {
 
           ulong value = MacroscopeUrlLookup.Lookup( Url: Url );
           ulong found = 0;
+          bool not_found = true;
 
-          for( int k = 0 ; k < DistinctUrls.Count() ; k++ )
+          for( int k = 0 ; k < this.DistinctUrls.Count() ; k++ )
           {
-            if( DistinctUrls[ k ] == Url )
+            if( this.DistinctUrls[ k ] == Url )
             {
-              found = (ulong) k + 1;
+              found = (ulong) k;
+              not_found = false;
               break;
+            }
+            else
+            {
+              not_found = true;
             }
           }
 
+          Assert.IsFalse( not_found );
+          Assert.AreEqual( value, found );
+
+        }
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestUrlLookupWithClear ()
+    {
+
+      for( int repeat = 0 ; repeat < this.MaxLoops ; repeat++ )
+      {
+
+        MacroscopeUrlLookup.Clear();
+
+        foreach( string Url in this.DistinctUrls )
+        {
+          MacroscopeUrlLookup.Lookup( Url: Url );
+        }
+
+        foreach( string Url in this.RandomizedUrls.Keys )
+        {
+
+          ulong value = MacroscopeUrlLookup.Lookup( Url: Url );
+          ulong found = 0;
+          bool not_found = true;
+
+          for( int k = 0 ; k < this.DistinctUrls.Count() ; k++ )
+          {
+            if( this.DistinctUrls[ k ] == Url )
+            {
+              found = (ulong) k;
+              not_found = false;
+              break;
+            }
+            else
+            {
+              not_found = true;
+            }
+          }
+
+          Assert.IsFalse( not_found );
           Assert.AreEqual( value, found );
 
         }

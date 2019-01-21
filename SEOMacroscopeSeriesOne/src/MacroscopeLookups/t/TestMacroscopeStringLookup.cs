@@ -39,8 +39,35 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    int MaxTexts = 1000;
+    int MaxLoops = 100;
+    private List<string> Texts;
+    List<string> DistinctTexts;
+    Dictionary<string, bool> RandomizedTexts;
+
+    /**************************************************************************/
+
     public TestMacroscopeStringLookup ()
     {
+
+      MacroscopeStringLookup.Clear();
+
+      Faker fake = new Faker();
+      this.Texts = new List<string>();
+      this.RandomizedTexts = new Dictionary<string, bool>();
+
+      for( int i = 0 ; i < this.MaxTexts ; i++ )
+      {
+        Texts.Add( fake.Lorem.Sentence() );
+      }
+
+      this.DistinctTexts = Texts.Distinct().ToList();
+
+      foreach( string Text in this.DistinctTexts )
+      {
+        this.RandomizedTexts.Add( Text, true );
+      }
+
     }
 
     /**************************************************************************/
@@ -49,46 +76,124 @@ namespace SEOMacroscope
     public void TestStringLookup ()
     {
 
-      Faker fake = new Faker();
-      int max = 10000;
-      List<string> Texts = new List<string>( max );
-      List<string> DistinctTexts = new List<string>( max );
-      Dictionary<string, bool> RandomizedTexts = new Dictionary<string, bool>( max );
-
-      for( int i = 0 ; i < max ; i++ )
+      foreach( string Text in this.DistinctTexts )
       {
-        Texts.Add( fake.Lorem.Sentence() );
+        MacroscopeStringLookup.Lookup( Text: Text );
       }
 
-      DistinctTexts = Texts.Distinct().ToList();
-
-      foreach( string Text in DistinctTexts )
-      {
-        RandomizedTexts.Add( Text, true );
-      }
-
-      for( int i = 0 ; i < DistinctTexts.Count() ; i++ )
-      {
-        string Text = DistinctTexts[ i ];
-        ulong value = MacroscopeStringLookup.Lookup( Text: Text );
-      }
-
-      foreach( string Text in RandomizedTexts.Keys )
+      foreach( string Text in this.RandomizedTexts.Keys )
       {
 
         ulong value = MacroscopeStringLookup.Lookup( Text: Text );
         ulong found = 0;
+        bool not_found = true;
 
-        for( int i = 0 ; i < DistinctTexts.Count() ; i++ )
+        for( int k = 0 ; k < this.DistinctTexts.Count() ; k++ )
         {
-          if( DistinctTexts[ i ] == Text )
+          if( this.DistinctTexts[ k ] == Text )
           {
-            found = (ulong) i + 1;
+            found = (ulong) k;
+            not_found = false;
             break;
+          }
+          else
+          {
+            not_found = true;
           }
         }
 
+        Assert.IsFalse( not_found );
         Assert.AreEqual( value, found );
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestStringLookupMultiple ()
+    {
+
+      for( int repeat = 0 ; repeat < this.MaxLoops ; repeat++ )
+      {
+
+        foreach( string Text in this.DistinctTexts )
+        {
+          MacroscopeStringLookup.Lookup( Text: Text );
+        }
+
+        foreach( string Text in this.RandomizedTexts.Keys )
+        {
+
+          ulong value = MacroscopeStringLookup.Lookup( Text: Text );
+          ulong found = 0;
+          bool not_found = true;
+
+          for( int k = 0 ; k < this.DistinctTexts.Count() ; k++ )
+          {
+            if( this.DistinctTexts[ k ] == Text )
+            {
+              found = (ulong) k;
+              not_found = false;
+              break;
+            }
+            else
+            {
+              not_found = true;
+            }
+          }
+
+          Assert.IsFalse( not_found );
+          Assert.AreEqual( value, found );
+
+        }
+
+      }
+
+    }
+
+    /**************************************************************************/
+
+    [Test]
+    public void TestStringLookupWithClear ()
+    {
+
+      for( int repeat = 0 ; repeat < this.MaxLoops ; repeat++ )
+      {
+
+        MacroscopeStringLookup.Clear();
+
+        foreach( string Text in this.DistinctTexts )
+        {
+          MacroscopeStringLookup.Lookup( Text: Text );
+        }
+
+        foreach( string Text in this.RandomizedTexts.Keys )
+        {
+
+          ulong value = MacroscopeStringLookup.Lookup( Text: Text );
+          ulong found = 0;
+          bool not_found = true;
+
+          for( int k = 0 ; k < this.DistinctTexts.Count() ; k++ )
+          {
+            if( this.DistinctTexts[ k ] == Text )
+            {
+              found = (ulong) k;
+              not_found = false;
+              break;
+            }
+            else
+            {
+              not_found = true;
+            }
+          }
+
+          Assert.IsFalse( not_found );
+          Assert.AreEqual( value, found );
+
+        }
 
       }
 
