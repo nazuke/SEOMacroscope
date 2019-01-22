@@ -1140,6 +1140,7 @@ namespace SEOMacroscope
       // 
       // checkBoxProcessBinaries
       // 
+      this.checkBoxProcessBinaries.Enabled = false;
       this.checkBoxProcessBinaries.Location = new System.Drawing.Point(340, 50);
       this.checkBoxProcessBinaries.Name = "checkBoxProcessBinaries";
       this.checkBoxProcessBinaries.Size = new System.Drawing.Size(150, 24);

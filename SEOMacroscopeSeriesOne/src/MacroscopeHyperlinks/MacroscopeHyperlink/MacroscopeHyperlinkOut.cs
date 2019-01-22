@@ -53,8 +53,8 @@ namespace SEOMacroscope
 
     private string LinkTarget;
 
-    private string LinkText;
-    private string LinkTitle;
+    private string AnchorText;
+    private string Title;
     private string AltText;
 
     /**************************************************************************/
@@ -65,8 +65,8 @@ namespace SEOMacroscope
       this.HyperlinkType = MacroscopeConstants.HyperlinkType.TEXT;
       this.DoFollow = true;
       this.LinkTarget = "";
-      this.LinkText = "";
-      this.LinkTitle = "";
+      this.AnchorText = "";
+      this.Title = "";
       this.AltText = "";
     }
 
@@ -190,37 +190,61 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public void SetLinkText ( string Text )
+    public void SetAnchorText ( string Text )
     {
-      this.LinkText = Text;
+      try
+      {
+        this.AnchorText = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        this.AnchorText = Text;
+      }
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public string GetLinkText ()
+    public string GetAnchorText ()
     {
-      return( this.LinkText );
+      return( this.AnchorText );
     }
 
     /**************************************************************************/
 
-    public void SetLinkTitle ( string Text )
+    public void SetTitle ( string Text )
     {
-      this.LinkTitle = Text;
+      try
+      {
+        this.Title = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        this.Title = Text;
+      }
     }
 
     /** -------------------------------------------------------------------- **/
 
-    public string GetLinkTitle ()
+    public string GetTitle ()
     {
-      return( this.LinkTitle );
+      return( this.Title );
     }
 
     /**************************************************************************/
 
     public void SetAltText ( string Text )
     {
-      this.AltText = Text;
+      try
+      {
+        this.AltText = MacroscopeStringTools.CompactWhiteSpace( Text: Text );
+      }
+      catch( Exception ex )
+      {
+        this.DebugMsg( ex.Message );
+        this.AltText = Text;
+      }
     }
 
     /** -------------------------------------------------------------------- **/

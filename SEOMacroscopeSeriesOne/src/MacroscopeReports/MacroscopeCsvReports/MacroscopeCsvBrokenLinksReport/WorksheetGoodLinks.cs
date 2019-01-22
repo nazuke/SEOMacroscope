@@ -47,6 +47,8 @@ namespace SEOMacroscope
 
         ws.WriteField( "Status Code" );
         ws.WriteField( "Status" );
+        ws.WriteField( "Anchor Text" );
+        ws.WriteField( "Alt Text" );
         ws.WriteField( "Origin URL" );
         ws.WriteField( "Destination URL" );
 
@@ -71,6 +73,8 @@ namespace SEOMacroscope
           {
 
             string OriginUrl = HyperlinkIn.GetSourceUrl();
+            string AnchorText = HyperlinkIn.GetAnchorText();
+            string AltText = HyperlinkIn.GetAltText();
 
             if(
               ( OriginUrl != null )
@@ -80,6 +84,10 @@ namespace SEOMacroscope
               this.InsertAndFormatContentCell( ws, StatusCode.ToString() );
           
               this.InsertAndFormatContentCell( ws, Status );
+
+              this.InsertAndFormatContentCell( ws, AnchorText );
+
+              this.InsertAndFormatContentCell( ws, AltText );
 
               this.InsertAndFormatUrlCell( ws, OriginUrl );
 

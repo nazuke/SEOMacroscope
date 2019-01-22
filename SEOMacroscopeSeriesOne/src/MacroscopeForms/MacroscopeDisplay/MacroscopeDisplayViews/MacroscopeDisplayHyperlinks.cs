@@ -44,7 +44,7 @@ namespace SEOMacroscope
     private const int ColUrlTarget = 1;
     private const int ColDoFollow = 2;
     private const int ColLinkTarget = 3;
-    private const int ColLinkTextLabel = 4;
+    private const int ColLinkAnchorTextLabel = 4;
     private const int ColLinkTitleLabel = 5;
     private const int ColAltTextLabel = 6;
     private const int ColRawTargetUrl = 7;
@@ -284,8 +284,8 @@ namespace SEOMacroscope
         string UrlTarget = HyperlinkOut.GetTargetUrl();
         string PairKey = string.Join( ":", UrlToDigest( Url ), UrlToDigest( UrlTarget ) );
         string LinkTarget = HyperlinkOut.GetLinkTarget();
-        string LinkText = HyperlinkOut.GetLinkText();
-        string LinkTitle = HyperlinkOut.GetLinkTitle();
+        string LinkText = HyperlinkOut.GetAnchorText();
+        string LinkTitle = HyperlinkOut.GetTitle();
         string AltText = HyperlinkOut.GetAltText();
 
         string LinkTextLabel = LinkText;
@@ -328,7 +328,7 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
             lvItem.SubItems[ ColDoFollow ].Text = DoFollow;
             lvItem.SubItems[ ColLinkTarget ].Text = LinkTarget;
-            lvItem.SubItems[ ColLinkTextLabel ].Text = LinkTextLabel;
+            lvItem.SubItems[ ColLinkAnchorTextLabel ].Text = LinkTextLabel;
             lvItem.SubItems[ ColLinkTitleLabel ].Text = LinkTitleLabel;
             lvItem.SubItems[ ColAltTextLabel ].Text = AltTextLabel;
             lvItem.SubItems[ ColRawTargetUrl ].Text = RawTargetUrl;
@@ -413,7 +413,7 @@ namespace SEOMacroscope
 
           if( LinkText.Length == 0 )
           {
-            lvItem.SubItems[ ColLinkTextLabel ].ForeColor = Color.Gray;
+            lvItem.SubItems[ ColLinkAnchorTextLabel ].ForeColor = Color.Gray;
           }
           
           if( LinkTitle.Length == 0 )
@@ -431,7 +431,7 @@ namespace SEOMacroscope
             && ( LinkTitle.Length == 0 )
             && ( AltText.Length == 0 ) )
           {
-            lvItem.SubItems[ ColLinkTextLabel ].ForeColor = Color.Red;
+            lvItem.SubItems[ ColLinkAnchorTextLabel ].ForeColor = Color.Red;
             lvItem.SubItems[ ColLinkTitleLabel ].ForeColor = Color.Red;
             lvItem.SubItems[ ColAltTextLabel ].ForeColor = Color.Red;
           }
@@ -462,8 +462,8 @@ namespace SEOMacroscope
         string UrlTarget = HyperlinkOut.GetTargetUrl();
         string PairKey = string.Join( ":", UrlToDigest( Url: Url ), UrlToDigest( Url: UrlTarget ) ).ToString();
         string LinkTarget = HyperlinkOut.GetLinkTarget();
-        string LinkText = HyperlinkOut.GetLinkText();
-        string LinkTitle = HyperlinkOut.GetLinkTitle();
+        string LinkText = HyperlinkOut.GetAnchorText();
+        string LinkTitle = HyperlinkOut.GetTitle();
         string AltText = HyperlinkOut.GetAltText();
 
         string LinkTextLabel = LinkText;
@@ -511,7 +511,7 @@ namespace SEOMacroscope
               lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
               lvItem.SubItems[ ColDoFollow ].Text = DoFollow;         
               lvItem.SubItems[ ColLinkTarget ].Text = LinkTarget;
-              lvItem.SubItems[ ColLinkTextLabel ].Text = LinkTextLabel;
+              lvItem.SubItems[ ColLinkAnchorTextLabel ].Text = LinkTextLabel;
               lvItem.SubItems[ ColLinkTitleLabel ].Text = LinkTitleLabel;
               lvItem.SubItems[ ColAltTextLabel ].Text = AltTextLabel;
 
@@ -594,7 +594,7 @@ namespace SEOMacroscope
             
             if( LinkText.Length == 0 )
             {
-              lvItem.SubItems[ ColLinkTextLabel ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColLinkAnchorTextLabel ].ForeColor = Color.Gray;
             }
           
             if( LinkTitle.Length == 0 )
@@ -612,7 +612,7 @@ namespace SEOMacroscope
               && ( LinkTitle.Length == 0 )
               && ( AltText.Length == 0 ) )
             {
-              lvItem.SubItems[ ColLinkTextLabel ].ForeColor = Color.Red;
+              lvItem.SubItems[ ColLinkAnchorTextLabel ].ForeColor = Color.Red;
               lvItem.SubItems[ ColLinkTitleLabel ].ForeColor = Color.Red;
               lvItem.SubItems[ ColAltTextLabel ].ForeColor = Color.Red;
             }

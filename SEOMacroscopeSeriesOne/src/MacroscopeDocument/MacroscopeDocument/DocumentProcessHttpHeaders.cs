@@ -70,18 +70,30 @@ namespace SEOMacroscope
 
       Lines.Sort();
 
-      this.SetHttpRequestHeaders(
-        Text: string.Join(
-          Environment.NewLine,
-          string.Join(
-            " ",
-            Request.Method.ToString(),
-            Request.RequestUri.AbsolutePath.ToString(),
-            string.Join( "/", "HTTP", Request.Version )
-          ),
-          string.Join( Environment.NewLine, Lines )
-        )
-      );
+      {
+
+        string RequestPathAndQueryString = Request.RequestUri.AbsolutePath.ToString();
+        string RequestQuery = Request.RequestUri.Query;
+
+        if( ( RequestQuery != null ) && ( RequestQuery.Length > 0 ) )
+        {
+          RequestPathAndQueryString = string.Join( "", RequestPathAndQueryString, RequestQuery );
+        }
+
+        this.SetHttpRequestHeaders(
+          Text: string.Join(
+            Environment.NewLine,
+            string.Join(
+              " ",
+              Request.Method.ToString(),
+              RequestPathAndQueryString,
+              string.Join( "/", "HTTP", Request.Version )
+            ),
+            string.Join( Environment.NewLine, Lines )
+          )
+        );
+
+      }
 
     }
 

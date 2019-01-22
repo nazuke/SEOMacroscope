@@ -616,7 +616,7 @@ namespace SEOMacroscope
                 }
 
                 if( !string.IsNullOrEmpty( LinkTitle ) )
-                  HyperlinkOut.SetLinkTitle( LinkTitle );
+                  HyperlinkOut.SetTitle( Text: LinkTitle );
 
               }
 
@@ -638,7 +638,7 @@ namespace SEOMacroscope
 
                 if( !string.IsNullOrEmpty( Target ) )
                 {
-                  HyperlinkOut.SetLinkTarget( Target );
+                  HyperlinkOut.SetLinkTarget( Text: Target );
                 }
 
               }
@@ -662,7 +662,7 @@ namespace SEOMacroscope
                   }
 
                   if( !string.IsNullOrEmpty( LinkText ) )
-                    HyperlinkOut.SetLinkText( LinkText );
+                    HyperlinkOut.SetAnchorText( Text: LinkText );
 
                 }
 

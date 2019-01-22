@@ -48,7 +48,7 @@ namespace SEOMacroscope
 
       MacroscopeDocumentCollection DocCollection = JobMaster.GetDocCollection();
       MacroscopeAllowedHosts AllowedHosts = JobMaster.GetAllowedHosts();
-      
+
       {
 
         ws.Cell( iRow, iCol ).Value = "Status Code";
@@ -56,10 +56,16 @@ namespace SEOMacroscope
 
         ws.Cell( iRow, iCol ).Value = "Status";
         iCol++;
-                
+
+        ws.Cell( iRow, iCol ).Value = "Anchor Text";
+        iCol++;
+
+        ws.Cell( iRow, iCol ).Value = "Alt Text";
+        iCol++;
+
         ws.Cell( iRow, iCol ).Value = "Origin URL";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Destination URL";
 
       }
@@ -68,13 +74,13 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         MacroscopeHyperlinksIn HyperlinksIn = DocCollection.GetDocumentHyperlinksIn( msDoc.GetUrl() );
-        int StatusCode = ( int )msDoc.GetStatusCode();
+        int StatusCode = (int) msDoc.GetStatusCode();
         string Status = msDoc.GetStatusCode().ToString();
-          
+
         if(
           ( StatusCode >= 200 )
           && ( StatusCode <= 299 )
@@ -85,16 +91,18 @@ namespace SEOMacroscope
           {
 
             string OriginUrl = HyperlinkIn.GetSourceUrl();
+            string AnchorText = HyperlinkIn.GetAnchorText();
+            string AltText = HyperlinkIn.GetAltText();
 
             if(
               ( OriginUrl != null )
               && ( OriginUrl.Length > 0 ) )
             {
-          
+
               iCol = 1;
 
               this.InsertAndFormatContentCell( ws, iRow, iCol, StatusCode.ToString() );
-          
+
               if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
               {
                 ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Red );
@@ -105,7 +113,7 @@ namespace SEOMacroscope
               }
 
               iCol++;
-          
+
               this.InsertAndFormatContentCell( ws, iRow, iCol, Status );
 
               if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
@@ -116,7 +124,15 @@ namespace SEOMacroscope
               {
                 ws.Cell( iRow, iCol ).Style.Font.SetFontColor( XLColor.Blue );
               }
-              
+
+              iCol++;
+
+              this.InsertAndFormatContentCell( ws, iRow, iCol, AnchorText );
+
+              iCol++;
+
+              this.InsertAndFormatContentCell( ws, iRow, iCol, AltText );
+
               iCol++;
 
               this.InsertAndFormatUrlCell( ws, iRow, iCol, OriginUrl );
@@ -148,7 +164,7 @@ namespace SEOMacroscope
             }
 
           }
-          
+
         }
 
       }

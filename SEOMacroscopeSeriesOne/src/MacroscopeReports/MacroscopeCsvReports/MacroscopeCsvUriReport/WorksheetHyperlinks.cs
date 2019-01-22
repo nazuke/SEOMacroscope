@@ -49,8 +49,8 @@ namespace SEOMacroscope
         ws.WriteField( "Target URL" );
         ws.WriteField( "Follow" );
         ws.WriteField( "Target" );
-        ws.WriteField( "Link Text" );
-        ws.WriteField( "Title Text" );
+        ws.WriteField( "Anchor Text" );
+        ws.WriteField( "Title" );
         ws.WriteField( "Alt Text" );
         ws.WriteField( "Raw Target URL" );
 
@@ -58,7 +58,7 @@ namespace SEOMacroscope
 
       }
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
@@ -69,11 +69,11 @@ namespace SEOMacroscope
           string HyperlinkOutUrl = HyperlinkOut.GetTargetUrl();
           string DoFollow = "No Follow";
           string LinkTarget = HyperlinkOut.GetLinkTarget();
-          string LinkText = HyperlinkOut.GetLinkText();
-          string LinkTitle = HyperlinkOut.GetLinkTitle();      
-          string AltText = HyperlinkOut.GetAltText();       
-          
-          string RawTargetUrl = HyperlinkOut.GetRawTargetUrl();       
+          string AnchorText = HyperlinkOut.GetAnchorText();
+          string Title = HyperlinkOut.GetTitle();
+          string AltText = HyperlinkOut.GetAltText();
+
+          string RawTargetUrl = HyperlinkOut.GetRawTargetUrl();
 
           if( string.IsNullOrEmpty( HyperlinkOutUrl ) )
           {
@@ -93,16 +93,16 @@ namespace SEOMacroscope
 
           this.InsertAndFormatContentCell( ws, LinkTarget );
 
-          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( LinkText ) );
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( AnchorText ) );
 
-          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( LinkTitle ) );
+          this.InsertAndFormatContentCell( ws, this.FormatIfMissing( Title ) );
 
           this.InsertAndFormatContentCell( ws, this.FormatIfMissing( AltText ) );
 
           this.InsertAndFormatContentCell( ws, RawTargetUrl );
 
           ws.NextRecord();
-                  
+
         }
 
       }

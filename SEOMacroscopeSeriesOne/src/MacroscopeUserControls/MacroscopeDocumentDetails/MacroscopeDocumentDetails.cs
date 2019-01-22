@@ -1015,7 +1015,7 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 2 ].Text = HyperlinkIn.GetSourceUrl();
                 lvItem.SubItems[ 3 ].Text = HyperlinkIn.GetTargetUrl();
                 lvItem.SubItems[ 4 ].Text = DoFollow;
-                lvItem.SubItems[ 5 ].Text = HyperlinkIn.GetLinkText();
+                lvItem.SubItems[ 5 ].Text = HyperlinkIn.GetAnchorText();
                 lvItem.SubItems[ 6 ].Text = HyperlinkIn.GetAltText();
 
               }
@@ -1040,7 +1040,7 @@ namespace SEOMacroscope
                 lvItem.SubItems.Add( HyperlinkIn.GetSourceUrl() );
                 lvItem.SubItems.Add( HyperlinkIn.GetTargetUrl() );
                 lvItem.SubItems.Add( DoFollow );
-                lvItem.SubItems.Add( HyperlinkIn.GetLinkText() );
+                lvItem.SubItems.Add( HyperlinkIn.GetAnchorText() );
                 lvItem.SubItems.Add( HyperlinkIn.GetAltText() );
 
                 ListViewItems.Add( lvItem );
@@ -1171,7 +1171,7 @@ namespace SEOMacroscope
                 lvItem.SubItems[ 3 ].Text = HyperlinkOut.GetTargetUrl();
                 lvItem.SubItems[ 4 ].Text = DoFollow;
                 lvItem.SubItems[ 5 ].Text = HyperlinkOut.GetLinkTarget();
-                lvItem.SubItems[ 6 ].Text = HyperlinkOut.GetLinkText();
+                lvItem.SubItems[ 6 ].Text = HyperlinkOut.GetAnchorText();
                 lvItem.SubItems[ 7 ].Text = HyperlinkOut.GetAltText();
                 lvItem.SubItems[ 8 ].Text = HyperlinkOut.GetRawTargetUrl();
 
@@ -1198,7 +1198,7 @@ namespace SEOMacroscope
                 lvItem.SubItems.Add( HyperlinkOut.GetTargetUrl() );
                 lvItem.SubItems.Add( DoFollow );
                 lvItem.SubItems.Add( HyperlinkOut.GetLinkTarget() );
-                lvItem.SubItems.Add( HyperlinkOut.GetLinkText() );
+                lvItem.SubItems.Add( HyperlinkOut.GetAnchorText() );
                 lvItem.SubItems.Add( HyperlinkOut.GetAltText() );
                 lvItem.SubItems.Add( HyperlinkOut.GetRawTargetUrl() );
 

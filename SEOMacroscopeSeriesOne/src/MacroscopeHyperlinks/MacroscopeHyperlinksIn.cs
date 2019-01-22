@@ -68,8 +68,8 @@ namespace SEOMacroscope
       string Method,
       string SourceUrl,
       string TargetUrl,
-      string LinkText, 
-      string LinkTitle,
+      string AnchorText, 
+      string Title,
       string AltText,
       Guid ExtantGuid
     )
@@ -89,8 +89,8 @@ namespace SEOMacroscope
           Method: Method,
           SourceUrl: SourceUrl,
           TargetUrl: TargetUrl,
-          LinkText: LinkText, 
-          LinkTitle: LinkTitle,
+          AnchorText: AnchorText, 
+          Title: Title,
           AltText: AltText,
           ExtantGuid: ExtantGuid
         );

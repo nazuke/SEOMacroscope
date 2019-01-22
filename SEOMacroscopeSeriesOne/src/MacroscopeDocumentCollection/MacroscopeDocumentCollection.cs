@@ -1066,8 +1066,8 @@ namespace SEOMacroscope
               Method: HyperlinkOut.GetMethod(),
               SourceUrl: DocumentUrl,
               TargetUrl: Url,
-              LinkText: HyperlinkOut.GetLinkText(),
-              LinkTitle: HyperlinkOut.GetLinkTitle(),
+              AnchorText: HyperlinkOut.GetAnchorText(),
+              Title: HyperlinkOut.GetTitle(),
               AltText: HyperlinkOut.GetAltText(),
               ExtantGuid: HyperlinkOut.GetGuid()
             );

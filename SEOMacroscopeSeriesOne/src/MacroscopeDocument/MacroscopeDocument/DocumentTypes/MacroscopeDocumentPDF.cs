@@ -310,8 +310,8 @@ namespace SEOMacroscope
             HyperlinkOut = this.HyperlinksOut.Add( LinkType: MacroscopeConstants.HyperlinkType.PDF, UrlTarget: AnnotationOutLinkUrlAbs );
             HyperlinkOut.SetRawTargetUrl( TargetUrl: AnnotationOutLinkUrlAbs );
             HyperlinkOut.SetAltText( AnnotationOutLinkPair.Value );
-            HyperlinkOut.SetLinkText( AnnotationOutLinkPair.Value );
-            HyperlinkOut.SetLinkTitle( AnnotationOutLinkPair.Value );
+            HyperlinkOut.SetAnchorText( AnnotationOutLinkPair.Value );
+            HyperlinkOut.SetTitle( AnnotationOutLinkPair.Value );
             HyperlinkOut.SetDoFollow();
             HyperlinkOut.SetMethod( Method: "GET" );
 

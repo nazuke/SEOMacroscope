@@ -40,7 +40,7 @@ namespace SEOMacroscope
       string WorksheetLabel
     )
     {
-      
+
       var ws = wb.Worksheets.Add( WorksheetLabel );
 
       int iRow = 1;
@@ -64,15 +64,15 @@ namespace SEOMacroscope
         ws.Cell( iRow, iCol ).Value = "Target";
         iCol++;
 
-        ws.Cell( iRow, iCol ).Value = "Link Text";
+        ws.Cell( iRow, iCol ).Value = "Anchor Text";
         iCol++;
-        
-        ws.Cell( iRow, iCol ).Value = "Title Text";
+
+        ws.Cell( iRow, iCol ).Value = "Title";
         iCol++;
 
         ws.Cell( iRow, iCol ).Value = "Alt Text";
         iCol++;
-        
+
         ws.Cell( iRow, iCol ).Value = "Raw Target URL";
 
       }
@@ -81,7 +81,7 @@ namespace SEOMacroscope
 
       iRow++;
 
-      foreach ( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
+      foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
         MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
@@ -92,11 +92,11 @@ namespace SEOMacroscope
           string HyperlinkOutUrl = HyperlinkOut.GetTargetUrl();
           string DoFollow = "No Follow";
           string LinkTarget = HyperlinkOut.GetLinkTarget();
-          string LinkText = HyperlinkOut.GetLinkText();
-          string LinkTitle = HyperlinkOut.GetLinkTitle();      
-          string AltText = HyperlinkOut.GetAltText();       
-          
-          string RawTargetUrl = HyperlinkOut.GetRawTargetUrl();       
+          string AnchorText = HyperlinkOut.GetAnchorText();
+          string Title = HyperlinkOut.GetTitle();
+          string AltText = HyperlinkOut.GetAltText();
+
+          string RawTargetUrl = HyperlinkOut.GetRawTargetUrl();
 
           if( HyperlinkOutUrl == null )
           {
@@ -145,16 +145,16 @@ namespace SEOMacroscope
           this.InsertAndFormatContentCell( ws, iRow, iCol, DoFollow );
 
           iCol++;
-          
+
           this.InsertAndFormatContentCell( ws, iRow, iCol, LinkTarget );
 
           iCol++;
 
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkText ) );
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( AnchorText ) );
 
           iCol++;
-          
-          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( LinkTitle ) );
+
+          this.InsertAndFormatContentCell( ws, iRow, iCol, this.FormatIfMissing( Title ) );
 
           iCol++;
 
