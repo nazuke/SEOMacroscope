@@ -1149,9 +1149,14 @@ namespace SEOMacroscope
 
     public string SetStartUrl ( string Url )
     {
+
       this.StartUrl = Url;
       this.DetermineStartingDirectory();
+
+      MacroscopePreferencesManager.CrawlHistoryPush( Url: Url );
+
       return ( this.StartUrl );
+
     }
 
     /** -------------------------------------------------------------------- **/

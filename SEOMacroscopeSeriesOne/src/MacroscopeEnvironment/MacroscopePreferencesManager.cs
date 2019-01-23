@@ -25,6 +25,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.Net.Http;
@@ -43,6 +44,11 @@ namespace SEOMacroscope
 
     // Application Version
     //static string AppVersion;
+
+    /** Crawl History ------------------------------------------------------ **/
+
+    static StringCollection CrawlHistory;
+    static int CrawlHistorySize = 10;
 
     /** Application Settings ----------------------------------------------- **/
 
@@ -228,6 +234,8 @@ namespace SEOMacroscope
         else
         {
 
+          CrawlHistory = Preferences.CrawlHistory;
+
           AutomaticallyCheckForUpdates = Preferences.AutomaticallyCheckForUpdates;
 
           PauseDisplayDuringScan = Preferences.PauseDisplayDuringScan;
@@ -395,6 +403,10 @@ namespace SEOMacroscope
     public static void SetDefaultValues ()
     {
 
+      /** Crawl History ------------------------------------------------------ **/
+
+      CrawlHistory = new StringCollection();
+
       /** Application Settings --------------------------------------------- **/
 
       AutomaticallyCheckForUpdates = true;
@@ -560,6 +572,11 @@ namespace SEOMacroscope
     static void SanitizeValues ()
     {
 
+      if( CrawlHistory == null )
+      {
+        CrawlHistory = new StringCollection();
+      }
+
       if( StartUrl.Length > 0 )
       {
         StartUrl = Regex.Replace( StartUrl, @"^\s+", "" );
@@ -663,6 +680,8 @@ namespace SEOMacroscope
 
       if( Preferences != null )
       {
+
+        Preferences.CrawlHistory = CrawlHistory;
 
         Preferences.AutomaticallyCheckForUpdates = AutomaticallyCheckForUpdates;
 
@@ -903,6 +922,44 @@ namespace SEOMacroscope
     public static string GetStartUrl ()
     {
       return ( StartUrl );
+    }
+
+    /** Crawl History *********************************************************/
+
+    public static void CrawlHistoryPush ( string Url )
+    {
+
+      if( !CrawlHistory.Contains( Url ) )
+      {
+
+        if( CrawlHistory.Count > CrawlHistorySize )
+        {
+          CrawlHistoryPop();
+        }
+
+        CrawlHistory.Add( value: Url );
+
+        MacroscopePreferencesManager.SavePreferences();
+
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public static void CrawlHistoryPop ()
+    {
+      if( CrawlHistory.Count > 0 )
+      {
+        CrawlHistory.RemoveAt( 0 );
+      }
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public static StringCollection GetCrawlHistory ()
+    {
+      return ( CrawlHistory );
     }
 
     /**************************************************************************/

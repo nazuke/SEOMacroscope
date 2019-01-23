@@ -1258,5 +1258,16 @@ namespace SEOMacroscope {
                 this["DowncaseLinks"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CrawlHistory {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CrawlHistory"]));
+            }
+            set {
+                this["CrawlHistory"] = value;
+            }
+        }
     }
 }
