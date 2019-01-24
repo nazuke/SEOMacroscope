@@ -82,6 +82,7 @@ namespace SEOMacroscope
         return;
       }
 
+      this.recentURLsToolStripMenuItem.Enabled = true;
       this.loadUrlListToolStripMenuItem.Enabled = true;
       this.loadSessionToolStripMenuItem.Enabled = true;
       this.saveSessionAsToolStripMenuItem.Enabled = true;
@@ -129,6 +130,7 @@ namespace SEOMacroscope
         return;
       }
 
+      this.recentURLsToolStripMenuItem.Enabled = false;
       this.loadUrlListToolStripMenuItem.Enabled = false;
       this.loadSessionToolStripMenuItem.Enabled = false;
       this.saveSessionAsToolStripMenuItem.Enabled = false;
@@ -169,6 +171,7 @@ namespace SEOMacroscope
         return;
       }
 
+      this.recentURLsToolStripMenuItem.Enabled = false;
       this.loadUrlListToolStripMenuItem.Enabled = false;
       this.loadSessionToolStripMenuItem.Enabled = false;
       this.saveSessionAsToolStripMenuItem.Enabled = false;
@@ -209,6 +212,7 @@ namespace SEOMacroscope
         return;
       }
 
+      this.recentURLsToolStripMenuItem.Enabled = true;
       this.loadUrlListToolStripMenuItem.Enabled = true;
       this.loadSessionToolStripMenuItem.Enabled = true;
       this.saveSessionAsToolStripMenuItem.Enabled = true;
@@ -259,6 +263,7 @@ namespace SEOMacroscope
         return;
       }
 
+      this.recentURLsToolStripMenuItem.Enabled = true;
       this.loadUrlListToolStripMenuItem.Enabled = true;
       this.loadSessionToolStripMenuItem.Enabled = true;
       this.saveSessionAsToolStripMenuItem.Enabled = true;
@@ -309,6 +314,7 @@ namespace SEOMacroscope
         return;
       }
 
+      this.recentURLsToolStripMenuItem.Enabled = true;
       this.loadUrlListToolStripMenuItem.Enabled = true;
       this.loadSessionToolStripMenuItem.Enabled = true;
       this.saveSessionAsToolStripMenuItem.Enabled = true;

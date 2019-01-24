@@ -2631,14 +2631,14 @@ namespace SEOMacroscope
 
       await this.ExecuteHeadRequest();
 
-      if( this.GetStatusCode() == HttpStatusCode.RequestTimeout )
+      switch( this.GetStatusCode()  )
       {
-        return ( false );
-      }
-      else
-      if( this.GetStatusCode() == HttpStatusCode.GatewayTimeout )
-      {
-        return ( false );
+        case HttpStatusCode.RequestTimeout:
+          return ( false );
+        case HttpStatusCode.GatewayTimeout:
+          return ( false );
+        default:
+          break;
       }
 
       if( this.GetIsRedirect() )
@@ -2668,6 +2668,17 @@ namespace SEOMacroscope
       if( this.GetFetchStatus() != MacroscopeConstants.FetchStatus.OK )
       {
         DoDownloadDocument = false;
+      }
+
+      /*
+       * Force GET request for web servers that return 404 on HEAD requests:
+       */
+      if( this.GetStatusCode() == HttpStatusCode.NotFound )
+      {
+        if( MacroscopePreferencesManager.GetProbeHead404sWithGet() )
+        {
+          DoDownloadDocument = true;
+        }
       }
 
       if( DoDownloadDocument )

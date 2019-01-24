@@ -2,7 +2,7 @@
 layout: page
 title: SEO Macroscope User Manual
 description: "The SEO Macroscope user manual."
-date: "2018-04-17 18:00:00 -09:00"
+date: "2019-01-24 18:00:00 -09:00"
 redirect_from:
   - /manual/preferences/spidering-control/
 ---
@@ -33,6 +33,10 @@ To clear the results of a full or partial scan, click **Reset**. Also, editing t
 ## File Menu
 
 Export sitemaps in text and XML formats, and list views to CSV and Excel files.
+
+### Recent URLs
+
+This is a list of recently crawled URLs. Selecting one of them will put that URL back into the **Start URL** field, ready for crawling again.
 
 ### Load Lists
 

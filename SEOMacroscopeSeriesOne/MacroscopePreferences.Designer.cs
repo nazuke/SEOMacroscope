@@ -1269,5 +1269,17 @@ namespace SEOMacroscope {
                 this["CrawlHistory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ProbeHead404sWithGet {
+            get {
+                return ((bool)(this["ProbeHead404sWithGet"]));
+            }
+            set {
+                this["ProbeHead404sWithGet"] = value;
+            }
+        }
     }
 }

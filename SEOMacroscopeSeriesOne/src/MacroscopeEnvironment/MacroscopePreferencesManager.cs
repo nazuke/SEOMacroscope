@@ -31,6 +31,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace SEOMacroscope
 {
@@ -48,7 +49,7 @@ namespace SEOMacroscope
     /** Crawl History ------------------------------------------------------ **/
 
     static StringCollection CrawlHistory;
-    static int CrawlHistorySize = 10;
+    static int CrawlHistorySize = 20;
 
     /** Application Settings ----------------------------------------------- **/
 
@@ -90,6 +91,7 @@ namespace SEOMacroscope
     static bool FollowSitemapLinks;
     static bool ProbeHumansText;
     static bool ProbeParentFolderUrls;
+    static bool ProbeHead404sWithGet;
 
     static bool CheckRedirects;
     static bool FollowRedirects;
@@ -285,6 +287,7 @@ namespace SEOMacroscope
           FollowSitemapLinks = Preferences.FollowSitemapLinks;
           ProbeHumansText = Preferences.ProbeHumansText;
           ProbeParentFolderUrls = Preferences.ProbeParentFolderUrls;
+          ProbeHead404sWithGet = Preferences.ProbeHead404sWithGet;
 
           CheckRedirects = Preferences.CheckRedirects;
           FollowRedirects = Preferences.FollowRedirects;
@@ -447,6 +450,7 @@ namespace SEOMacroscope
       FollowSitemapLinks = true;
       ProbeHumansText = false;
       ProbeParentFolderUrls = false;
+      ProbeHead404sWithGet = false;
 
       CheckRedirects = true;
       FollowRedirects = false;
@@ -730,6 +734,7 @@ namespace SEOMacroscope
         Preferences.FollowSitemapLinks = FollowSitemapLinks;
         Preferences.ProbeHumansText = ProbeHumansText;
         Preferences.ProbeParentFolderUrls = ProbeParentFolderUrls;
+        Preferences.ProbeHead404sWithGet = ProbeHead404sWithGet;
 
         Preferences.CheckRedirects = CheckRedirects;
         Preferences.FollowRedirects = FollowRedirects;
@@ -932,14 +937,14 @@ namespace SEOMacroscope
       if( !CrawlHistory.Contains( Url ) )
       {
 
-        if( CrawlHistory.Count > CrawlHistorySize )
+        if( CrawlHistory.Count >= CrawlHistorySize )
         {
           CrawlHistoryPop();
         }
 
         CrawlHistory.Add( value: Url );
 
-        MacroscopePreferencesManager.SavePreferences();
+        SavePreferences();
 
       }
 
@@ -957,9 +962,25 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public static StringCollection GetCrawlHistory ()
+    public static List<string> GetCrawlHistory ()
     {
-      return ( CrawlHistory );
+
+      List<string> CrawlHistoryCopy = new List<string>();
+
+      foreach( string Url in CrawlHistory )
+      {
+        CrawlHistoryCopy.Add( Url );
+      }
+
+      return ( CrawlHistoryCopy );
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    public static void ClearCrawlHistory ()
+    {
+      CrawlHistory.Clear();
     }
 
     /**************************************************************************/
@@ -1296,6 +1317,18 @@ namespace SEOMacroscope
     public static void SetProbeParentFolderUrls ( bool State )
     {
       ProbeParentFolderUrls = State;
+    }
+
+    /** Probe HEAD 404s with GET **********************************************/
+
+    public static bool GetProbeHead404sWithGet ()
+    {
+      return ( ProbeHead404sWithGet );
+    }
+
+    public static void SetProbeHead404sWithGet ( bool State )
+    {
+      ProbeHead404sWithGet = State;
     }
 
     /**************************************************************************/

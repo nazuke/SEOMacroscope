@@ -365,6 +365,7 @@ namespace SEOMacroscope
       this.label9 = new System.Windows.Forms.Label();
       this.groupBox28 = new System.Windows.Forms.GroupBox();
       this.checkBoxServerCertificateValidation = new System.Windows.Forms.CheckBox();
+      this.checkBoxProbeHead404sWithGet = new System.Windows.Forms.CheckBox();
       this.tabControlPreferences.SuspendLayout();
       this.tabPageSpideringControl.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
@@ -991,6 +992,7 @@ namespace SEOMacroscope
       // groupBox11
       // 
       this.groupBox11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.groupBox11.Controls.Add(this.checkBoxProbeHead404sWithGet);
       this.groupBox11.Controls.Add(this.checkBoxProbeParentFolderUrls);
       this.groupBox11.Location = new System.Drawing.Point(10, 630);
       this.groupBox11.Margin = new System.Windows.Forms.Padding(10, 10, 0, 0);
@@ -1004,7 +1006,7 @@ namespace SEOMacroscope
       // 
       this.checkBoxProbeParentFolderUrls.Location = new System.Drawing.Point(20, 20);
       this.checkBoxProbeParentFolderUrls.Name = "checkBoxProbeParentFolderUrls";
-      this.checkBoxProbeParentFolderUrls.Size = new System.Drawing.Size(160, 24);
+      this.checkBoxProbeParentFolderUrls.Size = new System.Drawing.Size(140, 24);
       this.checkBoxProbeParentFolderUrls.TabIndex = 1;
       this.checkBoxProbeParentFolderUrls.Text = "Probe parent folders";
       this.checkBoxProbeParentFolderUrls.UseVisualStyleBackColor = true;
@@ -1140,7 +1142,6 @@ namespace SEOMacroscope
       // 
       // checkBoxProcessBinaries
       // 
-      this.checkBoxProcessBinaries.Enabled = false;
       this.checkBoxProcessBinaries.Location = new System.Drawing.Point(340, 50);
       this.checkBoxProcessBinaries.Name = "checkBoxProcessBinaries";
       this.checkBoxProcessBinaries.Size = new System.Drawing.Size(150, 24);
@@ -2483,6 +2484,15 @@ namespace SEOMacroscope
       this.checkBoxServerCertificateValidation.Text = "Enable certificate validation";
       this.checkBoxServerCertificateValidation.UseVisualStyleBackColor = true;
       // 
+      // checkBoxProbeHead404sWithGet
+      // 
+      this.checkBoxProbeHead404sWithGet.Location = new System.Drawing.Point(180, 20);
+      this.checkBoxProbeHead404sWithGet.Name = "checkBoxProbeHead404sWithGet";
+      this.checkBoxProbeHead404sWithGet.Size = new System.Drawing.Size(170, 24);
+      this.checkBoxProbeHead404sWithGet.TabIndex = 2;
+      this.checkBoxProbeHead404sWithGet.Text = "Probe HEAD 404s with GET";
+      this.checkBoxProbeHead404sWithGet.UseVisualStyleBackColor = true;
+      // 
       // MacroscopePrefsControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2597,5 +2607,6 @@ namespace SEOMacroscope
     public System.Windows.Forms.CheckBox checkBoxProbeParentFolderUrls;
     public System.Windows.Forms.CheckBox checkBoxDataExtractorsApplyToPdf;
     public System.Windows.Forms.CheckBox checkBoxDowncaseLinks;
+    public System.Windows.Forms.CheckBox checkBoxProbeHead404sWithGet;
   }
 }

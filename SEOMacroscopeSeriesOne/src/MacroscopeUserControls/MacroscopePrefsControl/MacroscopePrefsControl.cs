@@ -122,6 +122,8 @@ namespace SEOMacroscope
 
         this.checkBoxProbeParentFolderUrls.Checked = MacroscopePreferencesManager.GetProbeParentFolderUrls();
 
+        this.checkBoxProbeHead404sWithGet.Checked = MacroscopePreferencesManager.GetProbeHead404sWithGet();
+
         /** Analysis Options ----------------------------------------------- **/
 
         this.checkBoxResolveAddresses.Checked = MacroscopePreferencesManager.GetResolveAddresses();
@@ -285,6 +287,8 @@ namespace SEOMacroscope
       MacroscopePreferencesManager.SetScanSitesInList( this.checkBoxScanSitesInList.Checked );
 
       MacroscopePreferencesManager.SetProbeParentFolderUrls( this.checkBoxProbeParentFolderUrls.Checked );
+
+      MacroscopePreferencesManager.SetProbeHead404sWithGet( this.checkBoxProbeHead404sWithGet.Checked );
 
       /** Analysis Options ------------------------------------------------- **/
 

@@ -2311,6 +2311,7 @@ namespace SEOMacroscope
       this.SetVelocitySiteOverviewTimer( Delay: 4000 );
       this.StartProgressBarScanTimer( Delay: 1000 ); // 1000ms
       this.JobMaster.SetStartUrl( Url: this.GetUrl() );
+      this.ReconfigureFileMenuRecentUrlsItems();
       this.JobMaster.Execute();
       this.StopProgressBarScanTimer();
       this.UpdateProgressBarScan( Percentage: 0 );

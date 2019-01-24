@@ -39,15 +39,22 @@ namespace SEOMacroscope
 
     private void StartProgressBarScanTimer ( int Delay )
     {
-      this.TimerProgressBarScan.Interval = Delay;
-      this.TimerProgressBarScan.Elapsed += this.CallbackProgressBarScanTimer;
-      this.TimerProgressBarScan.AutoReset = true;
-      this.TimerProgressBarScan.Enabled = true;
-      this.TimerProgressBarScan.Start();
+      try
+      {
+        this.TimerProgressBarScan.Interval = Delay;
+        this.TimerProgressBarScan.Elapsed += this.CallbackProgressBarScanTimer;
+        this.TimerProgressBarScan.AutoReset = true;
+        this.TimerProgressBarScan.Enabled = true;
+        this.TimerProgressBarScan.Start();
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( Msg: ex.Message );
+      }
     }
 
     /**************************************************************************/
-        
+
     private void StopProgressBarScanTimer ()
     {
 

@@ -25,6 +25,9 @@
 
 using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace SEOMacroscope
 {
@@ -47,6 +50,87 @@ namespace SEOMacroscope
       this.toolStripSeparator30.Visible = true;
 #endif
 
+      this.ReconfigureFileMenuRecentUrlsItems();
+
+    }
+
+    /** RECENT URLS　**********************************************************/
+
+    public void ReconfigureFileMenuRecentUrlsItems ()
+    {
+      if( this.InvokeRequired )
+      {
+        this.Invoke(
+          new MethodInvoker(
+            delegate
+            {
+              this._ReconfigureFileMenuRecentUrlsItems();
+            }
+          )
+        );
+      }
+      else
+      {
+        this._ReconfigureFileMenuRecentUrlsItems();
+      }
+      return;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void _ReconfigureFileMenuRecentUrlsItems ()
+    {
+
+      List<string> CrawlHistory = MacroscopePreferencesManager.GetCrawlHistory();
+      ToolStripItemCollection RecentUrlItems = this.recentURLsToolStripMenuItem.DropDownItems;
+
+      RecentUrlItems.Clear();
+      CrawlHistory.Reverse();
+
+      foreach( string Url in CrawlHistory )
+      {
+
+        string UrlTruncated = Url;
+        ToolStripItem UrlItem = RecentUrlItems.Add( text: "..." );
+
+        if( Url.Length > 64 )
+        {
+          UrlTruncated = Url.Substring( 0, 64 ) + "...";
+        }
+
+        UrlItem.Tag = Url;
+        UrlItem.Text = UrlTruncated;
+        UrlItem.Click += ClickCallbackFileMenuRecentUrlsItem;
+
+      }
+
+      {
+        ToolStripSeparator separator = new ToolStripSeparator();
+        RecentUrlItems.Add( separator );
+      }
+
+      {
+        ToolStripItem UrlItem = RecentUrlItems.Add( text: "Clear Recent URLs" );
+        UrlItem.Click += ClickCallbackFileMenuRecentUrlsClear;
+      }
+
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void ClickCallbackFileMenuRecentUrlsItem ( object sender, EventArgs e )
+    {
+      ToolStripItem UrlItem = (ToolStripItem) sender;
+      string Url = UrlItem.Tag.ToString();
+      this.SetUrl( Url: Url );
+    }
+
+    /** -------------------------------------------------------------------- **/
+
+    private void ClickCallbackFileMenuRecentUrlsClear ( object sender, EventArgs e )
+    {
+      MacroscopePreferencesManager.ClearCrawlHistory();
+      this.ReconfigureFileMenuRecentUrlsItems();
     }
 
     /**************************************************************************/

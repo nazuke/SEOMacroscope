@@ -322,6 +322,7 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
       this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
       this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
+      this.recentURLsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStripMain.SuspendLayout();
       this.tableLayoutPanelMainContainer.SuspendLayout();
       this.statusStripMain.SuspendLayout();
@@ -355,6 +356,7 @@ namespace SEOMacroscope
       // fileToolStripMenuItem
       // 
       this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.recentURLsToolStripMenuItem,
             this.loadUrlListToolStripMenuItem,
             this.toolStripSeparator8,
             this.loadSessionToolStripMenuItem,
@@ -1536,6 +1538,12 @@ namespace SEOMacroscope
       this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
       this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
       // 
+      // recentURLsToolStripMenuItem
+      // 
+      this.recentURLsToolStripMenuItem.Name = "recentURLsToolStripMenuItem";
+      this.recentURLsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.recentURLsToolStripMenuItem.Text = "Recent URLs";
+      // 
       // MacroscopeMainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1588,5 +1596,6 @@ namespace SEOMacroscope
     private System.Windows.Forms.ToolStripMenuItem loadSessionToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem saveSessionAsToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
+    private System.Windows.Forms.ToolStripMenuItem recentURLsToolStripMenuItem;
   }
 }
