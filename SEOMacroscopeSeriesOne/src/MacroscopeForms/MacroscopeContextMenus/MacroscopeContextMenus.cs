@@ -229,7 +229,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    public void CallbackCopyTargetClick ( object sender, EventArgs e )
+    public void CallbackCopyTargetUrlClick ( object sender, EventArgs e )
     {
       
       ToolStripMenuItem tsMenuItem = sender as ToolStripMenuItem;

@@ -119,7 +119,7 @@ namespace SEOMacroscope
       this.openTargetUrlInBrowser.Click += this.ContextMenusCallbacks.CallbackOpenTargetUrlInBrowserClick;
 
       this.copySourceUrl.Click += this.ContextMenusCallbacks.CallbackCopySourceUrlClick;
-      this.copyTargetUrl.Click += this.ContextMenusCallbacks.CallbackCopyTargetClick;
+      this.copyTargetUrl.Click += this.ContextMenusCallbacks.CallbackCopyTargetUrlClick;
 
       this.copyRawSourceUrl.Click += this.ContextMenusCallbacks.CallbackCopyRawSourceUrlClick;
       this.copyRawTargetUrl.Click += this.ContextMenusCallbacks.CallbackCopyRawTargetUrlClick;
@@ -2465,6 +2465,11 @@ namespace SEOMacroscope
         TargetListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
 
       }
+
+    }
+
+    private void contextMenuStripCopyRecords_Opening ( object sender, System.ComponentModel.CancelEventArgs e )
+    {
 
     }
 

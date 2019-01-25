@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Net;
 
 namespace SEOMacroscope
 {
@@ -42,12 +43,13 @@ namespace SEOMacroscope
 
     private const int ColUrl = 0;
     private const int ColUrlTarget = 1;
-    private const int ColDoFollow = 2;
-    private const int ColLinkTarget = 3;
-    private const int ColLinkAnchorTextLabel = 4;
-    private const int ColLinkTitleLabel = 5;
-    private const int ColAltTextLabel = 6;
-    private const int ColRawTargetUrl = 7;
+    private const int ColStatusCode= 2;
+    private const int ColDoFollow = 3;
+    private const int ColLinkTarget = 4;
+    private const int ColLinkAnchorTextLabel = 5;
+    private const int ColLinkTitleLabel = 6;
+    private const int ColAltTextLabel = 7;
+    private const int ColRawTargetUrl = 8;
 
     private ToolStripLabel UrlCount;
 
@@ -284,6 +286,7 @@ namespace SEOMacroscope
         string UrlTarget = HyperlinkOut.GetTargetUrl();
         string PairKey = string.Join( ":", UrlToDigest( Url ), UrlToDigest( UrlTarget ) );
         string LinkTarget = HyperlinkOut.GetLinkTarget();
+        HttpStatusCode StatusCode = HttpStatusCode.Ambiguous;
         string LinkText = HyperlinkOut.GetAnchorText();
         string LinkTitle = HyperlinkOut.GetTitle();
         string AltText = HyperlinkOut.GetAltText();
@@ -295,6 +298,18 @@ namespace SEOMacroscope
         string RawTargetUrl = HyperlinkOut.GetRawTargetUrl();
 
         string DoFollow = "No Follow";
+
+        try
+        {
+          if( DocCollection.ContainsDocument( Url: HyperlinkOut.GetLinkTarget() ) )
+          {
+            StatusCode = DocCollection.GetDocumentByUrl( Url: HyperlinkOut.GetLinkTarget() ).GetStatusCode();
+          }
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
+        }
 
         if( HyperlinkOut.GetDoFollow() )
         {
@@ -326,6 +341,7 @@ namespace SEOMacroscope
 
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
+            lvItem.SubItems[ ColStatusCode ].Text = ((int)StatusCode).ToString();
             lvItem.SubItems[ ColDoFollow ].Text = DoFollow;
             lvItem.SubItems[ ColLinkTarget ].Text = LinkTarget;
             lvItem.SubItems[ ColLinkAnchorTextLabel ].Text = LinkTextLabel;
@@ -352,6 +368,7 @@ namespace SEOMacroscope
 
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems.Add( UrlTarget );
+            lvItem.SubItems.Add( ( (int) StatusCode ).ToString() );
             lvItem.SubItems.Add( DoFollow );
             lvItem.SubItems.Add( LinkTarget );
             lvItem.SubItems.Add( LinkTextLabel );
