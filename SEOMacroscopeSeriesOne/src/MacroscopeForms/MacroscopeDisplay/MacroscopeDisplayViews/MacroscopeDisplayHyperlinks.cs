@@ -43,13 +43,14 @@ namespace SEOMacroscope
 
     private const int ColUrl = 0;
     private const int ColUrlTarget = 1;
-    private const int ColStatusCode= 2;
-    private const int ColDoFollow = 3;
-    private const int ColLinkTarget = 4;
-    private const int ColLinkAnchorTextLabel = 5;
-    private const int ColLinkTitleLabel = 6;
-    private const int ColAltTextLabel = 7;
-    private const int ColRawTargetUrl = 8;
+    private const int ColStatusCode = 2;
+    private const int ColStatus = 3;
+    private const int ColDoFollow = 4;
+    private const int ColLinkTarget = 5;
+    private const int ColLinkAnchorTextLabel = 6;
+    private const int ColLinkTitleLabel = 7;
+    private const int ColAltTextLabel = 8;
+    private const int ColRawTargetUrl = 9;
 
     private ToolStripLabel UrlCount;
 
@@ -58,17 +59,17 @@ namespace SEOMacroscope
     public MacroscopeDisplayHyperlinks ( MacroscopeMainForm MainForm, ListView TargetListView )
       : base( MainForm, TargetListView )
     {
-      
+
       this.SuppressDebugMsg = true;
 
       this.MainForm = MainForm;
       this.DisplayListView = TargetListView;
       this.UrlCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelHyperlinksUrls;
-      
+
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.ConfigureListView();
@@ -94,13 +95,13 @@ namespace SEOMacroscope
     }
 
     /**************************************************************************/
-    
+
     public new void ClearData ()
     {
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.DisplayListView.Items.Clear();
@@ -132,7 +133,7 @@ namespace SEOMacroscope
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -175,7 +176,7 @@ namespace SEOMacroscope
       if( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               Cursor.Current = Cursors.WaitCursor;
@@ -210,8 +211,8 @@ namespace SEOMacroscope
     )
     {
 
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
-            
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( DocCollection.CountDocuments() );
+
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
@@ -232,7 +233,7 @@ namespace SEOMacroscope
       }
 
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-     
+
     }
 
     /**************************************************************************/
@@ -243,8 +244,8 @@ namespace SEOMacroscope
     )
     {
 
-      List<ListViewItem> ListViewItems = new List<ListViewItem> ( DocCollection.CountDocuments() );
-            
+      List<ListViewItem> ListViewItems = new List<ListViewItem>( DocCollection.CountDocuments() );
+
       foreach( MacroscopeDocument msDoc in DocCollection.IterateDocuments() )
       {
 
@@ -261,9 +262,9 @@ namespace SEOMacroscope
         }
 
       }
-      
+
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
-     
+
     }
 
     /**************************************************************************/
@@ -275,18 +276,20 @@ namespace SEOMacroscope
       string Url
     )
     {
-              
+
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
-      
+
       foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
       {
 
         ListViewItem lvItem = null;
         string UrlTarget = HyperlinkOut.GetTargetUrl();
+        HttpStatusCode StatusCode = HttpStatusCode.NotFound;
+        string StatusCodeText = "Not crawled";
+        string StatusText = "Not crawled";
         string PairKey = string.Join( ":", UrlToDigest( Url ), UrlToDigest( UrlTarget ) );
         string LinkTarget = HyperlinkOut.GetLinkTarget();
-        HttpStatusCode StatusCode = HttpStatusCode.Ambiguous;
         string LinkText = HyperlinkOut.GetAnchorText();
         string LinkTitle = HyperlinkOut.GetTitle();
         string AltText = HyperlinkOut.GetAltText();
@@ -301,9 +304,15 @@ namespace SEOMacroscope
 
         try
         {
-          if( DocCollection.ContainsDocument( Url: HyperlinkOut.GetLinkTarget() ) )
+          if( DocCollection.ContainsDocument( Url: HyperlinkOut.GetTargetUrl() ) )
           {
-            StatusCode = DocCollection.GetDocumentByUrl( Url: HyperlinkOut.GetLinkTarget() ).GetStatusCode();
+            StatusCode = DocCollection.GetDocumentByUrl( Url: HyperlinkOut.GetTargetUrl() ).GetStatusCode();
+            StatusCodeText = ( (int) StatusCode ).ToString();
+            StatusText = StatusCode.ToString();
+          }
+          else
+          {
+            DebugMsg( "Not in DocCollection" );
           }
         }
         catch( Exception ex )
@@ -320,12 +329,12 @@ namespace SEOMacroscope
         {
           LinkTextLabel = "MISSING";
         }
-        
+
         if( LinkTitle.Length == 0 )
         {
           LinkTitleLabel = "MISSING";
         }
-        
+
         if( AltText.Length == 0 )
         {
           AltTextLabel = "MISSING";
@@ -341,7 +350,8 @@ namespace SEOMacroscope
 
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
-            lvItem.SubItems[ ColStatusCode ].Text = ((int)StatusCode).ToString();
+            lvItem.SubItems[ ColStatusCode ].Text = StatusCodeText;
+            lvItem.SubItems[ ColStatus ].Text = StatusText;
             lvItem.SubItems[ ColDoFollow ].Text = DoFollow;
             lvItem.SubItems[ ColLinkTarget ].Text = LinkTarget;
             lvItem.SubItems[ ColLinkAnchorTextLabel ].Text = LinkTextLabel;
@@ -362,20 +372,21 @@ namespace SEOMacroscope
           try
           {
 
-            lvItem = new ListViewItem ( PairKey );
+            lvItem = new ListViewItem( PairKey );
             lvItem.UseItemStyleForSubItems = false;
             lvItem.Name = PairKey;
 
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems.Add( UrlTarget );
-            lvItem.SubItems.Add( ( (int) StatusCode ).ToString() );
+            lvItem.SubItems.Add( StatusCodeText );
+            lvItem.SubItems.Add( StatusText );
             lvItem.SubItems.Add( DoFollow );
             lvItem.SubItems.Add( LinkTarget );
             lvItem.SubItems.Add( LinkTextLabel );
             lvItem.SubItems.Add( LinkTitleLabel );
             lvItem.SubItems.Add( AltTextLabel );
             lvItem.SubItems.Add( RawTargetUrl );
-            
+
             ListViewItems.Add( lvItem );
 
           }
@@ -385,7 +396,7 @@ namespace SEOMacroscope
           }
 
         }
-        
+
         if( lvItem != null )
         {
 
@@ -402,7 +413,7 @@ namespace SEOMacroscope
           {
             lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
           }
-          
+
           if( AllowedHosts.IsAllowedFromUrl( UrlTarget ) )
           {
             lvItem.SubItems[ ColUrlTarget ].ForeColor = Color.Green;
@@ -432,12 +443,12 @@ namespace SEOMacroscope
           {
             lvItem.SubItems[ ColLinkAnchorTextLabel ].ForeColor = Color.Gray;
           }
-          
+
           if( LinkTitle.Length == 0 )
           {
             lvItem.SubItems[ ColLinkTitleLabel ].ForeColor = Color.Gray;
           }
-          
+
           if( AltText.Length == 0 )
           {
             lvItem.SubItems[ ColAltTextLabel ].ForeColor = Color.Gray;
@@ -454,14 +465,14 @@ namespace SEOMacroscope
           }
 
         }
-            
+
       }
 
     }
 
     /**************************************************************************/
-    
-    
+
+
     private void RenderListViewSearchTargetUrls (
       List<ListViewItem> ListViewItems,
       MacroscopeDocument msDoc,
@@ -472,11 +483,15 @@ namespace SEOMacroscope
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
       MacroscopeHyperlinksOut HyperlinksOut = msDoc.GetHyperlinksOut();
-      
+      MacroscopeDocumentCollection DocCollection = this.MainForm.GetJobMaster().GetDocCollection();
+
       foreach( MacroscopeHyperlinkOut HyperlinkOut in HyperlinksOut.IterateLinks() )
       {
 
         string UrlTarget = HyperlinkOut.GetTargetUrl();
+        HttpStatusCode StatusCode = HttpStatusCode.NotFound;
+        string StatusCodeText = "Not crawled";
+        string StatusText = "Not crawled";
         string PairKey = string.Join( ":", UrlToDigest( Url: Url ), UrlToDigest( Url: UrlTarget ) ).ToString();
         string LinkTarget = HyperlinkOut.GetLinkTarget();
         string LinkText = HyperlinkOut.GetAnchorText();
@@ -486,30 +501,48 @@ namespace SEOMacroscope
         string LinkTextLabel = LinkText;
         string LinkTitleLabel = LinkTitle;
         string AltTextLabel = AltText;
-        
+
         string DoFollow = "No Follow";
+
+        try
+        {
+          if( DocCollection.ContainsDocument( Url: HyperlinkOut.GetTargetUrl() ) )
+          {
+            StatusCode = DocCollection.GetDocumentByUrl( Url: HyperlinkOut.GetTargetUrl() ).GetStatusCode();
+            StatusCodeText = ( (int) StatusCode ).ToString();
+            StatusText = StatusCode.ToString();
+          }
+          else
+          {
+            DebugMsg( "Not in DocCollection" );
+          }
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
+        }
 
         if( HyperlinkOut.GetDoFollow() )
         {
           DoFollow = "Follow";
         }
-        
+
         if( LinkText.Length == 0 )
         {
           LinkTextLabel = "MISSING";
         }
-        
+
         if( LinkTitle.Length == 0 )
         {
           LinkTitleLabel = "MISSING";
         }
-        
+
         if( AltText.Length == 0 )
         {
           AltTextLabel = "MISSING";
         }
-        
-        if( 
+
+        if(
           ( UrlTarget != null )
           && ( UrlTarget.IndexOf( UrlFragment, StringComparison.CurrentCulture ) >= 0 ) )
         {
@@ -526,7 +559,9 @@ namespace SEOMacroscope
 
               lvItem.SubItems[ ColUrl ].Text = Url;
               lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
-              lvItem.SubItems[ ColDoFollow ].Text = DoFollow;         
+              lvItem.SubItems[ ColStatusCode ].Text = StatusCodeText;
+              lvItem.SubItems[ ColStatus ].Text = StatusText;
+              lvItem.SubItems[ ColDoFollow ].Text = DoFollow;
               lvItem.SubItems[ ColLinkTarget ].Text = LinkTarget;
               lvItem.SubItems[ ColLinkAnchorTextLabel ].Text = LinkTextLabel;
               lvItem.SubItems[ ColLinkTitleLabel ].Text = LinkTitleLabel;
@@ -545,12 +580,14 @@ namespace SEOMacroscope
             try
             {
 
-              lvItem = new ListViewItem ( PairKey );
+              lvItem = new ListViewItem( PairKey );
               lvItem.UseItemStyleForSubItems = false;
               lvItem.Name = PairKey;
 
               lvItem.SubItems[ ColUrl ].Text = Url;
               lvItem.SubItems.Add( UrlTarget );
+              lvItem.SubItems.Add( StatusCodeText );
+              lvItem.SubItems.Add( StatusText );
               lvItem.SubItems.Add( DoFollow );
               lvItem.SubItems.Add( LinkTarget );
               lvItem.SubItems.Add( LinkTextLabel );
@@ -566,7 +603,7 @@ namespace SEOMacroscope
             }
 
           }
-        
+
           if( lvItem != null )
           {
 
@@ -583,7 +620,7 @@ namespace SEOMacroscope
             {
               lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
             }
-          
+
             if( AllowedHosts.IsAllowedFromUrl( UrlTarget ) )
             {
               lvItem.SubItems[ ColUrlTarget ].ForeColor = Color.Green;
@@ -608,17 +645,17 @@ namespace SEOMacroscope
             {
               lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Gray;
             }
-            
+
             if( LinkText.Length == 0 )
             {
               lvItem.SubItems[ ColLinkAnchorTextLabel ].ForeColor = Color.Gray;
             }
-          
+
             if( LinkTitle.Length == 0 )
             {
               lvItem.SubItems[ ColLinkTitleLabel ].ForeColor = Color.Gray;
             }
-          
+
             if( AltText.Length == 0 )
             {
               lvItem.SubItems[ ColAltTextLabel ].ForeColor = Color.Gray;
@@ -635,9 +672,9 @@ namespace SEOMacroscope
             }
 
           }
-          
+
         }
-       
+
       }
 
     }
@@ -648,7 +685,7 @@ namespace SEOMacroscope
     {
       this.UrlCount.Text = string.Format( "URLs: {0}", this.DisplayListView.Items.Count );
     }
-     
+
     /**************************************************************************/
 
   }

@@ -45,10 +45,11 @@ namespace SEOMacroscope
     private const int ColUrl = 1;
     private const int ColUrlTarget = 2;
     private const int ColStatusCode = 3;
-    private const int ColDoFollow = 4;
-    private const int ColAltTextLabel = 5;
-    private const int ColRawSourceUrl = 6;
-    private const int ColRawTargetUrl = 7;
+    private const int ColStatus = 4;
+    private const int ColDoFollow = 5;
+    private const int ColAltTextLabel = 6;
+    private const int ColRawSourceUrl = 7;
+    private const int ColRawTargetUrl = 8;
 
     private ToolStripLabel UrlCount;
 
@@ -364,7 +365,9 @@ namespace SEOMacroscope
         ListViewItem lvItem = null;
         string LinkType = Link.GetLinkType().ToString();
         string UrlTarget = Link.GetTargetUrl();
-        HttpStatusCode StatusCode = HttpStatusCode.Ambiguous;
+        HttpStatusCode StatusCode = HttpStatusCode.NotFound;
+        string StatusCodeText = "Not crawled";
+        string StatusText = "Not crawled";
         string PairKey = string.Join( ":", UrlToDigest( Url: Url ), UrlToDigest( Url: UrlTarget ) );
         string DoFollow = "No Follow";
         string AltText = Link.GetAltText();
@@ -377,6 +380,8 @@ namespace SEOMacroscope
           if( DocCollection.ContainsDocument( Url: Link.GetTargetUrl() ) )
           {
             StatusCode = DocCollection.GetDocumentByUrl( Url: Link.GetTargetUrl() ).GetStatusCode();
+            StatusCodeText = ((int)StatusCode).ToString();
+            StatusText = StatusCode.ToString();
           }
         }
         catch( Exception ex )
@@ -415,7 +420,8 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColType ].Text = LinkType;
             lvItem.SubItems[ ColUrl ].Text = Url;
             lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
-            lvItem.SubItems[ ColStatusCode ].Text = ( (int) StatusCode ).ToString();
+            lvItem.SubItems[ ColStatusCode ].Text = StatusCodeText;
+            lvItem.SubItems[ ColStatus].Text = StatusText;
             lvItem.SubItems[ ColDoFollow ].Text = DoFollow;
             lvItem.SubItems[ ColAltTextLabel ].Text = AltTextLabel;
             lvItem.SubItems[ ColRawSourceUrl ].Text = RawSourceUrl;
@@ -441,7 +447,8 @@ namespace SEOMacroscope
             lvItem.SubItems[ ColType ].Text = LinkType;
             lvItem.SubItems.Add( Url );
             lvItem.SubItems.Add( UrlTarget );
-            lvItem.SubItems.Add( ( (int) StatusCode ).ToString() );
+            lvItem.SubItems.Add( StatusCodeText );
+            lvItem.SubItems.Add( StatusText );
             lvItem.SubItems.Add( DoFollow );
             lvItem.SubItems.Add( AltTextLabel );
             lvItem.SubItems.Add( RawSourceUrl );
@@ -516,12 +523,16 @@ namespace SEOMacroscope
     {
 
       MacroscopeAllowedHosts AllowedHosts = this.MainForm.GetJobMaster().GetAllowedHosts();
+      MacroscopeDocumentCollection DocCollection= this.MainForm.GetJobMaster().GetDocCollection();
 
       foreach( MacroscopeLink Link in msDoc.IterateOutlinks() )
       {
 
         string LinkType = Link.GetLinkType().ToString();
         string UrlTarget = Link.GetTargetUrl();
+        HttpStatusCode StatusCode = HttpStatusCode.NotFound;
+        string StatusCodeText = "Not crawled";
+        string StatusText = "Not crawled";
         string PairKey = string.Join( ":", UrlToDigest( Url: Url ), UrlToDigest( Url: UrlTarget ) ).ToString();
         string DoFollow = "No Follow";
         string AltText = Link.GetAltText();
@@ -529,6 +540,20 @@ namespace SEOMacroscope
 
         string RawSourceUrl = Link.GetRawSourceUrl();
         string RawTargetUrl = Link.GetRawTargetUrl();
+
+        try
+        {
+          if( DocCollection.ContainsDocument( Url: Link.GetTargetUrl() ) )
+          {
+            StatusCode = DocCollection.GetDocumentByUrl( Url: Link.GetTargetUrl() ).GetStatusCode();
+            StatusCodeText = ( (int) StatusCode ).ToString();
+            StatusText = StatusCode.ToString();
+          }
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
+        }
 
         if( Link.GetDoFollow() )
         {
@@ -565,13 +590,15 @@ namespace SEOMacroscope
 
               lvItem = this.DisplayListView.Items[ PairKey ];
 
-              lvItem.SubItems[ 0 ].Text = LinkType;
-              lvItem.SubItems[ 1 ].Text = Url;
-              lvItem.SubItems[ 2 ].Text = UrlTarget;
-              lvItem.SubItems[ 3 ].Text = DoFollow;
-              lvItem.SubItems[ 4 ].Text = AltTextLabel;
-              lvItem.SubItems[ 5 ].Text = RawSourceUrl;
-              lvItem.SubItems[ 6 ].Text = RawTargetUrl;
+              lvItem.SubItems[ ColType ].Text = LinkType;
+              lvItem.SubItems[ ColUrl ].Text = Url;
+              lvItem.SubItems[ ColUrlTarget ].Text = UrlTarget;
+              lvItem.SubItems[ ColStatusCode ].Text = StatusCodeText;
+              lvItem.SubItems[ ColStatus ].Text = StatusText;
+              lvItem.SubItems[ ColDoFollow ].Text = DoFollow;
+              lvItem.SubItems[ ColAltTextLabel ].Text = AltTextLabel;
+              lvItem.SubItems[ ColRawSourceUrl ].Text = RawSourceUrl;
+              lvItem.SubItems[ ColRawTargetUrl ].Text = RawTargetUrl;
 
             }
             catch( Exception ex )
@@ -590,9 +617,11 @@ namespace SEOMacroscope
               lvItem.UseItemStyleForSubItems = false;
               lvItem.Name = PairKey;
 
-              lvItem.SubItems[ 0 ].Text = LinkType;
+              lvItem.SubItems[ ColType ].Text = LinkType;
               lvItem.SubItems.Add( Url );
               lvItem.SubItems.Add( UrlTarget );
+              lvItem.SubItems.Add( StatusCodeText );
+              lvItem.SubItems.Add( StatusText );
               lvItem.SubItems.Add( DoFollow );
               lvItem.SubItems.Add( AltTextLabel );
               lvItem.SubItems.Add( RawSourceUrl );
@@ -618,36 +647,36 @@ namespace SEOMacroscope
 
             if( AllowedHosts.IsAllowedFromUrl( Url ) )
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColUrl ].ForeColor = Color.Green;
             }
             else
             {
-              lvItem.SubItems[ 1 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColUrl ].ForeColor = Color.Gray;
             }
 
             if( AllowedHosts.IsAllowedFromUrl( UrlTarget ) )
             {
-              lvItem.SubItems[ 2 ].ForeColor = Color.Green;
+              lvItem.SubItems[ ColUrlTarget ].ForeColor = Color.Green;
             }
             else
             {
-              lvItem.SubItems[ 2 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColUrlTarget ].ForeColor = Color.Gray;
             }
 
             if( AllowedHosts.IsAllowedFromUrl( UrlTarget ) )
             {
               if( Link.GetDoFollow() )
               {
-                lvItem.SubItems[ 3 ].ForeColor = Color.Green;
+                lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Green;
               }
               else
               {
-                lvItem.SubItems[ 3 ].ForeColor = Color.Red;
+                lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Red;
               }
             }
             else
             {
-              lvItem.SubItems[ 3 ].ForeColor = Color.Gray;
+              lvItem.SubItems[ ColDoFollow ].ForeColor = Color.Gray;
             }
 
           }

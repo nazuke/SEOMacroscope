@@ -630,6 +630,8 @@ namespace SEOMacroscope
       this.HistoryUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.HistoryVisited = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.HistoryInDocCollection = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.HyperlinksStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.LinksOutStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabControlMain.SuspendLayout();
       this.tabPageStructureOverview.SuspendLayout();
       this.tableLayoutPanelStructure.SuspendLayout();
@@ -1887,6 +1889,7 @@ namespace SEOMacroscope
             this.LinksOutSourceUrl,
             this.LinksOutTargetUrl,
             this.LinksOutStatusCode,
+            this.LinksOutStatus,
             this.LinksOutFollow,
             this.LinksOutAltText,
             this.LinksOutRawSourceUrl,
@@ -1975,6 +1978,7 @@ namespace SEOMacroscope
             this.HyperlinksSourceUrl,
             this.HyperlinksTargetUrl,
             this.HyperlinksStatusCode,
+            this.HyperlinksStatus,
             this.HyperlinksFollow,
             this.HyperlinksLinkTarget,
             this.HyperlinksLinkText,
@@ -3458,6 +3462,16 @@ namespace SEOMacroscope
       this.HistoryInDocCollection.Text = "In Document Collection";
       this.HistoryInDocCollection.Width = 120;
       // 
+      // HyperlinksStatus
+      // 
+      this.HyperlinksStatus.Text = "Status";
+      this.HyperlinksStatus.Width = 100;
+      // 
+      // LinksOutStatus
+      // 
+      this.LinksOutStatus.Text = "Status";
+      this.LinksOutStatus.Width = 100;
+      // 
       // MacroscopeOverviewPanel
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3607,5 +3621,7 @@ namespace SEOMacroscope
     private System.Windows.Forms.ColumnHeader columnHeaderPresence;
     private System.Windows.Forms.ColumnHeader HyperlinksStatusCode;
     private System.Windows.Forms.ColumnHeader LinksOutStatusCode;
+    private System.Windows.Forms.ColumnHeader HyperlinksStatus;
+    private System.Windows.Forms.ColumnHeader LinksOutStatus;
   }
 }

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Verifying page keywords with SEO Macroscope"
-date: "2018-12-18 09:00:00 -09:00"
+date: "2019-01-27 09:00:00 -09:00"
 published: true
 description: "Use SEO Macroscope to check your web page's keywords match what is specified in the keywords meta tag."
 excerpt: "Use SEO Macroscope to check your web page's keywords match what is specified in the keywords meta tag."
