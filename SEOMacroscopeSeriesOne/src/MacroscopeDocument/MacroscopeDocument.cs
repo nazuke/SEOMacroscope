@@ -189,6 +189,9 @@ namespace SEOMacroscope
     private Dictionary<string, List<string>> DataExtractedRegexes;
     private Dictionary<string, List<string>> DataExtractedXpaths;
 
+    // Cookies
+    private CookieCollection CookieJar;
+
     /** Constructors **********************************************************/
 
     public MacroscopeDocument (
@@ -377,6 +380,8 @@ namespace SEOMacroscope
       this.DataExtractedCssSelectors = new Dictionary<string, List<string>>( 8 );
       this.DataExtractedRegexes = new Dictionary<string, List<string>>( 8 );
       this.DataExtractedXpaths = new Dictionary<string, List<string>>( 8 );
+
+      this.CookieJar = new CookieCollection();
 
     }
 
@@ -2606,6 +2611,21 @@ namespace SEOMacroscope
           }
         }
       }
+    }
+
+    /** Cookies ***************************************************************/
+
+    public void AddCookies ( CookieCollection Cookies )
+    {
+
+      this.CookieJar = new CookieCollection();
+
+      foreach( Cookie biscuit in Cookies )
+      {
+        this.CookieJar.Add( cookie: biscuit );
+      }
+
+      return;
     }
 
     /** Executor **************************************************************/

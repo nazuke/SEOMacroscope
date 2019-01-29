@@ -496,7 +496,7 @@ namespace SEOMacroscope
 
       DetectQrCodeInImage = false;
 
-      EnableLevenshteinDeduplication = true;
+      EnableLevenshteinDeduplication = false;
       LevenshteinAnalysisLevel = 1; // 1 | 2
       MaxLevenshteinSizeDifference = 64;
       MaxLevenshteinDistance = 16;
@@ -2006,7 +2006,6 @@ namespace SEOMacroscope
     }
 
     /** Disregard Html5 Elements Settings *************************************/
-
 
     public static bool GetDisregardHtml5ElementNav ()
     {

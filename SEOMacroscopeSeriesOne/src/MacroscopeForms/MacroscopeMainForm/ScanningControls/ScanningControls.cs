@@ -39,7 +39,7 @@ namespace SEOMacroscope
     private void ScanningControlsConfigure ()
     {
 
-      if ( this.IsDisposed )
+      if( this.IsDisposed )
       {
         return;
       }
@@ -56,12 +56,12 @@ namespace SEOMacroscope
     private void ScanningControlsButtonText ()
     {
 
-      if ( this.IsDisposed )
+      if( this.IsDisposed )
       {
         return;
       }
 
-      if ( this.GetJobMaster().PeekUrlQueue() )
+      if( this.GetJobMaster().PeekUrlQueue() )
       {
         this.ButtonStart.Text = "Continue";
       }
@@ -77,7 +77,7 @@ namespace SEOMacroscope
     private void ScanningControlsEnable ()
     {
 
-      if ( this.IsDisposed )
+      if( this.IsDisposed )
       {
         return;
       }
@@ -88,6 +88,7 @@ namespace SEOMacroscope
       this.saveSessionAsToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
+      this.presetsToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
 
       this.textBoxStartUrl.Enabled = true;
@@ -100,7 +101,7 @@ namespace SEOMacroscope
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
-      if ( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
+      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = true;
       }
@@ -125,7 +126,7 @@ namespace SEOMacroscope
 
     private void ScanningControlsStart ()
     {
-      if ( this.IsDisposed )
+      if( this.IsDisposed )
       {
         return;
       }
@@ -136,6 +137,7 @@ namespace SEOMacroscope
       this.saveSessionAsToolStripMenuItem.Enabled = false;
       this.exportToolStripMenuItem.Enabled = false;
       this.taskParametersToolStripMenuItem.Enabled = false;
+      this.presetsToolStripMenuItem.Enabled = false;
       this.reportsToolStripMenuItem.Enabled = false;
 
       this.textBoxStartUrl.Enabled = false;
@@ -166,7 +168,7 @@ namespace SEOMacroscope
     private void ScanningControlsStopping ()
     {
 
-      if ( this.IsDisposed )
+      if( this.IsDisposed )
       {
         return;
       }
@@ -177,6 +179,7 @@ namespace SEOMacroscope
       this.saveSessionAsToolStripMenuItem.Enabled = false;
       this.exportToolStripMenuItem.Enabled = false;
       this.taskParametersToolStripMenuItem.Enabled = false;
+      this.presetsToolStripMenuItem.Enabled = false;
       this.reportsToolStripMenuItem.Enabled = false;
 
       this.textBoxStartUrl.Enabled = false;
@@ -207,7 +210,7 @@ namespace SEOMacroscope
     private void ScanningControlsStopped ()
     {
 
-      if ( this.IsDisposed )
+      if( this.IsDisposed )
       {
         return;
       }
@@ -218,6 +221,7 @@ namespace SEOMacroscope
       this.saveSessionAsToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
+      this.presetsToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
 
       this.textBoxStartUrl.Enabled = true;
@@ -230,7 +234,7 @@ namespace SEOMacroscope
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = false;
 
-      if ( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
+      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = true;
       }
@@ -258,7 +262,7 @@ namespace SEOMacroscope
     private void ScanningControlsReset ()
     {
 
-      if ( this.IsDisposed )
+      if( this.IsDisposed )
       {
         return;
       }
@@ -269,6 +273,7 @@ namespace SEOMacroscope
       this.saveSessionAsToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
+      this.presetsToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
 
       this.textBoxStartUrl.Enabled = true;
@@ -281,7 +286,7 @@ namespace SEOMacroscope
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
-      if ( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
+      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = true;
       }
@@ -309,7 +314,7 @@ namespace SEOMacroscope
     private void ScanningControlsComplete ()
     {
 
-      if ( this.IsDisposed )
+      if( this.IsDisposed )
       {
         return;
       }
@@ -320,6 +325,7 @@ namespace SEOMacroscope
       this.saveSessionAsToolStripMenuItem.Enabled = true;
       this.exportToolStripMenuItem.Enabled = true;
       this.taskParametersToolStripMenuItem.Enabled = true;
+      this.presetsToolStripMenuItem.Enabled = true;
       this.reportsToolStripMenuItem.Enabled = true;
 
       this.textBoxStartUrl.Enabled = true;
@@ -332,7 +338,7 @@ namespace SEOMacroscope
       this.toolStripButtonRetryBrokenLinks.Enabled = true;
       this.toolStripButtonRetryTimedOutLinks.Enabled = true;
 
-      if ( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
+      if( MacroscopePreferencesManager.GetAnalyzeClickPaths() )
       {
         this.toolStripButtonRecalculateClickPaths.Enabled = true;
       }

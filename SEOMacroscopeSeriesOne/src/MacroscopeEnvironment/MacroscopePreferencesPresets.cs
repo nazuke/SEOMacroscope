@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public static void Defaults ()
+    public static void DefaultSettings ()
     {
       MacroscopePreferencesManager.SetDefaultValues();
       MacroscopePreferencesManager.SavePreferences();
@@ -49,16 +49,106 @@ namespace SEOMacroscope
 
     public static void HtmlOnly ()
     {
+
       MacroscopePreferencesManager.SetDefaultValues();
+
+      MacroscopePreferencesManager.SetCheckExternalLinks( false );
+      MacroscopePreferencesManager.SetCheckHreflangs( false );
+      MacroscopePreferencesManager.SetEnableTextIndexing( false );
+      MacroscopePreferencesManager.SetDetectQrCodeInImage( false );
+      MacroscopePreferencesManager.SetEnableLevenshteinDeduplication( false );
+      MacroscopePreferencesManager.SetProbeHumansText( false );
+      MacroscopePreferencesManager.SetProbeHead404sWithGet( true );
+      MacroscopePreferencesManager.SetCheckRedirects( true );
+      MacroscopePreferencesManager.SetFollowRedirects( false );
+      MacroscopePreferencesManager.SetFollowNoFollow( true );
+      MacroscopePreferencesManager.SetFollowCanonicalLinks( true );
+      MacroscopePreferencesManager.SetFollowAlternateLinks( false );
+      MacroscopePreferencesManager.SetFollowHrefLangLinks( false );
+
+      MacroscopePreferencesManager.SetFetchStylesheets( false );
+      MacroscopePreferencesManager.SetFetchJavascripts( false );
+      MacroscopePreferencesManager.SetFetchImages( false );
+      MacroscopePreferencesManager.SetFetchAudio( false );
+      MacroscopePreferencesManager.SetFetchVideo( false );
+      MacroscopePreferencesManager.SetFetchXml( true );
+      MacroscopePreferencesManager.SetFetchBinaries( false );
+
+      MacroscopePreferencesManager.SetProcessAudio( false );
+      MacroscopePreferencesManager.SetProcessBinaries( false );
+      MacroscopePreferencesManager.SetProcessImages( false );
+      MacroscopePreferencesManager.SetProcessJavascripts( false );
+      MacroscopePreferencesManager.SetProcessPdfs( false );
+      MacroscopePreferencesManager.SetProcessStylesheets( false );
+      MacroscopePreferencesManager.SetProcessVideo( false );
+      MacroscopePreferencesManager.SetProcessXml( false );
+
+      MacroscopePreferencesManager.SetAnalyzeTextReadability( false );
+
       MacroscopePreferencesManager.SavePreferences();
+
+    }
+
+    /**************************************************************************/
+
+    public static void HtmlAndPdfs ()
+    {
+
+      MacroscopePreferencesManager.SetDefaultValues();
+
+      HtmlOnly();
+
+      MacroscopePreferencesManager.SetProcessPdfs( true );
+
+      MacroscopePreferencesManager.SavePreferences();
+
+    }
+
+    /**************************************************************************/
+
+    public static void HtmlAndLinkedAssets ()
+    {
+
+      MacroscopePreferencesManager.SetDefaultValues();
+
+      HtmlOnly();
+
+      MacroscopePreferencesManager.SetFetchStylesheets( true );
+      MacroscopePreferencesManager.SetFetchJavascripts( true );
+      MacroscopePreferencesManager.SetFetchImages( true );
+      MacroscopePreferencesManager.SetFetchAudio( true );
+      MacroscopePreferencesManager.SetFetchVideo( true );
+      MacroscopePreferencesManager.SetFetchXml( true );
+      MacroscopePreferencesManager.SetFetchBinaries( false );
+
+      MacroscopePreferencesManager.SetProcessAudio( true );
+      MacroscopePreferencesManager.SetProcessBinaries( false );
+      MacroscopePreferencesManager.SetProcessImages( true );
+      MacroscopePreferencesManager.SetProcessJavascripts( true );
+      MacroscopePreferencesManager.SetProcessPdfs( false );
+      MacroscopePreferencesManager.SetProcessStylesheets( true );
+      MacroscopePreferencesManager.SetProcessVideo( false );
+      MacroscopePreferencesManager.SetProcessXml( false );
+
+      MacroscopePreferencesManager.SavePreferences();
+
     }
 
     /**************************************************************************/
 
     public static void HrefLangMatrix ()
     {
+
       MacroscopePreferencesManager.SetDefaultValues();
+
+      HtmlOnly();
+
+      MacroscopePreferencesManager.SetFollowCanonicalLinks( true );
+      MacroscopePreferencesManager.SetFollowAlternateLinks( true );
+      MacroscopePreferencesManager.SetFollowHrefLangLinks( true );
+
       MacroscopePreferencesManager.SavePreferences();
+
     }
 
     /**************************************************************************/

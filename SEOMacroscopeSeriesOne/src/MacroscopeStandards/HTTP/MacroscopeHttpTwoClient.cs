@@ -47,6 +47,8 @@ namespace SEOMacroscope
     private static HttpClient Client;
     private static WinHttpHandler HttpHandler;
 
+    private static CookieContainer CookieMonster;
+
     /**************************************************************************/
 
     static MacroscopeHttpTwoClient ()
@@ -66,6 +68,10 @@ namespace SEOMacroscope
       HttpHandler.ReceiveHeadersTimeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
       HttpHandler.ReceiveDataTimeout = new TimeSpan( hours: 0, minutes: 0, seconds: MacroscopePreferencesManager.GetRequestTimeout() );
 
+      CookieMonster = new CookieContainer();
+      HttpHandler.CookieContainer = CookieMonster;
+      HttpHandler.CookieUsePolicy = CookieUsePolicy.UseSpecifiedCookieContainer;
+
       ConfigureProxy();
 
       Client = new HttpClient( HttpHandler );
@@ -81,9 +87,16 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public WinHttpHandler GetHttpHandler ()
+    public static WinHttpHandler GetHttpHandler ()
     {
       return ( HttpHandler );
+    }
+
+    /**************************************************************************/
+
+    public static CookieContainer GetCookieMonster ()
+    {
+      return ( CookieMonster );
     }
 
     /**************************************************************************/

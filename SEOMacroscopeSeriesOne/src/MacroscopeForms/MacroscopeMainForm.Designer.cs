@@ -176,6 +176,7 @@ namespace SEOMacroscope
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroscopeMainForm));
       this.menuStripMain = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.recentURLsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.loadUrlListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.loadFromTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.pasteFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -211,6 +212,11 @@ namespace SEOMacroscope
       this.xPathExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
       this.clearHTTPAuthenticationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.presetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.hTMLOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.hTMLPDFsOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.hTMLAndLinkedAssetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.defaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.saveOverviewExcelReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -322,7 +328,9 @@ namespace SEOMacroscope
       this.macroscopeOverviewTabPanelInstance = new SEOMacroscope.MacroscopeOverviewPanel();
       this.macroscopeDocumentDetailsInstance = new SEOMacroscope.MacroscopeDocumentDetails();
       this.macroscopeSiteStructurePanelInstance = new SEOMacroscope.MacroscopeSiteStructurePanel();
-      this.recentURLsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
+      this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
+      this.hrefLangMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStripMain.SuspendLayout();
       this.tableLayoutPanelMainContainer.SuspendLayout();
       this.statusStripMain.SuspendLayout();
@@ -344,6 +352,7 @@ namespace SEOMacroscope
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
             this.taskParametersToolStripMenuItem,
+            this.presetsToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.reportsToolStripMenuItem,
             this.helpToolStripMenuItem});
@@ -368,6 +377,12 @@ namespace SEOMacroscope
       this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
       this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
       this.fileToolStripMenuItem.Text = "File";
+      // 
+      // recentURLsToolStripMenuItem
+      // 
+      this.recentURLsToolStripMenuItem.Name = "recentURLsToolStripMenuItem";
+      this.recentURLsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.recentURLsToolStripMenuItem.Text = "Recent URLs";
       // 
       // loadUrlListToolStripMenuItem
       // 
@@ -628,6 +643,48 @@ namespace SEOMacroscope
       this.clearHTTPAuthenticationToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
       this.clearHTTPAuthenticationToolStripMenuItem.Text = "Clear HTTP Authentication";
       this.clearHTTPAuthenticationToolStripMenuItem.Click += new System.EventHandler(this.CallbackClearHTTPAuthenticationToolStripMenuItemClick);
+      // 
+      // presetsToolStripMenuItem
+      // 
+      this.presetsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hTMLOnlyToolStripMenuItem,
+            this.hTMLPDFsOnlyToolStripMenuItem,
+            this.hTMLAndLinkedAssetsToolStripMenuItem,
+            this.toolStripSeparator31,
+            this.hrefLangMatrixToolStripMenuItem,
+            this.toolStripSeparator32,
+            this.defaultSettingsToolStripMenuItem});
+      this.presetsToolStripMenuItem.Name = "presetsToolStripMenuItem";
+      this.presetsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+      this.presetsToolStripMenuItem.Text = "Presets";
+      // 
+      // hTMLOnlyToolStripMenuItem
+      // 
+      this.hTMLOnlyToolStripMenuItem.Name = "hTMLOnlyToolStripMenuItem";
+      this.hTMLOnlyToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+      this.hTMLOnlyToolStripMenuItem.Text = "HTML Only";
+      this.hTMLOnlyToolStripMenuItem.Click += new System.EventHandler(this.ClickCallbackPresetsMenuHtmlOnlyItem);
+      // 
+      // hTMLPDFsOnlyToolStripMenuItem
+      // 
+      this.hTMLPDFsOnlyToolStripMenuItem.Name = "hTMLPDFsOnlyToolStripMenuItem";
+      this.hTMLPDFsOnlyToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+      this.hTMLPDFsOnlyToolStripMenuItem.Text = "HTML and PDFs";
+      this.hTMLPDFsOnlyToolStripMenuItem.Click += new System.EventHandler(this.ClickCallbackPresetsMenuHtmlAndPdfsItem);
+      // 
+      // hTMLAndLinkedAssetsToolStripMenuItem
+      // 
+      this.hTMLAndLinkedAssetsToolStripMenuItem.Name = "hTMLAndLinkedAssetsToolStripMenuItem";
+      this.hTMLAndLinkedAssetsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+      this.hTMLAndLinkedAssetsToolStripMenuItem.Text = "HTML and Linked Assets";
+      this.hTMLAndLinkedAssetsToolStripMenuItem.Click += new System.EventHandler(this.ClickCallbackPresetsMenuHtmlAndPdfsItem);
+      // 
+      // defaultSettingsToolStripMenuItem
+      // 
+      this.defaultSettingsToolStripMenuItem.Name = "defaultSettingsToolStripMenuItem";
+      this.defaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+      this.defaultSettingsToolStripMenuItem.Text = "Default Settings";
+      this.defaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.ClickCallbackPresetsMenuDefaultSettingsItem);
       // 
       // viewToolStripMenuItem
       // 
@@ -1538,11 +1595,22 @@ namespace SEOMacroscope
       this.macroscopeSiteStructurePanelInstance.Size = new System.Drawing.Size(200, 200);
       this.macroscopeSiteStructurePanelInstance.TabIndex = 0;
       // 
-      // recentURLsToolStripMenuItem
+      // toolStripSeparator31
       // 
-      this.recentURLsToolStripMenuItem.Name = "recentURLsToolStripMenuItem";
-      this.recentURLsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.recentURLsToolStripMenuItem.Text = "Recent URLs";
+      this.toolStripSeparator31.Name = "toolStripSeparator31";
+      this.toolStripSeparator31.Size = new System.Drawing.Size(201, 6);
+      // 
+      // toolStripSeparator32
+      // 
+      this.toolStripSeparator32.Name = "toolStripSeparator32";
+      this.toolStripSeparator32.Size = new System.Drawing.Size(201, 6);
+      // 
+      // hrefLangMatrixToolStripMenuItem
+      // 
+      this.hrefLangMatrixToolStripMenuItem.Name = "hrefLangMatrixToolStripMenuItem";
+      this.hrefLangMatrixToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+      this.hrefLangMatrixToolStripMenuItem.Text = "HrefLang Matrix";
+      this.hrefLangMatrixToolStripMenuItem.Click += new System.EventHandler(this.ClickCallbackPresetsMenuHrefLangMatrixItem);
       // 
       // MacroscopeMainForm
       // 
@@ -1597,5 +1665,13 @@ namespace SEOMacroscope
     private System.Windows.Forms.ToolStripMenuItem saveSessionAsToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
     private System.Windows.Forms.ToolStripMenuItem recentURLsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem presetsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem hTMLOnlyToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem hTMLPDFsOnlyToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem hTMLAndLinkedAssetsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem defaultSettingsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
+    private System.Windows.Forms.ToolStripMenuItem hrefLangMatrixToolStripMenuItem;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator32;
   }
 }

@@ -616,6 +616,22 @@ namespace SEOMacroscope
 
       }
 
+      /** Process Cookies -------------------------------------------------- **/
+      // https://stackoverflow.com/questions/29224734/how-to-read-cookies-from-httpresponsemessage
+      {
+        try
+        {
+          CookieContainer CookieMonster = MacroscopeHttpTwoClient.GetCookieMonster();
+          CookieCollection Biscuits = CookieMonster.GetCookies( uri: this.GetUri() );
+          this.AddCookies( Cookies: Biscuits );
+          this.DebugMsg( "cookies" );
+        }
+        catch( Exception ex )
+        {
+          this.DebugMsg( ex.Message );
+        }
+      }
+
       return;
 
     }
