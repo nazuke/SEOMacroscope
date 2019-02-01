@@ -407,6 +407,10 @@ namespace SEOMacroscope
 
       //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
 
+
+      MacroscopeHttpTwoClient.ClearCookieMonster();
+
+
       this.SetStartUrl( Url: MacroscopeHttpUrlUtils.SanitizeUrl( Url: this.GetStartUrl() ) );
 
       this.DocCollection.SetStartUrl( Url: this.GetStartUrl() );

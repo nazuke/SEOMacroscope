@@ -11,7 +11,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.8.14" />
     <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Net.Http.WinHttpHandler" Version="4.6.0-preview.18571.3" />
+    <PackageReference Include="System.Net.Http.WinHttpHandler" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="ZXing.Net" Version="0.16.4" />
   </ItemGroup>
 

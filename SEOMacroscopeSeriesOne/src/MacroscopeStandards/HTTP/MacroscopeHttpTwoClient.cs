@@ -94,6 +94,14 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
+    public static void ClearCookieMonster ()
+    {
+      CookieMonster = new CookieContainer();
+      return;
+    }
+
+    /** -------------------------------------------------------------------- **/
+
     public static CookieContainer GetCookieMonster ()
     {
       return ( CookieMonster );
