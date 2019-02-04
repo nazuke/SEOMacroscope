@@ -271,6 +271,7 @@
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\t\TestMacroscopePureTextOutLinks.cs" />
     <Compile Include="src\MacroscopeDocument\t\TestExecuteRequest.cs" />
     <Compile Include="src\MacroscopeDocument\t\TestExecuteHeadRequest.cs" />
+    <Compile Include="src\MacroscopeDocument\t\TestMacroscopeDocumentWithCookies.cs" />
     <Compile Include="src\MacroscopeEnvironment\MacroscopeCheckForUpdate.cs" />
     <Compile Include="src\MacroscopeEnvironment\MacroscopePreferencesPresets.cs" />
     <Compile Include="src\MacroscopeEnvironment\t\TestMacroscopeCheckForUpdate.cs" />
