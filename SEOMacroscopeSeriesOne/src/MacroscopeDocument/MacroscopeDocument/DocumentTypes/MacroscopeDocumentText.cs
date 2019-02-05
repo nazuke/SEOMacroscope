@@ -46,7 +46,13 @@ namespace SEOMacroscope
 
     private void ConfigureTextPageRequestHeadersCallback ( HttpRequestMessage Request )
     {
+
       this.AuthenticateRequest( Request: Request );
+
+      this.ConfigureRequestHeadersAddCookieHeaders( Request: Request );
+
+      return;
+
     }
 
     /** -------------------------------------------------------------------- **/

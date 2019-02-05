@@ -264,6 +264,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentAuthenticateRequest.cs" />
+    <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentCookieHeaders.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentExecuteHeadRequest.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentProcessHttpHeaders.cs" />
     <Compile Include="src\MacroscopeDocument\MacroscopeDocument\DocumentTypes\t\TestMacroscopeDocumentCSS.cs" />

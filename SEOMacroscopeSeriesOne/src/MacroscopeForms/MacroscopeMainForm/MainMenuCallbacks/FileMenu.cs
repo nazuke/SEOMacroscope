@@ -98,6 +98,7 @@ namespace SEOMacroscope
           UrlTruncated = Url.Substring( 0, 64 ) + "...";
         }
 
+        UrlTruncated = UrlTruncated.Replace( "&", "&&" );
         UrlItem.Tag = Url;
         UrlItem.Text = UrlTruncated;
         UrlItem.Click += ClickCallbackFileMenuRecentUrlsItem;

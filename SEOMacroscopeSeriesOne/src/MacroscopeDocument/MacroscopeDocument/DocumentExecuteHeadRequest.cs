@@ -49,28 +49,13 @@ namespace SEOMacroscope
 
     private void ConfigureHeadRequestHeadersCallback ( HttpRequestMessage Request )
     {
+
       this.AuthenticateRequest( Request: Request );
 
-      CookieContainer tin = MacroscopeHttpTwoClient.GetCookieMonster();
-      //CookieCollection biscuits = tin.GetCookies( Request.RequestUri );
-
-
-      string LimpBizkit = tin.GetCookieHeader( uri: Request.RequestUri );
-
-      Request.Headers.Add( "Cookie", LimpBizkit );
-
-      /*
-    foreach( Cookie biscuit in biscuits )
-    {
-
-
-      Request.Headers.Add( "Cookie", biscuit.ToString );
-    }
-    */
-
-
+      this.ConfigureRequestHeadersAddCookieHeaders( Request:Request );
 
       return;
+
     }
 
     /** -------------------------------------------------------------------- **/

@@ -63,6 +63,7 @@ namespace SEOMacroscope
       this.textBoxHttpRequestHeaders.Dock = DockStyle.Fill;
       this.textBoxHttpResponseHeaders.Dock = DockStyle.Fill;
       this.listViewMetaTags.Dock = DockStyle.Fill;
+      this.listViewCookies.Dock = DockStyle.Fill;
       this.listViewHrefLang.Dock = DockStyle.Fill;
       this.listViewLinksIn.Dock = DockStyle.Fill;
       this.listViewLinksOut.Dock = DockStyle.Fill;
@@ -203,6 +204,9 @@ namespace SEOMacroscope
         this.textBoxHttpResponseHeaders.Text = "";
 
         this.listViewMetaTags.Items.Clear();
+
+        this.listViewCookies.Items.Clear();
+
         this.listViewHrefLang.Items.Clear();
         this.listViewLinksIn.Items.Clear();
         this.listViewLinksOut.Items.Clear();
@@ -295,6 +299,8 @@ namespace SEOMacroscope
 
       this.RenderListViewMetaTags( JobMaster, msDoc );
 
+      this.RenderListViewCookies( JobMaster, msDoc );
+      
       this.RenderDocumentHrefLang( msDoc, JobMaster, DocCollection );
 
       this.RenderListViewLinksIn( JobMaster, msDoc );
@@ -455,6 +461,80 @@ namespace SEOMacroscope
             catch( Exception ex )
             {
               DebugMsg( string.Format( "RenderListViewMetaTags 2: {0}", ex.Message ) );
+            }
+
+          }
+
+        }
+
+        TargetListView.Items.AddRange( ListViewItems.ToArray() );
+
+        TargetListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.ColumnContent );
+        TargetListView.AutoResizeColumns( ColumnHeaderAutoResizeStyle.HeaderSize );
+
+        TargetListView.EndUpdate();
+
+      }
+
+    }
+
+    /** Cookies ***************************************************************/
+
+    private void RenderListViewCookies ( MacroscopeJobMaster JobMaster, MacroscopeDocument msDoc )
+    {
+
+      ListView TargetListView = this.listViewCookies;
+      List<ListViewItem> ListViewItems = new List<ListViewItem>();
+
+      lock( this.RenderListViewLock )
+      {
+
+        TargetListView.BeginUpdate();
+
+        TargetListView.Items.Clear();
+
+        foreach( string Biscuit in msDoc.IterateCookies() )
+        {
+
+          Application.DoEvents();
+
+          ListViewItem lvItem = null;
+          string PairKey = string.Join( ":", Macroscope.UrlToDigest( Biscuit ) ).ToString();
+
+          if( TargetListView.Items.ContainsKey( PairKey ) )
+          {
+
+            try
+            {
+
+              lvItem = TargetListView.Items[ PairKey ];
+              lvItem.SubItems[ 0 ].Text = Biscuit;
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewCookies 1: {0}", ex.Message ) );
+            }
+
+          }
+          else
+          {
+
+            try
+            {
+
+              lvItem = new ListViewItem( PairKey );
+              lvItem.UseItemStyleForSubItems = false;
+              lvItem.Name = PairKey;
+
+              lvItem.SubItems[ 0 ].Text = Biscuit;
+
+              ListViewItems.Add( lvItem );
+
+            }
+            catch( Exception ex )
+            {
+              DebugMsg( string.Format( "RenderListViewCookies 2: {0}", ex.Message ) );
             }
 
           }

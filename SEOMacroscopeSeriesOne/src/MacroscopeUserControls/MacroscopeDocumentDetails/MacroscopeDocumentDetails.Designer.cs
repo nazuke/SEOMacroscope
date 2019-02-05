@@ -195,6 +195,9 @@ namespace SEOMacroscope
       this.listViewMetaTags = new System.Windows.Forms.ListView();
       this.columnHeaderMetaTagsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeaderMetaTagsContent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.tabPageCookies = new System.Windows.Forms.TabPage();
+      this.listViewCookies = new System.Windows.Forms.ListView();
+      this.columnHeaderCookie = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.tabPageHrefLangAnalysis = new System.Windows.Forms.TabPage();
       this.listViewHrefLang = new System.Windows.Forms.ListView();
       this.HrefLangUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -310,6 +313,7 @@ namespace SEOMacroscope
       this.tabPageHttpHeaders.SuspendLayout();
       this.tableLayoutPanelHttpHeaders.SuspendLayout();
       this.tabPageMetaTags.SuspendLayout();
+      this.tabPageCookies.SuspendLayout();
       this.tabPageHrefLangAnalysis.SuspendLayout();
       this.tabPageLinksIn.SuspendLayout();
       this.tabPageLinksOut.SuspendLayout();
@@ -341,6 +345,7 @@ namespace SEOMacroscope
       this.tabControlDocument.Controls.Add(this.tabPageDocumentInfo);
       this.tabControlDocument.Controls.Add(this.tabPageHttpHeaders);
       this.tabControlDocument.Controls.Add(this.tabPageMetaTags);
+      this.tabControlDocument.Controls.Add(this.tabPageCookies);
       this.tabControlDocument.Controls.Add(this.tabPageHrefLangAnalysis);
       this.tabControlDocument.Controls.Add(this.tabPageLinksIn);
       this.tabControlDocument.Controls.Add(this.tabPageLinksOut);
@@ -412,19 +417,19 @@ namespace SEOMacroscope
             this.copyRows,
             this.copyValues});
       this.contextMenuStripCopyRecords.Name = "contextMenuStripTextCopy";
-      this.contextMenuStripCopyRecords.Size = new System.Drawing.Size(181, 70);
+      this.contextMenuStripCopyRecords.Size = new System.Drawing.Size(139, 48);
       this.contextMenuStripCopyRecords.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripCopyRecords_Opening);
       // 
       // copyRows
       // 
       this.copyRows.Name = "copyRows";
-      this.copyRows.Size = new System.Drawing.Size(180, 22);
+      this.copyRows.Size = new System.Drawing.Size(138, 22);
       this.copyRows.Text = "Copy Rows";
       // 
       // copyValues
       // 
       this.copyValues.Name = "copyValues";
-      this.copyValues.Size = new System.Drawing.Size(180, 22);
+      this.copyValues.Size = new System.Drawing.Size(138, 22);
       this.copyValues.Text = "Copy Values";
       // 
       // tabPageHttpHeaders
@@ -512,6 +517,36 @@ namespace SEOMacroscope
       // 
       this.columnHeaderMetaTagsContent.Text = "Content";
       this.columnHeaderMetaTagsContent.Width = 400;
+      // 
+      // tabPageCookies
+      // 
+      this.tabPageCookies.Controls.Add(this.listViewCookies);
+      this.tabPageCookies.Location = new System.Drawing.Point(4, 100);
+      this.tabPageCookies.Name = "tabPageCookies";
+      this.tabPageCookies.Size = new System.Drawing.Size(567, 396);
+      this.tabPageCookies.TabIndex = 21;
+      this.tabPageCookies.Text = "Cookies";
+      this.tabPageCookies.UseVisualStyleBackColor = true;
+      // 
+      // listViewCookies
+      // 
+      this.listViewCookies.CausesValidation = false;
+      this.listViewCookies.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderCookie});
+      this.listViewCookies.ContextMenuStrip = this.contextMenuStripCopyRecords;
+      this.listViewCookies.FullRowSelect = true;
+      this.listViewCookies.GridLines = true;
+      this.listViewCookies.Location = new System.Drawing.Point(20, 20);
+      this.listViewCookies.Name = "listViewCookies";
+      this.listViewCookies.Size = new System.Drawing.Size(500, 200);
+      this.listViewCookies.TabIndex = 2;
+      this.listViewCookies.UseCompatibleStateImageBehavior = false;
+      this.listViewCookies.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeaderCookie
+      // 
+      this.columnHeaderCookie.Text = "Cookie";
+      this.columnHeaderCookie.Width = 400;
       // 
       // tabPageHrefLangAnalysis
       // 
@@ -1422,6 +1457,7 @@ namespace SEOMacroscope
       this.tableLayoutPanelHttpHeaders.ResumeLayout(false);
       this.tableLayoutPanelHttpHeaders.PerformLayout();
       this.tabPageMetaTags.ResumeLayout(false);
+      this.tabPageCookies.ResumeLayout(false);
       this.tabPageHrefLangAnalysis.ResumeLayout(false);
       this.tabPageLinksIn.ResumeLayout(false);
       this.tabPageLinksOut.ResumeLayout(false);
@@ -1452,5 +1488,9 @@ namespace SEOMacroscope
       this.ResumeLayout(false);
 
 		}
-	}
+
+    private System.Windows.Forms.TabPage tabPageCookies;
+    public System.Windows.Forms.ListView listViewCookies;
+    public System.Windows.Forms.ColumnHeader columnHeaderCookie;
+  }
 }

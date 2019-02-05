@@ -2628,6 +2628,19 @@ namespace SEOMacroscope
       return;
     }
 
+    /** -------------------------------------------------------------------- **/
+
+    public IEnumerable<string> IterateCookies ()
+    {
+      lock( this.MetaHeaders )
+      {
+        foreach( string biscuit in this.CookieJar )
+        {
+          yield return biscuit;
+        }
+      }
+    }
+
     /** Executor **************************************************************/
 
     public async Task<bool> Execute ()

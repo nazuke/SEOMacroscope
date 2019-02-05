@@ -51,7 +51,21 @@ namespace SEOMacroscope
 
       List<string> UrlList = new List<string>(2);
 
-      UrlList.Add( "https://httpbin.org/cookies/set?freeform=bongo" );
+      UrlList.Add( "https://httpbin.org/cookies/set?first=bongo&second=bongobongo" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
+      UrlList.Add( "https://httpbin.org/cookies" );
       UrlList.Add( "https://httpbin.org/cookies" );
 
       JobMaster = new MacroscopeJobMaster(
@@ -67,10 +81,13 @@ namespace SEOMacroscope
         //Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
       }
 
-      { // Get Cookies
-        MacroscopeDocument msDoc = DocCollection.CreateDocument( Url: UrlList[ 1 ] );
+
+      // Get Cookies
+      for( int i = 1 ; i < UrlList.Count ; i++  )
+      {
+        MacroscopeDocument msDoc = DocCollection.CreateDocument( Url: UrlList[ i ] );
         bool ExecuteResult = await msDoc.Execute();
-        //Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
+        Assert.IsTrue( ExecuteResult, string.Format( "FAIL: {0}", "Execute()" ) );
       }
 
     }

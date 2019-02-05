@@ -627,6 +627,13 @@ namespace SEOMacroscope
           CookieCollection Biscuits = CookieMonster.GetCookies( uri: this.GetUri() );
           this.AddCookies( Cookies: Biscuits );
           this.DebugMsg( "cookies" );
+
+
+//          CookieContainer CookieTin = MacroscopeHttpTwoClient.GetCookieMonster();
+//          string LimpBizkit = tin.GetCookieHeader( uri: Request.RequestUri );
+
+
+
         }
         catch( Exception ex )
         {
