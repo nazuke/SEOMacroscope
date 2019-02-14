@@ -717,6 +717,44 @@ Enter a XPath query that will locate the data that you wish to extract.
 
 Finally, specify whether the XPath query should extract the matched HTML element and all of its children, only the matched child elements, or extract only the text value.
 
+#### Clear HTTP Authentication
+
+This will clear any previously entered usernames and passwords entered during this crawl session.
+
+> **Please Note:** usernames and passwords are not cached, or saved on application exit, they will need to be entered each time a new crawl is made.
+
+{% include go-to-top.html %}
+
+<!-- *********************************************************************** -->
+
+## Presets
+
+Use these commands to quickly recall predefined crawl configuration settings.
+
+Please note that choosing a preset will first set the crawl settings to the defaults, so if you want to crawl only HTML pages, but also include linked images, then choose **HTML Only** first, and then go into the preferences panel and add the images options.
+
+Further presets for common types of crawl tasks may be added in future.
+
+### HTML Only
+
+This preset will crawl only the web pages of the website, all linked assets and other document types will be ignored.
+
+### HTML and PDFs
+
+This preset does the same as **HTML Only**, but will also crawl PDF files.
+
+### HTML and Linked Assets
+
+This preset does the same as **HTML Only**, but will also crawl linked CSS, JS, images, videos, etc.
+
+### HrefLang Matrix
+
+This preset does the same as **HTML Only**, but will also crawl pages referenced in HrefLang tags.
+
+### Default Settings
+
+This does the same thing as pressing the **Default** button in the preference window. It will reset all settings to the defaults.
+
 {% include go-to-top.html %}
 
 <!-- *********************************************************************** -->
