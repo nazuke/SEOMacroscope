@@ -1,6 +1,6 @@
 # SEO MACROSCOPE [![Build Status](https://travis-ci.org/nazuke/SEOMacroscope.svg?branch=master)](https://travis-ci.org/nazuke/SEOMacroscope)
 
-![SEO Macroscope application window](docs/media/screenshots/seo-macroscope-main-window-v1.7.5.png "SEO Macroscope application window")
+![SEO Macroscope application window](docs/media/screenshots/seo-macroscope-main-window-v1.7.6.png "SEO Macroscope application window")
 
 **This project is under continuous development, expect bugs and unimplemented features.**
 

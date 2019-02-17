@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "New v1.7.6.1 release of SEO Macroscope: Predestination"
-date: "2019-02-15 00:00:00 -00:00"
+date: "2019-02-17 00:00:00 -00:00"
 published: true
 description: "This release of SEO Macroscope adds some shortcuts for crawl configuration presets."
 excerpt: "This release of SEO Macroscope adds some shortcuts for crawl configuration presets."
@@ -22,9 +22,9 @@ Please check the [downloads page]({{ "/downloads/" | relative_url }}) for more r
 
 ## Bug fixes
 
-* Nothing significant in this release.
+* Nothing significant for this release.
 
 Please report issues at [https://github.com/nazuke/SEOMacroscope/issues](https://github.com/nazuke/SEOMacroscope/issues).
 
-![SEO Macroscope Application Window]({{ "/media/screenshots/seo-macroscope-main-window-v1.7.5.png" | relative_url }}){: .img-responsive .box-shadow }
+![SEO Macroscope Application Window]({{ "/media/screenshots/seo-macroscope-main-window-v1.7.6.png" | relative_url }}){: .img-responsive .box-shadow }
 {: .screenshot }
