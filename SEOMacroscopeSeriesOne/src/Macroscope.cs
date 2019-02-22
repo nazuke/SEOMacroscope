@@ -115,7 +115,7 @@ namespace SEOMacroscope
       return ( value );
     }
 
-    /** Text Numeeric Digest **************************************************/
+    /** Text Numeric Digest ***************************************************/
 
     public static ulong StringToDigest ( string Text )
     {

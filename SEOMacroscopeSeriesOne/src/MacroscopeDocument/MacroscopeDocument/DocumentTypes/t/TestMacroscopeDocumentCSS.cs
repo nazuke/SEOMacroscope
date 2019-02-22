@@ -29,10 +29,9 @@ using System.IO;
 using System.Reflection;
 using System.Linq;
 using System.Linq.Expressions;
-using ExCSS;
-using StylesheetParser = ExCSS.Parser; // Alias class name, remove when upgrading to ExCSS 3.0
-using Stylesheet = ExCSS.StyleSheet; // Alias class name, remove when upgrading to ExCSS 3.0
 using NUnit.Framework;
+using Alba.CsCss.Gfx;
+using Alba.CsCss.Style;
 
 namespace SEOMacroscope
 {
@@ -87,13 +86,19 @@ namespace SEOMacroscope
     [Test]
     public void TestSimpleCssParsing ()
     {
-      StylesheetParser ExCssParser = new StylesheetParser();
+
+      CssLoader Parser = new CssLoader();
+
       foreach( string Filename in CssGoodDocs.Keys )
       {
+
         string CssData = CssGoodDocs[ Filename ];
-        Stylesheet CssStylesheet = ExCssParser.Parse( CssData );
-        Assert.IsNotNull( CssStylesheet, string.Format( "FAIL: {0}", Filename ) );
+        CssStyleSheet Stylesheet = Parser.ParseSheet( CssData, new Uri( "https://nazuke.github.io/dummy.css" ), new Uri( "https://nazuke.github.io/dummy.css" ) );
+
+        Assert.IsNotNull( Stylesheet, string.Format( "FAIL: {0}", Filename ) );
+
       }
+
     }
 
     /**************************************************************************/
@@ -101,14 +106,21 @@ namespace SEOMacroscope
     [Test]
     public void TestBadCss ()
     {
-      StylesheetParser ExCssParser = new StylesheetParser();
+
+      CssLoader Parser = new CssLoader();
+
       foreach( string Filename in CssBadDocs.Keys )
       {
+
         string CssData = CssBadDocs[ Filename ];
-        Stylesheet CssStylesheet = ExCssParser.Parse( CssData );
-        Assert.IsNotNull( CssStylesheet, string.Format( "FAIL: {0}", Filename ) );
+        CssStyleSheet Stylesheet = Parser.ParseSheet( CssData, new Uri( "https://nazuke.github.io/dummy.css" ), new Uri( "https://nazuke.github.io/dummy.css" ) );
+
+        Assert.IsNotNull( Stylesheet, string.Format( "FAIL: {0}", Filename ) );
+
       }
+
     }
+
 
     /**************************************************************************/
 

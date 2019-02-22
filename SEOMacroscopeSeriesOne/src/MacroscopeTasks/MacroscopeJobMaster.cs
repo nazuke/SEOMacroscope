@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {
@@ -74,13 +75,10 @@ namespace SEOMacroscope
 
     private int CrawlDelay;
     private int ThreadsMax;
-    private int ThreadsRunning;
     private bool ThreadsStop;
     private object ThreadsLock = new object();
-    private Dictionary<int, bool> ThreadsDict;
 
-    [field: NonSerialized()]
-    private Semaphore SemaphoreWorkers;
+    private bool WorkersStopped = true;
 
     private string StartUrl;
 
@@ -100,12 +98,10 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    public MacroscopeJobMaster (
-      MacroscopeConstants.RunTimeMode JobRunTimeMode
-    )
+    public MacroscopeJobMaster ( MacroscopeConstants.RunTimeMode JobRunTimeMode )
     {
 
-      this.SuppressDebugMsg = true;
+      this.SuppressDebugMsg = false;
 
       this.TaskController = null;
 
@@ -138,17 +134,17 @@ namespace SEOMacroscope
 
     protected virtual void Dispose ( bool disposing )
     {
-
-      if( this.SemaphoreWorkers != null )
+      try
       {
-        this.SemaphoreWorkers.Dispose();
+        if( this.DocCollection != null )
+        {
+          this.DocCollection.Dispose();
+        }
       }
-
-      if( this.DocCollection != null )
+      catch( Exception )
       {
-        this.DocCollection.Dispose();
+        // NO-OP
       }
-
     }
 
     /**************************************************************************/
@@ -237,13 +233,7 @@ namespace SEOMacroscope
       this.CrawlDelay = 0;
 
       this.AdjustThreadsMax();
-      this.ThreadsRunning = 0;
       this.ThreadsStop = false;
-      this.ThreadsDict = new Dictionary<int, bool>();
-
-      this.InitializeSemaphores();
-      //this.SemaphoreWorkers = new Semaphore( 0, this.ThreadsMax );
-      //this.SemaphoreWorkers.Release( this.ThreadsMax );
 
       this.PagesFoundLock = new Object();
       this.SetPagesFound( Value: 0 );
@@ -266,14 +256,6 @@ namespace SEOMacroscope
 
     }
 
-    /** Semaphores ************************************************************/
-
-    public void InitializeSemaphores ()
-    {
-      this.SemaphoreWorkers = new Semaphore( 0, this.ThreadsMax );
-      this.SemaphoreWorkers.Release( this.ThreadsMax );
-    }
-
     /** Deserialization *******************************************************/
 
     public void InitializeAfterDeserialization ( IMacroscopeTaskController NewTaskController )
@@ -282,7 +264,6 @@ namespace SEOMacroscope
       this.TaskController = NewTaskController;
       this.Client = new MacroscopeHttpTwoClient();
 
-      this.InitializeSemaphores();
       this.Robots.InitializeAfterDeserialization();
 
       return;
@@ -405,9 +386,6 @@ namespace SEOMacroscope
 
       this.DebugMsg( string.Format( "Start URL: {0}", this.GetStartUrl() ) );
 
-      //this.LogEntry( string.Format( "Executing with Start URL: {0}", this.StartUrl ) );
-
-
       MacroscopeHttpTwoClient.ClearCookieMonster();
 
 
@@ -499,6 +477,8 @@ namespace SEOMacroscope
       while( DoRun == true )
       {
 
+        this.WorkersStopped = false;
+
         if( this.GetThreadsStop() )
         {
 
@@ -511,33 +491,35 @@ namespace SEOMacroscope
         else
         {
 
-          if( this.CountRunningThreads() < this.ThreadsMax )
+          List<Task> TaskList = new List<Task>( this.ThreadsMax );
+
+          for( int i = 0 ; i < this.ThreadsMax ; i++ )
           {
 
-            bool NewThreadStarted = false;
+            Task CrawlTask;
+            MacroscopeJobWorker JobWorker = new MacroscopeJobWorker( JobMaster: this );
 
             try
             {
-              this.SemaphoreWorkers.WaitOne();
-              NewThreadStarted = ThreadPool.QueueUserWorkItem( this.StartWorker, null );
+              CrawlTask = new Task( () => JobWorker.Execute(), TaskCreationOptions.AttachedToParent );
+              TaskList.Add( CrawlTask );
+              CrawlTask.Start();
             }
             catch( Exception ex )
             {
-              this.DebugMsg( string.Format( "SpawnWorkers: {0}", ex.Message ) );
+              this.DebugMsg( string.Format( "TASK ERROR: {0}", ex.Message ) );
             }
 
-            if( NewThreadStarted )
-            {
-              Thread.Sleep( 2000 );
-            }
-
-            this.AdjustThreadsMax();
+            Thread.Sleep( 2000 ); // Allow each thread to spin up
 
           }
 
-          if(
-            ( this.CountRunningThreads() == 0 )
-            && ( !this.PeekUrlQueue() ) )
+          foreach( Task CrawlTask in TaskList )
+          {
+            CrawlTask.Wait();
+          }
+
+          if( !this.PeekUrlQueue() )
           {
             DoRun = false;
           }
@@ -549,41 +531,6 @@ namespace SEOMacroscope
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 
       this.DebugMsg( string.Format( "SpawnWorkers: STOPPED" ) );
-
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void StartWorker ( object thContext )
-    {
-
-      if( !this.GetThreadsStop() )
-      {
-
-        MacroscopeJobWorker JobWorker = new MacroscopeJobWorker( JobMaster: this );
-        this.IncRunningThreads();
-
-        try
-        {
-          JobWorker.Execute();
-        }
-        catch( OutOfMemoryException ex )
-        {
-          this.DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.Message ) );
-          this.DebugMsg( string.Format( "OutOfMemoryException: {0}", ex.StackTrace.ToString() ) );
-          this.TaskController.ICallbackOutOfMemory();
-        }
-
-      }
-
-      try
-      {
-        this.SemaphoreWorkers.Release( 1 );
-      }
-      catch( Exception ex )
-      {
-        this.DebugMsg( string.Format( "StartWorker: {0}", ex.Message ) );
-      }
 
     }
 
@@ -609,13 +556,13 @@ namespace SEOMacroscope
     public void NotifyWorkersDone ()
     {
 
-      this.DecRunningThreads();
-
       this.GetDocCollection().AddWorkerRecalculateDocCollectionQueue();
 
       this.GetDocCollection().RecalculateDocCollection();
 
       this.GetDocCollection().RecalculateDocCollectionFinal();
+
+      this.WorkersStopped = true;
 
     }
 
@@ -630,12 +577,7 @@ namespace SEOMacroscope
 
     public bool AreWorkersStopped ()
     {
-      bool IsStopped = false;
-      if( this.CountRunningThreads() == 0 )
-      {
-        IsStopped = true;
-      }
-      return ( IsStopped );
+      return ( this.WorkersStopped );
     }
 
     /** Track Thread Count ****************************************************/
@@ -657,40 +599,6 @@ namespace SEOMacroscope
     private void AdjustThreadsMax ()
     {
       ThreadsMax = MacroscopePreferencesManager.GetMaxThreads();
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void IncRunningThreads ()
-    {
-      int iThreadId = Thread.CurrentThread.ManagedThreadId;
-      this.ThreadsDict[ iThreadId ] = true;
-      this.ThreadsRunning++;
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    private void DecRunningThreads ()
-    {
-      if( this.ThreadsRunning > 0 )
-      {
-        int iThreadId = Thread.CurrentThread.ManagedThreadId;
-        if( this.ThreadsDict.ContainsKey( iThreadId ) )
-        {
-          lock( this.ThreadsDict )
-          {
-            this.ThreadsDict.Remove( iThreadId );
-          }
-        }
-        this.ThreadsRunning--;
-      }
-    }
-
-    /** -------------------------------------------------------------------- **/
-
-    public int CountRunningThreads ()
-    {
-      return ( this.ThreadsRunning );
     }
 
     /** Queues ****************************************************************/
@@ -1377,7 +1285,7 @@ namespace SEOMacroscope
 
     public MacroscopeDocumentCollection GetDocCollection ()
     {
-      return( this.DocCollection );
+      return ( this.DocCollection );
     }
 
     /** -------------------------------------------------------------------- **/

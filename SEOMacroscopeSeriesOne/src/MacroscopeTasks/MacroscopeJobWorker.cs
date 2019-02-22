@@ -239,8 +239,6 @@ namespace SEOMacroscope
 
         MaxFetches--;
 
-        //Thread.Yield();
-
       }
 
       this.JobMaster.NotifyWorkersDone();

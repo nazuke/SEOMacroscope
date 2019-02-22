@@ -962,12 +962,6 @@ namespace SEOMacroscope
 
       this.JobMaster.StopWorkers();
 
-      while( this.JobMaster.CountRunningThreads() > 0 )
-      {
-        Thread.Yield();
-        Thread.Sleep( 100 );
-      }
-
       this.ScanningControlsStopped();
 
     }

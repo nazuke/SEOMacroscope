@@ -431,7 +431,7 @@ namespace SEOMacroscope
 
       StartUrl = "";
       MaxThreads = 2;
-      MaxFetchesPerWorker = 32;
+      MaxFetchesPerWorker = 256;
       Depth = -1;
       PageLimit = -1;
       RequestTimeout = 10;
