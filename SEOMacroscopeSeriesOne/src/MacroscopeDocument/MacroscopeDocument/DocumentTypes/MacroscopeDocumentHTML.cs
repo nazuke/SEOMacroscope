@@ -35,11 +35,9 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-
 using HtmlAgilityPack;
-using ExCSS;
-using StylesheetParser = ExCSS.Parser; // Alias class name, remove when upgrading to ExCSS 3.0
-using Stylesheet = ExCSS.StyleSheet; // Alias class name, remove when upgrading to ExCSS 3.0
+using Alba.CsCss.Gfx;
+using Alba.CsCss.Style;
 
 namespace SEOMacroscope
 {
@@ -1354,18 +1352,30 @@ namespace SEOMacroscope
             if( !string.IsNullOrEmpty( CssText ) )
             {
 
-              StylesheetParser CssParser = null;
-              Stylesheet CssStylesheet = null;
+              //StylesheetParser CssParser = null;
+              //Stylesheet CssStylesheet = null;
 
               this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", CssText ) );
 
               try
               {
-                CssParser = new StylesheetParser();
-                CssStylesheet = CssParser.Parse( CssText );
-                this.ProcessCssOutlinks( CssStylesheet );
+
+
+
+
+                //CssParser = new StylesheetParser();
+                //CssStylesheet = CssParser.Parse( CssText );
+                //this.ProcessCssOutlinks( CssStylesheet );
+
+
+                CssLoader Parser = new CssLoader();
+                CssStyleSheet Stylesheet = Parser.ParseSheet( CssText, this.GetUri(), this.GetUri() );
+                this.ProcessCssOutlinks( Stylesheet: Stylesheet );
+
+
+
               }
-              catch( Exception ex )
+              catch ( Exception ex )
               {
                 this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", ex.Message ) );
                 this.AddRemark( "ProcessHtmlInlineCssLinks", ex.Message );
@@ -1406,18 +1416,29 @@ namespace SEOMacroscope
             if( !string.IsNullOrEmpty( CssText ) )
             {
 
-              StylesheetParser CssParser = null;
-              Stylesheet CssStylesheet = null;
+              //StylesheetParser CssParser = null;
+              //Stylesheet CssStylesheet = null;
 
               this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", CssText ) );
 
               try
               {
-                CssParser = new StylesheetParser();
-                CssStylesheet = CssParser.Parse( CssText );
-                this.ProcessCssOutlinks( CssStylesheet );
+
+
+                //CssParser = new StylesheetParser();
+                //CssStylesheet = CssParser.Parse( CssText );
+                //this.ProcessCssOutlinks( CssStylesheet );
+
+
+                CssLoader Parser = new CssLoader();
+                CssStyleSheet Stylesheet = Parser.ParseSheet( CssText, this.GetUri(), this.GetUri() );
+                this.ProcessCssOutlinks( Stylesheet: Stylesheet );
+
+
+
+
               }
-              catch( Exception ex )
+              catch ( Exception ex )
               {
                 this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", ex.Message ) );
                 this.AddRemark( "ProcessHtmlAttributeCssLinks", ex.Message );

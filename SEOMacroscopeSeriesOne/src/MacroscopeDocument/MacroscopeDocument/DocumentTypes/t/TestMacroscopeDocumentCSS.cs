@@ -61,7 +61,7 @@ namespace SEOMacroscope
 
       CssBadDocKeys.Add( "SEOMacroscope.src.MacroscopeDocument.MacroscopeDocument.DocumentTypes.t.CssDocs.TestCssDocumentBad001.css" );
 
-      foreach( string Filename in CssGoodDocKeys )
+      foreach ( string Filename in CssGoodDocKeys )
       {
         Reader = new StreamReader(
          stream: Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
@@ -70,7 +70,7 @@ namespace SEOMacroscope
         Reader.Close();
       }
 
-      foreach( string Filename in CssBadDocKeys )
+      foreach ( string Filename in CssBadDocKeys )
       {
         Reader = new StreamReader(
          stream: Assembly.GetExecutingAssembly().GetManifestResourceStream( Filename )
@@ -89,10 +89,10 @@ namespace SEOMacroscope
 
       CssLoader Parser = new CssLoader();
 
-      foreach( string Filename in CssGoodDocs.Keys )
+      foreach ( string Filename in CssGoodDocs.Keys )
       {
 
-        string CssData = CssGoodDocs[ Filename ];
+        string CssData = CssGoodDocs[Filename];
         CssStyleSheet Stylesheet = Parser.ParseSheet( CssData, new Uri( "https://nazuke.github.io/dummy.css" ), new Uri( "https://nazuke.github.io/dummy.css" ) );
 
         Assert.IsNotNull( Stylesheet, string.Format( "FAIL: {0}", Filename ) );
@@ -109,10 +109,10 @@ namespace SEOMacroscope
 
       CssLoader Parser = new CssLoader();
 
-      foreach( string Filename in CssBadDocs.Keys )
+      foreach ( string Filename in CssBadDocs.Keys )
       {
 
-        string CssData = CssBadDocs[ Filename ];
+        string CssData = CssBadDocs[Filename];
         CssStyleSheet Stylesheet = Parser.ParseSheet( CssData, new Uri( "https://nazuke.github.io/dummy.css" ), new Uri( "https://nazuke.github.io/dummy.css" ) );
 
         Assert.IsNotNull( Stylesheet, string.Format( "FAIL: {0}", Filename ) );
@@ -120,22 +120,6 @@ namespace SEOMacroscope
       }
 
     }
-
-
-    /**************************************************************************/
-
-    /*
-    [Test]
-    public void TestExCssExample ()
-    {
-      var parser = new StylesheetParser();
-      var stylesheet = parser.Parse( ".someClass{color: red; background-image: url('/images/logo.png')" );
-      var rule = stylesheet.Rules.First();
-      var selector = rule.SelectorText; // Yields .someClass
-      var color = rule.Style.Color;
-      var image = rule.Style.BackgroundImage; // url('/images/logo.png')
-    }
-    */
 
     /**************************************************************************/
 

@@ -30,6 +30,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Timers;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SEOMacroscope
 {

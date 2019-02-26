@@ -35,10 +35,8 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-
-using ExCSS;
-using StylesheetParser = ExCSS.Parser; // Alias class name, remove when upgrading to ExCSS 3.0
-using Stylesheet = ExCSS.StyleSheet; // Alias class name, remove when upgrading to ExCSS 3.0
+using Alba.CsCss.Gfx;
+using Alba.CsCss.Style;
 
 namespace SEOMacroscope
 {
@@ -123,6 +121,18 @@ namespace SEOMacroscope
         this.AddRemark( "_ProcessCssPage", ex.Message );
       }
 
+      /** Set Base URL ----------------------------------------------------- **/
+      if ( Response != null )
+      {
+        Uri CssUri = this.GetUri();
+        string CssLocalPath = CssUri.LocalPath;
+        string CssPath = System.IO.Path.GetDirectoryName( CssLocalPath );
+        Uri NewCssUri = new Uri( new UriBuilder( scheme: CssUri.Scheme, host: CssUri.Host, port: CssUri.Port, pathValue: CssPath ).ToString() );
+        this.SetBaseHref( NewCssUri.ToString() );
+      }
+
+      /** Process The Response Body ---------------------------------------- **/
+
       if ( Response != null )
       {
 
@@ -156,9 +166,16 @@ namespace SEOMacroscope
 
           try
           {
-            StylesheetParser CssParser = new StylesheetParser();
-            Stylesheet CssStylesheet = CssParser.Parse( RawData );
-            this.ProcessCssOutlinks( CssStylesheet: CssStylesheet );
+
+            //StylesheetParser CssParser = new StylesheetParser();
+            //Stylesheet CssStylesheet = CssParser.Parse( RawData );
+            //this.ProcessCssOutlinks(CssStylesheet: CssStylesheet);
+
+            CssLoader Parser = new CssLoader();
+            //            CssStyleSheet Stylesheet = Parser.ParseSheet( RawData, this.GetUri(), new Uri( this.GetBaseHref() ) );
+            CssStyleSheet Stylesheet = Parser.ParseSheet( RawData, this.GetUri(), this.GetUri() );
+            this.ProcessCssOutlinks( Stylesheet: Stylesheet );
+
           }
           catch ( Exception ex )
           {
@@ -217,9 +234,9 @@ namespace SEOMacroscope
           string DocumentTitle = null;
           foreach ( Match match in reMatches )
           {
-            if ( match.Groups[ 1 ].Value.Length > 0 )
+            if ( match.Groups[1].Value.Length > 0 )
             {
-              DocumentTitle = match.Groups[ 1 ].Value.ToString();
+              DocumentTitle = match.Groups[1].Value.ToString();
               break;
             }
           }
@@ -245,108 +262,67 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private void ProcessCssOutlinks ( Stylesheet CssStylesheet )
+    private void ProcessCssOutlinks ( CssStyleSheet Stylesheet )
     {
 
-      if( this.GetIsExternal() )
+      // https://github.com/Athari/CsCss
+
+      // https://developer.mozilla.org/en-US/docs/Web/CSS/url
+
+      List<string> BackgroundImageUrls = null;
+
+      if ( this.GetIsExternal() )
       {
         return;
       }
 
-      foreach( var CssRule in CssStylesheet.StyleRules )
+      try
+      {
+        BackgroundImageUrls = Stylesheet.AllStyleRules
+        .Where( StyleRule => StyleRule.Declaration.BackgroundImage != null )
+        .SelectMany( StyleRule => StyleRule.Declaration.AllData )
+        .SelectMany( Property => Property.Value.Unit == CssUnit.List ? Property.Value.List : new[] { Property.Value } )
+        .Where( Value => Value.Unit == CssUnit.Url )
+        .Select( Value => Value.OriginalUri )
+        .ToList();
+      }
+      catch( Exception ex )
+      {
+        DebugMsg( string.Format( "ProcessCssOutlinks: {0}", ex.Message ) );
+      }
+
+      if ( BackgroundImageUrls != null )
       {
 
-        int iRule = CssStylesheet.StyleRules.IndexOf( CssRule );
-
-        foreach( Property pProp in CssStylesheet.StyleRules[ iRule ].Declarations.Properties )
+        foreach ( string BackgroundImageUrl in BackgroundImageUrls )
         {
 
-          string BackgroundImageUrl;
-          string LinkUrlAbs;
+          string LinkUrlAbs = this.ProcessCssBackgroundImageUrl( BackgroundImageUrl );
 
-          switch( pProp.Name.ToLower() )
+          DebugMsg( string.Format( "ProcessCssOutlinks: (background-image): {0}", BackgroundImageUrl ) );
+          DebugMsg( string.Format( "ProcessCssOutlinks: (background-image): {0}", LinkUrlAbs ) );
+
+          if ( LinkUrlAbs != null )
           {
 
-            case "background-image":
+            MacroscopeHyperlinkOut HyperlinkOut = null;
+            MacroscopeLink Outlink = null;
 
-              if( pProp.Term != null )
-              {
+            HyperlinkOut = this.HyperlinksOut.Add(
+              LinkType: MacroscopeConstants.HyperlinkType.CSS,
+              UrlTarget: LinkUrlAbs
+            );
 
-                BackgroundImageUrl = pProp.Term.ToString();
-                LinkUrlAbs = this.ProcessCssBackImageUrl( BackgroundImageUrl );
+            Outlink = this.AddDocumentOutlink(
+              AbsoluteUrl: LinkUrlAbs,
+              LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
+              Follow: true
+            );
 
-                DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", BackgroundImageUrl ) );
-                DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background-image): {0}", LinkUrlAbs ) );
-
-                if( LinkUrlAbs != null )
-                {
-
-                  MacroscopeHyperlinkOut HyperlinkOut = null;
-                  MacroscopeLink Outlink = null;
-
-                  HyperlinkOut = this.HyperlinksOut.Add(
-                    LinkType: MacroscopeConstants.HyperlinkType.CSS,
-                    UrlTarget: LinkUrlAbs
-                  );
-
-                  Outlink = this.AddDocumentOutlink(
-                    AbsoluteUrl: LinkUrlAbs,
-                    LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                    Follow: true
-                  );
-
-                  if( Outlink != null )
-                  {
-                    Outlink.SetRawTargetUrl( BackgroundImageUrl );
-                  }
-
-                }
-
-              }
-
-              break;
-
-            case "background":
-
-              if( pProp.Term != null )
-              {
-
-                BackgroundImageUrl = pProp.Term.ToString();
-                LinkUrlAbs = this.ProcessCssBackImageUrl( BackgroundImageUrl );
-
-                DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", BackgroundImageUrl ) );
-                DebugMsg( string.Format( "ProcessCssHyperlinksOut: (background): {0}", LinkUrlAbs ) );
-
-                if( LinkUrlAbs != null )
-                {
-
-                  MacroscopeHyperlinkOut HyperlinkOut = null;
-                  MacroscopeLink Outlink = null;
-
-                  HyperlinkOut = this.HyperlinksOut.Add(
-                    LinkType: MacroscopeConstants.HyperlinkType.CSS,
-                    UrlTarget: LinkUrlAbs
-                  );
-
-                  Outlink = this.AddDocumentOutlink(
-                    AbsoluteUrl: LinkUrlAbs,
-                    LinkType: MacroscopeConstants.InOutLinkType.IMAGE,
-                    Follow: true
-                  );
-
-                  if( Outlink != null )
-                  {
-                    Outlink.SetRawTargetUrl( BackgroundImageUrl );
-                  }
-
-                }
-
-              }
-
-              break;
-
-            default:
-              break;
+            if ( Outlink != null )
+            {
+              Outlink.SetRawTargetUrl( BackgroundImageUrl );
+            }
 
           }
 
@@ -354,15 +330,18 @@ namespace SEOMacroscope
 
       }
 
+      return;
+
     }
 
     /**************************************************************************/
 
-    private string ProcessCssBackImageUrl ( string BackgroundImageUrl )
+    private string ProcessCssBackgroundImageUrl ( string BackgroundImageUrl )
     {
 
       string LinkUrlAbs = null;
-      string LinkUrlCleaned = MacroscopeHttpUrlUtils.CleanUrlCss( BackgroundImageUrl );
+      //string LinkUrlCleaned = MacroscopeHttpUrlUtils.CleanUrlCss( BackgroundImageUrl );
+      string LinkUrlCleaned = BackgroundImageUrl;
 
       if ( LinkUrlCleaned != null )
       {
@@ -370,13 +349,14 @@ namespace SEOMacroscope
         try
         {
           LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
-            BaseUrl: this.DocUrl,
+            BaseUrl: this.GetBaseHref(),
+            //            BaseUrl: this.DocUrl,
             Url: LinkUrlCleaned
           );
         }
         catch ( MacroscopeUriFormatException ex )
         {
-          DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", ex.Message ) );
+          DebugMsg( string.Format( "ProcessCssBackgroundImageUrl: {0}", ex.Message ) );
         }
 
         DebugMsg( string.Format( "ProcessCssBackImageUrl: {0}", LinkUrlCleaned ) );

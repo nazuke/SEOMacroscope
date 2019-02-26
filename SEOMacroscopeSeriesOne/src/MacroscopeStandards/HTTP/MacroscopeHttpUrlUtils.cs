@@ -860,7 +860,6 @@ namespace SEOMacroscope
 
       string CleanedUrl = null;
 
-
       DebugMsgStatic( string.Format( "CleanUrlCss: sProperty: {0}", CssProperty ) );
 
       if( Regex.IsMatch( CssProperty, @"url\([^()]+\)" ) )
