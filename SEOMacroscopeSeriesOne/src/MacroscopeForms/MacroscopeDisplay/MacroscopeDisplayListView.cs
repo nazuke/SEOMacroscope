@@ -552,12 +552,12 @@ namespace SEOMacroscope
     )
     {
 
-      if( DocCollection.CountDocuments() == 0 )
+      if ( DocCollection.CountDocuments() == 0 )
       {
         return;
       }
 
-      if( UrlList.Count == 0 )
+      if ( UrlList.Count == 0 )
       {
         return;
       }
@@ -569,7 +569,7 @@ namespace SEOMacroscope
       decimal TotalDocs = (decimal) UrlList.Count;
       decimal MajorPercentage = ( (decimal) 100 / TotalDocs ) * Count;
 
-      if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+      if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {
 
         ProgressForm.ControlBox = false;
@@ -583,26 +583,31 @@ namespace SEOMacroscope
 
       }
 
-      foreach( string Url in UrlList )
+
+      lock ( this.DisplayListViewLock )
+      {
+
+
+        foreach ( string Url in UrlList )
       {
 
         Application.DoEvents();
 
         MacroscopeDocument msDoc = DocCollection.GetDocumentByUrl( Url: Url );
 
-        if( msDoc != null )
+        if ( msDoc != null )
         {
 
           this.RenderListView(
             ListViewItems: ListViewItems,
             DocCollection: DocCollection,
             msDoc: msDoc,
-            Url: msDoc.GetUrl()
+            Url: Url
           );
 
         }
 
-        if( MacroscopePreferencesManager.GetShowProgressDialogues() )
+        if ( MacroscopePreferencesManager.GetShowProgressDialogues() )
         {
 
           Count++;
@@ -620,6 +625,11 @@ namespace SEOMacroscope
       }
 
       this.DisplayListView.Items.AddRange( ListViewItems.ToArray() );
+
+
+
+    }
+
 
       if( MacroscopePreferencesManager.GetShowProgressDialogues() )
       {

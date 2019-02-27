@@ -47,7 +47,7 @@ namespace SEOMacroscope
         this.TimerProgressBarScan.Enabled = true;
         this.TimerProgressBarScan.Start();
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( Msg: ex.Message );
       }
@@ -69,30 +69,30 @@ namespace SEOMacroscope
         {
           this.TimerProgressBarScan.Stop();
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "StopProgressBarScanTimer: {0}", ex.Message ) );
         }
       }
-      if( this.InvokeRequired )
+      if ( this.InvokeRequired )
       {
         this.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
-              this.ProgressBarScan.Value = 0;    
+              this.ProgressBarScan.Value = 0;
             }
           )
         );
       }
       else
       {
-        this.ProgressBarScan.Value = 0;    
+        this.ProgressBarScan.Value = 0;
       }
     }
 
     /**************************************************************************/
-            
+
     private void CallbackProgressBarScanTimer ( Object self, ElapsedEventArgs e )
     {
 
@@ -107,10 +107,10 @@ namespace SEOMacroscope
         try
         {
 
-          if( this.InvokeRequired )
+          if ( this.InvokeRequired )
           {
             this.Invoke(
-              new MethodInvoker (
+              new MethodInvoker(
                 delegate
                 {
                   this.UpdateProgressBarScan();
@@ -124,7 +124,7 @@ namespace SEOMacroscope
           }
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           DebugMsg( string.Format( "CallbackProgressBarScanTimer1: {0}", ex.Message ) );
           DebugMsg( string.Format( "CallbackProgressBarScanTimer2: {0}", ex.StackTrace ) );
@@ -135,9 +135,9 @@ namespace SEOMacroscope
         }
 
       }
-            
+
     }
-    
+
     /**************************************************************************/
 
     private void UpdateProgressBarScan ( int Percentage )
@@ -151,22 +151,22 @@ namespace SEOMacroscope
       if ( this.InvokeRequired )
       {
         this.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
-              this.ProgressBarScan.Value = Percentage;    
+              this.ProgressBarScan.Value = Percentage;
             }
           )
         );
       }
       else
       {
-        this.ProgressBarScan.Value = Percentage;    
+        this.ProgressBarScan.Value = Percentage;
       }
     }
-    
+
     /**************************************************************************/
-        
+
     private void UpdateProgressBarScan ()
     {
 
@@ -181,25 +181,25 @@ namespace SEOMacroscope
       {
 
         List<decimal> Counts = this.JobMaster.GetProgress();
-        decimal Total = Counts[ 0 ];
-        decimal Processed = Counts[ 1 ];
-        decimal Queued = Counts[ 2 ];
-        
-        if( Total > 0 )
+        decimal Total = Counts[0];
+        decimal Processed = Counts[1];
+        decimal Queued = Counts[2];
+
+        if ( Total > 0 )
         {
-          Percentage = ( int )( ( 100 / Total ) * Processed );
+          Percentage = (int) ( ( 100 / Total ) * Processed );
         }
         else
         {
           Percentage = 0;
         }
 
-        if( Percentage < 0 )
+        if ( Percentage < 0 )
         {
           Percentage = 0;
         }
         else
-        if( Percentage > 100 )
+        if ( Percentage > 100 )
         {
           Percentage = 100;
         }
@@ -218,7 +218,7 @@ namespace SEOMacroscope
       }
 
       this.TimerProgressBarScan.Start();
-      
+
     }
 
     /**************************************************************************/

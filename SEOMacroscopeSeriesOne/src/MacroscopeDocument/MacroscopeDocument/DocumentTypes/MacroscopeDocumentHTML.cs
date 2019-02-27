@@ -72,7 +72,7 @@ namespace SEOMacroscope
       {
         await this._ProcessHtmlPage();
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "ProcessHtmlPage: {0}", ex.Message ) );
       }
@@ -80,7 +80,7 @@ namespace SEOMacroscope
       TimeDuration.Stop();
       FinalDuration = TimeDuration.ElapsedMilliseconds;
 
-      if( FinalDuration > 0 )
+      if ( FinalDuration > 0 )
       {
         this.Duration = FinalDuration;
       }
@@ -113,14 +113,14 @@ namespace SEOMacroscope
         );
 
       }
-      catch( MacroscopeDocumentException ex )
+      catch ( MacroscopeDocumentException ex )
       {
         this.DebugMsg( string.Format( "_ProcessHtmlPage :: MacroscopeDocumentException: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
         this.SetStatusCode( HttpStatusCode.BadRequest );
         this.AddRemark( "_ProcessHtmlPage", ex.Message );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "_ProcessHtmlPage :: Exception: {0}", ex.Message ) );
         ResponseErrorCondition = ex.Message;
@@ -128,7 +128,7 @@ namespace SEOMacroscope
         this.AddRemark( "_ProcessHtmlPage", ex.Message );
       }
 
-      if( ClientResponse != null )
+      if ( ClientResponse != null )
       {
 
 
@@ -145,12 +145,12 @@ namespace SEOMacroscope
           try
           {
             UseEncoding = this.HtmlSniffCharset( HtmlBytes: ClientResponse.GetContentAsBytes() );
-            if( UseEncoding != null )
+            if ( UseEncoding != null )
             {
               ContentText = ClientResponse.GetContentAsString( WithEncoding: UseEncoding );
             }
           }
-          catch( Exception ex )
+          catch ( Exception ex )
           {
             this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           }
@@ -161,7 +161,7 @@ namespace SEOMacroscope
           this.SetWasDownloaded( true );
 
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           this.SetStatusCode( HttpStatusCode.Ambiguous );
@@ -171,7 +171,7 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-        if( !string.IsNullOrEmpty( ContentText ) )
+        if ( !string.IsNullOrEmpty( ContentText ) )
         {
 
           HtmlDoc = this.ParseRawDataIntoHtmlDocument( ContentText: ContentText );
@@ -180,17 +180,17 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-        if( !string.IsNullOrEmpty( ContentText ) )
+        if ( !string.IsNullOrEmpty( ContentText ) )
         {
 
-          if(
+          if (
             MacroscopePreferencesManager.GetCustomFiltersEnable()
             && MacroscopePreferencesManager.GetCustomFiltersApplyToHtml() )
           {
 
             MacroscopeCustomFilters CustomFilter = this.DocCollection.GetJobMaster().GetCustomFilter();
 
-            if( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
+            if ( ( CustomFilter != null ) && ( CustomFilter.IsEnabled() ) )
             {
               this.ProcessHtmlCustomFiltered( CustomFilter: CustomFilter, HtmlText: ContentText );
             }
@@ -201,10 +201,10 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-        if( !string.IsNullOrEmpty( ContentText ) )
+        if ( !string.IsNullOrEmpty( ContentText ) )
         {
 
-          if(
+          if (
             MacroscopePreferencesManager.GetDataExtractorsEnable()
             && MacroscopePreferencesManager.GetDataExtractorsApplyToHtml() )
           {
@@ -217,7 +217,7 @@ namespace SEOMacroscope
 
         /** ---------------------------------------------------------------- **/
 
-        if( HtmlDoc != null )
+        if ( HtmlDoc != null )
         {
 
           { // Probe Base HREF 
@@ -230,17 +230,17 @@ namespace SEOMacroscope
 
             this.Locale = msLocale.ProbeLocale( HtmlDoc: HtmlDoc );
 
-            if( this.Locale != null )
+            if ( this.Locale != null )
             {
               this.SetHreflang( HrefLangLocale: this.Locale, Url: this.DocUrl );
             }
 
-            if( this.Locale != null )
+            if ( this.Locale != null )
             {
 
               string LanguageCode = this.Locale;
 
-              if( LanguageCode.ToLower().Equals( "x-default" ) )
+              if ( LanguageCode.ToLower().Equals( "x-default" ) )
               {
                 LanguageCode = "x-default";
               }
@@ -258,7 +258,7 @@ namespace SEOMacroscope
           { // Probe Character Set
             try
             {
-              if( HtmlDoc.DeclaredEncoding != null )
+              if ( HtmlDoc.DeclaredEncoding != null )
               {
                 this.SetCharacterSet( HtmlDoc.DeclaredEncoding.EncodingName );
               }
@@ -267,7 +267,7 @@ namespace SEOMacroscope
                 this.SetCharacterSet( "" );
               }
             }
-            catch( Exception ex )
+            catch ( Exception ex )
             {
               this.DebugMsg( string.Format( ex.Message ) );
               this.SetCharacterSet( "" );
@@ -278,7 +278,7 @@ namespace SEOMacroscope
 
             HtmlNode TitleNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/title" );
 
-            if( TitleNode != null )
+            if ( TitleNode != null )
             {
               this.SetTitle( TitleNode.InnerText, MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES );
               this.DebugMsg( string.Format( "TITLE: {0}", this.GetTitle() ) );
@@ -292,7 +292,7 @@ namespace SEOMacroscope
 
           { // Author
             HtmlNode AuthorNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@name='author']" );
-            if( AuthorNode != null )
+            if ( AuthorNode != null )
             {
               this.SetAuthor( AuthorNode.GetAttributeValue( "content", null ), MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES );
               this.DebugMsg( string.Format( "AUTHOR: {0}", this.GetAuthor() ) );
@@ -305,7 +305,7 @@ namespace SEOMacroscope
 
           { // Description
             HtmlNode DescriptionNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@name='description']" );
-            if( DescriptionNode != null )
+            if ( DescriptionNode != null )
             {
               this.SetDescription( DescriptionNode.GetAttributeValue( "content", null ), MacroscopeConstants.TextProcessingMode.DECODE_HTML_ENTITIES );
               this.DebugMsg( string.Format( "DESCRIPTION: {0}", this.GetDescription() ) );
@@ -319,7 +319,7 @@ namespace SEOMacroscope
 
           { // Keywords
             HtmlNode nNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/meta[@name='keywords']" );
-            if( nNode != null )
+            if ( nNode != null )
             {
               this.SetKeywords( KeywordsText: nNode.GetAttributeValue( "content", null ) );
             }
@@ -365,25 +365,25 @@ namespace SEOMacroscope
 
             HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//head/meta" );
 
-            if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+            if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
             {
 
-              foreach( HtmlNode MetaNode in NodeCollection )
+              foreach ( HtmlNode MetaNode in NodeCollection )
               {
 
                 string MetaName = MetaNode.GetAttributeValue( "name", null );
                 string MetaContent = MetaNode.GetAttributeValue( "content", null );
 
-                if( ( !string.IsNullOrEmpty( MetaName ) ) && ( !string.IsNullOrEmpty( MetaContent ) ) )
+                if ( ( !string.IsNullOrEmpty( MetaName ) ) && ( !string.IsNullOrEmpty( MetaContent ) ) )
                 {
 
                   this.DebugMsg( string.Format( "META: {0} :: {1}", MetaName, MetaContent ) );
 
-                  lock( this.MetaHeaders )
+                  lock ( this.MetaHeaders )
                   {
-                    if( this.MetaHeaders.ContainsKey( MetaName ) )
+                    if ( this.MetaHeaders.ContainsKey( MetaName ) )
                     {
-                      this.MetaHeaders[ MetaName ] = MetaContent;
+                      this.MetaHeaders[MetaName] = MetaContent;
                     }
                     else
                     {
@@ -403,12 +403,12 @@ namespace SEOMacroscope
 
             HtmlDocument HtmlDocDocumentText = this.ParseRawDataIntoHtmlDocument( ContentText: ContentText );
 
-            if( HtmlDocDocumentText != null )
+            if ( HtmlDocDocumentText != null )
             {
 
               string Text = this.ProcessHtmlDocumentText( HtmlDoc: HtmlDocDocumentText );
 
-              if( !string.IsNullOrEmpty( Text ) )
+              if ( !string.IsNullOrEmpty( Text ) )
               {
                 this.SetDocumentText( Text: Text );
               }
@@ -429,12 +429,12 @@ namespace SEOMacroscope
 
             HtmlDocument HtmlDocBodyText = this.ParseRawDataIntoHtmlDocument( ContentText: ContentText );
 
-            if( HtmlDocBodyText != null )
+            if ( HtmlDocBodyText != null )
             {
 
               string Text = this.ProcessHtmlBodyText( HtmlDoc: HtmlDocBodyText );
 
-              if( Text != null )
+              if ( Text != null )
               {
                 this.SetBodyText( Text: Text );
               }
@@ -461,7 +461,7 @@ namespace SEOMacroscope
         this.AddRemark( "DOWNLOAD_FAILED_HTML", "Failed to download HTML." );
       }
 
-      if( ResponseErrorCondition != null )
+      if ( ResponseErrorCondition != null )
       {
         this.ProcessErrorCondition( ResponseErrorCondition );
       }
@@ -475,7 +475,7 @@ namespace SEOMacroscope
 
       HtmlDocument HtmlDoc = null;
 
-      if( !string.IsNullOrEmpty( ContentText ) )
+      if ( !string.IsNullOrEmpty( ContentText ) )
       {
 
         HtmlDoc = new HtmlDocument();
@@ -495,7 +495,7 @@ namespace SEOMacroscope
 
       HtmlNode BaseHrefNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/base[@href]" );
 
-      if( BaseHrefNode != null )
+      if ( BaseHrefNode != null )
       {
 
         this.SetBaseHref( Url: BaseHrefNode.GetAttributeValue( "href", "" ) );
@@ -521,14 +521,14 @@ namespace SEOMacroscope
 
       HtmlNode CanonicalNode = HtmlDoc.DocumentNode.SelectSingleNode( "/html/head/link[@rel='canonical']" );
 
-      if( CanonicalNode != null )
+      if ( CanonicalNode != null )
       {
 
         this.Canonical = CanonicalNode.GetAttributeValue( "href", "" );
 
         this.DebugMsg( string.Format( "CANONICAL: {0}", this.Canonical ) );
 
-        if( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
+        if ( MacroscopePreferencesManager.GetFollowCanonicalLinks() )
         {
           string LinkUrlAbs;
 
@@ -546,7 +546,7 @@ namespace SEOMacroscope
             Follow: true
           );
 
-          if( Outlink != null )
+          if ( Outlink != null )
           {
             Outlink.SetRawTargetUrl( this.Canonical );
           }
@@ -571,10 +571,10 @@ namespace SEOMacroscope
 
       HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
-      if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+      if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
       {
 
-        foreach( HtmlNode LinkNode in NodeCollection )
+        foreach ( HtmlNode LinkNode in NodeCollection )
         {
 
           MacroscopeHyperlinkOut HyperlinkOut = null;
@@ -584,7 +584,7 @@ namespace SEOMacroscope
 
           this.DebugMsg( string.Format( "ProcessHtmlHyperlinksOut: {0}", this.GetUrl() ) );
 
-          if( LinkUrl != null )
+          if ( LinkUrl != null )
           {
 
             LinkUrlAbsolute = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
@@ -593,7 +593,7 @@ namespace SEOMacroscope
               Url: LinkUrl
             );
 
-            if( LinkUrlAbsolute != null )
+            if ( LinkUrlAbsolute != null )
             {
 
               this.SetProcessHyperlinksInForUrl( Url: LinkUrlAbsolute );
@@ -605,21 +605,21 @@ namespace SEOMacroscope
 
               HyperlinkOut.SetRawTargetUrl( TargetUrl: LinkUrl );
 
-              if( LinkTitle.Length > 0 )
+              if ( LinkTitle.Length > 0 )
               {
 
                 try
                 {
                   LinkTitle = HtmlEntity.DeEntitize( LinkTitle );
                 }
-                catch( Exception ex )
+                catch ( Exception ex )
                 {
                   this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
                   this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkTitle ) );
                   this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                 }
 
-                if( !string.IsNullOrEmpty( LinkTitle ) )
+                if ( !string.IsNullOrEmpty( LinkTitle ) )
                   HyperlinkOut.SetTitle( Text: LinkTitle );
 
               }
@@ -628,9 +628,9 @@ namespace SEOMacroscope
 
                 string Rel = LinkNode.GetAttributeValue( "rel", null );
 
-                if( !string.IsNullOrEmpty( Rel ) )
+                if ( !string.IsNullOrEmpty( Rel ) )
                 {
-                  if( Rel.ToLower().Equals( "nofollow" ) )
+                  if ( Rel.ToLower().Equals( "nofollow" ) )
                     HyperlinkOut.UnsetDoFollow();
                 }
 
@@ -640,7 +640,7 @@ namespace SEOMacroscope
 
                 string Target = LinkNode.GetAttributeValue( "target", null );
 
-                if( !string.IsNullOrEmpty( Target ) )
+                if ( !string.IsNullOrEmpty( Target ) )
                 {
                   HyperlinkOut.SetLinkTarget( Text: Target );
                 }
@@ -651,21 +651,21 @@ namespace SEOMacroscope
 
                 string LinkText = LinkNode.InnerText;
 
-                if( !string.IsNullOrEmpty( LinkText ) )
+                if ( !string.IsNullOrEmpty( LinkText ) )
                 {
 
                   try
                   {
                     LinkText = HtmlEntity.DeEntitize( LinkText );
                   }
-                  catch( Exception ex )
+                  catch ( Exception ex )
                   {
                     this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
                     this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkText ) );
                     this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                   }
 
-                  if( !string.IsNullOrEmpty( LinkText ) )
+                  if ( !string.IsNullOrEmpty( LinkText ) )
                     HyperlinkOut.SetAnchorText( Text: LinkText );
 
                 }
@@ -676,7 +676,7 @@ namespace SEOMacroscope
 
                 HtmlNode ImageNode = LinkNode.SelectSingleNode( "descendant::img" );
 
-                if( ImageNode != null )
+                if ( ImageNode != null )
                 {
 
                   this.DebugMsg( string.Format( "ImageNode: {0}", this.GetUrl() ) );
@@ -688,21 +688,21 @@ namespace SEOMacroscope
 
                   this.DebugMsg( string.Format( "ImageNode: LinkAltText: {0}", LinkAltText ) );
 
-                  if( !string.IsNullOrEmpty( LinkAltText ) )
+                  if ( !string.IsNullOrEmpty( LinkAltText ) )
                   {
 
                     try
                     {
                       LinkAltText = HtmlEntity.DeEntitize( LinkAltText );
                     }
-                    catch( Exception ex )
+                    catch ( Exception ex )
                     {
                       this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", this.GetUrl() ) );
                       this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", LinkAltText ) );
                       this.DebugMsg( string.Format( "HtmlEntity.DeEntitize: {0}", ex.Message ) );
                     }
 
-                    if( !string.IsNullOrEmpty( LinkAltText ) )
+                    if ( !string.IsNullOrEmpty( LinkAltText ) )
                       HyperlinkOut.SetAltText( LinkAltText );
 
                   }
@@ -728,7 +728,7 @@ namespace SEOMacroscope
     private void ProcessHtmlOutlinks ( HtmlDocument HtmlDoc )
     {
 
-      if( this.GetIsExternal() )
+      if ( this.GetIsExternal() )
       {
         return;
       }
@@ -737,10 +737,10 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = null;
@@ -764,7 +764,7 @@ namespace SEOMacroscope
             this.DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF :    LinkUrl : {0}", LinkUrl ) );
             this.DebugMsg( string.Format( "ProcessHtmlOutlinks: HREF : LinkUrlAbs : {0}", LinkUrlAbs ) );
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -773,7 +773,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetTitle( Title: LinkTitle );
                 Outlink.SetAltText( AltText: LinkAltText );
@@ -793,10 +793,10 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//meta[@content]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = null;
@@ -804,22 +804,22 @@ namespace SEOMacroscope
 
             MatchCollection reMatches = Regex.Matches( Content, @"^\s*[0-9]+;\s*url=([^\s]+)\s*$" );
 
-            for( int i = 0 ; i < reMatches.Count ; i++ )
+            for ( int i = 0; i < reMatches.Count; i++ )
             {
-              if( reMatches[ i ].Groups[ 0 ].Value.Length > 0 )
+              if ( reMatches[i].Groups[0].Value.Length > 0 )
               {
-                LinkUrl = reMatches[ i ].Groups[ 0 ].Value;
+                LinkUrl = reMatches[i].Groups[0].Value;
                 break;
               }
             }
 
-            if( ( LinkUrl != null ) && ( LinkUrl.Length > 0 ) )
+            if ( ( LinkUrl != null ) && ( LinkUrl.Length > 0 ) )
             {
 
               string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
               MacroscopeLink Outlink = null;
 
-              if( LinkUrlAbs != null )
+              if ( LinkUrlAbs != null )
               {
 
                 Outlink = this.AddDocumentOutlink(
@@ -828,7 +828,7 @@ namespace SEOMacroscope
                   Follow: true
                 );
 
-                if( Outlink != null )
+                if ( Outlink != null )
                 {
                   Outlink.SetRawTargetUrl( LinkUrl );
                 }
@@ -849,10 +849,10 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//link[@href]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "href", null );
@@ -861,12 +861,12 @@ namespace SEOMacroscope
             bool Follow = true;
             MacroscopeLink Outlink = null;
 
-            if( !string.IsNullOrEmpty( LinkNode.GetAttributeValue( "hreflang", null ) ) )
+            if ( !string.IsNullOrEmpty( LinkNode.GetAttributeValue( "hreflang", null ) ) )
             {
 
               LinkType = MacroscopeConstants.InOutLinkType.HREFLANG;
 
-              if( MacroscopePreferencesManager.GetFollowHrefLangLinks() )
+              if ( MacroscopePreferencesManager.GetFollowHrefLangLinks() )
               {
                 Follow = true;
                 this.DocCollection.GetAllowedHosts().AddFromUrl( Url: LinkUrlAbs );
@@ -878,7 +878,7 @@ namespace SEOMacroscope
 
             }
 
-            switch( LinkNode.GetAttributeValue( "rel", "" ).ToLower() )
+            switch ( LinkNode.GetAttributeValue( "rel", "" ).ToLower() )
             {
               case "alternate":
                 LinkType = MacroscopeConstants.InOutLinkType.ALTERNATE;
@@ -902,7 +902,7 @@ namespace SEOMacroscope
                 break;
             }
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -911,7 +911,7 @@ namespace SEOMacroscope
                 Follow: Follow
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -929,10 +929,10 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//frame[@src]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = null;
@@ -946,7 +946,7 @@ namespace SEOMacroscope
               Url: LinkUrl
             );
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -955,7 +955,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -973,10 +973,10 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//iframe[@src]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = null;
@@ -990,7 +990,7 @@ namespace SEOMacroscope
               Url: LinkUrl
             );
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -999,7 +999,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -1016,10 +1016,10 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//map/area[@href]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = null;
@@ -1033,7 +1033,7 @@ namespace SEOMacroscope
               Url: LinkUrl
             );
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -1042,7 +1042,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -1059,17 +1059,17 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//script[@src]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -1078,7 +1078,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -1095,10 +1095,10 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//img[@src]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = null;
@@ -1112,7 +1112,7 @@ namespace SEOMacroscope
             LinkTitle = LinkNode.GetAttributeValue( "title", "" );
             LinkAltText = LinkNode.GetAttributeValue( "alt", "" );
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -1121,7 +1121,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetTitle( Title: LinkTitle );
                 Outlink.SetAltText( AltText: LinkAltText );
@@ -1183,17 +1183,17 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//audio[@src]|//audio/source[@src]|//audio/track[@src])" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -1202,7 +1202,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -1221,17 +1221,17 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "(//video[@src]|//video/source[@src]|//video/track[@src])" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -1240,7 +1240,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -1258,17 +1258,17 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//embed[@src]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "src", null );
             string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -1277,7 +1277,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -1295,17 +1295,17 @@ namespace SEOMacroscope
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//object[@data]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
-          foreach( HtmlNode LinkNode in NodeCollection )
+          foreach ( HtmlNode LinkNode in NodeCollection )
           {
 
             string LinkUrl = LinkNode.GetAttributeValue( "data", null );
             string LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute( BaseHref: this.GetBaseHref(), BaseUrl: this.DocUrl, Url: LinkUrl );
             MacroscopeLink Outlink = null;
 
-            if( LinkUrlAbs != null )
+            if ( LinkUrlAbs != null )
             {
 
               Outlink = this.AddDocumentOutlink(
@@ -1314,7 +1314,7 @@ namespace SEOMacroscope
                 Follow: true
               );
 
-              if( Outlink != null )
+              if ( Outlink != null )
               {
                 Outlink.SetRawTargetUrl( LinkUrl );
               }
@@ -1334,46 +1334,31 @@ namespace SEOMacroscope
     private void ProcessHtmlInlineCssLinks ( HtmlDocument HtmlDoc )
     {
 
-      if( HtmlDoc != null )
+      if ( HtmlDoc != null )
       {
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//style" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
           this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", NodeCollection.Count ) );
 
-          foreach( HtmlNode Node in NodeCollection )
+          foreach ( HtmlNode Node in NodeCollection )
           {
 
             string CssText = Node.InnerText;
 
-            if( !string.IsNullOrEmpty( CssText ) )
+            if ( !string.IsNullOrEmpty( CssText ) )
             {
-
-              //StylesheetParser CssParser = null;
-              //Stylesheet CssStylesheet = null;
 
               this.DebugMsg( string.Format( "ProcessHtmlInlineCssLinks: {0}", CssText ) );
 
               try
               {
-
-
-
-
-                //CssParser = new StylesheetParser();
-                //CssStylesheet = CssParser.Parse( CssText );
-                //this.ProcessCssOutlinks( CssStylesheet );
-
-
                 CssLoader Parser = new CssLoader();
                 CssStyleSheet Stylesheet = Parser.ParseSheet( CssText, this.GetUri(), this.GetUri() );
                 this.ProcessCssOutlinks( Stylesheet: Stylesheet );
-
-
-
               }
               catch ( Exception ex )
               {
@@ -1398,45 +1383,31 @@ namespace SEOMacroscope
     private void ProcessHtmlAttributeCssLinks ( HtmlDocument HtmlDoc )
     {
 
-      if( HtmlDoc != null )
+      if ( HtmlDoc != null )
       {
 
         HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//*[@style]" );
 
-        if( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
+        if ( ( NodeCollection != null ) && ( NodeCollection.Count > 0 ) )
         {
 
           this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", NodeCollection.Count ) );
 
-          foreach( HtmlNode Node in NodeCollection )
+          foreach ( HtmlNode Node in NodeCollection )
           {
 
             string CssText = Node.GetAttributeValue( "style", "" );
 
-            if( !string.IsNullOrEmpty( CssText ) )
+            if ( !string.IsNullOrEmpty( CssText ) )
             {
-
-              //StylesheetParser CssParser = null;
-              //Stylesheet CssStylesheet = null;
 
               this.DebugMsg( string.Format( "ProcessHtmlAttributeCssLinks: {0}", CssText ) );
 
               try
               {
-
-
-                //CssParser = new StylesheetParser();
-                //CssStylesheet = CssParser.Parse( CssText );
-                //this.ProcessCssOutlinks( CssStylesheet );
-
-
                 CssLoader Parser = new CssLoader();
                 CssStyleSheet Stylesheet = Parser.ParseSheet( CssText, this.GetUri(), this.GetUri() );
                 this.ProcessCssOutlinks( Stylesheet: Stylesheet );
-
-
-
-
               }
               catch ( Exception ex )
               {
@@ -1465,10 +1436,10 @@ namespace SEOMacroscope
 
       HtmlNodeCollection NodeList = HtmlDoc.DocumentNode.SelectNodes( "//link[@rel='alternate']" );
 
-      if( NodeList != null )
+      if ( NodeList != null )
       {
 
-        foreach( HtmlNode LinkNode in NodeList )
+        foreach ( HtmlNode LinkNode in NodeList )
         {
 
           MacroscopeHrefLang HrefLangAlternate = null;
@@ -1476,24 +1447,24 @@ namespace SEOMacroscope
           string HrefLangLocale = LinkNode.GetAttributeValue( "hreflang", "" );
           string Href = LinkNode.GetAttributeValue( "href", "" );
 
-          if( string.IsNullOrEmpty( HrefLangLocale ) || string.IsNullOrWhiteSpace( HrefLangLocale ) )
+          if ( string.IsNullOrEmpty( HrefLangLocale ) || string.IsNullOrWhiteSpace( HrefLangLocale ) )
           {
             continue;
           }
           else
           {
 
-            if( this.DocUrl == Href )
+            if ( this.DocUrl == Href )
             {
               HrefLangLocale = this.Locale;
             }
 
             this.DebugMsg( string.Format( "HREFLANG: {0}, {1}", HrefLangLocale, Href ) );
 
-            if( MacroscopePreferencesManager.GetCheckHreflangs() )
+            if ( MacroscopePreferencesManager.GetCheckHreflangs() )
             {
 
-              if( this.DocCollection != null )
+              if ( this.DocCollection != null )
               {
 
                 MacroscopeJobMaster JobMaster = null;
@@ -1502,7 +1473,7 @@ namespace SEOMacroscope
                 JobMaster = this.DocCollection.GetJobMaster();
                 IncludeExcludeUrls = JobMaster.GetIncludeExcludeUrls();
 
-                if( IncludeExcludeUrls != null )
+                if ( IncludeExcludeUrls != null )
                 {
 
                   IncludeExcludeUrls.AddExplicitIncludeUrl( Url: Href );
@@ -1519,9 +1490,9 @@ namespace SEOMacroscope
 
             HrefLangAlternate = new MacroscopeHrefLang( JobMaster: this.DocCollection.GetJobMaster(), Locale: HrefLangLocale, Url: Href );
 
-            if( HrefLangAlternate != null )
+            if ( HrefLangAlternate != null )
             {
-              this.HrefLang[ HrefLangLocale ] = HrefLangAlternate;
+              this.HrefLang[HrefLangLocale] = HrefLangAlternate;
             }
 
           }
@@ -1541,15 +1512,15 @@ namespace SEOMacroscope
       string DocumentLocale = this.GetLocale();
       bool SelfReferentialLocalePresent = false;
 
-      if( NodeList != null )
+      if ( NodeList != null )
       {
 
-        foreach( HtmlNode LinkNode in NodeList )
+        foreach ( HtmlNode LinkNode in NodeList )
         {
 
           string HrefLangLocale = LinkNode.GetAttributeValue( "hreflang", "" );
 
-          if( string.IsNullOrEmpty( HrefLangLocale ) || string.IsNullOrWhiteSpace( HrefLangLocale ) )
+          if ( string.IsNullOrEmpty( HrefLangLocale ) || string.IsNullOrWhiteSpace( HrefLangLocale ) )
           {
             continue;
           }
@@ -1558,7 +1529,7 @@ namespace SEOMacroscope
 
             this.DebugMsg( string.Format( "AnalyzeHrefLangAlternates: {0}, {1}", DocumentLocale, HrefLangLocale ) );
 
-            if( HrefLangLocale == DocumentLocale )
+            if ( HrefLangLocale == DocumentLocale )
             {
               SelfReferentialLocalePresent = true;
               break;
@@ -1570,7 +1541,7 @@ namespace SEOMacroscope
 
       }
 
-      if( !SelfReferentialLocalePresent )
+      if ( !SelfReferentialLocalePresent )
       {
         this.AddRemark( "MISSING_HREFLANG", @"A self-referential HrefLang element appears to be missing from this page." );
       }
@@ -1582,7 +1553,7 @@ namespace SEOMacroscope
     private void ExtractHtmlHeadings ( HtmlDocument HtmlDoc )
     {
 
-      for( ushort HeadingLevel = 1 ; HeadingLevel <= 6 ; HeadingLevel++ )
+      for ( ushort HeadingLevel = 1; HeadingLevel <= 6; HeadingLevel++ )
       {
 
         HtmlNodeCollection NodeCollection;
@@ -1591,15 +1562,15 @@ namespace SEOMacroscope
           string.Format( "//h{0}", HeadingLevel )
         );
 
-        if( NodeCollection != null )
+        if ( NodeCollection != null )
         {
 
-          foreach( HtmlNode Node in NodeCollection )
+          foreach ( HtmlNode Node in NodeCollection )
           {
 
             string HeadingText = Node.InnerText;
 
-            if( HeadingText != null )
+            if ( HeadingText != null )
             {
               this.AddHeading( HeadingLevel, HeadingText );
             }
@@ -1620,7 +1591,7 @@ namespace SEOMacroscope
       List<string> ExtractedText = new List<string>( 16 );
       string TextProcessed = "";
 
-      if( HtmlDoc != null )
+      if ( HtmlDoc != null )
       {
 
         this.StripDisregardedNodes( HtmlDoc: HtmlDoc );
@@ -1648,7 +1619,7 @@ namespace SEOMacroscope
       List<string> ExtractedText = new List<string>( 16 );
       string TextProcessed = "";
 
-      if( BodyNode != null )
+      if ( BodyNode != null )
       {
 
         this.StripNonTextNodes( HtmlDoc: HtmlDoc );
@@ -1674,20 +1645,20 @@ namespace SEOMacroscope
 
       HtmlNodeCollection NodeCollection = Node.SelectNodes( "//text()" );
 
-      if( NodeCollection != null )
+      if ( NodeCollection != null )
       {
 
-        foreach( HtmlNode NodeText in NodeCollection )
+        foreach ( HtmlNode NodeText in NodeCollection )
         {
 
           string NodeTextString = NodeText.InnerText;
 
-          if( !string.IsNullOrEmpty( NodeTextString ) )
+          if ( !string.IsNullOrEmpty( NodeTextString ) )
           {
 
             NodeTextString = Regex.Replace( NodeTextString, "<[^<>]+?>", "" );
 
-            if( !string.IsNullOrEmpty( NodeTextString ) )
+            if ( !string.IsNullOrEmpty( NodeTextString ) )
             {
 
               ExtractedText.Add( NodeTextString );
@@ -1707,16 +1678,16 @@ namespace SEOMacroscope
 
     private void StripNodes ( HtmlNodeCollection NodeCollection )
     {
-      if( NodeCollection != null )
+      if ( NodeCollection != null )
       {
         List<HtmlNode> NodesToRemove = new List<HtmlNode>();
-        foreach( HtmlNode Node in NodeCollection )
+        foreach ( HtmlNode Node in NodeCollection )
         {
           NodesToRemove.Add( Node );
         }
-        for( int i = 0 ; i < NodesToRemove.Count ; i++ )
+        for ( int i = 0; i < NodesToRemove.Count; i++ )
         {
-          NodesToRemove[ i ].Remove();
+          NodesToRemove[i].Remove();
         }
       }
       return;
@@ -1727,17 +1698,17 @@ namespace SEOMacroscope
     private void StripDisregardedNodes ( HtmlDocument HtmlDoc )
     {
 
-      if( MacroscopePreferencesManager.GetDisregardHtml5ElementNav() )
+      if ( MacroscopePreferencesManager.GetDisregardHtml5ElementNav() )
       {
         this.StripNodes( NodeCollection: HtmlDoc.DocumentNode.SelectNodes( "(//nav)" ) );
       }
 
-      if( MacroscopePreferencesManager.GetDisregardHtml5ElementHeader() )
+      if ( MacroscopePreferencesManager.GetDisregardHtml5ElementHeader() )
       {
         this.StripNodes( NodeCollection: HtmlDoc.DocumentNode.SelectNodes( "(//header)" ) );
       }
 
-      if( MacroscopePreferencesManager.GetDisregardHtml5ElementFooter() )
+      if ( MacroscopePreferencesManager.GetDisregardHtml5ElementFooter() )
       {
         this.StripNodes( NodeCollection: HtmlDoc.DocumentNode.SelectNodes( "(//footer)" ) );
       }
@@ -1761,25 +1732,25 @@ namespace SEOMacroscope
 
       HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
-      if( NodeCollection != null )
+      if ( NodeCollection != null )
       {
 
-        foreach( HtmlNode LinkNode in NodeCollection )
+        foreach ( HtmlNode LinkNode in NodeCollection )
         {
 
           string LinkUrl = LinkNode.GetAttributeValue( "href", null );
 
-          if( LinkUrl != null )
+          if ( LinkUrl != null )
           {
 
-            if( Regex.IsMatch( LinkUrl, "^mailto:" ) )
+            if ( Regex.IsMatch( LinkUrl, "^mailto:" ) )
             {
 
               MatchCollection reMatches = Regex.Matches( LinkUrl, "^mailto:([^?]+)" );
 
-              foreach( Match reMatch in reMatches )
+              foreach ( Match reMatch in reMatches )
               {
-                this.AddEmailAddress( EmailAddress: reMatch.Groups[ 1 ].Value );
+                this.AddEmailAddress( EmailAddress: reMatch.Groups[1].Value );
               }
 
             }
@@ -1799,25 +1770,25 @@ namespace SEOMacroscope
 
       HtmlNodeCollection NodeCollection = HtmlDoc.DocumentNode.SelectNodes( "//a[@href]" );
 
-      if( NodeCollection != null )
+      if ( NodeCollection != null )
       {
 
-        foreach( HtmlNode LinkNode in NodeCollection )
+        foreach ( HtmlNode LinkNode in NodeCollection )
         {
 
           string LinkUrl = LinkNode.GetAttributeValue( "href", null );
 
-          if( LinkUrl != null )
+          if ( LinkUrl != null )
           {
 
-            if( Regex.IsMatch( LinkUrl, "^tel:" ) )
+            if ( Regex.IsMatch( LinkUrl, "^tel:" ) )
             {
 
               MatchCollection reMatches = Regex.Matches( LinkUrl, "^tel:(.+)" );
 
-              foreach( Match reMatch in reMatches )
+              foreach ( Match reMatch in reMatches )
               {
-                this.AddTelephoneNumber( TelephoneNumber: reMatch.Groups[ 1 ].Value );
+                this.AddTelephoneNumber( TelephoneNumber: reMatch.Groups[1].Value );
               }
 
             }
@@ -1842,9 +1813,9 @@ namespace SEOMacroscope
 
       Analyzed = CustomFilter.AnalyzeText( Text: HtmlText );
 
-      foreach( string Key in Analyzed.Keys )
+      foreach ( string Key in Analyzed.Keys )
       {
-        this.SetCustomFiltered( Text: Key, Presence: Analyzed[ Key ] );
+        this.SetCustomFiltered( Text: Key, Presence: Analyzed[Key] );
       }
 
     }
@@ -1860,7 +1831,7 @@ namespace SEOMacroscope
 
         MacroscopeDataExtractorCssSelectors DataExtractor = JobMaster.GetDataExtractorCssSelectors();
 
-        if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
+        if ( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
         {
           this.ProcessHtmlDataExtractorCssSelectors(
             DataExtractor: DataExtractor,
@@ -1874,7 +1845,7 @@ namespace SEOMacroscope
 
         MacroscopeDataExtractorRegexes DataExtractor = JobMaster.GetDataExtractorRegexes();
 
-        if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
+        if ( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
         {
           this.ProcessHtmlDataExtractorRegexes(
             DataExtractor: DataExtractor,
@@ -1888,7 +1859,7 @@ namespace SEOMacroscope
 
         MacroscopeDataExtractorXpaths DataExtractor = JobMaster.GetDataExtractorXpaths();
 
-        if( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
+        if ( ( DataExtractor != null ) && ( DataExtractor.IsEnabled() ) )
         {
           this.ProcessHtmlDataExtractorXpaths(
             DataExtractor: DataExtractor,
@@ -1910,7 +1881,7 @@ namespace SEOMacroscope
 
       List<KeyValuePair<string, string>> Analyzed = DataExtractor.AnalyzeHtml( Html: HtmlText );
 
-      foreach( KeyValuePair<string, string> Pair in Analyzed )
+      foreach ( KeyValuePair<string, string> Pair in Analyzed )
       {
         this.SetDataExtractedCssSelectors(
           Label: Pair.Key,
@@ -1930,7 +1901,7 @@ namespace SEOMacroscope
 
       List<KeyValuePair<string, string>> Analyzed = DataExtractor.AnalyzeText( Text: HtmlText );
 
-      foreach( KeyValuePair<string, string> Pair in Analyzed )
+      foreach ( KeyValuePair<string, string> Pair in Analyzed )
       {
         this.SetDataExtractedRegexes(
           Label: Pair.Key,
@@ -1952,10 +1923,10 @@ namespace SEOMacroscope
 
       Analyzed = DataExtractor.AnalyzeHtml( Html: HtmlText );
 
-      if( Analyzed != null )
+      if ( Analyzed != null )
       {
 
-        foreach( KeyValuePair<string, string> Pair in Analyzed )
+        foreach ( KeyValuePair<string, string> Pair in Analyzed )
         {
           this.SetDataExtractedXpaths(
             Label: Pair.Key,
@@ -1979,12 +1950,12 @@ namespace SEOMacroscope
 
       string HtmlText = Encoding.ASCII.GetString( HtmlBytes );
 
-      if( ( HtmlBytes.Length > 2 ) && HtmlBytes[ 0 ].Equals( 0xFE ) && HtmlBytes[ 1 ].Equals( 0xFF ) ) // UTF-8 BOM: Big Endian: FE FF
+      if ( ( HtmlBytes.Length > 2 ) && HtmlBytes[0].Equals( 0xFE ) && HtmlBytes[1].Equals( 0xFF ) ) // UTF-8 BOM: Big Endian: FE FF
       {
         EncSniffed = Encoding.UTF8;
       }
       else
-      if( ( HtmlBytes.Length > 2 ) && HtmlBytes[ 0 ].Equals( 0xFF ) && HtmlBytes[ 1 ].Equals( 0xFE ) ) // UTF-8 BOM: Little Endian: FF FE
+      if ( ( HtmlBytes.Length > 2 ) && HtmlBytes[0].Equals( 0xFF ) && HtmlBytes[1].Equals( 0xFE ) ) // UTF-8 BOM: Little Endian: FF FE
       {
         EncSniffed = Encoding.UTF8;
       }
@@ -1996,22 +1967,22 @@ namespace SEOMacroscope
         Match MatchHtml5 = PatternHtml5.Match( HtmlText.ToLower() );
         string Sniffed = null;
 
-        if( MatchHtml5.Success )
+        if ( MatchHtml5.Success )
         {
-          Sniffed = MatchHtml5.Groups[ 1 ].Value;
+          Sniffed = MatchHtml5.Groups[1].Value;
         }
         else
         {
           Match MatchHtml4 = PatternHtml4.Match( HtmlText.ToLower() );
-          if( MatchHtml4.Success )
+          if ( MatchHtml4.Success )
           {
-            Sniffed = MatchHtml4.Groups[ 1 ].Value;
+            Sniffed = MatchHtml4.Groups[1].Value;
           }
         }
 
-        if( Sniffed != null )
+        if ( Sniffed != null )
         {
-          switch( Sniffed )
+          switch ( Sniffed )
           {
             case "utf-8":
               EncSniffed = Encoding.UTF8;
@@ -2064,39 +2035,39 @@ namespace SEOMacroscope
           this.PostProcessRequestHttpHeadersCallback
         );
 
-        if( Response != null )
+        if ( Response != null )
         {
           Proceed = true;
         }
 
       }
-      catch( MacroscopeDocumentException ex )
+      catch ( MacroscopeDocumentException ex )
       {
         this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", ex.Message ) );
         this.DebugMsg( string.Format( "MacroscopeDocumentException: {0}", HtmlUri.ToString() ) );
         this.AddRemark( "FETCHHTMLFILE", string.Format( "There was an error downloading the HTML content: {0}", ex.Message ) );
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
         this.DebugMsg( string.Format( "Exception: {0}", HtmlUri.ToString() ) );
         this.AddRemark( "FETCHHTMLFILE", string.Format( "There was an error downloading the HTML content: {0}", ex.Message ) );
       }
 
-      if( ( Proceed ) && ( Response != null ) )
+      if ( ( Proceed ) && ( Response != null ) )
       {
 
         try
         {
           RawData = Response.GetContentAsString();
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
           this.DebugMsg( string.Format( "Exception: {0}", ex.Message ) );
           RawData = "";
         }
 
-        if( !string.IsNullOrEmpty( RawData ) )
+        if ( !string.IsNullOrEmpty( RawData ) )
         {
           HtmlData = RawData;
         }

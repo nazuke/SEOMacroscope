@@ -166,16 +166,9 @@ namespace SEOMacroscope
 
           try
           {
-
-            //StylesheetParser CssParser = new StylesheetParser();
-            //Stylesheet CssStylesheet = CssParser.Parse( RawData );
-            //this.ProcessCssOutlinks(CssStylesheet: CssStylesheet);
-
             CssLoader Parser = new CssLoader();
-            //            CssStyleSheet Stylesheet = Parser.ParseSheet( RawData, this.GetUri(), new Uri( this.GetBaseHref() ) );
             CssStyleSheet Stylesheet = Parser.ParseSheet( RawData, this.GetUri(), this.GetUri() );
             this.ProcessCssOutlinks( Stylesheet: Stylesheet );
-
           }
           catch ( Exception ex )
           {
@@ -286,7 +279,7 @@ namespace SEOMacroscope
         .Select( Value => Value.OriginalUri )
         .ToList();
       }
-      catch( Exception ex )
+      catch ( Exception ex )
       {
         DebugMsg( string.Format( "ProcessCssOutlinks: {0}", ex.Message ) );
       }

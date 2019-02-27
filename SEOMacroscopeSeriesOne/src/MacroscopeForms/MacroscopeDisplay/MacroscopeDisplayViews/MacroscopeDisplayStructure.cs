@@ -51,7 +51,7 @@ namespace SEOMacroscope
       this.DisplayListView = TargetListView;
       this.DocumentCount = this.MainForm.macroscopeOverviewTabPanelInstance.toolStripLabelStructureItems;
 
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -74,7 +74,7 @@ namespace SEOMacroscope
     protected override void ConfigureListView ()
     {
 
-      if( !this.ListViewConfigured )
+      if ( !this.ListViewConfigured )
       {
 
         this.DisplayListView.SuspendLayout();
@@ -97,7 +97,7 @@ namespace SEOMacroscope
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.ContentType, MacroscopeConstants.ContentType );
 
-        this.DisplayListView.Columns.Add( MacroscopeConstants.Charset, MacroscopeConstants.Charset);
+        this.DisplayListView.Columns.Add( MacroscopeConstants.Charset, MacroscopeConstants.Charset );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Locale, MacroscopeConstants.Locale );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Language, MacroscopeConstants.Language );
         this.DisplayListView.Columns.Add( MacroscopeConstants.Canonical, MacroscopeConstants.Canonical );
@@ -132,7 +132,7 @@ namespace SEOMacroscope
 
         this.DisplayListView.Columns.Add( MacroscopeConstants.BodyTextLang, MacroscopeConstants.BodyTextLang );
 
-        for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
+        for ( ushort HeadingLevel = 1; HeadingLevel <= MaxHeadingsDisplayed; HeadingLevel++ )
         {
           string HeadingLevelText = string.Format( MacroscopeConstants.Hn, HeadingLevel );
           this.DisplayListView.Columns.Add( HeadingLevelText, HeadingLevelText );
@@ -156,7 +156,7 @@ namespace SEOMacroscope
 
     public new void ClearData ()
     {
-      if( this.MainForm.InvokeRequired )
+      if ( this.MainForm.InvokeRequired )
       {
         this.MainForm.Invoke(
           new MethodInvoker(
@@ -186,257 +186,262 @@ namespace SEOMacroscope
     )
     {
 
-      lock( this.DisplayListViewLock )
+      //lock( this.DisplayListViewLock )
+      //{
+
+      Dictionary<string, string> StructureItems = new Dictionary<string, string>();
+
+      ListViewItem lvItem = null;
+
+      string TitleLanguage = msDoc.GetTitleLanguage();
+      string DescriptionLanguage = msDoc.GetDescriptionLanguage();
+      string BodyTextLanguage = msDoc.GetDocumentTextLanguage();
+      int StatusCode = (int) msDoc.GetStatusCode();
+      string PairKey = UrlToDigest( Url ).ToString();
+
+      if ( string.IsNullOrEmpty( TitleLanguage ) )
+      {
+        TitleLanguage = "";
+      }
+
+      if ( string.IsNullOrEmpty( DescriptionLanguage ) )
+      {
+        DescriptionLanguage = "";
+      }
+
+      if ( string.IsNullOrEmpty( BodyTextLanguage ) )
+      {
+        BodyTextLanguage = "";
+      }
+
+      // BEGIN: Columns ----------------------------------------------------//
+
+      StructureItems.Add( MacroscopeConstants.Url, msDoc.GetUrl() );
+
+      StructureItems.Add( MacroscopeConstants.StatusCode, StatusCode.ToString() );
+      StructureItems.Add( MacroscopeConstants.Status, msDoc.GetStatusCode().ToString() );
+      StructureItems.Add( MacroscopeConstants.IsRedirect, msDoc.GetIsRedirect().ToString() );
+
+      StructureItems.Add( MacroscopeConstants.RobotsRule, msDoc.GetAllowedByRobotsAsString() );
+
+      StructureItems.Add( MacroscopeConstants.Duration, msDoc.GetDurationInSecondsFormatted() );
+
+      StructureItems.Add( MacroscopeConstants.ContentType, msDoc.GetMimeType() );
+
+      {
+        string Charset = msDoc.GetCharacterSet();
+        if ( string.IsNullOrEmpty( Charset ) )
+        {
+          Charset = "";
+        }
+        StructureItems.Add( MacroscopeConstants.Charset, Charset );
+      }
+
+      {
+        string LocaleCode = msDoc.GetLocale();
+        if ( string.IsNullOrEmpty( LocaleCode ) )
+        {
+          LocaleCode = "";
+        }
+        StructureItems.Add( MacroscopeConstants.Locale, LocaleCode );
+      }
+
+      {
+        string LanguageCode = msDoc.GetIsoLanguageCode();
+        if ( string.IsNullOrEmpty( LanguageCode ) )
+        {
+          LanguageCode = "";
+        }
+        StructureItems.Add( MacroscopeConstants.Language, LanguageCode );
+      }
+
+      StructureItems.Add( MacroscopeConstants.DateCrawled, msDoc.GetCrawledDate() );
+
+      StructureItems.Add( MacroscopeConstants.DateServer, msDoc.GetDateServer() );
+      StructureItems.Add( MacroscopeConstants.DateModified, msDoc.GetDateModified() );
+      StructureItems.Add( MacroscopeConstants.DateExpires, msDoc.GetDateExpires() );
+
+      StructureItems.Add( MacroscopeConstants.Canonical, msDoc.GetCanonical() );
+
+      StructureItems.Add( MacroscopeConstants.PageDepth, msDoc.GetDepth().ToString() );
+
+      StructureItems.Add( MacroscopeConstants.Inlinks, msDoc.CountInlinks().ToString() );
+      StructureItems.Add( MacroscopeConstants.Outlinks, msDoc.CountOutlinks().ToString() );
+
+      StructureItems.Add( MacroscopeConstants.HyperlinksIn, msDoc.CountHyperlinksIn().ToString() );
+      StructureItems.Add( MacroscopeConstants.HyperlinksOut, msDoc.CountHyperlinksOut().ToString() );
+
+      // TODO: This is too slow:
+      /*
+      {
+        List<decimal> HyperlinkRatio = DocCollection.GetDocumentHyperlinksRatio( Url: Url );
+        StructureItems.Add( MacroscopeConstants.HyperlinksInRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 0 ] ) );
+        StructureItems.Add( MacroscopeConstants.HyperlinksOutRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) );
+      }
+      */
+
+      StructureItems.Add( MacroscopeConstants.Author, msDoc.GetAuthor() );
+
+      StructureItems.Add( MacroscopeConstants.Title, msDoc.GetTitle() );
+      StructureItems.Add( MacroscopeConstants.TitleLen, msDoc.GetTitleLength().ToString() );
+      StructureItems.Add( MacroscopeConstants.TitleLang, TitleLanguage );
+
+      StructureItems.Add( MacroscopeConstants.Description, msDoc.GetDescription() );
+      StructureItems.Add( MacroscopeConstants.DescriptionLen, msDoc.GetDescriptionLength().ToString() );
+      StructureItems.Add( MacroscopeConstants.DescriptionLang, DescriptionLanguage );
+
+      StructureItems.Add( MacroscopeConstants.Keywords, msDoc.GetKeywords() );
+      StructureItems.Add( MacroscopeConstants.KeywordsLen, msDoc.GetKeywordsLength().ToString() );
+      StructureItems.Add( MacroscopeConstants.KeywordsCount, msDoc.GetKeywordsCount().ToString() );
+
+      StructureItems.Add( MacroscopeConstants.BodyTextLang, BodyTextLanguage );
+
+      for ( ushort HeadingLevel = 1; HeadingLevel <= MaxHeadingsDisplayed; HeadingLevel++ )
+      {
+        List<string> HeadingList = msDoc.GetHeadings( HeadingLevel: HeadingLevel );
+        string HeadingText = "";
+        if ( HeadingList.Count > 0 )
+        {
+          HeadingText = HeadingList[0];
+        }
+        StructureItems.Add( string.Format( MacroscopeConstants.Hn, HeadingLevel ), HeadingText );
+      }
+
+      StructureItems.Add( MacroscopeConstants.ErrorCondition, msDoc.GetErrorCondition() );
+
+      // END: Columns ------------------------------------------------------//
+
+      if ( this.DisplayListView.Items.ContainsKey( PairKey ) )
       {
 
-        Dictionary<string, string> StructureItems = new Dictionary<string, string>();
+        lvItem = this.DisplayListView.Items[PairKey];
 
-        ListViewItem lvItem = null;
+      }
+      else
+      {
 
-        string TitleLanguage = msDoc.GetTitleLanguage();
-        string DescriptionLanguage = msDoc.GetDescriptionLanguage();
-        string BodyTextLanguage = msDoc.GetDocumentTextLanguage();
-        int StatusCode = (int) msDoc.GetStatusCode();
-        string PairKey = UrlToDigest( Url ).ToString();
+        lvItem = new ListViewItem( PairKey );
+        lvItem.UseItemStyleForSubItems = false;
+        lvItem.Name = PairKey;
 
-        if( string.IsNullOrEmpty( TitleLanguage ) )
+        for ( int i = 0; i < this.DisplayListView.Columns.Count; i++ )
         {
-          TitleLanguage = "";
+          lvItem.SubItems.Add( "" );
         }
 
-        if( string.IsNullOrEmpty( DescriptionLanguage ) )
+        ListViewItems.Add( lvItem );
+
+      }
+
+      if ( lvItem != null )
+      {
+
+        lvItem.ForeColor = Color.Blue;
+
+        int StatusCodeColIndex = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.StatusCode );
+        int StatusColIndex = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.Status );
+
+        foreach ( string ItemsKey in StructureItems.Keys )
         {
-          DescriptionLanguage = "";
-        }
 
-        if( string.IsNullOrEmpty( BodyTextLanguage ) )
-        {
-          BodyTextLanguage = "";
-        }
+          int ColIndex = this.DisplayListView.Columns.IndexOfKey( ItemsKey );
+          string Text = StructureItems[ItemsKey];
 
-        // BEGIN: Columns ----------------------------------------------------//
-
-        StructureItems.Add( MacroscopeConstants.Url, msDoc.GetUrl() );
-
-        StructureItems.Add( MacroscopeConstants.StatusCode, StatusCode.ToString() );
-        StructureItems.Add( MacroscopeConstants.Status, msDoc.GetStatusCode().ToString() );
-        StructureItems.Add( MacroscopeConstants.IsRedirect, msDoc.GetIsRedirect().ToString() );
-
-        StructureItems.Add( MacroscopeConstants.RobotsRule, msDoc.GetAllowedByRobotsAsString() );
-
-        StructureItems.Add( MacroscopeConstants.Duration, msDoc.GetDurationInSecondsFormatted() );
-
-        StructureItems.Add( MacroscopeConstants.ContentType, msDoc.GetMimeType() );
-
-        {
-          string Charset = msDoc.GetCharacterSet();
-          if( string.IsNullOrEmpty( Charset ) )
+          if ( !string.IsNullOrEmpty( StructureItems[ItemsKey] ) )
           {
-            Charset = "";
+            lvItem.SubItems[ColIndex].Text = Text;
           }
-          StructureItems.Add( MacroscopeConstants.Charset, Charset );
-        }
-
-        {
-          string LocaleCode = msDoc.GetLocale();
-          if( string.IsNullOrEmpty( LocaleCode ) )
+          else
           {
-            LocaleCode = "";
-          }
-          StructureItems.Add( MacroscopeConstants.Locale, LocaleCode );
-        }
-
-        {
-          string LanguageCode = msDoc.GetIsoLanguageCode();
-          if( string.IsNullOrEmpty( LanguageCode ) )
-          {
-            LanguageCode = "";
-          }
-          StructureItems.Add( MacroscopeConstants.Language, LanguageCode );
-        }
-
-        StructureItems.Add( MacroscopeConstants.DateCrawled, msDoc.GetCrawledDate() );
-
-        StructureItems.Add( MacroscopeConstants.DateServer, msDoc.GetDateServer() );
-        StructureItems.Add( MacroscopeConstants.DateModified, msDoc.GetDateModified() );
-        StructureItems.Add( MacroscopeConstants.DateExpires, msDoc.GetDateExpires() );
-
-        StructureItems.Add( MacroscopeConstants.Canonical, msDoc.GetCanonical() );
-
-        StructureItems.Add( MacroscopeConstants.PageDepth, msDoc.GetDepth().ToString() );
-
-        StructureItems.Add( MacroscopeConstants.Inlinks, msDoc.CountInlinks().ToString() );
-        StructureItems.Add( MacroscopeConstants.Outlinks, msDoc.CountOutlinks().ToString() );
-
-        StructureItems.Add( MacroscopeConstants.HyperlinksIn, msDoc.CountHyperlinksIn().ToString() );
-        StructureItems.Add( MacroscopeConstants.HyperlinksOut, msDoc.CountHyperlinksOut().ToString() );
-
-        // TODO: This is too slow:
-        /*
-        {
-          List<decimal> HyperlinkRatio = DocCollection.GetDocumentHyperlinksRatio( Url: Url );
-          StructureItems.Add( MacroscopeConstants.HyperlinksInRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 0 ] ) );
-          StructureItems.Add( MacroscopeConstants.HyperlinksOutRatio, string.Format( "{0:0.00}%", HyperlinkRatio[ 1 ] ) );
-        }
-        */
-
-        StructureItems.Add( MacroscopeConstants.Author, msDoc.GetAuthor() );
-
-        StructureItems.Add( MacroscopeConstants.Title, msDoc.GetTitle() );
-        StructureItems.Add( MacroscopeConstants.TitleLen, msDoc.GetTitleLength().ToString() );
-        StructureItems.Add( MacroscopeConstants.TitleLang, TitleLanguage );
-
-        StructureItems.Add( MacroscopeConstants.Description, msDoc.GetDescription() );
-        StructureItems.Add( MacroscopeConstants.DescriptionLen, msDoc.GetDescriptionLength().ToString() );
-        StructureItems.Add( MacroscopeConstants.DescriptionLang, DescriptionLanguage );
-
-        StructureItems.Add( MacroscopeConstants.Keywords, msDoc.GetKeywords() );
-        StructureItems.Add( MacroscopeConstants.KeywordsLen, msDoc.GetKeywordsLength().ToString() );
-        StructureItems.Add( MacroscopeConstants.KeywordsCount, msDoc.GetKeywordsCount().ToString() );
-
-        StructureItems.Add( MacroscopeConstants.BodyTextLang, BodyTextLanguage );
-
-        for( ushort HeadingLevel = 1 ; HeadingLevel <= MaxHeadingsDisplayed ; HeadingLevel++ )
-        {
-          List<string> HeadingList = msDoc.GetHeadings( HeadingLevel: HeadingLevel );
-          string HeadingText = "";
-          if( HeadingList.Count > 0 )
-          {
-            HeadingText = HeadingList[ 0 ];
-          }
-          StructureItems.Add( string.Format( MacroscopeConstants.Hn, HeadingLevel ), HeadingText );
-        }
-
-        StructureItems.Add( MacroscopeConstants.ErrorCondition, msDoc.GetErrorCondition() );
-
-        // END: Columns ------------------------------------------------------//
-
-        if( this.DisplayListView.Items.ContainsKey( PairKey ) )
-        {
-
-          lvItem = this.DisplayListView.Items[ PairKey ];
-
-        }
-        else
-        {
-
-          lvItem = new ListViewItem( PairKey );
-          lvItem.UseItemStyleForSubItems = false;
-          lvItem.Name = PairKey;
-
-          for( int i = 0 ; i < this.DisplayListView.Columns.Count ; i++ )
-          {
-            lvItem.SubItems.Add( "" );
+            lvItem.SubItems[ColIndex].Text = "";
           }
 
-          ListViewItems.Add( lvItem );
+          if ( msDoc.GetIsInternal() )
+          {
+            lvItem.SubItems[ColIndex].ForeColor = Color.Green;
+          }
+          else
+          {
+            lvItem.SubItems[ColIndex].ForeColor = Color.Gray;
+          }
 
-        }
-
-        if( lvItem != null )
-        {
-
-          lvItem.ForeColor = Color.Blue;
-
-          int StatusCodeColIndex = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.StatusCode );
-          int StatusColIndex = this.DisplayListView.Columns.IndexOfKey( MacroscopeConstants.Status );
-
-          foreach( string ItemsKey in StructureItems.Keys )
+          if ( ItemsKey.Equals( MacroscopeConstants.StatusCode ) )
           {
 
-            int ColIndex = this.DisplayListView.Columns.IndexOfKey( ItemsKey );
-            string Text = StructureItems[ ItemsKey ];
-
-            if( !string.IsNullOrEmpty( StructureItems[ ItemsKey ] ) )
+            if ( ( StatusCode >= 200 ) && ( StatusCode <= 299 ) )
             {
-              lvItem.SubItems[ ColIndex ].Text = Text;
+              lvItem.SubItems[ColIndex].ForeColor = Color.Green;
+              lvItem.SubItems[StatusCodeColIndex].ForeColor = Color.Green;
+              lvItem.SubItems[StatusColIndex].ForeColor = Color.Green;
+            }
+            else
+            if ( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
+            {
+              lvItem.SubItems[ColIndex].ForeColor = Color.Goldenrod;
+              lvItem.SubItems[StatusCodeColIndex].ForeColor = Color.Goldenrod;
+              lvItem.SubItems[StatusColIndex].ForeColor = Color.Goldenrod;
+            }
+            else
+            if ( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
+            {
+              lvItem.SubItems[ColIndex].ForeColor = Color.Red;
+              lvItem.SubItems[StatusCodeColIndex].ForeColor = Color.Red;
+              lvItem.SubItems[StatusColIndex].ForeColor = Color.Red;
             }
             else
             {
-              lvItem.SubItems[ ColIndex ].Text = "";
+              lvItem.SubItems[ColIndex].ForeColor = Color.Blue;
+              lvItem.SubItems[StatusCodeColIndex].ForeColor = Color.Blue;
+              lvItem.SubItems[StatusColIndex].ForeColor = Color.Blue;
             }
 
-            if( msDoc.GetIsInternal() )
+            if ( StatusCode == 410 )
             {
-              lvItem.SubItems[ ColIndex ].ForeColor = Color.Green;
-            }
-            else
-            {
-              lvItem.SubItems[ ColIndex ].ForeColor = Color.Gray;
-            }
-
-            if( ItemsKey.Equals( MacroscopeConstants.StatusCode ) )
-            {
-
-              if( ( StatusCode >= 200 ) && ( StatusCode <= 299 ) )
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Green;
-                lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Green;
-                lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Green;
-              }
-              else
-              if( ( StatusCode >= 300 ) && ( StatusCode <= 399 ) )
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Goldenrod;
-                lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Goldenrod;
-                lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Goldenrod;
-              }
-              else
-              if( ( StatusCode >= 400 ) && ( StatusCode <= 599 ) )
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Red;
-                lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Red;
-                lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Red;
-              }
-              else
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Blue;
-                lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Blue;
-                lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Blue;
-              }
-
-              if( StatusCode == 410 )
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Purple;
-                lvItem.SubItems[ StatusCodeColIndex ].ForeColor = Color.Purple;
-                lvItem.SubItems[ StatusColIndex ].ForeColor = Color.Purple;
-              }
-
-            }
-
-            if( ItemsKey == MacroscopeConstants.RobotsRule )
-            {
-              if( Text.ToLower() == "disallowed" )
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Red;
-              }
-              else
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Green;
-              }
-            }
-
-            if( ItemsKey == MacroscopeConstants.IsRedirect )
-            {
-              if( Text.ToLower() == "true" )
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Red;
-              }
-              else
-              {
-                lvItem.SubItems[ ColIndex ].ForeColor = Color.Gray;
-              }
+              lvItem.SubItems[ColIndex].ForeColor = Color.Purple;
+              lvItem.SubItems[StatusCodeColIndex].ForeColor = Color.Purple;
+              lvItem.SubItems[StatusColIndex].ForeColor = Color.Purple;
             }
 
           }
 
-        }
-        else
-        {
-          DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
+          if ( ItemsKey == MacroscopeConstants.RobotsRule )
+          {
+            if ( Text.ToLower() == "disallowed" )
+            {
+              lvItem.SubItems[ColIndex].ForeColor = Color.Red;
+            }
+            else
+            {
+              lvItem.SubItems[ColIndex].ForeColor = Color.Green;
+            }
+          }
+
+          if ( ItemsKey == MacroscopeConstants.IsRedirect )
+          {
+            if ( Text.ToLower() == "true" )
+            {
+              lvItem.SubItems[ColIndex].ForeColor = Color.Red;
+            }
+            else
+            {
+              lvItem.SubItems[ColIndex].ForeColor = Color.Gray;
+            }
+          }
+
         }
 
       }
+      else
+      {
+        DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
+      }
+
+      //}
+
+
+
+
+
 
     }
 
@@ -450,14 +455,14 @@ namespace SEOMacroscope
       ColExplicitWidth.Add( MacroscopeConstants.Url, 300 );
       ColExplicitWidth.Add( MacroscopeConstants.Title, 300 );
 
-      for( int ColIndex = 0 ; ColIndex < this.DisplayListView.Columns.Count ; ColIndex++ )
+      for ( int ColIndex = 0; ColIndex < this.DisplayListView.Columns.Count; ColIndex++ )
       {
         this.DisplayListView.AutoResizeColumn( ColIndex, ColumnHeaderAutoResizeStyle.HeaderSize );
       }
 
-      foreach( string ColName in ColExplicitWidth.Keys )
+      foreach ( string ColName in ColExplicitWidth.Keys )
       {
-        this.DisplayListView.Columns[ ColName ].Width = ColExplicitWidth[ ColName ];
+        this.DisplayListView.Columns[ColName].Width = ColExplicitWidth[ColName];
       }
 
     }
@@ -479,18 +484,18 @@ namespace SEOMacroscope
       ColHeaderWidth.Add( MacroscopeConstants.DateServer );
       ColHeaderWidth.Add( MacroscopeConstants.DateExpires );
 
-      foreach( string ColName in ColDataWidth )
+      foreach ( string ColName in ColDataWidth )
       {
         this.DisplayListView.AutoResizeColumn(
-          this.DisplayListView.Columns[ ColName ].Index,
+          this.DisplayListView.Columns[ColName].Index,
           ColumnHeaderAutoResizeStyle.ColumnContent
         );
       }
 
-      foreach( string ColName in ColHeaderWidth )
+      foreach ( string ColName in ColHeaderWidth )
       {
         this.DisplayListView.AutoResizeColumn(
-          this.DisplayListView.Columns[ ColName ].Index,
+          this.DisplayListView.Columns[ColName].Index,
           ColumnHeaderAutoResizeStyle.HeaderSize
         );
       }
