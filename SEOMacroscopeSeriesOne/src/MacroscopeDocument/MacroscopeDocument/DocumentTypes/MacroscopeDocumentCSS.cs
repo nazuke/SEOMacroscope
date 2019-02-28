@@ -333,7 +333,6 @@ namespace SEOMacroscope
     {
 
       string LinkUrlAbs = null;
-      //string LinkUrlCleaned = MacroscopeHttpUrlUtils.CleanUrlCss( BackgroundImageUrl );
       string LinkUrlCleaned = BackgroundImageUrl;
 
       if ( LinkUrlCleaned != null )
@@ -343,7 +342,6 @@ namespace SEOMacroscope
         {
           LinkUrlAbs = MacroscopeHttpUrlUtils.MakeUrlAbsolute(
             BaseUrl: this.GetBaseHref(),
-            //            BaseUrl: this.DocUrl,
             Url: LinkUrlCleaned
           );
         }

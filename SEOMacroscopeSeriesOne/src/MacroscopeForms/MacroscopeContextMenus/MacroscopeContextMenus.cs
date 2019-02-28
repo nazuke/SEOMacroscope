@@ -39,7 +39,7 @@ namespace SEOMacroscope
 
     /**************************************************************************/
 
-    private Object TargetListViewLocker;
+    private object TargetListViewLocker;
 
     /**************************************************************************/
 

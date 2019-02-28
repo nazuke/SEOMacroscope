@@ -388,7 +388,6 @@ namespace SEOMacroscope
 
       MacroscopeHttpTwoClient.ClearCookieMonster();
 
-
       this.SetStartUrl( Url: MacroscopeHttpUrlUtils.SanitizeUrl( Url: this.GetStartUrl() ) );
 
       this.DocCollection.SetStartUrl( Url: this.GetStartUrl() );

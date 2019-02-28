@@ -38,7 +38,7 @@ namespace SEOMacroscope
     public MacroscopeMainForm MainForm;
 
     public ListView DisplayListView;
-    public Object DisplayListViewLock;
+    public object DisplayListViewLock;
 
     protected bool ListViewConfigured = false;
 

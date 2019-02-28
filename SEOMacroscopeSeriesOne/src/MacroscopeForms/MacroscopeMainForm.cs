@@ -2075,7 +2075,7 @@ namespace SEOMacroscope
 
     /** -------------------------------------------------------------------- **/
 
-    private void CallbackSiteOverviewTimer ( Object self, ElapsedEventArgs e )
+    private void CallbackSiteOverviewTimer ( Object sender, ElapsedEventArgs e )
     {
 
       if( Monitor.TryEnter( LockerTimerSiteOverview, 1000 ) )

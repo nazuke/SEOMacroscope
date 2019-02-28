@@ -41,7 +41,7 @@ namespace SEOMacroscope
 
     private MacroscopeDocument Document;
     private string Fingerprint;
-    private Object FingerprintLocker;
+    private object FingerprintLocker;
 
     /**************************************************************************/
 
@@ -52,7 +52,7 @@ namespace SEOMacroscope
 
       this.Document = msDoc;
       this.Fingerprint = "";
-      this.FingerprintLocker = new Object();
+      this.FingerprintLocker = new object();
 
     }
 

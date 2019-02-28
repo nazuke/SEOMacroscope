@@ -186,9 +186,6 @@ namespace SEOMacroscope
     )
     {
 
-      //lock( this.DisplayListViewLock )
-      //{
-
       Dictionary<string, string> StructureItems = new Dictionary<string, string>();
 
       ListViewItem lvItem = null;
@@ -435,13 +432,6 @@ namespace SEOMacroscope
       {
         DebugMsg( string.Format( "MacroscopeDisplayStructure: {0}", "lvItem is NULL" ) );
       }
-
-      //}
-
-
-
-
-
 
     }
 
