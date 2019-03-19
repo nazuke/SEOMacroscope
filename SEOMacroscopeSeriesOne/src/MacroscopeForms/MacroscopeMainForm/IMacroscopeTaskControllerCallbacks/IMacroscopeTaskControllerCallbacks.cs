@@ -36,6 +36,7 @@ namespace SEOMacroscope
 
     public void ICallbackScanComplete ()
     {
+
       try
       {
         if( this.InvokeRequired )
@@ -67,20 +68,21 @@ namespace SEOMacroscope
         DebugMsg( ex.Message );
         DebugMsg( "Error in ICallbackScanComplete" );
       }
+
     }
 
     /**************************************************************************/
 
     public void ICallbackOutOfMemory ()
     {
-      
+
       const string Title = "Out of memory!";
       const string Message = "There was not enough memory to complete a part of the scanning process.";
-      
+
       if( this.InvokeRequired )
       {
         this.Invoke(
-          new MethodInvoker (
+          new MethodInvoker(
             delegate
             {
               this.DialogueBoxError( Title: Title, Message: Message );
@@ -92,6 +94,7 @@ namespace SEOMacroscope
       {
         this.DialogueBoxError( Title: Title, Message: Message );
       }
+
     }
 
     /**************************************************************************/

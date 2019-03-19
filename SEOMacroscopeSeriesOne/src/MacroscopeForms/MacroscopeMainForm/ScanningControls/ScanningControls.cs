@@ -126,6 +126,7 @@ namespace SEOMacroscope
 
     private void ScanningControlsStart ()
     {
+
       if( this.IsDisposed )
       {
         return;
