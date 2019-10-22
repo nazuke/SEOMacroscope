@@ -1,0 +1,32 @@
+I"°<p class="lead">This release of SEO Macroscope enhances the keyword meta tag analysis for some legacy processing, and fixes some bugs.</p>
+
+<p>Source code and an installer can be found on GitHub at:</p>
+
+<ul>
+  <li><a href="https://github.com/nazuke/SEOMacroscope/releases/tag/v1.7.6.0">https://github.com/nazuke/SEOMacroscope/releases/tag/v1.7.6.0</a></li>
+</ul>
+
+<p>Please check the <a href="/SEOMacroscope/downloads/">downloads page</a> for more recent versions.</p>
+
+<h2 id="new-features-in-this-release-include">New features in this release include:</h2>
+
+<ul>
+  <li>Titles and descriptions are now included in the keywords meta tag analysis. Additionally, some malformed keywords meta tags will be reported as such.</li>
+  <li>Some refactoring has been done behind the scenes to try and make the crawled document collection a little more efficient.</li>
+  <li>New <strong>Recent URLs</strong> sub-menu under in the <strong>File</strong> menu.</li>
+  <li>New <strong>Status Code</strong> columns in the <strong>Links</strong> and and <strong>Hyperlinks</strong> overview lists.</li>
+  <li><strong>Anchor Text</strong> columns added to broken links reports.</li>
+  <li>Experimental <strong>Save Session</strong> feature, to save and reload the current crawled session.</li>
+</ul>
+
+<h2 id="bug-fixes">Bug fixes</h2>
+
+<ul>
+  <li>Fixed error handling in AnalyzeKeywordPresence.</li>
+  <li>Added preferences option to re-fetch linked documents from external sites that initially return a 404 on a HEAD request. This helps to verify links to external sites that have mis-configured webservers, at the expense of network bandwidth.</li>
+</ul>
+
+<p>Please report issues at <a href="https://github.com/nazuke/SEOMacroscope/issues">https://github.com/nazuke/SEOMacroscope/issues</a>.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/seo-macroscope-main-window-v1.7.5.png" alt="SEO Macroscope Application Window" class="img-responsive box-shadow" /></p>
+:ET

@@ -1,0 +1,43 @@
+I"ü<p class="lead">This is the first beta release of <strong>SEO Macroscope</strong> for Windows, the website link scanning and technical SEO tool.</p>
+
+<p>Please check the downloads page for more details, or grab the installer and source code directly from the release page on GitHub here:</p>
+
+<ul>
+  <li><a href="https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.1b">https://github.com/nazuke/SEOMacroscope/releases/tag/v0.9.0.1b</a></li>
+</ul>
+
+<p>There are still going to be many bugs in this version, and many features and functions remain to be implemented. However, this beta version is functional enough to be used for many link checking tasks right now.</p>
+
+<h2 id="basic-functionality-includes">Basic functionality includes:</h2>
+
+<ul>
+  <li>Scanning all links on one or more websites.</li>
+  <li>Reporting broken, redirected, and other types of issues.</li>
+  <li>Reporting metadata about each found URL.</li>
+  <li>Generating an HrefLang Matrix, for multilingual websites.</li>
+  <li>Isolating scans to URL subsets.</li>
+  <li>Extraction and report of telephone number and email links.</li>
+</ul>
+
+<h2 id="seo-functionality-includes">SEO functionality includes:</h2>
+
+<ul>
+  <li>Set and report acceptable word, character, and pixel lengths for titles.</li>
+  <li>Set and report acceptable word, character lengths for descriptions.</li>
+  <li>Report on titles, descriptions, keywords, and headings.</li>
+  <li>Optionally generate keyword occurrences across pages and the entire site.</li>
+  <li>Scan and extract metadata for PDFs.</li>
+</ul>
+
+<h2 id="reports-may-be-exported-to-excel-format">Reports may be exported to Excel format:</h2>
+
+<ul>
+  <li>A scan overview.</li>
+  <li>An HrefLang Matrix of multilingual sites.</li>
+  <li>Page contents, including titles, descriptions, keywords, and headings.</li>
+</ul>
+
+<p>More functionality will be added in the future, please check back soon!</p>
+
+<p>Comments and questions are very welcome. This is a personal project, but Iâ€™m hoping that it may be useful to others too.</p>
+:ET

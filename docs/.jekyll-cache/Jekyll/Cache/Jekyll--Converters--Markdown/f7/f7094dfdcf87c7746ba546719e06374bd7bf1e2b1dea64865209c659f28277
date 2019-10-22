@@ -1,0 +1,33 @@
+I"D<h1 id="seo-macroscope-the-webmasters-toolbox">SEO Macroscope: The Webmaster’s Toolbox</h1>
+
+<p class="lead"><strong>SEO Macroscope</strong> for Microsoft Windows is a free and open source website broken link checking and scanning tool, with some technical SEO functionality for common website problems.</p>
+
+<div class="lead">
+  <a class="btn btn-warning btn-lg download-button" role="button" href="https://github.com/nazuke/SEOMacroscope/releases/download/v1.7.6.1/SEO-Macroscope-Installer-1.7.6.1.msi">
+    <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+    Download SEO Macroscope v1.7.6.1
+  </a>
+</div>
+
+<p class="screenshot"><img src="/SEOMacroscope/manual/images/application-001.png" alt="The SEO Macroscope application window." class="img-responsive box-shadow" /></p>
+
+<p>The SEO Macroscope website crawler will help you to:</p>
+
+<ul>
+  <li>Find broken links on your website, both internal and external.</li>
+  <li>Report robots.txt statuses.</li>
+  <li>Check and report canonical, hreflang, and other metadata problems.</li>
+  <li>Perform simple, configurable Technical SEO checks on titles and descriptions.</li>
+  <li>Report fastest/slowest pages.</li>
+  <li>Export reports to Excel and CSV formats.</li>
+  <li>Generate and export text and XML sitemaps from the crawled pages.</li>
+  <li>Analyze redirect chains.</li>
+  <li>Use custom filters to verify the presence/absence of tracking tags.</li>
+  <li>Use CSS Selectors, XPath Queries, and Regular Expressions to scrape website data.</li>
+  <li>And much more besides…</li>
+</ul>
+
+<p>Check out the source code repository at <a href="https://github.com/nazuke/SEOMacroscope">https://github.com/nazuke/SEOMacroscope</a>.</p>
+
+<p>More information about how SEO Macroscope may be used for everyday tasks may be found in the <a href="/SEOMacroscope/blog/">blog pages</a>.</p>
+:ET

@@ -1,0 +1,60 @@
+I"t<p class="lead">One fairly recent feature request that I had for SEO Macroscope, was to analyze the contents of the <code class="highlighter-rouge">keywords</code> meta tag, and verify that the keywords specified did actually appear in the page’s body text.</p>
+
+<p>As we all know, the <a href="https://webmasters.googleblog.com/2009/09/google-does-not-use-keywords-meta-tag.html"><code class="highlighter-rouge">keywords</code> meta tag</a> hasn’t been used by the major search engines for quite some time now.</p>
+
+<p>However, in a recent feature request, it does appear that this particular tag still lingers in some CMS systems. In particular, the request in question uses this feature as a part of the editorial process to ensure that the keywords that are <em>supposed</em> to be in the page’s body text, <em>are</em> actually used in the page’s body text.</p>
+
+<p>Naturally, as these pages are edited by users, and as it’s up to the users to ensure that their edits are consistent, this doesn’t always work as intended.</p>
+
+<p>To that end, there’s a minor feature in SEO Macroscope now that analyzes the contents of the keywords meta tag, and verifies whether or not the keywords are mentioned in the title tag, the description tag, and the body text itself.</p>
+
+<p>This can be used to determine whether or not the published web pages are consistent or not.</p>
+
+<p>The process itself is automatic.</p>
+
+<p>First of all, carry out teh crawl process in the normal way. Speed things up by only crawling HTML pages. Once that’s done, the crawled document set will be available and the <strong>Keywords Presence</strong> tab can be selected.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/2018-12-14-verifying-keywords-meta-tag-with-seo-macroscope/keyword-crawl-results.png" alt="Crawled website results" class="img-responsive box-shadow" /></p>
+
+<p>The <strong>Keywords Presence</strong> tab show one row for each keyword-related problem on each page.</p>
+
+<p>#h2 Empty Keywords Meta Tag</p>
+
+<p>If the keywords meta tag is entirely empty, then this will immediately be flagged up as a problem.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/2018-12-14-verifying-keywords-meta-tag-with-seo-macroscope/keywords-meta-tag-empty.png" alt="Empty keywords meta tag" class="img-responsive box-shadow" /></p>
+
+<p>For most sites, this isn’t going to be a problem. In this case however, it means that the page author has forgotten to specify which keywords they’re trying to target with the page in question.</p>
+
+<p>#h2 Malformed Keywords Meta Tag</p>
+
+<p>Another problem that arises may be where the author has pasted the wrong data into the keywords meta tag, or simply entered text that cannot be properly parsed.</p>
+
+<p>The keywords are defined as a comma-separated values list. This means that of the keyword list cannot be properly parsed into a list of terms, then it will be flagged as an error.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/2018-12-14-verifying-keywords-meta-tag-with-seo-macroscope/malformed-keywords-meta-tag.png" alt="Malformed keywords meta tag" class="img-responsive box-shadow" /></p>
+
+<p>#h2 Keyword Missing in Body Text</p>
+
+<p>If the keywords meta tag itself is fine, then the keywords themselves are analyzed, and then cross-referenced against the text in the page body, the title tag, and the description tag.</p>
+
+<p>If a keyword is specified in the keywords meta tag, but cannot be found in the body text, then it is flagged as such:</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/2018-12-14-verifying-keywords-meta-tag-with-seo-macroscope/keyword-missing-in-body.png" alt="Keyword missing in body text" class="img-responsive box-shadow" /></p>
+
+<p>Likewise, if the keyword <em>is</em> present, then it is also reported, for clarity’s sake:</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/2018-12-14-verifying-keywords-meta-tag-with-seo-macroscope/keyword-present-in-body.png" alt="Keyword present in body text" class="img-responsive box-shadow" /></p>
+
+<p>#h2 Keyword Missing in Title and Description</p>
+
+<p>Similarly, if the keyword is missing from the title tag, or is present, then it is reported as such:</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/2018-12-14-verifying-keywords-meta-tag-with-seo-macroscope/keyword-missing-in-title.png" alt="keyword-missing-in-title" class="img-responsive box-shadow" /></p>
+
+<p>Likewise, if it is missing from the description tag, or present, then it is reported too:</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/2018-12-14-verifying-keywords-meta-tag-with-seo-macroscope/keyword-missing-in-description.png" alt="keyword-missing-in-description" class="img-responsive box-shadow" /></p>
+
+<p>With the title and description tags, it is up to the disgression of the author as to whether or not this is a problem.</p>
+:ET

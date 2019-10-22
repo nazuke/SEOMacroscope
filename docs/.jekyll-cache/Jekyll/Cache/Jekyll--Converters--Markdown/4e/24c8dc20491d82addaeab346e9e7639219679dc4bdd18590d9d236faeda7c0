@@ -1,0 +1,20 @@
+I"[<p class="lead">Briefly, you can <a href="https://github.com/nazuke/SEOMacroscope">clone the project from GitHub</a>, and then:</p>
+
+<ol>
+  <li>Open up the solution in SharpDevelop.</li>
+  <li>Update the references, allowing dependent packages from NuGet to be downloaded.</li>
+  <li>Make sure that you set it to build as a Debug Release.</li>
+  <li>Run the project.</li>
+  <li>Try scanning a website.</li>
+</ol>
+
+<p>Take a look through the preferences dialogue for some of the available options that can be set for the crawling process.</p>
+
+<p>There are also per-job options under the Task Parameters menu.</p>
+
+<p>If you find this project interesting, please report issues that you encounter under the GitHub project at:</p>
+
+<ul>
+  <li><a href="https://github.com/nazuke/SEOMacroscope/issues">https://github.com/nazuke/SEOMacroscope/issues</a></li>
+</ul>
+:ET

@@ -1,0 +1,44 @@
+I"	<p class="lead">This release of SEO Macroscope includes support for custom filters and data extractors (web scraping). Content may be extracted from web pages, and some text-based documents, using CSS selectors, regular expressions, and XPath queries.</p>
+
+<p>The custom filters, for example, may be used to verify that all of your HTML pages have a particular tracking code installed, such as a Google Analytics tracking code.</p>
+
+<p>The data extractors (web scraping) may be used to extract arbitrary content from your HTML pages, and some other document types. For example, you may want to extract all HREF attributes that match a certain pattern, or build a list of specific element contents across your site.</p>
+
+<p>Chiefly, the data extractors are for identifying data in the site being crawled that may be specific to your interests, and is not already being extracted by the application.</p>
+
+<p>Source code and an installer can be found on GitHub at:</p>
+
+<ul>
+  <li><a href="https://github.com/nazuke/SEOMacroscope/releases/tag/v1.5.0.0">https://github.com/nazuke/SEOMacroscope/releases/tag/v1.5.0.0</a></li>
+</ul>
+
+<p>Please check the <a href="/SEOMacroscope/downloads/">downloads page</a> for more recent versions.</p>
+
+<p>This version is 64 bit only. If all goes well, I shall be continuing to release in 64bit. This should eliminate many of the out-of-memory issues that occurred with the 32 bit versions previously.</p>
+
+<p>I’ve also fixed many minor bugs and other issues.</p>
+
+<h2 id="new-features-in-this-release-include">New features in this release include:</h2>
+
+<ul>
+  <li>
+    <p>Custom filters.</p>
+  </li>
+  <li>
+    <p>Data extractors (web scrapers) using CSS selectors, regular expressions, and XPath queries.</p>
+  </li>
+  <li>
+    <p>Google XML and text format sitemap generators.</p>
+  </li>
+  <li>
+    <p>More Excel and CSV format report generators.</p>
+  </li>
+  <li>
+    <p>Include/Exclude patterns now use regular expressions.</p>
+  </li>
+</ul>
+
+<p>Please report issues at <a href="https://github.com/nazuke/SEOMacroscope/issues">https://github.com/nazuke/SEOMacroscope/issues</a>.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/seo-macroscope-main-window-v1.5.png" alt="SEO Macroscope Application Window" class="img-responsive box-shadow" /></p>
+:ET

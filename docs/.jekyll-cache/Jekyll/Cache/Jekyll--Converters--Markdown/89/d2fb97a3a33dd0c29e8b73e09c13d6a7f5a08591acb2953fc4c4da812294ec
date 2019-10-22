@@ -1,0 +1,21 @@
+I"Ï<p class="lead">This release of SEO Macroscope primarily fixes a number of minor bugs.</p>
+
+<p>Source code and an installer can be found on GitHub at:</p>
+
+<ul>
+  <li><a href="https://github.com/nazuke/SEOMacroscope/releases/tag/v1.7.2.0">https://github.com/nazuke/SEOMacroscope/releases/tag/v1.7.2.0</a></li>
+</ul>
+
+<p>Please check the <a href="/SEOMacroscope/downloads/">downloads page</a> for more recent versions.</p>
+
+<h2 id="bug-fixes">Bug fixes</h2>
+
+<ul>
+  <li>Incorrect behaviour of progress dialogues.</li>
+  <li>Removed memory guard on sitemap generators, that may have prevented sitemap generation under certain circumstances.</li>
+</ul>
+
+<p>Please report issues at <a href="https://github.com/nazuke/SEOMacroscope/issues">https://github.com/nazuke/SEOMacroscope/issues</a>.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/seo-macroscope-main-window-v1.7.png" alt="SEO Macroscope Application Window" class="img-responsive box-shadow" /></p>
+:ET

@@ -14,7 +14,7 @@ $color-transparent:rgba(0,0,0,0);
 
 body
 {
-	background-color:$color-light-grey;
+    background-color:$color-light-grey;
 }
 
 /** Typography ****************************************************************/
@@ -22,114 +22,112 @@ body
 main
 {
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6,
-	p,
-	li
-	{
-		color:$color-dark-grey;
-	}
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    li
+    {
+        color:$color-dark-grey;
+    }
 
-	h1
-	{
-		font-size:40px;
-		color:$color-purple;
-	}
+    h1
+    {
+        font-size:40px;
+        color:$color-purple;
+    }
 
-	h2
-	{
-		font-size:24px;
-		margin-top:30px;
-		margin-bottom:10px;
-		color:$color-purple;
-	}
+    h2
+    {
+        font-size:24px;
+        margin-top:30px;
+        margin-bottom:10px;
+        color:$color-purple;
+    }
 
-	h3
-	{
-		font-size:20px;
-		margin-top:20px;
-		margin-bottom:10px;
-		color:$color-orange;
-	}
-	
-	h4
-	{
-		font-size:18px;
-		margin-top:15px;
-		margin-bottom:5px;
-		color:$color-green;
-	}
-	
-	h5
-	{
-		font-size:16px;
-		margin-top:10px;
-		margin-bottom:5px;
-		color:$color-dark-grey;
-	}
+    h3
+    {
+        font-size:20px;
+        margin-top:20px;
+        margin-bottom:10px;
+        color:$color-orange;
+    }
 
-	h6
-	{
-		font-size:14px;
-		margin-top:10px;
-		margin-bottom:5px;
-		color:$color-medium-grey;
-	}
+    h4
+    {
+        font-size:18px;
+        margin-top:15px;
+        margin-bottom:5px;
+        color:$color-green;
+    }
 
-	p
-	{
-		color:$color-medium-grey;
-	}
+    h5
+    {
+        font-size:16px;
+        margin-top:10px;
+        margin-bottom:5px;
+        color:$color-dark-grey;
+    }
+
+    h6
+    {
+        font-size:14px;
+        margin-top:10px;
+        margin-bottom:5px;
+        color:$color-medium-grey;
+    }
+
+    p
+    {
+        color:$color-medium-grey;
+    }
 
 }
 
 a
 {
-	color:$color-purple;
-	&:visited
-	{
-		color:$color-purple;
-	}
-	&:hover
-	{
-		color:$color-orange;
-	}
+    color:$color-purple;
+    &:visited
+    {
+        color:$color-purple;
+    }
+    &:hover
+    {
+        color:$color-orange;
+    }
 }
 
 blockquote
 {
-	border-left-color:$color-purple;
+    border-left-color:$color-purple;
 }
 
 /** Navigation ****************************************************************/
 
 [role="navigation"] .nav-tabs
 {
-	font-weight:bold;
+    font-weight:bold;
+    border-width:0px;
+    margin:0px 0px 0px 0px;
 
-	border-width:0px;
-	margin:0px 0px 0px 0px;
+    [role="presentation"] a,
+    [role="presentation"] a:visited
+    {
+        color:$color-purple;
+        border-width:2px 0px 0px 0px;
+        border-radius:0px;
+        border-color:$color-purple;
+    }
 
-	[role="presentation"] a,
-	[role="presentation"] a:visited
-	{
-		color:$color-purple;
-		border-width:2px 0px 0px 0px;
-		border-radius:0px;
-		border-color:$color-purple;
-
-	}
-
-	[role="presentation"] a:hover
-	{
-		color:$color-orange;
-		background-color:$color-transparent;
-		border-color:$color-orange;
-	}
+    [role="presentation"] a:hover
+    {
+        color:$color-orange;
+        background-color:$color-transparent;
+        border-color:$color-orange;
+    }
 
 }
 
@@ -138,30 +136,30 @@ blockquote
 .jumbotron
 {
 
-	background-color:$color-black;
-	background-image:url('../media/images/jumbotron-background.png');
-  background-repeat:no-repeat;
-  background-position:top right;
-	box-shadow:0px 10px 10px $color-medium-grey;
+    background-color:$color-black;
+    background-image:url('../media/images/jumbotron-background.png');
+    background-repeat:no-repeat;
+    background-position:top right;
+    box-shadow:0px 10px 10px $color-medium-grey;
 
-	.product-title
-	{
-		font-size:40px;
-	}
+    .product-title
+    {
+        font-size:40px;
+    }
 
-  .product-title,
-	a
-  {
-    color:$color-orange;
-		text-shadow:0px 0px 3px $color-black;
-  }
+    .product-title,
+    a
+    {
+        color:$color-orange;
+        text-shadow:0px 0px 3px $color-black;
+    }
 
-  .product-slogan
-  {
-		font-size:24px;
-    color:$color-white;
-		text-shadow:0px 0px 3px $color-black;
-  }
+    .product-slogan
+    {
+        font-size:24px;
+        color:$color-white;
+        text-shadow:0px 0px 3px $color-black;
+    }
 
 }
 
@@ -169,54 +167,68 @@ blockquote
 
 .box-shadow
 {
-	box-shadow:0px 0px 10px $color-medium-grey;
+    box-shadow:0px 0px 10px $color-medium-grey;
 }
 
 .screenshot
 {
-	margin-top:40px;
-	margin-bottom:50px;
+    margin-top:40px;
+    margin-bottom:50px;
 }
 
 /** Buttons *******************************************************************/
 
 a.btn-success
 {
-	color:$color-white;
-	background-color:$color-green;
-	&:hover
-	{
-		color:$color-dark-grey;
-	}
+    color:$color-white;
+    background-color:$color-green;
+    &:hover
+    {
+        color:$color-dark-grey;
+    }
 }
 
 a.btn-warning
 {
-	color:$color-white;
-	background-color:$color-orange;
-	&:hover
-	{
-		color:$color-dark-grey;
-	}
+    color:$color-white;
+    background-color:$color-orange;
+    &:hover
+    {
+        color:$color-dark-grey;
+    }
+}
+
+.donation-button-container
+{
+    margin:0px 0px 20pt 0px;
+    .donation-button
+    {
+        img
+        {
+            width:22px;
+            height:22px;
+            vertical-align:middle;
+        }
+    }
 }
 
 /** Footer ********************************************************************/
 
 footer
 {
-  background-color:#EEEEEE;
-	margin:50px 0px 0px 0px;
-	padding:10px 0px 10px 0px;
-	border-style:solid;
-	border-width:1px 0px 0px 0px;
-	border-color:$color-medium-grey;
+    background-color:#EEEEEE;
+    margin:50px 0px 0px 0px;
+    padding:10px 0px 10px 0px;
+    border-style:solid;
+    border-width:1px 0px 0px 0px;
+    border-color:$color-medium-grey;
 }
 
 /** AdSense *******************************************************************/
 
 .container-adsense
 {
-	margin-top:40px;
+    margin-top:40px;
 }
 
 /******************************************************************************/

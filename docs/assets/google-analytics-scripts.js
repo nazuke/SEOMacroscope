@@ -7,7 +7,7 @@ $("window").ready(
     configureGaBlogPostLinks();
 
     configureGaReleaseLinks();
-    
+
     configureGaInstallerLinks();
 
     configureDonationButtonEvents();
@@ -96,7 +96,7 @@ function configureGaReleaseLinks ()
 
 function configureGaInstallerLinks ()
 {
- 
+
   $(".link-installer").click(
 
     function ( event )
@@ -134,7 +134,7 @@ function configureGaInstallerLinks ()
 
 function configureDonationButtonEvents ()
 {
- 
+
   $(".donation-button").mouseover(
 
     function ( event )
@@ -202,7 +202,7 @@ function configureDonationButtonEvents ()
 
 function configureDonationLinkEvents ()
 {
- 
+
   $(".donation-link").mouseover(
 
     function ( event )

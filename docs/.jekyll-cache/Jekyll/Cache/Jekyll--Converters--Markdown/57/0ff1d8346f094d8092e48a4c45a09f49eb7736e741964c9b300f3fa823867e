@@ -1,0 +1,50 @@
+I"@<p class="lead">This release of SEO Macroscope includes support for HTTP/2 on Windows 10, and accelerates near-duplicate content detection. HTTP/2 support enables the application to work with websites that do not also support HTTP/1.1 as a fallback option.</p>
+
+<p>As well as numerous bugs being fixed, the Levenshtein analysis of near-duplicate content has also been accelerated, by generating a <em>“Levenshtein Fingerprint”</em> of the document text of each web page as it is crawled. There are two analysis level options, with the second being slower but may help to eliminate false positives.</p>
+
+<p>Where possible, the full text of PDF documents may be extracted, analyzed for readability, and URLs extracted. Currently, URLs found in the text will be added as additional outlinks from the PDF.</p>
+
+<p>In some cases, QR Codes in linked image files on the site may be detected as containing a link. These can be further crawled.</p>
+
+<p>In the source, I have also begun exploratory work on refactoring the core of SEO Macroscope into an “engine” library, with a view to building a CLI interface, and an updated WPF-based GUI. It would also be useful to be able to run multiple crawls concurrently, instead of only the currently supported single crawl.</p>
+
+<p>Source code and an installer can be found on GitHub at:</p>
+
+<ul>
+  <li><a href="https://github.com/nazuke/SEOMacroscope/releases/tag/v1.7.0.0">https://github.com/nazuke/SEOMacroscope/releases/tag/v1.7.0.0</a></li>
+</ul>
+
+<p>Please check the <a href="/SEOMacroscope/downloads/">downloads page</a> for more recent versions.</p>
+
+<p>I’ve also fixed many minor bugs and other issues.</p>
+
+<h2 id="new-features-in-this-release-include">New features in this release include:</h2>
+
+<ul>
+  <li>HTTP/2 support on Windows 10 machines.</li>
+  <li>Improved crawl continuation when document type preferences have been changed.</li>
+  <li>Optional detection of hyperlinks in QR Codes found in linked image files.</li>
+  <li>Orphaned HTML pages may be reported. These are pages that are found via sitemaps, but may not be linked to from other HTML pages.</li>
+  <li>More sitemap error reporting.</li>
+  <li>More details in the Site Overview summary, such as number of document types found.</li>
+  <li>Where possible, the text of PDFs is now fully extracted, and may be searched.</li>
+  <li>Where possible, some URLs may be found in the text of PDFs, and further crawled.</li>
+  <li>For text analysis, certain HTML5 navigational elements may now be disregarded.</li>
+  <li>Some HTTP Status Codes, such as 410, may be ignored as errors.</li>
+  <li>Redirect chains analysis</li>
+  <li>Additional Excel and CSV reporting.</li>
+</ul>
+
+<h2 id="bug-fixes">Bug fixes</h2>
+
+<p>There are too many fixes to list, but notable ones included:</p>
+
+<ul>
+  <li>The “Maximum pages to fetch” setting has been reworked, and now works properly.</li>
+  <li>Previously, outlinks for document types set as not crawlable were not being properly reported as outlinks in crawled documents; this has been corrected.</li>
+</ul>
+
+<p>Please report issues at <a href="https://github.com/nazuke/SEOMacroscope/issues">https://github.com/nazuke/SEOMacroscope/issues</a>.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/seo-macroscope-main-window-v1.7.png" alt="SEO Macroscope Application Window" class="img-responsive box-shadow" /></p>
+:ET

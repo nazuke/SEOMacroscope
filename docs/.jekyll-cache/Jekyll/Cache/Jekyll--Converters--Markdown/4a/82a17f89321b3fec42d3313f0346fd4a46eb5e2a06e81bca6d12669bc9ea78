@@ -1,0 +1,13 @@
+I"�<p class="lead">I’ve been implementing a few more Excel Reports so that we can actually dump out the information that SEO Macroscope gathers into some sort of useful format for ingestion into other tools.</p>
+
+<p>The most recent additions are:</p>
+
+<ul>
+  <li><strong>Broken Links:</strong> Reporting which links on the site are broken in some way, along with the pages that link to them.</li>
+  <li><strong>URI Analysis:</strong> Including a complete mapping of all from/to links within the spidered collection, indicators of duplicated content, and redirected URLs.</li>
+</ul>
+
+<p>Additionally, I’ve added a new <strong>Links</strong> tab to the Overview panels, which gives a live and searchable from/to link map of the spidered collection.</p>
+
+<p>I’m working towards another beta release, but currently, the source code can be checked out directly from GitHub. Please take a look on the <a href="/SEOMacroscope/downloads/">Downloads</a> page for where to grab the source code.</p>
+:ET

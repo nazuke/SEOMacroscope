@@ -1,0 +1,28 @@
+I"<p class="lead">This release of SEO Macroscope includes support for automatic language detection of title, description, and content in your web pages and PDFs, where possible.</p>
+
+<p class="lead">Chiefly, this is another tool to help identify problems with multilingual websites. For example, to detect content that is in the wrong language for a particular site.</p>
+
+<p class="lead">Source code and an installer can be found on GitHub at:</p>
+
+<ul>
+  <li><a href="https://github.com/nazuke/SEOMacroscope/releases/tag/v1.1.0.0">https://github.com/nazuke/SEOMacroscope/releases/tag/v1.1.0.0</a></li>
+</ul>
+
+<p>Please check the <a href="/SEOMacroscope/downloads/">downloads page</a> for more recent versions.</p>
+
+<p>This release has some improvements in terms of display speed, and the user interface.</p>
+
+<p>From time to time, memory may be exhausted. I’ve been working on strategies to try and avoid this.</p>
+
+<p>I’ve also fixed some minor bugs.</p>
+
+<h2 id="features-added-include">Features added include:</h2>
+
+<ul>
+  <li>Automatic language detection, where possible, of title and description meta tags, and the page content. This function applies to both web pages, and to PDFs when PDF processing is enabled.</li>
+</ul>
+
+<p>Please report issues at <a href="https://github.com/nazuke/SEOMacroscope/issues">https://github.com/nazuke/SEOMacroscope/issues</a>.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/manual/images/application-001.png" alt="SEO Macroscope Application Window" class="img-responsive box-shadow" /></p>
+:ET

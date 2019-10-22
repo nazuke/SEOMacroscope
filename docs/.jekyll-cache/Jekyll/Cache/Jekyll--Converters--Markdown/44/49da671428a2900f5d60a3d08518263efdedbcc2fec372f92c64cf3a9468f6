@@ -1,0 +1,31 @@
+I"<p class="lead">This release of SEO Macroscope adds parent directory probing, and fixes bugs.</p>
+
+<p>Source code and an installer can be found on GitHub at:</p>
+
+<ul>
+  <li><a href="https://github.com/nazuke/SEOMacroscope/releases/tag/v1.7.4.0">https://github.com/nazuke/SEOMacroscope/releases/tag/v1.7.4.0</a></li>
+</ul>
+
+<p>Please check the <a href="/SEOMacroscope/downloads/">downloads page</a> for more recent versions.</p>
+
+<h2 id="new-features-in-this-release-include">New features in this release include:</h2>
+
+<ul>
+  <li>There is a new option to probe parent directories for each URL found on an internal site. This builds a new set of URLs to crawl, by taking the current URL, and progressively stripping off each rightmost element until it reaches the root. Each stripped URL is then added to the list of URLs to crawl.</li>
+  <li>The body text word counter has been improved, and unit tests written.</li>
+  <li>Regular expression data extraction now works on PDF documents.</li>
+  <li>PDF embedded link extraction and following has been improved.</li>
+</ul>
+
+<h2 id="bug-fixes">Bug fixes</h2>
+
+<ul>
+  <li>Not a bug as such, but the <em>check for update</em> phone home function now more precisely checks the current and updated version numbers, instead of doing a simple equals comparison.</li>
+  <li>Keyword analysis is now skipped when humans.txt, and some other page types 404.</li>
+  <li>Absolute URL handling in robots.txt has been improved.</li>
+</ul>
+
+<p>Please report issues at <a href="https://github.com/nazuke/SEOMacroscope/issues">https://github.com/nazuke/SEOMacroscope/issues</a>.</p>
+
+<p class="screenshot"><img src="/SEOMacroscope/media/screenshots/seo-macroscope-main-window-v1.7.png" alt="SEO Macroscope Application Window" class="img-responsive box-shadow" /></p>
+:ET
