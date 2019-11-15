@@ -1,1 +1,1 @@
-bundle exec jekyll serve --watch --host=0.0.0.0 --incremental
+bundle exec jekyll serve --watch --host=127.0.0.1 --incremental
