@@ -2,7 +2,7 @@
 
 This file is part of SEOMacroscope.
 
-Copyright 2019 Jason Holland.
+Copyright 2020 Jason Holland.
 
 The GitHub repository may be found at:
 

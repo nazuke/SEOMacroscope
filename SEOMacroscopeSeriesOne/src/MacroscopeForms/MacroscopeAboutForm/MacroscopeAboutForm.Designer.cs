@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2019 Jason Holland.
+  Copyright 2020 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -87,7 +87,7 @@ namespace SEOMacroscope
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(220, 20);
       this.label2.TabIndex = 2;
-      this.label2.Text = "Copyright 2019 Jason Holland";
+      this.label2.Text = "Copyright 2020 Jason Holland";
       this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // labelVersionString

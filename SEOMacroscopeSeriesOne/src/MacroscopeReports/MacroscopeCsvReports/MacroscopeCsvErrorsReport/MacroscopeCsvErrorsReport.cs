@@ -2,7 +2,7 @@
 
   This file is part of SEOMacroscope.
 
-  Copyright 2019 Jason Holland.
+  Copyright 2020 Jason Holland.
 
   The GitHub repository may be found at:
 
@@ -25,6 +25,7 @@
 
 using System;
 using System.IO;
+using System.Globalization;
 using CsvHelper;
 
 namespace SEOMacroscope
@@ -53,7 +54,7 @@ namespace SEOMacroscope
         using( StreamWriter writer = File.CreateText( OutputFilename ) )
         {
 
-          CsvWriter ws = new CsvWriter ( writer );
+          CsvWriter ws = new CsvWriter ( writer, CultureInfo.InvariantCulture );
 
           this.BuildWorksheetErrors( JobMaster, ws );
 
