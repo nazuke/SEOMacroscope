@@ -68,7 +68,7 @@ More functionality will be added in the future.
 
 ## CREDITS
 
-This project was made a lot easier by the following excellent libraries:
+This project was made a lot easier by the following best libraries in the World:
 
 * http://htmlagilitypack.codeplex.com/
 * https://bitbucket.org/cagdas/robotstxt
