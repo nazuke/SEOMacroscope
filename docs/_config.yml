@@ -21,7 +21,6 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "/SEOMacroscope" # the subpath of your site, e.g. /blog
 
 url: "https://nazuke.github.io"
-twitter_username: SEOMacroscope
 github_username:  nazuke
 disqus:
   shortname: seomacroscope
