@@ -36,14 +36,6 @@ google_optimize:
   development: ""
   production: GTM-NDZ47KV
 
-# Yandex Services
-yandex_site_verification:
-  development: d0a7f0ad503d5b2d
-  production: d0a7f0ad503d5b2d
-yandex_metrika:
-  development: 45909285
-  production: 45679710
-
 # Bing Services
 bing_site_verification:
   development: 359738600A5C3D292F19866E1F240410
